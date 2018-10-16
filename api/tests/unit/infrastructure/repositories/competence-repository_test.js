@@ -55,7 +55,7 @@ describe('Unit | Repository | competence-repository', () => {
 
     beforeEach(() => {
       sandbox.stub(airtable, 'findRecords')
-        .withArgs('Competences', {})
+        .withArgs('Competences')
         .resolves([rawCompetence2, rawCompetence1]);
     });
 

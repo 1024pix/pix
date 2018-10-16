@@ -62,7 +62,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
         expect(foundSkills[0]).to.be.an.instanceOf(Skill);
         expect(foundSkills[1]).to.be.an.instanceOf(Skill);
         expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
-        expect(airtable.findRecords).to.have.been.calledWith('Acquis', {});
+        expect(airtable.findRecords).to.have.been.calledWith('Acquis');
 
       });
     });
@@ -79,7 +79,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Acquis', {});
+        expect(airtable.findRecords).to.have.been.calledWith('Acquis');
       });
     });
 
@@ -108,7 +108,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix2', 'Compétence': [ 'recCompetence' ] } });
       const acquix3 = new AirtableRecord('Acquis', 'recAcquix3', { fields: { 'Nom': '@acquix3', 'Compétence': [ 'recOtherCompetence' ] } });
       sandbox.stub(airtable, 'findRecords')
-        .withArgs('Acquis', { })
+        .withArgs('Acquis')
         .resolves([acquix1, acquix2, acquix3]);
     });
 

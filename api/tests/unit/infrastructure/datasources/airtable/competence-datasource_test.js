@@ -41,7 +41,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource',
     it('should call airtable on Competences table to retrieve all Competences', () => {
       // given
       sandbox.stub(airtable, 'findRecords')
-        .withArgs('Competences', { })
+        .withArgs('Competences')
         .resolves([ competenceRawAirTableFixture() ]);
 
       // when

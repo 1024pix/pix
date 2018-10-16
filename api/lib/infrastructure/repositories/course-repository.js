@@ -7,7 +7,7 @@ const _ = require('lodash');
 const AIRTABLE_TABLE_NAME = 'Tests';
 
 function _getCourses(filter) {
-  return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
+  return airtable.findRecords(AIRTABLE_TABLE_NAME)
     .then((courses) => {
       return _.filter(courses, {
         fields: filter

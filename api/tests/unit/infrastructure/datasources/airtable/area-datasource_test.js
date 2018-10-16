@@ -27,7 +27,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () =>
 
       // then
       return promise.then((areas) => {
-        expect(airtable.findRecords).to.have.been.calledWith('Domaines', {});
+        expect(airtable.findRecords).to.have.been.calledWith('Domaines');
 
         expect(areas).to.have.lengthOf(1);
         expect(areas[0]).to.be.an.instanceof(airTableDataObjects.Area);

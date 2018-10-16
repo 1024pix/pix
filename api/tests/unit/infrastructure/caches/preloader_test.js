@@ -6,8 +6,6 @@ const preloader = require('../../../../lib/infrastructure/caches/preloader');
 
 describe('Unit | Infrastructure | preloader', () => {
 
-  const no_filter = {};
-
   const airtableCompetence_1 = new AirtableRecord('Competences', 'recCompetence1', {
     fields: {
       'Titre': 'Mener une recherche d’information',
@@ -67,7 +65,7 @@ describe('Unit | Infrastructure | preloader', () => {
       // then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(airtable.findRecords).to.have.been.calledWith('Domaines', no_filter);
+          expect(airtable.findRecords).to.have.been.calledWith('Domaines');
           expect(cache.set).to.have.been.calledWith('Domaines_recArea1', airtableArea_1._rawJson);
           expect(cache.set).to.have.been.calledWith('Domaines_recArea2', airtableArea_2._rawJson);
         });
@@ -93,7 +91,7 @@ describe('Unit | Infrastructure | preloader', () => {
       });
 
       airtable.findRecords
-        .withArgs('Epreuves', no_filter).resolves([ airtableChallenge_1, airtableChallenge_2 ]);
+        .withArgs('Epreuves').resolves([ airtableChallenge_1, airtableChallenge_2 ]);
 
       // when
       const promise = preloader.loadChallenges();
@@ -101,7 +99,7 @@ describe('Unit | Infrastructure | preloader', () => {
       // then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(airtable.findRecords).to.have.been.calledWith('Epreuves', no_filter);
+          expect(airtable.findRecords).to.have.been.calledWith('Epreuves');
           expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge1', airtableChallenge_1._rawJson);
           expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge2', airtableChallenge_2._rawJson);
         });
@@ -111,7 +109,7 @@ describe('Unit | Infrastructure | preloader', () => {
   describe('#loadCompetences', () => {
     it('should fetch all competences and cache them individually', () => {
       // given
-      airtable.findRecords.withArgs('Competences', {}).resolves([ airtableCompetence_1, airtableCompetence_2 ]);
+      airtable.findRecords.withArgs('Competences').resolves([ airtableCompetence_1, airtableCompetence_2 ]);
 
       // when
       const promise = preloader.loadCompetences();
@@ -160,7 +158,7 @@ describe('Unit | Infrastructure | preloader', () => {
       });
 
       airtable.findRecords
-        .withArgs('Tests', { })
+        .withArgs('Tests')
         .resolves([ airtableProgressionCourse, airtableAdaptiveCourse, airtableWeekCourse ]);
 
       // when
@@ -183,7 +181,7 @@ describe('Unit | Infrastructure | preloader', () => {
       const airtableSkill_2 = new AirtableRecord('Acquis', 'recSkill2', { fields: { 'Nom': '@skill2' } });
 
       airtable.findRecords
-        .withArgs('Acquis', {}).resolves([ airtableSkill_1, airtableSkill_2 ]);
+        .withArgs('Acquis').resolves([ airtableSkill_1, airtableSkill_2 ]);
 
       // when
       const promise = preloader.loadSkills();
