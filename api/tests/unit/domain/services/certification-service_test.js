@@ -202,7 +202,7 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
-      sandbox.stub(competenceRepository, 'find').resolves(competencesFromAirtable);
+      sandbox.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
       sandbox.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
     });
 
@@ -746,7 +746,7 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
-      sandbox.stub(competenceRepository, 'find').resolves(competencesFromAirtable);
+      sandbox.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
       sandbox.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
 
     });

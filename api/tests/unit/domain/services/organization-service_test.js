@@ -63,7 +63,7 @@ describe('Unit | Service | OrganizationService', () => {
       // given
       dependencies = {
         organizationRepository: { get: sinon.stub().resolves(organization) },
-        competenceRepository: { find: sinon.stub().resolves(competences) },
+        competenceRepository: { list: sinon.stub().resolves(competences) },
         snapshotRepository: { getSnapshotsByOrganizationId: sinon.stub().resolves([]) },
         bookshelfUtils: { mergeModelWithRelationship: sinon.stub().resolves([]) },
         snapshotsCsvConverter: { convertJsonToCsv: sinon.stub().returns() }
@@ -88,7 +88,7 @@ describe('Unit | Service | OrganizationService', () => {
 
         // then
         return promise.then(() => {
-          expect(dependencies.competenceRepository.find).to.have.been.called;
+          expect(dependencies.competenceRepository.list).to.have.been.called;
         });
       });
 
