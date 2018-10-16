@@ -21,6 +21,12 @@ module.exports = {
       });
   },
 
+  findByCompetenceIndex(competenceIndex) {
+    return _doQuery({
+      filterByFormula: `FIND('${competenceIndex}', {Compétence})`
+    });
+  },
+
   list() {
     return _doQuery({});
   }
