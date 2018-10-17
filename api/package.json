@@ -6,7 +6,7 @@
   "author": "SGMAP",
   "license": "AGPL-3.0",
   "engines": {
-    "node": ">=7.10 <9"
+    "node": "8.11.4"
   },
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {

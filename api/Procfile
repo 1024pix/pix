@@ -1,0 +1,2 @@
+background: npm run scalingo-background-job
+web: npm run scalingo-start

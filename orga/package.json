@@ -9,16 +9,16 @@
   },
   "license": "AGPL-3.0",
   "author": "Team PIX",
+  "engines": {
+    "node": "8.11.4"
+  },
   "scripts": {
-    "build": "ember build",
+    "build": "ember build --environment $BUILD_ENVIRONMENT",
     "clean": "rm -rf tmp dist node_modules",
     "dev": "ember serve",
     "lint": "eslint ./*.js app blueprints config lib server tests",
-    "scalingo-background-job": "echo 'nothing to do'",
-    "scalingo-postbuild": "npx ember build --environment $BUILD_ENVIRONMENT",
-    "scalingo-post-ra-creation": "echo 'nothing to do'",
-    "scalingo-start": "/app/scripts/start_scalingo_nginx.sh",
     "lint:hbs": "ember-template-lint .",
+    "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember serve --environment production --liveReload false ",
     "test": "ember test"
   },
@@ -52,9 +52,6 @@
     "eslint-plugin-ember": "^5.2.0",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.7.1"
-  },
-  "engines": {
-    "node": "6.* || 8.* || >= 10.*"
   },
   "dependencies": {
     "lodash": "latest"
