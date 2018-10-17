@@ -1,8 +1,13 @@
 <header class="page-header">
   <div class="page-title">
     {{link-to 'Toutes les organisations' 'authenticated.organizations.list'}}
-    <span style="color: #aaaaaa;">&nbsp;>&nbsp;</span>
+    <span style="color: #DDDDDD;">&nbsp;>&nbsp;</span>
     {{model.id}}
+  </div>
+  <div class="page-actions">
+    <button class="btn btn-outline-default btn-thin">
+      {{fa-icon "trash"}}&nbsp;Supprimer
+    </button>
   </div>
 </header>
 
