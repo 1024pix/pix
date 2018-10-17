@@ -12,7 +12,6 @@ module.exports = [
   require('./application/corrections'),
   require('./application/courses'),
   require('./application/feedbacks'),
-  require('./application/followers'),
   require('./application/healthcheck'),
   require('./application/metrics'),
   require('./application/organizations'),

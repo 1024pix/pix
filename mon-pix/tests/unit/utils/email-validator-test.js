@@ -23,15 +23,15 @@ describe('Unit | Utility | email validator', function() {
 
   describe('Valid emails', function() {
     [
-      'follower@pix.fr',
-      'follower@pix.fr ',
-      ' follower@pix.fr',
-      ' follower@pix.fr ',
-      ' follower-beta@pix.fr ',
-      ' follower_beta@pix.fr ',
-      'follower+beta@pix.fr',
-      'follower+beta@pix.gouv.fr',
-      'follower+beta@pix.beta.gouv.fr'
+      'user@pix.fr',
+      'user@pix.fr ',
+      ' user@pix.fr',
+      ' user@pix.fr ',
+      ' user-beta@pix.fr ',
+      ' user_beta@pix.fr ',
+      'user+beta@pix.fr',
+      'user+beta@pix.gouv.fr',
+      'user+beta@pix.beta.gouv.fr'
     ].forEach(function(validEmail) {
       it(`should return true if provided email is valid: ${validEmail}`, function() {
         expect(isEmailValid(validEmail)).to.be.true;
