@@ -8,11 +8,15 @@ button {
   box-sizing: border-box;
   padding: 0 12px;
   line-height: 38px;
+
+  i.fa {
+    margin-right: 5px;
+  }
 }
 
 .btn-outline-default {
   border-color: $grey-border;
-  color: #333333;
+  color: #212529;
 
   &:hover {
     background: $grey-body;
