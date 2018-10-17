@@ -1,35 +1,41 @@
 .page {
-  padding: 12px 20px 20px;
 
   @include media-breakpoint-up(lg) {
-    padding: 32px 40px 40px;
   }
 
   .page-header {
+    background: #ffffff;
+    min-height: 60px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    padding: 0 20px;
 
     .page-title {
-      margin-bottom: 20px;
+      font-weight: 500;
     }
   }
 
-  .page-section {
-    background: #FFFFFF;
-    border-radius: 5px;
-    border: 1px solid $grey-border;
+  .page-body {
+    padding: 20px;
 
-    @include media-breakpoint-up(lg) {
-    }
+    .page-section {
+      background: #FFFFFF;
+      border-radius: 5px;
+      border: 1px solid $grey-border;
 
-    .page-section-header {
-      display: flex;
-      justify-content: space-between;
+      @include media-breakpoint-up(lg) {
+      }
 
-      .page-section-header__title {
-        font-size: 20px;
-        font-weight: 500;
-        margin-bottom: 24px;
+      .page-section-header {
+        display: flex;
+        justify-content: space-between;
+
+        .page-section-header__title {
+          font-size: 20px;
+          font-weight: 500;
+          margin-bottom: 24px;
+        }
       }
     }
   }
