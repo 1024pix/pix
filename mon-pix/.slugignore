@@ -1,0 +1,16 @@
+app
+config
+dist/assets/tests.js
+dist/assets/tests.map
+dist/assets/test-support.css
+dist/assets/test-support.js
+dist/assets/test-support.map
+dist/tests/index.html
+ember-cli-build.js
+mirage
+node_modules
+public
+README.md
+testem.js
+tests
+tmp

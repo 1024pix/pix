@@ -19,7 +19,7 @@
     "npm-run-all": "^4.1.0"
   },
   "engines": {
-    "node": ">=7.10 <9"
+    "node": "8.11.4"
   },
   "cacheDirectories": [
     "node_modules/",
@@ -60,8 +60,6 @@
     "release:prepare": "./scripts/release/prepare.sh",
     "release:perform": "./scripts/release/perform.sh",
     "release:publish": "./scripts/release/publish.sh",
-    "scalingo-postbuild": "cd $APPLICATION_NAME && npm run scalingo-postbuild",
-    "scalingo-post-ra-creation": "cd $APPLICATION_NAME && npm run scalingo-post-ra-creation",
     "start": "run-p start:api start:mon-pix start:orga",
     "start:api": "cd api && npm run start:watch",
     "start:mon-pix": "cd mon-pix && npx ember serve --proxy",
