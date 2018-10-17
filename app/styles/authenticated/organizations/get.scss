@@ -1,0 +1,39 @@
+#organizations-get-page {
+
+  .organization__information {
+    display: flex;
+
+    .organization__logo {
+      margin-right: 20px;
+
+      .organization__logo-figure {
+        display: inline-block;
+        padding: 3px;
+        border: 1px solid #CCCCCC;
+        border-radius: 5px;
+        margin: 0;
+
+        .organization__logo-img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+
+    .organization__data {
+
+      p {
+        margin-bottom: 6px;
+      }
+
+      .organization__name {
+        font-size: 2em;
+        font-weight: 600;
+      }
+
+      .organization__type {
+
+      }
+    }
+  }
+}

@@ -24,9 +24,8 @@
       background: #FFFFFF;
       border-radius: 5px;
       border: 1px solid $grey-border;
-
-      @include media-breakpoint-up(lg) {
-      }
+      margin-bottom: 20px;
+      padding: 20px;
 
       .page-section-header {
         display: flex;

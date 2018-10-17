@@ -6,14 +6,45 @@
   </div>
   <div class="page-actions">
     <button class="btn btn-outline-default btn-thin">
-      {{fa-icon "trash"}}&nbsp;Supprimer
+      {{fa-icon "edit"}} Modifier
+    </button>
+    <button class="btn btn-outline-default btn-thin">
+      {{fa-icon "trash"}} Supprimer
     </button>
   </div>
 </header>
 
-<main class="page-body">
+<main class="page-body" id="organizations-get-page">
   <section class="page-section">
-    {{organization-form organization=model onSubmitOrganization=(action "addOrganization")}}
+    <div class="organization__information">
+      <div class="organization__logo">
+        <figure class="organization__logo-figure">
+          <img class="organization__logo-img" src="{{rootURL}}/logo-placeholder.png">
+        </figure>
+      </div>
+      <div class="organization__data">
+        <p><span class="organization__name">{{model.name}}</span></p>
+        <p>Type : <span class="organization__type">{{model.type}}</span></p>
+        <p>Code : <span class="organization__code">{{model.code}}</span></p>
+      </div>
+    </div>
   </section>
+
+<!--
+  <section class="page-section">
+    <div class="organization__members">
+      <h2>Membres</h2>
+      <table>
+        <tbody>
+          <tr>
+            <td>Bruce Wayne</td>
+            <td>Propriétaire</td>
+            <td><button class="btn btn-outline-default btn-thin">Retirer</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+-->
 </main>
 
