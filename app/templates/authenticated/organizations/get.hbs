@@ -1,15 +1,14 @@
 <header class="page-header">
   <div class="page-title">
-    Nouvelle organisation
+    {{link-to 'Toutes les organisations' 'authenticated.organizations.list'}}
+    <span style="color: #aaaaaa;">&nbsp;>&nbsp;</span>
+    {{model.id}}
   </div>
 </header>
-
 
 <main class="page-body">
   <section class="page-section">
     {{organization-form organization=model onSubmitOrganization=(action "addOrganization")}}
   </section>
 </main>
-
-
 

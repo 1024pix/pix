@@ -1,16 +1,16 @@
 .form {
 
   .form-section {
-    padding: 0 40px 40px;
+    padding: 0 20px 20px;
 
     &:first-child {
-      padding: 40px;
+      padding: 20px;
     }
   }
 
   .form-section--actions {
     border-top: 1px solid $grey-border;
-    padding: 40px;
+    padding: 20px;
   }
 
   .form-field {

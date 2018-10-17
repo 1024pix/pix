@@ -21,16 +21,17 @@ Router.map(function() {
     this.route('organizations', function() {
       this.route('new');
       this.route('list');
+      this.route('get', { path: '/:organization_id' });
     });
     this.route('certifications', function() {
       //TODO: find a better routes settings between info and details
       this.route('single', function() {
-        this.route('info', {path:'/:certification_id'});
-        this.route('details', {path:'/:certification_id/details'});
+        this.route('info', { path: '/:certification_id' });
+        this.route('details', { path: '/:certification_id/details' });
       });
       this.route('sessions', function() {
-        this.route('info', {path:'/:session_id'}, function() {
-          this.route('list', {path:'/list'});
+        this.route('info', { path: '/:session_id' }, function() {
+          this.route('list', { path: '/list' });
         });
       });
     });
