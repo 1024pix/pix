@@ -2,21 +2,23 @@
 
   <ul class="menu-bar__entries">
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.organizations" class="menu-bar__link menu-bar__link--organizations"}}
+      {{#link-to "authenticated.organizations" class="menu-bar__link menu-bar__link--organizations" title="Organisations"}}
         {{fa-icon "building"}}
-        <span>Organisations</span>
       {{/link-to}}
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.users.list" class="menu-bar__link menu-bar__link--users"}}
+      {{#link-to "authenticated.users.list" class="menu-bar__link menu-bar__link--users" title="Utilisateurs"}}
         {{fa-icon "users"}}
-        <span>Utilisateurs</span>
       {{/link-to}}
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.certifications" class="menu-bar__link menu-bar__link--certifications"}}
+      {{#link-to "authenticated.certifications" class="menu-bar__link menu-bar__link--certifications" title="Certifications"}}
         {{fa-icon "graduation-cap"}}
-        <span>Certifications</span>
+      {{/link-to}}
+    </li>
+    <li class="menu-bar__entry">
+      {{#link-to "logout" class="menu-bar__link menu-bar__link--logout" title="Se déconnecter"}}
+        {{fa-icon "power-off "}}
       {{/link-to}}
     </li>
   </ul>
