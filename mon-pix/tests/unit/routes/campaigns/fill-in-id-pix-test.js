@@ -22,23 +22,66 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
   const campaignCode = 'CODECAMPAIGN';
 
   beforeEach(function() {
-    createCampaignParticipationStub = sinon.stub();
+    createCampaignParticipationStub = sinon.stub().returns({
+      save: sinon.stub().resolves(),
+    });
     queryChallengeStub = sinon.stub();
     queryStub = sinon.stub();
     storeStub = Service.extend({
       queryRecord: queryChallengeStub, query: queryStub, createRecord: createCampaignParticipationStub });
     this.register('service:store', storeStub);
     this.inject.service('store', { as: 'store' });
-    savedAssessment = EmberObject.create({ id: 1234, codeCampaign: 'CODECAMPAIGN', reload: sinon.stub() });
+    savedAssessment = EmberObject.create({ id: 1234, codeCampaign: campaignCode, reload: sinon.stub() });
     createdCampaignParticipation = EmberObject.create({ id: 456, assessment: savedAssessment });
     campaign = EmberObject.create({ code: campaignCode });
     route = this.subject();
   });
 
-  describe('#model', function() {
+  describe('#beforeModel', function() {
+
+    let transition;
 
     beforeEach(function() {
+      transition = {
+        params: {
+          'campaigns.fill-in-id-pix': {
+            campaign_code: campaignCode
+          }
+        }
+      };
+      route.transitionTo = sinon.stub();
     });
+
+    it('should redirect to start-or-resume when there is already an assessement', function() {
+      // given
+      const assessments = A([savedAssessment]);
+      queryStub.resolves(assessments);
+
+      // when
+      const promise = route.beforeModel(transition);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', campaignCode);
+      });
+    });
+
+    it('should not redirect to start-or-resume when there is no assessement', function() {
+      // given
+      const assessments = A([]);
+      queryStub.resolves(assessments);
+
+      // when
+      const promise = route.beforeModel(transition);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.notCalled(route.transitionTo);
+      });
+    });
+  });
+
+  describe('#model', function() {
 
     it('should retrieve campaign with given campaign code', function() {
       // given
@@ -48,6 +91,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
       const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
+      route.start = sinon.stub();
 
       // when
       const promise = route.model(params);
@@ -63,16 +107,18 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       const params = {
         campaign_code: campaignCode
       };
+
       const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
       route.transitionTo = sinon.stub();
+      route.start = sinon.stub();
 
       // when
       const promise = route.model(params);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
+        sinon.assert.called(route.start);
       });
     });
 
@@ -81,60 +127,13 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       const params = {
         campaign_code: campaignCode
       };
-      campaign.idPixLabel = 'email';
+      campaign.set('idPixLabel', 'email');
       const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
       route.transitionTo = sinon.stub();
 
       // when
       const promise = route.model(params);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.notCalled(route.transitionTo);
-      });
-    });
-  });
-
-  describe('#afterModel', function() {
-
-    beforeEach(function() {
-      savedAssessment.reload.resolves();
-      route.transitionTo = sinon.stub();
-    });
-
-    it('should transition to challenge when there already is an assessment', function() {
-      // given
-      const model = {
-        campaignCode: 'campaignCode'
-      };
-
-      // given
-      const assessments = A([savedAssessment]);
-      queryStub.resolves(assessments);
-      queryChallengeStub.resolves({ id: 23 });
-
-      // when
-      const promise = route.afterModel(model);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
-      });
-    });
-
-    it('should do nothing if there is not assessment', function() {
-      // given
-      const model = {
-        campaignCode: 'campaignCode'
-      };
-
-      // given
-      queryStub.resolves([]);
-      queryChallengeStub.resolves();
-
-      // when
-      const promise = route.afterModel(model);
 
       // then
       return promise.then(() => {
@@ -145,38 +144,20 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
   describe('#start', function() {
 
-    const campaignCode = 'CODECAMPAIGN';
     const participantExternalId = 'Identifiant professionnel';
 
     beforeEach(function() {
       savedAssessment.reload.resolves();
       route.transitionTo = sinon.stub();
-    });
-
-    it('should retrieve assement with type "SMART_PLACEMENT" and given campaign code', function() {
-      // given
-      const assessments = A([savedAssessment]);
-      queryStub.resolves(assessments);
-      queryChallengeStub.resolves();
-
-      // when
-      const promise = route.start(campaign, campaignCode, participantExternalId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(queryStub, 'assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } });
+      createCampaignParticipationStub.returns({
+        save: () => Promise.resolve(createdCampaignParticipation)
       });
+      queryChallengeStub.resolves();
     });
 
-    it('should create new campaignParticipation if nothing found', function() {
-      // given
-      const assessments = A([]);
-      queryStub.resolves(assessments);
-      createCampaignParticipationStub.returns({ save: () => Promise.resolve(createdCampaignParticipation) });
-      queryChallengeStub.resolves();
-
+    it('should create new campaignParticipation', function() {
       // when
-      const promise = route.start(campaign, campaignCode, participantExternalId);
+      const promise = route.start(campaign, participantExternalId);
 
       // then
       return promise.then(() => {
@@ -185,13 +166,8 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     });
 
     it('should retrieve challenge with given assessment id', function() {
-      // given
-      const assessments = A([savedAssessment]);
-      queryStub.resolves(assessments);
-      queryChallengeStub.resolves();
-
       // when
-      const promise = route.start(campaign, campaignCode, participantExternalId);
+      const promise = route.start(campaign, participantExternalId);
 
       // then
       return promise.then(() => {
@@ -201,16 +177,27 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
     it('should redirect to next challenge if one was found', function() {
       // given
-      const assessments = A([savedAssessment]);
-      queryStub.resolves(assessments);
       queryChallengeStub.resolves({ id: 23 });
 
       // when
-      const promise = route.start(campaign, campaignCode, participantExternalId);
+      const promise = route.start(campaign, participantExternalId);
 
       // then
       return promise.then(() => {
         sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
+      });
+    });
+
+    it('should redirect to start campaign if there is no challenge', function() {
+      // given
+      queryChallengeStub.resolves(null);
+
+      // when
+      const promise = route.start(campaign, participantExternalId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume');
       });
     });
   });

@@ -75,7 +75,7 @@ describe('Unit | Route | campaigns/campaign-landing-page', function() {
       route.send('startCampaignParticipation', campaignParticipation);
 
       // then
-      return sinon.assert.calledWith(route.transitionTo, 'campaigns.fill-in-id-pix');
+      return sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', null, { queryParams : { hasSeenLanding: true } });
 
     });
   });

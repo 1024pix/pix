@@ -73,7 +73,7 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   it('should be possible to share a snapshot of her own profile to a given organization', async function() {
-    authenticateAsSimpleUser();
+    await authenticateAsSimpleUser();
 
     await visitAccountPage();
 

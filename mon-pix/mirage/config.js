@@ -3,6 +3,7 @@ import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-
 import getAssessment from './routes/get-assessment';
 import getAuthenticatedUser from './routes/get-user-me';
 import getCampaigns from './routes/get-campaigns';
+import getCampaignParticipation from './routes/get-campaign-participation';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCourse from './routes/get-course';
@@ -13,6 +14,7 @@ import getOrganizations from './routes/get-organizations';
 import getSnapshots from './routes/get-snapshots';
 import getCorrections from './routes/get-corrections';
 import patchAnswer from './routes/patch-answer';
+import patchCampaignParticipation from './routes/patch-campaign-participation';
 import postAnswers from './routes/post-answers';
 import postAssessments from './routes/post-assessments';
 import postAuthentications from './routes/post-authentications';
@@ -94,4 +96,6 @@ export default function() {
   this.get('/skill-reviews/:id');
   this.get('/campaigns', getCampaigns);
   this.post('/campaign-participations', postCampaignParticipation);
+  this.get('/campaign-participations', getCampaignParticipation);
+  this.patch('/campaign-participations/:id', patchCampaignParticipation);
 }

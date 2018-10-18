@@ -38,11 +38,11 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
     describe('When user is logged in', async function() {
 
-      const requestedAssessmentId = 1;
+      const requestedAssessmentId = 'ref_assessment_id';
       const campaignId = 1;
 
       beforeEach(async function() {
-        authenticateAsSimpleUser();
+        await authenticateAsSimpleUser();
         await visit(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
       });
 

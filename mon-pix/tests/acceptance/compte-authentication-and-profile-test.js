@@ -28,10 +28,10 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
   describe('Success cases', function() {
 
-    describe('m1.1 Accessing to the /compte page while disconnected', function() {
-      it('should redirect to the connexion page', function() {
+    describe('m1.1 Accessing to the /compte page while disconnected', async function() {
+      it('should redirect to the connexion page',async function() {
         // when
-        visit('/compte');
+        await visit('/compte');
 
         // then
         return andThen(function() {
@@ -41,9 +41,9 @@ describe('Acceptance | Espace compte | Authentication', function() {
     });
 
     describe('Log-in phase', function() {
-      it('should redirect to the /compte after connexion for usual users', function() {
+      it('should redirect to the /compte after connexion for usual users', async function() {
         // given
-        authenticateAsSimpleUser();
+        await authenticateAsSimpleUser();
 
         // then
         return andThen(function() {
@@ -51,9 +51,9 @@ describe('Acceptance | Espace compte | Authentication', function() {
         });
       });
 
-      it('should redirect to the /board after connexion for users with organization', function() {
+      it('should redirect to the /board after connexion for users with organization', async function() {
         // given
-        authenticateAsPrescriber();
+        await authenticateAsPrescriber();
 
         // then
         return andThen(function() {
@@ -66,9 +66,9 @@ describe('Acceptance | Espace compte | Authentication', function() {
   });
 
   describe('Error case', function() {
-    it('should stay in /connexion , when authentication failed', function() {
+    it('should stay in /connexion , when authentication failed', async function() {
       // given
-      visit('/connexion');
+      await visit('/connexion');
       fillIn('#pix-email', 'anyone@pix.world');
       fillIn('#pix-password', 'Pix20!!');
 
