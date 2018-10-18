@@ -137,6 +137,52 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
+  describe('#findByUserId', () => {
+
+    let user1;
+    let user2;
+    let campaignParticipation1;
+    let campaignParticipation2;
+
+    beforeEach(async () => {
+      user1 = databaseBuilder.factory.buildCampaign({});
+      user2 = databaseBuilder.factory.buildCampaign({});
+
+      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
+        userId: user1.id,
+        isShared: true
+      });
+      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
+        userId: user1.id,
+        isShared: true
+      });
+      databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: user2.id,
+        isShared: true
+      });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return all the campaign-participation links to the given user', () => {
+      // given
+      const userId = user1.id;
+
+      // when
+      const promise = campaignParticipationRepository.findByUserId(userId);
+
+      // then
+      return promise.then((campaignParticipationsFind) => {
+        expect(campaignParticipationsFind.length).to.equal(2);
+        expect(campaignParticipationsFind[0].userId).to.equal(campaignParticipation1.userId);
+        expect(campaignParticipationsFind[1].userId).to.equal(campaignParticipation2.userId);
+      });
+    });
+  });
+
   describe('#findByAssessmentId', () => {
 
     let campaignParticipation;
