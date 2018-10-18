@@ -1,9 +1,19 @@
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import BaseRoute from 'mon-pix/routes/base-route';
 import { isEmpty } from '@ember/utils';
-import RSVP from 'rsvp';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
+
+  beforeModel(transition) {
+    const campaignCode = transition.params['campaigns.fill-in-id-pix'].campaign_code;
+    const store = this.get('store');
+    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
+      .then((smartPlacementAssessments) => {
+        if (!isEmpty(smartPlacementAssessments)) {
+          return this.transitionTo('campaigns.start-or-resume', campaignCode);
+        }
+      });
+  },
 
   model(params) {
     const campaignCode = params.campaign_code;
@@ -11,20 +21,10 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     return store.query('campaign', { filter: { code: campaignCode } })
       .then((campaigns) => campaigns.get('firstObject'))
       .then((campaign) => {
-        if(campaign.get('idPixLabel') == null) { // we want to handle null or undefined
+        if(campaign.get('idPixLabel') == null) {
           return this.start(campaign, campaignCode);
         }
         return { campaign , idPixLabel: campaign.get('idPixLabel'), campaignCode };
-      })
-      .catch(() => RSVP.reject());
-  },
-
-  afterModel(model) {
-    return this._existAssessment(model.campaignCode)
-      .then((assessment) => {
-        if(assessment) {
-          return this._startFirstChallenge(assessment);
-        }
       });
   },
 
@@ -33,35 +33,16 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     controller.set('start', (campaign, campaignCode, participantExternalId) => this.start(campaign, campaignCode, participantExternalId));
   },
 
-  start(campaign, campaignCode, participantExternalId) {
-    return this._retrieveOrCreateCampaignParticipation(campaign, campaignCode, participantExternalId)
+  start(campaign, participantExternalId) {
+    return this._createCampaignParticipation(campaign, participantExternalId)
+      .then((campaignParticipation) => campaignParticipation.get('assessment'))
       .then((assessment) => this._startFirstChallenge(assessment));
   },
 
-  _existAssessment(campaignCode) {
+  _createCampaignParticipation(campaign, participantExternalId) {
     const store = this.get('store');
-    // TODO query campaign-participation instead of assessment
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
-      .then((smartPlacementAssessments) => {
-        if (!isEmpty(smartPlacementAssessments)) {
-          return smartPlacementAssessments.get('firstObject');
-        }
-        return null;
-      });
-  },
-
-  _retrieveOrCreateCampaignParticipation(campaign, campaignCode, participantExternalId) {
-    const store = this.get('store');
-    // TODO query campaign-participation instead of assessment
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
-      .then((smartPlacementAssessments) => {
-        if (!isEmpty(smartPlacementAssessments)) {
-          return smartPlacementAssessments.get('firstObject');
-        }
-        return store.createRecord('campaign-participation', { campaign, participantExternalId })
-          .save()
-          .then((campaignParticipation) => campaignParticipation.get('assessment'));
-      });
+    return store.createRecord('campaign-participation', { campaign, participantExternalId })
+      .save();
   },
 
   _startFirstChallenge(assessment) {
@@ -72,7 +53,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         if(challenge) {
           return this.transitionTo('assessments.challenge', { assessment, challenge });
         } else {
-          return this.transitionTo('assessments.rating', assessment.get('id'));
+          return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
         }
       });
   },
