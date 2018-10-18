@@ -1,0 +1,56 @@
+table {
+  border-spacing: 0;
+  border-collapse: separate;
+  font-size: 0.95rem;
+  width: 100%;
+
+  th, td {
+    border-bottom: 1px solid #ebeef0;
+  }
+
+  thead {
+
+    tr {
+
+      th {
+        padding: 10px;
+        color: #6f7c8a;
+        background: #f8f9fa;
+        font-weight: 500;
+
+        &:first-child {
+          border-radius: 3px 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 3px 0 0;
+        }
+      }
+    }
+  }
+
+  tbody {
+
+    tr {
+
+      &:hover {
+        background:  #f3f5f7;
+      }
+
+      td {
+        padding: 10px;
+      }
+    }
+  }
+
+  tfoot {
+
+    tr {
+
+      td {
+        padding: 10px;
+        background: #ebeef0;
+      }
+    }
+  }
+}

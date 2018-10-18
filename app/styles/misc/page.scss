@@ -31,17 +31,22 @@
     .page-section {
       background: #FFFFFF;
       border-radius: 5px;
-      margin-bottom: 20px;
       padding: 20px;
 
-      .page-section-header {
+      .page-section__header {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
 
-        .page-section-header__title {
-          font-size: 20px;
-          font-weight: 500;
-          margin-bottom: 24px;
+        .page-section__title {
+          font-size: 1.4rem;
+          display: inline-block;
+          margin-bottom: 0;
+        }
+
+        .page-section__actions {
+
         }
       }
     }
