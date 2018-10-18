@@ -8,7 +8,7 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
   let requestedUserId;
   const campaignParticipationRepository = { findByUserId: () => undefined };
 
-  it('should rejetcs a NotAuthorized error if authenticated user ask for another user campaign participation', () => {
+  it('should reject a NotAuthorized error if authenticated user ask for another user campaign participation', () => {
     // given
     authenticatedUserId = 1;
     requestedUserId = 2;

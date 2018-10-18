@@ -10,17 +10,17 @@ describe('Integration | Repository | Campaign Participation', () => {
     let campaign;
     let campaignParticipation;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       campaign = databaseBuilder.factory.buildCampaign({});
 
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id
       });
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return databaseBuilder.clean();
     });
 
     it('should return a campaign participation object', () => {
@@ -148,18 +148,9 @@ describe('Integration | Repository | Campaign Participation', () => {
       user1 = databaseBuilder.factory.buildCampaign({});
       user2 = databaseBuilder.factory.buildCampaign({});
 
-      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
-        userId: user1.id,
-        isShared: true
-      });
-      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
-        userId: user1.id,
-        isShared: true
-      });
-      databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: user2.id,
-        isShared: true
-      });
+      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ userId: user1.id });
+      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ userId: user1.id });
+      databaseBuilder.factory.buildCampaignParticipation({ userId: user2.id });
       await databaseBuilder.commit();
     });
 
