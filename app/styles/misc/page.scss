@@ -1,16 +1,18 @@
 .page {
 
-  @include media-breakpoint-up(lg) {
-  }
-
   .page-header {
     background: #ffffff;
-    min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
     border-bottom: 1px solid #dee2e6;
+    position: fixed;
+    top: 0;
+    left: 80px;
+    right: 0;
+    height: 60px;
+    z-index: 4;
 
     .page-title {
       font-weight: 500;
@@ -18,12 +20,17 @@
   }
 
   .page-body {
-    padding: 20px;
+    position: fixed;
+    top: 60px;
+    left: 80px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    padding: 10px;
 
     .page-section {
       background: #FFFFFF;
       border-radius: 5px;
-      border: 1px solid $grey-border;
       margin-bottom: 20px;
       padding: 20px;
 
