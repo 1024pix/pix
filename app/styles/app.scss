@@ -1,5 +1,7 @@
 /* vendors */
 @import 'ember-bootstrap/bootstrap';
+@import 'ember-modal-dialog/ember-modal-structure';
+@import 'ember-modal-dialog/ember-modal-appearance';
 
 /* global */
 @import 'misc/palette';
@@ -29,3 +31,4 @@
 @import 'components/certification-details-answer';
 @import 'components/certification-select';
 @import 'components/certification-list';
+

@@ -2,23 +2,27 @@
 
   <ul class="menu-bar__entries">
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.organizations" class="menu-bar__link menu-bar__link--organizations" title="Organisations"}}
+      {{#link-to "authenticated.organizations" class="menu-bar__link menu-bar__link--organizations"}}
         {{fa-icon "building"}}
+        {{#bs-tooltip placement="right"}}Organisations{{/bs-tooltip}}
       {{/link-to}}
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.users.list" class="menu-bar__link menu-bar__link--users" title="Utilisateurs"}}
+      {{#link-to "authenticated.users.list" class="menu-bar__link menu-bar__link--users"}}
         {{fa-icon "users"}}
+        {{#bs-tooltip placement="right"}}Utilisateurs{{/bs-tooltip}}
       {{/link-to}}
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "authenticated.certifications" class="menu-bar__link menu-bar__link--certifications" title="Certifications"}}
+      {{#link-to "authenticated.certifications" class="menu-bar__link menu-bar__link--certifications"}}
         {{fa-icon "graduation-cap"}}
+        {{#bs-tooltip placement="right"}}Certifications{{/bs-tooltip}}
       {{/link-to}}
     </li>
     <li class="menu-bar__entry">
-      {{#link-to "logout" class="menu-bar__link menu-bar__link--logout" title="Se déconnecter"}}
+      {{#link-to "logout" class="menu-bar__link menu-bar__link--logout"}}
         {{fa-icon "power-off "}}
+        {{#bs-tooltip placement="right"}}Se déconnecter{{/bs-tooltip}}
       {{/link-to}}
     </li>
   </ul>

@@ -5,10 +5,10 @@
     {{model.id}}
   </div>
   <div class="page-actions">
-    <button class="btn btn-outline-default btn-thin">
+    <button class="btn btn-outline-default btn-thin" {{action "toggleWipModal"}}>
       {{fa-icon "edit"}} Modifier
     </button>
-    <button class="btn btn-outline-default btn-thin">
+    <button class="btn btn-outline-default btn-thin" {{action "toggleWipModal"}}>
       {{fa-icon "trash"}} Supprimer
     </button>
   </div>
@@ -30,21 +30,24 @@
     </div>
   </section>
 
-<!--
-  <section class="page-section">
-    <div class="organization__members">
-      <h2>Membres</h2>
-      <table>
-        <tbody>
-          <tr>
-            <td>Bruce Wayne</td>
-            <td>Propriétaire</td>
-            <td><button class="btn btn-outline-default btn-thin">Retirer</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
--->
+  <!--
+    <section class="page-section">
+      <div class="organization__members">
+        <h2>Membres</h2>
+        <table>
+          <tbody>
+            <tr>
+              <td>Bruce Wayne</td>
+              <td>Propriétaire</td>
+              <td><button class="btn btn-outline-default btn-thin">Retirer</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  -->
 </main>
 
+{{#bs-modal-simple open=wipModal title="Fonctionnalité en cours de développement" onHidden=(action "toggleWipModal")}}
+  <p>Cette fonctionnalité n’est pas disponible pour le moment mais devrait arriver dans les jours ou semaines à venir.</p>
+{{/bs-modal-simple}}
