@@ -31,7 +31,7 @@ export default Component.extend({
     },
 
     submitOrganization() {
-      return this.get('onSubmitOrganization')()
+      return this.get('onSubmit')()
         .then(() => {
           this.get('notifications').success('L’organisation a été créée avec succès.');
         })
@@ -39,6 +39,10 @@ export default Component.extend({
           this.get('notifications').error('Une erreur est survenue.')
         });
     },
+
+    cancelOrganizationSaving() {
+      return this.get('onCancel')();
+    }
   },
 
   // Methods
