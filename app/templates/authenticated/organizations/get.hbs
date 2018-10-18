@@ -5,10 +5,10 @@
     {{model.name}}
   </div>
   <div class="page-actions">
-    <button class="btn btn-outline-default btn-thin" {{action "toggleWipModal"}}>
+    <button class="btn btn-outline-default btn-thin hidden" {{action "toggleWipModal"}}>
       {{fa-icon "edit"}} Modifier
     </button>
-    <button class="btn btn-outline-default btn-thin" {{action "toggleWipModal"}}>
+    <button class="btn btn-outline-default btn-thin hidden" {{action "toggleWipModal"}}>
       {{fa-icon "trash"}} Supprimer
     </button>
   </div>
@@ -16,86 +16,8 @@
 
 <main class="page-body" id="organizations-get-page">
 
-  <div class="display_flex">
+  {{organization-information-section organization=model}}
 
-    <div class="flex_column">
+  {{organization-members-section organization=model}}
 
-      <!-- Main -->
-      <section class="page-section mb_10">
-        <div class="organization__information">
-          <div class="organization__logo">
-            <figure class="organization__logo-figure">
-              <img class="organization__logo-img" src="{{rootURL}}/logo-placeholder.png">
-            </figure>
-          </div>
-          <div class="organization__data">
-            <h1 class="organization__name">{{model.name}}</h1>
-            <p>
-              Type : <span class="organization__type">{{model.type}}</span><br>
-              Code : <span class="organization__code">{{model.code}}</span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Members -->
-      <section class="page-section mb_10">
-        <header class="page-section__header">
-          <h2 class="page-section__title">Membres</h2>
-          <div class="page-section__actions">
-            <button class="btn btn-outline-default btn-thin" {{action "toggleWipModal"}}>
-              {{fa-icon "plus"}} Ajouter un membre
-            </button>
-          </div>
-        </header>
-        <div class="organization__resource">
-          {{#if model.members}}
-            <table>
-              <thead>
-              <tr>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Rôle</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-              {{#each model.members as |member|}}
-                <tr class="organization__member">
-                  <td>{{member.firstName}} {{member.lastName}}</td>
-                  <td>{{member.email}}</td>
-                  <td>{{member.role}}</td>
-                  <td>
-                    <button class="btn btn-outline-default btn-thin" {{action "toggleWipModal"}}>{{fa-icon
-                      'trash'}}</button>
-                  </td>
-                </tr>
-              {{/each}}
-              </tbody>
-            </table>
-
-          {{else}}
-            <p>
-              Cette organisation ne possède pas encore de membre.
-            </p>
-            <p>
-              <button class="btn btn-outline-default btn-thin" {{action "toggleWipModal"}}>
-                {{fa-icon "plus"}} Ajouter un membre
-              </button>
-            </p>
-          {{/if}}
-        </div>
-      </section>
-
-    </div>
-
-    <div class="flex_column">
-    </div>
-  </div>
 </main>
-
-{{#bs-modal-simple open=wipModal title="Fonctionnalité en cours de développement" onHidden=(action "toggleWipModal")}}
-  <figure class="work-in-progress">
-    <img src="{{rootURL}}/barrier.svg">
-  </figure>
-{{/bs-modal-simple}}

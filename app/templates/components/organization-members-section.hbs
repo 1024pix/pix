@@ -1,0 +1,37 @@
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Membres</h2>
+    <div class="page-section__actions">
+      <button class="btn btn-outline-default btn-thin hidden" {{action "toggleWipModal"}}>
+        {{fa-icon "plus"}} Ajouter un membre
+      </button>
+    </div>
+  </header>
+  <div class="organization__resource">
+    {{#if organization.members}}
+      <table>
+        <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Rôle</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each organization.members as |member|}}
+          <tr class="organization__member">
+            <td>{{member.firstName}} {{member.lastName}}</td>
+            <td>{{member.email}}</td>
+            <td>{{member.role}}</td>
+          </tr>
+        {{/each}}
+        </tbody>
+      </table>
+
+    {{else}}
+      <p>
+        Cette organisation ne possède pas encore de membre.
+      </p>
+    {{/if}}
+  </div>
+</section>
