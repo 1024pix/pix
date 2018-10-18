@@ -41,13 +41,20 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
+  findByUserId(userId) {
+    return BookshelfCampaignParticipation
+      .where({ userId })
+      .fetchAll({ withRelated: ['campaign'] })
+      .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
+      .then(fp.map(_toDomain));
+  },
+
   findByAssessmentId(assessmentId) {
     return BookshelfCampaignParticipation
       .where({ assessmentId })
       .fetch({ require: true })
       .then(_toDomain)
       .catch(_checkNotFoundError);
-
   },
 
   updateCampaignParticipation(campaignParticipation) {
