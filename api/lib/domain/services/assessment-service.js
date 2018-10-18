@@ -123,7 +123,7 @@ async function getSkills(assessment) {
 
 function getScoreAndLevel(assessmentId) {
   let estimatedLevel = 0;
-  let pixScore =0;
+  let pixScore = 0;
 
   return Promise.all([
     assessmentRepository.get(assessmentId),
@@ -206,7 +206,7 @@ function getCompetenceMarks(assessment) {
 // TODO Move the below functions into Assessment
 function _isNonScoredAssessment(assessment) {
   return isPreviewAssessment(assessment)
-    || isCertificationAssessment(assessment)
+    || assessment.isCertificationAssessment()
     || assessment.isSmartPlacementAssessment();
 }
 

@@ -5,7 +5,7 @@ module.exports = {
 
   serialize(users, meta) {
     return new Serializer('user', {
-      attributes: ['firstName', 'lastName', 'email', 'cgu', 'organizationAccesses'],
+      attributes: ['firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'organizationAccesses'],
       organizationAccesses: {
         ref: 'id',
         ignoreRelationshipData: true,
