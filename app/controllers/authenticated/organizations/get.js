@@ -2,14 +2,13 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
 
+  wipModal: false,
+
   actions: {
 
-    addOrganization() {
-      return this.get('model').save()
-        .then(() => {
-          this.transitionToRoute('authenticated.organizations');
-        });
-    }
+    toggleWipModal() {
+      this.toggleProperty('wipModal');
+    },
   }
 
 });
