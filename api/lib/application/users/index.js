@@ -38,8 +38,8 @@ exports.register = function(server, options, next) {
         handler: userController.getUser,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération de l‘utilisateur par id\n' +
-          '- L‘id demandé doit correspondre à celui de l‘utilisateur authentifié',
+          '- Récupération de l’utilisateur par id\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user'],
       }
@@ -71,8 +71,23 @@ exports.register = function(server, options, next) {
         handler: userController.getOrganizationAccesses,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des accès utilisateurs à partir de l\'id\n' +
-          '- L‘id demandé doit correspondre à celui de l‘utilisateur authentifié',
+          '- Récupération des accès utilisateurs à partir de l’id\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/api/users/{id}/campaign-participations',
+      config: {
+        handler: userController.getCampaignParticipations,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des participations à des campaignes à partir de l’id\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
+          '- Les participations aux campagnes sont triées par ordre inverse de création' +
+          '  (les plus récentes en premier)',
         ],
         tags: ['api']
       }

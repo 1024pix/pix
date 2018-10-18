@@ -12,6 +12,7 @@ function _toDomain(bookshelfCampaignParticipation) {
     campaignId: bookshelfCampaignParticipation.get('campaignId'),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
     sharedAt: new Date(bookshelfCampaignParticipation.get('sharedAt')),
+    createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
     participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
     userId: bookshelfCampaignParticipation.get('userId'),
   });
@@ -44,6 +45,7 @@ module.exports = {
   findByUserId(userId) {
     return BookshelfCampaignParticipation
       .where({ userId })
+      .orderBy('createdAt', 'DESC')
       .fetchAll({ withRelated: ['campaign'] })
       .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
       .then(fp.map(_toDomain));
@@ -52,7 +54,7 @@ module.exports = {
   findByAssessmentId(assessmentId) {
     return BookshelfCampaignParticipation
       .where({ assessmentId })
-      .fetch({ require: true })
+      .fetch({ require: true, withRelated: ['campaign'] })
       .then(_toDomain)
       .catch(_checkNotFoundError);
   },

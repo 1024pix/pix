@@ -1,9 +1,11 @@
+
 const Boom = require('boom');
 const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const organizationAccessSerializer = require('../../infrastructure/serializers/jsonapi/organization-accesses-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userService = require('../../domain/services/user-service');
@@ -11,6 +13,8 @@ const userRepository = require('../../../lib/infrastructure/repositories/user-re
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const tokenService = require('../../domain/services/token-service');
+const controllerReplies = require('../../infrastructure/controller-replies');
+const { ForbiddenError, InfrastructureError } = require('../../infrastructure/errors');
 
 const usecases = require('../../domain/usecases');
 const JSONAPI = require('../../interfaces/jsonapi');
@@ -156,11 +160,8 @@ module.exports = {
         return reply(organizationAccessSerializer.serialize(user.organizationAccesses)).code(200);
       })
       .catch((error) => {
-        if (error instanceof UserNotAuthorizedToAccessEntity) {
-          reply(JSONAPI.forbiddenError(error.message)).code(403);
-        }
-        logger.error(error);
-        reply(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
+        const mappedError = _mapToInfrastructureErrors(error);
+        return controllerReplies(reply).error(mappedError);
       });
   },
 
@@ -185,6 +186,20 @@ module.exports = {
         };
         return reply(userSerializer.serialize(searchResultList.paginatedResults, meta));
       });
+  },
+
+  getCampaignParticipations(request, reply) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+
+    return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
+      .then((campaignParticipations) => {
+        return controllerReplies(reply).ok((campaignParticipationSerializer.serialize(campaignParticipations)));
+      })
+      .catch((error) => {
+        const mappedError = _mapToInfrastructureErrors(error);
+        return controllerReplies(reply).error(mappedError);
+      });
   }
 };
 
@@ -199,4 +214,14 @@ function _handleWhenInvalidAuthorization(errorMessage) {
       authorization: [errorMessage],
     },
   };
+}
+
+function _mapToInfrastructureErrors(error) {
+
+  if (error instanceof UserNotAuthorizedToAccessEntity) {
+    return new ForbiddenError(error.message);
+  }
+
+  logger.error(error);
+  return new InfrastructureError('Une erreur est survenue lors de la récupération des campagnes l’utilisateur');
 }
