@@ -8,10 +8,11 @@ module.exports = function buildOrganization({
   name = faker.company.companyName(),
   code = 'ABCD12',
   userId = buildUser().id,
+  createdAt = faker.date.recent()
 } = {}) {
 
   const values = {
-    id, type, name, code, userId,
+    id, type, name, code, createdAt, userId,
   };
 
   databaseBuffer.pushInsertable({

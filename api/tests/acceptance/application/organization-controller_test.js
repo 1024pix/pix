@@ -170,11 +170,7 @@ describe('Acceptance | Application | organization-controller', () => {
           type: 'organizations',
           attributes: {
             name: 'The name of the organization',
-            email: 'organization@example.com',
             type: 'PRO',
-            'first-name': 'Steve',
-            'last-name': 'Travail',
-            password: 'Pix1024#'
           }
         }
       };
@@ -560,12 +556,15 @@ describe('Acceptance | Application | organization-controller', () => {
             'attributes': {
               'code': organization.code,
               'name': organization.name,
-              'type': organization.type
+              'type': organization.type,
             },
             'id': organization.id,
             'relationships': {
               'user': {
                 'data': null
+              },
+              'members': {
+                'data': []
               }
             },
             'type': 'organizations'
