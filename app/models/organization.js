@@ -10,6 +10,6 @@ export default DS.Model.extend({
   code: attr(),
 
   // Relationships
-  memberships: hasMany('organization-access')
+  members: hasMany('users')
 
 });
