@@ -1,0 +1,18 @@
+.resume-campaign-banner {
+  background: $marigold;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .resume-campaign-banner__title {
+    font-family: $font-open-sans;
+    font-size: 1.85rem;
+  }
+
+  .resume-campaign-banner__button {
+    width: 180px;
+    margin-left: 46px;
+  }
+}
