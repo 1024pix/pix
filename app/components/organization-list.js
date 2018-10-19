@@ -2,12 +2,9 @@ import Component from '@ember/component';
 
 const columns = [
   {
-    "propertyName": "id",
-    "routeName": "authenticated.organizations.get"
-  },
-  {
     "propertyName": "name",
     "title": "Nom",
+    "routeName": "authenticated.organizations.get"
   },
   {
     "propertyName": "type"

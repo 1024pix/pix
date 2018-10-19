@@ -8,7 +8,7 @@
     </div>
   </header>
   <div class="organization__resource">
-    {{#if organization.memberships}}
+    {{#if organization.members}}
       <table>
         <thead>
         <tr>
@@ -18,11 +18,11 @@
         </tr>
         </thead>
         <tbody>
-        {{#each organization.memberships as |membership|}}
+        {{#each organization.members as |member|}}
           <tr class="organization__member">
-            <td>{{membership.user.firstName}} {{membership.user.lastName}}</td>
-            <td>{{membership.user.email}}</td>
-            <td>{{membership.role}}</td>
+            <td>{{member.firstName}} {{member.lastName}}</td>
+            <td>{{member.email}}</td>
+            <td>Administrateur</td>
           </tr>
         {{/each}}
         </tbody>
