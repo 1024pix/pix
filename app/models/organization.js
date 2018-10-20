@@ -8,7 +8,6 @@ export default DS.Model.extend({
   name: attr(),
   type: attr(),
   code: attr(),
-  createdAt: attr(),
 
   // Relationships
   members: hasMany('users')
