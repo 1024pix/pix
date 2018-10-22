@@ -87,7 +87,7 @@ module.exports = {
     return BookshelfOrganization
       .where(filters)
       .fetchAll()
-      .then((organizations) => organizations.models.map((organization) => organization.toDomainEntity()));
+      .then((organizations) => organizations.models.map(_toDomain));
   },
 
   // TODO return domain object
