@@ -34,7 +34,7 @@ function _toDomain(bookshelfOrganization) {
 module.exports = {
 
   create(domainOrganization) {
-    const organizationRawData = _.omit(domainOrganization, ['user', 'members', 'createdAt', 'targetProfileShares']);
+    const organizationRawData = _.omit(domainOrganization, ['user', 'members', 'targetProfileShares']);
     return new BookshelfOrganization(organizationRawData)
       .save()
       .then(_toDomain);
