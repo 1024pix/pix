@@ -22,7 +22,4 @@ module.exports = Bookshelf.model('Organization', {
     return this.hasMany('TargetProfileShare', 'organizationId');
   },
 
-  toDomainEntity() {
-    return new DomainOrganization(this.toJSON());
-  }
 });
