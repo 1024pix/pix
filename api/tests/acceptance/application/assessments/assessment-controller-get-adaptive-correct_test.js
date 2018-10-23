@@ -75,6 +75,15 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     acquix: [skillWeb1Id],
     acquis: [skillWeb1Name],
   });
+  const otherChallengeId = 'recThirdChallenge';
+  const otherChallenge = airtableBuilder.factory.buildChallenge.untimed({
+    id: otherChallengeId,
+    tests: [],
+    competences: ['other-competence'],
+    statut: 'validé',
+    acquix: [skillWeb1Id],
+    acquis: [skillWeb1Name],
+  });
 
   beforeEach(() => {
 
@@ -82,13 +91,16 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       .returns(adaptiveCourse)
       .activate();
 
+    airtableBuilder.mockList({ tableName: 'Domaines' })
+      .returns([airtableBuilder.factory.buildArea()])
+      .activate();
+
     airtableBuilder.mockGet({ tableName: 'Competences' })
       .returns(competence)
       .activate();
 
     airtableBuilder.mockList({ tableName: 'Epreuves' })
-      .respondsToQuery({ view: '1.1 Mener une recherche et une veille d’information' })
-      .returns([firstChallenge, secondChallenge, thirdChallenge])
+      .returns([firstChallenge, secondChallenge, thirdChallenge, otherChallenge])
       .activate();
 
     airtableBuilder.mockGet({ tableName: 'Epreuves' })

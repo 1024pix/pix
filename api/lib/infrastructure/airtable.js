@@ -2,7 +2,6 @@ const Airtable = require('airtable');
 const airtableConfig = require('../settings').airtable;
 const AirtableRecord = Airtable.Record;
 const cache = require('./caches/cache');
-const hash = require('object-hash');
 const logger = require('./logger');
 
 module.exports = {
@@ -43,12 +42,11 @@ module.exports = {
       });
   },
 
-  findRecords(tableName, query) {
-    const cacheKey = `${tableName}_${hash(query)}`;
+  findRecords(tableName) {
+    const cacheKey = `${tableName}`;
     const logContext = {
-      zone: 'airtable.getRecord',
+      zone: 'airtable.findRecords',
       type: 'airtable',
-      query,
       tableName,
     };
 
@@ -61,10 +59,10 @@ module.exports = {
         logger.trace(logContext, 'cache miss. Calling airtable');
         return this._base()
           .table(tableName)
-          .select(query)
+          .select()
           .all()
           .then((records) => {
-            logger.trace(logContext, 'found record in Airtable.');
+            logger.trace(logContext, 'found records in Airtable.');
             return cache.set(cacheKey, records.map((record) => record._rawJson))
               .then(() => records);
           })

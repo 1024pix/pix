@@ -58,7 +58,7 @@ module.exports = {
 
     const promises = [
       organizationRepository.get(organizationId),
-      competenceRepository.find(),
+      competenceRepository.list(),
       snapshotRepository.getSnapshotsByOrganizationId(organizationId)
     ];
 

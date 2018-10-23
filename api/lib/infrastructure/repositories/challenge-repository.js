@@ -36,9 +36,8 @@ module.exports = {
   },
 
   findBySkills(skills) {
-
-    const skillNames = skills.map((skill) => skill.name);
-    return challengeDatasource.findBySkillNames(skillNames)
+    const skillIds = skills.map((skill) => skill.id);
+    return challengeDatasource.findBySkillIds(skillIds)
       .then(_generateChallengeDomainModels);
   },
 };

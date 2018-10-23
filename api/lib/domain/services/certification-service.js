@@ -200,7 +200,7 @@ function _getCertificationResult(assessment, continueOnError = false) {
     certificationChallengesRepository.findByCertificationCourseId(assessment.courseId),
     assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(assessment.userId, assessment.createdAt),
     certificationCourseRepository.get(assessment.courseId),
-    competenceRepository.find(),
+    competenceRepository.list(),
     challengeRepository.list(),
   ]).then(([assessmentAnswers, certificationChallenges, userCompletedAssessments, certificationCourse, allCompetences, allChallenges]) => {
     const testedCompetences = userCompletedAssessments

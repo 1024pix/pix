@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { expect, knex, nock, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
+const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 
 function _insertOrganization(userId) {
   const organizationRaw = {
@@ -122,12 +123,7 @@ describe('Acceptance | Application | organization-controller', () => {
   before(() => {
     nock('https://api.airtable.com')
       .get('/v0/test-base/Competences')
-      .query({
-        sort: [{
-          field: 'Sous-domaine',
-          direction: 'asc'
-        }]
-      })
+      .query(true)
       .reply(200, {
         'records': [{
           'id': 'recNv8qhaY887jQb2',
@@ -142,8 +138,14 @@ describe('Acceptance | Application | organization-controller', () => {
             'Titre': 'Protéger les données personnelles et la vie privée'
           },
         }]
-      }
-      );
+      });
+
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Domaines')
+      .query(true)
+      .reply(200, [
+        areaRawAirTableFixture()
+      ]);
   });
 
   after(() => {
