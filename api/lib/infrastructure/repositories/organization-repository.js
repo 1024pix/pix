@@ -67,10 +67,8 @@ module.exports = {
       .fetch({
         require: true,
         withRelated: [
-          'organizationAccesses',
           'organizationAccesses.user',
           'organizationAccesses.organizationRole',
-          'targetProfileShares',
           'targetProfileShares.targetProfile'
         ]
       })

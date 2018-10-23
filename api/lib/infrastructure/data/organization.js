@@ -1,5 +1,4 @@
 const Bookshelf = require('../bookshelf');
-const DomainOrganization = require('../../domain/models/Organization');
 
 require('./user');
 require('./organization-access');
