@@ -29,7 +29,16 @@ class ProfileSerializer extends JSONAPISerializer {
     this.serializeAttributes(entity, data);
     this.serializeRelationships(competencesEntity, 'competences', data);
     this.serializeRelationships(organizationsEntity, 'organizations', data);
+    this._serializeCampaignParticipationsLink(data, entity);
     return data;
+  }
+
+  _serializeCampaignParticipationsLink(data, entity) {
+    data.relationships['campaign-participations'] = {
+      links: {
+        related: `/api/users/${entity.id}/campaign-participations`
+      }
+    };
   }
 
   serializeIncluded(model) {
