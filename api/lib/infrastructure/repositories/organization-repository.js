@@ -13,6 +13,7 @@ function _toDomain(bookshelfOrganization) {
     code: rawOrganization.code,
     name: rawOrganization.name,
     type: rawOrganization.type,
+    logoUrl: rawOrganization.logoUrl,
   });
 
   let members = [];

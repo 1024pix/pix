@@ -1,4 +1,4 @@
-const { expect, knex, sinon } = require('../../../test-helper');
+const { expect, knex, sinon, databaseBuilder } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 const Organization = require('../../../../lib/domain/models/Organization');
@@ -127,46 +127,39 @@ describe('Integration | Repository | Organization', function() {
 
   describe('#get', () => {
 
-    const existingId = 1;
-    const insertedOrganization = {
-      type: 'PRO',
-      name: 'The name of the organization',
-      userId: 294,
-      id: existingId
-    };
-
+    let insertedOrganization;
+    
     before(() => {
-      return knex('organizations')
-        .then(() => {
-          return knex('organizations').insert(insertedOrganization);
-        });
+      insertedOrganization = databaseBuilder.factory.buildOrganization();
+      return databaseBuilder.commit();
     });
 
     after(() => {
-      return knex('organizations').delete();
+      return databaseBuilder.clean();
     });
 
     describe('success management', function() {
 
       it('should return a organization by provided id', function() {
         // when
-        const promise = organizationRepository.get(existingId);
+        const promise = organizationRepository.get(insertedOrganization.id);
 
         // then
         return promise.then((foundOrganization) => {
           expect(foundOrganization).to.be.an.instanceof(Organization);
           expect(foundOrganization.type).to.equal(insertedOrganization.type);
           expect(foundOrganization.name).to.equal(insertedOrganization.name);
+          expect(foundOrganization.logoUrl).to.equal(insertedOrganization.logoUrl);
           expect(foundOrganization.id).to.equal(insertedOrganization.id);
         });
       });
 
       it('should return a rejection when organization id is not found', function() {
         // given
-        const inexistenteId = 10083;
+        const nonExistentId = 10083;
 
         // when
-        const promise = organizationRepository.get(inexistenteId);
+        const promise = organizationRepository.get(nonExistentId);
 
         // then
         return promise.then(() => {
