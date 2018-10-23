@@ -19,12 +19,13 @@ function buildOrganization(
     code = 'EBG123',
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
+    logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     createdAt = new Date('2018-01-12'),
     user = null,
     members = [],
     targetProfileShares = []
   } = {}) {
-  return new Organization({ id, code, name, type, createdAt, user, members, targetProfileShares });
+  return new Organization({ id, code, name, type, logoUrl, createdAt, user, members, targetProfileShares });
 }
 
 buildOrganization.withUser = function(
@@ -33,11 +34,12 @@ buildOrganization.withUser = function(
     code = 'EBG123',
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
+    logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     createdAt = new Date('2018-01-12'),
     user = _buildMember()
   } = {}
 ) {
-  return new Organization({ id, code, name, type, createdAt, user });
+  return new Organization({ id, code, name, type, logoUrl, createdAt, user });
 };
 
 buildOrganization.withMembers = function(
@@ -46,6 +48,7 @@ buildOrganization.withMembers = function(
     code = 'EBG123',
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
+    logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     createdAt = new Date('2018-01-12'),
     members = [
       _buildMember({ id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }),
@@ -53,7 +56,7 @@ buildOrganization.withMembers = function(
     ]
   } = {}
 ) {
-  return new Organization({ id, code, name, type, createdAt, members });
+  return new Organization({ id, code, name, type, logoUrl, createdAt, members });
 };
 
 module.exports = buildOrganization;
