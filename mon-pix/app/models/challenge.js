@@ -23,7 +23,7 @@ export default Model.extend({
     return !!embedUrl
       && !!this.get('embedTitle')
       && !!this.get('embedHeight')
-      && embedUrl.toLowerCase().startsWith('https://');
+      && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242) 
   }),
   hasAttachment: notEmpty('attachments'),
   hasSingleAttachment: equal('attachments.length', 1),
