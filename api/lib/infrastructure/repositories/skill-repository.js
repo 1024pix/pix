@@ -1,25 +1,20 @@
 const BookshelfSkill = require('../../infrastructure/data/skill');
 const Skill = require('../../domain/models/Skill');
 const Bookshelf = require('../../infrastructure/bookshelf');
-const airtable = require('../airtable');
+const skillDatasource = require('../datasources/airtable/skill-datasource');
 
-function _toDomain(airtableSkill) {
+function _toDomain(skillData) {
   return new Skill({
-    id: airtableSkill.getId(),
-    name: airtableSkill.get('Nom')
+    id: skillData.id,
+    name: skillData.name,
   });
 }
 
 module.exports = {
 
   findByCompetence(competence) {
-    const query = {
-      filterByFormula: `FIND('${competence.index}', {Compétence})`
-    };
-    return airtable.findRecords('Acquis', query)
-      .then((skills) => {
-        return skills.map(_toDomain);
-      });
+    return skillDatasource.findByCompetenceId(competence.id)
+      .then((skillDatas) => skillDatas.map(_toDomain));
   },
 
   save(arraySkills) {

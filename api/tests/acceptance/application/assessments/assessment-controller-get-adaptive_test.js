@@ -1,4 +1,5 @@
 const { expect, knex, nock } = require('../../../test-helper');
+const areaRawAirTableFixture = require('../../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const server = require('../../../../server');
 
@@ -17,13 +18,20 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
           // a bunch of fields
           'Adaptatif ?': true,
           'Competence': ['competence_id'],
-          '\u00c9preuves': [
+          'Épreuves': [
             'z_third_challenge',
             'z_second_challenge',
             'z_first_challenge',
           ],
         },
       });
+
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Domaines')
+      .query(true)
+      .reply(200, [
+        areaRawAirTableFixture()
+      ]);
 
     nock('https://api.airtable.com')
       .get('/v0/test-base/Competences/competence_id')
@@ -42,7 +50,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
 
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
-      .query({ view: '1.1 Mener une recherche et une veille d’information' })
+      .query(true)
       .reply(200, [
         {
           'id': 'z_second_challenge',
@@ -61,6 +69,12 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
           'fields': {
             'competences': ['competence_id'],
             'acquis': ['web3'],
+          },
+        }, {
+          'id': 'other_challenge',
+          'fields': {
+            'competences': ['other_competence_id'],
+            'acquis': ['web4'],
           },
         },
       ]);
@@ -97,15 +111,6 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
           'competences': ['competence_id'],
           'acquis': ['web3'],
         },
-      });
-
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Acquis')
-      .query({
-        filterByFormula: 'FIND(\'1.1\', {Compétence})',
-      })
-      .reply(200, {
-        'id': 'idAcquix',
       });
 
     // Our Epreuves have no Acquix (skillIds) so no need to return anything here

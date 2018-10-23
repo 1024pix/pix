@@ -2,19 +2,10 @@ const dataObjects = require('../../../lib/infrastructure/datasources/airtable/ob
 
 module.exports = function buildCompetenceAirtableDataObject({
   id = 'recsvLz0W2ShyfD63',
-  competenceCode = '1.1',
-  title = 'Mener une recherche et une veille d’information',
-  areaIds = ['recvoGdo7z2z7pXWa'],
-  courseIds = [
-    'rec02tVrimXNkgaLD',
-    'rec0gm0GFue3PQB3k',
-    'rec0hoSlSwCeNNLkq',
-    'rec2FcZ4jsPuY1QYt',
-    'rec39bDMnaVw3MyMR',
-    'rec3FMoD8h9USTktb',
-    'rec3P7fvPSpFkIFLV',
-  ],
-
+  name = 'Mener une recherche et une veille d’information',
+  index = '1.1',
+  areaId = 'recvoGdo7z2z7pXWa',
+  courseId = 'recNPB7dTNt5krlMA',
   skillIds = [
     'recV11ibSCXvaUzZd',
     'recD01ptfJy7c4Sex',
@@ -30,10 +21,10 @@ module.exports = function buildCompetenceAirtableDataObject({
 
   return new dataObjects.Competence({
     id,
-    competenceCode,
-    title,
-    areaIds,
-    courseIds,
+    name,
+    index,
+    areaId,
+    courseId,
     skillIds,
   });
 };
