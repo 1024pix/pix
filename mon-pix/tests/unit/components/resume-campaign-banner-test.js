@@ -13,20 +13,20 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
     isShared: false,
     createdAt: '2018-01-01',
     campaign: EmberObject.create({
-      code: 'AZERTY',
+      code: 'AZERTY0',
     })
   });
   const oldCampaignNotFinished = EmberObject.create({
     isShared: false,
     createdAt: '2017-01-01',
     campaign: EmberObject.create({
-      code: 'AZERTY',
+      code: 'AZERTY1',
     })
   });
   const campaignFinish = EmberObject.create({
     isShared: true,
     campaign: EmberObject.create({
-      code: 'AZERTY',
+      code: 'AZERTY2',
     })
   });
 
@@ -45,7 +45,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       const campaignToResume = component.get('campaignToResume');
 
       // then
-      expect(campaignToResume).to.equal(campaignWanted);
+      expect(campaignToResume).to.equal(campaignWanted.campaign);
     });
 
     it('should return undefined when all campaign are finished', function() {
@@ -57,7 +57,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
       const campaignToResume = component.get('campaignToResume');
 
       // then
-      expect(campaignToResume).to.equal(undefined);
+      expect(campaignToResume).to.equal(null);
     });
 
   });

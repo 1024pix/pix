@@ -1,10 +1,10 @@
-{{#if canResumeCampaign}}
+{{#if campaignToResume}}
   <div class="resume-campaign-banner__container">
-    {{#if campaignToResume.campaign.title}}
-      <span class="resume-campaign-banner__title">Vous n'avez pas terminé le parcours "{{campaignToResume.campaign.title}}"</span>
+    {{#if campaignToResume.title}}
+      <span class="resume-campaign-banner__title">Vous n'avez pas terminé le parcours "{{campaignToResume.title}}"</span>
     {{else}}
       <span class="resume-campaign-banner__title">Vous n'avez pas terminé votre parcours</span>
     {{/if}}
-    {{link-to 'Reprendre' 'campaigns.start-or-resume' campaignToResume.campaign.code class="resume-campaign-banner__button pix-button"}}
+    {{link-to 'Reprendre' 'campaigns.start-or-resume' campaignToResume.code class="resume-campaign-banner__button pix-button"}}
   </div>
 {{/if}}
