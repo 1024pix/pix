@@ -253,15 +253,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         });
       });
 
-      it('should reject with a UserNotFound error when no user was found with this SAML ID', () => {
+      it('should return undefined when no user was found with this SAML ID', async () => {
         // given
         const badSamlId = 'bad-saml-id';
 
         // when
-        const promise = userRepository.getBySamlId(badSamlId);
+        const user = await userRepository.getBySamlId(badSamlId);
 
         // then
-        return expect(promise).to.be.rejectedWith(UserNotFoundError);
+        return expect(user).to.be.null;
       });
     });
 

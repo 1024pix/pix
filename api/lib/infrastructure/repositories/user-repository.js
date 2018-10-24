@@ -135,16 +135,11 @@ module.exports = {
       });
   },
 
-  getBySamlId(samlId) {
-    return BookshelfUser
+  async getBySamlId(samlId) {
+    const bookshelfUser = await BookshelfUser
       .where({ samlId })
-      .fetch({ require: true })
-      .then(_toDomain, (err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
-          throw new UserNotFoundError(`User not found for SAML ID ${samlId}`);
-        }
-        throw err;
-      });
+      .fetch();
+    return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
   create(domainUser) {
