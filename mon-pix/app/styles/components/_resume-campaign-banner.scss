@@ -1,6 +1,11 @@
 .resume-campaign-banner{
   width: 100%;
-
+  @media (min-width: 768px) {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    z-index: 4;
+  }
   .resume-campaign-banner__container {
     background: $marigold;
     height: 80px;
@@ -10,12 +15,18 @@
 
     .resume-campaign-banner__title {
       font-family: $font-open-sans;
-      font-size: 1.85rem;
+      font-size: 1.2rem;
+      @media (min-width: 768px) {
+        font-size: 1.85rem;
+      }
     }
 
     .resume-campaign-banner__button {
       width: 180px;
-      margin-left: 46px;
+      margin-left: 5px;
+      @media (min-width: 768px) {
+        margin-left: 46px;
+      }
     }
   }
 }
