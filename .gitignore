@@ -30,4 +30,9 @@ package.json.ember-try
 *.circle-cache-key
 jsconfig.json
 
+# Mac OS X
 .DS_Store
+
+# Visual Studio Code
+.vscode
+.history

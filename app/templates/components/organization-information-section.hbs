@@ -2,7 +2,16 @@
   <div class="organization__information">
     <div class="organization__logo">
       <figure class="organization__logo-figure">
-        <img class="organization__logo-img" src="{{rootURL}}/logo-placeholder.png">
+        {{#if organization.logoUrl}}
+          <img src={{organization.logoUrl}}>
+        {{else}}
+          <img src="{{rootURL}}/logo-placeholder.png">
+        {{/if}}
+
+        {{#file-upload name="logo" accept="image/*" onfileadd=(action "updateLogo") as |queue|}}
+          <a class="file-upload__button"/>
+        {{/file-upload}}
+
       </figure>
     </div>
     <div class="organization__data">

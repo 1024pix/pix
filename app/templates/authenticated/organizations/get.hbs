@@ -16,7 +16,7 @@
 
 <main class="page-body" id="organizations-get-page">
 
-  {{organization-information-section organization=model}}
+  {{organization-information-section organization=model onLogoUpdated=(action "updateOrganizationInformation")}}
 
   {{organization-members-section organization=model}}
 
