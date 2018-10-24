@@ -3,6 +3,12 @@
   <div class="assessment-challenge__course-banner">
     {{#if model.assessment.isCertification}}
       {{certification-banner user=model.user certificationNumber=model.assessment.certificationNumber}}
+    {{else if model.assessment.isSmartPlacement}}
+      <div class="campaign-banner">
+        <div class="campaign-banner__pix-logo"></div>
+        <h1 class="campaign-banner__title">{{model.campaign.title}}</h1>
+        {{#link-to "index" class="campaign-banner__home-link"}}Revenir à l'accueil{{/link-to}}
+      </div>
     {{else}}
       {{course-banner course=model.assessment.course withHomeLink=true}}
     {{/if}}
