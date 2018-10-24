@@ -3,11 +3,8 @@ export default function(schema, request) {
 
   const participantExternalId = params.data.attributes['participant-external-id'];
   const newAssessment = {
-    'user-id': 'user_id',
-    'user-name': 'Jane Doe',
-    'user-email': 'jane@acme.com',
+    type: 'SMART_PLACEMENT'
   };
-  newAssessment.type = 'SMART_PLACEMENT';
 
   const assessment = schema.assessments.create(newAssessment);
   return schema.campaignParticipations.create({ assessment, participantExternalId });
