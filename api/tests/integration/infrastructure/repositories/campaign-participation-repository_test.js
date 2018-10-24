@@ -167,7 +167,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       // then
       return promise.then((campaignParticipationsFind) => {
-        expect(campaignParticipationsFind.length).to.equal(2);
+        expect(campaignParticipationsFind).to.have.a.lengthOf(2);
         expect(campaignParticipationsFind[0].userId).to.equal(campaignParticipation1.userId);
         expect(campaignParticipationsFind[1].userId).to.equal(campaignParticipation2.userId);
       });

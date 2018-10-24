@@ -21,10 +21,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   afterModel(model) {
 
     return model.get('campaignParticipations')
-      .then((campaignParticipations) => {
-        model.set('campaignParticipations', campaignParticipations);
-        return model;
-      });
+      .then(model);
   },
 
   actions: {

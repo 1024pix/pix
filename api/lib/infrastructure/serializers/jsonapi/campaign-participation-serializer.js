@@ -10,7 +10,6 @@ module.exports = {
       attributes: ['isShared', 'sharedAt', 'createdAt', 'campaign', 'assessment'],
       campaign: {
         ref: 'id',
-        included: true,
         attributes: ['code', 'title']
       },
       assessment: {
