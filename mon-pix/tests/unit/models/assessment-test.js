@@ -19,7 +19,7 @@ describe('Unit | Model | Assessment', function() {
 
   describe('Computed property #hasCheckpoints', function() {
 
-    it('Should be true when challenge is a SMART_PLACEMENT', function() {
+    it('should be true when challenge is a SMART_PLACEMENT', function() {
       run(() => {
         // given
         const store = this.store();
@@ -33,7 +33,7 @@ describe('Unit | Model | Assessment', function() {
       });
     });
 
-    it('Should be true when challenge is NOT a SMART_PLACEMENT', function() {
+    it('should be true when challenge is NOT a SMART_PLACEMENT', function() {
       run(() => {
         // given
         const assessment = this.subject();
@@ -122,6 +122,121 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer11]);
+    });
+  });
+  
+  describe('#isPlacement', function() {
+    it('should return true when the assessment type is placement', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', 'PLACEMENT');
+
+      //then
+      expect(model.isPlacement).to.be.true;
+    });
+    it('should return false when the assessment type is not placement', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', '_');
+
+      //then
+      expect(model.isPlacement).to.be.false;
+    });
+  });
+
+  describe('#isSmartPlacement', function() {
+    it('should return true when the assessment type is a smart placement', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', 'SMART_PLACEMENT');
+
+      //then
+      expect(model.isSmartPlacement).to.be.true;
+    });
+    it('should return false when the assessment type is not a smart placement', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', '_');
+
+      //then
+      expect(model.isSmartPlacement).to.be.false;
+    });
+  });
+
+  describe('#isCertification', function() {
+    it('should return true when the assessment type is a certification', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', 'CERTIFICATION');
+
+      //then
+      expect(model.isCertification).to.be.true;
+    });
+    it('should return false when the assessment type is not a certification', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', '_');
+
+      //then
+      expect(model.isCertification).to.be.false;
+    });
+  });
+
+  describe('#isDemo', function() {
+    it('should return true when the assessment type is demo', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', 'DEMO');
+
+      //then
+      expect(model.isDemo).to.be.true;
+    });
+    it('should return false when the assessment type is not demo', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', '_');
+
+      //then
+      expect(model.isDemo).to.be.false;
+    });
+  });
+
+  describe('#isPreview', function() {
+    it('should return true when the assessment type is placement', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', 'PREVIEW');
+
+      //then
+      expect(model.isPreview).to.be.true;
+    });
+    it('should return false when the assessment type is not placement', function() {
+      // given
+      const model = this.subject();
+
+      // when
+      model.set('type', '_');
+
+      //then
+      expect(model.isPreview).to.be.false;
     });
   });
 });
