@@ -16,11 +16,13 @@ export default Component.extend({
 
     const campaignParticipationOrdered = _orderBy(campaignParticipationsNotShared, 'createdAt', 'desc');
 
-    return campaignParticipationOrdered[0];
-  }),
+    const lastCampaignParticipationStarted = campaignParticipationOrdered[0];
 
-  canResumeCampaign: computed('campaignParticipations', function() {
-    return this.get('campaignToResume');
+    if(lastCampaignParticipationStarted) {
+      return lastCampaignParticipationStarted.campaign;
+    }
+
+    return null;
   }),
 
 });
