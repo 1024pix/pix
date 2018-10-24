@@ -18,6 +18,7 @@ describe('Integration | Component | resume-campaign-banner', function() {
       createdAt: '2018-01-01',
       campaign: EmberObject.create({
         code: 'AZERTY',
+        title: 'Parcours Pix'
       })
     });
     const oldCampaignNotFinished = EmberObject.create({
@@ -60,6 +61,28 @@ describe('Integration | Component | resume-campaign-banner', function() {
       expect(this.$('.resume-campaign-banner__button').attr('href')).to.contains('campaigns.start-or-resume');
     });
 
+    it('should show the title of campaign', function() {
+      // given
+      this.set('campaignParticipations', [campaignToResume]);
+      // when
+      this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+      // then
+
+      expect(this.$('.resume-campaign-banner__title')).to.have.lengthOf(1);
+      expect(this.$('.resume-campaign-banner__title').text()).to.equal(`Vous n'avez pas terminé le parcours "${campaignToResume.campaign.title}"`);
+    });
+
+    it('should show a simple sentence when campaign has no title', function() {
+      // given
+      campaignToResume.campaign.set('title', null);
+      this.set('campaignParticipations', [campaignToResume]);
+      // when
+      this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+      // then
+
+      expect(this.$('.resume-campaign-banner__title')).to.have.lengthOf(1);
+      expect(this.$('.resume-campaign-banner__title').text()).to.equal('Vous n\'avez pas terminé votre parcours');
+    });
     it('should not display the resume campaign banner when the list of campaigns is empty', function() {
       // given
       this.set('campaignParticipations', []);
