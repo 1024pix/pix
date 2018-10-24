@@ -57,10 +57,10 @@ class BadRequestError extends InfrastructureError {
 
 module.exports = {
   BadRequestError,
-  InfrastructureError,
   ConflictError,
+  ForbiddenError,
+  InfrastructureError,
   MissingQueryParamError,
   NotFoundError,
   UnauthorizedError,
-  ForbiddenError,
 };
