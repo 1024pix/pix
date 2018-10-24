@@ -192,9 +192,8 @@ module.exports = {
     const requestedUserId = request.params.id;
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
-      .then((campaignParticipations) => {
-        return controllerReplies(reply).ok((campaignParticipationSerializer.serialize(campaignParticipations)));
-      })
+      .then(campaignParticipationSerializer.serialize)
+      .then(controllerReplies(reply).ok)
       .catch((error) => {
         const mappedError = _mapToInfrastructureErrors(error);
         return controllerReplies(reply).error(mappedError);
@@ -203,7 +202,7 @@ module.exports = {
 };
 
 // TODO refacto, extract and simplify
-const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
+const _replyErrorWithMessage = function (reply, errorMessage, statusCode) {
   reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
 
