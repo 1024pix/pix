@@ -1,33 +1,21 @@
-const { expect, knex, sinon, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, sinon, factory, databaseBuilder } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 const Organization = require('../../../../lib/domain/models/Organization');
+const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 describe('Integration | Repository | Organization', function() {
 
   describe('#create', () => {
 
-    const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
-    const inserted_user = {
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      email: faker.internet.email(),
-      password: userPassword,
-      cgu: true
-    };
-
-    beforeEach(() => {
-      return knex('users').insert(inserted_user);
-    });
-
     afterEach(() => {
-      return knex('users').delete();
+      return knex('organizations').delete();
     });
 
-    it('should save model in database', () => {
+    it('should return an Organization domain object', () => {
       // given
-      const organization = new Organization({ code: 'AAAA99', name: 'Lycée Rousseau', type: 'SCO' });
+      const organization = factory.buildOrganization();
 
       // when
       const promise = organizationRepository.create(organization);
@@ -35,7 +23,112 @@ describe('Integration | Repository | Organization', function() {
       // then
       return promise.then((organizationSaved) => {
         expect(organizationSaved).to.be.an.instanceof(Organization);
-        expect(organizationSaved.code).to.equal('AAAA99');
+      });
+    });
+
+    it('should add a row in the table "organizations"', async () => {
+      // given
+      const nbOrganizationsBeforeCreation = await BookshelfOrganization.count();
+
+      // when
+      const promise = organizationRepository.create(factory.buildOrganization());
+
+      // then
+      return promise.then(async () => {
+        const nbOrganizationsAfterCreation = await BookshelfOrganization.count();
+        expect(nbOrganizationsAfterCreation).to.equal(nbOrganizationsBeforeCreation + 1);
+      });
+    });
+
+    it('should save model properties', async () => {
+      // given
+      const organization = factory.buildOrganization({ id: null });
+
+      // when
+      const promise = organizationRepository.create(organization);
+
+      // then
+      return promise.then(async (organizationSaved) => {
+        expect(organizationSaved.id).to.not.be.undefined;
+        expect(organizationSaved.name).to.equal(organization.name);
+        expect(organizationSaved.type).to.equal(organization.type);
+        expect(organizationSaved.logoUrl).to.equal(organization.logoUrl);
+        expect(organizationSaved.code).to.equal(organization.code);
+      });
+    });
+  });
+
+  describe('#update', () => {
+
+    const organizationCode = 'ABCD12';
+
+    let organization;
+
+    beforeEach(() => {
+      const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1, code: organizationCode });
+      organization = factory.buildOrganization(bookshelfOrganization);
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+      await knex('organizations').delete();
+    });
+
+    it('should return an Organization domain object', () => {
+      // when
+      const promise = organizationRepository.update(organization);
+
+      // then
+      return promise.then((organizationSaved) => {
+        expect(organizationSaved).to.be.an.instanceof(Organization);
+      });
+    });
+
+    it('should not add row in table "organizations"', async () => {
+      // given
+      const nbOrganizationsBeforeUpdate = await BookshelfOrganization.count();
+
+      // when
+      const promise = organizationRepository.update(organization);
+
+      // then
+      return promise.then(async () => {
+        const nbOrganizationsAfterUpdate = await BookshelfOrganization.count();
+        expect(nbOrganizationsAfterUpdate).to.equal(nbOrganizationsBeforeUpdate);
+      });
+    });
+
+    it('should update model in database', async () => {
+      // given
+      organization.name = 'New name';
+      organization.type = 'SCO';
+      organization.logoUrl = 'http://new.logo.url';
+
+      // when
+      const promise = organizationRepository.update(organization);
+
+      // then
+      return promise.then((organizationSaved) => {
+        expect(organizationSaved.id).to.equal(organization.id);
+        expect(organizationSaved.name).to.equal('New name');
+        expect(organizationSaved.type).to.equal('SCO');
+        expect(organizationSaved.logoUrl).to.equal('http://new.logo.url');
+        expect(organizationSaved.code).to.equal(organization.code);
+      });
+    });
+
+    it('should not modify code property', () => {
+      // given
+      const originalOrganizationCode = organization.code;
+      organization.code = 'New manual code that should not be saved';
+
+      // when
+      const promise = organizationRepository.update(organization);
+
+      // then
+      return promise.then(async (organizationSaved) => {
+        expect(organizationSaved.code).to.equal(originalOrganizationCode);
       });
     });
   });
@@ -128,7 +221,7 @@ describe('Integration | Repository | Organization', function() {
   describe('#get', () => {
 
     let insertedOrganization;
-    
+
     before(() => {
       insertedOrganization = databaseBuilder.factory.buildOrganization();
       return databaseBuilder.commit();
