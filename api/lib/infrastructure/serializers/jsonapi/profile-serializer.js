@@ -10,12 +10,12 @@ class ProfileSerializer extends JSONAPISerializer {
 
   serialize(modelObject) {
     const response = {};
-    response.data = this.serializeModelObject(modelObject);
-    response.included = this.serializeIncluded(modelObject);
+    response.data = this._serializeModelObject(modelObject);
+    response.included = this._serializeIncluded(modelObject);
     return response;
   }
 
-  serializeModelObject(modelObject) {
+  _serializeModelObject(modelObject) {
     if (!modelObject) {
       return null;
     }
@@ -26,9 +26,9 @@ class ProfileSerializer extends JSONAPISerializer {
     data.type = 'users';
     data.id = entity.id;
     data.attributes = {};
-    this.serializeAttributes(entity, data);
-    this.serializeRelationships(competencesEntity, 'competences', data);
-    this.serializeRelationships(organizationsEntity, 'organizations', data);
+    this._serializeAttributes(entity, data);
+    this._serializeRelationships(competencesEntity, 'competences', data);
+    this._serializeRelationships(organizationsEntity, 'organizations', data);
     this._serializeCampaignParticipationsLink(data, entity);
     return data;
   }
@@ -41,7 +41,7 @@ class ProfileSerializer extends JSONAPISerializer {
     };
   }
 
-  serializeIncluded(model) {
+  _serializeIncluded(model) {
     const included = [];
     this._serializeAreaIncluded(model, included);
     this._serializeCompetenceIncluded(model, included);
@@ -49,7 +49,7 @@ class ProfileSerializer extends JSONAPISerializer {
     return included;
   }
 
-  serializeAttributes(model, data) {
+  _serializeAttributes(model, data) {
     data.attributes['first-name'] = model.firstName;
     data.attributes['last-name'] = model.lastName;
     data.attributes['email'] = model.email;
@@ -59,7 +59,7 @@ class ProfileSerializer extends JSONAPISerializer {
     }
   }
 
-  serializeRelationships(model, modelName, data) {
+  _serializeRelationships(model, modelName, data) {
     if (!data.relationships) {
       data.relationships = {};
     }

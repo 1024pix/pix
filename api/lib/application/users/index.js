@@ -84,7 +84,7 @@ exports.register = function(server, options, next) {
         handler: userController.getCampaignParticipations,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des participations à des campaignes à partir de l’id\n' +
+          '- Récupération des participations à des campagnes à partir de l’id\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
           '- Les participations aux campagnes sont triées par ordre inverse de création' +
           '  (les plus récentes en premier)',
