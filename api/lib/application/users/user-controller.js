@@ -1,4 +1,3 @@
-
 const Boom = require('boom');
 const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
@@ -223,5 +222,5 @@ function _mapToInfrastructureErrors(error) {
   }
 
   logger.error(error);
-  return new InfrastructureError('Une erreur est survenue lors de la récupération des campagnes l’utilisateur');
+  return new InfrastructureError('Une erreur est survenue lors de la récupération des campagnes de l’utilisateur');
 }
