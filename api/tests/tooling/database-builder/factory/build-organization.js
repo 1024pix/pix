@@ -6,11 +6,13 @@ module.exports = function buildOrganization({
   id = faker.random.number(),
   type = 'PRO',
   name = faker.company.companyName(),
+  code = 'ABCD12',
   userId = buildUser().id,
+  createdAt = faker.date.recent()
 } = {}) {
 
   const values = {
-    id, type, name, userId,
+    id, type, name, code, createdAt, userId,
   };
 
   databaseBuffer.pushInsertable({

@@ -7,6 +7,10 @@ module.exports = Bookshelf.model('OrganizationAccess', {
 
   tableName: 'organizations-accesses',
 
+  user() {
+    return this.belongsTo('User', 'userId');
+  },
+
   organization() {
     return this.belongsTo('Organization', 'organizationId');
   },

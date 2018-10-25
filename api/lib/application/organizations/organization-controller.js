@@ -16,12 +16,25 @@ const controllerReplies = require('../../infrastructure/controller-replies');
 const logger = require('../../infrastructure/logger');
 const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
 const JSONAPI = require('../../interfaces/jsonapi');
-const { EntityValidationError } = require('../../domain/errors');
-const { InfrastructureError } = require('../../infrastructure/errors');
+const { EntityValidationError, NotFoundError } = require('../../domain/errors');
+const { InfrastructureError, NotFoundError : InfrastructureNotFoundError } = require('../../infrastructure/errors');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
+
+  getOrganizationDetails: (request, reply) => {
+
+    const organizationId = request.params.id;
+
+    return usecases.getOrganizationDetails({ organizationId })
+      .then(organizationSerializer.serialize)
+      .then(controllerReplies(reply).ok)
+      .catch((error) => {
+        const mappedError = _mapToInfraError(error);
+        return controllerReplies(reply).error(mappedError);
+      });
+  },
 
   create: (request, reply) => {
 
@@ -122,4 +135,11 @@ function _buildErrorMessage(errorMessage) {
       authorization: [errorMessage]
     }
   };
+}
+
+function _mapToInfraError(error) {
+  if (error instanceof NotFoundError) {
+    return new InfrastructureNotFoundError(error.message);
+  }
+  return error;
 }
