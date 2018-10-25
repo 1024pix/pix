@@ -1,4 +1,7 @@
-export default function(schema) {
+export default function(schema, request) {
+  const params = JSON.parse(request.requestBody);
+
+  const participantExternalId = params.data.attributes['participant-external-id'];
   const newAssessment = {
     'user-id': 'user_id',
     'user-name': 'Jane Doe',
@@ -7,5 +10,5 @@ export default function(schema) {
   newAssessment.type = 'SMART_PLACEMENT';
 
   const assessment = schema.assessments.create(newAssessment);
-  return schema.campaignParticipations.create({ assessment });
+  return schema.campaignParticipations.create({ assessment, participantExternalId });
 }

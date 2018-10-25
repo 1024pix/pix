@@ -5,6 +5,11 @@ import destroyApp from '../helpers/destroy-app';
 import { authenticateAsSimpleUser, startCampaignByCode } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 
+function _buildCampaignParticipation(schema) {
+  const assessment = schema.assessments.create({});
+  return schema.campaignParticipations.create({ assessment });
+}
+
 describe('Acceptance | Campaigns | Start Campaigns', function() {
 
   let application;
@@ -118,6 +123,26 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           });
         });
 
+        it('should save the external id when user fill in his id', async function() {
+          // given
+          const participantExternalId = 'monmail@truc.fr';
+          let receivedParticipantExternalId;
+          server.post('/campaign-participations', (schema, request) => {
+            const params = JSON.parse(request.requestBody);
+
+            receivedParticipantExternalId = params.data.attributes['participant-external-id'];
+
+            return _buildCampaignParticipation(schema);
+          });
+
+          // when
+          await fillIn('#id-pix-label', participantExternalId);
+          await click('.pix-button');
+
+          // then
+          expect(receivedParticipantExternalId).to.equal(participantExternalId);
+        });
+
         it('should go to the assessment when the user fill in his id', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
@@ -134,15 +159,36 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       });
 
       context('When campaign does not have external id', function() {
+
         beforeEach(async function() {
-          await startCampaignByCode('AZERTY2');
+          await visit('/campagnes/AZERTY2');
         });
 
         it('should redirect to assessment after clicking on start button in landing page', async function() {
+          // when
+          await click('.campaign-landing-page__start-button');
+
           // then
           return andThen(() => {
             expect(currentURL()).to.contains(/assessments/);
           });
+        });
+
+        it('should not save any external id after clicking on start button in landing page', async function() {
+          // given
+          let receivedParticipantExternalId;
+          server.post('/campaign-participations', (schema, request) => {
+            const params = JSON.parse(request.requestBody);
+
+            receivedParticipantExternalId = params.data.attributes['participant-external-id'];
+
+            return _buildCampaignParticipation(schema);
+          });
+          // when
+          await click('.campaign-landing-page__start-button');
+
+          // then
+          expect(receivedParticipantExternalId).to.equal(null);
         });
       });
 
