@@ -202,7 +202,7 @@ module.exports = {
 };
 
 // TODO refacto, extract and simplify
-const _replyErrorWithMessage = function (reply, errorMessage, statusCode) {
+const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
   reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
 
