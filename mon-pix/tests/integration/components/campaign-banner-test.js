@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe.only('Integration | Component | campaign-banner', function() {
+describe('Integration | Component | campaign-banner', function() {
   setupComponentTest('campaign-banner', {
     integration: true
   });
