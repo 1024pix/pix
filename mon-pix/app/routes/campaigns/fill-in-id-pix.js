@@ -21,8 +21,8 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     return store.query('campaign', { filter: { code: campaignCode } })
       .then((campaigns) => campaigns.get('firstObject'))
       .then((campaign) => {
-        if(campaign.get('idPixLabel') == null) {
-          return this.start(campaign, campaignCode);
+        if (!campaign.get('idPixLabel')) {
+          return this.start(campaign);
         }
         return { campaign , idPixLabel: campaign.get('idPixLabel'), campaignCode };
       });
@@ -30,10 +30,10 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   setupController(controller) {
     this._super(...arguments);
-    controller.set('start', (campaign, campaignCode, participantExternalId) => this.start(campaign, campaignCode, participantExternalId));
+    controller.set('start', (campaign, participantExternalId) => this.start(campaign, participantExternalId));
   },
 
-  start(campaign, participantExternalId) {
+  start(campaign, participantExternalId = null) {
     return this._createCampaignParticipation(campaign, participantExternalId)
       .then((campaignParticipation) => campaignParticipation.get('assessment'))
       .then((assessment) => this._startFirstChallenge(assessment));
