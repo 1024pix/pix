@@ -20,9 +20,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      API_HOST: process.env.API_HOST || '',
     },
-
-    apiHost: 'http://localhost:3000/api',
 
     googleFonts: [
       'Raleway',
@@ -48,6 +47,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.APP.API_HOST = 'http://localhost:3000';
   }
 
   if (environment === 'test') {
