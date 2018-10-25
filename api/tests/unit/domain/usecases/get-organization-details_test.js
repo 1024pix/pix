@@ -16,10 +16,10 @@ describe('Unit | UseCase | get-organization-details', () => {
     const promise = getOrganizationDetails({ organizationId, organizationRepository });
 
     // then
-    return expect(promise).to.be.fulfilled
-      .then((organization) => {
-        expect(organizationRepository.get).to.have.been.calledWith(organizationId);
-        expect(organization).to.be.an.instanceOf(Organization);
-      });
+    return promise.then((organization) => {
+      expect(organizationRepository.get).to.have.been.calledWith(organizationId);
+      expect(organization).to.be.an.instanceOf(Organization);
+      expect(organization).to.deep.equal(foundOrganization);
+    });
   });
 });

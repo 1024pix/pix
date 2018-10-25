@@ -579,6 +579,25 @@ describe('Acceptance | Application | organization-controller', () => {
           expect(response.result).to.deep.equal(expectedResult);
         });
       });
+
+      it('should return a 404 error when organization was not found', () => {
+        // given
+        options.url = '/api/organizations/999';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result).to.deep.equal({
+            'errors': [{
+              'code': '404',
+              'detail': 'Not found organization for ID 999',
+              'title': 'Not Found',
+            }]
+          });
+        });
+      });
     });
 
     context('Resource access management', () => {

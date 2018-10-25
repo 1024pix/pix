@@ -2,7 +2,7 @@ const faker = require('faker');
 const Organization = require('../../../lib/domain/models/Organization');
 const User = require('../../../lib/domain/models/User');
 
-function _buildUser(
+function _buildMember(
   {
     id = 1,
     firstName = 'Jean',
@@ -34,7 +34,7 @@ buildOrganization.withUser = function(
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     createdAt = new Date('2018-01-12'),
-    user = _buildUser()
+    user = _buildMember()
   } = {}
 ) {
   return new Organization({ id, code, name, type, createdAt, user });
@@ -48,8 +48,8 @@ buildOrganization.withMembers = function(
     type = 'SCO',
     createdAt = new Date('2018-01-12'),
     members = [
-      _buildUser({ id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }),
-      _buildUser({ id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com' }),
+      _buildMember({ id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }),
+      _buildMember({ id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com' }),
     ]
   } = {}
 ) {

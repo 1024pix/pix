@@ -30,7 +30,7 @@ describe('Unit | Serializer | organization-serializer', () => {
       });
     });
 
-    it('should include serialized user data with organization has a user', () => {
+    it('should include serialized user data when organization has a user', () => {
       // given
       const organization = factory.buildOrganization.withUser();
 

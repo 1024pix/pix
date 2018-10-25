@@ -36,7 +36,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sandbox.restore();
     });
 
-    it('should return a JSON API Organization', () => {
+    it('should call the usecase and serialize the response', () => {
       // given
       const organizationId = 1234;
       request = { params: { id: organizationId } };
