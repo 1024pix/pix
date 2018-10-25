@@ -11,13 +11,13 @@
   },
   "repository": "https://github.com/1024pix/admin",
   "scripts": {
-    "build": "ember build",
-    "dev": "ember serve",
+    "build": "npx ember build",
+    "dev": "npx ember serve",
     "lint:js": "eslint ./*.js app config lib server tests",
-    "start": "ember build --environment $BUILD_ENVIRONMENT",
+    "start": "npx ember build --environment $BUILD_ENVIRONMENT",
     "api": "(cd api && npm start)",
-    "test": "ember exam",
-    "coverage": "COVERAGE=true ember test"
+    "test": "npx ember exam",
+    "coverage": "COVERAGE=true npx ember test"
   },
   "devDependencies": {
     "bootstrap": "^4.1.1",
