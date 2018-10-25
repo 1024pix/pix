@@ -13,7 +13,7 @@ exports.register = (server, options, next) => {
           assign: 'hasRolePixMaster'
         }],
         handler: organisationController.create,
-        tags: ['api']
+        tags: ['api', 'organizations']
       }
     },
     {
@@ -21,7 +21,7 @@ exports.register = (server, options, next) => {
       path: '/api/organizations',
       config: {
         handler: organisationController.search,
-        tags: ['api'],
+        tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle peut être utilisée dans 3 cas : \n' +
@@ -40,7 +40,7 @@ exports.register = (server, options, next) => {
           assign: 'hasRolePixMaster'
         }],
         handler: organisationController.getOrganizationDetails,
-        tags: ['api'],
+        tags: ['api', 'organizations'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
           '- Elle permet de récupérer toutes les informations d’une organisation',
@@ -50,7 +50,10 @@ exports.register = (server, options, next) => {
     {
       method: 'GET',
       path: '/api/organizations/{id}/snapshots',
-      config: { handler: organisationController.getSharedProfiles, tags: ['api'] }
+      config: {
+        handler: organisationController.getSharedProfiles,
+        tags: ['api', 'organizations']
+      }
     },
     {
       method: 'GET',
@@ -61,7 +64,8 @@ exports.register = (server, options, next) => {
           method: snapshotsAuthorization.verify,
           assign: 'authorizationCheck'
         }],
-        handler: organisationController.exportSharedSnapshotsAsCsv, tags: ['api']
+        handler: organisationController.exportSharedSnapshotsAsCsv,
+        tags: ['api', 'organizations']
       }
     },
     {
@@ -69,7 +73,7 @@ exports.register = (server, options, next) => {
       path: '/api/organizations/{id}/campaigns',
       config: {
         handler: organisationController.getCampaigns,
-        tags: ['api'],
+        tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle retourne les campagnes rattachées à l’organisation.',
