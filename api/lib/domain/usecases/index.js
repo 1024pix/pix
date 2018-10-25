@@ -59,6 +59,7 @@ module.exports = injectDependencies({
   getResultsCampaignInCSVFormat: require('./get-results-campaign-in-csv-format'),
   getOrganizationCampaigns: require('./get-organization-campaigns'),
   getSkillReview: require('./get-skill-review'),
+  getUserCampaignParticipations: require('./get-user-campaign-participations'),
   getUserCertification: require('./get-user-certification'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),
   getUserWithOrganizationAccesses: require('./get-user-with-organization-accesses'),

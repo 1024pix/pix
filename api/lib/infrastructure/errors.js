@@ -39,6 +39,14 @@ class UnauthorizedError extends InfrastructureError {
   }
 }
 
+class ForbiddenError extends InfrastructureError {
+  constructor(message) {
+    super(message);
+    this.title = 'Forbidden';
+    this.code = 403;
+  }
+}
+
 class BadRequestError extends InfrastructureError {
   constructor(message) {
     super(message);
@@ -49,8 +57,9 @@ class BadRequestError extends InfrastructureError {
 
 module.exports = {
   BadRequestError,
-  InfrastructureError,
   ConflictError,
+  ForbiddenError,
+  InfrastructureError,
   MissingQueryParamError,
   NotFoundError,
   UnauthorizedError,

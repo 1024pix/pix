@@ -7,6 +7,7 @@ describe('Acceptance | API | Campaign Participations', () => {
   let user;
   let options;
   let assessment;
+  let campaign;
   let campaignParticipation;
 
   beforeEach(() => {
@@ -17,8 +18,11 @@ describe('Acceptance | API | Campaign Participations', () => {
   describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
 
     beforeEach(async () => {
+      campaign = databaseBuilder.factory.buildCampaign();
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         assessmentId: assessment.id,
+        campaign,
+        campaignId: campaign.id
       });
       await databaseBuilder.commit();
     });
@@ -42,6 +46,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         const expectedCampaignParticipation = [
           {
             'attributes': {
+              'created-at': campaignParticipation.createdAt,
               'is-shared': campaignParticipation.isShared,
               'shared-at': campaignParticipation.sharedAt,
             },
@@ -57,7 +62,7 @@ describe('Acceptance | API | Campaign Participations', () => {
               campaign: {
                 data: {
                   type: 'campaigns',
-                  id: campaignParticipation.campaignId.toString()
+                  id: campaign.id.toString()
                 }
               }
             }
@@ -139,7 +144,6 @@ describe('Acceptance | API | Campaign Participations', () => {
 
   describe('POST /api/campaign-participations', () => {
 
-    let campaignInDb;
     const campaignId = 132435;
     const options = {
       method: 'POST',
@@ -164,7 +168,7 @@ describe('Acceptance | API | Campaign Participations', () => {
     };
 
     beforeEach(async () => {
-      campaignInDb = databaseBuilder.factory.buildCampaign({ id: campaignId });
+      databaseBuilder.factory.buildCampaign({ id: campaignId });
       await databaseBuilder.commit();
     });
 
@@ -176,9 +180,9 @@ describe('Acceptance | API | Campaign Participations', () => {
       const expectedResult = {
         data: {
           type: 'campaign-participations',
-          attributes: { 'is-shared': false, 'shared-at': null },
+          attributes: { 'is-shared': false, 'shared-at': null, 'created-at': null },
           relationships: {
-            campaign: { data: { type: 'campaigns', id: campaignInDb.id.toString() } },
+            campaign: { data: null },
             assessment: { data: { type: 'assessments' } }
           }
         }
