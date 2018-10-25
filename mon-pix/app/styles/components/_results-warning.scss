@@ -1,0 +1,18 @@
+.results-warning {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1190px;
+
+  &__warning-message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 50px;
+    margin-top: 10px;
+
+    @include device-is('tablet') {
+      padding-left: 100px;
+    }
+  }
+}
