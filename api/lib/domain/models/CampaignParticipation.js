@@ -7,6 +7,7 @@ class CampaignParticipation {
     // attributes
     isShared,
     sharedAt,
+    createdAt,
     participantExternalId,
     // includes
     campaign,
@@ -22,6 +23,7 @@ class CampaignParticipation {
     this.participantExternalId = participantExternalId;
     this.isShared = isShared;
     this.sharedAt = sharedAt;
+    this.createdAt = createdAt;
     this.userId = userId;
   }
 

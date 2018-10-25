@@ -10,7 +10,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
   let requestedUserId;
   const userRepository = { getWithOrganizationAccesses: () => undefined };
 
-  it('should rejetcs a NotAuthorized error if authenticated user ask for another user organizations accesses', () => {
+  it('should reject a NotAuthorized error if authenticated user ask for another user organizations accesses', () => {
     // given
     authenticatedUserId = 1;
     requestedUserId = 2;
