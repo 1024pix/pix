@@ -1,14 +1,43 @@
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const BookshelfOrganization = require('../data/organization');
+const Organization = require('../../domain/models/Organization');
+const User = require('../../domain/models/User');
+
+function _toDomain(bookshelfOrganization) {
+
+  const rawOrganization = bookshelfOrganization.toJSON();
+
+  const organization = new Organization({
+    id: rawOrganization.id,
+    code: rawOrganization.code,
+    name: rawOrganization.name,
+    type: rawOrganization.type,
+  });
+
+  let members = [];
+  if (rawOrganization.organizationAccesses) {
+    members = rawOrganization.organizationAccesses.map((organizationAccess) => {
+      return new User({
+        id: organizationAccess.user.id,
+        firstName: organizationAccess.user.firstName,
+        lastName: organizationAccess.user.lastName,
+        email: organizationAccess.user.email,
+      });
+    });
+  }
+  organization.members = members;
+
+  return organization;
+}
 
 module.exports = {
 
   create(domainOrganization) {
-    const organizationRawData = _.omit(domainOrganization, ['user', 'targetProfileShares']);
+    const organizationRawData = _.omit(domainOrganization, ['user', 'members', 'targetProfileShares']);
     return new BookshelfOrganization(organizationRawData)
       .save()
-      .then((bookshelfOrganization) => bookshelfOrganization.toDomainEntity());
+      .then(_toDomain);
   },
 
   isCodeAvailable(code) {
@@ -35,8 +64,15 @@ module.exports = {
   get(id) {
     return BookshelfOrganization
       .where({ id })
-      .fetch({ require: true, withRelated: ['targetProfileShares', 'targetProfileShares.targetProfile']  })
-      .then((organization) => organization.toDomainEntity())
+      .fetch({
+        require: true,
+        withRelated: [
+          'organizationAccesses.user',
+          'organizationAccesses.organizationRole',
+          'targetProfileShares.targetProfile'
+        ]
+      })
+      .then(_toDomain)
       .catch((err) => {
         if (err instanceof BookshelfOrganization.NotFoundError) {
           throw new NotFoundError(`Not found organization for ID ${id}`);
@@ -49,7 +85,7 @@ module.exports = {
     return BookshelfOrganization
       .where(filters)
       .fetchAll()
-      .then((organizations) => organizations.models.map((organization) => organization.toDomainEntity()));
+      .then((organizations) => organizations.models.map(_toDomain));
   },
 
   // TODO return domain object
