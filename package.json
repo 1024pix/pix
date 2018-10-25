@@ -14,7 +14,6 @@
     "build": "npx ember build",
     "dev": "npx ember serve",
     "lint:js": "eslint ./*.js app config lib server tests",
-    "start": "npx ember build --environment $BUILD_ENVIRONMENT",
     "api": "(cd api && npm start)",
     "test": "npx ember exam",
     "coverage": "COVERAGE=true npx ember test",
