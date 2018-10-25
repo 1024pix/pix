@@ -17,7 +17,8 @@
     "start": "npx ember build --environment $BUILD_ENVIRONMENT",
     "api": "(cd api && npm start)",
     "test": "npx ember exam",
-    "coverage": "COVERAGE=true npx ember test"
+    "coverage": "COVERAGE=true npx ember test",
+    "scalingo-postbuild": "npx ember build --environment $BUILD_ENVIRONMENT"
   },
   "devDependencies": {
     "bootstrap": "^4.1.1",
