@@ -133,7 +133,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           expect(replyStub).to.have.been.calledWith(serializedOrganization);
         });
       });
-
     });
 
     context('error cases', () => {

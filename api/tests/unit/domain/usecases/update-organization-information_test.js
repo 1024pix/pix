@@ -1,32 +1,36 @@
 const { expect, sinon, factory } = require('../../../test-helper');
-const _ = require('lodash');
 const updateOrganizationInformation = require('../../../../lib/domain/usecases/update-organization-information');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-organization-information', () => {
 
-  context('when organization exists', () => {
+  let originalOrganization;
+  let organizationRepository;
 
-    let originalOrganization;
-    let organizationRepository;
-
-    beforeEach(() => {
-      originalOrganization = factory.buildOrganization({
-        name: 'Old name',
-        type: 'SCO',
-        logoUrl: 'http://old.logo.url',
-      });
-      organizationRepository = {
-        get: sinon.stub().resolves(originalOrganization),
-        update: sinon.stub().callsFake((modifiedOrganization) => modifiedOrganization)
-      };
+  beforeEach(() => {
+    originalOrganization = factory.buildOrganization({
+      name: 'Old name',
+      type: 'SCO',
+      logoUrl: 'http://old.logo.url',
     });
+    organizationRepository = {
+      get: sinon.stub().resolves(originalOrganization),
+      update: sinon.stub().callsFake((modifiedOrganization) => modifiedOrganization)
+    };
+  });
+
+  context('when organization exists', () => {
 
     it('should allow to update the organization name (only) if modified', () => {
       // given
       const newName = 'New name';
 
       // when
-      const promise = updateOrganizationInformation({ id: originalOrganization.id, name: newName, organizationRepository });
+      const promise = updateOrganizationInformation({
+        id: originalOrganization.id,
+        name: newName,
+        organizationRepository
+      });
 
       // then
       return promise.then((resultOrganization) => {
@@ -41,7 +45,11 @@ describe('Unit | UseCase | update-organization-information', () => {
       const newType = 'PRO';
 
       // when
-      const promise = updateOrganizationInformation({ id: originalOrganization.id, type: newType, organizationRepository });
+      const promise = updateOrganizationInformation({
+        id: originalOrganization.id,
+        type: newType,
+        organizationRepository
+      });
 
       // then
       return promise.then((resultOrganization) => {
@@ -56,7 +64,11 @@ describe('Unit | UseCase | update-organization-information', () => {
       const newLogoUrl = 'http://new.logo.url';
 
       // when
-      const promise = updateOrganizationInformation({ id: originalOrganization.id, logoUrl: newLogoUrl, organizationRepository });
+      const promise = updateOrganizationInformation({
+        id: originalOrganization.id,
+        logoUrl: newLogoUrl,
+        organizationRepository
+      });
 
       // then
       return promise.then((resultOrganization) => {
@@ -68,4 +80,24 @@ describe('Unit | UseCase | update-organization-information', () => {
       });
     });
   });
+
+  context('when an error occurred', () => {
+
+    it('should reject a NotFoundError (DomainError) when the organization does not exist', () => {
+      // given
+      const error = new NotFoundError('Not found organization');
+      organizationRepository.get = sinon.stub().rejects(error);
+
+      // when
+      const promise = updateOrganizationInformation({
+        id: originalOrganization.id,
+        logoUrl: 'http://new.logo.url',
+        organizationRepository
+      });
+
+      // then
+      return expect(promise).to.be.rejectedWith(NotFoundError);
+    });
+  });
+
 });
