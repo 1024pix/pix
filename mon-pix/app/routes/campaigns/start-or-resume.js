@@ -10,10 +10,12 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   campaignCode: null,
   campaign: null,
   userHasSeenLanding: false,
+  userHasSeenTuto: false,
 
   beforeModel(transition) {
     this.set('campaignCode', transition.params['campaigns.start-or-resume'].campaign_code);
     this.set('userHasSeenLanding', transition.queryParams.hasSeenLanding);
+    this.set('userHasSeenTuto', transition.queryParams.hasSeenTuto);
 
     if (this._userIsUnauthenticated() && !this.get('userHasSeenLanding')) {
       return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
@@ -43,6 +45,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         const assessment = smartPlacementAssessments.get('firstObject');
         return this._fetchChallenge(assessment)
           .then((challenge) => {
+            if(!this.get('userHasSeenTuto') && assessment.answers.length === 0) {
+              return this.transitionTo('campaigns.tutorials', this.get('campaignCode'));
+            }
             if (challenge) {
               return this.transitionTo('assessments.challenge', { assessment, challenge });
             } else {
