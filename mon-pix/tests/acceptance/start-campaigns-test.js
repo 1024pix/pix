@@ -73,7 +73,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('/didacticiel');
           });
         });
       });
@@ -89,7 +89,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         it('should redirect to assessment after connexion', async function() {
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('/didacticiel');
           });
         });
       });
@@ -143,10 +143,21 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           expect(receivedParticipantExternalId).to.equal(participantExternalId);
         });
 
-        it('should go to the assessment when the user fill in his id', async function() {
+        it('should show the tutorials pages after external id', async function() {
+          fillIn('#id-pix-label', 'monmail@truc.fr');
+          await click('.pix-button');
+
+          // then
+          return andThen(() => {
+            expect(currentURL()).to.contains('/didacticiel');
+          });
+        });
+
+        it('should go to the assessment when the user fill in his id and pass ', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
           await click('.pix-button');
+          await click('.start-first-question');
 
           // then
           return andThen(() => {
@@ -165,8 +176,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         });
 
         it('should redirect to assessment after clicking on start button in landing page', async function() {
-          // when
-          await click('.campaign-landing-page__start-button');
+          // given
+          await click('.start-first-question');
 
           // then
           return andThen(() => {
