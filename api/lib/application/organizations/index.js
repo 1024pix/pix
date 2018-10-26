@@ -48,6 +48,22 @@ exports.register = (server, options, next) => {
       }
     },
     {
+      method: 'PATCH',
+      path: '/api/organizations/{id}',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: organisationController.updateOrganizationInformation,
+        tags: ['api', 'organizations'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de mettre à jour tout ou partie d’une organisation',
+        ]
+      }
+    },
+    {
       method: 'GET',
       path: '/api/organizations/{id}/snapshots',
       config: {
