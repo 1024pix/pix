@@ -1,19 +1,20 @@
-const { expect, sinon, factory } = require('../../../test-helper');
-const Hapi = require('hapi');
+const { expect, sinon, factory, HttpTestServer } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+
+const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Integration | Application | Organizations | organization-controller', () => {
 
   const organization = factory.buildOrganization();
 
-  let server;
+  let httpTestServer;
 
   beforeEach(() => {
     sinon.stub(usecases, 'updateOrganizationInformation');
     sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
-
+    httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
   afterEach(() => {
@@ -23,35 +24,27 @@ describe('Integration | Application | Organizations | organization-controller', 
 
   describe('#updateOrganizationInformation', () => {
 
-    const options = {
-      method: 'PATCH',
-      url: `/api/organizations/${organization.id}`,
-      payload: {
-        data: {
-          type: 'organizations',
-          id: '1',
-          attributes: {
-            'name': 'The name of the organization',
-            'type': 'PRO',
-            'code': 'ABCD12',
-            'logo-url': 'http://log.url',
-          }
+    const payload = {
+      data: {
+        type: 'organizations',
+        id: '1',
+        attributes: {
+          'name': 'The name of the organization',
+          'type': 'PRO',
+          'code': 'ABCD12',
+          'logo-url': 'http://log.url',
         }
-      },
+      }
     };
 
-    context('Green case', () => {
+    context('Success cases', () => {
 
       it('should resolve a 200 HTTP response', () => {
         // given
         usecases.updateOrganizationInformation.resolves(organization);
 
-        server = new Hapi.Server();
-        server.connection({ port: null });
-        server.register({ register: require('../../../../lib/application/organizations') });
-
         // when
-        const promise = server.inject(options);
+        const promise = httpTestServer.request('PATCH', '/api/organizations/1234', payload);
 
         // then
         return promise.then((response) => {
@@ -59,25 +52,47 @@ describe('Integration | Application | Organizations | organization-controller', 
         });
       });
 
+      it('should return a JSON API organization', () => {
+        // given
+        usecases.updateOrganizationInformation.resolves(organization);
+
+        // when
+        const promise = httpTestServer.request('PATCH', '/api/organizations/1234', payload);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result.data.type).to.equal('organizations');
+        });
+      });
     });
 
-    context('Red cases', () => {
+    context('Error cases', () => {
 
       it('should resolve a 404 HTTP response when organization does not exist', () => {
         // given
         const error = new NotFoundError('Organization not found');
         usecases.updateOrganizationInformation.rejects(error);
 
-        server = new Hapi.Server();
-        server.connection({ port: null });
-        server.register({ register: require('../../../../lib/application/organizations') });
-
         // when
-        const promise = server.inject(options);
+        const promise = httpTestServer.request('PATCH', '/api/organizations/1234', payload);
 
         // then
         return promise.then((response) => {
           expect(response.statusCode).to.equal(404);
+        });
+      });
+
+      it('should resolve a 500 HTTP response when an unexpected exception occurred', () => {
+        // given
+        usecases.updateOrganizationInformation.rejects(new Error());
+
+        // when
+        const promise = httpTestServer.request('PATCH', '/api/organizations/1234', payload);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(500);
+          expect(response.result.errors[0].code).to.equal('500');
         });
       });
     });
