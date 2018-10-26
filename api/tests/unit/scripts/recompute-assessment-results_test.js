@@ -5,6 +5,16 @@ describe('Unit | Scripts | recompute-assessment-results', () => {
 
   describe('#recomputeScore', () => {
 
+    let consoleLog;
+
+    beforeEach(() => {
+      consoleLog = sinon.stub(console, 'log');
+    });
+
+    afterEach(() => {
+      consoleLog.restore();
+    });
+
     it('shoud call request with assessment informations', () => {
       // given
       const listOfAssessmentsToRecompute = [123, 987];
