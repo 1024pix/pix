@@ -16,6 +16,7 @@ export default BaseRoute.extend({
     return RSVP.hash({
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
+      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     }).catch((err) => {
       const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {
@@ -28,8 +29,6 @@ export default BaseRoute.extend({
     const requiredDatas = {};
 
     const userId = this.get('session.data.authenticated.userId');
-    const assessmentId = modelResult.assessment.id;
-    const challengeId = modelResult.challenge.id;
     const campaignCode = modelResult.assessment.codeCampaign;
 
     if (modelResult.assessment.get('isPlacement')
@@ -37,33 +36,24 @@ export default BaseRoute.extend({
       || modelResult.assessment.get('isDemo')
     ) {
 
-      requiredDatas.answers = this._findAnswers({ assessmentId, challengeId });
-      return RSVP.hash(requiredDatas)
-        .then((hash) => {
-          modelResult.answers = hash.answers;
-          return modelResult;
-        });
+      return Promise.resolve(modelResult);
     }
 
     if (modelResult.assessment.get('isCertification')) {
-      requiredDatas.answers = this._findAnswers({ assessmentId, challengeId });
       requiredDatas.user = this._getUser(userId);
       return RSVP.hash(requiredDatas)
         .then((hash) => {
           modelResult.user = hash.user;
-          modelResult.answers = hash.answers;
           return modelResult;
         });
     }
 
     if (modelResult.assessment.get('isSmartPlacement')) {
-      requiredDatas.answers = this._findAnswers({ assessmentId, challengeId });
       requiredDatas.campaigns = this._findCampaigns({ campaignCode });
 
       return RSVP.hash(requiredDatas)
         .then((hash) => {
           modelResult.campaign = hash.campaigns.get('firstObject');
-          modelResult.answers = hash.answers;
           modelResult.user = null;
           return modelResult;
         });
