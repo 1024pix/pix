@@ -70,26 +70,26 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
       sinon.assert.calledWith(findRecordStub, 'assessment', params.assessment_id);
       sinon.assert.calledWith(findRecordStub, 'challenge', params.challenge_id);
     });
-  });
-
-  describe('#afterModel', function() {
     it('should call queryRecord to find answer', function() {
       // given
       model.assessment.get.withArgs('isCertification').returns(false);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
 
       // when
-      const promise = route.afterModel(model);
+      const promise = route.model(params);
 
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(queryRecordStub);
         sinon.assert.calledWith(queryRecordStub, 'answer', {
-          assessment: model.assessment.id,
-          challenge: model.challenge.id
+          assessment: params.assessment_id,
+          challenge: params.challenge_id
         });
       });
     });
+  });
+
+  describe('#afterModel', function() {
 
     it('should call findRecord for user if assessment is certification', function() {
       // given
