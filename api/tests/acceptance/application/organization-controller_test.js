@@ -557,6 +557,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'code': organization.code,
               'name': organization.name,
               'type': organization.type,
+              'logo-url': organization.logoUrl,
             },
             'id': organization.id,
             'relationships': {

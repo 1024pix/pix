@@ -17,14 +17,13 @@ const logger = require('../../infrastructure/logger');
 const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
 const JSONAPI = require('../../interfaces/jsonapi');
 const { EntityValidationError, NotFoundError } = require('../../domain/errors');
-const { InfrastructureError, NotFoundError : InfrastructureNotFoundError } = require('../../infrastructure/errors');
+const { NotFoundError : InfrastructureNotFoundError } = require('../../infrastructure/errors');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
   getOrganizationDetails: (request, reply) => {
-
     const organizationId = request.params.id;
 
     return usecases.getOrganizationDetails({ organizationId })
@@ -37,7 +36,6 @@ module.exports = {
   },
 
   create: (request, reply) => {
-
     const { name, type } = request.payload.data.attributes;
 
     return usecases.createOrganization({ name, type })
@@ -47,8 +45,20 @@ module.exports = {
         if (error instanceof EntityValidationError) {
           return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
-        const serverError = new InfrastructureError('Une erreur est survenue lors de la création de l’organisation');
-        return controllerReplies(reply).error(serverError);
+        return controllerReplies(reply).error(error);
+      });
+  },
+
+  updateOrganizationInformation: (request, reply) => {
+    const id = request.payload.data.id;
+    const { name, type, 'logo-url': logoUrl } = request.payload.data.attributes;
+
+    return usecases.updateOrganizationInformation({ id, name, type, logoUrl })
+      .then(organizationSerializer.serialize)
+      .then(controllerReplies(reply).ok)
+      .catch((error) => {
+        const mappedError = _mapToInfraError(error);
+        return controllerReplies(reply).error(mappedError);
       });
   },
 
@@ -67,6 +77,7 @@ module.exports = {
   getCampaigns(request, reply) {
     const organizationId = request.params.id;
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
+
     return usecases.getOrganizationCampaigns({ organizationId })
       .then((campaigns) => campaignSerializer.serialize(campaigns, tokenForCampaignResults))
       .then(controllerReplies(reply).ok)

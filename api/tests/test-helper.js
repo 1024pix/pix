@@ -81,6 +81,7 @@ module.exports = {
   factory: require('./tooling/factory'),
   databaseBuilder,
   generateValidRequestAuhorizationHeader,
+  HttpTestServer: require('./tooling/server/http-test-server'),
   insertUserWithRolePixMaster,
   insertUserWithStandardRole,
   knex,
