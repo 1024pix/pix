@@ -70,5 +70,6 @@ module.exports = injectDependencies({
   shareCampaignResult: require('./share-campaign-result'),
   startCampaignParticipation: require('./start-campaign-participation'),
   updateCertification: require('./update-certification'),
+  updateOrganizationInformation: require('./update-organization-information'),
   updateUserPassword: require('./update-user-password'),
 });

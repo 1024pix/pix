@@ -13,6 +13,7 @@ function _toDomain(bookshelfOrganization) {
     code: rawOrganization.code,
     name: rawOrganization.name,
     type: rawOrganization.type,
+    logoUrl: rawOrganization.logoUrl,
   });
 
   let members = [];
@@ -33,10 +34,22 @@ function _toDomain(bookshelfOrganization) {
 
 module.exports = {
 
-  create(domainOrganization) {
-    const organizationRawData = _.omit(domainOrganization, ['user', 'members', 'targetProfileShares']);
-    return new BookshelfOrganization(organizationRawData)
-      .save()
+  create(organization) {
+
+    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'code']);
+
+    return new BookshelfOrganization()
+      .save(organizationRawData)
+      .then(_toDomain);
+  },
+
+  update(organization) {
+
+    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl']);
+
+    return new BookshelfOrganization({ id: organization.id })
+      .save(organizationRawData, { patch: true })
+      .then((model) => model.refresh())
       .then(_toDomain);
   },
 
