@@ -19,11 +19,11 @@
 }
 
 .campaign-banner__title {
-  font-size: 23px;
+  font-size: 1.4rem;
   font-family: $font-open-sans;
 
   @include device-is('desktop') {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
 }
 
