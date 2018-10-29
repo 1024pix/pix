@@ -72,10 +72,6 @@ export default BaseRoute.extend({
     return this.get('store').findRecord('user', userId);
   },
 
-  _findAnswers({ assessmentId, challengeId }) {
-    return this.get('store').queryRecord('answer', { assessment: assessmentId, challenge: challengeId });
-  },
-
   _findCampaigns({ campaignCode }) {
     return this.get('store').query('campaign', { filter: { code: campaignCode } });
   },
