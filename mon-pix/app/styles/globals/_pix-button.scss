@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 5px;
+  border: none;
   height: 50px;
   padding: 0 40px;
   background-color: $pix-blue;
@@ -11,6 +12,10 @@
   font-family: $font-lato;
   font-size: 1.6rem;
   text-decoration: none!important;
+
+  &--extra-big {
+    width: 280px;
+  }
 
   &:active,
   &:focus,
