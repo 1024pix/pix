@@ -46,7 +46,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         return this._fetchChallenge(assessment)
           .then((challenge) => {
             if(!this.get('userHasSeenTuto') && assessment.answers.length === 0) {
-              return this.transitionTo('campaigns.tutorials', this.get('campaignCode'));
+              return this.transitionTo('campaigns.tutorial', this.get('campaignCode'));
             }
             if (challenge) {
               return this.transitionTo('assessments.challenge', { assessment, challenge });
