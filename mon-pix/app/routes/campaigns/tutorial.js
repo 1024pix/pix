@@ -5,7 +5,7 @@ export default BaseRoute.extend({
 
   campaignCode: null,
   tutorialPageId: 0,
-  campaignTutorial: campaignTutorial,
+  tutorial: campaignTutorial.tutorial,
 
   _setupPaging(numberOfPages, currentTutorialPageId) {
     const classOfTutorialPages = new Array(numberOfPages);
@@ -15,13 +15,13 @@ export default BaseRoute.extend({
 
   model(params) {
     this.set('campaignCode', params.campaign_code);
-    const maxTutorialPageId = campaignTutorial.tutorial.length -1;
+    const maxTutorialPageId = this.tutorial.length - 1;
     return {
-      title: this.campaignTutorial.tutorial[this.tutorialPageId].title,
-      icon: this.campaignTutorial.tutorial[this.tutorialPageId].icon,
-      explanation: this.campaignTutorial.tutorial[this.tutorialPageId].explanation,
+      title: this.tutorial[this.tutorialPageId].title,
+      icon: this.tutorial[this.tutorialPageId].icon,
+      explanation: this.tutorial[this.tutorialPageId].explanation,
       showNextButton: this.tutorialPageId < maxTutorialPageId,
-      paging: this._setupPaging(this.campaignTutorial.tutorial.length, this.tutorialPageId)
+      paging: this._setupPaging(this.tutorial.length, this.tutorialPageId)
     };
   },
 
@@ -30,14 +30,14 @@ export default BaseRoute.extend({
       this.transitionTo('campaigns.start-or-resume', this.campaignCode, {
         queryParams: {
           hasSeenLanding: true,
-          hasSeenTuto: true
+          hasJustConsultedTutorial: true
         }
       });
     },
 
     next() {
       const nextTutorialPageId = this.tutorialPageId + 1;
-      if (nextTutorialPageId < this.campaignTutorial.tutorial.length) {
+      if (nextTutorialPageId < this.tutorial.length) {
         this.set('tutorialPageId', nextTutorialPageId);
         this.refresh();
       }

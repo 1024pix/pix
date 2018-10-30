@@ -30,7 +30,7 @@ describe('Unit | Route | campaigns/tutorial', function() {
   beforeEach(function() {
     route = this.subject();
     route.transitionTo = sinon.stub();
-    route.campaignTutorial = tutorialPages;
+    route.tutorial = tutorialPages.tutorial;
   });
 
   describe('#model', function() {
@@ -38,7 +38,7 @@ describe('Unit | Route | campaigns/tutorial', function() {
       // when
       const tutorialPage = route.model({ campaign_code: 'AZERTY' });
 
-      //then
+      // then
       expect(tutorialPage.title).to.equal(tutorialPages.tutorial[0].title);
       expect(tutorialPage.showNextButton).to.equal(true);
       expect(tutorialPage.paging[0]).to.equal('dot__active');
@@ -55,7 +55,7 @@ describe('Unit | Route | campaigns/tutorial', function() {
       // when
       route.send('next');
 
-      //then
+      // then
       expect(route.get('tutorialPageId')).to.equal(1);
       sinon.assert.calledWith(route.refresh);
 
@@ -69,7 +69,7 @@ describe('Unit | Route | campaigns/tutorial', function() {
       // when
       route.send('next');
 
-      //then
+      // then
       expect(route.get('tutorialPageId')).to.equal(1);
       sinon.assert.notCalled(route.refresh);
 
