@@ -8,11 +8,6 @@ function cacheIndividually(records, tablename) {
   }));
 }
 
-function loadTable(tableName) {
-  return airtable.findRecords(tableName)
-    .then((records) => cacheIndividually(records, tableName));
-}
-
 module.exports = {
 
   loadAllTables() {
@@ -23,7 +18,12 @@ module.exports = {
       'Epreuves',
       'Tests',
       'Tutoriels',
-    ].map(loadTable));
+    ].map(this.loadTable));
   },
+
+  loadTable(tableName) {
+    return airtable.findRecords(tableName)
+      .then((records) => cacheIndividually(records, tableName));
+  }
 
 };
