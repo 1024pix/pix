@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## 2.6.0 (30/10/2018) 
+
+- [#244](https://github.com/1024pix/pix/pull/244) [FEATURE] Ajout d'un message pour prévenir l'utilisateur que le résultats de ses campagnes ne sont pas inclus dans son profil (PF-400).
+- [#225](https://github.com/1024pix/pix/pull/225) [FEATURE] Redirection vers la page de CGU sur Pix Orga (PO-15).
+- [#231](https://github.com/1024pix/pix/pull/231) [FEATURE] Ajout d'un titre lors de la création d'une campagne (PO-73).
+- [#238](https://github.com/1024pix/pix/pull/238) [FEATURE] Ajout d'un bandeau pour reprendre une campagne (PF-269).
+- [#242](https://github.com/1024pix/pix/pull/242) [FEATURE] Ajout de la gestion du logo d'une organisation dans Pix Admin (PA-53).
+- [#248](https://github.com/1024pix/pix/pull/248) [FEATURE] Remplacement du logo normal par le logo beta (PO-172).
+- [#228](https://github.com/1024pix/pix/pull/228) [BUGFIX] Redirection après reprise des campagnes (PF-399).
+- [#240](https://github.com/1024pix/pix/pull/240) [BUGFIX] Les documents 'embed' fonctionnent maintenant sous Internet Explorer (PF-432).
+- [#245](https://github.com/1024pix/pix/pull/245) [BUGFIX] Ajout d'une règle CSS pour empêcher le texte du bouton d'export de s'afficher sur 2 lignes (PO-130).
+- [#246](https://github.com/1024pix/pix/pull/246) [BUGFIX] Sauvegarde de l'identifiant au lieu du code campagne dans le champ 'participantExternalId'.
+- [#247](https://github.com/1024pix/pix/pull/247) [BUGFIX] Ajout de polyfill à ember-cli-babel pour un meilleur support ES6 (PF-433).
+- [#220](https://github.com/1024pix/pix/pull/220) [TECH] Ajout d'un style guide pour Pix-Orga (PO-170).
+- [#221](https://github.com/1024pix/pix/pull/221) [TECH] Utilisation d'un "subdir buildpack" pour séparer le déploiement des 3 applications.
+- [#234](https://github.com/1024pix/pix/pull/234) [TECH] Simplification des requêtes à Airtable (PF-415).
+- [#235](https://github.com/1024pix/pix/pull/235) [TECH] Suppression du code lié au Followers.
+- [#249](https://github.com/1024pix/pix/pull/249) [TECH] Supprime les messages de log dans la sortie console des tests.
+
 ## 2.5.0 (16/10/2018) 
 
 - [#226](https://github.com/1024pix/pix/pull/226) [FEATURE] Suppression temporaire des colonnes non renseignées et correction de valeurs inversées par rapport aux colonnes dans le CSV téléchargeable (PO-162).
