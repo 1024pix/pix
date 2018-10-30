@@ -12,17 +12,26 @@
       </div>
     </div>
     <div class="campaign-landing-page__start__text">
-      <p class="campaign-landing-page__start__text title">Commencez votre parcours</p>
-      <p class="campaign-landing-page__start__text announcement">Démarrez votre parcours d'évaluation personnalisé.<br>
+      <p class="campaign-landing-page__start__text__title">Commencez votre parcours</p>
+      <p class="campaign-landing-page__start__text__announcement">Démarrez votre parcours d'évaluation personnalisé.<br>
         Inscrivez-vous ou connectez-vous sur la plateforme Pix et lancez votre test.</p>
       <button class="campaign-landing-page__start-button pix-button"
         {{action "startCampaignParticipation" model}}> Je commence
       </button>
-      <p class="campaign-landing-page__start__text legal">
+      <p class="campaign-landing-page__start__text__legal">
         En démarrant, les informations relatives à votre avancée seront transmises à l'organisateur du parcours. Les
         résultats des tests ne seront transmis qu’avec votre consentement.
       </p>
     </div>
+
+    {{#if model.customLandingPageText}}
+      <hr class="campaign-landing-page__dash-line">
+
+      <div class="campaign-landing-page__start__text">
+        {{markdown-to-html class="campaign-landing-page__start__text__custom-text" markdown=model.customLandingPageText}}
+       </div>
+    {{/if}}
+
   </div>
 
   <div class="campaign-landing-page__container__details">
@@ -52,7 +61,7 @@
         <a href="https://pix.fr/competences" target="_BLANK">En savoir plus.</a>
       </p>
 
-      <hr class="campaign-landing-page__details__dash-line">
+      <hr class="campaign-landing-page__dash-line">
 
       <div class="campaign-landing-page__details__measure__container">
         <img src="{{rootURL}}/images/landing-page/icon-conseil.svg">
@@ -66,7 +75,7 @@
         </div>
 
       </div>
-      <hr class="campaign-landing-page__details__dash-line">
+      <hr class="campaign-landing-page__dash-line">
 
       <div class="campaign-landing-page__details__measure__container">
         <img src="{{rootURL}}/images/landing-page/icon-certif.svg">
