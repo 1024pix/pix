@@ -13,6 +13,7 @@ module.exports = [
     name: 'Campagne 2',
     code: 'AZERTY456',
     title: 'Parcours recherche avancée',
+    customLandingPageText: 'Ce parcours est proposé aux collaborateurs de Dragon & Co',
     organizationId: 1,
     creatorId: 2,
     targetProfileId: 1,

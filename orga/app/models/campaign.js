@@ -8,6 +8,7 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   createdAt: DS.attr('date'),
   idPixLabel: DS.attr('string'),
+  customLandingPageText: DS.attr('string'),
   // TODO remove organizationId and work only with the relationship
   organizationId: DS.attr('number'),
   organization: DS.belongsTo('organization'),
