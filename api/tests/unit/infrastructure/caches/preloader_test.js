@@ -200,4 +200,27 @@ describe('Unit | Infrastructure | preloader', () => {
     });
   });
 
+  describe('#loadTable', () => {
+    let promise = null;
+
+    beforeEach(() => {
+      // given
+
+      airtable.findRecords
+        .withArgs('Epreuves')
+        .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
+
+      promise = preloader.loadTable('Epreuves');
+    });
+
+    it('should fetch all challenges and cache them individually', () => {
+      // then
+      return expect(promise).to.have.been.fulfilled
+        .then(() => {
+          expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge1', airtableChallenge_1._rawJson);
+          expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge2', airtableChallenge_2._rawJson);
+        });
+    });
+  });
+
 });
