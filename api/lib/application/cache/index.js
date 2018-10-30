@@ -5,14 +5,14 @@ exports.register = function(server, options, next) {
 
   server.route([
     {
-      method: 'DELETE',
+      method: 'PATCH',
       path: '/api/cache/{cachekey}',
       config: {
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: CacheController.removeCacheEntry,
+        handler: CacheController.reloadCacheEntry,
         tags: ['api', 'cache'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',

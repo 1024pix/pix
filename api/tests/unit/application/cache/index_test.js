@@ -10,7 +10,7 @@ describe('Unit | Router | cache-router', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(cacheController, 'removeCacheEntry').callsFake((request, reply) => reply().code(204));
+    sandbox.stub(cacheController, 'reloadCacheEntry').callsFake((request, reply) => reply().code(204));
     sandbox.stub(cacheController, 'removeAllCacheEntries').callsFake((request, reply) => reply().code(204));
     sandbox.stub(cacheController, 'preloadCacheEntries').callsFake((request, reply) => reply().code(204));
     sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
@@ -24,12 +24,12 @@ describe('Unit | Router | cache-router', () => {
     sandbox.restore();
   });
 
-  describe('DELETE /api/cache/{cachekey}', function() {
+  describe('PATCH /api/cache/{cachekey}', function() {
 
     it('should exist', () => {
       // given
       const options = {
-        method: 'DELETE',
+        method: 'PATCH',
         url: '/api/cache/test-cache-key'
       };
 

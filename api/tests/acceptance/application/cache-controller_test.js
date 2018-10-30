@@ -3,13 +3,13 @@ const server = require('../../../server');
 
 describe('Acceptance | Controller | cache-controller', () => {
 
-  describe('DELETE /api/cache/{cachekey}', () => {
+  describe('PATCH /api/cache/{cachekey}', () => {
 
     let options;
 
     beforeEach(() => {
       options = {
-        method: 'DELETE',
+        method: 'PATCH',
         url: '/api/cache/cache-test-key',
         headers: { }
       };
