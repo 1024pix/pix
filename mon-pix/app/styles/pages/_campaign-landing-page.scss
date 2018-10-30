@@ -20,6 +20,13 @@
   }
 }
 
+.campaign-landing-page__dash-line {
+  border-top: 1px dashed $dove-gray;
+  width: 85%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
 /*------------------------ START ------------------------*/
 
 .campaign-landing-page__container__start {
@@ -55,7 +62,7 @@
   text-align: center;
   font-family: $font-open-sans;
 
-  .title {
+  &__title {
     font-size: 3rem;
     font-weight: $font-light;
 
@@ -64,13 +71,18 @@
     }
   }
 
-  .announcement {
+  &__announcement {
     font-size: 1.8rem;
   }
 
-  .legal {
+  &__legal {
     font-size: 1.2rem;
     color: $dove-gray;
+  }
+
+  &__custom-text {
+    font-size: 1.8rem;
+    text-align: left;
   }
 }
 
@@ -132,14 +144,6 @@
   border: 1px solid $pix-blue;
   border-radius: 5px;
   margin: 35px auto;
-}
-
-.campaign-landing-page__details__dash-line {
-  border-top: 1px dashed $dove-gray;
-  width: 85%;
-  margin-top: 50px;
-  margin-bottom: 50px;
-
 }
 
 .campaign-landing-page__details__measure__container {
