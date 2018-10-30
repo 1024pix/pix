@@ -179,7 +179,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         });
 
         it('should redirect to tutorial after clicking on start button in landing page', async function() {
-          // given
+          // when
           await click('.campaign-landing-page__start-button');
 
           // then
