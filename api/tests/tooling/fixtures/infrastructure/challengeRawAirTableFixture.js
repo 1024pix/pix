@@ -1,9 +1,9 @@
 const AirtableRecord = require('airtable').Record;
 
-module.exports = function challengeRawAirTableFixture() {
-  return new AirtableRecord('Epreuves', 'recwWzTquPlvIl4So', {
-    'id': 'recwWzTquPlvIl4So',
-    'fields': {
+module.exports = function challengeRawAirTableFixture({ id, fields } = { id: 'recwWzTquPlvIl4So', fields: { } }) {
+  return new AirtableRecord('Epreuves', id, {
+    'id': id,
+    'fields': Object.assign({
       'Consigne': 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
       'Propositions': '- 1\n- 2\n- 3\n- 4\n- 5',
       'id': 49,
@@ -122,7 +122,7 @@ module.exports = function challengeRawAirTableFixture() {
       'Compétences (via tube)': [
         'recsvLz0W2ShyfD63',
       ],
-    },
+    }, fields),
     'createdTime': '2016-08-24T11:59:02.000Z',
   });
 };

@@ -1,6 +1,6 @@
 {
   "name": "pix-orga",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "private": true,
   "description": "Plateforme en ligne de gestion de campagne d'évaluation",
   "repository": {
@@ -9,16 +9,16 @@
   },
   "license": "AGPL-3.0",
   "author": "Team PIX",
+  "engines": {
+    "node": "8.11.4"
+  },
   "scripts": {
-    "build": "ember build",
+    "build": "ember build --environment $BUILD_ENVIRONMENT",
     "clean": "rm -rf tmp dist node_modules",
     "dev": "ember serve",
     "lint": "eslint ./*.js app blueprints config lib server tests",
-    "scalingo-background-job": "echo 'nothing to do'",
-    "scalingo-postbuild": "npx ember build --environment $BUILD_ENVIRONMENT",
-    "scalingo-post-ra-creation": "echo 'nothing to do'",
-    "scalingo-start": "/app/scripts/start_scalingo_nginx.sh",
     "lint:hbs": "ember-template-lint .",
+    "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember serve --environment production --liveReload false ",
     "test": "ember test"
   },
@@ -44,6 +44,7 @@
     "ember-cli-uglify": "^2.1.0",
     "ember-data": "~3.4.0",
     "ember-export-application-global": "^2.0.0",
+    "ember-freestyle": "^0.9.0",
     "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-resolver": "^5.0.1",
@@ -52,9 +53,6 @@
     "eslint-plugin-ember": "^5.2.0",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.7.1"
-  },
-  "engines": {
-    "node": "6.* || 8.* || >= 10.*"
   },
   "dependencies": {
     "lodash": "latest"

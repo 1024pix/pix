@@ -24,7 +24,7 @@ describe('Acceptance | o1 - board organization', function() {
 
   it('can visit /board', async function() {
     // given
-    authenticateAsPrescriber();
+    await authenticateAsPrescriber();
 
     // when
     await visit('/board');
@@ -47,7 +47,7 @@ describe('Acceptance | o1 - board organization', function() {
 
   it('should display the name and the code of my organization', async function() {
     // given
-    authenticateAsPrescriber();
+    await authenticateAsPrescriber();
 
     // when
     await visit('/board');
@@ -61,7 +61,7 @@ describe('Acceptance | o1 - board organization', function() {
 
   it('should display an empty list of snapshot', async function() {
     // given
-    authenticateAsPrescriber();
+    await authenticateAsPrescriber();
 
     // when
     await visit('/board');
@@ -74,7 +74,7 @@ describe('Acceptance | o1 - board organization', function() {
 
   it('should display a link to download snapshots', async function() {
     // given
-    authenticateAsPrescriber();
+    await authenticateAsPrescriber();
 
     // when
     await visit('/board');

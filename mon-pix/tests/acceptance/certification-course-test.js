@@ -36,7 +36,7 @@ describe('Acceptance | Certification | Start Course', function() {
     context('When user is logged in', function() {
 
       beforeEach(async function() {
-        authenticateAsSimpleUser();
+        await authenticateAsSimpleUser();
         await visit('/certifications');
       });
       context('when user enter a correct code session', function() {
@@ -86,7 +86,7 @@ describe('Acceptance | Certification | Start Course', function() {
 
       it('should be redirected on the second challenge of an assessment', async function() {
         // given
-        authenticateAsSimpleUser();
+        await authenticateAsSimpleUser();
         await visit('/certifications');
         fillIn('#session-code', '10ue1');
         await click('.certification-course-page__submit_button');

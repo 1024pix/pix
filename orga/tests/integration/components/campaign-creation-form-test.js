@@ -63,4 +63,12 @@ module('Integration | Component | campaign-creation-form', function(hooks) {
     assert.dom('#campaign-name').hasAttribute('maxLength', "255");
   });
 
+  test('should not allow a campaign title with more than 50 char', async function(assert) {
+    // then
+    await render(hbs`{{campaign-creation-form}}`);
+
+    // when
+    assert.dom('#campaign-title').hasAttribute('maxLength', "50");
+  });
+
 });

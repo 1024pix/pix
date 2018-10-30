@@ -1,31 +1,80 @@
 const { expect, sinon } = require('../../../test-helper');
 const airtable = require('../../../../lib/infrastructure/airtable');
 const AirtableRecord = require('airtable').Record;
+const _ = require('lodash');
 
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const Course = require('../../../../lib/domain/models/Course');
 
-const course1 = new AirtableRecord('Tests', 'recTest1', {
-  fields: {
-    'Nom': 'Test de positionnement 1.1',
-    'Description': 'A single line of text.',
-    'Adaptatif ?': true,
-    'Competence': ['recsvLz0W2ShyfD63'],
-    'Image': ['https://dl.airtable.com/foo.jpg'],
-    'Épreuves': ['reclvHn6Bg3FyfwuL', 'recPHXe5p4ip95Bc6']
-  }
-});
+const adaptativeCourse =
+  new AirtableRecord('Tests', 'recTestAdaptative', {
+    fields: {
+      'Nom': 'Test de positionnement 1.1',
+      'Description': 'A single line of text.',
+      'Adaptatif ?': true,
+      'Défi de la semaine ?': false,
+      'Competence': ['recsvLz0W2ShyfD63'],
+      'Image': ['https://dl.airtable.com/foo.jpg'],
+      'Épreuves': ['reclvHn6Bg3FyfwuL', 'recPHXe5p4ip95Bc6'],
+      'Statut': 'Publié',
+    }
+  });
 
-const course2 = new AirtableRecord('Tests', 'recTest2', {
-  fields: {
-    'Nom': 'Gérer des données 1.2',
-    'Description': 'A single line of text.',
-    'Adaptatif ?': false,
-    'Competence': ['recsvLz0W2ShyfD63'],
-    'Image': ['https://dl.airtable.com/foo.jpg'],
-    'Épreuves': ['reclvHn6Bg3FyfwuL', 'recPHXe5p4ip95Bc6']
-  }
-});
+const courses = [
+  adaptativeCourse,
+
+  new AirtableRecord('Tests', 'recTestNonAdaptative', {
+    fields: {
+      'Nom': 'Gérer des données 1.2',
+      'Description': 'A single line of text.',
+      'Adaptatif ?': false,
+      'Défi de la semaine ?': false,
+      'Competence': ['recsvLz0W2ShyfD63'],
+      'Image': ['https://dl.airtable.com/foo.jpg'],
+      'Épreuves': ['reclvHn6Bg3FyfwuL', 'recPHXe5p4ip95Bc6'],
+      'Statut': 'Publié',
+    }
+  }),
+
+  new AirtableRecord('Tests', 'recTestCourseOfTheWeek', {
+    fields: {
+      'Nom': 'Adapter les documents à leur finalité',
+      'Adaptatif ?': false,
+      'Défi de la semaine ?': true,
+      'Competence': ['recsvLz0W2ShyfD63'],
+      'Image': ['https://dl.airtable.com/foo.jpg'],
+      'Épreuves': ['reclvHn6Bg3FyfwuL', 'recPHXe5p4ip95Bc6'],
+      'Statut': 'Publié',
+    }
+  }),
+
+  new AirtableRecord('Tests', 'recTestAdaptativeUnpublished', {
+    fields: {
+      'Nom': 'Test de positionnement 1.1',
+      'Adaptatif ?': true,
+      'Défi de la semaine ?': false,
+      'Statut': 'Proposé',
+    }
+  }),
+
+  new AirtableRecord('Tests', 'recTestNonAdaptativeUnpublished', {
+    fields: {
+      'Nom': 'Gérer des données 1.2',
+      'Adaptatif ?': false,
+      'Défi de la semaine ?': false,
+      'Statut': 'Proposé',
+    }
+  }),
+
+  new AirtableRecord('Tests', 'rectTestCourseOfTheWeekUnpublished', {
+    fields: {
+      'Nom': 'Adapter les documents à leur finalité',
+      'Adaptatif ?': false,
+      'Défi de la semaine ?': true,
+      'Statut': 'Proposé',
+    }
+  }),
+];
 
 const sandbox = sinon.sandbox.create();
 
@@ -35,27 +84,23 @@ afterEach(() => {
 
 describe('Unit | Repository | course-repository', function() {
 
+  beforeEach(() => {
+    sandbox.stub(airtable, 'findRecords')
+      .withArgs('Tests')
+      .resolves(courses);
+  });
+
   describe('#get', function() {
 
-    const recordId = 'recTest1';
-
     beforeEach(() => {
-      sandbox.stub(airtable, 'getRecord').resolves(course1);
-    });
-
-    it('should fetch a course record from Airtable "Tests"', () => {
-      // when
-      const promise = courseRepository.get(recordId);
-
-      // then
-      return promise.then(() => {
-        expect(airtable.getRecord).to.have.been.calledWith('Tests', recordId);
-      });
+      sandbox.stub(airtable, 'getRecord')
+        .withArgs('Tests', 'recTestAdaptative')
+        .resolves(adaptativeCourse);
     });
 
     it('should return Course domain objects', () => {
       // when
-      const promise = courseRepository.get(recordId);
+      const promise = courseRepository.get('recTestAdaptative');
 
       // then
       return promise.then((course) => {
@@ -68,33 +113,13 @@ describe('Unit | Repository | course-repository', function() {
 
   describe('#getProgressionCourses', () => {
 
-    beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords').resolves([course1, course2]);
-    });
-
-    it('should fetch all progression courses records from Airtable "Tests" with "Publié" status', () => {
-      // given
-      const expectedQuery = {
-        filterByFormula: '{Statut} = "Publié"',
-        view: 'Tests de progression'
-      };
-
-      // when
-      const promise = courseRepository.getProgressionCourses();
-
-      // then
-      return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Tests', expectedQuery);
-      });
-    });
-
-    it('should return Course domain objects', () => {
+    it('should return Course domain objects matching progression course criteria', () => {
       // when
       const promise = courseRepository.getProgressionCourses();
 
       // then
       return promise.then((courses) => {
-        expect(courses).to.have.lengthOf(2);
+        expect(_.map(courses, 'id')).to.have.members(['recTestNonAdaptative']);
         expect(courses[0]).to.be.an.instanceOf(Course);
       });
     });
@@ -103,33 +128,13 @@ describe('Unit | Repository | course-repository', function() {
 
   describe('#getCoursesOfTheWeek', () => {
 
-    beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords').resolves([course1, course2]);
-    });
-
-    it('should fetch all courses of the week records from Airtable "Tests" with "Publié" status', () => {
-      // given
-      const expectedQuery = {
-        filterByFormula: '{Statut} = "Publié"',
-        view: 'Défis de la semaine'
-      };
-
-      // when
-      const promise = courseRepository.getCoursesOfTheWeek();
-
-      // then
-      return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Tests', expectedQuery);
-      });
-    });
-
-    it('should return Course domain objects', () => {
+    it('should return Course domain objects matching course of the week criteria', () => {
       // when
       const promise = courseRepository.getCoursesOfTheWeek();
 
       // then
       return promise.then((courses) => {
-        expect(courses).to.have.lengthOf(2);
+        expect(_.map(courses, 'id')).to.have.members(['recTestCourseOfTheWeek']);
         expect(courses[0]).to.be.an.instanceOf(Course);
       });
     });
@@ -138,33 +143,13 @@ describe('Unit | Repository | course-repository', function() {
 
   describe('#getAdaptiveCourses', () => {
 
-    beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords').resolves([course1, course2]);
-    });
-
-    it('should fetch all adaptive courses records from Airtable "Tests" with "Publié" status', () => {
-      // given
-      const expectedQuery = {
-        filterByFormula: '{Statut} = "Publié"',
-        view: 'Tests de positionnement'
-      };
-
-      // when
-      const promise = courseRepository.getAdaptiveCourses();
-
-      // then
-      return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Tests', expectedQuery);
-      });
-    });
-
-    it('should return Course domain objects', () => {
+    it('should return Course domain objects matching adaptative criteria', () => {
       // when
       const promise = courseRepository.getAdaptiveCourses();
 
       // then
       return promise.then((courses) => {
-        expect(courses).to.have.lengthOf(2);
+        expect(_.map(courses, 'id')).to.have.members(['recTestAdaptative']);
         expect(courses[0]).to.be.an.instanceOf(Course);
       });
     });

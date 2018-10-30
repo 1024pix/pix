@@ -362,6 +362,16 @@ describe('Delete User Script', () => {
 
     describe('#delete_dependent_data_from_fetched_assessment_ids', () => {
 
+      let consoleLog;
+
+      beforeEach(() => {
+        consoleLog = sinon.stub(console, 'log');
+      });
+
+      afterEach(() => {
+        consoleLog.restore();
+      });
+
       it('should delete feedbacks, skills, answers, competence-marks and assessment-results', () => {
         // given
         const ids = [123, 456];
@@ -399,6 +409,9 @@ describe('Delete User Script', () => {
         // then
         return promise.then(() => {
           queryBuilderMock.verify();
+          const expectedLog = 'No assessment found: skipping deletion of feedbacks, skills, answers, competence-marks ' +
+            'and assessment-results';
+          sinon.assert.calledWith(consoleLog, expectedLog);
         });
       });
     });

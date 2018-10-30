@@ -1,3 +1,4 @@
+const fs = require('fs');
 module.exports = {
   root: true,
   parserOptions: {
@@ -9,7 +10,7 @@ module.exports = {
     'mocha'
   ],
   extends: [
-    '../.eslintrc',
+    ...(fs.existsSync('../.eslintrc') ? ['../.eslintrc'] : []),
     'plugin:ember/recommended'
   ],
   env: {

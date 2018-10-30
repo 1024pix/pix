@@ -75,6 +75,17 @@
     {{/if}}
   </div>
 
+  <div class="campaign-creation-form__field">
+    <label for="campaign-title" class="label">Titre du parcours</label>
+    {{input id='campaign-title'
+            name='campaign-title'
+            type='text'
+            maxlength='50'
+            value=campaign.title
+            class="input"
+    }}
+  </div>
+
   <div>
     <button class="campaign-creation-form__validation-button button" type="submit">Créer la campagne</button>
   </div>

@@ -179,7 +179,7 @@ describe('Unit | Repository | challenge-repository', () => {
     let skillURL2;
     let skillURL3;
     let skills;
-    let skillNames;
+    let skillIds;
 
     beforeEach(() => {
 
@@ -196,7 +196,7 @@ describe('Unit | Repository | challenge-repository', () => {
         name: '@url3',
       });
       skills = [skillWeb1, skillURL2, skillURL3];
-      skillNames = [skillWeb1.name, skillURL2.name, skillURL3.name];
+      skillIds = [skillWeb1.id, skillURL2.id, skillURL3.id];
 
       sandbox.stub(skillDatasource, 'get');
       sandbox.stub(skillDatasource, 'list');
@@ -392,7 +392,7 @@ describe('Unit | Repository | challenge-repository', () => {
 
       beforeEach(() => {
 
-        sandbox.stub(challengeDatasource, 'findBySkillNames');
+        sandbox.stub(challengeDatasource, 'findBySkillIds');
         sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
@@ -417,7 +417,7 @@ describe('Unit | Repository | challenge-repository', () => {
           });
           solution = factory.buildSolution();
 
-          challengeDataSource.findBySkillNames.withArgs(skillNames).resolves([
+          challengeDataSource.findBySkillIds.withArgs(skillIds).resolves([
             challengeDataObject1,
             challengeDataObject2,
           ]);
@@ -435,7 +435,7 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should call challengeDataObjects with competence', () => {
           // then
           return promise.then(() => {
-            expect(challengeDataSource.findBySkillNames).to.have.been.calledWith(skillNames);
+            expect(challengeDataSource.findBySkillIds).to.have.been.calledWith(skillIds);
           });
         });
         it('should resolve an array of 2 Challenge domain objects', () => {
@@ -454,7 +454,7 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should transfer the error', () => {
           // given
           const error = new Error();
-          challengeDataSource.findBySkillNames.rejects(error);
+          challengeDataSource.findBySkillIds.rejects(error);
 
           // when
           const promise = challengeRepository.findBySkills(skills);

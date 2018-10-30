@@ -1,5 +1,10 @@
 const airtable = require('../../airtable');
-const airTableDataObjects = require('./objects');
+const {
+  Challenge: { fromAirTableObject },
+  AirtableResourceNotFound
+} = require('./objects');
+
+const _ = require('lodash');
 
 const AIRTABLE_TABLE_NAME = 'Epreuves';
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
@@ -8,10 +13,10 @@ module.exports = {
 
   get(id) {
     return airtable.getRecord(AIRTABLE_TABLE_NAME, id)
-      .then(airTableDataObjects.Challenge.fromAirTableObject)
+      .then(fromAirTableObject)
       .catch((err) => {
         if (err.error === 'NOT_FOUND') {
-          throw new airTableDataObjects.AirtableResourceNotFound();
+          throw new AirtableResourceNotFound();
         }
 
         throw err;
@@ -19,38 +24,34 @@ module.exports = {
   },
 
   list() {
-
-    const query = {};
-
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-      .then((challengeDataObjects) => {
-        return challengeDataObjects.map(airTableDataObjects.Challenge.fromAirTableObject);
-      });
+    return airtable.findRecords(AIRTABLE_TABLE_NAME)
+      .then((challengeDataObjects) => challengeDataObjects.map(fromAirTableObject));
   },
 
-  findBySkillNames(listOfSkillNames) {
+  findBySkillIds(skillIds) {
+    const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
 
-    const listOfFilters = [];
-    listOfSkillNames.forEach((skillName) => {
-      listOfFilters.push(`FIND("${skillName}", ARRAYJOIN({acquis}, ";"))`);
-    });
-    const statutsValidated = VALIDATED_CHALLENGES.map((validatedStatut) => `{Statut}="${validatedStatut}"`);
-
-    const query = { filterByFormula: `AND(OR(${listOfFilters.join(', ')}), OR(${statutsValidated.join(',')}))` };
-
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
+    return airtable.findRecords(AIRTABLE_TABLE_NAME)
       .then((challengeDataObjects) => {
-        return challengeDataObjects.map(airTableDataObjects.Challenge.fromAirTableObject);
+        return challengeDataObjects
+          .filter((rawChallenge) => (
+            _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
+            && _.some(rawChallenge.fields.Acquix, foundInSkillIds)
+          ))
+          .map(fromAirTableObject);
       });
   },
 
   findByCompetence(competence) {
-
-    const query = { view: competence.reference };
-
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
+    return airtable.findRecords(AIRTABLE_TABLE_NAME)
       .then((challengeDataObjects) => {
-        return challengeDataObjects.map(airTableDataObjects.Challenge.fromAirTableObject);
+        return challengeDataObjects
+          .filter((rawChallenge) => (
+            _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
+            && !_.isEmpty(rawChallenge.fields.Acquix)
+            && _.includes(rawChallenge.fields.competences, competence.id)
+          ))
+          .map(fromAirTableObject);
       });
   },
 };

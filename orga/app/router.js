@@ -8,9 +8,9 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
   this.route('login', { path: 'connexion' });
-  this.route('terms-of-service', { path: '/cgu'});
 
   this.route('authenticated', { path: '' }, function() {
+    this.route('terms-of-service', { path: '/cgu'});
     this.route('campaigns', { path: '/campagnes' }, function() {
       this.route('new', { path: '/creation' });
       this.route('list', { path: '/liste' });
@@ -18,6 +18,10 @@ Router.map(function() {
   });
 
   this.route('logout');
+
+  if (config.environment !== 'production') {
+    this.route('style-guide', { path: 'guide-de-style' });
+  }
 });
 
 export default Router;

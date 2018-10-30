@@ -1,50 +1,38 @@
 const { expect, sinon } = require('../../../test-helper');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const DomainSkill = require('../../../../lib/domain/models/Skill');
-const airtable = require('../../../../lib/infrastructure/airtable');
-const AirtableRecord = require('airtable').Record;
-
+const airTableDataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects');
+const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
 describe('Unit | Repository | skill-repository', function() {
 
   beforeEach(() => {
-    sinon.stub(challengeRepository, 'findByCompetence');
+    sinon.stub(skillDatasource, 'findByCompetenceId');
   });
 
   afterEach(() => {
-    challengeRepository.findByCompetence.restore();
+    skillDatasource.findByCompetenceId.restore();
   });
 
   describe('#findByCompetence', function() {
 
     const competence = {
       id: 'competence_id',
+      index: 'X.Y',
       reference: 'X.Y Titre de la compétence'
     };
 
     beforeEach(() => {
-      const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', { fields: { 'Nom': '@acquix1' } });
-      const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix2' } });
-      sinon.stub(airtable, 'findRecords').resolves([acquix1, acquix2]);
+      skillDatasource.findByCompetenceId
+        .withArgs('competence_id')
+        .resolves([
+          new airTableDataObjects.Skill({ id: 'recAcquix1', name: '@acquix1' }),
+          new airTableDataObjects.Skill({ id: 'recAcquix2', name: '@acquix2' }),
+        ]);
     });
 
-    afterEach(() => {
-      airtable.findRecords.restore();
-    });
-
-    it('should resolve skills Domain Object', function() {
-      // when
-      const promise = skillRepository.findByCompetence(competence);
-
-      // then
-      return promise.then((skills) => {
-        expect(skills[0]).to.be.instanceof(DomainSkill);
-      });
-    });
-
-    it('should resolve all skills from Airtable for one competence', function() {
+    it('should resolve all skills for one competence', function() {
       //given
 
       // when
@@ -53,8 +41,11 @@ describe('Unit | Repository | skill-repository', function() {
       // then
       return promise.then((skills) => {
         expect(skills).to.have.lengthOf(2);
-        expect(skills[0]).to.be.deep.equal({ id: 'recAcquix1', name: '@acquix1' });
-        expect(skills[1]).to.be.deep.equal({ id: 'recAcquix2', name: '@acquix2' });
+        expect(skills[0]).to.be.instanceof(DomainSkill);
+        expect(skills).to.be.deep.equal([
+          { id: 'recAcquix1', name: '@acquix1' },
+          { id: 'recAcquix2', name: '@acquix2' },
+        ]);
       });
     });
   });

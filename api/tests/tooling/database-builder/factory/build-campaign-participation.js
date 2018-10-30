@@ -9,12 +9,13 @@ module.exports = function buildCampaignParticipation({
   assessmentId = buildAssessment().id,
   campaignId = buildCampaign().id,
   isShared = faker.random.boolean(),
+  createdAt = faker.date.past(),
   sharedAt = faker.date.past(),
   userId = buildUser().id,
 } = {}) {
 
   const values = {
-    id, assessmentId, campaignId, userId, isShared, sharedAt
+    id, assessmentId, campaignId, userId, isShared, createdAt, sharedAt
   };
 
   databaseBuffer.pushInsertable({
@@ -24,4 +25,3 @@ module.exports = function buildCampaignParticipation({
 
   return values;
 };
-

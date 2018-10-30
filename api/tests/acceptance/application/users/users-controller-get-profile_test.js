@@ -57,7 +57,13 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
             { type: 'competences', id: 'recCompA' },
             { type: 'competences', id: 'recCompB' }
           ]
-        }
+        },
+        'campaign-participations': {
+          links: {
+            related: '/api/users/1234/campaign-participations'
+          },
+        },
+
       }
     },
     included: [

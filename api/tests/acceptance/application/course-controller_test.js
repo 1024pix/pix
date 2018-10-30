@@ -16,26 +16,41 @@ describe('Acceptance | API | Courses', () => {
           'records': [{
             'id': 'course_1',
             'fields': {
+              'Adaptatif ?': true,
+              'Défi de la semaine ?': false,
+              'Statut': 'Publié',
               'Épreuves': []
             }
           }, {
             'id': 'course_2',
             'fields': {
+              'Adaptatif ?': true,
+              'Défi de la semaine ?': true,
+              'Statut': 'Publié',
               'Épreuves': []
             },
           }, {
             'id': 'course_3',
             'fields': {
+              'Adaptatif ?': false,
+              'Défi de la semaine ?': false,
+              'Statut': 'Publié',
               'Épreuves': []
             },
           }, {
             'id': 'course_4',
             'fields': {
+              'Adaptatif ?': false,
+              'Défi de la semaine ?': false,
+              'Statut': 'Proposé',
               'Épreuves': []
             },
           }, {
             'id': 'course_5',
             'fields': {
+              'Adaptatif ?': false,
+              'Défi de la semaine ?': true,
+              'Statut': 'Proposé',
               'Épreuves': []
             },
           }]
@@ -72,14 +87,14 @@ describe('Acceptance | API | Courses', () => {
       });
     });
 
-    it('should return all the courses from the tests referential', () => {
+    it('should return progression courses from the tests referential', () => {
       // when
       const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
         const courses = response.result.data;
-        expect(courses.length).to.equal(5);
+        expect(courses.map((c) => c.id)).to.have.members(['course_3']);
       });
     });
   });

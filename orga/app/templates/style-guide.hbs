@@ -1,0 +1,59 @@
+{{#freestyle-guide
+  title='Pix Style Guide'
+  subtitle='Pix Orga'
+  }}
+  {{#freestyle-section name='Elements' as |section|}}
+
+    {{#section.subsection name='Boutons'}}
+      {{#freestyle-usage "Boutons" title="Lien"}}
+        {{blue-link href='guide-de-style' title='Je commence'}}
+      {{/freestyle-usage}}
+    {{/section.subsection}}
+
+    {{#section.subsection name='Panneaux'}}
+      {{#freestyle-usage "Ember button" title="Lien"}}
+        {{campaign-item campaign=campaignTest}}
+      {{/freestyle-usage}}
+
+
+    {{/section.subsection}}
+
+    {{#section.subsection name='Formulaire'}}
+    {{/section.subsection}}
+
+  {{/freestyle-section}}
+
+  {{#freestyle-section name='Style' as |section|}}
+
+    {{#section.subsection name='Typographie'}}
+
+      {{#freestyle-usage 'typography-roboto' title='Roboto'}}
+        {{freestyle-typeface fontFamily='Roboto'}}
+      {{/freestyle-usage}}
+
+      {{#freestyle-usage 'typography-open-sans' title='Open Sans'}}
+        {{freestyle-typeface fontFamily='Open Sans'}}
+      {{/freestyle-usage}}
+
+    {{/section.subsection}}
+
+    {{#section.subsection name='Couleur'}}
+      {{freestyle-palette
+        colorPalette=colorPalette
+        title='Palette de couleur'
+      }}
+
+      {{freestyle-palette
+        colorPalette=textColorPalette
+        title='Palette de couleur pour le texte'
+      }}
+
+      {{freestyle-palette
+        colorPalette=gradientPalette
+        title='Gradiant de couleur'
+      }}
+    {{/section.subsection}}
+
+  {{/freestyle-section}}
+
+{{/freestyle-guide}}

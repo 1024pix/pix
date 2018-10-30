@@ -155,6 +155,11 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
                 { type: 'competences', id: 'recCompC' },
               ],
             },
+            'campaign-participations': {
+              links: {
+                related: '/api/users/user_id/campaign-participations'
+              },
+            },
           },
         },
         included: [
@@ -288,6 +293,11 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
                 { type: 'organizations', id: 'organizationId1' },
                 { type: 'organizations', id: 'organizationId2' },
               ],
+            },
+            'campaign-participations': {
+              links: {
+                related: '/api/users/user_id/campaign-participations'
+              },
             },
           },
         },

@@ -13,7 +13,11 @@ export default BaseRoute.extend({
 
   actions: {
     startCampaignParticipation() {
-      this.transitionTo('campaigns.fill-in-id-pix', this.get('campaignCode'));
+      this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'), {
+        queryParams: {
+          hasSeenLanding: true
+        }
+      });
     }
   }
 });

@@ -38,7 +38,7 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
       controller.actions.submit.call(controller);
 
       // then
-      sinon.assert.calledWith(startStub, campaign, campaignCode, participantExternalId);
+      sinon.assert.calledWith(startStub, campaign, participantExternalId);
     });
 
     it('should display error when participant external id is empty', () => {

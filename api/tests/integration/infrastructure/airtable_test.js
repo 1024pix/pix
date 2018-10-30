@@ -1,4 +1,3 @@
-const hash = require('object-hash');
 const Airtable = require('airtable');
 const AirtableRecord = require('airtable').Record;
 const { expect, sinon } = require('../../test-helper');
@@ -112,8 +111,6 @@ describe('Integration | Class | airtable', () => {
   describe('#findRecords', () => {
 
     const tableName = 'Tests';
-    const query = { view: 'View name' };
-    const cacheKey = `Tests_${hash(query)}`;
     const airtableRecords = [
       new AirtableRecord(tableName, 'recId1', {
         id : 'recId1',
@@ -140,7 +137,7 @@ describe('Integration | Class | airtable', () => {
         cache.set.resolves();
 
         // when
-        const promise = airtable.findRecords(tableName, query);
+        const promise = airtable.findRecords(tableName);
 
         // then
         return promise.then((records) => {
@@ -163,7 +160,7 @@ describe('Integration | Class | airtable', () => {
         allStub.resolves(airtableRecords);
 
         // when
-        const promise = airtable.findRecords(tableName, query);
+        const promise = airtable.findRecords(tableName);
 
         // then
         return promise.then((records) => {
@@ -171,7 +168,7 @@ describe('Integration | Class | airtable', () => {
             const expectedRecord = airtableRecords[index];
             assertAirtableRecordToEqualExpected(record, expectedRecord);
           });
-          expect(cache.set).to.have.been.calledWith(cacheKey, airtableRecords.map((airtableRecord) => airtableRecord._rawJson));
+          expect(cache.set).to.have.been.calledWith('Tests', airtableRecords.map((airtableRecord) => airtableRecord._rawJson));
         });
       });
     });
@@ -184,7 +181,7 @@ describe('Integration | Class | airtable', () => {
         cache.get.rejects(error);
 
         // when
-        const promise = airtable.findRecords(tableName, query);
+        const promise = airtable.findRecords(tableName);
 
         // then
         return expect(promise).to.have.been.rejectedWith(error);

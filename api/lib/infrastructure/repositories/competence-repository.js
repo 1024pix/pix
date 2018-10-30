@@ -1,46 +1,39 @@
 const _ = require('lodash');
-const airtable = require('../airtable');
 const Competence = require('../../domain/models/Competence');
+const competenceDatasource = require('../datasources/airtable/competence-datasource');
+const areaDatasource = require('../datasources/airtable/area-datasource');
 const Area = require('../../domain/models/Area');
 
-const AIRTABLE_TABLE_NAME = 'Competences';
-
-// TODO : change to get skills as skill objects
-function _toDomain(airtableCompetence) {
+function _toDomain(competenceData, areaDatas) {
+  const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
   return new Competence({
-    id: airtableCompetence.getId(),
-    name: airtableCompetence.get('Titre'),
-    index: airtableCompetence.get('Sous-domaine'),
-    courseId: airtableCompetence.get('Tests Record ID') ? airtableCompetence.get('Tests Record ID')[0] : '',
-    skills: airtableCompetence.get('Acquis (via Tubes)'),
-    area: new Area({
-      id: _.first(airtableCompetence.get('Domaine')),
-      code: _.first(airtableCompetence.get('Domaine Code')),
-      title: _.first(airtableCompetence.get('Domaine Titre'))
-    })
+    id: competenceData.id,
+    name: competenceData.name,
+    index: competenceData.index,
+    courseId: competenceData.courseId,
+    skills: competenceData.skillIds,
+    area: areaData && new Area({
+      id: areaData.id,
+      code: areaData.code,
+      title: areaData.title,
+    }),
   });
 }
 
 module.exports = {
 
-  /**
-   * @deprecated use method #find below
-   */
   list() {
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
-      .then((competences) => competences.map(_toDomain));
+    return Promise.all([competenceDatasource.list(), areaDatasource.list()])
+      .then(([competenceDatas, areaDatas]) => {
+        return _.sortBy(
+          competenceDatas.map((competenceData) => _toDomain(competenceData, areaDatas)),
+          'index'
+        );
+      });
   },
 
-  get(recordId) {
-    return airtable.getRecord(AIRTABLE_TABLE_NAME, recordId)
-      .then(_toDomain);
+  get(id) {
+    return Promise.all([competenceDatasource.get(id), areaDatasource.list()])
+      .then(([competenceData, areaDatas]) => _toDomain(competenceData, areaDatas));
   },
-
-  find() {
-    const query = {
-      sort: [{ field: 'Sous-domaine', direction: 'asc' }]
-    };
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-      .then((competences) => competences.map(_toDomain));
-  }
 };

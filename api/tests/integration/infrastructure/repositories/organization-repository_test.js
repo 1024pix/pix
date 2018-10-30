@@ -1,42 +1,121 @@
-const { expect, knex, sinon } = require('../../../test-helper');
+const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 const Organization = require('../../../../lib/domain/models/Organization');
+const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 describe('Integration | Repository | Organization', function() {
 
   describe('#create', () => {
 
-    const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
-    const inserted_user = {
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      email: faker.internet.email(),
-      password: userPassword,
-      cgu: true
-    };
-
-    beforeEach(() => {
-      return knex('users').insert(inserted_user);
-    });
-
     afterEach(() => {
-      return knex('users').delete();
+      return knex('organizations').delete();
     });
 
-    it('should save model in database', () => {
+    it('should return an Organization domain object', async () => {
       // given
-      const organization = new Organization({ code: 'AAAA99', name: 'Lycée Rousseau', type: 'SCO' });
+      const organization = factory.buildOrganization();
 
       // when
-      const promise = organizationRepository.create(organization);
+      const organizationSaved = await organizationRepository.create(organization);
 
       // then
-      return promise.then((organizationSaved) => {
-        expect(organizationSaved).to.be.an.instanceof(Organization);
-        expect(organizationSaved.code).to.equal('AAAA99');
-      });
+      expect(organizationSaved).to.be.an.instanceof(Organization);
+    });
+
+    it('should add a row in the table "organizations"', async () => {
+      // given
+      const nbOrganizationsBeforeCreation = await BookshelfOrganization.count();
+
+      // when
+      await organizationRepository.create(factory.buildOrganization());
+
+      // then
+      const nbOrganizationsAfterCreation = await BookshelfOrganization.count();
+      expect(nbOrganizationsAfterCreation).to.equal(nbOrganizationsBeforeCreation + 1);
+    });
+
+    it('should save model properties', async () => {
+      // given
+      const organization = factory.buildOrganization({ id: null });
+
+      // when
+      const organizationSaved = await organizationRepository.create(organization);
+
+      // then
+      expect(organizationSaved.id).to.not.be.undefined;
+      expect(organizationSaved.name).to.equal(organization.name);
+      expect(organizationSaved.type).to.equal(organization.type);
+      expect(organizationSaved.logoUrl).to.equal(organization.logoUrl);
+      expect(organizationSaved.code).to.equal(organization.code);
+    });
+  });
+
+  describe('#update', () => {
+
+    const organizationCode = 'ABCD12';
+
+    let organization;
+
+    beforeEach(() => {
+      const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1, code: organizationCode });
+      organization = factory.buildOrganization(bookshelfOrganization);
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+      await knex('organizations').delete();
+    });
+
+    it('should return an Organization domain object', async () => {
+      // when
+      const organizationSaved = await organizationRepository.update(organization);
+
+      // then
+      expect(organizationSaved).to.be.an.instanceof(Organization);
+    });
+
+    it('should not add row in table "organizations"', async () => {
+      // given
+      const nbOrganizationsBeforeUpdate = await BookshelfOrganization.count();
+
+      // when
+      await organizationRepository.update(organization);
+
+      // then
+      const nbOrganizationsAfterUpdate = await BookshelfOrganization.count();
+      expect(nbOrganizationsAfterUpdate).to.equal(nbOrganizationsBeforeUpdate);
+    });
+
+    it('should update model in database', async () => {
+      // given
+      organization.name = 'New name';
+      organization.type = 'SCO';
+      organization.logoUrl = 'http://new.logo.url';
+
+      // when
+      const organizationSaved = await organizationRepository.update(organization);
+
+      // then
+      expect(organizationSaved.id).to.equal(organization.id);
+      expect(organizationSaved.name).to.equal('New name');
+      expect(organizationSaved.type).to.equal('SCO');
+      expect(organizationSaved.logoUrl).to.equal('http://new.logo.url');
+      expect(organizationSaved.code).to.equal(organization.code);
+    });
+
+    it('should not modify code property', async () => {
+      // given
+      const originalOrganizationCode = organization.code;
+      organization.code = 'New manual code that should not be saved';
+
+      // when
+      const organizationSaved = await organizationRepository.update(organization);
+
+      // then
+      expect(organizationSaved.code).to.equal(originalOrganizationCode);
     });
   });
 
@@ -56,14 +135,12 @@ describe('Integration | Repository | Organization', function() {
       return knex('organizations').delete();
     });
 
-    it('should return the code when the code is not already used', () => {
+    it('should return the code when the code is not already used', async () => {
       // when
-      const promise = organizationRepository.isCodeAvailable('ABCD02');
+      const code = await organizationRepository.isCodeAvailable('ABCD02');
 
       // then
-      return promise.then((code) => {
-        expect(code).to.equal('ABCD02');
-      });
+      expect(code).to.equal('ABCD02');
     });
 
     it('should reject when the organization already exists', () => {
@@ -71,13 +148,7 @@ describe('Integration | Repository | Organization', function() {
       const promise = organizationRepository.isCodeAvailable('ABCD01');
 
       // then
-      return promise
-        .then(() => {
-          sinon.assert.fail('Should not be a success');
-        })
-        .catch(() => {
-          expect(promise).to.be.rejected;
-        });
+      return expect(promise).to.be.rejected;
     });
   });
 
@@ -104,69 +175,58 @@ describe('Integration | Repository | Organization', function() {
       return knex('organizations').delete();
     });
 
-    it('should return true when an organization id is found', () => {
+    it('should return true when an organization id is found', async () => {
       // when
-      const promise = organizationRepository.isOrganizationIdExist(organizationId);
+      const result = await organizationRepository.isOrganizationIdExist(organizationId);
 
       // then
-      return promise.then((result) => {
-        expect(result).to.be.true;
-      });
+      expect(result).to.equal(true);
     });
 
-    it('should return false when the organization id is not found', () => {
+    it('should return false when the organization id is not found', async () => {
       // when
-      const promise = organizationRepository.isOrganizationIdExist(6);
+      const result = await organizationRepository.isOrganizationIdExist(6);
 
       // then
-      return promise.then((result) => {
-        expect(result).to.be.false;
-      });
+      expect(result).to.equal(false);
     });
   });
 
   describe('#get', () => {
 
-    const existingId = 1;
-    const insertedOrganization = {
-      type: 'PRO',
-      name: 'The name of the organization',
-      userId: 294,
-      id: existingId
-    };
+    let insertedOrganization;
 
     before(() => {
-      return knex('organizations')
-        .then(() => {
-          return knex('organizations').insert(insertedOrganization);
-        });
+      insertedOrganization = databaseBuilder.factory.buildOrganization();
+      return databaseBuilder.commit();
     });
 
     after(() => {
-      return knex('organizations').delete();
+      return databaseBuilder.clean();
     });
 
     describe('success management', function() {
 
       it('should return a organization by provided id', function() {
         // when
-        const promise = organizationRepository.get(existingId);
+        const promise = organizationRepository.get(insertedOrganization.id);
 
         // then
         return promise.then((foundOrganization) => {
           expect(foundOrganization).to.be.an.instanceof(Organization);
           expect(foundOrganization.type).to.equal(insertedOrganization.type);
           expect(foundOrganization.name).to.equal(insertedOrganization.name);
+          expect(foundOrganization.logoUrl).to.equal(insertedOrganization.logoUrl);
           expect(foundOrganization.id).to.equal(insertedOrganization.id);
         });
       });
 
       it('should return a rejection when organization id is not found', function() {
         // given
-        const inexistenteId = 10083;
+        const nonExistentId = 10083;
 
         // when
-        const promise = organizationRepository.get(inexistenteId);
+        const promise = organizationRepository.get(nonExistentId);
 
         // then
         return promise.then(() => {
@@ -302,25 +362,22 @@ describe('Integration | Repository | Organization', function() {
         });
     });
 
-    it('should return the organizations that matches the filters', function() {
+    it('should return the organizations that matches the filters', async () => {
       // given
       const filters = { type: 'PRO' };
 
       // when
-      const promise = organizationRepository.findBy(filters);
+      const organizations = await organizationRepository.findBy(filters);
 
       // then
-      return promise.then((organizations) => {
-        expect(organizations).to.have.lengthOf(1);
+      expect(organizations).to.have.lengthOf(1);
 
-        const foundOrganization = organizations[0];
+      const foundOrganization = organizations[0];
 
-        expect(foundOrganization).to.be.an.instanceof(Organization);
-        expect(foundOrganization.code).to.equal(insertedOrganization1.code);
-        expect(foundOrganization.type).to.equal('PRO');
-        expect(foundOrganization.user).to.be.undefined;
-      });
+      expect(foundOrganization).to.be.an.instanceof(Organization);
+      expect(foundOrganization.code).to.equal(insertedOrganization1.code);
+      expect(foundOrganization.type).to.equal('PRO');
+      expect(foundOrganization.user).to.be.undefined;
     });
-
   });
 });

@@ -10,17 +10,17 @@ describe('Integration | Repository | Campaign Participation', () => {
     let campaign;
     let campaignParticipation;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       campaign = databaseBuilder.factory.buildCampaign({});
 
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id
       });
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
+    afterEach(() => {
+      return databaseBuilder.clean();
     });
 
     it('should return a campaign participation object', () => {
@@ -133,6 +133,43 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(campaignParticipationsFind.length).to.equal(2);
         expect(campaignParticipationsFind[0].campaign.id).to.equal(campaignParticipation1.campaignId);
         expect(campaignParticipationsFind[1].campaign.id).to.equal(campaignParticipation2.campaignId);
+      });
+    });
+  });
+
+  describe('#findByUserId', () => {
+
+    let user1;
+    let user2;
+    let campaignParticipation1;
+    let campaignParticipation2;
+
+    beforeEach(async () => {
+      user1 = databaseBuilder.factory.buildCampaign({});
+      user2 = databaseBuilder.factory.buildCampaign({});
+
+      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ userId: user1.id });
+      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ userId: user1.id });
+      databaseBuilder.factory.buildCampaignParticipation({ userId: user2.id });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return all the campaign-participation links to the given user', () => {
+      // given
+      const userId = user1.id;
+
+      // when
+      const promise = campaignParticipationRepository.findByUserId(userId);
+
+      // then
+      return promise.then((campaignParticipationsFind) => {
+        expect(campaignParticipationsFind).to.have.a.lengthOf(2);
+        expect(campaignParticipationsFind[0].userId).to.equal(campaignParticipation1.userId);
+        expect(campaignParticipationsFind[1].userId).to.equal(campaignParticipation2.userId);
       });
     });
   });

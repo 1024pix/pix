@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
-const { expect, knex, nock, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
+const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
+const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 
 function _insertOrganization(userId) {
   const organizationRaw = {
@@ -122,12 +123,7 @@ describe('Acceptance | Application | organization-controller', () => {
   before(() => {
     nock('https://api.airtable.com')
       .get('/v0/test-base/Competences')
-      .query({
-        sort: [{
-          field: 'Sous-domaine',
-          direction: 'asc'
-        }]
-      })
+      .query(true)
       .reply(200, {
         'records': [{
           'id': 'recNv8qhaY887jQb2',
@@ -142,8 +138,14 @@ describe('Acceptance | Application | organization-controller', () => {
             'Titre': 'Protéger les données personnelles et la vie privée'
           },
         }]
-      }
-      );
+      });
+
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Domaines')
+      .query(true)
+      .reply(200, [
+        areaRawAirTableFixture()
+      ]);
   });
 
   after(() => {
@@ -168,11 +170,7 @@ describe('Acceptance | Application | organization-controller', () => {
           type: 'organizations',
           attributes: {
             name: 'The name of the organization',
-            email: 'organization@example.com',
             type: 'PRO',
-            'first-name': 'Steve',
-            'last-name': 'Travail',
-            password: 'Pix1024#'
           }
         }
       };
@@ -526,4 +524,112 @@ describe('Acceptance | Application | organization-controller', () => {
       });
     });
   });
+
+  describe('GET /api/organizations/{id}', () => {
+
+    let organization;
+    let options;
+
+    beforeEach(async () => {
+      const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      organization = databaseBuilder.factory.buildOrganization();
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
+      };
+
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    context('Expected output', () => {
+
+      it('should return the matching organization as JSON API', () => {
+        // given
+        const expectedResult = {
+          'data': {
+            'attributes': {
+              'code': organization.code,
+              'name': organization.name,
+              'type': organization.type,
+              'logo-url': organization.logoUrl,
+            },
+            'id': organization.id,
+            'relationships': {
+              'user': {
+                'data': null
+              },
+              'members': {
+                'data': []
+              }
+            },
+            'type': 'organizations'
+          }
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result).to.deep.equal(expectedResult);
+        });
+      });
+
+      it('should return a 404 error when organization was not found', () => {
+        // given
+        options.url = '/api/organizations/999';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result).to.deep.equal({
+            'errors': [{
+              'code': '404',
+              'detail': 'Not found organization for ID 999',
+              'title': 'Not Found',
+            }]
+          });
+        });
+      });
+    });
+
+    context('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+        // given
+        const nonPixMAsterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+  });
+
 });

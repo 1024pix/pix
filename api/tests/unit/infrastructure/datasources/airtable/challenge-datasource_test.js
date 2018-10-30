@@ -1,17 +1,58 @@
-const { expect, sinon, factory } = require('../../../../test-helper');
+const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const AirtableError = require('airtable').Error;
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
 const airTableDataModels = require('../../../../../lib/infrastructure/datasources/airtable/objects');
+const _ = require('lodash');
 
 describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
 
   let sandbox;
 
+  const
+    competence1 = { id: 'competence1' },
+    competence2 = { id: 'competence2' },
+
+    web1 = { id: 'skill-web1' },
+    web2 = { id: 'skill-web2' },
+    web3 = { id: 'skill-web3' },
+
+    challenge_competence1 = challengeRawAirTableFixture({
+      id: 'challenge-competence1',
+      fields: { competences: [ competence1.id ], Acquix: [ web1.id ] }
+    }),
+    challenge_competence1_noSkills = challengeRawAirTableFixture({
+      id: 'challenge-competence1-noSkills',
+      fields: { competences: [ competence1.id ], Acquix: undefined }
+    }),
+    challenge_competence1_notValidated = challengeRawAirTableFixture({
+      id: 'challenge-competence1-notValidated',
+      fields: { competences: [ competence1.id ], Acquix: [ web1.id ], Statut: 'proposé' }
+    }),
+    challenge_competence2 = challengeRawAirTableFixture({
+      id: 'challenge-competence2',
+      fields: { competences: [ competence2.id ] }
+    }),
+    challenge_web1 = challengeRawAirTableFixture({
+      id: 'challenge-web1',
+      fields: { Acquix: [ web1.id ] }
+    }),
+    challenge_web1_notValidated = challengeRawAirTableFixture({
+      id: 'challenge-web1',
+      fields: { Acquix: [ web1.id ], Statut: 'proposé' }
+    }),
+    challenge_web2 = challengeRawAirTableFixture({
+      id: 'challenge-web2',
+      fields: { Acquix: [ web2.id ] }
+    }),
+    challenge_web3 = challengeRawAirTableFixture({
+      id: 'challenge-web3',
+      fields: { Acquix: [ web3.id ] }
+    });
+
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(airtable, 'findRecords').resolves([challengeRawAirTableFixture(), challengeRawAirTableFixture()]);
   });
 
   afterEach(() => {
@@ -24,13 +65,17 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     beforeEach(() => {
       // when
+      sandbox.stub(airtable, 'findRecords').resolves([
+        challenge_competence1,
+        challenge_competence1_notValidated,
+      ]);
       promise = challengeDatasource.list();
     });
 
     it('should query Airtable challenges with empty query', () => {
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {});
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves');
       });
     });
 
@@ -88,73 +133,57 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     });
   });
 
-  describe('#findBySkillNames', () => {
+  describe('#findBySkillIds', () => {
 
-    it('should query Airtable challenges with skill names', () => {
-      // given
-      const skillNames = ['@web1', '@web2'];
-
-      // when
-      const promise = challengeDatasource.findBySkillNames(skillNames);
-
-      // then
-      return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {
-          filterByFormula: 'AND(' +
-                           'OR(' +
-                           'FIND("@web1", ARRAYJOIN({acquis}, ";")), ' +
-                           'FIND("@web2", ARRAYJOIN({acquis}, ";"))' +
-                           '), ' +
-                           'OR(' +
-                           '{Statut}="validé",' +
-                           '{Statut}="validé sans test",' +
-                           '{Statut}="pré-validé"' +
-                           ')' +
-                           ')',
-        });
-      });
+    beforeEach(() => {
+      sandbox.stub(airtable, 'findRecords').resolves([
+        challenge_web1,
+        challenge_web1_notValidated,
+        challenge_web2,
+        challenge_web3,
+      ]);
     });
 
-    it('should resolve an array of Challenge from airTable', () => {
+    it('should resolve an array of matching Challenges from airTable', () => {
       // given
-      const skillNames = ['@web1', '@web2'];
+      const skillIds = ['skill-web1', 'skill-web2'];
 
       // when
-      const promise = challengeDatasource.findBySkillNames(skillNames);
+      const promise = challengeDatasource.findBySkillIds(skillIds);
 
       // then
       return promise.then((result) => {
-        expect(result).to.be.an('array').and.to.have.lengthOf(2);
         expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+        expect(_.map(result, 'id')).to.deep.equal([
+          'challenge-web1',
+          'challenge-web2',
+        ]);
       });
     });
   });
 
   describe('#findByCompetence', () => {
 
-    let competence;
     let promise;
 
     beforeEach(() => {
       // given
-      competence = factory.buildCompetence();
+      sandbox.stub(airtable, 'findRecords').resolves([
+        challenge_competence1,
+        challenge_competence1_noSkills,
+        challenge_competence1_notValidated,
+        challenge_competence2,
+      ]);
 
       // when
-      promise = challengeDatasource.findByCompetence(competence);
+      promise = challengeDatasource.findByCompetence(competence1);
     });
 
-    it('should query Airtable challenges with the Competence Reference', () => {
-      // then
-      return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', { view: competence.reference });
-      });
-    });
-
-    it('should resolve an array of Challenge from airTable', () => {
+    it('should resolve to an array of matching Challenges from airTable', () => {
       // then
       return promise.then((result) => {
-        expect(result).to.be.an('array').and.to.have.lengthOf(2);
         expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+        expect(_.map(result, 'id')).to.deep.equal([ 'challenge-competence1' ]);
       });
     });
   });
