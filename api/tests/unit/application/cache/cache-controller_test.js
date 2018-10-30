@@ -21,7 +21,7 @@ describe('Unit | Controller | cache-controller', () => {
     codeSpy.resetHistory();
   });
 
-  describe('#removeCacheEntry', () => {
+  describe('#reloadCacheEntry', () => {
     const request = {
       params: {
         cachekey: 'test-cache-key'
@@ -29,26 +29,26 @@ describe('Unit | Controller | cache-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'removeCacheEntry');
+      sinon.stub(usecases, 'reloadCacheEntry');
     });
 
     afterEach(() => {
-      usecases.removeCacheEntry.restore();
+      usecases.reloadCacheEntry.restore();
     });
 
     it('should reply with 204 when the cache key exists', () => {
       // given
       const cacheKey = request.params.cachekey;
       const numberOfDeletedKeys = 1;
-      usecases.removeCacheEntry.resolves(numberOfDeletedKeys);
+      usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
 
       // when
-      const promise = cacheController.removeCacheEntry(request, replyStub);
+      const promise = cacheController.reloadCacheEntry(request, replyStub);
 
       // Then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(usecases.removeCacheEntry).to.have.been.calledWith({ cacheKey, cache });
+          expect(usecases.reloadCacheEntry).to.have.been.calledWith({ preloader, cacheKey, cache });
           expect(replyStub).to.have.been.calledWith();
           expect(codeSpy).to.have.been.calledWith(204);
         });
@@ -57,10 +57,10 @@ describe('Unit | Controller | cache-controller', () => {
     it('should reply with 204 when the cache key does not exist', () => {
       // given
       const numberOfDeletedKeys = 0;
-      usecases.removeCacheEntry.resolves(numberOfDeletedKeys);
+      usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
 
       // when
-      const promise = cacheController.removeCacheEntry(request, replyStub);
+      const promise = cacheController.reloadCacheEntry(request, replyStub);
 
       // Then
       return expect(promise).to.have.been.fulfilled
@@ -70,15 +70,15 @@ describe('Unit | Controller | cache-controller', () => {
         });
     });
 
-    context('when cache deletion fails', () => {
+    context('when cache reloading fails', () => {
 
       it('should reply with a JSON API error', () => {
         // given
         const cacheError = new Error('Cache Error');
-        usecases.removeCacheEntry.rejects(cacheError);
+        usecases.reloadCacheEntry.rejects(cacheError);
 
         // when
-        const promise = cacheController.removeCacheEntry(request, replyStub);
+        const promise = cacheController.reloadCacheEntry(request, replyStub);
 
         // Then
         return expect(promise).to.have.been.fulfilled

@@ -12,9 +12,9 @@ function _buildJsonApiInternalServerError(error) {
 
 module.exports = {
 
-  removeCacheEntry(request, reply) {
+  reloadCacheEntry(request, reply) {
     const cacheKey = request.params.cachekey;
-    return usecases.removeCacheEntry({ cacheKey, cache })
+    return usecases.reloadCacheEntry({ preloader, cacheKey, cache })
       .then(() => reply().code(204))
       .catch((error) => reply(_buildJsonApiInternalServerError(error)).code(500));
   },
