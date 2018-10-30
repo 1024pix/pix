@@ -143,16 +143,6 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           expect(receivedParticipantExternalId).to.equal(participantExternalId);
         });
 
-        it('should show the tutorials pages after external id', async function() {
-          fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.pix-button');
-
-          // then
-          return andThen(() => {
-            expect(currentURL()).to.contains('/didacticiel');
-          });
-        });
-
         it('should go to the tutorial when the user fill in his id', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
@@ -190,6 +180,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
         it('should redirect to tutorial after clicking on start button in landing page', async function() {
           // given
+          await click('.campaign-landing-page__start-button');
 
           // then
           return andThen(() => {
