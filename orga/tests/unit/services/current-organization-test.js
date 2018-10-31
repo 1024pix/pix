@@ -13,10 +13,10 @@ module('Unit | Service | current-organization', function(hooks) {
     // given
     const userOrganization = Object.create({ name: 'Orga Nisme'});
     const organizationAccess = Object.create({ organization: userOrganization });
-    const organizationAccesses = EmberArray([organizationAccess]);
+    const memberships = EmberArray([organizationAccess]);
 
     const connectedUser = Object.create({ id: 1 });
-    connectedUser.get = () => resolve(organizationAccesses);
+    connectedUser.get = () => resolve(memberships);
 
     let service = this.owner.lookup('service:current-organization');
 
