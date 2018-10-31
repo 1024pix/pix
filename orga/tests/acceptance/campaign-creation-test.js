@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserWithOrganizationAccess } from '../helpers/test-init';
+import { createUserWithMembership } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -25,7 +25,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
     let user;
 
     beforeEach(async function() {
-      user = createUserWithOrganizationAccess();
+      user = createUserWithMembership();
       availableTargetProfiles = server.createList('target-profile', 2);
       await authenticateSession({
         user_id: user.id,
