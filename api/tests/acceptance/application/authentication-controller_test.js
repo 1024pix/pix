@@ -33,7 +33,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
   });
 
   afterEach(() => {
-    return knex('organizations-accesses').delete()
+    return knex('memberships').delete()
       .then(() => knex('organization-roles').delete())
       .then(() => knex('organizations').delete())
       .then(() => knex('users').delete());
@@ -120,11 +120,11 @@ describe('Acceptance | Controller | authentication-controller', () => {
             organizationRoleId,
           };
         })
-        .then((organizationAccess) => knex('organizations-accesses').insert(organizationAccess));
+        .then((organizationAccess) => knex('memberships').insert(organizationAccess));
     });
 
     afterEach(() => {
-      return knex('organizations-accesses').delete()
+      return knex('memberships').delete()
         .then(() => knex('organization-roles').delete())
         .then(() => knex('organizations').delete())
         .then(() => knex('users').delete());
