@@ -15,7 +15,7 @@ module.exports = function buildOrganizationAccess({
   };
 
   databaseBuffer.pushInsertable({
-    tableName: 'organizations-accesses',
+    tableName: 'memberships',
     values,
   });
 
