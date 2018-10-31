@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         createdAt: '2018-02-06 14:12:44',
         creatorId: 3453,
         organizationId: 10293,
+        organizationLogoUrl: 'some logo',
         idPixLabel: 'company id',
       });
 
@@ -33,6 +34,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
             'created-at': '2018-02-06 14:12:44',
             'id-pix-label': 'company id',
             'token-for-campaign-results': tokenToAccessToCampaign,
+            "organization-logo-url": "some logo",
           },
         }
       };
