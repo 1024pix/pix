@@ -3,23 +3,23 @@ const BookshelfUser = require('../data/user');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 const { UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
-const OrganizationAccess = require('../../domain/models/OrganizationAccess');
+const Membership = require('../../domain/models/Membership');
 const Organization = require('../../domain/models/Organization');
 const OrganizationRole = require('../../domain/models/OrganizationRole');
 
-function _toOrganizationAccessesDomain(organizationAccessesBookshelf) {
-  return organizationAccessesBookshelf.map((organizationAccessBookshelf) => {
-    return new OrganizationAccess({
-      id: organizationAccessBookshelf.get('id'),
+function _toMembershipsDomain(membershipsBookshelf) {
+  return membershipsBookshelf.map((membershipBookshelf) => {
+    return new Membership({
+      id: membershipBookshelf.get('id'),
       organization: new Organization({
-        id: organizationAccessBookshelf.related('organization').get('id'),
-        code: organizationAccessBookshelf.related('organization').get('code'),
-        name: organizationAccessBookshelf.related('organization').get('name'),
-        type: organizationAccessBookshelf.related('organization').get('type'),
+        id: membershipBookshelf.related('organization').get('id'),
+        code: membershipBookshelf.related('organization').get('code'),
+        name: membershipBookshelf.related('organization').get('name'),
+        type: membershipBookshelf.related('organization').get('type'),
       }),
       organizationRole: new OrganizationRole({
-        id: organizationAccessBookshelf.related('organizationRole').get('id'),
-        name: organizationAccessBookshelf.related('organizationRole').get('name')
+        id: membershipBookshelf.related('organizationRole').get('id'),
+        name: membershipBookshelf.related('organizationRole').get('name')
       })
     });
   });
@@ -34,7 +34,7 @@ function _toDomain(userBookshelf) {
     password: userBookshelf.get('password'),
     cgu: Boolean(userBookshelf.get('cgu')),
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
-    organizationAccesses: _toOrganizationAccessesDomain(userBookshelf.related('organizationAccesses'))
+    memberships: _toMembershipsDomain(userBookshelf.related('memberships'))
   });
 }
 
@@ -68,9 +68,9 @@ module.exports = {
       .where({ email })
       .fetch({
         withRelated: [
-          'organizationAccesses',
-          'organizationAccesses.organization',
-          'organizationAccesses.organizationRole',
+          'memberships',
+          'memberships.organization',
+          'memberships.organizationRole',
         ]
       })
       .then((foundUser) => {
@@ -117,14 +117,14 @@ module.exports = {
     return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb)).count();
   },
 
-  getWithOrganizationAccesses(userId) {
+  getWithMemberships(userId) {
     return BookshelfUser
       .where({ id: userId })
       .fetch({
         withRelated: [
-          'organizationAccesses',
-          'organizationAccesses.organization',
-          'organizationAccesses.organizationRole',
+          'memberships',
+          'memberships.organization',
+          'memberships.organizationRole',
         ]
       })
       .then((foundUser) => {
@@ -136,7 +136,7 @@ module.exports = {
   },
 
   create(domainUser) {
-    const userRawData = _.omit(domainUser, ['pixRoles', 'organizationAccesses']);
+    const userRawData = _.omit(domainUser, ['pixRoles', 'memberships']);
     return new BookshelfUser(userRawData)
       .save()
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
@@ -165,7 +165,7 @@ module.exports = {
   },
 
   updateUser(domainUser) {
-    const userToUpdate = _.omit(domainUser, ['pixRoles', 'organizationAccesses']);
+    const userToUpdate = _.omit(domainUser, ['pixRoles', 'memberships']);
     return BookshelfUser.where({ id: domainUser.id })
       .save(userToUpdate, {
         patch: true,

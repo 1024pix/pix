@@ -14,7 +14,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       beforeEach(async () => {
         connectedUser = databaseBuilder.factory.buildUser({ id: connectedUserId });
         linkedOrganization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildOrganizationAccess({
+        databaseBuilder.factory.buildMembership({
           userId: connectedUser.id,
           organizationId: linkedOrganization.id
         });

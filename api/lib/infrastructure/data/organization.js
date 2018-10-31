@@ -1,20 +1,20 @@
 const Bookshelf = require('../bookshelf');
 
 require('./user');
-require('./organization-access');
+require('./membership');
 require('./target-profile-share');
 
 module.exports = Bookshelf.model('Organization', {
 
   tableName: 'organizations',
 
-  // TODO Remove this link, now use organization-access
+  // TODO Remove this link, now use membership
   user() {
     return this.belongsTo('User', 'userId');
   },
 
-  organizationAccesses() {
-    return this.hasMany('OrganizationAccess', 'organizationId');
+  memberships() {
+    return this.hasMany('Membership', 'organizationId');
   },
 
   targetProfileShares() {

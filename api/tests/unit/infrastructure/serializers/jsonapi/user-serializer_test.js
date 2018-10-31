@@ -87,9 +87,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             id: '234567',
             type: 'users',
             'relationships': {
-              'organization-accesses': {
+              'memberships': {
                 'links': {
-                  'related': '/users/234567/organization-accesses'
+                  'related': '/users/234567/memberships'
                 }
               }
             }
