@@ -5,7 +5,7 @@ const Campaign = require('../models/Campaign');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
 function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
-  return userRepository.getWithOrganizationAccesses(userId)
+  return userRepository.getWithMemberships(userId)
     .then((user) => {
       if(user.hasAccessToOrganization(organizationId)) {
         return Promise.resolve();

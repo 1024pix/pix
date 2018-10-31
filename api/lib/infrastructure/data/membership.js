@@ -3,7 +3,7 @@ const Bookshelf = require('../bookshelf');
 require('./organization');
 require('./organization-role');
 
-module.exports = Bookshelf.model('OrganizationAccess', {
+module.exports = Bookshelf.model('Membership', {
 
   tableName: 'memberships',
 

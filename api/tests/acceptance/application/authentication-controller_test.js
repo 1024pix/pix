@@ -120,7 +120,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
             organizationRoleId,
           };
         })
-        .then((organizationAccess) => knex('memberships').insert(organizationAccess));
+        .then((membership) => knex('memberships').insert(membership));
     });
 
     afterEach(() => {
