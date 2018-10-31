@@ -1,5 +1,5 @@
 import BaseRoute from 'mon-pix/routes/base-route';
-import campaignTutorial from 'mon-pix/models/campaign-tutorial';
+import campaignTutorial from 'mon-pix/static-data/campaign-tutorial';
 
 export default BaseRoute.extend({
 
