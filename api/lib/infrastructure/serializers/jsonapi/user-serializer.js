@@ -5,13 +5,13 @@ module.exports = {
 
   serialize(users, meta) {
     return new Serializer('user', {
-      attributes: ['firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'organizationAccesses'],
-      organizationAccesses: {
+      attributes: ['firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'memberships'],
+      memberships: {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
           related: function(record, current, parent) {
-            return `/users/${parent.id}/organization-accesses`;
+            return `/users/${parent.id}/memberships`;
           }
         }
       },

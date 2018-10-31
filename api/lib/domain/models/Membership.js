@@ -1,4 +1,4 @@
-class OrganizationAccess {
+class Membership {
 
   constructor({
     id,
@@ -17,4 +17,4 @@ class OrganizationAccess {
   }
 }
 
-module.exports = OrganizationAccess;
+module.exports = Membership;

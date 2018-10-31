@@ -17,13 +17,13 @@ function _toDomain(bookshelfOrganization) {
   });
 
   let members = [];
-  if (rawOrganization.organizationAccesses) {
-    members = rawOrganization.organizationAccesses.map((organizationAccess) => {
+  if (rawOrganization.memberships) {
+    members = rawOrganization.memberships.map((membership) => {
       return new User({
-        id: organizationAccess.user.id,
-        firstName: organizationAccess.user.firstName,
-        lastName: organizationAccess.user.lastName,
-        email: organizationAccess.user.email,
+        id: membership.user.id,
+        firstName: membership.user.firstName,
+        lastName: membership.user.lastName,
+        email: membership.user.email,
       });
     });
   }
@@ -80,8 +80,8 @@ module.exports = {
       .fetch({
         require: true,
         withRelated: [
-          'organizationAccesses.user',
-          'organizationAccesses.organizationRole',
+          'memberships.user',
+          'memberships.organizationRole',
           'targetProfileShares.targetProfile'
         ]
       })

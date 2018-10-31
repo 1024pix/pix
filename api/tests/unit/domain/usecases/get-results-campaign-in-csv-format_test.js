@@ -9,7 +9,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
   describe('#getResultsCampaignInCsvFormat', () => {
 
     const user = factory.buildUser();
-    const organization = user.organizationAccesses[0].organization;
+    const organization = user.memberships[0].organization;
     const listSkills = factory.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 4 });
     const [skillWeb1, skillWeb2, skillWeb3, skillWeb4] = listSkills;
     const assessment = factory.buildAssessment.ofTypeSmartPlacement({
@@ -70,7 +70,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       },
     ];
     const campaignRepository = { get: () => undefined };
-    const userRepository = { getWithOrganizationAccesses: () => undefined, get: () => undefined };
+    const userRepository = { getWithMemberships: () => undefined, get: () => undefined };
     const targetProfileRepository = { get: () => undefined };
     const competenceRepository = { list: () => undefined };
     const organizationRepository = { get: () => undefined };
@@ -86,7 +86,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       sandbox.stub(campaignRepository, 'get').resolves(campaign);
       sandbox.stub(competenceRepository, 'list').resolves(competences);
       sandbox.stub(targetProfileRepository, 'get').resolves(targetProfile);
-      sandbox.stub(userRepository, 'getWithOrganizationAccesses').resolves(user);
+      sandbox.stub(userRepository, 'getWithMemberships').resolves(user);
       sandbox.stub(organizationRepository, 'get').resolves(organization);
       sandbox.stub(userRepository, 'get').resolves(user);
       sandbox.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);

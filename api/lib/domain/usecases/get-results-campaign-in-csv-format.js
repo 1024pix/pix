@@ -8,7 +8,7 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
     return Promise.reject(new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`));
   }
 
-  return userRepository.getWithOrganizationAccesses(userId)
+  return userRepository.getWithMemberships(userId)
     .then((user) => {
       if (user.hasAccessToOrganization(organizationId)) {
         return Promise.resolve();
