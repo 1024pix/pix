@@ -58,7 +58,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         organizationRoleId = insertedOrganizationRole[0];
         organizationRoleToInsert.id = organizationRoleId;
         organizationAccessToInsert.organizationRoleId = organizationRoleId;
-        return knex('organizations-accesses').insert(organizationAccessToInsert);
+        return knex('memberships').insert(organizationAccessToInsert);
       })
       .then((insertedOrganizationAccess) => {
         organizationAccessToInsert.id = insertedOrganizationAccess[0];
@@ -160,7 +160,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
 
       afterEach(() => {
-        return knex('organizations-accesses').delete()
+        return knex('memberships').delete()
           .then(() => {
             return Promise.all([
               knex('organizations').delete(),
@@ -282,7 +282,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
 
       afterEach(() => {
-        return knex('organizations-accesses').delete()
+        return knex('memberships').delete()
           .then(() => {
             return Promise.all([
               knex('organizations').delete(),

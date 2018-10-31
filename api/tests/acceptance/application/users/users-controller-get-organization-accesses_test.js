@@ -39,7 +39,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
         organizationRoleId,
       };
 
-      return knex('organizations-accesses').insert(organizationAccessRaw).returning('id');
+      return knex('memberships').insert(organizationAccessRaw).returning('id');
     }
 
     function _insertOrganizationRoles() {
@@ -72,7 +72,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
     afterEach(() => {
       return knex('users').delete()
         .then(() => knex('organizations').delete())
-        .then(() => knex('organizations-accesses').delete());
+        .then(() => knex('memberships').delete());
     });
 
     it('should return found accesses with 200 HTTP status code', () => {

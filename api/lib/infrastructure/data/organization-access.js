@@ -5,7 +5,7 @@ require('./organization-role');
 
 module.exports = Bookshelf.model('OrganizationAccess', {
 
-  tableName: 'organizations-accesses',
+  tableName: 'memberships',
 
   user() {
     return this.belongsTo('User', 'userId');
