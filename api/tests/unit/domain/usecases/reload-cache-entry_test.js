@@ -7,12 +7,12 @@ describe('Unit | UseCase | reloadCacheEntry', () => {
 
   beforeEach(() => {
     sinon.stub(cache, 'del').resolves();
-    sinon.stub(preloader, 'loadTable').resolves();
+    sinon.stub(preloader, 'loadKey').resolves();
   });
 
   afterEach(() => {
     cache.del.restore();
-    preloader.loadTable.restore();
+    preloader.loadKey.restore();
   });
 
   it('should call the cache method to delete key', () => {
@@ -37,7 +37,7 @@ describe('Unit | UseCase | reloadCacheEntry', () => {
 
     // Then
     return promise.then(() => {
-      expect(preloader.loadTable).to.have.been.calledWith(cacheKey);
+      expect(preloader.loadKey).to.have.been.calledWith(cacheKey);
     });
   });
 

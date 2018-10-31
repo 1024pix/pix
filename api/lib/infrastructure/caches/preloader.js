@@ -7,7 +7,15 @@ function cacheIndividually(records, tablename) {
     return cache.set(cacheKey, record._rawJson);
   }));
 }
+function loadTable(tableName) {
+  return airtable.findRecords(tableName)
+    .then((records) => cacheIndividually(records, tableName));
+}
 
+function loadRecord(key) {
+  const tableAndRecord = key.split('_');
+  return airtable.getRecord(tableAndRecord[0], tableAndRecord[1]);
+}
 module.exports = {
 
   loadAllTables() {
@@ -18,12 +26,14 @@ module.exports = {
       'Epreuves',
       'Tests',
       'Tutoriels',
-    ].map(this.loadTable));
+    ].map(loadTable));
   },
 
-  loadTable(tableName) {
-    return airtable.findRecords(tableName)
-      .then((records) => cacheIndividually(records, tableName));
+  loadKey(key) {
+    if(key.includes('_')) {
+      return loadRecord(key);
+    }
+    return loadTable(key);
   }
 
 };

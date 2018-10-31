@@ -105,11 +105,13 @@ describe('Unit | Infrastructure | preloader', () => {
 
   beforeEach(() => {
     sinon.stub(airtable, 'findRecords');
+    sinon.stub(airtable, 'getRecord');
     sinon.stub(cache, 'set').resolves();
   });
 
   afterEach(() => {
     airtable.findRecords.restore();
+    airtable.getRecord.restore();
     cache.set.restore();
   });
 
@@ -200,27 +202,50 @@ describe('Unit | Infrastructure | preloader', () => {
     });
   });
 
-  describe('#loadTable', () => {
+  describe('#loadKey', () => {
     let promise = null;
 
-    beforeEach(() => {
-      // given
+    context('When the key is a table',() => {
+      beforeEach(() => {
+        // given
+        airtable.findRecords
+          .withArgs('Epreuves')
+          .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
 
-      airtable.findRecords
-        .withArgs('Epreuves')
-        .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
+        return  promise = preloader.loadKey('Epreuves');
+      });
 
-      promise = preloader.loadTable('Epreuves');
+      it('For table "Epreuves", should fetch all challenges and cache them individually', () => {
+        // then
+        return promise
+          .then(() => {
+            expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge1', airtableChallenge_1._rawJson);
+            expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge2', airtableChallenge_2._rawJson);
+          });
+      });
     });
 
-    it('should fetch all challenges and cache them individually', () => {
-      // then
-      return expect(promise).to.have.been.fulfilled
-        .then(() => {
-          expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge1', airtableChallenge_1._rawJson);
-          expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge2', airtableChallenge_2._rawJson);
-        });
+    context('When the key is a record',() => {
+      beforeEach(() => {
+        // given
+        airtable.getRecord
+          .withArgs('Epreuves', 'recChallenge1')
+          .resolves(airtableChallenge_1);
+
+        return  promise = preloader.loadKey('Epreuves_recChallenge1');
+      });
+
+      it('For record "Epreuves_recChallenge1", should fetch only the challenge', () => {
+        // then
+        return promise
+          .then(() => {
+            expect(airtable.getRecord).to.have.been.calledWith('Epreuves', 'recChallenge1');
+            expect(airtable.getRecord).to.not.have.been.calledWith('Epreuves', 'recChallenge2');
+          });
+      });
+
     });
+
   });
 
 });
