@@ -1,11 +1,15 @@
+import Response from 'ember-cli-mirage/response';
+
 export default function(schema, request) {
   const code = request.queryParams['filter[code]'];
 
-  const foundCampaigns = schema.campaigns.where({ code });
-
-  if (foundCampaigns.length > 0) {
-    return foundCampaigns;
+  if (code) {
+    const campaigns = schema.campaigns.where({ code });
+    if (campaigns.length === 0) {
+      return new Response(404);
+    }
+    return campaigns;
   }
-  // FIXME REST API should return an empty array when no ressources were found
-  return new Response(404);
+  return schema.campaigns.all();
+
 }

@@ -16,6 +16,7 @@ export default BaseRoute.extend({
     return RSVP.hash({
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
+      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     }).catch((err) => {
       const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {
@@ -24,17 +25,40 @@ export default BaseRoute.extend({
     });
   },
 
-  afterModel(model) {
-    const store = this.get('store');
+  afterModel(modelResult) {
+    const requiredDatas = {};
 
-    return RSVP.hash({
-      user: model.assessment.get('isCertification') ? store.findRecord('user', this.get('session.data.authenticated.userId')) : null,
-      answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id })
-    }).then((hash) => {
-      model.user = hash.user;
-      model.answers = hash.answers;
-      return model;
-    });
+    const userId = this.get('session.data.authenticated.userId');
+    const campaignCode = modelResult.assessment.codeCampaign;
+
+    if (modelResult.assessment.get('isPlacement')
+      || modelResult.assessment.get('isPreview')
+      || modelResult.assessment.get('isDemo')
+    ) {
+
+      return Promise.resolve(modelResult);
+    }
+
+    if (modelResult.assessment.get('isCertification')) {
+      requiredDatas.user = this._getUser(userId);
+      return RSVP.hash(requiredDatas)
+        .then((hash) => {
+          modelResult.user = hash.user;
+          return modelResult;
+        });
+    }
+
+    if (modelResult.assessment.get('isSmartPlacement')) {
+      requiredDatas.campaigns = this._findCampaigns({ campaignCode });
+
+      return RSVP.hash(requiredDatas)
+        .then((hash) => {
+          modelResult.campaign = hash.campaigns.get('firstObject');
+          modelResult.user = null;
+          return modelResult;
+        });
+    }
+
   },
 
   serialize(model) {
@@ -42,6 +66,14 @@ export default BaseRoute.extend({
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
     };
+  },
+
+  _getUser(userId) {
+    return this.get('store').findRecord('user', userId);
+  },
+
+  _findCampaigns({ campaignCode }) {
+    return this.get('store').query('campaign', { filter: { code: campaignCode } });
   },
 
   _findOrCreateAnswer(challenge, assessment) {
@@ -74,8 +106,8 @@ export default BaseRoute.extend({
       return answer.save()
         .then(() => this._getNextChallenge(assessment, challenge))
         .then((nextChallenge) => {
-          if(nextChallenge) {
-            if(assessment.get('hasCheckpoints') && this._hasReachedCheckpoint(assessment)) {
+          if (nextChallenge) {
+            if (assessment.get('hasCheckpoints') && this._hasReachedCheckpoint(assessment)) {
               return this.transitionTo('assessments.checkpoint', assessment.get('id'));
             }
             this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
