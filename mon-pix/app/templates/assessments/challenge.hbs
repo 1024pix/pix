@@ -2,7 +2,7 @@
 
   <div class="assessment-challenge__course-banner">
     {{#if model.assessment.isPlacement}}
-      {{course-banner course=model.assessment.course withHomeLink=true}}
+      {{placement-banner competenceName=model.assessment.course.name}}
     {{/if}}
     {{#if model.assessment.isDemo}}
       {{course-banner course=model.assessment.course withHomeLink=true}}
