@@ -12,8 +12,8 @@ module('Unit | Service | current-organization', function(hooks) {
   test('it should stock the current organization data if user exists', function(assert) {
     // given
     const userOrganization = Object.create({ name: 'Orga Nisme'});
-    const organizationAccess = Object.create({ organization: userOrganization });
-    const memberships = EmberArray([organizationAccess]);
+    const membershipess = Object.create({ organization: userOrganization });
+    const memberships = EmberArray([membershipess]);
 
     const connectedUser = Object.create({ id: 1 });
     connectedUser.get = () => resolve(memberships);
