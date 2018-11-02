@@ -23,7 +23,8 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
   const model = {
     assessment: {
       id: 'assessment_id',
-      get: sinon.stub()
+      get: sinon.stub().callsFake(() => 'ASSESSMENT_TYPE'),
+      type: 'PLACEMENT'
     },
     challenge: {
       id: 'challenge_id'
@@ -69,29 +70,32 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
       sinon.assert.calledWith(findRecordStub, 'assessment', params.assessment_id);
       sinon.assert.calledWith(findRecordStub, 'challenge', params.challenge_id);
     });
-  });
-
-  describe('#afterModel', function() {
     it('should call queryRecord to find answer', function() {
       // given
       model.assessment.get.withArgs('isCertification').returns(false);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
 
       // when
-      const promise = route.afterModel(model);
+      const promise = route.model(params);
 
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(queryRecordStub);
         sinon.assert.calledWith(queryRecordStub, 'answer', {
-          assessment: model.assessment.id,
-          challenge: model.challenge.id
+          assessment: params.assessment_id,
+          challenge: params.challenge_id
         });
       });
     });
+  });
+
+  describe('#afterModel', function() {
 
     it('should call findRecord for user if assessment is certification', function() {
       // given
+      model.assessment.get.withArgs('isPlacement').returns(false);
+      model.assessment.get.withArgs('isPreview').returns(false);
+      model.assessment.get.withArgs('isDemo').returns(false);
       model.assessment.get.withArgs('isCertification').returns(true);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
 
@@ -107,6 +111,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
 
     it('should not call findRecord for user if Assessment is not a certification', function() {
       // given
+      model.assessment.get.withArgs('isPlacement').returns(true);
       model.assessment.get.withArgs('isCertification').returns(false);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
 

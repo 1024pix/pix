@@ -17,7 +17,8 @@
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
 /* components */
-@import 'components/_blue-ribbon.scss';
+@import 'components/_blue-ribbon';
+@import 'components/_campaign-banner';
 @import 'components/_certification-code-validation';
 @import 'components/certification-banner';
 @import 'components/certification-result';
@@ -51,6 +52,7 @@
 @import 'components/no-certification-panel';
 @import 'components/password-reset-form';
 @import 'components/pix-logo';
+@import 'components/placement-banner';
 @import 'components/profile-panel';
 @import 'components/qcm-solution-panel';
 @import 'components/qcu-solution-panel';
