@@ -10,10 +10,12 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   campaignCode: null,
   campaign: null,
   userHasSeenLanding: false,
+  userHasJustConsultedTutorial: false,
 
   beforeModel(transition) {
     this.set('campaignCode', transition.params['campaigns.start-or-resume'].campaign_code);
     this.set('userHasSeenLanding', transition.queryParams.hasSeenLanding);
+    this.set('userHasJustConsultedTutorial', transition.queryParams.hasJustConsultedTutorial);
 
     if (this._userIsUnauthenticated() && !this.get('userHasSeenLanding')) {
       return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
@@ -41,22 +43,26 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
           return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
         }
         const assessment = smartPlacementAssessments.get('firstObject');
-        return this._fetchChallenge(assessment)
-          .then((challenge) => {
-            if (challenge) {
-              return this.transitionTo('assessments.challenge', { assessment, challenge });
-            } else {
-              return this.transitionTo('campaigns.skill-review', this.get('campaignCode'), assessment.get('id'));
-            }
-          });
-
+        return assessment.reload();
+      })
+      .then((assessment) => {
+        if (!this.get('userHasJustConsultedTutorial') && assessment.answers.length === 0) {
+          return this.transitionTo('campaigns.tutorial', this.get('campaignCode'));
+        }
+        return this._fetchChallenge(assessment);
       });
   },
 
   _fetchChallenge(assessment) {
     const store = this.get('store');
-    return assessment.reload()
-      .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }));
+    return store.queryRecord('challenge', { assessmentId: assessment.get('id') })
+      .then((challenge) => {
+        if (challenge) {
+          return this.transitionTo('assessments.challenge', { assessment, challenge });
+        } else {
+          return this.transitionTo('campaigns.skill-review', this.get('campaignCode'), assessment.get('id'));
+        }
+      });
   },
 
   _userIsUnauthenticated() {

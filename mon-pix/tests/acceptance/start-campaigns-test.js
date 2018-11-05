@@ -73,7 +73,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('/didacticiel');
           });
         });
       });
@@ -89,7 +89,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         it('should redirect to assessment after connexion', async function() {
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('/didacticiel');
           });
         });
       });
@@ -143,17 +143,31 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           expect(receivedParticipantExternalId).to.equal(participantExternalId);
         });
 
-        it('should go to the assessment when the user fill in his id', async function() {
+        it('should go to the tutorial when the user fill in his id', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
           await click('.pix-button');
 
           // then
           return andThen(() => {
+            expect(currentURL()).to.contains('campagnes/AZERTY1/didacticiel');
+          });
+        });
+
+        it('should start the assessment when the user has seen tutorial', async function() {
+          // when
+          fillIn('#id-pix-label', 'monmail@truc.fr');
+          await click('.pix-button');
+          await click('.next-page-tutorial');
+          await click('.next-page-tutorial');
+          await click('.next-page-tutorial');
+          await click('.start-first-question');
+
+          // then
+          return andThen(() => {
             expect(currentURL()).to.contains(/assessments/);
             expect(find('.course-banner__name').text()).to.equal('');
             findWithAssert('.assessment-challenge__progress-bar');
-
           });
         });
       });
@@ -164,13 +178,13 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           await visit('/campagnes/AZERTY2');
         });
 
-        it('should redirect to assessment after clicking on start button in landing page', async function() {
+        it('should redirect to tutorial after clicking on start button in landing page', async function() {
           // when
           await click('.campaign-landing-page__start-button');
 
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('campagnes/AZERTY2/didacticiel');
           });
         });
 
