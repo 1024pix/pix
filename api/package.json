@@ -13,6 +13,7 @@
     "airtable": "^0.5.2",
     "bcrypt": "^1.0.3",
     "blipp": "^2.3.0",
+    "bluebird": "^3.5.3",
     "bookshelf": "^0.12.1",
     "bookshelf-page": "^0.3.2",
     "bookshelf-validate": "^2.0.3",
