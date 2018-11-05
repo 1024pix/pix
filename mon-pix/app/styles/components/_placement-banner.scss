@@ -29,6 +29,8 @@
 
 .placement-banner__title h1 {
   margin: 0;
+  font-size: 24px;
+  font-weight: $font-normal;
 }
 
 .placement-banner__pix-logo {
@@ -54,6 +56,7 @@
 .placement-banner__home-link {
   font-family: $font-roboto;
   font-size: 13px;
+  font-weight: $font-medium;
   margin-left: auto;
   text-align: right;
   color: white;
