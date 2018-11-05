@@ -52,6 +52,7 @@
     "redlock": "^3.1.2",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
+    "samlify": "github:1024pix/samlify#no-xml-validation",
     "sqlite3": "^3.1.13",
     "vision": "^4.1.1",
     "xregexp": "^3.2.0",
