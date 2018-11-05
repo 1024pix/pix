@@ -19,6 +19,7 @@ const dependencies = {
   courseRepository: require('../../infrastructure/repositories/course-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
   mailService: require('../../domain/services/mail-service'),
+  membershipRepository: require('../../infrastructure/repositories/membership-repository'),
   organizationService: require('../../domain/services/organization-service'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   resetPasswordService: require('../../domain/services/reset-password-service'),

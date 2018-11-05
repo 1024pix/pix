@@ -3,14 +3,14 @@ const moment = require('moment');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 
-function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
+function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, membershipRepository) {
   if (_.isNil(organizationId)) {
     return Promise.reject(new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`));
   }
 
-  return userRepository.getWithMemberships(userId)
-    .then((user) => {
-      if (user.hasAccessToOrganization(organizationId)) {
+  return membershipRepository.hasAccessToOrganization(organizationId, userId)
+    .then((hasAccess) => {
+      if (hasAccess) {
         return Promise.resolve();
       }
       return Promise.reject(
@@ -164,7 +164,7 @@ function _createOneLineOfCSV(
       const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
       line = _addCellByHeadersTitleForText('"Partage (O/N)"', textForParticipationShared, line, headers);
 
-      if(assessment.isCompleted && campaignParticipation.isShared) {
+      if (assessment.isCompleted && campaignParticipation.isShared) {
 
         line = _addCellByHeadersTitleForText('"Date du partage"', moment(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
 
@@ -253,6 +253,7 @@ module.exports = function getResultsCampaignInCSVFormat(
     competenceRepository,
     campaignParticipationRepository,
     organizationRepository,
+    membershipRepository,
     smartPlacementAssessmentRepository,
   }) {
 
@@ -263,7 +264,7 @@ module.exports = function getResultsCampaignInCSVFormat(
   return campaignRepository.get(campaignId)
     .then((campaignFound) => {
       campaign = campaignFound;
-      return _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
+      return _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, membershipRepository);
     })
     .then(() => {
       return Promise.all([

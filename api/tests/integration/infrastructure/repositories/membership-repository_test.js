@@ -3,23 +3,17 @@ const membershipRepository = require('../../../../lib/infrastructure/repositorie
 
 describe('Integration | Repository | Organization', function() {
 
-  describe('#getByOrganizationIdAndUserId', () => {
+  describe('#hasAccessToOrganization', () => {
 
     const ORGANIZATION_ID = 111;
     const ROLE_ID = 222;
     const USER_ID = 333;
 
     beforeEach(() => {
-      // Membership dependencies
-      databaseBuilder.factory.buildOrganization({ id: ORGANIZATION_ID });
-      databaseBuilder.factory.buildOrganizationRole({ id: ROLE_ID });
-      databaseBuilder.factory.buildUser({ id: USER_ID });
-
       // Matching Membership
       databaseBuilder.factory.buildMembership({ organizationId: ORGANIZATION_ID, roleId: ROLE_ID, userId: USER_ID });
 
       // Other Memberships
-      databaseBuilder.factory.buildMembership();
       databaseBuilder.factory.buildMembership();
       databaseBuilder.factory.buildMembership();
       databaseBuilder.factory.buildMembership();

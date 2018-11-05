@@ -26,7 +26,7 @@ class User {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     // includes
     this.pixRoles = pixRoles;
-    this.memberships = memberships;
+    this.memberships = memberships; // FIXME delete
     // references
   }
 
@@ -34,13 +34,9 @@ class User {
     return !!this.pixRoles.find((pixRole) => pixRole.name === 'PIX_MASTER');
   }
 
+  // FIXME mote to MembershipRepository
   isLinkedToOrganizations() {
     return this.memberships.length > 0;
-  }
-
-  hasAccessToOrganization(organizationId) {
-    return this.memberships
-      .some((membership) => membership.organization.id === organizationId);
   }
 
 }

@@ -70,12 +70,13 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       },
     ];
     const campaignRepository = { get: () => undefined };
-    const userRepository = { getWithMemberships: () => undefined, get: () => undefined };
-    const targetProfileRepository = { get: () => undefined };
-    const competenceRepository = { list: () => undefined };
-    const organizationRepository = { get: () => undefined };
     const campaignParticipationRepository = { findByCampaignId: () => undefined };
+    const competenceRepository = { list: () => undefined };
+    const membershipRepository = { hasAccessToOrganization: () => undefined };
+    const organizationRepository = { get: () => undefined };
     const smartPlacementAssessmentRepository = { get: () => undefined };
+    const targetProfileRepository = { get: () => undefined };
+    const userRepository = { getWithMemberships: () => undefined, get: () => undefined };
 
     let sandbox;
     let findCampaignParticipationStub;
@@ -85,11 +86,12 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       sandbox = sinon.sandbox.create();
       sandbox.stub(campaignRepository, 'get').resolves(campaign);
       sandbox.stub(competenceRepository, 'list').resolves(competences);
-      sandbox.stub(targetProfileRepository, 'get').resolves(targetProfile);
-      sandbox.stub(userRepository, 'getWithMemberships').resolves(user);
+      sandbox.stub(membershipRepository, 'hasAccessToOrganization').resolves(true);
       sandbox.stub(organizationRepository, 'get').resolves(organization);
-      sandbox.stub(userRepository, 'get').resolves(user);
       sandbox.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
+      sandbox.stub(targetProfileRepository, 'get').resolves(targetProfile);
+      sandbox.stub(userRepository, 'get').resolves(user);
+      sandbox.stub(userRepository, 'getWithMemberships').resolves(user);
       findCampaignParticipationStub = sandbox.stub(campaignParticipationRepository, 'findByCampaignId');
     });
 
@@ -126,13 +128,14 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       const promise = getResultsCampaignInCsvFormat({
         userId: user.id,
         campaignId: campaign.id,
-        campaignRepository,
-        userRepository,
-        targetProfileRepository,
-        competenceRepository,
-        organizationRepository,
         campaignParticipationRepository,
+        campaignRepository,
+        competenceRepository,
+        membershipRepository,
+        organizationRepository,
         smartPlacementAssessmentRepository,
+        targetProfileRepository,
+        userRepository,
       });
 
       // then
@@ -173,13 +176,14 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         const promise = getResultsCampaignInCsvFormat({
           userId: user.id,
           campaignId: campaign.id,
-          campaignRepository,
-          userRepository,
-          targetProfileRepository,
-          competenceRepository,
-          organizationRepository,
           campaignParticipationRepository,
+          campaignRepository,
+          competenceRepository,
+          membershipRepository,
+          organizationRepository,
           smartPlacementAssessmentRepository,
+          targetProfileRepository,
+          userRepository,
         });
 
         // then
@@ -223,13 +227,14 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         const promise = getResultsCampaignInCsvFormat({
           userId: user.id,
           campaignId: campaign.id,
-          campaignRepository,
-          userRepository,
-          targetProfileRepository,
-          competenceRepository,
-          organizationRepository,
           campaignParticipationRepository,
+          campaignRepository,
+          competenceRepository,
+          membershipRepository,
+          organizationRepository,
           smartPlacementAssessmentRepository,
+          targetProfileRepository,
+          userRepository,
         });
 
         // then
@@ -279,13 +284,14 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         const promise = getResultsCampaignInCsvFormat({
           userId: user.id,
           campaignId: campaign.id,
-          campaignRepository,
-          userRepository,
-          targetProfileRepository,
-          competenceRepository,
-          organizationRepository,
           campaignParticipationRepository,
+          campaignRepository,
+          competenceRepository,
+          membershipRepository,
+          organizationRepository,
           smartPlacementAssessmentRepository,
+          targetProfileRepository,
+          userRepository,
         });
 
         // then

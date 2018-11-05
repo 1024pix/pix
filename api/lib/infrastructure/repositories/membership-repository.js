@@ -12,5 +12,9 @@ module.exports = {
       .then((bookshelfMembership) => !!bookshelfMembership);
   },
 
+  findByUserId(userId) {
+    // FIXME
+  },
+
 };
 
