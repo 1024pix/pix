@@ -9,7 +9,7 @@ describe('Acceptance | Controller | cache-controller', () => {
 
     beforeEach(() => {
       options = {
-        method: 'PATCH',
+        method: 'DELETE',
         url: '/api/cache/cache-test-key',
         headers: { }
       };
