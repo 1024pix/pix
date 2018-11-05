@@ -2,7 +2,7 @@ const encryptionService = require('../../domain/services/encryption-service');
 const { MissingOrInvalidCredentialsError, ForbiddenAccess } = require('../../domain/errors');
 
 function _canUserAccessScope(scope, userId, membershipRepository) {
-  if (scope === 'pix-orga' && !membershipRepository.isLinkedToOrganizations(userId)) {
+  if (scope === 'pix-orga' && !membershipRepository.hasMembershipForUser(userId)) {
     return Promise.reject(new ForbiddenAccess('User is not allowed to access this area'));
   }
   return Promise.resolve();

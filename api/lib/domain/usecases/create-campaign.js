@@ -4,8 +4,8 @@ const campaignValidator = require('../validators/campaign-validator');
 const Campaign = require('../models/Campaign');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
-function _checkCreatorHasAccessToOrganization(userId, organizationId, membershipRepository) {
-  return membershipRepository.hasAccessToOrganization(organizationId, userId)
+function _checkCreatorhasMembershipForOrganizationAndUser(userId, organizationId, membershipRepository) {
+  return membershipRepository.hasMembershipForOrganizationAndUser(organizationId, userId)
     .then((hasAccess) => {
       if(hasAccess) {
         return Promise.resolve();
@@ -26,7 +26,7 @@ function _checkOrganizationHasAccessToTargetProfile(targetProfileId, organizatio
 
 module.exports = function createCampaign({ campaign, campaignRepository, membershipRepository, organizationService }) {
   return campaignValidator.validate(campaign)
-    .then(() => _checkCreatorHasAccessToOrganization(campaign.creatorId, campaign.organizationId, membershipRepository))
+    .then(() => _checkCreatorhasMembershipForOrganizationAndUser(campaign.creatorId, campaign.organizationId, membershipRepository))
     .then(() => _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService))
     .then(() => campaignCodeGenerator.generate(campaignRepository))
     .then((generatedCampaignCode) => {

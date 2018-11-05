@@ -2,17 +2,17 @@ const BookshelfMembership = require('../data/membership');
 
 module.exports = {
 
-  hasAccessToOrganization(organizationId, userId) {
+  hasMembershipForOrganizationAndUser(organizationId, userId) {
     return new BookshelfMembership()
       .where({
         'organizationId': organizationId,
         'userId': userId
       })
-      .fetch()
-      .then((bookshelfMembership) => !!bookshelfMembership);
+      .count()
+      .then((nbMemberships) => nbMemberships > 0);
   },
 
-  isLinkedToOrganizations(userId) {
+  hasMembershipForUser(userId) {
     return new BookshelfMembership()
       .where({
         'userId': userId

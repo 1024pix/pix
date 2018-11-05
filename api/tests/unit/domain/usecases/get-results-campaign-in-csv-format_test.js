@@ -72,7 +72,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const campaignRepository = { get: () => undefined };
     const campaignParticipationRepository = { findByCampaignId: () => undefined };
     const competenceRepository = { list: () => undefined };
-    const membershipRepository = { hasAccessToOrganization: () => undefined };
+    const membershipRepository = { hasMembershipForOrganizationAndUser: () => undefined };
     const organizationRepository = { get: () => undefined };
     const smartPlacementAssessmentRepository = { get: () => undefined };
     const targetProfileRepository = { get: () => undefined };
@@ -86,7 +86,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       sandbox = sinon.sandbox.create();
       sandbox.stub(campaignRepository, 'get').resolves(campaign);
       sandbox.stub(competenceRepository, 'list').resolves(competences);
-      sandbox.stub(membershipRepository, 'hasAccessToOrganization').resolves(true);
+      sandbox.stub(membershipRepository, 'hasMembershipForOrganizationAndUser').resolves(true);
       sandbox.stub(organizationRepository, 'get').resolves(organization);
       sandbox.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
       sandbox.stub(targetProfileRepository, 'get').resolves(targetProfile);

@@ -1,4 +1,4 @@
-const { expect, factory } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | Domain | Models | User', () => {

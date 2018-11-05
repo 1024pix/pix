@@ -23,11 +23,11 @@ describe('Integration | Repository | Organization', function() {
     return databaseBuilder.clean();
   });
 
-  describe('#hasAccessToOrganization', () => {
+  describe('#hasMembershipForOrganizationAndUser', () => {
 
     it('should resolve a boolean', async () => {
       // when
-      const result = await membershipRepository.hasAccessToOrganization(ORGANIZATION_ID, USER_ID);
+      const result = await membershipRepository.hasMembershipForOrganizationAndUser(ORGANIZATION_ID, USER_ID);
 
       // then
       expect(result).to.be.a('boolean');
@@ -35,7 +35,7 @@ describe('Integration | Repository | Organization', function() {
 
     it('should resolve "true" when a Membership exist for given Organization ID and User ID', async () => {
       // when
-      const result = await membershipRepository.hasAccessToOrganization(ORGANIZATION_ID, USER_ID);
+      const result = await membershipRepository.hasMembershipForOrganizationAndUser(ORGANIZATION_ID, USER_ID);
 
       // then
       expect(result).to.equal(true);
@@ -43,18 +43,18 @@ describe('Integration | Repository | Organization', function() {
 
     it('should resolve "false" when there is no Membership for given Organization ID and User ID', async () => {
       // when
-      const result = await membershipRepository.hasAccessToOrganization(888, 999);
+      const result = await membershipRepository.hasMembershipForOrganizationAndUser(888, 999);
 
       // then
       expect(result).to.equal(false);
     });
   });
 
-  describe('#isLinkedToOrganizations', () => {
+  describe('#hasMembershipForUser', () => {
 
     it('should resolve a boolean', async () => {
       // when
-      const result = await membershipRepository.isLinkedToOrganizations(USER_ID);
+      const result = await membershipRepository.hasMembershipForUser(USER_ID);
 
       // then
       expect(result).to.be.a('boolean');
@@ -62,7 +62,7 @@ describe('Integration | Repository | Organization', function() {
 
     it('should resolve "true" when there is a Membership for given User ID', async () => {
       // when
-      const result = await membershipRepository.isLinkedToOrganizations(USER_ID);
+      const result = await membershipRepository.hasMembershipForUser(USER_ID);
 
       // then
       expect(result).to.equal(true);
@@ -70,7 +70,7 @@ describe('Integration | Repository | Organization', function() {
 
     it('should resolve "false" when there is no Membership for given User ID', async () => {
       // when
-      const result = await membershipRepository.isLinkedToOrganizations(999);
+      const result = await membershipRepository.hasMembershipForUser(999);
 
       // then
       expect(result).to.equal(false);

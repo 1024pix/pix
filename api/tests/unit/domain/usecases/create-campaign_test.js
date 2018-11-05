@@ -13,7 +13,7 @@ describe('Unit | UseCase | create-campaign', () => {
   const savedCampaign = factory.buildCampaign({ code: availableCampaignCode });
   const targetProfile = factory.buildTargetProfile({ id: targetProfileId, isPublic: true });
   const campaignRepository = { save: () => undefined };
-  const membershipRepository = { hasAccessToOrganization: () => undefined };
+  const membershipRepository = { hasMembershipForOrganizationAndUser: () => undefined };
   const organizationService = { findAllTargetProfilesAvailableForOrganization: () => undefined };
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('Unit | UseCase | create-campaign', () => {
     sandbox.stub(campaignCodeGenerator, 'generate');
     sandbox.stub(campaignRepository, 'save');
     sandbox.stub(campaignValidator, 'validate');
-    sandbox.stub(membershipRepository, 'hasAccessToOrganization');
+    sandbox.stub(membershipRepository, 'hasMembershipForOrganizationAndUser');
     sandbox.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization');
   });
 
@@ -48,7 +48,7 @@ describe('Unit | UseCase | create-campaign', () => {
   it('should throw an error if user do not have an access to the campaign organization', () => {
     // given
     campaignValidator.validate.resolves();
-    membershipRepository.hasAccessToOrganization.resolves(false);
+    membershipRepository.hasMembershipForOrganizationAndUser.resolves(false);
 
     // when
     const promise = createCampaign({
@@ -65,7 +65,7 @@ describe('Unit | UseCase | create-campaign', () => {
   it('should generate a new code to the campaign', () => {
     // given
     campaignValidator.validate.resolves();
-    membershipRepository.hasAccessToOrganization.resolves(true);
+    membershipRepository.hasMembershipForOrganizationAndUser.resolves(true);
     organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
     campaignCodeGenerator.generate.resolves(availableCampaignCode);
     campaignRepository.save.resolves(savedCampaign);
@@ -88,7 +88,7 @@ describe('Unit | UseCase | create-campaign', () => {
   it('should save the campaign with name, userId, organizationId and generated code', () => {
     // given
     campaignValidator.validate.resolves();
-    membershipRepository.hasAccessToOrganization.resolves(true);
+    membershipRepository.hasMembershipForOrganizationAndUser.resolves(true);
     organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
     campaignCodeGenerator.generate.resolves(availableCampaignCode);
     campaignRepository.save.resolves(savedCampaign);
@@ -116,7 +116,7 @@ describe('Unit | UseCase | create-campaign', () => {
   it('should return the newly created campaign', () => {
     // given
     campaignValidator.validate.resolves();
-    membershipRepository.hasAccessToOrganization.resolves(true);
+    membershipRepository.hasMembershipForOrganizationAndUser.resolves(true);
     organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
     campaignCodeGenerator.generate.resolves(availableCampaignCode);
     campaignRepository.save.resolves(savedCampaign);

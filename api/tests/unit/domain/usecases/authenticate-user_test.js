@@ -21,7 +21,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     userRepository = { findByEmailWithRoles: sandbox.stub() };
-    membershipRepository = { isLinkedToOrganizations: sandbox.stub() };
+    membershipRepository = { hasMembershipForUser: sandbox.stub() };
     tokenService = { createTokenFromUser: sandbox.stub() };
     sandbox.stub(encryptionService, 'check');
   });
