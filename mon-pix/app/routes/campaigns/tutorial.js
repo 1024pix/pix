@@ -27,6 +27,7 @@ export default BaseRoute.extend({
 
   actions: {
     submit() {
+      this.set('tutorialPageId', 0);
       this.transitionTo('campaigns.start-or-resume', this.campaignCode, {
         queryParams: {
           hasSeenLanding: true,
