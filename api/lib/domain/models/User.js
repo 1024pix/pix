@@ -33,12 +33,6 @@ class User {
   get hasRolePixMaster() {
     return !!this.pixRoles.find((pixRole) => pixRole.name === 'PIX_MASTER');
   }
-
-  // FIXME mote to MembershipRepository
-  isLinkedToOrganizations() {
-    return this.memberships.length > 0;
-  }
-
 }
 
 module.exports = User;

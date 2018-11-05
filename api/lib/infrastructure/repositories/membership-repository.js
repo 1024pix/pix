@@ -12,9 +12,14 @@ module.exports = {
       .then((bookshelfMembership) => !!bookshelfMembership);
   },
 
-  findByUserId(userId) {
-    // FIXME
-  },
+  isLinkedToOrganizations(userId) {
+    return new BookshelfMembership()
+      .where({
+        'userId': userId
+      })
+      .count()
+      .then((nbMemberships) => nbMemberships > 0);
+  }
 
 };
 

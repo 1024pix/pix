@@ -29,7 +29,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
         };
       })
       .then((user) => knex('users').insert(user).returning('id'))
-      .then(([id]) => userId = id);
+      .then(([id]) => userId = id)
+      .then(() => knex('memberships').insert({ userId, organizationId: 111, organizationRoleId: 222 }));
   });
 
   afterEach(() => {

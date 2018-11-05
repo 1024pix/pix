@@ -12,6 +12,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
   let sandbox;
   let userRepository;
+  let membershipRepository;
   let tokenService;
 
   const userEmail = 'user@example.net';
@@ -20,6 +21,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     userRepository = { findByEmailWithRoles: sandbox.stub() };
+    membershipRepository = { isLinkedToOrganizations: sandbox.stub() };
     tokenService = { createTokenFromUser: sandbox.stub() };
     sandbox.stub(encryptionService, 'check');
   });
@@ -98,7 +100,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       userRepository.findByEmailWithRoles.resolves(user);
 
       // when
-      const promise = authenticateUser({ userEmail, wrongUserPassword, scope, userRepository, tokenService });
+      const promise = authenticateUser({ userEmail, wrongUserPassword, scope, userRepository, membershipRepository, tokenService });
 
       // then
       return expect(promise).to.be.rejectedWith(ForbiddenAccess, 'User is not allowed to access this area');

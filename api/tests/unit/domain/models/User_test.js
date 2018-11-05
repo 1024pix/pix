@@ -73,27 +73,6 @@ describe('Unit | Domain | Models | User', () => {
     });
   });
 
-  describe('isLinkedToOrganizations', () => {
-
-    it('should be true if user has a role in an organization', () => {
-      // given
-      const user = factory.buildUser({
-        memberships: [factory.buildMembership()]
-      });
-
-      // when/then
-      expect(user.isLinkedToOrganizations()).to.be.true;
-    });
-
-    it('should be false is user has no role in no organization', () => {
-      // given
-      const user = new User();
-
-      // when/then
-      expect(user.isLinkedToOrganizations()).to.be.false;
-    });
-  });
-
   describe('#email', function() {
 
     it('should normalize email', () => {
