@@ -118,6 +118,8 @@
 }
 
 .signup-form__legal-details-container {
+  display: block;
+  max-width: 100%;
   padding: 10px 80px 50px 80px;
   font-size: 11px;
 }
