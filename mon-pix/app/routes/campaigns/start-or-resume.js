@@ -43,25 +43,26 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
           return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
         }
         const assessment = smartPlacementAssessments.get('firstObject');
-        return this._fetchChallenge(assessment)
-          .then((challenge) => {
-            if(!this.get('userHasJustConsultedTutorial') && assessment.answers.length === 0) {
-              return this.transitionTo('campaigns.tutorial', this.get('campaignCode'));
-            }
-            if (challenge) {
-              return this.transitionTo('assessments.challenge', { assessment, challenge });
-            } else {
-              return this.transitionTo('campaigns.skill-review', this.get('campaignCode'), assessment.get('id'));
-            }
-          });
-
+        return assessment.reload();
+      })
+      .then((assessment) => {
+        if (!this.get('userHasJustConsultedTutorial') && assessment.answers.length === 0) {
+          return this.transitionTo('campaigns.tutorial', this.get('campaignCode'));
+        }
+        return this._fetchChallenge(assessment);
       });
   },
 
   _fetchChallenge(assessment) {
     const store = this.get('store');
-    return assessment.reload()
-      .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }));
+    return store.queryRecord('challenge', { assessmentId: assessment.get('id') })
+      .then((challenge) => {
+        if (challenge) {
+          return this.transitionTo('assessments.challenge', { assessment, challenge });
+        } else {
+          return this.transitionTo('campaigns.skill-review', this.get('campaignCode'), assessment.get('id'));
+        }
+      });
   },
 
   _userIsUnauthenticated() {
