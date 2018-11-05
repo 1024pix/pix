@@ -14,7 +14,7 @@ module.exports = {
 
   reloadCacheEntry(request, reply) {
     const cacheKey = request.params.cachekey;
-    return usecases.reloadCacheEntry({ preloader, cacheKey, cache })
+    return usecases.reloadCacheEntry({ preloader, cacheKey })
       .then(() => reply().code(204))
       .catch((error) => reply(_buildJsonApiInternalServerError(error)).code(500));
   },

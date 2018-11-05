@@ -48,7 +48,7 @@ describe('Unit | Controller | cache-controller', () => {
       // Then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(usecases.reloadCacheEntry).to.have.been.calledWith({ preloader, cacheKey, cache });
+          expect(usecases.reloadCacheEntry).to.have.been.calledWith({ preloader, cacheKey });
           expect(replyStub).to.have.been.calledWith();
           expect(codeSpy).to.have.been.calledWith(204);
         });

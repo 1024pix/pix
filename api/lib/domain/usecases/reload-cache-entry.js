@@ -1,4 +1,3 @@
-module.exports = function reloadCacheEntry({ preloader, cacheKey, cache }) {
-  return cache.del(cacheKey)
-    .then(() => preloader.loadKey(cacheKey));
+module.exports = function reloadCacheEntry({ preloader, cacheKey }) {
+  return preloader.loadKey(cacheKey);
 };
