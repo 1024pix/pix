@@ -239,8 +239,8 @@ describe('Unit | Infrastructure | preloader', () => {
         // then
         return promise
           .then(() => {
-            expect(airtable.getRecord).to.have.been.calledWith('Epreuves', 'recChallenge1');
-            expect(airtable.getRecord).to.not.have.been.calledWith('Epreuves', 'recChallenge2');
+            expect(airtable.getRecord).to.have.been.calledWith('Epreuves', 'recChallenge1', false);
+            expect(airtable.getRecord).to.not.have.been.calledWith('Epreuves', 'recChallenge2', false);
           });
       });
 

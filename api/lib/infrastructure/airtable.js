@@ -10,7 +10,7 @@ module.exports = {
     return new Airtable({ apiKey: airtableConfig.apiKey }).base(airtableConfig.base);
   },
 
-  getRecord(tableName, recordId) {
+  getRecord(tableName, recordId, lookingForCache = true) {
     const cacheKey = `${tableName}_${recordId}`;
     const logContext = {
       zone: 'airtable.getRecord',
@@ -19,7 +19,13 @@ module.exports = {
       tableName,
     };
 
-    return cache.get(cacheKey)
+    return Promise.resolve()
+      .then(() => {
+        if(lookingForCache) {
+          return cache.get(cacheKey);
+        }
+        return null;
+      })
       .then((cachedRawJson) => {
         if (cachedRawJson) {
           return new AirtableRecord(tableName, cachedRawJson.id, cachedRawJson);
@@ -42,7 +48,7 @@ module.exports = {
       });
   },
 
-  findRecords(tableName) {
+  findRecords(tableName, lookingForCache = true) {
     const cacheKey = `${tableName}`;
     const logContext = {
       zone: 'airtable.findRecords',
@@ -50,7 +56,13 @@ module.exports = {
       tableName,
     };
 
-    return cache.get(cacheKey)
+    return Promise.resolve()
+      .then(() => {
+        if(lookingForCache) {
+          return cache.get(cacheKey);
+        }
+        return null;
+      })
       .then((cachedArrayOfRawJson) => {
         if (cachedArrayOfRawJson) {
           return cachedArrayOfRawJson.map((rawJson) => new AirtableRecord(tableName, rawJson.id, rawJson));

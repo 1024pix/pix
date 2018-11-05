@@ -3,7 +3,7 @@ const server = require('../../../server');
 
 describe('Acceptance | Controller | cache-controller', () => {
 
-  describe('PATCH /api/cache/{cachekey}', () => {
+  describe('DELETE /api/cache/{cachekey}', () => {
 
     let options;
 
