@@ -12,8 +12,8 @@ class Cache {
     }
   }
 
-  get(key) {
-    return this._cache.get(key);
+  get(key, generator) {
+    return this._cache.get(key, generator);
   }
 
   set(key, object) {
