@@ -48,6 +48,7 @@
     "prom-client": "^10.2.3",
     "randomstring": "^1.1.5",
     "redis": "^2.8.0",
+    "redlock": "^3.1.2",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "sqlite3": "^3.1.13",
