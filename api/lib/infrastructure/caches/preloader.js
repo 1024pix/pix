@@ -8,13 +8,15 @@ function cacheIndividually(records, tablename) {
   }));
 }
 function loadTable(tableName) {
-  return airtable.findRecords(tableName)
+  const lookingForCache = false;
+  return airtable.findRecords(tableName, lookingForCache)
     .then((records) => cacheIndividually(records, tableName));
 }
 
 function loadRecord(key) {
   const tableAndRecord = key.split('_');
-  return airtable.getRecord(tableAndRecord[0], tableAndRecord[1]);
+  const lookingForCache = false;
+  return airtable.getRecord(tableAndRecord[0], tableAndRecord[1], lookingForCache);
 }
 module.exports = {
 
