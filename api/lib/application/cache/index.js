@@ -5,7 +5,7 @@ exports.register = function(server, options, next) {
 
   server.route([
     {
-      method: 'PATCH',
+      method: 'DELETE',
       path: '/api/cache/{cachekey}',
       config: {
         pre: [{

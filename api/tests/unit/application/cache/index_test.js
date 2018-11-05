@@ -24,12 +24,12 @@ describe('Unit | Router | cache-router', () => {
     sandbox.restore();
   });
 
-  describe('PATCH /api/cache/{cachekey}', function() {
+  describe('DELETE /api/cache/{cachekey}', function() {
 
     it('should exist', () => {
       // given
       const options = {
-        method: 'PATCH',
+        method: 'DELETE',
         url: '/api/cache/test-cache-key'
       };
 
