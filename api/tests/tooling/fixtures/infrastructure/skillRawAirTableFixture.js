@@ -7,6 +7,7 @@ module.exports = function skillRawAirTableFixture() {
       'Nom': '@accesDonnées1',
       'Indice': 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?',
       'Statut de l\'indice': 'Validé',
+      'Status': 'actif',
       'Epreuves': [
         'recF2iWmZKIuOsKO1',
         'recYu7YmDXXt5Owo8',
