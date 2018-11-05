@@ -1,0 +1,31 @@
+<div class="campaign-tutorial">
+  <div class="campaign-tutorial__container">
+
+    <div class="campaign-tutorial__title">
+      {{model.title}}
+    </div>
+
+    <div class="campaign-tutorial__explanation-icon">
+      <img alt="" src="{{rootURL}}/images/tutorial-campaign/{{model.icon}}">
+    </div>
+
+
+    <div class="campaign-tutorial__explanation-text"><p>{{model.explanation}}</p></div>
+
+    <div class="campaign-tutorial__paging">
+      {{#each model.paging as |page-class|}}
+        <div class="dot {{page-class}}"> </div>
+      {{/each}}
+
+    </div>
+    {{#if model.showNextButton}}
+      <div class="campaign-tutorial__next-page-button">
+        <button type="submit" class="pix-button next-page-tutorial" {{action "next"}}>Suivant</button>
+      </div>
+    {{else}}
+      <div class="campaign-tutorial__start-campaign-button">
+        <button type="submit" class="pix-button pix-button--extra-big start-first-question" {{action "submit"}}>Démarrer mon parcours</button>
+      </div>
+    {{/if}}
+  </div>
+</div>

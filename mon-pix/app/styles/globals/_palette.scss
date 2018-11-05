@@ -8,7 +8,6 @@ $alabaster-grey: #FAFAFA;
 $porcelain-grey: #f2f3f4;
 $gallery-grey: #ececec;
 $mercury-grey: #e6e6e6;
-$alto-grey: #dedede;
 $alto-grey-light: #D5D5D5;
 $iron-grey: #D0D1D5;
 $gainsboro: #D8D8D8;
@@ -42,7 +41,6 @@ $strong-blue: #133dd2;
 
 $very-light-orange: #ffe28b;
 $pizazz-orange: #ff8800;
-$amber-orange: #ffbe00;
 $lightning-yellow: #FDBD2C;
 $nugget-yellow: #CF9C24;
 $bright-yellow: #fedc41;
@@ -66,3 +64,4 @@ $purple: #985FFF;
   Gradients
  */
 $pix-blue-to-purple-gradient: linear-gradient(to right, $dogder-blue, $purple);
+$pix-yellow-to-orange-gradient: linear-gradient(180deg, $bright-yellow 0%, $pizazz-orange 100%);

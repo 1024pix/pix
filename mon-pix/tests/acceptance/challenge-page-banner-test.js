@@ -18,17 +18,27 @@ describe('Acceptance | Challenge page banner', function() {
     destroyApp(application);
   });
 
+  async function startCampaign() {
+    await authenticateAsSimpleUser();
+    await visit('campagnes/CAMPAIGN_CODE');
+
+    await click('.campaign-landing-page__start-button');
+    await click('.next-page-tutorial');
+    await click('.next-page-tutorial');
+    await click('.next-page-tutorial');
+    await click('.start-first-question');
+
+  }
+
   context('When user is starting a campaign assessment', function() {
 
     it('should display a campaign banner', async function() {
       // given
       const campaignTitle = 'Ma Campagne';
       server.create('campaign', { title: campaignTitle, code: 'CAMPAIGN_CODE' });
-      await authenticateAsSimpleUser();
-      await visit('campagnes/CAMPAIGN_CODE');
 
       // when
-      await click('.campaign-landing-page__start-button');
+      await startCampaign();
 
       // then
       findWithAssert('.campaign-banner');
@@ -57,11 +67,9 @@ describe('Acceptance | Challenge page banner', function() {
       });
 
       server.create('campaign', { title: campaignTitle, code: 'CAMPAIGN_CODE' });
-      await authenticateAsSimpleUser();
-      await visit('campagnes/CAMPAIGN_CODE');
 
       // when
-      await click('.campaign-landing-page__start-button');
+      await startCampaign();
 
       // then
       expect(find('.campaign-banner__title h1').text()).to.equal(campaignTitle);

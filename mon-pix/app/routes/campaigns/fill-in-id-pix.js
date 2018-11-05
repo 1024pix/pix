@@ -3,28 +3,30 @@ import BaseRoute from 'mon-pix/routes/base-route';
 import { isEmpty } from '@ember/utils';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
+  campaignCode: null,
 
   beforeModel(transition) {
-    const campaignCode = transition.params['campaigns.fill-in-id-pix'].campaign_code;
+    this.set('campaignCode',transition.params['campaigns.fill-in-id-pix'].campaign_code);
     const store = this.get('store');
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
+    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.get('campaignCode') } })
       .then((smartPlacementAssessments) => {
         if (!isEmpty(smartPlacementAssessments)) {
-          return this.transitionTo('campaigns.start-or-resume', campaignCode);
+          return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
         }
       });
   },
 
   model(params) {
-    const campaignCode = params.campaign_code;
+    this.set('campaignCode', params.campaign_code);
+
     const store = this.get('store');
-    return store.query('campaign', { filter: { code: campaignCode } })
+    return store.query('campaign', { filter: { code: this.get('campaignCode') } })
       .then((campaigns) => campaigns.get('firstObject'))
       .then((campaign) => {
         if (!campaign.get('idPixLabel')) {
           return this.start(campaign);
         }
-        return { campaign , idPixLabel: campaign.get('idPixLabel'), campaignCode };
+        return { campaign , idPixLabel: campaign.get('idPixLabel'), campaignCode: this.get('campaignCode') };
       });
   },
 
@@ -34,27 +36,11 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   },
 
   start(campaign, participantExternalId = null) {
-    return this._createCampaignParticipation(campaign, participantExternalId)
-      .then((campaignParticipation) => campaignParticipation.get('assessment'))
-      .then((assessment) => this._startFirstChallenge(assessment));
-  },
-
-  _createCampaignParticipation(campaign, participantExternalId) {
     const store = this.get('store');
     return store.createRecord('campaign-participation', { campaign, participantExternalId })
-      .save();
-  },
-
-  _startFirstChallenge(assessment) {
-    const store = this.get('store');
-    return assessment.reload()
-      .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
-      .then((challenge) => {
-        if(challenge) {
-          return this.transitionTo('assessments.challenge', { assessment, challenge });
-        } else {
-          return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
-        }
+      .save()
+      .then(() => {
+        return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
       });
   },
 });
