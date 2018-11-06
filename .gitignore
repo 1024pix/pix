@@ -48,6 +48,7 @@ api/.vscode
 api/.nvmrc
 .nvmrc
 .vscode/*
+.history
 
 # ember-try
 .node_modules.ember-try/
