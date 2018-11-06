@@ -1,5 +1,5 @@
 const User = require('../../../lib/domain/models/User');
-const buildOrganizationAccess = require('./build-organization-access');
+const buildMembership = require('./build-membership');
 const buildPixRole = require('./build-pix-role');
 
 module.exports = function buildUser(
@@ -12,10 +12,10 @@ module.exports = function buildUser(
     cgu = true,
     pixOrgaTermsOfServiceAccepted = false,
     pixRoles = [buildPixRole()],
-    organizationAccesses = [buildOrganizationAccess()],
+    memberships = [buildMembership()],
   } = {}) {
 
   return new User({
-    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted, pixRoles, organizationAccesses
+    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted, pixRoles, memberships
   });
 };

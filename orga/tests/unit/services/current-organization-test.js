@@ -12,11 +12,11 @@ module('Unit | Service | current-organization', function(hooks) {
   test('it should stock the current organization data if user exists', function(assert) {
     // given
     const userOrganization = Object.create({ name: 'Orga Nisme'});
-    const organizationAccess = Object.create({ organization: userOrganization });
-    const organizationAccesses = EmberArray([organizationAccess]);
+    const membership = Object.create({ organization: userOrganization });
+    const memberships = EmberArray([membership]);
 
     const connectedUser = Object.create({ id: 1 });
-    connectedUser.get = () => resolve(organizationAccesses);
+    connectedUser.get = () => resolve(memberships);
 
     let service = this.owner.lookup('service:current-organization');
 

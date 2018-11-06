@@ -6,7 +6,7 @@ const BookshelfUserPixRole = require('./user-pix-role');
 
 require('./assessment');
 require('./organization');
-require('./organization-access');
+require('./membership');
 
 module.exports = Bookshelf.model('User', {
   tableName: 'users',
@@ -26,8 +26,8 @@ module.exports = Bookshelf.model('User', {
     return this.belongsToMany(BookshelfPixRole).through(BookshelfUserPixRole);
   },
 
-  organizationAccesses() {
-    return this.hasMany('OrganizationAccess', 'userId');
+  memberships() {
+    return this.hasMany('Membership', 'userId');
   },
 
   toDomainEntity() {

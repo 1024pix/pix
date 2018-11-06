@@ -1,7 +1,7 @@
 function _createSignedUpUser(server) {
   let user;
   let userOrganization;
-  let userOrganizationAccess;
+  let userMembership;
 
   user = server.create('user', {
     email: 'pro@example.net',
@@ -11,12 +11,12 @@ function _createSignedUpUser(server) {
     name: 'BRO & MALA Corp & Associates'
   });
 
-  userOrganizationAccess = server.create('organization-access', {
+  userMembership = server.create('membership', {
     organizationId: userOrganization.id,
     userId: user.id
   });
 
-  user.organizationAccesses = [userOrganizationAccess];
+  user.memberships = [userMembership];
 
   server.createList('target-profile', 4);
 }

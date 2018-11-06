@@ -13,13 +13,13 @@ describe('Unit | UseCase | create-campaign', () => {
   const savedCampaign = factory.buildCampaign({ code: availableCampaignCode });
   const targetProfile = factory.buildTargetProfile({ id: targetProfileId, isPublic: true });
   const campaignRepository = { save: () => undefined };
-  const userRepository = { getWithOrganizationAccesses: () => undefined };
+  const userRepository = { getWithMemberships: () => undefined };
   const organizationService = { findAllTargetProfilesAvailableForOrganization: () => undefined };
 
   function _stubGetUserWithOrganizationsAccesses(organizationIdUserHasAccessTo) {
-    const userWithOrganizationAccess = factory.buildUser();
-    userWithOrganizationAccess.organizationAccesses[0].organization.id = organizationIdUserHasAccessTo;
-    userRepository.getWithOrganizationAccesses.resolves(userWithOrganizationAccess);
+    const userWithMembership = factory.buildUser();
+    userWithMembership.memberships[0].organization.id = organizationIdUserHasAccessTo;
+    userRepository.getWithMemberships.resolves(userWithMembership);
     organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);
   }
 
@@ -28,7 +28,7 @@ describe('Unit | UseCase | create-campaign', () => {
     sandbox.stub(campaignCodeGenerator, 'generate');
     sandbox.stub(campaignRepository, 'save');
     sandbox.stub(campaignValidator, 'validate');
-    sandbox.stub(userRepository, 'getWithOrganizationAccesses');
+    sandbox.stub(userRepository, 'getWithMemberships');
     sandbox.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization');
   });
 

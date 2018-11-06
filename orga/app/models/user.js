@@ -6,5 +6,5 @@ export default DS.Model.extend({
   firstName: DS.attr('string'),
   lastName: DS.attr('string'),
   pixOrgaTermsOfServiceAccepted: DS.attr('boolean'),
-  organizationAccesses: DS.hasMany('organization-access')
+  memberships: DS.hasMany('membership')
 });

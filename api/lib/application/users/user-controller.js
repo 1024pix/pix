@@ -5,7 +5,7 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const organizationAccessSerializer = require('../../infrastructure/serializers/jsonapi/organization-accesses-serializer');
+const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userService = require('../../domain/services/user-service');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
@@ -58,7 +58,7 @@ module.exports = {
     const requestedUserId = parseInt(request.params.id, 10);
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId })
+    return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
       .then((foundUser) => {
         return reply(userSerializer.serialize(foundUser)).code(200);
       })
@@ -150,13 +150,13 @@ module.exports = {
       });
   },
 
-  getOrganizationAccesses(request, reply) {
+  getMemberships(request, reply) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
-    return usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId })
+    return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
       .then((user) => {
-        return reply(organizationAccessSerializer.serialize(user.organizationAccesses)).code(200);
+        return reply(membershipSerializer.serialize(user.memberships)).code(200);
       })
       .catch((error) => {
         const mappedError = _mapToInfrastructureErrors(error);

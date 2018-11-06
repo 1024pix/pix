@@ -24,7 +24,7 @@ module.exports = {
   buildCourse: require('./build-course'),
   buildHint: require('./build-hint'),
   buildOrganization: require('./build-organization'),
-  buildOrganizationAccess: require('./build-organization-access'),
+  buildMembership: require('./build-membership'),
   buildOrganizationRole: require('./build-organization-role'),
   buildPixRole: require('./build-pix-role'),
   buildResultCompetenceTree: require('./build-result-competence-tree'),
