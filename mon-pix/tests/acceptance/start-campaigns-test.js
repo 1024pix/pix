@@ -65,8 +65,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
             // then
             return andThen(() => {
-              expect(find('.campaign-landing-page__start__text')).to.have.lengthOf(2);
-              expect(find('.campaign-landing-page__start__text__custom-text').text()).to.contains('Texte personnalisé pour la Campagne 3');
+              expect(find('.campaign-landing-page__start__custom-text')).to.have.lengthOf(1);
+              expect(find('.campaign-landing-page__start__custom-text').text()).to.contains('Texte personnalisé pour la Campagne 3');
             });
           });
         });
@@ -78,7 +78,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
             // then
             return andThen(() => {
-              expect(find('.campaign-landing-page__start__text')).to.have.lengthOf(1);
+              expect(find('.campaign-landing-page__start__custom-text')).to.have.lengthOf(0);
             });
           });
         });

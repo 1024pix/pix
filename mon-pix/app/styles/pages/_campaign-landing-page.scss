@@ -13,10 +13,10 @@
 
   margin: -385px 10px;
   max-width: 850px;
-  padding: 20px;
 
   @include device-is('tablet') {
     margin: -385px auto;
+    padding: 20px;
   }
 }
 
@@ -56,11 +56,15 @@
 }
 
 .campaign-landing-page__start__text {
-  width: 90%;
+  width: 80%;
   margin: auto;
   padding: 5px;
   text-align: center;
   font-family: $font-open-sans;
+
+  @include device-is('tablet') {
+    padding: 5px 20px;
+  }
 
   &__title {
     font-size: 3rem;
@@ -79,17 +83,39 @@
     font-size: 1.2rem;
     color: $dove-gray;
   }
+}
 
-  &__custom-text {
-    font-size: 1.8rem;
-    text-align: left;
+.campaign-landing-page__start__custom-text {
+  width: 80%;
+  margin: auto;
+  padding: 5px;
+  font-family: $font-open-sans;
+  font-size: 1.6rem;
+  text-align: left;
+
+  strong {
+    font-weight: $font-semi-bold;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+  }
+
+  h3 {
+    font-size: 2rem;
   }
 }
 
 .campaign-landing-page__start-button {
-  height: 60px;
-  width: 30%;
-  margin: 30px;
+  margin: 30px 0px;
+
+  @include device-is('tablet') {
+    margin: 30px;
+  }
 }
 
 /*------------------------ DETAILS ------------------------*/
