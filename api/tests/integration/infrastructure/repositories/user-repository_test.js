@@ -209,7 +209,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
           expect(associatedOrganization.name).to.equal(organizationInDB.name);
           expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
-          const associatedRole = firstMembership.organizationRole;
+          const associatedRole = firstMembership.role;
           expect(associatedRole).to.be.an.instanceof(OrganizationRole);
           expect(associatedRole.id).to.equal(organizationRoleInDB.id);
           expect(associatedRole.name).to.equal(organizationRoleInDB.name);
@@ -331,7 +331,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
           expect(associatedOrganization.name).to.equal(organizationInDB.name);
           expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
-          const associatedRole = membership.organizationRole;
+          const associatedRole = membership.role;
           expect(associatedRole).to.be.an.instanceof(OrganizationRole);
           expect(associatedRole.id).to.equal(organizationRoleInDB.id);
           expect(associatedRole.name).to.equal(organizationRoleInDB.name);

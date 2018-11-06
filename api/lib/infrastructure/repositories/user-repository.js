@@ -17,7 +17,7 @@ function _toMembershipsDomain(membershipsBookshelf) {
         name: membershipBookshelf.related('organization').get('name'),
         type: membershipBookshelf.related('organization').get('type'),
       }),
-      organizationRole: new OrganizationRole({
+      role: new OrganizationRole({
         id: membershipBookshelf.related('organizationRole').get('id'),
         name: membershipBookshelf.related('organizationRole').get('name')
       })

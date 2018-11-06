@@ -5,7 +5,7 @@ class Membership {
     // attributes
     // includes
     organization = {},
-    organizationRole = {},
+    role = {},
     user = {},
     // references
   } = {}) {
@@ -13,7 +13,7 @@ class Membership {
     // attributes
     // includes
     this.organization = organization;
-    this.organizationRole = organizationRole;
+    this.role = role;
     this.user = user;
     // references
   }

@@ -17,7 +17,7 @@ function _toDomain(bookshelfMembership) {
   });
 
   const bookshelfOrganizationRole = bookshelfMembership.related('organizationRole');
-  const organizationRole = new OrganizationRole({
+  const role = new OrganizationRole({
     id: bookshelfOrganizationRole.get('id'),
     name: bookshelfOrganizationRole.get('name'),
   });
@@ -39,7 +39,7 @@ function _toDomain(bookshelfMembership) {
   return new Membership({
     id: bookshelfMembership.get('id'),
     organization,
-    organizationRole,
+    role,
     user
   });
 }

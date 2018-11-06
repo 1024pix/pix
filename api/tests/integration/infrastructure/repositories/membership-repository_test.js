@@ -154,8 +154,8 @@ describe('Integration | Repository | Organization', function() {
         expect(membership.organization).to.deep.equal(organizationA);
 
         // assert membership role
-        expect(membership.organizationRole).to.be.instanceOf(OrganizationRole);
-        expect(membership.organizationRole).to.deep.equal(role);
+        expect(membership.role).to.be.instanceOf(OrganizationRole);
+        expect(membership.role).to.deep.equal(role);
 
         // assert membership user
         const expectedUser = user;

@@ -6,12 +6,12 @@ module.exports = function buildMembership(
   {
     id = 1,
     organization = buildOrganization(),
-    organizationRole = buildOrganizationRole(),
+    role = buildOrganizationRole(),
   } = {}) {
 
   return new Membership({
     id,
     organization,
-    organizationRole,
+    role,
   });
 };
