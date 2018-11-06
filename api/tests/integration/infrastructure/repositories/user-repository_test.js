@@ -202,12 +202,12 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
           expect(firstMembership).to.be.an.instanceof(Membership);
           expect(firstMembership.id).to.equal(membershipInDB.id);
 
-          const accessibleOrganization = firstMembership.organization;
-          expect(accessibleOrganization).to.be.an.instanceof(Organization);
-          expect(accessibleOrganization.id).to.equal(organizationInDB.id);
-          expect(accessibleOrganization.code).to.equal(organizationInDB.code);
-          expect(accessibleOrganization.name).to.equal(organizationInDB.name);
-          expect(accessibleOrganization.type).to.equal(organizationInDB.type);
+          const associatedOrganization = firstMembership.organization;
+          expect(associatedOrganization).to.be.an.instanceof(Organization);
+          expect(associatedOrganization.id).to.equal(organizationInDB.id);
+          expect(associatedOrganization.code).to.equal(organizationInDB.code);
+          expect(associatedOrganization.name).to.equal(organizationInDB.name);
+          expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
           const associatedRole = firstMembership.organizationRole;
           expect(associatedRole).to.be.an.instanceof(OrganizationRole);
@@ -324,12 +324,12 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
           expect(membership).to.be.an.instanceof(Membership);
           expect(membership.id).to.equal(membershipInDB.id);
 
-          const accessibleOrganization = membership.organization;
-          expect(accessibleOrganization).to.be.an.instanceof(Organization);
-          expect(accessibleOrganization.id).to.equal(organizationInDB.id);
-          expect(accessibleOrganization.code).to.equal(organizationInDB.code);
-          expect(accessibleOrganization.name).to.equal(organizationInDB.name);
-          expect(accessibleOrganization.type).to.equal(organizationInDB.type);
+          const associatedOrganization = membership.organization;
+          expect(associatedOrganization).to.be.an.instanceof(Organization);
+          expect(associatedOrganization.id).to.equal(organizationInDB.id);
+          expect(associatedOrganization.code).to.equal(organizationInDB.code);
+          expect(associatedOrganization.name).to.equal(organizationInDB.name);
+          expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
           const associatedRole = membership.organizationRole;
           expect(associatedRole).to.be.an.instanceof(OrganizationRole);

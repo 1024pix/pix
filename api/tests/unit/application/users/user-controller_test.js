@@ -12,7 +12,7 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const membershipsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
+const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -659,7 +659,7 @@ describe('Unit | Controller | user-controller', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(membershipsSerializer, 'serialize');
+      sandbox.stub(membershipSerializer, 'serialize');
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({ code: codeStub });
     });
@@ -702,14 +702,14 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         return promise.then(() => {
-          expect(membershipsSerializer.serialize).to.have.been.calledWith(foundAccesses);
+          expect(membershipSerializer.serialize).to.have.been.calledWith(foundAccesses);
         });
       });
 
       it('should return serialized Organizations Accesses, a 200 code response', function() {
         // given
         const serializedMemberships = {};
-        membershipsSerializer.serialize.returns(serializedMemberships);
+        membershipSerializer.serialize.returns(serializedMemberships);
         usecases.getUserWithMemberships.resolves({});
 
         // when

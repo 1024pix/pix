@@ -5,12 +5,12 @@ export function createUserWithMembership() {
     name: 'BRO & Evil Associates'
   });
 
-  const membershipess = server.create('membership', {
+  const memberships = server.create('membership', {
     organizationId: organization.id,
     userId: user.id
   });
 
-  user.memberships = [membershipess];
+  user.memberships = [memberships];
   return user;
 }
 
@@ -21,11 +21,11 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
     name: 'BRO & Evil Associates'
   });
 
-  const membershipess = server.create('membership', {
+  const memberships = server.create('membership', {
     organizationId: organization.id,
     userId: user.id
   });
 
-  user.memberships = [membershipess];
+  user.memberships = [memberships];
   return user;
 }
