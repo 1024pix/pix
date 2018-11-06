@@ -5,12 +5,12 @@ class User {
   constructor({
     id,
     // attributes
-    cgu,
-    pixOrgaTermsOfServiceAccepted,
+    cgu = false,
+    pixOrgaTermsOfServiceAccepted = false,
     email,
     firstName,
     lastName,
-    password,
+    password = null,
     // includes
     memberships = [],
     pixRoles = [],
