@@ -86,6 +86,17 @@
     }}
   </div>
 
+  <div class="campaign-creation-form__field">
+    <label for="custom-landing-page-text" class="label">Texte de la page d'accueil</label>
+    {{textarea id='custom-landing-page-text'
+            name='custom-landing-page-text'
+            maxlength='350'
+            rows=8
+            value=campaign.customLandingPageText
+            class="textarea"
+    }}
+  </div>
+
   <div>
     <button class="campaign-creation-form__validation-button button" type="submit">Créer la campagne</button>
   </div>
