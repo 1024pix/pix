@@ -63,7 +63,7 @@ module.exports = injectDependencies({
   getUserCampaignParticipations: require('./get-user-campaign-participations'),
   getUserCertification: require('./get-user-certification'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),
-  getUserWithOrganizationAccesses: require('./get-user-with-organization-accesses'),
+  getUserWithMemberships: require('./get-user-with-memberships'),
   preloadCacheEntries: require('./preload-cache-entries'),
   removeAllCacheEntries: require('./remove-all-cache-entries'),
   removeCacheEntry: require('./remove-cache-entry'),

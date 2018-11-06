@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession, currentSession } from 'ember-simple-auth/test-support';
-import { createUserWithOrganizationAccess, createUserWithOrganizationAccessAndTermsOfServiceAccepted } from '../helpers/test-init';
+import { createUserWithMembership, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 import { Response } from 'ember-cli-mirage';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -15,7 +15,7 @@ module('Acceptance | terms-of-service', function(hooks) {
   let user;
 
   hooks.beforeEach(() => {
-    user = createUserWithOrganizationAccess();
+    user = createUserWithMembership();
   });
 
   test('it should redirect user to login page if not logged in', async function(assert) {
@@ -89,7 +89,7 @@ module('Acceptance | terms-of-service', function(hooks) {
 
   test('it should redirect to campaign list if user has already accepted terms of service', async function(assert) {
     // given
-    user = createUserWithOrganizationAccessAndTermsOfServiceAccepted();
+    user = createUserWithMembershipAndTermsOfServiceAccepted();
     await authenticateSession({
       user_id: user.id,
       access_token: 'access token',

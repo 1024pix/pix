@@ -14,7 +14,7 @@ export default Service.extend({
       return resolve();
     }
 
-    return (this._organizationPromise = user.get('organizationAccesses')
+    return (this._organizationPromise = user.get('memberships')
       .then((orgaAccesses) => orgaAccesses.get('firstObject.organization')));
   }
 

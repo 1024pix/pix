@@ -12,7 +12,7 @@ class User {
     lastName,
     password,
     // includes
-    organizationAccesses = [],
+    memberships = [],
     pixRoles = [],
     // references
   } = {}) {
@@ -26,7 +26,7 @@ class User {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     // includes
     this.pixRoles = pixRoles;
-    this.organizationAccesses = organizationAccesses;
+    this.memberships = memberships;
     // references
   }
 
@@ -35,12 +35,12 @@ class User {
   }
 
   isLinkedToOrganizations() {
-    return this.organizationAccesses.length > 0;
+    return this.memberships.length > 0;
   }
 
   hasAccessToOrganization(organizationId) {
-    return this.organizationAccesses
-      .some((organizationAccess) => organizationAccess.organization.id === organizationId);
+    return this.memberships
+      .some((membership) => membership.organization.id === organizationId);
   }
 
 }

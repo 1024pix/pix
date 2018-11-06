@@ -1,14 +1,14 @@
 const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const server = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-organization-accesses', () => {
+describe('Acceptance | Controller | users-controller-get-memberships', () => {
 
   let userId;
   let organizationId;
-  let organizationAccessId;
+  let membershipId;
   let organizationRoleId;
 
-  describe('GET /users/:id/organization-accesses', () => {
+  describe('GET /users/:id/memberships', () => {
 
     function _insertOrganization(userId) {
       const organizationRaw = {
@@ -32,14 +32,14 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
       return knex('users').insert(userRaw).returning('id');
     }
 
-    function _insertOrganizationAccesses(organizationId, userId, organizationRoleId) {
-      const organizationAccessRaw = {
+    function _insertMemberships(organizationId, userId, organizationRoleId) {
+      const membershipRaw = {
         organizationId,
         userId,
         organizationRoleId,
       };
 
-      return knex('organizations-accesses').insert(organizationAccessRaw).returning('id');
+      return knex('memberships').insert(membershipRaw).returning('id');
     }
 
     function _insertOrganizationRoles() {
@@ -53,7 +53,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
     function _options(userId) {
       return {
         method: 'GET',
-        url: `/api/users/${userId}/organization-accesses`,
+        url: `/api/users/${userId}/memberships`,
         headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
       };
     }
@@ -65,14 +65,14 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
         .then(([id]) => organizationId = id)
         .then(() => _insertOrganizationRoles()
           .then(([id]) => organizationRoleId = id)
-          .then(() => _insertOrganizationAccesses(organizationId, userId, organizationRoleId))
-          .then(([id]) => organizationAccessId = id));
+          .then(() => _insertMemberships(organizationId, userId, organizationRoleId))
+          .then(([id]) => membershipId = id));
     });
 
     afterEach(() => {
       return knex('users').delete()
         .then(() => knex('organizations').delete())
-        .then(() => knex('organizations-accesses').delete());
+        .then(() => knex('memberships').delete());
     });
 
     it('should return found accesses with 200 HTTP status code', () => {
@@ -85,8 +85,8 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
         expect(response.result).to.deep.equal({
           data: [
             {
-              type: 'organization-accesses',
-              id: organizationAccessId,
+              type: 'memberships',
+              id: membershipId,
               attributes: {},
               relationships: {
                 organization: {

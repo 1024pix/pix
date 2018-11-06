@@ -16,7 +16,7 @@ describe('Acceptance | API | Campaigns', () => {
       user = databaseBuilder.factory.buildUser({});
       otherUser = databaseBuilder.factory.buildUser({});
       organization = databaseBuilder.factory.buildOrganization({ userId: user.id });
-      databaseBuilder.factory.buildOrganizationAccess({
+      databaseBuilder.factory.buildMembership({
         userId: user.id,
         organizationId: organization.id
       });
