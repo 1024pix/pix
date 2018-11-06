@@ -130,7 +130,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', { fields: { 'Nom': '@acquix1', 'Status': 'actif', 'Compétence': [ 'recCompetence' ] } });
       const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix2', 'Status': 'actif', 'Compétence': [ 'recCompetence' ] } });
       const acquix3 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix3', 'Status': 'en construction', 'Compétence': [ 'recCompetence' ] } });
-      const acquix4 = new AirtableRecord('Acquis', 'recAcquix3', { fields: { 'Nom': '@acquix3', 'Status': 'actif', 'Compétence': [ 'recOtherCompetence' ] } });
+      const acquix4 = new AirtableRecord('Acquis', 'recAcquix4', { fields: { 'Nom': '@acquix4', 'Status': 'actif', 'Compétence': [ 'recOtherCompetence' ] } });
       sandbox.stub(airtable, 'findRecords')
         .withArgs('Acquis')
         .resolves([acquix1, acquix2, acquix3, acquix4]);
