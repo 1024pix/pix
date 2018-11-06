@@ -4,14 +4,14 @@ const { Skill: { fromAirTableObject } } = require('./objects');
 const _ = require('lodash');
 
 const AIRTABLE_TABLE_NAME = 'Acquis';
-const VALIDATED_STATUS = ['actif'];
+const ACTIVATED_STATUS = ['actif'];
 
 function _doQuery(filter) {
   return airtable.findRecords(AIRTABLE_TABLE_NAME)
     .then((rawSkills) => {
       return _(rawSkills)
         .filter(filter)
-        .filter((rawSkill) => _.includes(rawSkill.fields['Status'], VALIDATED_STATUS))
+        .filter((rawSkill) => _.includes(rawSkill.fields['Status'], ACTIVATED_STATUS))
         .map(fromAirTableObject)
         .value();
     });
