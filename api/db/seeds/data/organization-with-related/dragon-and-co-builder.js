@@ -78,7 +78,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     type: 'PRO',
     name: 'Dragon subsidiary',
     userId: proUserSub.id,
-    code: 'DRAGOSUB'
+    code: 'DRASUB'
   });
 
   databaseBuilder.factory.buildOrganizationAccess({
@@ -102,7 +102,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     type: 'PRO',
     name: 'Dragon subsidiary 2',
     userId: proUserSub2.id,
-    code: 'DRAGOSUB'
+    code: 'DRASU2'
   });
 
   databaseBuilder.factory.buildOrganizationAccess({
