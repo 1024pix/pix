@@ -104,7 +104,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       });
     });
 
-    it('should resolve an array of Skills with only actiaved Skillfrom airTable', () => {
+    it('should resolve an array of Skills with only activated Skillfrom airTable', () => {
       // given
       const
         rawSkill1 = skillRawAirTableFixture(),
