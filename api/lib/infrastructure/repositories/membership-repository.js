@@ -2,7 +2,7 @@ const BookshelfMembership = require('../data/membership');
 const Membership = require('../../domain/models/Membership');
 const Organization = require('../../domain/models/Organization');
 const OrganizationRole = require('../../domain/models/OrganizationRole');
-const User = require('../../domain/models/User');
+const UserSummary = require('../../domain/models/UserSummary');
 
 function _toDomain(bookshelfMembership) {
 
@@ -23,17 +23,11 @@ function _toDomain(bookshelfMembership) {
   });
 
   const bookshelfUser = bookshelfMembership.related('user');
-  const user = new User({
+  const user = new UserSummary({
     id: bookshelfUser.get('id'),
     firstName: bookshelfUser.get('firstName'),
     lastName: bookshelfUser.get('lastName'),
     email: bookshelfUser.get('email'),
-    cgu: !!bookshelfUser.get('cgu'),
-    pixOrgaTermsOfServiceAccepted: !!bookshelfUser.get('pixOrgaTermsOfServiceAccepted'),
-    // undesirable fields
-    memberships: [],
-    password: null,
-    pixRoles: [],
   });
 
   return new Membership({

@@ -4,7 +4,7 @@ const membershipRepository = require('../../../../lib/infrastructure/repositorie
 const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole');
-const User = require('../../../../lib/domain/models/User');
+const UserSummary = require('../../../../lib/domain/models/UserSummary');
 
 describe('Integration | Repository | Organization', function() {
 
@@ -121,7 +121,7 @@ describe('Integration | Repository | Organization', function() {
       role = factory.buildOrganizationRole({ id: ROLE_ID });
       databaseBuilder.factory.buildOrganizationRole(role);
 
-      user = factory.buildUser({ id: USER_ID });
+      user = factory.buildUserSummary({ id: USER_ID });
       databaseBuilder.factory.buildUser(user);
 
       return databaseBuilder.commit();
@@ -158,12 +158,8 @@ describe('Integration | Repository | Organization', function() {
         expect(membership.role).to.deep.equal(role);
 
         // assert membership user
-        const expectedUser = user;
-        expectedUser.memberships = [];
-        expectedUser.password = null;
-        expectedUser.pixRoles = [];
-        expect(membership.user).to.be.instanceOf(User);
-        expect(membership.user).to.deep.equal(expectedUser);
+        expect(membership.user).to.be.instanceOf(UserSummary);
+        expect(membership.user).to.deep.equal(user);
       });
     });
 
