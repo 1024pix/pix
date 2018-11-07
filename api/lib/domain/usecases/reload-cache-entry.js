@@ -1,3 +1,3 @@
-module.exports = function reloadCacheEntry({ preloader, cacheKey }) {
-  return preloader.loadKey(cacheKey);
+module.exports = function reloadCacheEntry({ preloader, tableName, recordId }) {
+  return preloader.load({ tableName, recordId });
 };

@@ -5,23 +5,20 @@ const reloadCacheEntry = require('../../../../lib/domain/usecases/reload-cache-e
 describe('Unit | UseCase | reloadCacheEntry', () => {
 
   beforeEach(() => {
-    sinon.stub(preloader, 'loadKey').resolves();
+    sinon.stub(preloader, 'load').resolves();
   });
 
   afterEach(() => {
-    preloader.loadKey.restore();
+    preloader.load.restore();
   });
 
-  it('should load the table', () => {
-    // given
-    const cacheKey = 'test-cache-key';
-
+  it('should preload the record', () => {
     // when
-    const promise = reloadCacheEntry({ preloader, cacheKey });
+    const promise = reloadCacheEntry({ preloader, tableName: 'Epreuves', recordId: 'recABCDEF' });
 
     // Then
     return promise.then(() => {
-      expect(preloader.loadKey).to.have.been.calledWith(cacheKey);
+      expect(preloader.load).to.have.been.calledWith({ tableName: 'Epreuves', recordId: 'recABCDEF' });
     });
   });
 
