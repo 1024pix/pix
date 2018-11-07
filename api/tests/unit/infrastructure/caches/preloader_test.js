@@ -104,14 +104,14 @@ describe('Unit | Infrastructure | preloader', () => {
   });
 
   beforeEach(() => {
-    sinon.stub(airtable, 'findRecords');
-    sinon.stub(airtable, 'getRecord');
+    sinon.stub(airtable, 'findRecordsSkipCache');
+    sinon.stub(airtable, 'getRecordSkipCache');
     sinon.stub(cache, 'set').resolves();
   });
 
   afterEach(() => {
-    airtable.findRecords.restore();
-    airtable.getRecord.restore();
+    airtable.findRecordsSkipCache.restore();
+    airtable.getRecordSkipCache.restore();
     cache.set.restore();
   });
 
@@ -120,27 +120,27 @@ describe('Unit | Infrastructure | preloader', () => {
 
     beforeEach(() => {
       // given
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Acquis')
         .resolves([ airtableSkill_1, airtableSkill_2 ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Domaines')
         .resolves([ airtableArea_1, airtableArea_2 ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Epreuves')
         .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Competences')
         .resolves([ airtableCompetence_1, airtableCompetence_2 ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Tests')
         .resolves([ airtableProgressionCourse, airtableAdaptiveCourse, airtableWeekCourse ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Tutoriels')
         .resolves([ airtableTutorial ]);
 
@@ -208,7 +208,7 @@ describe('Unit | Infrastructure | preloader', () => {
     context('When the key is a table',() => {
       beforeEach(() => {
         // given
-        airtable.findRecords
+        airtable.findRecordsSkipCache
           .withArgs('Epreuves')
           .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
 
@@ -228,7 +228,7 @@ describe('Unit | Infrastructure | preloader', () => {
     context('When the key is a record',() => {
       beforeEach(() => {
         // given
-        airtable.getRecord
+        airtable.getRecordSkipCache
           .withArgs('Epreuves', 'recChallenge1')
           .resolves(airtableChallenge_1);
 
@@ -239,8 +239,8 @@ describe('Unit | Infrastructure | preloader', () => {
         // then
         return promise
           .then(() => {
-            expect(airtable.getRecord).to.have.been.calledWith('Epreuves', 'recChallenge1', false);
-            expect(airtable.getRecord).to.not.have.been.calledWith('Epreuves', 'recChallenge2', false);
+            expect(airtable.getRecordSkipCache).to.have.been.calledWith('Epreuves', 'recChallenge1');
+            expect(airtable.getRecordSkipCache).to.not.have.been.calledWith('Epreuves', 'recChallenge2');
           });
       });
 
