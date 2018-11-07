@@ -40,7 +40,7 @@ describe('Integration | Class | airtable', () => {
     sandbox.restore();
   });
 
-  describe('#getRecord', () => {
+  describe('#getRecord{SkipCache}', () => {
 
     const tableName = 'Tests';
     const recordId = 'recNPB7dTNt5krlMA';
@@ -72,7 +72,7 @@ describe('Integration | Class | airtable', () => {
       });
     });
 
-    context('when the response was previously cached but we do not want to use case', () => {
+    context('when the response was previously cached but we do not want to use cache', () => {
 
       it('should Airtable fetched record and store it in cache', () => {
         // given
@@ -80,10 +80,9 @@ describe('Integration | Class | airtable', () => {
         cache.get.resolves(cachedValue);
         cache.set.resolves();
         findStub.resolves(airtableRecord);
-        const doNotUseCache = false;
 
         // when
-        const promise = airtable.getRecord(tableName, recordId, doNotUseCache);
+        const promise = airtable.getRecordSkipCache(tableName, recordId);
 
         // then
         return promise.then((record) => {
@@ -130,7 +129,7 @@ describe('Integration | Class | airtable', () => {
     });
   });
 
-  describe('#findRecords', () => {
+  describe('#findRecords{SkipCache}', () => {
 
     const tableName = 'Tests';
     const airtableRecords = [
@@ -180,10 +179,9 @@ describe('Integration | Class | airtable', () => {
         cache.get.resolves(cachedValue);
         cache.set.resolves();
         allStub.resolves(airtableRecords);
-        const doNotUseCache = false;
 
         // when
-        const promise = airtable.findRecords(tableName, doNotUseCache);
+        const promise = airtable.findRecordsSkipCache(tableName);
 
         // then
         return promise.then((records) => {

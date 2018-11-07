@@ -9,14 +9,12 @@ function _cacheIndividually(records, tablename) {
 }
 
 function _loadTable(tableName) {
-  const lookingForCache = false;
-  return airtable.findRecords(tableName, lookingForCache)
+  return airtable.findRecordsSkipCache(tableName)
     .then((records) => _cacheIndividually(records, tableName));
 }
 
 function _loadRecord(tableName, recordId) {
-  const lookingForCache = false;
-  return airtable.getRecord(tableName, recordId, lookingForCache);
+  return airtable.getRecordSkipCache(tableName, recordId);
 }
 
 module.exports = {
