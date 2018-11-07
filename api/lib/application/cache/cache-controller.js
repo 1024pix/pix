@@ -13,8 +13,9 @@ function _buildJsonApiInternalServerError(error) {
 module.exports = {
 
   reloadCacheEntry(request, reply) {
-    const cacheKey = request.params.cachekey;
-    return usecases.reloadCacheEntry({ preloader, cacheKey })
+    const cacheKey = request.params.cachekey || '';
+    const [ tableName, recordId ] = cacheKey.split('_');
+    return usecases.reloadCacheEntry({ preloader, tableName, recordId })
       .then(() => reply().code(204))
       .catch((error) => reply(_buildJsonApiInternalServerError(error)).code(500));
   },

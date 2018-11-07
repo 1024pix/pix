@@ -202,7 +202,7 @@ describe('Unit | Infrastructure | preloader', () => {
     });
   });
 
-  describe('#loadKey', () => {
+  describe('#load', () => {
     let promise = null;
 
     context('When the key is a table',() => {
@@ -212,7 +212,7 @@ describe('Unit | Infrastructure | preloader', () => {
           .withArgs('Epreuves')
           .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
 
-        return  promise = preloader.loadKey('Epreuves');
+        return promise = preloader.load({ tableName: 'Epreuves' });
       });
 
       it('For table "Epreuves", should fetch all challenges and cache them individually', () => {
@@ -232,7 +232,7 @@ describe('Unit | Infrastructure | preloader', () => {
           .withArgs('Epreuves', 'recChallenge1')
           .resolves(airtableChallenge_1);
 
-        return  promise = preloader.loadKey('Epreuves_recChallenge1');
+        return promise = preloader.load({ tableName: 'Epreuves', recordId: 'recChallenge1' });
       });
 
       it('For record "Epreuves_recChallenge1", should fetch only the challenge', () => {

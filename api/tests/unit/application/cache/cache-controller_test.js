@@ -24,7 +24,7 @@ describe('Unit | Controller | cache-controller', () => {
   describe('#reloadCacheEntry', () => {
     const request = {
       params: {
-        cachekey: 'test-cache-key'
+        cachekey: 'Epreuves_recABCDEF'
       }
     };
 
@@ -38,7 +38,6 @@ describe('Unit | Controller | cache-controller', () => {
 
     it('should reply with 204 when the cache key exists', () => {
       // given
-      const cacheKey = request.params.cachekey;
       const numberOfDeletedKeys = 1;
       usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
 
@@ -48,7 +47,7 @@ describe('Unit | Controller | cache-controller', () => {
       // Then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(usecases.reloadCacheEntry).to.have.been.calledWith({ preloader, cacheKey });
+          expect(usecases.reloadCacheEntry).to.have.been.calledWith({ preloader, tableName: 'Epreuves', recordId: 'recABCDEF' });
           expect(replyStub).to.have.been.calledWith();
           expect(codeSpy).to.have.been.calledWith(204);
         });
@@ -65,6 +64,23 @@ describe('Unit | Controller | cache-controller', () => {
       // Then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
+          expect(replyStub).to.have.been.calledWith();
+          expect(codeSpy).to.have.been.calledWith(204);
+        });
+    });
+
+    it('should allow a table name without a record id', () => {
+      // given
+      const numberOfDeletedKeys = 1;
+      usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
+
+      // when
+      const promise = cacheController.reloadCacheEntry({ params: { cachekey: 'Epreuves' } }, replyStub);
+
+      // Then
+      return expect(promise).to.have.been.fulfilled
+        .then(() => {
+          expect(usecases.reloadCacheEntry).to.have.been.calledWith({ preloader, tableName: 'Epreuves', recordId: undefined });
           expect(replyStub).to.have.been.calledWith();
           expect(codeSpy).to.have.been.calledWith(204);
         });
