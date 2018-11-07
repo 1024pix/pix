@@ -39,7 +39,7 @@ describe('Unit | Authenticator | simple', function() {
     const authenticator = this.subject();
 
     // When
-    const promise = authenticator.authenticate(email, password);
+    const promise = authenticator.authenticate({ email, password });
 
     // Then
     return promise.then((_) => {
@@ -59,7 +59,23 @@ describe('Unit | Authenticator | simple', function() {
     const authenticator = this.subject();
 
     // When
-    const promise = authenticator.authenticate(email, password);
+    const promise = authenticator.authenticate({ email, password });
+
+    // Then
+    return promise.then((data) => {
+      expect(data.userId).to.equal(expectedUserId);
+      expect(data.token).to.equal(expectedToken);
+    });
+  });
+
+  it('should accept pre-generated token and userId', function() {
+    // Given
+    const token = expectedToken;
+    const userId = expectedUserId;
+    const authenticator = this.subject();
+
+    // When
+    const promise = authenticator.authenticate({ token, userId });
 
     // Then
     return promise.then((data) => {

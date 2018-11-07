@@ -26,7 +26,7 @@ describe('Unit | Route | login page', function() {
     this.inject.service('store', { as: 'store' });
   });
 
-  it('should authenticate the user', function() {
+  it('should authenticate the user given email and password', function() {
     // Given
     authenticatedStub.resolves();
 
@@ -37,11 +37,29 @@ describe('Unit | Route | login page', function() {
     };
 
     // When
-    const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+    const promise = route.beforeModel({})
+      .then((_) => route.actions.signin.call(route, expectedEmail, expectedPassword));
 
     // Then
     return promise.then(() => {
-      sinon.assert.calledWith(authenticatedStub, 'authenticator:simple', expectedEmail, expectedPassword);
+      sinon.assert.calledWith(authenticatedStub, 'authenticator:simple', { email: expectedEmail, password: expectedPassword });
+    });
+  });
+
+  it('should authenticate the user given token in URL', function() {
+    // Given
+    authenticatedStub.resolves();
+
+    const route = this.subject();
+    sinon.stub(route, 'transitionTo');
+
+    // When
+    const promise = route.beforeModel({ queryParams: { token: 'dummy-token', 'user-id': '123' } });
+
+    // Then
+    return promise.then(() => {
+      sinon.assert.calledWith(authenticatedStub, 'authenticator:simple', { token: 'dummy-token', userId: 123 });
+      sinon.assert.calledWith(route.transitionTo, 'compte');
     });
   });
 
