@@ -22,3 +22,16 @@
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+
+
+.button-grey-text {
+  border: none;
+  background: none;
+  height: 50px;
+  color: $grayish-grey;
+  font-family: $font-roboto;
+  font-size: 1.5rem;
+  font-weight: $font-medium;
+  letter-spacing: 0.3px;
+  line-height: 50px;
+}
