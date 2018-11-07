@@ -13,6 +13,7 @@ function _toDomain(bookshelfCampaign) {
     'creatorId',
     'createdAt',
     'targetProfileId',
+    'customLandingPageText',
     'idPixLabel',
     'title'
   ]));

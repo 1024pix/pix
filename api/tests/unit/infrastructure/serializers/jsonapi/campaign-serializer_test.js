@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
             'created-at': '2018-02-06 14:12:44',
             'id-pix-label': 'company id',
             'token-for-campaign-results': tokenToAccessToCampaign,
-            "organization-logo-url": "some logo",
+            'organization-logo-url': 'some logo',
           },
         }
       };

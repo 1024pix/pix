@@ -90,6 +90,7 @@ export default function(server) {
     name: 'Campagne 1 avec Id Externe',
     code: 'AZERTY1',
     idPixLabel: 'Mail Pro',
+    organizationLogoUrl: 'data:jpeg;base64=somelogo',
   });
   server.create('campaign', {
     id: '2',
