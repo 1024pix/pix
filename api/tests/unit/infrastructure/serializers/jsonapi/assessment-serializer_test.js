@@ -33,6 +33,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         attributes: {
           'estimated-level': undefined,
           'pix-score': undefined,
+          'state': undefined,
           'success-rate': undefined,
           'type': 'charade',
           'certification-number': null,
@@ -134,6 +135,21 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
       // then
       expect(json).to.deep.equal(jsonAssessment);
+    });
+
+    describe('field "state"', () => {
+
+      it('should set "state" attribute value when it is present', () => {
+        // given
+        const state = 'started';
+        modelObject.state = state;
+
+        // when
+        const json = serializer.serialize(modelObject);
+
+        // then
+        expect(json.data.attributes.state).to.equal(state);
+      });
     });
 
   });

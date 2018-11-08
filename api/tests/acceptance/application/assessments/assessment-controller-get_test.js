@@ -200,6 +200,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'attributes': {
             'estimated-level': 0,
             'pix-score': 0,
+            'state': null,
             'success-rate': null,
             'type': null,
             'certification-number': null,
@@ -350,6 +351,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'attributes': {
             'estimated-level': 1,
             'pix-score': 8,
+            'state': null,
             'success-rate': 50,
             'type': null,
             'certification-number': null,
@@ -450,6 +452,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
         'attributes': {
           'estimated-level': undefined,
           'pix-score': undefined,
+          'state': 'completed',
           'success-rate': undefined,
           'type': 'SMART_PLACEMENT',
           'certification-number': null,
