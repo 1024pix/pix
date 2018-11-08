@@ -6,10 +6,11 @@
       <div class="campaign-landing-page__pix-logo">
         <img class="campaign-landing-page__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
       </div>
-      <div class="campaign-landing-page__marianne-logo">
-        <img class="campaign-landing-page__image" src="{{rootURL}}/images/logo-de-la-republique-francaise.svg"
-             alt="Logo de la Marianne">
+      {{#if model.organizationLogoUrl}}
+      <div class="campaign-landing-page__logo">
+        <img class="campaign-landing-page__image" src="{{model.organizationLogoUrl}}" alt="Logo de l'organisation">
       </div>
+      {{/if}}
     </div>
     <div class="campaign-landing-page__start__text">
       <p class="campaign-landing-page__start__text__title">Commencez votre parcours</p>
@@ -19,8 +20,8 @@
         {{action "startCampaignParticipation" model}}> Je commence
       </button>
       <p class="campaign-landing-page__start__text__legal">
-        En démarrant, les informations relatives à votre avancée seront transmises à l'organisateur du parcours. Les
-        résultats des tests ne seront transmis qu’avec votre consentement.
+        Les informations relatives à votre avancée seront transmises à l'organisateur du parcours pour lui permettre de
+        vous accompagner. Les résultats des tests ne seront transmis qu’avec votre consentement.
       </p>
     </div>
 
@@ -67,7 +68,7 @@
         <img src="{{rootURL}}/images/landing-page/icon-conseil.svg">
         <div class="campaign-landing-page__details__article-side">
           <p class="campaign-landing-page__details__text article-title ">
-            Bénéficier de conseils adaptés pour progresser
+            Découvrir vos résultats au fil du test et consulter des indices pour progresser.
           </p>
           <p class="campaign-landing-page__details__text article-text">
             Après 5 épreuves, vous pouvez visualiser vos réponses et suivre des tutos pour développer vos compétences.

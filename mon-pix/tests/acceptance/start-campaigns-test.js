@@ -142,6 +142,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         return andThen(() => {
           expect(currentURL()).to.equal('/campagnes/AZERTY1/presentation');
           expect(find('.campaign-landing-page__start-button').text().trim()).to.equal('Je commence');
+          findWithAssert('.campaign-landing-page__logo');
         });
       });
 
