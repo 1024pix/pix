@@ -104,12 +104,14 @@ describe('Unit | Infrastructure | preloader', () => {
   });
 
   beforeEach(() => {
-    sinon.stub(airtable, 'findRecords');
+    sinon.stub(airtable, 'findRecordsSkipCache');
+    sinon.stub(airtable, 'getRecordSkipCache');
     sinon.stub(cache, 'set').resolves();
   });
 
   afterEach(() => {
-    airtable.findRecords.restore();
+    airtable.findRecordsSkipCache.restore();
+    airtable.getRecordSkipCache.restore();
     cache.set.restore();
   });
 
@@ -118,27 +120,27 @@ describe('Unit | Infrastructure | preloader', () => {
 
     beforeEach(() => {
       // given
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Acquis')
         .resolves([ airtableSkill_1, airtableSkill_2 ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Domaines')
         .resolves([ airtableArea_1, airtableArea_2 ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Epreuves')
         .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Competences')
         .resolves([ airtableCompetence_1, airtableCompetence_2 ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Tests')
         .resolves([ airtableProgressionCourse, airtableAdaptiveCourse, airtableWeekCourse ]);
 
-      airtable.findRecords
+      airtable.findRecordsSkipCache
         .withArgs('Tutoriels')
         .resolves([ airtableTutorial ]);
 
@@ -198,6 +200,52 @@ describe('Unit | Infrastructure | preloader', () => {
           expect(cache.set).to.have.been.calledWith('Tutoriels_recTutorial', airtableTutorial._rawJson);
         });
     });
+  });
+
+  describe('#load', () => {
+    let promise = null;
+
+    context('When the key is a table',() => {
+      beforeEach(() => {
+        // given
+        airtable.findRecordsSkipCache
+          .withArgs('Epreuves')
+          .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
+
+        return promise = preloader.load({ tableName: 'Epreuves' });
+      });
+
+      it('For table "Epreuves", should fetch all challenges and cache them individually', () => {
+        // then
+        return promise
+          .then(() => {
+            expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge1', airtableChallenge_1._rawJson);
+            expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge2', airtableChallenge_2._rawJson);
+          });
+      });
+    });
+
+    context('When the key is a record',() => {
+      beforeEach(() => {
+        // given
+        airtable.getRecordSkipCache
+          .withArgs('Epreuves', 'recChallenge1')
+          .resolves(airtableChallenge_1);
+
+        return promise = preloader.load({ tableName: 'Epreuves', recordId: 'recChallenge1' });
+      });
+
+      it('For record "Epreuves_recChallenge1", should fetch only the challenge', () => {
+        // then
+        return promise
+          .then(() => {
+            expect(airtable.getRecordSkipCache).to.have.been.calledWith('Epreuves', 'recChallenge1');
+            expect(airtable.getRecordSkipCache).to.not.have.been.calledWith('Epreuves', 'recChallenge2');
+          });
+      });
+
+    });
+
   });
 
 });

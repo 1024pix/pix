@@ -1,16 +1,20 @@
 const airtable = require('../airtable');
 const cache = require('./cache');
 
-function cacheIndividually(records, tablename) {
+function _cacheIndividually(records, tablename) {
   return Promise.all(records.map((record) => {
     const cacheKey = `${tablename}_${record.id}`;
     return cache.set(cacheKey, record._rawJson);
   }));
 }
 
-function loadTable(tableName) {
-  return airtable.findRecords(tableName)
-    .then((records) => cacheIndividually(records, tableName));
+function _loadTable(tableName) {
+  return airtable.findRecordsSkipCache(tableName)
+    .then((records) => _cacheIndividually(records, tableName));
+}
+
+function _loadRecord(tableName, recordId) {
+  return airtable.getRecordSkipCache(tableName, recordId);
 }
 
 module.exports = {
@@ -23,7 +27,14 @@ module.exports = {
       'Epreuves',
       'Tests',
       'Tutoriels',
-    ].map(loadTable));
+    ].map(_loadTable));
   },
+
+  load({ tableName, recordId }) {
+    if (recordId) {
+      return _loadRecord(tableName, recordId);
+    }
+    return _loadTable(tableName);
+  }
 
 };
