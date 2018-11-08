@@ -4,7 +4,19 @@ const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
 
 function _toDomain(bookshelfCampaign) {
-  return new Campaign(bookshelfCampaign.toJSON());
+  const dbCampaign = bookshelfCampaign.toJSON();
+  return new Campaign(_.pick(dbCampaign, [
+    'id',
+    'name',
+    'code',
+    'organizationId',
+    'creatorId',
+    'createdAt',
+    'targetProfileId',
+    'customLandingPageText',
+    'idPixLabel',
+    'title'
+  ]));
 }
 
 module.exports = {
@@ -46,7 +58,7 @@ module.exports = {
   },
 
   save(campaignToSave) {
-    const cleanedCampaignToSave = _.omit(campaignToSave, ['createdAt']);
+    const cleanedCampaignToSave = _.omit(campaignToSave, ['createdAt', 'organizationLogoUrl']);
     return new BookshelfCampaign(cleanedCampaignToSave)
       .save()
       .then(_toDomain);

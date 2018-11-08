@@ -19,4 +19,12 @@ module.exports = [
     targetProfileId: 1,
     idPixLabel: null,
   },
+  {
+    id: 3,
+    name: 'Campagne without logo',
+    code: 'AZERTY789',
+    organizationId: 2,
+    creatorId: 2,
+    targetProfileId: 1,
+  },
 ];
