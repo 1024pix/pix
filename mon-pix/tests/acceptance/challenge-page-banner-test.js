@@ -23,10 +23,7 @@ describe('Acceptance | Challenge page banner', function() {
     await visit('campagnes/CAMPAIGN_CODE');
 
     await click('.campaign-landing-page__start-button');
-    await click('.next-page-tutorial');
-    await click('.next-page-tutorial');
-    await click('.next-page-tutorial');
-    await click('.start-first-question');
+    await click('.campaign-tutorial__ignore-button');
 
   }
 

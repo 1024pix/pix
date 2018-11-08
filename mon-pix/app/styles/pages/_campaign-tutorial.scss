@@ -8,12 +8,12 @@
     background-color: $white;
     margin: auto;
     max-width: 800px;
-    padding-top: 25px;
-    padding-bottom: 30px;
+    padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0 7px 14px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
 
     @include device-is('tablet') {
+      padding: 30px 10px;
       width: 800px;
       padding-top: 85px;
     }
@@ -54,11 +54,11 @@
     display: flex;
     flex-flow: row;
     justify-content: center;
-    margin-top: 30px;
-    margin-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: 30px;
 
     @include device-is('tablet') {
-      margin-top: 50px;
+      margin-top: 15px;
     }
 
     .dot {
@@ -75,18 +75,23 @@
     }
   }
 
-  &__next-page-button {
+  &__next-button {
     display: flex;
     justify-content: center;
-
-    @include device-is('tablet') {
-      justify-content: flex-end;
-      padding-right: 30px;
-    }
+    flex-direction: column;
   }
 
-  &__start-campaign-button {
-    display: flex;
-    justify-content: center;
+  &__next-page-tutorial{
+    margin: auto;
+    padding: 0px 60px;
+  }
+
+  &__start-campaign-button{
+    margin: auto;
+    margin-bottom: 50px;
+  }
+
+  &__ignore-button {
+    margin: auto;
   }
 }
