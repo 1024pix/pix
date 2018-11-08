@@ -192,10 +192,10 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
           await click('.pix-button');
-          await click('.next-page-tutorial');
-          await click('.next-page-tutorial');
-          await click('.next-page-tutorial');
-          await click('.start-first-question');
+          await click('.campaign-tutorial__next-page-tutorial');
+          await click('.campaign-tutorial__next-page-tutorial');
+          await click('.campaign-tutorial__next-page-tutorial');
+          await click('.campaign-tutorial__start-campaign-button');
 
           // then
           return andThen(() => {

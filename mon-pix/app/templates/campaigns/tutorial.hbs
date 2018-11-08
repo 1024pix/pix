@@ -18,14 +18,14 @@
       {{/each}}
 
     </div>
+    <div class="campaign-tutorial__next-button">
     {{#if model.showNextButton}}
-      <div class="campaign-tutorial__next-page-button">
-        <button type="submit" class="pix-button next-page-tutorial" {{action "next"}}>Suivant</button>
-      </div>
+      <button type="submit" class="pix-button campaign-tutorial__next-page-tutorial" {{action "next"}}>Suivant</button>
+
+      <button {{action "submit"}} class="campaign-tutorial__ignore-button button-grey-text">Ignorer</button>
     {{else}}
-      <div class="campaign-tutorial__start-campaign-button">
-        <button type="submit" class="pix-button pix-button--extra-big start-first-question" {{action "submit"}}>Démarrer mon parcours</button>
-      </div>
+      <button type="submit" class="pix-button pix-button--extra-big campaign-tutorial__start-campaign-button" {{action "submit"}}>Démarrer mon parcours</button>
     {{/if}}
+    </div>
   </div>
 </div>
