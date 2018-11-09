@@ -40,10 +40,16 @@
 
 .campaign-landing-page__start__image__container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   width: 90%;
   margin: auto;
   padding: 25px;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+  }
 }
 
 .campaign-landing-page__pix-logo .campaign-landing-page__marianne-logo {
