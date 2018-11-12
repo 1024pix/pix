@@ -6,8 +6,11 @@ export default Route.extend({
   afterModel(assessment) {
 
     return RSVP.hash({
-      assessment,
+      campaigns: this.get('store').query('campaign', { filter: { code: assessment.codeCampaign } }),
       skillReview: assessment.belongsTo('skillReview').reload()
+    }).then((hash) => {
+      assessment.campaign = hash.campaigns.get('firstObject');
+      return assessment;
     });
   },
 
