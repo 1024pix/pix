@@ -27,6 +27,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       };
       assessment = {
         codeCampaign: 'AZERTY',
+        set: sinon.stub(),
         belongsTo: sinon.stub().returns({ reload: reloadStub })
       };
       route.set('store', storeStub);
