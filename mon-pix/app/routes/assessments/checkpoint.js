@@ -9,7 +9,7 @@ export default Route.extend({
       campaigns: this.get('store').query('campaign', { filter: { code: assessment.codeCampaign } }),
       skillReview: assessment.belongsTo('skillReview').reload()
     }).then((hash) => {
-      assessment.campaign = hash.campaigns.get('firstObject');
+      assessment.set('campaign', hash.campaigns.get('firstObject'));
       return assessment;
     });
   },
