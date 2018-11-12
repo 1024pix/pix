@@ -8,7 +8,7 @@ const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { AlreadyRegisteredEmailError, UserNotFoundError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
-const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAccess');
+const Membership = require('../../../../lib/domain/models/Membership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole');
 
@@ -39,34 +39,34 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       code: 'ABCD12',
     };
     const organizationRoleToInsert = { name: 'ADMIN' };
-    const organizationAccessToInsert = {};
+    const membershipToInsert = {};
 
     let organizationId, organizationRoleId;
     return knex('users').insert(userToInsert)
       .then((insertedUser) => {
         userToInsert.id = insertedUser[0];
-        organizationAccessToInsert.userId = insertedUser[0];
+        membershipToInsert.userId = insertedUser[0];
         return knex('organizations').insert(organizationToInsert);
       })
       .then((insertedOrganization) => {
         organizationId = insertedOrganization[0];
         organizationToInsert.id = organizationId;
-        organizationAccessToInsert.organizationId = organizationId;
+        membershipToInsert.organizationId = organizationId;
         return knex('organization-roles').insert(organizationRoleToInsert);
       })
       .then((insertedOrganizationRole) => {
         organizationRoleId = insertedOrganizationRole[0];
         organizationRoleToInsert.id = organizationRoleId;
-        organizationAccessToInsert.organizationRoleId = organizationRoleId;
-        return knex('organizations-accesses').insert(organizationAccessToInsert);
+        membershipToInsert.organizationRoleId = organizationRoleId;
+        return knex('memberships').insert(membershipToInsert);
       })
-      .then((insertedOrganizationAccess) => {
-        organizationAccessToInsert.id = insertedOrganizationAccess[0];
+      .then((insertedMembership) => {
+        membershipToInsert.id = insertedMembership[0];
         return {
           userInDB: userToInsert,
           organizationInDB: organizationToInsert,
           organizationRoleInDB: organizationRoleToInsert,
-          organizationAccessInDB: organizationAccessToInsert
+          membershipInDB: membershipToInsert
         };
       });
   }
@@ -151,16 +151,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     describe('#findByEmailWithRoles', () => {
 
-      let userInDB, organizationInDB, organizationRoleInDB, organizationAccessInDB;
+      let userInDB, organizationInDB, organizationRoleInDB, membershipInDB;
 
       beforeEach(() => {
         return _insertUserWithOrganizationsAccesses()
           .then((persistedEntities) =>
-            ({ userInDB, organizationInDB, organizationRoleInDB, organizationAccessInDB } = persistedEntities));
+            ({ userInDB, organizationInDB, organizationRoleInDB, membershipInDB } = persistedEntities));
       });
 
       afterEach(() => {
-        return knex('organizations-accesses').delete()
+        return knex('memberships').delete()
           .then(() => {
             return Promise.all([
               knex('organizations').delete(),
@@ -189,27 +189,27 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         });
       });
 
-      it('should return organization access associated to the user', () => {
+      it('should return membership associated to the user', () => {
         // when
         const promise = userRepository.findByEmailWithRoles(userToInsert.email);
 
         // then
         return promise.then((user) => {
 
-          expect(user.organizationAccesses).to.be.an('array');
+          expect(user.memberships).to.be.an('array');
 
-          const firstOrganizationAccess = user.organizationAccesses[0];
-          expect(firstOrganizationAccess).to.be.an.instanceof(OrganizationAccess);
-          expect(firstOrganizationAccess.id).to.equal(organizationAccessInDB.id);
+          const firstMembership = user.memberships[0];
+          expect(firstMembership).to.be.an.instanceof(Membership);
+          expect(firstMembership.id).to.equal(membershipInDB.id);
 
-          const accessibleOrganization = firstOrganizationAccess.organization;
-          expect(accessibleOrganization).to.be.an.instanceof(Organization);
-          expect(accessibleOrganization.id).to.equal(organizationInDB.id);
-          expect(accessibleOrganization.code).to.equal(organizationInDB.code);
-          expect(accessibleOrganization.name).to.equal(organizationInDB.name);
-          expect(accessibleOrganization.type).to.equal(organizationInDB.type);
+          const associatedOrganization = firstMembership.organization;
+          expect(associatedOrganization).to.be.an.instanceof(Organization);
+          expect(associatedOrganization.id).to.equal(organizationInDB.id);
+          expect(associatedOrganization.code).to.equal(organizationInDB.code);
+          expect(associatedOrganization.name).to.equal(organizationInDB.name);
+          expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
-          const associatedRole = firstOrganizationAccess.organizationRole;
+          const associatedRole = firstMembership.organizationRole;
           expect(associatedRole).to.be.an.instanceof(OrganizationRole);
           expect(associatedRole.id).to.equal(organizationRoleInDB.id);
           expect(associatedRole.name).to.equal(organizationRoleInDB.name);
@@ -272,17 +272,17 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#getWithOrganizationAccesses', () => {
-      let userInDB, organizationInDB, organizationRoleInDB, organizationAccessInDB;
+    describe('#getWithMemberships', () => {
+      let userInDB, organizationInDB, organizationRoleInDB, membershipInDB;
 
       beforeEach(() => {
         return _insertUserWithOrganizationsAccesses()
           .then((persistedEntities) =>
-            ({ userInDB, organizationInDB, organizationRoleInDB, organizationAccessInDB } = persistedEntities));
+            ({ userInDB, organizationInDB, organizationRoleInDB, membershipInDB } = persistedEntities));
       });
 
       afterEach(() => {
-        return knex('organizations-accesses').delete()
+        return knex('memberships').delete()
           .then(() => {
             return Promise.all([
               knex('organizations').delete(),
@@ -297,7 +297,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const expectedUser = new User(userInDB);
 
         // when
-        const promise = userRepository.getWithOrganizationAccesses(userInDB.id);
+        const promise = userRepository.getWithMemberships(userInDB.id);
 
         // then
         return promise.then((user) => {
@@ -311,27 +311,27 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         });
       });
 
-      it('should return organization access associated to the user', () => {
+      it('should return membership associated to the user', () => {
         // when
-        const promise = userRepository.getWithOrganizationAccesses(userInDB.id);
+        const promise = userRepository.getWithMemberships(userInDB.id);
 
         // then
         return promise.then((user) => {
 
-          expect(user.organizationAccesses).to.be.an('array');
+          expect(user.memberships).to.be.an('array');
 
-          const organizationAccess = user.organizationAccesses[0];
-          expect(organizationAccess).to.be.an.instanceof(OrganizationAccess);
-          expect(organizationAccess.id).to.equal(organizationAccessInDB.id);
+          const membership = user.memberships[0];
+          expect(membership).to.be.an.instanceof(Membership);
+          expect(membership.id).to.equal(membershipInDB.id);
 
-          const accessibleOrganization = organizationAccess.organization;
-          expect(accessibleOrganization).to.be.an.instanceof(Organization);
-          expect(accessibleOrganization.id).to.equal(organizationInDB.id);
-          expect(accessibleOrganization.code).to.equal(organizationInDB.code);
-          expect(accessibleOrganization.name).to.equal(organizationInDB.name);
-          expect(accessibleOrganization.type).to.equal(organizationInDB.type);
+          const associatedOrganization = membership.organization;
+          expect(associatedOrganization).to.be.an.instanceof(Organization);
+          expect(associatedOrganization.id).to.equal(organizationInDB.id);
+          expect(associatedOrganization.code).to.equal(organizationInDB.code);
+          expect(associatedOrganization.name).to.equal(organizationInDB.name);
+          expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
-          const associatedRole = organizationAccess.organizationRole;
+          const associatedRole = membership.organizationRole;
           expect(associatedRole).to.be.an.instanceof(OrganizationRole);
           expect(associatedRole.id).to.equal(organizationRoleInDB.id);
           expect(associatedRole.name).to.equal(organizationRoleInDB.name);
@@ -343,7 +343,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const unknownUserId = 666;
 
         // when
-        const promise = userRepository.getWithOrganizationAccesses(unknownUserId);
+        const promise = userRepository.getWithMemberships(unknownUserId);
 
         // then
         return expect(promise).to.be.rejectedWith(UserNotFoundError);

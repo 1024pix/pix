@@ -11,7 +11,8 @@ export default {
     attributes: {
       'user-id': 'user_id',
       'user-name': 'Jon Snow',
-      'user-email': 'jsnow@winterfell.got'
+      'user-email': 'jsnow@winterfell.got',
+      'type': 'DEMO'
     },
     relationships: {
       course: {

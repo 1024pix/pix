@@ -16,7 +16,7 @@ describe('Acceptance | API | Campaigns', () => {
       user = databaseBuilder.factory.buildUser({});
       otherUser = databaseBuilder.factory.buildUser({});
       organization = databaseBuilder.factory.buildOrganization({ userId: user.id });
-      databaseBuilder.factory.buildOrganizationAccess({
+      databaseBuilder.factory.buildMembership({
         userId: user.id,
         organizationId: organization.id
       });
@@ -148,9 +148,13 @@ describe('Acceptance | API | Campaigns', () => {
       url: '/api/campaigns?filter[code]=AZERTY123',
     };
     let insertedCampaign;
+    let insertedOrganization;
 
     beforeEach(async () => {
-      insertedCampaign = databaseBuilder.factory.buildCampaign({ name: 'Ou est Brandone 1.0', code: 'AZERTY123' });
+      insertedOrganization = databaseBuilder.factory.buildOrganization({ logoUrl: 'A côté de Mala 0.9' });
+      insertedCampaign = databaseBuilder.factory.buildCampaign({
+        name: 'Ou est Brandone 1.0', code: 'AZERTY123', organizationId: insertedOrganization.id
+      });
       await databaseBuilder.commit();
     });
 
@@ -173,6 +177,7 @@ describe('Acceptance | API | Campaigns', () => {
         expect(campaign.type).to.equal('campaigns');
         expect(campaign.attributes.name).to.equal(insertedCampaign.name);
         expect(campaign.attributes.code).to.equal(insertedCampaign.code);
+        expect(campaign.attributes['organization-logo-url']).to.equal(insertedOrganization.logoUrl);
       });
     });
 

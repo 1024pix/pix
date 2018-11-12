@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession, currentSession } from 'ember-simple-auth/test-support';
-import { createUserWithOrganizationAccess, createUserWithOrganizationAccessAndTermsOfServiceAccepted } from '../helpers/test-init';
+import { createUserWithMembership, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -28,7 +28,7 @@ module('Acceptance | authentication', function(hooks) {
   module( "When user is logging in but has not accepted terms of service yet", function(hooks) {
 
     hooks.beforeEach(() => {
-      user = createUserWithOrganizationAccess();
+      user = createUserWithMembership();
     });
 
    test('it should redirect user to the terms-of-service page', async function(assert) {
@@ -67,7 +67,7 @@ module('Acceptance | authentication', function(hooks) {
   module( "When user is logging in and has accepted terms of service", function(hooks) {
 
     hooks.beforeEach(() => {
-      user = createUserWithOrganizationAccessAndTermsOfServiceAccepted();
+      user = createUserWithMembershipAndTermsOfServiceAccepted();
     });
 
     test('it should redirect user to the campaigns list', async function(assert) {
@@ -107,7 +107,7 @@ module('Acceptance | authentication', function(hooks) {
   module( "When user is already authenticated and has accepted terms of service", function(hooks) {
 
     hooks.beforeEach(async () => {
-      user = createUserWithOrganizationAccessAndTermsOfServiceAccepted();
+      user = createUserWithMembershipAndTermsOfServiceAccepted();
 
       await authenticateSession({
         user_id: user.id,

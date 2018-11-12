@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserWithOrganizationAccess } from '../helpers/test-init';
+import { createUserWithMembership } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -25,7 +25,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
     let user;
 
     beforeEach(async function() {
-      user = createUserWithOrganizationAccess();
+      user = createUserWithMembership();
       availableTargetProfiles = server.createList('target-profile', 2);
       await authenticateSession({
         user_id: user.id,
@@ -51,6 +51,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       await click('#askLabelIdPix');
       await fillIn('#id-pix-label', 'Mail Pro');
       await fillIn('#campaign-title', 'Savoir rechercher');
+      await fillIn('#custom-landing-page-text', 'Texte personnalisé');
 
       // when
       await click('.campaign-creation-form__validation-button');
@@ -59,6 +60,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
       assert.equal(server.db.campaigns[0].title, 'Savoir rechercher');
       assert.equal(server.db.campaigns[0].targetProfileId, expectedTargetProfileId);
+      assert.equal(server.db.campaigns[0].customLandingPageText, 'Texte personnalisé');
       assert.equal(currentURL(), '/campagnes/liste');
     });
 

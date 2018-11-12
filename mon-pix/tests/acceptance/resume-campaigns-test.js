@@ -27,6 +27,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
       await click('.campaign-landing-page__start-button');
       await fillIn('#id-pix-label', 'monmail@truc.fr');
       await click('.pix-button');
+      await click('.campaign-tutorial__ignore-button');
       await click('.challenge-actions__action-skip');
     });
 

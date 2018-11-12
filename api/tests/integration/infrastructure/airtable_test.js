@@ -40,7 +40,7 @@ describe('Integration | Class | airtable', () => {
     sandbox.restore();
   });
 
-  describe('#getRecord', () => {
+  describe('#getRecord{SkipCache}', () => {
 
     const tableName = 'Tests';
     const recordId = 'recNPB7dTNt5krlMA';
@@ -68,6 +68,27 @@ describe('Integration | Class | airtable', () => {
         return promise.then((record) => {
           assertAirtableRecordToEqualExpected(record, airtableRecord);
           expect(findStub).to.have.not.been.called;
+        });
+      });
+    });
+
+    context('when the response was previously cached but we do not want to use cache', () => {
+
+      it('should Airtable fetched record and store it in cache', () => {
+        // given
+        const cachedValue = airtableRecord._rawJson;
+        cache.get.resolves(cachedValue);
+        cache.set.resolves();
+        findStub.resolves(airtableRecord);
+
+        // when
+        const promise = airtable.getRecordSkipCache(tableName, recordId);
+
+        // then
+        return promise.then((record) => {
+          expect(cache.get).to.have.not.been.called;
+          assertAirtableRecordToEqualExpected(record, airtableRecord);
+          expect(cache.set).to.have.been.calledWith(cacheKey, airtableRecord._rawJson);
         });
       });
     });
@@ -108,7 +129,7 @@ describe('Integration | Class | airtable', () => {
     });
   });
 
-  describe('#findRecords', () => {
+  describe('#findRecords{SkipCache}', () => {
 
     const tableName = 'Tests';
     const airtableRecords = [
@@ -146,6 +167,31 @@ describe('Integration | Class | airtable', () => {
             assertAirtableRecordToEqualExpected(record, expectedRecord);
           });
           expect(allStub).to.have.not.been.called;
+        });
+      });
+    });
+
+    context('when the response was previously cached but we do not want to use case', () => {
+
+      it('should Airtable fetched record and store it in cache', () => {
+        // given
+        const cachedValue = null;
+        cache.get.resolves(cachedValue);
+        cache.set.resolves();
+        allStub.resolves(airtableRecords);
+
+        // when
+        const promise = airtable.findRecordsSkipCache(tableName);
+
+        // then
+        return promise.then((records) => {
+          expect(cache.get).to.have.not.been.called;
+
+          records.forEach((record, index) => {
+            const expectedRecord = airtableRecords[index];
+            assertAirtableRecordToEqualExpected(record, expectedRecord);
+          });
+          expect(cache.set).to.have.been.calledWith('Tests', airtableRecords.map((airtableRecord) => airtableRecord._rawJson));
         });
       });
     });

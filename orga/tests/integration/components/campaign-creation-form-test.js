@@ -71,4 +71,12 @@ module('Integration | Component | campaign-creation-form', function(hooks) {
     assert.dom('#campaign-title').hasAttribute('maxLength', "50");
   });
 
+  test('should not allow a custom landing page text with more than 350 char', async function(assert) {
+    // then
+    await render(hbs`{{campaign-creation-form}}`);
+
+    // when
+    assert.dom('#custom-landing-page-text').hasAttribute('maxLength', "350");
+  });
+
 });

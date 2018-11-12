@@ -20,6 +20,20 @@
   }
 }
 
+.textarea {
+  border: 2px solid $alto;
+  border-radius: 4px;
+  font-size: 1rem;
+  padding: 8px;
+  color: $nero;
+  outline: none;
+  resize: none;
+
+  &:focus {
+    border: 2px solid $dodger-blue;
+  }
+}
+
 .error-message {
   color: red;
   font-family: $roboto;
@@ -31,6 +45,11 @@
   border: 2px $alto solid;
   height: 46px;
   background-color: white;
+  outline: none;
+
+  &:focus {
+    border: 2px solid $dodger-blue;
+  }
 }
 
 .button {

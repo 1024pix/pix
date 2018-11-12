@@ -40,18 +40,52 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       });
 
       context('When the user has not seen the landing page', function() {
-        beforeEach(async function() {
-          await visit('/campagnes/AZERTY1');
-        });
         it('should redirect to landing page', async function() {
+          // when
+          await visit('/campagnes/AZERTY1');
+
           // then
           return andThen(() => {
             expect(currentURL()).to.equal('/campagnes/AZERTY1/presentation');
           });
         });
+
+        context('When campaign has custom text for the landing page', function() {
+          it('should show the custom text on the landing page', async function() {
+            // given
+            server.create('campaign', {
+              id: '3',
+              name: 'Campagne 3',
+              code: 'AZERTY3',
+              customLandingPageText: 'Texte personnalisé pour la Campagne 3'
+            });
+
+            // when
+            await visit('/campagnes/AZERTY3');
+
+            // then
+            return andThen(() => {
+              expect(find('.campaign-landing-page__start__custom-text')).to.have.lengthOf(1);
+              expect(find('.campaign-landing-page__start__custom-text').text()).to.contains('Texte personnalisé pour la Campagne 3');
+            });
+          });
+        });
+
+        context('When campaign does not have custom text for the landing page', function() {
+          it('should show only the defaulted text on the landing page', async function() {
+            // when
+            await visit('/campagnes/AZERTY1');
+
+            // then
+            return andThen(() => {
+              expect(find('.campaign-landing-page__start__custom-text')).to.have.lengthOf(0);
+            });
+          });
+        });
+
       });
 
-      context('When campaign have external id', function() {
+      context('When campaign has external id', function() {
         beforeEach(async function() {
           await startCampaignByCode('AZERTY1');
           await fillIn('#pix-email', 'jane@acme.com');
@@ -73,7 +107,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('/didacticiel');
           });
         });
       });
@@ -89,7 +123,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         it('should redirect to assessment after connexion', async function() {
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('/didacticiel');
           });
         });
       });
@@ -108,6 +142,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         return andThen(() => {
           expect(currentURL()).to.equal('/campagnes/AZERTY1/presentation');
           expect(find('.campaign-landing-page__start-button').text().trim()).to.equal('Je commence');
+          findWithAssert('.campaign-landing-page__logo');
         });
       });
 
@@ -143,17 +178,31 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           expect(receivedParticipantExternalId).to.equal(participantExternalId);
         });
 
-        it('should go to the assessment when the user fill in his id', async function() {
+        it('should go to the tutorial when the user fill in his id', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
           await click('.pix-button');
 
           // then
           return andThen(() => {
+            expect(currentURL()).to.contains('campagnes/AZERTY1/didacticiel');
+          });
+        });
+
+        it('should start the assessment when the user has seen tutorial', async function() {
+          // when
+          fillIn('#id-pix-label', 'monmail@truc.fr');
+          await click('.pix-button');
+          await click('.campaign-tutorial__next-page-tutorial');
+          await click('.campaign-tutorial__next-page-tutorial');
+          await click('.campaign-tutorial__next-page-tutorial');
+          await click('.campaign-tutorial__start-campaign-button');
+
+          // then
+          return andThen(() => {
             expect(currentURL()).to.contains(/assessments/);
             expect(find('.course-banner__name').text()).to.equal('');
             findWithAssert('.assessment-challenge__progress-bar');
-
           });
         });
       });
@@ -164,13 +213,13 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           await visit('/campagnes/AZERTY2');
         });
 
-        it('should redirect to assessment after clicking on start button in landing page', async function() {
+        it('should redirect to tutorial after clicking on start button in landing page', async function() {
           // when
           await click('.campaign-landing-page__start-button');
 
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains(/assessments/);
+            expect(currentURL()).to.contains('campagnes/AZERTY2/didacticiel');
           });
         });
 

@@ -13,11 +13,18 @@
 
   margin: -385px 10px;
   max-width: 850px;
-  padding: 20px;
 
   @include device-is('tablet') {
     margin: -385px auto;
+    padding: 20px;
   }
+}
+
+.campaign-landing-page__dash-line {
+  border-top: 1px dashed $dove-gray;
+  width: 85%;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 /*------------------------ START ------------------------*/
@@ -33,10 +40,16 @@
 
 .campaign-landing-page__start__image__container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   width: 90%;
   margin: auto;
   padding: 25px;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+  }
 }
 
 .campaign-landing-page__pix-logo .campaign-landing-page__marianne-logo {
@@ -44,18 +57,22 @@
 }
 
 .campaign-landing-page__image {
-  height: 100px;
-  width: 100px;
+  max-height: 80px;
+  max-width: 300px;
 }
 
 .campaign-landing-page__start__text {
-  width: 90%;
+  width: 80%;
   margin: auto;
   padding: 5px;
   text-align: center;
   font-family: $font-open-sans;
 
-  .title {
+  @include device-is('tablet') {
+    padding: 5px 20px;
+  }
+
+  &__title {
     font-size: 3rem;
     font-weight: $font-light;
 
@@ -64,20 +81,47 @@
     }
   }
 
-  .announcement {
+  &__announcement {
     font-size: 1.8rem;
   }
 
-  .legal {
+  &__legal {
     font-size: 1.2rem;
     color: $dove-gray;
   }
 }
 
+.campaign-landing-page__start__custom-text {
+  width: 80%;
+  margin: auto;
+  padding: 5px;
+  font-family: $font-open-sans;
+  font-size: 1.6rem;
+  text-align: left;
+
+  strong {
+    font-weight: $font-semi-bold;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+}
+
 .campaign-landing-page__start-button {
-  height: 60px;
-  width: 30%;
-  margin: 30px;
+  margin: 30px 0px;
+
+  @include device-is('tablet') {
+    margin: 30px;
+  }
 }
 
 /*------------------------ DETAILS ------------------------*/
@@ -132,14 +176,6 @@
   border: 1px solid $pix-blue;
   border-radius: 5px;
   margin: 35px auto;
-}
-
-.campaign-landing-page__details__dash-line {
-  border-top: 1px dashed $dove-gray;
-  width: 85%;
-  margin-top: 50px;
-  margin-bottom: 50px;
-
 }
 
 .campaign-landing-page__details__measure__container {

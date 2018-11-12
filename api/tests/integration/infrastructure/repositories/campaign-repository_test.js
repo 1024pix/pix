@@ -85,6 +85,7 @@ describe('Integration | Repository | Campaign', () => {
         name: 'Evaluation niveau 1 recherche internet',
         code: 'BCTERD153',
         title: 'Parcours recherche internet',
+        customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
         creatorId: 6,
         organizationId: 44,
       });
@@ -99,6 +100,7 @@ describe('Integration | Repository | Campaign', () => {
         expect(savedCampaign.name).to.equal(campaignToSave.name);
         expect(savedCampaign.code).to.equal(campaignToSave.code);
         expect(savedCampaign.title).to.equal(campaignToSave.title);
+        expect(savedCampaign.customLandingPageText).to.equal(campaignToSave.customLandingPageText);
         expect(savedCampaign.creatorId).to.equal(campaignToSave.creatorId);
         expect(savedCampaign.organizationId).to.equal(campaignToSave.organizationId);
       });

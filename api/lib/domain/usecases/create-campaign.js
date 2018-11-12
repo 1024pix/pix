@@ -4,27 +4,9 @@ const campaignValidator = require('../validators/campaign-validator');
 const Campaign = require('../models/Campaign');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
-function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
-  return userRepository.getWithOrganizationAccesses(userId)
-    .then((user) => {
-      if(user.hasAccessToOrganization(organizationId)) {
-        return Promise.resolve();
-      }
-      return Promise.reject(new UserNotAuthorizedToCreateCampaignError(`User does not have an access to the organization ${organizationId}`));
-    });
-}
+module.exports = createCampaign;
 
-function _checkOrganizationHasAccessToTargetProfile(targetProfileId, organizationId, organizationService) {
-  return organizationService.findAllTargetProfilesAvailableForOrganization(organizationId)
-    .then((targetProfiles) => {
-      if(_.find(targetProfiles, (targetProfile) => targetProfile.id === targetProfileId)) {
-        return Promise.resolve();
-      }
-      throw new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${targetProfileId}`);
-    });
-}
-
-module.exports = function createCampaign({ campaign, campaignRepository, userRepository, organizationService }) {
+function createCampaign({ campaign, campaignRepository, userRepository, organizationService }) {
   return campaignValidator.validate(campaign)
     .then(() => _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository))
     .then(() => _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService))
@@ -35,4 +17,24 @@ module.exports = function createCampaign({ campaign, campaignRepository, userRep
       return campaignWithCode;
     })
     .then(campaignRepository.save);
-};
+}
+
+function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
+  return userRepository.getWithMemberships(userId)
+    .then((user) => {
+      if (user.hasAccessToOrganization(organizationId)) {
+        return Promise.resolve();
+      }
+      return Promise.reject(new UserNotAuthorizedToCreateCampaignError(`User does not have an access to the organization ${organizationId}`));
+    });
+}
+
+function _checkOrganizationHasAccessToTargetProfile(targetProfileId, organizationId, organizationService) {
+  return organizationService.findAllTargetProfilesAvailableForOrganization(organizationId)
+    .then((targetProfiles) => {
+      if (_.find(targetProfiles, (targetProfile) => targetProfile.id === targetProfileId)) {
+        return Promise.resolve();
+      }
+      throw new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${targetProfileId}`);
+    });
+}

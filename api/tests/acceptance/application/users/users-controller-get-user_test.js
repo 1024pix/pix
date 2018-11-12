@@ -49,9 +49,9 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
             'pix-orga-terms-of-service-accepted': false
           },
           relationships: {
-            'organization-accesses': {
+            'memberships': {
               links: {
-                related: '/users/1234/organization-accesses'
+                related: '/users/1234/memberships'
               }
             }
           }

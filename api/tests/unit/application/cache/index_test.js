@@ -10,7 +10,7 @@ describe('Unit | Router | cache-router', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(cacheController, 'removeCacheEntry').callsFake((request, reply) => reply().code(204));
+    sandbox.stub(cacheController, 'reloadCacheEntry').callsFake((request, reply) => reply().code(204));
     sandbox.stub(cacheController, 'removeAllCacheEntries').callsFake((request, reply) => reply().code(204));
     sandbox.stub(cacheController, 'preloadCacheEntries').callsFake((request, reply) => reply().code(204));
     sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));

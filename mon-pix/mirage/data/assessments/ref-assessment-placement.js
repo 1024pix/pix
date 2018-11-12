@@ -3,7 +3,8 @@ export default {
     type: 'assessments',
     id: 'ref_assessment_campaign_id',
     attributes: {
-      'type':'SMART_PLACEMENT'
+      'type':'SMART_PLACEMENT',
+      'code-campaign': 'codecampagnepix'
     },
     relationships: {
       course: {

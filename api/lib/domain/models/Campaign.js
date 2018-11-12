@@ -8,6 +8,8 @@ class Campaign {
     title,
     idPixLabel,
     createdAt,
+    organizationLogoUrl,
+    customLandingPageText,
     // includes
     // references
     creatorId,
@@ -21,6 +23,8 @@ class Campaign {
     this.title = title;
     this.idPixLabel = idPixLabel;
     this.createdAt = createdAt;
+    this.organizationLogoUrl = organizationLogoUrl;
+    this.customLandingPageText = customLandingPageText;
     // includes
     // references
     this.creatorId = creatorId;

@@ -35,9 +35,9 @@ export default function() {
 
   this.get('/users/:id');
 
-  this.get('/users/:id/organization-accesses', (schema, request) => {
+  this.get('/users/:id/memberships', (schema, request) => {
     const userId = request.params.id;
-    return schema.organizationAccesses.where({ userId });
+    return schema.memberships.where({ userId });
   });
 
   this.get('/organizations/:id/campaigns', (schema) => {

@@ -63,9 +63,9 @@ describe('Acceptance | Controller | users-controller', () => {
                 '"pix-orga-terms-of-service-accepted":false' +
               '},' +
             '"relationships":{' +
-              '"organization-accesses":{'+
+              '"memberships":{'+
                 '"links":{'+
-                  '"related":"/users/(\\d+)/organization-accesses"'+
+                  '"related":"/users/(\\d+)/memberships"'+
                 '}'+
               '}'+
             '}'+

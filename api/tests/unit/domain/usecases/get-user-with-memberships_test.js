@@ -1,14 +1,14 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const getUserWithOrganizationAccesses = require('../../../../lib/domain/usecases/get-user-with-organization-accesses');
-const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAccess');
+const getUserWithMemberships = require('../../../../lib/domain/usecases/get-user-with-memberships');
+const Membership = require('../../../../lib/domain/models/Membership');
 const User = require('../../../../lib/domain/models/User');
 
-describe('Unit | UseCase | get-user-organizations-accesses', () => {
+describe('Unit | UseCase | get-user-with-memberships', () => {
 
   let authenticatedUserId;
   let requestedUserId;
-  const userRepository = { getWithOrganizationAccesses: () => undefined };
+  const userRepository = { getWithMemberships: () => undefined };
 
   it('should reject a NotAuthorized error if authenticated user ask for another user organizations accesses', () => {
     // given
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
     requestedUserId = 2;
 
     // when
-    const promise = getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
+    const promise = getUserWithMemberships({ authenticatedUserId, requestedUserId, userRepository });
 
     // then
     return promise.catch((err) => {
@@ -30,7 +30,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(userRepository, 'getWithOrganizationAccesses');
+      sandbox.stub(userRepository, 'getWithMemberships');
     });
 
     afterEach(() => {
@@ -42,10 +42,10 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       authenticatedUserId = 1;
       requestedUserId = 1;
       const foundUser = factory.buildUser();
-      userRepository.getWithOrganizationAccesses.resolves(foundUser);
+      userRepository.getWithMemberships.resolves(foundUser);
 
       // when
-      const promise = getUserWithOrganizationAccesses({
+      const promise = getUserWithMemberships({
         authenticatedUserId,
         requestedUserId,
         userRepository,
@@ -53,19 +53,19 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
 
       // then
       return promise.then(() => {
-        expect(userRepository.getWithOrganizationAccesses).to.have.been.calledWith(requestedUserId);
+        expect(userRepository.getWithMemberships).to.have.been.calledWith(requestedUserId);
       });
     });
 
-    it('should return user with the organization accesses', () => {
+    it('should return user with the memberships', () => {
       // given
       const foundUser = factory.buildUser({
-        organizationAccesses: [new OrganizationAccess({ id: 'Le premier accès de l\'utilisateur' })],
+        memberships: [new Membership({ id: 'Le premier accès de l\'utilisateur' })],
       });
-      userRepository.getWithOrganizationAccesses.resolves(foundUser);
+      userRepository.getWithMemberships.resolves(foundUser);
 
       // when
-      const promise = getUserWithOrganizationAccesses({
+      const promise = getUserWithMemberships({
         authenticatedUserId,
         requestedUserId,
         userRepository,
@@ -74,7 +74,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       // then
       return promise.then((foundUser) => {
         expect(foundUser).to.be.an.instanceOf(User);
-        expect(foundUser.organizationAccesses[0].id).to.deep.equal('Le premier accès de l\'utilisateur');
+        expect(foundUser.memberships[0].id).to.deep.equal('Le premier accès de l\'utilisateur');
       });
     });
   });

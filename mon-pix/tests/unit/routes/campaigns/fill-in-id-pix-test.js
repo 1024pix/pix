@@ -149,6 +149,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     beforeEach(function() {
       savedAssessment.reload.resolves();
       route.transitionTo = sinon.stub();
+      route.set('campaignCode', 'AZERTY123');
       createCampaignParticipationStub.returns({
         save: () => Promise.resolve(createdCampaignParticipation)
       });
@@ -165,32 +166,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       });
     });
 
-    it('should retrieve challenge with given assessment id', function() {
-      // when
-      const promise = route.start(campaign, participantExternalId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(queryChallengeStub, 'challenge', { assessmentId: savedAssessment.get('id') });
-      });
-    });
-
-    it('should redirect to next challenge if one was found', function() {
-      // given
-      queryChallengeStub.resolves({ id: 23 });
-
-      // when
-      const promise = route.start(campaign, participantExternalId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
-      });
-    });
-
-    it('should redirect to start campaign if there is no challenge', function() {
-      // given
-      queryChallengeStub.resolves(null);
+    it('should redirect to start-or-resume page', function() {
 
       // when
       const promise = route.start(campaign, participantExternalId);

@@ -12,7 +12,7 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const organizationAccessesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-accesses-serializer');
+const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -554,7 +554,7 @@ describe('Unit | Controller | user-controller', () => {
       sandbox = sinon.sandbox.create();
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({ code: codeStub });
-      sandbox.stub(usecases, 'getUserWithOrganizationAccesses').resolves();
+      sandbox.stub(usecases, 'getUserWithMemberships').resolves();
       sandbox.stub(userSerializer, 'serialize');
     });
 
@@ -568,7 +568,7 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.getUserWithOrganizationAccesses).to.have.been.calledWith({
+        expect(usecases.getUserWithMemberships).to.have.been.calledWith({
           authenticatedUserId,
           requestedUserId,
         });
@@ -578,7 +578,7 @@ describe('Unit | Controller | user-controller', () => {
     it('should serialize the authenticated user', () => {
       // given
       const foundUser = factory.buildUser();
-      usecases.getUserWithOrganizationAccesses.resolves(foundUser);
+      usecases.getUserWithMemberships.resolves(foundUser);
 
       // when
       const promise = userController.getUser(request, replyStub);
@@ -598,7 +598,7 @@ describe('Unit | Controller | user-controller', () => {
           title: 'Forbidden Access'
         }]
       };
-      usecases.getUserWithOrganizationAccesses.rejects(new UserNotAuthorizedToAccessEntity());
+      usecases.getUserWithMemberships.rejects(new UserNotAuthorizedToAccessEntity());
 
       // when
       const promise = userController.getUser(request, replyStub);
@@ -625,7 +625,7 @@ describe('Unit | Controller | user-controller', () => {
           }
         }
       };
-      usecases.getUserWithOrganizationAccesses.resolves(foundUser);
+      usecases.getUserWithMemberships.resolves(foundUser);
       userSerializer.serialize.returns(serializedUser);
 
       // when
@@ -639,7 +639,7 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
-  describe('#getOrganizationAccesses', () => {
+  describe('#getMemberships', () => {
 
     let sandbox;
     const authenticatedUserId = 1;
@@ -659,7 +659,7 @@ describe('Unit | Controller | user-controller', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(organizationAccessesSerializer, 'serialize');
+      sandbox.stub(membershipSerializer, 'serialize');
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({ code: codeStub });
     });
@@ -671,14 +671,14 @@ describe('Unit | Controller | user-controller', () => {
     it('should get accesses of the user passed on params', () => {
       // given
       const stringifiedAuthenticatedUserId = authenticatedUserId.toString();
-      sandbox.stub(usecases, 'getUserWithOrganizationAccesses').resolves();
+      sandbox.stub(usecases, 'getUserWithMemberships').resolves();
 
       // when
-      const promise = userController.getOrganizationAccesses(request, replyStub);
+      const promise = userController.getMemberships(request, replyStub);
 
       // then
       return promise.then(() => {
-        expect(usecases.getUserWithOrganizationAccesses).to.have.been.calledWith({
+        expect(usecases.getUserWithMemberships).to.have.been.calledWith({
           requestedUserId,
           authenticatedUserId: stringifiedAuthenticatedUserId,
         });
@@ -688,36 +688,36 @@ describe('Unit | Controller | user-controller', () => {
     context('When accesses are found', () => {
 
       beforeEach(() => {
-        sandbox.stub(usecases, 'getUserWithOrganizationAccesses');
+        sandbox.stub(usecases, 'getUserWithMemberships');
       });
 
-      it('should serialize found organization-accesses', () => {
+      it('should serialize found memberships', () => {
         // given
         const foundAccesses = [];
-        const foundUser = new User({ organizationAccesses: foundAccesses });
-        usecases.getUserWithOrganizationAccesses.resolves(foundUser);
+        const foundUser = new User({ memberships: foundAccesses });
+        usecases.getUserWithMemberships.resolves(foundUser);
 
         // when
-        const promise = userController.getOrganizationAccesses(request, replyStub);
+        const promise = userController.getMemberships(request, replyStub);
 
         // then
         return promise.then(() => {
-          expect(organizationAccessesSerializer.serialize).to.have.been.calledWith(foundAccesses);
+          expect(membershipSerializer.serialize).to.have.been.calledWith(foundAccesses);
         });
       });
 
       it('should return serialized Organizations Accesses, a 200 code response', function() {
         // given
-        const serializedOrganizationAccesses = {};
-        organizationAccessesSerializer.serialize.returns(serializedOrganizationAccesses);
-        usecases.getUserWithOrganizationAccesses.resolves({});
+        const serializedMemberships = {};
+        membershipSerializer.serialize.returns(serializedMemberships);
+        usecases.getUserWithMemberships.resolves({});
 
         // when
-        const promise = userController.getOrganizationAccesses(request, replyStub);
+        const promise = userController.getMemberships(request, replyStub);
 
         // then
         return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(serializedOrganizationAccesses);
+          expect(replyStub).to.have.been.calledWith(serializedMemberships);
           expect(codeStub).to.have.been.calledWith(200);
         });
       });
@@ -727,10 +727,10 @@ describe('Unit | Controller | user-controller', () => {
     context('When authenticated user want to retrieve access of another user', () => {
       it('should return a 403 Forbidden access error ', () => {
         // given
-        sandbox.stub(usecases, 'getUserWithOrganizationAccesses').rejects(new UserNotAuthorizedToAccessEntity());
+        sandbox.stub(usecases, 'getUserWithMemberships').rejects(new UserNotAuthorizedToAccessEntity());
 
         // when
-        const promise = userController.getOrganizationAccesses(request, replyStub);
+        const promise = userController.getMemberships(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -743,10 +743,10 @@ describe('Unit | Controller | user-controller', () => {
     context('When an unexpected error occurs', () => {
       it('should return a 500 internal error ', () => {
         // given
-        sandbox.stub(usecases, 'getUserWithOrganizationAccesses').rejects(new Error());
+        sandbox.stub(usecases, 'getUserWithMemberships').rejects(new Error());
 
         // when
-        const promise = userController.getOrganizationAccesses(request, replyStub);
+        const promise = userController.getMemberships(request, replyStub);
 
         // then
         return promise.then(() => {

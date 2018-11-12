@@ -13,9 +13,18 @@ module.exports = [
     name: 'Campagne 2',
     code: 'AZERTY456',
     title: 'Parcours recherche avancée',
+    customLandingPageText: 'Ce parcours est proposé aux collaborateurs de Dragon & Co',
     organizationId: 1,
     creatorId: 2,
     targetProfileId: 1,
     idPixLabel: null,
+  },
+  {
+    id: 3,
+    name: 'Campagne without logo',
+    code: 'AZERTY789',
+    organizationId: 2,
+    creatorId: 2,
+    targetProfileId: 1,
   },
 ];

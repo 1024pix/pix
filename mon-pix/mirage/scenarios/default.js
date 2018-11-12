@@ -84,16 +84,17 @@ export default function(server) {
   });
 
   server.create('correction');
+
   server.create('campaign', {
     id: '1',
     name: 'Campagne 1 avec Id Externe',
     code: 'AZERTY1',
     idPixLabel: 'Mail Pro',
-
+    organizationLogoUrl: 'data:jpeg;base64=somelogo',
   });
   server.create('campaign', {
     id: '2',
-    name: 'Campagne 2 sans ID Externe',
+    name: 'Campagne 2 sans Id Externe',
     code: 'AZERTY2',
     idPixLabel: null,
   });
@@ -102,6 +103,12 @@ export default function(server) {
     id: '1',
     isShared: false,
   });
+
+  server.create('campaign', {
+    code: 'codecampagnepix',
+    title: 'Le Titre de la campagne'
+  });
+
   prescriber.organization = company;
   company.user = prescriber;
 
