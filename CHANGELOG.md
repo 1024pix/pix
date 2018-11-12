@@ -1,4 +1,16 @@
 # Pix Changelog
+## 2.7.0 (12/11/2018) 
+
+- [#263](https://github.com/1024pix/pix/pull/263) [FEATURE] Afficher le logo de l'organisation dans la landing page des campagnes (PF-239).
+- [#257](https://github.com/1024pix/pix/pull/257) [FEATURE] Modifications de l'apparence des titres des campagnes (PF-74).
+- [#251](https://github.com/1024pix/pix/pull/251) [FEATURE] Ajout d'un texte personnalisé pour la page d'accueil lors de la création de la campagne (PO-24).
+- [#261](https://github.com/1024pix/pix/pull/261) [FEATURE] Modification du tutorial avec ajout du bouton Ignorer (PF-443).
+- [#255](https://github.com/1024pix/pix/pull/255) [FEATURE] Ajout du didacticiel lorsqu'un utilisateur commence une campagne (PF-71).
+- [#256](https://github.com/1024pix/pix/pull/256) [BUGFIX] Affichage correct sous IE de la phrase légale lors de la création de compte (PF-441).
+- [#265](https://github.com/1024pix/pix/pull/265) [BUGFIX] Aligner horizontalement les logos sur la page de landing.
+- [#258](https://github.com/1024pix/pix/pull/258) [BUGFIX] Correction des seeds pour PG (codes orga trop longs).
+- [#254](https://github.com/1024pix/pix/pull/254) [TECH] Renommage du concept métier "OrganizationAccess" en "Membership".
+- [#252](https://github.com/1024pix/pix/pull/252) [TECH] Changer Delete Cache/key pour un Patch (PF-417).
 
 ## 2.6.0 (30/10/2018) 
 
