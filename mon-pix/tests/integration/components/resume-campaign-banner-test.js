@@ -15,7 +15,6 @@ describe('Integration | Component | resume-campaign-banner', function() {
   describe('Banner display', function() {
     const campaignToResume = EmberObject.create({
       isShared: false,
-      createdAt: '2018-01-01',
       campaign: EmberObject.create({
         code: 'AZERTY',
         title: 'Parcours Pix'
@@ -23,16 +22,18 @@ describe('Integration | Component | resume-campaign-banner', function() {
     });
     const oldCampaignNotFinished = EmberObject.create({
       isShared: false,
-      createdAt: '2017-01-01',
       campaign: EmberObject.create({
         code: 'AZERTY',
       })
     });
-    const campaignFinish = EmberObject.create({
+    const campaignFinished = EmberObject.create({
       isShared: true,
       campaign: EmberObject.create({
         code: 'AZERTY',
-      })
+      }),
+      assessment: EmberObject.create({
+        isCompleted: true,
+      }),
     });
     beforeEach(function() {
       LinkComponent.reopen({
@@ -40,65 +41,142 @@ describe('Integration | Component | resume-campaign-banner', function() {
       });
     });
 
-    it('should display the resume campaign banner when list of campaigns contains a campaign not shared', function() {
-      // given
-      this.set('campaignParticipations', [campaignToResume, oldCampaignNotFinished, campaignFinish]);
-      // when
-      this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
-      // then
-      expect(this.$('.resume-campaign-banner__container')).to.have.lengthOf(1);
+    context('when campaign is not finished and not shared', function() {
+
+      it('should display the resume campaign banner', function() {
+        // given
+        this.set('campaignParticipations', [campaignToResume, oldCampaignNotFinished, campaignFinished]);
+
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+
+        // then
+        expect(this.$('.resume-campaign-banner__container')).to.have.lengthOf(1);
+      });
+
+      it('should display a link to resume the campaign', function() {
+        // given
+        this.set('campaignParticipations', [campaignToResume]);
+
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+
+        // then
+        expect(this.$('.resume-campaign-banner__button')).to.have.lengthOf(1);
+        expect(this.$('.resume-campaign-banner__button').text()).to.equal('Reprendre');
+        expect(this.$('.resume-campaign-banner__button').attr('href')).to.contains('campaigns.start-or-resume');
+      });
+
+      it('should display a sentence to ask user to resume with the title of campaign', function() {
+        // given
+        this.set('campaignParticipations', [campaignToResume]);
+
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+
+        // then
+        expect(this.$('.resume-campaign-banner__title')).to.have.lengthOf(1);
+        expect(this.$('.resume-campaign-banner__title').text()).to.equal(`Vous n'avez pas terminé le parcours "${campaignToResume.campaign.title}"`);
+      });
+
+      it('should display a simple sentence to ask user to resume when campaign has no title', function() {
+        // given
+        campaignToResume.campaign.set('title', null);
+        this.set('campaignParticipations', [campaignToResume]);
+
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+
+        // then
+        expect(this.$('.resume-campaign-banner__title')).to.have.lengthOf(1);
+        expect(this.$('.resume-campaign-banner__title').text()).to.equal('Vous n\'avez pas terminé votre parcours');
+      });
+
     });
 
-    it('should display a link to resume the campaign', function() {
-      // given
-      this.set('campaignParticipations', [campaignToResume]);
-      // when
-      this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
-      // then
+    context('when campaign is finished but not shared', function() {
 
-      expect(this.$('.resume-campaign-banner__button')).to.have.lengthOf(1);
-      expect(this.$('.resume-campaign-banner__button').text()).to.equal('Reprendre');
-      expect(this.$('.resume-campaign-banner__button').attr('href')).to.contains('campaigns.start-or-resume');
+      const campaignFinishedButNotShared = EmberObject.create({
+        isShared: false,
+        campaign: EmberObject.create({
+          code: 'AZERTY',
+          title: 'Parcours Pix'
+        }),
+        assessment: EmberObject.create({
+          isCompleted: true,
+        }),
+      });
+
+      it('should display the resume campaign banner', function() {
+        // given
+        this.set('campaignParticipations', [oldCampaignNotFinished, campaignFinished, campaignFinishedButNotShared]);
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+        // then
+        expect(this.$('.resume-campaign-banner__container')).to.have.lengthOf(1);
+      });
+
+      it('should display a link to shared the results', function() {
+        // given
+        this.set('campaignParticipations', [campaignFinishedButNotShared]);
+
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+
+        // then
+        expect(this.$('.resume-campaign-banner__button')).to.have.lengthOf(1);
+        expect(this.$('.resume-campaign-banner__button').text()).to.equal('Continuer');
+        expect(this.$('.resume-campaign-banner__button').attr('href')).to.contains('campaigns.start-or-resume');
+      });
+
+      it('should display a sentence to ask user to share his results with the title of campaign', function() {
+        // given
+        this.set('campaignParticipations', [campaignFinishedButNotShared]);
+
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+
+        // then
+        expect(this.$('.resume-campaign-banner__title')).to.have.lengthOf(1);
+        expect(this.$('.resume-campaign-banner__title').text()).to.equal(`Parcours "${campaignFinishedButNotShared.campaign.title}" terminé ! Envoyez vos résultats.`);
+      });
+
+      it('should display a simple sentence to ask user to share his results when campaign has no title', function() {
+        // given
+        campaignFinishedButNotShared.campaign.set('title', null);
+        this.set('campaignParticipations', [campaignFinishedButNotShared]);
+
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+
+        // then
+        expect(this.$('.resume-campaign-banner__title')).to.have.lengthOf(1);
+        expect(this.$('.resume-campaign-banner__title').text()).to.equal('Parcours terminé ! Envoyez vos résultats.');
+      });
     });
 
-    it('should show the title of campaign', function() {
-      // given
-      this.set('campaignParticipations', [campaignToResume]);
-      // when
-      this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
-      // then
+    context('when campaign is finished and shared', function() {
 
-      expect(this.$('.resume-campaign-banner__title')).to.have.lengthOf(1);
-      expect(this.$('.resume-campaign-banner__title').text()).to.equal(`Vous n'avez pas terminé le parcours "${campaignToResume.campaign.title}"`);
+      it('should not display the resume campaign banner when the list of campaigns contains only finished campaign', function() {
+        // given
+        this.set('campaignParticipations', [campaignFinished]);
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+        // then
+        expect(this.$('.resume-campaign-banner__container')).to.have.lengthOf(0);
+      });
     });
 
-    it('should show a simple sentence when campaign has no title', function() {
-      // given
-      campaignToResume.campaign.set('title', null);
-      this.set('campaignParticipations', [campaignToResume]);
-      // when
-      this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
-      // then
+    context('when campaign is not started yet', function() {
 
-      expect(this.$('.resume-campaign-banner__title')).to.have.lengthOf(1);
-      expect(this.$('.resume-campaign-banner__title').text()).to.equal('Vous n\'avez pas terminé votre parcours');
-    });
-    it('should not display the resume campaign banner when the list of campaigns is empty', function() {
-      // given
-      this.set('campaignParticipations', []);
-      // when
-      this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
-      // then
-      expect(this.$('.resume-campaign-banner__container')).to.have.lengthOf(0);
-    });
-
-    it('should not display the resume campaign banner when the list of campaigns contains only finished campaign', function() {
-      // given
-      this.set('campaignParticipations', [campaignFinish]);
-      // when
-      this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
-      // then
-      expect(this.$('.resume-campaign-banner__container')).to.have.lengthOf(0);
+      it('should not display the resume campaign banner when the list of campaigns is empty', function() {
+        // given
+        this.set('campaignParticipations', []);
+        // when
+        this.render(hbs`{{resume-campaign-banner campaignParticipations=campaignParticipations}}`);
+        // then
+        expect(this.$('.resume-campaign-banner__container')).to.have.lengthOf(0);
+      });
     });
 
   });

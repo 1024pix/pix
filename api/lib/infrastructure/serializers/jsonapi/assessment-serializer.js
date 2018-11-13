@@ -41,6 +41,7 @@ class AssessmentSerializer extends JSONAPISerializer {
     data.attributes['estimated-level'] = model.estimatedLevel;
     data.attributes['pix-score'] = model.pixScore;
     data.attributes['type'] = model.type;
+    data.attributes['state'] = model.state;
     if (model.type === 'CERTIFICATION') {
       data.attributes['certification-number'] = model.courseId;
     } else {
