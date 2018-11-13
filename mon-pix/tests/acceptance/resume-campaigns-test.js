@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateAsSimpleUser, resumeCampaignByCode, completeCampaignByCode } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 import { invalidateSession } from 'mon-pix/tests/helpers/ember-simple-auth';
 
@@ -19,23 +19,18 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     destroyApp(application);
   });
 
-  describe('Resume a campaigns course', function() {
+  describe('Resume 1 campaign', function() {
 
     beforeEach(async function() {
       await authenticateAsSimpleUser();
-      await visit('/campagnes/AZERTY1');
-      await click('.campaign-landing-page__start-button');
-      await fillIn('#id-pix-label', 'monmail@truc.fr');
-      await click('.pix-button');
-      await click('.campaign-tutorial__ignore-button');
-      await click('.challenge-actions__action-skip');
+      await resumeCampaignByCode('AZERTY1', true);
     });
 
-    context('When user has started a campaign and he is not logged anymore', function() {
+    context('When the user is not logged', function() {
 
       beforeEach(async function() {
         invalidateSession(application);
-        await visit('/campagnes/AZERTY2');
+        await visit('/campagnes/AZERTY1');
         await click('.campaign-landing-page__start-button');
       });
 
@@ -46,7 +41,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         });
       });
 
-      it('should connect and redirect in assessment when we enter URL', async function() {
+      it('should redirect to assessment when user is logging in', async function() {
         // given
         fillIn('#pix-email', 'jane@acme.com');
         fillIn('#pix-password', 'Jane1234');
@@ -63,65 +58,216 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
     });
 
-    context('When user has started a campaign and he enters campaign URL', async function() {
+    context('When user is logged', async function() {
 
-      it('should redirect directly in assessment', async function() {
-        // given
-        await visit('/campagnes/AZERTY2');
+      context('When user has started his assessment', async function() {
 
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.contains('/assessments/');
-          expect(find('.progress-bar-info').text()).to.contains('2 / 5');
+        it('should redirect directly in assessment', async function() {
+          // given
+          await visit('/campagnes/AZERTY1');
+
+          // then
+          return andThen(() => {
+            expect(currentURL()).to.contains('/assessments/');
+            expect(find('.progress-bar-info').text()).to.contains('2 / 5');
+          });
+        });
+      });
+
+      context('When user has completed his assessment', async function() {
+
+        beforeEach(async function() {
+          await completeCampaignByCode('AZERTY1');
+        });
+
+        it('should show the result page', async function() {
+          // when
+          await visit('/campagnes/AZERTY1');
+
+          // then
+          return andThen(() => {
+            expect(currentURL()).to.contains('resultats');
+          });
+        });
+
+        context('When user has not shared his results', async function() {
+
+          it('should suggest to share his results', async function() {
+            // when
+            await visit('/campagnes/AZERTY1');
+
+            // then
+            return andThen(() => {
+              findWithAssert('.skill-review__share__button');
+            });
+          });
+
+          it('should thank the user when he click on the share button', async function() {
+            // when
+            await visit('/campagnes/AZERTY1');
+            await click('.skill-review__share__button');
+
+            // then
+            return andThen(() => {
+              findWithAssert('.skill-review__share__thanks');
+            });
+          });
+        });
+
+        context('When user has shared his results', async function() {
+
+          it('should still display thank message when reloading the page', async function() {
+            // given
+            server.create('campaignParticipation', {
+              id: 1,
+              isShared: true,
+              campaignId: 1,
+              assessmentId: 1,
+            });
+
+            // when
+            await visit('/campagnes/AZERTY1');
+
+            // then
+            return andThen(() => {
+              findWithAssert('.skill-review__share__thanks');
+            });
+          });
         });
       });
     });
+  });
 
-    context('When user has finished the campaign', function() {
-      beforeEach(async function() {
-        await click('.challenge-actions__action-skip');
-        await click('.challenge-item-warning__confirm-btn');
-        await click('.challenge-actions__action-skip');
+  describe('Resume 2 campaigns', function() {
+
+    beforeEach(async function() {
+      server.create('assessment', {
+        id: 1,
+        state: 'completed',
       });
 
-      it('should show the result page', async function() {
+      server.create('assessment', {
+        id: 2,
+        state: 'completed',
+      });
+
+      server.create('campaignParticipation', {
+        id: 1,
+        isShared: false,
+        campaignId: 1,
+        assessmentId: 1,
+      });
+
+      server.create('campaignParticipation', {
+        id: 2,
+        isShared: false,
+        campaignId: 2,
+        assessmentId: 2,
+      });
+
+      await authenticateAsSimpleUser();
+      await visit('/campagnes/AZERTY1');
+      await click('.campaign-tutorial__ignore-button');
+      await click('.challenge-actions__action-skip');
+      await completeCampaignByCode('AZERTY1');
+
+      await visit('/campagnes/AZERTY2');
+      await click('.campaign-tutorial__ignore-button');
+      await click('.challenge-actions__action-skip');
+      await completeCampaignByCode('AZERTY2');
+    });
+
+    context('When user has finished but not shared 2 campaigns', function() {
+
+      it('should suggest to share his results for the first campaign', async function() {
         // when
         await visit('/campagnes/AZERTY1');
 
         // then
         return andThen(() => {
-          expect(currentURL()).to.contains('resultats');
+          findWithAssert('.skill-review__share__button');
         });
       });
 
-      context('When user has not shared his results', function() {
+      it('should suggest to share his results for the second campaign', async function() {
+        // when
+        await visit('/campagnes/AZERTY2');
 
-        it('should suggest to share his results', async function() {
-          // when
-          await visit('/campagnes/AZERTY1');
-
-          // then
-          return andThen(() => {
-            findWithAssert('.skill-review__share__button');
-          });
+        // then
+        return andThen(() => {
+          findWithAssert('.skill-review__share__button');
         });
+      });
+    });
 
-        it('should thank the user for sharing his results since he has already shared it', async function() {
-          // given
-          await visit('/campagnes/AZERTY1');
-          await click('.skill-review__share__button');
+    context('When user has finished both campaigns but shared only 1 campaign', function() {
 
-          // when
-          await visit('/campagnes/AZERTY1');
-
-          // then
-          return andThen(() => {
-            findWithAssert('.skill-review__share__thanks');
-          });
+      beforeEach(async function() {
+        server.create('campaignParticipation', {
+          id: 1,
+          isShared: true,
+          campaignId: 1,
+          assessmentId: 1,
         });
       });
 
+      it('should show thanks message for the first campaign', async function() {
+        // when
+        await visit('/campagnes/AZERTY1');
+
+        // then
+        return andThen(() => {
+          findWithAssert('.skill-review__share__thanks');
+        });
+      });
+
+      it('should suggest to share his results for the second campaign', async function() {
+        // when
+        await visit('/campagnes/AZERTY2');
+
+        // then
+        return andThen(() => {
+          findWithAssert('.skill-review__share__button');
+        });
+      });
+    });
+
+    context('When user has finished and shared both campaigns', function() {
+
+      beforeEach(async function() {
+        server.create('campaignParticipation', {
+          id: 1,
+          isShared: true,
+          campaignId: 1,
+          assessmentId: 1,
+        });
+        server.create('campaignParticipation', {
+          id: 2,
+          isShared: true,
+          campaignId: 2,
+          assessmentId: 2,
+        });
+      });
+
+      it('should show thanks message for the first campaign', async function() {
+        // when
+        await visit('/campagnes/AZERTY1');
+
+        // then
+        return andThen(() => {
+          findWithAssert('.skill-review__share__thanks');
+        });
+      });
+
+      it('should show thanks message for the second campaign', async function() {
+        // when
+        await visit('/campagnes/AZERTY2');
+
+        // then
+        return andThen(() => {
+          findWithAssert('.skill-review__share__thanks');
+        });
+      });
     });
   });
-})
-;
+});
