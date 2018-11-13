@@ -1,5 +1,7 @@
 export default function(server) {
 
+  /* eslint max-statements: off */
+
   server.loadFixtures('areas');
   server.loadFixtures('competences');
   server.loadFixtures('courses');
@@ -86,22 +88,17 @@ export default function(server) {
   server.create('correction');
 
   server.create('campaign', {
-    id: '1',
+    id: 1,
     name: 'Campagne 1 avec Id Externe',
     code: 'AZERTY1',
     idPixLabel: 'Mail Pro',
     organizationLogoUrl: 'data:jpeg;base64=somelogo',
   });
   server.create('campaign', {
-    id: '2',
+    id: 2,
     name: 'Campagne 2 sans Id Externe',
     code: 'AZERTY2',
     idPixLabel: null,
-  });
-
-  server.create('campaignParticipation', {
-    id: '1',
-    isShared: false,
   });
 
   server.create('campaign', {
