@@ -21,6 +21,9 @@ export default Model.extend({
   isDemo: equal('type', 'DEMO'),
   isPreview: equal('type', 'PREVIEW'),
   isPlacement: equal('type', 'PLACEMENT'),
+  state: attr('string'),
+  isStarted: equal('state', 'started'),
+  isCompleted: equal('state', 'completed'),
   codeCampaign: attr('string'),
   participantExternalId: attr('string'),
 

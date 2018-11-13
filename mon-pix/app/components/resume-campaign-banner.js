@@ -8,7 +8,7 @@ export default Component.extend({
   classNames: ['resume-campaign-banner'],
   campaignParticipations: [],
 
-  campaignToResume: computed('campaignParticipations', function() {
+  campaignToResumeOrShare: computed('campaignParticipations', function() {
     const campaignParticipations = this.get('campaignParticipations').toArray();
 
     const campaignParticipationsNotShared = _filter(campaignParticipations,
@@ -19,7 +19,11 @@ export default Component.extend({
     const lastCampaignParticipationStarted = campaignParticipationOrdered[0];
 
     if(lastCampaignParticipationStarted) {
-      return lastCampaignParticipationStarted.campaign;
+      return {
+        title: lastCampaignParticipationStarted.campaign.get('title'),
+        code: lastCampaignParticipationStarted.campaign.get('code'),
+        assessment: lastCampaignParticipationStarted.assessment
+      };
     }
 
     return null;
