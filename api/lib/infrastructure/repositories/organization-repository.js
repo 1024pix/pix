@@ -29,6 +29,8 @@ function _toDomain(bookshelfOrganization) {
   }
   organization.members = members;
 
+  organization.targetProfileShares = rawOrganization.targetProfileShares || [];
+
   return organization;
 }
 
