@@ -1,6 +1,9 @@
 const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
+
 const faker = require('faker');
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
+
 const Organization = require('../../../../lib/domain/models/Organization');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -194,18 +197,18 @@ describe('Integration | Repository | Organization', function() {
 
   describe('#get', () => {
 
-    let insertedOrganization;
-
-    before(() => {
-      insertedOrganization = databaseBuilder.factory.buildOrganization();
-      return databaseBuilder.commit();
-    });
-
-    after(() => {
-      return databaseBuilder.clean();
-    });
-
     describe('success management', function() {
+
+      let insertedOrganization;
+
+      beforeEach(() => {
+        insertedOrganization = databaseBuilder.factory.buildOrganization();
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
 
       it('should return a organization by provided id', function() {
         // when
@@ -236,6 +239,44 @@ describe('Integration | Repository | Organization', function() {
         });
       });
 
+    });
+
+    describe('when a target profile is shared with the organisation', () => {
+
+      let insertedOrganization;
+      let sharedProfile;
+
+      beforeEach(() => {
+        insertedOrganization = databaseBuilder.factory.buildOrganization();
+        sharedProfile = databaseBuilder.factory.buildTargetProfile({
+          isPublic: 0
+        });
+        databaseBuilder.factory.buildTargetProfileShare({
+          organizationId: insertedOrganization.id,
+          targetProfileId: sharedProfile.id,
+        });
+
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return an list of profile containing the shared profile', () => {
+        // when
+        const promise = organizationRepository.get(insertedOrganization.id);
+
+        // then
+        return promise.then((organization) => {
+          const firstTargetProfileShare = organization.targetProfileShares[0];
+          expect(firstTargetProfileShare.targetProfileId).to.deep.equal(sharedProfile.id);
+          expect(firstTargetProfileShare.organizationId).to.deep.equal(insertedOrganization.id);
+
+          const profileWithoutCreatedAt = _.omit(firstTargetProfileShare.targetProfile, 'createdAt');
+          expect(profileWithoutCreatedAt).to.deep.equal(sharedProfile);
+        });
+      });
     });
   });
 
