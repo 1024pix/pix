@@ -20,6 +20,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     email: faker.internet.email().toLowerCase(),
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
+    samlId: 'some-saml-id',
   };
 
   function _insertUser() {
@@ -222,6 +223,42 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // when
         const promise = userRepository.findByEmailWithRoles(unusedEmail);
+
+        // then
+        return expect(promise).to.be.rejectedWith(UserNotFoundError);
+      });
+    });
+
+    describe('#getBySamlId', () => {
+
+      let userInDb;
+
+      beforeEach(() => {
+        // given
+        return _insertUser().then((insertedUser) => userInDb = insertedUser);
+      });
+
+      afterEach(() => {
+        return knex('users').delete();
+      });
+
+      it('should return user informations for the given SAML ID', () => {
+        // when
+        const promise = userRepository.getBySamlId('some-saml-id');
+
+        // then
+        return promise.then((user) => {
+          expect(user).to.be.an.instanceof(User);
+          expect(user.id).to.equal(userInDb.id);
+        });
+      });
+
+      it('should reject with a UserNotFound error when no user was found with this SAML ID', () => {
+        // given
+        const badSamlId = 'bad-saml-id';
+
+        // when
+        const promise = userRepository.getBySamlId(badSamlId);
 
         // then
         return expect(promise).to.be.rejectedWith(UserNotFoundError);
