@@ -13,7 +13,8 @@ describe('Unit | Domain | Models | User', () => {
         lastName: 'Goku',
         email: 'email@example.net',
         password: 'pix123',
-        cgu: true
+        cgu: true,
+        samlId: 'some-saml-id',
       };
 
       // when
@@ -26,6 +27,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.email).to.equal('email@example.net');
       expect(user.password).to.equal('pix123');
       expect(user.cgu).to.equal(true);
+      expect(user.samlId).to.equal('some-saml-id');
     });
 
   });

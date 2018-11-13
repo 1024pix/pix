@@ -135,6 +135,18 @@ module.exports = {
       });
   },
 
+  getBySamlId(samlId) {
+    return BookshelfUser
+      .where({ samlId })
+      .fetch({ require: true })
+      .then(_toDomain, (err) => {
+        if (err instanceof BookshelfUser.NotFoundError) {
+          throw new UserNotFoundError(`User not found for SAML ID ${samlId}`);
+        }
+        throw err;
+      });
+  },
+
   create(domainUser) {
     const userRawData = _.omit(domainUser, ['pixRoles', 'memberships']);
     return new BookshelfUser(userRawData)

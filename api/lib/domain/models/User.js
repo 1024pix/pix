@@ -11,6 +11,7 @@ class User {
     firstName,
     lastName,
     password,
+    samlId,
     // includes
     memberships = [],
     pixRoles = [],
@@ -24,6 +25,7 @@ class User {
     this.password = password;
     this.cgu = cgu;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
+    this.samlId = samlId;
     // includes
     this.pixRoles = pixRoles;
     this.memberships = memberships;
