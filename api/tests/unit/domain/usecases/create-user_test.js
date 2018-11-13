@@ -58,7 +58,7 @@ describe('Unit | UseCase | create-user', () => {
 
       // then
       return promise
-        .catch(() => {
+        .then(() => {
           expect(userRepository.isEmailAvailable).to.have.been.calledWith(userEmail);
         });
     });
@@ -74,7 +74,7 @@ describe('Unit | UseCase | create-user', () => {
 
       //then
       return promise
-        .catch(() => {
+        .then(() => {
           expect(userValidator.validate).to.have.been.calledWith(user);
         });
     });
@@ -87,7 +87,7 @@ describe('Unit | UseCase | create-user', () => {
 
       //then
       return promise
-        .catch(() => {
+        .then(() => {
           expect(reCaptchaValidator.verify).to.have.been.calledWith(reCaptchaToken);
         });
     });
