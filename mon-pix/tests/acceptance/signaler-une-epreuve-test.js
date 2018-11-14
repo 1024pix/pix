@@ -36,7 +36,7 @@ describe('Acceptance | Signaler une épreuve', function() {
     destroyApp(application);
   });
 
-  describe('l1.1 Depuis une epreuve', function() {
+  describe('Depuis une epreuve', function() {
 
     it('Je peux signaler une épreuve directement', async () => {
       await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
@@ -56,7 +56,7 @@ describe('Acceptance | Signaler une épreuve', function() {
     });
   });
 
-  describe('l1.2 Depuis la fenêtre de comparaison', function() {
+  describe('Depuis la fenêtre de comparaison', function() {
 
     it('Je peux signaler une épreuve (page de résultat du test)', async () => {
       await visit('/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1');

@@ -11,7 +11,7 @@ import $ from 'jquery';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | Points communs a toutes les épreuves | ', function() {
+describe('Acceptance | Points communs a toutes les épreuves', function() {
 
   let application;
 

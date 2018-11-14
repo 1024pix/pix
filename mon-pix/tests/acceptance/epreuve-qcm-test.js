@@ -14,7 +14,7 @@ function visitTimedChallenge() {
   click('.challenge-item-warning button');
 }
 
-describe('Acceptance | b2 - Afficher un QCM | ', function() {
+describe('Acceptance | Afficher un QCM', function() {
 
   let application;
 
@@ -27,7 +27,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     destroyApp(application);
   });
 
-  it('b2.1 It should render challenge instruction', function() {
+  it('It should render challenge instruction', function() {
     // Given
     const expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
 
@@ -38,7 +38,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     expect($challengeInstruction.text().trim()).to.equal(expectedInstruction);
   });
 
-  it('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
+  it('Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
     // When
     const $links = findWithAssert('.challenge-statement__instruction a');
 
@@ -48,32 +48,32 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     expect($links.attr('href')).to.equal('http://link.plusieurs.url');
   });
 
-  it('b2.3 Les liens doivent s\'ouvrir dans un nouvel onglet', function() {
+  it('Les liens doivent s\'ouvrir dans un nouvel onglet', function() {
     const $links = findWithAssert('.challenge-statement__instruction a');
     expect($links.attr('target')).to.equal('_blank');
   });
 
-  it('b2.4 It should render a list of checkboxes', function() {
+  it('It should render a list of checkboxes', function() {
     const $proposals = $('input[type="checkbox"]');
     expect($proposals).to.have.lengthOf(4);
   });
 
-  it('b2.5 It should mark checkboxes that have been checked', function() {
+  it('It should mark checkboxes that have been checked', function() {
     expect($('input:checkbox:checked')).to.have.lengthOf(2);
   });
 
-  it('b2.6 It should render an ordered list of instruction', function() {
+  it('It should render an ordered list of instruction', function() {
     expect($('.proposal-text:eq(0)').text().trim()).to.equal('possibilite 1, et/ou');
     expect($('.proposal-text:eq(1)').text().trim()).to.equal('possibilite 2, et/ou');
     expect($('.proposal-text:eq(2)').text().trim()).to.equal('possibilite 3, et/ou');
     expect($('.proposal-text:eq(3)').text().trim()).to.equal('possibilite 4');
   });
 
-  it('b2.7 Error alert box should be hidden by default', function() {
+  it('Error alert box should be hidden by default', function() {
     expect($('.alert')).to.have.lengthOf(0);
   });
 
-  it('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function() {
+  it('Error alert box should be displayed if user validate without checking a checkbox', function() {
     // Given
     const $validateLink = $('.challenge-actions__action-validate');
     expect($('input:checkbox:checked')).to.have.lengthOf(2);
@@ -92,7 +92,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     });
   });
 
-  it('b2.9 If an user check a checkbox, it is checked', function() {
+  it('If an user check a checkbox, it is checked', function() {
     $('input:checkbox').prop('checked', false);
     $('.proposal-text:eq(1)').click();
     andThen(() => {
@@ -110,7 +110,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     });
   });
 
-  it('b2.11 L’alerte n’est pas affichée si l’utilisateur valide sans avoir coché de réponse puis coche sur une réponse', async function() {
+  it('L’alerte n’est pas affichée si l’utilisateur valide sans avoir coché de réponse puis coche sur une réponse', async function() {
     // given
     await click('.challenge-actions__action-validate');
 

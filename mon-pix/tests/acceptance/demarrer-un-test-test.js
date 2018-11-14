@@ -13,7 +13,7 @@ import defaultScenario from '../../mirage/scenarios/default';
 const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const START_BUTTON = '.competence-level-progress-bar__link-start';
 
-describe('Acceptance | Démarrer un test |', function() {
+describe('Acceptance | Démarrer un test', function() {
 
   let application;
 

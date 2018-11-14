@@ -10,7 +10,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | Compte | competence profile', function() {
+describe('Acceptance | Compte | Competence profile', function() {
   let application;
 
   beforeEach(function() {
