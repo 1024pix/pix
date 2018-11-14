@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import $ from 'jquery';
 
-describe('Acceptance | b4 - Afficher un QROCM | ', function() {
+describe('Acceptance | Afficher un QROCM', function() {
 
   let application;
 
@@ -22,17 +22,17 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function() {
     destroyApp(application);
   });
 
-  it('b4.1 It should render challenge instruction', function() {
+  it('It should render challenge instruction', function() {
     const $challengeInstruction = $('.challenge-statement__instruction');
     const instructiontext = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
     expect($challengeInstruction.text().trim()).to.equal(instructiontext);
   });
 
-  it('b4.2 It should display only one input text as proposal to user', function() {
+  it('It should display only one input text as proposal to user', function() {
     expect($('.challenge-response__proposal-input')).to.have.lengthOf(3);
   });
 
-  it('b4.3 Error alert box should be displayed if user validate without checking a checkbox', async function() {
+  it('Error alert box should be displayed if user validate without checking a checkbox', async function() {
     // 1st make sure all inputs are cleared
     $(':input').val('');
     // Then try to validate sth

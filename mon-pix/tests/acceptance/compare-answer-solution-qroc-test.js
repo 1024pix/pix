@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import $ from 'jquery';
 
-describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function() {
+describe('Acceptance | Comparer réponses et solutions pour un QROC', function() {
 
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
@@ -30,7 +30,7 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
     destroyApp(application);
   });
 
-  describe('j2.1 Depuis la page résultat', function() {
+  describe('Depuis la page résultat', function() {
 
     beforeEach(async function() {
       await visit(RESULT_URL);
@@ -48,7 +48,7 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
 
   });
 
-  describe('j2.2 Contenu de la modale de correction pour un QROC', function() {
+  describe('Contenu de la modale de correction pour un QROC', function() {
 
     beforeEach(async function() {
       await visit(COMPARISON_MODAL_URL);

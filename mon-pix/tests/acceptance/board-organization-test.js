@@ -10,7 +10,7 @@ import destroyApp from '../helpers/destroy-app';
 import { authenticateAsPrescriber } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | o1 - board organization', function() {
+describe('Acceptance | Board organization', function() {
   let application;
 
   beforeEach(function() {

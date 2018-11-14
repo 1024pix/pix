@@ -13,7 +13,7 @@ const TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcm_c
 const NOT_TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';
 const CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
 
-describe('Acceptance | h2 - Warning prochaine page timée  | ', function() {
+describe('Acceptance | Warning prochaine page timée', function() {
 
   let application;
 
@@ -25,7 +25,7 @@ describe('Acceptance | h2 - Warning prochaine page timée  | ', function() {
     destroyApp(application);
   });
 
-  describe('h2- Test affichage ou non de la page avec le warning', function() {
+  describe('Test affichage ou non de la page avec le warning', function() {
 
     it('doit cacher le contenu du challenge si l\'épreuve est timée', async function() {
       // When
@@ -64,26 +64,26 @@ describe('Acceptance | h2 - Warning prochaine page timée  | ', function() {
 
   });
 
-  describe('h2-Test comportement lorsque le bouton de confirmation est cliqué', function() {
+  describe('Test comportement lorsque le bouton de confirmation est cliqué', function() {
 
     beforeEach(function() {
       visit(TIMED_CHALLENGE_URL);
       click(CHALLENGE_ITEM_WARNING_BUTTON);
     });
 
-    it('h2.1- vérifier que le warning est caché ', function() {
+    it('vérifier que le warning est caché ', function() {
       expect($(CHALLENGE_ITEM_WARNING_BUTTON)).to.have.lengthOf(0);
     });
 
-    it('h2.2- vérifier que le contenu de l\'épreuve est affiché', function() {
+    it('vérifier que le contenu de l\'épreuve est affiché', function() {
       expect($('.challenge-statement').css('display')).to.contain('block');
     });
 
-    it('h2.3- vérifier que le timer est démarré ', function() {
+    it('vérifier que le timer est démarré ', function() {
       expect($('.timeout-jauge')).to.have.lengthOf(1);
     });
 
-    it('h2.4 le formulaire de signalement est affiché', function() {
+    it('le formulaire de signalement est affiché', function() {
       expect($('.feedback-panel')).to.have.lengthOf(1);
     });
 

@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import $ from 'jquery';
 
-describe('Acceptance | b1 - Afficher un QCU | ', function() {
+describe('Acceptance | Afficher un QCU', function() {
 
   let application;
 
@@ -21,7 +21,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     destroyApp(application);
   });
 
-  it('b1.1 Une liste de radiobuttons doit s\'afficher', async function() {
+  it('Une liste de radiobuttons doit s\'afficher', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -30,7 +30,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     expect($proposals).to.have.lengthOf(4);
   });
 
-  it('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', async function() {
+  it('Par défaut, le radiobutton de la réponse sauvegardée est affiché', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -38,7 +38,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     expect($('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
   });
 
-  it('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', async function() {
+  it('Une liste ordonnée d\'instruction doit s\'afficher', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -49,7 +49,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     expect($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
   });
 
-  it('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', async function() {
+  it('L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -64,7 +64,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     expect($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
   });
 
-  it('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', async function() {
+  it('Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', async function() {
     // Given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -83,7 +83,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
   });
 
-  it('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function() {
+  it('Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function() {
     // Given
     server.post('/answers', (schema, request) => {
       const params = JSON.parse(request.requestBody);
@@ -116,7 +116,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     // Then
   });
 
-  it('b1.7 L\'alerte n\'est pas affichée si l\'utilisateur valide sans avoir coché de réponse puis coche sur une réponse', async function() {
+  it('L\'alerte n\'est pas affichée si l\'utilisateur valide sans avoir coché de réponse puis coche sur une réponse', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
     $(':radio').prop('checked', false);
