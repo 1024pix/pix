@@ -1,5 +1,13 @@
 # Pix Changelog
-## 2.7.0 (12/11/2018) 
+## 2.8.0 (14/11/2018)
+
+- [#264](https://github.com/1024pix/pix/pull/264) [FEATURE] Mise-à-jour de la bannière de reprise pour le cas où l'utilisateur n'a pas partagé ses résultats (PF-405).
+- [#266](https://github.com/1024pix/pix/pull/266) [BUGFIX] Affichage de l'en-tête avec le titre (s'il existe) sur les pages de résultats intermédiaires (PF-445).
+- [#267](https://github.com/1024pix/pix/pull/267) [BUGFIX] Correction des profils cibles partagés pour la création des campagnes (PO-178).
+- [#259](https://github.com/1024pix/pix/pull/259) [BUGFIX] Filtrer les acquis par status (PF-147).
+
+
+## 2.7.0 (12/11/2018)
 
 - [#263](https://github.com/1024pix/pix/pull/263) [FEATURE] Afficher le logo de l'organisation dans la landing page des campagnes (PF-239).
 - [#257](https://github.com/1024pix/pix/pull/257) [FEATURE] Modifications de l'apparence des titres des campagnes (PF-74).
@@ -12,7 +20,7 @@
 - [#254](https://github.com/1024pix/pix/pull/254) [TECH] Renommage du concept métier "OrganizationAccess" en "Membership".
 - [#252](https://github.com/1024pix/pix/pull/252) [TECH] Changer Delete Cache/key pour un Patch (PF-417).
 
-## 2.6.0 (30/10/2018) 
+## 2.6.0 (30/10/2018)
 
 - [#244](https://github.com/1024pix/pix/pull/244) [FEATURE] Ajout d'un message pour prévenir l'utilisateur que le résultats de ses campagnes ne sont pas inclus dans son profil (PF-400).
 - [#225](https://github.com/1024pix/pix/pull/225) [FEATURE] Redirection vers la page de CGU sur Pix Orga (PO-15).
@@ -31,7 +39,7 @@
 - [#235](https://github.com/1024pix/pix/pull/235) [TECH] Suppression du code lié au Followers.
 - [#249](https://github.com/1024pix/pix/pull/249) [TECH] Supprime les messages de log dans la sortie console des tests.
 
-## 2.5.0 (16/10/2018) 
+## 2.5.0 (16/10/2018)
 
 - [#226](https://github.com/1024pix/pix/pull/226) [FEATURE] Suppression temporaire des colonnes non renseignées et correction de valeurs inversées par rapport aux colonnes dans le CSV téléchargeable (PO-162).
 - [#230](https://github.com/1024pix/pix/pull/230) [FEATURE] Modifier le texte de mise à jour de mot de passe (PF-428).
@@ -42,14 +50,14 @@
 - [#227](https://github.com/1024pix/pix/pull/227) [BUGFIX] Réparation de la ressource POST /api/organizations (PA-49).
 - [#219](https://github.com/1024pix/pix/pull/219) [TECH] Création d'une participation à une campagne plutôt qu'un assessment (PF-407).
 
-## 2.4.0 (09/10/2018) 
+## 2.4.0 (09/10/2018)
 
 - [#222](https://github.com/1024pix/pix/pull/222) [TECH] Amélioration du modèle de données (PF-339).
 - [#223](https://github.com/1024pix/pix/pull/223) [TECH] Amélioration des performances d'accès au référentiel pédagogique (PF-413).
 - [#224](https://github.com/1024pix/pix/pull/224) [FEATURE] Ajout d'une page pour les CGU sur Pix Orga (PO-118).
 - [#208](https://github.com/1024pix/pix/pull/208) [FEATURE] Ajout du endpoint d'administration "GET /api/users" permettant de lister, filtrer et paginer des utilisateurs (PA-46).
 
-## 2.3.1 (02/10/2018) 
+## 2.3.1 (02/10/2018)
 
 - [#213](https://github.com/1024pix/pix/pull/213) [BUGFIX] Correction du bug sur la reprise des certifications (PF-351).
 
