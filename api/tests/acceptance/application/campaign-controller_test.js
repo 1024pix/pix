@@ -183,4 +183,52 @@ describe('Acceptance | API | Campaigns', () => {
 
   });
 
+  describe('PATCH /api/campaigns/{id}', () => {
+
+    let campaign;
+
+    beforeEach(async () => {
+      campaign = databaseBuilder.factory.buildCampaign({
+        title: 'Title',
+        customLandingPageText: 'Text',
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    it('should update a campaign', function() {
+      const options = {
+        method: 'PATCH',
+        url: '/api/campaigns/${campaign.id}',
+        payload: {
+          data: {
+            id: campaign.id,
+            type: 'campaigns',
+            attributes: {
+              title: 'New title',
+              customLandingPageText: 'New text',
+            },
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.type).to.equal('campaigns');
+        expect(response.result.data.id).to.equal(campaign.id);
+        expect(response.result.data.attributes.title).to.equal('New title');
+        expect(response.result.data.attributes['custom-landing-page-text']).to.equal('New text');
+      });
+    });
+
+  });
+
 });

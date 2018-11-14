@@ -64,6 +64,16 @@ module.exports = {
       .then(_toDomain);
   },
 
+  update(campaign) {
+
+    const campaignRawData = _.pick(campaign, ['title', 'customLandingPageText']);
+
+    return new BookshelfCampaign({ id: campaign.id })
+      .save(campaignRawData, { patch: true })
+      .then((model) => model.refresh())
+      .then(_toDomain);
+  },
+
   findByOrganizationId(organizationId) {
     return BookshelfCampaign
       .where({ organizationId })
