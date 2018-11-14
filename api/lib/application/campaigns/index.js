@@ -43,6 +43,15 @@ exports.register = function(server, options, next) {
         tags: ['api', 'campaign']
       }
     },
+    {
+      method: 'PATCH',
+      path: '/api/campaigns/{id}',
+      config: {
+        auth: false,
+        handler: campaignController.update,
+        tags: ['api', 'campaign']
+      }
+    },
   ]);
 
   return next();

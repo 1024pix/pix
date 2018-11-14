@@ -355,4 +355,73 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
+  describe('#update ', () => {
+    let request, updatedCampaign;
+
+    beforeEach(() => {
+      request = {
+        payload: {
+          data: {
+            id: 1,
+            attributes: {
+              title: 'New title',
+              customLandingPageText: 'New text',
+            }
+          }
+        }
+      };
+
+      updatedCampaign = {
+        id: request.payload.data.id,
+        title: request.payload.data.attributes.title,
+        customLandingPageText: request.payload.data.attributes.customLandingPageText,
+      };
+
+      sandbox.stub(usecases, 'updateCampaign');
+      sandbox.stub(campaignSerializer, 'serialize');
+    });
+
+    it('should returns the updated campaign', () => {
+      // given
+      usecases.updateCampaign.withArgs(updatedCampaign).resolves(updatedCampaign);
+      campaignSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
+
+      // when
+      const promise = campaignController.update(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWithExactly(updatedCampaign);
+        expect(codeStub).to.have.been.calledWithExactly(200);
+      });
+    });
+
+    it('should throw an error when the campaign could not be updated', () => {
+      // given
+      usecases.updateCampaign.withArgs(updatedCampaign).rejects();
+
+      // when
+      const promise = campaignController.update(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(500);
+      });
+    });
+
+    it('should throw an infra NotFoundError when a NotFoundError is catched', () => {
+      // given
+      usecases.updateCampaign.withArgs(updatedCampaign).rejects(new NotFoundError());
+
+      // when
+      const promise = campaignController.update(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(404);
+      });
+    });
+
+  });
+
 });

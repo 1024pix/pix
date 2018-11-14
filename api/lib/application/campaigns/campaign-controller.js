@@ -76,6 +76,19 @@ module.exports = {
         return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la récupération des résultats de la campagne')).code(500);
       });
   },
+
+  update(request, reply) {
+    const id = request.payload.data.id;
+    const { title, customLandingPageText } = request.payload.data.attributes;
+
+    return usecases.updateCampaign({ id, title, customLandingPageText })
+      .then(campaignSerializer.serialize)
+      .then(controllerReplies(reply).ok)
+      .catch((error) => {
+        const mappedError = _mapToInfraError(error);
+        return controllerReplies(reply).error(mappedError);
+      });
+  },
 };
 
 function _validateFilters(filters) {
