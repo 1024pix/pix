@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 const request = require('request-promise-native');
 const moment = require('moment');
+const _ = require('lodash');
 
 function buildRequestObject() {
   return {
@@ -14,13 +15,35 @@ function buildRequestObject() {
 }
 
 function displayPullRequest(pr) {
-  const closeNumber = pr.title.indexOf(']');
-  let title = pr.title.substring(closeNumber + 1);
-  title = (title.charAt(0) === ' ') ? title.substring(1) : title;
-  title = (title.charAt(title.length - 1) === ' ') ? title.substring(0, title.length - 1) : title;
-  title = (title.charAt(title.length - 1) === '.') ? title : title + '.';
+  return `- [#${pr.number}](${pr.html_url}) ${pr.title}\n`;
+}
 
-  return `- [#${pr.number}](${pr.html_url}) ${title}\n`;
+function filterListPrByType(listPR, type) {
+  const filteredPR = _.filter(listPR, (pr) => {
+    const typeOfPR = pr.title.substring(1, pr.title.indexOf(']'));
+    return typeOfPR === type;
+  });
+  return filteredPR;
+}
+
+function filterListPrWithoutType(listPR, listType) {
+  const filteredPR = _.filter(listPR, (pr) => {
+    const typeOfPR = pr.title.substring(1, pr.title.indexOf(']'));
+    return _.indexOf(listType,typeOfPR) < 0;
+  });
+  return filteredPR;
+
+}
+
+function orderPr(listPR) {
+  const typeOrdered = ['FEATURE', 'QUICK WIN', 'BUGFIX', 'TECH'];
+  const featurePR = filterListPrByType(listPR, typeOrdered[0]);
+  const quickWinPR = filterListPrByType(listPR, typeOrdered[1]);
+  const bugfixPR = filterListPrByType(listPR, typeOrdered[2]);
+  const techPR = filterListPrByType(listPR, typeOrdered[3]);
+  const otherPR = filterListPrWithoutType(listPR, typeOrdered);
+  return _.concat(featurePR, quickWinPR, bugfixPR, techPR, otherPR);
+
 }
 
 function filterPullRequest(pullrequests, milestone) {
@@ -32,7 +55,7 @@ function filterPullRequest(pullrequests, milestone) {
 function getHeadOfChangelog(pullrequest) {
   const version = pullrequest.milestone.title;
   const date = ' (' + moment().format('DD/MM/YYYY') + ')';
-  return '## ' + version + date + ' \n\n';
+  return '## v' + version + date + ' \n\n';
 }
 
 function main() {
@@ -45,10 +68,13 @@ function main() {
       const headOfChangeLog = getHeadOfChangelog(pullRequestsInMilestone[0]);
 
       let changeLogForMilestone = '';
-      pullRequestsInMilestone.forEach(pr => changeLogForMilestone += displayPullRequest(pr));
+      const orderedPR = orderPr(pullRequestsInMilestone);
+      orderedPR.forEach(pr => changeLogForMilestone += displayPullRequest(pr));
 
       console.log(headOfChangeLog + changeLogForMilestone);
-    });
+
+    })
+    .catch(console.log);
 }
 
 /*=================== tests =============================*/
@@ -59,6 +85,7 @@ if (process.env.NODE_ENV !== 'test') {
   module.exports = {
     displayPullRequest,
     filterPullRequest,
+    orderPr,
     getHeadOfChangelog
   };
 }
