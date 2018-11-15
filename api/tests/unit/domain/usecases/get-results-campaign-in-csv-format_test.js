@@ -10,8 +10,8 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
     const user = factory.buildUser();
     const organization = user.memberships[0].organization;
-    const listSkills = factory.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 4 });
-    const [skillWeb1, skillWeb2, skillWeb3, skillWeb4] = listSkills;
+    const listSkills = factory.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 5 });
+    const [skillWeb1, skillWeb2, skillWeb3, skillWeb4, skillWeb5] = listSkills;
     const assessment = factory.buildAssessment.ofTypeSmartPlacement({
       state: 'completed',
       createdAt: new Date('05/05/2017'),
@@ -35,6 +35,11 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           status: 'invalidated',
           pixScore: 2,
           skillId: skillWeb4.id,
+        }),
+        factory.buildSmartPlacementKnowledgeElement({
+          status: 'invalidated',
+          pixScore: 2,
+          skillId: skillWeb5.id,
         }),
       ],
     });
@@ -114,13 +119,16 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"Date du partage";' +
         '"% maitrise de l\'ensemble des acquis du profil";' +
         '"% de maitrise des acquis de la compétence Competence1";' +
-        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis de la compétence Competence1";' +
+        '"Nombre d\'acquis du profil cible dans la compétence Competence1";' +
+        '"Acquis maitrisés dans la compétence Competence1";' +
         '"% de maitrise des acquis du domaine Domain 1";' +
-        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis du domaine Domain 1";' +
-        '"Acquis web1";' +
-        '"Acquis web2";' +
-        '"Acquis web3";' +
-        '"Acquis web4"\n';
+        '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
+        '"Acquis maitrisés du domaine Domain 1";' +
+        '"web1";' +
+        '"web2";' +
+        '"web3";' +
+        '"web4";' +
+        '"web5"\n';
 
       // when
       const promise = getResultsCampaignInCsvFormat({
@@ -148,26 +156,29 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         const factoryCampaignParticipation = factory.buildCampaignParticipation({ isShared: true });
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
-        const csvSecondLine = `="${organization.name}";` +
-          `="${campaign.id}";` +
-          '="Campaign ""Name""";' +
-          `="${targetProfile.name}";` +
-          `="${user.lastName}";` +
-          `="${user.firstName}";` +
-          `="${factoryCampaignParticipation.participantExternalId}";` +
-          '100;' +
-          '="2017-05-05";' +
-          '="Oui";' +
-          `="${moment(factoryCampaignParticipation.sharedAt).format('YYYY-MM-DD')}";` +
-          '75;' +
-          '75;' +
-          '="3/4";' +
-          '75;' +
-          '="3/4";' +
-          '="OK";' +
-          '="OK";' +
-          '="OK";' +
-          '="KO"\n';
+        const csvSecondLine = `"${organization.name}";` +
+          `${campaign.id};` +
+          '"Campaign ""Name""";' +
+          `"${targetProfile.name}";` +
+          `"${user.lastName}";` +
+          `"${user.firstName}";` +
+          `"${factoryCampaignParticipation.participantExternalId}";` +
+          '1;' +
+          '2017-05-05;' +
+          '"Oui";' +
+          `${moment(factoryCampaignParticipation.sharedAt).format('YYYY-MM-DD')};` +
+          '0,6;' +
+          '0,6;' +
+          '5;' +
+          '3;' +
+          '0,6;' +
+          '5;' +
+          '3;' +
+          '"OK";' +
+          '"OK";' +
+          '"OK";' +
+          '"KO";' +
+          '"KO"\n';
 
         // when
         const promise = getResultsCampaignInCsvFormat({
@@ -198,16 +209,19 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
         const csvSecondLine =
-          `="${organization.name}";` +
-          `="${campaign.id}";` +
-          '="Campaign ""Name""";' +
-          `="${targetProfile.name}";` +
-          `="${user.lastName}";` +
-          `="${user.firstName}";` +
-          `="${factoryCampaignParticipation.participantExternalId}";` +
-          '100;' +
-          '="2017-05-05";' +
-          '="Non";' +
+          `"${organization.name}";` +
+          `${campaign.id};` +
+          '"Campaign ""Name""";' +
+          `"${targetProfile.name}";` +
+          `"${user.lastName}";` +
+          `"${user.firstName}";` +
+          `"${factoryCampaignParticipation.participantExternalId}";` +
+          '1;' +
+          '2017-05-05;' +
+          '"Non";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
           '"NA";' +
           '"NA";' +
           '"NA";' +
@@ -267,13 +281,16 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           '"Date du partage";' +
           '"% maitrise de l\'ensemble des acquis du profil";' +
           '"% de maitrise des acquis de la compétence Competence1";' +
-          '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis de la compétence Competence1";' +
+          '"Nombre d\'acquis du profil cible dans la compétence Competence1";' +
+          '"Acquis maitrisés dans la compétence Competence1";' +
           '"% de maitrise des acquis du domaine Domain 1";' +
-          '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis du domaine Domain 1";' +
-          '"Acquis web1";' +
-          '"Acquis web2";' +
-          '"Acquis web3";' +
-          '"Acquis web4"\n';
+          '"Nombre d\'acquis du profil cible du domaine Domain 1";' +
+          '"Acquis maitrisés du domaine Domain 1";' +
+          '"web1";' +
+          '"web2";' +
+          '"web3";' +
+          '"web4";' +
+          '"web5"\n';
 
         // when
         const promise = getResultsCampaignInCsvFormat({
