@@ -183,6 +183,41 @@ describe('Acceptance | API | Campaigns', () => {
 
   });
 
+  describe('GET /api/campaigns/{id}', () => {
+
+    let campaign;
+
+    beforeEach(async () => {
+      campaign = databaseBuilder.factory.buildCampaign({
+        name: 'My campaign',
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    it('should retrieve a campaign', function() {
+      const options = {
+        method: 'GET',
+        url: `/api/campaigns/${campaign.id}`,
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.type).to.equal('campaigns');
+        expect(response.result.data.attributes.name).to.equal(campaign.name);
+      });
+    });
+
+  });
+
   describe('PATCH /api/campaigns/{id}', () => {
 
     let campaign;
@@ -203,7 +238,7 @@ describe('Acceptance | API | Campaigns', () => {
     it('should update a campaign', function() {
       const options = {
         method: 'PATCH',
-        url: '/api/campaigns/${campaign.id}',
+        url: `/api/campaigns/${campaign.id}`,
         payload: {
           data: {
             id: campaign.id,
