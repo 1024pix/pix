@@ -18,31 +18,13 @@ function displayPullRequest(pr) {
   return `- [#${pr.number}](${pr.html_url}) ${pr.title}\n`;
 }
 
-function filterListPrByType(listPR, type) {
-  const filteredPR = _.filter(listPR, (pr) => {
-    const typeOfPR = pr.title.substring(1, pr.title.indexOf(']'));
-    return typeOfPR === type;
-  });
-  return filteredPR;
-}
-
-function filterListPrWithoutType(listPR, listType) {
-  const filteredPR = _.filter(listPR, (pr) => {
-    const typeOfPR = pr.title.substring(1, pr.title.indexOf(']'));
-    return _.indexOf(listType,typeOfPR) < 0;
-  });
-  return filteredPR;
-
-}
-
 function orderPr(listPR) {
-  const typeOrdered = ['FEATURE', 'QUICK WIN', 'BUGFIX', 'TECH'];
-  const featurePR = filterListPrByType(listPR, typeOrdered[0]);
-  const quickWinPR = filterListPrByType(listPR, typeOrdered[1]);
-  const bugfixPR = filterListPrByType(listPR, typeOrdered[2]);
-  const techPR = filterListPrByType(listPR, typeOrdered[3]);
-  const otherPR = filterListPrWithoutType(listPR, typeOrdered);
-  return _.concat(featurePR, quickWinPR, bugfixPR, techPR, otherPR);
+  const typeOrder = ['FEATURE', 'QUICK WIN', 'BUGFIX', 'TECH'];
+  return _.sortBy(listPR, (pr) => {
+    const typeOfPR = pr.title.substring(1, pr.title.indexOf(']'));
+    const typeIndex = _.indexOf(typeOrder,typeOfPR);
+    return typeIndex < 0 ? Number.MAX_VALUE : typeIndex;
+  });
 
 }
 
