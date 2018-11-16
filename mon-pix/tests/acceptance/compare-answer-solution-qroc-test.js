@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import $ from 'jquery';
 
-describe('Acceptance | Comparer réponses et solutions pour un QROC', function() {
+describe('Acceptance | Compare answers and solutions for QROC questions', function() {
 
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
@@ -30,17 +30,17 @@ describe('Acceptance | Comparer réponses et solutions pour un QROC', function()
     destroyApp(application);
   });
 
-  describe('Depuis la page résultat', function() {
+  describe('From the results page', function() {
 
     beforeEach(async function() {
       await visit(RESULT_URL);
     });
 
-    it('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', async function() {
+    it('should display the REPONSE link from the results screen', async function() {
       expect($('.result-item .js-correct-answer').text()).to.contain('RÉPONSE');
     });
 
-    it('On n\'affiche pas encore la modale, ni son contenu', async function() {
+    it('should not yet display the modal nor its content', async function() {
       expect($('.comparison-window')).to.have.lengthOf(0);
       expect($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
       expect($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
@@ -48,7 +48,7 @@ describe('Acceptance | Comparer réponses et solutions pour un QROC', function()
 
   });
 
-  describe('Contenu de la modale de correction pour un QROC', function() {
+  describe('Content of the correction modal', function() {
 
     beforeEach(async function() {
       await visit(COMPARISON_MODAL_URL);
@@ -61,27 +61,27 @@ describe('Acceptance | Comparer réponses et solutions pour un QROC', function()
       }
     });
 
-    it('possible d\'accéder à la modale depuis l\'URL', async function() {
+    it('should be able to access the modal directly from the url', async function() {
       expect($('.comparison-window')).to.have.lengthOf(1);
     });
 
-    it('contient un header', async function() {
+    it('should contain a header', async function() {
       expect($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
     });
 
-    it('contient une instruction', async function() {
+    it('should contain an instruction', async function() {
       expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
     });
 
-    it('contient une zone de correction', async function() {
+    it('should contain a correction zone', async function() {
       expect($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
     });
 
-    it('contient une zone reservé au feedback panel', async function() {
+    it('should contain a zone reserved for feedback panel', async function() {
       expect($(FEEDBACK_PANEL)).to.have.lengthOf(1);
     });
 
-    it('on peut fermer la modale', async function() {
+    it('should contain a closing button', async function() {
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
