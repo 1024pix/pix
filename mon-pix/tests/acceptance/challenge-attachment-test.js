@@ -14,7 +14,6 @@ function visitTimedChallenge() {
   click('.challenge-item-warning button');
 }
 
-
 describe('Acceptance | Download an attachment from a challenge', function() {
 
   let application;

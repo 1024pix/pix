@@ -11,15 +11,6 @@ import $ from 'jquery';
 
 describe('Acceptance | Compare answers and solutions for QROC questions', function() {
 
-  const RESULT_URL = '/assessments/ref_assessment_id/results';
-  const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
-
-  const TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title .comparison-window__title-text';
-  const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
-  const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
-  const CORRECTION_BOX_QROC = '.comparison-window__corrected-answers--qroc';
-  const FEEDBACK_PANEL = '.comparison-window__feedback-panel';
-
   let application;
 
   beforeEach(function() {
@@ -33,7 +24,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
   describe('From the results page', function() {
 
     beforeEach(async function() {
-      await visit(RESULT_URL);
+      await visit('/assessments/ref_assessment_id/results');
     });
 
     it('should display the REPONSE link from the results screen', async function() {
@@ -42,8 +33,8 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
 
     it('should not yet display the modal nor its content', async function() {
       expect($('.comparison-window')).to.have.lengthOf(0);
-      expect($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-      expect($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+      expect($('.comparison-window__header .comparison-window__result-item-index')).to.have.lengthOf(0);
+      expect($('.comparison-window__header .comparison-window__title .comparison-window__title-text')).to.have.lengthOf(0);
     });
 
   });
@@ -51,7 +42,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
   describe('Content of the correction modal', function() {
 
     beforeEach(async function() {
-      await visit(COMPARISON_MODAL_URL);
+      await visit('/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4');
     });
 
     afterEach(async function() {
@@ -66,19 +57,19 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
     });
 
     it('should contain a header', async function() {
-      expect($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
+      expect($('.comparison-window__header .comparison-window__result-item-index').text().replace(/\n/g, '').trim()).to.equal('4');
     });
 
     it('should contain an instruction', async function() {
-      expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+      expect($('.comparison-window--body .challenge-statement__instruction')).to.have.lengthOf(1);
     });
 
     it('should contain a correction zone', async function() {
-      expect($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
+      expect($('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(1);
     });
 
     it('should contain a zone reserved for feedback panel', async function() {
-      expect($(FEEDBACK_PANEL)).to.have.lengthOf(1);
+      expect($('.comparison-window__feedback-panel')).to.have.lengthOf(1);
     });
 
     it('should contain a closing button', async function() {
