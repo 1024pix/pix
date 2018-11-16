@@ -1,6 +1,7 @@
 import getAnswer from './routes/get-answer';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import getAssessment from './routes/get-assessment';
+import findAssessments from './routes/find-assessments';
 import getAuthenticatedUser from './routes/get-user-me';
 import getCampaigns from './routes/get-campaigns';
 import getCampaignParticipation from './routes/get-campaign-participation';
@@ -8,7 +9,6 @@ import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCourse from './routes/get-course';
 import getCourses from './routes/get-courses';
-import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getNextChallenge from './routes/get-next-challenge';
 import getOrganizations from './routes/get-organizations';
 import getSnapshots from './routes/get-snapshots';
@@ -36,13 +36,11 @@ export default function() {
   this.timing = 0; // response delay
 
   this.get('/courses', getCourses);
-  this.get('/courses?isCourseOfTheWeek=true', getCoursesOfTheWeek);
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
 
   this.post('/assessments', postAssessments);
-  this.get('/assessments');
   this.get('/assessments/:id', getAssessment);
   this.get('/assessments/:assessmentId/next/:challengeId', getNextChallenge);
   this.get('/assessments/:assessmentId/next', getNextChallenge);
@@ -56,7 +54,8 @@ export default function() {
 
   //Nouveau Mirage
 
-  //Courses
+  this.get('/assessments', findAssessments);
+
   this.get('/courses/:id', getCourse);
   this.post('/courses', postCertificationCourse);
 

@@ -18,5 +18,12 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     if(model.campaignParticipation.isShared) {
       this.controllerFor('campaigns.skill-review').send('hideShareButton');
     }
-  }
+  },
+
+  setupController(controller, model) {
+    this._super(...arguments);
+    if(!model.campaignParticipation.isShared) {
+      controller.set('showButtonToShareResult', true);
+    }
+  },
 });
