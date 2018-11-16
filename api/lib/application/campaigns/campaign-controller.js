@@ -54,6 +54,18 @@ module.exports = {
       });
   },
 
+  getById(request, reply) {
+    const campaignId = request.params.id;
+
+    return usecases.getCampaign({ campaignId })
+      .then(campaignSerializer.serialize)
+      .then(controllerReplies(reply).ok)
+      .catch((error) => {
+        const mappedError = _mapToInfraError(error);
+        return controllerReplies(reply).error(mappedError);
+      });
+  },
+
   getCsvResults(request, reply) {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserIdForCampaignResults(token);
@@ -78,7 +90,7 @@ module.exports = {
   },
 
   update(request, reply) {
-    const id = request.payload.data.id;
+    const id = request.params.id;
     const { title, customLandingPageText } = request.payload.data.attributes;
 
     return usecases.updateCampaign({ id, title, customLandingPageText })

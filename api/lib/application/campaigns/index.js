@@ -31,6 +31,15 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
+      path: '/api/campaigns/{id}',
+      config: {
+        auth: false,
+        handler: campaignController.getById,
+        tags: ['api', 'campaign']
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/campaigns/{id}/csvResults',
       config: {
         auth: false,

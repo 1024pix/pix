@@ -168,6 +168,43 @@ describe('Integration | Repository | Campaign', () => {
 
   });
 
+  describe('#get', () => {
+    let campaign;
+
+    beforeEach(() => {
+      const bookshelfCampaign = databaseBuilder.factory.buildCampaign({
+        id: 1,
+        name: 'My campaign',
+      });
+      campaign = factory.buildCampaign(bookshelfCampaign);
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return a Campaign by her id', async () => {
+      // when
+      const result = await campaignRepository.get(campaign.id);
+
+      // then
+      expect(result).to.be.an.instanceof(Campaign);
+      expect(result.name).to.equal(campaign.name);
+    });
+
+    it('should return null when campaign id is not found', async () => {
+      // given
+      const nonExistentId = 666;
+
+      // when
+      const result = await campaignRepository.get(nonExistentId);
+
+      // then
+      expect(result).to.be.null;
+    });
+  });
+
   describe('#update', () => {
     let campaign;
 
@@ -185,7 +222,7 @@ describe('Integration | Repository | Campaign', () => {
       await databaseBuilder.clean();
     });
 
-    it('should return an Campaign domain object', async () => {
+    it('should return a Campaign domain object', async () => {
       // when
       const campaignSaved = await campaignRepository.update(campaign);
 

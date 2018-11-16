@@ -355,14 +355,75 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
+  describe('#getById ', () => {
+    let request, campaign;
+
+    beforeEach(() => {
+      campaign = {
+        id: 1,
+        name: 'My campaign',
+      };
+      request = {
+        params: {
+          id: campaign.id
+        }
+      };
+
+      sandbox.stub(usecases, 'getCampaign');
+      sandbox.stub(campaignSerializer, 'serialize');
+    });
+
+    it('should returns the campaign', () => {
+      // given
+      usecases.getCampaign.withArgs({ campaignId: campaign.id }).resolves(campaign);
+      campaignSerializer.serialize.withArgs(campaign).returns(campaign);
+
+      // when
+      const promise = campaignController.getById(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWithExactly(campaign);
+        expect(codeStub).to.have.been.calledWithExactly(200);
+      });
+    });
+
+    it('should throw an error when the campaign could not be retrieved', () => {
+      // given
+      usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects();
+
+      // when
+      const promise = campaignController.getById(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(500);
+      });
+    });
+
+    it('should throw an infra NotFoundError when a NotFoundError is catched', () => {
+      // given
+      usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects(new NotFoundError());
+
+      // when
+      const promise = campaignController.getById(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(404);
+      });
+    });
+
+  });
+
   describe('#update ', () => {
     let request, updatedCampaign;
 
     beforeEach(() => {
       request = {
+        params: { id : 1 },
         payload: {
           data: {
-            id: 1,
             attributes: {
               title: 'New title',
               customLandingPageText: 'New text',
@@ -372,7 +433,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
 
       updatedCampaign = {
-        id: request.payload.data.id,
+        id: request.params.id,
         title: request.payload.data.attributes.title,
         customLandingPageText: request.payload.data.attributes.customLandingPageText,
       };

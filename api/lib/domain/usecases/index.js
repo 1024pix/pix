@@ -49,6 +49,7 @@ module.exports = injectDependencies({
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findUsers: require('./find-users.js'),
   findUserAssessmentsByFilters: require('./find-user-assessments-by-filters'),
+  getCampaign: require('./get-campaign'),
   getCampaignByCode: require('./get-campaign-by-code'),
   getCorrectionForAnswerWhenAssessmentEnded: require('./get-correction-for-answer-when-assessment-ended'),
   getNextChallengeForCertification: require('./get-next-challenge-for-certification'),
