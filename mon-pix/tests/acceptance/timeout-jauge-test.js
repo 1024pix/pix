@@ -32,9 +32,9 @@ describe('Acceptance | Timeout Jauge', function() {
     destroyApp(application);
   });
 
-  describe('Test affichage ou non de la jauge', function() {
+  describe('Displaying the jauge', function() {
     //XXX: Deux cas car on test aussi une absence d'affichage
-    it('doit afficher la jauge si exigée par le backend mais ne pas l\'afficher dans le cas contraire ', function() {
+    it('should only display the jauge if required', function() {
       visitTimedChallenge();
       andThen(() => {
         expect($('.timeout-jauge')).to.have.lengthOf(1);
