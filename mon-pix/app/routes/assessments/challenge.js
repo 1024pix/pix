@@ -30,6 +30,7 @@ export default BaseRoute.extend({
 
     const userId = this.get('session.data.authenticated.userId');
     const campaignCode = modelResult.assessment.codeCampaign;
+    modelResult.nbCurrentAnswers = modelResult.assessment.get('answers.length');
 
     if (modelResult.assessment.get('isPlacement')
       || modelResult.assessment.get('isPreview')
