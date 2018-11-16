@@ -14,12 +14,11 @@ describe('Unit | Component | progress-bar', function() {
       // given
       const assessment = EmberObject.create({
         type: 'DEMO',
-        answers: [1, 2, 3],
         course: {
           nbChallenges: 10
         }
       });
-      const component = this.subject({ assessment });
+      const component = this.subject({ assessment, nbCurrentAnswers: 3 });
 
       // when
       const progression = component.get('progression');
