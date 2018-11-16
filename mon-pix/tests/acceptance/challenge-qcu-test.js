@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import $ from 'jquery';
 
-describe('Acceptance | Afficher un QCU', function() {
+describe('Acceptance | Displaying a QCU', function() {
 
   let application;
 
@@ -21,7 +21,7 @@ describe('Acceptance | Afficher un QCU', function() {
     destroyApp(application);
   });
 
-  it('Une liste de radiobuttons doit s\'afficher', async function() {
+  it('should display a radio buttons list', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -30,7 +30,7 @@ describe('Acceptance | Afficher un QCU', function() {
     expect($proposals).to.have.lengthOf(4);
   });
 
-  it('Par défaut, le radiobutton de la réponse sauvegardée est affiché', async function() {
+  it('should display the previously saved selected radio button by default', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -38,7 +38,7 @@ describe('Acceptance | Afficher un QCU', function() {
     expect($('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
   });
 
-  it('Une liste ordonnée d\'instruction doit s\'afficher', async function() {
+  it('should display an ordered list of instructions', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -49,7 +49,7 @@ describe('Acceptance | Afficher un QCU', function() {
     expect($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
   });
 
-  it('L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', async function() {
+  it('should display the error alter box if users validates with no radio button selected', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -64,7 +64,7 @@ describe('Acceptance | Afficher un QCU', function() {
     expect($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
   });
 
-  it('Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', async function() {
+  it('should not be possible to select multiple radio buttons', async function() {
     // Given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
@@ -83,7 +83,7 @@ describe('Acceptance | Afficher un QCU', function() {
     expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
   });
 
-  it('Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function() {
+  it('should send an api request to save the users answer when clicking the validate button', async function() {
     // Given
     server.post('/answers', (schema, request) => {
       const params = JSON.parse(request.requestBody);
@@ -116,7 +116,7 @@ describe('Acceptance | Afficher un QCU', function() {
     // Then
   });
 
-  it('L\'alerte n\'est pas affichée si l\'utilisateur valide sans avoir coché de réponse puis coche sur une réponse', async function() {
+  it('should only display an error alert if the user tries to validate after having interacting once with the page', async function() {
     // given
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
     $(':radio').prop('checked', false);
