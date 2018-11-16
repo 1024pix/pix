@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const { displayPullRequest, filterPullRequest, getHeadOfChangelog } = require('../../../scripts/get-changelog');
+const { displayPullRequest, filterPullRequest, getHeadOfChangelog, orderPr } = require('../../../scripts/get-changelog');
 
 describe('Unit | Script | GET Changelog', () => {
 
@@ -11,19 +11,7 @@ describe('Unit | Script | GET Changelog', () => {
     it('should return a line with correct format from correct PR name', () => {
       // given
       const pullRequest = {
-        title: '[#111] [BUGFIX] Résolution du problème de surestimation du niveau (US-389).',
-        number: 111,
-        html_url: 'http://git/111'
-      };
-      // when
-      const result = displayPullRequest(pullRequest);
-      // then
-      expect(result).to.equal(expectedLine);
-    });
-    it('should return a line with correct format from PR name with error', () => {
-      // given
-      const pullRequest = {
-        title: '[#111][BUGFIX] Résolution du problème de surestimation du niveau (US-389) ',
+        title: '[BUGFIX] Résolution du problème de surestimation du niveau (US-389).',
         number: 111,
         html_url: 'http://git/111'
       };
@@ -40,13 +28,13 @@ describe('Unit | Script | GET Changelog', () => {
       const milestone = 1;
       const pullRequests = [
         {
-          title: '[#111] [BUGFIX] TEST (US-11).',
+          title: '[BUGFIX] TEST (US-11).',
           milestone: {
             number: milestone
           }
         },
         {
-          title: '[#222] [BUGFIX] TRUC (US-22).',
+          title: '[BUGFIX] TRUC (US-22).',
           milestone: {
             number: 2
           }
@@ -54,7 +42,7 @@ describe('Unit | Script | GET Changelog', () => {
       ];
       const pullRequestsInMilestone = [
         {
-          title: '[#111] [BUGFIX] TEST (US-11).',
+          title: '[BUGFIX] TEST (US-11).',
           milestone: {
             number: milestone
           }
@@ -72,10 +60,10 @@ describe('Unit | Script | GET Changelog', () => {
       const clock = sinon.useFakeTimers();
       const headChangelog = '## v1.0.0 (01/01/1970) \n\n';
       const pullRequestsInMilestone = {
-        title: '[#111] [BUGFIX] TEST (US-11).',
+        title: '[BUGFIX] TEST (US-11).',
         milestone: {
           number: 1,
-          title: 'v1.0.0'
+          title: '1.0.0'
         }
       };
       // when
@@ -83,6 +71,27 @@ describe('Unit | Script | GET Changelog', () => {
       // then
       expect(result).to.equal(headChangelog);
       clock.restore();
+    });
+  });
+
+  describe('orderPr', () => {
+    it('should order PR by type', () => {
+      // given
+      const pullRequests = [
+        { title: '[BUGFIX] TEST' },
+        { title: '[QUICK WIN] TEST' },
+        { title: 'TEST' },
+        { title: '[FEATURE] TEST' },
+        { title: '[TECH] TEST' },
+      ];
+      // when
+      const result = orderPr(pullRequests);
+      // then
+      expect(result[0].title).to.equal('[FEATURE] TEST');
+      expect(result[1].title).to.equal('[QUICK WIN] TEST');
+      expect(result[2].title).to.equal('[BUGFIX] TEST');
+      expect(result[3].title).to.equal('[TECH] TEST');
+      expect(result[4].title).to.equal('TEST');
     });
   });
 
