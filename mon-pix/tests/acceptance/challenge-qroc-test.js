@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import $ from 'jquery';
 
-describe('Acceptance | Afficher un QROC', function() {
+describe('Acceptance | Displaying a QROC', function() {
 
   let application;
 
@@ -22,17 +22,17 @@ describe('Acceptance | Afficher un QROC', function() {
     destroyApp(application);
   });
 
-  it('It should render challenge instruction', function() {
+  it('should render the challenge instruction', function() {
     const $challengeInstruction = $('.challenge-statement__instruction');
     const instructiontext = 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre';
     expect($challengeInstruction.text().trim()).to.equal(instructiontext);
   });
 
-  it('It should display only one input text as proposal to user', function() {
+  it('should display only one input text as proposal to user', function() {
     expect($('.challenge-response__proposal-input')).to.have.lengthOf(1);
   });
 
-  it('Error alert box should be displayed if user validate without writing any answer', function() {
+  it('should display the error alert if the users tries to validate an empty answer', function() {
     fillIn('input[data-uid="qroc-proposal-uid"]', '');
     expect($('.alert')).to.have.lengthOf(0);
     click(findWithAssert('.challenge-actions__action-validate'));
