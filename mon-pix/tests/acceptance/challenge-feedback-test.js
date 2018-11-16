@@ -10,7 +10,7 @@ import destroyApp from '../helpers/destroy-app';
 
 const FEEDBACK_FORM = '.feedback-panel__form';
 
-describe('Acceptance | Signaler une épreuve', function() {
+describe('Acceptance | Giving feedback about a challenge', function() {
 
   let application;
 
@@ -36,14 +36,14 @@ describe('Acceptance | Signaler une épreuve', function() {
     destroyApp(application);
   });
 
-  describe('Depuis une epreuve', function() {
+  describe('From a challenge', function() {
 
-    it('Je peux signaler une épreuve directement', async () => {
+    it('should be able to directly send a feedback', async () => {
       await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
       assertThatFeedbackPanelExist();
     });
 
-    it('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', async () => {
+    it('should always reset the feedback form between two consecutive challenges', async () => {
       // In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
       await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
       assertThatFeedbackFormIsClosed();
@@ -56,9 +56,9 @@ describe('Acceptance | Signaler une épreuve', function() {
     });
   });
 
-  describe('Depuis la fenêtre de comparaison', function() {
+  describe('From the comparison modal', function() {
 
-    it('Je peux signaler une épreuve (page de résultat du test)', async () => {
+    it('should be able to give feedback', async () => {
       await visit('/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1');
       assertThatFeedbackFormIsOpen();
       // XXX test env needs the modal to be closed manually
