@@ -13,7 +13,7 @@ const TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcm_c
 const NOT_TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';
 const CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
 
-describe('Acceptance | Warning prochaine page timée', function() {
+describe('Acceptance | Timed challenge', function() {
 
   let application;
 
@@ -25,9 +25,9 @@ describe('Acceptance | Warning prochaine page timée', function() {
     destroyApp(application);
   });
 
-  describe('Test affichage ou non de la page avec le warning', function() {
+  describe('Displaying the challenge', function() {
 
-    it('doit cacher le contenu du challenge si l\'épreuve est timée', async function() {
+    it('should hide the challenge statement', async function() {
       // When
       await visit(TIMED_CHALLENGE_URL);
 
@@ -35,7 +35,7 @@ describe('Acceptance | Warning prochaine page timée', function() {
       expect($('.challenge-statement')).to.have.lengthOf(0);
     });
 
-    it('doit afficher le contenu du challenge si l\'épreuve n\'est pas timée', async function() {
+    it('should display the challenge statementif the challenge is not timed', async function() {
       // When
       await visit(NOT_TIMED_CHALLENGE_URL);
 
@@ -43,7 +43,7 @@ describe('Acceptance | Warning prochaine page timée', function() {
       expect($('.challenge-statement')).to.have.lengthOf(1);
     });
 
-    it('vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', async function() {
+    it('should ensure the challenge does not automatically start', async function() {
       // Given
       await visit(TIMED_CHALLENGE_URL);
 
@@ -54,7 +54,7 @@ describe('Acceptance | Warning prochaine page timée', function() {
       expect($('.timeout-jauge')).to.have.lengthOf(0);
     });
 
-    it('le formulaire de signalement n\'est pas affiché pour une épreuve chronométrée tant que l\'usager n\'a pas confirmé être prêt pour l\'épreuve', async function() {
+    it('should ensure the feedback form is not displayed until the user has started the challenge', async function() {
       // Given
       await visit(TIMED_CHALLENGE_URL);
 
@@ -64,26 +64,26 @@ describe('Acceptance | Warning prochaine page timée', function() {
 
   });
 
-  describe('Test comportement lorsque le bouton de confirmation est cliqué', function() {
+  describe('When the confirmation button is clicked', function() {
 
     beforeEach(function() {
       visit(TIMED_CHALLENGE_URL);
       click(CHALLENGE_ITEM_WARNING_BUTTON);
     });
 
-    it('vérifier que le warning est caché ', function() {
+    it('should hide the warning button', function() {
       expect($(CHALLENGE_ITEM_WARNING_BUTTON)).to.have.lengthOf(0);
     });
 
-    it('vérifier que le contenu de l\'épreuve est affiché', function() {
+    it('should display the challenge statement', function() {
       expect($('.challenge-statement').css('display')).to.contain('block');
     });
 
-    it('vérifier que le timer est démarré ', function() {
+    it('should start the timer', function() {
       expect($('.timeout-jauge')).to.have.lengthOf(1);
     });
 
-    it('le formulaire de signalement est affiché', function() {
+    it('should display the feedback form', function() {
       expect($('.feedback-panel')).to.have.lengthOf(1);
     });
 
