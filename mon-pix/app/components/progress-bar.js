@@ -10,12 +10,13 @@ export default Component.extend({
 
   // Data props
   assessment: null,
+  nbCurrentAnswers: null,
 
   // CPs
-  progression: computed('assessment.{type,answers,course.nbChallenges}', function() {
+  progression: computed('assessment.{type,course.nbChallenges}', 'nbCurrentAnswers', function() {
     return new AssessmentProgression({
       assessmentType: this.get('assessment.type'),
-      nbAnswers: this.get('assessment.answers.length'),
+      nbAnswers: this.get('nbCurrentAnswers'),
       nbChallenges: this.get('assessment.course.nbChallenges')
     });
   }),
