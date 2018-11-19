@@ -2,21 +2,35 @@ const Pack = require('../package');
 const Metrics = require('./infrastructure/plugins/metrics');
 const settings = require('./settings');
 
-const consoleReporters = [
-  {
-    module: 'good-squeeze',
-    name: 'Squeeze',
-    args: [{
-      response: '*',
-      log: '*'
-    }]
-  }, {
-    module: 'good-console',
-    args: [{
-      color: settings.logging.colorEnabled
-    }]
-  }
-];
+const doesUseJsonLogs = ['production', 'staging'].includes(process.env.NODE_ENV);
+
+const consoleReporters =
+  doesUseJsonLogs ?
+    [
+      {
+        module: 'good-squeeze',
+        name: 'SafeJson',
+        args: []
+      },
+    ]
+    :
+    [
+      {
+        module: 'good-squeeze',
+        name: 'Squeeze',
+        args: [{
+          response: '*',
+          log: '*'
+        }]
+      },
+      {
+        module: 'good-console',
+        args: [{
+          color: settings.logging.colorEnabled
+        }]
+      }
+    ]
+    ;
 
 if (settings.logging.enabled) {
   consoleReporters.push('stdout');
