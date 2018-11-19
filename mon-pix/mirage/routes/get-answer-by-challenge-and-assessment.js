@@ -12,6 +12,14 @@ export default function(schema, request) {
   const assessmentId = request.queryParams.assessment;
   const challengeId = request.queryParams.challenge;
 
+  let answers;
+
+  answers = schema.answers.where({ assessmentId, challengeId });
+
+  if (answers.models.length !== 0) {
+    return answers.models.get('firstObject');
+  }
+
   const allAnswers = [
     refQcuAnswer,
     refQcmAnswer,
@@ -21,7 +29,7 @@ export default function(schema, request) {
     refTimedAnswerBis
   ];
 
-  const answers = _.map(allAnswers, function(oneAnswer) {
+  answers = _.map(allAnswers, function(oneAnswer) {
     return { id: oneAnswer.data.id, obj: oneAnswer };
   });
 
@@ -48,6 +56,5 @@ export default function(schema, request) {
     }
   };
 
-  // TODO make it work for real (use schema.answers.where({assessmentId, challengeId})
   return schema.answers.first() || validJSONAPI;
 }
