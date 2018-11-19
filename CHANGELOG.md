@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.9.1 (19/11/2018)
+
+- [#270](https://github.com/1024pix/pix/pull/270) [BUGFIX] La barre de progression se met à jour en même temps que la question (PF-348).
+- [#271](https://github.com/1024pix/pix/pull/271) [TECH] BSR: Uniformisation du lancement des applications
+
 ## v2.9.0 (16/11/2018) 
 
 - [#269](https://github.com/1024pix/pix/pull/269) [FEATURE] Le CSV des résultats de campagne doit être exploitable (PO-166).
