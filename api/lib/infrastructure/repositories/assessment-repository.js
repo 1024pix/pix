@@ -103,7 +103,14 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByFilters(filters) {
+  getByFilters(filters) {
+    return BookshelfAssessment
+      .where(filters)
+      .fetch({ withRelated: ['assessmentResults'] })
+      .then(_toDomain);
+  },
+
+  findByCampaignFilters(filters) {
     return BookshelfAssessment
       .where(filters)
       .fetchAll({ withRelated: ['campaignParticipation', 'campaignParticipation.campaign'] })

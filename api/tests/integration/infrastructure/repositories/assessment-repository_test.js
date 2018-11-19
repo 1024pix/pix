@@ -469,7 +469,80 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#findByFilters', () => {
+  describe('#getByFilters', () => {
+
+    const assessmentsInDb = [
+      databaseBuilder.factory.buildAssessment({
+        id: 1,
+        courseId: 'courseId1',
+        userId: 1,
+        type: 'PLACEMENT'
+      }),
+      databaseBuilder.factory.buildAssessment({
+        id: 2,
+        courseId: 'courseId1',
+        userId: 2,
+        type: 'PLACEMENT',
+      }),
+      databaseBuilder.factory.buildAssessment({
+        id: 3,
+        courseId: 'courseId1',
+        userId: 2,
+        type: 'CERTIFICATION',
+        state: 'started',
+      }),
+      databaseBuilder.factory.buildAssessment({
+        id: 4,
+        courseId: 'courseId2',
+        userId: 2,
+        type: 'PLACEMENT',
+        state: 'started',
+      }),
+      databaseBuilder.factory.buildAssessment({
+        id: 5,
+        courseId: 'courseId1',
+        userId: 2,
+        type: 'PLACEMENT',
+        state: 'started',
+      }),
+    ];
+
+    beforeEach(() => {
+      return knex('assessments').insert(assessmentsInDb);
+    });
+
+    afterEach(() => {
+      return knex('assessments').delete();
+    });
+
+    it('should return assessment', function() {
+      // given
+      const filters = { courseId: 'courseId1', type: 'PLACEMENT', userId: 2, state: 'started' };
+
+      // when
+      const promise = assessmentRepository.getByFilters(filters);
+
+      // then
+      return promise.then((assessment) => {
+        expect(assessment.id).to.equal(5);
+      });
+    });
+
+    it('should return null', function() {
+      // given
+      const filters = { courseId: 'inexistantId', type: 'PLACEMENT', userId: 234 };
+
+      // when
+      const promise = assessmentRepository.getByFilters(filters);
+
+      // then
+      return promise.then((assessment) => {
+        expect(assessment).to.equal(null);
+      });
+    });
+  });
+
+  describe('#findByCampaignFilters', () => {
     let assessmentId;
 
     const assessmentInDb = databaseBuilder.factory.buildAssessment({
@@ -504,7 +577,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     it('should returns the assessment with campaign', () => {
       // when
 
-      const promise = assessmentRepository.findByFilters({ type: 'SMART_PLACEMENT' });
+      const promise = assessmentRepository.findByCampaignFilters({ type: 'SMART_PLACEMENT' });
 
       // then
       return promise.then((assessmentsReturned) => {
@@ -525,7 +598,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       it('should returns the assessment without campaign', () => {
         // when
 
-        const promise = assessmentRepository.findByFilters({ type: 'SMART_PLACEMENT' });
+        const promise = assessmentRepository.findByCampaignFilters({ type: 'SMART_PLACEMENT' });
 
         // then
         return promise.then((assessmentsReturned) => {

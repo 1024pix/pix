@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 module.exports = function findUserAssessmentsByFilters({ userId, filters, assessmentRepository }) {
 
   if(filters.codeCampaign) {
@@ -6,7 +8,7 @@ module.exports = function findUserAssessmentsByFilters({ userId, filters, assess
       type: 'SMART_PLACEMENT',
     };
 
-    return assessmentRepository.findByFilters(filtersOfAssessment)
+    return assessmentRepository.findByCampaignFilters(filtersOfAssessment)
       .then((assessments)=> {
         return assessments.filter((assessment) => {
           if(assessment.campaignParticipation) {
@@ -17,13 +19,20 @@ module.exports = function findUserAssessmentsByFilters({ userId, filters, assess
       });
   }
 
-  if(filters.type === 'CERTIFICATION' && filters.courseId) {
-    return assessmentRepository.getByCertificationCourseId(filters.courseId)
+  if(['CERTIFICATION', 'PLACEMENT'].includes(filters.type) && filters.courseId) {
+
+    filters = _.pick(filters, ['type', 'courseId', 'state']);
+    const filtersOfAssessment = {
+      ...filters,
+      userId,
+    };
+
+    return assessmentRepository.getByFilters(filtersOfAssessment)
       .then((assessment) => {
-        if(assessment.userId == userId) {
-          return [assessment];
+        if(!assessment) {
+          return [];
         }
-        return [];
+        return [assessment];
       });
   }
 

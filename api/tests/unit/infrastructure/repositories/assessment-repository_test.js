@@ -344,7 +344,35 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
   });
 
-  describe('#findByFilters', function() {
+  describe('#getByFilters', () => {
+
+    before(() => {
+      const fetchStub = sinon.stub().resolves(new BookshelfAssessment());
+      sinon.stub(BookshelfAssessment, 'where').returns({
+        fetch: fetchStub,
+      });
+    });
+
+    after(() => {
+      BookshelfAssessment.where.restore();
+    });
+
+    it('should correctly query Assessment', () => {
+      // given
+      const filters = { courseId: 10, type: 'PLACEMENT', userId: 234, state: 'started' };
+
+      // when
+      const promise = assessmentRepository.getByFilters(filters);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(BookshelfAssessment.where);
+        sinon.assert.calledWith(BookshelfAssessment.where, filters);
+      });
+    });
+  });
+
+  describe('#findByCampaignFilters', function() {
 
     const assessmentsInDb = [{
       id: 1,
@@ -376,7 +404,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       const filters = { courseId: 'courseId1' };
 
       // when
-      const promise = assessmentRepository.findByFilters(filters);
+      const promise = assessmentRepository.findByCampaignFilters(filters);
 
       // then
       return promise.then((assessments) => {
@@ -391,7 +419,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       const filters = { courseId: 'InexistantCourseId' };
 
       // when
-      const promise = assessmentRepository.findByFilters(filters);
+      const promise = assessmentRepository.findByCampaignFilters(filters);
 
       // then
       return promise.then((assessments) => {
@@ -423,7 +451,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         const filters = { courseId: 'courseId2' };
 
         // when
-        const promise = assessmentRepository.findByFilters(filters);
+        const promise = assessmentRepository.findByCampaignFilters(filters);
 
         // then
         return promise.then((assessments) => {
