@@ -14,7 +14,7 @@ function visitTimedChallenge() {
   click('.challenge-item-warning button');
 }
 
-describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d\'une épreuve | ', function() {
+describe('Acceptance | Download an attachment from a challenge', function() {
 
   let application;
 
@@ -28,36 +28,36 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
     destroyApp(application);
   });
 
-  describe('Quand l\'épreuve contient une pièce jointe en consigne', function() {
+  describe('When the challenge has an attachment', function() {
 
     beforeEach(function() {
       visitTimedChallenge();
     });
 
-    it('b6.1 Il existe un moyen pour télécharger la pièce jointe d\'une épreuve dans la zone de consigne', function() {
+    it('should have a way to download the attachment', function() {
       const $ATTACHMENT_LINK = findWithAssert('.challenge-statement__action-link');
       expect($ATTACHMENT_LINK.length).to.equal(1);
     });
 
-    it('b6.2 Le lien de la pièce jointe pointe vers le bon lien', function() {
+    it('should expose the correct attachment link', function() {
       const $ATTACHMENT_LINK = $('.challenge-statement__action-link');
       expect($ATTACHMENT_LINK.text()).to.contain('Télécharger');
       expect($ATTACHMENT_LINK.attr('href')).to.equal('http://example_of_url');
     });
 
-    it('b6.3 Il n\'y a qu\'un seul fichier téléchargeable', function() {
+    it('should only have one file downloadable', function() {
       const $attachment = findWithAssert('.challenge-statement__action-link');
       expect($attachment.length).to.equal(1);
     });
   });
 
-  describe('Quand l\'épreuve ne contient pas de pièce jointe en consigne', function() {
+  describe('When the challenge does not contain an attachment', function() {
 
     beforeEach(function() {
       visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
     });
 
-    it('b6.4 La section de téléchargement des pièces jointes est cachée', function() {
+    it('should hide the download section for the attachment', function() {
       // We are in a challenge...
       findWithAssert('.challenge-item');
 

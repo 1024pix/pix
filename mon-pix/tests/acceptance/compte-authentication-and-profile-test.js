@@ -28,7 +28,7 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
   describe('Success cases', function() {
 
-    describe('m1.1 Accessing to the /compte page while disconnected', async function() {
+    describe('Accessing to the /compte page while disconnected', async function() {
       it('should redirect to the connexion page',async function() {
         // when
         await visit('/compte');
