@@ -309,5 +309,39 @@ describe('Unit | Service | OrganizationService', () => {
         expect(availableTargetProfiles.length).to.equal(2);
       });
     });
+
+    it('should return a list ordered by private profile before public profile and alphabetically', () => {
+      // given
+      targetProfilesOwnedByOrganization = [
+        factory.buildTargetProfile({ name: 'C owned profile', organizationId, isPublic: false }),
+        factory.buildTargetProfile({ name: 'A owned profile', organizationId, isPublic: false })
+      ];
+      targetProfileSharesWithOrganization = factory.buildTargetProfile({ name: 'B shared profile', isPublic: false });
+      publicTargetProfiles = [
+        factory.buildTargetProfile({ name: 'B Public profile', isPublic: true }),
+        factory.buildTargetProfile({ name: 'A Public profile', isPublic: true })
+      ];
+      const targetProfileShares = [{
+        targetProfile: targetProfileSharesWithOrganization
+      }];
+      const organization = factory.buildOrganization({ id: organizationId, targetProfileShares });
+
+      targetProfileRepository.findPublicTargetProfiles.resolves(publicTargetProfiles);
+      targetProfileRepository.findTargetProfilesOwnedByOrganizationId.resolves(targetProfilesOwnedByOrganization);
+      organizationRepository.get.resolves(organization);
+      // when
+      const promise = organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+
+      // then
+      return promise.then((availableTargetProfiles) => {
+        expect(availableTargetProfiles.length).to.equal(5);
+        expect(availableTargetProfiles[0].name).equal('A owned profile');
+        expect(availableTargetProfiles[1].name).equal('B shared profile');
+        expect(availableTargetProfiles[2].name).equal('C owned profile');
+        expect(availableTargetProfiles[3].name).equal('A Public profile');
+        expect(availableTargetProfiles[4].name).equal('B Public profile');
+
+      });
+    });
   });
 });

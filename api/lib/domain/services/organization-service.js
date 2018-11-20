@@ -1,4 +1,4 @@
-const { sampleSize, random, uniqBy, concat } = require('lodash');
+const { sampleSize, random, uniqBy, concat, orderBy } = require('lodash');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const userRepository = require('../../infrastructure/repositories/user-repository');
@@ -44,7 +44,9 @@ module.exports = {
         ]);
       })
       .then(([targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles]) => {
-        const allAvailableTargetProfiles = concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles);
+        const orderedPrivateProfile = orderBy(concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization), 'name');
+        const orderedPublicProfile = orderBy(publicTargetProfiles, 'name');
+        const allAvailableTargetProfiles = concat(orderedPrivateProfile, orderedPublicProfile);
         return uniqBy(allAvailableTargetProfiles, 'id');
       });
   },
