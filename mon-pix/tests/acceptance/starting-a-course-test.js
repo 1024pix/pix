@@ -13,7 +13,7 @@ import defaultScenario from '../../mirage/scenarios/default';
 const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const START_BUTTON = '.competence-level-progress-bar__link-start';
 
-describe('Acceptance | Démarrer un test |', function() {
+describe('Acceptance | Starting a course', function() {
 
   let application;
 
@@ -28,14 +28,14 @@ describe('Acceptance | Démarrer un test |', function() {
     destroyApp(application);
   });
 
-  it('Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', async function() {
+  it('should be able to start a test directly from the course endpoint', async function() {
     await visit('/courses/ref_course_id');
     andThen(() => {
       expect(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     });
   });
 
-  it('Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
+  it('should redirect to the first course challenge when starting a new course', function() {
     const $startLink = findWithAssert(START_BUTTON);
     return click($startLink).then(function() {
       findWithAssert('.assessment-challenge');
