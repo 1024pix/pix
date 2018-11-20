@@ -14,7 +14,7 @@ function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
 }
 
-describe('Compare answers and solutions for CQM questions', function() {
+describe('Compare answers and solutions for QCM questions', function() {
 
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
@@ -37,7 +37,7 @@ describe('Compare answers and solutions for CQM questions', function() {
 
   describe('From the results page', function() {
 
-    it('should display the REPONSE link from the results screen for for QCM  and QCU questions', async function() {
+    it('should display the REPONSE link from the results screen for QCM  and QCU questions', async function() {
       await visit(RESULT_URL);
       expect($('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
       expect($('.result-item:eq(1) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCU

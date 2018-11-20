@@ -35,7 +35,7 @@ describe('Acceptance | Timed challenge', function() {
       expect($('.challenge-statement')).to.have.lengthOf(0);
     });
 
-    it('should display the challenge statementif the challenge is not timed', async function() {
+    it('should display the challenge statement if the challenge is not timed', async function() {
       // When
       await visit(NOT_TIMED_CHALLENGE_URL);
 
