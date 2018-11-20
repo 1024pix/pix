@@ -14,6 +14,7 @@ Router.map(function() {
     this.route('campaigns', { path: '/campagnes' }, function() {
       this.route('new', { path: '/creation' });
       this.route('list', { path: '/liste' });
+      this.route('update', { path: '/:campaign_id/modification' });
     });
   });
 

@@ -426,7 +426,7 @@ describe('Unit | Application | Controller | Campaign', () => {
           data: {
             attributes: {
               title: 'New title',
-              customLandingPageText: 'New text',
+              'custom-landing-page-text': 'New text',
             }
           }
         }
@@ -435,7 +435,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       updatedCampaign = {
         id: request.params.id,
         title: request.payload.data.attributes.title,
-        customLandingPageText: request.payload.data.attributes.customLandingPageText,
+        customLandingPageText: request.payload.data.attributes['custom-landing-page-text'],
       };
 
       sandbox.stub(usecases, 'updateCampaign');

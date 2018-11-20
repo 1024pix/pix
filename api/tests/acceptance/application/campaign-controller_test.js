@@ -245,7 +245,7 @@ describe('Acceptance | API | Campaigns', () => {
             type: 'campaigns',
             attributes: {
               title: 'New title',
-              customLandingPageText: 'New text',
+              'custom-landing-page-text': 'New text',
             },
           }
         }

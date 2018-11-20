@@ -5,7 +5,5 @@
     </div>
   {{/if}}
 
-  <h1 class="page__title page-title">Création d'une campagne</h1>
-
-  {{campaign-creation-form campaign=model.campaign targetProfiles=model.targetProfiles doCreateCampaign=(action 'createCampaign')}}
+  {{routes/authenticated/campaign-new campaign=model.campaign targetProfiles=model.targetProfiles doCreateCampaign=(action 'createCampaign')}}
 </div>

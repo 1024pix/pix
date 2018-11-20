@@ -91,7 +91,7 @@ module.exports = {
 
   update(request, reply) {
     const id = request.params.id;
-    const { title, customLandingPageText } = request.payload.data.attributes;
+    const { title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
     return usecases.updateCampaign({ id, title, customLandingPageText })
       .then(campaignSerializer.serialize)
