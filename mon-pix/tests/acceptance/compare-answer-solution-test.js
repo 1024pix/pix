@@ -83,7 +83,7 @@ describe('Compare answers and solutions for QCM questions', function() {
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
-    it('should check the presence of instrution, text and image', async function() {
+    it('should check the presence of instruction, text and image', async function() {
 
       await visit(RESULT_URL);
       expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.exist;
