@@ -5,7 +5,6 @@ export default BaseRoute.extend({
 
   redirect(course) {
     const store = this.get('store');
-
     let assessment;
 
     return store.query('assessment', { filter: { type: course.get('type'), courseId: course.id, state: 'started' } })

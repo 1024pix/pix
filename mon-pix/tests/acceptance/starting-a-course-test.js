@@ -30,9 +30,7 @@ describe('Acceptance | Starting a course', function() {
 
   it('should be able to start a test directly from the course endpoint', async function() {
     await visit('/courses/ref_course_id');
-    andThen(() => {
-      expect(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-    });
+    expect(currentURL()).to.be.equal(URL_OF_FIRST_TEST);
   });
 
   it('should redirect to the first course challenge when starting a new course', function() {
@@ -43,4 +41,33 @@ describe('Acceptance | Starting a course', function() {
     });
   });
 
+  it('should resume the assessment', async function() {
+    // given
+    server.create('assessment', {
+      id: 1,
+      courseId: 'recNPB7dTNt5krlMA',
+      state: 'started',
+      type: 'PLACEMENT',
+    });
+    //when
+    await visit('/courses/recNPB7dTNt5krlMA');
+
+    // then
+    expect(currentURL()).to.be.equal('/assessments/1/challenges/receop4TZKvtjjG0V');
+  });
+
+  it('should start an assessment', async function() {
+    // given
+    server.create('assessment', {
+      id: 1,
+      courseId: 'recNPB7dTNt5krlMA',
+      state: 'completed',
+      type: 'PLACEMENT',
+    });
+    //when
+    await visit('/courses/recNPB7dTNt5krlMA');
+
+    // then
+    expect(currentURL()).to.be.equal('/assessments/2/challenges/receop4TZKvtjjG0V');
+  });
 });
