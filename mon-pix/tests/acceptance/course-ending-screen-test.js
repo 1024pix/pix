@@ -25,7 +25,7 @@ describe('Acceptance | Course ending screen', function() {
     expect(currentURL()).to.equal('/assessments/ref_assessment_id/results');
   });
 
-  it('should display a summery of all the answers', function() {
+  it('should display a summary of all the answers', function() {
     findWithAssert('.assessment-results__list');
   });
 
@@ -37,7 +37,7 @@ describe('Acceptance | Course ending screen', function() {
     expect($proposals.text()).to.contain('Un QROCM est une question ouverte');
   });
 
-  it('should provide a valid answer when the user answred wrongly', function() {
+  it('should provide a valid answer when the user answered wrongly', function() {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
     expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
@@ -50,7 +50,7 @@ describe('Acceptance | Course ending screen', function() {
     expect(find('.course-banner__home-link')).to.have.lengthOf(0);
   });
 
-  it('should display a way to come back to the test lists', function() {
+  it('should display a way to come back to the test list', function() {
     findWithAssert('.assessment-results__index-link-container');
   });
 
