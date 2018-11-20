@@ -9,28 +9,6 @@ const Router = EmberRouter.extend({
   rootURL: config.rootURL,
 });
 
-// XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
-if (config.environment === 'integration' || config.environment === 'staging' || config.environment === 'production') {
-  // do not make any sense in test ENV, therefore can be safely ignored
-  /* istanbul ignore next */
-  Router.reopen({
-    metrics: service(),
-
-    didTransition() {
-      this._super(...arguments);
-      this._trackPage();
-    },
-
-    _trackPage() {
-      run.scheduleOnce('afterRender', this, () => {
-        const page = this.get('url');
-        const title = this.getWithDefault('currentRouteName', 'unknown');
-        get(this, 'metrics').trackPage({ page, title });
-      });
-    },
-  });
-}
-
 /* eslint-disable max-statements */
 Router.map(function() {
   this.route('index', { path: '/' });
