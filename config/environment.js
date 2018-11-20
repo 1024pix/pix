@@ -30,14 +30,30 @@ module.exports = function(environment) {
 
     // Set or update content security policies
     contentSecurityPolicy: {
+      'default-src': "'none'",
+      'script-src': "'self' www.google-analytics.com",
       'font-src': "'self' fonts.gstatic.com",
-      'style-src': "'self' fonts.googleapis.com"
+      'connect-src': "'self' www.google-analytics.com",
+      'img-src': "'self'",
+      'style-src': "'self' fonts.googleapis.com",
+      'media-src': "'self'"
     },
 
     'ember-cli-notifications': {
       autoClear: true,
       includeFontAwesome: true,
     },
+
+    metricsAdapters: [
+      {
+        name: 'Piwik',
+        environments: ['all'],
+        config: {
+          piwikUrl: '//stats.pix.fr',
+          siteId: 7
+        }
+      }
+    ],
 
 };
 
