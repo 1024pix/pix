@@ -146,6 +146,19 @@ describe('Unit | Domain | Models | User', () => {
       // then
       expect(userObject.email).to.equal('testmail@gmail.com');
     });
+
+    it('should default email to null', () => {
+      // given
+      const userData = {
+        firstName: 'Bob',
+      };
+
+      // when
+      const userObject = new User(userData);
+
+      // then
+      expect(userObject.email).to.be.null;
+    });
   });
 
 });
