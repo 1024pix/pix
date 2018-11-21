@@ -21,7 +21,7 @@ class User {
     // attributes
     this.firstName = firstName;
     this.lastName = lastName;
-    this.email = _.toLower(email);
+    this.email = email ? _.toLower(email) : null;
     this.password = password;
     this.cgu = cgu;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
