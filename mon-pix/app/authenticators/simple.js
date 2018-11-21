@@ -10,7 +10,11 @@ export default Base.extend({
     return RSVP.resolve(data);
   },
 
-  authenticate(email, password) {
+  authenticate({ email, password, token, userId }) {
+    if (token) {
+      return RSVP.resolve({ token, userId });
+    }
+
     return this.get('ajax').request('/api/authentications', {
       method: 'POST',
       data: JSON.stringify({
