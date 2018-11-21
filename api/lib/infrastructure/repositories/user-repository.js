@@ -135,6 +135,13 @@ module.exports = {
       });
   },
 
+  async getBySamlId(samlId) {
+    const bookshelfUser = await BookshelfUser
+      .where({ samlId })
+      .fetch();
+    return bookshelfUser ? _toDomain(bookshelfUser) : null;
+  },
+
   create(domainUser) {
     const userRawData = _.omit(domainUser, ['pixRoles', 'memberships']);
     return new BookshelfUser(userRawData)

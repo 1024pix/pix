@@ -11,6 +11,7 @@ class User {
     firstName,
     lastName,
     password,
+    samlId,
     // includes
     memberships = [],
     pixRoles = [],
@@ -20,10 +21,11 @@ class User {
     // attributes
     this.firstName = firstName;
     this.lastName = lastName;
-    this.email = _.toLower(email);
+    this.email = email ? _.toLower(email) : null;
     this.password = password;
     this.cgu = cgu;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
+    this.samlId = samlId;
     // includes
     this.pixRoles = pixRoles;
     this.memberships = memberships;
