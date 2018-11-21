@@ -11,7 +11,7 @@ function assertAirtableRecordToEqualExpected(actualRecord, expectedRecord) {
   expect(actualRecord._rawJson).to.deep.equal(expectedRecord._rawJson);
 }
 
-describe('Integration | Class | airtable', () => {
+describe('Integration | Infrastructure | airtable', () => {
 
   const sandbox = sinon.sandbox.create();
 
@@ -46,7 +46,7 @@ describe('Integration | Class | airtable', () => {
     const recordId = 'recNPB7dTNt5krlMA';
     const cacheKey = 'Tests_recNPB7dTNt5krlMA';
     const airtableRecord = new AirtableRecord(tableName, recordId, {
-      id : recordId,
+      id: recordId,
       fields:
         {
           foo: 'bar'
@@ -58,8 +58,7 @@ describe('Integration | Class | airtable', () => {
       it('should resolve with cached value', () => {
         // given
         const cachedValue = airtableRecord._rawJson;
-        cache.get.resolves(cachedValue);
-        cache.set.resolves();
+        cache.get.withArgs(cacheKey).resolves(cachedValue);
 
         // when
         const promise = airtable.getRecord(tableName, recordId);
@@ -67,9 +66,9 @@ describe('Integration | Class | airtable', () => {
         // then
         return promise.then((record) => {
           assertAirtableRecordToEqualExpected(record, airtableRecord);
-          expect(findStub).to.have.not.been.called;
         });
       });
+
     });
 
     context('when the response was previously cached but we do not want to use cache', () => {
@@ -95,12 +94,12 @@ describe('Integration | Class | airtable', () => {
 
     context('when the response was not previously cached', () => {
 
-      it('should resolve Airtable fetched record and store it in cache', () => {
+      it('should query for record and resolve with value now in cache', () => {
         // given
-        const cachedValue = null;
-        cache.get.resolves(cachedValue);
-        cache.set.resolves();
-        findStub.resolves(airtableRecord);
+        cache.get.withArgs(cacheKey)
+          .callsFake((_key, generator) => Promise.resolve(generator()));
+
+        findStub.withArgs(recordId).resolves(airtableRecord);
 
         // when
         const promise = airtable.getRecord(tableName, recordId);
@@ -108,7 +107,6 @@ describe('Integration | Class | airtable', () => {
         // then
         return promise.then((record) => {
           assertAirtableRecordToEqualExpected(record, airtableRecord);
-          expect(cache.set).to.have.been.calledWith(cacheKey, airtableRecord._rawJson);
         });
       });
     });
@@ -132,16 +130,17 @@ describe('Integration | Class | airtable', () => {
   describe('#findRecords{SkipCache}', () => {
 
     const tableName = 'Tests';
+    const cacheKey = tableName;
     const airtableRecords = [
       new AirtableRecord(tableName, 'recId1', {
-        id : 'recId1',
+        id: 'recId1',
         fields:
           {
             foo: 'bar'
           }
       }),
       new AirtableRecord(tableName, 'recId2', {
-        id : 'recId2',
+        id: 'recId2',
         fields:
           {
             titi: 'toto'
@@ -154,8 +153,7 @@ describe('Integration | Class | airtable', () => {
       it('should resolve with cached value', () => {
         // given
         const cachedArrayOfRawJson = airtableRecords.map((airtableRecord) => airtableRecord._rawJson);
-        cache.get.resolves(cachedArrayOfRawJson);
-        cache.set.resolves();
+        cache.get.withArgs(cacheKey).resolves(cachedArrayOfRawJson);
 
         // when
         const promise = airtable.findRecords(tableName);
@@ -166,7 +164,6 @@ describe('Integration | Class | airtable', () => {
             const expectedRecord = airtableRecords[index];
             assertAirtableRecordToEqualExpected(record, expectedRecord);
           });
-          expect(allStub).to.have.not.been.called;
         });
       });
     });
@@ -198,11 +195,11 @@ describe('Integration | Class | airtable', () => {
 
     context('when the response was not previously cached', () => {
 
-      it('should resolve Airtable fetched record and store it in cache', () => {
+      it('should query for records and resolve with value now in cache', () => {
         // given
-        const cachedValue = null;
-        cache.get.resolves(cachedValue);
-        cache.set.resolves();
+        cache.get.withArgs(cacheKey)
+          .callsFake((_key, generator) => Promise.resolve(generator()));
+
         allStub.resolves(airtableRecords);
 
         // when
@@ -214,9 +211,9 @@ describe('Integration | Class | airtable', () => {
             const expectedRecord = airtableRecords[index];
             assertAirtableRecordToEqualExpected(record, expectedRecord);
           });
-          expect(cache.set).to.have.been.calledWith('Tests', airtableRecords.map((airtableRecord) => airtableRecord._rawJson));
         });
       });
+
     });
 
     context('when the cache throws an error', () => {

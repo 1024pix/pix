@@ -1,105 +1,72 @@
 const Airtable = require('airtable');
-const airtableConfig = require('../settings').airtable;
 const AirtableRecord = Airtable.Record;
+const airtableSettings = require('../settings').airtable;
 const cache = require('./caches/cache');
 const logger = require('./logger');
 
-function _base() {
-  return new Airtable({ apiKey: airtableConfig.apiKey }).base(airtableConfig.base);
+function _airtableClient() {
+  return new Airtable({ apiKey: airtableSettings.apiKey }).base(airtableSettings.base);
 }
 
-function _cacheKey(tableName, recordId) {
-  return `${tableName}${recordId ? '_' + recordId : ''}`;
+function generateCacheKey(tableName, recordId) {
+  return recordId ? `${tableName}_${recordId}` : `${tableName}`;
 }
 
-function getRecordSkipCache(tableName, recordId) {
-  const logContext = {
-    zone: 'airtable.getRecordSkipCache',
-    type: 'airtable',
-    recordId,
-    tableName,
-  };
-
-  return _base()
+async function _queryAirtableRecord(tableName, recordId) {
+  logger.info({ tableName, recordId }, 'Querying Airtable');
+  const record = await _airtableClient()
     .table(tableName)
-    .find(recordId)
-    .then((record) => {
-      logger.trace(logContext, 'found record in Airtable.');
-      return cache.set(_cacheKey(tableName, recordId), record._rawJson)
-        .then(() => record);
-    })
-    .catch((err) => {
-      logContext.err = err;
-      logger.error(logContext, 'Airtable error');
-      return Promise.reject(err);
-    });
+    .find(recordId);
+
+  return record._rawJson;
 }
 
-function findRecordsSkipCache(tableName) {
-  const logContext = {
-    zone: 'airtable.findRecordsSkipCache',
-    type: 'airtable',
-    tableName,
-  };
-
-  return _base()
+async function _queryAirtableRecords(tableName) {
+  logger.info({ tableName }, 'Querying Airtable');
+  const records = await _airtableClient()
     .table(tableName)
     .select()
-    .all()
-    .then((records) => {
-      logger.trace(logContext, 'found records in Airtable.');
-      return cache.set(_cacheKey(tableName), records.map((record) => record._rawJson))
-        .then(() => records);
-    })
-    .catch((err) => {
-      logContext.err = err;
-      logger.error(logContext, 'Airtable error');
-      return Promise.reject(err);
-    });
+    .all();
+
+  return records.map((record) => record._rawJson);
+}
+
+async function getRecord(tableName, recordId) {
+  const cacheKey = generateCacheKey(tableName, recordId);
+  const cachedRawJson = await cache.get(cacheKey, () => _queryAirtableRecord(tableName, recordId));
+
+  return new AirtableRecord(tableName, cachedRawJson.id, cachedRawJson);
+}
+
+async function getRecordSkipCache(tableName, recordId) {
+  const cacheKey = generateCacheKey(tableName, recordId);
+  const recordAsJson = await _queryAirtableRecord(tableName, recordId);
+
+  await cache.set(cacheKey, recordAsJson);
+
+  return new AirtableRecord(tableName, recordAsJson.id, recordAsJson);
+}
+
+async function findRecords(tableName) {
+  const cacheKey = generateCacheKey(tableName);
+  const cachedArrayOfRawJson = await cache.get(cacheKey, () => _queryAirtableRecords(tableName));
+
+  return cachedArrayOfRawJson.map((rawJson) => new AirtableRecord(tableName, rawJson.id, rawJson));
+}
+
+async function findRecordsSkipCache(tableName) {
+  const cacheKey = generateCacheKey(tableName);
+  const recordsAsJson = await _queryAirtableRecords(tableName);
+
+  await cache.set(cacheKey, recordsAsJson);
+
+  return recordsAsJson.map((rawJson) => new AirtableRecord(tableName, rawJson.id, rawJson));
 }
 
 module.exports = {
-
+  generateCacheKey,
+  getRecord,
   getRecordSkipCache,
-
-  getRecord(tableName, recordId) {
-    const logContext = {
-      zone: 'airtable.getRecord',
-      type: 'airtable',
-      recordId,
-      tableName,
-    };
-
-    return cache.get(_cacheKey(tableName, recordId))
-      .then((cachedRawJson) => {
-        if (cachedRawJson) {
-          return new AirtableRecord(tableName, cachedRawJson.id, cachedRawJson);
-        }
-
-        logger.trace(logContext, 'cache miss. Calling airtable');
-
-        return getRecordSkipCache(tableName, recordId);
-      });
-  },
-
+  findRecords,
   findRecordsSkipCache,
-
-  findRecords(tableName) {
-    const logContext = {
-      zone: 'airtable.findRecords',
-      type: 'airtable',
-      tableName,
-    };
-
-    return cache.get(_cacheKey(tableName))
-      .then((cachedArrayOfRawJson) => {
-        if (cachedArrayOfRawJson) {
-          return cachedArrayOfRawJson.map((rawJson) => new AirtableRecord(tableName, rawJson.id, rawJson));
-        }
-
-        logger.trace(logContext, 'cache miss. Calling airtable');
-
-        return findRecordsSkipCache(tableName);
-      });
-  },
 };
