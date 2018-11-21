@@ -3,7 +3,7 @@ const cache = require('./cache');
 
 function _cacheIndividually(records, tablename) {
   return Promise.all(records.map((record) => {
-    const cacheKey = `${tablename}_${record.id}`;
+    const cacheKey = airtable.generateCacheKey(tablename, record.id);
     return cache.set(cacheKey, record._rawJson);
   }));
 }
