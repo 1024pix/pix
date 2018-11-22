@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | Assessments | Checkpoint', function() {
   setupTest('route:assessments/checkpoint', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:metrics']
   });
 
   describe('#afterModel', function() {

@@ -7,7 +7,7 @@ import { expect } from 'chai';
 
 describe('Unit | Route | Certification | resume', function() {
   setupTest('route:certifications.resume', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:metrics']
   });
 
   let route;

@@ -9,7 +9,7 @@ import sinon from 'sinon';
 describe('Unit | Route | campaigns/campaign-landing-page', function() {
 
   setupTest('route:campaigns/campaign-landing-page', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:metrics']
   });
 
   let storeStub;
