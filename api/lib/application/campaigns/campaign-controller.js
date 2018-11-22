@@ -104,7 +104,8 @@ module.exports = {
       .then(controllerReplies(reply).ok)
       .catch((error) => {
         if (error instanceof UserNotAuthorizedToUpdateCampaignError) {
-          return reply(JSONAPI.forbiddenError(error.message)).code(403);
+          const infraError = new infraErrors.ForbiddenError(error.message);
+          return controllerReplies(reply).error(infraError);
         }
 
         const mappedError = _mapToInfraError(error);

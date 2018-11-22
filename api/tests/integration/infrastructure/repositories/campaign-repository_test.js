@@ -2,6 +2,7 @@ const { expect, knex, factory, databaseBuilder } = require('../../../test-helper
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Campaign', () => {
 
@@ -193,15 +194,15 @@ describe('Integration | Repository | Campaign', () => {
       expect(result.name).to.equal(campaign.name);
     });
 
-    it('should return null when campaign id is not found', async () => {
+    it('should throw a NotFoundError if campaign can not be found', async () => {
       // given
       const nonExistentId = 666;
 
       // when
-      const result = await campaignRepository.get(nonExistentId);
+      const promise = campaignRepository.get(nonExistentId);
 
       // then
-      expect(result).to.be.null;
+      expect(promise).to.have.been.rejectedWith(NotFoundError);
     });
   });
 
