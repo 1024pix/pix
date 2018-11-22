@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
 const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
@@ -9,15 +9,15 @@ describe('Unit | UseCase | create-campaign', () => {
   let sandbox;
   const availableCampaignCode = 'ABCDEF123';
   const targetProfileId = 12;
-  const campaignToCreate = factory.buildCampaign({ id: '', code: '', targetProfileId  });
-  const savedCampaign = factory.buildCampaign({ code: availableCampaignCode });
-  const targetProfile = factory.buildTargetProfile({ id: targetProfileId, isPublic: true });
+  const campaignToCreate = domainBuilder.buildCampaign({ id: '', code: '', targetProfileId  });
+  const savedCampaign = domainBuilder.buildCampaign({ code: availableCampaignCode });
+  const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId, isPublic: true });
   const campaignRepository = { save: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };
   const organizationService = { findAllTargetProfilesAvailableForOrganization: () => undefined };
 
   function _stubGetUserWithOrganizationsAccesses(organizationIdUserHasAccessTo) {
-    const userWithMembership = factory.buildUser();
+    const userWithMembership = domainBuilder.buildUser();
     userWithMembership.memberships[0].organization.id = organizationIdUserHasAccessTo;
     userRepository.getWithMemberships.resolves(userWithMembership);
     organizationService.findAllTargetProfilesAvailableForOrganization.resolves([targetProfile]);

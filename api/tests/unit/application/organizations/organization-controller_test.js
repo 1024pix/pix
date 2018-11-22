@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
@@ -95,7 +95,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       beforeEach(() => {
 
-        savedOrganization = factory.buildOrganization();
+        savedOrganization = domainBuilder.buildOrganization();
         serializedOrganization = { foo: 'bar' };
 
         usecases.createOrganization.resolves(savedOrganization);
@@ -596,7 +596,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           }
         }
       };
-      campaign = factory.buildCampaign();
+      campaign = domainBuilder.buildCampaign();
       serializedCampaigns = { data: [{ name: campaign.name, code: campaign.code }] };
 
       sandbox = sinon.sandbox.create();
@@ -702,7 +702,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       beforeEach(() => {
         // given
-        foundTargetProfiles = [factory.buildTargetProfile()];
+        foundTargetProfiles = [domainBuilder.buildTargetProfile()];
         organizationService.findAllTargetProfilesAvailableForOrganization.resolves(foundTargetProfiles);
         sandbox.stub(targetProfileSerializer, 'serialize');
       });

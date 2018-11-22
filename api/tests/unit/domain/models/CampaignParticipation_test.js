@@ -1,5 +1,5 @@
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const { expect, factory } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | CampaignParticipation', () => {
 
@@ -7,7 +7,7 @@ describe('Unit | Domain | Models | CampaignParticipation', () => {
 
     it('should return the targetProfileId from campaign associated', () => {
       // given
-      const campaign = factory.buildCampaign();
+      const campaign = domainBuilder.buildCampaign();
       const campaignParticipation = new CampaignParticipation({
         id: 1,
         campaign,

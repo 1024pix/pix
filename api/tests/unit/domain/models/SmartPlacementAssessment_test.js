@@ -1,14 +1,14 @@
-const { expect, factory } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
 const SkillReview = require('../../../../lib/domain/models/SkillReview');
 
 function generateSmartPlacementAssessmentWithNoKnowledgeElement() {
-  const skills = factory.buildSkillCollection();
-  const targetProfile = factory.buildTargetProfile({ skills });
+  const skills = domainBuilder.buildSkillCollection();
+  const targetProfile = domainBuilder.buildTargetProfile({ skills });
 
-  return factory.buildSmartPlacementAssessment({
+  return domainBuilder.buildSmartPlacementAssessment({
     skills,
     answers: [],
     knowledgeElements: [],
@@ -26,45 +26,45 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
       SmartPlacementAnswer.ResultType.OK : SmartPlacementAnswer.ResultType.KO;
   }
 
-  const skillsFromOneTube = factory.buildSkillCollection();
-  const skillsFromAnotherTube = factory.buildSkillCollection();
+  const skillsFromOneTube = domainBuilder.buildSkillCollection();
+  const skillsFromAnotherTube = domainBuilder.buildSkillCollection();
   const skills = skillsFromOneTube.concat(skillsFromAnotherTube);
 
   const [skill1, skill2] = skillsFromOneTube;
   const [, skill3] = skillsFromOneTube;
 
-  const targetProfile = factory.buildTargetProfile({ skills });
+  const targetProfile = domainBuilder.buildTargetProfile({ skills });
 
-  const answer1 = factory.buildSmartPlacementAnswer({
+  const answer1 = domainBuilder.buildSmartPlacementAnswer({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement1Status),
   });
-  const knowledgeElement1 = factory.buildSmartPlacementKnowledgeElement({
+  const knowledgeElement1 = domainBuilder.buildSmartPlacementKnowledgeElement({
     answerId: answer1.id,
     skillId: skill1.id,
     status: knowledgeElement1Status,
   });
 
-  const answer2 = factory.buildSmartPlacementAnswer({
+  const answer2 = domainBuilder.buildSmartPlacementAnswer({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement2Status),
   });
 
-  const knowledgeElement2 = factory.buildSmartPlacementKnowledgeElement({
+  const knowledgeElement2 = domainBuilder.buildSmartPlacementKnowledgeElement({
     answerId: answer2.id,
     skillId: skill2.id,
     status: knowledgeElement2Status,
   });
 
-  const answer3 = factory.buildSmartPlacementAnswer({
+  const answer3 = domainBuilder.buildSmartPlacementAnswer({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement3Status),
   });
-  const knowledgeElement3 = factory.buildSmartPlacementKnowledgeElement({
+  const knowledgeElement3 = domainBuilder.buildSmartPlacementKnowledgeElement({
     answerId: answer3.id,
     skillId: skill3.id,
     status: knowledgeElement3Status,
   });
 
   return {
-    assessment: factory.buildSmartPlacementAssessment({
+    assessment: domainBuilder.buildSmartPlacementAssessment({
       skills,
       answers: [answer1, answer2, answer3],
       knowledgeElements: [knowledgeElement1, knowledgeElement2, knowledgeElement3],
@@ -82,7 +82,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should be true if state is completed', () => {
       // given
-      const assessment = factory.buildSmartPlacementAssessment({
+      const assessment = domainBuilder.buildSmartPlacementAssessment({
         state: SmartPlacementAssessment.State.COMPLETED,
       });
 
@@ -95,7 +95,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should be false if state not completed', () => {
       // given
-      const assessment = factory.buildSmartPlacementAssessment({
+      const assessment = domainBuilder.buildSmartPlacementAssessment({
         state: SmartPlacementAssessment.State.STARTED,
       });
 
@@ -111,7 +111,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should be true if state is started', () => {
       // given
-      const assessment = factory.buildSmartPlacementAssessment({
+      const assessment = domainBuilder.buildSmartPlacementAssessment({
         state: SmartPlacementAssessment.State.STARTED,
       });
 
@@ -124,7 +124,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should be false if state not started', () => {
       // given
-      const assessment = factory.buildSmartPlacementAssessment({
+      const assessment = domainBuilder.buildSmartPlacementAssessment({
         state: SmartPlacementAssessment.State.COMPLETED,
       });
 
@@ -230,19 +230,19 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
       it('should return a list of unratable skills', () => {
         // given
-        const validatedSkill = factory.buildSkill({ name: '@good2' });
-        const unratableSkill = factory.buildSkill({ name: '@ignored5' });
+        const validatedSkill = domainBuilder.buildSkill({ name: '@good2' });
+        const unratableSkill = domainBuilder.buildSkill({ name: '@ignored5' });
 
-        const targetProfile = factory.buildTargetProfile({ skills: [validatedSkill, unratableSkill] });
+        const targetProfile = domainBuilder.buildTargetProfile({ skills: [validatedSkill, unratableSkill] });
 
-        const knowledgeElementForGood2 = factory.buildSmartPlacementKnowledgeElement({
+        const knowledgeElementForGood2 = domainBuilder.buildSmartPlacementKnowledgeElement({
           answerId: -1,
           skillId: validatedSkill.id,
           status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
           source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
         });
 
-        const assessment = factory.buildSmartPlacementAssessment({
+        const assessment = domainBuilder.buildSmartPlacementAssessment({
           state: SmartPlacementAssessment.State.COMPLETED,
           answers: [],
           knowledgeElements: [knowledgeElementForGood2],

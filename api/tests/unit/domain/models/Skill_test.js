@@ -1,5 +1,5 @@
 const Skill = require('../../../../lib/domain/models/Skill');
-const { expect, factory } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Skill', () => {
 
@@ -63,7 +63,7 @@ describe('Unit | Domain | Models | Skill', () => {
   describe('#areEqual()', function() {
     it('should return false when two skills are not the same', () => {
       // given
-      const [skill1, skill2] = factory.buildSkillCollection();
+      const [skill1, skill2] = domainBuilder.buildSkillCollection();
       // when
       const result = Skill.areEqual(skill1, skill2);
       // then
@@ -72,8 +72,8 @@ describe('Unit | Domain | Models | Skill', () => {
 
     it('should return true if two skills have the same name', () => {
       // given
-      const skill = factory.buildSkill({ name:'@skill1' });
-      const otherSkill = factory.buildSkill({ name:'@skill1' });
+      const skill = domainBuilder.buildSkill({ name:'@skill1' });
+      const otherSkill = domainBuilder.buildSkill({ name:'@skill1' });
       // when
       const result = Skill.areEqual(skill, otherSkill);
       // then
@@ -82,7 +82,7 @@ describe('Unit | Domain | Models | Skill', () => {
 
     it('should return false if either argument is undefined', () => {
       // given
-      const skill = factory.buildSkill({ name:'@skill1' });
+      const skill = domainBuilder.buildSkill({ name:'@skill1' });
       const otherSkill = undefined;
       // when
       const result1 = Skill.areEqual(skill, otherSkill);
@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | Skill', () => {
   describe('#areEqualById()', function() {
     it('should return false when two skills are not the same', () => {
       // given
-      const [skill1, skill2] = factory.buildSkillCollection();
+      const [skill1, skill2] = domainBuilder.buildSkillCollection();
       // when
       const result = Skill.areEqualById(skill1, skill2);
       // then
@@ -105,8 +105,8 @@ describe('Unit | Domain | Models | Skill', () => {
 
     it('should return false if two skills have the same name but different ids', () => {
       // given
-      const skill = factory.buildSkill({ name:'@skill1' });
-      const otherSkill = factory.buildSkill({ name:'@skill1' });
+      const skill = domainBuilder.buildSkill({ name:'@skill1' });
+      const otherSkill = domainBuilder.buildSkill({ name:'@skill1' });
       // when
       const result = Skill.areEqualById(skill, otherSkill);
       // then
@@ -115,7 +115,7 @@ describe('Unit | Domain | Models | Skill', () => {
 
     it('should return false if either argument is undefined', () => {
       // given
-      const skill = factory.buildSkill({ name:'@skill1' });
+      const skill = domainBuilder.buildSkill({ name:'@skill1' });
       const otherSkill = undefined;
       // when
       const result1 = Skill.areEqualById(skill, otherSkill);
@@ -127,8 +127,8 @@ describe('Unit | Domain | Models | Skill', () => {
 
     it('should return true if if two skills have the same ids', () => {
       // given
-      const skill = factory.buildSkill({ id:'rec1234567890' });
-      const otherSkill = factory.buildSkill({ id:'rec1234567890' });
+      const skill = domainBuilder.buildSkill({ id:'rec1234567890' });
+      const otherSkill = domainBuilder.buildSkill({ id:'rec1234567890' });
       // when
       const result = Skill.areEqualById(skill, otherSkill);
       // then

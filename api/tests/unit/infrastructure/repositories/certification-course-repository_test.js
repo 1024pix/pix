@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const CertificationCourseRepository = require(
   '../../../../lib/infrastructure/repositories/certification-course-repository');
@@ -24,7 +24,7 @@ describe('Unit | Repository | Certification Course', function() {
         externalId: 'xenoverse2',
         isPublished: false,
       };
-      certificationCourse = factory.buildCertificationCourse(certificationInformation);
+      certificationCourse = domainBuilder.buildCertificationCourse(certificationInformation);
 
       const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
 

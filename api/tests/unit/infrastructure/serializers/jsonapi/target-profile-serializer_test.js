@@ -1,4 +1,4 @@
-const { expect, factory } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 
 describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
@@ -7,7 +7,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
 
     it('should serialize target profile to JSONAPI', function() {
       // given
-      const targetProfile = factory.buildTargetProfile({ id: 132, name: 'Les compétences de BRO 2.0' });
+      const targetProfile = domainBuilder.buildTargetProfile({ id: 132, name: 'Les compétences de BRO 2.0' });
 
       const expectedTargetProfile = {
         data: {

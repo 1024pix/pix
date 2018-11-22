@@ -1,4 +1,4 @@
-const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
@@ -9,7 +9,7 @@ describe('Integration | Repository | Campaign', () => {
   describe('#isCodeAvailable', () => {
 
     beforeEach(async () => {
-      const campaign = factory.buildCampaign({ code: 'BADOIT710' });
+      const campaign = domainBuilder.buildCampaign({ code: 'BADOIT710' });
       databaseBuilder.factory.buildCampaign(campaign);
       await databaseBuilder.commit();
     });
@@ -44,7 +44,7 @@ describe('Integration | Repository | Campaign', () => {
 
     let campaignToInsert;
     beforeEach(async () => {
-      campaignToInsert = factory.buildCampaign({ code: 'BADOIT710', createdAt: '2018-02-06 14:12:45' });
+      campaignToInsert = domainBuilder.buildCampaign({ code: 'BADOIT710', createdAt: '2018-02-06 14:12:45' });
       databaseBuilder.factory.buildCampaign(campaignToInsert);
       await databaseBuilder.commit();
     });
@@ -113,21 +113,21 @@ describe('Integration | Repository | Campaign', () => {
   describe('#findByOrganizationId', () => {
 
     const organizationId = 1;
-    const campaign1Organization1 = factory.buildCampaign({
+    const campaign1Organization1 = domainBuilder.buildCampaign({
       id: 1,
       name: 'campaign1',
       code: 'AZERTY123',
       organizationId: organizationId,
       creatorId: 1
     });
-    const campaign2Organization1 = factory.buildCampaign({
+    const campaign2Organization1 = domainBuilder.buildCampaign({
       id: 2,
       name: 'campaign2',
       code: 'AZERTY456',
       organizationId: organizationId,
       creatorId: 2
     });
-    const campaign1Organization2 = factory.buildCampaign({
+    const campaign1Organization2 = domainBuilder.buildCampaign({
       id: 3,
       name: 'campaign3',
       code: 'AZERTY789',
