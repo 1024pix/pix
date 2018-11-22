@@ -3,8 +3,13 @@ const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
-const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError,
-  NotFoundError } = require('../../domain/errors');
+const {
+  UserNotAuthorizedToCreateCampaignError,
+  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToGetCampaignResultsError,
+  EntityValidationError,
+  NotFoundError
+} = require('../../domain/errors');
 
 const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
@@ -90,13 +95,18 @@ module.exports = {
   },
 
   update(request, reply) {
-    const id = request.params.id;
+    const userId = request.auth.credentials.userId;
+    const campaignId = request.params.id;
     const { title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
-    return usecases.updateCampaign({ id, title, customLandingPageText })
+    return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
       .then(campaignSerializer.serialize)
       .then(controllerReplies(reply).ok)
       .catch((error) => {
+        if (error instanceof UserNotAuthorizedToUpdateCampaignError) {
+          return reply(JSONAPI.forbiddenError(error.message)).code(403);
+        }
+
         const mappedError = _mapToInfraError(error);
         return controllerReplies(reply).error(mappedError);
       });

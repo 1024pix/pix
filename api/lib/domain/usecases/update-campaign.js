@@ -1,15 +1,28 @@
+const { UserNotAuthorizedToUpdateCampaignError } = require('../errors');
+
 module.exports = async function updateCampaign(
   {
-    id,
+    userId,
+    campaignId,
     title,
     customLandingPageText,
-    campaignRepository
+    userRepository,
+    campaignRepository,
   }) {
 
-  const campaign = await campaignRepository.get(id);
+  const [ user, campaign ] = await Promise.all([
+    userRepository.getWithMemberships(userId),
+    campaignRepository.get(campaignId)
+  ]);
 
-  if (title) campaign.title = title;
-  if (customLandingPageText) campaign.customLandingPageText = customLandingPageText;
+  const organizationId = campaign.organizationId;
+
+  if (!user.hasAccessToOrganization(organizationId)) {
+    throw new UserNotAuthorizedToUpdateCampaignError(`User does not have an access to the organization ${organizationId}`);
+  }
+
+  if (typeof title !== 'undefined') campaign.title = title;
+  if (typeof customLandingPageText !== 'undefined') campaign.customLandingPageText = customLandingPageText;
 
   await campaignRepository.update(campaign);
 

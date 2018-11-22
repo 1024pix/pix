@@ -4,8 +4,12 @@ const campaignController = require('../../../../lib/application/campaigns/campai
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError,
-  NotFoundError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToCreateCampaignError,
+  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToGetCampaignResultsError,
+  EntityValidationError,
+  NotFoundError
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -417,10 +421,11 @@ describe('Unit | Application | Controller | Campaign', () => {
   });
 
   describe('#update ', () => {
-    let request, updatedCampaign;
+    let request, updatedCampaign, updateCampaignArgs;
 
     beforeEach(() => {
       request = {
+        auth: { credentials: { userId: 1 } },
         params: { id : 1 },
         payload: {
           data: {
@@ -438,13 +443,20 @@ describe('Unit | Application | Controller | Campaign', () => {
         customLandingPageText: request.payload.data.attributes['custom-landing-page-text'],
       };
 
+      updateCampaignArgs = {
+        userId: request.auth.credentials.userId,
+        campaignId: updatedCampaign.id,
+        title: updatedCampaign.title,
+        customLandingPageText: updatedCampaign.customLandingPageText,
+      };
+
       sandbox.stub(usecases, 'updateCampaign');
       sandbox.stub(campaignSerializer, 'serialize');
     });
 
     it('should returns the updated campaign', () => {
       // given
-      usecases.updateCampaign.withArgs(updatedCampaign).resolves(updatedCampaign);
+      usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
       campaignSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
 
       // when
@@ -459,7 +471,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should throw an error when the campaign could not be updated', () => {
       // given
-      usecases.updateCampaign.withArgs(updatedCampaign).rejects();
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects();
 
       // when
       const promise = campaignController.update(request, replyStub);
@@ -472,7 +484,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should throw an infra NotFoundError when a NotFoundError is catched', () => {
       // given
-      usecases.updateCampaign.withArgs(updatedCampaign).rejects(new NotFoundError());
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new NotFoundError());
 
       // when
       const promise = campaignController.update(request, replyStub);
@@ -480,6 +492,19 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       return promise.then(() => {
         expect(codeStub).to.have.been.calledWithExactly(404);
+      });
+    });
+
+    it('should throw a forbiddenError when user is not authorized to update the campaign', () => {
+      // given
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new UserNotAuthorizedToUpdateCampaignError());
+
+      // when
+      const promise = campaignController.update(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(403);
       });
     });
 
