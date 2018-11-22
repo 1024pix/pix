@@ -1,4 +1,4 @@
-const { expect, sinon, knex, factory } = require('../../../test-helper');
+const { expect, sinon, knex, domainBuilder } = require('../../../test-helper');
 
 const certificationChallengeRepository = require(
   '../../../../lib/infrastructure/repositories/certification-challenge-repository');
@@ -24,7 +24,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
       associatedSkillId: 'rec1234',
       courseId: 'certification_course_id',
     };
-    const certificationChallenge = factory.buildCertificationChallenge({
+    const certificationChallenge = domainBuilder.buildCertificationChallenge({
       id: certificationChallengeBookshelfData.id,
       challengeId: certificationChallengeBookshelfData.challengeId,
       competenceId: certificationChallengeBookshelfData.competenceId,

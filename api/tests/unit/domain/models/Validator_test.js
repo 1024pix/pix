@@ -2,7 +2,7 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Validator = require('../../../../lib/domain/models/Validator');
 const Validation = require('../../../../lib/domain/models/Validation');
 
-const { expect, factory } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Validator', () => {
 
@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | Validator', () => {
 
     beforeEach(() => {
       // given
-      uncorrectedAnswer = factory.buildAnswer.uncorrected();
+      uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       validator = new Validator();
 
       // when
@@ -22,7 +22,7 @@ describe('Unit | Domain | Models | Validator', () => {
     });
 
     it('should return a validation object with Unimplemented status', () => {
-      const expectedValidation = factory.buildValidation({
+      const expectedValidation = domainBuilder.buildValidation({
         result: AnswerStatus.UNIMPLEMENTED,
         resultDetails: null,
       });

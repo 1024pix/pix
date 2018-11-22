@@ -1,4 +1,4 @@
-const { expect, factory } = require('../../test-helper');
+const { expect, domainBuilder } = require('../../test-helper');
 const CatSkill = require('../../../lib/cat/skill');
 
 describe('Unit | Model | Skill', function() {
@@ -68,7 +68,7 @@ describe('Unit | Model | Skill', function() {
   describe('#areEqual()', function() {
     it('should return false when two skills are not the same', () => {
       // given
-      const [skill1, skill2] = factory.buildCatTube();
+      const [skill1, skill2] = domainBuilder.buildCatTube();
       // when
       const result = CatSkill.areEqual(skill1, skill2);
       // then

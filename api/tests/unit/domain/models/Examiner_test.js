@@ -2,7 +2,7 @@ const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Examiner = require('../../../../lib/domain/models/Examiner');
 
-const { expect, factory, sinon } = require('../../../test-helper');
+const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Examiner', () => {
 
@@ -24,7 +24,7 @@ describe('Unit | Domain | Models | Examiner', () => {
 
       beforeEach(() => {
         // given
-        uncorrectedAnswer = factory.buildAnswer.uncorrected({ value: '#ABAND#' });
+        uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected({ value: '#ABAND#' });
         examiner = new Examiner({ validator });
 
         // when
@@ -55,9 +55,9 @@ describe('Unit | Domain | Models | Examiner', () => {
 
       beforeEach(() => {
         // given
-        validation = factory.buildValidation({ result: AnswerStatus.OK });
+        validation = domainBuilder.buildValidation({ result: AnswerStatus.OK });
         validator.assess.returns(validation);
-        uncorrectedAnswer = factory.buildAnswer.uncorrected({ timeout: -12 });
+        uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected({ timeout: -12 });
         examiner = new Examiner({ validator });
 
         // when
@@ -88,9 +88,9 @@ describe('Unit | Domain | Models | Examiner', () => {
 
       beforeEach(() => {
         // given
-        validation = factory.buildValidation({ result: AnswerStatus.PARTIALLY });
+        validation = domainBuilder.buildValidation({ result: AnswerStatus.PARTIALLY });
         validator.assess.returns(validation);
-        uncorrectedAnswer = factory.buildAnswer.uncorrected({ timeout: -12 });
+        uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected({ timeout: -12 });
         examiner = new Examiner({ validator });
 
         // when
@@ -121,9 +121,9 @@ describe('Unit | Domain | Models | Examiner', () => {
 
       beforeEach(() => {
         // given
-        validation = factory.buildValidation({ result: AnswerStatus.OK });
+        validation = domainBuilder.buildValidation({ result: AnswerStatus.OK });
         validator.assess.returns(validation);
-        uncorrectedAnswer = factory.buildAnswer.uncorrected({ timeout: 23, value: 'something true' });
+        uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected({ timeout: 23, value: 'something true' });
         examiner = new Examiner({ validator });
 
         // when

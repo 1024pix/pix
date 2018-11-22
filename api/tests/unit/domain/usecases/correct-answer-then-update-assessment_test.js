@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
@@ -41,7 +41,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
     beforeEach(() => {
       // given
-      answer = factory.buildAnswer();
+      answer = domainBuilder.buildAnswer();
       answerRepository.hasChallengeAlreadyBeenAnswered.resolves(true);
 
       // when
@@ -87,21 +87,21 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       // given
       correctAnswerValue = '1';
 
-      answer = factory.buildAnswer({ value: correctAnswerValue });
+      answer = domainBuilder.buildAnswer({ value: correctAnswerValue });
       answer.id = undefined;
       answer.result = undefined;
       answer.resultDetails = undefined;
 
-      solution = factory.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
-      validator = factory.buildValidator.ofTypeQCU({ solution });
-      challenge = factory.buildChallenge({ id: answer.challengeId, validator });
+      solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
+      validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
+      challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
 
-      completedAnswer = factory.buildAnswer(answer);
+      completedAnswer = domainBuilder.buildAnswer(answer);
       completedAnswer.id = undefined;
       completedAnswer.result = AnswerStatus.OK;
       completedAnswer.resultDetails = null;
 
-      savedAnswer = factory.buildAnswer(completedAnswer);
+      savedAnswer = domainBuilder.buildAnswer(completedAnswer);
 
       answerRepository.hasChallengeAlreadyBeenAnswered.resolves(false);
       challengeRepository.get.resolves(challenge);
@@ -174,25 +174,25 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       // given
       correctAnswerValue = '1';
 
-      answer = factory.buildAnswer();
+      answer = domainBuilder.buildAnswer();
       answer.id = undefined;
       answer.result = undefined;
       answer.resultDetails = undefined;
 
-      solution = factory.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
-      validator = factory.buildValidator.ofTypeQCU({ solution });
-      challenge = factory.buildChallenge({ id: answer.challengeId, validator });
+      solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
+      validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
+      challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
 
-      completedAnswer = factory.buildAnswer(answer);
+      completedAnswer = domainBuilder.buildAnswer(answer);
       completedAnswer.id = undefined;
       completedAnswer.result = AnswerStatus.OK;
       completedAnswer.resultDetails = null;
 
-      savedAnswer = factory.buildAnswer(completedAnswer);
+      savedAnswer = domainBuilder.buildAnswer(completedAnswer);
 
-      assessment = factory.buildSmartPlacementAssessment();
-      firstKnowledgeElement = factory.buildSmartPlacementKnowledgeElement();
-      secondKnowledgeElement = factory.buildSmartPlacementKnowledgeElement();
+      assessment = domainBuilder.buildSmartPlacementAssessment();
+      firstKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement();
+      secondKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement();
 
       answerRepository.hasChallengeAlreadyBeenAnswered.resolves(false);
       challengeRepository.get.resolves(challenge);

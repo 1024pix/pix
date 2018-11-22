@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 const {
-  airtableBuilder, expect, factory, databaseBuilder,
+  airtableBuilder, expect, domainBuilder, databaseBuilder,
 } = require('../../../test-helper');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -35,14 +35,14 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       notSmartPlacementAssessmentId = 32323;
       notExistingAssessmentId = 88888;
 
-      firstSkill = factory.buildSkill();
-      secondSkill = factory.buildSkill();
-      thirdSkill = factory.buildSkill();
+      firstSkill = domainBuilder.buildSkill();
+      secondSkill = domainBuilder.buildSkill();
+      thirdSkill = domainBuilder.buildSkill();
 
-      firstAnswer = factory.buildAnswer({ assessmentId });
-      secondAnswer = factory.buildAnswer({ assessmentId });
+      firstAnswer = domainBuilder.buildAnswer({ assessmentId });
+      secondAnswer = domainBuilder.buildAnswer({ assessmentId });
 
-      firstKnowledgeElement = factory.buildSmartPlacementKnowledgeElement({
+      firstKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
         source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
         status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
         pixScore: 4,
@@ -50,7 +50,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         assessmentId,
         skillId: firstSkill.id,
       });
-      secondKnowledgeElement = factory.buildSmartPlacementKnowledgeElement({
+      secondKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
         source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
         status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
         pixScore: 2,
@@ -59,11 +59,11 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         skillId: secondSkill.id,
       });
 
-      targetProfile = factory.buildTargetProfile({
+      targetProfile = domainBuilder.buildTargetProfile({
         skills: [firstSkill, secondSkill, thirdSkill],
       });
 
-      assessment = factory.buildSmartPlacementAssessment({
+      assessment = domainBuilder.buildSmartPlacementAssessment({
         id: assessmentId,
         answers: [firstAnswer, secondAnswer],
         knowledgeElements: [firstKnowledgeElement, secondKnowledgeElement],

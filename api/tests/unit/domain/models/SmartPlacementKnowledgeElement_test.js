@@ -1,4 +1,4 @@
-const { expect, factory } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
 
@@ -8,7 +8,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
     it('should be true if status validated', () => {
       // given
-      const knowledgeElement = factory.buildSmartPlacementKnowledgeElement({
+      const knowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
         status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
       });
 
@@ -21,7 +21,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
     it('should be false if status not validated', () => {
       // given
-      const knowledgeElement = factory.buildSmartPlacementKnowledgeElement({
+      const knowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
         status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
       });
 
@@ -37,7 +37,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
     it('should be true if status invalidated', () => {
       // given
-      const knowledgeElement = factory.buildSmartPlacementKnowledgeElement({
+      const knowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
         status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
       });
 
@@ -50,7 +50,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
     it('should be false if status not invalidated', () => {
       // given
-      const knowledgeElement = factory.buildSmartPlacementKnowledgeElement({
+      const knowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
         status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
       });
 
@@ -77,13 +77,13 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
       beforeEach(() => {
         // given
-        [muchEasierSkill, easierSkill, skill, harderSkill, muchHarderSkill] = factory.buildSkillCollection({
+        [muchEasierSkill, easierSkill, skill, harderSkill, muchHarderSkill] = domainBuilder.buildSkillCollection({
           minLevel: 1,
           maxLevel: 5,
         });
-        challenge = factory.buildChallenge({ skills: [skill] });
-        validAnswer = factory.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
-        invalidAnswer = factory.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
+        challenge = domainBuilder.buildChallenge({ skills: [skill] });
+        validAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
+        invalidAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
       });
 
       context('and the skill is not in the target profile', () => {
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
         beforeEach(() => {
           // given
-          otherSkill = factory.buildSkill();
+          otherSkill = domainBuilder.buildSkill();
 
           // when
           createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
@@ -132,7 +132,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
         it('should create a knowledge element', () => {
           // then
-          const directKnowledgeElement = factory.buildSmartPlacementKnowledgeElement({
+          const directKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
             source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
             status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
             pixScore: 0,
@@ -172,7 +172,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           it('should create one direct knowledge element and two inferred validated for easier skills', () => {
             // then
-            const directKnowledgeElement = factory.buildSmartPlacementKnowledgeElement({
+            const directKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -181,7 +181,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: skill.id,
             });
             directKnowledgeElement.id = undefined;
-            const inferredKnowledgeElementForEasierSkill = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForEasierSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -190,7 +190,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: easierSkill.id,
             });
             inferredKnowledgeElementForEasierSkill.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkill = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForMuchEasierSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -226,7 +226,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           it('should create one direct knowledge element and two inferred invalidated for harder skills', () => {
             // then
-            const directKnowledgeElement = factory.buildSmartPlacementKnowledgeElement({
+            const directKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -235,7 +235,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: skill.id,
             });
             directKnowledgeElement.id = undefined;
-            const inferredKnowledgeElementForHarderSkill = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForHarderSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -244,7 +244,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: harderSkill.id,
             });
             inferredKnowledgeElementForHarderSkill.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkill = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForMuchHarderSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -293,7 +293,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           skillFromTube1,
           harderSkillFromTube1,
           muchHarderSkillFromTube1,
-        ] = factory.buildSkillCollection({
+        ] = domainBuilder.buildSkillCollection({
           minLevel: 1,
           maxLevel: 5,
         });
@@ -302,7 +302,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           skillFromTube2,
           harderSkillFromTube2,
           muchHarderSkillFromTube2,
-        ] = factory.buildSkillCollection({
+        ] = domainBuilder.buildSkillCollection({
           minLevel: 1,
           maxLevel: 5,
         });
@@ -311,14 +311,14 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           skillFromTube3,
           harderSkillFromTube3,
           muchHarderSkillFromTube3,
-        ] = factory.buildSkillCollection({
+        ] = domainBuilder.buildSkillCollection({
           minLevel: 1,
           maxLevel: 5,
         });
 
-        challenge = factory.buildChallenge({ skills: [skillFromTube1, skillFromTube2, skillFromTube3] });
-        validAnswer = factory.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
-        invalidAnswer = factory.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
+        challenge = domainBuilder.buildChallenge({ skills: [skillFromTube1, skillFromTube2, skillFromTube3] });
+        validAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
+        invalidAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
       });
 
       context('and the skills are alone in their tube but one of those skill is not in the target profile', () => {
@@ -338,7 +338,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
         it('should create knowledge elements for the other skills that are in the target profile', () => {
           // then
-          const directKnowledgeElementFromTube1 = factory.buildSmartPlacementKnowledgeElement({
+          const directKnowledgeElementFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
             source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
             status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
             pixScore: 0,
@@ -347,7 +347,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             skillId: skillFromTube1.id,
           });
           directKnowledgeElementFromTube1.id = undefined;
-          const directKnowledgeElementFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+          const directKnowledgeElementFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
             source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
             status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
             pixScore: 0,
@@ -403,7 +403,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           it('should create the three direct knowledge elements' +
             ' and the six inferred validated for easier skills', () => {
-            const directKnowledgeElementFromTube1 = factory.buildSmartPlacementKnowledgeElement({
+            const directKnowledgeElementFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -412,7 +412,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: skillFromTube1.id,
             });
             directKnowledgeElementFromTube1.id = undefined;
-            const inferredKnowledgeElementForEasierSkillFromTube1 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForEasierSkillFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -421,7 +421,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: easierSkillFromTube1.id,
             });
             inferredKnowledgeElementForEasierSkillFromTube1.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkillFromTube1 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForMuchEasierSkillFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -431,7 +431,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube1.id = undefined;
 
-            const directKnowledgeElementFromTube2 = factory.buildSmartPlacementKnowledgeElement({
+            const directKnowledgeElementFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -440,7 +440,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: skillFromTube2.id,
             });
             directKnowledgeElementFromTube2.id = undefined;
-            const inferredKnowledgeElementForEasierSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForEasierSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -449,7 +449,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: easierSkillFromTube2.id,
             });
             inferredKnowledgeElementForEasierSkillFromTube2.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -459,7 +459,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
-            const directKnowledgeElementFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+            const directKnowledgeElementFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -468,7 +468,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: skillFromTube3.id,
             });
             directKnowledgeElementFromTube3.id = undefined;
-            const inferredKnowledgeElementForEasierSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -477,7 +477,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: easierSkillFromTube3.id,
             });
             inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
               pixScore: 0,
@@ -520,7 +520,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           it('should create the three direct knowledge elements' +
             ' and the six inferred validated for harder skills', () => {
-            const directKnowledgeElementFromTube1 = factory.buildSmartPlacementKnowledgeElement({
+            const directKnowledgeElementFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -529,7 +529,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: skillFromTube1.id,
             });
             directKnowledgeElementFromTube1.id = undefined;
-            const inferredKnowledgeElementForHarderSkillFromTube1 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForHarderSkillFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -538,7 +538,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: harderSkillFromTube1.id,
             });
             inferredKnowledgeElementForHarderSkillFromTube1.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkillFromTube1 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForMuchHarderSkillFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -548,7 +548,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube1.id = undefined;
 
-            const directKnowledgeElementFromTube2 = factory.buildSmartPlacementKnowledgeElement({
+            const directKnowledgeElementFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -557,7 +557,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: skillFromTube2.id,
             });
             directKnowledgeElementFromTube2.id = undefined;
-            const inferredKnowledgeElementForHarderSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForHarderSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -566,7 +566,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: harderSkillFromTube2.id,
             });
             inferredKnowledgeElementForHarderSkillFromTube2.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForMuchHarderSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -576,7 +576,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube2.id = undefined;
 
-            const directKnowledgeElementFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+            const directKnowledgeElementFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -585,7 +585,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: skillFromTube3.id,
             });
             directKnowledgeElementFromTube3.id = undefined;
-            const inferredKnowledgeElementForHarderSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForHarderSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -594,7 +594,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               skillId: harderSkillFromTube3.id,
             });
             inferredKnowledgeElementForHarderSkillFromTube3.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+            const inferredKnowledgeElementForMuchHarderSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
               source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
               status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
               pixScore: 0,
@@ -651,7 +651,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             skillFromTube1,
             harderSkillFromTube1,
             muchHarderSkillFromTube1,
-          ] = factory.buildSkillCollection({
+          ] = domainBuilder.buildSkillCollection({
             minLevel: 1,
             maxLevel: 5,
           });
@@ -660,7 +660,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             skillFromTube2,
             harderSkillFromTube2,
             muchHarderSkillFromTube2,
-          ] = factory.buildSkillCollection({
+          ] = domainBuilder.buildSkillCollection({
             minLevel: 1,
             maxLevel: 5,
           });
@@ -669,13 +669,13 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             skillFromTube3,
             harderSkillFromTube3,
             muchHarderSkillFromTube3,
-          ] = factory.buildSkillCollection({
+          ] = domainBuilder.buildSkillCollection({
             minLevel: 1,
             maxLevel: 5,
           });
 
-          challenge = factory.buildChallenge({ skills: [skillFromTube1, skillFromTube2, skillFromTube3] });
-          validAnswer = factory.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
+          challenge = domainBuilder.buildChallenge({ skills: [skillFromTube1, skillFromTube2, skillFromTube3] });
+          validAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
         });
 
         context('and the skills has other skills in their tube', () => {
@@ -719,7 +719,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
             it('should create the three direct knowledge elements' +
               ' and the three inferred validated for easier skills than are not evaluated', () => {
-              const directKnowledgeElementFromTube1 = factory.buildSmartPlacementKnowledgeElement({
+              const directKnowledgeElementFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
                 source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
                 status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
                 pixScore: 0,
@@ -729,7 +729,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               });
               directKnowledgeElementFromTube1.id = undefined;
 
-              const directKnowledgeElementFromTube2 = factory.buildSmartPlacementKnowledgeElement({
+              const directKnowledgeElementFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
                 source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
                 status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
                 pixScore: 0,
@@ -738,7 +738,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 skillId: skillFromTube2.id,
               });
               directKnowledgeElementFromTube2.id = undefined;
-              const inferredKnowledgeElementForMuchEasierSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
+              const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
                 source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
                 status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
                 pixScore: 0,
@@ -748,7 +748,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               });
               inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
-              const directKnowledgeElementFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+              const directKnowledgeElementFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
                 source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
                 status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
                 pixScore: 0,
@@ -757,7 +757,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 skillId: skillFromTube3.id,
               });
               directKnowledgeElementFromTube3.id = undefined;
-              const inferredKnowledgeElementForEasierSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+              const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
                 source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
                 status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
                 pixScore: 0,
@@ -766,7 +766,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 skillId: easierSkillFromTube3.id,
               });
               inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
-              const inferredKnowledgeElementForMuchEasierSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
+              const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
                 source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
                 status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
                 pixScore: 0,

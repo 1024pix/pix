@@ -1,4 +1,4 @@
-const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -299,7 +299,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
       // XXX resultDetails is by default null which is saved as "null\n" in db.
       // To avoid problems in test it is fixed to another string.
-      answer = factory.buildAnswer({ assessmentId, resultDetails: 'some random detail' });
+      answer = domainBuilder.buildAnswer({ assessmentId, resultDetails: 'some random detail' });
       answer.id = undefined;
 
       // when

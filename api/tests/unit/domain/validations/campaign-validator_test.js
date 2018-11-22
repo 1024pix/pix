@@ -1,4 +1,4 @@
-const { expect, factory } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
 
@@ -14,7 +14,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
   let campaign;
 
   beforeEach(() => {
-    campaign = factory.buildCampaign({
+    campaign = domainBuilder.buildCampaign({
       name: 'campagne de test',
       creatorId: 4,
       organizationId: 12,

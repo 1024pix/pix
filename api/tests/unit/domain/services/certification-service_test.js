@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const Answer = require('../../../../lib/domain/models/Answer');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
@@ -48,8 +48,8 @@ function _buildChallenge(id, competence, type) {
 }
 
 function _buildAssessment(courseId, pixScore, estimatedLevel) {
-  const assessmentResult = factory.buildAssessmentResult({ pixScore, level: estimatedLevel });
-  const assessment = factory.buildAssessment({
+  const assessmentResult = domainBuilder.buildAssessmentResult({ pixScore, level: estimatedLevel });
+  const assessment = domainBuilder.buildAssessment({
     pixScore,
     level: estimatedLevel,
     assessmentResults: [assessmentResult],
