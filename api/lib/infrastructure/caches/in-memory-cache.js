@@ -6,37 +6,25 @@ class InMemoryCache {
     this._cache = new NodeCache();
   }
 
-  get(key) {
-    return new Promise((resolve, reject) => {
-      this._cache.get(key, (error, value) => {
-        if (error) return reject(error);
-        return resolve(value);
-      });
-    });
+  async get(key, generator) {
+    const value = this._cache.get(key);
+    if (value) return value;
+    return this.set(key, await generator());
   }
 
-  set(key, object) {
-    return new Promise((resolve, reject) => {
-      this._cache.set(key, object, (error) => {
-        if (error) return reject(error);
-        return resolve(object);
-      });
-    });
+  async set(key, value) {
+    this._cache.set(key, value);
+    return value;
   }
 
-  del(key) {
-    return new Promise((resolve, reject) => {
-      this._cache.del(key, (error, numberOfDeletedKeys) => {
-        if (error) return reject(error);
-        return resolve(numberOfDeletedKeys);
-      });
-    });
+  async del(key) {
+    return this._cache.del(key);
   }
 
-  flushAll() {
+  async flushAll() {
     this._cache.flushAll();
-    return Promise.resolve();
   }
+
 }
 
 module.exports = InMemoryCache;

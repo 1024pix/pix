@@ -8,7 +8,6 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
   let inMemoryCache;
 
   const CACHE_KEY = 'cache_key';
-  const NO_ERROR = null;
   const NODE_CACHE_ERROR = new Error('A Node cache error');
 
   beforeEach(() => {
@@ -32,12 +31,13 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
 
     beforeEach(() => {
       cache.get = sinon.stub();
+      cache.set = sinon.stub();
     });
 
     it('should resolve with the previously cached value when it exists', () => {
       // given
       const cachedObject = { foo: 'bar' };
-      cache.get.yields(NO_ERROR, cachedObject);
+      cache.get.returns(cachedObject);
 
       // when
       const promise = inMemoryCache.get(CACHE_KEY);
@@ -50,24 +50,26 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
         });
     });
 
-    it('should resolve with null when no object was previously cached for given key', () => {
+    it('should call generator when no object was previously cached for given key', () => {
       // given
       const noCachedObject = null;
-      cache.get.yields(NO_ERROR, noCachedObject);
+      cache.get.returns(noCachedObject);
+      cache.set.returns(true);
 
       // when
-      const promise = inMemoryCache.get(CACHE_KEY);
+      const generatorStub = sinon.stub().resolves('hello');
+      const promise = inMemoryCache.get(CACHE_KEY, generatorStub);
 
       // then
       return expect(promise).to.have.been.fulfilled
         .then((result) => {
-          expect(result).to.deep.equal(noCachedObject);
+          expect(result).to.equal('hello');
         });
     });
 
     it('should reject when the Node cache throws an error', () => {
       // given
-      cache.get.yields(NODE_CACHE_ERROR);
+      cache.get.throws(NODE_CACHE_ERROR);
 
       // when
       const promise = inMemoryCache.get(CACHE_KEY);
@@ -87,8 +89,8 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
 
     it('should resolve with the object to cache', () => {
       // given
-      const numberOfDeletedKeys = 1;
-      cache.set.yields(NO_ERROR, numberOfDeletedKeys);
+      const SUCCESS = true;
+      cache.set.returns(SUCCESS);
 
       // when
       const promise = inMemoryCache.set(CACHE_KEY, objectToCache);
@@ -103,7 +105,7 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
 
     it('should reject when the Node cache throws an error', () => {
       // given
-      cache.set.yields(NODE_CACHE_ERROR);
+      cache.set.throws(NODE_CACHE_ERROR);
 
       // when
       const promise = inMemoryCache.set(CACHE_KEY, objectToCache);
@@ -121,7 +123,8 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
 
     it('should resolve', () => {
       // given
-      cache.del.yields(NO_ERROR);
+      const numberOfDeletedEntries = 1;
+      cache.del.returns(numberOfDeletedEntries);
 
       // when
       const promise = inMemoryCache.del(CACHE_KEY);
@@ -132,7 +135,7 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
 
     it('should reject when the Node cache throws an error', () => {
       // given
-      cache.del.yields(NODE_CACHE_ERROR);
+      cache.del.throws(NODE_CACHE_ERROR);
 
       // when
       const promise = inMemoryCache.del(CACHE_KEY);
@@ -159,4 +162,5 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
         });
     });
   });
+
 });

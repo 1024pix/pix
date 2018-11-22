@@ -16,7 +16,8 @@ exports.register = function(server, options, next) {
         handler: userController.save,
         tags: ['api']
       }
-    }, {
+    },
+    {
       method: 'GET',
       path: '/api/users',
       config: {
@@ -31,7 +32,8 @@ exports.register = function(server, options, next) {
         ],
         tags: ['api', 'user']
       }
-    }, {
+    },
+    {
       method: 'GET',
       path: '/api/users/{id}',
       config: {

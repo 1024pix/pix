@@ -13,7 +13,8 @@ describe('Unit | Domain | Models | User', () => {
         lastName: 'Goku',
         email: 'email@example.net',
         password: 'pix123',
-        cgu: true
+        cgu: true,
+        samlId: 'some-saml-id',
       };
 
       // when
@@ -26,6 +27,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.email).to.equal('email@example.net');
       expect(user.password).to.equal('pix123');
       expect(user.cgu).to.equal(true);
+      expect(user.samlId).to.equal('some-saml-id');
     });
 
   });
@@ -143,6 +145,19 @@ describe('Unit | Domain | Models | User', () => {
 
       // then
       expect(userObject.email).to.equal('testmail@gmail.com');
+    });
+
+    it('should default email to null', () => {
+      // given
+      const userData = {
+        firstName: 'Bob',
+      };
+
+      // when
+      const userObject = new User(userData);
+
+      // then
+      expect(userObject.email).to.be.null;
     });
   });
 

@@ -1,5 +1,12 @@
 const path = require('path');
 
+function parseJSONEnv(varName) {
+  if (process.env[varName]) {
+    return JSON.parse(process.env[varName]);
+  }
+  return undefined;
+}
+
 module.exports = (function() {
 
   const config = {
@@ -15,7 +22,7 @@ module.exports = (function() {
 
     airtable: {
       apiKey: process.env.AIRTABLE_API_KEY,
-      base: process.env.AIRTABLE_BASE
+      base: process.env.AIRTABLE_BASE,
     },
 
     app: {
@@ -40,7 +47,17 @@ module.exports = (function() {
     authentication: {
       secret: process.env.AUTH_SECRET,
       tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '7d'),
-      tokenForCampaignResultLifespan: '1h'
+      tokenForCampaignResultLifespan: '1h',
+    },
+
+    saml: {
+      spConfig: parseJSONEnv('SAML_SP_CONFIG'),
+      idpConfig: parseJSONEnv('SAML_IDP_CONFIG'),
+      attributeMapping: parseJSONEnv('SAML_ATTRIBUTE_MAPPING') || {
+        samlId: 'IDO',
+        firstName: 'PRE',
+        lastName: 'NOM',
+      },
     },
 
     temporaryKey: {
@@ -51,7 +68,9 @@ module.exports = (function() {
 
     passwordValidationPattern: '^(?=.*\\p{L})(?=.*\\d).{8,}$',
 
-    redisUrl: process.env.REDIS_URL
+    redisUrl: process.env.REDIS_URL,
+    redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
+    redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
 
   };
 
@@ -62,7 +81,7 @@ module.exports = (function() {
 
     config.airtable = {
       apiKey: 'test-api-key',
-      base: 'test-base'
+      base: 'test-base',
     };
 
     config.mailjet = {
@@ -83,6 +102,8 @@ module.exports = (function() {
     };
 
     config.redisUrl = null;
+    config.redisCacheKeyLockTTL = 0;
+    config.redisCacheLockedWaitBeforeRetry = 0;
   }
 
   return config;
