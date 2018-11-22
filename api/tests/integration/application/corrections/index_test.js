@@ -11,8 +11,9 @@ describe('Integration | Application | Route | Corrections ', () => {
     sinon.stub(correctionsController, 'findByAnswerId').callsFake((_request, reply) => reply('ok'));
 
     // configure and start server
-    server = new Hapi.Server();
-    server.connection({ port: null });
+    server = new Hapi.Server({
+      port: null
+    });
     server.register({ register: require('../../../../lib/application/corrections') });
   });
 

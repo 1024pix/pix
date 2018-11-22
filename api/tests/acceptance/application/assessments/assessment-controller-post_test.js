@@ -1,8 +1,14 @@
 const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithStandardRole } = require('../../../test-helper');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
 describe('Acceptance | API | Assessments POST', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('POST /api/assessments', () => {
 

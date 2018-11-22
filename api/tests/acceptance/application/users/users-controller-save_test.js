@@ -1,9 +1,15 @@
 const { expect, sinon, knex, nock } = require('../../../test-helper');
 const XRegExp = require('xregexp');
 const mailJet = require('../../../../lib/infrastructure/mailjet');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('save', () => {
 

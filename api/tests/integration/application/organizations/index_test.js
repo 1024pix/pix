@@ -8,8 +8,9 @@ describe('Integration | Application | Organizations | Routes', () => {
   let server;
 
   beforeEach(() => {
-    server = new Hapi.Server();
-    server.connection({ port: null });
+    server = new Hapi.Server({
+      port: null
+    });
     server.register({ register: require('../../../../lib/application/organizations/index') });
   });
 

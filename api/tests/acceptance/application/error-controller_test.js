@@ -1,7 +1,13 @@
 const { expect } = require('../../test-helper');
-const server = require('../../../server');
+const createServer = require('../../../server');
 
 describe('Acceptance | Controller | error-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('GET /errors/500', () => {
 

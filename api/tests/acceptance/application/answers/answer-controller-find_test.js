@@ -1,10 +1,11 @@
 const { expect, knex } = require('../../../test-helper');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | answer-controller', () => {
 
   describe('GET /api/answers?challengeId=Y&assessmentId=Z', () => {
 
+    let server;
     let inserted_answer_id;
     let inserted_assessment_id;
     let queryUrl;
@@ -20,8 +21,9 @@ describe('Acceptance | Controller | answer-controller', () => {
       challengeId: 'recLt9uwa2dR3IYpi',
     };
 
-    beforeEach(() => {
-      return knex('assessments').insert(inserted_assessment,'id')
+    beforeEach(async () => {
+      server = await createServer();
+      return knex('assessments').insert(inserted_assessment, 'id')
         .then(([id]) => {
           inserted_assessment_id = id;
           inserted_answer.assessmentId = inserted_assessment_id;

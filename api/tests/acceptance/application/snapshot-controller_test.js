@@ -4,9 +4,15 @@ const { expect, knex, sinon, generateValidRequestAuhorizationHeader } = require(
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const profileService = require('../../../lib/domain/services/profile-service');
 const BookshelfUser = require('../../../lib/infrastructure/data/user');
-const server = require('../../../server');
+const createServer = require('../../../server');
 
 describe('Acceptance | Controller | snapshot-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   let userId;
   let organizationId;

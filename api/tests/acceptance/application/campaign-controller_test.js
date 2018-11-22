@@ -1,8 +1,14 @@
 const faker = require('faker');
-const server = require('../../../server');
+const createServer = require('../../../server');
 const { knex, expect, generateValidRequestAuhorizationHeader, databaseBuilder, airtableBuilder } = require('../../test-helper');
 
 describe('Acceptance | API | Campaigns', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('POST /api/campaigns', () => {
 

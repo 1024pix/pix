@@ -1,5 +1,5 @@
 const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-get-memberships', () => {
 
@@ -7,6 +7,12 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
   let organizationId;
   let membershipId;
   let organizationRoleId;
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('GET /users/:id/memberships', () => {
 

@@ -1,8 +1,14 @@
 const { airtableBuilder, expect, knex } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   const skillWeb1Id = 'recAcquisWeb1';
   const skillWeb1Name = '@web1';

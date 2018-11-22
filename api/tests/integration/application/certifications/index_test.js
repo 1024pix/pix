@@ -13,8 +13,9 @@ describe('Integration | Application | Route | Certifications', () => {
     sinon.stub(certificationController, 'getCertification').callsFake((request, reply) => reply('ok').code(200));
     sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
 
-    server = new Hapi.Server();
-    server.connection({ port: null });
+    server = new Hapi.Server({
+      port: null
+    });
     server.register({ register: require('../../../../lib/application/certifications') });
   });
 

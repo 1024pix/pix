@@ -1,7 +1,13 @@
 const { expect, knex, generateValidRequestAuhorizationHeader, nock, databaseBuilder } = require('../../test-helper');
-const server = require('../../../server');
+const createServer = require('../../../server');
 
 describe('Acceptance | API | SkillReviews', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   before(() => {
     return knex('target-profiles').delete();

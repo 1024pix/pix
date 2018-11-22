@@ -27,8 +27,9 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     sinon.stub(authenticationController, 'save').callsFake((request, reply) => reply('ok'));
 
     // configure and start server
-    server = new Hapi.Server();
-    server.connection({ port: null });
+    server = new Hapi.Server({
+      port: null
+    });
     server.register({ register: require('../../../../lib/application/authentication') });
   });
 
@@ -82,8 +83,9 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       sinon.stub(authenticationController, 'authenticateUser').callsFake((request, reply) => reply(useCaseResult));
 
       // instance new Hapi.js server with minimal config to test route
-      server = new Hapi.Server();
-      server.connection({ port: null });
+      server = new Hapi.Server({
+        port: null
+      });
       server.register({ register: require('../../../../lib/application/authentication') });
     });
 
@@ -210,8 +212,9 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       };
 
       // instance new Hapi.js server with minimal config to test route
-      server = new Hapi.Server();
-      server.connection({ port: null });
+      server = new Hapi.Server({
+        port: null
+      });
       server.register({ register: require('../../../../lib/application/authentication') });
     });
 

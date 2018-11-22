@@ -1,8 +1,14 @@
 const { airtableBuilder, expect, knex, nock, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   let userId;
   const inserted_user = {

@@ -1,8 +1,14 @@
 const { expect, knex, nock } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get-nonadaptive', function() {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   before(() => {
     nock.cleanAll();
