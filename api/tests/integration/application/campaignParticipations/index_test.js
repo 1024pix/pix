@@ -12,8 +12,9 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
     sandbox.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, reply) => reply('ok').code(201));
     sandbox.stub(campaignParticipationController, 'getCampaignParticipationByAssessment').callsFake((request, reply) => reply('ok').code(201));
 
-    server = new Hapi.Server();
-    server.connection({ port: null });
+    server = new Hapi.Server({
+      port: null
+    });
     server.register({ register: require('../../../../lib/application/campaignParticipations') });
   });
 

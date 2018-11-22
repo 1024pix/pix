@@ -1,5 +1,5 @@
 const { expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
 
@@ -8,6 +8,12 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
   let campaign2;
   let campaignParticipation1;
   let campaignParticipation2;
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
+
   describe('GET /users/:id/campaign-participations', () => {
 
     function _options(userId) {

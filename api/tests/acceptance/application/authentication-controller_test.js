@@ -8,7 +8,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const settings = require('./../../../lib/settings');
 const encrypt = require('../../../lib/domain/services/encryption-service');
 
-const server = require('../../../server');
+const createServer = require('../../../server');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 
@@ -16,6 +16,12 @@ describe('Acceptance | Controller | authentication-controller', () => {
   const userEmail = 'emailWithSomeCamelCase@example.net';
   const userEmailSavedInDb = _.toLower(userEmail);
   const userPassword = 'A124B2C3#!';
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   beforeEach(() => {
     return encrypt.hashPassword(userPassword)
