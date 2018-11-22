@@ -1,11 +1,19 @@
 # Pix Changelog
 
+## v2.10.0 (22/11/2018)
+
+- [#243](https://github.com/1024pix/pix/pull/243) [FEATURE] Implémentation de SAML pour le GAR (PF-362).
+- [#278](https://github.com/1024pix/pix/pull/278) [FEATURE] Trier les profils cibles par privés/public, puis alphabétique (PO-175).
+- [#276](https://github.com/1024pix/pix/pull/276) [TECH] Début de refactoring tests d'acceptance.
+- [#277](https://github.com/1024pix/pix/pull/277) [TECH] Génération de logs au format JSON
+- [#262](https://github.com/1024pix/pix/pull/262) [TECH] Ajout d'un système de lock afin de limiter les requêtes à Airtable (PF-416).
+
 ## v2.9.1 (19/11/2018)
 
 - [#270](https://github.com/1024pix/pix/pull/270) [BUGFIX] La barre de progression se met à jour en même temps que la question (PF-348).
 - [#271](https://github.com/1024pix/pix/pull/271) [TECH] BSR: Uniformisation du lancement des applications
 
-## v2.9.0 (16/11/2018) 
+## v2.9.0 (16/11/2018)
 
 - [#269](https://github.com/1024pix/pix/pull/269) [FEATURE] Le CSV des résultats de campagne doit être exploitable (PO-166).
 - [#268](https://github.com/1024pix/pix/pull/268) [BUGFIX] Ré-initialisation de la page de résultats d'une campagne (pf-449).
