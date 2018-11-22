@@ -4,8 +4,9 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Controller | Campaigns | Skill Review', function() {
+
   setupTest('controller:campaigns/skill-review', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:metrics']
   });
 
   let controller;

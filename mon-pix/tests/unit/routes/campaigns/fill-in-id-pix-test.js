@@ -8,7 +8,7 @@ import sinon from 'sinon';
 describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
   setupTest('route:campaigns/fill-in-id-pix', {
-    needs: ['service:session', 'service:current-routed-modal']
+    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
   });
 
   let route;

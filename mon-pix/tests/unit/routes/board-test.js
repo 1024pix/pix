@@ -8,7 +8,7 @@ import sinon from 'sinon';
 describe('Unit | Route | board', function() {
 
   setupTest('route:board', {
-    needs: ['service:current-routed-modal', 'service:session']
+    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
   });
 
   const findRecord = sinon.stub();

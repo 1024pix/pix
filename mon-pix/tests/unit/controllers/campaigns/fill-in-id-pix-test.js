@@ -4,8 +4,9 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', function() {
+
   setupTest('controller:campaigns/fill-in-id-pix', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:metrics']
   });
 
   const campaign = { id: 1243 };

@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | logout', () => {
   setupTest('route:logout', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:metrics']
   });
 
   it('should disconnect the user', function() {
