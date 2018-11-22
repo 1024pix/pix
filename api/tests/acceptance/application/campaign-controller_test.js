@@ -216,6 +216,21 @@ describe('Acceptance | API | Campaigns', () => {
       });
     });
 
+    it('should returns a 404 when the campaign can not be found', function() {
+      const options = {
+        method: 'GET',
+        url: '/api/campaigns/666',
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
   });
 
   describe('PATCH /api/campaigns/{id}', () => {
@@ -305,7 +320,7 @@ describe('Acceptance | API | Campaigns', () => {
     it('should returns a 404 when the campaign can not be found', function() {
       const options = {
         method: 'PATCH',
-        url: '/api/campaigns/',
+        url: '/api/campaigns/666',
         headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
         payload: {
           data: {
