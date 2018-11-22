@@ -220,12 +220,21 @@ describe('Acceptance | API | Campaigns', () => {
 
   describe('PATCH /api/campaigns/{id}', () => {
 
-    let campaign;
+    let user, otherUser, organization, campaign;
 
     beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser({});
+      otherUser = databaseBuilder.factory.buildUser({});
+      organization = databaseBuilder.factory.buildOrganization({ userId: user.id });
+      databaseBuilder.factory.buildMembership({
+        userId: user.id,
+        organizationId: organization.id
+      });
       campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Name',
         title: 'Title',
         customLandingPageText: 'Text',
+        organizationId: organization.id,
       });
 
       await databaseBuilder.commit();
@@ -239,6 +248,39 @@ describe('Acceptance | API | Campaigns', () => {
       const options = {
         method: 'PATCH',
         url: `/api/campaigns/${campaign.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        payload: {
+          data: {
+            id: campaign.id,
+            type: 'campaigns',
+            attributes: {
+              name: 'New name',
+              title: 'New title',
+              'custom-landing-page-text': 'New text',
+            },
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data.type).to.equal('campaigns');
+        expect(response.result.data.id).to.equal(campaign.id);
+        expect(response.result.data.attributes.name).to.equal(campaign.name);
+        expect(response.result.data.attributes.title).to.equal('New title');
+        expect(response.result.data.attributes['custom-landing-page-text']).to.equal('New text');
+      });
+    });
+
+    it('should returns a 403 when user is not authorized to update the campaign', function() {
+      const options = {
+        method: 'PATCH',
+        url: `/api/campaigns/${campaign.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(otherUser.id) },
         payload: {
           data: {
             id: campaign.id,
@@ -256,11 +298,33 @@ describe('Acceptance | API | Campaigns', () => {
 
       // then
       return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('campaigns');
-        expect(response.result.data.id).to.equal(campaign.id);
-        expect(response.result.data.attributes.title).to.equal('New title');
-        expect(response.result.data.attributes['custom-landing-page-text']).to.equal('New text');
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    it('should returns a 404 when the campaign can not be found', function() {
+      const options = {
+        method: 'PATCH',
+        url: '/api/campaigns/',
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        payload: {
+          data: {
+            id: campaign.id,
+            type: 'campaigns',
+            attributes: {
+              title: 'New title',
+              'custom-landing-page-text': 'New text',
+            },
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(404);
       });
     });
 

@@ -35,6 +35,9 @@ exports.register = function(server, options, next) {
       config: {
         auth: false,
         handler: campaignController.getById,
+        notes: [
+          '- Récupération d\'une campagne par son id',
+        ],
         tags: ['api', 'campaign']
       }
     },
@@ -56,8 +59,12 @@ exports.register = function(server, options, next) {
       method: 'PATCH',
       path: '/api/campaigns/{id}',
       config: {
-        auth: false,
         handler: campaignController.update,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Modification d\'une campagne\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à modifier',
+        ],
         tags: ['api', 'campaign']
       }
     },
