@@ -14,11 +14,16 @@ export default function(schema, request) {
     }
   }
 
-  const courseId = request.queryParams['filter[courseId]'];
   const type = request.queryParams['filter[type]'];
+  const courseId = request.queryParams['filter[courseId]'];
+
+  if (type === 'CERTIFICATION' && courseId) {
+    return schema.assessments.where({ courseId, type });
+  }
+
   const state = request.queryParams['filter[state]'];
 
-  if(['CERTIFICATION', 'PLACEMENT'].includes(type) && courseId) {
+  if (type === 'PLACEMENT' && courseId && state === 'started') {
     return schema.assessments.where({ courseId, type, state });
   }
 

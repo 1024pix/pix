@@ -469,71 +469,66 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#getByFilters', () => {
+  describe('#getCertificationAssessmentByUserIdAndCourseId', () => {
 
-    const assessmentsInDb = [
-      databaseBuilder.factory.buildAssessment({
-        id: 1,
-        courseId: 'courseId1',
-        userId: 1,
-        type: 'PLACEMENT'
-      }),
-      databaseBuilder.factory.buildAssessment({
-        id: 2,
-        courseId: 'courseId1',
-        userId: 2,
-        type: 'PLACEMENT',
-      }),
-      databaseBuilder.factory.buildAssessment({
-        id: 3,
-        courseId: 'courseId1',
-        userId: 2,
-        type: 'CERTIFICATION',
-        state: 'started',
-      }),
-      databaseBuilder.factory.buildAssessment({
-        id: 4,
-        courseId: 'courseId2',
-        userId: 2,
-        type: 'PLACEMENT',
-        state: 'started',
-      }),
-      databaseBuilder.factory.buildAssessment({
-        id: 5,
-        courseId: 'courseId1',
-        userId: 2,
-        type: 'PLACEMENT',
-        state: 'started',
-      }),
-    ];
+    let assessmentsInDb;
 
     beforeEach(() => {
+      assessmentsInDb = [
+        databaseBuilder.factory.buildAssessment({
+          id: 1,
+          courseId: 'courseId1',
+          userId: 1,
+          type: 'CERTIFICATION'
+        }),
+        databaseBuilder.factory.buildAssessment({
+          id: 2,
+          courseId: 'courseId1',
+          userId: 2,
+          type: 'CERTIFICATION',
+        }),
+        databaseBuilder.factory.buildAssessment({
+          id: 3,
+          courseId: 'courseId1',
+          userId: 2,
+          type: 'PLACEMENT',
+        }),
+        databaseBuilder.factory.buildAssessment({
+          id: 4,
+          courseId: 'courseId2',
+          userId: 2,
+          type: 'CERTIFICATION',
+        }),
+      ];
       return knex('assessments').insert(assessmentsInDb);
     });
 
     afterEach(() => {
-      return knex('assessments').delete();
+      return knex('assessments').delete()
+        .then(() => databaseBuilder.clean());
     });
 
-    it('should return assessment', function() {
+    it('should return assessment when it matches with userId and courseId', function() {
       // given
-      const filters = { courseId: 'courseId1', type: 'PLACEMENT', userId: 2, state: 'started' };
+      const userId = 2;
+      const courseId = 'courseId1';
 
       // when
-      const promise = assessmentRepository.getByFilters(filters);
+      const promise = assessmentRepository.getCertificationAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return promise.then((assessment) => {
-        expect(assessment.id).to.equal(5);
+        expect(assessment.id).to.equal(2);
       });
     });
 
-    it('should return null', function() {
+    it('should return null when it does not match with userId and courseId', function() {
       // given
-      const filters = { courseId: 'inexistantId', type: 'PLACEMENT', userId: 234 };
+      const userId = 234;
+      const courseId = 'inexistantId';
 
       // when
-      const promise = assessmentRepository.getByFilters(filters);
+      const promise = assessmentRepository.getStartedPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return promise.then((assessment) => {
@@ -542,11 +537,89 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#findByCampaignFilters', () => {
+  describe('#getStartedPlacementAssessmentByUserIdAndCourseId', () => {
+
+    let assessmentsInDb;
+
+    beforeEach(() => {
+      assessmentsInDb = [
+        databaseBuilder.factory.buildAssessment({
+          id: 1,
+          courseId: 'courseId1',
+          userId: 1,
+          type: 'PLACEMENT'
+        }),
+        databaseBuilder.factory.buildAssessment({
+          id: 2,
+          courseId: 'courseId1',
+          userId: 2,
+          type: 'PLACEMENT',
+        }),
+        databaseBuilder.factory.buildAssessment({
+          id: 3,
+          courseId: 'courseId1',
+          userId: 2,
+          type: 'CERTIFICATION',
+          state: 'started',
+        }),
+        databaseBuilder.factory.buildAssessment({
+          id: 4,
+          courseId: 'courseId2',
+          userId: 2,
+          type: 'PLACEMENT',
+          state: 'started',
+        }),
+        databaseBuilder.factory.buildAssessment({
+          id: 5,
+          courseId: 'courseId1',
+          userId: 2,
+          type: 'PLACEMENT',
+          state: 'started',
+        }),
+      ];
+      return knex('assessments').insert(assessmentsInDb);
+    });
+
+    afterEach(() => {
+      return knex('assessments').delete()
+        .then(() => databaseBuilder.clean());
+    });
+
+    it('should return assessment when it matches with userId and courseId', function() {
+      // given
+      const userId = 2;
+      const courseId = 'courseId1';
+
+      // when
+      const promise = assessmentRepository.getStartedPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+
+      // then
+      return promise.then((assessment) => {
+        expect(assessment.id).to.equal(5);
+      });
+    });
+
+    it('should return null when it does not match with userId and courseId', function() {
+      // given
+      const userId = 234;
+      const courseId = 'inexistantId';
+
+      // when
+      const promise = assessmentRepository.getStartedPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+
+      // then
+      return promise.then((assessment) => {
+        expect(assessment).to.equal(null);
+      });
+    });
+  });
+
+  describe('#findSmartPlacementAssessmentsByUserId', () => {
     let assessmentId;
 
     const assessmentInDb = databaseBuilder.factory.buildAssessment({
       courseId: 'course_A',
+      userId: 1,
       type: 'SMART_PLACEMENT',
     });
 
@@ -574,10 +647,9 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       ]);
     });
 
-    it('should returns the assessment with campaign', () => {
+    it('should returns the assessment with campaign when it matches with userId', () => {
       // when
-
-      const promise = assessmentRepository.findByCampaignFilters({ type: 'SMART_PLACEMENT' });
+      const promise = assessmentRepository.findSmartPlacementAssessmentsByUserId(1);
 
       // then
       return promise.then((assessmentsReturned) => {
@@ -595,10 +667,9 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         ]);
       });
 
-      it('should returns the assessment without campaign', () => {
+      it('should returns the assessment without campaign when matches with userId', () => {
         // when
-
-        const promise = assessmentRepository.findByCampaignFilters({ type: 'SMART_PLACEMENT' });
+        const promise = assessmentRepository.findSmartPlacementAssessmentsByUserId(1);
 
         // then
         return promise.then((assessmentsReturned) => {

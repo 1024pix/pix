@@ -1,5 +1,4 @@
 const { expect, knex, sinon } = require('../../../test-helper');
-
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 const Assessment = require('../../../../lib/domain/models/Assessment');
