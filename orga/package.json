@@ -47,7 +47,7 @@
     "ember-freestyle": "^0.9.0",
     "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-metrics": "poteto/ember-metrics#master",
+    "ember-metrics": "poteto/ember-metrics#1963fc0",
     "ember-resolver": "^5.0.1",
     "ember-simple-auth": "^1.6.0",
     "ember-source": "~3.4.0",

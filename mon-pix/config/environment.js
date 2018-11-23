@@ -65,7 +65,7 @@ module.exports = function(environment) {
       'media-src': "'self'",
     },
 
-   showdown: {
+    showdown: {
       openLinksInNewWindow: true
     },
 
