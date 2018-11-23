@@ -2,9 +2,6 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
-
-  doCreateCampaign: null,
-
   campaign: null,
   targetProfiles: null,
 
@@ -22,10 +19,6 @@ export default Component.extend({
     doNotAskLabelIdPix() {
       this.set('wantIdPix', false);
       this.set('campaign.idPixLabel', null);
-    },
-
-    submit() {
-      this.get('doCreateCampaign')(this.get('campaign'));
     },
 
     setSelectedTargetProfile(selectedTargetProfileId) {

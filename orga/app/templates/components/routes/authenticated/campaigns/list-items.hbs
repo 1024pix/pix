@@ -1,0 +1,12 @@
+<div class="list-campaigns-page__header-page">
+  <h1 class="page__title page-title">Campagnes</h1>
+  <div class="list-campaigns-page__create-campaign-button">
+    {{blue-link title='Créer une campagne +' ahref='authenticated.campaigns.new'}}
+  </div>
+</div>
+
+<div class="campaign-list">
+  {{#each campaigns as |campaign|}}
+    {{campaign-item campaign=campaign}}
+  {{/each}}
+</div>

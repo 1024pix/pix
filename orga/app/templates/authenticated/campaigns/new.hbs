@@ -5,5 +5,10 @@
     </div>
   {{/if}}
 
-  {{routes/authenticated/campaign-new campaign=model.campaign targetProfiles=model.targetProfiles doCreateCampaign=(action 'createCampaign')}}
+  {{routes/authenticated/campaigns/new-item
+    campaign=model.campaign
+    targetProfiles=model.targetProfiles
+    createCampaign=(action 'createCampaign')
+    cancel=(action 'cancel')
+  }}
 </div>
