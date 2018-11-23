@@ -19,7 +19,6 @@ function buildAssessment({
   course = buildCourse({ id: 'courseId' }),
   answers = [buildAnswer()],
   assessmentResults = [buildAssessmentResult()],
-  campaignParticipation = buildCampaignParticipation(),
 } = {}) {
 
   return new Assessment({
@@ -35,7 +34,6 @@ function buildAssessment({
     answers,
     assessmentResults,
     course,
-    campaignParticipation,
   });
 }
 
