@@ -23,7 +23,7 @@ module('Acceptance | Campaign Update', function(hooks) {
     await fillIn('#campaign-custom-landing-page-text', newText);
 
     // when
-    await click('.campaign-form__validation-button');
+    await click('button[type="submit"]');
 
     // then
     assert.equal(server.db.campaigns.find(1).title, newTitle);

@@ -1,1 +1,5 @@
-{{routes/authenticated/campaign-update campaign=model update=(action 'update')}}
+{{routes/authenticated/campaigns/update-item
+  campaign=model
+  update=(action 'update')
+  cancel=(action 'cancel')
+}}

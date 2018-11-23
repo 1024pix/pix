@@ -7,5 +7,9 @@ export default Controller.extend({
         () => this.transitionToRoute('authenticated.campaigns.list')
       );
     },
+
+    cancel() {
+      this.transitionToRoute('authenticated.campaigns.list');
+    },
   }
 });

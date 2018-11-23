@@ -1,6 +1,6 @@
 <h1 class="page__title page-title">Création d'une campagne</h1>
 
-<form {{action 'submit' on='submit'}} class="campaign-form">
+<form {{action createCampaign campaign on='submit'}} class="campaign-form">
 
   <div class="campaign-form__field">
     <label for="campaign-name" class="label">Nom de la campagne</label>
@@ -99,8 +99,9 @@
     }}
   </div>
 
-  <div>
-    <button class="campaign-form__validation-button button" type="submit">Créer la campagne</button>
+  <div class="campaign-form__validation">
+    <div class="button button--no-color" {{action cancel}}>Annuler</div>
+    <button class="button" type="submit">Créer la campagne</button>
   </div>
 
 </form>

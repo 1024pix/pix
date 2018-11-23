@@ -54,7 +54,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       await fillIn('#custom-landing-page-text', 'Texte personnalisé');
 
       // when
-      await click('.campaign-form__validation-button');
+      await click('button[type="submit"]');
 
       // then
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
@@ -93,7 +93,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       await visit('/campagnes/creation');
 
       // when
-      await click('.campaign-form__validation-button');
+      await click('button[type="submit"]');
 
       // then
       assert.equal(currentURL(), '/campagnes/creation');
