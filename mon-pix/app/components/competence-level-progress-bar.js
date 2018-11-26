@@ -24,9 +24,12 @@ export default Component.extend({
     return Math.min(level, this.get('_MAX_REACHABLE_LEVEL'));
   }),
 
-  hasLevel: computed('level', function() {
-    const level = this.get('level');
-    return isPresent(this.get('level')) && level !== -1;
+  isCompetenceAssessed: computed('status', function() {
+    return Boolean(this.get('status') === 'assessed');
+  }),
+
+  isCompetenceBeingAssessed: computed('status', function() {
+    return Boolean(this.get('status') === 'assessmentNotCompleted');
   }),
 
   widthOfProgressBar: computed('limitedLevel', function() {
@@ -44,19 +47,19 @@ export default Component.extend({
     return htmlSafe('width : ' + progressBarWidth);
   }),
 
-  canUserStartCourse: computed('courseId', 'hasLevel', 'assessmentId', function() {
+  canUserStartCourse: computed('courseId', 'status', function() {
     const courseId = this.get('courseId');
-    const hasLevel = this.get('hasLevel');
-    const assessmentId = this.get('assessmentId');
-    return Boolean(courseId && !hasLevel && !assessmentId);
+    const isCompetenceAssessed = this.get('isCompetenceAssessed');
+    const isCompetenceBeingAssessed = this.get('isCompetenceBeingAssessed');
+    return Boolean(courseId && !isCompetenceAssessed && !isCompetenceBeingAssessed);
   }),
 
   canUserResumeAssessment: computed('assessmentId', 'status', function() {
-    return Boolean(this.get('status') === 'notCompleted') && isPresent(this.get('assessmentId'));
+    return this.get('isCompetenceBeingAssessed') && isPresent(this.get('assessmentId'));
   }),
 
   canUserReplayAssessment: computed('courseId', 'status', function() {
-    return Boolean(['evaluated', 'replayed'].includes(this.get('status')) && this.get('daysBeforeReplay') == 0) && isPresent(this.get('courseId'));
+    return this.get('isCompetenceAssessed') && this.get('daysBeforeReplay') == 0 && isPresent(this.get('courseId'));
   }),
 
   actions: {

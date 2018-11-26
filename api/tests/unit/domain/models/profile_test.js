@@ -59,7 +59,7 @@ describe('Unit | Domain | Models | Profile', () => {
           areaId: 'areaId1',
           courseId: 'courseId8',
           level: -1,
-          status: 'notEvaluated',
+          status: 'notAssessed',
         },
         {
           id: 'competenceId2',
@@ -68,7 +68,7 @@ describe('Unit | Domain | Models | Profile', () => {
           areaId: 'areaId2',
           courseId: 'courseId9',
           level: -1,
-          status: 'notEvaluated',
+          status: 'notAssessed',
         }];
     });
 
@@ -108,7 +108,7 @@ describe('Unit | Domain | Models | Profile', () => {
           pixScore: 10,
           courseId: 'courseId8',
           assessmentId: 'assessmentId1',
-          status: 'evaluated',
+          status: 'assessed',
           daysBeforeReplay: 0,
         },
         {
@@ -118,7 +118,7 @@ describe('Unit | Domain | Models | Profile', () => {
           areaId: 'areaId2',
           level: -1,
           courseId: 'courseId9',
-          status: 'notEvaluated',
+          status: 'notAssessed',
         }];
 
       // when
@@ -156,7 +156,7 @@ describe('Unit | Domain | Models | Profile', () => {
           level: -1,
           courseId: 'courseId8',
           assessmentId: 'assessmentId1',
-          status: 'notCompleted',
+          status: 'assessmentNotCompleted',
         },
         {
           id: 'competenceId2',
@@ -165,7 +165,7 @@ describe('Unit | Domain | Models | Profile', () => {
           areaId: 'areaId2',
           level: -1,
           courseId: 'courseId9',
-          status: 'notEvaluated',
+          status: 'notAssessed',
         }];
 
       // when
@@ -200,7 +200,7 @@ describe('Unit | Domain | Models | Profile', () => {
           level: -1,
           courseId: 'courseId8',
           assessmentId: 'assessment_A',
-          status: 'notCompleted',
+          status: 'assessmentNotCompleted',
         },
         {
           id: 'competenceId2',
@@ -210,7 +210,7 @@ describe('Unit | Domain | Models | Profile', () => {
           level: -1,
           courseId: 'courseId9',
           assessmentId: 'assessment_B',
-          status: 'notCompleted',
+          status: 'assessmentNotCompleted',
         }];
 
       // when
@@ -224,7 +224,7 @@ describe('Unit | Domain | Models | Profile', () => {
     });
 
     context('when one competence has two completed assessments', () => {
-      it('should assign level of competence from assessment with status "replayed"', () => {
+      it('should assign level of competence from assessment with status "assessed"', () => {
         // given
         courses[0].competences = ['competenceId1'];
         assessmentsCompletedWithResults = [
@@ -266,7 +266,7 @@ describe('Unit | Domain | Models | Profile', () => {
             level: 2,
             pixScore: 20,
             assessmentId: 'assessmentId2',
-            status: 'replayed',
+            status: 'assessed',
             courseId: 'courseId8',
             daysBeforeReplay: 0,
           },
@@ -276,7 +276,7 @@ describe('Unit | Domain | Models | Profile', () => {
             index: '1.2',
             areaId: 'areaId2',
             level: -1,
-            status: 'notEvaluated',
+            status: 'notAssessed',
             courseId: 'courseId9',
           }];
 
@@ -292,7 +292,7 @@ describe('Unit | Domain | Models | Profile', () => {
     });
 
     context('when at least one competence is started but not finished', () => {
-      it('should assign level of competence at -1 with status "notCompleted"', () => {
+      it('should assign level of competence at -1 with status "assessmentNotCompleted"', () => {
         // given
         courses[0].competences = ['competenceId1'];
         lastAssessments = [Assessment.fromAttributes({
@@ -308,7 +308,7 @@ describe('Unit | Domain | Models | Profile', () => {
             index: '1.1',
             areaId: 'areaId1',
             level: -1,
-            status: 'notCompleted',
+            status: 'assessmentNotCompleted',
             assessmentId: 'assessmentId3',
             courseId: 'courseId8',
           },
@@ -318,7 +318,7 @@ describe('Unit | Domain | Models | Profile', () => {
             index: '1.2',
             areaId: 'areaId2',
             level: -1,
-            status: 'notEvaluated',
+            status: 'notAssessed',
             courseId: 'courseId9',
           }];
 
@@ -332,7 +332,7 @@ describe('Unit | Domain | Models | Profile', () => {
         expect(profile.areas).to.be.equal(areas);
       });
 
-      it('should assign level of competence from last assessment with status "notCompleted"', () => {
+      it('should assign level of competence from last assessment with status "assessmentNotCompleted"', () => {
         // given
         courses[0].competences = ['competenceId1'];
         lastAssessments = [
@@ -360,7 +360,7 @@ describe('Unit | Domain | Models | Profile', () => {
             areaId: 'areaId1',
             level: -1,
             assessmentId: 'assessmentId2',
-            status: 'notCompleted',
+            status: 'assessmentNotCompleted',
             courseId: 'courseId8',
           },
           {
@@ -369,7 +369,7 @@ describe('Unit | Domain | Models | Profile', () => {
             index: '1.2',
             areaId: 'areaId2',
             level: -1,
-            status: 'notEvaluated',
+            status: 'notAssessed',
             courseId: 'courseId9',
           }];
 
@@ -411,7 +411,7 @@ describe('Unit | Domain | Models | Profile', () => {
             level: 1,
             pixScore: 10,
             assessmentId: 'assessmentId1',
-            status: 'evaluated',
+            status: 'assessed',
             courseId: 'courseId8',
             daysBeforeReplay: 0,
           },
@@ -421,7 +421,7 @@ describe('Unit | Domain | Models | Profile', () => {
             index: '1.2',
             areaId: 'areaId2',
             level: -1,
-            status: 'notEvaluated',
+            status: 'notAssessed',
             courseId: 'courseId9',
           },
         ];
@@ -461,7 +461,7 @@ describe('Unit | Domain | Models | Profile', () => {
 
       context('should be undefined', () => {
 
-        it('when the competence has no assessments at all', () => {
+        it('when the competence has not being assessed yet, nor is being assessed', () => {
           // given
           const lastAssessments = [];
           const assessmentsCompletedWithResults = [];
@@ -474,7 +474,7 @@ describe('Unit | Domain | Models | Profile', () => {
           expect(profile.competences[0].daysBeforeReplay).to.be.undefined;
         });
 
-        it('when the competence has no completed assessments and at least one started assessment', () => {
+        it('when the competence has not being assessed yet, but is being assessed', () => {
           // given
           const lastAssessments = [factory.buildAssessment({ state: 'started' })];
           const assessmentsCompletedWithResults = [];
@@ -491,12 +491,13 @@ describe('Unit | Domain | Models | Profile', () => {
 
       context('should be 0', () => {
 
-        it('when the competence has no started assessment and the last completed assessment is older than 7 days', () => {
+        it('when the competence is not being assessed and the last evaluation is older than 7 days', () => {
           // given
           const assessmentCreationDate = moment(now).subtract(7, 'day').subtract(5, 'second').toDate();
-          const lastAssessments = [];
           const assessmentResults = [factory.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-          const assessmentsCompletedWithResults = [factory.buildAssessment({ courseId: courses[0].id, assessmentResults })];
+          const assessment = factory.buildAssessment({ courseId: courses[0].id, assessmentResults });
+          const lastAssessments = [assessment];
+          const assessmentsCompletedWithResults = [assessment];
           courses[0].competences = ['competenceId1'];
 
           // when
@@ -510,12 +511,13 @@ describe('Unit | Domain | Models | Profile', () => {
 
       context('should indicate the number of days', () => {
 
-        it('when the competence has no started assessment and the last completed assessment is younger than 7 days', () => {
+        it('when the competence is not being assessed and the last completed assessment is younger than 7 days', () => {
           // given
           const assessmentCreationDate = moment(now).subtract(3, 'day').toDate();
-          const lastAssessments = [];
           const assessmentResults = [factory.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-          const assessmentsCompletedWithResults = [factory.buildAssessment({ courseId: courses[0].id, assessmentResults })];
+          const assessment = factory.buildAssessment({ courseId: courses[0].id, assessmentResults });
+          const lastAssessments = [assessment];
+          const assessmentsCompletedWithResults = [assessment];
           courses[0].competences = ['competenceId1'];
 
           // when

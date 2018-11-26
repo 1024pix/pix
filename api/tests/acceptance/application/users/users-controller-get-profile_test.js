@@ -89,7 +89,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
           index: '1.1',
           level: -1,
           'course-id': 'recBxPAuEPlTgt72q11',
-          status: 'notEvaluated',
+          status: 'notAssessed',
           'assessment-id': null,
         },
         relationships: {
@@ -109,7 +109,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
           index: '1.2',
           level: -1,
           'course-id': 'recBxPAuEPlTgt72q99',
-          status: 'notEvaluated',
+          status: 'notAssessed',
           'assessment-id': null,
         },
         relationships: {
@@ -138,7 +138,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
       areaId: 'recAreaA',
       level: -1,
       courseId: 'recBxPAuEPlTgt72q11',
-      status: 'notEvaluated',
+      status: 'notAssessed',
       'assessment-id': null,
       area: {
         id: 'recAreaA',
@@ -151,7 +151,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
       areaId: 'recAreaB',
       level: -1,
       courseId: 'recBxPAuEPlTgt72q99',
-      status: 'notEvaluated',
+      status: 'notAssessed',
       'assessment-id': null,
       area: {
         id: 'recAreaB',

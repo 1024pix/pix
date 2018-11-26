@@ -24,10 +24,40 @@ class Profile {
     // references
 
     this._setStatusToCompetences(lastAssessments, assessmentsCompletedWithResults, courses);
-    this._setRetryDelayToCompetences(assessmentsCompletedWithResults, courses);
     this._setLevelAndPixScoreToCompetences(lastAssessments, courses);
     this._setAssessmentToCompetence(lastAssessments, courses);
     this._calculateTotalPixScore();
+  }
+
+  _setStatusToCompetences(lastAssessments, assessmentsCompletedWithResults, courses) {
+    this.competences.forEach((competence) => {
+
+      const lastAssessmentByCompetenceId = this._findAssessmentsByCompetenceId(lastAssessments, courses, competence.id);
+      const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompletedWithResults, courses, competence.id);
+
+      if (lastAssessmentByCompetenceId.length === 0) {
+        competence.status = 'notAssessed';
+      } else if (!lastAssessmentByCompetenceId[0].isCompleted()) {
+        competence.status = 'assessmentNotCompleted';
+      } else if (assessmentsCompletedByCompetenceId.length >= 1) {
+        competence.status = 'assessed';
+        this._setRetryDelayToCompetence(competence, assessmentsCompletedByCompetenceId);
+      } else {
+        competence.status = 'unknown';
+      }
+
+    });
+  }
+
+  _setRetryDelayToCompetence(competence, assessmentsCompletedByCompetenceId) {
+    const lastAssessmentResult = _(assessmentsCompletedByCompetenceId)
+      .map((assessment) => assessment.assessmentResults)
+      .flatten()
+      .sortBy(['createdAt'])
+      .first();
+
+    const diff = moment().diff(lastAssessmentResult.createdAt, 'days', true);
+    competence.daysBeforeReplay = diff > 7 ? 0 : diff;
   }
 
   _setLevelAndPixScoreToCompetences(assessments, courses) {
@@ -40,37 +70,12 @@ class Profile {
         competence.level = assessment.getLevel();
         competence.pixScore = assessment.getPixScore();
         // TODO: Standardiser l'usage de status pour une compétence
-        if (competence.status === 'notCompleted') {
+        if (competence.status === 'assessmentNotCompleted') {
           competence.level = -1;
           delete competence.pixScore;
         }
       }
     });
-  }
-
-  _setStatusToCompetences(lastAssessments, assessmentsCompletedWithResults, courses) {
-    this.competences.forEach((competence) => {
-      const lastAssessmentByCompetenceId = this._findAssessmentsByCompetenceId(lastAssessments, courses, competence.id);
-      const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompletedWithResults, courses, competence.id);
-      if (lastAssessmentByCompetenceId.length === 0) {
-        competence.status = 'notEvaluated';
-      } else {
-        competence.status = this._getCompetenceStatus(lastAssessmentByCompetenceId, assessmentsCompletedByCompetenceId);
-      }
-    });
-  }
-
-  _getCompetenceStatus(lastAssessmentByCompetenceId, assessmentsCompletedByCompetenceId) {
-    let status;
-    if (!lastAssessmentByCompetenceId[0].isCompleted()) {
-      status = 'notCompleted';
-    } else if (assessmentsCompletedByCompetenceId.length === 1) {
-      status = 'evaluated';
-    } else {
-      status = 'replayed';
-    }
-
-    return status;
   }
 
   _setAssessmentToCompetence(assessments, courses) {
@@ -99,7 +104,6 @@ class Profile {
   }
 
   _calculateTotalPixScore() {
-
     const competencesWithScore = _.filter(this.competences, (competence) => {
       return competence.hasOwnProperty('pixScore');
     });
@@ -113,23 +117,6 @@ class Profile {
 
       this.user.set('pix-score', pixScore);
     }
-  }
-
-  _setRetryDelayToCompetences(assessmentsCompletedWithResults, courses) {
-    this.competences.forEach((competence) => {
-      const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompletedWithResults, courses, competence.id);
-      if(!_.isEmpty(assessmentsCompletedByCompetenceId) && competence.status !== 'notCompleted') {
-
-        const lastAssessmentResult = _(assessmentsCompletedByCompetenceId)
-          .map((assessment) => assessment.assessmentResults)
-          .flatten()
-          .sortBy(['createdAt'])
-          .first();
-
-        const diff = moment().diff(lastAssessmentResult.createdAt, 'days', true);
-        competence.daysBeforeReplay = diff > 7 ? 0 : diff;
-      }
-    });
   }
 }
 
