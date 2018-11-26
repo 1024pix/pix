@@ -14,5 +14,18 @@ export default function(schema, request) {
     }
   }
 
+  const type = request.queryParams['filter[type]'];
+  const courseId = request.queryParams['filter[courseId]'];
+
+  if (type === 'CERTIFICATION' && courseId) {
+    return schema.assessments.where({ courseId, type });
+  }
+
+  const state = request.queryParams['filter[state]'];
+
+  if (type === 'PLACEMENT' && courseId && state === 'started') {
+    return schema.assessments.where({ courseId, type, state });
+  }
+
   return schema.assessments.all();
 }

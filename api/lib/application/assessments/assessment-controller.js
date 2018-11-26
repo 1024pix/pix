@@ -79,14 +79,22 @@ module.exports = {
 
   findByFilters(request, reply) {
     const filters = queryParamsUtils.extractFilters(request);
+    const userId = request.auth.credentials.userId;
+    let assessmentsPromise = null;
 
-    return useCases.findUserAssessmentsByFilters({
-      userId: request.auth.credentials.userId,
-      filters,
-    })
-      .then((assessments) => {
-        reply(assessmentSerializer.serializeArray(assessments));
-      });
+    if (filters.codeCampaign) {
+      assessmentsPromise = useCases.findSmartPlacementAssessments({ userId, filters });
+    } else if (filters.type === 'CERTIFICATION') {
+      assessmentsPromise = useCases.findCertificationAssessments({ userId, filters });
+    } else if (filters.type === 'PLACEMENT') {
+      assessmentsPromise = useCases.findPlacementAssessments({ userId, filters });
+    } else {
+      assessmentsPromise = Promise.resolve([]);
+    }
+
+    return assessmentsPromise.then((assessments) => {
+      reply(assessmentSerializer.serializeArray(assessments));
+    });
   },
 
   getNextChallenge(request, reply) {
