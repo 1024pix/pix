@@ -41,13 +41,13 @@ function _toDomain(userBookshelf) {
 function _setSearchFiltersForQueryBuilder(filters, qb) {
   const { firstName, lastName, email } = filters;
   if (firstName) {
-    qb.where('firstName', 'LIKE', `%${firstName}%`);
+    qb.whereRaw('LOWER("firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
   }
   if (lastName) {
-    qb.where('lastName', 'LIKE', `%${lastName}%`);
+    qb.whereRaw('LOWER("lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
   }
   if (email) {
-    qb.where('email', 'LIKE', `%${email}%`);
+    qb.whereRaw('LOWER("email") LIKE ?', `%${email.toLowerCase()}%`);
   }
 }
 
