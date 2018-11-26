@@ -3,12 +3,13 @@ const Hapi = require('hapi');
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 
 describe('Integration | Application | Route | campaignRouter', () => {
-
   let server;
 
   beforeEach(() => {
     sinon.stub(campaignController, 'save').callsFake((request, reply) => reply('ok').code(201));
     sinon.stub(campaignController, 'getCsvResults').callsFake((request, reply) => reply('ok').code(201));
+    sinon.stub(campaignController, 'getById').callsFake((request, reply) => reply('ok').code(201));
+    sinon.stub(campaignController, 'update').callsFake((request, reply) => reply('ok').code(201));
 
     server = new Hapi.Server();
     server.connection({ port: null });
@@ -18,6 +19,9 @@ describe('Integration | Application | Route | campaignRouter', () => {
   afterEach(() => {
     campaignController.save.restore();
     campaignController.getCsvResults.restore();
+    campaignController.getById.restore();
+    campaignController.update.restore();
+
     server.stop();
   });
 
@@ -28,14 +32,6 @@ describe('Integration | Application | Route | campaignRouter', () => {
       const promise = server.inject({
         method: 'POST',
         url: '/api/campaigns',
-        payload: {
-          data: {
-            type: 'campaigns',
-            attributes: {
-              name: 'ma campagne'
-            }
-          }
-        }
       });
 
       // then
@@ -62,6 +58,41 @@ describe('Integration | Application | Route | campaignRouter', () => {
       });
 
     });
+
+  });
+
+  describe('GET /api/campaigns/{id}', () => {
+
+    it('should exist', function() {
+      // when
+      const promise = server.inject({
+        method: 'GET',
+        url: '/api/campaigns/FAKE_ID',
+      });
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(201);
+      });
+    });
+
+  });
+
+  describe('PATCH /api/campaigns/{id}', () => {
+
+    it('should exist', function() {
+      // when
+      const promise = server.inject({
+        method: 'PATCH',
+        url: '/api/campaigns/FAKE_ID',
+      });
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(201);
+      });
+    });
+
   });
 
 });

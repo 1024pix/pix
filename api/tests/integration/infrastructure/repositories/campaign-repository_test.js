@@ -1,6 +1,8 @@
 const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Campaign', () => {
 
@@ -165,5 +167,94 @@ describe('Integration | Repository | Campaign', () => {
       });
     });
 
+  });
+
+  describe('#get', () => {
+    let campaign;
+
+    beforeEach(() => {
+      const bookshelfCampaign = databaseBuilder.factory.buildCampaign({
+        id: 1,
+        name: 'My campaign',
+      });
+      campaign = factory.buildCampaign(bookshelfCampaign);
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return a Campaign by her id', async () => {
+      // when
+      const result = await campaignRepository.get(campaign.id);
+
+      // then
+      expect(result).to.be.an.instanceof(Campaign);
+      expect(result.name).to.equal(campaign.name);
+    });
+
+    it('should throw a NotFoundError if campaign can not be found', async () => {
+      // given
+      const nonExistentId = 666;
+
+      // when
+      const promise = campaignRepository.get(nonExistentId);
+
+      // then
+      expect(promise).to.have.been.rejectedWith(NotFoundError);
+    });
+  });
+
+  describe('#update', () => {
+    let campaign;
+
+    beforeEach(() => {
+      const bookshelfCampaign = databaseBuilder.factory.buildCampaign({
+        id: 1,
+        title: 'Title',
+        customLandingPageText: 'Text',
+      });
+      campaign = factory.buildCampaign(bookshelfCampaign);
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return a Campaign domain object', async () => {
+      // when
+      const campaignSaved = await campaignRepository.update(campaign);
+
+      // then
+      expect(campaignSaved).to.be.an.instanceof(Campaign);
+    });
+
+    it('should not add row in table "campaigns"', async () => {
+      // given
+      const rowCount = await BookshelfCampaign.count();
+
+      // when
+      await campaignRepository.update(campaign);
+
+      // then
+      const rowCountAfterUpdate = await BookshelfCampaign.count();
+      expect(rowCountAfterUpdate).to.equal(rowCount);
+    });
+
+    it('should update model in database', async () => {
+      // given
+      campaign.title = 'New title';
+      campaign.customLandingPageText = 'New text';
+
+      // when
+      const campaignSaved = await campaignRepository.update(campaign);
+
+      // then
+      expect(campaignSaved.id).to.equal(campaign.id);
+      expect(campaignSaved.title).to.equal('New title');
+      expect(campaignSaved.customLandingPageText).to.equal('New text');
+    });
   });
 });
