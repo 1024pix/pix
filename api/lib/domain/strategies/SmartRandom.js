@@ -137,9 +137,26 @@ function _computeReward(challenge, predictedLevel, course, validatedSkills, fail
   return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
 }
 
+function _findLevelForFirstChallenge(filteredChallenges) {
+  const allDifficulties = filteredChallenges
+    .filter((challenge) => challenge.timer === undefined)
+    .map((challenge) => challenge.hardestSkill.difficulty);
+  const difficulties = _.uniq(allDifficulties).sort((a, b) => a > b);
+
+  if (difficulties.includes(LEVEL_FOR_FIRST_CHALLENGE)) { // reorder [1, 2, 3] in [2, 1, 3]
+    _.pull(difficulties, LEVEL_FOR_FIRST_CHALLENGE);
+    difficulties.unshift(LEVEL_FOR_FIRST_CHALLENGE);
+  }
+  return difficulties[0];
+}
+
 function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
-  const filteredFirstChallenges = SmartRandom._filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel).filter(
-    (challenge) => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
+  const filteredChallenges = SmartRandom._filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel);
+
+  const levelForFirstChallenge = _findLevelForFirstChallenge(filteredChallenges);
+
+  const filteredFirstChallenges = filteredChallenges.filter((challenge) =>
+    (challenge.hardestSkill.difficulty === levelForFirstChallenge) && (challenge.timer === undefined)
   );
   filteredFirstChallenges.sort(_randomly);
   return filteredFirstChallenges[0];
