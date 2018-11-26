@@ -27,11 +27,11 @@ const profileService = {
 
     const adaptiveCourses = courseRepository.getAdaptiveCourses();
     const lastAssessments = assessmentRepository.findLastAssessmentsForEachCoursesByUser(user_id);
-    const assessmentsCompleted = assessmentRepository.findCompletedAssessmentsByUserId(user_id);
+    const assessmentsCompletedWithResults = assessmentRepository.findCompletedAssessmentsByUserId(user_id);
     const organizations = organizationRepository.getByUserId(user_id);
 
-    return Promise.all([user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations])
-      .then(([user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations]) => {
+    return Promise.all([user, competences, areas, lastAssessments, assessmentsCompletedWithResults, adaptiveCourses, organizations])
+      .then(([user, competences, areas, lastAssessments, assessmentsCompletedWithResults, adaptiveCourses, organizations]) => {
 
         const competencesWithDefaultLevelAndStatus = _initCompetenceLevel(competences);
 
@@ -40,7 +40,7 @@ const profileService = {
           competences: competencesWithDefaultLevelAndStatus,
           areas,
           lastAssessments,
-          assessmentsCompleted,
+          assessmentsCompletedWithResults,
           courses: adaptiveCourses,
           organizations,
         });

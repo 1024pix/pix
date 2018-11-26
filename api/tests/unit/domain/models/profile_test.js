@@ -1,8 +1,9 @@
-const { expect } = require('../../../test-helper');
+const { expect, factory, sinon } = require('../../../test-helper');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const Profile = require('../../../../lib/domain/models/Profile');
 
 const faker = require('faker');
+const moment = require('moment');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
@@ -15,7 +16,7 @@ describe('Unit | Domain | Models | Profile', () => {
     let areas;
     let courses;
     let assessments;
-    let assessmentsCompleted;
+    let assessmentsCompletedWithResults;
     let lastAssessments;
     let competences;
 
@@ -81,7 +82,7 @@ describe('Unit | Domain | Models | Profile', () => {
         competences,
         areas: null,
         lastAssessments: [],
-        assessmentsCompleted: [],
+        assessmentsCompletedWithResults: [],
         courses: [],
       })).to.be.an.instanceof(Profile);
     });
@@ -89,12 +90,13 @@ describe('Unit | Domain | Models | Profile', () => {
     it('should assign level of competence from assessment', () => {
       // given
       courses[0].competences = ['competenceId1'];
-      assessments = [Assessment.fromAttributes({
+      const assessment = factory.buildAssessment({
         id: 'assessmentId1',
         courseId: 'courseId8',
-        assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
+        assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1, createdAt: new Date('2018-01-01 05:00:00') })],
         state: 'completed',
-      })];
+      });
+      assessments = [assessment];
 
       const expectedCompetences = [
         {
@@ -107,6 +109,7 @@ describe('Unit | Domain | Models | Profile', () => {
           courseId: 'courseId8',
           assessmentId: 'assessmentId1',
           status: 'evaluated',
+          daysBeforeReplay: 0,
         },
         {
           id: 'competenceId2',
@@ -124,7 +127,7 @@ describe('Unit | Domain | Models | Profile', () => {
         competences,
         areas,
         lastAssessments: assessments,
-        assessmentsCompleted: assessments,
+        assessmentsCompletedWithResults: assessments,
         courses,
       });
 
@@ -166,7 +169,7 @@ describe('Unit | Domain | Models | Profile', () => {
         }];
 
       // when
-      const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompleted: [], courses });
+      const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults: [], courses });
 
       // then
       expect(profile).to.be.an.instanceof(Profile);
@@ -211,7 +214,7 @@ describe('Unit | Domain | Models | Profile', () => {
         }];
 
       // when
-      const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompleted: [], courses });
+      const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults: [], courses });
 
       // then
       expect(profile).to.be.an.instanceof(Profile);
@@ -224,16 +227,16 @@ describe('Unit | Domain | Models | Profile', () => {
       it('should assign level of competence from assessment with status "replayed"', () => {
         // given
         courses[0].competences = ['competenceId1'];
-        assessmentsCompleted = [
+        assessmentsCompletedWithResults = [
           Assessment.fromAttributes({
             id: 'assessmentId1',
-            assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
+            assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1, createdAt: new Date('2018-01-01 05:00:00') })],
             state: 'completed',
             courseId: 'courseId8',
           }),
           Assessment.fromAttributes({
             id: 'assessmentId2',
-            assessmentResults: [new AssessmentResult({ pixScore: 20, level: 2 })],
+            assessmentResults: [new AssessmentResult({ pixScore: 20, level: 2, createdAt: new Date('2018-01-01 05:00:00') })],
             state: 'completed',
             courseId: 'courseId8',
           }),
@@ -265,6 +268,7 @@ describe('Unit | Domain | Models | Profile', () => {
             assessmentId: 'assessmentId2',
             status: 'replayed',
             courseId: 'courseId8',
+            daysBeforeReplay: 0,
           },
           {
             id: 'competenceId2',
@@ -277,7 +281,7 @@ describe('Unit | Domain | Models | Profile', () => {
           }];
 
         // when
-        const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompleted, courses });
+        const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
 
         // then
         expect(profile).to.be.an.instanceof(Profile);
@@ -319,7 +323,7 @@ describe('Unit | Domain | Models | Profile', () => {
           }];
 
         // when
-        const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompleted: [], courses });
+        const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults: [], courses });
 
         // then
         expect(profile).to.be.an.instanceof(Profile);
@@ -339,7 +343,7 @@ describe('Unit | Domain | Models | Profile', () => {
             courseId: 'courseId8',
           }),
         ];
-        assessmentsCompleted = [
+        assessmentsCompletedWithResults = [
           Assessment.fromAttributes({
             id: 'assessmentId1',
             assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
@@ -370,7 +374,7 @@ describe('Unit | Domain | Models | Profile', () => {
           }];
 
         // when
-        const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompleted, courses });
+        const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
 
         // then
         expect(profile).to.be.an.instanceof(Profile);
@@ -378,14 +382,13 @@ describe('Unit | Domain | Models | Profile', () => {
         expect(profile.competences).to.be.deep.equal(expectedCompetences);
         expect(profile.areas).to.be.equal(areas);
       });
-
     });
 
     context('when user has one assessment without competence linked to the courseId', () => {
       it('should return the profile only with competences linked to Competences', () => {
         // given
         courses[0].competences = ['competenceId1'];
-        assessmentsCompleted = [
+        assessmentsCompletedWithResults = [
           Assessment.fromAttributes({
             id: 'assessmentId1',
             assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
@@ -410,6 +413,7 @@ describe('Unit | Domain | Models | Profile', () => {
             assessmentId: 'assessmentId1',
             status: 'evaluated',
             courseId: 'courseId8',
+            daysBeforeReplay: 0,
           },
           {
             id: 'competenceId2',
@@ -427,8 +431,8 @@ describe('Unit | Domain | Models | Profile', () => {
           user,
           competences,
           areas,
-          lastAssessments: assessmentsCompleted,
-          assessmentsCompleted,
+          lastAssessments: assessmentsCompletedWithResults,
+          assessmentsCompletedWithResults,
           courses,
         });
 
@@ -437,6 +441,89 @@ describe('Unit | Domain | Models | Profile', () => {
         expect(profile.user).to.equal(user);
         expect(profile.competences).to.deep.equal(expectedCompetences);
         expect(profile.areas).to.equal(areas);
+
+      });
+    });
+
+    context('days before being able to replay a competence', () => {
+
+      let clock;
+      let now;
+
+      beforeEach(() => {
+        now = new Date('2018-01-10 05:00:00');
+        clock = sinon.useFakeTimers(now.getTime());
+      });
+
+      afterEach(() => {
+        clock.restore();
+      });
+
+      context('should be undefined', () => {
+
+        it('when the competence has no assessments at all', () => {
+          // given
+          const lastAssessments = [];
+          const assessmentsCompletedWithResults = [];
+          courses[0].competences = ['competenceId1'];
+
+          // when
+          const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
+
+          // then
+          expect(profile.competences[0].daysBeforeReplay).to.be.undefined;
+        });
+
+        it('when the competence has no completed assessments and at least one started assessment', () => {
+          // given
+          const lastAssessments = [factory.buildAssessment({ state: 'started' })];
+          const assessmentsCompletedWithResults = [];
+          courses[0].competences = ['competenceId1'];
+
+          // when
+          const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
+
+          // then
+          expect(profile.competences[0].daysBeforeReplay).to.be.undefined;
+        });
+
+      });
+
+      context('should be 0', () => {
+
+        it('when the competence has no started assessment and the last completed assessment is older than 7 days', () => {
+          // given
+          const assessmentCreationDate = moment(now).subtract(7, 'day').subtract(5, 'second').toDate();
+          const lastAssessments = [];
+          const assessmentResults = [factory.buildAssessmentResult({ createdAt: assessmentCreationDate })];
+          const assessmentsCompletedWithResults = [factory.buildAssessment({ courseId: courses[0].id, assessmentResults })];
+          courses[0].competences = ['competenceId1'];
+
+          // when
+          const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
+
+          // then
+          expect(profile.competences[0].daysBeforeReplay).to.equal(0);
+        });
+
+      });
+
+      context('should indicate the number of days', () => {
+
+        it('when the competence has no started assessment and the last completed assessment is younger than 7 days', () => {
+          // given
+          const assessmentCreationDate = moment(now).subtract(3, 'day').toDate();
+          const lastAssessments = [];
+          const assessmentResults = [factory.buildAssessmentResult({ createdAt: assessmentCreationDate })];
+          const assessmentsCompletedWithResults = [factory.buildAssessment({ courseId: courses[0].id, assessmentResults })];
+          courses[0].competences = ['competenceId1'];
+
+          // when
+          const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
+
+          // then
+          expect(profile.competences[0].daysBeforeReplay).to.equal(3);
+        });
 
       });
 
@@ -483,7 +570,7 @@ describe('Unit | Domain | Models | Profile', () => {
           competences,
           areas,
           lastAssessments: assessments,
-          assessmentsCompleted: assessments,
+          assessmentsCompletedWithResults: assessments,
           courses,
         });
 
@@ -515,7 +602,7 @@ describe('Unit | Domain | Models | Profile', () => {
           competences,
           areas,
           lastAssessments: assessments,
-          assessmentsCompleted: assessments,
+          assessmentsCompletedWithResults: assessments,
           courses,
         });
 
@@ -537,7 +624,7 @@ describe('Unit | Domain | Models | Profile', () => {
           competences,
           areas,
           lastAssessments: assessments,
-          assessmentsCompleted: assessments,
+          assessmentsCompletedWithResults: assessments,
           courses,
         });
 
