@@ -12,7 +12,7 @@ function _initCompetenceLevel(competences) {
   if (competences) {
     competences.forEach((competence) => {
       competence['level'] = -1;
-      competence['status'] = 'notEvaluated';
+      competence['status'] = 'notAssessed';
     });
   }
 

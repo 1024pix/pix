@@ -1,4 +1,4 @@
-{{#if hasLevel}}
+{{#if isCompetenceAssessed}}
   <div class="competence-level-progress-bar__background">
     <div class="competence-level-progress-bar__background-level-limit">
       <div class="competence-level-progress-bar__background-level-limit-indicator">
@@ -41,7 +41,9 @@
       </div>
     {{ else }}
       <div class="competence-level-progress-bar__link">
-        Retenter <div class="sr-only">le test "{{name}}"</div>
+        <div class="competence-level-progress-bar__link-replay--disabled">
+          Retenter <div class="sr-only">le test "{{name}}"</div>
+        </div>
       </div>
     {{/if}}
 

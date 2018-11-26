@@ -36,26 +36,56 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
       });
     });
 
-    describe('#hasLevel', function() {
+    describe('#isCompetenceAssessed', function() {
 
-      [
-        { level: 1, expectedValue: true },
-        { level: 0, expectedValue: true },
-        { level: -1, expectedValue: false },
-        { level: undefined, expectedValue: false },
-      ].forEach(({ level, expectedValue }) => {
+      it('should be true when the competence is assessed', function() {
+        // given
+        const component = this.subject();
 
-        it(`should return ${expectedValue} when the level of the competence is ${level}`, function() {
-          // given
-          const component = this.subject();
+        // when
+        component.set('status', 'assessed');
 
-          // when
-          component.set('level', level);
-
-          // then
-          expect(component.get('hasLevel')).to.equal(expectedValue);
-        });
+        // then
+        expect(component.get('isCompetenceAssessed')).to.be.true;
       });
+
+      it('should be false when the competence is not assessed yet', function() {
+        // given
+        const component = this.subject();
+
+        // when
+        component.set('status', 'assessmentNotCompleted');
+
+        // then
+        expect(component.get('isCompetenceAssessed')).to.be.false;
+      });
+
+    });
+
+    describe('#isCompetenceBeingAssessed', function() {
+
+      it('should be true when the competence evaluation is not completed', function() {
+        // given
+        const component = this.subject();
+
+        // when
+        component.set('status', 'assessmentNotCompleted');
+
+        // then
+        expect(component.get('isCompetenceBeingAssessed')).to.be.true;
+      });
+
+      it('should be false when the competence is not assessed', function() {
+        // given
+        const component = this.subject();
+
+        // when
+        component.set('status', 'notAssessed');
+
+        // then
+        expect(component.get('isCompetenceBeingAssessed')).to.be.false;
+      });
+
     });
 
     describe('#widthOfProgressBar', function() {
@@ -85,24 +115,44 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
     });
 
     describe('#canUserStartCourse', function() {
-      [
-        { level: null, expected: true },
-        { level: undefined, expected: true },
-        { level: -1, expected: true },
-        { level: 1, expected: false },
-        { level: 0, expected: false },
-      ].forEach(({ level, expected }) => {
-        it(`should return ${expected}, when there is associated course and level is ${level}`, function() {
-          // given
-          const component = this.subject();
-          const courseId = 'REC123';
-          // when
-          component.set('level', level);
-          component.set('courseId', courseId);
 
-          // then
-          expect(component.get('canUserStartCourse')).to.equal(expected);
-        });
+      it('should be true when there is associated course and the competence is not assessed', function() {
+        // given
+        const component = this.subject();
+        const courseId = 'REC123';
+
+        // when
+        component.set('status', 'notAssessed');
+        component.set('courseId', courseId);
+
+        // then
+        expect(component.get('canUserStartCourse')).to.be.true;
+      });
+
+      it('should be false when there is associated course and the competence is already assessed', function() {
+        // given
+        const component = this.subject();
+        const courseId = 'REC123';
+
+        // when
+        component.set('status', 'assessed');
+        component.set('courseId', courseId);
+
+        // then
+        expect(component.get('canUserStartCourse')).to.be.false;
+      });
+
+      it('should be false when there is associated course and the competence is being assessed', function() {
+        // given
+        const component = this.subject();
+        const courseId = 'REC123';
+
+        // when
+        component.set('status', 'assessmentNotCompleted');
+        component.set('courseId', courseId);
+
+        // then
+        expect(component.get('canUserStartCourse')).to.be.false;
       });
 
       [
@@ -125,25 +175,13 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         });
       });
 
-      it('should return false, when there is associated course but have already level', function() {
-        // given
-        const component = this.subject();
-        const level = 777;
-        const courseId = 'REC123';
-        // when
-        component.set('level', level);
-        component.set('courseId', courseId);
-
-        // then
-        expect(component.get('canUserStartCourse')).to.be.false;
-      });
     });
 
     describe('#canUserResumeAssessment', function() {
 
-      it('should return true if assessmentId is defined and status is "notCompleted', function() {
+      it('should return true if assessmentId is defined and competence is being assessed', function() {
         // given
-        const status = 'notCompleted';
+        const status = 'assessmentNotCompleted';
         const assessmentId = 'awesomeId';
         const component = this.subject();
 
@@ -155,9 +193,9 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         expect(component.get('canUserResumeAssessment')).to.equal(true);
       });
 
-      it('should return false if assessmentId is defined and status is not "notCompleted"', function() {
+      it('should return false if assessmentId is defined and competence is not being assessed', function() {
         // given
-        const status = 'evaluated';
+        const status = 'assessed';
         const assessmentId = 'awesomeId';
         const component = this.subject();
 
@@ -171,7 +209,7 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
       it('should return false if assessmentId is an empty string', function() {
         // given
-        const status = 'notCompleted';
+        const status = 'assessmentNotCompleted';
         const assessmentId = '';
         const component = this.subject();
 
@@ -185,7 +223,7 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
       it('should return false if assessmentId is not defined', function() {
         // given
-        const status = 'notCompleted';
+        const status = 'assessmentNotCompleted';
         const assessmentId = null;
         const component = this.subject();
 
@@ -201,9 +239,9 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
     describe('#canUserReplayAssessment', function() {
 
-      it('should be true if status is "evaluated", daysBeforeReplay equals 0 and courseId exist', function() {
+      it('should be true if competence is assessed, daysBeforeReplay equals 0 and courseId exist', function() {
         // given
-        const status = 'evaluated';
+        const status = 'assessed';
         const courseId = 'courseId';
         const component = this.subject();
 
@@ -216,24 +254,9 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         expect(component.get('canUserReplayAssessment')).to.equal(true);
       });
 
-      it('should be true if status is "replayed", daysBeforeReplay equals 0 and courseId exist', function() {
+      it('should be false if competence is not assessed"', function() {
         // given
-        const status = 'replayed';
-        const courseId = 'courseId';
-        const component = this.subject();
-
-        // when
-        component.set('status', status);
-        component.set('courseId', courseId);
-        component.set('daysBeforeReplay', 0);
-
-        // then
-        expect(component.get('canUserReplayAssessment')).to.equal(true);
-      });
-
-      it('should be false if status is not "evaluated" nor "replayed"', function() {
-        // given
-        const status = 'notCompleted';
+        const status = 'assessmentNotCompleted';
         const courseId = 'courseId';
         const component = this.subject();
 
@@ -248,7 +271,7 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
       it('should be false if daysBeforeReplay is not 0', function() {
         // given
-        const status = 'evaluated';
+        const status = 'assessed';
         const courseId = 'courseId';
         const component = this.subject();
 
@@ -263,7 +286,7 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
       it('should be false if daysBeforeReplay is undefined', function() {
         // given
-        const status = 'evaluated';
+        const status = 'assessed';
         const courseId = 'courseId';
         const component = this.subject();
 

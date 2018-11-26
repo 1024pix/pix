@@ -61,7 +61,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           courseId: 'courseID1',
           assessmentId: 'assessmentId1',
           level: -1,
-          status: 'notEvaluated',
+          status: 'notAssessed',
           area: new Area({ id: 'recAreaA' }),
         },
         {
@@ -72,7 +72,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           courseId: 'courseID2',
           assessmentId: 'assessmentId2',
           level: -1,
-          status: 'notEvaluated',
+          status: 'notAssessed',
           area: new Area({ id: 'recAreaB' }),
         },
         {
@@ -82,7 +82,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           areaId: 'recAreaB',
           courseId: 'courseID3',
           level: -1,
-          status: 'notEvaluated',
+          status: 'notAssessed',
           area: new Area({ id: 'recAreaB' }),
         }];
 
@@ -188,7 +188,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               'pix-score': 128,
               'course-id': 'courseID1',
               'assessment-id': 'assessmentID1',
-              status: 'evaluated',
+              status: 'assessed',
               'days-before-replay': 0
             },
             relationships: {
@@ -207,7 +207,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'competence-name-2',
               index: '1.2',
               level: -1,
-              status: 'notCompleted',
+              status: 'assessmentNotCompleted',
               'course-id': 'courseID2',
               'assessment-id': 'assessmentID2',
             },
@@ -227,7 +227,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'competence-name-3',
               index: '1.3',
               level: -1,
-              status: 'notEvaluated',
+              status: 'notAssessed',
               'course-id': 'courseID3',
               'assessment-id': null,
             },
