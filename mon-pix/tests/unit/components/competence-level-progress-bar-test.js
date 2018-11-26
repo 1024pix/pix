@@ -200,7 +200,8 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
     });
 
     describe('#canUserReplayAssessment', function() {
-      it('should return true if status is "evaluated" and courseId exist', function() {
+
+      it('should be true if status is "evaluated", daysBeforeReplay equals 0 and courseId exist', function() {
         // given
         const status = 'evaluated';
         const courseId = 'courseId';
@@ -209,12 +210,13 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         // when
         component.set('status', status);
         component.set('courseId', courseId);
+        component.set('daysBeforeReplay', 0);
 
         // then
         expect(component.get('canUserReplayAssessment')).to.equal(true);
       });
 
-      it('should return false if status is not "evaluated"', function() {
+      it('should be true if status is "replayed", daysBeforeReplay equals 0 and courseId exist', function() {
         // given
         const status = 'replayed';
         const courseId = 'courseId';
@@ -223,10 +225,58 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         // when
         component.set('status', status);
         component.set('courseId', courseId);
+        component.set('daysBeforeReplay', 0);
+
+        // then
+        expect(component.get('canUserReplayAssessment')).to.equal(true);
+      });
+
+      it('should be false if status is not "evaluated" nor "replayed"', function() {
+        // given
+        const status = 'notCompleted';
+        const courseId = 'courseId';
+        const component = this.subject();
+
+        // when
+        component.set('status', status);
+        component.set('courseId', courseId);
+        component.set('daysBeforeReplay', 0);
 
         // then
         expect(component.get('canUserReplayAssessment')).to.equal(false);
       });
+
+      it('should be false if daysBeforeReplay is not 0', function() {
+        // given
+        const status = 'evaluated';
+        const courseId = 'courseId';
+        const component = this.subject();
+
+        // when
+        component.set('status', status);
+        component.set('courseId', courseId);
+        component.set('daysBeforeReplay', 5);
+
+        // then
+        expect(component.get('canUserReplayAssessment')).to.equal(false);
+      });
+
+      it('should be false if daysBeforeReplay is undefined', function() {
+        // given
+        const status = 'evaluated';
+        const courseId = 'courseId';
+        const component = this.subject();
+
+        // when
+        component.set('status', status);
+        component.set('courseId', courseId);
+        component.set('daysBeforeReplay', undefined);
+
+        // then
+        expect(component.get('canUserReplayAssessment')).to.equal(false);
+      });
+
     });
+
   });
 });

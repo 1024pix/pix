@@ -15,6 +15,7 @@ export default Component.extend({
   assessmentId: null,
   name: null,
   status: null,
+  daysBeforeReplay: null,
 
   _showSecondChanceModal: false,
 
@@ -55,7 +56,7 @@ export default Component.extend({
   }),
 
   canUserReplayAssessment: computed('courseId', 'status', function() {
-    return Boolean(this.get('status') === 'evaluated' && this.get('courseId'));
+    return Boolean(['evaluated', 'replayed'].includes(this.get('status')) && this.get('daysBeforeReplay') == 0) && isPresent(this.get('courseId'));
   }),
 
   actions: {

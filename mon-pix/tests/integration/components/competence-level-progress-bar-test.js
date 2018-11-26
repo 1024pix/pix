@@ -122,7 +122,6 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar level=level courseId=courseId name=name}}`);
 
       // then
-      expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(0);
       expect(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(0);
     });
 
@@ -136,7 +135,6 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar level=level name=name}}`);
 
       // then
-      expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(0);
       expect(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(0);
     });
 
@@ -164,53 +162,82 @@ describe('Integration | Component | competence level progress bar', function() {
 
   });
 
-  describe('replay assessment link', function() {
+  describe('replay assessment link', async function() {
 
-    it('should display `Seconde Change` if status is "evaluated"', function() {
-      // given
+    context('when status is "evaluated', async function() {
+
       const status = 'evaluated';
       const name = 'deuxième test';
       const courseId = 'courseId';
       const level = 3;
 
-      this.set('status', status);
-      this.set('name', name);
-      this.set('courseId', courseId);
-      this.set('level', level);
+      beforeEach(async function() {
+        this.set('status', status);
+        this.set('name', name);
+        this.set('courseId', courseId);
+        this.set('level', level);
+      });
 
-      // when
-      this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level}}`);
+      context('and the numbers of days before beeing able to retry is 0', function() {
 
-      // then
-      expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
-      expect(this.$('.competence-level-progress-bar__link-replay')).to.have.lengthOf(1);
-      expect(this.$('.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Seconde chance pour le test "deuxième test"');
+        it('should display `Retenter` button', function() {
+          // given
+          const daysBeforeReplay = 0;
+          this.set('daysBeforeReplay', daysBeforeReplay);
+
+          // when
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+
+          // then
+          expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+          expect(this.$('button.competence-level-progress-bar__link-replay')).to.have.lengthOf(1);
+          expect(this.$('.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Retenter le test "deuxième test"');
+        });
+
+        it('should display a modal when clicked', async function() {
+          // given
+          const daysBeforeReplay = 0;
+          this.set('daysBeforeReplay', daysBeforeReplay);
+
+          // when
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+          await this.$('.competence-level-progress-bar__link-replay').click();
+          const $modal = document.querySelector('.pix-modal__container');
+
+          // then
+          expect($modal).to.be.ok;
+          expect($modal.querySelector('h1').textContent).to.contains('Seconde chance');
+          expect($modal.textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
+          expect($modal.querySelector('.pix-modal__action.cancel').textContent).to.contains('Annuler');
+          expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
+        });
+
+      });
+
+      context('and the number of days before beeing able to retry greater than 0', function() {
+
+        it('should display `Retenter` text but not clickable', function() {
+          // given
+          const daysBeforeReplay = 5;
+          this.set('daysBeforeReplay', daysBeforeReplay);
+
+          // when
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+
+          // then
+          expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+          expect(this.$('button.competence-level-progress-bar__link-replay')).to.have.lengthOf(0);
+          expect(this.$('.competence-level-progress-bar__link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
+        });
+
+        it('should display `1 day` if there is one day left to wait', function() {});
+
+        it('should display `4 days` if there are 4 days left to wait', function() {});
+
+      });
+
     });
 
-    it('should display a modal when clicked', async function() {
-      // given
-      const status = 'evaluated';
-      const name = 'deuxième test';
-      const courseId = 'courseId';
-      const level = 3;
-
-      this.set('status', status);
-      this.set('name', name);
-      this.set('courseId', courseId);
-      this.set('level', level);
-
-      // when
-      this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level}}`);
-      await this.$('.competence-level-progress-bar__link-replay').click();
-      const $modal = document.querySelector('.pix-modal__container');
-
-      // then
-      expect($modal).to.be.ok;
-      expect($modal.querySelector('h1').textContent).to.contains('Seconde chance');
-      expect($modal.textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
-      expect($modal.querySelector('.pix-modal__action.cancel').textContent).to.contains('Annuler');
-      expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
-    });
   });
 
 });
