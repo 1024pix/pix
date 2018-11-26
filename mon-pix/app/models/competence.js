@@ -12,5 +12,6 @@ export default Model.extend({
   areaName: alias('area.name'),
   courseId: attr('string'),
   assessmentId: attr('string'),
-  status: attr('string')
+  status: attr('string'),
+  daysBeforeReplay: attr('number'),
 });

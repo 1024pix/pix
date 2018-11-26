@@ -13,7 +13,7 @@
       <div class="competence-level-progress-bar__link">
         {{#unless _showSecondChanceModal}}
           <button class="competence-level-progress-bar__link-replay" {{action "openModal"}}>
-            Seconde chance <div class="sr-only">pour le test "{{name}}"</div>
+            Retenter <div class="sr-only">le test "{{name}}"</div>
           </button>
         {{else}}
           {{#pix-modale containerClass="competence-level-progress-bar__modal-text second-chance__modal" onClose=(action "closeModal") }}
@@ -38,6 +38,10 @@
             </div>
           {{/pix-modale}}
         {{/unless}}
+      </div>
+    {{ else }}
+      <div class="competence-level-progress-bar__link">
+        Retenter <div class="sr-only">le test "{{name}}"</div>
       </div>
     {{/if}}
 
