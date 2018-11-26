@@ -18,7 +18,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
     let finishedAssessment;
     let nonFinishedAssessment;
     let lastAssessments;
-    let assessmentsCompleted;
+    let assessmentsCompletedWithResults;
     let courses;
 
     let emptyCompetences;
@@ -108,6 +108,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         assessmentResults: [new AssessmentResult({
           level: 8,
           pixScore: 128,
+          createdAt: new Date('2018-01-10 05:00:00'),
         })],
       });
       nonFinishedAssessment = Assessment.fromAttributes({
@@ -117,7 +118,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       });
 
       lastAssessments = [finishedAssessment, nonFinishedAssessment];
-      assessmentsCompleted = [finishedAssessment];
+      assessmentsCompletedWithResults = [finishedAssessment];
 
       courses = [{ id: 'courseID1', competences: ['recCompA'] },
         { id: 'courseID2', competences: ['recCompB'] },
@@ -133,7 +134,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         competences,
         areas,
         lastAssessments,
-        assessmentsCompleted,
+        assessmentsCompletedWithResults,
         courses,
         organizations: emptyOrganizations,
       });
@@ -188,6 +189,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               'course-id': 'courseID1',
               'assessment-id': 'assessmentID1',
               status: 'evaluated',
+              'days-before-replay': 0
             },
             relationships: {
               area: {
@@ -255,7 +257,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         competences,
         areas,
         lastAssessments: emptyAssessments,
-        assessmentsCompleted: emptyAssessments,
+        assessmentsCompletedWithResults: emptyAssessments,
         courses: emptyCourses,
         organizations: emptyOrganizations,
       });
@@ -274,7 +276,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         competences: emptyCompetences,
         areas: emptyAreas,
         lastAssessments: emptyAssessments,
-        assessmentsCompleted: emptyAssessments,
+        assessmentsCompletedWithResults: emptyAssessments,
         courses: emptyCourses,
         organizations,
       });

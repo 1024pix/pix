@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const moment = require('moment');
 
 // FIXME: Cet objet a trop de responsabilité (modification des compétences)
 class Profile {
@@ -6,7 +7,7 @@ class Profile {
     // attributes
     // includes
     areas,
-    assessmentsCompleted,
+    assessmentsCompletedWithResults,
     competences,
     courses,
     lastAssessments,
@@ -22,7 +23,8 @@ class Profile {
     this.user = user;
     // references
 
-    this._setStatusToCompetences(lastAssessments, assessmentsCompleted, courses);
+    this._setStatusToCompetences(lastAssessments, assessmentsCompletedWithResults, courses);
+    this._setRetryDelayToCompetences(assessmentsCompletedWithResults, courses);
     this._setLevelAndPixScoreToCompetences(lastAssessments, courses);
     this._setAssessmentToCompetence(lastAssessments, courses);
     this._calculateTotalPixScore();
@@ -46,10 +48,10 @@ class Profile {
     });
   }
 
-  _setStatusToCompetences(lastAssessments, assessmentsCompleted, courses) {
+  _setStatusToCompetences(lastAssessments, assessmentsCompletedWithResults, courses) {
     this.competences.forEach((competence) => {
       const lastAssessmentByCompetenceId = this._findAssessmentsByCompetenceId(lastAssessments, courses, competence.id);
-      const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompleted, courses, competence.id);
+      const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompletedWithResults, courses, competence.id);
       if (lastAssessmentByCompetenceId.length === 0) {
         competence.status = 'notEvaluated';
       } else {
@@ -111,6 +113,23 @@ class Profile {
 
       this.user.set('pix-score', pixScore);
     }
+  }
+
+  _setRetryDelayToCompetences(assessmentsCompletedWithResults, courses) {
+    this.competences.forEach((competence) => {
+      const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompletedWithResults, courses, competence.id);
+      if(!_.isEmpty(assessmentsCompletedByCompetenceId) && competence.status !== 'notCompleted') {
+
+        const lastAssessmentResult = _(assessmentsCompletedByCompetenceId)
+          .map((assessment) => assessment.assessmentResults)
+          .flatten()
+          .sortBy(['createdAt'])
+          .first();
+
+        const diff = moment().diff(lastAssessmentResult.createdAt, 'days', true);
+        competence.daysBeforeReplay = diff > 7 ? 0 : diff;
+      }
+    });
   }
 }
 

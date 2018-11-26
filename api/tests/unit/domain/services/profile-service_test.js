@@ -159,7 +159,8 @@ describe('Unit | Service | Profil User Service', function() {
               level: 1,
               pixScore: 10,
               assessmentId: 'assessmentId1',
-              status: 'evaluated'
+              status: 'evaluated',
+              daysBeforeReplay: 0,
             },
             {
               id: 'competenceId2',

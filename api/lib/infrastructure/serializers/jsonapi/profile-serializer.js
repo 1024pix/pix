@@ -109,6 +109,10 @@ class ProfileSerializer extends JSONAPISerializer {
         competenceData.attributes['assessment-id'] = competence.assessmentId;
       }
 
+      if (competence.daysBeforeReplay !== undefined) {
+        competenceData.attributes['days-before-replay'] = competence.daysBeforeReplay;
+      }
+
       included.push(competenceData);
     });
   }
