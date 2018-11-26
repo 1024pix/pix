@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | campaign-list', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign | list-items', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it should display a list of campaigns', async function(assert) {
@@ -17,7 +17,7 @@ module('Integration | Component | campaign-list', function(hooks) {
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{campaign-list campaigns=campaigns}}`);
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
 
     // then
     assert.dom('.campaign-list').exists();
@@ -42,7 +42,7 @@ module('Integration | Component | campaign-list', function(hooks) {
     this.set('campaigns', campaigns);
 
     // when
-    await render(hbs`{{campaign-list campaigns=campaigns}}`);
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
 
     // then
     assert.dom('.campaign-list__item:first-child .campaign-name').hasText('campagne 1');

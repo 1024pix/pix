@@ -3,8 +3,13 @@ const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
-const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError,
-  NotFoundError } = require('../../domain/errors');
+const {
+  UserNotAuthorizedToCreateCampaignError,
+  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToGetCampaignResultsError,
+  EntityValidationError,
+  NotFoundError
+} = require('../../domain/errors');
 
 const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
@@ -54,6 +59,18 @@ module.exports = {
       });
   },
 
+  getById(request, reply) {
+    const campaignId = request.params.id;
+
+    return usecases.getCampaign({ campaignId })
+      .then(campaignSerializer.serialize)
+      .then(controllerReplies(reply).ok)
+      .catch((error) => {
+        const mappedError = _mapToInfraError(error);
+        return controllerReplies(reply).error(mappedError);
+      });
+  },
+
   getCsvResults(request, reply) {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserIdForCampaignResults(token);
@@ -74,6 +91,25 @@ module.exports = {
 
         logger.error(error);
         return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la récupération des résultats de la campagne')).code(500);
+      });
+  },
+
+  update(request, reply) {
+    const userId = request.auth.credentials.userId;
+    const campaignId = request.params.id;
+    const { title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
+
+    return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
+      .then(campaignSerializer.serialize)
+      .then(controllerReplies(reply).ok)
+      .catch((error) => {
+        if (error instanceof UserNotAuthorizedToUpdateCampaignError) {
+          const infraError = new infraErrors.ForbiddenError(error.message);
+          return controllerReplies(reply).error(infraError);
+        }
+
+        const mappedError = _mapToInfraError(error);
+        return controllerReplies(reply).error(mappedError);
       });
   },
 };

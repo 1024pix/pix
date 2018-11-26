@@ -61,6 +61,7 @@
   border-radius: 5px;
   background-color: $dodger-blue;
   color: white;
+  cursor: pointer;
 
   &:hover, &:active, &:focus {
     background-color: $mariner;
@@ -73,6 +74,15 @@
 
     &:hover, &:active, &:focus {
       background-color: $alto;
+    }
+  }
+
+  &--no-color {
+    background-color: transparent;
+    color: $nero;
+
+    &:hover, &:active, &:focus {
+      background-color: transparent;
     }
   }
 
