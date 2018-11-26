@@ -5,6 +5,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | User logged Menu', function() {
+
   setupTest('component:user-logged-menu', {
     needs: ['service:keyboard']
   });
@@ -108,6 +109,9 @@ describe('Unit | Component | User logged Menu', function() {
 
       this.register('service:current-routed-modal', Service.extend({}));
       this.inject.service('current-routed-modal', { as: 'current-routed-modal' });
+
+      this.register('service:metrics', Service.extend({}));
+      this.inject.service('metrics', { as: 'metrics' });
 
       this.register('service:store', Service.extend({
         findRecord() {

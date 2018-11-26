@@ -7,7 +7,7 @@ import sinon from 'sinon';
 describe('Unit | Route | changer mot de passe', function() {
 
   setupTest('route:reset-password', {
-    needs: ['service:session', 'service:current-routed-modal']
+    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
   });
 
   describe('Route behavior', function() {

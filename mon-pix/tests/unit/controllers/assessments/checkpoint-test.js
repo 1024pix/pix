@@ -5,8 +5,9 @@ import EmberObject from '@ember/object';
 import sinon from 'sinon';
 
 describe('Unit | Controller | Assessments | Checkpoint', function() {
+
   setupTest('controller:assessments/checkpoint', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:metrics']
   });
 
   describe('#finalCheckpoint', () => {
