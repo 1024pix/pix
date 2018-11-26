@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | login page', function() {
   setupTest('route:login', {
-    needs: ['service:current-routed-modal', 'service:session']
+    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
   });
 
   const authenticatedStub = sinon.stub();

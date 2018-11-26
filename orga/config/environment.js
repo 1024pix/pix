@@ -27,10 +27,26 @@ module.exports = function(environment) {
       'Open+Sans:300',
     ],
 
+    metricsAdapters: [
+      {
+        name: 'Piwik',
+        environments: ['production'],
+        config: {
+          piwikUrl: 'https://pix.matomo.cloud',
+          siteId: 5
+        }
+      }
+    ],
+
+    // Set or update content security policies
     contentSecurityPolicy: {
-      // Google fonts: https://github.com/damiencaselli/ember-cli-google-fonts#declare-fonts
-      'font-src': '\'self\' fonts.gstatic.com',
-      'style-src': '\'self\' fonts.googleapis.com',
+      'default-src': "'none'",
+      'script-src': "'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
+      'font-src': "'self' fonts.gstatic.com",
+      'connect-src': "'self' www.google-analytics.com app.getsentry.com",
+      'img-src': "'self' app.getsentry.com",
+      'style-src': "'self' fonts.googleapis.com",
+      'media-src': "'self'",
     },
   };
 

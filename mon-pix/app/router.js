@@ -1,38 +1,30 @@
 import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
+import { scheduleOnce } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { run } from '@ember/runloop';
-import { get } from '@ember/object';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
   rootURL: config.rootURL,
+
+  metrics: service(),
+
+  didTransition() {
+    this._super(...arguments);
+    this._trackPage();
+  },
+
+  _trackPage() {
+    scheduleOnce('afterRender', this, () => {
+      const page = this.get('url');
+      const title = this.getWithDefault('currentRouteName', 'unknown');
+      this.get('metrics').trackPage({ page, title });
+    });
+  }
 });
 
-// XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
-if (config.environment === 'integration' || config.environment === 'staging' || config.environment === 'production') {
-  // do not make any sense in test ENV, therefore can be safely ignored
-  /* istanbul ignore next */
-  Router.reopen({
-    metrics: service(),
-
-    didTransition() {
-      this._super(...arguments);
-      this._trackPage();
-    },
-
-    _trackPage() {
-      run.scheduleOnce('afterRender', this, () => {
-        const page = this.get('url');
-        const title = this.getWithDefault('currentRouteName', 'unknown');
-        get(this, 'metrics').trackPage({ page, title });
-      });
-    },
-  });
-}
-
 /* eslint-disable max-statements */
-Router.map(function() {
+export default Router.map(function() {
   this.route('index', { path: '/' });
   this.route('inscription');
   this.route('compte');
@@ -71,5 +63,3 @@ Router.map(function() {
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
 });
-
-export default Router;
