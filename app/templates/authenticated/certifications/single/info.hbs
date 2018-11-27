@@ -60,22 +60,24 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col single-certification-info__actions">
-      {{#if edition}}
-        {{#bs-button class='single-certification-edit__button' type='secondary' size='sm' onClick=(action "onCancel")}}Annuler{{/bs-button}}
-        {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onSaveConfirm")}}Enregistrer{{/bs-button}}
-      {{else}}
-        {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onEdit")}}Modifier{{/bs-button}}
-        {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onTogglePublishConfirm")}}
-          {{#if certification.isPublished}}
-            Dépublier
-          {{else}}
-            Publier
-          {{/if}}
-        {{/bs-button}}
-      {{/if}}
+  {{#if isValid}}
+    <div class="row">
+      <div class="col single-certification-info__actions">
+        {{#if edition}}
+          {{#bs-button class='single-certification-edit__button' type='secondary' size='sm' onClick=(action "onCancel")}}Annuler{{/bs-button}}
+          {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onSaveConfirm")}}Enregistrer{{/bs-button}}
+        {{else}}
+          {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onEdit")}}Modifier{{/bs-button}}
+          {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onTogglePublishConfirm")}}
+            {{#if certification.isPublished}}
+              Dépublier
+            {{else}}
+              Publier
+            {{/if}}
+          {{/bs-button}}
+        {{/if}}
+      </div>
     </div>
-  </div>
+  {{/if}}
 {{confirm-popup message=confirmMessage confirm=(action confirmAction) cancel=(action "onCancelConfirm") show=displayConfirm}}
 </div>

@@ -11,7 +11,9 @@
   {{#if certificationId}}
     {{#bs-nav type="tabs" as |nav|}}
       {{#nav.item}}{{#nav.link-to 'authenticated.certifications.single.info' certificationId}}Informations{{/nav.link-to}}{{/nav.item}}
-      {{#nav.item}}{{#nav.link-to 'authenticated.certifications.single.details' certificationId}}Détails{{/nav.link-to}}{{/nav.item}}
+      {{#if isValid}}
+        {{#nav.item}}{{#nav.link-to 'authenticated.certifications.single.details' certificationId}}Détails{{/nav.link-to}}{{/nav.item}}
+      {{/if}}
     {{/bs-nav}}
   {{/if}}
   <section class="page-section {{if certificationId 'with-navs'}}">
@@ -25,4 +27,3 @@
     {{/if}}
   </section>
 </main>
-
