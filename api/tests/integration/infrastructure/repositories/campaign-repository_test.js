@@ -177,7 +177,7 @@ describe('Integration | Repository | Campaign', () => {
         id: 1,
         name: 'My campaign',
       });
-      campaign = factory.buildCampaign(bookshelfCampaign);
+      campaign = domainBuilder.buildCampaign(bookshelfCampaign);
       return databaseBuilder.commit();
     });
 
@@ -215,7 +215,7 @@ describe('Integration | Repository | Campaign', () => {
         title: 'Title',
         customLandingPageText: 'Text',
       });
-      campaign = factory.buildCampaign(bookshelfCampaign);
+      campaign = domainBuilder.buildCampaign(bookshelfCampaign);
       return databaseBuilder.commit();
     });
 

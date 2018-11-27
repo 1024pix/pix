@@ -1,6 +1,6 @@
 module.exports = function addPixAileUserAndRelations({ databaseBuilder }) {
 
-  const pixAile = databaseBuilder.domainBuilder.buildUser.withUnencryptedPassword({
+  const pixAile = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     id: 1,
     firstName: 'Pix',
     lastName: 'Aile',
@@ -9,7 +9,7 @@ module.exports = function addPixAileUserAndRelations({ databaseBuilder }) {
     cgu: true,
   });
 
-  databaseBuilder.domainBuilder.buildAssessment({
+  databaseBuilder.factory.buildAssessment({
     id: 1,
     courseId: 'recyochcrrSOALQPS',
     createdAt: new Date('2018-02-15T15:00:34'),
