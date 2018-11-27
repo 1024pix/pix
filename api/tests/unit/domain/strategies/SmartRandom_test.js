@@ -5,10 +5,15 @@ const Tube = require('../../../../lib/domain/models/Tube');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const SmartRandom = require('../../../../lib/domain/strategies/SmartRandom');
 
+const KNOWLEDGE_ELEMENT_STATUS = {
+  VALIDATED: 'validated',
+  INVALIDATED: 'invalidated'
+};
+
 describe('Unit | Domain | Models | SmartRandom', () => {
 
   describe('#constructor', () => {
-    it('should create a course with tubes', () => {
+    it.only('should create a course with tubes', () => {
       // given
       const web1 = domainBuilder.buildSkill({ name: 'web1' });
       const web2 = domainBuilder.buildSkill({ name: 'web2' });
@@ -129,7 +134,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
     });
 
-    it('should return a challenge of level 5 if user got levels 2-4 ok but level 6 ko', function() {
+    it.only('should return a challenge of level 5 if user got levels 2-4 ok but level 6 ko', function() {
       // given
       const web1 = domainBuilder.buildSkill({ name: 'web1' });
       const web2 = domainBuilder.buildSkill({ name: 'web2' });
@@ -150,6 +155,14 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const ch7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [rechInfo7] });
       const challenges = [ch1, ch2, ch3, ch4, ch5, ch6, ch7];
 
+      const knowledgeElements = [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url4.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url6.id, result: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED })
+      ];
+
       const answers = [
         domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
         domainBuilder.buildAnswer({ challengeId: 'rec4', result: AnswerStatus.OK }),
@@ -157,7 +170,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ knowledgeElements, challenges, targetProfile, answers });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
