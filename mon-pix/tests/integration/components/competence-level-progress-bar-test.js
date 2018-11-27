@@ -209,7 +209,7 @@ describe('Integration | Component | competence level progress bar', function() {
 
           // then
           expect($modal).to.be.ok;
-          expect($modal.querySelector('h1').textContent).to.contains('Seconde chance');
+          expect($modal.querySelector('h1').textContent).to.contains('Retenter');
           expect($modal.textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
           expect($modal.querySelector('.pix-modal__action.cancel').textContent).to.contains('Annuler');
           expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
