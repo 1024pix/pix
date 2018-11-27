@@ -13,7 +13,7 @@ const KNOWLEDGE_ELEMENT_STATUS = {
 describe('Unit | Domain | Models | SmartRandom', () => {
 
   describe('#constructor', () => {
-    it.only('should create a course with tubes', () => {
+    it('should create a course with tubes', () => {
       // given
       const web1 = domainBuilder.buildSkill({ name: 'web1' });
       const web2 = domainBuilder.buildSkill({ name: 'web2' });
@@ -27,9 +27,10 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const targetProfile = new TargetProfile({ skills });
       const expectedTubes = new Tube({ skills: [web1, web2, web3] });
       const answers = [];
+      const knowledgeElements = [];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
 
       // then
       expect(smartRandom.course.tubes).to.be.deep.equal([expectedTubes]);
@@ -48,9 +49,10 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const targetProfile = new TargetProfile({ skills });
       const expectedTubes = new Tube({ skills: [web1, web2] });
       const answers = [];
+      const knowledgeElements = [];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
 
       // then
       expect(smartRandom.course.tubes).to.be.deep.equal([expectedTubes]);
@@ -72,9 +74,10 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const skills = [web1, web2, web3];
       const targetProfile = new TargetProfile({ skills });
       const answers = [];
+      const knowledgeElements = [];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -99,9 +102,12 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
         const challenges = [challengeUrl4, challengeUrl5, challengeInfo2, challengeWeb3];
         const answers = [domainBuilder.buildAnswer({ challengeId: 'recInfo2', result: AnswerStatus.OK })];
+        const knowledgeElements = [
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: info2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED })
+        ];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -123,9 +129,12 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const challenges = [challengeUrl4, challengeUrl6, challengeInfo2];
 
         const answers = [domainBuilder.buildAnswer({ challengeId: 'recInfo2', result: AnswerStatus.OK })];
+        const knowledgeElements = [
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: info2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED })
+        ];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -134,7 +143,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
     });
 
-    it.only('should return a challenge of level 5 if user got levels 2-4 ok but level 6 ko', function() {
+    it('should return a challenge of level 5 if user got levels 2-4 ok but level 6 ko', function() {
       // given
       const web1 = domainBuilder.buildSkill({ name: 'web1' });
       const web2 = domainBuilder.buildSkill({ name: 'web2' });
@@ -179,11 +188,11 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
     it('should not return a challenge of level 7 if user got levels 2-3 ok but level 5 ko', function() {
       // given
-      const web2 = domainBuilder.buildSkill({ name: 'url2' });
+      const url2 = domainBuilder.buildSkill({ name: 'url2' });
       const url3 = domainBuilder.buildSkill({ name: 'url3' });
       const rechInfo5 = domainBuilder.buildSkill({ name: 'rechInfo5' });
       const web7 = domainBuilder.buildSkill({ name: 'web7' });
-      const skills = [web2, url3, rechInfo5, web7];
+      const skills = [url2, url3, rechInfo5, web7];
       const targetProfile = new TargetProfile({ skills });
 
       const ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
@@ -198,8 +207,14 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         domainBuilder.buildAnswer({ challengeId: 'rec5', result: AnswerStatus.KO })
       ];
 
+      const knowledgeElements = [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: rechInfo5.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED })
+      ];
+
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -232,9 +247,15 @@ describe('Unit | Domain | Models | SmartRandom', () => {
           domainBuilder.buildAnswer({ challengeId: undefined, result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec4', result: AnswerStatus.KO }),
         ];
+        const knowledgeElements = [
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web4.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web5.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED })
+        ];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -249,9 +270,15 @@ describe('Unit | Domain | Models | SmartRandom', () => {
           domainBuilder.buildAnswer({ challengeId: undefined, result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec4', result: AnswerStatus.OK }),
         ];
+        const knowledgeElements = [
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web4.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED })
+        ];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -265,10 +292,15 @@ describe('Unit | Domain | Models | SmartRandom', () => {
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: undefined, result: AnswerStatus.OK }),
         ];
+        const knowledgeElements = [
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        ];
+
         challenges = [ch1, ch2, ch3, ch3Bis, ch4];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -282,11 +314,16 @@ describe('Unit | Domain | Models | SmartRandom', () => {
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: undefined, result: AnswerStatus.OK }),
         ];
+        const knowledgeElements = [
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        ];
+
         ch3.status = 'archived';
         challenges = [ch1, ch2, ch3, ch3Bis];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // ass
@@ -308,9 +345,13 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const answers = [
         domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
       ];
+      const knowledgeElements = [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+      ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -403,9 +444,14 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const targetProfile = new TargetProfile({ skills: [web3] });
 
         const timedChallenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web3], timer:10 });
-        const challenges = [timedChallenge];
+        const firstChallenge = domainBuilder.buildChallenge({ id: 'rec', skills: [url2] });
+        const challenges = [firstChallenge];
         const answers = [];
+        const knowledgeElements = [];
 
+      // when
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
+      const nextChallenge = smartRandom.getNextChallenge();
         // when
         const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
         const nextChallenge = smartRandom.getNextChallenge();
@@ -431,9 +477,13 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const answers = [
         domainBuilder.buildAnswer({ challengeId: 'rec2a', result: AnswerStatus.SKIPPED })
       ];
+      const knowledgeElements = [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web3.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED }),
+      ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -458,9 +508,13 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const answers = [
         domainBuilder.buildAnswer({ challengeId: 'rec2a', result: AnswerStatus.OK })
       ];
+      const knowledgeElements = [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+      ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -484,9 +538,13 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const answers = [
         domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
       ];
+      const knowledgeElements = [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+      ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -514,9 +572,15 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
         domainBuilder.buildAnswer({ challengeId: 'rec6', result: AnswerStatus.OK })
       ];
+      const knowledgeElements = [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web4.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web6.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+      ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -536,9 +600,12 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const answers = [
         domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
       ];
+      const knowledgeElements = [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+      ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -561,6 +628,11 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const answerCh1 = domainBuilder.buildAnswer({ challengeId: challengeAssessingSkill1.id, result: AnswerStatus.OK });
       const answerCh2 = domainBuilder.buildAnswer({ challengeId: challengeAssessingSkill2.id, result: AnswerStatus.OK });
       const answers = [answerCh1, answerCh2];
+      const knowledgeElements = [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+      ];
+
       const challenges = [
         challengeAssessingSkill1,
         challengeAssessingSkill2,
@@ -569,15 +641,13 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
-      const result = SmartRandom._filteredChallenges(
-        smartRandom.challenges,
-        smartRandom.answers,
-        smartRandom.tubes,
-        smartRandom.validatedSkills,
-        smartRandom.failedSkills,
-        smartRandom.getPredictedLevel(),
-      );
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
+      const result = SmartRandom._filteredChallenges({
+        challenges: smartRandom.challenges,
+        answers :smartRandom.answers,
+        knowledgeElements,
+        predictedLevel:smartRandom.getPredictedLevel()
+      });
 
       // then
       expect(result).to.deep.equal([challengeAssessingSkill3]);
@@ -594,20 +664,21 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
         const answerCh1 = domainBuilder.buildAnswer({ challengeId: challengeAssessingSkill1.id, result: AnswerStatus.OK });
         const answers = [answerCh1];
+        const knowledgeElements = [
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        ];
         const challenges = [
           challengeAssessingSkill1,
         ];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
-        const result = SmartRandom._filteredChallenges(
-          smartRandom.challenges,
-          smartRandom.answers,
-          smartRandom.tubes,
-          smartRandom.validatedSkills,
-          smartRandom.failedSkills,
-          smartRandom.getPredictedLevel(),
-        );
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
+        const result = SmartRandom._filteredChallenges({
+          challenges: smartRandom.challenges,
+          answers :smartRandom.answers,
+          knowledgeElements,
+          predictedLevel:smartRandom.getPredictedLevel()
+         });
 
         // then
         expect(result).to.deep.equal([]);

@@ -15,15 +15,11 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _randomly() {
-  return 0.5 - Math.random();
-}
-
 function _probaOfCorrectAnswer(level, difficulty) {
   return 1 / (1 + Math.exp(-(level - difficulty)));
 }
 
-function _computeLikelihood(level, answers) {
+function _computeProbabilityOfCorrectLevelPredicted(level, answers) {
   const extraAnswers = answers.map((answer) => {
     return { binaryOutcome: answer.binaryOutcome, maxDifficulty: answer.maxDifficulty() };
   });
@@ -171,24 +167,24 @@ class SmartRandom {
     this.course.competenceSkills = listSkillsWithChallenges;
     this.course.computeTubes(listSkillsWithChallenges);
 
-    this.assessment = new Assessment();
-    this.assessment.course = this.course;
     this.answers = answers;
     this.lastAnswer = answers[answers.length-1];
-    this.lastChallenge = challenges.find((challenge) => challenge.id === this.lastAnswer.challengeId);
+    this.lastChallenge = null;
+    if(this.lastAnswer) {
+      this.lastChallenge = challenges.find((challenge) => challenge.id === this.lastAnswer.challengeId);
+    }
     this.knowledgeElements = knowledgeElements;
+
     this.predictedLevel = this.getPredictedLevel();
   }
 
   getNextChallenge() {
 
-    if (this.lastAnswer === null) {
+    if (!this.lastAnswer) {
       return _firstChallenge({
         challenges: this.challenges,
         knowledgeElements: this.knowledgeElements,
         tubes: this.course.tubes,
-        validatedSkills: this.validatedSkills,
-        failedSkills: this.failedSkills,
         predictedLevel: this.predictedLevel,
         lastChallenge: this.lastChallenge
       });
@@ -228,7 +224,7 @@ class SmartRandom {
     const bestChallenges = challengesAndRewards
       .filter((challengeAndReward) => challengeAndReward.reward === maxReward)
       .map((challengeAndReward) => challengeAndReward.challenge);
-    return bestChallenges.sort(_randomly)[0];
+    return _.sample(bestChallenges);
   }
 
   // The adaptative algorithm ends when there is nothing more to gain
@@ -236,12 +232,8 @@ class SmartRandom {
     return maxReward === 0;
   }
 
-  get score() {
-    return this.assessment.computePixScore();
-  }
-
   getPredictedLevel() {
-    if (this.lastAnswer === null) {
+    if (!this.lastAnswer) {
       return LEVEL_FOR_FIRST_CHALLENGE;
     }
     let maxLikelihood = -Infinity;
@@ -249,7 +241,7 @@ class SmartRandom {
     let predictedLevel = 0.5;
 
     while (level < 8) {
-      const likelihood = _computeLikelihood(level, this.answers);
+      const likelihood = _computeProbabilityOfCorrectLevelPredicted(level, this.answers);
       if (likelihood > maxLikelihood) {
         maxLikelihood = likelihood;
         predictedLevel = level;
@@ -259,7 +251,7 @@ class SmartRandom {
     return predictedLevel;
   }
 
-  static _filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge}) {
+  static _filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge }) {
     // Filter 1 : only available challenge : published and with skills not already tested
     let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements));
 
