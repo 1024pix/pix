@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 
@@ -79,7 +79,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#getCertification', () => {
 
-    const certification = factory.buildCertificationWithCompetenceTree();
+    const certification = domainBuilder.buildCertificationWithCompetenceTree();
     const serializedCertification = '{JSON}';
     const userId = 1;
 

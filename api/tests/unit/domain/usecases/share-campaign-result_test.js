@@ -1,4 +1,4 @@
-const { sinon, expect, factory } = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -23,11 +23,11 @@ describe('Unit | UseCase | share-campaign-result', () => {
   };
 
   beforeEach(() => {
-    user = factory.buildUser();
+    user = domainBuilder.buildUser();
     userId = user.id;
-    assessment = factory.buildSmartPlacementAssessment({ userId: userId });
+    assessment = domainBuilder.buildSmartPlacementAssessment({ userId: userId });
     assessmentId = assessment.id;
-    campaignParticipation = factory.buildCampaignParticipation({ assessmentId });
+    campaignParticipation = domainBuilder.buildCampaignParticipation({ assessmentId });
 
     sandbox = sinon.sandbox.create();
     sandbox.stub(smartPlacementAssessmentRepository, 'checkIfAssessmentBelongToUser');
@@ -49,7 +49,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
       beforeEach(() => {
         campaignParticipationRepository.get.resolves(campaignParticipation);
 
-        expectedCampaignParticipation = factory.buildCampaignParticipation({
+        expectedCampaignParticipation = domainBuilder.buildCampaignParticipation({
           assessmentId: campaignParticipation.assessmentId,
           campaignId: campaignParticipation.campaignId,
           isShared: true

@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
 const areaDatasource = require('../../../../lib/infrastructure/datasources/airtable/area-datasource');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
@@ -14,13 +14,13 @@ describe('Unit | Repository | area-repository', function() {
     sandbox.stub(areaDatasource, 'list');
 
     areaDatasource.list.resolves([
-      factory.buildAreaAirtableDataObject({
+      domainBuilder.buildAreaAirtableDataObject({
         id: 'recDomaine1',
         code: '1',
         title: 'Domaine 1',
         name: '1. Domaine 1',
       }),
-      factory.buildAreaAirtableDataObject({
+      domainBuilder.buildAreaAirtableDataObject({
         id: 'recDomaine2',
         code: '2',
         title: 'Domaine 2',
@@ -74,9 +74,9 @@ describe('Unit | Repository | area-repository', function() {
   });
 
   describe('#listWithCompetences', () => {
-    const competence1 = factory.buildCompetence({
+    const competence1 = domainBuilder.buildCompetence({
         area: { id: 'recDomaine1' }
-      }), competence2 = factory.buildCompetence({
+      }), competence2 = domainBuilder.buildCompetence({
         area: { id: 'recDomaine2' }
       });
 

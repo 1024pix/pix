@@ -1,4 +1,4 @@
-const { expect, factory, sinon } = require('../../../test-helper');
+const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const findSmartPlacementAssessments = require('../../../../lib/domain/usecases/find-smart-placement-assessments');
 
 describe('Unit | UseCase | find-smart-placement-assessments', () => {
@@ -22,7 +22,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     // given
     const userId = 1234;
     const filters = { type: 'SMART_PLACEMENT', codeCampaign: 'Code' };
-    const assessment = factory.buildAssessment.ofTypeSmartPlacement({
+    const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
       ...filters,
       userId,
     });
@@ -42,9 +42,9 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     const userId = 1234;
     const campaignCode = 'Code';
     const filters = { type: 'SMART_PLACEMENT', codeCampaign: campaignCode };
-    const campaign = factory.buildCampaign({ code: campaignCode });
-    const campaignParticipation = factory.buildCampaignParticipation({ campaign });
-    const assessment = factory.buildAssessment.ofTypeSmartPlacement({
+    const campaign = domainBuilder.buildCampaign({ code: campaignCode });
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
+    const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
       userId,
       campaignParticipation
     });

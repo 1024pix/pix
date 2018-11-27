@@ -1,4 +1,4 @@
-const { expect, factory } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
 const CatAssessment = require('../../../../lib/cat/assessment');
 const CatCourse = require('../../../../lib/cat/course');
@@ -17,7 +17,7 @@ describe('Unit | Adapter | Assessment', () => {
     timer: 26,
   };
   const defaultCatSkill = new CatSkill(defaultRawSkillAttrs.name);
-  const defaultCatChallenge = factory.buildCatChallenge(
+  const defaultCatChallenge = domainBuilder.buildCatChallenge(
     Object.assign({}, defaultRawChallengeAttrs, {
       skills: [defaultCatSkill]
     })

@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getOrganizationDetails = require('../../../../lib/domain/usecases/get-organization-details');
 const Organization = require('../../../../lib/domain/models/Organization');
 
@@ -7,7 +7,7 @@ describe('Unit | UseCase | get-organization-details', () => {
   it('should return the Organization matching the given organization ID', () => {
     // given
     const organizationId = 1234;
-    const foundOrganization = factory.buildOrganization({ id: organizationId });
+    const foundOrganization = domainBuilder.buildOrganization({ id: organizationId });
     const organizationRepository = {
       get: sinon.stub().resolves(foundOrganization)
     };

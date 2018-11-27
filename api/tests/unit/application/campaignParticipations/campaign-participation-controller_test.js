@@ -1,4 +1,4 @@
-const { sinon, expect, factory } = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -250,7 +250,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     it('should return the serialized campaign participation when it has been successfully created', () => {
       // given
-      const createdCampaignParticipation = factory.buildCampaignParticipation();
+      const createdCampaignParticipation = domainBuilder.buildCampaignParticipation();
       usecases.startCampaignParticipation.resolves(createdCampaignParticipation);
 
       const serializedCampaignParticipation = { id: 88, assessmentId: 12 };

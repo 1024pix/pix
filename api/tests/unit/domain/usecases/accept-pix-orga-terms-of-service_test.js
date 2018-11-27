@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const acceptPixOrgaTermsOfService = require('../../../../lib/domain/usecases/accept-pix-orga-terms-of-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
@@ -20,7 +20,7 @@ describe('Unit | UseCase | accept-pix-orga-terms-of-service', () => {
     it('should not update terms of service validation', () => {
       // given
       const userId = 1;
-      const user = factory.buildUser({
+      const user = domainBuilder.buildUser({
         pixOrgaTermsOfServiceAccepted: true
       });
       userRepository.get.resolves(user);
@@ -40,7 +40,7 @@ describe('Unit | UseCase | accept-pix-orga-terms-of-service', () => {
     it('should accept terms of service of pix-orga', () => {
       // given
       const userId = 1;
-      const user = factory.buildUser({
+      const user = domainBuilder.buildUser({
         pixOrgaTermsOfServiceAccepted: false
       });
       userRepository.get.resolves(user);
