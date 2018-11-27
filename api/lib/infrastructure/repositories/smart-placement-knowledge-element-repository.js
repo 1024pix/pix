@@ -9,6 +9,13 @@ module.exports = {
       .then((knowledgeElementBookshelf) => knowledgeElementBookshelf.save())
       .then(toDomain);
   },
+
+  findByAssessmentId(assessmentId) {
+    return BookshelfKnowledgeElement
+      .where({ assessmentId })
+      .fetchAll()
+      .then((knowledgeElement) => knowledgeElement.map(toDomain));
+  },
 };
 
 function toDomain(knowledgeElementBookshelf) {

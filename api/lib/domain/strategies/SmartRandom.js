@@ -1,4 +1,3 @@
-const Assessment = require('../models/Assessment');
 const Course = require('../models/Course');
 const _ = require('lodash');
 
@@ -19,9 +18,14 @@ function _probaOfCorrectAnswer(level, difficulty) {
   return 1 / (1 + Math.exp(-(level - difficulty)));
 }
 
-function _computeProbabilityOfCorrectLevelPredicted(level, answers) {
-  const extraAnswers = answers.map((answer) => {
-    return { binaryOutcome: answer.binaryOutcome, maxDifficulty: answer.maxDifficulty() };
+function _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills) {
+  //Trouver les acquis auxquelles ont a répondu directement
+  const directKnowledgeElements = _.filter(knowledgeElements, (ke)=> ke.source === 'direct');
+  const extraAnswers = directKnowledgeElements.map((ke)=> {
+    const skill = skills.find((skill) => skill.id === ke.skillId);
+    const maxDifficulty = skill.difficulty || 2;
+    const binaryOutcome = (ke.status === 'validated') ? 1 : 0;
+    return { binaryOutcome, maxDifficulty };
   });
 
   const answerThatAnyoneCanSolve = { maxDifficulty: 0, binaryOutcome: 1 };
@@ -61,9 +65,9 @@ function _isChallengeNotTooHard(challenge, predictedLevel) {
   return challenge.hardestSkill.difficulty - predictedLevel <= 2;
 }
 
-function _isAnAvailableChallenge(challenge, knowledgeElements) {
+function _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile) {
   return challenge.isPublished()
-    && !challenge.hasAllSkilledAlreadyCovered(knowledgeElements);
+    && !challenge.hasAllSkilledAlreadyCovered(knowledgeElements, targetProfile);
 }
 
 function _isPreviousChallengeTimed(lastChallenge) {
@@ -161,24 +165,31 @@ class SmartRandom {
     this.challenges = challenges;
     this.targetProfile = targetProfile;
     this.skills = targetProfile.skills;
+    this.knowledgeElements = knowledgeElements;
 
     this.course = new Course();
     const listSkillsWithChallenges = _filterSkillsByChallenges(this.skills, challenges);
     this.course.competenceSkills = listSkillsWithChallenges;
     this.course.computeTubes(listSkillsWithChallenges);
 
-    this.answers = answers;
     this.lastAnswer = answers[answers.length-1];
     this.lastChallenge = null;
     if(this.lastAnswer) {
       this.lastChallenge = challenges.find((challenge) => challenge.id === this.lastAnswer.challengeId);
     }
-    this.knowledgeElements = knowledgeElements;
 
     this.predictedLevel = this.getPredictedLevel();
   }
 
   getNextChallenge() {
+    const availableChallenges = SmartRandom._filteredChallenges({
+      challenges: this.challenges,
+      knowledgeElements: this.knowledgeElements,
+      tubes: this.course.tubes,
+      predictedLevel: this.predictedLevel,
+      lastChallenge: this.lastChallenge,
+      targetProfile: this.targetProfile
+    });
 
     if (!this.lastAnswer) {
       return _firstChallenge({
@@ -186,17 +197,11 @@ class SmartRandom {
         knowledgeElements: this.knowledgeElements,
         tubes: this.course.tubes,
         predictedLevel: this.predictedLevel,
-        lastChallenge: this.lastChallenge
+        lastChallenge: this.lastChallenge,
+        targetProfile: this.targetProfile,
+        availableChallenges
       });
     }
-
-    const availableChallenges = SmartRandom._filteredChallenges({
-      challenges: this.challenges,
-      knowledgeElements: this.knowledgeElements,
-      tubes: this.course.tubes,
-      predictedLevel: this.predictedLevel,
-      lastChallenge: this.lastChallenge
-    });
 
     if (availableChallenges.length === 0) {
       return null;
@@ -241,7 +246,7 @@ class SmartRandom {
     let predictedLevel = 0.5;
 
     while (level < 8) {
-      const likelihood = _computeProbabilityOfCorrectLevelPredicted(level, this.answers);
+      const likelihood = _computeProbabilityOfCorrectLevelPredicted(level, this.knowledgeElements, this.skills);
       if (likelihood > maxLikelihood) {
         maxLikelihood = likelihood;
         predictedLevel = level;
@@ -251,9 +256,9 @@ class SmartRandom {
     return predictedLevel;
   }
 
-  static _filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge }) {
+  static _filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge, targetProfile }) {
     // Filter 1 : only available challenge : published and with skills not already tested
-    let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements));
+    let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile));
 
     // Filter 2 : Do not ask timed challenge if previous challenge was timed
     if (_isPreviousChallengeTimed(lastChallenge)) {

@@ -103,7 +103,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const challenges = [challengeUrl4, challengeUrl5, challengeInfo2, challengeWeb3];
         const answers = [domainBuilder.buildAnswer({ challengeId: 'recInfo2', result: AnswerStatus.OK })];
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: info2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED })
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: info2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' })
         ];
 
         // when
@@ -130,7 +130,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
         const answers = [domainBuilder.buildAnswer({ challengeId: 'recInfo2', result: AnswerStatus.OK })];
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: info2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED })
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: info2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED , source: 'direct' })
         ];
 
         // when
@@ -165,11 +165,11 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const challenges = [ch1, ch2, ch3, ch4, ch5, ch6, ch7];
 
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url4.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url6.id, result: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED })
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url4.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url6.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED, source: 'direct' })
       ];
 
       const answers = [
@@ -195,7 +195,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const skills = [url2, url3, rechInfo5, web7];
       const targetProfile = new TargetProfile({ skills });
 
-      const ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
+      const ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [url2] });
       const ch3 = domainBuilder.buildChallenge({ id: 'rec3', skills: [url3] });
       const ch5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [rechInfo5] });
       const ch7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [web7] });
@@ -208,9 +208,9 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: rechInfo5.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED })
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: url3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: rechInfo5.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED, source: 'direct' })
       ];
 
       // when
@@ -271,10 +271,10 @@ describe('Unit | Domain | Models | SmartRandom', () => {
           domainBuilder.buildAnswer({ challengeId: 'rec4', result: AnswerStatus.OK }),
         ];
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web4.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED })
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web4.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' })
         ];
 
         // when
@@ -293,8 +293,8 @@ describe('Unit | Domain | Models | SmartRandom', () => {
           domainBuilder.buildAnswer({ challengeId: undefined, result: AnswerStatus.OK }),
         ];
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
 
         challenges = [ch1, ch2, ch3, ch3Bis, ch4];
@@ -315,8 +315,8 @@ describe('Unit | Domain | Models | SmartRandom', () => {
           domainBuilder.buildAnswer({ challengeId: undefined, result: AnswerStatus.OK }),
         ];
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
 
         ch3.status = 'archived';
@@ -346,8 +346,8 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
       ];
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
       ];
 
       // when
@@ -478,8 +478,8 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         domainBuilder.buildAnswer({ challengeId: 'rec2a', result: AnswerStatus.SKIPPED })
       ];
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web3.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web3.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED, source: 'indirect' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED, source: 'direct' }),
       ];
 
       // when
@@ -509,8 +509,8 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         domainBuilder.buildAnswer({ challengeId: 'rec2a', result: AnswerStatus.OK })
       ];
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
       ];
 
       // when
@@ -539,8 +539,8 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
       ];
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
       ];
 
       // when
@@ -573,10 +573,10 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         domainBuilder.buildAnswer({ challengeId: 'rec6', result: AnswerStatus.OK })
       ];
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web4.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web6.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web4.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web6.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
       ];
 
       // when
@@ -601,7 +601,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
       ];
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: web2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
       ];
 
       // when
@@ -629,8 +629,8 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const answerCh2 = domainBuilder.buildAnswer({ challengeId: challengeAssessingSkill2.id, result: AnswerStatus.OK });
       const answers = [answerCh1, answerCh2];
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
       ];
 
       const challenges = [
@@ -644,9 +644,9 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
       const result = SmartRandom._filteredChallenges({
         challenges: smartRandom.challenges,
-        answers :smartRandom.answers,
         knowledgeElements,
-        predictedLevel:smartRandom.getPredictedLevel()
+        predictedLevel:smartRandom.getPredictedLevel(),
+        targetProfile: smartRandom.targetProfile
       });
 
       // then
@@ -665,7 +665,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const answerCh1 = domainBuilder.buildAnswer({ challengeId: challengeAssessingSkill1.id, result: AnswerStatus.OK });
         const answers = [answerCh1];
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const challenges = [
           challengeAssessingSkill1,
@@ -675,10 +675,10 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
         const result = SmartRandom._filteredChallenges({
           challenges: smartRandom.challenges,
-          answers :smartRandom.answers,
           knowledgeElements,
-          predictedLevel:smartRandom.getPredictedLevel()
-         });
+          predictedLevel:smartRandom.getPredictedLevel(),
+          targetProfile: smartRandom.targetProfile,
+        });
 
         // then
         expect(result).to.deep.equal([]);
