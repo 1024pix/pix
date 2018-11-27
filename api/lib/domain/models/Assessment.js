@@ -4,6 +4,8 @@ const { ObjectValidationError } = require('../errors');
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 
+const MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = 7;
+
 const states = {
   COMPLETED: 'completed',
   STARTED: 'started',
@@ -181,5 +183,6 @@ class Assessment {
 
 Assessment.states = states;
 Assessment.types = type;
+Assessment.MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS;
 
 module.exports = Assessment;
