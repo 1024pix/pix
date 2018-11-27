@@ -1,6 +1,8 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+  notifications: service('notification-messages'),
 
   actions: {
 
@@ -11,15 +13,13 @@ export default Controller.extend({
     addOrganization() {
       return this.get('model').save()
         .then(() => {
-          // Take care to not return the result of the transition because then
-          // it will display a notification error even if all succeeded.
-          this.doGoBackToOrganizationListPage();
+          this.transitionToRoute('authenticated.organizations');
+          this.get('notifications').success('L’organisation a été créée avec succès.');
+        })
+        .catch(() => {
+          this.get('notifications').error('Une erreur est survenue.')
         });
     }
   },
-
-  doGoBackToOrganizationListPage() {
-    this.transitionToRoute('authenticated.organizations');
-  }
 
 });
