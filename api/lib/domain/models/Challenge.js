@@ -113,9 +113,12 @@ class Challenge {
     return _(this.skills).differenceWith(alreadyAssessedSkills, Skill.areEqual).size() > 0;
   }
 
-  hasAllSkilledAlreadyCovered(knowledgeElements) {
+  hasAllSkilledAlreadyCovered(knowledgeElements, targetProfile) {
     const skillIdsAlreadyCovered = _.map(knowledgeElements, 'skillId');
-    return _.every(this.skills, (skill) => _.includes(skillIdsAlreadyCovered, skill.id));
+    const skillOfChallengePresentInTargetProfile = _.filter(this.skills, (challengeSkill) => {
+      return targetProfile.skills.find((profileSkill) => profileSkill.id === challengeSkill.id);
+    });
+    return _.every(skillOfChallengePresentInTargetProfile, (skill) => _.includes(skillIdsAlreadyCovered, skill.id));
   }
 
   static createValidatorForChallengeType({ challengeType, solution }) {
