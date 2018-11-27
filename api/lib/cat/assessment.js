@@ -5,7 +5,7 @@ const logger = require('../infrastructure/logger');
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
 const MAX_NUMBER_OF_CHALLENGES = 20;
-const LEVEL_FOR_FIRST_CHALLENGE = 2;
+const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 
 class Assessment {
@@ -125,7 +125,7 @@ class Assessment {
 
   _getPredictedLevel() {
     if (this.answers.length === 0) {
-      return LEVEL_FOR_FIRST_CHALLENGE;
+      return DEFAULT_LEVEL_FOR_FIRST_CHALLENGE;
     }
     let maxLikelihood = -Infinity;
     let level = 0.5;
@@ -204,7 +204,7 @@ class Assessment {
 
   get _firstChallenge() {
     const filteredFirstChallenges = this.filteredChallenges.filter(
-      (challenge) => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
+      (challenge) => (challenge.hardestSkill.difficulty === DEFAULT_LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
     );
     filteredFirstChallenges.sort(this._randomly);
     return filteredFirstChallenges[0];
