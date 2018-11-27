@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
+const { MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS } = require('./Assessment');
 
 // FIXME: Cet objet a trop de responsabilité (modification des compétences)
 class Profile {
@@ -49,6 +50,13 @@ class Profile {
     });
   }
 
+  _daysBeforeReplay(daysSinceLastCompletedAssessment) {
+    if(daysSinceLastCompletedAssessment >= MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS)
+      return 0;
+
+    return Math.ceil(MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS - daysSinceLastCompletedAssessment);
+  }
+
   _setRetryDelayToCompetence(competence, assessmentsCompletedByCompetenceId) {
     const lastAssessmentResult = _(assessmentsCompletedByCompetenceId)
       .map((assessment) => assessment.assessmentResults)
@@ -56,8 +64,8 @@ class Profile {
       .sortBy(['createdAt'])
       .first();
 
-    const diff = moment().diff(lastAssessmentResult.createdAt, 'days', true);
-    competence.daysBeforeReplay = diff > 7 ? 0 : diff;
+    const daysSinceLastCompletedAssessment = moment().diff(lastAssessmentResult.createdAt, 'days', true);
+    competence.daysBeforeReplay = this._daysBeforeReplay(daysSinceLastCompletedAssessment);
   }
 
   _setLevelAndPixScoreToCompetences(assessments, courses) {
