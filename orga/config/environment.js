@@ -43,10 +43,10 @@ module.exports = function(environment) {
       'default-src': "'none'",
       'script-src': "'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
       'font-src': "'self' fonts.gstatic.com",
-      'connect-src': "'self' www.google-analytics.com app.getsentry.com",
-      'img-src': "'self' app.getsentry.com",
+      'connect-src': "'self' www.google-analytics.com",
+      'img-src': "'self'",
       'style-src': "'self' fonts.googleapis.com",
-      'media-src': "'self'",
+      'media-src': "'self'"
     },
   };
 
@@ -76,9 +76,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.APP.CAMPAIGNS_ROOT_URL= 'https://app.pix.fr/campagnes/';
     // here you can enable a production-specific feature
-    //ENV.APP.API_HOST = 'https://pix.fr/api';
   }
 
   return ENV;
