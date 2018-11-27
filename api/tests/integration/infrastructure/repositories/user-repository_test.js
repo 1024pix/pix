@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder, factory } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
@@ -510,7 +510,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     let userToUpdate;
 
     beforeEach(async () => {
-      userToUpdate = factory.buildUser({ pixOrgaTermsOfServiceAccepted: true });
+      userToUpdate = domainBuilder.buildUser({ pixOrgaTermsOfServiceAccepted: true });
       databaseBuilder.factory.buildUser({ id: userToUpdate.id, pixOrgaTermsOfServiceAccepted: false });
       await databaseBuilder.commit();
     });

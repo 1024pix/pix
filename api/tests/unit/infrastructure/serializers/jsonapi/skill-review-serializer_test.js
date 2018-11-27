@@ -1,4 +1,4 @@
-const { expect, factory } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/skill-review-serializer');
 
 describe('Unit | Serializer | JSONAPI | skill-review-serializer', function() {
@@ -6,7 +6,7 @@ describe('Unit | Serializer | JSONAPI | skill-review-serializer', function() {
   describe('#serialize()', function() {
 
     it('should convert a SkillReview model object into JSON API data', function() {
-      const skillReview = factory.buildSkillReview();
+      const skillReview = domainBuilder.buildSkillReview();
 
       // when
       const json = serializer.serialize(skillReview);

@@ -1,4 +1,4 @@
-const { expect, factory } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const CampaignParticipation  = require('../../../../../lib/domain/models/CampaignParticipation');
 
@@ -8,8 +8,8 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
 
     it('should convert a CampaignParticipation model object into JSON API data', function() {
       // given
-      const campaign = factory.buildCampaign();
-      const campaignParticipation = factory.buildCampaignParticipation({
+      const campaign = domainBuilder.buildCampaign();
+      const campaignParticipation = domainBuilder.buildCampaignParticipation({
         id: 5,
         isShared: true,
         sharedAt: '2018-02-06 14:12:44',

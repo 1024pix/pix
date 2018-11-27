@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
@@ -8,7 +8,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
 
   let sandbox;
   const userId = 19837482;
-  const campaignParticipation = factory.buildCampaignParticipation({});
+  const campaignParticipation = domainBuilder.buildCampaignParticipation({});
   const campaignRepository = { get: () => undefined };
   const campaignParticipationRepository = { save: () => undefined };
   const assessmentRepository = { save: () => undefined };
@@ -19,7 +19,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     sandbox.stub(campaignParticipationRepository, 'save');
     sandbox.stub(assessmentRepository, 'save');
 
-    campaignRepository.get.resolves(factory.buildCampaign());
+    campaignRepository.get.resolves(domainBuilder.buildCampaign());
   });
 
   afterEach(() => {
@@ -79,7 +79,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
   it('should return the saved campaign participation', () => {
     // given
     const assessmentId = 987654321;
-    const createdCampaignParticipation = factory.buildCampaignParticipation();
+    const createdCampaignParticipation = domainBuilder.buildCampaignParticipation();
     assessmentRepository.save.resolves({ id: assessmentId });
     campaignParticipationRepository.save.resolves(createdCampaignParticipation);
 

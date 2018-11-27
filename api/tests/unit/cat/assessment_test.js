@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { expect, sinon, factory } = require('../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../test-helper');
 const CatAnswer = require('../../../lib/cat/answer');
 const CatAssessment = require('../../../lib/cat/assessment');
 const CatChallenge = require('../../../lib/cat/challenge');
@@ -256,7 +256,7 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return empty array when no answers', function() {
       // given
-      const assessment = factory.buildCatAssessment({ answers: [] });
+      const assessment = domainBuilder.buildCatAssessment({ answers: [] });
 
       // when
       const result = assessment.assessedSkills;
@@ -269,19 +269,19 @@ describe('Unit | Model | Assessment', function() {
       // given
       // XXX currently tubes are computed from the skills of the challenges,
       // we need a challenge with skill level 1 so that it appears in `assessment.assessedSkills`
-      const [s1, s2] = factory.buildCatTube({ maxLevel: 2 });
-      const ch1 = factory.buildCatChallenge({
+      const [s1, s2] = domainBuilder.buildCatTube({ maxLevel: 2 });
+      const ch1 = domainBuilder.buildCatChallenge({
         skills: [s1],
       });
-      const ch2 = factory.buildCatChallenge({
+      const ch2 = domainBuilder.buildCatChallenge({
         skills: [s2],
       });
-      const assessment = factory.buildCatAssessment({
-        course: factory.buildCatCourse({
+      const assessment = domainBuilder.buildCatAssessment({
+        course: domainBuilder.buildCatCourse({
           challenges: [ch1, ch2],
           competenceSkills: [s1, s2],
         }),
-        answers: [factory.buildCatAnswer({ challenge: ch2, result: 'ok' })],
+        answers: [domainBuilder.buildCatAnswer({ challenge: ch2, result: 'ok' })],
       });
 
       // when
@@ -294,17 +294,17 @@ describe('Unit | Model | Assessment', function() {
     it('should return the union of failed and validated skills', function() {
       // given
       let tube1, tube2;
-      const [s1, s2] = tube1 = factory.buildCatTube({ maxLevel: 3 });
-      const [t1, t2, t3] = tube2 = factory.buildCatTube({ maxLevel: 3 });
-      const ch1 = factory.buildCatChallenge({ skills: [s1] });
-      const ch2 = factory.buildCatChallenge({ skills: [s2] });
-      const ch3 = factory.buildCatChallenge({ skills: [t1] });
-      const ch4 = factory.buildCatChallenge({ skills: [t2] });
-      const ch5 = factory.buildCatChallenge({ skills: [t3] });
-      const answerCh1 = factory.buildCatAnswer({ challenge: ch2, result: 'ok' });
-      const answerCh2 = factory.buildCatAnswer({ challenge: ch4, result: 'ko' });
-      const assessment = factory.buildCatAssessment({
-        course: factory.buildCatCourse({
+      const [s1, s2] = tube1 = domainBuilder.buildCatTube({ maxLevel: 3 });
+      const [t1, t2, t3] = tube2 = domainBuilder.buildCatTube({ maxLevel: 3 });
+      const ch1 = domainBuilder.buildCatChallenge({ skills: [s1] });
+      const ch2 = domainBuilder.buildCatChallenge({ skills: [s2] });
+      const ch3 = domainBuilder.buildCatChallenge({ skills: [t1] });
+      const ch4 = domainBuilder.buildCatChallenge({ skills: [t2] });
+      const ch5 = domainBuilder.buildCatChallenge({ skills: [t3] });
+      const answerCh1 = domainBuilder.buildCatAnswer({ challenge: ch2, result: 'ok' });
+      const answerCh2 = domainBuilder.buildCatAnswer({ challenge: ch4, result: 'ko' });
+      const assessment = domainBuilder.buildCatAssessment({
+        course: domainBuilder.buildCatCourse({
           challenges: [ch1, ch2, ch3, ch4, ch5],
           competenceSkills: _.flatten([tube1, tube2]),
         }),
@@ -335,9 +335,9 @@ describe('Unit | Model | Assessment', function() {
       const web1 = new CatSkill('web1');
       const web2 = new CatSkill('web2');
       const url3 = new CatSkill('url3');
-      const ch1 = factory.buildCatChallenge({ skills: [web1] });
-      const ch2 = factory.buildCatChallenge({ skills: [web2] });
-      const ch3 = factory.buildCatChallenge({ skills: [url3] });
+      const ch1 = domainBuilder.buildCatChallenge({ skills: [web1] });
+      const ch2 = domainBuilder.buildCatChallenge({ skills: [web2] });
+      const ch3 = domainBuilder.buildCatChallenge({ skills: [url3] });
       const answerCh1 = new CatAnswer(ch1, AnswerStatus.OK);
       const answerCh3 = new CatAnswer(ch3, AnswerStatus.OK);
       const challenges = [ch1, ch2, ch3];
@@ -351,7 +351,7 @@ describe('Unit | Model | Assessment', function() {
     it('should return an empty array when all challenges have been answered', function() {
       // given
       const web1 = new CatSkill('web1');
-      const ch1 = factory.buildCatChallenge({ skills: [web1] });
+      const ch1 = domainBuilder.buildCatChallenge({ skills: [web1] });
       const answerCh1 = new CatAnswer(ch1, AnswerStatus.OK);
       const course = new CatCourse([ch1]);
       const assessment = new CatAssessment(course, [answerCh1]);
@@ -362,11 +362,11 @@ describe('Unit | Model | Assessment', function() {
 
     it('should not return any timed challenge if previous challenge was timed', function() {
       // given
-      const [web1, web2, web3, web4] = factory.buildCatTube();
-      const ch1 = factory.buildCatChallenge({ skills: [web1], timer: undefined });
-      const ch2 = factory.buildCatChallenge({ skills: [web2], timer: 30 });
-      const ch3 = factory.buildCatChallenge({ skills: [web3], timer: undefined });
-      const ch4 = factory.buildCatChallenge({ skills: [web4], timer: 30 });
+      const [web1, web2, web3, web4] = domainBuilder.buildCatTube();
+      const ch1 = domainBuilder.buildCatChallenge({ skills: [web1], timer: undefined });
+      const ch2 = domainBuilder.buildCatChallenge({ skills: [web2], timer: 30 });
+      const ch3 = domainBuilder.buildCatChallenge({ skills: [web3], timer: undefined });
+      const ch4 = domainBuilder.buildCatChallenge({ skills: [web4], timer: 30 });
       const answerCh1 = new CatAnswer(ch1, AnswerStatus.OK);
       const answerCh2 = new CatAnswer(ch2, AnswerStatus.OK);
       const challenges = [ch1, ch2, ch3, ch4];
@@ -381,12 +381,12 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return only challenges that are validated, prevalidated, or validated without test', function() {
       // given
-      const drop1 = factory.buildCatChallenge({ status: 'poubelle' });
-      const keep1 = factory.buildCatChallenge({ status: 'validé' });
-      const keep2 = factory.buildCatChallenge({ status: 'pré-validé' });
-      const drop2 = factory.buildCatChallenge({ status: 'archive' });
-      const drop3 = factory.buildCatChallenge({ status: 'proposé' });
-      const keep3 = factory.buildCatChallenge({ status: 'validé sans test' });
+      const drop1 = domainBuilder.buildCatChallenge({ status: 'poubelle' });
+      const keep1 = domainBuilder.buildCatChallenge({ status: 'validé' });
+      const keep2 = domainBuilder.buildCatChallenge({ status: 'pré-validé' });
+      const drop2 = domainBuilder.buildCatChallenge({ status: 'archive' });
+      const drop3 = domainBuilder.buildCatChallenge({ status: 'proposé' });
+      const keep3 = domainBuilder.buildCatChallenge({ status: 'validé sans test' });
       const course = new CatCourse([keep1, keep2, keep3, drop1, drop2, drop3]);
 
       // when
@@ -398,12 +398,12 @@ describe('Unit | Model | Assessment', function() {
 
     it('should not filer available challenges by priority skills (level <= 3) when there is no answers', function() {
       // given
-      const lowLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ minLevel: 1, maxLevel: 1 }) });
-      const midLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ minLevel: 3, maxLevel: 3 }) });
-      const highLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ minLevel: 4, maxLevel: 4 }) });
-      const highestLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ minLevel: 5, maxLevel: 5 }) });
+      const lowLevelChallege = domainBuilder.buildCatChallenge({ skills: domainBuilder.buildCatTube({ minLevel: 1, maxLevel: 1 }) });
+      const midLevelChallege = domainBuilder.buildCatChallenge({ skills: domainBuilder.buildCatTube({ minLevel: 3, maxLevel: 3 }) });
+      const highLevelChallege = domainBuilder.buildCatChallenge({ skills: domainBuilder.buildCatTube({ minLevel: 4, maxLevel: 4 }) });
+      const highestLevelChallege = domainBuilder.buildCatChallenge({ skills: domainBuilder.buildCatTube({ minLevel: 5, maxLevel: 5 }) });
 
-      const course = factory.buildCatCourse({
+      const course = domainBuilder.buildCatCourse({
         challenges: [
           midLevelChallege,
           lowLevelChallege,
@@ -429,12 +429,12 @@ describe('Unit | Model | Assessment', function() {
 
     it('should not ask a question that targets a skill already assessed', function() {
       // given
-      const [rechinfo1, rechinfo2, rechinfo3] = factory.buildCatTube();
+      const [rechinfo1, rechinfo2, rechinfo3] = domainBuilder.buildCatTube();
 
-      const ch1 = factory.buildCatChallenge({ skills: [rechinfo1] });
-      const ch2 = factory.buildCatChallenge({ skills: [rechinfo2] });
-      const ch3 = factory.buildCatChallenge({ skills: [rechinfo2] });
-      const ch4 = factory.buildCatChallenge({ skills: [rechinfo3] });
+      const ch1 = domainBuilder.buildCatChallenge({ skills: [rechinfo1] });
+      const ch2 = domainBuilder.buildCatChallenge({ skills: [rechinfo2] });
+      const ch3 = domainBuilder.buildCatChallenge({ skills: [rechinfo2] });
+      const ch4 = domainBuilder.buildCatChallenge({ skills: [rechinfo3] });
 
       const answerCh1 = new CatAnswer(ch1, AnswerStatus.OK);
       const answerCh2 = new CatAnswer(ch2, AnswerStatus.OK);
@@ -503,7 +503,7 @@ describe('Unit | Model | Assessment', function() {
     let url2, url3, url5, challenge1, challenge2, challenge3, challenge4, challenge5, course, assessment;
 
     beforeEach(() => {
-      [url2, url3,  , url5] = factory.buildCatTube({ minLevel: 2, maxLevel: 5 });
+      [url2, url3,  , url5] = domainBuilder.buildCatTube({ minLevel: 2, maxLevel: 5 });
       challenge1 = new CatChallenge('b', 'validé', [url2], 30);
       challenge2 = new CatChallenge('c', 'validé', [url2], undefined);
       challenge3 = new CatChallenge('f', 'validé sans test', [url3], 60);
@@ -750,7 +750,7 @@ describe('Unit | Model | Assessment', function() {
 
     it('should call _firstChallenge function if the assessment has no answer', function() {
       // given
-      const firstChallenge = factory.buildCatChallenge();
+      const firstChallenge = domainBuilder.buildCatChallenge();
       const challenges = [];
       const course = new CatCourse(challenges);
       const answers = [];

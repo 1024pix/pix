@@ -1,4 +1,4 @@
-const { expect, factory } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | Domain | Models | User', () => {
@@ -79,8 +79,8 @@ describe('Unit | Domain | Models | User', () => {
 
     it('should be true if user has a role in an organization', () => {
       // given
-      const user = factory.buildUser({
-        memberships: [factory.buildMembership()]
+      const user = domainBuilder.buildUser({
+        memberships: [domainBuilder.buildMembership()]
       });
 
       // when/then
@@ -111,8 +111,8 @@ describe('Unit | Domain | Models | User', () => {
     it('should be false is the user has access to many organizations, but not the one asked', () => {
       // given
       const organizationId = 12345;
-      const user = factory.buildUser();
-      user.memberships.push(factory.buildMembership());
+      const user = domainBuilder.buildUser();
+      user.memberships.push(domainBuilder.buildMembership());
       user.memberships[0].organization.id = 93472;
       user.memberships[1].organization.id = 74569;
 
@@ -123,7 +123,7 @@ describe('Unit | Domain | Models | User', () => {
     it('should be true if the user has an access to the given organizationId', () => {
       // given
       const organizationId = 12345;
-      const user = factory.buildUser();
+      const user = domainBuilder.buildUser();
       user.memberships[0].organization.id = 12345;
 
       // when/then

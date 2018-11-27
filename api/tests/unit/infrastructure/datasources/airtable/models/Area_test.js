@@ -1,6 +1,6 @@
 const dataObjects = require('../../../../../../lib/infrastructure/datasources/airtable/objects/index');
 const areaRawAirTableFixture = require('../../../../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
-const { expect, factory } = require('../../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../../test-helper');
 
 describe('Unit | Infrastructure | Datasource | Airtable | Model | Area', () => {
 
@@ -8,7 +8,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Area', () => {
 
     it('should create a Area from the AirtableRecord', () => {
       // given
-      const expectedArea = factory.buildAreaAirtableDataObject();
+      const expectedArea = domainBuilder.buildAreaAirtableDataObject();
 
       // when
       const area = dataObjects.Area.fromAirTableObject(areaRawAirTableFixture());

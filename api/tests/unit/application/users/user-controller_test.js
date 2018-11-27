@@ -1,4 +1,4 @@
-const { sinon, expect, factory } = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 
 const Boom = require('boom');
 
@@ -577,7 +577,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should serialize the authenticated user', () => {
       // given
-      const foundUser = factory.buildUser();
+      const foundUser = domainBuilder.buildUser();
       usecases.getUserWithMemberships.resolves(foundUser);
 
       // when
@@ -612,7 +612,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should return the user found based on the given userId', () => {
       // given
-      const foundUser = factory.buildUser();
+      const foundUser = domainBuilder.buildUser();
       const serializedUser = {
         data: {
           type: 'users',

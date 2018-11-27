@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getUserCampaignParticipations = require('../../../../lib/domain/usecases/get-user-campaign-participations');
 
@@ -56,8 +56,8 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
 
     it('should return user with his campaign participations', () => {
       // given
-      const campaignParticipation1 = campaignParticipationRepository.findByUserId.resolves(factory.buildCampaignParticipation({ userId: requestedUserId }));
-      const campaignParticipation2 = campaignParticipationRepository.findByUserId.resolves(factory.buildCampaignParticipation({ userId: requestedUserId }));
+      const campaignParticipation1 = campaignParticipationRepository.findByUserId.resolves(domainBuilder.buildCampaignParticipation({ userId: requestedUserId }));
+      const campaignParticipation2 = campaignParticipationRepository.findByUserId.resolves(domainBuilder.buildCampaignParticipation({ userId: requestedUserId }));
       campaignParticipationRepository.findByUserId.resolves([campaignParticipation1, campaignParticipation2]);
 
       // when

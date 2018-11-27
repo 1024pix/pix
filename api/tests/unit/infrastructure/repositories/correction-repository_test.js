@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const correctionRepository = require('../../../../lib/infrastructure/repositories/correction-repository');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
@@ -28,18 +28,18 @@ describe('Unit | Repository | correction-repository', function() {
 
     const recordId = 'rec-challengeId';
     const expectedHints = [
-      factory.buildHint({ skillName: '@web2', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
-      factory.buildHint({ skillName: '@web3', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
+      domainBuilder.buildHint({ skillName: '@web2', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
+      domainBuilder.buildHint({ skillName: '@web3', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
     ];
 
     const expectedTutorials = [
-      factory.buildTutorial({ id: 'recTuto1', title:'Comment dresser un panda' }),
-      factory.buildTutorial({ id: 'recTuto2', title:'Comment dresser un chat' }),
+      domainBuilder.buildTutorial({ id: 'recTuto1', title:'Comment dresser un panda' }),
+      domainBuilder.buildTutorial({ id: 'recTuto2', title:'Comment dresser un chat' }),
     ];
 
     const expectedLearningMoreTutorials = [
-      factory.buildTutorial({ id: 'recTuto3', title:'Comment dresser un tigre du bengale' }),
-      factory.buildTutorial({ id: 'recTuto4', title:'Comment dresser une belette' }),
+      domainBuilder.buildTutorial({ id: 'recTuto3', title:'Comment dresser un tigre du bengale' }),
+      domainBuilder.buildTutorial({ id: 'recTuto4', title:'Comment dresser une belette' }),
     ];
 
     context('normal challenge', () => {

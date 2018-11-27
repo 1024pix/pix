@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getUserCertificationWithResultTree = require('../../../../lib/domain/usecases/get-user-certification-with-result-tree');
 const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
@@ -36,7 +36,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
     beforeEach(() => {
       // given
-      certification = factory.buildCertification({ userId: randomOtherUserId });
+      certification = domainBuilder.buildCertification({ userId: randomOtherUserId });
       certificationRepository.getCertification.resolves(certification);
 
       // when
@@ -73,16 +73,16 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
     beforeEach(() => {
       // given
-      assessment = factory.buildAssessment();
+      assessment = domainBuilder.buildAssessment();
       assessmentRepository.getByCertificationCourseId.resolves(assessment);
 
-      certification = factory.buildCertification({ userId: parseInt(userId, 10) });
+      certification = domainBuilder.buildCertification({ userId: parseInt(userId, 10) });
       certificationRepository.getCertification.resolves(certification);
 
-      competenceMarks = [factory.buildCompetenceMark()];
+      competenceMarks = [domainBuilder.buildCompetenceMark()];
       competenceMarkRepository.findByAssessmentResultId.resolves(competenceMarks);
 
-      competenceTree = factory.buildCompetenceTree();
+      competenceTree = domainBuilder.buildCompetenceTree();
       competenceTreeRepository.get.resolves(competenceTree);
 
       // when

@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const updateOrganizationInformation = require('../../../../lib/domain/usecases/update-organization-information');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -8,7 +8,7 @@ describe('Unit | UseCase | update-organization-information', () => {
   let organizationRepository;
 
   beforeEach(() => {
-    originalOrganization = factory.buildOrganization({
+    originalOrganization = domainBuilder.buildOrganization({
       name: 'Old name',
       type: 'SCO',
       logoUrl: 'http://old.logo.url',
