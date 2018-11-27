@@ -113,6 +113,11 @@ class Challenge {
     return _(this.skills).differenceWith(alreadyAssessedSkills, Skill.areEqual).size() > 0;
   }
 
+  hasAllSkilledAlreadyCovered(knowledgeElements) {
+    const skillIdsAlreadyCovered = _.map(knowledgeElements, 'skillId');
+    return _.every(this.skills, (skill) => _.includes(skillIdsAlreadyCovered, skill.id));
+  }
+
   static createValidatorForChallengeType({ challengeType, solution }) {
     switch (challengeType) {
       case ChallengeType.QCU:
