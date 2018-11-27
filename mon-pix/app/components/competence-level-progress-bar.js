@@ -62,6 +62,11 @@ export default Component.extend({
     return this.get('isCompetenceAssessed') && this.get('daysBeforeReplay') == 0 && isPresent(this.get('courseId'));
   }),
 
+  remainingDaysText: computed('daysBeforeReplay', function() {
+    const daysBeforeReplay = this.get('daysBeforeReplay');
+    return `dans ${daysBeforeReplay} ${daysBeforeReplay <= 1 ? 'jour' : 'jours'}`;
+  }),
+
   actions: {
     openModal() {
       this.set('_showSecondChanceModal', true);

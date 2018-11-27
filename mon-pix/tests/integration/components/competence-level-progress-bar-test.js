@@ -167,7 +167,7 @@ describe('Integration | Component | competence level progress bar', function() {
 
   describe('replay assessment link', async function() {
 
-    context('when competence is evaluated', async function() {
+    context('when competence is assessed', async function() {
 
       const status = 'assessed';
       const name = 'deuxième test';
@@ -215,6 +215,17 @@ describe('Integration | Component | competence level progress bar', function() {
           expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
         });
 
+        it('should not display remaining days info', function() {
+          // given
+          const daysBeforeReplay = 0;
+          this.set('daysBeforeReplay', daysBeforeReplay);
+
+          // when
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+
+          // then
+          expect(this.$('.competence-level-progress-bar__replay-delay')).to.have.lengthOf(0);
+        });
       });
 
       context('and the number of days before beeing able to retry greater than 0', function() {
@@ -228,14 +239,34 @@ describe('Integration | Component | competence level progress bar', function() {
           this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
 
           // then
-          expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
           expect(this.$('button.competence-level-progress-bar__link-replay')).to.have.lengthOf(0);
+          expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
           expect(this.$('.competence-level-progress-bar__link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
         });
 
-        it('should display `1 day` if there is one day left to wait', function() {});
+        it('should display `1 day` if there is one day left to wait', function() {
+          // given
+          const daysBeforeReplay = 1;
+          this.set('daysBeforeReplay', daysBeforeReplay);
 
-        it('should display `4 days` if there are 4 days left to wait', function() {});
+          // when
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+
+          // then
+          expect(this.$('.competence-level-progress-bar__replay-delay').text().trim()).to.equal('dans 1 jour');
+        });
+
+        it('should display `4 days` if there are 4 days left to wait', function() {
+          // given
+          const daysBeforeReplay = 4;
+          this.set('daysBeforeReplay', daysBeforeReplay);
+
+          // when
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+
+          // then
+          expect(this.$('.competence-level-progress-bar__replay-delay').text().trim()).to.equal('dans 4 jours');
+        });
 
       });
 

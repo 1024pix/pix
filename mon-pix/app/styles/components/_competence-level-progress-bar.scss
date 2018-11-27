@@ -1,4 +1,5 @@
 .competence-level-progress-bar__background {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -132,6 +133,14 @@
 
 .competence-level-progress-bar__link-replay--disabled {
   font-weight: $font-bold;
+}
+
+.competence-level-progress-bar__replay-delay {
+  position: absolute;
+  right: -80px;
+  color: $raven-grey;
+  font-weight: $font-bold;
+  font-size: 13px;
 }
 
 .competence-level-progress-bar__modal-body {
