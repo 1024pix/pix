@@ -38,6 +38,8 @@ module.exports = {
             codeCampaign,
             participantExternalId
           });
+        } else if (assessment.isPlacementAssessment()) {
+          return useCases.startPlacementAssessment({ assessment, assessmentRepository });
         } else {
           assessment.state = 'started';
           return assessmentRepository.save(assessment);
@@ -133,7 +135,7 @@ module.exports = {
           });
         }
 
-        if (assessmentService.isPlacementAssessment(assessment)) {
+        if (assessment.isPlacementAssessment()) {
           return useCases.getNextChallengeForPlacement({
             assessment,
           });

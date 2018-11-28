@@ -1016,29 +1016,4 @@ describe('Unit | Domain | Services | assessment', () => {
     });
 
   });
-
-  describe('#isPlacementAssessment', () => {
-    it('should return true when the assessment is a PLACEMENT', () => {
-      // given
-      const assessment = Assessment.fromAttributes({ type: 'PLACEMENT' });
-
-      // when
-      const isPlacementAssessment = service.isPlacementAssessment(assessment);
-
-      // then
-      expect(isPlacementAssessment).to.be.true;
-    });
-
-    it('should return false when the assessment is not defined', () => {
-      // given
-      const assessment = Assessment.fromAttributes({ type: '' });
-
-      // when
-      const isPlacementTest = service.isPlacementAssessment(assessment);
-
-      // then
-      expect(isPlacementTest).to.be.false;
-    });
-
-  });
 });
