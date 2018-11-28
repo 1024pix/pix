@@ -7,7 +7,6 @@ const buildCourse = require('./build-course');
 const buildAssessmentResult = require('./build-assessment-result');
 const buildKnowledgeElement = require('./build-smart-placement-knowledge-element');
 const buildTargetProfile = require('./build-target-profile');
-const buildCampaignParticipation = require('./build-campaign-participation');
 
 function buildAssessment({
   id = faker.random.number(),
@@ -50,7 +49,6 @@ buildAssessment.ofTypeSmartPlacement = function({
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
   knowledgeElements = [buildKnowledgeElement()],
-  campaignParticipation = buildCampaignParticipation(),
 } = {}) {
   return new SmartPlacementAssessment({
     // attributes
@@ -66,8 +64,7 @@ buildAssessment.ofTypeSmartPlacement = function({
     assessmentResults,
     course,
     targetProfile,
-    knowledgeElements,
-    campaignParticipation
+    knowledgeElements
   });
 };
 

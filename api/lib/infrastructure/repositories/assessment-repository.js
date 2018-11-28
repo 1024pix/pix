@@ -103,23 +103,9 @@ module.exports = {
       .then(_toDomain);
   },
 
-  getCertificationAssessmentByUserIdAndCourseId(userId, courseId) {
+  findByFilters(filters) {
     return BookshelfAssessment
-      .where({ userId, courseId, type: 'CERTIFICATION' })
-      .fetch({ withRelated: ['assessmentResults'] })
-      .then(_toDomain);
-  },
-
-  getStartedPlacementAssessmentByUserIdAndCourseId(userId, courseId) {
-    return BookshelfAssessment
-      .where({ userId, courseId, type: 'PLACEMENT', state: 'started' })
-      .fetch({ require: false })
-      .then(_toDomain);
-  },
-
-  findSmartPlacementAssessmentsByUserId(userId) {
-    return BookshelfAssessment
-      .where({ userId, type: 'SMART_PLACEMENT' })
+      .where(filters)
       .fetchAll({ withRelated: ['campaignParticipation', 'campaignParticipation.campaign'] })
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(fp.map(_toDomain));

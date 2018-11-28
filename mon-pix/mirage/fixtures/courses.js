@@ -28,7 +28,6 @@ export default [
     description: '',
     'image-url': 'http://fakeimg.pl/350x200/?text=Real%20Course',
     nbChallenges: 3,
-    'is-adaptive': true,
-    type: 'PLACEMENT'
+    'is-adaptive': true
   }
 ];

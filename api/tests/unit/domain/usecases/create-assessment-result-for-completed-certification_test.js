@@ -543,7 +543,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         type: Assessment.types.CERTIFICATION,
         state: 'started',
       });
-      assessment.campaignParticipation = undefined;
       assessment.course = undefined;
       assessment.answers = [];
       assessment.assessmentResults = [];
@@ -660,7 +659,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           state: 'completed',
           type: Assessment.types.CERTIFICATION,
         });
-        expectedAssessment.campaignParticipation = undefined;
         expectedAssessment.course = undefined;
         expectedAssessment.answers = [];
         expectedAssessment.assessmentResults = [];
@@ -770,7 +768,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           state: 'completed',
           type: Assessment.types.CERTIFICATION,
         });
-        expectedAssessment.campaignParticipation = undefined;
         expectedAssessment.course = undefined;
         expectedAssessment.answers = [];
         expectedAssessment.assessmentResults = [];
