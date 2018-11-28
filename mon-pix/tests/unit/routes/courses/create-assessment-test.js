@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | Courses | Create Assessment', function() {
   setupTest('route:courses.create-assessment', {
-    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
+    needs: ['service:current-routed-modal', 'service:session']
   });
 
   let route;
