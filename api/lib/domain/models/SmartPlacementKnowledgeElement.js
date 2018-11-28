@@ -26,6 +26,7 @@ class SmartPlacementKnowledgeElement {
   constructor({
     id,
     // attributes
+    createdAt,
     source,
     status,
     pixScore,
@@ -37,6 +38,7 @@ class SmartPlacementKnowledgeElement {
   }) {
     this.id = id;
     // attributes
+    this.createdAt = createdAt;
     this.source = source;
     this.status = status;
     this.pixScore = pixScore;
