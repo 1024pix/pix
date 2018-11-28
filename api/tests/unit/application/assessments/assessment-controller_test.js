@@ -1,5 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
-
+const { sinon, expect, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const useCases = require('../../../../lib/domain/usecases');
 
@@ -46,11 +45,7 @@ describe('Unit | Controller | assessment-controller', function() {
       // given
       const request = {
         query: { 'filter[type]': 'PLACEMENT' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
       useCases.findPlacementAssessments.resolves(assessments);
 
@@ -68,11 +63,7 @@ describe('Unit | Controller | assessment-controller', function() {
       // given
       const request = {
         query: { 'filter[type]': 'PLACEMENT' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
       useCases.findPlacementAssessments.resolves(assessments);
       assessmentSerializer.serializeArray.returns(assessmentsInJSONAPI);
@@ -91,11 +82,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[codeCampaign]': 'Code' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
 
       it('should call assessment service with query filters', function() {
@@ -120,11 +107,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'PLACEMENT', 'filter[courseId]': 'courseId1' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
 
       it('should call assessment service with query filters', function() {
@@ -149,11 +132,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'CERTIFICATION' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
 
       it('should call assessment service with query filters', function() {
@@ -178,11 +157,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'DEMO' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
 
       it('should resolve []', function() {
