@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 
 export default Controller.extend({
 
@@ -9,6 +10,10 @@ export default Controller.extend({
 
   // Private properties
   router:service(),
+
+  isValid: computed('certificationStatus', function() {
+    return this.get('certificationStatus') !== 'missing-assessment';
+  }),
 
   // Actions
   actions: {
