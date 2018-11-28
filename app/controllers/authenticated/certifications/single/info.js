@@ -3,6 +3,7 @@ import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { A } from '@ember/array';
 import { schedule } from '@ember/runloop';
+import { computed } from '@ember/object';
 
 export default Controller.extend({
 
@@ -23,6 +24,10 @@ export default Controller.extend({
     this._super(...arguments);
     this.set('statuses', ['started', 'error', 'validated', 'rejected']);
   },
+
+  isValid: computed('certification.status', function() {
+    return this.get('certification.status') !== 'missing-assessment'
+  }),
 
   // Actions
   actions: {
