@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../test-helper');
+const { expect, factory } = require('../../test-helper');
 
 const CatChallenge = require('../../../lib/cat/challenge');
 const CatSkill = require('../../../lib/cat/skill');
@@ -30,7 +30,7 @@ describe('Unit | Model | Challenge', function() {
 
     it('should return true if the status is an active status', function() {
       // given
-      const challenge = domainBuilder.buildCatChallenge({ status: 'validé' });
+      const challenge = factory.buildCatChallenge({ status: 'validé' });
 
       // then
       expect(challenge.isActive).to.equal(true);
@@ -38,7 +38,7 @@ describe('Unit | Model | Challenge', function() {
 
     it('should return false if the status is not an active status', function() {
       // given
-      const challenge = domainBuilder.buildCatChallenge({ status: 'test' });
+      const challenge = factory.buildCatChallenge({ status: 'test' });
 
       // then
       expect(challenge.isActive).to.equal(false);
@@ -50,8 +50,8 @@ describe('Unit | Model | Challenge', function() {
 
     it('returns true if the challenge is not already assessed', function() {
       // given
-      const [s1] = domainBuilder.buildCatTube();
-      const challenge = domainBuilder.buildCatChallenge({ skills: [s1] });
+      const [s1] = factory.buildCatTube();
+      const challenge = factory.buildCatChallenge({ skills: [s1] });
       const assessedSkills = [];
       // whe
       const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
@@ -61,8 +61,8 @@ describe('Unit | Model | Challenge', function() {
 
     it('should return false if the challenge\'s skill is already assessed', function() {
       // given
-      const [s1] = domainBuilder.buildCatTube();
-      const challenge = domainBuilder.buildCatChallenge({ skills: [s1] });
+      const [s1] = factory.buildCatTube();
+      const challenge = factory.buildCatChallenge({ skills: [s1] });
       const assessedSkills = [s1];
       // when
       const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
@@ -72,8 +72,8 @@ describe('Unit | Model | Challenge', function() {
 
     it('should return true if the challenge has a unique skill not assessed', function() {
       // given
-      const [s1, s2, s3] = domainBuilder.buildCatTube({ maxLevel: 3 });
-      const challenge = domainBuilder.buildCatChallenge({ skills: [s3] });
+      const [s1, s2, s3] = factory.buildCatTube({ maxLevel: 3 });
+      const challenge = factory.buildCatChallenge({ skills: [s3] });
       const assessedSkills = [s1, s2];
       // when
       const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
@@ -83,8 +83,8 @@ describe('Unit | Model | Challenge', function() {
 
     it('should return true if the challenge has at least a skill not assessed', function() {
       // given
-      const [s1, s2, s3] = domainBuilder.buildCatTube({ maxLevel: 3 });
-      const challenge = domainBuilder.buildCatChallenge({ skills: [s2, s3] });
+      const [s1, s2, s3] = factory.buildCatTube({ maxLevel: 3 });
+      const challenge = factory.buildCatChallenge({ skills: [s2, s3] });
       const assessedSkills = [s1, s2];
       // when
       const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
@@ -96,7 +96,7 @@ describe('Unit | Model | Challenge', function() {
       // given
       const skill = new CatSkill('@skill1');
       const sameSkill = new CatSkill('@skill1');
-      const challenge = domainBuilder.buildCatChallenge({ skills: [skill] });
+      const challenge = factory.buildCatChallenge({ skills: [skill] });
       // when
       const response = challenge.testsAtLeastOneNewSkill([sameSkill]);
       // then
@@ -105,8 +105,8 @@ describe('Unit | Model | Challenge', function() {
 
     it('should return false if the challenge has only one skill and is already assessed', function() {
       // given
-      const [s1, s2] = domainBuilder.buildCatTube({ maxLevel: 3 });
-      const challenge = domainBuilder.buildCatChallenge({ skills: [s2] });
+      const [s1, s2] = factory.buildCatTube({ maxLevel: 3 });
+      const challenge = factory.buildCatChallenge({ skills: [s2] });
       const assessedSkills = [s1, s2];
       // when
       const response = challenge.testsAtLeastOneNewSkill(assessedSkills);

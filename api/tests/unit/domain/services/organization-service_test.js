@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const Competence = require('../../../../lib/domain/models/Competence');
 const Organization = require('../../../../lib/domain/models/Organization');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
@@ -255,13 +255,13 @@ describe('Unit | Service | OrganizationService', () => {
 
     beforeEach(() => {
       organizationId = 1;
-      targetProfilesOwnedByOrganization = [domainBuilder.buildTargetProfile({ organizationId, isPublic: false })];
-      targetProfileSharesWithOrganization = domainBuilder.buildTargetProfile({ isPublic: false });
-      publicTargetProfiles = [domainBuilder.buildTargetProfile({ isPublic: true })];
+      targetProfilesOwnedByOrganization = [factory.buildTargetProfile({ organizationId, isPublic: false })];
+      targetProfileSharesWithOrganization = factory.buildTargetProfile({ isPublic: false });
+      publicTargetProfiles = [factory.buildTargetProfile({ isPublic: true })];
       const targetProfileShares = [{
         targetProfile: targetProfileSharesWithOrganization
       }];
-      const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
+      const organization = factory.buildOrganization({ id: organizationId, targetProfileShares });
 
       sandbox = sinon.sandbox.create();
       sandbox.stub(targetProfileRepository, 'findPublicTargetProfiles').resolves(publicTargetProfiles);
@@ -313,18 +313,18 @@ describe('Unit | Service | OrganizationService', () => {
     it('should return a list ordered by private profile before public profile and alphabetically', () => {
       // given
       targetProfilesOwnedByOrganization = [
-        domainBuilder.buildTargetProfile({ name: 'C owned profile', organizationId, isPublic: false }),
-        domainBuilder.buildTargetProfile({ name: 'A owned profile', organizationId, isPublic: false })
+        factory.buildTargetProfile({ name: 'C owned profile', organizationId, isPublic: false }),
+        factory.buildTargetProfile({ name: 'A owned profile', organizationId, isPublic: false })
       ];
-      targetProfileSharesWithOrganization = domainBuilder.buildTargetProfile({ name: 'B shared profile', isPublic: false });
+      targetProfileSharesWithOrganization = factory.buildTargetProfile({ name: 'B shared profile', isPublic: false });
       publicTargetProfiles = [
-        domainBuilder.buildTargetProfile({ name: 'B Public profile', isPublic: true }),
-        domainBuilder.buildTargetProfile({ name: 'A Public profile', isPublic: true })
+        factory.buildTargetProfile({ name: 'B Public profile', isPublic: true }),
+        factory.buildTargetProfile({ name: 'A Public profile', isPublic: true })
       ];
       const targetProfileShares = [{
         targetProfile: targetProfileSharesWithOrganization
       }];
-      const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
+      const organization = factory.buildOrganization({ id: organizationId, targetProfileShares });
 
       targetProfileRepository.findPublicTargetProfiles.resolves(publicTargetProfiles);
       targetProfileRepository.findTargetProfilesOwnedByOrganizationId.resolves(targetProfilesOwnedByOrganization);

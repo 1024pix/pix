@@ -1,4 +1,4 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
 const SmartPlacementKnowledgeElementRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-knowledge-element-repository');
@@ -23,7 +23,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
       await databaseBuilder.commit();
 
-      smartPlacementKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
+      smartPlacementKnowledgeElement = factory.buildSmartPlacementKnowledgeElement({
         assessmentId,
         answerId,
       });

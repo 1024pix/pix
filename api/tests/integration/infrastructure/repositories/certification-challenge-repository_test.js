@@ -1,4 +1,4 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
@@ -13,7 +13,7 @@ describe('Integration | Repository | Certification Challenge', function() {
     beforeEach(() => {
       certificationCourseObject = databaseBuilder.factory.buildCertificationCourse();
 
-      certificationChallenge = domainBuilder.buildCertificationChallenge();
+      certificationChallenge = factory.buildCertificationChallenge();
       return databaseBuilder.commit();
     });
 
@@ -87,21 +87,21 @@ describe('Integration | Repository | Certification Challenge', function() {
 
     beforeEach(async () => {
 
-      challenge1 = domainBuilder.buildCertificationChallenge({
+      challenge1 = factory.buildCertificationChallenge({
         id: 1,
         challengeId: 'recQuelquechose',
         courseId,
         associatedSkillName: '@brm7',
         competenceId: 'recCompetenceId1',
       });
-      challenge2 = domainBuilder.buildCertificationChallenge({
+      challenge2 = factory.buildCertificationChallenge({
         id: 2,
         challengeId: 'recAutrechose',
         courseId,
         associatedSkillName: '@twi8',
         competenceId: 'recCompetenceId2',
       });
-      challenge3 = domainBuilder.buildCertificationChallenge({
+      challenge3 = factory.buildCertificationChallenge({
         id: 3,
         challengeId: 'recQuelqueAutrechose',
         courseId: otherCourseId,

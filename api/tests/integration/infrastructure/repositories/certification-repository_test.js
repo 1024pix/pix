@@ -1,4 +1,4 @@
-const { expect, knex, domainBuilder } = require('../../../test-helper');
+const { expect, knex, factory } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -74,7 +74,7 @@ describe('Integration | Repository | Certification ', () => {
 
     it('should return a certification with needed informations', () => {
       // given
-      const expectedCertification = domainBuilder.buildCertification({
+      const expectedCertification = factory.buildCertification({
         id: 123,
         certificationCenter: 'Université des chocolats',
         date: new Date('2000-02-12'),
@@ -177,7 +177,7 @@ describe('Integration | Repository | Certification ', () => {
     it('should return an array of Certification with needed informations', () => {
       // given
       const expectedCertifications = [
-        domainBuilder.buildCertification({
+        factory.buildCertification({
           id: 123,
           certificationCenter: 'Université des chocolats',
           date: new Date('2000-02-12'),
@@ -301,7 +301,7 @@ describe('Integration | Repository | Certification ', () => {
 
       it('should return the updated certification', () => {
 
-        const expectedCertification = domainBuilder.buildCertification({
+        const expectedCertification = factory.buildCertification({
           assessmentState: 'completed',
           certificationCenter: 'Université des chocolats',
           firstName: 'Jane',

@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getUserWithMemberships = require('../../../../lib/domain/usecases/get-user-with-memberships');
 const Membership = require('../../../../lib/domain/models/Membership');
@@ -41,7 +41,7 @@ describe('Unit | UseCase | get-user-with-memberships', () => {
       // given
       authenticatedUserId = 1;
       requestedUserId = 1;
-      const foundUser = domainBuilder.buildUser();
+      const foundUser = factory.buildUser();
       userRepository.getWithMemberships.resolves(foundUser);
 
       // when
@@ -59,7 +59,7 @@ describe('Unit | UseCase | get-user-with-memberships', () => {
 
     it('should return user with the memberships', () => {
       // given
-      const foundUser = domainBuilder.buildUser({
+      const foundUser = factory.buildUser({
         memberships: [new Membership({ id: 'Le premier accès de l\'utilisateur' })],
       });
       userRepository.getWithMemberships.resolves(foundUser);

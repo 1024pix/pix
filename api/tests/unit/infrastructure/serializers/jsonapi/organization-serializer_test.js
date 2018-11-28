@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect, factory } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 
 describe('Unit | Serializer | organization-serializer', () => {
@@ -7,7 +7,7 @@ describe('Unit | Serializer | organization-serializer', () => {
 
     it('should return a JSON API serialized organization', () => {
       // given
-      const organization = domainBuilder.buildOrganization();
+      const organization = factory.buildOrganization();
 
       // when
       const serializedOrganization = serializer.serialize(organization);
@@ -33,7 +33,7 @@ describe('Unit | Serializer | organization-serializer', () => {
 
     it('should include serialized user data when organization has a user', () => {
       // given
-      const organization = domainBuilder.buildOrganization.withUser();
+      const organization = factory.buildOrganization.withUser();
 
       // when
       const serializedOrganization = serializer.serialize(organization);
@@ -60,7 +60,7 @@ describe('Unit | Serializer | organization-serializer', () => {
 
     it('should include serialized members data with organization has a members', () => {
       // given
-      const organization = domainBuilder.buildOrganization.withMembers();
+      const organization = factory.buildOrganization.withMembers();
 
       // when
       const serializedOrganization = serializer.serialize(organization);

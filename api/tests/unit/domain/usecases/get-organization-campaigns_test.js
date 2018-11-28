@@ -1,4 +1,4 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, factory, sinon } = require('../../../test-helper');
 
 const getOrganizationCampaigns = require('../../../../lib/domain/usecases/get-organization-campaigns');
 
@@ -15,7 +15,7 @@ describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
     it('should return the campaigns of the given organization', () => {
       // given
       const organizationId = 251;
-      const foundCampaign = domainBuilder.buildCampaign({ organizationId });
+      const foundCampaign = factory.buildCampaign({ organizationId });
       const foundCampaigns = [foundCampaign];
       campaignRepository.findByOrganizationId.resolves(foundCampaigns);
 

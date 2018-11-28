@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../test-helper');
+const { expect, factory } = require('../../test-helper');
 const CatAnswer = require('../../../lib/cat/answer');
 
 describe('Unit | Model | Answer', function() {
@@ -6,7 +6,7 @@ describe('Unit | Model | Answer', function() {
   describe('#maxDifficulty', function() {
     it('should exist', function() {
       // given
-      const answer = domainBuilder.buildCatAnswer();
+      const answer = factory.buildCatAnswer();
 
       // then
       expect(answer.maxDifficulty).to.exist;
@@ -15,9 +15,9 @@ describe('Unit | Model | Answer', function() {
     it('should return the maximal skill difficulty of a challenge', function() {
       // given
       const givenMaxDifficulty = 5;
-      const answer = domainBuilder.buildCatAnswer({
-        challenge: domainBuilder.buildCatChallenge({
-          skills: domainBuilder.buildCatTube({ maxLevel: givenMaxDifficulty })
+      const answer = factory.buildCatAnswer({
+        challenge: factory.buildCatChallenge({
+          skills: factory.buildCatTube({ maxLevel: givenMaxDifficulty })
         })
       });
 
@@ -43,7 +43,7 @@ describe('Unit | Model | Answer', function() {
   describe('#binaryOutcome', function() {
     it('should exist', function() {
       // given
-      const answer = domainBuilder.buildCatAnswer();
+      const answer = factory.buildCatAnswer();
 
       // then
       expect(answer.binaryOutcome).to.exist;
@@ -51,7 +51,7 @@ describe('Unit | Model | Answer', function() {
 
     it('should return 1 if answer is correct', function() {
       // given
-      const answer = domainBuilder.buildCatAnswer({ result: 'ok' });
+      const answer = factory.buildCatAnswer({ result: 'ok' });
 
       // when
       const binaryOutcome = answer.binaryOutcome;
@@ -62,7 +62,7 @@ describe('Unit | Model | Answer', function() {
 
     it('should return 0 if answer is not correct', function() {
       // given
-      const answer = domainBuilder.buildCatAnswer({ result: 'ko' });
+      const answer = factory.buildCatAnswer({ result: 'ko' });
 
       // when
       const binaryOutcome = answer.binaryOutcome;

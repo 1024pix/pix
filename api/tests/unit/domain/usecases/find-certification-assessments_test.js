@@ -1,4 +1,4 @@
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, factory, sinon } = require('../../../test-helper');
 const findCertificationAssessments = require('../../../../lib/domain/usecases/find-certification-assessments');
 
 describe('Unit | UseCase | find-certification-assessments', () => {
@@ -52,9 +52,9 @@ describe('Unit | UseCase | find-certification-assessments', () => {
   it('should resolve an assessment of type CERTIFICATION', () => {
     // given
     const userId = 1234;
-    const course = domainBuilder.buildCertificationCourse();
+    const course = factory.buildCertificationCourse();
     const filters = { type: 'CERTIFICATION', courseId: course.id };
-    const  assessment = domainBuilder.buildAssessment({
+    const  assessment = factory.buildAssessment({
       ...filters,
       userId,
     });

@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 
 const faker = require('faker');
 
@@ -55,10 +55,10 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
     beforeEach(() => {
       userId = faker.random.number();
       // given
-      campaign = domainBuilder.buildCampaign({
+      campaign = factory.buildCampaign({
         id: 'campaignId',
       });
-      assessment = domainBuilder.buildAssessment({
+      assessment = factory.buildAssessment({
         id: 'assessmentId',
         type: 'SMART_PLACEMENT',
         userId

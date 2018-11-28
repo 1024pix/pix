@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 
 const getSkillReview = require('../../../../lib/domain/usecases/get-skill-review');
 
@@ -11,7 +11,7 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
   const skillReviewId = 'skill-review-1234';
   const assessmentId = 1234;
   const userId = 9874;
-  const smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment({
+  const smartPlacementAssessment = factory.buildSmartPlacementAssessment({
     id: assessmentId,
     userId
   });

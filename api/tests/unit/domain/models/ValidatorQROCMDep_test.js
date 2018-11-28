@@ -3,7 +3,7 @@ const solutionServiceQrocmDep = require('../../../../lib/domain/services/solutio
 const Validation = require('../../../../lib/domain/models/Validation');
 const ValidatorQROCMDep = require('../../../../lib/domain/models/ValidatorQROCMDep');
 
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, factory, sinon } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | ValidatorQROCMDep', () => {
 
@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', () => {
     beforeEach(() => {
       // given
       solutionServiceQrocmDep.match.returns(AnswerStatus.OK);
-      solution = domainBuilder.buildSolution({
+      solution = factory.buildSolution({
         type: 'QROCM-dep',
         value: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         isT1Enabled: true,
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', () => {
         scoring: '1: acquix\n2: acquix',
       });
 
-      uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
+      uncorrectedAnswer = factory.buildAnswer.uncorrected();
       validator = new ValidatorQROCMDep({ solution: solution });
 
       // when
@@ -51,7 +51,7 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', () => {
         uncorrectedAnswer.value, solution.value, solution.scoring, solution.deactivations);
     });
     it('should return a validation object with the returned status', () => {
-      const expectedValidation = domainBuilder.buildValidation({
+      const expectedValidation = factory.buildValidation({
         result: AnswerStatus.OK,
         resultDetails: null,
       });

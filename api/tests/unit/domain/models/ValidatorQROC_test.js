@@ -3,7 +3,7 @@ const solutionServiceQroc = require('../../../../lib/domain/services/solution-se
 const Validation = require('../../../../lib/domain/models/Validation');
 const ValidatorQROC = require('../../../../lib/domain/models/ValidatorQROC');
 
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, factory, sinon } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | ValidatorQROC', () => {
 
@@ -29,9 +29,9 @@ describe('Unit | Domain | Models | ValidatorQROC', () => {
     beforeEach(() => {
       // given
       solutionServiceQroc.match.returns(AnswerStatus.OK);
-      solution = domainBuilder.buildSolution({ type: 'QROC' });
+      solution = factory.buildSolution({ type: 'QROC' });
 
-      uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
+      uncorrectedAnswer = factory.buildAnswer.uncorrected();
       validator = new ValidatorQROC({ solution: solution });
 
       // when
@@ -44,7 +44,7 @@ describe('Unit | Domain | Models | ValidatorQROC', () => {
         uncorrectedAnswer.value, solution.value, solution.deactivations);
     });
     it('should return a validation object with the returned status', () => {
-      const expectedValidation = domainBuilder.buildValidation({
+      const expectedValidation = factory.buildValidation({
         result: AnswerStatus.OK,
         resultDetails: null,
       });

@@ -1,9 +1,9 @@
 const SkillReview = require('../../../../lib/domain/models/SkillReview');
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, factory } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | SkillReview', () => {
 
-  const [skillLevel1, skillLevel2, skillLevel3] = domainBuilder.buildSkillCollection();
+  const [skillLevel1, skillLevel2, skillLevel3] = factory.buildSkillCollection();
 
   describe('#profileMasteryRate', () => {
 

@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect, factory } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
@@ -59,7 +59,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     context('the entry data is an array of certifications', () => {
 
       const receivedCertifications = [
-        domainBuilder.buildCertification({
+        factory.buildCertification({
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: 'Vous auriez dû travailler plus.',
@@ -102,7 +102,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
     context('the entry data is one certification', () => {
 
-      const receivedCertification = domainBuilder.buildCertification({
+      const receivedCertification = factory.buildCertification({
         pixScore: 23,
         status: 'rejected',
         certifiedProfile: null,
@@ -248,7 +248,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
       it('should serialize to JSON with included relationships', () => {
         // given
-        const receivedCertification = domainBuilder.buildCertificationWithCompetenceTree({
+        const receivedCertification = factory.buildCertificationWithCompetenceTree({
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: 'Vous auriez dû travailler plus.',

@@ -1,17 +1,17 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const createAssessmentResultForCompletedCertification = require('../../../../lib/domain/usecases/create-assessment-result-for-completed-certification');
 const { NotFoundError, AlreadyRatedAssessmentError, CertificationComputeError } = require('../../../../lib/domain/errors');
 
 function _buildCompetence(competenceCode, areaCode) {
 
-  const area = domainBuilder.buildArea({
+  const area = factory.buildArea({
     code: areaCode,
     name: `${areaCode} Information et données`,
     title: 'Information et données',
   });
 
-  const competence = domainBuilder.buildCompetence({
+  const competence = factory.buildCompetence({
     index: `${areaCode}.${competenceCode}`,
     area,
   });
@@ -76,7 +76,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   beforeEach(() => {
 
-    assessment = domainBuilder.buildAssessment({
+    assessment = factory.buildAssessment({
       id: assessmentId,
       courseId: assessmentCourseId,
       userId: 5,
@@ -86,30 +86,30 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     evaluatedSkills = {
       assessmentId: assessmentId,
-      validatedSkills: [domainBuilder.buildSkill({ name: '@url2' }), domainBuilder.buildSkill({ name: '@web3' })],
-      failedSkills: [domainBuilder.buildSkill({ name: '@recherch2' }), domainBuilder.buildSkill({ name: '@securite3' })],
+      validatedSkills: [factory.buildSkill({ name: '@url2' }), factory.buildSkill({ name: '@web3' })],
+      failedSkills: [factory.buildSkill({ name: '@recherch2' }), factory.buildSkill({ name: '@securite3' })],
     };
 
     competenceMarksForCertification = [
-      domainBuilder.buildCompetenceMark({
+      factory.buildCompetenceMark({
         competence_code: '1.1',
         area_code: '1',
         level: 0,
         score: 7,
       }),
-      domainBuilder.buildCompetenceMark({
+      factory.buildCompetenceMark({
         competence_code: '2.1',
         area_code: '2',
         level: 2,
         score: 19,
       }),
-      domainBuilder.buildCompetenceMark({
+      factory.buildCompetenceMark({
         competence_code: '2.2',
         area_code: '2',
         level: -1,
         score: 0,
       }),
-      domainBuilder.buildCompetenceMark({
+      factory.buildCompetenceMark({
         competence_code: '3.1',
         area_code: '3',
         level: 6,
@@ -118,7 +118,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     ];
 
     competenceMarksForPlacement = [
-      domainBuilder.buildCompetenceMark({
+      factory.buildCompetenceMark({
         competence_code: '1.1',
         area_code: '1',
         level: 3,
@@ -134,7 +134,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     listOfAllCompetences = [competence11, competence12, competence21, competence22, competence31];
 
-    course = domainBuilder.buildCourse({
+    course = factory.buildCourse({
       id: assessmentCourseId,
       name: 'Mener une recherche',
       competence: [competenceId],
@@ -184,7 +184,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should reject an AlreadyRatedAssessmentError', () => {
       // given
-      const alreadyEvaluatedAssessment = domainBuilder.buildAssessment({
+      const alreadyEvaluatedAssessment = factory.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
         userId: 5,
@@ -211,7 +211,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should not reject an AlreadyRatedAssessmentError if forceRecomputeResult at true', () => {
       // given
-      const alreadyEvaluatedAssessment = domainBuilder.buildAssessment({
+      const alreadyEvaluatedAssessment = factory.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
         userId: 5,
@@ -297,7 +297,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   it('should create a new assessment result', () => {
     // given
-    const assessmentResult = domainBuilder.buildAssessmentResult({
+    const assessmentResult = factory.buildAssessmentResult({
       level: 2,
       pixScore: 18,
       emitter: 'PIX-ALGO',
@@ -444,7 +444,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   context('when the assessment is a PREVIEW', () => {
 
-    const previewAssessment = domainBuilder.buildAssessment({
+    const previewAssessment = factory.buildAssessment({
       id: assessmentId,
       courseId: 'nullCourseId',
       userId: 5,
@@ -482,7 +482,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     beforeEach(() => {
 
-      demoAssessment = domainBuilder.buildAssessment({
+      demoAssessment = factory.buildAssessment({
         id: assessmentId,
         courseId: 'nullCourseId',
         userId: 5,
@@ -536,7 +536,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     let assessment;
 
     beforeEach(() => {
-      assessment = domainBuilder.buildAssessment({
+      assessment = factory.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
         userId: 5,
@@ -621,7 +621,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         const sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
           return sum + competenceMark.score;
         }, 0);
-        const assessmentResult = domainBuilder.buildAssessmentResult({
+        const assessmentResult = factory.buildAssessmentResult({
           level: Math.floor(sumOfCompetenceMarksScores / 8),
           pixScore: sumOfCompetenceMarksScores,
           emitter: 'PIX-ALGO',
@@ -653,7 +653,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       });
 
       it('should save assessment with status completed', () => {
-        const expectedAssessment = domainBuilder.buildAssessment({
+        const expectedAssessment = factory.buildAssessment({
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
@@ -731,7 +731,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should create a new assessment result', () => {
         // given
-        const assessmentResult = domainBuilder.buildAssessmentResult({
+        const assessmentResult = factory.buildAssessmentResult({
           level: 0,
           pixScore: 0,
           emitter: 'PIX-ALGO',
@@ -763,7 +763,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       });
 
       it('should save assessment with status completed', () => {
-        const expectedAssessment = domainBuilder.buildAssessment({
+        const expectedAssessment = factory.buildAssessment({
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,

@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, factory } = require('../../../test-helper');
 const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
 
 describe('Unit | Domain | Models | SmartPlacementAnswer', () => {
@@ -7,7 +7,7 @@ describe('Unit | Domain | Models | SmartPlacementAnswer', () => {
 
     it('should be true if result is OK', () => {
       // given
-      const answer = domainBuilder.buildSmartPlacementAnswer({
+      const answer = factory.buildSmartPlacementAnswer({
         result: SmartPlacementAnswer.ResultType.OK,
       });
 
@@ -20,7 +20,7 @@ describe('Unit | Domain | Models | SmartPlacementAnswer', () => {
 
     it('should be false if result is not OK', () => {
       // given
-      const answer = domainBuilder.buildSmartPlacementAnswer({
+      const answer = factory.buildSmartPlacementAnswer({
         result: SmartPlacementAnswer.ResultType.KO,
       });
 

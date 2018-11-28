@@ -1,7 +1,7 @@
 const Answer = require('../../../../lib/domain/models/Answer');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, factory } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Answer', () => {
 
@@ -155,7 +155,7 @@ describe('Unit | Domain | Models | Answer', () => {
 
     it('should return true if answer has timed out', () => {
       // given
-      const answer = domainBuilder.buildAnswer({ timeout: -1 });
+      const answer = factory.buildAnswer({ timeout: -1 });
 
       // when
       const hasTimedOut = answer.hasTimedOut;
@@ -166,7 +166,7 @@ describe('Unit | Domain | Models | Answer', () => {
 
     it('should return false if answer has not timed out', () => {
       // given
-      const answer = domainBuilder.buildAnswer({ timeout: 1 });
+      const answer = factory.buildAnswer({ timeout: 1 });
 
       // when
       const hasTimedOut = answer.hasTimedOut;

@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 
 const answerController = require('../../../../lib/application/answers/answer-controller');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
@@ -104,7 +104,7 @@ describe('Unit | Controller | answer-controller', () => {
           },
         },
       };
-      deserializedAnswer = domainBuilder.buildAnswer({
+      deserializedAnswer = factory.buildAnswer({
         elapsedTime,
         result,
         resultDetails,
@@ -125,7 +125,7 @@ describe('Unit | Controller | answer-controller', () => {
         // given
 
         deserializedAnswer.id = undefined;
-        createdAnswer = domainBuilder.buildAnswer({ assessmentId });
+        createdAnswer = factory.buildAnswer({ assessmentId });
 
         answerSerializer.serialize.returns(serializedAnswer);
         usecases.correctAnswerThenUpdateAssessment.resolves(createdAnswer);
@@ -294,7 +294,7 @@ describe('Unit | Controller | answer-controller', () => {
 
       beforeEach(() => {
         // given
-        existingAnswer = domainBuilder.buildAnswer({
+        existingAnswer = factory.buildAnswer({
           id: answerId,
           value,
           result,
@@ -315,7 +315,7 @@ describe('Unit | Controller | answer-controller', () => {
           challengeId: existingAnswer.challengeId,
         });
 
-        assessment = domainBuilder.buildSmartPlacementAssessment({ id: assessmentId });
+        assessment = factory.buildSmartPlacementAssessment({ id: assessmentId });
 
         answerRepository.findByChallengeAndAssessment.resolves(existingBookshelfAnswer);
         smartPlacementAssessmentRepository.get.resolves(assessment);

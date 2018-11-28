@@ -78,7 +78,7 @@ module.exports = {
   airtableBuilder,
   cleanupUsersAndPixRolesTables,
   expect,
-  domainBuilder: require('./tooling/domain-builder/factory'),
+  factory: require('./tooling/factory'),
   databaseBuilder,
   generateValidRequestAuhorizationHeader,
   HttpTestServer: require('./tooling/server/http-test-server'),

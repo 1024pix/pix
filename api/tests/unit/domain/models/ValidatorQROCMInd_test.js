@@ -3,7 +3,7 @@ const solutionServiceQrocmInd = require('../../../../lib/domain/services/solutio
 const Validation = require('../../../../lib/domain/models/Validation');
 const ValidatorQROCMInd = require('../../../../lib/domain/models/ValidatorQROCMInd');
 
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, factory, sinon } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | ValidatorQROCMInd', () => {
 
@@ -29,9 +29,9 @@ describe('Unit | Domain | Models | ValidatorQROCMInd', () => {
     beforeEach(() => {
       // given
       solutionServiceQrocmInd.match.returns({ result: AnswerStatus.OK, resultDetails: 'resultDetailYAMLString' });
-      solution = domainBuilder.buildSolution({ type: 'QROCM-ind' });
+      solution = factory.buildSolution({ type: 'QROCM-ind' });
 
-      uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
+      uncorrectedAnswer = factory.buildAnswer.uncorrected();
       validator = new ValidatorQROCMInd({ solution: solution });
 
       // when
@@ -44,7 +44,7 @@ describe('Unit | Domain | Models | ValidatorQROCMInd', () => {
         uncorrectedAnswer.value, solution.value, solution.enabledTreatments);
     });
     it('should return a validation object with the returned status', () => {
-      const expectedValidation = domainBuilder.buildValidation({
+      const expectedValidation = factory.buildValidation({
         result: AnswerStatus.OK,
         resultDetails: 'resultDetailYAMLString',
       });

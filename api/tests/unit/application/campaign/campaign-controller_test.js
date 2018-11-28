@@ -1,4 +1,4 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
+const { sinon, expect, factory } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
@@ -31,7 +31,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   describe('#save', () => {
 
-    const deserializedCampaign = domainBuilder.buildCampaign({ id: NaN, code: '' });
+    const deserializedCampaign = factory.buildCampaign({ id: NaN, code: '' });
 
     beforeEach(() => {
       sandbox.stub(usecases, 'createCampaign');
@@ -44,7 +44,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const connectedUserId = 1;
       const request = { auth: { credentials: { userId: connectedUserId } } };
 
-      const createdCampaign = domainBuilder.buildCampaign();
+      const createdCampaign = factory.buildCampaign();
       usecases.createCampaign.resolves(createdCampaign);
 
       // when
@@ -65,7 +65,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const userId = 1245;
       const request = { auth: { credentials: { userId } } };
 
-      const createdCampaign = domainBuilder.buildCampaign();
+      const createdCampaign = factory.buildCampaign();
       usecases.createCampaign.resolves(createdCampaign);
 
       const serializedCampaign = { name: createdCampaign.name };
@@ -297,7 +297,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should call the use case to retrieve the campaign with the expected code', () => {
       // given
-      const createdCampaign = domainBuilder.buildCampaign();
+      const createdCampaign = factory.buildCampaign();
       usecases.getCampaignByCode.resolves(createdCampaign);
 
       const serializedCampaign = { name: createdCampaign.name };
@@ -314,7 +314,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return the serialized campaign found by the use case', () => {
       // given
-      const createdCampaign = domainBuilder.buildCampaign();
+      const createdCampaign = factory.buildCampaign();
       usecases.getCampaignByCode.resolves(createdCampaign);
 
       const serializedCampaign = { name: createdCampaign.name };

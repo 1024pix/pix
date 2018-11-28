@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect, factory } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const Campaign = require('../../../../../lib/domain/models/Campaign');
@@ -103,7 +103,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
     it('should add a relationship for assessments of type SMART_PLACEMENT', function() {
       // given
       const assessmentId = 15615386;
-      const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({ id: assessmentId });
+      const assessment = factory.buildAssessment.ofTypeSmartPlacement({ id: assessmentId });
       const expectedSkillReviewRelationship = {
         data: {
           id: 'skill-review-15615386',

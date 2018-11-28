@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
@@ -46,7 +46,7 @@ describe('Unit | Controller | skill-review-controller', () => {
 
     context('if assessment exists', () => {
 
-      const skillReview = domainBuilder.buildSkillReview({ validatedSkills: [], failedSkills: [] });
+      const skillReview = factory.buildSkillReview({ validatedSkills: [], failedSkills: [] });
 
       context('and belongs to current user', () => {
 

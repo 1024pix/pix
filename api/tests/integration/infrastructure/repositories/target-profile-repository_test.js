@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, factory, sinon } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const SkillDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Skill');
@@ -54,8 +54,8 @@ describe('Integration | Repository | Target-profile', () => {
 
   describe('#findPublicTargetProfiles', () => {
 
-    let publicTargetProfile = domainBuilder.buildTargetProfile({ isPublic: true });
-    let privateTargetProfile = domainBuilder.buildTargetProfile({ isPublic: false, });
+    let publicTargetProfile = factory.buildTargetProfile({ isPublic: true });
+    let privateTargetProfile = factory.buildTargetProfile({ isPublic: false, });
     let publicProfileSkillAssociation;
     let targetProfileSkill;
 
@@ -117,12 +117,12 @@ describe('Integration | Repository | Target-profile', () => {
 
   describe('#findTargetProfileByOrganizationId', () => {
 
-    let theRequestedOrganization = domainBuilder.buildOrganization();
-    let anotherOrganization = domainBuilder.buildOrganization();
-    let requestedOrganizationTargetProfile = domainBuilder.buildTargetProfile({
+    let theRequestedOrganization = factory.buildOrganization();
+    let anotherOrganization = factory.buildOrganization();
+    let requestedOrganizationTargetProfile = factory.buildTargetProfile({
       organizationId: theRequestedOrganization.id
     });
-    let anotherOrganizationTargetProfile = domainBuilder.buildTargetProfile({
+    let anotherOrganizationTargetProfile = factory.buildTargetProfile({
       organizationId: anotherOrganization.id
     });
     let targetProfileSkillAssociation;

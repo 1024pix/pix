@@ -1,4 +1,4 @@
-const { sinon, databaseBuilder, expect, domainBuilder } = require('../../../test-helper');
+const { sinon, databaseBuilder, expect, factory } = require('../../../test-helper');
 const BookshelfTargetProfile = require('../../../../lib/infrastructure/data/target-profile');
 const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/data/target-profile-share');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
@@ -15,14 +15,14 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
     const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());
     const organizationWhichShared = new BookshelfTargetProfileShare(databaseBuilder.factory.buildTargetProfileShare());
     bookshelfTargetProfile.related = sinon.stub().onCall('sharedWithOrganizations').resolves([ organizationWhichShared ]);
-    const skillAirtableDataObject = domainBuilder.buildSkillAirtableDataObject();
+    const skillAirtableDataObject = factory.buildSkillAirtableDataObject();
     const associatedSkillAirtableDataObjects = [skillAirtableDataObject];
-    const expectedTargetProfile = domainBuilder.buildTargetProfile({
+    const expectedTargetProfile = factory.buildTargetProfile({
       id: bookshelfTargetProfile.get('id'),
       name: bookshelfTargetProfile.get('name'),
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
       organizationId: bookshelfTargetProfile.get('organizationId'),
-      skills: [domainBuilder.buildSkill({ id: skillAirtableDataObject.id, name: skillAirtableDataObject.name })],
+      skills: [factory.buildSkill({ id: skillAirtableDataObject.id, name: skillAirtableDataObject.name })],
       sharedWithOrganizationIds: [organizationWhichShared.get('organizationId')]
     });
 

@@ -3,7 +3,7 @@ const solutionServiceQcu = require('../../../../lib/domain/services/solution-ser
 const Validation = require('../../../../lib/domain/models/Validation');
 const ValidatorQCU = require('../../../../lib/domain/models/ValidatorQCU');
 
-const { expect, domainBuilder, sinon } = require('../../../test-helper');
+const { expect, factory, sinon } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | ValidatorQCU', () => {
 
@@ -29,9 +29,9 @@ describe('Unit | Domain | Models | ValidatorQCU', () => {
     beforeEach(() => {
       // given
       solutionServiceQcu.match.returns(AnswerStatus.OK);
-      solution = domainBuilder.buildSolution({ type: 'QCU' });
+      solution = factory.buildSolution({ type: 'QCU' });
 
-      uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
+      uncorrectedAnswer = factory.buildAnswer.uncorrected();
       validator = new ValidatorQCU({ solution: solution });
 
       // when
@@ -43,7 +43,7 @@ describe('Unit | Domain | Models | ValidatorQCU', () => {
       expect(solutionServiceQcu.match).to.have.been.calledWith(uncorrectedAnswer.value, solution.value);
     });
     it('should return a validation object with the returned status', () => {
-      const expectedValidation = domainBuilder.buildValidation({
+      const expectedValidation = factory.buildValidation({
         result: AnswerStatus.OK,
         resultDetails: null,
       });

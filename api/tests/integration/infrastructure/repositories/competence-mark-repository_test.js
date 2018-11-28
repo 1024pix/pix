@@ -1,4 +1,4 @@
-const { expect, knex, domainBuilder } = require('../../../test-helper');
+const { expect, knex, factory } = require('../../../test-helper');
 
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const CompetenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
@@ -13,7 +13,7 @@ describe('Integration | Repository | CompetenceMark', () => {
 
     it('should persist the mark in db', () => {
       // given
-      const mark = domainBuilder.buildCompetenceMark({
+      const mark = factory.buildCompetenceMark({
         score: 13,
         level: 1,
         area_code: '4',
@@ -32,7 +32,7 @@ describe('Integration | Repository | CompetenceMark', () => {
 
     it('should return the saved mark', () => {
       // given
-      const mark = domainBuilder.buildCompetenceMark({
+      const mark = factory.buildCompetenceMark({
         score: 13,
         level: 1,
         area_code: '4',
@@ -55,7 +55,7 @@ describe('Integration | Repository | CompetenceMark', () => {
         // given
         const expectedValidationErrorMessage = 'ValidationError: child "level" fails because' +
                                                ' ["level" must be less than or equal to 8]';
-        const markWithLevelGreaterThanEight = domainBuilder.buildCompetenceMark({
+        const markWithLevelGreaterThanEight = factory.buildCompetenceMark({
           score: 13,
           level: 10,
         });
@@ -71,7 +71,7 @@ describe('Integration | Repository | CompetenceMark', () => {
 
       it('should not saved the competenceMark', () => {
         // given
-        const markWithLevelGreaterThanEight = domainBuilder.buildCompetenceMark({
+        const markWithLevelGreaterThanEight = factory.buildCompetenceMark({
           score: 13,
           level: 10,
         });

@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, factory } = require('../../../test-helper');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
 
     it('should return a resolved promise when the object is valide', () => {
       // given
-      const competenceMark = domainBuilder.buildCompetenceMark();
+      const competenceMark = factory.buildCompetenceMark();
 
       // when
       const promise = competenceMark.validate();
@@ -41,7 +41,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
 
     it('should return an error if level is > 8', () => {
       // given
-      const competenceMark = domainBuilder.buildCompetenceMark({ level: 10 });
+      const competenceMark = factory.buildCompetenceMark({ level: 10 });
 
       // when
       const promise = competenceMark.validate();
@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
 
     it('should return an error if level is < -1', () => {
       // given
-      const competenceMark = domainBuilder.buildCompetenceMark({ level: -2 });
+      const competenceMark = factory.buildCompetenceMark({ level: -2 });
 
       // when
       const promise = competenceMark.validate();
@@ -69,7 +69,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
 
     it('should return an error if score > 64', () => {
       // given
-      const competenceMark = domainBuilder.buildCompetenceMark({ score: 65 });
+      const competenceMark = factory.buildCompetenceMark({ score: 65 });
 
       // when
       const promise = competenceMark.validate();

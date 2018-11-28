@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../../test-helper');
+const { expect, factory } = require('../../../../test-helper');
 const BookshelfAnswer = require('../../../../../lib/infrastructure/data/answer');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const answerStatusJSONAPIAdapter = require('../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
@@ -58,7 +58,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
 
     it('should convert an Answer model object into JSON API data', () => {
       // given
-      const answer = domainBuilder.buildAnswer({
+      const answer = factory.buildAnswer({
         id: answerId,
         elapsedTime,
         result,
