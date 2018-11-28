@@ -1,7 +1,6 @@
 import { inject as service } from '@ember/service';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 import BaseRoute from 'mon-pix/routes/base-route';
-import RSVP from 'rsvp';
 
 export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
@@ -9,7 +8,6 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
   routeIfNotAuthenticated: 'connexion',
   routeIfAlreadyAuthenticated: 'compte',
-  routeForLoggedUserLinkedToOrganization: 'board',
 
   beforeModel({ queryParams }) {
     if (queryParams && queryParams.token && queryParams['user-id']) {
@@ -19,7 +17,7 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
           this.transitionTo('compte');
         });
     } else {
-      return RSVP.resolve();
+      return this._super(...arguments);
     }
   },
 
