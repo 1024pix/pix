@@ -105,6 +105,10 @@ class Assessment {
     this.state = Assessment.states.COMPLETED;
   }
 
+  start() {
+    this.state = Assessment.states.STARTED;
+  }
+
   validate() {
     if (TYPES_OF_ASSESSMENT_NEEDING_USER.includes(this.type) && !this.userId) {
       return Promise.reject(new ObjectValidationError(`Assessment ${this.type} needs an User Id`));
@@ -118,6 +122,10 @@ class Assessment {
 
   isCertificationAssessment() {
     return this.type === type.CERTIFICATION;
+  }
+
+  isPlacementAssessment() {
+    return this.type === type.PLACEMENT;
   }
 
   addAnswersWithTheirChallenge(answers, challenges) {

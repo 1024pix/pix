@@ -320,6 +320,33 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
+  describe('#isPlacementAssessment', () => {
+
+    it('should return true when the assessment is a placement', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.PLACEMENT });
+
+      // when/then
+      expect(assessment.isPlacementAssessment()).to.be.true;
+    });
+
+    it('should return false when the assessment is not a placement', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+
+      // when/then
+      expect(assessment.isPlacementAssessment()).to.be.false;
+    });
+
+    it('should return false when the assessment has no type', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: null });
+
+      // when/then
+      expect(assessment.isPlacementAssessment()).to.be.false;
+    });
+  });
+
   describe('#addAnswersWithTheirChallenge', () => {
     it('should add answers with their challenges at the assessment', () => {
       // given
@@ -756,5 +783,20 @@ describe('Unit | Domain | Models | Assessment', () => {
       // then
       expect(isCompleted).to.be.false;
     });
+  });
+
+  describe('#start', () => {
+
+    it('should set the status to "started"', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ status: undefined });
+
+      // when
+      assessment.start();
+
+      // then
+      expect(assessment.state).to.equal(Assessment.states.STARTED);
+    });
+
   });
 });
