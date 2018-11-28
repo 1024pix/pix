@@ -1,4 +1,4 @@
-const { expect, factory, sinon } = require('../../../test-helper');
+const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const Profile = require('../../../../lib/domain/models/Profile');
 
@@ -90,7 +90,7 @@ describe('Unit | Domain | Models | Profile', () => {
     it('should assign level of competence from assessment', () => {
       // given
       courses[0].competences = ['competenceId1'];
-      const assessment = factory.buildAssessment({
+      const assessment = domainBuilder.buildAssessment({
         id: 'assessmentId1',
         courseId: 'courseId8',
         assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1, createdAt: new Date('2018-01-01 05:00:00') })],
@@ -479,7 +479,7 @@ describe('Unit | Domain | Models | Profile', () => {
 
         it('when the competence has not been assessed yet, but is being assessed', () => {
           // given
-          const lastAssessments = [factory.buildAssessment({ state: 'started' })];
+          const lastAssessments = [domainBuilder.buildAssessment({ state: 'started' })];
           const assessmentsCompletedWithResults = [];
           courses[0].competences = ['competenceId1'];
 
@@ -497,8 +497,8 @@ describe('Unit | Domain | Models | Profile', () => {
         it('when the competence is not being assessed and the last evaluation is older than 7 days', () => {
           // given
           const assessmentCreationDate = moment(now).subtract(7, 'day').subtract(5, 'second').toDate();
-          const assessmentResults = [factory.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-          const assessment = factory.buildAssessment({ courseId: courses[0].id, assessmentResults });
+          const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
+          const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
           const lastAssessments = [assessment];
           const assessmentsCompletedWithResults = [assessment];
           courses[0].competences = ['competenceId1'];
@@ -527,8 +527,8 @@ describe('Unit | Domain | Models | Profile', () => {
         ].forEach((testCase) => {
           it(`should return ${testCase.expectedDaysBeforeReplay} days before replay when the the last result is ${testCase.createdAt} days and ${testCase.hours} hours old`, () => {
             const assessmentCreationDate = moment(now).subtract(testCase.createdAt, 'day').subtract(testCase.hours, 'hour').toDate();
-            const assessmentResults = [factory.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-            const assessment = factory.buildAssessment({ courseId: courses[0].id, assessmentResults });
+            const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
+            const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
             const lastAssessments = [assessment];
             const assessmentsCompletedWithResults = [assessment];
             courses[0].competences = ['competenceId1'];
@@ -544,8 +544,8 @@ describe('Unit | Domain | Models | Profile', () => {
         it('when the competence is not being assessed and the last completed assessment is younger than 7 days', () => {
           // given
           const assessmentCreationDate = moment(now).subtract(3, 'day').toDate();
-          const assessmentResults = [factory.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-          const assessment = factory.buildAssessment({ courseId: courses[0].id, assessmentResults });
+          const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
+          const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
           const lastAssessments = [assessment];
           const assessmentsCompletedWithResults = [assessment];
           courses[0].competences = ['competenceId1'];
