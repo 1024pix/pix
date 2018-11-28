@@ -18,6 +18,7 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/assessments',
       config: {
+        auth: false,
         handler: assessmentController.findByFilters,
         tags: ['api']
       }

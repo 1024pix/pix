@@ -381,13 +381,14 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   describe('GET /api/assessments/', () => {
     let assessmentId;
-    const inserted_assessment_placement = databaseBuilder.factory.buildAssessment({
-      courseId: 'anyFromAirTable',
-      type: 'SMART_PLACEMENT',
-    });
+    let inserted_assessment_placement;
 
     beforeEach(() => {
-      inserted_assessment_placement.userId = userId;
+      inserted_assessment_placement = databaseBuilder.factory.buildAssessment({
+        userId,
+        courseId: 'anyFromAirTable',
+        type: 'SMART_PLACEMENT',
+      });
       return knex('assessments').insert(inserted_assessment_placement, 'id')
         .then(([id]) => {
           assessmentId = id;
@@ -459,7 +460,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'code-campaign': 'TESTCODE',
         },
         'relationships': {
-          'course': { 'data': { 'type': 'courses', 'id': courseId } },
+          'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
           'answers': {
             'data': [],
           },
@@ -473,6 +474,22 @@ describe('Acceptance | API | assessment-controller-get', () => {
         expect(response.result.data).to.be.an('array');
         const assessment = response.result.data[0];
         expect(assessment.attributes).to.deep.equal(expectedFirstAssessment.attributes);
+      });
+    });
+
+    it('should return an empty array since no user is logged', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments?filter[codeCampaign]=TESTCODE',
+      };
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.result.data).to.be.an('array');
+        expect(response.result.data).to.be.empty;
       });
     });
   });
