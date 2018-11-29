@@ -4,6 +4,76 @@ const _ = require('lodash');
 const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 
+class SmartRandom {
+
+  constructor({ knowledgeElements, challenges, targetProfile, answers } = {}) {
+    this.challenges = challenges;
+    this.targetProfile = targetProfile;
+    this.skills = targetProfile.skills;
+    this.knowledgeElements = knowledgeElements;
+
+    this.course = new Course();
+    const listSkillsWithChallenges = _filterSkillsByChallenges(this.skills, challenges);
+    this.course.competenceSkills = listSkillsWithChallenges;
+    this.course.computeTubes(listSkillsWithChallenges);
+
+    this.lastAnswer = answers[answers.length-1];
+    this.lastChallenge = null;
+    if(this.lastAnswer) {
+      this.lastChallenge = challenges.find((challenge) => challenge.id === this.lastAnswer.challengeId);
+    }
+
+    this.predictedLevel = (this.lastAnswer) ? _getPredictedLevel(this.knowledgeElements, this.skills) : LEVEL_FOR_FIRST_CHALLENGE;
+  }
+
+  getNextChallenge() {
+    const availableChallenges = SmartRandom._filteredChallenges({
+      challenges: this.challenges,
+      knowledgeElements: this.knowledgeElements,
+      tubes: this.course.tubes,
+      predictedLevel: this.predictedLevel,
+      lastChallenge: this.lastChallenge,
+      targetProfile: this.targetProfile
+    });
+
+    if (!this.lastAnswer) {
+      return _firstChallenge(availableChallenges);
+    }
+
+    if (availableChallenges.length === 0) {
+      return null;
+    }
+
+    return _findNextChallengeWithCatAlgorithm({
+      availableChallenges,
+      predictedLevel: this.predictedLevel,
+      course: this.course,
+      knowledgeElements: this.knowledgeElements
+    });
+  }
+
+  static _filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge, targetProfile }) {
+    // Filter 1 : only available challenge : published and with skills not already tested
+    let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile));
+
+    // Filter 2 : Do not ask timed challenge if previous challenge was timed
+    if (_isPreviousChallengeTimed(lastChallenge)) {
+      availableChallenges = _extractNotTimedChallenge(availableChallenges);
+    }
+
+    // Filter 3 : Do not ask challenge where level too high
+    availableChallenges = availableChallenges.filter((challenge) => _isChallengeNotTooHard(challenge, predictedLevel));
+
+    // Filter 4 : Priority to tubes with max level equal to LEVEL_MAX_TO_BE_AN_EASY_TUBE
+    const listOfSkillsToTargetInPriority = _skillsToTargetInPriority(tubes, knowledgeElements);
+    if (listOfSkillsToTargetInPriority.length > 0) {
+      availableChallenges = _filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
+    }
+
+    return availableChallenges;
+  }
+}
+
 function _filterSkillsByChallenges(skills, challenges) {
   const skillsWithChallenges = skills.filter((skill) => {
     return challenges.find((challenge) => {
@@ -19,7 +89,7 @@ function _probaOfCorrectAnswer(level, difficulty) {
 }
 
 function _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills) {
-  //Trouver les acquis auxquelles ont a répondu directement
+
   const directKnowledgeElements = _.filter(knowledgeElements, (ke)=> ke.source === 'direct');
   const extraAnswers = directKnowledgeElements.map((ke)=> {
     const skill = skills.find((skill) => skill.id === ke.skillId);
@@ -159,123 +229,51 @@ function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkil
   return _.sample(potentialFirstChallenges);
 }
 
-class SmartRandom {
+function _testHasEnded(maxReward) {
+  return maxReward === 0;
+}
 
-  constructor({ knowledgeElements, challenges, targetProfile, answers } = {}) {
-    this.challenges = challenges;
-    this.targetProfile = targetProfile;
-    this.skills = targetProfile.skills;
-    this.knowledgeElements = knowledgeElements;
+function _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLevel, course, knowledgeElements }) {
 
-    this.course = new Course();
-    const listSkillsWithChallenges = _filterSkillsByChallenges(this.skills, challenges);
-    this.course.competenceSkills = listSkillsWithChallenges;
-    this.course.computeTubes(listSkillsWithChallenges);
+  const challengesAndRewards = _.map(availableChallenges, (challenge) => {
+    return {
+      challenge: challenge,
+      reward: _computeReward({
+        challenge,
+        predictedLevel: predictedLevel,
+        course: course,
+        knowledgeElements: knowledgeElements
+      })
+    };
+  });
 
-    this.lastAnswer = answers[answers.length-1];
-    this.lastChallenge = null;
-    if(this.lastAnswer) {
-      this.lastChallenge = challenges.find((challenge) => challenge.id === this.lastAnswer.challengeId);
-    }
+  const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
+  const maxReward = challengeWithMaxReward.reward;
 
-    this.predictedLevel = this.getPredictedLevel();
+  if (_testHasEnded(maxReward)) {
+    return null;
   }
 
-  getNextChallenge() {
-    const availableChallenges = SmartRandom._filteredChallenges({
-      challenges: this.challenges,
-      knowledgeElements: this.knowledgeElements,
-      tubes: this.course.tubes,
-      predictedLevel: this.predictedLevel,
-      lastChallenge: this.lastChallenge,
-      targetProfile: this.targetProfile
-    });
+  const bestChallenges = challengesAndRewards
+    .filter((challengeAndReward) => challengeAndReward.reward === maxReward)
+    .map((challengeAndReward) => challengeAndReward.challenge);
+  return _.sample(bestChallenges);
+}
 
-    if (!this.lastAnswer) {
-      return _firstChallenge({
-        challenges: this.challenges,
-        knowledgeElements: this.knowledgeElements,
-        tubes: this.course.tubes,
-        predictedLevel: this.predictedLevel,
-        lastChallenge: this.lastChallenge,
-        targetProfile: this.targetProfile,
-        availableChallenges
-      });
+function _getPredictedLevel(knowledgeElements, skills) {
+  let maxLikelihood = -Infinity;
+  let level = 0.5;
+  let predictedLevel = 0.5;
+
+  while (level < 8) {
+    const likelihood = _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills);
+    if (likelihood > maxLikelihood) {
+      maxLikelihood = likelihood;
+      predictedLevel = level;
     }
-
-    if (availableChallenges.length === 0) {
-      return null;
-    }
-
-    const challengesAndRewards = _.map(availableChallenges, (challenge) => {
-      return {
-        challenge: challenge,
-        reward: _computeReward({
-          challenge,
-          predictedLevel: this.predictedLevel,
-          course: this.course,
-          knowledgeElements: this.knowledgeElements
-        })
-      };
-    });
-
-    const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
-    const maxReward = challengeWithMaxReward.reward;
-
-    if (this._testHasEnded(maxReward)) {
-      return null;
-    }
-
-    const bestChallenges = challengesAndRewards
-      .filter((challengeAndReward) => challengeAndReward.reward === maxReward)
-      .map((challengeAndReward) => challengeAndReward.challenge);
-    return _.sample(bestChallenges);
+    level += 0.5;
   }
-
-  // The adaptative algorithm ends when there is nothing more to gain
-  _testHasEnded(maxReward) {
-    return maxReward === 0;
-  }
-
-  getPredictedLevel() {
-    if (!this.lastAnswer) {
-      return LEVEL_FOR_FIRST_CHALLENGE;
-    }
-    let maxLikelihood = -Infinity;
-    let level = 0.5;
-    let predictedLevel = 0.5;
-
-    while (level < 8) {
-      const likelihood = _computeProbabilityOfCorrectLevelPredicted(level, this.knowledgeElements, this.skills);
-      if (likelihood > maxLikelihood) {
-        maxLikelihood = likelihood;
-        predictedLevel = level;
-      }
-      level += 0.5;
-    }
-    return predictedLevel;
-  }
-
-  static _filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge, targetProfile }) {
-    // Filter 1 : only available challenge : published and with skills not already tested
-    let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile));
-
-    // Filter 2 : Do not ask timed challenge if previous challenge was timed
-    if (_isPreviousChallengeTimed(lastChallenge)) {
-      availableChallenges = _extractNotTimedChallenge(availableChallenges);
-    }
-
-    // Filter 3 : Do not ask challenge where level too high
-    availableChallenges = availableChallenges.filter((challenge) => _isChallengeNotTooHard(challenge, predictedLevel));
-
-    // Filter 4 : Priority to tubes with max level
-    const listOfSkillsToTargetInPriority = _skillsToTargetInPriority(tubes, knowledgeElements);
-    if (listOfSkillsToTargetInPriority.length > 0) {
-      availableChallenges = _filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
-    }
-
-    return availableChallenges;
-  }
+  return predictedLevel;
 }
 
 module.exports = SmartRandom;

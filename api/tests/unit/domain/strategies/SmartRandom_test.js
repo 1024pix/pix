@@ -645,7 +645,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const result = SmartRandom._filteredChallenges({
         challenges: smartRandom.challenges,
         knowledgeElements,
-        predictedLevel:smartRandom.getPredictedLevel(),
+        predictedLevel:smartRandom.predictedLevel,
         targetProfile: smartRandom.targetProfile
       });
 
@@ -676,7 +676,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const result = SmartRandom._filteredChallenges({
           challenges: smartRandom.challenges,
           knowledgeElements,
-          predictedLevel:smartRandom.getPredictedLevel(),
+          predictedLevel:smartRandom.predictedLevel,
           targetProfile: smartRandom.targetProfile,
         });
 
