@@ -78,8 +78,8 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       const answer3Id = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentIdOther }).id;
 
       knowledgeElementsWanted = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer1Id, createdAt: null }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer2Id, createdAt: null })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer1Id, createdAt: '' }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer2Id, createdAt: '' })
       ];
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessmentIdOther, answerId: answer3Id });
       await databaseBuilder.commit();
