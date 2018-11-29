@@ -40,6 +40,8 @@ Router.map(function() {
   if (config.environment !== 'production') {
     this.route('style-guide', { path: 'guide-de-style' });
   }
+
+  this.route('not-found', { path: '/*path' });
 });
 
 export default Router;
