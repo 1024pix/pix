@@ -306,15 +306,15 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
     context('when assessment has no answer', function() {
 
-      it('should start with a not timed question', function() {
+      it('should start with a not timed challenge', function() {
         // given
         const web1 = domainBuilder.buildSkill({ name: '@web1' });
         const url2 = domainBuilder.buildSkill({ name: '@url2' });
         const targetProfile = new TargetProfile({ skills: [url2, web1] });
 
-        const firstChallenge = domainBuilder.buildChallenge({ id: 'rec', skills: [web1] });
-        const otherChallenge = domainBuilder.buildChallenge({ id: 'rec', skills: [url2], timer: 30 });
-        const challenges = [otherChallenge, firstChallenge];
+        const notTimedChallenge = domainBuilder.buildChallenge({ id: 'rec', skills: [web1] });
+        const timedChallenge = domainBuilder.buildChallenge({ id: 'rec', skills: [url2], timer: 30 });
+        const challenges = [timedChallenge, notTimedChallenge];
         const answers = [];
 
         // when
@@ -322,20 +322,20 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge).to.be.equal(firstChallenge);
+        expect(nextChallenge).to.be.equal(notTimedChallenge);
       });
 
-      it('should start with a level 2 question', function() {
+      it('should start with a not timed level 2 challenge', function() {
         // given
         const web1 = domainBuilder.buildSkill({ name: '@web1' });
         const cnil2 = domainBuilder.buildSkill({ name: '@cnil2' });
         const url3 = domainBuilder.buildSkill({ name: '@url3' });
         const targetProfile = new TargetProfile({ skills: [web1, url3, cnil2] });
 
-        const firstChallenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [cnil2] });
-        const otherChallenge = domainBuilder.buildChallenge({ id: 'rec2', skills: [web1] });
-        const otherChallenge2 = domainBuilder.buildChallenge({ id: 'rec3', skills: [url3] });
-        const challenges = [otherChallenge, otherChallenge2, firstChallenge];
+        const level2Challenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [cnil2] });
+        const level1Challenge = domainBuilder.buildChallenge({ id: 'rec2', skills: [web1] });
+        const level3Challenge = domainBuilder.buildChallenge({ id: 'rec3', skills: [url3] });
+        const challenges = [level3Challenge, level1Challenge, level2Challenge];
         const answers = [];
 
         // when
@@ -343,18 +343,18 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge).to.be.equal(firstChallenge);
+        expect(nextChallenge).to.be.equal(level2Challenge);
       });
 
-      it('should start with a level 1 question', function() {
+      it('should start with a not timed level 1 challenge when no level 2 exists', function() {
         // given
         const web1 = domainBuilder.buildSkill({ name: '@web1' });
         const url3 = domainBuilder.buildSkill({ name: '@url3' });
         const targetProfile = new TargetProfile({ skills: [web1, url3] });
 
-        const firstChallenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
-        const otherChallenge = domainBuilder.buildChallenge({ id: 'rec2', skills: [url3] });
-        const challenges = [otherChallenge, firstChallenge];
+        const level1Challenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
+        const level3Challenge = domainBuilder.buildChallenge({ id: 'rec2', skills: [url3] });
+        const challenges = [level3Challenge, level1Challenge];
         const answers = [];
 
         // when
@@ -362,18 +362,18 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge).to.be.equal(firstChallenge);
+        expect(nextChallenge).to.be.equal(level1Challenge);
       });
 
-      it('should start with a level 4 question', function() {
+      it('should start with a not timed level 4 challenge when no level 2, 1 and 3 exists', function() {
         // given
         const web4 = domainBuilder.buildSkill({ name: '@web4' });
         const url5 = domainBuilder.buildSkill({ name: '@url5' });
         const targetProfile = new TargetProfile({ skills: [web4, url5] });
 
-        const firstChallenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web4] });
-        const otherChallenge = domainBuilder.buildChallenge({ id: 'rec2', skills: [url5] });
-        const challenges = [otherChallenge, firstChallenge];
+        const level4Challenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web4] });
+        const level5Challenge = domainBuilder.buildChallenge({ id: 'rec2', skills: [url5] });
+        const challenges = [level4Challenge, level5Challenge];
         const answers = [];
 
         // when
@@ -381,7 +381,24 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge).to.be.equal(firstChallenge);
+        expect(nextChallenge).to.be.equal(level4Challenge);
+      });
+
+      it('should start with a timed level 3 challenge when no not timed challenge exists', function() {
+        // given
+        const web3 = domainBuilder.buildSkill({ name: '@web3' });
+        const targetProfile = new TargetProfile({ skills: [web3] });
+
+        const timedChallenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web3], timer:10 });
+        const challenges = [timedChallenge];
+        const answers = [];
+
+        // when
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+        const nextChallenge = smartRandom.getNextChallenge();
+
+        // then
+        expect(nextChallenge).to.be.equal(timedChallenge);
       });
     });
 
