@@ -4,7 +4,7 @@ const moment = require('moment');
 module.exports = {
 
   save(smartPlacementKnowledgeElement) {
-    smartPlacementKnowledgeElement.createdAt = moment.now();
+    smartPlacementKnowledgeElement.createdAt = moment().format('YYYY-MM-DD HH:mm:ss');
     return Promise.resolve(smartPlacementKnowledgeElement)
       .then((smartPlacementKnowledgeElement) => new BookshelfKnowledgeElement(smartPlacementKnowledgeElement))
       .then((knowledgeElementBookshelf) => knowledgeElementBookshelf.save())
