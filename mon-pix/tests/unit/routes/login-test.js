@@ -9,58 +9,77 @@ describe('Unit | Route | login page', function() {
     needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
   });
 
-  const authenticatedStub = sinon.stub();
-  const queryRecordStub = sinon.stub();
-  const expectedEmail = 'email@example.net';
-  const expectedPassword = 'azerty';
+  context('when user is not authenticated', function() {
+    let authenticateStub;
+    let queryRecordStub;
+    const expectedEmail = 'email@example.net';
+    const expectedPassword = 'azerty';
 
-  beforeEach(function() {
-    this.register('service:session', Service.extend({
-      authenticate: authenticatedStub
-    }));
-    this.inject.service('session', { as: 'session' });
+    beforeEach(function() {
+      queryRecordStub = sinon.stub();
+      authenticateStub = sinon.stub();
+      this.register('service:session', Service.extend({
+        authenticate: authenticateStub,
+      }));
+      this.inject.service('session', { as: 'session' });
 
-    this.register('service:store', Service.extend({
-      queryRecord: queryRecordStub
-    }));
-    this.inject.service('store', { as: 'store' });
-  });
-
-  it('should authenticate the user given email and password', function() {
-    // Given
-    authenticatedStub.resolves();
-
-    const foundUser = EmberObject.create({ id: 12 });
-    queryRecordStub.resolves(foundUser);
-    const route = this.subject();
-    route.transitionTo = () => {
-    };
-
-    // When
-    const promise = route.beforeModel({})
-      .then((_) => route.actions.signin.call(route, expectedEmail, expectedPassword));
-
-    // Then
-    return promise.then(() => {
-      sinon.assert.calledWith(authenticatedStub, 'authenticator:simple', { email: expectedEmail, password: expectedPassword });
+      this.register('service:store', Service.extend({
+        queryRecord: queryRecordStub
+      }));
+      this.inject.service('store', { as: 'store' });
     });
-  });
 
-  it('should authenticate the user given token in URL', function() {
-    // Given
-    authenticatedStub.resolves();
+    it('should authenticate the user given email and password', async function() {
+      // Given
+      authenticateStub.resolves();
 
-    const route = this.subject();
-    sinon.stub(route, 'transitionTo');
+      const foundUser = EmberObject.create({ id: 12 });
+      queryRecordStub.resolves(foundUser);
+      const route = this.subject();
+      sinon.stub(route, 'transitionTo').throws('Must not be called');
 
-    // When
-    const promise = route.beforeModel({ queryParams: { token: 'dummy-token', 'user-id': '123' } });
+      // When
+      await route.beforeModel({});
+      await route.actions.signin.call(route, expectedEmail, expectedPassword);
 
-    // Then
-    return promise.then(() => {
-      sinon.assert.calledWith(authenticatedStub, 'authenticator:simple', { token: 'dummy-token', userId: 123 });
+      // Then
+      sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { email: expectedEmail, password: expectedPassword });
+    });
+
+    it('should authenticate the user given token in URL', async function() {
+      // Given
+      authenticateStub.resolves();
+
+      const route = this.subject();
+      sinon.stub(route, 'transitionTo');
+
+      // When
+      await route.beforeModel({ queryParams: { token: 'dummy-token', 'user-id': '123' } });
+
+      // Then
+      sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { token: 'dummy-token', userId: 123 });
       sinon.assert.calledWith(route.transitionTo, 'compte');
     });
   });
 
+  context('when user is authenticated', function() {
+    beforeEach(function() {
+      this.register('service:session', Service.extend({
+        isAuthenticated: true
+      }));
+      this.inject.service('session', { as: 'session' });
+    });
+
+    it('should redirect authenticated users to /compte', async function() {
+      // Given
+      const route = this.subject();
+      sinon.stub(route, 'transitionTo');
+
+      // When
+      await route.beforeModel({});
+
+      // Then
+      sinon.assert.calledWith(route.transitionTo, 'compte');
+    });
+  });
 });
