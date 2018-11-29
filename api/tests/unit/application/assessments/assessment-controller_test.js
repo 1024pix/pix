@@ -1,5 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
-
+const { sinon, expect, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const useCases = require('../../../../lib/domain/usecases');
 
@@ -46,11 +45,7 @@ describe('Unit | Controller | assessment-controller', function() {
       // given
       const request = {
         query: { 'filter[type]': 'PLACEMENT' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
       useCases.findPlacementAssessments.resolves(assessments);
 
@@ -59,8 +54,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       // then
       return promise.then(() => {
-        expect(assessmentSerializer.serializeArray).to.have.been.called;
-        expect(assessmentSerializer.serializeArray).to.have.been.calledWith(assessments);
+        expect(assessmentSerializer.serializeArray).to.have.been.calledWithExactly(assessments);
       });
     });
 
@@ -68,11 +62,7 @@ describe('Unit | Controller | assessment-controller', function() {
       // given
       const request = {
         query: { 'filter[type]': 'PLACEMENT' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
       useCases.findPlacementAssessments.resolves(assessments);
       assessmentSerializer.serializeArray.returns(assessmentsInJSONAPI);
@@ -82,8 +72,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       // then
       return promise.then(() => {
-        expect(replyStub).to.have.been.called;
-        expect(replyStub).to.have.been.calledWith(assessmentsInJSONAPI);
+        expect(replyStub).to.have.been.calledWithExactly(assessmentsInJSONAPI);
       });
     });
 
@@ -91,11 +80,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[codeCampaign]': 'Code' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
 
       it('should call assessment service with query filters', function() {
@@ -107,8 +92,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
         // then
         return promise.then(() => {
-          expect(useCases.findSmartPlacementAssessments).to.have.been.called;
-          expect(useCases.findSmartPlacementAssessments).to.have.been.calledWith({
+          expect(useCases.findSmartPlacementAssessments).to.have.been.calledWithExactly({
             userId,
             filters: { codeCampaign: 'Code' },
           });
@@ -120,11 +104,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'PLACEMENT', 'filter[courseId]': 'courseId1' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
 
       it('should call assessment service with query filters', function() {
@@ -136,8 +116,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
         // then
         return promise.then(() => {
-          expect(useCases.findPlacementAssessments).to.have.been.called;
-          expect(useCases.findPlacementAssessments).to.have.been.calledWith({
+          expect(useCases.findPlacementAssessments).to.have.been.calledWithExactly({
             userId,
             filters: { type: 'PLACEMENT', courseId: 'courseId1' },
           });
@@ -149,11 +128,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'CERTIFICATION' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
 
       it('should call assessment service with query filters', function() {
@@ -165,8 +140,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
         // then
         return promise.then(() => {
-          expect(useCases.findCertificationAssessments).to.have.been.called;
-          expect(useCases.findCertificationAssessments).to.have.been.calledWith({
+          expect(useCases.findCertificationAssessments).to.have.been.calledWithExactly({
             userId,
             filters: { type: 'CERTIFICATION' },
           });
@@ -178,11 +152,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'DEMO' },
-        auth: {
-          credentials: {
-            userId
-          }
-        }
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
 
       it('should resolve []', function() {
@@ -191,8 +161,25 @@ describe('Unit | Controller | assessment-controller', function() {
 
         // then
         return promise.then(() => {
-          expect(assessmentSerializer.serializeArray).to.have.been.called;
-          expect(assessmentSerializer.serializeArray).to.have.been.calledWith([]);
+          expect(assessmentSerializer.serializeArray).to.have.been.calledWithExactly([]);
+        });
+      });
+    });
+
+    context('GET assessment with invalid token', () => {
+
+      const request = {
+        query: { 'filter[type]': 'DEMO' },
+        headers: { authorization: 'Bearer invalidtoken' }
+      };
+
+      it('should resolve []', function() {
+        // when
+        const promise = assessmentController.findByFilters(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(assessmentSerializer.serializeArray).to.have.been.calledWithExactly([]);
         });
       });
     });

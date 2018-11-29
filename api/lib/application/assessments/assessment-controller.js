@@ -13,18 +13,20 @@ const assessmentService = require('../../domain/services/assessment-service');
 const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
 
+function _extractUserIdFromRequest(request) {
+  if (request.headers && request.headers.authorization) {
+    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
+    return tokenService.extractUserId(token);
+  }
+  return null;
+}
+
 module.exports = {
 
   save(request, reply) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
-
-    if (request.headers.hasOwnProperty('authorization')) {
-      const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
-      const userId = tokenService.extractUserId(token);
-
-      assessment.userId = userId;
-    }
+    assessment.userId = _extractUserIdFromRequest(request);
 
     return Promise.resolve()
       .then(() => {
@@ -78,18 +80,19 @@ module.exports = {
   },
 
   findByFilters(request, reply) {
-    const filters = queryParamsUtils.extractFilters(request);
-    const userId = request.auth.credentials.userId;
-    let assessmentsPromise = null;
+    let assessmentsPromise = Promise.resolve([]);
+    const userId = _extractUserIdFromRequest(request);
 
-    if (filters.codeCampaign) {
-      assessmentsPromise = useCases.findSmartPlacementAssessments({ userId, filters });
-    } else if (filters.type === 'CERTIFICATION') {
-      assessmentsPromise = useCases.findCertificationAssessments({ userId, filters });
-    } else if (filters.type === 'PLACEMENT') {
-      assessmentsPromise = useCases.findPlacementAssessments({ userId, filters });
-    } else {
-      assessmentsPromise = Promise.resolve([]);
+    if (userId) {
+      const filters = queryParamsUtils.extractFilters(request);
+
+      if (filters.codeCampaign) {
+        assessmentsPromise = useCases.findSmartPlacementAssessments({ userId, filters });
+      } else if (filters.type === 'CERTIFICATION') {
+        assessmentsPromise = useCases.findCertificationAssessments({ userId, filters });
+      } else if (filters.type === 'PLACEMENT') {
+        assessmentsPromise = useCases.findPlacementAssessments({ userId, filters });
+      }
     }
 
     return assessmentsPromise.then((assessments) => {
