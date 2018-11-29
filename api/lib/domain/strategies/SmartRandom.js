@@ -137,17 +137,32 @@ function _computeReward(challenge, predictedLevel, course, validatedSkills, fail
   return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
 }
 
-function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
-  const filteredChallenges = SmartRandom._filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel);
-
+function _findPotentialFirstChallenges(challenges) {
   // first challenge difficulty should be the default one if possible, otherwise take the minimum difficulty
   const remapDifficulty = (difficulty) => difficulty == DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
 
-  const [, potentialFirstChallenges] = _(filteredChallenges)
-    .reject('timer') // first challenge must never be timed
+  const [, potentialFirstChallenges] = _(challenges)
     .groupBy('hardestSkill.difficulty')
     .entries()
     .minBy(([difficulty, _challenges]) => remapDifficulty(parseFloat(difficulty)));
+  return potentialFirstChallenges;
+}
+
+function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
+  const filteredChallenges = SmartRandom._filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel);
+
+  const [timedChallenges, notTimedChallenges] = _(filteredChallenges)
+    .partition((challenge) => challenge.timer)
+    .values()
+    .value();
+
+  let potentialFirstChallenges;
+
+  if (notTimedChallenges.length > 0) { // not timed challenge are a priority
+    potentialFirstChallenges = _findPotentialFirstChallenges(notTimedChallenges);
+  } else {
+    potentialFirstChallenges = _findPotentialFirstChallenges(timedChallenges);
+  }
 
   return _.sample(potentialFirstChallenges);
 }
