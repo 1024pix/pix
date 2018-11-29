@@ -1,6 +1,7 @@
 module.exports = {
   buildAnswer: require('./build-answer'),
   buildAssessment: require('./build-assessment'),
+  buildAssessmentResult: require('./build-assessment-result'),
   buildCampaign: require('./build-campaign'),
   buildCampaignParticipation: require('./build-campaign-participation'),
   buildCertificationChallenge: require('./build-certification-challenge'),
