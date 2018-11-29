@@ -680,4 +680,169 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
     });
   });
+
+  describe('#getLastPlacementAssessmentByUserIdAndCourseId', () => {
+
+    const userId = 42;
+    const courseId = 'rec23kfr5hfD54f';
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return null if nothing found', () => {
+      // when
+      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+
+      // then
+      return expect(promise).to.be.fulfilled
+        .then((foundAssessment) => {
+          expect(foundAssessment).to.be.null;
+        });
+    });
+
+    it('should return a placement concerning the given userId', async () => {
+      // given
+      const userOlderAssessment = databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        userId,
+        courseId,
+        createdAt: new Date('2018-07-07 05:00:00')
+      });
+
+      databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        userId: 40,
+        courseId,
+        createdAt: new Date('2018-09-09 05:00:00')
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+
+      // then
+      return expect(promise).to.be.fulfilled
+        .then((foundAssessment) => {
+          expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
+        });
+    });
+
+    it('should return a placement concerning the given courseId', async () => {
+      // given
+      const userOlderAssessment = databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        userId,
+        courseId,
+        createdAt: new Date('2018-07-07 05:00:00')
+      });
+
+      databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        userId,
+        courseId: 'wrongRec',
+        createdAt: new Date('2018-09-09 05:00:00')
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+
+      // then
+      return expect(promise).to.be.fulfilled
+        .then((foundAssessment) => {
+          expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
+        });
+    });
+
+    it('should return a placement', async () => {
+      // given
+      const userOlderAssessment = databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        userId,
+        courseId,
+        createdAt: new Date('2018-07-07 05:00:00')
+      });
+
+      databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.SMARTPLACEMENT,
+        userId,
+        courseId,
+        createdAt: new Date('2018-09-09 05:00:00')
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+
+      // then
+      return expect(promise).to.be.fulfilled
+        .then((foundAssessment) => {
+          expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
+        });
+    });
+
+    it('should return the last placement concerning the userId and courseId', async () => {
+      // given
+      databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        userId,
+        courseId,
+        createdAt: new Date('2018-07-07 05:00:00')
+      });
+
+      const lastAssessment = databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        userId,
+        courseId,
+        createdAt: new Date('2018-09-09 05:00:00')
+      });
+
+      databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        userId,
+        courseId,
+        createdAt: new Date('2018-08-08 05:00:00')
+      });
+
+      await databaseBuilder.commit();
+
+      // when
+      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+
+      // then
+      return expect(promise).to.be.fulfilled
+        .then((foundAssessment) => {
+          expect(foundAssessment.id).to.deep.equal(lastAssessment.id);
+        });
+
+    });
+
+    it('should fetch the related assessment results', async () => {
+      // given
+      const userAssessment = databaseBuilder.factory.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        userId,
+        courseId,
+        createdAt: new Date('2018-07-07 05:00:00'),
+      });
+      databaseBuilder.factory.buildAssessmentResult({ assessmentId: userAssessment.id });
+      databaseBuilder.factory.buildAssessmentResult({ assessmentId: userAssessment.id });
+
+      await databaseBuilder.commit();
+
+      // when
+      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+
+      // then
+      return expect(promise).to.be.fulfilled
+        .then((foundAssessment) => {
+          expect(foundAssessment.assessmentResults).to.have.length.of(2);
+        });
+    });
+
+  });
 });
