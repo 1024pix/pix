@@ -115,7 +115,8 @@ class Challenge {
 
   hasAllSkilledAlreadyCovered(knowledgeElements, targetProfile) {
     const skillIdsAlreadyCovered = _.map(knowledgeElements, 'skillId');
-    const skillOfChallengePresentInTargetProfile = _.filter(this.skills, (challengeSkill) => {
+    const skillOfChallengePresentInTargetProfile = _.filter(this.skills, (challengeSkill) =>
+    {
       return targetProfile.skills.find((profileSkill) => profileSkill.id === challengeSkill.id);
     });
     return _.every(skillOfChallengePresentInTargetProfile, (skill) => _.includes(skillIdsAlreadyCovered, skill.id));
