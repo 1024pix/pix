@@ -3,9 +3,7 @@ const { filteredChallenges, filteredChallengeForFirstChallenge } = require('./ch
 const { getPredictedLevel, computeReward } = require('./catAlgorithm');
 const _ = require('lodash');
 
-const LEVEL_FOR_FIRST_CHALLENGE = 2;
 const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
-const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 
 class SmartRandom {
 
@@ -26,7 +24,7 @@ class SmartRandom {
       this.lastChallenge = challenges.find((challenge) => challenge.id === this.lastAnswer.challengeId);
     }
 
-    this.predictedLevel = (this.lastAnswer) ? getPredictedLevel(this.knowledgeElements, this.skills) : LEVEL_FOR_FIRST_CHALLENGE;
+    this.predictedLevel = getPredictedLevel(this.knowledgeElements, this.skills);
   }
 
   getNextChallenge() {
@@ -74,8 +72,8 @@ function _findPotentialFirstChallenges(challenges) {
   return potentialFirstChallenges;
 }
 
-function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
-  const filteredChallenges = SmartRandom._filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel);
+function _firstChallenge({challenges, knowledgeElements, tubes, targetProfile}) {
+  const filteredChallenges = filteredChallengeForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile });
 
   const [timedChallenges, notTimedChallenges] = _(filteredChallenges)
     .partition((challenge) => challenge.timer)
