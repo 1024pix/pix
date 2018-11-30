@@ -7,6 +7,10 @@ module.exports = {
     return sessionRepository.get(sessionId);
   },
 
+  find() {
+    return sessionRepository.find();
+  },
+
   sessionExists(accessCode) {
     return sessionCodeService.getSessionByAccessCode(accessCode)
       .then((session) => {

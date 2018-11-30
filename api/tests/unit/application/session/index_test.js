@@ -37,6 +37,23 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   });
 
+  describe('GET /api/sessions', () => {
+
+    before(() => {
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
+      sinon.stub(sessionController, 'find').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      securityController.checkUserHasRolePixMaster.restore();
+      sessionController.find.restore();
+    });
+
+    it('should exist', (done) => {
+      expectRouteToExist({ method: 'GET', url: '/api/sessions' }, done);
+    });
+  });
+
   describe('POST /api/session', () => {
 
     before(() => {

@@ -88,6 +88,107 @@ describe('Acceptance | Controller | session-controller', () => {
     });
   });
 
+  describe('GET /sessions', function() {
+    let sessions;
+    let request;
+
+    beforeEach(() => {
+      sessions = [{
+        id: 1,
+        certificationCenter: 'Centre 1',
+        address: 'Paris',
+        room: 'Salle 1',
+        examiner: 'Bernard',
+        date: '2017-12-08',
+        time: '14:30',
+        accessCode: 'ABC123'
+      }, {
+        id: 2,
+        certificationCenter: 'Centre 2',
+        address: 'Lyon',
+        room: 'Salle 2',
+        examiner: 'Bernard',
+        date: '2017-12-08',
+        time: '14:30',
+        accessCode: 'DEF456'
+      }];
+
+      request = {
+        method: 'GET',
+        url: '/api/sessions',
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        payload: {},
+      };
+
+      return insertUserWithRolePixMaster().then(() => knex('sessions').insert(sessions));
+    });
+
+    afterEach(() => {
+      return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
+    });
+
+    it('should return 200 HTTP status code', () => {
+      // when
+      const promise = server.inject(request);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    it('should return all sessions', () => {
+      // given
+      const expectedResult = {
+        data: [{
+          'type': 'sessions',
+          'id': 1,
+          'attributes': {
+            'access-code': 'ABC123',
+            'address': 'Paris',
+            'certification-center': 'Centre 1',
+            'date': '2017-12-08',
+            'description': '',
+            'examiner': 'Bernard',
+            'room': 'Salle 1',
+            'time': '14:30'
+          },
+          'relationships': {
+            'certifications': {
+              'data': []
+            }
+          }
+        }, {
+          'type': 'sessions',
+          'id': 2,
+          'attributes': {
+            'access-code': 'DEF456',
+            'address': 'Lyon',
+            'certification-center': 'Centre 2',
+            'date': '2017-12-08',
+            'description': '',
+            'examiner': 'Bernard',
+            'room': 'Salle 2',
+            'time': '14:30'
+          },
+          'relationships': {
+            'certifications': {
+              'data': []
+            }
+          }
+        }]
+      };
+
+      // when
+      const promise = server.inject(request);
+
+      // then
+      return promise.then((response) => {
+        expect(response.result).to.deep.equal(expectedResult);
+      });
+    });
+  });
+
   describe('POST /sessions', () => {
 
     let options;

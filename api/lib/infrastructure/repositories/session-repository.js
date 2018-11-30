@@ -50,5 +50,11 @@ module.exports = {
         }
         return Promise.reject(error);
       });
+  },
+
+  find() {
+    return BookshelfSession
+      .fetchAll({})
+      .then((sessions) => sessions.map(_toDomain));
   }
 };

@@ -6,6 +6,18 @@ exports.register = (server, options, next) => {
   server.route([
     {
       method: 'GET',
+      path: '/api/sessions',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: sessionController.find,
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/sessions/{id}',
       config: {
         auth: false,

@@ -44,6 +44,7 @@ function _toDomain(userBookshelf) {
     password: userBookshelf.get('password'),
     cgu: Boolean(userBookshelf.get('cgu')),
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
+    pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
     memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
   });
