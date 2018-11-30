@@ -161,7 +161,7 @@ describe('Unit | Service | Profil User Service', function() {
               pixScore: 10,
               assessmentId: 'assessmentId1',
               status: 'assessed',
-              daysBeforeReplay: 0,
+              daysBeforeNewAttempt: 0,
             },
             {
               id: 'competenceId2',

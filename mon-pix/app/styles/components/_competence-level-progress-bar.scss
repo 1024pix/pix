@@ -113,7 +113,7 @@
   }
 }
 
-.competence-level-progress-bar__link-replay {
+.competence-level-progress-bar__retry-link {
   border: none;
   background-color: inherit;
   color: $pix-blue;
@@ -131,11 +131,11 @@
   }
 }
 
-.competence-level-progress-bar__link-replay--disabled {
+.competence-level-progress-bar__retry-link--disabled {
   font-weight: $font-bold;
 }
 
-.competence-level-progress-bar__replay-delay {
+.competence-level-progress-bar__retry-delay {
   position: absolute;
   right: -80px;
   color: $raven-grey;

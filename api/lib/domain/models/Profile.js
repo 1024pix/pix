@@ -49,7 +49,7 @@ class Profile {
         competence.status = competenceStatus.ASSESSMENT_NOT_COMPLETED;
       } else if (assessmentsCompletedByCompetenceId.length >= 1) {
         competence.status = competenceStatus.ASSESSED;
-        this._setRetryDelayToCompetence(competence, assessmentsCompletedByCompetenceId);
+        this._setDaysBeforeNewAttemptToCompetence(competence, assessmentsCompletedByCompetenceId);
       } else {
         competence.status = competenceStatus.UNKNOWN;
       }
@@ -57,14 +57,14 @@ class Profile {
     });
   }
 
-  _daysBeforeReplay(daysSinceLastCompletedAssessment) {
+  _daysBeforeNewAttempt(daysSinceLastCompletedAssessment) {
     if(daysSinceLastCompletedAssessment >= MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS)
       return 0;
 
     return Math.ceil(MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS - daysSinceLastCompletedAssessment);
   }
 
-  _setRetryDelayToCompetence(competence, assessmentsCompletedByCompetenceId) {
+  _setDaysBeforeNewAttemptToCompetence(competence, assessmentsCompletedByCompetenceId) {
     const lastAssessmentResult = _(assessmentsCompletedByCompetenceId)
       .map((assessment) => assessment.assessmentResults)
       .flatten()
@@ -72,7 +72,7 @@ class Profile {
       .first();
 
     const daysSinceLastCompletedAssessment = moment().diff(lastAssessmentResult.createdAt, 'days', true);
-    competence.daysBeforeReplay = this._daysBeforeReplay(daysSinceLastCompletedAssessment);
+    competence.daysBeforeNewAttempt = this._daysBeforeNewAttempt(daysSinceLastCompletedAssessment);
   }
 
   _setLevelAndPixScoreToCompetences(assessments, courses) {

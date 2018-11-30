@@ -165,7 +165,7 @@ describe('Integration | Component | competence level progress bar', function() {
 
   });
 
-  describe('replay assessment link', async function() {
+  describe('retry link', async function() {
 
     context('when competence is assessed', async function() {
 
@@ -185,26 +185,26 @@ describe('Integration | Component | competence level progress bar', function() {
 
         it('should display `Retenter` button', function() {
           // given
-          const daysBeforeReplay = 0;
-          this.set('daysBeforeReplay', daysBeforeReplay);
+          const daysBeforeNewAttempt = 0;
+          this.set('daysBeforeNewAttempt', daysBeforeNewAttempt);
 
           // when
-          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeNewAttempt=daysBeforeNewAttempt}}`);
 
           // then
           expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
-          expect(this.$('button.competence-level-progress-bar__link-replay')).to.have.lengthOf(1);
-          expect(this.$('.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Retenter le test "deuxième test"');
+          expect(this.$('button.competence-level-progress-bar__retry-link')).to.have.lengthOf(1);
+          expect(this.$('.competence-level-progress-bar__retry-link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
         });
 
         it('should display a modal when clicked', async function() {
           // given
-          const daysBeforeReplay = 0;
-          this.set('daysBeforeReplay', daysBeforeReplay);
+          const daysBeforeNewAttempt = 0;
+          this.set('daysBeforeNewAttempt', daysBeforeNewAttempt);
 
           // when
-          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
-          await this.$('.competence-level-progress-bar__link-replay').click();
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeNewAttempt=daysBeforeNewAttempt}}`);
+          await this.$('.competence-level-progress-bar__retry-link').click();
           const $modal = document.querySelector('.pix-modal__container');
 
           // then
@@ -217,14 +217,14 @@ describe('Integration | Component | competence level progress bar', function() {
 
         it('should not display remaining days info', function() {
           // given
-          const daysBeforeReplay = 0;
-          this.set('daysBeforeReplay', daysBeforeReplay);
+          const daysBeforeNewAttempt = 0;
+          this.set('daysBeforeNewAttempt', daysBeforeNewAttempt);
 
           // when
-          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeNewAttempt=daysBeforeNewAttempt}}`);
 
           // then
-          expect(this.$('.competence-level-progress-bar__replay-delay')).to.have.lengthOf(0);
+          expect(this.$('.competence-level-progress-bar__retry-delay')).to.have.lengthOf(0);
         });
       });
 
@@ -232,40 +232,40 @@ describe('Integration | Component | competence level progress bar', function() {
 
         it('should display `Retenter` text but not clickable', function() {
           // given
-          const daysBeforeReplay = 5;
-          this.set('daysBeforeReplay', daysBeforeReplay);
+          const daysBeforeNewAttempt = 5;
+          this.set('daysBeforeNewAttempt', daysBeforeNewAttempt);
 
           // when
-          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeNewAttempt=daysBeforeNewAttempt}}`);
 
           // then
-          expect(this.$('button.competence-level-progress-bar__link-replay')).to.have.lengthOf(0);
+          expect(this.$('button.competence-level-progress-bar__retry-link')).to.have.lengthOf(0);
           expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
           expect(this.$('.competence-level-progress-bar__link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
         });
 
         it('should display `1 day` if there is one day left to wait', function() {
           // given
-          const daysBeforeReplay = 1;
-          this.set('daysBeforeReplay', daysBeforeReplay);
+          const daysBeforeNewAttempt = 1;
+          this.set('daysBeforeNewAttempt', daysBeforeNewAttempt);
 
           // when
-          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeNewAttempt=daysBeforeNewAttempt}}`);
 
           // then
-          expect(this.$('.competence-level-progress-bar__replay-delay').text().trim()).to.equal('dans 1 jour');
+          expect(this.$('.competence-level-progress-bar__retry-delay').text().trim()).to.equal('dans 1 jour');
         });
 
         it('should display `4 days` if there are 4 days left to wait', function() {
           // given
-          const daysBeforeReplay = 4;
-          this.set('daysBeforeReplay', daysBeforeReplay);
+          const daysBeforeNewAttempt = 4;
+          this.set('daysBeforeNewAttempt', daysBeforeNewAttempt);
 
           // when
-          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeReplay=daysBeforeReplay}}`);
+          this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level daysBeforeNewAttempt=daysBeforeNewAttempt}}`);
 
           // then
-          expect(this.$('.competence-level-progress-bar__replay-delay').text().trim()).to.equal('dans 4 jours');
+          expect(this.$('.competence-level-progress-bar__retry-delay').text().trim()).to.equal('dans 4 jours');
         });
 
       });
