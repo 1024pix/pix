@@ -34,7 +34,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
           email: 'lskywalker@deathstar.empire',
           password: '',
           cgu: true,
-          pixOrgaTermsOfServiceAccepted: false
+          pixOrgaTermsOfServiceAccepted: false,
+          pixCertifTermsOfServiceAccepted: false
         });
 
         // when
@@ -48,7 +49,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'last-name': 'Skywalker',
               'email': 'lskywalker@deathstar.empire',
               'cgu': true,
-              'pix-orga-terms-of-service-accepted': false
+              'pix-orga-terms-of-service-accepted': false,
+              'pix-certif-terms-of-service-accepted': false
             },
             id: '234567',
             type: 'users'
@@ -68,6 +70,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
           email: 'lskywalker@deathstar.empire',
           cgu: true,
           pixOrgaTermsOfServiceAccepted: false,
+          pixCertifTermsOfServiceAccepted: false,
           password: ''
         });
 
@@ -82,7 +85,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'last-name': 'Skywalker',
               'email': 'lskywalker@deathstar.empire',
               'cgu': true,
-              'pix-orga-terms-of-service-accepted': false
+              'pix-orga-terms-of-service-accepted': false,
+              'pix-certif-terms-of-service-accepted': false
             },
             id: '234567',
             type: 'users',

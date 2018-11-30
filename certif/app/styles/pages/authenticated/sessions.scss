@@ -1,0 +1,34 @@
+.session-layout {
+  display: flex;
+}
+
+.session-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+
+  @include device-is('desktop') {
+    max-width: 500px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+  }
+
+  &__validation {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__error {
+    padding-top: 4px;
+  }
+
+  &__information {
+    margin-top: 7px;
+  }
+}

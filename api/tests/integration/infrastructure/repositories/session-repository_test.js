@@ -227,4 +227,59 @@ describe('Integration | Repository | Session', function() {
       return expect(promise).to.be.rejectedWith(NotFoundError);
     });
   });
+
+  describe('#find', function() {
+    let sessions;
+
+    context('when there are some sessions', function() {
+      sessions = [{
+        id: 1,
+        certificationCenter: 'Centre 1',
+        address: 'Paris',
+        room: 'salle 1',
+        examiner: 'Bernard',
+        date: '23/02/2018',
+        time: '12:00',
+        accessCode: 'ABC123'
+      }, {
+        id: 2,
+        certificationCenter: 'Centre 2',
+        address: 'Lyon',
+        room: 'salle 2',
+        examiner: 'Bernard',
+        date: '23/03/2018',
+        time: '12:00',
+        accessCode: 'DEF456'
+      }];
+
+      beforeEach(() => knex('sessions').insert(sessions));
+
+      afterEach(() => knex('sessions').delete());
+
+      it('should return all sessions', function() {
+        // when
+        const promise = sessionRepository.find();
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.an('array');
+          expect(result).to.have.lengthOf(2);
+        });
+      });
+    });
+
+    context('when there is no session', function() {
+
+      it('should return an empty array', function() {
+        // when
+        const promise = sessionRepository.find();
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.an('array');
+          expect(result).to.have.lengthOf(0);
+        });
+      });
+    });
+  });
 });

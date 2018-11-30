@@ -38,6 +38,7 @@ extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
 
     const raAppURL = `https://pix-app-integration-pr${prNumber}.scalingo.io`;
     const raOrgaURL = `https://pix-orga-integration-pr${prNumber}.scalingo.io`;
+    const raCertifURL = `https://pix-certif-integration-pr${prNumber}.scalingo.io`;
     const raAPIURL = `https://pix-api-integration-pr${prNumber}.scalingo.io`;
 
     const scalingoCommentRegex = new RegExp(raAppURL, 'i');
@@ -52,6 +53,7 @@ extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
       const text = `Je m'apprête à déployer la Review App. Elle sera consultable sur les URL suivantes :\n` +
                    `- App : ${raAppURL}\n` +
                    `- Orga : ${raOrgaURL}\n` +
+                   `- Certif : ${raCertifURL}\n` +
                    `- API (Postman) : ${raAPIURL}`;
 
       console.log(`Posting Review apps urls for PR number: ${prNumber} to JIRA issue: ${contextObject.issueCode}`);

@@ -24,7 +24,8 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
       email: faker.internet.email(),
       password: 'A124B2C3#!',
       cgu: true,
-      pixOrgaTermsOfServiceAccepted: false
+      pixOrgaTermsOfServiceAccepted: false,
+      pixCertifTermsOfServiceAccepted: false
     };
 
     beforeEach(() => {
@@ -46,7 +47,8 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
             'last-name': userToInsert.lastName,
             'email': userToInsert.email.toLowerCase(),
             'cgu': true,
-            'pix-orga-terms-of-service-accepted': false
+            'pix-orga-terms-of-service-accepted': false,
+            'pix-certif-terms-of-service-accepted': false
           },
           relationships: {
             'memberships': {

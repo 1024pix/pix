@@ -21,7 +21,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 * [Node.js](http://nodejs.org/) (v8.9.4) et NPM (5.5.1)
 * [Ember CLI](http://ember-cli.com/) (2.18.0)
 
-⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes. Cependant nous avons constaté des instabilités avec Node 9+ et NPM 5.6.0. 
+⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes. Cependant nous avons constaté des instabilités avec Node 9+ et NPM 5.6.0.
 
 > Les versions indiquées sont celles préconisées pour un bon fonctionnement de l'application.
 
@@ -57,9 +57,9 @@ $ npm start
 [l'API](http://localhost:3000) tourne en local sur le port 3000
 [l'application Mon-Pix](http://localhost:4200) sur le port 4200.
 [l'application Pix-Orga](http://localhost:4201) sur le port 4201.
+[l'application Pix-Certif](http://localhost:4203) sur le port 4203.
 
 Licence
 -------
 
 Ce logiciel et son code source sont distribués sous [licence AGPL](https://www.gnu.org/licenses/why-affero-gpl.fr.html).
-
