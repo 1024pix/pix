@@ -2,7 +2,7 @@ const Assessment = require('../models/Assessment');
 const Course = require('../models/Course');
 const _ = require('lodash');
 
-const LEVEL_FOR_FIRST_CHALLENGE = 2;
+const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 
 function _filterSkillsByChallenges(skills, challenges) {
@@ -137,12 +137,34 @@ function _computeReward(challenge, predictedLevel, course, validatedSkills, fail
   return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
 }
 
+function _findPotentialFirstChallenges(challenges) {
+  // first challenge difficulty should be the default one if possible, otherwise take the minimum difficulty
+  const remapDifficulty = (difficulty) => difficulty == DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
+
+  const [, potentialFirstChallenges] = _(challenges)
+    .groupBy('hardestSkill.difficulty')
+    .entries()
+    .minBy(([difficulty, _challenges]) => remapDifficulty(parseFloat(difficulty)));
+  return potentialFirstChallenges;
+}
+
 function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
-  const filteredFirstChallenges = SmartRandom._filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel).filter(
-    (challenge) => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
-  );
-  filteredFirstChallenges.sort(_randomly);
-  return filteredFirstChallenges[0];
+  const filteredChallenges = SmartRandom._filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel);
+
+  const [timedChallenges, notTimedChallenges] = _(filteredChallenges)
+    .partition((challenge) => challenge.timer)
+    .values()
+    .value();
+
+  let potentialFirstChallenges;
+
+  if (notTimedChallenges.length > 0) { // not timed challenge are a priority
+    potentialFirstChallenges = _findPotentialFirstChallenges(notTimedChallenges);
+  } else {
+    potentialFirstChallenges = _findPotentialFirstChallenges(timedChallenges);
+  }
+
+  return _.sample(potentialFirstChallenges);
 }
 
 class SmartRandom {
@@ -228,7 +250,7 @@ class SmartRandom {
 
   getPredictedLevel() {
     if (this.answers.length === 0) {
-      return LEVEL_FOR_FIRST_CHALLENGE;
+      return DEFAULT_LEVEL_FOR_FIRST_CHALLENGE;
     }
     let maxLikelihood = -Infinity;
     let level = 0.5;
