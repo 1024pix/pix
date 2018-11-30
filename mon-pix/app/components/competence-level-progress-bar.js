@@ -10,26 +10,13 @@ export default Component.extend({
   _MAX_REACHABLE_LEVEL: 5,
   _MAX_LEVEL: 8,
 
-  level: null,
-  courseId: null,
-  assessmentId: null,
-  name: null,
-  status: null,
-  daysBeforeNewAttempt: null,
+  competence: {},
 
   _showSecondChanceModal: false,
 
-  limitedLevel: computed('level', function() {
-    const level = this.get('level');
+  limitedLevel: computed('competence.level', function() {
+    const level = this.get('competence.level');
     return Math.min(level, this.get('_MAX_REACHABLE_LEVEL'));
-  }),
-
-  isCompetenceAssessed: computed('status', function() {
-    return Boolean(this.get('status') === 'assessed');
-  }),
-
-  isCompetenceBeingAssessed: computed('status', function() {
-    return Boolean(this.get('status') === 'assessmentNotCompleted');
   }),
 
   widthOfProgressBar: computed('limitedLevel', function() {
@@ -47,23 +34,25 @@ export default Component.extend({
     return htmlSafe('width : ' + progressBarWidth);
   }),
 
-  canUserStartCourse: computed('courseId', 'status', function() {
-    const courseId = this.get('courseId');
-    const isCompetenceAssessed = this.get('isCompetenceAssessed');
-    const isCompetenceBeingAssessed = this.get('isCompetenceBeingAssessed');
+  canUserStartCourse: computed('competence.{courseId,status}', function() {
+    const courseId = this.get('competence.courseId');
+    const isCompetenceAssessed = this.get('competence.isAssessed');
+    const isCompetenceBeingAssessed = this.get('competence.isBeingAssessed');
     return Boolean(courseId && !isCompetenceAssessed && !isCompetenceBeingAssessed);
   }),
 
-  canUserResumeAssessment: computed('assessmentId', 'status', function() {
-    return this.get('isCompetenceBeingAssessed') && isPresent(this.get('assessmentId'));
+  canUserResumeAssessment: computed('competence.{assessmentId,status}', function() {
+    return this.get('competence.isBeingAssessed') && isPresent(this.get('competence.assessmentId'));
   }),
 
-  canUserRetry: computed('courseId', 'status', function() {
-    return this.get('isCompetenceAssessed') && this.get('daysBeforeNewAttempt') == 0 && isPresent(this.get('courseId'));
+  canUserRetry: computed('competence.{courseId,status}', function() {
+    const isCompetenceAssessed = this.get('competence.isAssessed');
+    const daysBeforeNewAttempt = this.get('competence.daysBeforeNewAttempt');
+    return isCompetenceAssessed && daysBeforeNewAttempt == 0 && isPresent(this.get('competence.courseId'));
   }),
 
-  remainingDaysText: computed('daysBeforeNewAttempt', function() {
-    const daysBeforeNewAttempt = this.get('daysBeforeNewAttempt');
+  remainingDaysText: computed('competence.daysBeforeNewAttempt', function() {
+    const daysBeforeNewAttempt = this.get('competence.daysBeforeNewAttempt');
     return `dans ${daysBeforeNewAttempt} ${daysBeforeNewAttempt <= 1 ? 'jour' : 'jours'}`;
   }),
 
