@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const moment = require('moment');
+
 const AnswerStatus = require('./AnswerStatus');
 const { ObjectValidationError } = require('../errors');
 
@@ -187,6 +189,22 @@ class Assessment {
   isCertifiable() {
     return this.getLastAssessmentResult().level >= 1;
   }
+
+  canStartNewAttemptOnCourse() {
+    if(!this.isPlacementAssessment()) throw new Error('Only available for a placement assessment');
+
+    return this.isCompleted() && this.getRemainingDaysBeforeNewAttempt() <= 0;
+  }
+
+  getRemainingDaysBeforeNewAttempt() {
+    const lastResult = this.getLastAssessmentResult();
+    const daysSinceLastCompletedAssessment = moment().diff(lastResult.createdAt, 'days', true);
+
+    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS - daysSinceLastCompletedAssessment);
+
+    return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
+  }
+
 }
 
 Assessment.states = states;
