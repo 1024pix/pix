@@ -1,5 +1,5 @@
 const Course = require('../models/Course');
-const { filteredChallenges } = require('./challengesFilter');
+const { filteredChallenges, filteredChallengeForFirstChallenge } = require('./challengesFilter');
 const { getPredictedLevel, computeReward } = require('./catAlgorithm');
 const _ = require('lodash');
 
@@ -30,6 +30,16 @@ class SmartRandom {
   }
 
   getNextChallenge() {
+
+    if (!this.lastAnswer) {
+      return _firstChallenge({
+        challenges: this.challenges,
+        knowledgeElements: this.knowledgeElements,
+        tubes: this.course.tubes,
+        targetProfile: this.targetProfile
+      });
+    }
+
     const availableChallenges = filteredChallenges({
       challenges: this.challenges,
       knowledgeElements: this.knowledgeElements,
@@ -38,10 +48,6 @@ class SmartRandom {
       lastChallenge: this.lastChallenge,
       targetProfile: this.targetProfile
     });
-
-    if (!this.lastAnswer) {
-      return _firstChallenge(availableChallenges);
-    }
 
     if (availableChallenges.length === 0) {
       return null;
