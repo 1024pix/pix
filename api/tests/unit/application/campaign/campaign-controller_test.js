@@ -1,11 +1,15 @@
-const { sinon, expect, factory } = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError,
-  NotFoundError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToCreateCampaignError,
+  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToGetCampaignResultsError,
+  EntityValidationError,
+  NotFoundError
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -27,7 +31,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   describe('#save', () => {
 
-    const deserializedCampaign = factory.buildCampaign({ id: NaN, code: '' });
+    const deserializedCampaign = domainBuilder.buildCampaign({ id: NaN, code: '' });
 
     beforeEach(() => {
       sandbox.stub(usecases, 'createCampaign');
@@ -40,7 +44,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const connectedUserId = 1;
       const request = { auth: { credentials: { userId: connectedUserId } } };
 
-      const createdCampaign = factory.buildCampaign();
+      const createdCampaign = domainBuilder.buildCampaign();
       usecases.createCampaign.resolves(createdCampaign);
 
       // when
@@ -61,7 +65,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const userId = 1245;
       const request = { auth: { credentials: { userId } } };
 
-      const createdCampaign = factory.buildCampaign();
+      const createdCampaign = domainBuilder.buildCampaign();
       usecases.createCampaign.resolves(createdCampaign);
 
       const serializedCampaign = { name: createdCampaign.name };
@@ -293,7 +297,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should call the use case to retrieve the campaign with the expected code', () => {
       // given
-      const createdCampaign = factory.buildCampaign();
+      const createdCampaign = domainBuilder.buildCampaign();
       usecases.getCampaignByCode.resolves(createdCampaign);
 
       const serializedCampaign = { name: createdCampaign.name };
@@ -310,7 +314,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return the serialized campaign found by the use case', () => {
       // given
-      const createdCampaign = factory.buildCampaign();
+      const createdCampaign = domainBuilder.buildCampaign();
       usecases.getCampaignByCode.resolves(createdCampaign);
 
       const serializedCampaign = { name: createdCampaign.name };
@@ -350,6 +354,157 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       return promise.then(() => {
         expect(codeStub).to.have.been.calledWith(400);
+      });
+    });
+
+  });
+
+  describe('#getById ', () => {
+    let request, campaign;
+
+    beforeEach(() => {
+      campaign = {
+        id: 1,
+        name: 'My campaign',
+      };
+      request = {
+        params: {
+          id: campaign.id
+        }
+      };
+
+      sandbox.stub(usecases, 'getCampaign');
+      sandbox.stub(campaignSerializer, 'serialize');
+    });
+
+    it('should returns the campaign', () => {
+      // given
+      usecases.getCampaign.withArgs({ campaignId: campaign.id }).resolves(campaign);
+      campaignSerializer.serialize.withArgs(campaign).returns(campaign);
+
+      // when
+      const promise = campaignController.getById(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWithExactly(campaign);
+        expect(codeStub).to.have.been.calledWithExactly(200);
+      });
+    });
+
+    it('should throw an error when the campaign could not be retrieved', () => {
+      // given
+      usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects();
+
+      // when
+      const promise = campaignController.getById(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(500);
+      });
+    });
+
+    it('should throw an infra NotFoundError when a NotFoundError is catched', () => {
+      // given
+      usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects(new NotFoundError());
+
+      // when
+      const promise = campaignController.getById(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(404);
+      });
+    });
+
+  });
+
+  describe('#update ', () => {
+    let request, updatedCampaign, updateCampaignArgs;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId: 1 } },
+        params: { id : 1 },
+        payload: {
+          data: {
+            attributes: {
+              title: 'New title',
+              'custom-landing-page-text': 'New text',
+            }
+          }
+        }
+      };
+
+      updatedCampaign = {
+        id: request.params.id,
+        title: request.payload.data.attributes.title,
+        customLandingPageText: request.payload.data.attributes['custom-landing-page-text'],
+      };
+
+      updateCampaignArgs = {
+        userId: request.auth.credentials.userId,
+        campaignId: updatedCampaign.id,
+        title: updatedCampaign.title,
+        customLandingPageText: updatedCampaign.customLandingPageText,
+      };
+
+      sandbox.stub(usecases, 'updateCampaign');
+      sandbox.stub(campaignSerializer, 'serialize');
+    });
+
+    it('should returns the updated campaign', () => {
+      // given
+      usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
+      campaignSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
+
+      // when
+      const promise = campaignController.update(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWithExactly(updatedCampaign);
+        expect(codeStub).to.have.been.calledWithExactly(200);
+      });
+    });
+
+    it('should throw an error when the campaign could not be updated', () => {
+      // given
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects();
+
+      // when
+      const promise = campaignController.update(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(500);
+      });
+    });
+
+    it('should throw an infra NotFoundError when a NotFoundError is catched', () => {
+      // given
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new NotFoundError());
+
+      // when
+      const promise = campaignController.update(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(404);
+      });
+    });
+
+    it('should throw a forbiddenError when user is not authorized to update the campaign', () => {
+      // given
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new UserNotAuthorizedToUpdateCampaignError());
+
+      // when
+      const promise = campaignController.update(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWithExactly(403);
       });
     });
 

@@ -43,15 +43,26 @@ module.exports = function(environment) {
       'Overpass' //used on the trophy
     ],
 
+    metricsAdapters: [
+      {
+        name: 'Piwik',
+        environments: ['production'],
+        config: {
+          piwikUrl: 'https://pix.matomo.cloud',
+          siteId: 4
+        }
+      }
+    ],
+
     // Set or update content security policies
     contentSecurityPolicy: {
-      // Google fonts: https://github.com/damiencaselli/ember-cli-google-fonts#declare-fonts
-      'font-src': '\'self\' fonts.gstatic.com',
-      'style-src': '\'self\' fonts.googleapis.com',
-      // Sentry.io: https://github.com/damiencaselli/ember-cli-sentry/tree/3.0.0-beta#content-security-policy
-      'script-src': '\'self\' \'unsafe-inline\' \'unsafe-eval\' cdn.ravenjs.com',
-      'img-src': 'data: app.getsentry.com',
-      'connect-src': '\'self\' app.getsentry.com'
+      'default-src': "'none'",
+      'script-src': "'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
+      'font-src': "'self' fonts.gstatic.com",
+      'connect-src': "'self' www.google-analytics.com",
+      'img-src': "'self'",
+      'style-src': "'self' fonts.googleapis.com",
+      'media-src': "'self'"
     },
 
     showdown: {
@@ -103,43 +114,8 @@ module.exports = function(environment) {
     ENV.APP.useDelay = false;
   }
 
-  if (environment === 'integration') {
-    ENV.metricsAdapters = [
-      {
-        name: 'Piwik',
-        environments: ['integration'],
-        config: {
-          piwikUrl: '//stats.data.gouv.fr',
-          siteId: 30
-        }
-      }
-    ];
-  }
-
-  if (environment === 'staging') {
-    ENV.metricsAdapters = [
-      {
-        name: 'Piwik',
-        environments: ['staging'],
-        config: {
-          piwikUrl: '//stats.data.gouv.fr',
-          siteId: 31
-        }
-      }
-    ];
-  }
-
   if (environment === 'production') {
-    ENV.metricsAdapters = [
-      {
-        name: 'Piwik',
-        environments: ['production'],
-        config: {
-          piwikUrl: '//stats.data.gouv.fr',
-          siteId: 29
-        }
-      }
-    ];
+    // here you can enable a production-specific feature
   }
 
   return ENV;

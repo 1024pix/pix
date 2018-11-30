@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const moment = require('moment');
 
 const getResultsCampaignInCsvFormat = require('../../../../lib/domain/usecases/get-results-campaign-in-csv-format');
@@ -8,35 +8,35 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
   describe('#getResultsCampaignInCsvFormat', () => {
 
-    const user = factory.buildUser();
+    const user = domainBuilder.buildUser();
     const organization = user.memberships[0].organization;
-    const listSkills = factory.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 5 });
+    const listSkills = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 5 });
     const [skillWeb1, skillWeb2, skillWeb3, skillWeb4, skillWeb5] = listSkills;
-    const assessment = factory.buildAssessment.ofTypeSmartPlacement({
+    const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
       state: 'completed',
       createdAt: new Date('05/05/2017'),
       knowledgeElements: [
-        factory.buildSmartPlacementKnowledgeElement({
+        domainBuilder.buildSmartPlacementKnowledgeElement({
           status: 'validated',
           pixScore: 2,
           skillId: skillWeb1.id,
         }),
-        factory.buildSmartPlacementKnowledgeElement({
+        domainBuilder.buildSmartPlacementKnowledgeElement({
           status: 'validated',
           pixScore: 2,
           skillId: skillWeb2.id,
         }),
-        factory.buildSmartPlacementKnowledgeElement({
+        domainBuilder.buildSmartPlacementKnowledgeElement({
           status: 'validated',
           pixScore: 2,
           skillId: skillWeb3.id,
         }),
-        factory.buildSmartPlacementKnowledgeElement({
+        domainBuilder.buildSmartPlacementKnowledgeElement({
           status: 'invalidated',
           pixScore: 2,
           skillId: skillWeb4.id,
         }),
-        factory.buildSmartPlacementKnowledgeElement({
+        domainBuilder.buildSmartPlacementKnowledgeElement({
           status: 'invalidated',
           pixScore: 2,
           skillId: skillWeb5.id,
@@ -44,9 +44,9 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       ],
     });
 
-    const targetProfile = factory.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
+    const targetProfile = domainBuilder.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
 
-    const campaign = factory.buildCampaign({
+    const campaign = domainBuilder.buildCampaign({
       name:'Campaign "Name"',
       code:'AZERTY123',
       organizationId: organization.id,
@@ -153,7 +153,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
       it('should return the complete line with user results for her participation', () => {
         // given
-        const factoryCampaignParticipation = factory.buildCampaignParticipation({ isShared: true });
+        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true });
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
         const csvSecondLine = `"${organization.name}";` +
@@ -205,7 +205,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       it('should return the beginning of the line with user information for her participation', () => {
         // given
 
-        const factoryCampaignParticipation = factory.buildCampaignParticipation({ isShared: false });
+        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false });
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
         const csvSecondLine =
@@ -255,10 +255,10 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     context('when campaign do not have a idPixLabel', () => {
 
       beforeEach(() => {
-        const factoryCampaignParticipation = factory.buildCampaignParticipation({ isShared: false });
+        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false });
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
-        const campaignWithoutIdPixLabel = factory.buildCampaign({
+        const campaignWithoutIdPixLabel = domainBuilder.buildCampaign({
           name: 'CampaignName',
           code: 'AZERTY123',
           organizationId: organization.id,

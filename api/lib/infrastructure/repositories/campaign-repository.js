@@ -2,6 +2,7 @@ const _ = require('lodash');
 
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
+const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfCampaign) {
   const dbCampaign = bookshelfCampaign.toJSON();
@@ -53,7 +54,7 @@ module.exports = {
         if (campaign) {
           return _toDomain(campaign);
         }
-        return Promise.resolve(null);
+        throw new NotFoundError(`Campaign with id : ${id} not found`);
       });
   },
 
@@ -61,6 +62,16 @@ module.exports = {
     const cleanedCampaignToSave = _.omit(campaignToSave, ['createdAt', 'organizationLogoUrl']);
     return new BookshelfCampaign(cleanedCampaignToSave)
       .save()
+      .then(_toDomain);
+  },
+
+  update(campaign) {
+
+    const campaignRawData = _.pick(campaign, ['title', 'customLandingPageText']);
+
+    return new BookshelfCampaign({ id: campaign.id })
+      .save(campaignRawData, { patch: true })
+      .then((model) => model.refresh())
       .then(_toDomain);
   },
 

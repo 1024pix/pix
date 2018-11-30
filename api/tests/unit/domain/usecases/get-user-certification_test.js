@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getUserCertification = require('../../../../lib/domain/usecases/get-user-certification');
 
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-user-certification', () => {
 
   it('should get the certification from the repository', () => {
     // given
-    const certification = factory.buildCertification({ userId: parseInt(userId, 10) });
+    const certification = domainBuilder.buildCertification({ userId: parseInt(userId, 10) });
     certificationRepository.getCertification.resolves(certification);
 
     // when
@@ -32,7 +32,7 @@ describe('Unit | UseCase | get-user-certification', () => {
 
     it('should return the certification returned from the repository', () => {
       // given
-      const certification = factory.buildCertification({ userId: parseInt(userId, 10) });
+      const certification = domainBuilder.buildCertification({ userId: parseInt(userId, 10) });
       certificationRepository.getCertification.resolves(certification);
 
       // when
@@ -49,7 +49,7 @@ describe('Unit | UseCase | get-user-certification', () => {
 
     it('should throw an unauthorized error', () => {
       // given
-      const certification = factory.buildCertification({ userId: '666' });
+      const certification = domainBuilder.buildCertification({ userId: '666' });
       certificationRepository.getCertification.resolves(certification);
 
       // when

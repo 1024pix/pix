@@ -1,13 +1,15 @@
-const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Campaign', () => {
 
   describe('#isCodeAvailable', () => {
 
     beforeEach(async () => {
-      const campaign = factory.buildCampaign({ code: 'BADOIT710' });
+      const campaign = domainBuilder.buildCampaign({ code: 'BADOIT710' });
       databaseBuilder.factory.buildCampaign(campaign);
       await databaseBuilder.commit();
     });
@@ -42,7 +44,7 @@ describe('Integration | Repository | Campaign', () => {
 
     let campaignToInsert;
     beforeEach(async () => {
-      campaignToInsert = factory.buildCampaign({ code: 'BADOIT710', createdAt: '2018-02-06 14:12:45' });
+      campaignToInsert = domainBuilder.buildCampaign({ code: 'BADOIT710', createdAt: '2018-02-06 14:12:45' });
       databaseBuilder.factory.buildCampaign(campaignToInsert);
       await databaseBuilder.commit();
     });
@@ -111,21 +113,21 @@ describe('Integration | Repository | Campaign', () => {
   describe('#findByOrganizationId', () => {
 
     const organizationId = 1;
-    const campaign1Organization1 = factory.buildCampaign({
+    const campaign1Organization1 = domainBuilder.buildCampaign({
       id: 1,
       name: 'campaign1',
       code: 'AZERTY123',
       organizationId: organizationId,
       creatorId: 1
     });
-    const campaign2Organization1 = factory.buildCampaign({
+    const campaign2Organization1 = domainBuilder.buildCampaign({
       id: 2,
       name: 'campaign2',
       code: 'AZERTY456',
       organizationId: organizationId,
       creatorId: 2
     });
-    const campaign1Organization2 = factory.buildCampaign({
+    const campaign1Organization2 = domainBuilder.buildCampaign({
       id: 3,
       name: 'campaign3',
       code: 'AZERTY789',
@@ -165,5 +167,94 @@ describe('Integration | Repository | Campaign', () => {
       });
     });
 
+  });
+
+  describe('#get', () => {
+    let campaign;
+
+    beforeEach(() => {
+      const bookshelfCampaign = databaseBuilder.factory.buildCampaign({
+        id: 1,
+        name: 'My campaign',
+      });
+      campaign = domainBuilder.buildCampaign(bookshelfCampaign);
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return a Campaign by her id', async () => {
+      // when
+      const result = await campaignRepository.get(campaign.id);
+
+      // then
+      expect(result).to.be.an.instanceof(Campaign);
+      expect(result.name).to.equal(campaign.name);
+    });
+
+    it('should throw a NotFoundError if campaign can not be found', async () => {
+      // given
+      const nonExistentId = 666;
+
+      // when
+      const promise = campaignRepository.get(nonExistentId);
+
+      // then
+      expect(promise).to.have.been.rejectedWith(NotFoundError);
+    });
+  });
+
+  describe('#update', () => {
+    let campaign;
+
+    beforeEach(() => {
+      const bookshelfCampaign = databaseBuilder.factory.buildCampaign({
+        id: 1,
+        title: 'Title',
+        customLandingPageText: 'Text',
+      });
+      campaign = domainBuilder.buildCampaign(bookshelfCampaign);
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return a Campaign domain object', async () => {
+      // when
+      const campaignSaved = await campaignRepository.update(campaign);
+
+      // then
+      expect(campaignSaved).to.be.an.instanceof(Campaign);
+    });
+
+    it('should not add row in table "campaigns"', async () => {
+      // given
+      const rowCount = await BookshelfCampaign.count();
+
+      // when
+      await campaignRepository.update(campaign);
+
+      // then
+      const rowCountAfterUpdate = await BookshelfCampaign.count();
+      expect(rowCountAfterUpdate).to.equal(rowCount);
+    });
+
+    it('should update model in database', async () => {
+      // given
+      campaign.title = 'New title';
+      campaign.customLandingPageText = 'New text';
+
+      // when
+      const campaignSaved = await campaignRepository.update(campaign);
+
+      // then
+      expect(campaignSaved.id).to.equal(campaign.id);
+      expect(campaignSaved.title).to.equal('New title');
+      expect(campaignSaved.customLandingPageText).to.equal('New text');
+    });
   });
 });

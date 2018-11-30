@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | inscription', function() {
   setupTest('route:inscription', {
-    needs: ['service:current-routed-modal', 'service:session']
+    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
   });
 
   it('exists', function() {

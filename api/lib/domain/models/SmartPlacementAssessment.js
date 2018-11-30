@@ -20,6 +20,7 @@ class SmartPlacementAssessment {
     // includes
     answers = [], // of type SmartPlacementAnswers
     knowledgeElements = [], // of type SmartKnowledgeElements
+    campaignParticipation,
     targetProfile,
     // references
     userId,
@@ -31,6 +32,7 @@ class SmartPlacementAssessment {
     // includes
     this.answers = answers;
     this.knowledgeElements = knowledgeElements;
+    this.campaignParticipation = campaignParticipation;
     this.targetProfile = targetProfile;
     // references
     this.userId = userId;

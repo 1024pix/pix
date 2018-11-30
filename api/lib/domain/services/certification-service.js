@@ -11,11 +11,7 @@ const AnswerStatus = require('../models/AnswerStatus');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
 const CertificationContract = require('../../domain/models/CertificationContract');
 
-const {
-  CertificationComputeError,
-  NotCompletedAssessmentError,
-  UserNotAuthorizedToCertifyError
-} = require('../../../lib/domain/errors');
+const { CertificationComputeError, UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
 
 const answerServices = require('./answer-service');
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
@@ -255,27 +251,27 @@ module.exports = {
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
       .then((foundAssessment) => {
-        certification = certificationCourseRepository.get(certificationCourseId);
         assessment = foundAssessment;
-        return certification;
+        return certificationCourseRepository.get(certificationCourseId);
       })
       .then((foundCertification) => {
         certification = foundCertification;
-        if (assessment == null) {
-          throw new NotCompletedAssessmentError();
+
+        if (assessment) {
+          const lastAssessmentResult = assessment.getLastAssessmentResult();
+
+          if (lastAssessmentResult) {
+            return assessmentResultRepository.get(lastAssessmentResult.id);
+          }
         }
-        const lastAssessmentResult = assessment.getLastAssessmentResult();
-        if (lastAssessmentResult)
-          return assessmentResultRepository.get(lastAssessmentResult.id);
-        else {
-          return { competenceMarks: [], status: assessment.state };
-        }
+
+        return { competenceMarks: [], status: assessment ? assessment.state : 'missing-assessment' };
       })
       .then((lastAssessmentResultFull) => {
         return {
           level: lastAssessmentResultFull.level,
           certificationId: certification.id,
-          assessmentId: assessment.id,
+          assessmentId: assessment ? assessment.id : null,
           emitter: lastAssessmentResultFull.emitter,
           commentForJury: lastAssessmentResultFull.commentForJury,
           commentForCandidate: lastAssessmentResultFull.commentForCandidate,

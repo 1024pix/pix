@@ -1,4 +1,4 @@
-const { expect, sinon, factory } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const solutionAdapter = require('../../../../lib/infrastructure/adapters/solution-adapter');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
@@ -28,9 +28,9 @@ describe('Unit | Repository | solution-repository', () => {
     beforeEach(() => {
       // given
       recordId = 'rec-challengeId';
-      challengeDataObject = factory.buildChallengeAirtableDataObject();
+      challengeDataObject = domainBuilder.buildChallengeAirtableDataObject();
       challengeDatasource.get.resolves(challengeDataObject);
-      solution = factory.buildSolution();
+      solution = domainBuilder.buildSolution();
       solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
 
       // when

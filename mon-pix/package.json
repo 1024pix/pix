@@ -1,6 +1,6 @@
 {
   "name": "mon-pix",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
   "author": "Team Pix",
@@ -76,7 +76,7 @@
     "ember-lodash": "^4.18.0",
     "ember-math-helpers": "^2.6.0",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-metrics": "^0.12.1",
+    "ember-metrics": "poteto/ember-metrics#1963fc0",
     "ember-modal-dialog": "^2.4.1",
     "ember-moment": "^7.7.0",
     "ember-resolver": "^4.5.6",

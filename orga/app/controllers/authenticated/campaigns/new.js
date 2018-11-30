@@ -19,5 +19,8 @@ export default Controller.extend({
         });
     },
 
+    cancel() {
+      this.transitionToRoute('authenticated.campaigns.list');
+    },
   }
 });

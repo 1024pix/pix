@@ -1,4 +1,4 @@
-const { expect, sinon, factory, HttpTestServer } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -6,7 +6,7 @@ const moduleUnderTest = require('../../../../lib/application/organizations');
 
 describe('Integration | Application | Organizations | organization-controller', () => {
 
-  const organization = factory.buildOrganization();
+  const organization = domainBuilder.buildOrganization();
 
   let httpTestServer;
 

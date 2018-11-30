@@ -44,6 +44,10 @@ export default function() {
     return schema.campaigns.all();
   });
 
+  this.get('/campaigns/:id');
+
+  this.patch('/campaigns/:id');
+
   this.get('/organizations/:id/target-profiles', (schema) => {
     return schema.targetProfiles.all();
   });

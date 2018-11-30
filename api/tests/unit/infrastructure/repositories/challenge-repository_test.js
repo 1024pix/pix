@@ -1,4 +1,4 @@
-const { expect, factory, sinon } = require('../../../test-helper');
+const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
 const AirtableResourceNotFound = require(
   '../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
@@ -56,15 +56,15 @@ describe('Unit | Repository | challenge-repository', () => {
         beforeEach(() => {
           // given
           challengeRecordId = 'rec_challenge_id';
-          challengeDataObject = factory.buildChallengeAirtableDataObject({
+          challengeDataObject = domainBuilder.buildChallengeAirtableDataObject({
             id: challengeRecordId,
             skillIds: ['skillId_1', 'skillId_2'],
             type: challengeType,
           });
-          solution = factory.buildSolution();
+          solution = domainBuilder.buildSolution();
           challengeDataSource.get.withArgs(challengeRecordId).resolves(challengeDataObject);
-          skillDatasource.get.withArgs('skillId_1').resolves(factory.buildSkillAirtableDataObject({ name: '@web1' }));
-          skillDatasource.get.withArgs('skillId_2').resolves(factory.buildSkillAirtableDataObject({ name: '@url2' }));
+          skillDatasource.get.withArgs('skillId_1').resolves(domainBuilder.buildSkillAirtableDataObject({ name: '@web1' }));
+          skillDatasource.get.withArgs('skillId_2').resolves(domainBuilder.buildSkillAirtableDataObject({ name: '@url2' }));
           solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
 
           // when
@@ -183,15 +183,15 @@ describe('Unit | Repository | challenge-repository', () => {
 
     beforeEach(() => {
 
-      skillWeb1 = factory.buildSkill({
+      skillWeb1 = domainBuilder.buildSkill({
         id: 'recSkillWeb1',
         name: '@web1',
       });
-      skillURL2 = factory.buildSkill({
+      skillURL2 = domainBuilder.buildSkill({
         id: 'recSkillURL2',
         name: '@url2',
       });
-      skillURL3 = factory.buildSkill({
+      skillURL3 = domainBuilder.buildSkill({
         id: 'recSkillURL3',
         name: '@url3',
       });
@@ -201,14 +201,14 @@ describe('Unit | Repository | challenge-repository', () => {
       sandbox.stub(skillDatasource, 'get');
       sandbox.stub(skillDatasource, 'list');
       skillDatasource.list.resolves([
-        factory.buildSkillAirtableDataObject({
+        domainBuilder.buildSkillAirtableDataObject({
           id: skillURL3.id, name: skillURL3.name,
         }),
-        factory.buildSkillAirtableDataObject({
+        domainBuilder.buildSkillAirtableDataObject({
           id: skillURL2.id,
           name: skillURL2.name,
         }),
-        factory.buildSkillAirtableDataObject({
+        domainBuilder.buildSkillAirtableDataObject({
           id: skillWeb1.id,
           name: skillWeb1.name,
         })]);
@@ -228,17 +228,17 @@ describe('Unit | Repository | challenge-repository', () => {
         beforeEach(() => {
           // given
           challengeDataSource.list.resolves([
-            factory.buildChallengeAirtableDataObject({
+            domainBuilder.buildChallengeAirtableDataObject({
               id: 'rec_challenge_1',
               skillIds: [skillWeb1.id],
             }),
-            factory.buildChallengeAirtableDataObject({
+            domainBuilder.buildChallengeAirtableDataObject({
               id: 'rec_challenge_2',
               skillIds: [skillURL2.id, skillURL3.id, 'not_existing_skill_id'],
             }),
           ]);
 
-          solutionAdapter.fromChallengeAirtableDataObject.returns(factory.buildSolution());
+          solutionAdapter.fromChallengeAirtableDataObject.returns(domainBuilder.buildSolution());
 
           // when
           promise = challengeRepository.list();
@@ -316,7 +316,7 @@ describe('Unit | Repository | challenge-repository', () => {
       let competence;
 
       beforeEach(() => {
-        competence = factory.buildCompetence();
+        competence = domainBuilder.buildCompetence();
 
         sandbox.stub(challengeDataSource, 'findByCompetence');
         sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
@@ -333,15 +333,15 @@ describe('Unit | Repository | challenge-repository', () => {
         beforeEach(() => {
           // given
           challengeRecordId = 'rec_challenge_id';
-          challengeDataObject1 = factory.buildChallengeAirtableDataObject({
+          challengeDataObject1 = domainBuilder.buildChallengeAirtableDataObject({
             id: challengeRecordId,
             skillIds: [skillWeb1.id],
           });
-          challengeDataObject2 = factory.buildChallengeAirtableDataObject({
+          challengeDataObject2 = domainBuilder.buildChallengeAirtableDataObject({
             id: challengeRecordId,
             skillIds: [skillURL2.id, skillURL3.id],
           });
-          solution = factory.buildSolution();
+          solution = domainBuilder.buildSolution();
           challengeDataSource.findByCompetence
             .withArgs(competence)
             .resolves([challengeDataObject1, challengeDataObject2]);
@@ -407,15 +407,15 @@ describe('Unit | Repository | challenge-repository', () => {
         beforeEach(() => {
           // given
           challengeRecordId = 'rec_challenge_id';
-          challengeDataObject1 = factory.buildChallengeAirtableDataObject({
+          challengeDataObject1 = domainBuilder.buildChallengeAirtableDataObject({
             id: challengeRecordId,
             skillIds: [skillWeb1.id],
           });
-          challengeDataObject2 = factory.buildChallengeAirtableDataObject({
+          challengeDataObject2 = domainBuilder.buildChallengeAirtableDataObject({
             id: challengeRecordId,
             skillIds: [skillURL2.id, skillURL3.id],
           });
-          solution = factory.buildSolution();
+          solution = domainBuilder.buildSolution();
 
           challengeDataSource.findBySkillIds.withArgs(skillIds).resolves([
             challengeDataObject1,

@@ -1,4 +1,4 @@
-const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
 
 const faker = require('faker');
 const bcrypt = require('bcrypt');
@@ -18,7 +18,7 @@ describe('Integration | Repository | Organization', function() {
 
     it('should return an Organization domain object', async () => {
       // given
-      const organization = factory.buildOrganization();
+      const organization = domainBuilder.buildOrganization();
 
       // when
       const organizationSaved = await organizationRepository.create(organization);
@@ -32,7 +32,7 @@ describe('Integration | Repository | Organization', function() {
       const nbOrganizationsBeforeCreation = await BookshelfOrganization.count();
 
       // when
-      await organizationRepository.create(factory.buildOrganization());
+      await organizationRepository.create(domainBuilder.buildOrganization());
 
       // then
       const nbOrganizationsAfterCreation = await BookshelfOrganization.count();
@@ -41,7 +41,7 @@ describe('Integration | Repository | Organization', function() {
 
     it('should save model properties', async () => {
       // given
-      const organization = factory.buildOrganization({ id: null });
+      const organization = domainBuilder.buildOrganization({ id: null });
 
       // when
       const organizationSaved = await organizationRepository.create(organization);
@@ -63,7 +63,7 @@ describe('Integration | Repository | Organization', function() {
 
     beforeEach(() => {
       const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1, code: organizationCode });
-      organization = factory.buildOrganization(bookshelfOrganization);
+      organization = domainBuilder.buildOrganization(bookshelfOrganization);
       return databaseBuilder.commit();
     });
 
