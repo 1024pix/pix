@@ -2,6 +2,13 @@ const _ = require('lodash');
 const moment = require('moment');
 const { MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS } = require('./Assessment');
 
+const competenceStatus = {
+  NOT_ASSESSED: 'notAssessed',
+  ASSESSMENT_NOT_COMPLETED: 'assessmentNotCompleted',
+  ASSESSED: 'assessed',
+  UNKNOWN: 'unknown',
+};
+
 // FIXME: Cet objet a trop de responsabilité (modification des compétences)
 class Profile {
   constructor({
@@ -37,14 +44,14 @@ class Profile {
       const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompletedWithResults, courses, competence.id);
 
       if (lastAssessmentByCompetenceId.length === 0) {
-        competence.status = 'notAssessed';
+        competence.status = competenceStatus.NOT_ASSESSED;
       } else if (!lastAssessmentByCompetenceId[0].isCompleted()) {
-        competence.status = 'assessmentNotCompleted';
+        competence.status = competenceStatus.ASSESSMENT_NOT_COMPLETED;
       } else if (assessmentsCompletedByCompetenceId.length >= 1) {
-        competence.status = 'assessed';
+        competence.status = competenceStatus.ASSESSED;
         this._setRetryDelayToCompetence(competence, assessmentsCompletedByCompetenceId);
       } else {
-        competence.status = 'unknown';
+        competence.status = competenceStatus.UNKNOWN;
       }
 
     });
@@ -78,7 +85,7 @@ class Profile {
         competence.level = assessment.getLevel();
         competence.pixScore = assessment.getPixScore();
         // TODO: Standardiser l'usage de status pour une compétence
-        if (competence.status === 'assessmentNotCompleted') {
+        if (competence.status === competenceStatus.ASSESSMENT_NOT_COMPLETED) {
           competence.level = -1;
           delete competence.pixScore;
         }
