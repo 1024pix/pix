@@ -47,4 +47,44 @@ describe('Unit | Model | competence model', function() {
     });
   });
 
+  describe('#isAssessed', function() {
+
+    it('should return true if status is "assessed"', function() {
+      // given
+      const competence = this.subject({ status: 'assessed' });
+
+      // when/then
+      expect(competence.get('isAssessed')).to.be.true;
+    });
+
+    it('should return false if status is not "assessed"', function() {
+      // given
+      const competence = this.subject({ status: 'tralala' });
+
+      // when/then
+      expect(competence.get('isAssessed')).to.be.false;
+    });
+
+  });
+
+  describe('#isBeingAssessed', function() {
+
+    it('should return true if status is "assessmentNotCompleted"', function() {
+      // given
+      const competence = this.subject({ status: 'assessmentNotCompleted' });
+
+      // when/then
+      expect(competence.get('isBeingAssessed')).to.be.true;
+    });
+
+    it('should return false if status is not "assessmentNotCompleted"', function() {
+      // given
+      const competence = this.subject({ status: 'tralala' });
+
+      // when/then
+      expect(competence.get('isBeingAssessed')).to.be.false;
+    });
+
+  });
+
 });

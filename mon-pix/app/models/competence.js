@@ -1,4 +1,4 @@
-import { alias } from '@ember/object/computed';
+import { alias, equal } from '@ember/object/computed';
 import DS from 'ember-data';
 
 const { Model, attr, belongsTo } = DS;
@@ -14,4 +14,7 @@ export default Model.extend({
   assessmentId: attr('string'),
   status: attr('string'),
   daysBeforeNewAttempt: attr('number'),
+
+  isAssessed: equal('status', 'assessed'),
+  isBeingAssessed: equal('status', 'assessmentNotCompleted')
 });
