@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.11.0 (30/11/2018)
+
+- [#288](https://github.com/1024pix/pix/pull/288) [FEATURE] Redirection vers la page d'acceuil si l'url n'existe pas. (PO-173)
+- [#274](https://github.com/1024pix/pix/pull/274) [FEATURE] Ajout page de modification d'une campagne. (PO-160)
+- [#281](https://github.com/1024pix/pix/pull/281) [FEATURE] Recherche d'utilisateurs insensible à la casse. (PA-58)
+- [#275](https://github.com/1024pix/pix/pull/275) [BUGFIX] Même si un utilisateur ouvre plusieurs onglets pour se positionner sur une compétence, un seul positionnement est créé. (PF-430).
+- [#283](https://github.com/1024pix/pix/pull/283) [BUGFIX] Suppression d'erreur sur get certification sans assessment. (PF-354)
+- [#285](https://github.com/1024pix/pix/pull/285) [BUGFIX] Gestion de la recherche de positionnement lorsqu'aucun utilisateur est connecté (PF-430).
+- [#286](https://github.com/1024pix/pix/pull/286) [BUGFIX] Rétablir la redirection de /connexion vers /compte pour les utilisateurs déjà authentifiés (PF-456)
+- [#279](https://github.com/1024pix/pix/pull/279) [TECH] Mise à jour des liens Matomo (ex-Piwik).
+- [#280](https://github.com/1024pix/pix/pull/280) [BSR] Renomage du répertoire générique /factory en domain-builder/
+
 ## v2.10.0 (22/11/2018)
 
 - [#243](https://github.com/1024pix/pix/pull/243) [FEATURE] Implémentation de SAML pour le GAR (PF-362).
