@@ -4,8 +4,8 @@ module.exports = async function startAssessmentForPlacement({ assessment, assess
 
   const lastPlacement = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(assessment.userId, assessment.courseId);
 
-  if(lastPlacement && !lastPlacement.isCompleted()) {
-    throw new AssessmentStartError('Une évaluation en cours existe déjà');
+  if(lastPlacement && !lastPlacement.canStartNewAttemptOnCourse()) {
+    throw new AssessmentStartError('Impossible de démarrer un nouveau positionnement');
   }
 
   assessment.start();

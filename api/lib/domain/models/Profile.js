@@ -1,7 +1,7 @@
 const _ = require('lodash');
-const moment = require('moment');
-const { MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS } = require('./Assessment');
+
 const MAX_REACHABLE_LEVEL = 5;
+
 const competenceStatus = {
   NOT_ASSESSED: 'notAssessed',
   ASSESSMENT_NOT_COMPLETED: 'assessmentNotCompleted',
@@ -49,36 +49,18 @@ class Profile {
         competence.status = competenceStatus.NOT_ASSESSED;
       } else if (!lastAssessmentByCompetenceId[0].isCompleted()) {
         competence.status = competenceStatus.ASSESSMENT_NOT_COMPLETED;
-      } else if (assessmentsCompletedByCompetenceId.length >= 1) {
+      } else if (lastAssessmentByCompetenceId[0].isCompleted()) {
         competence.status = competenceStatus.ASSESSED;
-        const daysBeforeNewAttempt = this._daysBeforeNewAttempt(assessmentsCompletedByCompetenceId);
-        competence.isRetryable = daysBeforeNewAttempt === 0;
-        if (daysBeforeNewAttempt > 0) {
-          competence.daysBeforeNewAttempt = daysBeforeNewAttempt;
+        const lastCompletedAssessment = _(assessmentsCompletedByCompetenceId).find({ 'id': lastAssessmentByCompetenceId[0].id });
+        competence.isRetryable = lastCompletedAssessment.canStartNewAttemptOnCourse();
+        if (!competence.isRetryable) {
+          competence.daysBeforeNewAttempt = lastCompletedAssessment.getRemainingDaysBeforeNewAttempt();
         }
       } else {
         competence.status = competenceStatus.UNKNOWN;
       }
 
     });
-  }
-
-  _computeDaysBeforeNewAttempt(daysSinceLastCompletedAssessment) {
-    if(daysSinceLastCompletedAssessment >= MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS)
-      return 0;
-
-    return Math.ceil(MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS - daysSinceLastCompletedAssessment);
-  }
-
-  _daysBeforeNewAttempt(assessmentsCompletedByCompetenceId) {
-    const lastAssessmentResult = _(assessmentsCompletedByCompetenceId)
-      .map((assessment) => assessment.assessmentResults)
-      .flatten()
-      .orderBy(['createdAt'], ['desc'])
-      .first();
-
-    const daysSinceLastCompletedAssessment = moment().diff(lastAssessmentResult.createdAt, 'days', true);
-    return this._computeDaysBeforeNewAttempt(daysSinceLastCompletedAssessment);
   }
 
   _setLevelAndPixScoreToCompetences(lastAssessments, courses) {

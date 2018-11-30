@@ -690,19 +690,17 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.clean();
     });
 
-    it('should return null if nothing found', () => {
+    it('should return null if nothing found', async () => {
       // when
-      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(promise).to.be.fulfilled
-        .then((foundAssessment) => {
-          expect(foundAssessment).to.be.null;
-        });
+      return expect(foundAssessment).to.be.null;
     });
 
-    it('should return a placement concerning the given userId', async () => {
+    it('should return a placement regarding the given userId', async () => {
       // given
+      const otherUserId = 40;
       const userOlderAssessment = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.PLACEMENT,
         userId,
@@ -712,7 +710,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       databaseBuilder.factory.buildAssessment({
         type: Assessment.types.PLACEMENT,
-        userId: 40,
+        userId: otherUserId,
         courseId,
         createdAt: new Date('2018-09-09 05:00:00')
       });
@@ -720,13 +718,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(promise).to.be.fulfilled
-        .then((foundAssessment) => {
-          expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
-        });
+      return expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
     });
 
     it('should return a placement concerning the given courseId', async () => {
@@ -748,13 +743,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(promise).to.be.fulfilled
-        .then((foundAssessment) => {
-          expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
-        });
+      return expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
     });
 
     it('should return a placement', async () => {
@@ -776,13 +768,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(promise).to.be.fulfilled
-        .then((foundAssessment) => {
-          expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
-        });
+      return expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
     });
 
     it('should return the last placement concerning the userId and courseId', async () => {
@@ -811,13 +800,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(promise).to.be.fulfilled
-        .then((foundAssessment) => {
-          expect(foundAssessment.id).to.deep.equal(lastAssessment.id);
-        });
+      return expect(foundAssessment.id).to.deep.equal(lastAssessment.id);
 
     });
 
@@ -835,13 +821,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const promise = assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(promise).to.be.fulfilled
-        .then((foundAssessment) => {
-          expect(foundAssessment.assessmentResults).to.have.length.of(2);
-        });
+      return expect(foundAssessment.assessmentResults).to.have.length.of(2);
     });
 
   });
