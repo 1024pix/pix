@@ -2,17 +2,34 @@ const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 const _ = require('lodash');
 
 module.exports = {
+
+  filteredChallengeForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile }) {
+    // Filter 1 : only available challenge : published and with skills not already tested
+    let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile));
+
+    // Filter 4 : Priority to tubes with max level equal to LEVEL_MAX_TO_BE_AN_EASY_TUBE
+    const listOfSkillsToTargetInPriority = _skillsToTargetInPriority(tubes, knowledgeElements);
+    if (listOfSkillsToTargetInPriority.length > 0) {
+      availableChallenges = _filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
+    }
+
+    return availableChallenges;
+  },
+
   filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge, targetProfile }) {
     // Filter 1 : only available challenge : published and with skills not already tested
     let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile));
 
-    // Filter 2 : Do not ask timed challenge if previous challenge was timed
-    if (_isPreviousChallengeTimed(lastChallenge)) {
-      availableChallenges = _extractNotTimedChallenge(availableChallenges);
-    }
-
     // Filter 3 : Do not ask challenge where level too high
     availableChallenges = availableChallenges.filter((challenge) => _isChallengeNotTooHard(challenge, predictedLevel));
+
+    // Filter 2 : Do not ask timed challenge if previous challenge was timed
+    if (_isPreviousChallengeTimed(lastChallenge)) {
+      const challengesFilterByNotTimed =_extractNotTimedChallenge(availableChallenges);
+      if(challengesFilterByNotTimed.length > 0) {
+        availableChallenges = challengesFilterByNotTimed;
+      }
+    }
 
     // Filter 4 : Priority to tubes with max level equal to LEVEL_MAX_TO_BE_AN_EASY_TUBE
     const listOfSkillsToTargetInPriority = _skillsToTargetInPriority(tubes, knowledgeElements);
@@ -38,7 +55,7 @@ function _isPreviousChallengeTimed(lastChallenge) {
 }
 
 function _extractNotTimedChallenge(availableChallenges) {
-  return availableChallenges.filter((challenge) => challenge.timer === undefined);
+  return availableChallenges.filter((challenge) => challenge.timer == undefined);
 }
 
 function _skillsToTargetInPriority(courseTubes, knowledgesElements) {
