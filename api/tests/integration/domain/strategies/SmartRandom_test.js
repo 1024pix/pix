@@ -440,8 +440,9 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should start with a timed level 3 challenge when no not timed challenge exists', function() {
         // given
+        const url2 = domainBuilder.buildSkill({ name: '@url2' });
         const web3 = domainBuilder.buildSkill({ name: '@web3' });
-        const targetProfile = new TargetProfile({ skills: [web3] });
+        const targetProfile = new TargetProfile({ skills: [web3, url2] });
 
         const timedChallenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web3], timer:10 });
         const firstChallenge = domainBuilder.buildChallenge({ id: 'rec', skills: [url2] });
@@ -449,11 +450,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         const answers = [];
         const knowledgeElements = [];
 
-      // when
-      const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
-      const nextChallenge = smartRandom.getNextChallenge();
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
