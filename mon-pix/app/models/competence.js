@@ -13,5 +13,5 @@ export default Model.extend({
   courseId: attr('string'),
   assessmentId: attr('string'),
   status: attr('string'),
-  daysBeforeReplay: attr('number'),
+  daysBeforeNewAttempt: attr('number'),
 });

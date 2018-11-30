@@ -15,7 +15,7 @@ export default Component.extend({
   assessmentId: null,
   name: null,
   status: null,
-  daysBeforeReplay: null,
+  daysBeforeNewAttempt: null,
 
   _showSecondChanceModal: false,
 
@@ -58,13 +58,13 @@ export default Component.extend({
     return this.get('isCompetenceBeingAssessed') && isPresent(this.get('assessmentId'));
   }),
 
-  canUserReplayAssessment: computed('courseId', 'status', function() {
-    return this.get('isCompetenceAssessed') && this.get('daysBeforeReplay') == 0 && isPresent(this.get('courseId'));
+  canUserRetry: computed('courseId', 'status', function() {
+    return this.get('isCompetenceAssessed') && this.get('daysBeforeNewAttempt') == 0 && isPresent(this.get('courseId'));
   }),
 
-  remainingDaysText: computed('daysBeforeReplay', function() {
-    const daysBeforeReplay = this.get('daysBeforeReplay');
-    return `dans ${daysBeforeReplay} ${daysBeforeReplay <= 1 ? 'jour' : 'jours'}`;
+  remainingDaysText: computed('daysBeforeNewAttempt', function() {
+    const daysBeforeNewAttempt = this.get('daysBeforeNewAttempt');
+    return `dans ${daysBeforeNewAttempt} ${daysBeforeNewAttempt <= 1 ? 'jour' : 'jours'}`;
   }),
 
   actions: {

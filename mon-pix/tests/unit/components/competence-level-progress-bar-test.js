@@ -237,9 +237,9 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
     });
 
-    describe('#canUserReplayAssessment', function() {
+    describe('#canUserRetry', function() {
 
-      it('should be true if competence is assessed, daysBeforeReplay equals 0 and courseId exist', function() {
+      it('should be true if competence is assessed, daysBeforeNewAttempt equals 0 and courseId exist', function() {
         // given
         const status = 'assessed';
         const courseId = 'courseId';
@@ -248,10 +248,10 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         // when
         component.set('status', status);
         component.set('courseId', courseId);
-        component.set('daysBeforeReplay', 0);
+        component.set('daysBeforeNewAttempt', 0);
 
         // then
-        expect(component.get('canUserReplayAssessment')).to.equal(true);
+        expect(component.get('canUserRetry')).to.equal(true);
       });
 
       it('should be false if competence is not assessed"', function() {
@@ -263,13 +263,13 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         // when
         component.set('status', status);
         component.set('courseId', courseId);
-        component.set('daysBeforeReplay', 0);
+        component.set('daysBeforeNewAttempt', 0);
 
         // then
-        expect(component.get('canUserReplayAssessment')).to.equal(false);
+        expect(component.get('canUserRetry')).to.equal(false);
       });
 
-      it('should be false if daysBeforeReplay is not 0', function() {
+      it('should be false if daysBeforeNewAttempt is not 0', function() {
         // given
         const status = 'assessed';
         const courseId = 'courseId';
@@ -278,13 +278,13 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         // when
         component.set('status', status);
         component.set('courseId', courseId);
-        component.set('daysBeforeReplay', 5);
+        component.set('daysBeforeNewAttempt', 5);
 
         // then
-        expect(component.get('canUserReplayAssessment')).to.equal(false);
+        expect(component.get('canUserRetry')).to.equal(false);
       });
 
-      it('should be false if daysBeforeReplay is undefined', function() {
+      it('should be false if daysBeforeNewAttempt is undefined', function() {
         // given
         const status = 'assessed';
         const courseId = 'courseId';
@@ -293,10 +293,10 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         // when
         component.set('status', status);
         component.set('courseId', courseId);
-        component.set('daysBeforeReplay', undefined);
+        component.set('daysBeforeNewAttempt', undefined);
 
         // then
-        expect(component.get('canUserReplayAssessment')).to.equal(false);
+        expect(component.get('canUserRetry')).to.equal(false);
       });
 
     });

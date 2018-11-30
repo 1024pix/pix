@@ -109,7 +109,7 @@ describe('Unit | Domain | Models | Profile', () => {
           courseId: 'courseId8',
           assessmentId: 'assessmentId1',
           status: 'assessed',
-          daysBeforeReplay: 0,
+          daysBeforeNewAttempt: 0,
         },
         {
           id: 'competenceId2',
@@ -269,7 +269,7 @@ describe('Unit | Domain | Models | Profile', () => {
             assessmentId: 'assessmentId2',
             status: 'assessed',
             courseId: 'courseId8',
-            daysBeforeReplay: 0,
+            daysBeforeNewAttempt: 0,
           },
           {
             id: 'competenceId2',
@@ -416,7 +416,7 @@ describe('Unit | Domain | Models | Profile', () => {
             assessmentId: 'assessmentId1',
             status: 'assessed',
             courseId: 'courseId8',
-            daysBeforeReplay: 0,
+            daysBeforeNewAttempt: 0,
           },
           {
             id: 'competenceId2',
@@ -448,7 +448,7 @@ describe('Unit | Domain | Models | Profile', () => {
       });
     });
 
-    context('days before being able to replay a competence', () => {
+    context('days before having a new attempt on a competence', () => {
 
       let clock;
       let now;
@@ -474,7 +474,7 @@ describe('Unit | Domain | Models | Profile', () => {
           const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
 
           // then
-          expect(profile.competences[0].daysBeforeReplay).to.be.undefined;
+          expect(profile.competences[0].daysBeforeNewAttempt).to.be.undefined;
         });
 
         it('when the competence has not been assessed yet, but is being assessed', () => {
@@ -487,7 +487,7 @@ describe('Unit | Domain | Models | Profile', () => {
           const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
 
           // then
-          expect(profile.competences[0].daysBeforeReplay).to.be.undefined;
+          expect(profile.competences[0].daysBeforeNewAttempt).to.be.undefined;
         });
 
       });
@@ -507,7 +507,7 @@ describe('Unit | Domain | Models | Profile', () => {
           const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
 
           // then
-          expect(profile.competences[0].daysBeforeReplay).to.equal(0);
+          expect(profile.competences[0].daysBeforeNewAttempt).to.equal(0);
         });
 
       });
@@ -515,17 +515,17 @@ describe('Unit | Domain | Models | Profile', () => {
       context('should indicate the number of days', () => {
 
         [
-          { createdAt: 1, hours: 0, expectedDaysBeforeReplay: 6 },
-          { createdAt: 5, hours: 0, expectedDaysBeforeReplay: 2 },
-          { createdAt: 5, hours: 12, expectedDaysBeforeReplay: 2 },
-          { createdAt: 6, hours: 0, expectedDaysBeforeReplay: 1 },
-          { createdAt: 6, hours: 11, expectedDaysBeforeReplay: 1 },
-          { createdAt: 6, hours: 12, expectedDaysBeforeReplay: 1 },
-          { createdAt: 6, hours: 13, expectedDaysBeforeReplay: 1 },
-          { createdAt: 7, hours: 0, expectedDaysBeforeReplay: 0 },
-          { createdAt: 10, hours: 0, expectedDaysBeforeReplay: 0 },
+          { createdAt: 1, hours: 0, expectedDaysBeforeNewAttempt: 6 },
+          { createdAt: 5, hours: 0, expectedDaysBeforeNewAttempt: 2 },
+          { createdAt: 5, hours: 12, expectedDaysBeforeNewAttempt: 2 },
+          { createdAt: 6, hours: 0, expectedDaysBeforeNewAttempt: 1 },
+          { createdAt: 6, hours: 11, expectedDaysBeforeNewAttempt: 1 },
+          { createdAt: 6, hours: 12, expectedDaysBeforeNewAttempt: 1 },
+          { createdAt: 6, hours: 13, expectedDaysBeforeNewAttempt: 1 },
+          { createdAt: 7, hours: 0, expectedDaysBeforeNewAttempt: 0 },
+          { createdAt: 10, hours: 0, expectedDaysBeforeNewAttempt: 0 },
         ].forEach((testCase) => {
-          it(`should return ${testCase.expectedDaysBeforeReplay} days before replay when the the last result is ${testCase.createdAt} days and ${testCase.hours} hours old`, () => {
+          it(`should return ${testCase.expectedDaysBeforeNewAttempt} days when the last result is ${testCase.createdAt} days and ${testCase.hours} hours old`, () => {
             const assessmentCreationDate = moment(now).subtract(testCase.createdAt, 'day').subtract(testCase.hours, 'hour').toDate();
             const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
             const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
@@ -537,7 +537,7 @@ describe('Unit | Domain | Models | Profile', () => {
             const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
 
             // then
-            expect(profile.competences[0].daysBeforeReplay).to.equal(testCase.expectedDaysBeforeReplay);
+            expect(profile.competences[0].daysBeforeNewAttempt).to.equal(testCase.expectedDaysBeforeNewAttempt);
           });
         });
 
@@ -554,7 +554,7 @@ describe('Unit | Domain | Models | Profile', () => {
           const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
 
           // then
-          expect(profile.competences[0].daysBeforeReplay).to.equal(4);
+          expect(profile.competences[0].daysBeforeNewAttempt).to.equal(4);
         });
 
       });

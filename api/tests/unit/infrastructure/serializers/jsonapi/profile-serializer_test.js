@@ -189,7 +189,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               'course-id': 'courseID1',
               'assessment-id': 'assessmentID1',
               status: 'assessed',
-              'days-before-replay': 0
+              'days-before-new-attempt': 0
             },
             relationships: {
               area: {
