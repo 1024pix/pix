@@ -91,6 +91,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
           'course-id': 'recBxPAuEPlTgt72q11',
           status: 'notAssessed',
           'assessment-id': null,
+          'is-retryable': false,
         },
         relationships: {
           area: {
@@ -111,6 +112,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
           'course-id': 'recBxPAuEPlTgt72q99',
           status: 'notAssessed',
           'assessment-id': null,
+          'is-retryable': false,
         },
         relationships: {
           area: {
@@ -140,6 +142,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
       courseId: 'recBxPAuEPlTgt72q11',
       status: 'notAssessed',
       'assessment-id': null,
+      isRetryable: false,
       area: {
         id: 'recAreaA',
         name: 'area-name-1'
@@ -153,6 +156,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
       courseId: 'recBxPAuEPlTgt72q99',
       status: 'notAssessed',
       'assessment-id': null,
+      isRetryable: false,
       area: {
         id: 'recAreaB',
         name: 'area-name-2'

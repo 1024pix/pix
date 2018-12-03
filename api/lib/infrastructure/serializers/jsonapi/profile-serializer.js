@@ -90,6 +90,7 @@ class ProfileSerializer extends JSONAPISerializer {
           'course-id': competence.courseId,
           'status': competence.status,
           'assessment-id': null,
+          'is-retryable': competence.isRetryable,
         },
         relationships: {
           'area': {
@@ -109,7 +110,7 @@ class ProfileSerializer extends JSONAPISerializer {
         competenceData.attributes['assessment-id'] = competence.assessmentId;
       }
 
-      if (competence.daysBeforeNewAttempt !== undefined) {
+      if (competence.daysBeforeNewAttempt) {
         competenceData.attributes['days-before-new-attempt'] = competence.daysBeforeNewAttempt;
       }
 
