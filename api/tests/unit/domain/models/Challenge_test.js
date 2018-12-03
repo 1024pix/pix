@@ -195,7 +195,7 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
-  describe('#hasAllSkilledAlreadyCovered', function() {
+  describe('#hasAllSkillsAlreadyTested', function() {
 
     it('returns false if the challenge has skill is not already assessed', function() {
       // given
@@ -206,7 +206,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1]
       };
       // when
-      const response = challenge.hasAllSkilledAlreadyCovered(knowledgeElements, targetProfile);
+      const response = challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile);
       // then
       expect(response).to.be.false;
     });
@@ -220,7 +220,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1]
       };
       // when
-      const response = challenge.hasAllSkilledAlreadyCovered(knowledgeElements, targetProfile);
+      const response = challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile);
       // then
       expect(response).to.be.true;
     });
@@ -235,7 +235,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1, s2, s3]
       };
       // when
-      const response = challenge.hasAllSkilledAlreadyCovered(knowledgeElements, targetProfile);
+      const response = challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile);
       // then
       expect(response).to.be.false;
     });
@@ -250,7 +250,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1]
       };
       // when
-      const response = challenge.hasAllSkilledAlreadyCovered(knowledgeElements, targetProfile);
+      const response = challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile);
       // then
       expect(response).to.be.true;
     });
