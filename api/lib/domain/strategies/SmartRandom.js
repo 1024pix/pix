@@ -72,7 +72,7 @@ function _findPotentialFirstChallenges(challenges) {
   return potentialFirstChallenges;
 }
 
-function _firstChallenge({challenges, knowledgeElements, tubes, targetProfile}) {
+function _firstChallenge({ challenges, knowledgeElements, tubes, targetProfile }) {
   const filteredChallenges = filteredChallengeForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile });
 
   const [timedChallenges, notTimedChallenges] = _(filteredChallenges)
