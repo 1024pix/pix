@@ -45,12 +45,6 @@ export default Component.extend({
     return this.get('competence.isBeingAssessed') && isPresent(this.get('competence.assessmentId'));
   }),
 
-  canUserRetry: computed('competence.{courseId,status}', function() {
-    const isCompetenceAssessed = this.get('competence.isAssessed');
-    const daysBeforeNewAttempt = this.get('competence.daysBeforeNewAttempt');
-    return isCompetenceAssessed && daysBeforeNewAttempt == 0 && isPresent(this.get('competence.courseId'));
-  }),
-
   remainingDaysText: computed('competence.daysBeforeNewAttempt', function() {
     const daysBeforeNewAttempt = this.get('competence.daysBeforeNewAttempt');
     return `dans ${daysBeforeNewAttempt} ${daysBeforeNewAttempt <= 1 ? 'jour' : 'jours'}`;

@@ -126,14 +126,16 @@ describe('Unit | Service | Profil User Service', function() {
               name: '1.1 Mener une recherche d’information',
               areaId: 'areaId1',
               level: -1,
-              status: 'notAssessed'
+              status: 'notAssessed',
+              isRetryable: false,
             },
             {
               id: 'competenceId2',
               name: '1.2 Gérer des données',
               areaId: 'areaId2',
               level: -1,
-              status: 'notAssessed'
+              status: 'notAssessed',
+              isRetryable: false,
             }],
           areas: fakeAreaRecords,
           organizations: fakeOrganizationsRecords
@@ -161,14 +163,15 @@ describe('Unit | Service | Profil User Service', function() {
               pixScore: 10,
               assessmentId: 'assessmentId1',
               status: 'assessed',
-              daysBeforeNewAttempt: 0,
+              isRetryable: true,
             },
             {
               id: 'competenceId2',
               name: '1.2 Gérer des données',
               areaId: 'areaId2',
               level: -1,
-              status: 'notAssessed'
+              status: 'notAssessed',
+              isRetryable: false,
             }],
           areas: fakeAreaRecords,
           organizations: fakeOrganizationsRecords

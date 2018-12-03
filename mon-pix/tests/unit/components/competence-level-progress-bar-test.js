@@ -176,57 +176,5 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
     });
 
-    describe('#canUserRetry', function() {
-
-      it('should be true if competence is assessed, daysBeforeNewAttempt equals 0 and courseId exist', function() {
-        // given
-        const component = this.subject();
-        const competence = { courseId: 'REC123', isAssessed: true, daysBeforeNewAttempt: 0 };
-
-        // when
-        component.set('competence', competence);
-
-        // then
-        expect(component.get('canUserRetry')).to.equal(true);
-      });
-
-      it('should be false if competence is not assessed"', function() {
-        // given
-        const competence = { courseId: 'REC123', isAssessed: false, daysBeforeNewAttempt: 0 };
-        const component = this.subject();
-
-        // when
-        component.set('competence', competence);
-
-        // then
-        expect(component.get('canUserRetry')).to.equal(false);
-      });
-
-      it('should be false if daysBeforeNewAttempt is not 0', function() {
-        // given
-        const competence = { courseId: 'REC123', isAssessed: true, daysBeforeNewAttempt: 5 };
-        const component = this.subject();
-
-        // when
-        component.set('competence', competence);
-
-        // then
-        expect(component.get('canUserRetry')).to.equal(false);
-      });
-
-      it('should be false if daysBeforeNewAttempt is undefined', function() {
-        // given
-        const competence = { courseId: 'REC123', isAssessed: true, daysBeforeNewAttempt: undefined };
-        const component = this.subject();
-
-        // when
-        component.set('competence', competence);
-
-        // then
-        expect(component.get('canUserRetry')).to.equal(false);
-      });
-
-    });
-
   });
 });

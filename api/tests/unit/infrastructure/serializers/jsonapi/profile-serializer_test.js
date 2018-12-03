@@ -63,6 +63,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           level: -1,
           status: 'notAssessed',
           area: new Area({ id: 'recAreaA' }),
+          isRetryable: false,
         },
         {
           id: 'recCompB',
@@ -74,6 +75,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           level: -1,
           status: 'notAssessed',
           area: new Area({ id: 'recAreaB' }),
+          isRetryable: false,
         },
         {
           id: 'recCompC',
@@ -84,6 +86,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           level: -1,
           status: 'notAssessed',
           area: new Area({ id: 'recAreaB' }),
+          isRetryable: false,
         }];
 
       organizations = [
@@ -189,7 +192,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               'course-id': 'courseID1',
               'assessment-id': 'assessmentID1',
               status: 'assessed',
-              'days-before-new-attempt': 0
+              'is-retryable': true,
             },
             relationships: {
               area: {
@@ -210,6 +213,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               status: 'assessmentNotCompleted',
               'course-id': 'courseID2',
               'assessment-id': 'assessmentID2',
+              'is-retryable': false,
             },
             relationships: {
               area: {
@@ -230,6 +234,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               status: 'notAssessed',
               'course-id': 'courseID3',
               'assessment-id': null,
+              'is-retryable': false,
             },
             relationships: {
               area: {

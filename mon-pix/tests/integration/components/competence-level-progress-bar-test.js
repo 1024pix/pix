@@ -159,13 +159,14 @@ describe('Integration | Component | competence level progress bar', function() {
 
   describe('retry link', async function() {
 
-    context('when competence is assessed', async function() {
+    context('when competence is assessed and retryable', async function() {
 
       const competence = {
         name: 'deuxième test',
         assessmentId: 'awesomeId',
         courseId: 'rec123aZe',
         isAssessed: true,
+        isRetryable: true,
         level: 3
       };
 
@@ -173,87 +174,88 @@ describe('Integration | Component | competence level progress bar', function() {
         this.set('competence', competence);
       });
 
-      context('and the numbers of days before beeing able to retry is 0', function() {
+      it('should display `Retenter` button', function() {
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
-        it('should display `Retenter` button', function() {
-          // given
-          competence.daysBeforeNewAttempt = 0;
-
-          // when
-          this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
-
-          // then
-          expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
-          expect(this.$('button.competence-level-progress-bar__retry-link')).to.have.lengthOf(1);
-          expect(this.$('.competence-level-progress-bar__retry-link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
-        });
-
-        it('should display a modal when clicked', async function() {
-          // given
-          competence.daysBeforeNewAttempt = 0;
-
-          // when
-          this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
-          await this.$('.competence-level-progress-bar__retry-link').click();
-          const $modal = document.querySelector('.pix-modal__container');
-
-          // then
-          expect($modal).to.be.ok;
-          expect($modal.querySelector('h1').textContent).to.contains('Retenter');
-          expect($modal.textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
-          expect($modal.querySelector('.pix-modal__action.cancel').textContent).to.contains('Annuler');
-          expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
-        });
-
-        it('should not display remaining days info', function() {
-          // given
-          competence.daysBeforeNewAttempt = 0;
-
-          // when
-          this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
-
-          // then
-          expect(this.$('.competence-level-progress-bar__retry-delay')).to.have.lengthOf(0);
-        });
+        // then
+        expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+        expect(this.$('button.competence-level-progress-bar__retry-link')).to.have.lengthOf(1);
+        expect(this.$('.competence-level-progress-bar__retry-link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
       });
 
-      context('and the number of days before beeing able to retry greater than 0', function() {
+      it('should display a modal when clicked', async function() {
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+        await this.$('.competence-level-progress-bar__retry-link').click();
+        const $modal = document.querySelector('.pix-modal__container');
 
-        it('should display `Retenter` text but not clickable', function() {
-          // given
-          competence.daysBeforeNewAttempt = 5;
+        // then
+        expect($modal).to.be.ok;
+        expect($modal.querySelector('h1').textContent).to.contains('Retenter');
+        expect($modal.textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
+        expect($modal.querySelector('.pix-modal__action.cancel').textContent).to.contains('Annuler');
+        expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
+      });
 
-          // when
-          this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+      it('should not display remaining days info', function() {
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
-          // then
-          expect(this.$('button.competence-level-progress-bar__retry-link')).to.have.lengthOf(0);
-          expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
-          expect(this.$('.competence-level-progress-bar__link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
-        });
+        // then
+        expect(this.$('.competence-level-progress-bar__retry-delay')).to.have.lengthOf(0);
+      });
 
-        it('should display `1 day` if there is one day left to wait', function() {
-          // given
-          competence.daysBeforeNewAttempt = 1;
+    });
 
-          // when
-          this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+    context('when competence is assessed and not retryable', async function() {
 
-          // then
-          expect(this.$('.competence-level-progress-bar__retry-delay').text().trim()).to.equal('dans 1 jour');
-        });
+      const competence = {
+        name: 'deuxième test',
+        assessmentId: 'awesomeId',
+        courseId: 'rec123aZe',
+        isAssessed: true,
+        isRetryable: false,
+        level: 3
+      };
 
-        it('should display `4 days` if there are 4 days left to wait', function() {
-          // given
-          competence.daysBeforeNewAttempt = 4;
+      beforeEach(async function() {
+        this.set('competence', competence);
+      });
 
-          // when
-          this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+      it('should display `Retenter` text but not clickable', function() {
+        // given
+        competence.daysBeforeNewAttempt = 5;
 
-          // then
-          expect(this.$('.competence-level-progress-bar__retry-delay').text().trim()).to.equal('dans 4 jours');
-        });
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
+        // then
+        expect(this.$('button.competence-level-progress-bar__retry-link')).to.have.lengthOf(0);
+        expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+        expect(this.$('.competence-level-progress-bar__link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
+      });
+
+      it('should display `1 day` if there is one day left to wait', function() {
+        // given
+        competence.daysBeforeNewAttempt = 1;
+
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+
+        // then
+        expect(this.$('.competence-level-progress-bar__retry-delay').text().trim()).to.equal('dans 1 jour');
+      });
+
+      it('should display `4 days` if there are 4 days left to wait', function() {
+        // given
+        competence.daysBeforeNewAttempt = 4;
+
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+
+        // then
+        expect(this.$('.competence-level-progress-bar__retry-delay').text().trim()).to.equal('dans 4 jours');
       });
 
     });
