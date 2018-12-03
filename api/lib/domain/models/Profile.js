@@ -68,7 +68,7 @@ class Profile {
     const lastAssessmentResult = _(assessmentsCompletedByCompetenceId)
       .map((assessment) => assessment.assessmentResults)
       .flatten()
-      .sortBy(['createdAt'])
+      .orderBy(['createdAt'], ['desc'])
       .first();
 
     const daysSinceLastCompletedAssessment = moment().diff(lastAssessmentResult.createdAt, 'days', true);
