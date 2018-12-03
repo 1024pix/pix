@@ -52,7 +52,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
       // given
       const skill1 = domainBuilder.buildSkill({ name: '@web4' });
       const targetProfile = new TargetProfile({ skills: [skill1] });
-      const challengeAssessingSkill1 = domainBuilder.buildChallenge({ skills: [skill1]});
+      const challengeAssessingSkill1 = domainBuilder.buildChallenge({ skills: [skill1] });
       const knowledgeElements = [];
       const challenges = [challengeAssessingSkill1];
 
