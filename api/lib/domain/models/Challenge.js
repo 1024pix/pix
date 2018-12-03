@@ -113,13 +113,13 @@ class Challenge {
     return _(this.skills).differenceWith(alreadyAssessedSkills, Skill.areEqual).size() > 0;
   }
 
-  hasAllSkilledAlreadyCovered(knowledgeElements, targetProfile) {
-    const skillIdsAlreadyCovered = _.map(knowledgeElements, 'skillId');
-    const skillOfChallengePresentInTargetProfile = _.filter(this.skills, (challengeSkill) =>
-    {
-      return targetProfile.skills.find((profileSkill) => profileSkill.id === challengeSkill.id);
-    });
-    return _.every(skillOfChallengePresentInTargetProfile, (skill) => _.includes(skillIdsAlreadyCovered, skill.id));
+  hasAllSkillsAlreadyTested(knowledgeElements, targetProfile) {
+    const skillIdsAlreadyTested = _.map(knowledgeElements, 'skillId');
+    const targetProfileSkillsIds = _.map(targetProfile.skills, 'id');
+    const challengeSkillsIds = _.map(this.skills, 'id');
+    const challengeSkillsIdsInTargetProfile = _.intersection(challengeSkillsIds, targetProfileSkillsIds);
+
+    return _.every(challengeSkillsIdsInTargetProfile, _.includes.bind(null, skillIdsAlreadyTested));
   }
 
   static createValidatorForChallengeType({ challengeType, solution }) {
