@@ -103,6 +103,19 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       // then
       return expect(promise).to.be.rejectedWith(ForbiddenAccess, 'User is not allowed to access this area');
     });
+
+    it('rejects an error when scope is pix-master and user has not pix master role', function() {
+      // given
+      const scope = 'pix-master';
+      const user = new User({ email: userEmail, password: userPassword, pixRoles: [] });
+      userRepository.findByEmailWithRoles.resolves(user);
+
+      // when
+      const promise = authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });
+
+      // then
+      return expect(promise).to.be.rejectedWith(ForbiddenAccess);
+    });
   });
 
 });
