@@ -451,20 +451,20 @@ describe('Unit | Domain | Models | Profile', () => {
     context('days before having a new attempt on a competence', () => {
 
       let clock;
-      let now;
+      let testCurrentDate;
 
       beforeEach(() => {
-        now = new Date('2018-01-10 05:00:00');
-        clock = sinon.useFakeTimers(now.getTime());
+        testCurrentDate = new Date('2018-01-10 05:00:00');
+        clock = sinon.useFakeTimers(testCurrentDate.getTime());
       });
 
       afterEach(() => {
         clock.restore();
       });
 
-      context('should be undefined', () => {
+      context('when the competence has not been assessed yet, nor is being assessed', () => {
 
-        it('when the competence has not been assessed yet, nor is being assessed', () => {
+        it('should be undefined', () => {
           // given
           const lastAssessments = [];
           const assessmentsCompletedWithResults = [];
@@ -477,7 +477,11 @@ describe('Unit | Domain | Models | Profile', () => {
           expect(profile.competences[0].daysBeforeNewAttempt).to.be.undefined;
         });
 
-        it('when the competence has not been assessed yet, but is being assessed', () => {
+      });
+
+      context('when the competence has not been assessed yet, but is being assessed', () => {
+
+        it('should be undefined', () => {
           // given
           const lastAssessments = [domainBuilder.buildAssessment({ state: 'started' })];
           const assessmentsCompletedWithResults = [];
@@ -492,11 +496,11 @@ describe('Unit | Domain | Models | Profile', () => {
 
       });
 
-      context('should be 0', () => {
+      context('when the competence is not being assessed and the last evaluation is older than 7 days', () => {
 
-        it('when the competence is not being assessed and the last evaluation is older than 7 days', () => {
+        it('should be 0', () => {
           // given
-          const assessmentCreationDate = moment(now).subtract(7, 'day').subtract(5, 'second').toDate();
+          const assessmentCreationDate = moment(testCurrentDate).subtract(7, 'day').subtract(5, 'second').toDate();
           const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
           const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
           const lastAssessments = [assessment];
@@ -512,21 +516,21 @@ describe('Unit | Domain | Models | Profile', () => {
 
       });
 
-      context('should indicate the number of days', () => {
+      context('when the competence is not being assessed and the last completed assessment is younger than 7 days', () => {
 
         [
-          { createdAt: 1, hours: 0, expectedDaysBeforeNewAttempt: 6 },
-          { createdAt: 5, hours: 0, expectedDaysBeforeNewAttempt: 2 },
-          { createdAt: 5, hours: 12, expectedDaysBeforeNewAttempt: 2 },
-          { createdAt: 6, hours: 0, expectedDaysBeforeNewAttempt: 1 },
-          { createdAt: 6, hours: 11, expectedDaysBeforeNewAttempt: 1 },
-          { createdAt: 6, hours: 12, expectedDaysBeforeNewAttempt: 1 },
-          { createdAt: 6, hours: 13, expectedDaysBeforeNewAttempt: 1 },
-          { createdAt: 7, hours: 0, expectedDaysBeforeNewAttempt: 0 },
-          { createdAt: 10, hours: 0, expectedDaysBeforeNewAttempt: 0 },
-        ].forEach((testCase) => {
-          it(`should return ${testCase.expectedDaysBeforeNewAttempt} days when the last result is ${testCase.createdAt} days and ${testCase.hours} hours old`, () => {
-            const assessmentCreationDate = moment(now).subtract(testCase.createdAt, 'day').subtract(testCase.hours, 'hour').toDate();
+          { daysBefore: 1, hoursBefore: 0, expectedDaysBeforeNewAttempt: 6 },
+          { daysBefore: 5, hoursBefore: 0, expectedDaysBeforeNewAttempt: 2 },
+          { daysBefore: 5, hoursBefore: 12, expectedDaysBeforeNewAttempt: 2 },
+          { daysBefore: 6, hoursBefore: 0, expectedDaysBeforeNewAttempt: 1 },
+          { daysBefore: 6, hoursBefore: 11, expectedDaysBeforeNewAttempt: 1 },
+          { daysBefore: 6, hoursBefore: 12, expectedDaysBeforeNewAttempt: 1 },
+          { daysBefore: 6, hoursBefore: 13, expectedDaysBeforeNewAttempt: 1 },
+          { daysBefore: 7, hoursBefore: 0, expectedDaysBeforeNewAttempt: 0 },
+          { daysBefore: 10, hoursBefore: 0, expectedDaysBeforeNewAttempt: 0 },
+        ].forEach(({ daysBefore, hoursBefore, expectedDaysBeforeNewAttempt }) => {
+          it(`should return ${expectedDaysBeforeNewAttempt} days when the last result is ${daysBefore} days and ${hoursBefore} hours old`, () => {
+            const assessmentCreationDate = moment(testCurrentDate).subtract(daysBefore, 'day').subtract(hoursBefore, 'hour').toDate();
             const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
             const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
             const lastAssessments = [assessment];
@@ -537,24 +541,8 @@ describe('Unit | Domain | Models | Profile', () => {
             const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
 
             // then
-            expect(profile.competences[0].daysBeforeNewAttempt).to.equal(testCase.expectedDaysBeforeNewAttempt);
+            expect(profile.competences[0].daysBeforeNewAttempt).to.equal(expectedDaysBeforeNewAttempt);
           });
-        });
-
-        it('when the competence is not being assessed and the last completed assessment is younger than 7 days', () => {
-          // given
-          const assessmentCreationDate = moment(now).subtract(3, 'day').toDate();
-          const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-          const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
-          const lastAssessments = [assessment];
-          const assessmentsCompletedWithResults = [assessment];
-          courses[0].competences = ['competenceId1'];
-
-          // when
-          const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
-
-          // then
-          expect(profile.competences[0].daysBeforeNewAttempt).to.equal(4);
         });
 
       });
