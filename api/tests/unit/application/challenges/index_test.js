@@ -7,30 +7,30 @@ describe('Unit | Router | challenge-router', function() {
   let server;
 
   beforeEach(function() {
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/challenges') });
-  });
+    server = Hapi.server();
 
-  function expectRouteToExist(routeOptions, done) {
-    server.inject(routeOptions, (res) => {
-      expect(res.statusCode).to.equal(200);
-      done();
-    });
-  }
+    return server.register(require('../../../../lib/application/challenges'));
+  });
 
   describe('GET /api/challenges/{id}', function() {
 
     before(function() {
-      sinon.stub(ChallengeController, 'get').callsFake((request, reply) => reply('ok'));
+      sinon.stub(ChallengeController, 'get').returns('ok');
     });
 
     after(function() {
       ChallengeController.get.restore();
     });
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/challenges/challenge_id' }, done);
+    it('should exist', async () => {
+      // given
+      const options = { method: 'GET', url: '/api/challenges/challenge_id' };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

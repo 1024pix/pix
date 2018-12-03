@@ -15,6 +15,7 @@ const controllerReplies = require('../../infrastructure/controller-replies');
 
 const logger = require('../../infrastructure/logger');
 const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
+const Boom = require('boom');
 const JSONAPI = require('../../interfaces/jsonapi');
 const { EntityValidationError, NotFoundError } = require('../../domain/errors');
 const { NotFoundError : InfrastructureNotFoundError } = require('../../infrastructure/errors');
@@ -23,90 +24,89 @@ const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
-  getOrganizationDetails: (request, reply) => {
+  getOrganizationDetails: (request, h) => {
     const organizationId = request.params.id;
 
     return usecases.getOrganizationDetails({ organizationId })
       .then(organizationSerializer.serialize)
-      .then(controllerReplies(reply).ok)
+      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
-        return controllerReplies(reply).error(mappedError);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
-  create: (request, reply) => {
+  create: (request, h) => {
     const { name, type } = request.payload.data.attributes;
 
     return usecases.createOrganization({ name, type })
       .then(organizationSerializer.serialize)
-      .then(controllerReplies(reply).ok)
+      .then(controllerReplies(h).ok)
       .catch((error) => {
         if (error instanceof EntityValidationError) {
-          return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
+          return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
-        return controllerReplies(reply).error(error);
+        return controllerReplies(h).error(error);
       });
   },
 
-  updateOrganizationInformation: (request, reply) => {
+  updateOrganizationInformation: (request, h) => {
     const id = request.payload.data.id;
     const { name, type, 'logo-url': logoUrl } = request.payload.data.attributes;
 
     return usecases.updateOrganizationInformation({ id, name, type, logoUrl })
       .then(organizationSerializer.serialize)
-      .then(controllerReplies(reply).ok)
+      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
-        return controllerReplies(reply).error(mappedError);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
-  search: (request, reply) => {
+  search: (request) => {
     const userId = request.auth.credentials.userId;
     const filters = extractFilters(request);
 
     return organizationService.search(userId, filters)
-      .then((organizations) => reply(organizationSerializer.serialize(organizations)))
+      .then((organizations) => organizationSerializer.serialize(organizations))
       .catch((err) => {
         logger.error(err);
-        reply().code(500);
+        throw Boom.internal(err);
       });
   },
 
-  getCampaigns(request, reply) {
+  getCampaigns(request, h) {
     const organizationId = request.params.id;
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
 
     return usecases.getOrganizationCampaigns({ organizationId })
       .then((campaigns) => campaignSerializer.serialize(campaigns, tokenForCampaignResults))
-      .then(controllerReplies(reply).ok)
-      .catch(controllerReplies(reply).error);
+      .then(controllerReplies(h).ok)
+      .catch(controllerReplies(h).error);
   },
 
-  findTargetProfiles(request, reply) {
+  findTargetProfiles(request, h) {
     const requestedOrganizationId = parseInt(request.params.id);
 
     return organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId)
       .then(targetProfileSerializer.serialize)
-      .then(controllerReplies(reply).ok)
-      .catch(controllerReplies(reply).error);
+      .then(controllerReplies(h).ok)
+      .catch(controllerReplies(h).error);
   },
 
   // TODO extract domain logic into service
-  getSharedProfiles: (request, reply) => {
+  getSharedProfiles: (request, h) => {
     return _extractSnapshotsForOrganization(request.params.id)
       .then((jsonSnapshots) => snapshotSerializer.serialize(jsonSnapshots))
-      .then((serializedSnapshots) => reply(serializedSnapshots).code(200))
       .catch((err) => {
         logger.error(err);
-        return reply(validationErrorSerializer.serialize(
+        return h.response(validationErrorSerializer.serialize(
           _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
         )).code(500);
       });
   },
 
-  exportSharedSnapshotsAsCsv: (request, reply) => {
+  exportSharedSnapshotsAsCsv: (request, h) => {
     const dependencies = {
       organizationRepository,
       competenceRepository,
@@ -118,13 +118,13 @@ module.exports = {
 
     return organizationService.getOrganizationSharedProfilesAsCsv(dependencies, organizationId)
       .then((snapshotsTextCsv) => {
-        return reply(snapshotsTextCsv)
+        return h.response(snapshotsTextCsv)
           .header('Content-Type', 'text/csv;charset=utf-8')
           .header('Content-Disposition', `attachment; filename="${EXPORT_CSV_FILE_NAME}"`);
       })
       .catch((err) => {
         logger.error(err);
-        return reply(validationErrorSerializer.serialize(
+        return h.response(validationErrorSerializer.serialize(
           _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
         )).code(500);
       });

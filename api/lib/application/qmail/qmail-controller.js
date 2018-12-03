@@ -26,7 +26,7 @@ function _updateAnswerResult(bookshelfAnswer, mail, challengeSolution) {
 
 module.exports = {
 
-  validate(request, reply) {
+  validate(request) {
 
     let challengeSolution;
     const emailRecipient = request.payload.mail.to.text;
@@ -38,14 +38,13 @@ module.exports = {
       .then(_checkThatChallengeIsQMAIL)
       .then(() => AnswerRepository.findByChallengeAndAssessment(challengeId, assessmentId))
       .then((answer) => answer ? _updateAnswerResult(answer, request.payload, challengeSolution.value) : null)
-      .then(reply)
       .catch((err) => {
         if(err instanceof NotFoundError) {
-          reply(Boom.badRequest(`Le challenge ${challengeId} n'existe pas.`));
+          throw Boom.badRequest(`Le challenge ${challengeId} n'existe pas.`);
         } else if(err instanceof NotElligibleToQmailError) {
-          reply(Boom.badRequest(`Le challenge ${challengeId} n'est pas elligible à une validation QMAIL`));
+          throw Boom.badRequest(`Le challenge ${challengeId} n'est pas elligible à une validation QMAIL`);
         } else {
-          reply(Boom.badImplementation(err));
+          throw Boom.badImplementation(err);
         }
       });
   }

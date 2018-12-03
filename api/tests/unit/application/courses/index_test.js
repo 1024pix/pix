@@ -10,14 +10,13 @@ describe('Integration | Router | course-router', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
-    sandbox.stub(courseController, 'list').callsFake((request, reply) => reply('ok'));
-    sandbox.stub(courseController, 'get').callsFake((request, reply) => reply('ok'));
-    sandbox.stub(courseController, 'save').callsFake((request, reply) => reply('ok'));
+    sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sandbox.stub(courseController, 'list').returns('ok');
+    sandbox.stub(courseController, 'get').returns('ok');
+    sandbox.stub(courseController, 'save').returns('ok');
 
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/courses') });
+    server = this.server = Hapi.server();
+    return server.register(require('../../../../lib/application/courses'));
   });
 
   afterEach(() => {

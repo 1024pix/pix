@@ -31,9 +31,9 @@ function _hasAnAtuhorizationHeaders(request) {
   return request && request.hasOwnProperty('headers') && request.headers.hasOwnProperty('authorization');
 }
 
-function _replyError(err, reply) {
+function _replyError(err, h) {
   if (err instanceof InvalidTokenError) {
-    return reply(new JSONAPIError({
+    return h.response(new JSONAPIError({
       code: '401',
       title: 'Unauthorized',
       detail: 'Le token n’est pas valide'
@@ -41,7 +41,7 @@ function _replyError(err, reply) {
   }
 
   if (err instanceof NotFoundError) {
-    return reply(new JSONAPIError({
+    return h.response(new JSONAPIError({
       code: '422',
       title: 'Unprocessable entity',
       detail: 'Cet utilisateur est introuvable'
@@ -49,7 +49,7 @@ function _replyError(err, reply) {
   }
 
   if (err instanceof InvaliOrganizationIdError) {
-    return reply(new JSONAPIError({
+    return h.response(new JSONAPIError({
       code: '422',
       title: 'Unprocessable entity',
       detail: 'Cette organisation n’existe pas'
@@ -57,7 +57,7 @@ function _replyError(err, reply) {
   }
 
   if (err instanceof InvalidSnapshotCode) {
-    return reply(new JSONAPIError({
+    return h.response(new JSONAPIError({
       code: '422',
       title: 'Unprocessable entity',
       detail: 'Les codes de partage du profil sont trop longs'
@@ -65,17 +65,17 @@ function _replyError(err, reply) {
   }
 
   logger.error(err);
-  return reply(new JSONAPIError({
+  return h.response(new JSONAPIError({
     code: '500',
     title: 'Internal Server Error',
     detail: 'Une erreur est survenue lors de la création de l’instantané'
   })).code(500);
 }
 
-function create(request, reply) {
+function create(request, h) {
 
   if (!_hasAnAtuhorizationHeaders(request)) {
-    return reply(new JSONAPIError({
+    return h.response(new JSONAPIError({
       code: '401',
       title: 'Unauthorized',
       detail: 'Le token n’est pas valide'
@@ -101,8 +101,8 @@ function create(request, reply) {
     .then((testsFinished) => snapshot.testsFinished = testsFinished)
     .then(() => snapshotService.create(snapshot, user, serializedProfile))
     .then((snapshotId) => snapshotSerializer.serialize({ id: snapshotId }))
-    .then((snapshotSerialized) => reply(snapshotSerialized).code(201))
-    .catch((err) => _replyError(err, reply));
+    .then((snapshotSerialized) => h.response(snapshotSerialized).code(201))
+    .catch((err) => _replyError(err, h));
 }
 
 module.exports = { create };

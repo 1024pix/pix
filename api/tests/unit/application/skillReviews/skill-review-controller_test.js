@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
@@ -6,22 +6,7 @@ const skillReviewController = require('../../../../lib/application/skillReviews/
 const { UserNotAuthorizedToAccessEntity, NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | skill-review-controller', () => {
-
   const userId = 60;
-
-  const replyStub = sinon.stub();
-  const codeSpy = sinon.spy();
-
-  beforeEach(() => {
-    replyStub.returns({
-      code: codeSpy,
-    });
-  });
-
-  afterEach(() => {
-    replyStub.reset();
-    codeSpy.resetHistory();
-  });
 
   describe('#get', () => {
 
@@ -50,7 +35,7 @@ describe('Unit | Controller | skill-review-controller', () => {
 
       context('and belongs to current user', () => {
 
-        it('should return the serialized skillReview', () => {
+        it('should return the serialized skillReview', async () => {
           // given
           const serializedSkillReview = {
             data: {
@@ -65,26 +50,22 @@ describe('Unit | Controller | skill-review-controller', () => {
           usecases.getSkillReview.resolves(skillReview);
 
           // when
-          const promise = skillReviewController.get(request, replyStub);
+          const response = await skillReviewController.get(request, hFake);
 
           // Then
-          return expect(promise).to.have.been.fulfilled
-            .then(() => {
-              expect(usecases.getSkillReview).to.have.been.calledWith({
-                skillReviewId,
-                userId,
-              });
+          expect(usecases.getSkillReview).to.have.been.calledWith({
+            skillReviewId,
+            userId,
+          });
 
-              expect(replyStub.args[0]).to.deep.equal([serializedSkillReview]);
-              expect(replyStub).to.have.been.calledWith(serializedSkillReview);
-              expect(codeSpy).to.have.been.calledWith(200);
-            });
+          expect(response.source).to.deep.equal(serializedSkillReview);
+          expect(response.statusCode).to.equal(200);
         });
       });
 
       context('and does not belong to current user', () => {
 
-        it('should reply with a 403', () => {
+        it('should reply with a 403', async () => {
           // given
           const expectedJsonAPIError = {
             errors: [{
@@ -97,21 +78,18 @@ describe('Unit | Controller | skill-review-controller', () => {
           usecases.getSkillReview.rejects(error);
 
           // when
-          const promise = skillReviewController.get(request, replyStub);
+          const response = await skillReviewController.get(request, hFake);
 
           // Then
-          return expect(promise).to.have.been.fulfilled
-            .then(() => {
-              expect(replyStub).to.have.been.calledWith(expectedJsonAPIError);
-              expect(codeSpy).to.have.been.calledWith(403);
-            });
+          expect(response.source).to.deep.equal(expectedJsonAPIError);
+          expect(response.statusCode).to.equal(403);
         });
       });
     });
 
     context('if assessment does not exist', () => {
 
-      it('should reply with a 404', () => {
+      it('should reply with a 404', async () => {
         // given
         const expectedJsonAPIError = {
           errors: [{
@@ -124,41 +102,35 @@ describe('Unit | Controller | skill-review-controller', () => {
         usecases.getSkillReview.rejects(error);
 
         // when
-        const promise = skillReviewController.get(request, replyStub);
+        const response = await skillReviewController.get(request, hFake);
 
         // Then
-        return expect(promise).to.have.been.fulfilled
-          .then(() => {
-            expect(replyStub).to.have.been.calledWith(expectedJsonAPIError);
-            expect(codeSpy).to.have.been.calledWith(404);
-          });
+        expect(response.source).to.deep.equal(expectedJsonAPIError);
+        expect(response.statusCode).to.equal(404);
       });
     });
 
     context('if an internal error occurs', () => {
 
-      it('should reply with a 500', () => {
+      it('should reply with a 500', async () => {
         // given
         const error = new Error('Error');
         usecases.getSkillReview.rejects(error);
 
         // when
-        const promise = skillReviewController.get(request, replyStub);
+        const response = await skillReviewController.get(request, hFake);
 
         // Then
-        return expect(promise).to.have.been.fulfilled
-          .then(() => {
-            const expectedJsonApiError = {
-              errors: [{
-                code: '500',
-                detail: 'Error',
-                title: 'Internal Server Error',
-              }],
-            };
-            expect(logger.error).to.have.been.calledWith(error);
-            expect(replyStub).to.have.been.calledWith(expectedJsonApiError);
-            expect(codeSpy).to.have.been.calledWith(500);
-          });
+        const expectedJsonApiError = {
+          errors: [{
+            code: '500',
+            detail: 'Error',
+            title: 'Internal Server Error',
+          }],
+        };
+        expect(logger.error).to.have.been.calledWith(error);
+        expect(response.source).to.deep.equal(expectedJsonApiError);
+        expect(response.statusCode).to.equal(500);
       });
     });
   });

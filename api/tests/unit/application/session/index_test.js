@@ -4,27 +4,18 @@ const securityController = require('../../../../lib/interfaces/controllers/secur
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 
 describe('Unit | Application | Sessions | Routes', () => {
-
   let server;
 
   beforeEach(() => {
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/sessions') });
+    server = this.server = Hapi.server();
+    return server.register(require('../../../../lib/application/sessions'));
   });
-
-  function expectRouteToExist(routeOptions, done) {
-    server.inject(routeOptions, (res) => {
-      expect(res.statusCode).to.equal(200);
-      done();
-    });
-  }
 
   describe('GET /api/sessions/{id}', () => {
 
     before(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
-      sinon.stub(sessionController, 'get').callsFake((request, reply) => reply('ok'));
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'get').returns('ok');
     });
 
     after(() => {
@@ -32,16 +23,17 @@ describe('Unit | Application | Sessions | Routes', () => {
       sessionController.get.restore();
     });
 
-    it('should exist', (done) => {
-      expectRouteToExist({ method: 'GET', url: '/api/sessions/{id}' }, done);
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}' });
+      expect(res.statusCode).to.equal(200);
     });
   });
 
   describe('GET /api/sessions', () => {
 
     before(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
-      sinon.stub(sessionController, 'find').callsFake((request, reply) => reply('ok'));
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'find').returns('ok');
     });
 
     after(() => {
@@ -49,16 +41,17 @@ describe('Unit | Application | Sessions | Routes', () => {
       sessionController.find.restore();
     });
 
-    it('should exist', (done) => {
-      expectRouteToExist({ method: 'GET', url: '/api/sessions' }, done);
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'GET', url: '/api/sessions' });
+      expect(res.statusCode).to.equal(200);
     });
   });
 
   describe('POST /api/session', () => {
 
     before(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
-      sinon.stub(sessionController, 'save').callsFake((request, reply) => reply('ok'));
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'save').returns('ok');
     });
 
     after(() => {
@@ -66,9 +59,9 @@ describe('Unit | Application | Sessions | Routes', () => {
       sessionController.save.restore();
     });
 
-    it('should exist', (done) => {
-      expectRouteToExist({ method: 'POST', url: '/api/sessions' }, done);
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'POST', url: '/api/sessions' });
+      expect(res.statusCode).to.equal(200);
     });
   });
-
 });

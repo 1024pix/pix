@@ -1,8 +1,7 @@
 const securityController = require('../../interfaces/controllers/security-controller');
 const sessionController = require('./session-controller');
 
-exports.register = (server, options, next) => {
-
+exports.register = async (server) => {
   server.route([
     {
       method: 'GET',
@@ -42,11 +41,6 @@ exports.register = (server, options, next) => {
       }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'sessions-api',
-  version: '1.0.0'
-};
+exports.name = 'sessions-api';

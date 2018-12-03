@@ -1,8 +1,7 @@
 const certificationController = require('./certification-controller');
 const securityController = require('../../interfaces/controllers/security-controller');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'GET',
@@ -46,11 +45,6 @@ exports.register = function(server, options, next) {
       },
     },
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'certifications-api',
-  version: '1.0.0',
-};
+exports.name = 'certifications-api';

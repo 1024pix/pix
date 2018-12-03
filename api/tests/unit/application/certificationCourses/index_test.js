@@ -6,28 +6,28 @@ const certificationCoursesController = require('../../../../lib/application/cert
 describe('Unit | Application | Certifications Course | Route', function() {
 
   let server;
+  let sandbox;
 
   beforeEach(() => {
-    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
-    sinon.stub(certificationCoursesController, 'getResult').callsFake((request, reply) => reply('ok'));
-    sinon.stub(certificationCoursesController, 'update').callsFake((request, reply) => reply('ok'));
-    sinon.stub(certificationCoursesController, 'computeResult').callsFake((request, reply) => reply('ok'));
+    sandbox = sinon.createSandbox();
 
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/certificationCourses') });
+    sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sandbox.stub(certificationCoursesController, 'getResult').returns('ok');
+    sandbox.stub(certificationCoursesController, 'update').returns('ok');
+    sandbox.stub(certificationCoursesController, 'computeResult').returns('ok');
+
+    server = Hapi.server();
+
+    return server.register(require('../../../../lib/application/certificationCourses'));
   });
 
   afterEach(() => {
-    securityController.checkUserHasRolePixMaster.restore();
-    certificationCoursesController.getResult.restore();
-    certificationCoursesController.update.restore();
-    certificationCoursesController.computeResult.restore();
+    sandbox.restore();
   });
 
   describe('GET /api/admin/certifications/{id}/details', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // given
       const options = {
         method: 'GET',
@@ -35,19 +35,17 @@ describe('Unit | Application | Certifications Course | Route', function() {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
   });
 
   describe('GET /api/admin/certifications/id', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // given
       const options = {
         method: 'GET',
@@ -55,18 +53,16 @@ describe('Unit | Application | Certifications Course | Route', function() {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 
   describe('PATCH /api/certification-courses/id', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // given
       const options = {
         method: 'PATCH',
@@ -74,12 +70,10 @@ describe('Unit | Application | Certifications Course | Route', function() {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 });

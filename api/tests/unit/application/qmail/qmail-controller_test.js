@@ -1,19 +1,15 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../../test-helper');
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const Answer = require('../../../../lib/infrastructure/data/answer');
 const QmailController = require('../../../../lib/application/qmail/qmail-controller');
 const QmailValidationService = require('../../../../lib/domain/services/qmail-validation-service');
-const Boom = require('boom');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | qmailController', () => {
 
   describe('#validate', () => {
-
     let answer;
-    let replyStub;
-    let codeStub;
     const challengeId = 'recLt9uwaETr3I24pi';
     const assessmentId = '35672';
 
@@ -39,10 +35,6 @@ describe('Unit | Controller | qmailController', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({
-        code: codeStub
-      });
 
       answer = new Answer({ result: '#PENDING#' });
       sinon.stub(answer, 'save').resolves();
@@ -56,157 +48,119 @@ describe('Unit | Controller | qmailController', () => {
       sandbox.restore();
     });
 
-    it('should fetch the validation rules', () => {
+    it('should fetch the validation rules', async () => {
       // when
-      const promise = QmailController.validate({ payload: emailSample }, replyStub);
+      await QmailController.validate({ payload: emailSample }, hFake);
 
-      return promise.then(() => {
-        sinon.assert.calledOnce(solutionRepository.getByChallengeId);
-        sinon.assert.calledWith(solutionRepository.getByChallengeId, challengeId);
-      });
+      // then
+      sinon.assert.calledOnce(solutionRepository.getByChallengeId);
+      sinon.assert.calledWith(solutionRepository.getByChallengeId, challengeId);
     });
 
-    context('when the challenge does not exists', () => {
+    context('when the challenge does not exist', () => {
 
-      let boomBadRequestStub;
-      const boomError = {};
       const notFoundError = new NotFoundError('Damn, an error');
 
       beforeEach(() => {
         solutionRepository.getByChallengeId.rejects(notFoundError);
-        boomBadRequestStub = sinon.stub(Boom, 'badRequest').returns(boomError);
-      });
-
-      afterEach(() => {
-        boomBadRequestStub.restore();
       });
 
       it('should return a Bad Request', () => {
         // when
-        const promise = QmailController.validate({ payload: emailSample }, replyStub);
+        const promise = QmailController.validate({ payload: emailSample }, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(boomBadRequestStub, `Le challenge ${challengeId} n'existe pas.`);
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(replyStub, boomError);
-        });
+        return expect(promise).to.be.rejected
+          .and.eventually.to.nested.include({
+            message: `Le challenge ${challengeId} n'existe pas.`,
+            'output.statusCode': 400
+          });
       });
     });
 
     context('when the challenge is found', () => {
       context('but the challenge is not the QMAIL kind', () => {
 
-        let boomBadRequestStub;
-        const boomError = {};
-
         beforeEach(() => {
           solutionRepository.getByChallengeId.resolves({ type: 'QCU' });
-          boomBadRequestStub = sinon.stub(Boom, 'badRequest').returns(boomError);
-        });
-
-        afterEach(() => {
-          boomBadRequestStub.restore();
         });
 
         it('should return a Bad Request', () => {
           // when
-          const promise = QmailController.validate({ payload: emailSample }, replyStub);
+          const promise = QmailController.validate({ payload: emailSample }, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledWith(boomBadRequestStub, `Le challenge ${challengeId} n'est pas elligible à une validation QMAIL`);
-            sinon.assert.calledOnce(replyStub);
-            sinon.assert.calledWith(replyStub, boomError);
-          });
+          return expect(promise).to.be.rejected
+            .and.eventually.to.nested.include({
+              message: `Le challenge ${challengeId} n'est pas elligible à une validation QMAIL`,
+              'output.statusCode': 400
+            });
         });
       });
 
-      it('should load the answer', () => {
+      it('should load the answer', async () => {
         // when
-        const promise = QmailController.validate({
+        await QmailController.validate({
           payload: emailSample
-        }, replyStub);
+        }, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(AnswerRepository.findByChallengeAndAssessment);
-          sinon.assert.calledWith(AnswerRepository.findByChallengeAndAssessment, challengeId, assessmentId);
-        });
+        sinon.assert.calledOnce(AnswerRepository.findByChallengeAndAssessment);
+        sinon.assert.calledWith(AnswerRepository.findByChallengeAndAssessment, challengeId, assessmentId);
       });
 
       context('when analysing the email', () => {
 
-        it('should change answer result when the email is validated', () => {
+        it('should change answer result when the email is validated', async () => {
           // when
-          const promise = QmailController.validate({ payload: emailSample }, replyStub);
+          await QmailController.validate({ payload: emailSample }, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(answer.save);
-            expect(answer.get('result')).to.equal('ok');
-          });
+          sinon.assert.calledOnce(answer.save);
+          expect(answer.get('result')).to.equal('ok');
         });
 
-        it('should invalid the answer when the given email is wrong', () => {
+        it('should invalid the answer when the given email is wrong', async () => {
           // given
           QmailValidationService.validateEmail.returns(false);
 
           // when
-          const promise = QmailController.validate({ payload: emailSample }, replyStub);
+          await QmailController.validate({ payload: emailSample }, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(answer.save);
-            expect(answer.get('result')).to.equal('ko');
-          });
+          sinon.assert.calledOnce(answer.save);
+          expect(answer.get('result')).to.equal('ko');
         });
 
-        it('should save the answer once the email has been checked', () => {
+        it('should save the answer once the email has been checked', async () => {
           // when
-          const promise = QmailController.validate({ payload: emailSample }, replyStub);
+          await QmailController.validate({ payload: emailSample }, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(QmailValidationService.validateEmail);
-            sinon.assert.callOrder(
-              solutionRepository.getByChallengeId,
-              AnswerRepository.findByChallengeAndAssessment,
-              QmailValidationService.validateEmail,
-              answer.save
-            );
-            sinon.assert.calledWith(QmailValidationService.validateEmail, emailSample, challengeToEvaluate.value);
-          });
+          sinon.assert.calledOnce(QmailValidationService.validateEmail);
+          sinon.assert.callOrder(
+            solutionRepository.getByChallengeId,
+            AnswerRepository.findByChallengeAndAssessment,
+            QmailValidationService.validateEmail,
+            answer.save
+          );
+          sinon.assert.calledWith(QmailValidationService.validateEmail, emailSample, challengeToEvaluate.value);
         });
       });
 
-      it('should reply OK after validating the answer', () => {
+      it('should reply OK after validating the answer', async () => {
         // when
-        const promise = QmailController.validate({ payload: emailSample }, replyStub);
+        await QmailController.validate({ payload: emailSample }, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.callOrder(
-            AnswerRepository.findByChallengeAndAssessment,
-            answer.save,
-            replyStub
-          );
-        });
+        sinon.assert.callOrder(
+          AnswerRepository.findByChallengeAndAssessment,
+          answer.save,
+        );
       });
     });
 
     context('when analysing goes wrong', () => {
-
-      let boomBadImplementationStub;
-      const jsonAPIError = { error: 'Expected API Return ' };
-
-      beforeEach(() => {
-        boomBadImplementationStub = sinon.stub(Boom, 'badImplementation').returns(jsonAPIError);
-      });
-
-      afterEach(() => {
-        boomBadImplementationStub.restore();
-      });
 
       it('should return INTERNAL_ERROR when finding the answer is failing', () => {
         // given
@@ -214,15 +168,11 @@ describe('Unit | Controller | qmailController', () => {
         AnswerRepository.findByChallengeAndAssessment.rejects(error);
 
         // when
-        const promise = QmailController.validate({ payload: emailSample }, replyStub);
+        const promise = QmailController.validate({ payload: emailSample }, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(boomBadImplementationStub);
-          sinon.assert.calledWith(boomBadImplementationStub, error);
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(replyStub, jsonAPIError);
-        });
+        return expect(promise).to.be.rejected
+          .and.eventually.to.have.nested.property('output.statusCode', 500);
       });
 
       it('should return INTERNAL_ERROR when saving is failing', () => {
@@ -231,15 +181,11 @@ describe('Unit | Controller | qmailController', () => {
         answer.save.rejects(error);
 
         // when
-        const promise = QmailController.validate({ payload: emailSample }, replyStub);
+        const promise = QmailController.validate({ payload: emailSample }, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(boomBadImplementationStub);
-          sinon.assert.calledWith(boomBadImplementationStub, error);
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(replyStub, jsonAPIError);
-        });
+        return expect(promise).to.be.rejected
+          .and.eventually.to.have.nested.property('output.statusCode', 500);
       });
     });
   });
