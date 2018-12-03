@@ -15,7 +15,8 @@ export default Component.extend({
     authenticate() {
       const email = this.get('email');
       const password = this.get('password');
-      return this.get('session').authenticate('authenticator:oauth2', email, password)
+      const scope = 'pix-certif';
+      return this.get('session').authenticate('authenticator:oauth2', email, password, scope)
         .catch(() => {
           this.set('isErrorMessagePresent', true);
         });

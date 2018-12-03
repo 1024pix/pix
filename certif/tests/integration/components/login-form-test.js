@@ -34,10 +34,11 @@ module('Integration | Component | login-form', function(hooks) {
 
   test('it should call authentication service with appropriate parameters', async function(assert) {
     // given
-    sessionStub.prototype.authenticate = function(authenticator, email, password) {
+    sessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
       this.authenticator = authenticator;
       this.email = email;
       this.password = password;
+      this.scope = scope;
       return resolve();
     };
     const sessionServiceObserver = this.owner.lookup('service:session');
@@ -52,6 +53,7 @@ module('Integration | Component | login-form', function(hooks) {
     assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
     assert.equal(sessionServiceObserver.email, 'pix@example.net');
     assert.equal(sessionServiceObserver.password, 'JeMeLoggue1024');
+    assert.equal(sessionServiceObserver.scope, 'pix-certif');
   });
 
   test('it should display an error message when authentication fails', async function(assert) {
