@@ -256,4 +256,28 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
+  describe('#testsAtLeastOneSkill', function() {
+
+    it('returns false if the challenge skills match no skills', function() {
+      // given
+      const [s1, s2, s3, s4] = domainBuilder.buildSkillCollection();
+      const challenge = domainBuilder.buildChallenge({ skills: [s1, s2] });
+      // when
+      const response = challenge.testsAtLeastOneSkill([s3, s4]);
+      // then
+      expect(response).to.be.false;
+    });
+
+    it('returns true if the challenge skills match at least on skill', function() {
+      // given
+      const [s1, s2, s3, s4] = domainBuilder.buildSkillCollection();
+      const challenge = domainBuilder.buildChallenge({ skills: [s1, s2, s3] });
+      // when
+      const response = challenge.testsAtLeastOneSkill([s3, s4]);
+      // then
+      expect(response).to.be.true;
+    });
+
+  });
+
 });

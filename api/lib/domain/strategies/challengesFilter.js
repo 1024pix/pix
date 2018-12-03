@@ -1,6 +1,7 @@
-const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
+
+const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
 
 module.exports = {
   filteredChallengeForFirstChallenge,
@@ -10,40 +11,40 @@ module.exports = {
 function filteredChallengeForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile }) {
 
   // Filter 1 : only available challenge : published and with skills not already tested
-  let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile));
+  let relevantChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile));
 
   // Filter 4 : Priority to tubes with max level equal to MAX_LEVEL_TO_BE_AN_EASY_TUBE
   const listOfSkillsToTargetInPriority = _getPrioritySkills(tubes, knowledgeElements);
   if (listOfSkillsToTargetInPriority.length > 0) {
-    availableChallenges = _filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
+    relevantChallenges = _removeChallengesThatTestNoSkill(relevantChallenges, listOfSkillsToTargetInPriority);
   }
 
-  return availableChallenges;
+  return relevantChallenges;
 }
 
 function filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge, targetProfile }) {
 
   // Filter 1 : only available challenge : published and with skills not already tested
-  let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile));
+  let relevantChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile));
 
   // Filter 3 : Do not ask challenge where level too high
-  availableChallenges = availableChallenges.filter((challenge) => _isChallengeNotTooHard(challenge, predictedLevel));
+  relevantChallenges = relevantChallenges.filter((challenge) => _isChallengeNotTooHard(challenge, predictedLevel));
 
   // Filter 2 : Do not ask timed challenge if previous challenge was timed
   if (_isPreviousChallengeTimed(lastChallenge)) {
-    const challengesFilterByNotTimed =_extractNotTimedChallenge(availableChallenges);
+    const challengesFilterByNotTimed =_extractNotTimedChallenge(relevantChallenges);
     if (challengesFilterByNotTimed.length > 0) {
-      availableChallenges = challengesFilterByNotTimed;
+      relevantChallenges = challengesFilterByNotTimed;
     }
   }
 
   // Filter 4 : Priority to tubes with max level equal to MAX_LEVEL_TO_BE_AN_EASY_TUBE
   const listOfSkillsToTargetInPriority = _getPrioritySkills(tubes, knowledgeElements);
   if (listOfSkillsToTargetInPriority.length > 0) {
-    availableChallenges = _filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
+    relevantChallenges = _removeChallengesThatTestNoSkill(relevantChallenges, listOfSkillsToTargetInPriority);
   }
 
-  return availableChallenges;
+  return relevantChallenges;
 }
 
 function _isChallengeNotTooHard(challenge, predictedLevel) {
@@ -52,15 +53,15 @@ function _isChallengeNotTooHard(challenge, predictedLevel) {
 
 function _isAnAvailableChallenge(challenge, knowledgeElements, targetProfile) {
   return challenge.isPublished()
-    && !challenge.hasAllSkilledAlreadyCovered(knowledgeElements, targetProfile);
+    && !challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile);
 }
 
 function _isPreviousChallengeTimed(lastChallenge) {
   return lastChallenge && (lastChallenge.timer !== undefined);
 }
 
-function _extractNotTimedChallenge(availableChallenges) {
-  return availableChallenges.filter((challenge) => challenge.timer == undefined);
+function _extractNotTimedChallenge(relevantChallenges) {
+  return relevantChallenges.filter((challenge) => challenge.timer == undefined);
 }
 
 function _getPrioritySkills(courseTubes, knowledgeElements) {
@@ -88,19 +89,7 @@ function _skillAlreadyTested(skill, knowledgeElements) {
   return alreadyTestedSkillIds.includes(skill.id);
 }
 
-function _filterChallengesBySkills(listOfChallenges, listOfRequiredSkills) {
-
-  return listOfChallenges.filter((challenge) => {
-
-    let challengeContainsSkillsInTargetProfile = false;
-
-    listOfRequiredSkills.map((skill) => skill.name).forEach((skillName) => {
-      const challengeHasSkill = challenge.skills.map((skill) => skill.name).includes(skillName);
-      if (challengeHasSkill) {
-        challengeContainsSkillsInTargetProfile = true;
-      }
-    });
-
-    return challengeContainsSkillsInTargetProfile;
-  });
+function _removeChallengesThatTestNoSkill(challenges, requiredSkills) {
+  return challenges.filter((challenge) => challenge.testsAtLeastOneSkill(requiredSkills));
 }
+
