@@ -496,7 +496,7 @@ describe('Unit | Domain | Models | Profile', () => {
 
       });
 
-      context('when the competence is not being assessed and the last evaluation is older than 7 days', () => {
+      context('when the competence is not being assessed, there is one completed assessment ant it is older than 7 days', () => {
 
         it('should be 0', () => {
           // given
@@ -516,9 +516,10 @@ describe('Unit | Domain | Models | Profile', () => {
 
       });
 
-      context('when the competence is not being assessed and the last completed assessment is younger than 7 days', () => {
+      context('when the competence is not being assessed, there is one completed assessment and it is younger than 7 days', () => {
 
         [
+          { daysBefore: 0, hoursBefore: 2, expectedDaysBeforeNewAttempt: 7 },
           { daysBefore: 1, hoursBefore: 0, expectedDaysBeforeNewAttempt: 6 },
           { daysBefore: 5, hoursBefore: 0, expectedDaysBeforeNewAttempt: 2 },
           { daysBefore: 5, hoursBefore: 12, expectedDaysBeforeNewAttempt: 2 },
@@ -543,6 +544,31 @@ describe('Unit | Domain | Models | Profile', () => {
             // then
             expect(profile.competences[0].daysBeforeNewAttempt).to.equal(expectedDaysBeforeNewAttempt);
           });
+        });
+
+      });
+
+      context('when the competence is not being assessed, there is 2 completed assessments and only the last one is younger than 7 days', () => {
+
+        it('should indicate the number of days to wait before new attempt', () => {
+          // given
+          const oldAssessmentCreationDate = moment(testCurrentDate).subtract(7, 'day').subtract(5, 'second').toDate();
+          const oldAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: oldAssessmentCreationDate })];
+          const oldAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: oldAssessmentResults });
+
+          const lastAssessmentCreationDate = moment(testCurrentDate).subtract(3, 'day').toDate();
+          const lastAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: lastAssessmentCreationDate })];
+          const lastAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: lastAssessmentResults });
+
+          const lastAssessments = [oldAssessment, lastAssessment];
+          const assessmentsCompletedWithResults = [oldAssessment, lastAssessment];
+          courses[0].competences = ['competenceId1'];
+
+          // when
+          const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
+
+          // then
+          expect(profile.competences[0].daysBeforeNewAttempt).to.equal(4);
         });
 
       });
