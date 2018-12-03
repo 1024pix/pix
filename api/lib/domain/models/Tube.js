@@ -28,6 +28,10 @@ class Tube {
     return this.skills.filter((tubeSkill) => tubeSkill.difficulty >= skill.difficulty);
   }
 
+  getHardestSkill() {
+    return this.skills.sort((a, b) => a.difficulty < b.difficulty)[0];
+  }
+
 }
 
 module.exports = Tube;
