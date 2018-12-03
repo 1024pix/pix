@@ -12,23 +12,23 @@ function _buildJsonApiInternalServerError(error) {
 
 module.exports = {
 
-  reloadCacheEntry(request, reply) {
+  reloadCacheEntry(request, h) {
     const cacheKey = request.params.cachekey || '';
     const [ tableName, recordId ] = cacheKey.split('_');
     return usecases.reloadCacheEntry({ preloader, tableName, recordId })
-      .then(() => reply().code(204))
-      .catch((error) => reply(_buildJsonApiInternalServerError(error)).code(500));
+      .then(() => h.response().code(204))
+      .catch((error) => h.response(_buildJsonApiInternalServerError(error)).code(500));
   },
 
-  removeAllCacheEntries(request, reply) {
+  removeAllCacheEntries(request, h) {
     return usecases.removeAllCacheEntries({ cache })
-      .then(() => reply().code(204))
-      .catch((error) => reply(_buildJsonApiInternalServerError(error)).code(500));
+      .then(() => h.response().code(204))
+      .catch((error) => h.response(_buildJsonApiInternalServerError(error)).code(500));
   },
 
-  preloadCacheEntries(request, reply) {
+  preloadCacheEntries(request, h) {
     return usecases.preloadCacheEntries({ preloader, logger })
-      .then(() => reply().code(204))
-      .catch((error) => reply(_buildJsonApiInternalServerError(error)).code(500));
+      .then(() => h.response().code(204))
+      .catch((error) => h.response(_buildJsonApiInternalServerError(error)).code(500));
   }
 };

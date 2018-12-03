@@ -4,9 +4,7 @@ const logger = require('../../infrastructure/logger');
 const Boom = require('boom');
 const { Deserializer } = require('jsonapi-serializer');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const infraErrors = require('../../infrastructure/errors');
 const domainErrors = require('../../domain/errors');
-const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 
 function _deserializePayload(payload) {
   const deserializer = new Deserializer({
@@ -16,20 +14,18 @@ function _deserializePayload(payload) {
 }
 
 module.exports = {
-  findUserCertifications(request, reply) {
+  findUserCertifications(request) {
     const userId = request.auth.credentials.userId;
 
     return usecases.findCompletedUserCertifications({ userId })
-      .then((certifications) => {
-        return reply(certificationSerializer.serialize(certifications)).code(200);
-      })
+      .then((certifications) => certificationSerializer.serialize(certifications))
       .catch((err) => {
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        throw Boom.badImplementation(err);
       });
   },
 
-  getCertification(request, reply) {
+  getCertification(request, h) {
     const userId = request.auth.credentials.userId;
     const certificationId = request.params.id;
 
@@ -37,9 +33,7 @@ module.exports = {
       userId,
       certificationId,
     })
-      .then((certification) => {
-        return reply(certificationSerializer.serialize(certification)).code(200);
-      })
+      .then((certification) => certificationSerializer.serialize(certification))
       .catch((error) => {
 
         if (error instanceof domainErrors.UserNotAuthorizedToAccessEntity) {
@@ -48,7 +42,7 @@ module.exports = {
             title: 'Unauthorized Access',
             detail: 'Vous n’avez pas accès à cette certification',
           });
-          return reply(jsonAPIError).code(403);
+          return h.response(jsonAPIError).code(403);
         }
 
         if (error instanceof domainErrors.NotFoundError) {
@@ -57,16 +51,15 @@ module.exports = {
             title: 'Not Found',
             detail: error.message,
           });
-          return reply(jsonApiError).code(404);
+          return h.response(jsonApiError).code(404);
         }
 
         logger.error(error);
-        const infraError = new infraErrors.InfrastructureError(error.message);
-        return reply(errorSerializer.serialize(infraError)).code(infraError.code);
+        throw Boom.badImplementation(error);
       });
   },
 
-  updateCertification(request, reply) {
+  updateCertification(request) {
 
     return Promise.resolve(request.payload)
       .then(_deserializePayload)
@@ -76,12 +69,10 @@ module.exports = {
           attributesToUpdate: payload,
         });
       })
-      .then((certification) => {
-        return reply(certificationSerializer.serialize(certification)).code(200);
-      })
+      .then((certification) => certificationSerializer.serialize(certification))
       .catch((err) => {
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        throw Boom.badImplementation(err);
       });
   },
 };

@@ -9,9 +9,8 @@ const sandbox = sinon.createSandbox();
 let server;
 
 function startServer() {
-  server = new Hapi.Server();
-  server.connection({ port: null });
-  server.register({ register: require('../../../../lib/application/users') });
+  server = Hapi.server();
+  return server.register(require('../../../../lib/application/users'));
 }
 
 describe('Unit | Router | user-router', () => {
@@ -23,11 +22,11 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users', () => {
 
     beforeEach(() => {
-      sandbox.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, reply) => {
-        reply.continue({ credentials: { accessToken: 'jwt.access.token' } });
+      sandbox.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
+        h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
-      sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
-      sandbox.stub(userController, 'find').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sandbox.stub(userController, 'find').returns('ok');
       startServer();
     });
 
@@ -51,7 +50,7 @@ describe('Unit | Router | user-router', () => {
   describe('POST /api/users', () => {
 
     beforeEach(() => {
-      sandbox.stub(userController, 'save').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'save').returns('ok');
       startServer();
     });
 
@@ -85,7 +84,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}', function() {
 
     beforeEach(() => {
-      sandbox.stub(userController, 'getUser').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getUser').returns('ok');
       startServer();
     });
 
@@ -106,7 +105,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/me', function() {
 
     beforeEach(() => {
-      sandbox.stub(userController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getAuthenticatedUserProfile').returns('ok');
       startServer();
     });
 
@@ -126,8 +125,8 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/{id}/skills', function() {
     beforeEach(() => {
-      sandbox.stub(userController, 'getProfileToCertify').callsFake((request, reply) => reply('ok'));
-      sandbox.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getProfileToCertify').returns('ok');
+      sandbox.stub(userVerification, 'verifyById').returns('ok');
       startServer();
     });
 
@@ -148,7 +147,7 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/{id}/memberships', function() {
     beforeEach(() => {
-      sandbox.stub(userController, 'getMemberships').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getMemberships').returns('ok');
       startServer();
     });
 
@@ -177,8 +176,8 @@ describe('Unit | Router | user-router', () => {
     });
 
     beforeEach(() => {
-      sandbox.stub(userController, 'updateUser').callsFake((request, reply) => reply('ok'));
-      sandbox.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'updateUser').returns('ok');
+      sandbox.stub(userVerification, 'verifyById').returns('ok');
       startServer();
     });
 

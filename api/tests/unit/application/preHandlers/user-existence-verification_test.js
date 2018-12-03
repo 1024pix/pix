@@ -1,18 +1,13 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../../test-helper');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { UserNotFoundError } = require('../../../../lib/domain/errors');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
 describe('Unit | Pre-handler | User Verification', () => {
 
   describe('#verifyById', () => {
-
     let sandbox;
-    let reply;
-    let codeStub;
-    let takeOverStub;
     const request = {
       params: {
         id: 7
@@ -23,14 +18,6 @@ describe('Unit | Pre-handler | User Verification', () => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(userRepository, 'findUserById');
       sandbox.stub(errorSerializer, 'serialize');
-
-      takeOverStub = sandbox.stub();
-      codeStub = sandbox.stub().returns({
-        takeover: takeOverStub
-      });
-      reply = sandbox.stub().returns({
-        code: codeStub
-      });
     });
 
     afterEach(() => {
@@ -44,45 +31,37 @@ describe('Unit | Pre-handler | User Verification', () => {
 
     describe('When user exist', () => {
 
-      it('should passthrough to handler', () => {
+      it('should passthrough to handler', async () => {
         // given
         const userCount = 1;
         userRepository.findUserById.resolves(userCount);
 
         // when
-        const promise = userVerification.verifyById(request, reply);
+        const response = await userVerification.verifyById(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(userRepository.findUserById);
-          sinon.assert.calledWith(userRepository.findUserById, request.params.id);
-          sinon.assert.calledOnce(reply);
-          sinon.assert.calledWith(reply, userCount);
-        });
+        sinon.assert.calledOnce(userRepository.findUserById);
+        sinon.assert.calledWith(userRepository.findUserById, request.params.id);
+        expect(response).to.equal(userCount);
       });
 
     });
 
-    describe('When user doesn’t exist', () => {
+    describe('When user doesn’t exist', async () => {
 
-      it('should reply 404 status with a serialized error and takeOver the request', () => {
+      it('should reply 404 status with a serialized error and takeOver the request', async () => {
         // given
-        userRepository.findUserById.rejects(BookshelfUser.NotFoundError());
-        const serializedError = {};
+        userRepository.findUserById.rejects(new BookshelfUser.NotFoundError());
+        const serializedError = { serialized: 'error' };
         errorSerializer.serialize.returns(serializedError);
 
         // when
-        const promise = userVerification.verifyById(request, reply);
+        const response = await userVerification.verifyById(request, hFake);
 
         // then
-        return promise.catch(() => {
-          sinon.assert.calledOnce(takeOverStub);
-          sinon.assert.calledOnce(codeStub);
-          sinon.assert.calledOnce(errorSerializer.serialize);
-          sinon.assert.calledWith(codeStub, 404);
-          sinon.assert.calledWith(reply, serializedError);
-          sinon.assert.calledWith(errorSerializer.serialize, new UserNotFoundError().getErrorMessage());
-        });
+        expect(response.source).to.deep.equal(serializedError);
+        expect(response.isTakeOver).to.be.true;
+        expect(response.statusCode).to.equal(404);
       });
 
     });

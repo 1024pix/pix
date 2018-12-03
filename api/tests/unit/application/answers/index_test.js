@@ -5,77 +5,91 @@ const AnswerController = require('../../../../lib/application/answers/answer-con
 describe('Unit | Router | answer-router', function() {
 
   let server;
+  let sandbox;
 
   beforeEach(function() {
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/answers') });
+
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(AnswerController, 'save').callsFake((request, h) => h.response().code(201));
+    sandbox.stub(AnswerController, 'get').callsFake((request, h) => h.response().code(200));
+    sandbox.stub(AnswerController, 'findByChallengeAndAssessment').callsFake((request, h) => h.response().code(200));
+    sandbox.stub(AnswerController, 'update').callsFake((request, h) => h.response().code(204));
+
+    server = Hapi.server();
+
+    return server.register(require('../../../../lib/application/answers'));
   });
 
-  function expectRouteToExist(routeOptions, done) {
-    server.inject(routeOptions, (res) => {
-      expect(res.statusCode).to.equal(200);
-      done();
-    });
-  }
+  afterEach(() => {
+    sandbox.restore();
+    server.stop();
+  });
 
   describe('POST /api/answers', function() {
 
-    before(function() {
-      sinon.stub(AnswerController, 'save').callsFake((request, reply) => reply('ok'));
-    });
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/answers'
+      };
 
-    after(function() {
-      AnswerController.save.restore();
-    });
+      // when
+      const result = await server.inject(options);
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'POST', url: '/api/answers' }, done);
+      // then
+      expect(result.statusCode).to.equal(201);
     });
   });
 
   describe('GET /api/answers/{id}', function() {
 
-    before(function() {
-      sinon.stub(AnswerController, 'get').callsFake((request, reply) => reply('ok'));
-    });
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/answers/answer_id'
+      };
 
-    after(function() {
-      AnswerController.get.restore();
-    });
+      // when
+      const result = await server.inject(options);
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/answers/answer_id' }, done);
+      // then
+      expect(result.statusCode).to.equal(200);
     });
   });
 
   describe('GET /api/answers?assessment=<assessment_id>&challenge=<challenge_id>', function() {
 
-    before(function() {
-      sinon.stub(AnswerController, 'findByChallengeAndAssessment').callsFake((request, reply) => reply('ok'));
-    });
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/answers'
+      };
 
-    after(function() {
-      AnswerController.findByChallengeAndAssessment.restore();
-    });
+      // when
+      const result = await server.inject(options);
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/answers' }, done);
+      // then
+      expect(result.statusCode).to.equal(200);
     });
   });
 
   describe('PATCH /api/answers/{id}', function() {
 
-    before(function() {
-      sinon.stub(AnswerController, 'update').callsFake((request, reply) => reply('ok'));
-    });
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'PATCH',
+        url: '/api/answers/answer_id'
+      };
 
-    after(function() {
-      AnswerController.update.restore();
-    });
+      // when
+      const result = await server.inject(options);
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'PATCH', url: '/api/answers/answer_id' }, done);
+      // then
+      expect(result.statusCode).to.equal(204);
     });
   });
 

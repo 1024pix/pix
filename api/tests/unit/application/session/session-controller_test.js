@@ -1,5 +1,4 @@
-const Boom = require('boom');
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../../test-helper');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
@@ -11,11 +10,8 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Controller | sessionController', () => {
-
   let sandbox;
-  let codeStub;
   let request;
-  let replyStub;
   let expectedSession;
 
   describe('#create', () => {
@@ -32,12 +28,8 @@ describe('Unit | Controller | sessionController', () => {
         accessCode: 'ABCD12'
       });
 
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({ code: codeStub });
-
       sandbox = sinon.sandbox.create();
       sandbox.stub(sessionService, 'save').resolves();
-      sandbox.stub(Boom, 'badImplementation');
       sandbox.stub(logger, 'error');
       sandbox.stub(sessionSerializer, 'deserialize').resolves(expectedSession);
       sandbox.stub(sessionSerializer, 'serialize');
@@ -64,18 +56,15 @@ describe('Unit | Controller | sessionController', () => {
       sandbox.restore();
     });
 
-    it('should save the session', () => {
+    it('should save the session', async () => {
       // when
-      const promise = sessionController.save(request, replyStub);
+      await sessionController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(sessionService.save).to.have.been.calledWith(expectedSession);
-      });
+      expect(sessionService.save).to.have.been.calledWith(expectedSession);
     });
 
-    it('return the saved session in JSON API', () => {
-
+    it('return the saved session in JSON API', async () => {
       // given
       const jsonApiSession = {
         data: {
@@ -93,54 +82,32 @@ describe('Unit | Controller | sessionController', () => {
       sessionSerializer.serialize.returns(jsonApiSession);
 
       // when
-      const promise = sessionController.save(request, replyStub);
+      const response = await sessionController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(replyStub).to.have.been.calledWith(jsonApiSession);
-        expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
-      });
+      expect(response).to.deep.equal(jsonApiSession);
+      expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
     });
 
     context('when an error is raised', () => {
 
-      const error = new Error();
-      const wellFormedError = { message: 'Internal Error' };
+      const error = new Error('Failure');
 
       beforeEach(() => {
-
         sessionService.save.rejects(error);
-        Boom.badImplementation.returns(wellFormedError);
       });
 
-      it('should format an internal error from the error', () => {
+      it('should return a 500 internal error and log the error', async () => {
         // when
-        const promise = sessionController.save(request, replyStub);
+        const promise = sessionController.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(Boom.badImplementation).to.have.been.calledWith(error);
-        });
-      });
-
-      it('should return a 500 internal error', () => {
-        // when
-        const promise = sessionController.save(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(wellFormedError);
-        });
-      });
-
-      it('should log the error', () => {
-        // when
-        const promise = sessionController.save(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          expect(logger.error).to.have.been.calledWith(error);
-        });
+        await expect(promise).to.be.rejected
+          .and.eventually.to.include.nested({
+            message: 'Failure',
+            'output.statusCode': 500
+          });
+        expect(logger.error).to.have.been.calledWith(error);
       });
 
     });
@@ -158,7 +125,6 @@ describe('Unit | Controller | sessionController', () => {
           id: 'sessionId'
         }
       };
-      replyStub = sinon.stub().returns({ code: codeStub });
     });
 
     afterEach(() => {
@@ -167,20 +133,18 @@ describe('Unit | Controller | sessionController', () => {
 
     context('when session exists', () => {
 
-      it('should get session informations with certifications associated', function() {
+      it('should get session informations with certifications associated', async function() {
         // given
         sessionService.get.resolves();
 
         // when
-        const promise = sessionController.get(request, replyStub);
+        await sessionController.get(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(sessionService.get).to.have.been.calledWith('sessionId');
-        });
+        expect(sessionService.get).to.have.been.calledWith('sessionId');
       });
 
-      it('should serialize session informations', function() {
+      it('should serialize session informations', async function() {
         // given
         const certification = CertificationCourse.fromAttributes({ id: 'certifId', sessionId: 'sessionId' });
         const session = new Session({
@@ -190,15 +154,13 @@ describe('Unit | Controller | sessionController', () => {
         sessionService.get.resolves(session);
 
         // when
-        const promise = sessionController.get(request, replyStub);
+        await sessionController.get(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(sessionSerializer.serialize).to.have.been.calledWith(session);
-        });
+        expect(sessionSerializer.serialize).to.have.been.calledWith(session);
       });
 
-      it('should reply serialized session informations', function() {
+      it('should reply serialized session informations', async function() {
         // given
         const serializedSession = {
           data: {
@@ -210,35 +172,29 @@ describe('Unit | Controller | sessionController', () => {
         sessionService.get.resolves();
 
         // when
-        const promise = sessionController.get(request, replyStub);
+        const response = await sessionController.get(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(serializedSession);
-        });
+        expect(response).to.deep.equal(serializedSession);
       });
 
     });
 
     context('when session does not exist', () => {
 
-      it('should reply with Not Found Error', function() {
+      it('should reply with Not Found Error', async function() {
         // given
         const notFoundError = new NotFoundError();
-        const wellFormedError = { message: 'Not Found Error' };
         sessionService.get.rejects(notFoundError);
-        sandbox.stub(Boom, 'notFound').returns(wellFormedError);
-        sandbox.stub(logger, 'error').returns();
 
         // when
-        const promise = sessionController.get(request, replyStub);
+        const promise = sessionController.get(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(wellFormedError);
-          expect(Boom.notFound).to.have.been.calledWith(notFoundError);
-        });
-
+        await expect(promise).to.be.rejected
+          .and.eventually.to.include.nested({
+            'output.statusCode': 404,
+          });
       });
 
     });

@@ -8,15 +8,14 @@ describe('Unit | Router | feedback-router', () => {
   let server;
 
   beforeEach(() => {
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/feedbacks') });
+    server = Hapi.server();
+    return server.register(require('../../../../lib/application/feedbacks'));
   });
 
   describe('POST /api/feedbacks', () => {
 
     before(() => {
-      sinon.stub(feedbackController, 'save').callsFake((request, reply) => reply('ok'));
+      sinon.stub(feedbackController, 'save').returns('ok');
     });
 
     after(() => {
@@ -43,11 +42,11 @@ describe('Unit | Router | feedback-router', () => {
   describe('GET /api/feedbacks', () => {
 
     before(() => {
-      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, reply) => {
-        reply.continue({ credentials: { accessToken: 'jwt.access.token' } });
+      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
+        h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
-      sinon.stub(feedbackController, 'find').callsFake((request, reply) => reply('ok'));
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(feedbackController, 'find').returns('ok');
     });
 
     after(() => {

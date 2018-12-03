@@ -1,8 +1,7 @@
 const securityController = require('../../interfaces/controllers/security-controller');
 const feedbackController = require('./feedback-controller');
 
-exports.register = (server, options, next) => {
-
+exports.register = async (server) => {
   server.route([
     {
       method: 'POST',
@@ -27,11 +26,6 @@ exports.register = (server, options, next) => {
     }
 
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'feedbacks-api',
-  version: '1.0.0'
-};
+exports.name = 'feedbacks-api';

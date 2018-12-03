@@ -8,15 +8,13 @@ describe('Integration | Application | Route | Certifications', () => {
   let server;
 
   beforeEach(() => {
-    sinon.stub(certificationController, 'findUserCertifications').callsFake((request, reply) => reply('ok'));
-    sinon.stub(certificationController, 'updateCertification').callsFake((request, reply) => reply('ok').code(204));
-    sinon.stub(certificationController, 'getCertification').callsFake((request, reply) => reply('ok').code(200));
-    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
+    sinon.stub(certificationController, 'findUserCertifications').returns('ok');
+    sinon.stub(certificationController, 'updateCertification').callsFake((request, h) => h.response('ok').code(204));
+    sinon.stub(certificationController, 'getCertification').callsFake((request, h) => h.response('ok').code(200));
+    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
-    server = new Hapi.Server({
-      port: null
-    });
-    server.register({ register: require('../../../../lib/application/certifications') });
+    server = Hapi.server();
+    return server.register(require('../../../../lib/application/certifications'));
   });
 
   afterEach(() => {

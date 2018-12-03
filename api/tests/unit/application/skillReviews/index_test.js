@@ -7,11 +7,10 @@ describe('Unit | Router | skill-review-router', () => {
   let server;
 
   beforeEach(() => {
-    sinon.stub(skillReviewController, 'get').callsFake((request, reply) => reply().code(200));
+    sinon.stub(skillReviewController, 'get').callsFake((request, h) => h.response().code(200));
 
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/skillReviews') });
+    server = Hapi.server();
+    return server.register(require('../../../../lib/application/skillReviews'));
   });
 
   afterEach(() => {

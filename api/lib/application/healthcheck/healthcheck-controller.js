@@ -5,27 +5,26 @@ const healthcheckRepository = require('../../infrastructure/repositories/healthc
 
 module.exports = {
 
-  get(request, reply) {
-
-    reply({
+  get() {
+    return {
       'name': packageJSON.name,
       'version': packageJSON.version,
       'description': packageJSON.description,
       'environment': settings.environment,
       'container-version': process.env.CONTAINER_VERSION,
       'container-app-name': process.env.APP,
-    });
+    };
   },
 
-  getDbStatus(request, reply) {
+  getDbStatus() {
     return healthcheckRepository.check()
-      .then(() => reply({ message: 'Connection to database ok' }))
+      .then(() => ({ message: 'Connection to database ok' }))
       .catch(() => {
-        reply(Boom.serverUnavailable('Connection to database failed'));
+        throw Boom.serverUnavailable('Connection to database failed');
       });
   },
 
-  crashTest(request, reply) {
-    reply(Boom.internal());
+  crashTest() {
+    throw Boom.internal();
   }
 };

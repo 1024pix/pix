@@ -14,7 +14,7 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 const solutionService = require('../../domain/services/solution-service');
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
 
-function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
+function _updateExistingAnswer(existingAnswer, newAnswer) {
   return solutionRepository
     .getByChallengeId(existingAnswer.get('challengeId'))
     .then((solution) => {
@@ -30,18 +30,16 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
           assessmentId: newAnswer.get('assessmentId'),
         }, { method: 'update' });
     })
-    .then((updatedAnswer) => {
-      return reply(answerSerializer.serializeFromBookshelfAnswer(updatedAnswer)).code(200);
-    })
+    .then(answerSerializer.serializeFromBookshelfAnswer)
     .catch((err) => {
       logger.error(err);
-      reply(Boom.badImplementation(err));
+      throw Boom.badImplementation(err);
     });
 }
 
 module.exports = {
 
-  save(request, reply) {
+  save(request, h) {
 
     return Promise.resolve(request.payload)
       .then(partialDeserialize)
@@ -51,22 +49,22 @@ module.exports = {
         });
       })
       .then(answerSerializer.serialize)
-      .then(controllerReplies(reply).created)
+      .then(controllerReplies(h).created)
       .catch((error) => {
         const mappedError = mapToInfrastructureErrors(error);
-        return controllerReplies(reply).error(mappedError);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
-  get(request, reply) {
+  get(request) {
 
-    new BookshelfAnswer({ id: request.params.id })
+    return new BookshelfAnswer({ id: request.params.id })
       .fetch()
-      .then((answer) => reply(answerSerializer.serializeFromBookshelfAnswer(answer)))
+      .then(answerSerializer.serializeFromBookshelfAnswer)
       .catch((err) => logger.error(err));
   },
 
-  update(request, reply) {
+  update(request, h) {
 
     const updatedAnswer = answerSerializer.deserializeToBookshelfAnswer(request.payload);
     return answerRepository
@@ -74,7 +72,7 @@ module.exports = {
       .then((existingAnswer) => {
 
         if (!existingAnswer) {
-          return reply(Boom.notFound());
+          throw Boom.notFound();
         }
 
         // XXX if assessment is a Smart Placement, then return 204 and do not update answer. If not proceed normally.
@@ -82,25 +80,23 @@ module.exports = {
           .then((assessmentIsSmartPlacement) => {
 
             if (assessmentIsSmartPlacement) {
-              return controllerReplies(reply).noContent();
+              return controllerReplies(h).noContent();
 
             } else {
-              return _updateExistingAnswer(existingAnswer, updatedAnswer, reply);
+              return _updateExistingAnswer(existingAnswer, updatedAnswer);
             }
           })
-          .catch(controllerReplies(reply).error);
+          .catch(controllerReplies(h).error);
       });
   },
 
-  findByChallengeAndAssessment(request, reply) {
+  findByChallengeAndAssessment(request) {
     return answerRepository
       .findByChallengeAndAssessment(request.url.query.challenge, request.url.query.assessment)
-      .then((answer) => {
-        return reply(answerSerializer.serializeFromBookshelfAnswer(answer)).code(200);
-      })
+      .then(answerSerializer.serializeFromBookshelfAnswer)
       .catch((err) => {
         logger.error(err);
-        return reply(Boom.badImplementation(err));
+        throw Boom.badImplementation(err);
       });
   },
 };

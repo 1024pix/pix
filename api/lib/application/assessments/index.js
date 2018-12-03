@@ -1,8 +1,7 @@
 const assessmentController = require('./assessment-controller');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
 
     {
@@ -55,11 +54,6 @@ exports.register = function(server, options, next) {
       }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'assessments-api',
-  version: '1.0.0'
-};
+exports.name = 'assessments-api';

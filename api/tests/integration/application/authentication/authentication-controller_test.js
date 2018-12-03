@@ -1,4 +1,4 @@
-const { knex, sinon, expect } = require('../../../test-helper');
+const { knex, expect, hFake } = require('../../../test-helper');
 
 const faker = require('faker');
 const _ = require('lodash');
@@ -7,19 +7,11 @@ const authenticationController = require('../../../../lib/application/authentica
 const encrypt = require('../../../../lib/domain/services/encryption-service');
 
 describe('Integration | Controller | authentication-controller', () => {
-
   const userPassword = 'A124B2C3#!';
   const userEmail = 'emailWithSomeCamelCase@example.net';
   const userEmailSavedInDb = _.toLower(userEmail);
-  let replyStub;
-  let codeStub;
 
   beforeEach(() => {
-    codeStub = sinon.stub();
-    replyStub = sinon.stub().returns({
-      code: codeStub
-    });
-
     return encrypt.hashPassword(userPassword)
       .then((encryptedPassword) => knex('users').insert({
         firstName: faker.name.firstName(),
@@ -49,60 +41,49 @@ describe('Integration | Controller | authentication-controller', () => {
       };
     }
 
-    it('should return an 201 when account exists', () => {
+    it('should return an 201 when account exists', async () => {
       // given
       const request = _buildRequest(userEmail, userPassword);
 
       // when
-      const promise = authenticationController.save(request, replyStub);
+      const response = await authenticationController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(replyStub);
-        sinon.assert.calledOnce(codeStub);
-        sinon.assert.calledWith(codeStub, 201);
-      });
+      expect(response.statusCode).to.equal(201);
     });
 
-    it('should return an error 400 with error message when account does not exist', () => {
+    it('should return an error 400 with error message when account does not exist', async () => {
       // given
       const badEmail = 'email-that-does-not-exist@example.net';
       const request = _buildRequest(badEmail, userPassword);
 
       // when
-      const promise = authenticationController.save(request, replyStub);
+      const response = await authenticationController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(replyStub);
-        sinon.assert.calledWith(codeStub, 400);
-        expect(replyStub.getCall(0).args).to.deep.equal([{
-          errors: [{
-            'status': '400',
-            'title': 'Invalid Payload',
-            'detail': 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.',
-            'source': {
-              'pointer': '/data/attributes'
-            }
-          }]
-        }]);
+      expect(response.statusCode).to.equal(400);
+      expect(response.source).to.deep.equal({
+        errors: [{
+          'status': '400',
+          'title': 'Invalid Payload',
+          'detail': 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.',
+          'source': {
+            'pointer': '/data/attributes'
+          }
+        }]
       });
     });
 
-    it('should return an 400 error when account exists but wrong password', () => {
+    it('should return an 400 error when account exists but wrong password', async () => {
       // given
       const badPassword = 'BZU#!1344B2C3';
       const request = _buildRequest(userEmail, badPassword);
 
       // when
-      const promise = authenticationController.save(request, replyStub);
+      const response = await authenticationController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(replyStub);
-        sinon.assert.calledOnce(codeStub);
-        sinon.assert.calledWith(codeStub, 400);
-      });
+      expect(response.statusCode).to.equal(400);
     });
   });
 });

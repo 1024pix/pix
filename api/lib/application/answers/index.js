@@ -1,7 +1,6 @@
 const answerController = require('./answer-controller');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'POST',
@@ -40,11 +39,6 @@ exports.register = function(server, options, next) {
       }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'answers-api',
-  version: '1.0.0'
-};
+exports.name = 'answers-api';

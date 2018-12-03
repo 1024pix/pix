@@ -1,5 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
-const Boom = require('boom');
+const { sinon, expect, hFake } = require('../../../test-helper');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
@@ -21,9 +20,6 @@ const Skill = require('../../../../lib/cat/skill');
 describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
   describe('#getNextChallenge', () => {
-
-    let replyStub;
-    let codeStub;
     let sandbox;
     let assessmentWithoutScore;
     let assessmentWithScore;
@@ -36,9 +32,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     };
 
     beforeEach(() => {
-
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({ code: codeStub });
+      sandbox = sinon.sandbox.create();
 
       assessmentWithoutScore = Assessment.fromAttributes({
         id: 1,
@@ -59,13 +53,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         skills: assessmentSkills,
       };
 
-      sandbox = sinon.sandbox.create();
-
       sandbox.stub(assessmentService, 'fetchAssessment').resolves(scoredAsssessment);
       sandbox.stub(skillService, 'saveAssessmentSkills').resolves();
       sandbox.stub(assessmentRepository, 'get');
       sandbox.stub(assessmentRepository, 'save');
-      sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
       sandbox.stub(challengeRepository, 'get').resolves({});
       sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
 
@@ -96,15 +87,12 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         }));
       });
 
-      it('should return a null data directly', () => {
+      it('should return a null data directly', async () => {
         // when
-        const promise = assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } }, replyStub);
+        const response = await assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } }, hFake);
 
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledOnce;
-          expect(replyStub).to.have.been.calledWith({ data: null });
-        });
+        expect(response.source).to.deep.equal({ data: null });
       });
     });
 
@@ -114,18 +102,16 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentRepository.get.resolves(assessmentWithoutScore);
       });
 
-      it('should reply with 500 failing', () => {
+      it('should reply with 500 failing', async () => {
         // given
         const error = new Error();
         usecases.getNextChallengeForDemo.rejects(error);
 
         // when
-        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
+        const response = await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
 
         // then
-        return promise.then(() => {
-          expect(codeStub).to.have.been.calledWith(500);
-        });
+        expect(response.statusCode).to.equal(500);
       });
 
     });
@@ -140,15 +126,12 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       context('when the assessment is a DEMO', () => {
-        it('should reply with no data', () => {
+        it('should reply with no data', async () => {
           // when
-          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
+          const response = await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
 
           // then
-          return promise.then(() => {
-            expect(replyStub).to.have.been.calledOnce;
-            expect(replyStub).to.have.been.calledWith({ data: null });
-          });
+          expect(response.source).to.deep.equal({ data: null });
         });
       });
     });
@@ -159,14 +142,12 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentRepository.get.resolves(assessmentWithoutScore);
       });
 
-      it('should not evaluate assessment score', () => {
+      it('should not evaluate assessment score', async () => {
         // when
-        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
+        await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
 
         // then
-        return promise.then(() => {
-          expect(assessmentService.fetchAssessment).not.to.have.been.called;
-        });
+        expect(assessmentService.fetchAssessment).not.to.have.been.called;
       });
 
     });
@@ -182,34 +163,29 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentRepository.get.resolves(certificationAssessment);
       });
 
-      it('should call getNextChallengeForCertificationCourse in assessmentService', function() {
+      it('should call getNextChallengeForCertificationCourse in assessmentService', async function() {
         // given
         usecases.getNextChallengeForCertification.resolves();
 
         // when
-        const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);
+        await assessmentController.getNextChallenge({ params: { id: 12 } }, hFake);
 
         // then
-        return promise.then(() => {
-          expect(usecases.getNextChallengeForCertification).to.have.been.calledOnce;
-          expect(usecases.getNextChallengeForCertification).to.have.been.calledWith({
-            assessment: certificationAssessment,
-          });
+        expect(usecases.getNextChallengeForCertification).to.have.been.calledOnce;
+        expect(usecases.getNextChallengeForCertification).to.have.been.calledWith({
+          assessment: certificationAssessment,
         });
       });
 
-      it('should reply null data when unable to find the next challenge', () => {
+      it('should reply null data when unable to find the next challenge', async () => {
         // given
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
 
         // when
-        const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);
+        const response = await assessmentController.getNextChallenge({ params: { id: 12 } }, hFake);
 
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledOnce
-            .and.to.have.been.calledWith({ data: null });
-        });
+        expect(response.source).to.deep.equal({ data: null });
       });
     });
 
@@ -226,15 +202,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentRepository.get.resolves(assessment);
       });
 
-      it('should call the usecase getNextChallengeForSmartPlacement', () => {
+      it('should call the usecase getNextChallengeForSmartPlacement', async () => {
         // when
-        const promise = assessmentController.getNextChallenge({ params: { id: 1 } }, replyStub);
+        await assessmentController.getNextChallenge({ params: { id: 1 } }, hFake);
 
         // then
-        return promise.then(() => {
-          expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
-            assessment,
-          });
+        expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
+          assessment,
         });
       });
     });

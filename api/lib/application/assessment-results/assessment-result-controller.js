@@ -39,29 +39,29 @@ function _deserializeResultsAdd(json) {
 
 module.exports = {
 
-  save(request, reply) {
+  save(request) {
     const jsonResult = request.payload.data.attributes;
 
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
     assessmentResult.juryId = request.auth.credentials.userId;
     return assessmentResultService.save(assessmentResult, competenceMarks)
-      .then(() => reply())
+      .then(() => '')
       .catch((error) => {
         if(error instanceof NotFoundError) {
-          return reply(Boom.notFound(error));
+          throw Boom.notFound(error);
         }
 
         if(error instanceof ObjectValidationError) {
-          return reply(Boom.badData(error));
+          throw Boom.badData(error);
         }
 
         logger.error(error);
 
-        reply(Boom.badImplementation(error));
+        throw Boom.badImplementation(error);
       });
   },
 
-  evaluate(request, reply) {
+  evaluate(request, h) {
     const assessmentRating = assessmentResultsSerializer.deserialize(request.payload);
     const forceRecomputeResult = (request.query) ? request.query.recompute : false;
 
@@ -69,12 +69,10 @@ module.exports = {
       assessmentId: assessmentRating.assessmentId,
       forceRecomputeResult,
     })
-      .then(() => {
-        reply();
-      })
+      .then(() => '')
       .catch((error) => {
         if(error instanceof NotFoundError) {
-          return reply(Boom.notFound(error));
+          throw Boom.notFound(error);
         } else if (error instanceof AlreadyRatedAssessmentError) {
           const errorHttpStatusCode = 412;
           const jsonApiError = new JSONAPIError({
@@ -82,12 +80,12 @@ module.exports = {
             title: 'Assessment is already rated',
             detail: 'The assessment given has already a result.'
           });
-          return reply(jsonApiError).code(errorHttpStatusCode);
+          return h.response(jsonApiError).code(errorHttpStatusCode);
         }
 
         logger.error(error);
 
-        reply(Boom.badImplementation(error));
+        throw Boom.badImplementation(error);
       });
   }
 

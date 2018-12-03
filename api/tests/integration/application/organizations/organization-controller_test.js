@@ -39,7 +39,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     context('Success cases', () => {
 
       beforeEach(() => {
-        securityController.checkUserHasRolePixMaster.callsFake((request, reply) => reply(true));
+        securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       });
 
       it('should resolve a 200 HTTP response', () => {
@@ -74,8 +74,8 @@ describe('Integration | Application | Organizations | organization-controller', 
       context('when user is allowed to access resource', () => {
 
         beforeEach(() => {
-          securityController.checkUserHasRolePixMaster.callsFake((request, reply) => {
-            return Promise.resolve(reply().code(403).takeover());
+          securityController.checkUserHasRolePixMaster.callsFake((request, h) => {
+            return Promise.resolve(h.response().code(403).takeover());
           });
         });
 
@@ -92,7 +92,7 @@ describe('Integration | Application | Organizations | organization-controller', 
         context('when user is allowed to access resource', () => {
 
           beforeEach(() => {
-            securityController.checkUserHasRolePixMaster.callsFake((request, reply) => reply(true));
+            securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
           });
 
           it('should resolve a 404 HTTP response when organization does not exist', () => {

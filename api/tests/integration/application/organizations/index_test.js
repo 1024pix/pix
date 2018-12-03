@@ -8,17 +8,15 @@ describe('Integration | Application | Organizations | Routes', () => {
   let server;
 
   beforeEach(() => {
-    server = new Hapi.Server({
-      port: null
-    });
-    server.register({ register: require('../../../../lib/application/organizations/index') });
+    server = Hapi.server();
+    return server.register(require('../../../../lib/application/organizations/index'));
   });
 
   describe('POST /api/organizations', (_) => {
 
     before(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
-      sinon.stub(organisationController, 'create').callsFake((request, reply) => reply('ok'));
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(organisationController, 'create').returns('ok');
     });
 
     after(() => {
@@ -26,10 +24,9 @@ describe('Integration | Application | Organizations | Routes', () => {
       organisationController.create.restore();
     });
 
-    it('should exist', (done) => {
-      return server.inject({ method: 'POST', url: '/api/organizations' }, (res) => {
+    it('should exist', () => {
+      return server.inject({ method: 'POST', url: '/api/organizations' }).then((res) => {
         expect(res.statusCode).to.equal(200);
-        done();
       });
     });
   });
@@ -37,17 +34,16 @@ describe('Integration | Application | Organizations | Routes', () => {
   describe('GET /api/organizations', (_) => {
 
     before(() => {
-      sinon.stub(organisationController, 'search').callsFake((request, reply) => reply('ok'));
+      sinon.stub(organisationController, 'search').returns('ok');
     });
 
     after(() => {
       organisationController.search.restore();
     });
 
-    it('should exist', (done) => {
-      server.inject({ method: 'GET', url: '/api/organizations' }, (res) => {
+    it('should exist', () => {
+      server.inject({ method: 'GET', url: '/api/organizations' }).then((res) => {
         expect(res.statusCode).to.equal(200);
-        done();
       });
     });
   });
@@ -55,17 +51,16 @@ describe('Integration | Application | Organizations | Routes', () => {
   describe('GET /api/organizations/:id/snapshots', (_) => {
 
     before(() => {
-      sinon.stub(organisationController, 'getSharedProfiles').callsFake((request, reply) => reply('ok'));
+      sinon.stub(organisationController, 'getSharedProfiles').returns('ok');
     });
 
     after(() => {
       organisationController.getSharedProfiles.restore();
     });
 
-    it('should exist', (done) => {
-      server.inject({ method: 'GET', url: '/api/organizations/:id/snapshots' }, (res) => {
+    it('should exist', () => {
+      server.inject({ method: 'GET', url: '/api/organizations/:id/snapshots' }).then((res) => {
         expect(res.statusCode).to.equal(200);
-        done();
       });
     });
   });
@@ -73,7 +68,7 @@ describe('Integration | Application | Organizations | Routes', () => {
   describe('GET /api/organizations/:id/campaigns', () => {
 
     before(() => {
-      sinon.stub(organisationController, 'getCampaigns').callsFake((request, reply) => reply('ok'));
+      sinon.stub(organisationController, 'getCampaigns').returns('ok');
     });
 
     after(() => {

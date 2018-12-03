@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../../test-helper');
 const Hapi = require('hapi');
-const Boom = require('boom');
 const Course = require('../../../../lib/domain/models/Course');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
@@ -30,11 +29,9 @@ describe('Integration | Controller | course-controller', () => {
     sandbox.stub(certificationService, 'startNewCertification');
     sandbox.stub(certificationCourseSerializer, 'serialize');
     sandbox.stub(sessionService, 'sessionExists');
-    sandbox.stub(Boom, 'forbidden');
 
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/courses') });
+    server = this.server = Hapi.server();
+    return server.register(require('../../../../lib/application/courses'));
   });
 
   afterEach(() => {
@@ -106,31 +103,27 @@ describe('Integration | Controller | course-controller', () => {
 
   describe('#get', () => {
 
-    let reply;
     let course;
 
     beforeEach(() => {
       course = new Course({ 'id': 'course_id' });
-      reply = sinon.stub();
     });
 
-    it('should fetch and return the given course, serialized as JSONAPI', () => {
+    it('should fetch and return the given course, serialized as JSONAPI', async () => {
       // given
       courseService.getCourse.resolves(course);
       courseSerializer.serialize.callsFake(() => course);
       const request = { params: { id: 'course_id' } };
 
       // when
-      const promise = courseController.get(request, reply);
+      const response = await courseController.get(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(courseService.getCourse).to.have.been.called;
-        expect(courseService.getCourse).to.have.been.calledWith('course_id');
-        expect(courseSerializer.serialize).to.have.been.called;
-        expect(courseSerializer.serialize).to.have.been.calledWith(course);
-        expect(reply).to.have.been.calledWith(course);
-      });
+      expect(courseService.getCourse).to.have.been.called;
+      expect(courseService.getCourse).to.have.been.calledWith('course_id');
+      expect(courseSerializer.serialize).to.have.been.called;
+      expect(courseSerializer.serialize).to.have.been.calledWith(course);
+      expect(response).to.deep.equal(course);
     });
 
     it('should reply with error status code 404 if course not found', () => {
@@ -152,10 +145,7 @@ describe('Integration | Controller | course-controller', () => {
   });
 
   describe('#save', () => {
-
     let request;
-    let replyStub;
-    let codeStub;
 
     const newlyCreatedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
 
@@ -171,33 +161,26 @@ describe('Integration | Controller | course-controller', () => {
           }
         }
       };
-
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({ code: codeStub });
     });
 
-    it('should reply the certification course serialized', () => {
+    it('should reply the certification course serialized', async () => {
       // given
       certificationService.startNewCertification.resolves(newlyCreatedCertificationCourse);
       certificationCourseSerializer.serialize.resolves({});
       sessionService.sessionExists.resolves(2);
 
       // when
-      const promise = courseController.save(request, replyStub);
+      const response = await courseController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(sessionService.sessionExists);
-        sinon.assert.calledWith(sessionService.sessionExists, 'ABCD12');
-        sinon.assert.calledOnce(certificationCourseSerializer.serialize);
-        sinon.assert.calledWith(certificationCourseSerializer.serialize, newlyCreatedCertificationCourse);
-        sinon.assert.calledOnce(replyStub);
-        sinon.assert.calledOnce(codeStub);
-        sinon.assert.calledWith(codeStub, 201);
-      });
+      sinon.assert.calledOnce(sessionService.sessionExists);
+      sinon.assert.calledWith(sessionService.sessionExists, 'ABCD12');
+      sinon.assert.calledOnce(certificationCourseSerializer.serialize);
+      sinon.assert.calledWith(certificationCourseSerializer.serialize, newlyCreatedCertificationCourse);
+      expect(response.statusCode).to.equal(201);
     });
 
-    it('should return 403 error if cannot start a new certification course', () => {
+    it('should return 403 error if cannot start a new certification course', async () => {
       // given
       const error = new UserNotAuthorizedToCertifyError();
       certificationService.startNewCertification.rejects(error);
@@ -205,20 +188,17 @@ describe('Integration | Controller | course-controller', () => {
       sessionService.sessionExists.resolves();
 
       // when
-      const promise = courseController.save(request, replyStub);
+      const response = await courseController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(replyStub).to.have.been.calledWith({
-          errors: [{
-            status: '403',
-            detail: 'The user cannot be certified.',
-            title: 'User not authorized to certify'
-          }]
-        });
+      expect(response.source).to.deep.equal({
+        errors: [{
+          status: '403',
+          detail: 'The user cannot be certified.',
+          title: 'User not authorized to certify'
+        }]
       });
     });
-
   });
 
 });

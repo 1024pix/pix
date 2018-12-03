@@ -5,8 +5,7 @@ const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../settings');
 const XRegExp = require('xregexp');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'POST',
@@ -121,11 +120,6 @@ exports.register = function(server, options, next) {
       }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'users-api',
-  version: '1.0.0'
-};
+exports.name = 'users-api';

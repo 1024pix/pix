@@ -3,7 +3,7 @@ const securityController = require('../interfaces/controllers/security-controlle
 module.exports = {
 
   scheme() {
-    return { authenticate: (request, reply) => securityController.checkUserIsAuthenticated(request, reply) };
+    return { authenticate: (request, h) => securityController.checkUserIsAuthenticated(request, h) };
   }
 
 };

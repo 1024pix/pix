@@ -2,30 +2,30 @@ const errorSerializer = require('./serializers/jsonapi/error-serializer');
 const infraError = require('./errors');
 const logger = require('./logger');
 
-function controllerReplies(reply) {
+function controllerReplies(h) {
   return {
 
     ok(payload) {
-      return reply(payload).code(200);
+      return h.response(payload).code(200);
     },
 
     created(payload) {
-      return reply(payload).code(201);
+      return h.response(payload).code(201);
     },
 
     noContent() {
-      return reply().code(204);
+      return h.response().code(204);
     },
 
     error(error) {
 
       if (error instanceof infraError.InfrastructureError) {
-        return reply(errorSerializer.serialize(error)).code(error.code);
+        return h.response(errorSerializer.serialize(error)).code(error.code);
       }
 
       logger.error(error);
       const mappedError = new infraError.InfrastructureError(error.message);
-      return reply(errorSerializer.serialize(mappedError)).code(mappedError.code);
+      return h.response(errorSerializer.serialize(mappedError)).code(mappedError.code);
     },
   };
 }

@@ -1,4 +1,4 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
+const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -10,10 +10,7 @@ const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-par
 describe('Unit | Application | Controller | Campaign-Participation', () => {
 
   describe('#getCampaignParticipationByAssessment', () => {
-
     let sandbox;
-    let replyStub;
-    let codeStub;
     const resultFilter = {
       assessmentId: 4,
     };
@@ -22,17 +19,13 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(queryParamsUtils, 'extractFilters').resolves(resultFilter);
       sandbox.stub(usecases, 'findCampaignParticipationsByAssessmentId');
-      codeStub = sandbox.stub(serializer, 'serialize').resolves();
-      replyStub = sandbox.stub().returns({
-        code: codeStub
-      });
     });
 
     afterEach(() => {
       sandbox.restore();
     });
 
-    it('should call the usecases to get the campaign participations of the given assessmentId', () => {
+    it('should call the usecases to get the campaign participations of the given assessmentId', async () => {
       const request = {
         headers: {
           authorization: 'token'
@@ -41,22 +34,17 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       usecases.findCampaignParticipationsByAssessmentId.resolves();
 
       // when
-      const promise = campaignParticipationController.getCampaignParticipationByAssessment(request, replyStub);
+      await campaignParticipationController.getCampaignParticipationByAssessment(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.findCampaignParticipationsByAssessmentId).to.have.been.calledOnce;
-        const findCampaignParticipations = usecases.findCampaignParticipationsByAssessmentId.firstCall.args[0];
-        expect(findCampaignParticipations).to.have.property('assessmentId');
-      });
+      expect(usecases.findCampaignParticipationsByAssessmentId).to.have.been.calledOnce;
+      const findCampaignParticipations = usecases.findCampaignParticipationsByAssessmentId.firstCall.args[0];
+      expect(findCampaignParticipations).to.have.property('assessmentId');
     });
   });
 
   describe('#shareCampaignResult', () => {
-
     let sandbox;
-    let replyStub;
-    let codeStub;
     const userId = 1;
 
     beforeEach(() => {
@@ -64,17 +52,13 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       sandbox.stub(usecases, 'shareCampaignResult');
       sandbox.stub(tokenService, 'extractTokenFromAuthChain').resolves();
       sandbox.stub(tokenService, 'extractUserId').resolves(userId);
-      codeStub = sandbox.stub();
-      replyStub = sandbox.stub().returns({
-        code: codeStub
-      });
     });
 
     afterEach(() => {
       sandbox.restore();
     });
 
-    it('should call the use case to share campaign result', () => {
+    it('should call the use case to share campaign result', async () => {
       // given
       const request = {
         params: {
@@ -87,21 +71,19 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       usecases.shareCampaignResult.resolves();
 
       // when
-      const promise = campaignParticipationController.shareCampaignResult(request, replyStub);
+      await campaignParticipationController.shareCampaignResult(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.shareCampaignResult).to.have.been.calledOnce;
-        const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
-        expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
-        expect(updateCampaignParticiaption).to.have.property('userId');
-        expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
-      });
+      expect(usecases.shareCampaignResult).to.have.been.calledOnce;
+      const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
+      expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
+      expect(updateCampaignParticiaption).to.have.property('userId');
+      expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
     });
 
     context('when the request is invalid', () => {
 
-      it('should return a 400 status code', () => {
+      it('should return a 400 status code', async () => {
         // given
         const paramsWithMissingAssessmentId = {};
         const request = {
@@ -112,11 +94,11 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         };
 
         // when
-        campaignParticipationController.shareCampaignResult(request, replyStub);
+        const response = await campaignParticipationController.shareCampaignResult(request, hFake);
 
         // then
-        expect(codeStub).to.have.been.calledWith(400);
-        expect(replyStub).to.have.been.calledWith({
+        expect(response.statusCode).to.equal(400);
+        expect(response.source).to.deep.equal({
           errors: [{
             detail: 'campaignParticipationId manquant',
             code: '400',
@@ -125,7 +107,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         });
       });
 
-      it('should return a 404 status code if the participation is not found', () => {
+      it('should return a 404 status code if the participation is not found', async () => {
         // given
         const nonExistingAssessmentId = 1789;
         const request = {
@@ -139,25 +121,23 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         usecases.shareCampaignResult.rejects(new NotFoundError());
 
         // when
-        const promise = campaignParticipationController.shareCampaignResult(request, replyStub);
+        const response = await campaignParticipationController.shareCampaignResult(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(codeStub).to.have.been.calledWith(404);
-          expect(replyStub).to.have.been.calledWith({
-            errors: [{
-              detail: 'Participation non trouvée',
-              code: '404',
-              title: 'Not Found',
-            }]
-          });
+        expect(response.statusCode).to.equal(404);
+        expect(response.source).to.deep.equal({
+          errors: [{
+            detail: 'Participation non trouvée',
+            code: '404',
+            title: 'Not Found',
+          }]
         });
       });
     });
 
     context('when the request comes from a different user', () => {
 
-      it('should return a 403 status code', () => {
+      it('should return a 403 status code', async () => {
         // given
         const request = {
           params: {
@@ -170,25 +150,20 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         usecases.shareCampaignResult.resolves();
 
         // when
-        const promise = campaignParticipationController.shareCampaignResult(request, replyStub);
+        await campaignParticipationController.shareCampaignResult(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(usecases.shareCampaignResult).to.have.been.calledOnce;
-          const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
-          expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
-          expect(updateCampaignParticiaption).to.have.property('userId');
-          expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
-        });
+        expect(usecases.shareCampaignResult).to.have.been.calledOnce;
+        const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
+        expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
+        expect(updateCampaignParticiaption).to.have.property('userId');
+        expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
       });
     });
   });
 
   describe('#save', () => {
-
     let sandbox;
-    let replyStub;
-    let codeStub;
     let request;
     const campaignId = 123456;
     const participantExternalId = 'azer@ty.com';
@@ -197,10 +172,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(usecases, 'startCampaignParticipation');
-      codeStub = sandbox.stub(serializer, 'serialize').resolves();
-      replyStub = sandbox.stub().returns({
-        code: codeStub
-      });
+      sandbox.stub(serializer, 'serialize');
       request = {
         headers: { authorization: 'token' },
         auth: { credentials: { userId } },
@@ -227,28 +199,26 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       sandbox.restore();
     });
 
-    it('should call the usecases to start the campaign participation', () => {
+    it('should call the usecases to start the campaign participation', async () => {
       // given
       usecases.startCampaignParticipation.resolves();
 
       // when
-      const promise = campaignParticipationController.save(request, replyStub);
+      await campaignParticipationController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.startCampaignParticipation).to.have.been.calledOnce;
+      expect(usecases.startCampaignParticipation).to.have.been.calledOnce;
 
-        const arguments = usecases.startCampaignParticipation.firstCall.args[0];
+      const args = usecases.startCampaignParticipation.firstCall.args[0];
 
-        expect(arguments.userId).to.equal(userId);
+      expect(args.userId).to.equal(userId);
 
-        const campaignParticipation = arguments.campaignParticipation;
-        expect(campaignParticipation).to.have.property('campaignId', campaignId);
-        expect(campaignParticipation).to.have.property('participantExternalId', participantExternalId);
-      });
+      const campaignParticipation = args.campaignParticipation;
+      expect(campaignParticipation).to.have.property('campaignId', campaignId);
+      expect(campaignParticipation).to.have.property('participantExternalId', participantExternalId);
     });
 
-    it('should return the serialized campaign participation when it has been successfully created', () => {
+    it('should return the serialized campaign participation when it has been successfully created', async () => {
       // given
       const createdCampaignParticipation = domainBuilder.buildCampaignParticipation();
       usecases.startCampaignParticipation.resolves(createdCampaignParticipation);
@@ -257,16 +227,13 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       serializer.serialize.returns(serializedCampaignParticipation);
 
       // when
-      const promise = campaignParticipationController.save(request, replyStub);
+      const response = await campaignParticipationController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(serializer.serialize).to.have.been.calledWith(createdCampaignParticipation);
-        expect(codeStub).to.have.been.calledWith(201);
-        expect(replyStub).to.have.been.calledWith(serializedCampaignParticipation);
-      });
+      expect(serializer.serialize).to.have.been.calledWith(createdCampaignParticipation);
+      expect(response.statusCode).to.equal(201);
+      expect(response.source).to.deep.equal(serializedCampaignParticipation);
     });
-
   });
 
 });

@@ -1,5 +1,4 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const Boom = require('boom');
+const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
 
 const controller = require('../../../../lib/application/assessments/assessment-controller');
 
@@ -17,14 +16,8 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
     let sandbox;
 
-    let codeStub;
-    let replyStub;
-
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({ code: codeStub });
     });
 
     afterEach(() => {
@@ -50,10 +43,10 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        sandbox.stub(usecases, 'createAssessmentForCampaign').resolves();
+        sandbox.stub(usecases, 'createAssessmentForCampaign').resolves({});
       });
 
-      it('should save an assessment with the type SMART_PLACEMENT and with a fake courseId', function() {
+      it('should save an assessment with the type SMART_PLACEMENT and with a fake courseId', async function() {
         // given
         const expectedAssessment = Assessment.fromAttributes({
           id: 42,
@@ -69,13 +62,11 @@ describe('Unit | Controller | assessment-controller-save', () => {
           participantExternalId: 'matricule123',
         };
         // when
-        const promise = controller.save(request, replyStub);
+        await controller.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(usecases.createAssessmentForCampaign);
-          sinon.assert.calledWith(usecases.createAssessmentForCampaign, expectedCallArguments);
-        });
+        sinon.assert.calledOnce(usecases.createAssessmentForCampaign);
+        sinon.assert.calledWith(usecases.createAssessmentForCampaign, expectedCallArguments);
       });
     });
 
@@ -105,10 +96,10 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'save').resolves();
+        sandbox.stub(assessmentRepository, 'save').resolves({});
       });
 
-      it('should save an assessment with the type CERTIFICATION', function() {
+      it('should save an assessment with the type CERTIFICATION', async function() {
         // given
         const expected = Assessment.fromAttributes({
           id: 42,
@@ -119,35 +110,24 @@ describe('Unit | Controller | assessment-controller-save', () => {
         });
 
         // when
-        const promise = controller.save(request, replyStub);
+        await controller.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(assessmentRepository.save);
-          expect(assessmentRepository.save).to.have.been.calledWith(expected);
-        });
+        sinon.assert.calledOnce(assessmentRepository.save);
+        expect(assessmentRepository.save).to.have.been.calledWith(expected);
       });
 
       context('where there is no UserId', () => {
-        let badDataStub;
-        beforeEach(() => {
-          badDataStub = sinon.stub(Boom, 'badData');
-        });
-
-        afterEach(() => {
-          badDataStub.restore();
-        });
-
-        it('should return a ObjectValidationError', () => {
+        it('should throw a ObjectValidationError', () => {
           const rejectedError = new ObjectValidationError('The Assessment CERTIFICATION needs UserId');
           assessmentRepository.save.rejects(rejectedError);
 
           // when
-          const promise = controller.save(request, replyStub);
+          const promise = controller.save(request, hFake);
 
           // then
-          return promise.catch(() => {
-            sinon.assert.calledWith(replyStub, badDataStub);
+          return promise.catch((error) => {
+            expect(error.output.statusCode).to.equal(422);
           });
         });
       });
@@ -178,10 +158,10 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'save').resolves();
+        sandbox.stub(assessmentRepository, 'save').resolves({});
       });
 
-      it('should save an assessment with type PREVIEW', function() {
+      it('should save an assessment with type PREVIEW', async function() {
         // given
         const expected = Assessment.fromAttributes({
           id: 42,
@@ -192,12 +172,10 @@ describe('Unit | Controller | assessment-controller-save', () => {
         });
 
         // when
-        const promise = controller.save(request, replyStub);
+        await controller.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(assessmentRepository.save).to.have.been.calledWith(expected);
-        });
+        expect(assessmentRepository.save).to.have.been.calledWith(expected);
       });
     });
 
@@ -246,7 +224,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         sandbox.stub(usecases, 'startPlacementAssessment').resolves(startedAssessment);
 
         // when
-        const promise = controller.save(request, replyStub);
+        const promise = controller.save(request, hFake);
 
         // then
         return promise.then(() => {
@@ -266,11 +244,11 @@ describe('Unit | Controller | assessment-controller-save', () => {
         sandbox.stub(usecases, 'startPlacementAssessment').throws(new AssessmentStartError('Error'));
 
         // when
-        const promise = controller.save(request, replyStub);
+        const promise = controller.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(expectedError);
+        return promise.catch((error) => {
+          expect(error.output.statusCode).to.deep.equal(expectedError);
         });
       });
 
@@ -335,7 +313,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should de-serialize the payload', () => {
         // when
-        controller.save(request, replyStub);
+        controller.save(request, hFake);
 
         // then
         sinon.assert.calledWith(assessmentSerializer.deserialize, request.payload);
@@ -343,47 +321,39 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should call a service that extract the id of user', () => {
         //When
-        controller.save(request, replyStub);
+        controller.save(request, hFake);
 
         //Then
         expect(tokenService.extractUserId).to.have.been.calledWith('my-token');
       });
 
-      it('should persist the deserializedAssessment', () => {
+      it('should persist the deserializedAssessment', async () => {
         // when
-        const promise = controller.save(request, replyStub);
+        await controller.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(assessmentRepository.save).to.have.been.calledWith(assessment);
-        });
+        expect(assessmentRepository.save).to.have.been.calledWith(assessment);
       });
 
-      it('should serialize the deserializedAssessment after its creation', () => {
+      it('should serialize the deserializedAssessment after its creation', async () => {
         // when
-        const promise = controller.save(request, replyStub);
+        await controller.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(assessmentSerializer.serialize).to.have.been.calledWith(deserializedAssessment);
-        });
+        expect(assessmentSerializer.serialize).to.have.been.calledWith(deserializedAssessment);
       });
 
-      it('should reply the serialized deserializedAssessment with code 201', () => {
+      it('should reply the serialized deserializedAssessment with code 201', async () => {
         // when
-        const promise = controller.save(request, replyStub);
+        const response = await controller.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(replyStub, serializedAssessment);
-          sinon.assert.calledWith(codeStub, 201);
-        });
+        expect(response.source).to.deep.equal(serializedAssessment);
+        expect(response.statusCode).to.equal(201);
       });
     });
 
     context('when the deserializedAssessment can not be saved', () => {
-
-      let badImplementationStub;
 
       const request = {
         headers: {
@@ -408,28 +378,19 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        badImplementationStub = sinon.stub(Boom, 'badImplementation');
         sandbox.stub(assessmentRepository, 'save');
       });
 
-      afterEach(() => {
-        badImplementationStub.restore();
-      });
-
-      it('should return a badImplementationError', () => {
+      it('should throw a badImplementationError', () => {
         // given
-        const badImplementationMessage = { message: 'Boom: Bad Implementation' };
-        badImplementationStub.returns(badImplementationMessage);
-        const rejectedError = new Error();
-        assessmentRepository.save.rejects(rejectedError);
+        assessmentRepository.save.rejects(new Error());
 
         // when
-        const promise = controller.save(request, replyStub);
+        const promise = controller.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(badImplementationStub, rejectedError);
-          sinon.assert.calledWith(replyStub, badImplementationMessage);
+        return promise.catch((error) => {
+          expect(error.output.statusCode).to.equal(500);
         });
       });
     });

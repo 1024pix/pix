@@ -10,46 +10,44 @@ const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi
 const controllerReplies = require('../../infrastructure/controller-replies');
 
 module.exports = {
-  find(request, reply) {
+  find(request, h) {
     return sessionService.find()
-      .then((sessions) => serializer.serialize(sessions))
-      .then(controllerReplies(reply).ok)
-      .catch(controllerReplies(reply).error);
+      .then(serializer.serialize)
+      .catch(controllerReplies(h).error);
   },
 
-  get(request, reply) {
+  get(request) {
     const sessionId = request.params.id;
     return sessionService.get(sessionId)
       .then(serializer.serialize)
-      .then(reply)
       .catch((error) => {
         if (error instanceof NotFoundError) {
-          return reply(Boom.notFound(error));
+          throw Boom.notFound(error);
         }
         logger.error(error);
-        reply(Boom.badImplementation(error));
+        throw Boom.badImplementation(error);
       });
   },
 
-  save(request, reply) {
+  save(request, h) {
     try {
       return serializer.deserialize(request.payload)
         .then((sessionModel) => sessionService.save(sessionModel))
         .then((session) => serializer.serialize(session))
-        .then(reply)
+        .then(h)
         .catch((err) => {
 
           if (err instanceof BookshelfValidationError) {
-            return reply(validationErrorSerializer.serialize(err)).code(400);
+            return h.response(validationErrorSerializer.serialize(err)).code(400);
           }
 
           logger.error(err);
-          reply(Boom.badImplementation(err));
+          throw Boom.badImplementation(err);
         });
     }
     catch (error) {
       const serializedError = errorSerializer.serialize(error.getErrorMessage());
-      return reply(serializedError).code(400);
+      return h.response(serializedError).code(400);
     }
   }
 };
