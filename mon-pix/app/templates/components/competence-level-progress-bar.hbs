@@ -59,7 +59,7 @@
   </div>
 {{/if}}
 
-{{#if canUserStartCourse}}
+{{#if competence.isAssessableForTheFirstTime}}
   <div class="competence-level-progress-bar__link">
     {{#link-to "courses.create-assessment" competence.courseId class="competence-level-progress-bar__link-start" }}
       Commencer <div class="sr-only">le test "{{competence.name}}"</div>
@@ -67,7 +67,7 @@
   </div>
 {{/if}}
 
-{{#if canUserResumeAssessment}}
+{{#if competence.isBeingAssessed}}
   <div class="competence-level-progress-bar__link">
     {{#link-to "assessments.resume" competence.assessmentId class="competence-level-progress-bar__link-resume" }}
       Reprendre <div class="sr-only">le test "{{competence.name}}"</div>
