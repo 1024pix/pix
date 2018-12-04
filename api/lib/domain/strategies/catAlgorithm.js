@@ -1,32 +1,37 @@
 const _ = require('lodash');
 
+// This file implements methods useful for a CAT algorithm
+// https://en.wikipedia.org/wiki/Computerized_adaptive_testing
+// https://en.wikipedia.org/wiki/Item_response_theory
+
 module.exports = {
-
-  computeReward({ challenge, predictedLevel, course, knowledgeElements }) {
-    const proba = _probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
-    const nbExtraSkillsIfSolved = _getNewSkillsInfoIfChallengeSolved(challenge, course, knowledgeElements).length;
-    const nbFailedSkillsIfUnsolved = _getNewSkillsInfoIfChallengeUnsolved(challenge, course, knowledgeElements).length;
-
-    return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
-  },
-
-  getPredictedLevel(knowledgeElements, skills) {
-    let maxLikelihood = -Infinity;
-    let level = 0.5;
-    let predictedLevel = 0.5;
-
-    while (level < 8) {
-      const likelihood = _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills);
-      if (likelihood > maxLikelihood) {
-        maxLikelihood = likelihood;
-        predictedLevel = level;
-      }
-      level += 0.5;
-    }
-    return predictedLevel;
-  }
-
+  computeReward,
+  getPredictedLevel
 };
+
+function computeReward({ challenge, predictedLevel, course, knowledgeElements }) {
+  const proba = _probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
+  const nbExtraSkillsIfSolved = _getNewSkillsInfoIfChallengeSolved(challenge, course, knowledgeElements).length;
+  const nbFailedSkillsIfUnsolved = _getNewSkillsInfoIfChallengeUnsolved(challenge, course, knowledgeElements).length;
+
+  return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
+}
+
+function getPredictedLevel(knowledgeElements, skills) {
+  let maxLikelihood = -Infinity;
+  let level = 0.5;
+  let predictedLevel = 0.5;
+
+  while (level < 8) {
+    const likelihood = _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills);
+    if (likelihood > maxLikelihood) {
+      maxLikelihood = likelihood;
+      predictedLevel = level;
+    }
+    level += 0.5;
+  }
+  return predictedLevel;
+}
 
 function _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills) {
 
@@ -51,7 +56,7 @@ function _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, sk
 function _getNewSkillsInfoIfChallengeSolved(challenge, course, knowledgeElements) {
   return challenge.skills.reduce((extraValidatedSkills, skill) => {
     course.findTube(skill.tubeName).getEasierThan(skill).forEach((skill) => {
-      if (_skillNotKnownYet(skill, knowledgeElements)) {
+      if (_skillNotTestedYet(skill, knowledgeElements)) {
         extraValidatedSkills.push(skill);
       }
     });
@@ -62,18 +67,20 @@ function _getNewSkillsInfoIfChallengeSolved(challenge, course, knowledgeElements
 function _getNewSkillsInfoIfChallengeUnsolved(challenge, course, knowledgeElements) {
   return course.findTube(challenge.hardestSkill.tubeName).getHarderThan(challenge.hardestSkill)
     .reduce((extraFailedSkills, skill) => {
-      if (_skillNotKnownYet(skill, knowledgeElements)) {
+      if (_skillNotTestedYet(skill, knowledgeElements)) {
         extraFailedSkills.push(skill);
       }
       return extraFailedSkills;
     }, []);
 }
 
-function _skillNotKnownYet(skill, knowledgesElements) {
-  const skillsAlreadyTested = _.map(knowledgesElements,'skillId');
+function _skillNotTestedYet(skill, knowledgesElements) {
+  const skillsAlreadyTested = _.map(knowledgesElements, 'skillId');
   return !skillsAlreadyTested.includes(skill.id);
 }
 
-function _probaOfCorrectAnswer(level, difficulty) {
-  return 1 / (1 + Math.exp(-(level - difficulty)));
+// The probability P(gap) of giving the correct answer is given by the "logistic function"
+// https://en.wikipedia.org/wiki/Logistic_function
+function _probaOfCorrectAnswer(userEstimatedLevel, challengeDifficulty) {
+  return 1 / (1 + Math.exp(-(userEstimatedLevel - challengeDifficulty)));
 }
