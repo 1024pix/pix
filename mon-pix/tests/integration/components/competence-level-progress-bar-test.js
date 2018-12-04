@@ -91,12 +91,12 @@ describe('Integration | Component | competence level progress bar', function() {
 
   describe('start course link', function() {
 
-    it('should display ’commencer’ in progress bar, when the competence is not evaluated nor being evaluated', function() {
+    it('should display ’commencer’ in progress bar when the competence is assessable for the first time', function() {
       // given
       const competence = {
         name: 'Premier test de positionnement',
         courseId: 'rec123',
-        isAssessed: false,
+        isAssessableForTheFirstTime: true,
       };
       this.set('competence', competence);
 
@@ -109,25 +109,13 @@ describe('Integration | Component | competence level progress bar', function() {
       expect(this.$('a.competence-level-progress-bar__link-start').text().trim()).to.contains('Commencer le test "Premier test de positionnement"');
     });
 
-    it('should not display ’commencer’ in progress bar, when the competence is evaluated', function() {
+    it('should not display ’commencer’ in progress bar when the competence is not assessable for the first time', function() {
       // given
       const competence = {
         name: 'Premier test de positionnement',
         courseId: 'rec123',
-        isAssessed: true
+        isAssessableForTheFirstTime: false
       };
-      this.set('competence', competence);
-
-      // when
-      this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
-
-      // then
-      expect(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(0);
-    });
-
-    it('should not display ’commencer’ in progress bar when there is no associated course', function() {
-      // given
-      const competence = { level: 3, name: 'Premier test de positionnement' };
       this.set('competence', competence);
 
       // when

@@ -1,5 +1,4 @@
 import { htmlSafe } from '@ember/string';
-import { isPresent } from '@ember/utils';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 
@@ -9,8 +8,6 @@ export default Component.extend({
 
   _MAX_REACHABLE_LEVEL: 5,
   _MAX_LEVEL: 8,
-
-  competence: {},
 
   _showSecondChanceModal: false,
 
@@ -32,17 +29,6 @@ export default Component.extend({
     }
 
     return htmlSafe('width : ' + progressBarWidth);
-  }),
-
-  canUserStartCourse: computed('competence.{courseId,status}', function() {
-    const courseId = this.get('competence.courseId');
-    const isCompetenceAssessed = this.get('competence.isAssessed');
-    const isCompetenceBeingAssessed = this.get('competence.isBeingAssessed');
-    return Boolean(courseId && !isCompetenceAssessed && !isCompetenceBeingAssessed);
-  }),
-
-  canUserResumeAssessment: computed('competence.{assessmentId,status}', function() {
-    return this.get('competence.isBeingAssessed') && isPresent(this.get('competence.assessmentId'));
   }),
 
   remainingDaysText: computed('competence.daysBeforeNewAttempt', function() {
