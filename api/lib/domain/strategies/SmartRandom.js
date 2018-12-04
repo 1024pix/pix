@@ -4,8 +4,9 @@ const { getPredictedLevel, computeReward } = require('./catAlgorithm');
 const _ = require('lodash');
 
 const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
+const TEST_ENDED_CHAR = null;
 
-class SmartRandom {
+module.exports = class SmartRandom {
 
   constructor({ knowledgeElements, challenges, targetProfile, answers } = {}) {
     this.challenges = challenges;
@@ -47,8 +48,8 @@ class SmartRandom {
       targetProfile: this.targetProfile
     });
 
-    if (availableChallenges.length === 0) {
-      return null;
+    if (_hasNoMoreChallenges(availableChallenges)) {
+      return TEST_ENDED_CHAR;
     }
 
     return _findNextChallengeWithCatAlgorithm({
@@ -108,8 +109,8 @@ function _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLeve
   const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
   const maxReward = challengeWithMaxReward.reward;
 
-  if (_testHasEnded(maxReward)) {
-    return null;
+  if (_hasReachedAStabilityPoint(maxReward)) {
+    return TEST_ENDED_CHAR;
   }
 
   const bestChallenges = challengesAndRewards
@@ -128,8 +129,10 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _testHasEnded(maxReward) {
-  return maxReward === 0;
+function _hasReachedAStabilityPoint(maxReward) {
+  return _.isNumber(maxReward) && maxReward === 0;
 }
 
-module.exports = SmartRandom;
+function _hasNoMoreChallenges(challenges) {
+  return _.isArray(challenges) && _.isEmpty(challenges);
+}
