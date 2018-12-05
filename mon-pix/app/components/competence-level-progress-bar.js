@@ -1,5 +1,4 @@
 import { htmlSafe } from '@ember/string';
-import { isPresent } from '@ember/utils';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 
@@ -10,22 +9,11 @@ export default Component.extend({
   _MAX_REACHABLE_LEVEL: 5,
   _MAX_LEVEL: 8,
 
-  level: null,
-  courseId: null,
-  assessmentId: null,
-  name: null,
-  status: null,
-
   _showSecondChanceModal: false,
 
-  limitedLevel: computed('level', function() {
-    const level = this.get('level');
+  limitedLevel: computed('competence.level', function() {
+    const level = this.get('competence.level');
     return Math.min(level, this.get('_MAX_REACHABLE_LEVEL'));
-  }),
-
-  hasLevel: computed('level', function() {
-    const level = this.get('level');
-    return isPresent(this.get('level')) && level !== -1;
   }),
 
   widthOfProgressBar: computed('limitedLevel', function() {
@@ -43,19 +31,9 @@ export default Component.extend({
     return htmlSafe('width : ' + progressBarWidth);
   }),
 
-  canUserStartCourse: computed('courseId', 'hasLevel', 'assessmentId', function() {
-    const courseId = this.get('courseId');
-    const hasLevel = this.get('hasLevel');
-    const assessmentId = this.get('assessmentId');
-    return Boolean(courseId && !hasLevel && !assessmentId);
-  }),
-
-  canUserResumeAssessment: computed('assessmentId', 'status', function() {
-    return Boolean(this.get('status') === 'notCompleted') && isPresent(this.get('assessmentId'));
-  }),
-
-  canUserReplayAssessment: computed('courseId', 'status', function() {
-    return Boolean(this.get('status') === 'evaluated' && this.get('courseId'));
+  remainingDaysText: computed('competence.daysBeforeNewAttempt', function() {
+    const daysBeforeNewAttempt = this.get('competence.daysBeforeNewAttempt');
+    return `dans ${daysBeforeNewAttempt} ${daysBeforeNewAttempt <= 1 ? 'jour' : 'jours'}`;
   }),
 
   actions: {
