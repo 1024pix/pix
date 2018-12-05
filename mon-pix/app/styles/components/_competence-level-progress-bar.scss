@@ -1,4 +1,5 @@
 .competence-level-progress-bar__background {
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -112,7 +113,7 @@
   }
 }
 
-.competence-level-progress-bar__link-replay {
+.competence-level-progress-bar__retry-link {
   border: none;
   background-color: inherit;
   color: $pix-blue;
@@ -122,14 +123,24 @@
   letter-spacing: 0.5px;
   padding: 0;
   text-decoration: none;
-  width: 107px;
-
 
   &:hover, &:active, &:focus {
     color: $mariner-blue;
     cursor: pointer;
     text-decoration: underline;
   }
+}
+
+.competence-level-progress-bar__retry-link--disabled {
+  font-weight: $font-bold;
+}
+
+.competence-level-progress-bar__retry-delay {
+  position: absolute;
+  right: -80px;
+  color: $raven-grey;
+  font-weight: $font-bold;
+  font-size: 13px;
 }
 
 .competence-level-progress-bar__modal-body {
