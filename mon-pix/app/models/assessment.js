@@ -27,6 +27,10 @@ export default Model.extend({
   codeCampaign: attr('string'),
   participantExternalId: attr('string'),
 
+  nbCurrentAnswers: computed('', function() {
+    return this.get('answers.length');
+  }),
+
   answersSinceLastCheckpoints: computed('answers.[]', function() {
     const answers = this.get('answers').toArray();
     const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT;

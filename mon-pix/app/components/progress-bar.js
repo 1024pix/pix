@@ -4,19 +4,12 @@ import Component from '@ember/component';
 import AssessmentProgression from '../models/assessment-progression';
 
 export default Component.extend({
-
-  // Element
   classNames: ['progress', 'pix-progress-bar'],
 
-  // Data props
-  assessment: null,
-  nbCurrentAnswers: null,
-
-  // CPs
-  progression: computed('assessment.{type,course.nbChallenges}', 'nbCurrentAnswers', function() {
+  progression: computed('assessment.{type,course.nbChallenges,nbCurrentAnswers}', function() {
     return new AssessmentProgression({
       assessmentType: this.get('assessment.type'),
-      nbAnswers: this.get('nbCurrentAnswers'),
+      nbAnswers: this.get('assessment.nbCurrentAnswers'),
       nbChallenges: this.get('assessment.course.nbChallenges')
     });
   }),
@@ -24,5 +17,4 @@ export default Component.extend({
   barStyle: computed('progression', function() {
     return htmlSafe(`width: ${this.get('progression.valueNow')}%`);
   })
-
 });
