@@ -10,14 +10,32 @@ const KNOWLEDGE_ELEMENT_STATUS = {
   INVALIDATED: 'invalidated'
 };
 
-describe('Integration | Domain | Stategies | SmartRandom', () => {
+describe.only('Integration | Domain | Stategies | SmartRandom', () => {
+  let web1, web2, web3, web4, web5, web6, web7, url2, url3, url4, url5, url6, url7, rechInfo5, rechInfo7, info2, cnil2;
+
+  beforeEach(() => {
+    web1 = domainBuilder.buildSkill({ name: '@web1' });
+    web2 = domainBuilder.buildSkill({ name: '@web2' });
+    web3 = domainBuilder.buildSkill({ name: '@web3' });
+    web4 = domainBuilder.buildSkill({ name: '@web4' });
+    web5 = domainBuilder.buildSkill({ name: '@web5' });
+    web6 = domainBuilder.buildSkill({ name: '@web6' });
+    web7 = domainBuilder.buildSkill({ name: '@web7' });
+    url2 = domainBuilder.buildSkill({ name: '@url2' });
+    url3 = domainBuilder.buildSkill({ name: '@url3' });
+    url4 = domainBuilder.buildSkill({ name: '@url4' });
+    url5 = domainBuilder.buildSkill({ name: '@url5' });
+    url6 = domainBuilder.buildSkill({ name: '@url6' });
+    url7 = domainBuilder.buildSkill({ name: '@url7' });
+    rechInfo5 = domainBuilder.buildSkill({ name: '@rechInfo5' });
+    rechInfo7 = domainBuilder.buildSkill({ name: '@rechInfo7' });
+    info2 = domainBuilder.buildSkill({ name: '@info2' });
+    cnil2 = domainBuilder.buildSkill({ name: '@cnil2' });
+  });
 
   describe('#constructor', () => {
     it('should create a course with tubes', () => {
       // given
-      const web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      const web3 = domainBuilder.buildSkill({ name: '@web3' });
       const challenge1 = domainBuilder.buildChallenge({ id: '@recWeb1', skills: [web1] });
       const challenge2 = domainBuilder.buildChallenge({ id: '@recWeb2', skills: [web2] });
       const challenge3 = domainBuilder.buildChallenge({ id: '@recWeb3', skills: [web3] });
@@ -38,9 +56,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should create a course with tubes contains only skills with challenges', () => {
       // given
-      const web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      const web3 = domainBuilder.buildSkill({ name: '@web3' });
       const challenge1 = domainBuilder.buildChallenge({ id: '@recWeb1', skills: [web1] });
       const challenge2 = domainBuilder.buildChallenge({ id: '@recWeb2', skills: [web2] });
 
@@ -116,9 +131,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should nevertheless target any tubes when there is no easy tube', function() {
         // given
-        const url4 = domainBuilder.buildSkill({ name: '@url4' });
-        const url6 = domainBuilder.buildSkill({ name: '@url6' });
-        const info2 = domainBuilder.buildSkill({ name: '@info2' });
         const skills = [url4, url6, info2];
         const targetProfile = new TargetProfile({ skills });
 
@@ -145,13 +157,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should return a challenge of level 5 if user got levels 2-4 ok but level 6 ko', function() {
       // given
-      const web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      const url3 = domainBuilder.buildSkill({ name: '@url3' });
-      const url4 = domainBuilder.buildSkill({ name: '@url4' });
-      const rechInfo5 = domainBuilder.buildSkill({ name: 'rechInfo5' });
-      const url6 = domainBuilder.buildSkill({ name: '@url6' });
-      const rechInfo7 = domainBuilder.buildSkill({ name: 'rechInfo7' });
       const skills = [web1, web2, url3, url4, rechInfo5, rechInfo7, url6];
       const targetProfile = new TargetProfile({ skills });
 
@@ -188,10 +193,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should not return a challenge of level 7 if user got levels 2-3 ok but level 5 ko', function() {
       // given
-      const url2 = domainBuilder.buildSkill({ name: 'url2' });
-      const url3 = domainBuilder.buildSkill({ name: '@url3' });
-      const rechInfo5 = domainBuilder.buildSkill({ name: 'rechInfo5' });
-      const web7 = domainBuilder.buildSkill({ name: '@web7' });
       const skills = [url2, url3, rechInfo5, web7];
       const targetProfile = new TargetProfile({ skills });
 
@@ -223,21 +224,20 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     });
 
     context('when one challenge (level3) has been archived', () => {
-      const web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      const web3 = domainBuilder.buildSkill({ name: '@web3' });
-      const web4 = domainBuilder.buildSkill({ name: '@web4' });
-      const web5 = domainBuilder.buildSkill({ name: '@web5' });
-      const skills = [web1, web2, web3, web4, web5];
-      const targetProfile = new TargetProfile({ skills });
+      let challenges, targetProfile, ch1, ch2, ch3, ch3Bis, ch4, ch5;
+      beforeEach(() => {
+        const skills = [web1, web2, web3, web4, web5];
+        targetProfile = new TargetProfile({ skills });
 
-      const ch1 = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
-      const ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
-      const ch3 = domainBuilder.buildChallenge({ id: 'rec3', skills: [web3] });
-      const ch3Bis = domainBuilder.buildChallenge({ id: 'rec3bis', skills: [web3] });
-      const ch4 = domainBuilder.buildChallenge({ id: 'rec4', skills: [web4] });
-      const ch5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [web5] });
-      let challenges = [ch1, ch2, ch3, ch3Bis, ch4, ch5];
+        ch1 = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
+        ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
+        ch3 = domainBuilder.buildChallenge({ id: 'rec3', skills: [web3] });
+        ch3Bis = domainBuilder.buildChallenge({ id: 'rec3bis', skills: [web3] });
+        ch4 = domainBuilder.buildChallenge({ id: 'rec4', skills: [web4] });
+        ch5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [web5] });
+
+        challenges = [ch1, ch2, ch3, ch3Bis, ch4, ch5];
+      });
 
       it('should return a challenge of level 3 if user got levels 1, 2 ,3 and 4 at KO', function() {
         // given
@@ -333,8 +333,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should return null if remaining challenges do not provide extra validated or failed skills', function() {
       // given
-      const web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
       const skills = [web1, web2];
       const targetProfile = new TargetProfile({ skills });
 
@@ -362,8 +360,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should start with a not timed challenge', function() {
         // given
-        const web1 = domainBuilder.buildSkill({ name: '@web1' });
-        const url2 = domainBuilder.buildSkill({ name: '@url2' });
         const targetProfile = new TargetProfile({ skills: [url2, web1] });
 
         const notTimedChallenge = domainBuilder.buildChallenge({ id: 'rec', skills: [web1] });
@@ -382,9 +378,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should start with a not timed level 2 challenge', function() {
         // given
-        const web1 = domainBuilder.buildSkill({ name: '@web1' });
-        const cnil2 = domainBuilder.buildSkill({ name: '@cnil2' });
-        const url3 = domainBuilder.buildSkill({ name: '@url3' });
         const targetProfile = new TargetProfile({ skills: [web1, url3, cnil2] });
 
         const level2Challenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [cnil2] });
@@ -404,8 +397,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should start with a not timed level 1 challenge when no level 2 exists', function() {
         // given
-        const web1 = domainBuilder.buildSkill({ name: '@web1' });
-        const url3 = domainBuilder.buildSkill({ name: '@url3' });
         const targetProfile = new TargetProfile({ skills: [web1, url3] });
 
         const level1Challenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
@@ -424,8 +415,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should start with a not timed level 4 challenge when no level 2, 1 and 3 exists', function() {
         // given
-        const web4 = domainBuilder.buildSkill({ name: '@web4' });
-        const url5 = domainBuilder.buildSkill({ name: '@url5' });
         const targetProfile = new TargetProfile({ skills: [web4, url5] });
 
         const level4Challenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web4] });
@@ -444,7 +433,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should start with a timed level 3 challenge when no not timed challenge exists', function() {
         // given
-        const web3 = domainBuilder.buildSkill({ name: '@web3' });
         const targetProfile = new TargetProfile({ skills: [web3] });
 
         const timedChallenge = domainBuilder.buildChallenge({ id: 'rec1', skills: [web3], timer:10 });
@@ -463,9 +451,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should return an easier challenge if user skipped previous challenge', function() {
       // given
-      const web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      const web3 = domainBuilder.buildSkill({ name: '@web3' });
       const skills = [web1, web2, web3];
       const targetProfile = new TargetProfile({ skills });
 
@@ -492,10 +477,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should return any challenge at random if several challenges have equal reward at the middle of the test', function() {
       // given
-      const web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      const web3 = domainBuilder.buildSkill({ name: '@web3' });
-      const url3 = domainBuilder.buildSkill({ name: '@url3' });
       const skills = [web1, web2, web3, url3];
       const targetProfile = new TargetProfile({ skills });
 
@@ -523,10 +504,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should not return a question of level 6 after first answer is correct', function() {
       // given
-      const web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      const web4 = domainBuilder.buildSkill({ name: '@web4' });
-      const web6 = domainBuilder.buildSkill({ name: '@web6' });
       const skills = [web1, web2, web4, web6];
       const targetProfile = new TargetProfile({ skills });
 
@@ -553,11 +530,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should return a challenge of difficulty 7 if challenge of difficulty 6 is correctly answered', function() {
       // given
-      const web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      const web4 = domainBuilder.buildSkill({ name: '@web4' });
-      const web6 = domainBuilder.buildSkill({ name: '@web6' });
-      const web7 = domainBuilder.buildSkill({ name: '@web7' });
       const skills = [web1, web2, web4, web6, web7];
       const targetProfile = new TargetProfile({ skills });
 
@@ -589,8 +561,6 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should not select a challenge that is more than 2 levels above the predicted level', function() {
       // given
-      const web2 = domainBuilder.buildSkill({ name: '@web2' });
-      const url7 = domainBuilder.buildSkill({ name: '@url7' });
       const skills = [web2, url7];
       const targetProfile = new TargetProfile({ skills });
 
