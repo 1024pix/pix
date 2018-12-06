@@ -222,7 +222,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         const [skill1, skill2, skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 1, maxLevel: 6 });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] });
 
-        const lastChallenge = domainBuilder.buildChallenge({ skills: [skill2]});
+        const lastChallenge = domainBuilder.buildChallenge({ skills: [skill2] });
         const challengeLevel1 = domainBuilder.buildChallenge({ skills: [skill1] });
         const challengeLevel3 = domainBuilder.buildChallenge({ skills: [skill3] });
         const challengeLevel4 = domainBuilder.buildChallenge({ skills: [skill4] });
@@ -262,7 +262,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
     });
 
     describe('Verify rules : Focus on easy tubes first', () => {
-      it('should return challenges from tubes of max level 3', function () {
+      it('should return challenges from tubes of max level 3', () => {
         // given
         const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 3, maxLevel: 6 });
         const [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] = domainBuilder.buildSkillCollection({ name:'url', minLevel: 1, maxLevel: 3 });
@@ -308,7 +308,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
 
       });
 
-      it('should return challenges from all tubes if there is not easy tubes', function () {
+      it('should return challenges from all tubes if there is not easy tubes', () => {
         // given
         const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 3, maxLevel: 6 });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [ skill3, skill4, skill5, skill6] });
