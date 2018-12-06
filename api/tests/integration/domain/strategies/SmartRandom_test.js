@@ -204,6 +204,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
       // doit prioriser les easy tubes sans être bloquant pour autant
       context('easy tube priority', () => {
 
+        // doit prioriser les easy tubes quand il y en a
         it('should select in priority a challenge in the unexplored tubes with level below level 3', function () {
           // given
           const url4 = domainBuilder.buildSkill({name: '@url4'});
@@ -236,6 +237,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
           expect(nextChallenge).to.equal(challengeWeb3);
         });
 
+        // doit quand même poser une question sur un autre tube s'il n'y a pas de easy tube
         it('should nevertheless target any tubes when there is no easy tube', function () {
             // given
             const skills = [url4, url6, info2];
@@ -264,12 +266,11 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
             expect(nextChallenge).to.equal(challengeUrl4);
           });
 
-
       });
 
       // doit gérer sans problème le cas des challenges qui ont été archivés
       context('when one challenge (level3) has been archived', () => {
-        let challenges, targetProfile, ch1, ch2, ch3, ch3Bis, ch4, ch5;
+        let targetProfile, ch1, ch2, ch3, ch3Bis, ch4, ch5;
         beforeEach(() => {
           const skills = [web1, web2, web3, web4, web5];
           targetProfile = new TargetProfile({skills});
@@ -281,15 +282,16 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
           ch4 = domainBuilder.buildChallenge({id: 'rec4', skills: [web4]});
           ch5 = domainBuilder.buildChallenge({id: 'rec5', skills: [web5]});
 
-          challenges = [ch1, ch2, ch3, ch3Bis, ch4, ch5];
+          ch3.status = 'archived';
         });
 
         it('should return a challenge of level 3 if user got levels 1, 2 ,3 and 4 at KO', function () {
           // given
+          const challenges = [ch1, ch2, ch3, ch3Bis, ch4, ch5];
           const answers = [
             domainBuilder.buildAnswer({challengeId: 'rec1', result: AnswerStatus.OK}),
             domainBuilder.buildAnswer({challengeId: 'rec2', result: AnswerStatus.OK}),
-            domainBuilder.buildAnswer({challengeId: undefined, result: AnswerStatus.OK}),
+            domainBuilder.buildAnswer({challengeId: 'rec3', result: AnswerStatus.OK}),
             domainBuilder.buildAnswer({challengeId: 'rec4', result: AnswerStatus.KO}),
           ];
           const knowledgeElements = [
@@ -324,7 +326,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
           const answers = [
             domainBuilder.buildAnswer({challengeId: 'rec1', result: AnswerStatus.OK}),
             domainBuilder.buildAnswer({challengeId: 'rec2', result: AnswerStatus.OK}),
-            domainBuilder.buildAnswer({challengeId: undefined, result: AnswerStatus.OK}),
+            domainBuilder.buildAnswer({challengeId: 'rec3', result: AnswerStatus.OK}),
             domainBuilder.buildAnswer({challengeId: 'rec4', result: AnswerStatus.OK}),
           ];
           const knowledgeElements = [
@@ -350,6 +352,8 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
             })
           ];
 
+          const challenges = [ch1, ch2, ch3, ch3Bis, ch4, ch5];
+
           // when
           const smartRandom = new SmartRandom({answers, challenges, targetProfile, knowledgeElements});
           const nextChallenge = smartRandom.getNextChallenge();
@@ -358,7 +362,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
           expect(nextChallenge).to.equal(ch5);
         });
 
-        it('should return a challenge of level 4 if user got levels 1, 2 and 3 archived', function () {
+        it('should return a challenge of level 4 if user got levels 1, 2 and the only possible level is 3 archived', function () {
           // given
           const answers = [
             domainBuilder.buildAnswer({challengeId: 'rec1', result: AnswerStatus.OK}),
@@ -378,7 +382,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
             }),
           ];
 
-          challenges = [ch1, ch2, ch3, ch3Bis, ch4];
+          const challenges = [ch1, ch2, ch3, ch4];
 
           // when
           const smartRandom = new SmartRandom({answers, challenges, targetProfile, knowledgeElements});
@@ -388,7 +392,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
           expect(nextChallenge).to.equal(ch4);
         });
 
-        it('should return a challenge of level 3 if user got levels 1, 2 and 3 archived', function () {
+        it('should return a challenge of level 3 if user got levels 1, 2 and another possible level 3 is archived', function () {
           // given
           const answers = [
             domainBuilder.buildAnswer({challengeId: 'rec1', result: AnswerStatus.OK}),
@@ -408,8 +412,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
             }),
           ];
 
-          ch3.status = 'archived';
-          challenges = [ch1, ch2, ch3, ch3Bis];
+          const challenges = [ch1, ch2, ch3, ch3Bis];
 
           // when
           const smartRandom = new SmartRandom({answers, challenges, targetProfile, knowledgeElements});
