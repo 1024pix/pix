@@ -195,7 +195,7 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
-  describe('#hasAllSkillsAlreadyTested', function() {
+  describe('#haveAllSkillsAlreadyBeenTested', function() {
 
     it('returns false if the challenge has skill is not already assessed', function() {
       // given
@@ -206,7 +206,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1]
       };
       // when
-      const response = challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile);
+      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile);
       // then
       expect(response).to.be.false;
     });
@@ -220,7 +220,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1]
       };
       // when
-      const response = challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile);
+      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile);
       // then
       expect(response).to.be.true;
     });
@@ -235,7 +235,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1, s2, s3]
       };
       // when
-      const response = challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile);
+      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile);
       // then
       expect(response).to.be.false;
     });
@@ -250,20 +250,20 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1]
       };
       // when
-      const response = challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile);
+      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile);
       // then
       expect(response).to.be.true;
     });
   });
 
-  describe('#testsAtLeastOneSkill', function() {
+  describe('#hasAtLeastOneSkillTested', function() {
 
     it('returns false if the challenge skills match no skills', function() {
       // given
       const [s1, s2, s3, s4] = domainBuilder.buildSkillCollection();
       const challenge = domainBuilder.buildChallenge({ skills: [s1, s2] });
       // when
-      const response = challenge.testsAtLeastOneSkill([s3, s4]);
+      const response = challenge.hasAtLeastOneSkillTested([s3, s4]);
       // then
       expect(response).to.be.false;
     });
@@ -273,7 +273,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       const [s1, s2, s3, s4] = domainBuilder.buildSkillCollection();
       const challenge = domainBuilder.buildChallenge({ skills: [s1, s2, s3] });
       // when
-      const response = challenge.testsAtLeastOneSkill([s3, s4]);
+      const response = challenge.hasAtLeastOneSkillTested([s3, s4]);
       // then
       expect(response).to.be.true;
     });

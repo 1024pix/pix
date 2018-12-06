@@ -4,11 +4,11 @@ const { pipe } = require('lodash/fp');
 const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
 
 module.exports = {
-  filteredChallengeForFirstChallenge,
+  filteredChallengeForFirstChallenge: filteredChallengesForFirstChallenge,
   filteredChallenges
 };
 
-function filteredChallengeForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile }) {
+function filteredChallengesForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile }) {
   return pipe(
     _removeUnpublishedChallenges,
     _removeChallengesThatAlreadyFullyTested.bind(null, knowledgeElements, targetProfile),
@@ -31,7 +31,7 @@ function _removeUnpublishedChallenges(challenges) {
 }
 
 function _removeChallengesThatAlreadyFullyTested(knowledgeElements, targetProfile, challenges) {
-  return _.filter(challenges, (challenge) => !challenge.hasAllSkillsAlreadyTested(knowledgeElements, targetProfile));
+  return _.filter(challenges, (challenge) => !challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile));
 }
 
 function _removeTooHardChallenges(predictedLevel, challenges) {
@@ -45,7 +45,7 @@ function _isChallengeTooHard(challenge, predictedLevel) {
 function _removeTimedChallengesIfLastOneWasAlsoTimed(lastChallenge, challenges) {
   const untimedChallenges = _extractUntimedChallenge(challenges);
   const lastChallengeWasTimed = _isChallengeTimed(lastChallenge);
-  const someRemainingChallengesAreNotTimed = !untimedChallenges.length == 0;
+  const someRemainingChallengesAreNotTimed = untimedChallenges.length > 0;
   if (lastChallengeWasTimed && someRemainingChallengesAreNotTimed) {
     return untimedChallenges;
   }
@@ -53,7 +53,7 @@ function _removeTimedChallengesIfLastOneWasAlsoTimed(lastChallenge, challenges) 
 }
 
 function _isChallengeTimed(lastChallenge) {
-  return lastChallenge && (lastChallenge.timer !== undefined);
+  return lastChallenge && lastChallenge.timer !== undefined;
 }
 
 function _extractUntimedChallenge(challenges) {
@@ -94,6 +94,6 @@ function _skillAlreadyTested(skill, knowledgeElements) {
 }
 
 function _removeChallengesThatDontTestRequiredSkills(challenges, requiredSkills) {
-  return _.filter(challenges, (challenge) => challenge.testsAtLeastOneSkill(requiredSkills));
+  return _.filter(challenges, (challenge) => challenge.hasAtLeastOneSkillTested(requiredSkills));
 }
 
