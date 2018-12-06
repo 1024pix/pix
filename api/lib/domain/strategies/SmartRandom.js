@@ -60,7 +60,7 @@ module.exports = class SmartRandom {
     });
   }
 
-}
+};
 
 function _findPotentialFirstChallenges(challenges) {
   // first challenge difficulty should be the default one if possible, otherwise take the minimum difficulty
@@ -97,12 +97,7 @@ function _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLeve
   const challengesAndRewards = _.map(availableChallenges, (challenge) => {
     return {
       challenge: challenge,
-      reward: computeReward({
-        challenge,
-        predictedLevel: predictedLevel,
-        course: course,
-        knowledgeElements: knowledgeElements
-      })
+      reward: computeReward({ challenge, predictedLevel, course, knowledgeElements })
     };
   });
 

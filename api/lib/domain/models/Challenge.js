@@ -113,11 +113,11 @@ class Challenge {
     return _(this.skills).differenceWith(alreadyAssessedSkills, Skill.areEqual).size() > 0;
   }
 
-  testsAtLeastOneSkill(requiredSkills) {
+  hasAtLeastOneSkillTested(requiredSkills) {
     return _.intersection(_.map(this.skills, 'name'), _.map(requiredSkills, 'name')).length !== 0;
   }
 
-  hasAllSkillsAlreadyTested(knowledgeElements, targetProfile) {
+  haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile) {
     const skillIdsAlreadyTested = _.map(knowledgeElements, 'skillId');
     const targetProfileSkillsIds = _.map(targetProfile.skills, 'id');
     const challengeSkillsIds = _.map(this.skills, 'id');
