@@ -1,11 +1,13 @@
 const encryptionService = require('../../domain/services/encryption-service');
 const { MissingOrInvalidCredentialsError, ForbiddenAccess } = require('../../domain/errors');
 
-function _canUserAccessScope(scope, user) {
-  if (scope === 'pix-orga' && !user.isLinkedToOrganizations()) {
-    return Promise.reject(new ForbiddenAccess('User is not allowed to access this area'));
+function _checkUserAccessScope(scope, user) {
+  if (
+    (scope === 'pix-orga' && !user.isLinkedToOrganizations()) ||
+    (scope === 'pix-admin' && !user.hasRolePixMaster)
+  ) {
+    throw new ForbiddenAccess('User is not allowed to access this area');
   }
-  return Promise.resolve();
 }
 
 module.exports = function authenticateUser({
@@ -18,7 +20,7 @@ module.exports = function authenticateUser({
   let user;
   return userRepository.findByEmailWithRoles(userEmail.toLowerCase())
     .then((foundUser) => (user = foundUser))
-    .then(() => _canUserAccessScope(scope, user))
+    .then(() => _checkUserAccessScope(scope, user))
     .then(() => encryptionService.check(password, user.password))
     .then(() => tokenService.createTokenFromUser(user))
     .catch((error) => {
