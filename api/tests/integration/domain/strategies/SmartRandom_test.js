@@ -1,4 +1,3 @@
-// new SmartRandom\(([\[\]a-z0-9]+), ([a-z0-9]+)
 const { expect, domainBuilder } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Tube = require('../../../../lib/domain/models/Tube');
@@ -76,6 +75,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
   describe('#nextChallenge', function() {
 
+    // la première question convient un certain nombre de règles particulières
     context('when it is the first question only', () => {
 
       // cas idéal, niveau 2 non timé
