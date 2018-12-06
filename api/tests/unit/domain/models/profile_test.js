@@ -148,6 +148,55 @@ describe('Unit | Domain | Models | Profile', () => {
       expect(profile.areas).to.be.equal(areas);
     });
 
+    it('should assign max reachable level to level of competence if level of assessment is too high', () => {
+      // given
+      courses[0].competences = ['competenceId1'];
+      const assessment = domainBuilder.buildAssessment({
+        id: 'assessmentId1',
+        courseId: 'courseId8',
+        assessmentResults: [new AssessmentResult({ pixScore: 10, level: 6, createdAt: new Date('2018-01-01 05:00:00') })],
+        state: 'completed',
+      });
+      assessments = [assessment];
+
+      const expectedCompetences = [
+        {
+          id: 'competenceId1',
+          name: '1.1 Mener une recherche d’information',
+          index: '1.1',
+          areaId: 'areaId1',
+          level: 5,
+          pixScore: 10,
+          courseId: 'courseId8',
+          assessmentId: 'assessmentId1',
+          status: 'assessed',
+          isRetryable: true,
+        },
+        {
+          id: 'competenceId2',
+          name: '1.2 Gérer des données',
+          index: '1.2',
+          areaId: 'areaId2',
+          level: -1,
+          courseId: 'courseId9',
+          status: 'notAssessed',
+          isRetryable: false,
+        }];
+
+      // when
+      const profile = new Profile({
+        user,
+        competences,
+        areas,
+        lastAssessments: assessments,
+        assessmentsCompletedWithResults: assessments,
+        courses,
+      });
+
+      // then
+      expect(profile.competences).to.be.deep.equal(expectedCompetences);
+    });
+
     it('should assign assessment id to competence', () => {
       courses[0].competences = ['competenceId1'];
       courses[1].competences = ['competenceId2'];
