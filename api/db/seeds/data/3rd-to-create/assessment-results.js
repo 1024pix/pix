@@ -3,7 +3,7 @@ const moment = require('moment');
 module.exports = [
   { id:1, createdAt: moment().subtract(7, 'day').add(1, 'hour').toString(), emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 1, level: 5, pixScore: 44 },
   { id:2, createdAt: '2018-02-15 15:00:34', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 2, level: 2, pixScore: 23 },
-  { id:3, createdAt: '2018-02-15 15:03:18', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 3, level: 5, pixScore: 47 },
+  { id:3, createdAt: '2018-02-15 15:03:18', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 3, level: 8, pixScore: 47 },
   { id:4, createdAt: '2018-02-15 15:04:26', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 4, level: 4, pixScore: 34 },
   { id:5, createdAt: moment().subtract(1, 'day').toString(), emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 5, level: 5, pixScore: 48 },
   { id:6, createdAt: '2018-02-15 15:14:46', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 6, level: 0, pixScore: 157 },
@@ -31,4 +31,3 @@ module.exports = [
     pixScore: 0
   }
 ];
-

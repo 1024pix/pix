@@ -109,7 +109,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         courseId: 'courseID1',
         state: 'completed',
         assessmentResults: [new AssessmentResult({
-          level: 8,
+          level: 5,
           pixScore: 128,
           createdAt: new Date('2018-01-10 05:00:00'),
         })],
@@ -187,7 +187,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             attributes: {
               name: 'competence-name-1',
               index: '1.1',
-              level: 8,
+              level: 5,
               'pix-score': 128,
               'course-id': 'courseID1',
               'assessment-id': 'assessmentID1',
