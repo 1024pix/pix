@@ -1,11 +1,11 @@
 const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
-const moment = require('moment');
+const _ = require('lodash');
 module.exports = {
 
   save(smartPlacementKnowledgeElement) {
-    smartPlacementKnowledgeElement.createdAt = moment().format('YYYY-MM-DD HH:mm:ss');
-    return Promise.resolve(smartPlacementKnowledgeElement)
+
+    return Promise.resolve(_.omit(smartPlacementKnowledgeElement, 'createdAt'))
       .then((smartPlacementKnowledgeElement) => new BookshelfKnowledgeElement(smartPlacementKnowledgeElement))
       .then((knowledgeElementBookshelf) => knowledgeElementBookshelf.save())
       .then(toDomain);
