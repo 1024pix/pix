@@ -75,11 +75,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
   describe('#constructor', () => {
     it('should create a course with tubes', () => {
       // given
-      const challenge1 = domainBuilder.buildChallenge({ id: '@recWeb1', skills: [web1] });
-      const challenge2 = domainBuilder.buildChallenge({ id: '@recWeb2', skills: [web2] });
-      const challenge3 = domainBuilder.buildChallenge({ id: '@recWeb3', skills: [web3] });
-
-      const challenges = [challenge1, challenge2, challenge3];
+      const challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
       const skills = [web1, web2, web3];
       const targetProfile = new TargetProfile({ skills });
       const expectedTubes = new Tube({ skills: [web1, web2, web3] });
@@ -95,10 +91,8 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should create a course with tubes contains only skills with challenges', () => {
       // given
-      const challenge1 = domainBuilder.buildChallenge({ id: '@recWeb1', skills: [web1] });
-      const challenge2 = domainBuilder.buildChallenge({ id: '@recWeb2', skills: [web2] });
 
-      const challenges = [challenge1, challenge2];
+      const challenges = [challengeWeb_1, challengeWeb_2];
       const skills = [web1, web2, web3];
       const targetProfile = new TargetProfile({ skills });
       const expectedTubes = new Tube({ skills: [web1, web2] });
