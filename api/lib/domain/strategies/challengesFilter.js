@@ -44,7 +44,7 @@ function _isChallengeTooHard(challenge, predictedLevel) {
 
 function _removeTimedChallengesIfLastOneWasAlsoTimed(lastChallenge, challenges) {
   const untimedChallenges = _extractUntimedChallenge(challenges);
-  const lastChallengeWasTimed = _isChallengeTimed(lastChallenge);
+  const lastChallengeWasTimed = lastChallenge.isTimed();
   const someRemainingChallengesAreNotTimed = untimedChallenges.length > 0;
   if (lastChallengeWasTimed && someRemainingChallengesAreNotTimed) {
     return untimedChallenges;
@@ -52,12 +52,8 @@ function _removeTimedChallengesIfLastOneWasAlsoTimed(lastChallenge, challenges) 
   return challenges;
 }
 
-function _isChallengeTimed(lastChallenge) {
-  return lastChallenge && lastChallenge.timer !== undefined;
-}
-
 function _extractUntimedChallenge(challenges) {
-  return challenges.filter((challenge) => challenge.timer == undefined);
+  return challenges.filter((challenge) => !challenge.isTimed());
 }
 
 function _removeChallengesFromLowPriorityTubes(courseTubes, knowledgeElements, challenges) {
