@@ -1,5 +1,5 @@
 const Course = require('../models/Course');
-const { filteredChallenges, filteredChallengesForFirstChallenge } = require('./challengesFilter');
+const { filteredChallenges, filteredChallengeForFirstChallenge } = require('./challengesFilter');
 const { getPredictedLevel, computeReward } = require('./catAlgorithm');
 const _ = require('lodash');
 
@@ -11,12 +11,11 @@ module.exports = class SmartRandom {
 
   constructor({ knowledgeElements, challenges, targetProfile, answers } = {}) {
     this.challenges = challenges;
-    this.targetProfile = targetProfile;
-    this.skills = targetProfile.skills;
+    this.targetSkills = targetProfile.skills;
     this.knowledgeElements = knowledgeElements;
     this.lastChallenge = _findLastChallengeIfAny(answers, challenges);
-    this.courseTubes = _findCourseTubes(this.skills, challenges);
-    this.predictedLevel = getPredictedLevel(this.knowledgeElements, this.skills);
+    this.courseTubes = _findCourseTubes(this.targetSkills, challenges);
+    this.predictedLevel = getPredictedLevel(this.knowledgeElements, this.targetSkills);
   }
 
   getNextChallenge() {
@@ -26,7 +25,7 @@ module.exports = class SmartRandom {
         challenges: this.challenges,
         knowledgeElements: this.knowledgeElements,
         courseTubes: this.courseTubes,
-        targetProfile: this.targetProfile
+        targetSkills: this.targetSkills
       });
     }
 
@@ -36,7 +35,7 @@ module.exports = class SmartRandom {
       courseTubes: this.courseTubes,
       predictedLevel: this.predictedLevel,
       lastChallenge: this.lastChallenge,
-      targetProfile: this.targetProfile
+      targetSkills: this.targetSkills
     });
 
     if (_hasNoMoreChallenges(availableChallenges)) {
@@ -78,8 +77,8 @@ function _findPotentialFirstChallenges(challenges) {
   return potentialFirstChallenges;
 }
 
-function _firstChallenge({ challenges, knowledgeElements, tubes, targetProfile }) {
-  const filteredChallenges = filteredChallengesForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile });
+function _firstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
+  const filteredChallenges = filteredChallengeForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
 
   const [timedChallenges, notTimedChallenges] = _(filteredChallenges)
     .partition((challenge) => challenge.timer)
