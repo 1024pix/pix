@@ -197,7 +197,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         challengeWeb_4_Archived =  turnIntoArchivedChallenge(challengeWeb_4);
       });
 
-      it.only('should return a challenge of level 4 if user got levels 1, 2 and the only possible level is 3 archived', function() {
+      it('should return a challenge of level 4 if user got levels 1, 2 and the only possible level is 3 archived', function() {
         // given
         targetProfile = { skills: [web1, web2, web3, web4, web5, web6] };
         answers = [

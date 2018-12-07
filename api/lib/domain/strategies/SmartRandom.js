@@ -20,24 +20,12 @@ module.exports = class SmartRandom {
   }
 
   getNextChallenge() {
+    const smartRandom = Object.create(this);
 
-    if (this.isUserStartingTheTest) {
-      return _firstChallenge({
-        challenges: this.challenges,
-        knowledgeElements: this.knowledgeElements,
-        courseTubes: this.courseTubes,
-        targetSkills: this.targetSkills
-      });
-    }
-
-    return _anyChallenge({
-      challenges: this.challenges,
-      knowledgeElements: this.knowledgeElements,
-      courseTubes: this.courseTubes,
-      targetSkills: this.targetSkills,
-      predictedLevel: this.predictedLevel,
-      lastChallenge: this.lastChallenge,
-    });
+    // First challenge has specific rules
+    return this.isUserStartingTheTest
+      ? _findFirstChallenge(smartRandom)
+      : _findAnyChallenge(smartRandom);
   }
 };
 
@@ -55,29 +43,15 @@ function _findCourseTubes(skills, challenges) {
   return course.computeTubes(listSkillsWithChallenges);
 }
 
-function _anyChallenge({ challenges, knowledgeElements, courseTubes, targetSkills, predictedLevel, lastChallenge }) {
-
+function _findAnyChallenge({ challenges, knowledgeElements, courseTubes, targetSkills, predictedLevel, lastChallenge }) {
   const availableChallenges = filteredChallenges({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
-  
   if (_hasNoMoreChallenges(availableChallenges)) {
     return TEST_ENDED_CHAR;
   }
   return _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
-
 }
 
-function _findPotentialFirstChallenges(challenges) {
-  // first challenge difficulty should be the default one if possible, otherwise take the minimum difficulty
-  const remapDifficulty = (difficulty) => difficulty == DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
-
-  const [, potentialFirstChallenges] = _(challenges)
-    .groupBy('hardestSkill.difficulty')
-    .entries()
-    .minBy(([difficulty, _challenges]) => remapDifficulty(parseFloat(difficulty)));
-  return potentialFirstChallenges;
-}
-
-function _firstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
+function _findFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
   const filteredChallenges = filteredChallengeForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
 
   const [timedChallenges, notTimedChallenges] = _(filteredChallenges)
@@ -94,6 +68,17 @@ function _firstChallenge({ challenges, knowledgeElements, courseTubes, targetSki
   }
 
   return _pickRandomChallenge(potentialFirstChallenges);
+}
+
+function _findPotentialFirstChallenges(challenges) {
+
+  // first challenge difficulty should be the default one if possible, otherwise take the minimum difficulty
+  const remapDifficulty = (difficulty) => difficulty == DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
+  const [, potentialFirstChallenges] = _(challenges)
+    .groupBy('hardestSkill.difficulty')
+    .entries()
+    .minBy(([difficulty, _challenges]) => remapDifficulty(parseFloat(difficulty)));
+  return potentialFirstChallenges;
 }
 
 function _pickRandomChallenge(challenges) {
@@ -138,4 +123,8 @@ function _hasReachedAStabilityPoint(maxReward) {
 
 function _hasNoMoreChallenges(challenges) {
   return _.isArray(challenges) && _.isEmpty(challenges);
+}
+
+function isChallengedTimed(challenge) {
+  return challenge && challenge.timer != undefined;
 }
