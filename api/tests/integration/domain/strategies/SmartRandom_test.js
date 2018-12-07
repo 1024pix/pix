@@ -295,7 +295,6 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         const answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec1', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec3', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec4', result: AnswerStatus.KO }),
         ];
         const knowledgeElements = [
@@ -306,11 +305,6 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
           }),
           domainBuilder.buildSmartPlacementKnowledgeElement({
             skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
-          }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({
-            skillId: web3.id,
             status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
             source: 'direct'
           }),
@@ -328,7 +322,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge).to.equal(null); // TODO: figure out why it's null instead of expected challenge 3 ??
+        expect(nextChallenge).to.equal(challengeWeb_3);
       });
     });
 
