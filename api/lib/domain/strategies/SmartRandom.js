@@ -3,7 +3,6 @@ const { filteredChallenges, filteredChallengeForFirstChallenge } = require('./ch
 const { getPredictedLevel, computeReward } = require('./catAlgorithm');
 const _ = require('lodash');
 
-const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 const TEST_ENDED_CHAR = null;
 const UNEXISTING_ITEM = null;
 
@@ -43,6 +42,15 @@ function _findCourseTubes(skills, challenges) {
   return course.computeTubes(listSkillsWithChallenges);
 }
 
+function _filterSkillsByChallenges(skills, challenges) {
+  const skillsWithChallenges = skills.filter((skill) => {
+    return challenges.find((challenge) => {
+      return challenge.skills.find((challengeSkill) => skill.name === challengeSkill.name);
+    });
+  });
+  return skillsWithChallenges;
+}
+
 function _findAnyChallenge({ challenges, knowledgeElements, courseTubes, targetSkills, predictedLevel, lastChallenge }) {
   const availableChallenges = filteredChallenges({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
   if (_hasNoMoreChallenges(availableChallenges)) {
@@ -53,32 +61,7 @@ function _findAnyChallenge({ challenges, knowledgeElements, courseTubes, targetS
 
 function _findFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
   const filteredChallenges = filteredChallengeForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
-
-  const [timedChallenges, notTimedChallenges] = _(filteredChallenges)
-    .partition((challenge) => challenge.isTimed())
-    .values()
-    .value();
-
-  let potentialFirstChallenges;
-
-  if (notTimedChallenges.length > 0) { // not timed challenge are a priority
-    potentialFirstChallenges = _findPotentialFirstChallenges(notTimedChallenges);
-  } else {
-    potentialFirstChallenges = _findPotentialFirstChallenges(timedChallenges);
-  }
-
-  return _pickRandomChallenge(potentialFirstChallenges);
-}
-
-function _findPotentialFirstChallenges(challenges) {
-
-  // first challenge difficulty should be the default one if possible, otherwise take the minimum difficulty
-  const remapDifficulty = (difficulty) => difficulty == DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
-  const [, potentialFirstChallenges] = _(challenges)
-    .groupBy('hardestSkill.difficulty')
-    .entries()
-    .minBy(([difficulty, _challenges]) => remapDifficulty(parseFloat(difficulty)));
-  return potentialFirstChallenges;
+  return _pickRandomChallenge(filteredChallenges);
 }
 
 function _pickRandomChallenge(challenges) {
@@ -107,24 +90,10 @@ function _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLeve
   return _.sample(bestChallenges);
 }
 
-function _filterSkillsByChallenges(skills, challenges) {
-  const skillsWithChallenges = skills.filter((skill) => {
-    return challenges.find((challenge) => {
-      return challenge.skills.find((challengeSkill) => skill.name === challengeSkill.name);
-    });
-  });
-
-  return skillsWithChallenges;
-}
-
 function _hasReachedAStabilityPoint(maxReward) {
   return _.isNumber(maxReward) && maxReward === 0;
 }
 
 function _hasNoMoreChallenges(challenges) {
   return _.isArray(challenges) && _.isEmpty(challenges);
-}
-
-function isChallengedTimed(challenge) {
-  return challenge && challenge.timer != undefined;
 }
