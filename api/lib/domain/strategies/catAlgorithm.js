@@ -9,10 +9,10 @@ module.exports = {
   getPredictedLevel
 };
 
-function computeReward({ challenge, predictedLevel, course, knowledgeElements }) {
+function computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements }) {
   const proba = _probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
-  const nbExtraSkillsIfSolved = _getNewSkillsInfoIfChallengeSolved(challenge, course, knowledgeElements).length;
-  const nbFailedSkillsIfUnsolved = _getNewSkillsInfoIfChallengeUnsolved(challenge, course, knowledgeElements).length;
+  const nbExtraSkillsIfSolved = _getNewSkillsInfoIfChallengeSolved(challenge, courseTubes, knowledgeElements).length;
+  const nbFailedSkillsIfUnsolved = _getNewSkillsInfoIfChallengeUnsolved(challenge, courseTubes, knowledgeElements).length;
 
   return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
 }
@@ -53,9 +53,9 @@ function _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, sk
   return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
 }
 
-function _getNewSkillsInfoIfChallengeSolved(challenge, course, knowledgeElements) {
+function _getNewSkillsInfoIfChallengeSolved(challenge, courseTubes, knowledgeElements) {
   return challenge.skills.reduce((extraValidatedSkills, skill) => {
-    course.findTube(skill.tubeName).getEasierThan(skill).forEach((skill) => {
+    _findTubeByName(courseTubes, skill.tubeName).getEasierThan(skill).forEach((skill) => {
       if (_skillNotTestedYet(skill, knowledgeElements)) {
         extraValidatedSkills.push(skill);
       }
@@ -64,14 +64,18 @@ function _getNewSkillsInfoIfChallengeSolved(challenge, course, knowledgeElements
   }, []);
 }
 
-function _getNewSkillsInfoIfChallengeUnsolved(challenge, course, knowledgeElements) {
-  return course.findTube(challenge.hardestSkill.tubeName).getHarderThan(challenge.hardestSkill)
+function _getNewSkillsInfoIfChallengeUnsolved(challenge, courseTubes, knowledgeElements) {
+  return _findTubeByName(courseTubes, challenge.hardestSkill.tubeName).getHarderThan(challenge.hardestSkill)
     .reduce((extraFailedSkills, skill) => {
       if (_skillNotTestedYet(skill, knowledgeElements)) {
         extraFailedSkills.push(skill);
       }
       return extraFailedSkills;
     }, []);
+}
+
+function _findTubeByName(courseTubes, tubeName) {
+  return courseTubes.find((tube) => tube.name === tubeName);
 }
 
 function _skillNotTestedYet(skill, knowledgesElements) {
