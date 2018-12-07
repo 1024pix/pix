@@ -1,4 +1,10 @@
 # Pix Changelog
+## v2.12.0 (07/12/2018) 
+
+- [#282](https://github.com/1024pix/pix/pull/282) [FEATURE] Mise à jour de la gestion de la première question posée à l'utilisateur (PF-436).
+- [#287](https://github.com/1024pix/pix/pull/287) [FEATURE] Bouton "Retenter" afin de pouvoir relancer un test de positionnement tous les 7 jours (PF-422).
+- [#292](https://github.com/1024pix/pix/pull/292) [BUGFIX] Ajout d'authentification en tant qu'admin (PA-66).
+
 
 ## v2.11.0 (30/11/2018)
 
