@@ -8,21 +8,21 @@ module.exports = {
   filteredChallenges
 };
 
-function filteredChallengesForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile }) {
+function filteredChallengesForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetProfile }) {
   return pipe(
     _removeUnpublishedChallenges,
     _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetProfile),
-    _removeChallengesFromLowPriorityTubes.bind(null, tubes, knowledgeElements)
+    _removeChallengesFromLowPriorityTubes.bind(null, courseTubes, knowledgeElements)
   )(challenges);
 }
 
-function filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge, targetProfile }) {
+function filteredChallenges({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetProfile }) {
   return pipe(
     _removeUnpublishedChallenges,
     _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetProfile),
     _removeTooHardChallenges.bind(null, predictedLevel),
     _removeTimedChallengesIfLastOneWasAlsoTimed.bind(null, lastChallenge),
-    _removeChallengesFromLowPriorityTubes.bind(null, tubes, knowledgeElements)
+    _removeChallengesFromLowPriorityTubes.bind(null, courseTubes, knowledgeElements)
   )(challenges);
 }
 
@@ -60,8 +60,8 @@ function _extractUntimedChallenge(challenges) {
   return challenges.filter((challenge) => challenge.timer == undefined);
 }
 
-function _removeChallengesFromLowPriorityTubes(tubes, knowledgeElements, challenges) {
-  const prioritySkills = _getPrioritySkills(tubes, knowledgeElements);
+function _removeChallengesFromLowPriorityTubes(courseTubes, knowledgeElements, challenges) {
+  const prioritySkills = _getPrioritySkills(courseTubes, knowledgeElements);
   if (prioritySkills.length > 0) {
     const challengesFromEasyTubes = _removeChallengesThatDontTestRequiredSkills(challenges, prioritySkills);
     if(challengesFromEasyTubes.length > 0) {
@@ -79,12 +79,12 @@ function _getPrioritySkills(courseTubes, knowledgeElements) {
   )(courseTubes);
 }
 
-function _getEasyTubes(tubes) {
-  return _.filter(tubes, (tube) => tube.getHardestSkill().difficulty <= MAX_LEVEL_TO_BE_AN_EASY_TUBE);
+function _getEasyTubes(courseTubes) {
+  return _.filter(courseTubes, (tube) => tube.getHardestSkill().difficulty <= MAX_LEVEL_TO_BE_AN_EASY_TUBE);
 }
 
-function _getSkillsFromTubes(tubes) {
-  return _.flatMap(tubes, (tube) => tube.skills);
+function _getSkillsFromTubes(courseTubes) {
+  return _.flatMap(courseTubes, (tube) => tube.skills);
 }
 
 function _getUntestedSkills(knowledgeElements, skills) {
