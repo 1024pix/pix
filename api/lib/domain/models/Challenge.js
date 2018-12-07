@@ -97,7 +97,7 @@ class Challenge {
   }
 
   isTimed() {
-    return _.isNumber(this.timer);
+    return Number.isFinite(parseFloat(this.timer));
   }
 
   hasSkill(searchedSkill) {
