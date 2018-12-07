@@ -89,7 +89,11 @@ function _firstChallenge({ challenges, knowledgeElements, tubes, targetProfile }
     potentialFirstChallenges = _findPotentialFirstChallenges(timedChallenges);
   }
 
-  return _.sample(potentialFirstChallenges);
+  return _pickRandomChallenge(potentialFirstChallenges);
+}
+
+function _pickRandomChallenge(challenges) {
+  return _.sample(challenges);
 }
 
 function _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLevel, course, knowledgeElements }) {
