@@ -8,18 +8,18 @@ module.exports = {
   filteredChallenges
 };
 
-function filteredChallengesForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetProfile }) {
+function filteredChallengesForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
   return pipe(
     _removeUnpublishedChallenges,
-    _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetProfile),
+    _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetSkills),
     _removeChallengesFromLowPriorityTubes.bind(null, courseTubes, knowledgeElements)
   )(challenges);
 }
 
-function filteredChallenges({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetProfile }) {
+function filteredChallenges({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills }) {
   return pipe(
     _removeUnpublishedChallenges,
-    _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetProfile),
+    _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetSkills),
     _removeTooHardChallenges.bind(null, predictedLevel),
     _removeTimedChallengesIfLastOneWasAlsoTimed.bind(null, lastChallenge),
     _removeChallengesFromLowPriorityTubes.bind(null, courseTubes, knowledgeElements)
@@ -30,8 +30,8 @@ function _removeUnpublishedChallenges(challenges) {
   return _.filter(challenges, (challenge) => challenge.isPublished());
 }
 
-function _removeChallengesAlreadyFullyTested(knowledgeElements, targetProfile, challenges) {
-  return _.filter(challenges, (challenge) => !challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile));
+function _removeChallengesAlreadyFullyTested(knowledgeElements, targetSkills, challenges) {
+  return _.filter(challenges, (challenge) => !challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetSkills));
 }
 
 function _removeTooHardChallenges(predictedLevel, challenges) {
