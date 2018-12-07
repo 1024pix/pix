@@ -63,7 +63,10 @@ function _extractUntimedChallenge(challenges) {
 function _removeChallengesFromLowPriorityTubes(tubes, knowledgeElements, challenges) {
   const prioritySkills = _getPrioritySkills(tubes, knowledgeElements);
   if (prioritySkills.length > 0) {
-    challenges = _removeChallengesThatDontTestRequiredSkills(challenges, prioritySkills);
+    const challengesFromEasyTubes = _removeChallengesThatDontTestRequiredSkills(challenges, prioritySkills);
+    if(challengesFromEasyTubes.length > 0) {
+      return challengesFromEasyTubes;
+    }
   }
   return challenges;
 }

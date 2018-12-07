@@ -1,3 +1,4 @@
+const _ = require('lodash');
 class Tube {
 
   constructor({
@@ -29,7 +30,7 @@ class Tube {
   }
 
   getHardestSkill() {
-    return this.skills.sort((a, b) => a.difficulty < b.difficulty)[0];
+    return _.maxBy(this.skills, 'difficulty');
   }
 
 }
