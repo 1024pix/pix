@@ -15,12 +15,7 @@ module.exports = class SmartRandom {
     this.skills = targetProfile.skills;
     this.knowledgeElements = knowledgeElements;
     this.lastChallenge = _findLastChallengeIfAny(answers, challenges);
-
-    this.course = new Course();
-    const listSkillsWithChallenges = _filterSkillsByChallenges(this.skills, challenges);
-    this.course.competenceSkills = listSkillsWithChallenges;
-    this.course.computeTubes(listSkillsWithChallenges);
-
+    this.courseTubes = _findCourseTubes(this.skills, challenges);
     this.predictedLevel = getPredictedLevel(this.knowledgeElements, this.skills);
   }
 
@@ -30,7 +25,7 @@ module.exports = class SmartRandom {
       return _firstChallenge({
         challenges: this.challenges,
         knowledgeElements: this.knowledgeElements,
-        tubes: this.course.tubes,
+        courseTubes: this.courseTubes,
         targetProfile: this.targetProfile
       });
     }
@@ -38,7 +33,7 @@ module.exports = class SmartRandom {
     const availableChallenges = filteredChallenges({
       challenges: this.challenges,
       knowledgeElements: this.knowledgeElements,
-      tubes: this.course.tubes,
+      courseTubes: this.courseTubes,
       predictedLevel: this.predictedLevel,
       lastChallenge: this.lastChallenge,
       targetProfile: this.targetProfile
@@ -51,7 +46,7 @@ module.exports = class SmartRandom {
     return _findNextChallengeWithCatAlgorithm({
       availableChallenges,
       predictedLevel: this.predictedLevel,
-      course: this.course,
+      courseTubes: this.courseTubes,
       knowledgeElements: this.knowledgeElements
     });
   }
@@ -63,6 +58,13 @@ function _findLastChallengeIfAny(answers, challenges) {
   if (lastAnswer) {
     return challenges.find((challenge) => challenge.id === lastAnswer.challengeId) || UNEXISTING_ITEM;
   }
+}
+
+function _findCourseTubes(skills, challenges) {
+  const course = new Course();
+  const listSkillsWithChallenges = _filterSkillsByChallenges(skills, challenges);
+  course.competenceSkills = listSkillsWithChallenges;
+  return course.computeTubes(listSkillsWithChallenges);
 }
 
 function _findPotentialFirstChallenges(challenges) {
@@ -99,12 +101,12 @@ function _pickRandomChallenge(challenges) {
   return _.sample(challenges);
 }
 
-function _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLevel, course, knowledgeElements }) {
+function _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLevel, courseTubes, knowledgeElements }) {
 
   const challengesAndRewards = _.map(availableChallenges, (challenge) => {
     return {
       challenge: challenge,
-      reward: computeReward({ challenge, predictedLevel, course, knowledgeElements })
+      reward: computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements })
     };
   });
 
