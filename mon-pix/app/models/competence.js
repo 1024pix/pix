@@ -1,4 +1,5 @@
-import { alias } from '@ember/object/computed';
+import { alias, equal } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 
 const { Model, attr, belongsTo } = DS;
@@ -12,5 +13,15 @@ export default Model.extend({
   areaName: alias('area.name'),
   courseId: attr('string'),
   assessmentId: attr('string'),
-  status: attr('string')
+  status: attr('string'),
+  isRetryable: attr('boolean'),
+  daysBeforeNewAttempt: attr('number'),
+
+  isAssessed: equal('status', 'assessed'),
+  isNotAssessed: equal('status', 'notAssessed'),
+  isBeingAssessed: equal('status', 'assessmentNotCompleted'),
+
+  isAssessableForTheFirstTime: computed('{isNotAssessed,courseId}', function() {
+    return Boolean(this.get('isNotAssessed') && this.get('courseId'));
+  }),
 });

@@ -1,4 +1,4 @@
-{{#if hasLevel}}
+{{#if competence.isAssessed}}
   <div class="competence-level-progress-bar__background">
     <div class="competence-level-progress-bar__background-level-limit">
       <div class="competence-level-progress-bar__background-level-limit-indicator">
@@ -9,11 +9,11 @@
     <div class="competence-level-progress-bar__background-level-limit-max-indicator">
       {{_MAX_LEVEL}}
     </div>
-    {{#if canUserReplayAssessment}}
+    {{#if competence.isRetryable}}
       <div class="competence-level-progress-bar__link">
         {{#unless _showSecondChanceModal}}
-          <button class="competence-level-progress-bar__link-replay" {{action "openModal"}}>
-            Seconde chance <div class="sr-only">pour le test "{{name}}"</div>
+          <button class="competence-level-progress-bar__retry-link" {{action "openModal"}}>
+            Retenter <div class="sr-only">le test "{{competence.name}}"</div>
           </button>
         {{else}}
           {{#pix-modale containerClass="competence-level-progress-bar__modal-text second-chance__modal" onClose=(action "closeModal") }}
@@ -22,7 +22,7 @@
                 <img src="/images/comparison-window/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
               </a>
 
-              <h1>Seconde chance</h1>
+              <h1>Retenter</h1>
               <div class="competence-level-progress-bar__modal-body">
                 <p class="competence-level-progress-bar__modal-text">
                   Votre niveau actuel sera remplacé par celui de ce nouveau test.<br>Les Pix associés à cette compétence seront de nouveau calculés.
@@ -30,7 +30,7 @@
 
                 <div class="competence-level-progress-bar__modal-actions">
                   <button class="competence-level-progress-bar__modal-link-cancel pix-modal__action cancel" {{action "closeModal"}}>Annuler</button>
-                  {{#link-to "courses.create-assessment" courseId class="competence-level-progress-bar__modal-link-validate link-as-button pix-modal__action validate" }}
+                  {{#link-to "courses.create-assessment" competence.courseId class="competence-level-progress-bar__modal-link-validate link-as-button pix-modal__action validate" }}
                     J'ai compris
                   {{/link-to}}
                 </div>
@@ -38,6 +38,15 @@
             </div>
           {{/pix-modale}}
         {{/unless}}
+      </div>
+    {{ else }}
+      <div class="competence-level-progress-bar__link">
+        <div class="competence-level-progress-bar__retry-link--disabled">
+          Retenter <div class="sr-only">le test "{{competence.name}}"</div>
+        </div>
+      </div>
+      <div class="competence-level-progress-bar__retry-delay">
+        {{remainingDaysText}}
       </div>
     {{/if}}
 
@@ -50,18 +59,18 @@
   </div>
 {{/if}}
 
-{{#if canUserStartCourse}}
+{{#if competence.isAssessableForTheFirstTime}}
   <div class="competence-level-progress-bar__link">
-    {{#link-to "courses.create-assessment" courseId class="competence-level-progress-bar__link-start" }}
-      Commencer <div class="sr-only">le test "{{name}}"</div>
+    {{#link-to "courses.create-assessment" competence.courseId class="competence-level-progress-bar__link-start" }}
+      Commencer <div class="sr-only">le test "{{competence.name}}"</div>
     {{/link-to}}
   </div>
 {{/if}}
 
-{{#if canUserResumeAssessment}}
+{{#if competence.isBeingAssessed}}
   <div class="competence-level-progress-bar__link">
-    {{#link-to "assessments.resume" assessmentId class="competence-level-progress-bar__link-resume" }}
-      Reprendre <div class="sr-only">le test "{{name}}"</div>
+    {{#link-to "assessments.resume" competence.assessmentId class="competence-level-progress-bar__link-resume" }}
+      Reprendre <div class="sr-only">le test "{{competence.name}}"</div>
     {{/link-to}}
   </div>
 {{/if}}

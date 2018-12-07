@@ -5,7 +5,7 @@ describe('Unit | Service | profile number of finished tests service', function()
 
   describe('#getNumberOfFinishedTests', () => {
 
-    const notEvaluatedProfile = {
+    const notAssessedProfile = {
       data: {
         type: 'users',
         id: 'user_id',
@@ -76,7 +76,7 @@ describe('Unit | Service | profile number of finished tests service', function()
         }
       ]
     };
-    const profileWithTwoCompetencesEvaluated = {
+    const profileWithTwoCompetencesAssessed = {
       data: {
         type: 'users',
         id: 'user_id',
@@ -167,7 +167,7 @@ describe('Unit | Service | profile number of finished tests service', function()
       ]
     };
 
-    const profileWithAllComptencesEvaluated = {
+    const profileWithAllComptencesAssessed = {
       'data': {
         'type': 'users',
         'id': 10,
@@ -630,9 +630,9 @@ describe('Unit | Service | profile number of finished tests service', function()
       ]
     };
 
-    it('should return 0 when no competence has been evaluated', () => {
+    it('should return 0 when no competence has been assessed', () => {
       // when
-      const promise = getNumberOfFinishedTests(notEvaluatedProfile);
+      const promise = getNumberOfFinishedTests(notAssessedProfile);
 
       //then
       return promise.then((percentage) => {
@@ -640,9 +640,9 @@ describe('Unit | Service | profile number of finished tests service', function()
       });
     });
 
-    it('should return 2 when only 2 competences have been evaluated', () => {
+    it('should return 2 when only 2 competences have been assessed', () => {
       // when
-      const promise = getNumberOfFinishedTests(profileWithTwoCompetencesEvaluated);
+      const promise = getNumberOfFinishedTests(profileWithTwoCompetencesAssessed);
 
       //then
       return promise.then((percentage) => {
@@ -650,9 +650,9 @@ describe('Unit | Service | profile number of finished tests service', function()
       });
     });
 
-    it('should return 16 when all competences have been evaluated', () => {
+    it('should return 16 when all competences have been assessed', () => {
       // when
-      const promise = getNumberOfFinishedTests(profileWithAllComptencesEvaluated);
+      const promise = getNumberOfFinishedTests(profileWithAllComptencesAssessed);
 
       //then
       return promise.then((percentage) => {

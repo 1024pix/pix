@@ -3,6 +3,7 @@ const BookshelfUser = require('../data/user');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 const { UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
+const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
 const Organization = require('../../domain/models/Organization');
 const OrganizationRole = require('../../domain/models/OrganizationRole');
@@ -25,6 +26,15 @@ function _toMembershipsDomain(membershipsBookshelf) {
   });
 }
 
+function _toPixRolesDomain(pixRolesBookshelf) {
+  return pixRolesBookshelf.map((pixRoleBookshelf) => {
+    return new PixRole({
+      id: pixRoleBookshelf.get('id'),
+      name: pixRoleBookshelf.get('name'),
+    });
+  });
+}
+
 function _toDomain(userBookshelf) {
   return new User({
     id: userBookshelf.get('id'),
@@ -34,7 +44,8 @@ function _toDomain(userBookshelf) {
     password: userBookshelf.get('password'),
     cgu: Boolean(userBookshelf.get('cgu')),
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
-    memberships: _toMembershipsDomain(userBookshelf.related('memberships'))
+    memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
+    pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
   });
 }
 
@@ -71,6 +82,7 @@ module.exports = {
           'memberships',
           'memberships.organization',
           'memberships.organizationRole',
+          'pixRoles',
         ]
       })
       .then((foundUser) => {

@@ -64,7 +64,8 @@ describe('Unit | Service | Profil User Service', function() {
         state: 'completed',
         assessmentResults: [new AssessmentResult({
           pixScore: 10,
-          level: 1
+          level: 1,
+          createdAt: new Date('2018-01-01 05:00:00'),
         })]
       })];
 
@@ -125,14 +126,16 @@ describe('Unit | Service | Profil User Service', function() {
               name: '1.1 Mener une recherche d’information',
               areaId: 'areaId1',
               level: -1,
-              status: 'notEvaluated'
+              status: 'notAssessed',
+              isRetryable: false,
             },
             {
               id: 'competenceId2',
               name: '1.2 Gérer des données',
               areaId: 'areaId2',
               level: -1,
-              status: 'notEvaluated'
+              status: 'notAssessed',
+              isRetryable: false,
             }],
           areas: fakeAreaRecords,
           organizations: fakeOrganizationsRecords
@@ -159,14 +162,16 @@ describe('Unit | Service | Profil User Service', function() {
               level: 1,
               pixScore: 10,
               assessmentId: 'assessmentId1',
-              status: 'evaluated'
+              status: 'assessed',
+              isRetryable: true,
             },
             {
               id: 'competenceId2',
               name: '1.2 Gérer des données',
               areaId: 'areaId2',
               level: -1,
-              status: 'notEvaluated'
+              status: 'notAssessed',
+              isRetryable: false,
             }],
           areas: fakeAreaRecords,
           organizations: fakeOrganizationsRecords

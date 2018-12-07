@@ -1,4 +1,13 @@
 const _ = require('lodash');
+const moment = require('moment');
+const { MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS } = require('./Assessment');
+
+const competenceStatus = {
+  NOT_ASSESSED: 'notAssessed',
+  ASSESSMENT_NOT_COMPLETED: 'assessmentNotCompleted',
+  ASSESSED: 'assessed',
+  UNKNOWN: 'unknown',
+};
 
 // FIXME: Cet objet a trop de responsabilité (modification des compétences)
 class Profile {
@@ -6,7 +15,7 @@ class Profile {
     // attributes
     // includes
     areas,
-    assessmentsCompleted,
+    assessmentsCompletedWithResults,
     competences,
     courses,
     lastAssessments,
@@ -22,10 +31,54 @@ class Profile {
     this.user = user;
     // references
 
-    this._setStatusToCompetences(lastAssessments, assessmentsCompleted, courses);
+    this._setStatusToCompetences(lastAssessments, assessmentsCompletedWithResults, courses);
     this._setLevelAndPixScoreToCompetences(lastAssessments, courses);
     this._setAssessmentToCompetence(lastAssessments, courses);
     this._calculateTotalPixScore();
+  }
+
+  _setStatusToCompetences(lastAssessments, assessmentsCompletedWithResults, courses) {
+    this.competences.forEach((competence) => {
+
+      const lastAssessmentByCompetenceId = this._findAssessmentsByCompetenceId(lastAssessments, courses, competence.id);
+      const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompletedWithResults, courses, competence.id);
+
+      competence.isRetryable = false;
+
+      if (lastAssessmentByCompetenceId.length === 0) {
+        competence.status = competenceStatus.NOT_ASSESSED;
+      } else if (!lastAssessmentByCompetenceId[0].isCompleted()) {
+        competence.status = competenceStatus.ASSESSMENT_NOT_COMPLETED;
+      } else if (assessmentsCompletedByCompetenceId.length >= 1) {
+        competence.status = competenceStatus.ASSESSED;
+        const daysBeforeNewAttempt = this._daysBeforeNewAttempt(assessmentsCompletedByCompetenceId);
+        competence.isRetryable = daysBeforeNewAttempt === 0;
+        if (daysBeforeNewAttempt > 0) {
+          competence.daysBeforeNewAttempt = daysBeforeNewAttempt;
+        }
+      } else {
+        competence.status = competenceStatus.UNKNOWN;
+      }
+
+    });
+  }
+
+  _computeDaysBeforeNewAttempt(daysSinceLastCompletedAssessment) {
+    if(daysSinceLastCompletedAssessment >= MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS)
+      return 0;
+
+    return Math.ceil(MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS - daysSinceLastCompletedAssessment);
+  }
+
+  _daysBeforeNewAttempt(assessmentsCompletedByCompetenceId) {
+    const lastAssessmentResult = _(assessmentsCompletedByCompetenceId)
+      .map((assessment) => assessment.assessmentResults)
+      .flatten()
+      .orderBy(['createdAt'], ['desc'])
+      .first();
+
+    const daysSinceLastCompletedAssessment = moment().diff(lastAssessmentResult.createdAt, 'days', true);
+    return this._computeDaysBeforeNewAttempt(daysSinceLastCompletedAssessment);
   }
 
   _setLevelAndPixScoreToCompetences(assessments, courses) {
@@ -38,37 +91,12 @@ class Profile {
         competence.level = assessment.getLevel();
         competence.pixScore = assessment.getPixScore();
         // TODO: Standardiser l'usage de status pour une compétence
-        if (competence.status === 'notCompleted') {
+        if (competence.status === competenceStatus.ASSESSMENT_NOT_COMPLETED) {
           competence.level = -1;
           delete competence.pixScore;
         }
       }
     });
-  }
-
-  _setStatusToCompetences(lastAssessments, assessmentsCompleted, courses) {
-    this.competences.forEach((competence) => {
-      const lastAssessmentByCompetenceId = this._findAssessmentsByCompetenceId(lastAssessments, courses, competence.id);
-      const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompleted, courses, competence.id);
-      if (lastAssessmentByCompetenceId.length === 0) {
-        competence.status = 'notEvaluated';
-      } else {
-        competence.status = this._getCompetenceStatus(lastAssessmentByCompetenceId, assessmentsCompletedByCompetenceId);
-      }
-    });
-  }
-
-  _getCompetenceStatus(lastAssessmentByCompetenceId, assessmentsCompletedByCompetenceId) {
-    let status;
-    if (!lastAssessmentByCompetenceId[0].isCompleted()) {
-      status = 'notCompleted';
-    } else if (assessmentsCompletedByCompetenceId.length === 1) {
-      status = 'evaluated';
-    } else {
-      status = 'replayed';
-    }
-
-    return status;
   }
 
   _setAssessmentToCompetence(assessments, courses) {
@@ -97,7 +125,6 @@ class Profile {
   }
 
   _calculateTotalPixScore() {
-
     const competencesWithScore = _.filter(this.competences, (competence) => {
       return competence.hasOwnProperty('pixScore');
     });
@@ -113,5 +140,7 @@ class Profile {
     }
   }
 }
+
+Profile.competenceStatus = competenceStatus;
 
 module.exports = Profile;

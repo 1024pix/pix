@@ -15,15 +15,15 @@ describe('Integration | Component | competence level progress bar', function() {
 
   describe('progress bar', function() {
 
-    context('if the level is not defined', function() {
+    context('if the competence is not assessed', function() {
 
       it('should not display the background of progress bar which display limit and max level', function() {
         //Given
-        const givenLevel = -1;
-        this.set('level', givenLevel);
+        const competence = { level: -1, isAssessed: false };
+        this.set('competence', competence);
 
         //When
-        this.render(hbs`{{competence-level-progress-bar level=level}}`);
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
         //Then
         expect(this.$('.competence-level-progress-bar__background')).to.have.lengthOf(0);
@@ -31,11 +31,11 @@ describe('Integration | Component | competence level progress bar', function() {
 
       it('should not display a progress bar if level is not defined (-1)', function() {
         //Given
-        const givenLevel = undefined;
-        this.set('level', givenLevel);
+        const competence = { level: undefined, isAssessed: false };
+        this.set('competence', competence);
 
         //When
-        this.render(hbs`{{competence-level-progress-bar level=level}}`);
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
         //Then
         expect(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(0);
@@ -43,17 +43,17 @@ describe('Integration | Component | competence level progress bar', function() {
 
     });
 
-    context('if the level is defined', function() {
+    context('if the competence is assessed', function() {
 
       it('should indicate the limit level and the max level reachable in the progress bar', function() {
         // given
         const MAX_LEVEL = 8;
         const LIMIT_LEVEL = 5;
-        const level = 4;
-        this.set('level', level);
+        const competence = { level: 4, isAssessed: true };
+        this.set('competence', competence);
 
         // when
-        this.render(hbs`{{competence-level-progress-bar level=level}}`);
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
         // then
         expect(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.lengthOf(1);
@@ -64,11 +64,11 @@ describe('Integration | Component | competence level progress bar', function() {
 
       it('should display a progress bar if level is defined (equal or more than 0)', function() {
         //Given
-        const givenLevel = 1;
-        this.set('level', givenLevel);
+        const competence = { level: 1, isAssessed: true };
+        this.set('competence', competence);
 
         //When
-        this.render(hbs`{{competence-level-progress-bar level=level}}`);
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
         //Then
         expect(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(1);
@@ -76,14 +76,14 @@ describe('Integration | Component | competence level progress bar', function() {
 
       it('should indicate the level passed to the component at the end of the progress bar', function() {
         // given
-        const level = 5;
-        this.set('level', level);
+        const competence = { level: 5, isAssessed: true };
+        this.set('competence', competence);
 
         // when
-        this.render(hbs`{{competence-level-progress-bar level=level}}`);
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
         // then
-        expect(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal(level.toString());
+        expect(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal('5');
       });
     });
 
@@ -91,17 +91,17 @@ describe('Integration | Component | competence level progress bar', function() {
 
   describe('start course link', function() {
 
-    it('should display ’commencer’ in progress bar, when the level is not defined (-1) and no assessment is related', function() {
+    it('should display ’commencer’ in progress bar when the competence is assessable for the first time', function() {
       // given
-      const courseId = 'rec123';
-      const level = -1;
-
-      this.set('courseId', courseId);
-      this.set('level', level);
-      this.set('name', 'Premier test de positionnement');
+      const competence = {
+        name: 'Premier test de positionnement',
+        courseId: 'rec123',
+        isAssessableForTheFirstTime: true,
+      };
+      this.set('competence', competence);
 
       // when
-      this.render(hbs`{{competence-level-progress-bar name=name level=level courseId=courseId}}`);
+      this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
       // then
       expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
@@ -109,34 +109,19 @@ describe('Integration | Component | competence level progress bar', function() {
       expect(this.$('a.competence-level-progress-bar__link-start').text().trim()).to.contains('Commencer le test "Premier test de positionnement"');
     });
 
-    it('should not display ’commencer’ in progress bar, when the level is already defined', function() {
+    it('should not display ’commencer’ in progress bar when the competence is not assessable for the first time', function() {
       // given
-      const courseId = 'rec123';
-      const level = 3;
-
-      this.set('courseId', courseId);
-      this.set('level', level);
-      this.set('name', 'Premier test de positionnement');
+      const competence = {
+        name: 'Premier test de positionnement',
+        courseId: 'rec123',
+        isAssessableForTheFirstTime: false
+      };
+      this.set('competence', competence);
 
       // when
-      this.render(hbs`{{competence-level-progress-bar level=level courseId=courseId name=name}}`);
+      this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
       // then
-      expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(0);
-      expect(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(0);
-    });
-
-    it('should not display ’commencer’ in progress bar when there is no associated course', function() {
-      // given
-      const level = 3;
-      this.set('level', level);
-      this.set('name', 'Premier test de positionnement');
-
-      // when
-      this.render(hbs`{{competence-level-progress-bar level=level name=name}}`);
-
-      // then
-      expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(0);
       expect(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(0);
     });
 
@@ -144,17 +129,13 @@ describe('Integration | Component | competence level progress bar', function() {
 
   describe('resume assessment link', function() {
 
-    it('should display `Reprendre` if status is "notCompleted" and there is an assessment related', function() {
+    it('should display `Reprendre` if competence is being evaluated and there is an assessment related', function() {
       // given
-      const status = 'notCompleted';
-      const assessmentId = 'awesomeId';
-      const name = 'deuxième test';
-      this.set('status', status);
-      this.set('assessmentId', assessmentId);
-      this.set('name', name);
+      const competence = { name: 'deuxième test', assessmentId: 'awesomeId', isBeingAssessed: true };
+      this.set('competence', competence);
 
       // when
-      this.render(hbs`{{competence-level-progress-bar status=status assessmentId=assessmentId name=name}}`);
+      this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
 
       // then
       expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
@@ -164,53 +145,109 @@ describe('Integration | Component | competence level progress bar', function() {
 
   });
 
-  describe('replay assessment link', function() {
+  describe('retry link', async function() {
 
-    it('should display `Seconde Change` if status is "evaluated"', function() {
-      // given
-      const status = 'evaluated';
-      const name = 'deuxième test';
-      const courseId = 'courseId';
-      const level = 3;
+    context('when competence is assessed and retryable', async function() {
 
-      this.set('status', status);
-      this.set('name', name);
-      this.set('courseId', courseId);
-      this.set('level', level);
+      const competence = {
+        name: 'deuxième test',
+        assessmentId: 'awesomeId',
+        courseId: 'rec123aZe',
+        isAssessed: true,
+        isRetryable: true,
+        level: 3
+      };
 
-      // when
-      this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level}}`);
+      beforeEach(async function() {
+        this.set('competence', competence);
+      });
 
-      // then
-      expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
-      expect(this.$('.competence-level-progress-bar__link-replay')).to.have.lengthOf(1);
-      expect(this.$('.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Seconde chance pour le test "deuxième test"');
+      it('should display `Retenter` button', function() {
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+
+        // then
+        expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+        expect(this.$('button.competence-level-progress-bar__retry-link')).to.have.lengthOf(1);
+        expect(this.$('.competence-level-progress-bar__retry-link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
+      });
+
+      it('should display a modal when clicked', async function() {
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+        await this.$('.competence-level-progress-bar__retry-link').click();
+        const $modal = document.querySelector('.pix-modal__container');
+
+        // then
+        expect($modal).to.be.ok;
+        expect($modal.querySelector('h1').textContent).to.contains('Retenter');
+        expect($modal.textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
+        expect($modal.querySelector('.pix-modal__action.cancel').textContent).to.contains('Annuler');
+        expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
+      });
+
+      it('should not display remaining days info', function() {
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+
+        // then
+        expect(this.$('.competence-level-progress-bar__retry-delay')).to.have.lengthOf(0);
+      });
+
     });
 
-    it('should display a modal when clicked', async function() {
-      // given
-      const status = 'evaluated';
-      const name = 'deuxième test';
-      const courseId = 'courseId';
-      const level = 3;
+    context('when competence is assessed and not retryable', async function() {
 
-      this.set('status', status);
-      this.set('name', name);
-      this.set('courseId', courseId);
-      this.set('level', level);
+      const competence = {
+        name: 'deuxième test',
+        assessmentId: 'awesomeId',
+        courseId: 'rec123aZe',
+        isAssessed: true,
+        isRetryable: false,
+        level: 3
+      };
 
-      // when
-      this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level}}`);
-      await this.$('.competence-level-progress-bar__link-replay').click();
-      const $modal = document.querySelector('.pix-modal__container');
+      beforeEach(async function() {
+        this.set('competence', competence);
+      });
 
-      // then
-      expect($modal).to.be.ok;
-      expect($modal.querySelector('h1').textContent).to.contains('Seconde chance');
-      expect($modal.textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
-      expect($modal.querySelector('.pix-modal__action.cancel').textContent).to.contains('Annuler');
-      expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
+      it('should display `Retenter` text but not clickable', function() {
+        // given
+        competence.daysBeforeNewAttempt = 5;
+
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+
+        // then
+        expect(this.$('button.competence-level-progress-bar__retry-link')).to.have.lengthOf(0);
+        expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+        expect(this.$('.competence-level-progress-bar__link').text().trim()).to.be.equal('Retenter le test "deuxième test"');
+      });
+
+      it('should display `1 day` if there is one day left to wait', function() {
+        // given
+        competence.daysBeforeNewAttempt = 1;
+
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+
+        // then
+        expect(this.$('.competence-level-progress-bar__retry-delay').text().trim()).to.equal('dans 1 jour');
+      });
+
+      it('should display `4 days` if there are 4 days left to wait', function() {
+        // given
+        competence.daysBeforeNewAttempt = 4;
+
+        // when
+        this.render(hbs`{{competence-level-progress-bar competence=competence}}`);
+
+        // then
+        expect(this.$('.competence-level-progress-bar__retry-delay').text().trim()).to.equal('dans 4 jours');
+      });
+
     });
+
   });
 
 });
