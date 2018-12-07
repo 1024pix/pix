@@ -336,6 +336,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         skills = [url2, url3, rechInfo5, web7];
         targetProfile = new TargetProfile({ skills });
         challenges = [challengeUrl_2, challengeUrl_3, challengeRechInfo_5, challengeWeb_7];
+
         answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec3', result: AnswerStatus.OK }),

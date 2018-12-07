@@ -5,6 +5,7 @@ const _ = require('lodash');
 
 const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 const TEST_ENDED_CHAR = null;
+const UNEXISTING_ITEM = null;
 
 module.exports = class SmartRandom {
 
@@ -13,24 +14,19 @@ module.exports = class SmartRandom {
     this.targetProfile = targetProfile;
     this.skills = targetProfile.skills;
     this.knowledgeElements = knowledgeElements;
+    this.lastChallenge = _findLastChallengeIfAny(answers, challenges);
 
     this.course = new Course();
     const listSkillsWithChallenges = _filterSkillsByChallenges(this.skills, challenges);
     this.course.competenceSkills = listSkillsWithChallenges;
     this.course.computeTubes(listSkillsWithChallenges);
 
-    this.lastAnswer = answers[answers.length-1];
-    this.lastChallenge = null;
-    if(this.lastAnswer) {
-      this.lastChallenge = challenges.find((challenge) => challenge.id === this.lastAnswer.challengeId);
-    }
-
     this.predictedLevel = getPredictedLevel(this.knowledgeElements, this.skills);
   }
 
   getNextChallenge() {
 
-    if (!this.lastAnswer) {
+    if (!this.lastChallenge) {
       return _firstChallenge({
         challenges: this.challenges,
         knowledgeElements: this.knowledgeElements,
@@ -61,6 +57,13 @@ module.exports = class SmartRandom {
   }
 
 };
+
+function _findLastChallengeIfAny(answers, challenges) {
+  const lastAnswer = _.last(answers);
+  if (lastAnswer) {
+    return challenges.find((challenge) => challenge.id === lastAnswer.challengeId) || UNEXISTING_ITEM;
+  }
+}
 
 function _findPotentialFirstChallenges(challenges) {
   // first challenge difficulty should be the default one if possible, otherwise take the minimum difficulty
