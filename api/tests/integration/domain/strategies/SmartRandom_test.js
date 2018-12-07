@@ -256,6 +256,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         // then
         expect(nextChallenge).to.equal(challengeWeb_3);
       });
+
       it('should return a challenge of level 4 if user got levels 1, 2, 3 and 3 was archived afterwards', function() {
         // given
         const answers = [
@@ -290,6 +291,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         // then
         expect(nextChallenge).to.equal(challengeWeb_4);
       });
+
       it('should return a challenge of level 3 if user got levels 1, 2, but failed 4, and 4 was archived afterwards', function() {
         // given
         const answers = [
@@ -324,29 +326,23 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         // then
         expect(nextChallenge).to.equal(challengeWeb_3);
       });
+
     });
 
-    // on vérifier que l'on ajuste bien la difficulté sans erreur
+    // These tests verify the adaptive behavior of the algorithm : that it can increase/decrease the difficulty accordingly, can reach
+    // the maximum level, can end when no challenges are available etc.
     context('when the difficulty must be adapted based on the answer to the previous question', () => {
 
-      // on s'assurer que le test augmente/diminue bien la difficulté en fonction de la réponse
-      it('should not return a challenge of level 7 if user got levels 2-3 ok but level 5 ko', function() {
+      it('should end the test when the remaining challenges have been inferred to be too hard', function() {
         // given
         const skills = [url2, url3, rechInfo5, web7];
         const targetProfile = new TargetProfile({ skills });
-
-        const ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [url2] });
-        const ch3 = domainBuilder.buildChallenge({ id: 'rec3', skills: [url3] });
-        const ch5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [rechInfo5] });
-        const ch7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [web7] });
-        const challenges = [ch2, ch3, ch5, ch7];
-
+        const challenges = [challengeUrl_2, challengeUrl_3, challengeRechInfo_5, challengeWeb_7];
         const answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec3', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec5', result: AnswerStatus.KO })
         ];
-
         const knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
             skillId: url2.id,
@@ -374,30 +370,24 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
       });
 
-      // on considère qu'un skipping est équivalent à ne pas savoir
-      it('should return an easier challenge if user skipped previous challenge', function() {
+      it('should consider skipping a challenge equivalent to not knowing and decrease difficulty when it happens', function() {
         // given
         const skills = [web1, web2, web3];
         const targetProfile = new TargetProfile({ skills });
-
-        const ch1 = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
-        const ch2a = domainBuilder.buildChallenge({ id: 'rec2a', skills: [web2] });
-        const ch2b = domainBuilder.buildChallenge({ id: 'rec2b', skills: [web2] });
-        const ch3 = domainBuilder.buildChallenge({ id: 'rec3', skills: [web3] });
-        const challenges = [ch1, ch2a, ch2b, ch3];
+        const challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2, challengeWeb_3];
         const answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec2a', result: AnswerStatus.SKIPPED })
+          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.SKIPPED })
         ];
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({
-            skillId: web3.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
-            source: 'indirect'
-          }),
           domainBuilder.buildSmartPlacementKnowledgeElement({
             skillId: web2.id,
             status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
             source: 'direct'
+          }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({
+            skillId: web3.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.INVALIDATED,
+            source: 'indirect'
           }),
         ];
 
@@ -409,8 +399,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         expect(nextChallenge.hardestSkill.difficulty).to.be.equal(1);
       });
 
-      // on doit converge entre ce qu'on sait et ce qu'on fail
-      it('should return a challenge of level 5 if user got levels 2-4 ok but level 6 ko', function() {
+      it('should decrease the difficulty when the last given answer was not correct', function() {
         // given
         const skills = [web1, web2, url3, url4, rechInfo5, rechInfo7, url6];
         const targetProfile = new TargetProfile({ skills });
@@ -466,8 +455,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         expect(nextChallenge).to.equal(ch5);
       });
 
-      // cas aux limite : test qu'on est capable d'aller jusqu'au niveau maximum
-      it('should return a challenge of difficulty 7 if challenge of difficulty 6 is correctly answered', function() {
+      it('should ask a challenge of maximum difficulty when maximum difficulty (minus 1) was correctly answered (edge case test)', function() {
         // given
         const skills = [web1, web2, web4, web6, web7];
         const targetProfile = new TargetProfile({ skills });
@@ -514,17 +502,11 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         expect(nextChallenge.skills).to.be.deep.equal([web7]);
       });
 
-      // doit respecter un gap maximum de 2
-      it('should not return a question of level 6 after first answer is correct', function() {
+      it('should end the test if the only available challenges are too hard (above maximum gap allowed)', function() {
         // given
         const skills = [web1, web2, web4, web6];
         const targetProfile = new TargetProfile({ skills });
-
-        const ch1 = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
-        const ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
-        const ch4 = domainBuilder.buildChallenge({ id: 'rec4', skills: [web4] });
-        const ch6 = domainBuilder.buildChallenge({ id: 'rec6', skills: [web6] });
-        const challenges = [ch1, ch2, ch4, ch6];
+        const challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_4, challengeWeb_6];
         const answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
         ];
@@ -549,50 +531,11 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         expect(nextChallenge.skills[0].difficulty).not.to.be.equal(6);
       });
 
-      // doit respecter le cas maximum de 2
-      it('should not select a challenge that is more than 2 levels above the predicted level', function() {
+      it('should prioritze a challenge from an easy tube if given the possibility', function() {
         // given
-        const skills = [web2, url7];
-        const targetProfile = new TargetProfile({ skills });
-
-        const challengeWeb2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
-        const challengeUrl7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [url7] });
-        const challenges = [challengeWeb2, challengeUrl7];
-        const answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
-        ];
-        const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({
-            skillId: web2.id,
-            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
-            source: 'direct'
-          }),
-        ];
-
-        // when
-        const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
-        const nextChallenge = smartRandom.getNextChallenge();
-
-        // then
-        expect(nextChallenge).to.equal(null);
-      });
-
-      // doit prioriser les easy tubes quand il y en a
-      it('should select in priority a challenge in the unexplored tubes with level below level 3', function() {
-        // given
-        const url4 = domainBuilder.buildSkill({ name: '@url4' });
-        const url5 = domainBuilder.buildSkill({ name: '@url5' });
-        const web3 = domainBuilder.buildSkill({ name: '@web3' });
-        const info2 = domainBuilder.buildSkill({ name: '@info2' });
         const skills = [url4, url5, web3, info2];
         const targetProfile = new TargetProfile({ skills });
-
-        const challengeUrl4 = domainBuilder.buildChallenge({ id: '@recUrl4', skills: [url4] });
-        const challengeUrl5 = domainBuilder.buildChallenge({ id: '@recUrl5', skills: [url5] });
-        const challengeWeb3 = domainBuilder.buildChallenge({ id: '@recWeb3', skills: [web3] });
-        const challengeInfo2 = domainBuilder.buildChallenge({ id: '@recInfo2', skills: [info2] });
-
-        const challenges = [challengeUrl4, challengeUrl5, challengeInfo2, challengeWeb3];
+        const challenges = [challengeUrl_4, challengeUrl_5, challengeInfo_2, challengeWeb_3];
         const answers = [domainBuilder.buildAnswer({ challengeId: '@recInfo2', result: AnswerStatus.OK })];
         const knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -607,21 +550,14 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge).to.equal(challengeWeb3);
+        expect(nextChallenge).to.equal(challengeWeb_3);
       });
 
-      // doit quand même poser une question sur un autre tube s'il n'y a pas de easy tube
-      it('should nevertheless target any tubes when there is no easy tube', function() {
+      it('should nevertheless target a challenge from any tubes when there is no easy tube', function() {
         // given
         const skills = [url4, url6, info2];
         const targetProfile = new TargetProfile({ skills });
-
-        const challengeUrl4 = domainBuilder.buildChallenge({ id: '@recUrl4', skills: [url4] });
-        const challengeUrl6 = domainBuilder.buildChallenge({ id: '@recUrl6', skills: [url6] });
-        const challengeInfo2 = domainBuilder.buildChallenge({ id: '@recInfo2', skills: [info2] });
-
-        const challenges = [challengeUrl4, challengeUrl6, challengeInfo2];
-
+        const challenges = [challengeUrl_4, challengeUrl_6, challengeInfo_2];
         const answers = [domainBuilder.buildAnswer({ challengeId: '@recInfo2', result: AnswerStatus.OK })];
         const knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -636,7 +572,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge).to.equal(challengeUrl4);
+        expect(nextChallenge).to.equal(challengeUrl_4);
       });
 
     });
