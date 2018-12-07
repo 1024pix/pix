@@ -5,9 +5,30 @@ const _ = require('lodash');
 // https://en.wikipedia.org/wiki/Item_response_theory
 
 module.exports = {
-  computeReward,
-  getPredictedLevel
+  findMaxRewardingChallenges: findMaxRewardingChallenge,
+  getPredictedLevel: getPredictedLevel,
+  hasReachedStabilityPoint: hasReachedStabilityPoint
 };
+
+function findMaxRewardingChallenge({ availableChallenges, predictedLevel, courseTubes, knowledgeElements }) {
+
+  const challengesAndRewards = _.map(availableChallenges, (challenge) => {
+    return {
+      challenge: challenge,
+      reward: computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements })
+    };
+  });
+
+  const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
+  const maxReward = challengeWithMaxReward.reward;
+
+  const maxRewardingChallenges = challengesAndRewards
+    .filter((challengeAndReward) => challengeAndReward.reward === maxReward)
+    .map((challengeAndReward) => challengeAndReward.challenge);
+
+  return { maxRewardingChallenges, maxReward };
+
+}
 
 function computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements }) {
   const proba = _probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
@@ -87,4 +108,8 @@ function _skillNotTestedYet(skill, knowledgesElements) {
 // https://en.wikipedia.org/wiki/Logistic_function
 function _probaOfCorrectAnswer(userEstimatedLevel, challengeDifficulty) {
   return 1 / (1 + Math.exp(-(userEstimatedLevel - challengeDifficulty)));
+}
+
+function hasReachedStabilityPoint(maxReward) {
+  return _.isNumber(maxReward) && maxReward === 0;
 }

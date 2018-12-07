@@ -1,6 +1,6 @@
 const Course = require('../models/Course');
 const { filteredChallenges, filteredChallengeForFirstChallenge } = require('./challengesFilter');
-const { getPredictedLevel, computeReward } = require('./catAlgorithm');
+const catAlgorithm = require('./catAlgorithm');
 const _ = require('lodash');
 
 const TEST_ENDED_CHAR = null;
@@ -14,7 +14,7 @@ module.exports = class SmartRandom {
     this.knowledgeElements = knowledgeElements;
     this.lastChallenge = _findLastChallengeIfAny(answers, challenges);
     this.courseTubes = _findCourseTubes(this.targetSkills, challenges);
-    this.predictedLevel = getPredictedLevel(this.knowledgeElements, this.targetSkills);
+    this.predictedLevel = catAlgorithm.getPredictedLevel(this.knowledgeElements, this.targetSkills);
     this.isUserStartingTheTest = !this.lastChallenge;
   }
 
@@ -56,7 +56,13 @@ function _findAnyChallenge({ challenges, knowledgeElements, courseTubes, targetS
   if (_hasNoMoreChallenges(availableChallenges)) {
     return TEST_ENDED_CHAR;
   }
-  return _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
+  const { maxReward, maxRewardingChallenges } = catAlgorithm.findMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
+
+  if (catAlgorithm.hasReachedStabilityPoint(maxReward)) {
+    return TEST_ENDED_CHAR;
+  }
+
+  return _pickRandomChallenge(maxRewardingChallenges);
 }
 
 function _findFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
@@ -66,32 +72,6 @@ function _findFirstChallenge({ challenges, knowledgeElements, courseTubes, targe
 
 function _pickRandomChallenge(challenges) {
   return _.sample(challenges);
-}
-
-function _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLevel, courseTubes, knowledgeElements }) {
-
-  const challengesAndRewards = _.map(availableChallenges, (challenge) => {
-    return {
-      challenge: challenge,
-      reward: computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements })
-    };
-  });
-
-  const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
-  const maxReward = challengeWithMaxReward.reward;
-
-  if (_hasReachedAStabilityPoint(maxReward)) {
-    return TEST_ENDED_CHAR;
-  }
-
-  const bestChallenges = challengesAndRewards
-    .filter((challengeAndReward) => challengeAndReward.reward === maxReward)
-    .map((challengeAndReward) => challengeAndReward.challenge);
-  return _.sample(bestChallenges);
-}
-
-function _hasReachedAStabilityPoint(maxReward) {
-  return _.isNumber(maxReward) && maxReward === 0;
 }
 
 function _hasNoMoreChallenges(challenges) {
