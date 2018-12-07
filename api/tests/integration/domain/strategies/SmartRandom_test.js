@@ -89,7 +89,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
       const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
 
       // then
-      expect(smartRandom.course.tubes).to.be.deep.equal([expectedTubes]);
+      expect(smartRandom.courseTubes).to.be.deep.equal([expectedTubes]);
     });
 
     it('should create a course with tubes contains only skills with challenges', () => {
@@ -105,7 +105,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
       const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
 
       // then
-      expect(smartRandom.course.tubes).to.be.deep.equal([expectedTubes]);
+      expect(smartRandom.courseTubes).to.be.deep.equal([expectedTubes]);
     });
   });
 
@@ -199,6 +199,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should return a challenge of level 4 if user got levels 1, 2 and the only possible level is 3 archived', function() {
         // given
+        targetProfile = { skills: [web1, web2, web3, web4, web5, web6] };
         answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec1', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
@@ -228,6 +229,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should return a challenge of level 3 if user got levels 1, 2 and another possible level 3 is archived', function() {
         // given
+        targetProfile = { skills: [web1, web2, web3, web4, web5, web6] };
         answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec1', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
@@ -257,6 +259,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should return a challenge of level 4 if user got levels 1, 2, 3 and 3 was archived afterwards', function() {
         // given
+        targetProfile = { skills: [web1, web2, web3, web4, web5, web6] };
         answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec1', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
@@ -292,6 +295,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should return a challenge of level 3 if user got levels 1, 2, but failed 4, and 4 was archived afterwards', function() {
         // given
+        targetProfile = { skills: [web1, web2, web3, web4, web5, web6] };
         answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec1', result: AnswerStatus.OK }),
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
@@ -333,8 +337,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should end the test when the remaining challenges have been inferred to be too hard', function() {
         // given
-        skills = [url2, url3, rechInfo5, web7];
-        targetProfile = new TargetProfile({ skills });
+        targetProfile = new TargetProfile({ skills: [url2, url3, rechInfo5, web7] });
         challenges = [challengeUrl_2, challengeUrl_3, challengeRechInfo_5, challengeWeb_7];
 
         answers = [
@@ -371,8 +374,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should consider skipping a challenge equivalent to not knowing and decrease difficulty when it happens', function() {
         // given
-        skills = [web1, web2, web3];
-        targetProfile = new TargetProfile({ skills });
+        targetProfile = new TargetProfile({ skills: [web1, web2, web3] });
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2, challengeWeb_3];
         answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.SKIPPED })
@@ -400,8 +402,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
       it('should decrease the difficulty when the last given answer was not correct', function() {
         // given
-        skills = [web1, web2, url3, url4, rechInfo5, rechInfo7, url6];
-        targetProfile = new TargetProfile({ skills });
+        targetProfile = new TargetProfile({ skills: [web1, web2, url3, url4, rechInfo5, rechInfo7, url6] });
 
         challenges = [challengeWeb_1, challengeWeb_2, challengeUrl_3, challengeUrl_4, challengeUrl_6, challengeRechInfo_5, challengeRechInfo_7];
 
