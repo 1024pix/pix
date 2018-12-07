@@ -117,9 +117,9 @@ class Challenge {
     return _.intersection(_.map(this.skills, 'name'), _.map(requiredSkills, 'name')).length !== 0;
   }
 
-  haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile) {
+  haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfileSkills) {
     const skillIdsAlreadyTested = _.map(knowledgeElements, 'skillId');
-    const targetProfileSkillsIds = _.map(targetProfile.skills, 'id');
+    const targetProfileSkillsIds = _.map(targetProfileSkills, 'id');
     const challengeSkillsIds = _.map(this.skills, 'id');
     const challengeSkillsIdsInTargetProfile = _.intersection(challengeSkillsIds, targetProfileSkillsIds);
 
