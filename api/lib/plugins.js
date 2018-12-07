@@ -2,10 +2,10 @@ const Pack = require('../package');
 const Metrics = require('./infrastructure/plugins/metrics');
 const settings = require('./settings');
 
-const doesUseJsonLogs = ['production', 'staging'].includes(process.env.NODE_ENV);
+const isProduction = ['production', 'staging'].includes(process.env.NODE_ENV);
 
 const consoleReporters =
-  doesUseJsonLogs ?
+  isProduction ?
     [
       {
         module: 'good-squeeze',
@@ -61,15 +61,17 @@ const plugins = [
       }
     }
   },
-  {
-    plugin: require('hapi-raven'),
-    options: {
-      dsn: process.env.SENTRY_DSN,
-      tags: {
-        source: 'api'
+  ...(isProduction ? [
+    {
+      plugin: require('hapi-raven'),
+      options: {
+        dsn: process.env.SENTRY_DSN,
+        tags: {
+          source: 'api'
+        }
       }
     }
-  }
+  ] : [])
 ];
 
 module.exports = plugins;
