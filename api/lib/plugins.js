@@ -42,7 +42,7 @@ const plugins = [
   require('vision'),
   require('blipp'),
   {
-    register: require('hapi-swagger'),
+    plugin: require('hapi-swagger'),
     options: {
       basePath: '/api',
       grouping: 'tags',
@@ -54,7 +54,7 @@ const plugins = [
     }
   },
   {
-    register: require('good'),
+    plugin: require('good'),
     options: {
       reporters: {
         console: consoleReporters,
@@ -62,7 +62,7 @@ const plugins = [
     }
   },
   {
-    register: require('hapi-raven'),
+    plugin: require('hapi-raven'),
     options: {
       dsn: process.env.SENTRY_DSN,
       tags: {
