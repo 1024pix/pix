@@ -16,11 +16,12 @@ module.exports = class SmartRandom {
     this.lastChallenge = _findLastChallengeIfAny(answers, challenges);
     this.courseTubes = _findCourseTubes(this.targetSkills, challenges);
     this.predictedLevel = getPredictedLevel(this.knowledgeElements, this.targetSkills);
+    this.isUserStartingTheTest = !this.lastChallenge;
   }
 
   getNextChallenge() {
 
-    if (!this.lastChallenge) {
+    if (this.isUserStartingTheTest) {
       return _firstChallenge({
         challenges: this.challenges,
         knowledgeElements: this.knowledgeElements,
@@ -29,27 +30,15 @@ module.exports = class SmartRandom {
       });
     }
 
-    const availableChallenges = filteredChallenges({
+    return _anyChallenge({
       challenges: this.challenges,
       knowledgeElements: this.knowledgeElements,
       courseTubes: this.courseTubes,
+      targetSkills: this.targetSkills,
       predictedLevel: this.predictedLevel,
       lastChallenge: this.lastChallenge,
-      targetSkills: this.targetSkills
-    });
-
-    if (_hasNoMoreChallenges(availableChallenges)) {
-      return TEST_ENDED_CHAR;
-    }
-
-    return _findNextChallengeWithCatAlgorithm({
-      availableChallenges,
-      predictedLevel: this.predictedLevel,
-      courseTubes: this.courseTubes,
-      knowledgeElements: this.knowledgeElements
     });
   }
-
 };
 
 function _findLastChallengeIfAny(answers, challenges) {
@@ -64,6 +53,17 @@ function _findCourseTubes(skills, challenges) {
   const listSkillsWithChallenges = _filterSkillsByChallenges(skills, challenges);
   course.competenceSkills = listSkillsWithChallenges;
   return course.computeTubes(listSkillsWithChallenges);
+}
+
+function _anyChallenge({ challenges, knowledgeElements, courseTubes, targetSkills, predictedLevel, lastChallenge }) {
+
+  const availableChallenges = filteredChallenges({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
+  
+  if (_hasNoMoreChallenges(availableChallenges)) {
+    return TEST_ENDED_CHAR;
+  }
+  return _findNextChallengeWithCatAlgorithm({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
+
 }
 
 function _findPotentialFirstChallenges(challenges) {
