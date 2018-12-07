@@ -190,11 +190,11 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
     // Some challenges can be archived. Such challenges may be ruled out whn they haven't been answered yet, but at the same time
     // must be taken into account when the user has already answered them, since they give useful information to the adaptive algorithlm.
     context('when one challenge has been archived', () => {
-      let challengeWeb_3_Archived, challengeWeb_4_Archived, targetProfileSkills;
+      let challengeWeb_3_Archived, challengeWeb_4_Archived, skills;
 
       beforeEach(() => {
-        targetProfileSkills = [web1, web2, web3, web4, web5];
-        targetProfile = new TargetProfile({ skills: targetProfileSkills });
+        skills = [web1, web2, web3, web4, web5];
+        targetProfile = new TargetProfile({ skills });
         challengeWeb_3_Archived =  turnIntoArchivedChallenge(challengeWeb_3);
         challengeWeb_4_Archived =  turnIntoArchivedChallenge(challengeWeb_4);
       });
