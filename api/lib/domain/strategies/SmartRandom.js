@@ -1,7 +1,8 @@
 const Course = require('../models/Course');
-const { filteredChallenges, filteredChallengeForFirstChallenge } = require('./challengesFilter');
+const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challengesFilter');
 const catAlgorithm = require('./catAlgorithm');
 const _ = require('lodash');
+const { pipe } = require('lodash/fp');
 
 const TEST_ENDED_CHAR = null;
 const UNEXISTING_ITEM = null;
@@ -52,7 +53,8 @@ function _filterSkillsByChallenges(skills, challenges) {
 }
 
 function _findAnyChallenge({ challenges, knowledgeElements, courseTubes, targetSkills, predictedLevel, lastChallenge }) {
-  const availableChallenges = filteredChallenges({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
+  
+  const availableChallenges = getFilteredChallengesForAnyChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
   if (_hasNoMoreChallenges(availableChallenges)) {
     return TEST_ENDED_CHAR;
   }
@@ -66,8 +68,8 @@ function _findAnyChallenge({ challenges, knowledgeElements, courseTubes, targetS
 }
 
 function _findFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
-  const filteredChallenges = filteredChallengeForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
-  return _pickRandomChallenge(filteredChallenges);
+  const filteredChallengesForFirstChallenge = getFilteredChallengesForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
+  return _pickRandomChallenge(filteredChallengesForFirstChallenge);
 }
 
 function _pickRandomChallenge(challenges) {
