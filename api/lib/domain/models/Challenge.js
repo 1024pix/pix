@@ -96,6 +96,10 @@ class Challenge {
     this.skills.push(skill);
   }
 
+  isTimed() {
+    return _.isNumber(this.timer);
+  }
+
   hasSkill(searchedSkill) {
     return this.skills.filter((skill) => skill.name === searchedSkill.name).length > 0;
   }

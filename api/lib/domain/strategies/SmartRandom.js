@@ -55,7 +55,7 @@ function _findFirstChallenge({ challenges, knowledgeElements, courseTubes, targe
   const filteredChallenges = filteredChallengeForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
 
   const [timedChallenges, notTimedChallenges] = _(filteredChallenges)
-    .partition((challenge) => challenge.timer)
+    .partition((challenge) => challenge.isTimed())
     .values()
     .value();
 
