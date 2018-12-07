@@ -2,24 +2,27 @@ const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 
 const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
+const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 
 module.exports = {
-  filteredChallengesForFirstChallenge,
+  filteredChallengeForFirstChallenge: filteredChallengesForFirstChallenge,
   filteredChallenges
 };
 
 function filteredChallengesForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
   return pipe(
     _removeUnpublishedChallenges,
-    _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetSkills),
-    _removeChallengesFromLowPriorityTubes.bind(null, courseTubes, knowledgeElements)
+    _removeChallengesThatAlreadyFullyTested.bind(null, knowledgeElements, targetSkills),
+    _removeChallengesFromLowPriorityTubes.bind(null, courseTubes, knowledgeElements),
+    _keepOnlyUntimedChallengeIfAny.bind(null),
+    _keepOnlyChallengesOfMinimumEffectiveDifficulty.bind(null)
   )(challenges);
 }
 
 function filteredChallenges({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills }) {
   return pipe(
     _removeUnpublishedChallenges,
-    _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetSkills),
+    _removeChallengesThatAlreadyFullyTested.bind(null, knowledgeElements, targetSkills),
     _removeTooHardChallenges.bind(null, predictedLevel),
     _removeTimedChallengesIfLastOneWasAlsoTimed.bind(null, lastChallenge),
     _removeChallengesFromLowPriorityTubes.bind(null, courseTubes, knowledgeElements)
@@ -30,7 +33,7 @@ function _removeUnpublishedChallenges(challenges) {
   return _.filter(challenges, (challenge) => challenge.isPublished());
 }
 
-function _removeChallengesAlreadyFullyTested(knowledgeElements, targetSkills, challenges) {
+function _removeChallengesThatAlreadyFullyTested(knowledgeElements, targetSkills, challenges) {
   return _.filter(challenges, (challenge) => !challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetSkills));
 }
 
@@ -84,10 +87,10 @@ function _getSkillsFromTubes(courseTubes) {
 }
 
 function _getUntestedSkills(knowledgeElements, skills) {
-  return _.filter(skills, (skill) => !_isSkillAlreadyTested(skill, knowledgeElements));
+  return _.filter(skills, (skill) => !_skillAlreadyTested(skill, knowledgeElements));
 }
 
-function _isSkillAlreadyTested(skill, knowledgeElements) {
+function _skillAlreadyTested(skill, knowledgeElements) {
   const alreadyTestedSkillIds = _.map(knowledgeElements, 'skillId');
   return alreadyTestedSkillIds.includes(skill.id);
 }
@@ -96,3 +99,22 @@ function _removeChallengesThatDontTestRequiredSkills(challenges, requiredSkills)
   return _.filter(challenges, (challenge) => challenge.hasAtLeastOneSkillTested(requiredSkills));
 }
 
+function _keepOnlyUntimedChallengeIfAny(challenges) {
+  const untimedChallenges = _.filter(challenges, (challenge) => !challenge.isTimed());
+  if (!_.isEmpty(untimedChallenges)) {
+    return untimedChallenges;
+  }
+  return challenges;
+}
+
+// A challenge of default level difficulty should be prioritized over all other levels. Hence, we remap
+// the difficulty so it's effective difficulty is considered the lowerst possible
+function _keepOnlyChallengesOfMinimumEffectiveDifficulty(challenges) {
+  const remapDifficulty = (difficulty) => difficulty == DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
+  const [, potentialFirstChallenges] = _(challenges)
+    .groupBy('hardestSkill.difficulty')
+    .entries()
+    .minBy(([difficulty, _challenges]) => remapDifficulty(parseFloat(difficulty)));
+
+  return potentialFirstChallenges;
+}
