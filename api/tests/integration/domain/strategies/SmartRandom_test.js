@@ -30,7 +30,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
     web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil2, challengeWeb_1,
     challengeWeb_2, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6, challengeWeb_7,
     challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5,
-    challengeInfo_2, challengeCnil_2;
+    challengeRechInfo_7, challengeInfo_2, challengeCnil_2;
 
   beforeEach(() => {
     targetProfile = null;
@@ -70,6 +70,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
     challengeUrl_5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [url5] });
     challengeUrl_6 = domainBuilder.buildChallenge({ id: 'rec6', skills: [url6] });
     challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [rechInfo5] });
+    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'rec5', skills: [rechInfo7] });
     challengeCnil_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [cnil2] });
     challengeInfo_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [info2] });
   });
@@ -93,7 +94,6 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
     it('should create a course with tubes contains only skills with challenges', () => {
       // given
-
       challenges = [challengeWeb_1, challengeWeb_2];
       skills = [web1, web2, web3];
       targetProfile = new TargetProfile({ skills });
@@ -402,14 +402,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         skills = [web1, web2, url3, url4, rechInfo5, rechInfo7, url6];
         targetProfile = new TargetProfile({ skills });
 
-        const ch1 = domainBuilder.buildChallenge({ id: 'recEasy', skills: [web1] });
-        const ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
-        const ch3 = domainBuilder.buildChallenge({ id: 'rec3', skills: [url3] });
-        const ch4 = domainBuilder.buildChallenge({ id: 'rec4', skills: [url4] });
-        const ch5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [rechInfo5] });
-        const ch6 = domainBuilder.buildChallenge({ id: 'rec6', skills: [url6] });
-        const ch7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [rechInfo7] });
-        challenges = [ch1, ch2, ch3, ch4, ch5, ch6, ch7];
+        challenges = [challengeWeb_1, challengeWeb_2, challengeUrl_3, challengeUrl_4, challengeUrl_6, challengeRechInfo_5, challengeRechInfo_7];
 
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -450,7 +443,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge).to.equal(ch5);
+        expect(nextChallenge).to.equal(challengeRechInfo_5);
       });
 
       it('should ask a challenge of maximum difficulty when maximum difficulty (minus 1) was correctly answered (edge case test)', function() {
@@ -458,12 +451,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         skills = [web1, web2, web4, web6, web7];
         targetProfile = new TargetProfile({ skills });
 
-        const ch1 = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
-        const ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
-        const ch4 = domainBuilder.buildChallenge({ id: 'rec4', skills: [web4] });
-        const ch6 = domainBuilder.buildChallenge({ id: 'rec6', skills: [web6] });
-        const ch7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [web7] });
-        challenges = [ch1, ch2, ch4, ch6, ch7];
+        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_4, challengeWeb_6, challengeWeb_7];
 
         answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
@@ -497,7 +485,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge.skills).to.be.deep.equal([web7]);
+        expect(nextChallenge).to.be.deep.equal(challengeWeb_7);
       });
 
       it('should end the test if the only available challenges are too hard (above maximum gap allowed)', function() {
