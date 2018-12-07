@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Tube = require('../../../../lib/domain/models/Tube');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
@@ -20,11 +20,15 @@ function turnIntoArchivedChallenge(challenge) {
   return _.assign(_.cloneDeep(challenge), { status: 'archived' });
 }
 
+function duplicateChallengeOfSameDifficulty(challenge) {
+  const challengeId = parseInt(challenge.id[0]) + 1;
+  return _.assign(_.cloneDeep(challenge), { id: 'rec' + challengeId });
+}
+
 describe.only('Integration | Domain | Stategies | SmartRandom', () => {
   let targetProfile, web1, web2, web3, web4, web5, web6, web7, url2, url3, url4, url5, url6, url7, rechInfo5, rechInfo7, info2, cnil2;
   let challengeWeb_1, challengeWeb_2, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6,
-    challengeWeb_7, challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6,
-    challengeUrl_7, challengeRechInfo_5, challengeRechInfo_7, challengeInfo_2, challengeCnil_2;
+    challengeWeb_7, challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5, challengeInfo_2, challengeCnil_2;
 
   beforeEach(() => {
     targetProfile = null;
@@ -63,7 +67,6 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
     challengeUrl_6 = domainBuilder.buildChallenge({ id: 'rec6', skills: [url6] });
     challengeUrl_7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [url7] });
     challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [rechInfo5] });
-    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [rechInfo7] });
     challengeCnil_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [cnil2] });
     challengeInfo_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [info2] });
 
@@ -577,18 +580,15 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
     });
 
-    // lorsque l'on prend en compte l'apport en connaissance de la prochaine question
+    // The adaptive algorithm is based on the idea that each question must provide additionnal value and must not
+    // discriminate between challenges that bring the same knowledge on the user
     context('when the next question added knowledge value is taken into account', () => {
-      // on ne pose aucune question qui ne donne aucune nouvelle information
-      it('should return null if remaining challenges do not provide extra validated or failed skills', function() {
+
+      it('should end the test if the next challenges wont provide any additionnal knowledge on the user', function() {
         // given
         const skills = [web1, web2];
         const targetProfile = new TargetProfile({ skills });
-
-        const ch1 = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
-        const ch2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
-        const ch3 = domainBuilder.buildChallenge({ id: 'rec3', skills: [web2] });
-        const challenges = [ch1, ch2, ch3];
+        const challenges = [challengeWeb_1, challengeWeb_2, duplicateChallengeOfSameDifficulty(challengeWeb_2)];
         const answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
         ];
@@ -613,18 +613,11 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
         expect(nextChallenge).to.be.equal(null);
       });
 
-      // ne doit pas discriminer ! (check chai?)
-      it('should return any challenge at random if several challenges have equal reward at the middle of the test', function() {
+      it('should select a challenge randomly among challenges of equal reward', function() {
         // given
         const skills = [web1, web2, web3, url3];
         const targetProfile = new TargetProfile({ skills });
-
-        const ch1 = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
-        const ch2a = domainBuilder.buildChallenge({ id: 'rec2a', skills: [web2] });
-        const ch3a = domainBuilder.buildChallenge({ id: 'rec3a', skills: [web3] });
-        const ch3b = domainBuilder.buildChallenge({ id: 'rec3b', skills: [web3] });
-        const ch3c = domainBuilder.buildChallenge({ id: 'rec3c', skills: [url3] });
-        const challenges = [ch1, ch2a, ch3a, ch3b, ch3c];
+        const challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
         const answers = [
           domainBuilder.buildAnswer({ challengeId: 'rec2a', result: AnswerStatus.OK })
         ];
@@ -641,12 +634,17 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
           }),
         ];
 
+        sinon.stub(_, 'sample').returns(challengeWeb_3);
+
         // when
         const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
-        expect(nextChallenge.hardestSkill.difficulty).to.be.equal(3);
+        expect(nextChallenge).to.deep.equal(challengeWeb_3);
+
+        // This is where we assert the randomness behavior to have deterministic test
+        expect(_.sample).to.have.been.called;
       });
     });
 
