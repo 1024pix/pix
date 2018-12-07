@@ -15,7 +15,7 @@ module.exports = {
     return BookshelfKnowledgeElement
       .where({ assessmentId })
       .fetchAll()
-      .then((knowledgeElement) => knowledgeElement.map(toDomain));
+      .then((knowledgeElements) => knowledgeElements.map(toDomain));
   },
 };
 

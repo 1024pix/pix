@@ -25,8 +25,8 @@ function duplicateChallengeOfSameDifficulty(challenge) {
   return _.assign(_.cloneDeep(challenge), { id: 'rec' + challengeId });
 }
 
-describe.only('Integration | Domain | Stategies | SmartRandom', () => {
-  let targetProfile, web1, web2, web3, web4, web5, web6, web7, url2, url3, url4, url5, url6, url7, rechInfo5, rechInfo7, info2, cnil2;
+describe('Integration | Domain | Stategies | SmartRandom', () => {
+  let targetProfile, web1, web2, web3, web4, web5, web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil2;
   let challengeWeb_1, challengeWeb_2, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6,
     challengeWeb_7, challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5, challengeInfo_2, challengeCnil_2;
 
@@ -46,7 +46,6 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
     url4 = domainBuilder.buildSkill({ name: '@url4' });
     url5 = domainBuilder.buildSkill({ name: '@url5' });
     url6 = domainBuilder.buildSkill({ name: '@url6' });
-    url7 = domainBuilder.buildSkill({ name: '@url7' });
     rechInfo5 = domainBuilder.buildSkill({ name: '@rechInfo5' });
     rechInfo7 = domainBuilder.buildSkill({ name: '@rechInfo7' });
     info2 = domainBuilder.buildSkill({ name: '@info2' });
@@ -65,7 +64,6 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
     challengeUrl_4 = domainBuilder.buildChallenge({ id: 'rec4', skills: [url4] });
     challengeUrl_5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [url5] });
     challengeUrl_6 = domainBuilder.buildChallenge({ id: 'rec6', skills: [url6] });
-    challengeUrl_7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [url7] });
     challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [rechInfo5] });
     challengeCnil_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [cnil2] });
     challengeInfo_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [info2] });
@@ -639,6 +637,7 @@ describe.only('Integration | Domain | Stategies | SmartRandom', () => {
 
         // This is where we assert the randomness behavior to have deterministic test
         expect(_.sample).to.have.been.called;
+        _.sample.restore();
       });
     });
 
