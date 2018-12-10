@@ -22,9 +22,12 @@ module.exports = class SmartRandom {
     const smartRandom = Object.create(this);
 
     // First challenge has specific rules
-    return this.isUserStartingTheTest
+    const nextChallenge = this.isUserStartingTheTest
       ? _findFirstChallenge(smartRandom)
       : _findAnyChallenge(smartRandom);
+
+    // Test is considered finished when it returns null
+    return nextChallenge || TEST_ENDED_CHAR;
   }
 };
 
@@ -52,13 +55,8 @@ function _filterSkillsByChallenges(skills, challenges) {
 }
 
 function _findAnyChallenge({ challenges, knowledgeElements, courseTubes, targetSkills, predictedLevel, lastChallenge }) {
-  
   const availableChallenges = getFilteredChallengesForAnyChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
-  const { maxReward, maxRewardingChallenges } = catAlgorithm.findMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
-
-  if (_hasNoMoreChallenges(availableChallenges) || catAlgorithm.hasReachedStabilityPoint(maxReward)) {
-    return TEST_ENDED_CHAR;
-  }
+  const maxRewardingChallenges = catAlgorithm.findMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
 
   return _pickRandomChallenge(maxRewardingChallenges);
 }
@@ -70,8 +68,4 @@ function _findFirstChallenge({ challenges, knowledgeElements, courseTubes, targe
 
 function _pickRandomChallenge(challenges) {
   return _.sample(challenges);
-}
-
-function _hasNoMoreChallenges(challenges) {
-  return _.isArray(challenges) && _.isEmpty(challenges);
 }
