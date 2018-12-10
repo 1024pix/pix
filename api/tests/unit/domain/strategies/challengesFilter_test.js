@@ -10,7 +10,7 @@ const KNOWLEDGE_ELEMENT_STATUS = {
 
 describe('Unit | Domain | Models | filterChallenge', () => {
 
-  describe('#filteredChallengesForFirstChallenge', () => {
+  describe('#getFilteredChallengesForFirstChallenge', () => {
     it('should return a first challenge possible', () => {
       // given
       const skill1 = domainBuilder.buildSkill({ name: '@web3' });
@@ -23,11 +23,11 @@ describe('Unit | Domain | Models | filterChallenge', () => {
       ];
 
       // when
-      const result = filterChallenge.filteredChallengesForFirstChallenge({
-        challenges: challenges,
+      const result = filterChallenge.getFilteredChallengesForFirstChallenge({
+        challenges,
         knowledgeElements,
-        tubes,
-        targetProfile: targetProfile
+        courseTubes: tubes,
+        targetSkills: targetProfile.skills
       });
 
       // then
@@ -45,11 +45,11 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         new Tube({ skills: [skill1] })
       ];
       // when
-      const result = filterChallenge.filteredChallengesForFirstChallenge({
-        challenges: challenges,
+      const result = filterChallenge.getFilteredChallengesForFirstChallenge({
+        challenges,
         knowledgeElements,
-        tubes,
-        targetProfile: targetProfile
+        courseTubes: tubes,
+        targetSkills: targetProfile.skills
       });
 
       // then
@@ -68,18 +68,18 @@ describe('Unit | Domain | Models | filterChallenge', () => {
       ];
 
       // when
-      const result = filterChallenge.filteredChallengesForFirstChallenge({
-        challenges: challenges,
+      const result = filterChallenge.getFilteredChallengesForFirstChallenge({
+        challenges,
         knowledgeElements,
-        tubes,
-        targetProfile: targetProfile
+        courseTubes: tubes,
+        targetSkills: targetProfile.skills
       });
 
       // then
       expect(result).to.deep.equal([challengeAssessingSkill1]);
     });
 
-    it('should return a challenge valid from a tubes with max level at 3 (HAPPY PATH)', ()=> {
+    it('should return a challenge valid from a tubes with max level at 3 (HAPPY PATH)', () => {
       // given
       const skillTube1Level2 = domainBuilder.buildSkill({ name: '@web2' });
       const skillTube1Level4 = domainBuilder.buildSkill({ name: '@web4' });
@@ -99,11 +99,11 @@ describe('Unit | Domain | Models | filterChallenge', () => {
       ];
 
       // when
-      const result = filterChallenge.filteredChallengesForFirstChallenge({
-        challenges: challenges,
+      const result = filterChallenge.getFilteredChallengesForFirstChallenge({
+        challenges,
         knowledgeElements,
-        tubes,
-        targetProfile: targetProfile
+        courseTubes: tubes,
+        targetSkills: targetProfile.skills
       });
 
       // then
@@ -111,7 +111,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
     });
   });
 
-  describe('#filteredChallenges', function() {
+  describe('#getFilteredChallengesForAnyChallenge', function() {
     describe('Verify rules 1 : published and valid challenges', () => {
 
       it('should not ask a question that targets a skill already assessed', function() {
@@ -124,6 +124,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         const challengeAssessingSkill2 = domainBuilder.buildChallenge({ skills: [skill2] });
         const anotherChallengeAssessingSkill2 = domainBuilder.buildChallenge({ skills: [skill2] });
         const challengeAssessingSkill3 = domainBuilder.buildChallenge({ skills: [skill3] });
+        const lastChallenge = domainBuilder.buildChallenge();
 
         const knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
@@ -138,11 +139,12 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         ];
 
         // when
-        const result = filterChallenge.filteredChallenges({
-          challenges: challenges,
+        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
+          challenges,
           knowledgeElements,
           predictedLevel: 3,
-          targetProfile: targetProfile
+          lastChallenge,
+          targetSkills: targetProfile.skills
         });
 
         // then
@@ -171,11 +173,11 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         ];
 
         // when
-        const result = filterChallenge.filteredChallenges({
-          challenges: challenges,
+        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
+          challenges,
           knowledgeElements,
           predictedLevel: 2,
-          targetProfile: targetProfile,
+          targetSkills: targetProfile.skills,
           lastChallenge
         });
 
@@ -203,11 +205,11 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         ];
 
         // when
-        const result = filterChallenge.filteredChallenges({
-          challenges: challenges,
+        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
+          challenges,
           knowledgeElements,
           predictedLevel: 2,
-          targetProfile: targetProfile,
+          targetSkills: targetProfile.skills,
           lastChallenge
         });
 
@@ -246,12 +248,12 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         ];
 
         // when
-        const result = filterChallenge.filteredChallenges({
-          challenges: challenges,
+        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
+          challenges,
           knowledgeElements,
           predictedLevel: 2,
-          targetProfile: targetProfile,
-          tubes,
+          targetSkills: targetProfile.skills,
+          courseTubes: tubes,
           lastChallenge
         });
 
@@ -294,12 +296,12 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         ];
 
         // when
-        const result = filterChallenge.filteredChallenges({
-          challenges: challenges,
+        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
+          challenges,
           knowledgeElements,
           predictedLevel: 5,
-          targetProfile: targetProfile,
-          tubes,
+          targetSkills: targetProfile.skills,
+          courseTubes: tubes,
           lastChallenge
         });
 
@@ -332,12 +334,12 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         ];
 
         // when
-        const result = filterChallenge.filteredChallenges({
-          challenges: challenges,
+        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
+          challenges,
           knowledgeElements,
           predictedLevel: 5,
-          targetProfile: targetProfile,
-          tubes,
+          targetSkills: targetProfile.skills,
+          courseTubes: tubes,
           lastChallenge
         });
 
@@ -353,6 +355,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
 
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
 
+        const lastChallenge = domainBuilder.buildChallenge();
         const challengeAssessingSkill1 = domainBuilder.buildChallenge({ skills: [skill1, skill2] });
 
         const knowledgeElements = [
@@ -363,11 +366,12 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         ];
 
         // when
-        const result = filterChallenge.filteredChallenges({
-          challenges: challenges,
+        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
+          challenges,
           knowledgeElements,
           predictedLevel: 2,
-          targetProfile: targetProfile
+          lastChallenge,
+          targetSkills: targetProfile.skills
         });
 
         // then

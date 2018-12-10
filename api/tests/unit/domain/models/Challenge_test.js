@@ -206,7 +206,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1]
       };
       // when
-      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile);
+      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile.skills);
       // then
       expect(response).to.be.false;
     });
@@ -235,7 +235,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1, s2, s3]
       };
       // when
-      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile);
+      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile.skills);
       // then
       expect(response).to.be.false;
     });
@@ -250,7 +250,7 @@ describe('Unit | Domain | Models | Challenge', () => {
         skills: [s1]
       };
       // when
-      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile);
+      const response = challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile.skills);
       // then
       expect(response).to.be.true;
     });
