@@ -4,14 +4,14 @@ const { pipe } = require('lodash/fp');
 const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
 
 module.exports = {
-  filteredChallengeForFirstChallenge: filteredChallengesForFirstChallenge,
+  filteredChallengesForFirstChallenge,
   filteredChallenges
 };
 
 function filteredChallengesForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile }) {
   return pipe(
     _removeUnpublishedChallenges,
-    _removeChallengesThatAlreadyFullyTested.bind(null, knowledgeElements, targetProfile),
+    _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetProfile),
     _removeChallengesFromLowPriorityTubes.bind(null, tubes, knowledgeElements)
   )(challenges);
 }
@@ -19,7 +19,7 @@ function filteredChallengesForFirstChallenge({ challenges, knowledgeElements, tu
 function filteredChallenges({ challenges, knowledgeElements, tubes, predictedLevel, lastChallenge, targetProfile }) {
   return pipe(
     _removeUnpublishedChallenges,
-    _removeChallengesThatAlreadyFullyTested.bind(null, knowledgeElements, targetProfile),
+    _removeChallengesAlreadyFullyTested.bind(null, knowledgeElements, targetProfile),
     _removeTooHardChallenges.bind(null, predictedLevel),
     _removeTimedChallengesIfLastOneWasAlsoTimed.bind(null, lastChallenge),
     _removeChallengesFromLowPriorityTubes.bind(null, tubes, knowledgeElements)
@@ -30,7 +30,7 @@ function _removeUnpublishedChallenges(challenges) {
   return _.filter(challenges, (challenge) => challenge.isPublished());
 }
 
-function _removeChallengesThatAlreadyFullyTested(knowledgeElements, targetProfile, challenges) {
+function _removeChallengesAlreadyFullyTested(knowledgeElements, targetProfile, challenges) {
   return _.filter(challenges, (challenge) => !challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetProfile));
 }
 
@@ -88,10 +88,10 @@ function _getSkillsFromTubes(tubes) {
 }
 
 function _getUntestedSkills(knowledgeElements, skills) {
-  return _.filter(skills, (skill) => !_skillAlreadyTested(skill, knowledgeElements));
+  return _.filter(skills, (skill) => !_isSkillAlreadyTested(skill, knowledgeElements));
 }
 
-function _skillAlreadyTested(skill, knowledgeElements) {
+function _isSkillAlreadyTested(skill, knowledgeElements) {
   const alreadyTestedSkillIds = _.map(knowledgeElements, 'skillId');
   return alreadyTestedSkillIds.includes(skill.id);
 }
