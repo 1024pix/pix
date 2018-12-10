@@ -110,6 +110,9 @@ function _keepOnlyUntimedChallengeIfAny(challenges) {
 // A challenge of default level difficulty should be prioritized over all other levels. Hence, we remap
 // the difficulty so it's effective difficulty is considered the lowerst possible
 function _keepOnlyChallengesOfMinimumEffectiveDifficulty(challenges) {
+  if (_.isEmpty(challenges)) {
+    return challenges;
+  }
   const remapDifficulty = (difficulty) => difficulty == DEFAULT_LEVEL_FOR_FIRST_CHALLENGE ? Number.MIN_VALUE : difficulty;
   const [, potentialFirstChallenges] = _(challenges)
     .groupBy('hardestSkill.difficulty')
