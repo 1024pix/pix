@@ -1,29 +1,33 @@
-const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables  } = require('../../test-helper');
+const { databaseBuilder, expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | Controller | session-controller', () => {
 
   describe('GET /sessions/{id}', function() {
-
-    const session = {
-      id: 1,
-      certificationCenter: 'Université de dressage de loutres',
-      address: 'Nice',
-      room: '28D',
-      examiner: 'Antoine Toutvenant',
-      date: '2017-12-08',
-      time: '14:30',
-      description: 'ahah',
-      accessCode: 'ABCD12'
-    };
+    let session;
 
     beforeEach(() => {
-      return insertUserWithRolePixMaster().then(() =>knex('sessions').insert(session));
+      session = databaseBuilder.factory.buildSession({
+        id: 1,
+        certificationCenter: 'Université de dressage de loutres',
+        address: 'Nice',
+        room: '28D',
+        examiner: 'Antoine Toutvenant',
+        date: '2017-12-08',
+        time: '14:30',
+        description: 'ahah',
+        accessCode: 'ABCD12'
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 3,
+        sessionId: 1
+      });
+      databaseBuilder.factory.buildUser.withPixRolePixMaster();
+
+      return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
-    });
+    afterEach(() => databaseBuilder.clean());
 
     it('should return 200 HTTP status code', () => {
       // when
@@ -52,48 +56,35 @@ describe('Acceptance | Controller | session-controller', () => {
         expect(response.statusCode).to.equal(404);
       });
     });
-    context('when session have certification associated', () => {
-      beforeEach(() => {
-        return knex('certification-courses').insert({
-          id: 3,
-          sessionId: 1
-        });
+
+    it('should return sessions information with related certification', () => {
+      // when
+      const promise = server.inject({
+        method: 'GET',
+        url: '/api/sessions/1',
+        payload: {},
       });
 
-      afterEach(() => {
-        return knex('certification-courses').delete();
-      });
-
-      it('should return sessions information with related certification', () => {
-        // when
-        const promise = server.inject({
-          method: 'GET',
-          url: '/api/sessions/1',
-          payload: {},
-        });
-
-        // then
-        return promise.then((response) => {
-          expect(response.result.data.attributes['access-code']).to.deep.equal(session.accessCode);
-          expect(response.result.data.relationships.certifications).to.deep.equal({
-            'data': [
-              {
-                'id': '3',
-                'type': 'certifications'
-              }
-            ]
-          });
+      // then
+      return promise.then((response) => {
+        expect(response.result.data.attributes['access-code']).to.deep.equal(session.accessCode);
+        expect(response.result.data.relationships.certifications).to.deep.equal({
+          'data': [
+            {
+              'id': '3',
+              'type': 'certifications'
+            }
+          ]
         });
       });
     });
   });
 
   describe('GET /sessions', function() {
-    let sessions;
     let request;
 
     beforeEach(() => {
-      sessions = [{
+      databaseBuilder.factory.buildSession({
         id: 1,
         certificationCenter: 'Centre 1',
         address: 'Paris',
@@ -101,8 +92,11 @@ describe('Acceptance | Controller | session-controller', () => {
         examiner: 'Bernard',
         date: '2017-12-08',
         time: '14:30',
-        accessCode: 'ABC123'
-      }, {
+        accessCode: 'ABC123',
+        description: '',
+        createdAt: '2017-12-08',
+      });
+      databaseBuilder.factory.buildSession({
         id: 2,
         certificationCenter: 'Centre 2',
         address: 'Lyon',
@@ -110,22 +104,23 @@ describe('Acceptance | Controller | session-controller', () => {
         examiner: 'Bernard',
         date: '2017-12-08',
         time: '14:30',
-        accessCode: 'DEF456'
-      }];
+        accessCode: 'DEF456',
+        description: '',
+        createdAt: '2017-12-07',
+      });
+      const pixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 
       request = {
         method: 'GET',
         url: '/api/sessions',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuhorizationHeader(pixMaster.id) },
         payload: {},
       };
 
-      return insertUserWithRolePixMaster().then(() => knex('sessions').insert(sessions));
+      return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
-    });
+    afterEach(() => databaseBuilder.clean());
 
     it('should return 200 HTTP status code', () => {
       // when
@@ -190,10 +185,11 @@ describe('Acceptance | Controller | session-controller', () => {
   });
 
   describe('POST /sessions', () => {
-
     let options;
 
     beforeEach(() => {
+      const pixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+
       options = {
         method: 'POST',
         url: '/api/sessions',
@@ -211,13 +207,14 @@ describe('Acceptance | Controller | session-controller', () => {
             }
           }
         },
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuhorizationHeader(pixMaster.id) },
       };
-      return insertUserWithRolePixMaster();
+      return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
+    afterEach(async () => {
+      await databaseBuilder.clean();
+      return knex('sessions').delete();
     });
 
     it('should return an OK status after saving in database', () => {
@@ -359,8 +356,8 @@ describe('Acceptance | Controller | session-controller', () => {
 
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        const nonPixMasterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMasterUserId);
 
         // when
         const promise = server.inject(options);

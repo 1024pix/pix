@@ -23,10 +23,11 @@
 @import "components/campaign-item";
 @import "components/current-organization";
 
-body, html{
+body, html {
   margin: 0;
   height: 100%;
   font-family: $roboto;
+  font-size: 100%;
   background-color: $porcelain;
 }
 

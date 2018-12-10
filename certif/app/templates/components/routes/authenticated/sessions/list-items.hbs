@@ -6,7 +6,7 @@
 </div>
 
 <div class="session-list">
-  {{#each sessions as |session|}}
-    {{routes/authenticated/session-item session=session}}
+  {{#each sortedSessions as |session|}}
+    {{routes/authenticated/sessions/session-item session=session}}
   {{/each}}
 </div>

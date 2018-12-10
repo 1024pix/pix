@@ -54,7 +54,10 @@ module.exports = {
 
   find() {
     return BookshelfSession
-      .query((qb) => qb.limit(10)) // remove after pagination
+      .query((qb) => {
+        qb.orderBy('createdAt', 'desc')
+          .limit(10); // remove after pagination
+      })
       .fetchAll({})
       .then((sessions) => sessions.map(_toDomain));
   }
