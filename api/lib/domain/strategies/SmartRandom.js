@@ -54,12 +54,9 @@ function _filterSkillsByChallenges(skills, challenges) {
 function _findAnyChallenge({ challenges, knowledgeElements, courseTubes, targetSkills, predictedLevel, lastChallenge }) {
   
   const availableChallenges = getFilteredChallengesForAnyChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
-  if (_hasNoMoreChallenges(availableChallenges)) {
-    return TEST_ENDED_CHAR;
-  }
   const { maxReward, maxRewardingChallenges } = catAlgorithm.findMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
 
-  if (catAlgorithm.hasReachedStabilityPoint(maxReward)) {
+  if (_hasNoMoreChallenges(availableChallenges) || catAlgorithm.hasReachedStabilityPoint(maxReward)) {
     return TEST_ENDED_CHAR;
   }
 
