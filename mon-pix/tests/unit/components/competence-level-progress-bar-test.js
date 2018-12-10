@@ -16,9 +16,9 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
         { level: 3, expectedValue: 'width : 37.5%' },
         { level: 4, expectedValue: 'width : 50%' },
         { level: 5, expectedValue: 'width : 62.5%' },
-        { level: 6, expectedValue: 'width : 62.5%' },
-        { level: 7, expectedValue: 'width : 62.5%' },
-        { level: 8, expectedValue: 'width : 62.5%' },
+        { level: 6, expectedValue: 'width : 75%' },
+        { level: 7, expectedValue: 'width : 87.5%' },
+        { level: 8, expectedValue: 'width : 100%' },
       ].forEach(({ level, expectedValue }) => {
 
         it(`should return ${expectedValue} when the level is ${level}`, function() {
