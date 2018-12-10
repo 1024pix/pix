@@ -15,7 +15,6 @@ function findMaxRewardingChallenges() {
     _getMaxRewardingChallenges,
     _clearChallengesIfNotRewarding
   )(...arguments);
-
 }
 
 function _getMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements }) {
