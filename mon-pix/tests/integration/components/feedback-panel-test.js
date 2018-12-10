@@ -33,12 +33,6 @@ function expectMercixViewToBeVisible(component) {
   expect(component.$(MERCIX_VIEW)).to.have.lengthOf(1);
 }
 
-function setEmail(component, email) {
-  const $email = component.$('.feedback-panel__field--email');
-  $email.val(email);
-  $email.change();
-}
-
 function setContent(component, content) {
   const $content = component.$('.feedback-panel__field--content');
   $content.val(content);
@@ -130,19 +124,13 @@ describe('Integration | Component | feedback-panel', function() {
       expectFormViewToBeVisible(this);
     });
 
-    it('should contain email input field', function() {
-      const $email = this.$('input.feedback-panel__field--email');
-      expect($email).to.have.lengthOf(1);
-      expect($email.attr('placeholder')).to.equal('Votre email (optionnel)');
-    });
-
     it('should contain content textarea field', function() {
       const $password = this.$('textarea.feedback-panel__field--content');
       expect($password).to.have.lengthOf(1);
       expect($password.attr('placeholder')).to.equal('Votre message');
     });
 
-    it('should contain "send" button with label "Envoyer" and placeholder "Votre email (optionnel)"', function() {
+    it('should contain "send" button with label "Envoyer"', function() {
       const $buttonSend = this.$(BUTTON_SEND);
       expect($buttonSend).to.have.lengthOf(1);
       expect($buttonSend.text()).to.equal('Envoyer');
@@ -150,9 +138,6 @@ describe('Integration | Component | feedback-panel', function() {
 
     it('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', function() {
       // given
-      const EMAIL_VALUE = 'frere-jacques@gai-mail.com';
-      setEmail(this, EMAIL_VALUE);
-
       const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
       setContent(this, CONTENT_VALUE);
 
@@ -167,7 +152,6 @@ describe('Integration | Component | feedback-panel', function() {
         expect(saveMethodBody.assessment).to.exist;
         expect(saveMethodBody.challenge).to.exist;
         expect(saveMethodBody.content).to.equal(CONTENT_VALUE);
-        expect(saveMethodBody.email).to.equal(EMAIL_VALUE);
         expectMercixViewToBeVisible(this);
       });
     });
@@ -271,19 +255,6 @@ describe('Integration | Component | feedback-panel', function() {
       expectFormViewToBeVisible(this);
     });
 
-    it('should display error if "email" is set but invalid', function() {
-      // given
-      this.render(hbs`{{feedback-panel collapsible=false}}`);
-      setEmail(this, 'wrong_email');
-      setContent(this, 'Valid content');
-
-      // when
-      this.$(BUTTON_SEND).click();
-
-      expect(this.$('.alert')).to.have.lengthOf(1);
-      expectFormViewToBeVisible(this);
-    });
-
     it('should not display error if "form" view (with error) was closed and re-opened', function() {
       // given
       this.render(hbs`{{feedback-panel}}`);
@@ -302,7 +273,7 @@ describe('Integration | Component | feedback-panel', function() {
       expect(this.$('.alert')).to.have.lengthOf(0);
     });
 
-    it('should display an error even if the user did not focus on email or content', function() {
+    it('should display an error even if the user did not focus on content', function() {
       // given
       this.render(hbs`{{feedback-panel collapsible=false}}`);
 

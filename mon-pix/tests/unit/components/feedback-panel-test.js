@@ -74,11 +74,10 @@ describe('Unit | Component | feedback-panel', function() {
 
   describe('#_reset', function() {
 
-    it('should return empty mail, text, error and back to the default status', function() {
+    it('should return empty text, error and back to the default status', function() {
       // given
       const component = this.subject();
       component.set('collapsible', false);
-      component.set('_email', 'un@email.com');
       component.set('_content', 'un contenu');
       component.set('_error', 'une erreur');
       component.set('_status', 'FORM_CLOSED');
@@ -87,7 +86,6 @@ describe('Unit | Component | feedback-panel', function() {
       component._reset();
 
       // then
-      expect(component.get('_email')).to.be.null;
       expect(component.get('_content')).to.be.null;
       expect(component.get('_error')).to.be.null;
       expect(component.get('_status')).to.be.equal('FORM_OPENED');
