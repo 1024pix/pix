@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
       ];
 
       // when
-      const result = filterChallenge.filteredChallengeForFirstChallenge({
+      const result = filterChallenge.filteredChallengesForFirstChallenge({
         challenges: challenges,
         knowledgeElements,
         tubes,
@@ -45,7 +45,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
         new Tube({ skills: [skill1] })
       ];
       // when
-      const result = filterChallenge.filteredChallengeForFirstChallenge({
+      const result = filterChallenge.filteredChallengesForFirstChallenge({
         challenges: challenges,
         knowledgeElements,
         tubes,
@@ -68,7 +68,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
       ];
 
       // when
-      const result = filterChallenge.filteredChallengeForFirstChallenge({
+      const result = filterChallenge.filteredChallengesForFirstChallenge({
         challenges: challenges,
         knowledgeElements,
         tubes,
@@ -99,7 +99,7 @@ describe('Unit | Domain | Models | filterChallenge', () => {
       ];
 
       // when
-      const result = filterChallenge.filteredChallengeForFirstChallenge({
+      const result = filterChallenge.filteredChallengesForFirstChallenge({
         challenges: challenges,
         knowledgeElements,
         tubes,

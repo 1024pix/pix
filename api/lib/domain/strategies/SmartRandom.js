@@ -1,5 +1,5 @@
 const Course = require('../models/Course');
-const { filteredChallenges, filteredChallengeForFirstChallenge } = require('./challengesFilter');
+const { filteredChallenges, filteredChallengesForFirstChallenge } = require('./challengesFilter');
 const { getPredictedLevel, computeReward } = require('./catAlgorithm');
 const _ = require('lodash');
 
@@ -74,7 +74,7 @@ function _findPotentialFirstChallenges(challenges) {
 }
 
 function _firstChallenge({ challenges, knowledgeElements, tubes, targetProfile }) {
-  const filteredChallenges = filteredChallengeForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile });
+  const filteredChallenges = filteredChallengesForFirstChallenge({ challenges, knowledgeElements, tubes, targetProfile });
 
   const [timedChallenges, notTimedChallenges] = _(filteredChallenges)
     .partition((challenge) => challenge.timer)
