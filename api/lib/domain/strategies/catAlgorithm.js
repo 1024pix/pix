@@ -11,23 +11,17 @@ module.exports = {
 };
 
 function findMaxRewardingChallenge({ availableChallenges, predictedLevel, courseTubes, knowledgeElements }) {
-
-  const challengesAndRewards = _.map(availableChallenges, (challenge) => {
-    return {
-      challenge: challenge,
-      reward: computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements })
-    };
-  });
-
-  const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
-  const maxReward = challengeWithMaxReward.reward;
-
-  const maxRewardingChallenges = challengesAndRewards
-    .filter((challengeAndReward) => challengeAndReward.reward === maxReward)
-    .map((challengeAndReward) => challengeAndReward.challenge);
-
-  return { maxRewardingChallenges, maxReward };
-
+  return _.reduce(availableChallenges, (acc, challenge) => {
+    const challengeReward = computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements });
+    if (challengeReward > acc.maxReward) {
+      acc.maxReward = challengeReward;
+      acc.maxRewardingChallenges = [challenge];
+    }
+    if (challengeReward === acc.maxReward) {
+      acc.maxRewardingChallenges.push(challenge);
+    }
+    return acc;
+  }, { maxRewardingChallenges: [], maxReward: Number.MIN_VALUE });
 }
 
 function computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements }) {
@@ -55,7 +49,6 @@ function getPredictedLevel(knowledgeElements, skills) {
 }
 
 function _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills) {
-
   const directKnowledgeElements = _.filter(knowledgeElements, (ke)=> ke.source === 'direct');
   const extraAnswers = directKnowledgeElements.map((ke)=> {
     const skill = skills.find((skill) => skill.id === ke.skillId);
