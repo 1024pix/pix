@@ -1,16 +1,24 @@
 const _ = require('lodash');
+const { pipe } = require('lodash/fp');
 
 // This file implements methods useful for a CAT algorithm
 // https://en.wikipedia.org/wiki/Computerized_adaptive_testing
 // https://en.wikipedia.org/wiki/Item_response_theory
 
 module.exports = {
-  findMaxRewardingChallenges: findMaxRewardingChallenge,
-  getPredictedLevel: getPredictedLevel,
-  hasReachedStabilityPoint: hasReachedStabilityPoint
+  findMaxRewardingChallenges: findMaxRewardingChallenges,
+  getPredictedLevel: getPredictedLevel
 };
 
-function findMaxRewardingChallenge({ availableChallenges, predictedLevel, courseTubes, knowledgeElements }) {
+function findMaxRewardingChallenges() {
+  return pipe(
+    _getMaxRewardingChallenges,
+    _clearChallengesIfNotRewarding
+  )(...arguments);
+
+}
+
+function _getMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements }) {
   return _.reduce(availableChallenges, (acc, challenge) => {
     const challengeReward = computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements });
     if (challengeReward > acc.maxReward) {
@@ -21,7 +29,13 @@ function findMaxRewardingChallenge({ availableChallenges, predictedLevel, course
       acc.maxRewardingChallenges.push(challenge);
     }
     return acc;
-  }, { maxRewardingChallenges: [], maxReward: Number.MIN_VALUE });
+  }, { maxRewardingChallenges: [], maxReward: Number.MIN_VALUE })
+    .maxRewardingChallenges;
+}
+
+// Challenges that won't bring anymore information on the user is a termination condition of the CAT algorithm
+function _clearChallengesIfNotRewarding(challenges) {
+  return _.filter(challenges, (challenge) => challenge.reward !== 0);
 }
 
 function computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements }) {
@@ -101,8 +115,4 @@ function _skillNotTestedYet(skill, knowledgesElements) {
 // https://en.wikipedia.org/wiki/Logistic_function
 function _probaOfCorrectAnswer(userEstimatedLevel, challengeDifficulty) {
   return 1 / (1 + Math.exp(-(userEstimatedLevel - challengeDifficulty)));
-}
-
-function hasReachedStabilityPoint(maxReward) {
-  return _.isNumber(maxReward) && maxReward === 0;
 }
