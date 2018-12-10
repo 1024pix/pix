@@ -44,7 +44,7 @@ describe('Unit | Controller | assessment-results', () => {
       sandbox = sinon.sandbox.create();
 
       replyStub = sinon.stub().returns({ code: sinon.stub() });
-      sandbox.stub(usecases, 'createAssessmentResultForCompletedCertification').resolves();
+      sandbox.stub(usecases, 'createAssessmentResultForCompletedAssessment').resolves();
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
       sandbox.stub(Boom, 'badImplementation').returns({ message: 'badImplementation' });
       sandbox.stub(logger, 'error');
@@ -59,7 +59,7 @@ describe('Unit | Controller | assessment-results', () => {
       assessmentResultController.evaluate(request, replyStub);
 
       // then
-      expect(usecases.createAssessmentResultForCompletedCertification).to.have.been.calledWith({
+      expect(usecases.createAssessmentResultForCompletedAssessment).to.have.been.calledWith({
         assessmentId: '22',
         forceRecomputeResult: false,
       });
@@ -68,7 +68,7 @@ describe('Unit | Controller | assessment-results', () => {
     it('should return 404 when the assessment is not found', () => {
       // given
       const notFoundAssessmentError = new NotFoundError();
-      usecases.createAssessmentResultForCompletedCertification.rejects(notFoundAssessmentError);
+      usecases.createAssessmentResultForCompletedAssessment.rejects(notFoundAssessmentError);
 
       // when
       const promise = assessmentResultController.evaluate(request, replyStub);
@@ -85,7 +85,7 @@ describe('Unit | Controller | assessment-results', () => {
       it('should do nothing', () => {
         // given
         const alreadyRatedAssessmentError = new AlreadyRatedAssessmentError();
-        usecases.createAssessmentResultForCompletedCertification.rejects(alreadyRatedAssessmentError);
+        usecases.createAssessmentResultForCompletedAssessment.rejects(alreadyRatedAssessmentError);
         const jsonApiError = new JSONAPIError({
           status: '412',
           title: 'Assessment is already rated',
@@ -108,7 +108,7 @@ describe('Unit | Controller | assessment-results', () => {
       it('should reply with an internal error', () => {
         // given
         const undefinedError = new Error();
-        usecases.createAssessmentResultForCompletedCertification.rejects(undefinedError);
+        usecases.createAssessmentResultForCompletedAssessment.rejects(undefinedError);
 
         // when
         const promise = assessmentResultController.evaluate(request, replyStub);

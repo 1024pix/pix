@@ -42,7 +42,7 @@ module.exports = injectDependencies({
   authenticateUser: require('./authenticate-user'),
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
   createCampaign: require('./create-campaign'),
-  createAssessmentResultForCompletedCertification: require('./create-assessment-result-for-completed-certification'),
+  createAssessmentResultForCompletedAssessment: require('./create-assessment-result-for-completed-assessment'),
   createAssessmentForCampaign: require('./create-assessment-for-campaign'),
   createOrganization: require('./create-organization.js'),
   createUser: require('./create-user'),

@@ -15,19 +15,18 @@ const CERTIFICATION_VALIDATED = 'validated';
 const CERTIFICATION_REJECTED = 'rejected';
 const NOT_VALIDATED_CERTIF_LEVEL = -1;
 
-module.exports = function createAssessmentResultForCompletedCertification({
-  // Parameters
-  assessmentId,
-  forceRecomputeResult = false,
-  // Repositories
-  assessmentRepository,
-  assessmentResultRepository,
-  certificationCourseRepository,
-  competenceMarkRepository,
-  // Services
-  assessmentService,
-  skillsService,
-}) {
+module.exports = function createAssessmentResultForCompletedAssessment(
+  {
+    assessmentId,
+    forceRecomputeResult = false,
+    assessmentRepository,
+    assessmentResultRepository,
+    certificationCourseRepository,
+    competenceMarkRepository,
+    assessmentService,
+    skillsService,
+  }
+) {
   let assessment;
 
   return assessmentRepository.get(assessmentId)
@@ -48,7 +47,7 @@ module.exports = function createAssessmentResultForCompletedCertification({
         assessmentService.getCompetenceMarks(assessment),
       ]);
     })
-    .then(([skills, mark]) => _saveCertificationResult({
+    .then(([skills, mark]) => _saveResult({
       assessment,
       assessmentId,
       mark,
@@ -69,20 +68,21 @@ module.exports = function createAssessmentResultForCompletedCertification({
     }));
 };
 
-function _saveCertificationResult({
-  // Parameters
-  assessment,
-  assessmentId,
-  mark,
-  skills,
-  // Repositories
-  assessmentRepository,
-  assessmentResultRepository,
-  certificationCourseRepository,
-  competenceMarkRepository,
-  // Services
-  skillsService,
-}) {
+function _saveResult(
+  {
+    // Parameters
+    assessment,
+    assessmentId,
+    mark,
+    skills,
+    // Repositories
+    assessmentRepository,
+    assessmentResultRepository,
+    certificationCourseRepository,
+    competenceMarkRepository,
+    // Services
+    skillsService,
+  }) {
   const { pixScore, level, status } = _getAssessmentResultEvaluations(mark, assessment.type);
   const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(level, pixScore, status, assessmentId);
   assessment.setCompleted();
@@ -103,7 +103,7 @@ function _saveCertificationResult({
 
       return Promise.all(saveMarksPromises);
     })
-    .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
+    .then(() => _updateCompletedDate(assessment, certificationCourseRepository));
 }
 
 function _getAssessmentResultEvaluations(marks, assessmentType) {
@@ -137,7 +137,7 @@ function _limitMarkLevel(mark, assessment) {
   return mark;
 }
 
-function _updateCompletedDateOfCertification(assessment, certificationCourseRepository) {
+function _updateCompletedDate(assessment, certificationCourseRepository) {
   if (assessment.isCertificationAssessment()) {
     return certificationCourseRepository.changeCompletionDate(
       assessment.courseId,
@@ -148,14 +148,15 @@ function _updateCompletedDateOfCertification(assessment, certificationCourseRepo
   }
 }
 
-function _saveResultAfterComputingError({
-  assessment,
-  assessmentId,
-  assessmentRepository,
-  assessmentResultRepository,
-  certificationCourseRepository,
-  error,
-}) {
+function _saveResultAfterComputingError(
+  {
+    assessment,
+    assessmentId,
+    assessmentRepository,
+    assessmentResultRepository,
+    certificationCourseRepository,
+    error,
+  }) {
   if (!(error instanceof CertificationComputeError)) {
     return Promise.reject(error);
   }
@@ -167,5 +168,5 @@ function _saveResultAfterComputingError({
     assessmentResultRepository.save(assessmentResult),
     assessmentRepository.save(assessment),
   ])
-    .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
+    .then(() => _updateCompletedDate(assessment, certificationCourseRepository));
 }
