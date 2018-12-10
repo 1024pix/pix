@@ -1,4 +1,4 @@
-const { expect, knex } = require('../../../test-helper');
+const { databaseBuilder, expect, knex } = require('../../../test-helper');
 
 const Session = require('../../../../lib/domain/models/Session');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
@@ -7,12 +7,10 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 describe('Integration | Repository | Session', function() {
 
   describe('#save', () => {
+    let session;
 
-    afterEach(() => knex('sessions').delete());
-
-    it('should persist the session in db', () => {
-      // given
-      const sessionToBeSaved = new Session({
+    beforeEach(() => {
+      session = new Session({
         certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',
@@ -21,9 +19,13 @@ describe('Integration | Repository | Session', function() {
         time: '14:30',
         description: 'Premiere certification EVER !!!'
       });
+    });
 
+    afterEach(() => databaseBuilder.clean());
+
+    it('should persist the session in db', () => {
       // when
-      const promise = sessionRepository.save(sessionToBeSaved);
+      const promise = sessionRepository.save(session);
 
       // then
       return promise.then(() => knex('sessions').select())
@@ -33,17 +35,6 @@ describe('Integration | Repository | Session', function() {
     });
 
     it('should return the saved Session', () => {
-      // given
-      const session = new Session({
-        certificationCenter: 'Université de dressage de loutres',
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Antoine Toutvenant',
-        date: '2017-12-08',
-        time: '14:30',
-        description: 'Premiere certification EVER !!!'
-      });
-
       // when
       const promise = sessionRepository.save(session);
 
@@ -58,18 +49,22 @@ describe('Integration | Repository | Session', function() {
   });
 
   describe('#isSessionCodeAvailable', () => {
-    beforeEach(() => knex('sessions').insert({
-      certificationCenter: 'Paris',
-      address: 'Paris',
-      room: 'The lost room',
-      examiner: 'Bernard',
-      date: '23/02/2018',
-      time: '12:00',
-      description: 'The lost examen',
-      accessCode: 'ABC123'
-    }));
 
-    afterEach(() => knex('sessions').delete());
+    beforeEach(() => {
+      databaseBuilder.factory.buildSession({
+        certificationCenter: 'Paris',
+        address: 'Paris',
+        room: 'The lost room',
+        examiner: 'Bernard',
+        date: '23/02/2018',
+        time: '12:00',
+        description: 'The lost examen',
+        accessCode: 'ABC123'
+      });
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => databaseBuilder.clean());
 
     it('should return true if the accessCode is not in database', () => {
       // given
@@ -100,20 +95,24 @@ describe('Integration | Repository | Session', function() {
   });
 
   describe('#getByAccessCode', () => {
-    const session = {
-      certificationCenter: 'Paris',
-      address: 'Paris',
-      room: 'The lost room',
-      examiner: 'Bernard',
-      date: '23/02/2018',
-      time: '12:00',
-      description: 'The lost examen',
-      accessCode: 'ABC123'
-    };
+    let session;
 
-    beforeEach(() => knex('sessions').insert(session));
+    beforeEach(() => {
+      session = {
+        certificationCenter: 'Paris',
+        address: 'Paris',
+        room: 'The lost room',
+        examiner: 'Bernard',
+        date: '23/02/2018',
+        time: '12:00',
+        description: 'The lost examen',
+        accessCode: 'ABC123'
+      };
+      databaseBuilder.factory.buildSession(session);
+      return databaseBuilder.commit();
+    });
 
-    afterEach(() => knex('sessions').delete());
+    afterEach(() => databaseBuilder.clean());
 
     it('should return the object by accessCode', () => {
       // given
@@ -146,22 +145,8 @@ describe('Integration | Repository | Session', function() {
 
   describe('#get', function() {
 
-    const certifications = [{
-      id: 1,
-      userId: 1,
-      sessionId: 1
-    }, {
-      id: 2,
-      userId: 2,
-      sessionId: 1
-    }, {
-      id: 3,
-      userId: 3,
-      sessionId: 2
-    }];
-
     beforeEach(() => {
-      return knex('sessions').insert({
+      databaseBuilder.factory.buildSession({
         id: 1,
         certificationCenter: 'Tour Gamma',
         address: 'rue de Bercy',
@@ -171,17 +156,27 @@ describe('Integration | Repository | Session', function() {
         time: '12:00',
         description: 'CertificationPix pour les jeunes',
         accessCode: 'NJR10'
-      }).then(() => {
-        return knex('certification-courses').insert(certifications);
       });
+
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 1,
+        userId: 1,
+        sessionId: 1
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 2,
+        userId: 2,
+        sessionId: 1
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 3,
+        userId: 3,
+        sessionId: 2
+      });
+      return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('sessions').delete()
-        .then(() => {
-          return knex('certification-courses').delete();
-        });
-    });
+    afterEach(() => databaseBuilder.clean());
 
     it('should return session informations in a session Object', function() {
       // given
@@ -229,32 +224,22 @@ describe('Integration | Repository | Session', function() {
   });
 
   describe('#find', function() {
-    let sessions;
 
     context('when there are some sessions', function() {
-      sessions = [{
-        id: 1,
-        certificationCenter: 'Centre 1',
-        address: 'Paris',
-        room: 'salle 1',
-        examiner: 'Bernard',
-        date: '23/02/2018',
-        time: '12:00',
-        accessCode: 'ABC123'
-      }, {
-        id: 2,
-        certificationCenter: 'Centre 2',
-        address: 'Lyon',
-        room: 'salle 2',
-        examiner: 'Bernard',
-        date: '23/03/2018',
-        time: '12:00',
-        accessCode: 'DEF456'
-      }];
 
-      beforeEach(() => knex('sessions').insert(sessions));
+      beforeEach(() => {
+        databaseBuilder.factory.buildSession({
+          id: 1,
+          createdAt: '2017-12-08'
+        });
+        databaseBuilder.factory.buildSession({
+          id: 2,
+          createdAt: '2017-12-09'
+        });
+        return databaseBuilder.commit();
+      });
 
-      afterEach(() => knex('sessions').delete());
+      afterEach(() => databaseBuilder.clean());
 
       it('should return all sessions', function() {
         // when
@@ -264,6 +249,17 @@ describe('Integration | Repository | Session', function() {
         return promise.then((result) => {
           expect(result).to.be.an('array');
           expect(result).to.have.lengthOf(2);
+        });
+      });
+
+      it('should sort sessions with more recent created ones at first', function() {
+        // when
+        const promise = sessionRepository.find();
+
+        // then
+        return promise.then((result) => {
+          expect(result[0].id).to.equal(2);
+          expect(result[1].id).to.equal(1);
         });
       });
     });

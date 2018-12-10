@@ -13,7 +13,11 @@ exports.register = (server, options, next) => {
           assign: 'hasRolePixMaster'
         }],
         handler: sessionController.find,
-        tags: ['api']
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de consulter la liste de toutes les sessions (retourne un tableau avec n éléments)',
+        ]
       }
     },
     {
