@@ -22,7 +22,6 @@ describe('Unit | Controller | feedback-controller', function() {
       data: {
         type: 'feedbacks',
         attributes: {
-          email: 'shi@fu.me',
           content: 'Lorem ipsum dolor sit amet consectetur adipiscet.'
         },
         relationships: {
@@ -44,7 +43,6 @@ describe('Unit | Controller | feedback-controller', function() {
 
     const persistedFeedback = new Feedback({
       id: 'feedback_id',
-      email: 'shi@fu.me',
       content: 'Lorem ipsum dolor sit amet consectetur adipiscet.'
     });
 

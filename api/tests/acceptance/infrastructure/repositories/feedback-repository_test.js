@@ -8,31 +8,26 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
     return knex('feedbacks').insert([{
       id: 1,
       challengeId: 1,
-      email: 'john.snow@winterfell.got',
       content: 'Winter is Coming',
       createdAt: '2017-09-01 01:00:00',
     }, {
       id: 2,
       challengeId: 1,
-      email: 'daenerys.targaryen@peyredragon.got',
       content: 'Fire and Blood',
       createdAt: '2017-09-02 02:00:00'
     }, {
       id: 3,
       challengeId: 1,
-      email: 'tyrion.lannister@casterly-rock.got',
       content: 'Hear Me Roar!',
       createdAt: '2017-09-03 03:00:00'
     }, {
       id: 4,
       challengeId: 1,
-      email: 'arya.stark@winterfell.got',
       content: 'Winter is Coming',
       createdAt: '2017-09-03 03:00:01'
     }, {
       id: 5,
       challengeId: 1,
-      email: 'margaery.tyrell@highgarden.got',
       content: 'Growing Strong',
       createdAt: '2017-09-05 05:00:00'
     }]);

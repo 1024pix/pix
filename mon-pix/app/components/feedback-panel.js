@@ -3,7 +3,6 @@ import $ from 'jquery';
 import { equal } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import isValid from '../utils/email-validator';
 import config from 'mon-pix/config/environment';
 
 const FORM_CLOSED = 'FORM_CLOSED';
@@ -21,7 +20,6 @@ export default Component.extend({
   collapsible: true,
 
   _status: FORM_CLOSED,
-  _email: null,
   _content: null,
   _error: null,
 
@@ -35,7 +33,6 @@ export default Component.extend({
   },
 
   _reset() {
-    this.set('_email', null);
     this.set('_content', null);
     this.set('_error', null);
     this.set('_status', this._getDefaultStatus());
@@ -68,12 +65,6 @@ export default Component.extend({
     },
 
     sendFeedback() {
-      const email = this.get('_email');
-      if(!isEmpty(email) && !isValid(email)) {
-        this.set('_error', 'Vous devez saisir une adresse mail valide.');
-        return;
-      }
-
       const content = this.get('_content');
       if(isEmpty(content) || isEmpty(content.trim())) {
         this.set('_error', 'Vous devez saisir un message.');
@@ -85,7 +76,6 @@ export default Component.extend({
       const challenge = this.get('challenge');
 
       const feedback = store.createRecord('feedback', {
-        email: this.get('_email'),
         content: this.get('_content'),
         assessment,
         challenge
