@@ -17,6 +17,13 @@ module.exports = {
       .fetchAll()
       .then((knowledgeElements) => knowledgeElements.map(toDomain));
   },
+
+  findByAssessmentIds(assessmentIds) {
+    return BookshelfKnowledgeElement
+      .whereIn({ assessmentId: assessmentIds })
+      .fetchAll()
+      .then((knowledgeElements) => knowledgeElements.map(toDomain));
+  }
 };
 
 function toDomain(knowledgeElementBookshelf) {
