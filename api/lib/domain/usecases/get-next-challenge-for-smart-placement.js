@@ -4,13 +4,8 @@ const _ = require('lodash');
 
 module.exports = getNextChallengeForSmartPlacement;
 
-function getNextChallengeInSmartRandom(answersPix, challengesPix, targetProfile, knowledgeElements) {
-  const smartRandom = new SmartRandom({
-    answers: answersPix,
-    challenges: challengesPix,
-    targetProfile,
-    knowledgeElements
-  });
+function getNextChallengeInSmartRandom({ answers, challenges, targetProfile, knowledgeElements }) {
+  const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
   const nextChallenge = smartRandom.getNextChallenge();
   return _.get(nextChallenge, 'id', null);
 }
@@ -41,7 +36,7 @@ function getNextChallengeForSmartPlacement({ assessment, answerRepository, chall
 
     return challengeRepository.findBySkills(targetProfile.skills);
   })
-    .then((challenges) => getNextChallengeInSmartRandom(answers, challenges, targetProfile, knowledgeElements))
+    .then((challenges) => getNextChallengeInSmartRandom({ answers, challenges, targetProfile, knowledgeElements }))
     .then((nextChallenge) => {
       if (nextChallenge) {
         return nextChallenge;
@@ -49,4 +44,4 @@ function getNextChallengeForSmartPlacement({ assessment, answerRepository, chall
       throw new AssessmentEndedError();
     })
     .then(challengeRepository.get);
-};
+}
