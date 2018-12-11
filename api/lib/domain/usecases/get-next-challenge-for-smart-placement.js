@@ -10,14 +10,37 @@ function getNextChallengeInSmartRandom({ answers, challenges, targetProfile, kno
   return _.get(nextChallenge, 'id', null);
 }
 
-module.exports = function getNextChallengeForSmartPlacement(
-  {
-    assessment,
-    answerRepository,
-    challengeRepository,
-    smartPlacementKnowledgeElementRepository,
-    targetProfileRepository
-  } = {}) {
+function getSmartPlacementKnowledgeElements({ userId, assessmentsRepository, smartPlacementKnowledgeElementRepository }) {
+  return assessmentsRepository.findSmartPlacementAssessmentsByUserId(userId)
+    .then((assessments) => _.map(assessments, 'id'))
+    .then((assessmentIds) => smartPlacementKnowledgeElementRepository.findByAssessmentIds(assessmentIds))
+    .then((knowledgeElementsLists) => _.flatten(knowledgeElementsLists))
+    .then((knowledgeElements) => removeIdenticalKnowledgeElements(knowledgeElements));
+}
+
+// It's possible that a knowledge element has already been covered by one or many previous smart placement. 
+// We must only keep the most recent.
+function removeIdenticalKnowledgeElements(knowledgeElements) {
+  return _.reduce(knowledgeElements, (uniqueKnowledgeElements, currentKnowledgeElement) => {
+    
+    return thereExistsAMoreRecentIdenticalKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement) 
+      ? replaceKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement)
+      : uniqueKnowledgeElements.concat(currentKnowledgeElement);
+  }, []);
+}
+
+function thereExistsAMoreRecentIdenticalKnowledgeElement(knowledgeElements, currentKnowledgeElement) {
+  return _.find(knowledgeElements, (duplicatedKnowledgeElement) => {
+    const isIdentical = duplicatedKnowledgeElement.id === currentKnowledgeElement.id;
+    const isMoreRecent = duplicatedKnowledgeElement.createdAt > currentKnowledgeElement.createdAt;
+
+    return isIdentical && isMoreRecent;
+  });
+}
+
+function replaceKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement) {
+  return _.differenceBy(uniqueKnowledgeElements, [currentKnowledgeElement], 'skillId').concat(currentKnowledgeElement);
+}
 
 function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, assessmentsRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository } = {}) {
   let answers, targetProfile, knowledgeElements;
