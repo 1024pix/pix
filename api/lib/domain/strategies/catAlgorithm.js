@@ -24,11 +24,11 @@ function _getMaxRewardingChallenges({ availableChallenges, predictedLevel, cours
       acc.maxReward = challengeReward;
       acc.maxRewardingChallenges = [challenge];
     }
-    if (challengeReward === acc.maxReward) {
+    else if (challengeReward === acc.maxReward) {
       acc.maxRewardingChallenges.push(challenge);
     }
     return acc;
-  }, { maxRewardingChallenges: [], maxReward: Number.MIN_VALUE })
+  }, { maxRewardingChallenges: [], maxReward: -Infinity })
     .maxRewardingChallenges;
 }
 
