@@ -22,7 +22,6 @@ describe('Acceptance | Controller | feedback-controller', () => {
               data: {
                 type: 'feedbacks',
                 attributes: {
-                  email: 'shi@fu.me',
                   content: 'Some content'
                 },
                 relationships: {
@@ -107,7 +106,6 @@ describe('Acceptance | Controller | feedback-controller', () => {
           .fetch()
           .then((model) => {
             expect(model.id).to.be.a('number');
-            expect(model.get('email')).to.equal(options.payload.data.attributes.email);
             expect(model.get('content')).to.equal(options.payload.data.attributes.content);
             expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
             expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
