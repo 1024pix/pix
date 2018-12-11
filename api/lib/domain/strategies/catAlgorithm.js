@@ -10,11 +10,11 @@ module.exports = {
   getPredictedLevel: getPredictedLevel
 };
 
-function findMaxRewardingChallenges() {
+function findMaxRewardingChallenges(...args) {
   return pipe(
     _getMaxRewardingChallenges,
     _clearChallengesIfNotRewarding
-  )(...arguments);
+  )(...args);
 }
 
 function _getMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements }) {
