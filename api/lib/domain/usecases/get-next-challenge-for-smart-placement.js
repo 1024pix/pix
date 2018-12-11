@@ -2,6 +2,8 @@ const { AssessmentEndedError } = require('../errors');
 const SmartRandom = require('../strategies/SmartRandom');
 const _ = require('lodash');
 
+module.exports = getNextChallengeForSmartPlacement;
+
 function getNextChallengeInSmartRandom(answersPix, challengesPix, targetProfile, knowledgeElements) {
   const smartRandom = new SmartRandom({
     answers: answersPix,
@@ -22,16 +24,21 @@ module.exports = function getNextChallengeForSmartPlacement(
     targetProfileRepository
   } = {}) {
 
+function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, assessmentsRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository } = {}) {
   let answers, targetProfile, knowledgeElements;
   const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
+  const userId = assessment.userId;
+
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
     targetProfileRepository.get(targetProfileId),
-    smartPlacementKnowledgeElementRepository.findByAssessmentId(assessment.id)]
-  ).then(([answersOfAssessments, targetProfileFound, knowledgeElementsOfAssessment]) => {
+    getSmartPlacementKnowledgeElements({ userId, assessmentsRepository, smartPlacementKnowledgeElementRepository })]
+
+  ).then(([answersOfAssessments, targetProfileFound, knowledgeElementsOfAssessments]) => {
     answers = answersOfAssessments;
     targetProfile = targetProfileFound;
-    knowledgeElements = knowledgeElementsOfAssessment;
+    knowledgeElements = knowledgeElementsOfAssessments;
+
     return challengeRepository.findBySkills(targetProfile.skills);
   })
     .then((challenges) => getNextChallengeInSmartRandom(answers, challenges, targetProfile, knowledgeElements))
