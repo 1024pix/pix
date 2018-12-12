@@ -122,6 +122,11 @@ module.exports = {
             userId
           });
         }
+        if (user.pixCertifTermsOfServiceAccepted) {
+          return usecases.acceptPixCertifTermsOfService({
+            userId
+          });
+        }
         return Promise.reject(new BadRequestError());
       })
       .then(() => reply().code(204))

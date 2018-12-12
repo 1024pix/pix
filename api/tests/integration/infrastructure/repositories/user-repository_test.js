@@ -510,8 +510,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     let userToUpdate;
 
     beforeEach(async () => {
-      userToUpdate = domainBuilder.buildUser({ pixOrgaTermsOfServiceAccepted: true });
-      databaseBuilder.factory.buildUser({ id: userToUpdate.id, pixOrgaTermsOfServiceAccepted: false });
+      userToUpdate = domainBuilder.buildUser({
+        pixOrgaTermsOfServiceAccepted: true,
+        pixCertifTermsOfServiceAccepted: true
+      });
+      databaseBuilder.factory.buildUser({
+        id: userToUpdate.id,
+        pixOrgaTermsOfServiceAccepted: false,
+        pixCertifTermsOfServiceAccepted: false
+      });
       await databaseBuilder.commit();
     });
 
@@ -530,6 +537,21 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         knex('users').select().where({ id: userToUpdate.id })
           .then((usersSaved) => {
             expect(Boolean(usersSaved[0].pixOrgaTermsOfServiceAccepted)).to.be.true;
+          });
+      });
+    });
+
+    it('should update pixCertifTermsOfServiceAccepted field', () => {
+      // when
+      const promise = userRepository.updateUser(userToUpdate);
+
+      // then
+      return promise.then((user) => {
+        expect(user).be.instanceOf(User);
+        expect(user.pixCertifTermsOfServiceAccepted).to.be.true;
+        knex('users').select().where({ id: userToUpdate.id })
+          .then((usersSaved) => {
+            expect(Boolean(usersSaved[0].pixCertifTermsOfServiceAccepted)).to.be.true;
           });
       });
     });

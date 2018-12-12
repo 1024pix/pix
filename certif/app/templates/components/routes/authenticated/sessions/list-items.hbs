@@ -1,0 +1,12 @@
+<div class="list-sessions-page__header-page">
+  <h1 class="page__title page-title">Sessions de certification</h1>
+  <div class="list-sessions-page__create-session-button">
+    {{link-to 'Créer une session +' 'authenticated.sessions.list' class="button button--link"}}
+  </div>
+</div>
+
+<div class="session-list">
+  {{#each sortedSessions as |session|}}
+    {{routes/authenticated/sessions/session-item session=session}}
+  {{/each}}
+</div>

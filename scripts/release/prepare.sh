@@ -29,6 +29,7 @@ function update_version {
     cd $ROOT_PATH/api/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
     cd $ROOT_PATH/mon-pix/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
     cd $ROOT_PATH/orga/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
+    cd $ROOT_PATH/certif/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
     cd $ROOT_PATH && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
 }
 
@@ -39,7 +40,7 @@ function reinstall_dependencies {
 # Update when adding a new app
 function create_a_release_commit {
     NEW_PACKAGE_VERSION=$(get_package_version)
-    git add package*.json api/package*json mon-pix/package*.json orga/package*.json --update
+    git add package*.json api/package*json mon-pix/package*.json orga/package*.json certif/package*.json --update
     git commit --message "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE_VERSION} to ${NEW_PACKAGE_VERSION}."
 }
 

@@ -1,0 +1,40 @@
+set $maintenance_mode <%= ENV['MAINTENANCE'] %>;
+
+# in case of 503, serve this URI
+error_page 503 /maintenance_page.html;
+location = /maintenance_page.html {
+    # maintenance page is at the root of the project
+    root /app/;
+}
+
+# exactly match the / URI
+location = / {
+  if ($maintenance_mode = enabled) {
+        return 503;
+  }
+  root /app/dist/;
+}
+
+# all the other URIs
+location / {
+  if ($maintenance_mode = enabled) {
+        return 503;
+  }
+
+  root /app/dist/;
+  # try_files try to load the file of the URI, and if it fails, it serve the / URI
+  # => in our case, if the uri is not found, it means that's an Ember URL and just return the index
+  # => BECAUSE / is not a file, this would make a infinite redirection loop. So we need the first block without try_files
+  try_files $uri /;
+}
+
+location /api/ {
+  <%
+  # We compute the API host from the front app name, examples:
+  #   pix-certif-integration       -> pix-certif-integration.scalingo.io
+  #   pix-certif-integration-pr123 -> pix-certif-integration-pr123.scalingo.io
+  #   pix-certif-production        -> pix-certif-production.scalingo.io
+  %>
+  proxy_pass https://<%= ENV['APP'].gsub(/-certif-/, "-api-") %>.scalingo.io;
+  proxy_redirect default;
+}

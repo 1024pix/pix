@@ -5,7 +5,7 @@ module.exports = {
 
   serialize(users, meta) {
     return new Serializer('user', {
-      attributes: ['firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'memberships'],
+      attributes: ['firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'memberships'],
       memberships: {
         ref: 'id',
         ignoreRelationshipData: true,
@@ -32,6 +32,7 @@ module.exports = {
       password: json.data.attributes.password,
       cgu: json.data.attributes.cgu,
       pixOrgaTermsOfServiceAccepted: json.data.attributes['pix-orga-terms-of-service-accepted'],
+      pixCertifTermsOfServiceAccepted: json.data.attributes['pix-certif-terms-of-service-accepted'],
     });
   }
 
