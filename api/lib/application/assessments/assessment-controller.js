@@ -7,8 +7,10 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const infraErrors = require('../../infrastructure/errors');
 
-const { NotFoundError, AssessmentEndedError, ObjectValidationError, CampaignCodeError } = require('../../domain/errors');
+const { NotFoundError, AssessmentEndedError, AssessmentStartError,
+  ObjectValidationError, CampaignCodeError } = require('../../domain/errors');
 const assessmentService = require('../../domain/services/assessment-service');
 const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
@@ -54,6 +56,9 @@ module.exports = {
         }
         if (err instanceof CampaignCodeError) {
           return reply(Boom.notFound(CampaignCodeError));
+        }
+        if(err instanceof AssessmentStartError) {
+          return controllerReplies(reply).error(new infraErrors.ConflictError(err.message));
         }
         logger.error(err);
         reply(Boom.badImplementation(err));
