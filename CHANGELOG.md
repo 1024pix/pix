@@ -3,7 +3,6 @@
 
 - [#297](https://github.com/1024pix/pix/pull/297) [FEATURE] Suppression du champs email dans les formulaires de feedback. (PF-454)
 - [#293](https://github.com/1024pix/pix/pull/293) [BUGFIX] Affiche correctement la progression d'une certification. (PF-457)
-- [#289](https://github.com/1024pix/pix/pull/289) [TECH] Utilisation des Knowledge-Elements dans l'algo SmartRandom (PF-437).
 
 ## v2.12.0 (07/12/2018) 
 
