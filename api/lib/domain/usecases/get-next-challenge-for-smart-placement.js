@@ -4,6 +4,32 @@ const _ = require('lodash');
 
 module.exports = getNextChallengeForSmartPlacement;
 
+function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, assessmentsRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository } = {}) {
+  let answers, targetProfile, knowledgeElements;
+  const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
+  const userId = assessment.userId;
+
+  return Promise.all([
+    answerRepository.findByAssessment(assessment.id),
+    targetProfileRepository.get(targetProfileId),
+    getSmartPlacementKnowledgeElements({ userId, assessmentsRepository, smartPlacementKnowledgeElementRepository })]
+  ).then(([answersOfAssessments, targetProfileFound, knowledgeElementsOfAssessments]) => {
+    answers = answersOfAssessments;
+    targetProfile = targetProfileFound;
+    knowledgeElements = knowledgeElementsOfAssessments;
+
+    return challengeRepository.findBySkills(targetProfile.skills);
+  })
+    .then((challenges) => getNextChallengeInSmartRandom({ answers, challenges, targetProfile, knowledgeElements }))
+    .then((nextChallenge) => {
+      if (nextChallenge) {
+        return nextChallenge;
+      }
+      throw new AssessmentEndedError();
+    })
+    .then(challengeRepository.get);
+}
+
 function getNextChallengeInSmartRandom({ answers, challenges, targetProfile, knowledgeElements }) {
   const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
   const nextChallenge = smartRandom.getNextChallenge();
@@ -40,31 +66,4 @@ function thereExistsAMoreRecentIdenticalKnowledgeElement(knowledgeElements, curr
 
 function replaceKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement) {
   return _.differenceBy(uniqueKnowledgeElements, [currentKnowledgeElement], 'skillId').concat(currentKnowledgeElement);
-}
-
-function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, assessmentsRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository } = {}) {
-  let answers, targetProfile, knowledgeElements;
-  const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
-  const userId = assessment.userId;
-
-  return Promise.all([
-    answerRepository.findByAssessment(assessment.id),
-    targetProfileRepository.get(targetProfileId),
-    getSmartPlacementKnowledgeElements({ userId, assessmentsRepository, smartPlacementKnowledgeElementRepository })]
-
-  ).then(([answersOfAssessments, targetProfileFound, knowledgeElementsOfAssessments]) => {
-    answers = answersOfAssessments;
-    targetProfile = targetProfileFound;
-    knowledgeElements = knowledgeElementsOfAssessments;
-
-    return challengeRepository.findBySkills(targetProfile.skills);
-  })
-    .then((challenges) => getNextChallengeInSmartRandom({ answers, challenges, targetProfile, knowledgeElements }))
-    .then((nextChallenge) => {
-      if (nextChallenge) {
-        return nextChallenge;
-      }
-      throw new AssessmentEndedError();
-    })
-    .then(challengeRepository.get);
 }
