@@ -63,43 +63,5 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         });
     });
   });
-
-  describe('#findByAssessmentId', () => {
-
-    let knowledgeElementsWanted;
-    let assessmentId;
-
-    beforeEach(async () => {
-      // given
-      assessmentId = databaseBuilder.factory.buildAssessment().id;
-      const assessmentIdOther = databaseBuilder.factory.buildAssessment().id;
-      const answer1Id = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
-      const answer2Id = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
-      const answer3Id = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentIdOther }).id;
-
-      knowledgeElementsWanted = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer1Id, createdAt: '' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer2Id, createdAt: '' })
-      ];
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessmentIdOther, answerId: answer3Id });
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should save the smartPlacementKnowledgeElement in db', async () => {
-
-      // when
-      const promise = SmartPlacementKnowledgeElementRepository.findByAssessmentId(assessmentId);
-
-      return promise
-        .then((knowledgeElementsFound) => {
-          expect(knowledgeElementsFound).have.lengthOf(2);
-          expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
-        });
-    });
-  });
 })
 ;
