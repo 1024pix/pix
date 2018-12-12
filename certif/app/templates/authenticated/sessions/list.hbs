@@ -1,0 +1,7 @@
+<div class="list-sessions-page">
+  {{#if hasSession}}
+    {{routes/authenticated/sessions/list-items sessions=model}}
+  {{else}}
+    {{routes/authenticated/sessions/no-session-panel}}
+  {{/if}}
+</div>

@@ -1,0 +1,122 @@
+.label {
+  display: inline-block;
+  color: $tundora;
+  font-size: 0.94rem;
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+
+.input {
+  border: 2px solid $alto;
+  border-radius: 4px;
+  height: 40px;
+  font-size: 1rem;
+  padding-left: 15px;
+  color: $nero;
+  outline: none;
+
+  &:focus {
+    border: 2px solid $dodger-blue;
+  }
+}
+
+.textarea {
+  border: 2px solid $alto;
+  border-radius: 4px;
+  font-size: 1rem;
+  padding: 8px;
+  color: $nero;
+  outline: none;
+  resize: none;
+
+  &:focus {
+    border: 2px solid $dodger-blue;
+  }
+}
+
+.error-message {
+  color: red;
+  font-family: $roboto;
+  font-size: 0.75rem;
+}
+
+.select {
+  font-size: 1rem;
+  border: 2px $alto solid;
+  height: 46px;
+  background-color: white;
+  outline: none;
+
+  &:focus {
+    border: 2px solid $dodger-blue;
+  }
+}
+
+.button {
+  padding: 13px 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.019rem;
+  text-align: center;
+  border-radius: 5px;
+  background-color: $dodger-blue;
+  color: white;
+  cursor: pointer;
+
+  &:hover, &:active, &:focus {
+    background-color: $mariner;
+  }
+
+  &--white {
+    background-color: white;
+    color: black;
+    border: none;
+
+    &:hover, &:active, &:focus {
+      background-color: $alto;
+    }
+  }
+
+  &--no-color {
+    background-color: transparent;
+    color: $nero;
+
+    &:hover, &:active, &:focus {
+      background-color: transparent;
+    }
+  }
+
+  &--big {
+    width: 180px;
+  }
+
+  &--extra-big {
+    width: 280px;
+  }
+
+  &--link {
+    text-decoration: none;
+  }
+}
+
+.radio-button {
+  -ms-transform: scale(0.0);
+  -webkit-transform: scale(0.0);
+  transform: scale(0.0);
+}
+
+.radio-button-span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 10px 20px 11px 0px;
+  border-radius: 50%;
+  vertical-align: middle;
+  box-shadow: 0 0 0 2px $alto;
+  border: 4px solid $wild-sand;
+}
+
+.radio-button:checked + .radio-button-span {
+  box-shadow: 0 0 0 2px $dodger-blue;
+  background-color: $dodger-blue;
+}

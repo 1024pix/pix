@@ -38,6 +38,7 @@ function injectDependencies(usecases) {
 }
 
 module.exports = injectDependencies({
+  acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
   authenticateUser: require('./authenticate-user'),
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),

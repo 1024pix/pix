@@ -116,6 +116,19 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       // then
       return expect(promise).to.be.rejectedWith(ForbiddenAccess);
     });
+
+    it('rejects an error when scope is pix-certif and user has not pix master role', function() {
+      // given
+      const scope = 'pix-certif';
+      const user = new User({ email: userEmail, password: userPassword, pixRoles: [] });
+      userRepository.findByEmailWithRoles.resolves(user);
+
+      // when
+      const promise = authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });
+
+      // then
+      return expect(promise).to.be.rejectedWith(ForbiddenAccess);
+    });
   });
 
 });

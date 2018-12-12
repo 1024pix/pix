@@ -112,7 +112,8 @@ exports.register = function(server, options, next) {
             data: {
               attributes: {
                 password: Joi.string().regex(XRegExp(passwordValidationPattern)),
-                'pix-orga-terms-of-service-accepted': Joi.boolean()
+                'pix-orga-terms-of-service-accepted': Joi.boolean(),
+                'pix-certif-terms-of-service-accepted': Joi.boolean()
               }
             }
           }

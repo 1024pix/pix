@@ -328,7 +328,7 @@ describe('Unit | Controller | user-controller', () => {
 
     });
 
-    context('When payload contains no password field nor pix-orga-terms-of-service-accepted field', () => {
+    context('When payload does not contain any field', () => {
 
       it('should returns 400 status code', () => {
         // given
@@ -426,6 +426,40 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           expect(usecaseAcceptPixOrgaTermsOfServiceStub).to.have.been.calledWith({ userId });
+        });
+      });
+    });
+
+    context('When payload has a pix-certif-terms-of-service-accepted field', () => {
+
+      it('should accept pix certif terms of service', () => {
+        // given
+        const userId = 7;
+        const request = {
+          params: {
+            id: userId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'pix-certif-terms-of-service-accepted': true,
+              },
+            },
+          },
+        };
+        const sandbox = sinon.sandbox.create();
+        const codeStub = sandbox.stub();
+        const reply = sandbox.stub().returns({
+          code: codeStub,
+        });
+        const usecaseAcceptPixCertifTermsOfServiceStub = sandbox.stub(usecases, 'acceptPixCertifTermsOfService');
+
+        // when
+        const promise = userController.updateUser(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(usecaseAcceptPixCertifTermsOfServiceStub).to.have.been.calledWith({ userId });
         });
       });
     });

@@ -4,7 +4,8 @@ const { MissingOrInvalidCredentialsError, ForbiddenAccess } = require('../../dom
 function _checkUserAccessScope(scope, user) {
   if (
     (scope === 'pix-orga' && !user.isLinkedToOrganizations()) ||
-    (scope === 'pix-admin' && !user.hasRolePixMaster)
+    (scope === 'pix-admin' && !user.hasRolePixMaster) ||
+    (scope === 'pix-certif' && !user.hasRolePixMaster)
   ) {
     throw new ForbiddenAccess('User is not allowed to access this area');
   }

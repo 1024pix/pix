@@ -1,0 +1,64 @@
+.app {
+  display: flex;
+  height: 100%;
+
+  &__sidebar {
+    width: 280px;
+    min-width: 100px;
+  }
+
+  &__main-content {
+    width: 100%;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: $denim-gradient;
+
+  &--padding-left {
+    padding-left: 25px;
+  }
+
+  &--padding-right {
+    padding-right: 15px;
+  }
+}
+
+.logo {
+  padding-top: 20px;
+
+  &__image {
+    height: 60px;
+  }
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: $wild-sand;
+  overflow: scroll;
+
+  &__topbar {
+    background-color: white;
+    min-height: 60px;
+  }
+
+  &__body {
+    height: 100%;
+  }
+}
+
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 35px;
+
+  &__user-identification {
+    padding-right: 16px;
+  }
+}

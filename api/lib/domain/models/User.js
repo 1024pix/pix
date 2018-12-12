@@ -7,6 +7,7 @@ class User {
     // attributes
     cgu,
     pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
     email,
     firstName,
     lastName,
@@ -25,6 +26,7 @@ class User {
     this.password = password;
     this.cgu = cgu;
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
+    this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.samlId = samlId;
     // includes
     this.pixRoles = pixRoles;

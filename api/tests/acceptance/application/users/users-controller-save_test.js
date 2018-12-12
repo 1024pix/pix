@@ -60,7 +60,8 @@ describe('Acceptance | Controller | users-controller', () => {
                 '"last-name":"DoDoe",' +
                 '"email":"john.dodoe@example.net",' +
                 '"cgu":true,' +
-                '"pix-orga-terms-of-service-accepted":false' +
+                '"pix-orga-terms-of-service-accepted":false,' +
+                '"pix-certif-terms-of-service-accepted":false' +
               '},' +
             '"relationships":{' +
               '"memberships":{'+

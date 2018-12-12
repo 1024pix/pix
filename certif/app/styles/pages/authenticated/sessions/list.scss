@@ -1,0 +1,15 @@
+.list-sessions-page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  &__header-page {
+    display: flex;
+    margin: 1em;
+  }
+
+  &__create-session-button {
+    margin-top: 20px;
+    margin-left: auto;
+  }
+}
