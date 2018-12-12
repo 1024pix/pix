@@ -30,7 +30,6 @@ export default BaseRoute.extend({
 
     const userId = this.get('session.data.authenticated.userId');
     const campaignCode = modelResult.assessment.codeCampaign;
-    modelResult.nbCurrentAnswers = modelResult.assessment.get('answers.length');
 
     if (modelResult.assessment.get('isPlacement')
       || modelResult.assessment.get('isPreview')
@@ -108,9 +107,14 @@ export default BaseRoute.extend({
         .then(() => this._getNextChallenge(assessment, challenge))
         .then((nextChallenge) => {
           if (nextChallenge) {
+            const nbCurrentAnswers = assessment.get('nbCurrentAnswers');
+
             if (assessment.get('hasCheckpoints') && this._hasReachedCheckpoint(assessment)) {
+              assessment.set('nbCurrentAnswers', 0);
               return this.transitionTo('assessments.checkpoint', assessment.get('id'));
             }
+
+            assessment.set('nbCurrentAnswers', nbCurrentAnswers + 1);
             this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
           } else {
             this.transitionTo('assessments.rating', assessment.get('id'));

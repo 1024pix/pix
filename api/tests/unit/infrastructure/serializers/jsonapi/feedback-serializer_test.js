@@ -9,7 +9,6 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
       // given
       const feedback = {
         id: 'feedback_id',
-        email: 'shi@fu.me',
         content: 'Lorem ipsum dolor sit amet consectetur adipiscet.',
         assessmentId: 'assessment_id',
         challengeId: 'challenge_id',
@@ -130,7 +129,6 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
           type: 'feedbacks',
           id: 'feedback_id',
           attributes: {
-            email: 'tic-et-tac@pix.com',
             content: 'Bienvenue chez Pix !',
           },
           relationships: {
@@ -156,7 +154,6 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
       // then
       return promise.then((feedback) => {
         expect(feedback.get('id')).to.equal(serializedFeedback.data.id);
-        expect(feedback.get('email')).to.equal(serializedFeedback.data.attributes.email);
         expect(feedback.get('content')).to.equal(serializedFeedback.data.attributes.content);
         expect(feedback.get('assessmentId')).to.equal(serializedFeedback.data.relationships.assessment.data.id);
         expect(feedback.get('challengeId')).to.equal(serializedFeedback.data.relationships.challenge.data.id);
