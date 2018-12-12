@@ -7,8 +7,6 @@ const CampaignParticipation = require('../../domain/models/CampaignParticipation
 const { groupBy, map, head, _ } = require('lodash');
 const fp = require('lodash/fp');
 
-const LIST_NOT_PLACEMENT = ['CERTIFICATION', 'DEMO', 'SMART_PLACEMENT', 'PREVIEW'];
-
 module.exports = {
 
   get(id) {
@@ -32,8 +30,7 @@ module.exports = {
         qb.where({ userId });
         qb.where('state', '=', 'completed');
         qb.andWhere(function() {
-          this.where({ type: null })
-            .orWhereNotIn('type', LIST_NOT_PLACEMENT);
+          this.where({ type: 'PLACEMENT' });
         });
       })
       .fetchAll({ withRelated: ['assessmentResults'] })
@@ -47,8 +44,7 @@ module.exports = {
       .query((qb) => {
         qb.where({ userId })
           .where(function() {
-            this.where({ type: null })
-              .orWhereNotIn('type', LIST_NOT_PLACEMENT);
+            this.where({ type: 'PLACEMENT' });
           })
           .orderBy('createdAt', 'desc');
       })
@@ -64,8 +60,7 @@ module.exports = {
       .query((qb) => {
         qb.where({ userId })
           .where(function() {
-            this.where({ type: null })
-              .orWhereNotIn('type', LIST_NOT_PLACEMENT);
+            this.where({ type: 'PLACEMENT' });
           })
           .where('createdAt', '<', limitDate)
           .where('state', '=', 'completed')
