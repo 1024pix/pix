@@ -9,7 +9,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
 
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+const { ObjectValidationError, AssessmentStartError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | assessment-controller-save', () => {
 
@@ -251,6 +251,26 @@ describe('Unit | Controller | assessment-controller-save', () => {
         // then
         return promise.then(() => {
           expect(usecases.startPlacementAssessment).to.have.been.calledWith({ assessment: assessmentToStart, assessmentRepository });
+        });
+      });
+
+      it('should return a 409 error if an AssessmentStartError arises', () => {
+        // given
+        const assessmentToStart = domainBuilder.buildAssessment({
+          type: 'PLACEMENT',
+        });
+
+        const expectedError = { errors: [{ code: '409', detail: 'Error', title: 'Conflict' }] };
+
+        sandbox.stub(assessmentSerializer, 'deserialize').returns(assessmentToStart);
+        sandbox.stub(usecases, 'startPlacementAssessment').throws(new AssessmentStartError('Error'));
+
+        // when
+        const promise = controller.save(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.calledWith(expectedError);
         });
       });
 
