@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const moment = require('moment');
 const { MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS } = require('./Assessment');
-
+const MAX_REACHABLE_LEVEL = 5;
 const competenceStatus = {
   NOT_ASSESSED: 'notAssessed',
   ASSESSMENT_NOT_COMPLETED: 'assessmentNotCompleted',
@@ -81,20 +81,15 @@ class Profile {
     return this._computeDaysBeforeNewAttempt(daysSinceLastCompletedAssessment);
   }
 
-  _setLevelAndPixScoreToCompetences(assessments, courses) {
-    assessments.forEach((assessment) => {
-      const courseIdFromAssessment = assessment.courseId;
-      const course = this._getCourseById(courses, courseIdFromAssessment);
-
+  _setLevelAndPixScoreToCompetences(lastAssessments, courses) {
+    lastAssessments.forEach((assessment) => {
       if (assessment.isCompleted()) {
+        const courseIdFromAssessment = assessment.courseId;
+        const course = this._getCourseById(courses, courseIdFromAssessment);
         const competence = this.competences.find((competence) => course.competences.includes(competence.id));
-        competence.level = assessment.getLevel();
+
+        competence.level = Math.min(assessment.getLevel(), MAX_REACHABLE_LEVEL);
         competence.pixScore = assessment.getPixScore();
-        // TODO: Standardiser l'usage de status pour une compétence
-        if (competence.status === competenceStatus.ASSESSMENT_NOT_COMPLETED) {
-          competence.level = -1;
-          delete competence.pixScore;
-        }
       }
     });
   }
