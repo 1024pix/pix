@@ -16,6 +16,12 @@ class AlreadyRegisteredEmailError extends DomainError {
   }
 }
 
+class AssessmentStartError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToCreateCampaignError extends DomainError {
   constructor(message) {
     super(message);
@@ -261,6 +267,7 @@ module.exports = {
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
   AssessmentEndedError,
+  AssessmentStartError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CertificationComputeError,

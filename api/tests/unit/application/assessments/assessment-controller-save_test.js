@@ -1,4 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const Boom = require('boom');
 
 const controller = require('../../../../lib/application/assessments/assessment-controller');
@@ -9,7 +9,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
 
-const { ObjectValidationError } = require('../../../../lib/domain/errors');
+const { ObjectValidationError, AssessmentStartError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | assessment-controller-save', () => {
 
@@ -199,6 +199,81 @@ describe('Unit | Controller | assessment-controller-save', () => {
           expect(assessmentRepository.save).to.have.been.calledWith(expected);
         });
       });
+    });
+
+    context('when the assessment is a placement', () => {
+
+      const request = {
+        headers: {
+          authorization: 'Bearer my-token',
+        },
+        payload: {
+          data: {
+            id: 42,
+            attributes: {
+              'type': 'PLACEMENT',
+            },
+            relationships: {
+              course: {
+                data: {
+                  id: 'rec23IJEjfeo98',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      it('should start the placement assessment', function() {
+        // given
+        const startedAssessment = domainBuilder.buildAssessment({
+          id: 42,
+          courseId: null,
+          type: 'PLACEMENT',
+          userId: null,
+          state: 'started',
+        });
+
+        const assessmentToStart = domainBuilder.buildAssessment({
+          id: 42,
+          courseId: 'rec23IJEjfeo98',
+          type: 'PLACEMENT',
+          userId: null,
+          state: null,
+        });
+
+        sandbox.stub(assessmentSerializer, 'deserialize').returns(assessmentToStart);
+        sandbox.stub(usecases, 'startPlacementAssessment').resolves(startedAssessment);
+
+        // when
+        const promise = controller.save(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(usecases.startPlacementAssessment).to.have.been.calledWith({ assessment: assessmentToStart, assessmentRepository });
+        });
+      });
+
+      it('should return a 409 error if an AssessmentStartError arises', () => {
+        // given
+        const assessmentToStart = domainBuilder.buildAssessment({
+          type: 'PLACEMENT',
+        });
+
+        const expectedError = { errors: [{ code: '409', detail: 'Error', title: 'Conflict' }] };
+
+        sandbox.stub(assessmentSerializer, 'deserialize').returns(assessmentToStart);
+        sandbox.stub(usecases, 'startPlacementAssessment').throws(new AssessmentStartError('Error'));
+
+        // when
+        const promise = controller.save(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.calledWith(expectedError);
+        });
+      });
+
     });
 
     context('when the assessment saved is not a certification test', () => {

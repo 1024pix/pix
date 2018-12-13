@@ -1,5 +1,7 @@
 const _ = require('lodash');
-const { expect, domainBuilder } = require('../../../test-helper');
+const moment = require('moment');
+
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
@@ -317,6 +319,33 @@ describe('Unit | Domain | Models | Assessment', () => {
 
       // then
       expect(isCertificationAssessment).to.be.false;
+    });
+  });
+
+  describe('#isPlacementAssessment', () => {
+
+    it('should return true when the assessment is a placement', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.PLACEMENT });
+
+      // when/then
+      expect(assessment.isPlacementAssessment()).to.be.true;
+    });
+
+    it('should return false when the assessment is not a placement', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+
+      // when/then
+      expect(assessment.isPlacementAssessment()).to.be.false;
+    });
+
+    it('should return false when the assessment has no type', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: null });
+
+      // when/then
+      expect(assessment.isPlacementAssessment()).to.be.false;
     });
   });
 
@@ -757,4 +786,137 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(isCompleted).to.be.false;
     });
   });
+
+  describe('#start', () => {
+
+    it('should set the status to "started"', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ status: undefined });
+
+      // when
+      assessment.start();
+
+      // then
+      expect(assessment.state).to.equal(Assessment.states.STARTED);
+    });
+
+  });
+
+  describe('#getRemainingDaysBeforeNewAttempt', () => {
+
+    let clock;
+    let testCurrentDate;
+
+    beforeEach(() => {
+      testCurrentDate = new Date('2018-01-10 05:00:00');
+      clock = sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    [
+      { daysBefore: 0, hoursBefore: 2, expectedDaysBeforeNewAttempt: 7 },
+      { daysBefore: 1, hoursBefore: 0, expectedDaysBeforeNewAttempt: 6 },
+      { daysBefore: 5, hoursBefore: 0, expectedDaysBeforeNewAttempt: 2 },
+      { daysBefore: 5, hoursBefore: 12, expectedDaysBeforeNewAttempt: 2 },
+      { daysBefore: 6, hoursBefore: 0, expectedDaysBeforeNewAttempt: 1 },
+      { daysBefore: 6, hoursBefore: 11, expectedDaysBeforeNewAttempt: 1 },
+      { daysBefore: 6, hoursBefore: 12, expectedDaysBeforeNewAttempt: 1 },
+      { daysBefore: 6, hoursBefore: 13, expectedDaysBeforeNewAttempt: 1 },
+      { daysBefore: 7, hoursBefore: 0, expectedDaysBeforeNewAttempt: 0 },
+      { daysBefore: 10, hoursBefore: 0, expectedDaysBeforeNewAttempt: 0 },
+    ].forEach(({ daysBefore, hoursBefore, expectedDaysBeforeNewAttempt }) => {
+      it(`should return ${expectedDaysBeforeNewAttempt} days when the last result is ${daysBefore} days and ${hoursBefore} hours old`, () => {
+        const assessmentCreationDate = moment(testCurrentDate).subtract(daysBefore, 'day').subtract(hoursBefore, 'hour').toDate();
+        const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
+        const assessment = domainBuilder.buildAssessment({
+          type: Assessment.types.PLACEMENT,
+          status: Assessment.types.COMPLETED,
+          assessmentResults
+        });
+
+        // when
+        const daysBeforeNewAttempt = assessment.getRemainingDaysBeforeNewAttempt();
+
+        // then
+        expect(daysBeforeNewAttempt).to.equal(expectedDaysBeforeNewAttempt);
+      });
+    });
+
+  });
+
+  describe('canStartNewAttemptOnCourse', () => {
+
+    let clock;
+    let testCurrentDate;
+
+    beforeEach(() => {
+      testCurrentDate = new Date('2018-01-10 05:00:00');
+      clock = sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it('should throw an error if the assessment if not a placement', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CERTIFICATION });
+
+      // when/then
+      expect(() => assessment.canStartNewAttemptOnCourse()).to.throw(Error);
+    });
+
+    it('should be false is the assessment is not completed', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        state: Assessment.states.STARTED,
+      });
+
+      // when
+      const canStartNewAttemptOnCourse = assessment.canStartNewAttemptOnCourse();
+
+      // then
+      expect(canStartNewAttemptOnCourse).to.be.false;
+    });
+
+    it('should be false is the number of days to wait before new attempt is over 0', () => {
+      // given
+      const assessmentCreationDate = moment(testCurrentDate).subtract(2, 'day').toDate();
+      const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        status: Assessment.types.COMPLETED,
+        assessmentResults
+      });
+
+      // when
+      const canStartNewAttemptOnCourse = assessment.canStartNewAttemptOnCourse();
+
+      // then
+      expect(canStartNewAttemptOnCourse).to.be.false;
+    });
+
+    it('should be true is the number of days to wait before new attempt is equal to 0', () => {
+      // given
+      const assessmentCreationDate = moment(testCurrentDate).subtract(8, 'day').toDate();
+      const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.PLACEMENT,
+        status: Assessment.types.COMPLETED,
+        assessmentResults
+      });
+
+      // when
+      const canStartNewAttemptOnCourse = assessment.canStartNewAttemptOnCourse();
+
+      // then
+      expect(canStartNewAttemptOnCourse).to.be.true;
+    });
+
+  });
+
 });
