@@ -159,7 +159,7 @@ function getScoreAndLevel(assessmentId) {
 
 function getCompetenceMarks(assessment) {
 
-  if(this.isPlacementAssessment(assessment)) {
+  if(assessment.isPlacementAssessment()) {
     let competenceOfMark;
     return courseRepository.get(assessment.courseId)
       .then((course) => {
@@ -222,14 +222,9 @@ function isCertificationAssessment(assessment) {
   return assessment.type === Assessment.types.CERTIFICATION;
 }
 
-function isPlacementAssessment(assessment) {
-  return assessment.type === Assessment.types.PLACEMENT;
-}
-
 module.exports = {
   fetchAssessment,
   isPreviewAssessment,
-  isPlacementAssessment,
   isDemoAssessment,
   isCertificationAssessment,
   getScoreAndLevel,
