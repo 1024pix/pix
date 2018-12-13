@@ -164,22 +164,27 @@ describe('Unit | Service | User Service', () => {
     const skillRemplir4 = new Skill({ name: '@remplir4' });
     const skillUrl3 = new Skill({ name: '@url3' });
     const skillWeb1 = new Skill({ name: '@web1' });
+    const skillUrl1 = new Skill({ name: '@url1' });
     const skillWithoutChallenge = new Skill({ name: '@oldSKill8' });
 
     const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper');
     const competenceDauphin = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin');
 
+    const challengeForSkillCollaborer4 = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [skillCollaborer4], '@collaborer4');
+
     const challengeForSkillCitation4 = _createChallenge('challengeRecordIdOne', competenceFlipper.id, [skillCitation4], '@citation4');
     const challengeForSkillCitation4AndMoteur3 = _createChallenge('challengeRecordIdTwo', competenceFlipper.id, [skillCitation4, skillMoteur3], '@citation4');
-    const challengeForSkillCollaborer4 = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [skillCollaborer4], '@collaborer4');
     const challengeForSkillRecherche4 = _createChallenge('challengeRecordIdFour', competenceFlipper.id, [skillRecherche4], '@recherche4');
+    const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
+    const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
+    const oldChallengeWithAlreadyValidatedSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
+    const challengeForSkillUrl1 = _createChallenge('challenge_url1', competenceFlipper.id, [skillUrl1], '@url1');
+    const challenge2ForSkillUrl1 = _createChallenge('challenge_bis_url1', competenceFlipper.id, [skillUrl1], '@url1');
+
     const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceDauphin.id, [skillRemplir2], '@remplir2');
     const challengeForSkillRemplir4 = _createChallenge('challengeRecordIdSix', competenceDauphin.id, [skillRemplir4], '@remplir4');
     const challengeForSkillUrl3 = _createChallenge('challengeRecordIdSeven', competenceDauphin.id, [skillUrl3], '@url3');
     const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceDauphin.id, [skillWeb1], '@web1');
-    const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
-    const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
-    const oldChallengeWithAlreadyValidatedSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
 
     const assessmentResult1 = new AssessmentResult({ level: 1, pixScore: 12 });
     const assessmentResult2 = new AssessmentResult({ level: 2, pixScore: 23 });
@@ -686,5 +691,79 @@ describe('Unit | Service | User Service', () => {
         });
       });
     });
+
+    describe('should return always three challenge by competence', () => {
+      context('when competence has simple challenge', () => {
+
+        it('should return three challenge by competence', () => {
+          // given
+          const answer1 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
+          const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+          const answer3 = new BookshelfAnswer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
+          const answer4 = new BookshelfAnswer({ challengeId: challengeForSkillWeb1.id, result: 'ok' });
+          const answerCollectionArray = AnswerCollection.forge([answer1, answer2, answer3, answer4]);
+
+          answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+          answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
+
+          // when
+          const promise = userService.getProfileToCertify(userId);
+
+          // then
+          return promise.then((skillProfile) => {
+            expect(skillProfile).to.deep.equal([
+              {
+                id: 'competenceRecordIdOne',
+                index: '1.1',
+                name: '1.1 Construire un flipper',
+                skills: [],
+                pixScore: 12,
+                estimatedLevel: 1,
+                challenges: []
+              },
+              {
+                id: 'competenceRecordIdTwo',
+                index: '1.2',
+                name: '1.2 Adopter un dauphin',
+                skills: [skillRemplir4, skillUrl3, skillRemplir2],
+                pixScore: 23,
+                estimatedLevel: 2,
+                challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]
+              }
+            ]);
+          });
+        });
+      });
+
+      context('when competence has challenge than validated two skills', () => {
+        it('should return three challenge by competence', () => {
+          // given
+          const answer1 = new BookshelfAnswer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
+          const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillCitation4AndMoteur3.id, result: 'ok' });
+          const answer4 = new BookshelfAnswer({ challengeId: challengeForSkillUrl1.id, result: 'ok' });
+          const answerCollectionArray = AnswerCollection.forge([answer1, answer2, answer4]);
+
+          answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+          answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
+          challengeRepository.list.resolves([
+            challengeForSkillRecherche4,
+            challengeForSkillCitation4AndMoteur3,
+            challengeForSkillCollaborer4,
+            challengeForSkillUrl1,
+            challenge2ForSkillUrl1,
+          ]);
+
+          // when
+          const promise = userService.getProfileToCertify(userId);
+
+          // then
+          return promise.then((skillProfile) => {
+            expect(skillProfile[0].skills).to.have.members([skillCitation4, skillRecherche4, skillMoteur3, skillUrl1]);
+            expect(skillProfile[0].challenges).to.have.members([challengeForSkillCitation4AndMoteur3,challengeForSkillRecherche4, challenge2ForSkillUrl1]);
+          });
+        });
+      });
+    });
   });
+
 });
