@@ -11,14 +11,9 @@ export default Component.extend({
 
   _showSecondChanceModal: false,
 
-  limitedLevel: computed('competence.level', function() {
+  widthOfProgressBar: computed('competence.level', function() {
+
     const level = this.get('competence.level');
-    return Math.min(level, this.get('_MAX_REACHABLE_LEVEL'));
-  }),
-
-  widthOfProgressBar: computed('limitedLevel', function() {
-
-    const level = this.get('limitedLevel');
     const maxLevel = this.get('_MAX_LEVEL');
     let progressBarWidth;
 
