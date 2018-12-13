@@ -1,4 +1,9 @@
 # Pix Changelog
+
+## v2.14.0 (13/12/2018) 
+
+- [#290](https://github.com/1024pix/pix/pull/290) [FEATURE] Affichage de la liste des sessions de certification dans Pix Certif (PC-5).
+
 ## v2.13.0 (12/12/2018)
 
 - [#297](https://github.com/1024pix/pix/pull/297) [FEATURE] Suppression du champs email dans les formulaires de feedback. (PF-454)
