@@ -7,8 +7,16 @@ const serializer = require('../../infrastructure/serializers/jsonapi/session-ser
 const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const controllerReplies = require('../../infrastructure/controller-replies');
 
 module.exports = {
+  find(request, reply) {
+    return sessionService.find()
+      .then((sessions) => serializer.serialize(sessions))
+      .then(controllerReplies(reply).ok)
+      .catch(controllerReplies(reply).error);
+  },
+
   get(request, reply) {
     const sessionId = request.params.id;
     return sessionService.get(sessionId)

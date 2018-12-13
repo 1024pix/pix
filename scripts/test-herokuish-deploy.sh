@@ -30,6 +30,15 @@ mkdir -p tmp/herokuenv
       echo false > NPM_CONFIG_PRODUCTION
       echo orga > BUILDPACK_SUBDIR
       ;;
+    certif)
+      echo certif > APPLICATION_NAME
+      echo pix-certif-local > APP
+      echo production > NODE_ENV
+      echo disabled > MAINTENANCE
+      echo production > BUILD_ENVIRONMENT
+      echo false > NPM_CONFIG_PRODUCTION
+      echo certif > BUILDPACK_SUBDIR
+      ;;
     api)
       echo api > APPLICATION_NAME
       echo pix-api-local > APP

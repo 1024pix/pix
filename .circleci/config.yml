@@ -41,6 +41,12 @@ orga_properties: &orga_properties
     - image: circleci/node:8.11-browsers
   working_directory: ~/pix/orga
 
+# Properties shared by all certif-side jobs
+certif_properties: &certif_properties
+  docker:
+    - image: circleci/node:8.11-browsers
+  working_directory: ~/pix/certif
+
 version: 2.0
 
 workflows:
@@ -82,6 +88,11 @@ workflows:
           requires:
             - checkout_and_install
 
+      # certif side
+      - certif_build_and_test:
+          requires:
+            - checkout_and_install
+
       # common ci notification
       - signal_ci_ok:
           requires:
@@ -90,6 +101,7 @@ workflows:
             - mon_pix_test_2
             - mon_pix_test_3
             - orga_build_and_test
+            - certif_build_and_test
           filters:
             branches:
               ignore:
@@ -179,6 +191,15 @@ jobs:
   # orga
   orga_build_and_test:
     <<: *orga_properties
+    steps:
+      - restore_cache:
+          keys:
+            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+      - run: npm test
+
+  # certif
+  certif_build_and_test:
+    <<: *certif_properties
     steps:
       - restore_cache:
           keys:

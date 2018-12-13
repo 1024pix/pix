@@ -7,7 +7,7 @@ const moment = require('moment-timezone');
 
 module.exports = {
 
-  serialize(modelSession) {
+  serialize(sessions) {
     return new Serializer('session', {
       attributes: [
         'certificationCenter',
@@ -23,7 +23,7 @@ module.exports = {
       certifications : {
         ref: ['id']
       }
-    }).serialize(modelSession);
+    }).serialize(sessions);
   },
 
   deserialize(json) {

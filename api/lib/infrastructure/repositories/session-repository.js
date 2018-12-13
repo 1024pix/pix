@@ -50,5 +50,15 @@ module.exports = {
         }
         return Promise.reject(error);
       });
+  },
+
+  find() {
+    return BookshelfSession
+      .query((qb) => {
+        qb.orderBy('createdAt', 'desc')
+          .limit(10); // remove after pagination
+      })
+      .fetchAll({})
+      .then((sessions) => sessions.map(_toDomain));
   }
 };
