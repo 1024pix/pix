@@ -102,6 +102,7 @@ describe('Unit | Domain | Models | Profile', () => {
       const assessment = domainBuilder.buildAssessment({
         id: 'assessmentId1',
         courseId: 'courseId8',
+        type: Assessment.types.PLACEMENT,
         assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1, createdAt: new Date('2018-01-01 05:00:00') })],
         state: 'completed',
       });
@@ -146,6 +147,56 @@ describe('Unit | Domain | Models | Profile', () => {
       expect(profile.user).to.be.equal(user);
       expect(profile.competences).to.be.deep.equal(expectedCompetences);
       expect(profile.areas).to.be.equal(areas);
+    });
+
+    it('should assign max reachable level to level of competence if level of assessment is too high', () => {
+      // given
+      courses[0].competences = ['competenceId1'];
+      const assessment = domainBuilder.buildAssessment({
+        id: 'assessmentId1',
+        courseId: 'courseId8',
+        assessmentResults: [new AssessmentResult({ pixScore: 10, level: 6, createdAt: new Date('2018-01-01 05:00:00') })],
+        state: 'completed',
+        type: Assessment.types.PLACEMENT,
+      });
+      assessments = [assessment];
+
+      const expectedCompetences = [
+        {
+          id: 'competenceId1',
+          name: '1.1 Mener une recherche d’information',
+          index: '1.1',
+          areaId: 'areaId1',
+          level: 5,
+          pixScore: 10,
+          courseId: 'courseId8',
+          assessmentId: 'assessmentId1',
+          status: 'assessed',
+          isRetryable: true,
+        },
+        {
+          id: 'competenceId2',
+          name: '1.2 Gérer des données',
+          index: '1.2',
+          areaId: 'areaId2',
+          level: -1,
+          courseId: 'courseId9',
+          status: 'notAssessed',
+          isRetryable: false,
+        }];
+
+      // when
+      const profile = new Profile({
+        user,
+        competences,
+        areas,
+        lastAssessments: assessments,
+        assessmentsCompletedWithResults: assessments,
+        courses,
+      });
+
+      // then
+      expect(profile.competences).to.be.deep.equal(expectedCompetences);
     });
 
     it('should assign assessment id to competence', () => {
@@ -203,6 +254,7 @@ describe('Unit | Domain | Models | Profile', () => {
         assessmentsCompletedWithResults = [
           Assessment.fromAttributes({
             id: 'assessmentId1',
+            type: Assessment.types.PLACEMENT,
             assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1, createdAt: new Date('2018-01-01 05:00:00') })],
             state: 'completed',
             courseId: 'courseId8',
@@ -424,6 +476,15 @@ describe('Unit | Domain | Models | Profile', () => {
 
     context('when a competence has already been assessed, and is not actually being assessed again', () => {
 
+      function _buildPlacement(assessmentResults) {
+        return domainBuilder.buildAssessment({
+          type: Assessment.types.PLACEMENT,
+          status: Assessment.types.COMPLETED,
+          courseId: courses[0].id,
+          assessmentResults
+        });
+      }
+
       context('and there is one completed assessment which is younger than 7 days', () => {
 
         it('should set status to "assessed"', () => {
@@ -431,7 +492,7 @@ describe('Unit | Domain | Models | Profile', () => {
 
           const lastAssessmentCreationDate = moment(testCurrentDate).subtract(3, 'day').toDate();
           const lastAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: lastAssessmentCreationDate })];
-          const lastAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: lastAssessmentResults });
+          const lastAssessment = _buildPlacement(lastAssessmentResults);
 
           const lastAssessments = [lastAssessment];
           const assessmentsCompletedWithResults = [lastAssessment];
@@ -448,7 +509,7 @@ describe('Unit | Domain | Models | Profile', () => {
           // given
           const lastAssessmentCreationDate = moment(testCurrentDate).subtract(3, 'day').toDate();
           const lastAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: lastAssessmentCreationDate })];
-          const lastAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: lastAssessmentResults });
+          const lastAssessment = _buildPlacement(lastAssessmentResults);
 
           const lastAssessments = [lastAssessment];
           const assessmentsCompletedWithResults = [lastAssessment];
@@ -461,32 +522,6 @@ describe('Unit | Domain | Models | Profile', () => {
           expect(profile.competences[0].isRetryable).to.be.false;
         });
 
-        [
-          { daysBefore: 0, hoursBefore: 2, expectedDaysBeforeNewAttempt: 7 },
-          { daysBefore: 1, hoursBefore: 0, expectedDaysBeforeNewAttempt: 6 },
-          { daysBefore: 5, hoursBefore: 0, expectedDaysBeforeNewAttempt: 2 },
-          { daysBefore: 5, hoursBefore: 12, expectedDaysBeforeNewAttempt: 2 },
-          { daysBefore: 6, hoursBefore: 0, expectedDaysBeforeNewAttempt: 1 },
-          { daysBefore: 6, hoursBefore: 11, expectedDaysBeforeNewAttempt: 1 },
-          { daysBefore: 6, hoursBefore: 12, expectedDaysBeforeNewAttempt: 1 },
-          { daysBefore: 6, hoursBefore: 13, expectedDaysBeforeNewAttempt: 1 },
-        ].forEach(({ daysBefore, hoursBefore, expectedDaysBeforeNewAttempt }) => {
-          it(`should return ${expectedDaysBeforeNewAttempt} days when the last result is ${daysBefore} days and ${hoursBefore} hours old`, () => {
-            const assessmentCreationDate = moment(testCurrentDate).subtract(daysBefore, 'day').subtract(hoursBefore, 'hour').toDate();
-            const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-            const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
-            const lastAssessments = [assessment];
-            const assessmentsCompletedWithResults = [assessment];
-            courses[0].competences = ['competenceId1'];
-
-            // when
-            const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
-
-            // then
-            expect(profile.competences[0].daysBeforeNewAttempt).to.equal(expectedDaysBeforeNewAttempt);
-          });
-        });
-
       });
 
       context('and there is one completed assessment which is older than 7 days', () => {
@@ -495,7 +530,7 @@ describe('Unit | Domain | Models | Profile', () => {
           // given
           const assessmentCreationDate = moment(testCurrentDate).subtract(7, 'day').subtract(5, 'second').toDate();
           const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-          const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
+          const assessment = _buildPlacement(assessmentResults);
           const lastAssessments = [assessment];
           const assessmentsCompletedWithResults = [assessment];
           courses[0].competences = ['competenceId1'];
@@ -511,7 +546,7 @@ describe('Unit | Domain | Models | Profile', () => {
           // given
           const assessmentCreationDate = moment(testCurrentDate).subtract(7, 'day').subtract(5, 'second').toDate();
           const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-          const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
+          const assessment = _buildPlacement(assessmentResults);
           const lastAssessments = [assessment];
           const assessmentsCompletedWithResults = [assessment];
           courses[0].competences = ['competenceId1'];
@@ -527,7 +562,7 @@ describe('Unit | Domain | Models | Profile', () => {
           // given
           const assessmentCreationDate = moment(testCurrentDate).subtract(7, 'day').subtract(5, 'second').toDate();
           const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-          const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
+          const assessment = _buildPlacement(assessmentResults);
           const lastAssessments = [assessment];
           const assessmentsCompletedWithResults = [assessment];
           courses[0].competences = ['competenceId1'];
@@ -539,26 +574,6 @@ describe('Unit | Domain | Models | Profile', () => {
           expect(profile.competences[0].isRetryable).to.be.true;
         });
 
-        [
-          { daysBefore: 7, hoursBefore: 0, expectedDaysBeforeNewAttempt: undefined },
-          { daysBefore: 10, hoursBefore: 0, expectedDaysBeforeNewAttempt: undefined },
-        ].forEach(({ daysBefore, hoursBefore, expectedDaysBeforeNewAttempt }) => {
-          it(`should return ${expectedDaysBeforeNewAttempt} days when the last result is ${daysBefore} days and ${hoursBefore} hours old`, () => {
-            const assessmentCreationDate = moment(testCurrentDate).subtract(daysBefore, 'day').subtract(hoursBefore, 'hour').toDate();
-            const assessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: assessmentCreationDate })];
-            const assessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults });
-            const lastAssessments = [assessment];
-            const assessmentsCompletedWithResults = [assessment];
-            courses[0].competences = ['competenceId1'];
-
-            // when
-            const profile = new Profile({ user, competences, areas, lastAssessments, assessmentsCompletedWithResults, courses });
-
-            // then
-            expect(profile.competences[0].daysBeforeNewAttempt).to.equal(expectedDaysBeforeNewAttempt);
-          });
-        });
-
       });
 
       context('and there is 2 completed assessments and only the last one is younger than 7 days', () => {
@@ -567,13 +582,13 @@ describe('Unit | Domain | Models | Profile', () => {
           // given
           const oldAssessmentCreationDate = moment(testCurrentDate).subtract(7, 'day').subtract(5, 'second').toDate();
           const oldAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: oldAssessmentCreationDate })];
-          const oldAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: oldAssessmentResults });
+          const oldAssessment = _buildPlacement(oldAssessmentResults);
 
           const lastAssessmentCreationDate = moment(testCurrentDate).subtract(3, 'day').toDate();
           const lastAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: lastAssessmentCreationDate })];
-          const lastAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: lastAssessmentResults });
+          const lastAssessment = _buildPlacement(lastAssessmentResults);
 
-          const lastAssessments = [oldAssessment, lastAssessment];
+          const lastAssessments = [lastAssessment];
           const assessmentsCompletedWithResults = [oldAssessment, lastAssessment];
           courses[0].competences = ['competenceId1'];
 
@@ -588,13 +603,13 @@ describe('Unit | Domain | Models | Profile', () => {
           // given
           const oldAssessmentCreationDate = moment(testCurrentDate).subtract(7, 'day').subtract(5, 'second').toDate();
           const oldAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: oldAssessmentCreationDate })];
-          const oldAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: oldAssessmentResults });
+          const oldAssessment = _buildPlacement(oldAssessmentResults);
 
           const lastAssessmentCreationDate = moment(testCurrentDate).subtract(3, 'day').toDate();
           const lastAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: lastAssessmentCreationDate })];
-          const lastAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: lastAssessmentResults });
+          const lastAssessment = _buildPlacement(lastAssessmentResults);
 
-          const lastAssessments = [oldAssessment, lastAssessment];
+          const lastAssessments = [lastAssessment];
           const assessmentsCompletedWithResults = [oldAssessment, lastAssessment];
           courses[0].competences = ['competenceId1'];
 
@@ -609,13 +624,13 @@ describe('Unit | Domain | Models | Profile', () => {
           // given
           const oldAssessmentCreationDate = moment(testCurrentDate).subtract(7, 'day').subtract(5, 'second').toDate();
           const oldAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: oldAssessmentCreationDate })];
-          const oldAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: oldAssessmentResults });
+          const oldAssessment = _buildPlacement(oldAssessmentResults);
 
           const lastAssessmentCreationDate = moment(testCurrentDate).subtract(3, 'day').toDate();
           const lastAssessmentResults = [domainBuilder.buildAssessmentResult({ createdAt: lastAssessmentCreationDate })];
-          const lastAssessment = domainBuilder.buildAssessment({ courseId: courses[0].id, assessmentResults: lastAssessmentResults });
+          const lastAssessment = _buildPlacement(lastAssessmentResults);
 
-          const lastAssessments = [oldAssessment, lastAssessment];
+          const lastAssessments = [lastAssessment];
           const assessmentsCompletedWithResults = [oldAssessment, lastAssessment];
           courses[0].competences = ['competenceId1'];
 
@@ -647,12 +662,14 @@ describe('Unit | Domain | Models | Profile', () => {
         assessments = [
           Assessment.fromAttributes({
             id: 'assessmentId1',
+            type: Assessment.types.PLACEMENT,
             assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
             state: 'completed',
             courseId: 'courseId8',
           }),
           Assessment.fromAttributes({
             id: 'assessmentId2',
+            type: Assessment.types.PLACEMENT,
             assessmentResults: [new AssessmentResult({ pixScore: 15, level: 2 })],
             state: 'completed',
             courseId: 'courseId9',
@@ -685,6 +702,7 @@ describe('Unit | Domain | Models | Profile', () => {
         assessments = [
           Assessment.fromAttributes({
             id: 'assessmentId1',
+            type: Assessment.types.PLACEMENT,
             assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
             state: 'completed',
             courseId: 'courseId8',

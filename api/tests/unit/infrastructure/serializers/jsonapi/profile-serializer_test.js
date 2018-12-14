@@ -108,8 +108,9 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         id: 'assessmentID1',
         courseId: 'courseID1',
         state: 'completed',
+        type: Assessment.types.PLACEMENT,
         assessmentResults: [new AssessmentResult({
-          level: 8,
+          level: 5,
           pixScore: 128,
           createdAt: new Date('2018-01-10 05:00:00'),
         })],
@@ -118,6 +119,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         id: 'assessmentID2',
         courseId: 'courseID2',
         state: 'started',
+        type: Assessment.types.PLACEMENT,
       });
 
       lastAssessments = [finishedAssessment, nonFinishedAssessment];
@@ -187,7 +189,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             attributes: {
               name: 'competence-name-1',
               index: '1.1',
-              level: 8,
+              level: 5,
               'pix-score': 128,
               'course-id': 'courseID1',
               'assessment-id': 'assessmentID1',

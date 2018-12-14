@@ -62,6 +62,7 @@ describe('Unit | Service | Profil User Service', function() {
         id: 'assessmentId1',
         courseId: 'courseId8',
         state: 'completed',
+        type: Assessment.types.PLACEMENT,
         assessmentResults: [new AssessmentResult({
           pixScore: 10,
           level: 1,
