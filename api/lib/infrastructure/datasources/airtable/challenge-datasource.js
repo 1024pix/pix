@@ -42,14 +42,14 @@ module.exports = {
       });
   },
 
-  findByCompetence(competence) {
+  findByCompetenceId(competenceId) {
     return airtable.findRecords(AIRTABLE_TABLE_NAME)
       .then((challengeDataObjects) => {
         return challengeDataObjects
           .filter((rawChallenge) => (
             _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
             && !_.isEmpty(rawChallenge.fields.Acquix)
-            && _.includes(rawChallenge.fields.competences, competence.id)
+            && _.includes(rawChallenge.fields.competences, competenceId)
           ))
           .map(fromAirTableObject);
       });

@@ -44,14 +44,14 @@ module.exports = function createAssessmentResultForCompletedCertification({
       }
 
       return Promise.all([
-        assessmentService.getSkills(assessment),
+        assessmentService.getSkillsReport(assessment),
         assessmentService.getCompetenceMarks(assessment),
       ]);
     })
-    .then(([skills, mark]) => _saveCertificationResult({
+    .then(([skills, competenceMarks]) => _saveCertificationResult({
       assessment,
       assessmentId,
-      mark,
+      competenceMarks,
       skills,
       assessmentRepository,
       assessmentResultRepository,
@@ -73,7 +73,7 @@ function _saveCertificationResult({
   // Parameters
   assessment,
   assessmentId,
-  mark,
+  competenceMarks,
   skills,
   // Repositories
   assessmentRepository,
@@ -83,20 +83,20 @@ function _saveCertificationResult({
   // Services
   skillsService,
 }) {
-  const { pixScore, level, status } = _getAssessmentResultEvaluations(mark, assessment.type);
+  const { pixScore, level, status } = _getAssessmentResultEvaluations(competenceMarks, assessment.type);
   const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(level, pixScore, status, assessmentId);
   assessment.setCompleted();
 
   return Promise.all([
     assessmentResultRepository.save(assessmentResult),
-    mark,
+    competenceMarks,
     skillsService.saveAssessmentSkills(skills),
     assessmentRepository.save(assessment),
   ])
-    .then(([assessmentResult, marks]) => {
+    .then(([assessmentResult, competenceMarks]) => {
       const assessmentResultId = assessmentResult.id;
 
-      const saveMarksPromises = marks
+      const saveMarksPromises = competenceMarks
         .map((mark) => _setAssessmentResultIdOnMark(mark, assessmentResultId))
         .map((mark) => _limitMarkLevel(mark, assessment))
         .map(competenceMarkRepository.save);
@@ -106,17 +106,17 @@ function _saveCertificationResult({
     .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
 }
 
-function _getAssessmentResultEvaluations(marks, assessmentType) {
-  const pixScore = _.sumBy(marks, 'score');
-  let level = Math.floor(pixScore / 8);
+function _getAssessmentResultEvaluations(competenceMarks, assessmentType) {
+  const totalPixScore = _.sumBy(competenceMarks, 'score');
+  let level = AssessmentResult.ComputeLevel(totalPixScore);
 
-  if (pixScore === 0 && assessmentType === Assessment.types.CERTIFICATION) {
+  if (totalPixScore === 0 && assessmentType === Assessment.types.CERTIFICATION) {
     const status = CERTIFICATION_REJECTED;
     level = NOT_VALIDATED_CERTIF_LEVEL;
-    return { pixScore, level, status };
+    return { pixScore: totalPixScore, level, status };
   } else {
     const status = CERTIFICATION_VALIDATED;
-    return { pixScore, level, status };
+    return { pixScore: totalPixScore, level, status };
   }
 }
 

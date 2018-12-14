@@ -4,12 +4,12 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
 const answerService = require('../services/answer-service');
 const certificationService = require('../services/certification-service');
 
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const Assessment = require('../../domain/models/Assessment');
+const AssessmentResult = require('../../domain/models/AssessmentResult');
 
 const _ = require('../../infrastructure/utils/lodash-utils');
 
@@ -17,169 +17,113 @@ const { NotFoundError } = require('../../domain/errors');
 
 // FIXME: Devrait plutot 1) splitter entre les calculs des acquis 2) calcul du result
 /**
- * @deprecated since getSkills and getCompetenceMarks
+ * @deprecated since getSkillsReport and getCompetenceMarks
  */
 async function fetchAssessment(assessmentId) {
 
-  const [assessmentPix, answers] = await Promise.all([
-    assessmentRepository.get(assessmentId),
-    answerRepository.findByAssessment(assessmentId)
-  ]);
+  const assessment = await assessmentRepository.get(assessmentId);
 
-  if (assessmentPix === null) {
+  if (!assessment) {
     return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
   }
 
-  assessmentPix.estimatedLevel = 0;
-  assessmentPix.pixScore = 0;
-  assessmentPix.successRate = answerService.getAnswersSuccessRate(answers);
+  const answers = await answerRepository.findByAssessment(assessmentId);
 
-  if (_isNonScoredAssessment(assessmentPix)) {
-    return Promise.resolve({ assessmentPix });
+  assessment.estimatedLevel = 0;
+  assessment.pixScore = 0;
+  assessment.successRate = answerService.getAnswersSuccessRate(answers);
+
+  const response = { assessmentPix: assessment, skills: null };
+
+  if (!assessment.isPlacementAssessment()) {
+    return Promise.resolve(response);
   }
 
-  return courseRepository.get(assessmentPix.courseId)
-    .then((course) => {
+  const course = await courseRepository.get(assessment.courseId);
 
-      if (course.isAdaptive) {
-        return competenceRepository
-          .get(course.competences[0])
-          .then((competencePix) => Promise.all([
-            skillRepository.findByCompetence(competencePix),
-            challengeRepository.findByCompetence(competencePix)
-          ]));
-      }
+  const [competenceSkills, challenges] = await Promise.all([
+    skillRepository.findByCompetenceId(course.competences[0]),
+    challengeRepository.findByCompetenceId(course.competences[0])
+  ]);
 
-      return null;
-    })
-    .then((skillsAndChallenges) => {
+  course.competenceSkills = competenceSkills;
+  course.computeTubes(course.competenceSkills);
 
-      let skillsReport;
+  assessment.pixScore = AssessmentResult.ComputePixScore(course.competenceSkills, challenges, answers, course.tubes);
+  assessment.estimatedLevel = AssessmentResult.ComputeLevel(assessment.pixScore);
 
-      if (skillsAndChallenges) {
-        const [skills, challengesPix] = skillsAndChallenges;
-        const catAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challengesPix, skills);
+  response.skills = {
+    assessmentId,
+    validatedSkills: AssessmentResult.GetValidatedSkills(answers, challenges, course.tubes),
+    failedSkills: AssessmentResult.GetFailedSkills(answers, challenges, course.tubes),
+  };
 
-        skillsReport = {
-          assessmentId,
-          validatedSkills: catAssessment.validatedSkills,
-          failedSkills: catAssessment.failedSkills
-        };
-
-        assessmentPix.estimatedLevel = catAssessment.obtainedLevel;
-        assessmentPix.pixScore = catAssessment.displayedPixScore;
-      }
-
-      return Promise.resolve({ assessmentPix, skills: skillsReport });
-    });
+  return Promise.resolve(response);
 }
 
-async function getSkills(assessment) {
-  if (assessment === null) {
-    return Promise.reject(new NotFoundError('Unable to getSkills without assessment'));
+async function getSkillsReport(assessment) {
+  if (!assessment) {
+    return Promise.reject(new NotFoundError('Unable to getSkillsReport without assessment'));
   }
-  let skillsReport = {
+
+  const skillsReport = {
+    assessmentId: assessment.id,
     validatedSkills: [],
     failedSkills: []
   };
 
-  if (_isNonScoredAssessment(assessment)) {
+  if (!assessment.isPlacementAssessment()) {
     return Promise.resolve(skillsReport);
   }
 
-  const assessmentId = assessment.id;
-  const [answers] = await Promise.all([
-    answerRepository.findByAssessment(assessmentId)
+  const course = await courseRepository.get(assessment.courseId);
+
+  const [competenceSkills, answers] = await Promise.all([
+    skillRepository.findByCompetenceId(course.competences[0]),
+    answerRepository.findByAssessment(assessment.id)
   ]);
 
-  return courseRepository.get(assessment.courseId)
-    .then((course) => {
+  course.competenceSkills = competenceSkills;
+  course.computeTubes(course.competenceSkills);
 
-      if (course.isAdaptive) {
-        return competenceRepository
-          .get(course.competences[0])
-          .then((competencePix) => Promise.all([
-            skillRepository.findByCompetence(competencePix),
-            challengeRepository.findByCompetence(competencePix)
-          ]));
-      }
-      return null;
-    })
-    .then((skillsAndChallenges) => {
+  skillsReport.validatedSkills = AssessmentResult.GetValidatedSkills(answers, course.challenges, course.tubes);
+  skillsReport.failedSkills = AssessmentResult.GetFailedSkills(answers, course.challenges, course.tubes);
 
-      if (skillsAndChallenges) {
-        const [skills, challengesPix] = skillsAndChallenges;
-        const catAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challengesPix, skills);
-
-        skillsReport = {
-          validatedSkills: catAssessment.validatedSkills,
-          failedSkills: catAssessment.failedSkills
-        };
-
-      }
-      return Promise.resolve(skillsReport);
-    });
-}
-
-function getScoreAndLevel(assessmentId) {
-  let estimatedLevel = 0;
-  let pixScore = 0;
-
-  return Promise.all([
-    assessmentRepository.get(assessmentId),
-    answerRepository.findByAssessment(assessmentId)
-  ]).then(([assessmentPix, answers]) => {
-    return courseRepository.get(assessmentPix.courseId)
-      .then((course) => {
-
-        if (course.isAdaptive) {
-          return competenceRepository
-            .get(course.competences[0])
-            .then((competencePix) => Promise.all([
-              skillRepository.findByCompetence(competencePix),
-              challengeRepository.findByCompetence(competencePix)
-            ]));
-        }
-
-        return null;
-      })
-      .then((skillsAndChallenges) => {
-        if (skillsAndChallenges) {
-          const [skills, challengesPix] = skillsAndChallenges;
-          const catAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challengesPix, skills);
-
-          estimatedLevel = catAssessment.obtainedLevel;
-          pixScore = catAssessment.displayedPixScore;
-        }
-
-        return Promise.resolve({ estimatedLevel, pixScore });
-      });
-  });
+  return Promise.resolve(skillsReport);
 }
 
 function getCompetenceMarks(assessment) {
 
-  if(assessment.isPlacementAssessment()) {
-    let competenceOfMark;
+  if (assessment.isPlacementAssessment()) {
+    let pixScore;
+    let level;
     return courseRepository.get(assessment.courseId)
       .then((course) => {
-        return competenceRepository.get(course.competences[0]);
-      }).then((competence) => {
-        competenceOfMark = competence;
-        return this.getScoreAndLevel(assessment.id);
-      }).then(({ estimatedLevel, pixScore }) =>{
+        return Promise.all([
+          answerRepository.findByAssessment(assessment.id),
+          skillRepository.findByCompetenceId(course.competences[0]),
+          challengeRepository.findByCompetenceId(course.competences[0]),
+        ]).then(([answers, competenceSkills, challenges]) => {
+          course.competenceSkills = competenceSkills;
+          course.computeTubes(competenceSkills);
+          pixScore = AssessmentResult.ComputePixScore(course.competenceSkills, challenges, answers, course.tubes);
+          level = AssessmentResult.ComputeLevel(pixScore);
+          return course;
+        });
+      }).then((course) => competenceRepository.get(course.competences[0])
+      ).then((competence) => {
         return [
           new CompetenceMark({
-            level: estimatedLevel,
+            level,
             score: pixScore,
-            area_code: competenceOfMark.area.code,
-            competence_code: competenceOfMark.index
+            area_code: competence.area.code,
+            competence_code: competence.index
           })
         ];
       });
   }
 
-  if(this.isCertificationAssessment(assessment)) {
+  if (this.isCertificationAssessment(assessment)) {
     return Promise
       .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessment.id)])
       .then(([competences, { competencesWithMark }]) => {
@@ -204,12 +148,6 @@ function getCompetenceMarks(assessment) {
 }
 
 // TODO Move the below functions into Assessment
-function _isNonScoredAssessment(assessment) {
-  return isPreviewAssessment(assessment)
-    || assessment.isCertificationAssessment()
-    || assessment.isSmartPlacementAssessment();
-}
-
 function isPreviewAssessment(assessment) {
   return assessment.type === Assessment.types.PREVIEW;
 }
@@ -227,7 +165,6 @@ module.exports = {
   isPreviewAssessment,
   isDemoAssessment,
   isCertificationAssessment,
-  getScoreAndLevel,
-  getSkills,
+  getSkillsReport,
   getCompetenceMarks,
 };
