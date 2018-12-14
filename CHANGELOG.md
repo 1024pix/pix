@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.15.0 (14/12/2018)
+
+- [#296](https://github.com/1024pix/pix/pull/296) [TECH] Ajout de règles côté back-end lors du démarrage d'un positionnement (PF-458).
+- [#301](https://github.com/1024pix/pix/pull/301) [TECH] Utilisation des Knowledge-Elements dans l'algo SmartRandom (PF-437).
+- [#294](https://github.com/1024pix/pix/pull/294) [BUGFIX] Le CSV des snapshots doit refléter les profils utilisateurs (PF-358).
+
 ## v2.14.0 (13/12/2018) 
 
 - [#290](https://github.com/1024pix/pix/pull/290) [FEATURE] Affichage de la liste des sessions de certification dans Pix Certif (PC-5).
