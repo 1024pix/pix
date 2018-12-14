@@ -29,9 +29,9 @@ module.exports = {
       .then(_generateChallengeDomainModels);
   },
 
-  findByCompetence(competence) {
+  findByCompetenceId(competenceId) {
 
-    return challengeDatasource.findByCompetence(competence)
+    return challengeDatasource.findByCompetenceId(competenceId)
       .then(_generateChallengeDomainModels);
   },
 

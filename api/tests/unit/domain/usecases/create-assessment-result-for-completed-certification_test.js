@@ -22,7 +22,7 @@ function _buildCompetence(competenceCode, areaCode) {
 describe('Unit | UseCase | create-assessment-result-for-completed-certification', () => {
 
   const assessmentService = {
-    getSkills: () => undefined,
+    getSkillsReport: () => undefined,
     getCompetenceMarks: () => undefined,
   };
   const assessmentRepository = {
@@ -50,6 +50,9 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
   };
   const skillsService = {
     saveAssessmentSkills: () => undefined,
+  };
+  const AssessmentResult = {
+    ComputeLevel: () => undefined,
   };
 
   const assessmentId = 1;
@@ -142,7 +145,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     sandbox = sinon.sandbox.create();
 
-    sandbox.stub(assessmentService, 'getSkills').resolves(evaluatedSkills);
+    sandbox.stub(assessmentService, 'getSkillsReport').resolves(evaluatedSkills);
     sandbox.stub(assessmentService, 'getCompetenceMarks').resolves(competenceMarksForPlacement);
     sandbox.stub(assessmentRepository, 'save').resolves();
     sandbox.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
@@ -154,7 +157,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     sandbox.stub(competenceMarkRepository, 'save').resolves();
     sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves();
     sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
-
+    sandbox.stub(AssessmentResult, 'ComputeLevel').returns();
   });
 
   afterEach(() => {
@@ -239,9 +242,9 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   });
 
-  it('should reject a not found error when getSkills raise a notFoundError because the assessment does not exist', () => {
+  it('should reject a not found error when getSkillsReport raise a notFoundError because the assessment does not exist', () => {
     // given
-    assessmentService.getSkills.rejects(new NotFoundError());
+    assessmentService.getSkillsReport.rejects(new NotFoundError());
 
     // when
     const promise = createAssessmentResultForCompletedCertification({
@@ -349,7 +352,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       // then
       return promise.then(() => {
-        expect(assessmentService.getSkills).to.have.been.calledWith(assessment);
+        expect(assessmentService.getSkillsReport).to.have.been.calledWith(assessment);
       });
     });
 
@@ -534,8 +537,12 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     let clock;
     let assessment;
+    let sumOfCompetenceMarksScores;
 
     beforeEach(() => {
+      sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
+        return sum + competenceMark.score;
+      }, 0);
       assessment = domainBuilder.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
@@ -550,6 +557,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       assessmentRepository.get.resolves(assessment);
       assessmentService.getCompetenceMarks.resolves(competenceMarksForCertification);
+      AssessmentResult.ComputeLevel.returns(Math.floor(sumOfCompetenceMarksScores / 8));
 
       clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
     });
@@ -618,9 +626,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should create a new assessment result', () => {
         // given
-        const sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
-          return sum + competenceMark.score;
-        }, 0);
         const assessmentResult = domainBuilder.buildAssessmentResult({
           level: Math.floor(sumOfCompetenceMarksScores / 8),
           pixScore: sumOfCompetenceMarksScores,

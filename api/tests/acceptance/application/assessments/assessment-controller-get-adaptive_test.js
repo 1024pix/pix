@@ -1,4 +1,4 @@
-const { expect, knex, nock } = require('../../../test-helper');
+const { databaseBuilder, expect, nock } = require('../../../test-helper');
 const areaRawAirTableFixture = require('../../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const createServer = require('../../../../server');
@@ -133,21 +133,21 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
 
   describe('(adaptive) GET /api/assessments/:assessment_id/next', () => {
 
-    let insertedAssessmentId = null;
+    const insertedAssessmentId = 123;
 
     const inserted_assessment = {
+      id: insertedAssessmentId,
       courseId: 'the_adaptive_course_id',
       type: 'PLACEMENT',
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([inserted_assessment]).returning('id').then((ids) => {
-        insertedAssessmentId = ids[0];
-      });
+      databaseBuilder.factory.buildAssessment(inserted_assessment);
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
-      return knex('assessments').delete();
+      return databaseBuilder.clean();
     });
 
     it('should return HTTP status code 200 with null data when there is not next challenge', () => {

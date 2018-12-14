@@ -79,6 +79,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   const inserted_assessment = {
     courseId,
+    type: 'PLACEMENT'
   };
 
   before(() => {
@@ -208,7 +209,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'pix-score': 0,
             'state': null,
             'success-rate': null,
-            'type': null,
+            'type': 'PLACEMENT',
             'certification-number': null,
           },
           'relationships': {
@@ -356,10 +357,10 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'id': inserted_assessment_id,
           'attributes': {
             'estimated-level': 1,
-            'pix-score': 8,
+            'pix-score': 12,
             'state': null,
             'success-rate': 50,
-            'type': null,
+            'type': 'PLACEMENT',
             'certification-number': null,
           },
           'relationships': {

@@ -27,20 +27,6 @@ class Course {
     });
     return tubes;
   }
-
-  computePixScoreOfSkills() {
-    const pixScoreOfSkills = {};
-    const maxDifficulty = 8;
-    const numberOfSkillsByDifficulty = [];
-
-    for (let levelDifficulty = 0; levelDifficulty < maxDifficulty; levelDifficulty++) {
-      numberOfSkillsByDifficulty[levelDifficulty] = _.filter(this.competenceSkills, (skill) => skill.difficulty === levelDifficulty).length;
-    }
-    this.competenceSkills.forEach((skill) => {
-      pixScoreOfSkills[skill.name] = Math.min(4, 8 / numberOfSkillsByDifficulty[skill.difficulty]);
-    });
-    return pixScoreOfSkills;
-  }
 }
 
 module.exports = Course;
