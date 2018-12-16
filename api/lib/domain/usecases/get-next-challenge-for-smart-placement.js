@@ -1,10 +1,10 @@
 const { AssessmentEndedError } = require('../errors');
-const SmartRandom = require('../strategies/SmartRandom');
+const smartRandom = require('../strategies/smartRandom');
 const _ = require('lodash');
 
 module.exports = getNextChallengeForSmartPlacement;
 
-function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, assessmentsRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository } = {}) {
+function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, assessmentRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository } = {}) {
   let answers, targetProfile, knowledgeElements;
   const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
   const userId = assessment.userId;
@@ -12,7 +12,8 @@ function getNextChallengeForSmartPlacement({ assessment, answerRepository, chall
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
     targetProfileRepository.get(targetProfileId),
-    getSmartPlacementKnowledgeElements({ userId, assessmentsRepository, smartPlacementKnowledgeElementRepository })]
+    getSmartPlacementKnowledgeElements({ userId, assessmentRepository, smartPlacementKnowledgeElementRepository })]
+
   ).then(([answersOfAssessments, targetProfileFound, knowledgeElementsOfAssessments]) => {
     answers = answersOfAssessments;
     targetProfile = targetProfileFound;
@@ -31,13 +32,12 @@ function getNextChallengeForSmartPlacement({ assessment, answerRepository, chall
 }
 
 function getNextChallengeInSmartRandom({ answers, challenges, targetProfile, knowledgeElements }) {
-  const smartRandom = new SmartRandom({ answers, challenges, targetProfile, knowledgeElements });
-  const nextChallenge = smartRandom.getNextChallenge();
+  const nextChallenge = smartRandom.getNextChallenge({ answers, challenges, targetProfile, knowledgeElements });
   return _.get(nextChallenge, 'id', null);
 }
 
-function getSmartPlacementKnowledgeElements({ userId, assessmentsRepository, smartPlacementKnowledgeElementRepository }) {
-  return assessmentsRepository.findSmartPlacementAssessmentsByUserId(userId)
+function getSmartPlacementKnowledgeElements({ userId, assessmentRepository, smartPlacementKnowledgeElementRepository }) {
+  return assessmentRepository.findSmartPlacementAssessmentsByUserId(userId)
     .then((assessments) => _.map(assessments, 'id'))
     .then((assessmentIds) => smartPlacementKnowledgeElementRepository.findByAssessmentIds(assessmentIds))
     .then((knowledgeElementsLists) => _.flatten(knowledgeElementsLists))

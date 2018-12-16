@@ -1,35 +1,28 @@
 const Course = require('../models/Course');
-const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challengesFilter');
 const catAlgorithm = require('./catAlgorithm');
+const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challengesFilter');
 const _ = require('lodash');
 
 const TEST_ENDED_CHAR = null;
 const UNEXISTING_ITEM = null;
 
-module.exports = class SmartRandom {
+module.exports = { getNextChallenge };
 
-  constructor({ knowledgeElements, challenges, targetProfile, answers } = {}) {
-    this.challenges = challenges;
-    this.targetSkills = targetProfile.skills;
-    this.knowledgeElements = knowledgeElements;
-    this.lastChallenge = _findLastChallengeIfAny(answers, challenges);
-    this.courseTubes = _findCourseTubes(this.targetSkills, challenges);
-    this.predictedLevel = catAlgorithm.getPredictedLevel(this.knowledgeElements, this.targetSkills);
-    this.isUserStartingTheTest = !this.lastChallenge;
-  }
+function getNextChallenge({ knowledgeElements, challenges, targetProfile, answers } = {}) {
 
-  getNextChallenge() {
-    const smartRandom = Object.create(this);
+  const lastChallenge = _findLastChallengeIfAny(answers, challenges);
+  const targetSkills = targetProfile.skills;
+  const isUserStartingTheTest = !lastChallenge;
+  const courseTubes = _findCourseTubes(targetSkills, challenges);
 
-    // First challenge has specific rules
-    const nextChallenge = this.isUserStartingTheTest
-      ? _findFirstChallenge(smartRandom)
-      : _findAnyChallenge(smartRandom);
+  // First challenge has specific rules
+  const nextChallenge = isUserStartingTheTest
+    ? _findFirstChallenge({ knowledgeElements, challenges, targetSkills, courseTubes })
+    : _findAnyChallenge({ knowledgeElements, challenges, targetSkills, lastChallenge });
 
-    // Test is considered finished when it returns null
-    return nextChallenge || TEST_ENDED_CHAR;
-  }
-};
+  // Test is considered finished when it returns null
+  return nextChallenge || TEST_ENDED_CHAR;
+}
 
 function _findLastChallengeIfAny(answers, challenges) {
   const lastAnswer = _.last(answers);
@@ -54,13 +47,15 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _findAnyChallenge({ challenges, knowledgeElements, courseTubes, targetSkills, predictedLevel, lastChallenge }) {
+function _findAnyChallenge({ challenges, knowledgeElements, targetSkills, lastChallenge }) {
+  const courseTubes = _findCourseTubes(targetSkills, challenges);
+  const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const availableChallenges = getFilteredChallengesForAnyChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
   const maxRewardingChallenges = catAlgorithm.findMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
   return _pickRandomChallenge(maxRewardingChallenges);
 }
 
-function _findFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
+function _findFirstChallenge({ challenges, knowledgeElements, targetSkills, courseTubes }) {
   const filteredChallengesForFirstChallenge = getFilteredChallengesForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills });
   return _pickRandomChallenge(filteredChallengesForFirstChallenge);
 }
@@ -68,3 +63,4 @@ function _findFirstChallenge({ challenges, knowledgeElements, courseTubes, targe
 function _pickRandomChallenge(challenges) {
   return _.sample(challenges);
 }
+
