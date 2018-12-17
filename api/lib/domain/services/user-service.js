@@ -144,7 +144,6 @@ module.exports = {
           }
         });
 
-        // here :
         userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
         const challengeIdsAlreadyAnswered = answers.map((answer) => answer.get('challengeId'));
         const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map((challengeId) => _getChallengeById(challenges, challengeId));
