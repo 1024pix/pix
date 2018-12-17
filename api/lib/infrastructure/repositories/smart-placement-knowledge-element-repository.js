@@ -18,9 +18,13 @@ module.exports = {
       .then((knowledgeElements) => knowledgeElements.map(toDomain));
   },
 
-  findByAssessmentIds(assessmentIds) {
+  findByUserId(userId) {
     return BookshelfKnowledgeElement
-      .whereIn({ assessmentId: assessmentIds })
+      .query((qb) => {
+        qb.innerJoin('assessments', 'knowledge-elements.assessmentId', 'assessments.id');
+        qb.where('assessments.userId', '=', userId);
+        qb.where('assessments.type', '=', 'SMART_PLACEMENT');
+      })
       .fetchAll()
       .then((knowledgeElements) => knowledgeElements.map(toDomain));
   }

@@ -6,6 +6,9 @@ const _ = require('lodash');
 
 describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', () => {
 
+  const SMART_PLACEMENT = 'SMART_PLACEMENT';
+  const PLACEMENT = 'PLACEMENT';
+
   afterEach(() => {
     return knex('knowledge-elements').delete()
       .then(() => (databaseBuilder.clean()));
@@ -89,7 +92,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       await databaseBuilder.clean();
     });
 
-    it('should save the smartPlacementKnowledgeElement in db', async () => {
+    it('should find the knowledge elements associated with a given assessment', async () => {
 
       // when
       const promise = SmartPlacementKnowledgeElementRepository.findByAssessmentId(assessmentId);
@@ -101,5 +104,46 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         });
     });
   });
-})
-;
+
+  describe.only('#findByUserId', () => {
+
+    let knowledgeElementsWanted;
+    let userId;
+
+    beforeEach(async () => {
+      // given
+      userId = databaseBuilder.factory.buildUser().id;
+      const assessment1Id = databaseBuilder.factory.buildAssessment({ userId, type: SMART_PLACEMENT }).id;
+      const assessment2Id = databaseBuilder.factory.buildAssessment({ userId, type: SMART_PLACEMENT }).id;
+      const assessment3Id = databaseBuilder.factory.buildAssessment({ userId, type: PLACEMENT }).id;
+
+      knowledgeElementsWanted = [
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: '' }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: '' }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment2Id, createdAt: '' })
+      ];
+
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: '' }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: '' }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ createdAt: '' })
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should find the knowledge elements for smart placement assessment associated with a user id', async () => {
+      // when
+      const promise = SmartPlacementKnowledgeElementRepository.findByUserId(userId);
+
+      return promise
+        .then((knowledgeElementsFound) => {
+          expect(knowledgeElementsFound).have.lengthOf(3);
+          expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
+        });
+    });
+
+  });
+});
