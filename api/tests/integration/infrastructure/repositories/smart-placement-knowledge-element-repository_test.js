@@ -105,7 +105,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     });
   });
 
-  describe.only('#findByUserId', () => {
+  describe('#findByUserId', () => {
 
     let knowledgeElementsWanted;
     let userId;
