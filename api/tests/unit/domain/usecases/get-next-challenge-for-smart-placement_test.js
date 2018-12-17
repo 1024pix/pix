@@ -13,14 +13,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     const smartPlacementKnowledgeElementRepository = {};
     const challengeRepository = {};
     const targetProfileRepository = {};
-    const assessmentRepository = {};
 
+    const userId = 'user_ID';
     const skill = new Skill({ name: '@unite2' });
     const challenge = Challenge.fromAttributes({ status: 'validé', id: 'challenge_ID', skills: [skill] });
-    const assessment = domainBuilder.buildAssessment({ id: 'assessment_ID' });
-    const previousAssessment_1 = domainBuilder.buildAssessment({ id: 'previousAssessment_ID_1' });
-    const previousAssessment_2 = domainBuilder.buildAssessment({ id: 'previousAssessment_ID_2' });
-    const previousAssessments = [previousAssessment_1, previousAssessment_2];
+    const assessment = domainBuilder.buildAssessment({ id: 'assessment_ID', userId });
     const kE_1 = domainBuilder.buildSmartPlacementKnowledgeElement({ id: 'kE_ID_1', skillId: '1' });
     const kE_2 = domainBuilder.buildSmartPlacementKnowledgeElement({ id: 'kE_ID_2', skillId: '2' });
     const kE_3 = domainBuilder.buildSmartPlacementKnowledgeElement({ id: 'kE_ID_3', skillId: '2' });
@@ -29,9 +26,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     beforeEach(() => {
       answerRepository.findByAssessment = sinon.stub().resolves([]);
-      smartPlacementKnowledgeElementRepository.findByAssessmentIds = sinon.stub().resolves([[kE_2], [kE_1, kE_3]]);
+      smartPlacementKnowledgeElementRepository.findByUserId = sinon.stub().resolves([[kE_2], [kE_1, kE_3]]);
       challengeRepository.findBySkills = sinon.stub().resolves([challenge]);
-      assessmentRepository.findSmartPlacementAssessmentsByUserId = sinon.stub().resolves(previousAssessments);
       smartRandom.getNextChallenge = sinon.stub().returns(challenge);
 
       targetProfileRepository.get = sinon.stub()
@@ -46,13 +42,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
         challengeRepository,
         smartPlacementKnowledgeElementRepository,
         targetProfileRepository,
-        assessmentRepository,
       });
 
       // then
       return promise.then(() => {
         expect(answerRepository.findByAssessment).to.have.been.calledWith('assessment_ID');
-        expect(smartPlacementKnowledgeElementRepository.findByAssessmentIds).to.have.been.calledWith(['previousAssessment_ID_1', 'previousAssessment_ID_2']);
+        expect(smartPlacementKnowledgeElementRepository.findByUserId).to.have.been.calledWith(userId);
         expect(challengeRepository.findBySkills).to.have.been.called;
         expect(targetProfileRepository.get).to.have.been.called;
       });
@@ -66,7 +61,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
         challengeRepository,
         smartPlacementKnowledgeElementRepository,
         targetProfileRepository,
-        assessmentRepository,
       });
 
       // then
