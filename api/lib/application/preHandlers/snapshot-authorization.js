@@ -4,9 +4,9 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 
 module.exports = {
   verify(request, h) {
-    const token = request.query.userToken;
+    const token = request.query.userToken || tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
-    const organizationId = request.params.id;
+    const organizationId = request.params.id || request.query.organizationId;
 
     return organizationRepository
       .getByUserId(userId)

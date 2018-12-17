@@ -73,7 +73,7 @@ export default function() {
 
   this.post('/snapshots');
   this.get('/snapshots/:id');
-  this.get('/organizations/:id/snapshots', getSnapshots);
+  this.get('/snapshots', getSnapshots);
 
   this.post('/users');
   this.post('/assessment-results');

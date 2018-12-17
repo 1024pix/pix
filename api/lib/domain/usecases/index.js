@@ -31,6 +31,7 @@ const dependencies = {
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
   tokenService: require('../../domain/services/token-service'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
+  snapshotRepository: require('../../infrastructure/repositories/snapshot-repository'),
 };
 
 function injectDependencies(usecases) {
@@ -52,6 +53,7 @@ module.exports = injectDependencies({
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findPlacementAssessments: require('./find-placement-assessments'),
   findSmartPlacementAssessments: require('./find-smart-placement-assessments'),
+  findSnapshots: require('./find-snapshots.js'),
   findUsers: require('./find-users.js'),
   getCampaign: require('./get-campaign'),
   getCampaignByCode: require('./get-campaign-by-code'),
