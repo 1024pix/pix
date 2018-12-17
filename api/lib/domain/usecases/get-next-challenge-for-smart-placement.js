@@ -41,26 +41,26 @@ function getSmartPlacementKnowledgeElements({ userId, assessmentRepository, smar
     .then((assessments) => _.map(assessments, 'id'))
     .then((assessmentIds) => smartPlacementKnowledgeElementRepository.findByAssessmentIds(assessmentIds))
     .then((knowledgeElementsLists) => _.flatten(knowledgeElementsLists))
-    .then((knowledgeElements) => removeIdenticalKnowledgeElements(knowledgeElements));
+    .then((knowledgeElements) => removeEquivalentKnowledgeElements(knowledgeElements));
 }
 
-// It's possible that a knowledge element has already been covered by one or many previous smart placement. 
+// Two knowledge elements are equivalent if they correspond to the same skill
 // We must only keep the most recent.
-function removeIdenticalKnowledgeElements(knowledgeElements) {
+function removeEquivalentKnowledgeElements(knowledgeElements) {
   return _.reduce(knowledgeElements, (uniqueKnowledgeElements, currentKnowledgeElement) => {
     
-    return thereExistsAMoreRecentIdenticalKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement) 
+    return thereExistsAMoreRecentEquivalentKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement) 
       ? replaceKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement)
       : uniqueKnowledgeElements.concat(currentKnowledgeElement);
   }, []);
 }
 
-function thereExistsAMoreRecentIdenticalKnowledgeElement(knowledgeElements, currentKnowledgeElement) {
+function thereExistsAMoreRecentEquivalentKnowledgeElement(knowledgeElements, currentKnowledgeElement) {
   return _.find(knowledgeElements, (duplicatedKnowledgeElement) => {
-    const isIdentical = duplicatedKnowledgeElement.id === currentKnowledgeElement.id;
+    const isEquivalent = duplicatedKnowledgeElement.skillId === currentKnowledgeElement.skillId;
     const isMoreRecent = duplicatedKnowledgeElement.createdAt > currentKnowledgeElement.createdAt;
 
-    return isIdentical && isMoreRecent;
+    return isEquivalent && isMoreRecent;
   });
 }
 
