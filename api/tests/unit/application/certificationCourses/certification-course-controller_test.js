@@ -1,4 +1,4 @@
-const { sinon } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
@@ -9,13 +9,10 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const logger = require('../../../../lib/infrastructure/logger');
-const Boom = require('boom');
 
 describe('Unit | Controller | certification-course-controller', () => {
 
   let sandbox;
-  let replyStub;
-  let codeStub;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -29,7 +26,6 @@ describe('Unit | Controller | certification-course-controller', () => {
 
     const certificationCourseId = 1245;
     const certificationScore = 156;
-    const boomResponseForbBadImplementation = { message: 'Bad Implementation' };
 
     const request = {
       params: {
@@ -41,47 +37,39 @@ describe('Unit | Controller | certification-course-controller', () => {
     };
 
     beforeEach(() => {
-      replyStub = sinon.stub().returns({ code: codeStub });
-
       sandbox.stub(certificationService, 'calculateCertificationResultByCertificationCourseId').resolves(certificationScore);
       sandbox.stub(logger, 'error');
-      sandbox.stub(Boom, 'badImplementation').returns(boomResponseForbBadImplementation);
     });
 
-    it('should call certification Service to compute score', () => {
+    it('should call certification Service to compute score', async () => {
       // when
-      const promise = certificationCourseController.computeResult(request, replyStub);
+      await certificationCourseController.computeResult(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(certificationService.calculateCertificationResultByCertificationCourseId);
-        sinon.assert.calledWith(certificationService.calculateCertificationResultByCertificationCourseId, certificationCourseId);
-      });
+      sinon.assert.calledOnce(certificationService.calculateCertificationResultByCertificationCourseId);
+      sinon.assert.calledWith(certificationService.calculateCertificationResultByCertificationCourseId, certificationCourseId);
     });
 
-    it('should reply the score', () => {
+    it('should reply the score', async () => {
       // when
-      const promise = certificationCourseController.computeResult(request, replyStub);
+      const response = await certificationCourseController.computeResult(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(replyStub);
-        sinon.assert.calledWith(replyStub, certificationScore);
-      });
+      expect(response).to.equal(certificationScore);
     });
 
     context('when the retrieving result is failing', () => {
       it('should log the error', () => {
         // given
-        const error = new Error('Unexpected error');
-        certificationService.calculateCertificationResultByCertificationCourseId.rejects(error);
+        const expectedError = new Error('Expected error');
+        certificationService.calculateCertificationResultByCertificationCourseId.rejects(expectedError);
 
         // when
-        const promise = certificationCourseController.computeResult(request, replyStub);
+        const promise = certificationCourseController.computeResult(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(logger.error, error);
+        return promise.catch(() => {
+          sinon.assert.calledWith(logger.error, expectedError);
         });
       });
 
@@ -91,12 +79,11 @@ describe('Unit | Controller | certification-course-controller', () => {
         certificationService.calculateCertificationResultByCertificationCourseId.rejects(error);
 
         // when
-        const promise = certificationCourseController.computeResult(request, replyStub);
+        const promise = certificationCourseController.computeResult(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(Boom.badImplementation);
-          sinon.assert.calledWith(replyStub, boomResponseForbBadImplementation);
+        return promise.catch((error) => {
+          expect(error.output.statusCode).to.equal(500);
         });
       });
     });
@@ -111,25 +98,19 @@ describe('Unit | Controller | certification-course-controller', () => {
     };
 
     beforeEach(() => {
-      replyStub = sinon.stub().returns({ code: codeStub });
-
-      sandbox = sinon.sandbox.create();
       sandbox.stub(certificationService, 'getCertificationResult').resolves({});
     });
 
     afterEach(() => {
       sandbox.restore();
     });
-    it('should call certification-service to get certification result from database', () => {
+    it('should call certification-service to get certification result from database', async () => {
       // when
-      const promise = certificationCourseController.getResult(request, replyStub);
+      await certificationCourseController.getResult(request, hFake);
 
-      //then
-      return promise.then(()=> {
-        sinon.assert.calledOnce(certificationService.getCertificationResult);
-        sinon.assert.calledWith(certificationService.getCertificationResult, certificationCourseId);
-      });
-
+      // then
+      sinon.assert.calledOnce(certificationService.getCertificationResult);
+      sinon.assert.calledWith(certificationService.getCertificationResult, certificationCourseId);
     });
   });
 
@@ -149,11 +130,8 @@ describe('Unit | Controller | certification-course-controller', () => {
     };
 
     beforeEach(() => {
-      replyStub = sandbox.stub().returns({ code: codeStub });
-
       sandbox.stub(certificationSerializer, 'deserialize').resolves();
       sandbox.stub(certificationSerializer, 'serializeFromCertificationCourse').returns(JsonAPISavedCertification);
-      sandbox.stub(Boom, 'notFound');
     });
 
     const options = {
@@ -169,30 +147,26 @@ describe('Unit | Controller | certification-course-controller', () => {
       }
     };
 
-    it('should deserialize the request payload', () => {
+    it('should deserialize the request payload', async () => {
       // given
       sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
 
       // when
-      const promise = certificationCourseController.update(options, replyStub);
+      await certificationCourseController.update(options, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(certificationSerializer.deserialize);
-      });
+      sinon.assert.calledOnce(certificationSerializer.deserialize);
     });
 
-    it('should patch certificationCourse data using save method', () => {
+    it('should patch certificationCourse data using save method', async () => {
       // given
       sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
 
       // when
-      const promise = certificationCourseController.update(options, replyStub);
+      await certificationCourseController.update(options, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(certificationCourseService.update);
-      });
+      sinon.assert.calledOnce(certificationCourseService.update);
     });
 
     context('when certification course was modified', () => {
@@ -201,26 +175,21 @@ describe('Unit | Controller | certification-course-controller', () => {
         sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
       });
 
-      it('should serialize saved certification course', () => {
+      it('should serialize saved certification course', async () => {
         // when
-        const promise = certificationCourseController.update(options, replyStub);
+        await certificationCourseController.update(options, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(certificationSerializer.serializeFromCertificationCourse);
-          sinon.assert.calledWith(certificationSerializer.serializeFromCertificationCourse, updatedCertificationCourse);
-        });
+        sinon.assert.calledOnce(certificationSerializer.serializeFromCertificationCourse);
+        sinon.assert.calledWith(certificationSerializer.serializeFromCertificationCourse, updatedCertificationCourse);
       });
 
-      it('should reply serialized certification course', () => {
+      it('should reply serialized certification course', async () => {
         // when
-        const promise = certificationCourseController.update(options, replyStub);
+        const response = await certificationCourseController.update(options, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(replyStub, JsonAPISavedCertification);
-        });
+        expect(response).to.deep.equal(JsonAPISavedCertification);
       });
     });
 
@@ -232,12 +201,11 @@ describe('Unit | Controller | certification-course-controller', () => {
 
       it('should reply a 404 if no certification where updated', function() {
         // when
-        const promise = certificationCourseController.update(options, replyStub);
+        const promise = certificationCourseController.update(options, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(Boom.notFound);
-          sinon.assert.calledWith(replyStub, NotFoundError.message);
+        return promise.catch((error) => {
+          expect(error.output.statusCode).to.equal(404);
         });
       });
     });

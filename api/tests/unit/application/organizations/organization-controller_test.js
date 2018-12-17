@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
@@ -20,9 +20,7 @@ const targetProfileSerializer = require('../../../../lib/infrastructure/serializ
 describe('Unit | Application | Organizations | organization-controller', () => {
 
   let sandbox;
-  let codeStub;
   let request;
-  let replyStub;
 
   describe('#getOrganizationDetails', () => {
 
@@ -36,37 +34,27 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sandbox.restore();
     });
 
-    it('should call the usecase and serialize the response', () => {
+    it('should call the usecase and serialize the response', async () => {
       // given
       const organizationId = 1234;
       request = { params: { id: organizationId } };
-      replyStub = () => {
-        return {
-          code() {
-          }
-        };
-      };
+
       usecases.getOrganizationDetails.resolves();
       organizationSerializer.serialize.returns();
 
       // when
-      const promise = organizationController.getOrganizationDetails(request, replyStub);
+      await organizationController.getOrganizationDetails(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.getOrganizationDetails).to.have.been.calledOnce;
-        expect(usecases.getOrganizationDetails).to.have.been.calledWith({ organizationId });
-        expect(organizationSerializer.serialize).to.have.been.calledOnce;
-      });
+      expect(usecases.getOrganizationDetails).to.have.been.calledOnce;
+      expect(usecases.getOrganizationDetails).to.have.been.calledWith({ organizationId });
+      expect(organizationSerializer.serialize).to.have.been.calledOnce;
     });
   });
 
   describe('#create', () => {
 
     beforeEach(() => {
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({ code: codeStub });
-
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(usecases, 'createOrganization');
@@ -94,7 +82,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       let serializedOrganization;
 
       beforeEach(() => {
-
         savedOrganization = domainBuilder.buildOrganization();
         serializedOrganization = { foo: 'bar' };
 
@@ -102,36 +89,30 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         organizationSerializer.serialize.withArgs(savedOrganization).returns(serializedOrganization);
       });
 
-      it('should create an organization', () => {
+      it('should create an organization', async () => {
         // when
-        const promise = organizationController.create(request, replyStub);
+        await organizationController.create(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(usecases.createOrganization).to.have.been.calledOnce;
-          expect(usecases.createOrganization).to.have.been.calledWith({ name: 'Acme', type: 'PRO' });
-        });
+        expect(usecases.createOrganization).to.have.been.calledOnce;
+        expect(usecases.createOrganization).to.have.been.calledWith({ name: 'Acme', type: 'PRO' });
       });
 
-      it('should serialized organization into JSON:API', () => {
+      it('should serialized organization into JSON:API', async () => {
         // when
-        const promise = organizationController.create(request, replyStub);
+        await organizationController.create(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(organizationSerializer.serialize).to.have.been.calledOnce;
-          expect(organizationSerializer.serialize).to.have.been.calledWith(savedOrganization);
-        });
+        expect(organizationSerializer.serialize).to.have.been.calledOnce;
+        expect(organizationSerializer.serialize).to.have.been.calledWith(savedOrganization);
       });
 
-      it('should return the serialized organization', () => {
+      it('should return the serialized organization', async () => {
         // when
-        const promise = organizationController.create(request, replyStub);
+        const response = await organizationController.create(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(serializedOrganization);
-        });
+        expect(response.source).to.deep.equal(serializedOrganization);
       });
     });
 
@@ -159,7 +140,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           usecases.createOrganization.rejects(error);
         });
 
-        it('should return an error with HTTP status code 422 when a validation error occurred', () => {
+        it('should return an error with HTTP status code 422 when a validation error occurred', async () => {
           // given
           const jsonApiValidationErrors = {
             errors: [
@@ -179,13 +160,11 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           };
 
           // when
-          const promise = organizationController.create(request, replyStub);
+          const response = await organizationController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledWith(codeStub, 422);
-            sinon.assert.calledWith(replyStub, jsonApiValidationErrors);
-          });
+          expect(response.statusCode).to.equal(422);
+          expect(response.source).to.deep.equal(jsonApiValidationErrors);
         });
       });
 
@@ -196,14 +175,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           usecases.createOrganization.rejects(error);
         });
 
-        it('should return an error with HTTP status code 500', () => {
+        it('should return an error with HTTP status code 500', async () => {
           // when
-          const promise = organizationController.create(request, replyStub);
+          const response = await organizationController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            expect(codeStub).to.have.been.calledWith(500);
-          });
+          expect(response.statusCode).to.equal(500);
         });
       });
     });
@@ -212,14 +189,10 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#search', () => {
 
     let sandbox;
-    let replyStub;
-    let codeStub;
     const arrayOfSerializedOrganization = [{ code: 'AAA111' }, { code: 'BBB222' }];
     const arrayOfOrganizations = [new Organization({ code: 'AAA111' }), new Organization({ code: 'BBB222' })];
 
     beforeEach(() => {
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({ code: codeStub });
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(logger, 'error');
@@ -231,7 +204,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sandbox.restore();
     });
 
-    it('should retrieve organizations with one filter', () => {
+    it('should retrieve organizations with one filter', async () => {
       // given
       const userId = 1234;
       const request = {
@@ -240,15 +213,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       };
 
       // when
-      const promise = organizationController.search(request, replyStub);
+      await organizationController.search(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(organizationService.search, userId, { query: 'my search' });
-      });
+      sinon.assert.calledWith(organizationService.search, userId, { query: 'my search' });
     });
 
-    it('should retrieve organizations with two different filters', () => {
+    it('should retrieve organizations with two different filters', async () => {
       // given
       const userId = 1234;
       const request = {
@@ -260,17 +231,15 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       };
 
       // when
-      const promise = organizationController.search(request, replyStub);
+      await organizationController.search(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(organizationService.search, userId, { query: 'my search', code: 'with params' });
-      });
+      sinon.assert.calledWith(organizationService.search, userId, { query: 'my search', code: 'with params' });
     });
 
-    it('should log when there is an error', () => {
+    it('should reply 500 and log while getting data is on error', async () => {
       // given
-      const error = new Error('');
+      const error = new Error('Fail');
       organizationService.search.rejects(error);
       const request = {
         auth: { credentials: { userId: 1234 } },
@@ -278,34 +247,15 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       };
 
       // when
-      const promise = organizationController.search(request, replyStub);
+      const promise = organizationController.search(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(logger.error, error);
-      });
+      await expect(promise).to.be.rejectedWith('Fail');
+      sinon.assert.calledOnce(organizationService.search);
+      sinon.assert.calledWith(logger.error, error);
     });
 
-    it('should reply 500 while getting data is on error', () => {
-      // given
-      const error = new Error('');
-      organizationService.search.rejects(error);
-      const request = {
-        auth: { credentials: { userId: 1234 } },
-        query: { 'filter[first]': 'with params' }
-      };
-
-      // when
-      const promise = organizationController.search(request, replyStub);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.callOrder(organizationService.search, replyStub);
-        sinon.assert.calledWith(codeStub, 500);
-      });
-    });
-
-    it('should serialize results', () => {
+    it('should serialize results', async () => {
       // given
       const request = {
         auth: { credentials: { userId: 1234 } },
@@ -313,13 +263,10 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       };
 
       // when
-      const promise = organizationController.search(request, replyStub);
+      const response = await organizationController.search(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(organizationSerializer.serialize, arrayOfOrganizations);
-        sinon.assert.calledWith(replyStub, arrayOfSerializedOrganization);
-      });
+      expect(response).to.deep.equal(arrayOfSerializedOrganization);
     });
 
   });
@@ -342,12 +289,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
 
     describe('Collaborations', () => {
-      it('should be an existing function', () => {
-        // then
-        expect(organizationController.getSharedProfiles).to.be.a('function');
-      });
-
-      it('should call snapshot repository', () => {
+      it('should call snapshot repository', async () => {
         // given
         snapshotRepository.getSnapshotsByOrganizationId.resolves();
         const request = {
@@ -355,21 +297,16 @@ describe('Unit | Application | Organizations | organization-controller', () => {
             id: 7
           }
         };
-        const reply = sinon.stub().returns({
-          code: () => {
-          }
-        });
+
         // when
-        const promise = organizationController.getSharedProfiles(request, reply);
+        await organizationController.getSharedProfiles(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(snapshotRepository.getSnapshotsByOrganizationId);
-          sinon.assert.calledWith(snapshotRepository.getSnapshotsByOrganizationId, 7);
-        });
+        sinon.assert.calledOnce(snapshotRepository.getSnapshotsByOrganizationId);
+        sinon.assert.calledWith(snapshotRepository.getSnapshotsByOrganizationId, 7);
       });
 
-      it('should call snapshot serializer', () => {
+      it('should call snapshot serializer', async () => {
         // given
         const snapshots = [{
           toJSON: () => {
@@ -383,52 +320,40 @@ describe('Unit | Application | Organizations | organization-controller', () => {
             id: 7
           }
         };
-        const reply = sinon.stub().returns({
-          code: () => {
-          }
-        });
 
         // when
-        const promise = organizationController.getSharedProfiles(request, reply);
+        await organizationController.getSharedProfiles(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(snapshotSerializer.serialize);
-          sinon.assert.calledWith(snapshotSerializer.serialize, [{}]);
-        });
+        sinon.assert.calledOnce(snapshotSerializer.serialize);
+        sinon.assert.calledWith(snapshotSerializer.serialize, [{}]);
       });
 
-      it('should call a reply function', () => {
+      it('should return serialized snapshots', async () => {
         // then
         const snapshots = [];
         const serializedSnapshots = { data: [] };
         snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
-        snapshotSerializer.serialize.resolves(serializedSnapshots);
+        snapshotSerializer.serialize.returns(serializedSnapshots);
+        bookshelfUtils.mergeModelWithRelationship.resolves(snapshots);
         const request = {
           params: {
             id: 7
           }
         };
 
-        const reply = sinon.stub().returns({
-          code: () => {
-          }
-        });
-
         // when
-        const promise = organizationController.getSharedProfiles(request, reply);
+        const response = await organizationController.getSharedProfiles(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(reply);
-        });
+        expect(response).to.deep.equal(serializedSnapshots);
       });
 
     });
 
     describe('Error cases', () => {
 
-      it('should return an serialized NotFoundError, when no snapshot was found', () => {
+      it('should return an serialized NotFoundError, when no snapshot was found', async () => {
         // given
         const error = BookshelfSnapshot.NotFoundError;
         snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
@@ -439,21 +364,16 @@ describe('Unit | Application | Organizations | organization-controller', () => {
             id: 156778
           }
         };
-        const replyStub = sinon.stub().returns({
-          code: () => {
-          }
-        });
 
         // when
-        const promise = organizationController.getSharedProfiles(request, replyStub);
+        const response = await organizationController.getSharedProfiles(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(replyStub, serializedError);
-        });
+        expect(response.source).to.deep.equal(serializedError);
+        expect(response.statusCode).to.equal(500);
       });
 
-      it('should log an error, when unknown error has occured', () => {
+      it('should log an error, when unknown error has occured', async () => {
         // given
         const error = new Error();
         snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
@@ -464,21 +384,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
             id: 156778
           }
         };
-        const codeStub = sinon.stub().callsFake(() => {
-        });
-        const replyStub = sinon.stub().returns({
-          code: codeStub
-        });
 
         // when
-        const promise = organizationController.getSharedProfiles(request, replyStub);
+        await organizationController.getSharedProfiles(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(replyStub, serializedError);
-          sinon.assert.calledOnce(logger.error);
-          sinon.assert.calledWith(codeStub, 500);
-        });
+        sinon.assert.calledOnce(logger.error);
       });
 
     });
@@ -497,32 +408,28 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       validationErrorSerializer.serialize.restore();
     });
 
-    it('should call the use case service that exports shared profile of an organization as CSV (and reply an HTTP response)', () => {
+    it('should call the use case service that exports shared profile of an organization as CSV (and reply an HTTP response)', async () => {
       // given
       const request = {
         params: {
           id: 7
         }
       };
-      const header = sinon.stub();
-      header.returns({ header }); // <--- "inception"... I'm sure you appreciate it ;-)
-      const response = { header };
-      const reply = () => response;
 
       // when
-      const promise = organizationController.exportSharedSnapshotsAsCsv(request, reply);
+      const response = await organizationController.exportSharedSnapshotsAsCsv(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(response.header).to.have.been.calledTwice;
+      expect(response.headers).to.deep.equal({
+        'Content-Type': 'text/csv;charset=utf-8',
+        'Content-Disposition': 'attachment; filename="Pix - Export donnees partagees.csv"'
       });
     });
 
     describe('Error cases', () => {
 
-      it('should return a JSONAPI serialized NotFoundError, when expected organization does not exist', () => {
+      it('should return a JSONAPI serialized NotFoundError, when expected organization does not exist', async () => {
         // given
-
         organizationService.getOrganizationSharedProfilesAsCsv.rejects(NotFoundError);
         const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);
@@ -531,23 +438,16 @@ describe('Unit | Application | Organizations | organization-controller', () => {
             id: 'unexisting id'
           }
         };
-        const codeStub = sinon.stub().callsFake(() => {
-        });
-        const replyStub = sinon.stub().returns({
-          code: codeStub
-        });
 
         // when
-        const promise = organizationController.exportSharedSnapshotsAsCsv(request, replyStub);
+        const response = await organizationController.exportSharedSnapshotsAsCsv(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(replyStub, serializedError);
-          sinon.assert.calledWith(codeStub, 500);
-        });
+        expect(response.source).to.deep.equal(serializedError);
+        expect(response.statusCode).to.equal(500);
       });
 
-      it('should log an error, when unknown error has occured', () => {
+      it('should log an error, when unknown error has occured', async () => {
         // given
         const error = new NotFoundError();
         organizationService.getOrganizationSharedProfilesAsCsv.rejects(error);
@@ -558,20 +458,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
             id: 'unexisting id'
           }
         };
-        const codeStub = sinon.stub().callsFake(() => {
-        });
-        const replyStub = sinon.stub().returns({
-          code: codeStub
-        });
 
         // when
-        const promise = organizationController.exportSharedSnapshotsAsCsv(request, replyStub);
+        const response = await organizationController.exportSharedSnapshotsAsCsv(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(replyStub, serializedError);
-          sinon.assert.calledWith(codeStub, 500);
-        });
+        expect(response.source).to.deep.equal(serializedError);
+        expect(response.statusCode).to.equal(500);
       });
 
     });
@@ -602,44 +495,38 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(usecases, 'getOrganizationCampaigns');
       sandbox.stub(campaignSerializer, 'serialize');
-      codeStub = sandbox.stub();
-      replyStub = sandbox.stub().returns({ code: codeStub });
     });
 
     afterEach(() => {
       sandbox.restore();
     });
 
-    it('should call the usecase to get the campaigns', () => {
+    it('should call the usecase to get the campaigns', async () => {
       // given
       usecases.getOrganizationCampaigns.resolves([campaign]);
       campaignSerializer.serialize.returns(serializedCampaigns);
 
       // when
-      const promise = organizationController.getCampaigns(request, replyStub);
+      await organizationController.getCampaigns(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.getOrganizationCampaigns).to.have.been.calledWith({ organizationId });
-      });
+      expect(usecases.getOrganizationCampaigns).to.have.been.calledWith({ organizationId });
     });
 
-    it('should return the serialized campaigns belonging to the organization', () => {
+    it('should return the serialized campaigns belonging to the organization', async () => {
       // given
       usecases.getOrganizationCampaigns.resolves([campaign]);
       campaignSerializer.serialize.returns(serializedCampaigns);
 
       // when
-      const promise = organizationController.getCampaigns(request, replyStub);
+      const response = await organizationController.getCampaigns(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(replyStub).to.have.been.calledWith(serializedCampaigns);
-        expect(codeStub).to.have.been.calledWith(200);
-      });
+      expect(response.source).to.deep.equal(serializedCampaigns);
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 500 error when an error occurs', () => {
+    it('should return a 500 error when an error occurs', async () => {
       // given
       const errorMessage = 'Unexpected error';
       const expectedError = new JSONAPIError({
@@ -651,20 +538,16 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       usecases.getOrganizationCampaigns.rejects(new Error(errorMessage));
 
       // when
-      const promise = organizationController.getCampaigns(request, replyStub);
+      const response = await organizationController.getCampaigns(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(replyStub).to.have.been.calledWith(expectedError);
-        expect(codeStub).to.have.been.calledWith(500);
-      });
+      expect(response.source).to.deep.equal(expectedError);
+      expect(response.statusCode).to.equal(500);
     });
   });
 
   describe('#findTargetProfiles', () => {
 
-    let codeStub;
-    let replyStub;
     const connectedUserId = 1;
     const organizationId = '145';
 
@@ -674,10 +557,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId }
       };
-      codeStub = sandbox.stub();
-      replyStub = sandbox.stub().returns({
-        code: codeStub
-      });
       sandbox.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization').resolves();
     });
 
@@ -685,15 +564,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sandbox.restore();
     });
 
-    it('should call usecases with appropriated arguments', () => {
+    it('should call usecases with appropriated arguments', async () => {
       // when
-      const promise = organizationController.findTargetProfiles(request, replyStub);
+      await organizationController.findTargetProfiles(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledOnce;
-        expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledWith(145);
-      });
+      expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledOnce;
+      expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledWith(145);
     });
 
     context('success cases', () => {
@@ -707,29 +584,25 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         sandbox.stub(targetProfileSerializer, 'serialize');
       });
 
-      it('should serialize the array of target profile', () => {
+      it('should serialize the array of target profile', async () => {
         // when
-        const promise = organizationController.findTargetProfiles(request, replyStub);
+        await organizationController.findTargetProfiles(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(targetProfileSerializer.serialize).to.have.been.calledWith(foundTargetProfiles);
-        });
+        expect(targetProfileSerializer.serialize).to.have.been.calledWith(foundTargetProfiles);
       });
 
-      it('should reply 200 with serialized target profiles', () => {
+      it('should reply 200 with serialized target profiles', async () => {
         // given
         const serializedTargetProfiles = {};
         targetProfileSerializer.serialize.returns(serializedTargetProfiles);
 
         // when
-        const promise = organizationController.findTargetProfiles(request, replyStub);
+        const response = await organizationController.findTargetProfiles(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(serializedTargetProfiles);
-          expect(codeStub).to.have.been.calledWith(200);
-        });
+        expect(response.source).to.deep.equal(serializedTargetProfiles);
+        expect(response.statusCode).to.equal(200);
       });
 
     });
@@ -740,19 +613,17 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         sandbox.stub(logger, 'error');
       });
 
-      it('should log the error and reply with 500 error', () => {
+      it('should log the error and reply with 500 error', async () => {
         // given
         const error = new Error();
         organizationService.findAllTargetProfilesAvailableForOrganization.rejects(error);
 
         // when
-        const promise = organizationController.findTargetProfiles(request, replyStub);
+        const response = await organizationController.findTargetProfiles(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(logger.error).to.have.been.called;
-          expect(codeStub).to.have.been.calledWith(500);
-        });
+        expect(logger.error).to.have.been.called;
+        expect(response.statusCode).to.equal(500);
       });
     });
   });

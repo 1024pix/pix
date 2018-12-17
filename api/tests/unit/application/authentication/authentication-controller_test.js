@@ -1,4 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 const usecases = require('../../../../lib/domain/usecases');
@@ -7,13 +7,12 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 describe('Unit | Application | Controller | Authentication', () => {
 
   describe('#authenticateUser', () => {
-
     let request;
-    let stubHeader;
-    let stubCode;
-    let reply;
+    let sandbox;
 
     beforeEach(() => {
+      sandbox = sinon.createSandbox();
+
       request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -25,59 +24,51 @@ describe('Unit | Application | Controller | Authentication', () => {
           scope: 'pix-orga'
         }
       };
-      sinon.stub(usecases, 'authenticateUser').resolves('jwt.access.token');
-      sinon.stub(tokenService, 'extractUserId').returns(1);
-      stubHeader = sinon.stub();
-      stubHeader.returns({ header: stubHeader });
-      stubCode = sinon.stub().returns({ header: stubHeader });
-      reply = sinon.stub().returns({ code: stubCode });
+      sandbox.stub(usecases, 'authenticateUser').resolves('jwt.access.token');
+      sandbox.stub(tokenService, 'extractUserId').returns(1);
     });
 
     afterEach(() => {
-      usecases.authenticateUser.restore();
-      tokenService.extractUserId.restore();
+      sandbox.restore();
     });
 
-    it('should check user credentials', () => {
+    it('should check user credentials', async () => {
       // given
       const userEmail = 'user@email.com';
       const password = 'user_password';
       const scope = 'pix-orga';
 
       // when
-      const promise = authenticationController.authenticateUser(request, reply);
+      await authenticationController.authenticateUser(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.authenticateUser).to.have.been.calledWith({
-          userEmail,
-          password,
-          scope,
-        });
+      expect(usecases.authenticateUser).to.have.been.calledWith({
+        userEmail,
+        password,
+        scope,
       });
     });
 
     /**
      * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
      */
-    it('should returns an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', () => {
+    it('should returns an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async () => {
       // when
-      const promise = authenticationController.authenticateUser(request, reply);
+      const response = await authenticationController.authenticateUser(request, hFake);
 
       // then
-      return promise.then(() => {
-        const expectedResponseResult = {
-          token_type: 'bearer',
-          expires_in: 3600,
-          access_token: 'jwt.access.token',
-          user_id: 1
-        };
-        expect(reply).to.have.been.calledWithExactly(expectedResponseResult);
-        expect(stubCode).to.have.been.calledWith(200);
-        expect(stubHeader).to.have.been.calledThrice;
-        expect(stubHeader).to.have.been.calledWith('Content-Type', 'application/json;charset=UTF-8');
-        expect(stubHeader).to.have.been.calledWith('Cache-Control', 'no-store');
-        expect(stubHeader).to.have.been.calledWith('Pragma', 'no-cache');
+      const expectedResponseResult = {
+        token_type: 'bearer',
+        expires_in: 3600,
+        access_token: 'jwt.access.token',
+        user_id: 1
+      };
+      expect(response.source).to.deep.equal(expectedResponseResult);
+      expect(response.statusCode).to.equal(200);
+      expect(response.headers).to.deep.equal({
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Cache-Control': 'no-store',
+        'Pragma': 'no-cache',
       });
     });
   });

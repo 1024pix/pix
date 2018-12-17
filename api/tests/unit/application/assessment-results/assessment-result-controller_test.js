@@ -1,6 +1,5 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 
-const Boom = require('boom');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
@@ -18,7 +17,6 @@ describe('Unit | Controller | assessment-results', () => {
   describe('#evaluate', () => {
 
     let sandbox;
-    let replyStub;
 
     const request = {
       payload: {
@@ -42,11 +40,7 @@ describe('Unit | Controller | assessment-results', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-
-      replyStub = sinon.stub().returns({ code: sinon.stub() });
       sandbox.stub(usecases, 'createAssessmentResultForCompletedCertification').resolves();
-      sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
-      sandbox.stub(Boom, 'badImplementation').returns({ message: 'badImplementation' });
       sandbox.stub(logger, 'error');
     });
 
@@ -54,35 +48,37 @@ describe('Unit | Controller | assessment-results', () => {
       sandbox.restore();
     });
 
-    it('should evaluate the assessment', () => {
+    it('should evaluate the assessment', async () => {
       // when
-      assessmentResultController.evaluate(request, replyStub);
+      const response = await assessmentResultController.evaluate(request, hFake);
 
       // then
       expect(usecases.createAssessmentResultForCompletedCertification).to.have.been.calledWith({
         assessmentId: '22',
         forceRecomputeResult: false,
       });
+      expect(response).to.equal('');
     });
 
     it('should return 404 when the assessment is not found', () => {
       // given
-      const notFoundAssessmentError = new NotFoundError();
-      usecases.createAssessmentResultForCompletedCertification.rejects(notFoundAssessmentError);
+      const notFoundError = new NotFoundError('Assessment 123 not found');
+      usecases.createAssessmentResultForCompletedCertification.rejects(notFoundError);
 
       // when
-      const promise = assessmentResultController.evaluate(request, replyStub);
+      const promise = assessmentResultController.evaluate(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(Boom.notFound).to.have.been.calledWith(notFoundAssessmentError);
-        expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
-      });
+      return expect(promise).to.be.rejected
+        .and.eventually.to.include.nested({
+          'message': 'Assessment 123 not found',
+          'output.statusCode': 404
+        });
     });
 
     context('when the assessment is already evaluated', () => {
 
-      it('should do nothing', () => {
+      it('should do nothing', async () => {
         // given
         const alreadyRatedAssessmentError = new AlreadyRatedAssessmentError();
         usecases.createAssessmentResultForCompletedCertification.rejects(alreadyRatedAssessmentError);
@@ -93,17 +89,15 @@ describe('Unit | Controller | assessment-results', () => {
         });
 
         // when
-        const promise = assessmentResultController.evaluate(request, replyStub);
+        const response = await assessmentResultController.evaluate(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.called;
-          expect(replyStub).to.have.been.calledWith(jsonApiError);
-        });
+        expect(response.statusCode).to.equal(412);
+        expect(response.source).to.deep.equal(jsonApiError);
       });
     });
 
-    context('when the database is fail', () => {
+    context('when the database fails', () => {
 
       it('should reply with an internal error', () => {
         // given
@@ -111,18 +105,20 @@ describe('Unit | Controller | assessment-results', () => {
         usecases.createAssessmentResultForCompletedCertification.rejects(undefinedError);
 
         // when
-        const promise = assessmentResultController.evaluate(request, replyStub);
+        const promise = assessmentResultController.evaluate(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(Boom.badImplementation).to.have.been.calledWith(undefinedError);
-          expect(replyStub).to.have.been.calledWith(Boom.badImplementation());
-        });
+        return expect(promise).to.be.rejected
+          .and.eventually.to.include.nested({
+            'output.statusCode': 500
+          });
       });
     });
   });
 
   describe('#save', () => {
+
+    let sandbox;
 
     const request = {
       payload: {
@@ -167,14 +163,16 @@ describe('Unit | Controller | assessment-results', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(assessmentResultService, 'save').resolves();
+      sandbox = sinon.sandbox.create();
+
+      sandbox.stub(assessmentResultService, 'save').resolves();
     });
 
     afterEach(() => {
-      assessmentResultService.save.restore();
+      sandbox.restore();
     });
 
-    it('should return a Assessment Result and an Array of Competence Marks', () => {
+    it('should return a Assessment Result and an Array of Competence Marks', async () => {
       // given
       const expectedAssessmentResult = new AssessmentResult({
         assessmentId: 2,
@@ -208,12 +206,11 @@ describe('Unit | Controller | assessment-results', () => {
       });
 
       // when
-      const promise = assessmentResultController.save(request, sinon.stub());
+      const response = await assessmentResultController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(assessmentResultService.save).to.have.been.calledWith(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
-      });
+      expect(response).to.equal('');
+      expect(assessmentResultService.save).to.have.been.calledWith(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
     });
   });
 });

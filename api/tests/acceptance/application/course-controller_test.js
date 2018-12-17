@@ -1,7 +1,13 @@
 const { expect, nock } = require('../../test-helper');
-const server = require('../../../server');
+const createServer = require('../../../server');
 
 describe('Acceptance | API | Courses', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('GET /api/courses', () => {
 

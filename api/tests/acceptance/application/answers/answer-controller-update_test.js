@@ -1,11 +1,12 @@
 const { expect, knex, nock } = require('../../../test-helper');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 const Answer = require('../../../../lib/infrastructure/data/answer');
 
 describe('Acceptance | Controller | answer-controller', () => {
 
   describe('PATCH /api/answers/:id', () => {
 
+    let server;
     let options;
     let insertedAnswerId;
     let inserted_assessment_id;
@@ -48,7 +49,8 @@ describe('Acceptance | Controller | answer-controller', () => {
         .then(([id]) => inserted_assessment_id = id);
     });
 
-    beforeEach(() => {
+    beforeEach(async () => {
+      server = await createServer();
       insertedAnswer.assessmentId = inserted_assessment_id;
       return knex('answers').insert([insertedAnswer])
         .then((id) => {

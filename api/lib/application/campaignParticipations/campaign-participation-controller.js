@@ -14,25 +14,25 @@ const serializer = require('../../infrastructure/serializers/jsonapi/campaign-pa
 
 module.exports = {
 
-  save(request, reply) {
+  save(request, h) {
     const userId = request.auth.credentials.userId;
     return serializer.deserialize(request.payload)
       .then((campaignParticipation) => usecases.startCampaignParticipation({ campaignParticipation, userId }))
       .then(serializer.serialize)
-      .then(controllerReplies(reply).created)
+      .then(controllerReplies(h).created)
       .catch((error) => {
         logger.error(error);
 
         if (error instanceof NotFoundError) {
           const infraError = new infraErrors.NotFoundError(error.message);
-          return controllerReplies(reply).error(infraError);
+          return controllerReplies(h).error(infraError);
         }
 
-        return controllerReplies(reply).error(error);
+        return controllerReplies(h).error(error);
       });
   },
 
-  getCampaignParticipationByAssessment(request, reply) {
+  getCampaignParticipationByAssessment(request, h) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
 
@@ -47,10 +47,10 @@ module.exports = {
       .then((campaignParticipation) => {
         return serializer.serialize([campaignParticipation]);
       })
-      .then(controllerReplies(reply).ok);
+      .then(controllerReplies(h).ok);
   },
 
-  shareCampaignResult(request, reply) {
+  shareCampaignResult(request, h) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
     const campaignParticipationId = parseInt(request.params.id);
@@ -63,15 +63,15 @@ module.exports = {
         smartPlacementAssessmentRepository
       })
         .then(() => {
-          return controllerReplies(reply).noContent();
+          return controllerReplies(h).noContent();
         })
         .catch((error) => {
           logger.error(error);
-          return controllerReplies(reply).error(_mapToInfrastructureErrors(error));
+          return controllerReplies(h).error(_mapToInfrastructureErrors(error));
         });
     }
     else {
-      return controllerReplies(reply).error(new infraErrors.BadRequestError('campaignParticipationId manquant'));
+      return controllerReplies(h).error(new infraErrors.BadRequestError('campaignParticipationId manquant'));
     }
   }
 };

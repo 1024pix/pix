@@ -1,9 +1,15 @@
 const { expect, knex, nock, databaseBuilder } = require('../../test-helper');
-const server = require('../../../server');
+const createServer = require('../../../server');
 const BookshelfAnswer = require('../../../lib/infrastructure/data/answer');
 const Assessment = require('../../../lib/domain/models/Assessment');
 
 describe('Acceptance | Controller | answer-controller-save', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('POST /api/answers', () => {
 

@@ -1,8 +1,7 @@
 const AssessmentResultController = require('./assessment-result-controller');
 const securityController = require('../../interfaces/controllers/security-controller');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'POST',
@@ -26,11 +25,6 @@ exports.register = function(server, options, next) {
       }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'assessments-results-api',
-  version: '1.0.0'
-};
+exports.name = 'assessments-results-api';

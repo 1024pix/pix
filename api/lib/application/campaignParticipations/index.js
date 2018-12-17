@@ -1,7 +1,6 @@
 const campaignParticipationController = require('./campaign-participation-controller');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'GET',
@@ -40,12 +39,6 @@ exports.register = function(server, options, next) {
       }
     }
   ]);
-
-  return next();
-
 };
 
-exports.register.attributes = {
-  name: 'campaign-participations-api',
-  version: '1.0.0'
-};
+exports.name = 'campaign-participations-api';

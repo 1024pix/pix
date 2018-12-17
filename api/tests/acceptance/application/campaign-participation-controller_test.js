@@ -1,4 +1,4 @@
-const server = require('../../../server');
+const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const { expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 
@@ -9,6 +9,12 @@ describe('Acceptance | API | Campaign Participations', () => {
   let assessment;
   let campaign;
   let campaignParticipation;
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   beforeEach(() => {
     user = databaseBuilder.factory.buildUser();

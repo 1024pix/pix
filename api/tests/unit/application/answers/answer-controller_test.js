@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const answerController = require('../../../../lib/application/answers/answer-controller');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
@@ -11,10 +11,7 @@ const smartPlacementAssessmentRepository =
 const { ChallengeAlreadyAnsweredError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | answer-controller', () => {
-
   let sandbox;
-  let replyStub;
-  let codeStub;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -24,10 +21,6 @@ describe('Unit | Controller | answer-controller', () => {
     sandbox.stub(smartPlacementAssessmentRepository, 'get');
     sandbox.stub(usecases, 'correctAnswerThenUpdateAssessment');
     sandbox.stub(logger, 'error');
-    codeStub = sinon.stub();
-    replyStub = sinon.stub().returns({
-      code: codeStub,
-    });
   });
 
   afterEach(() => {
@@ -116,12 +109,12 @@ describe('Unit | Controller | answer-controller', () => {
       deserializedAnswer.id = undefined;
     });
 
-    context('when answer does not exist', () => {
+    context('when answer does not exist', async () => {
 
       let createdAnswer;
-      let promise;
+      let response;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         // given
 
         deserializedAnswer.id = undefined;
@@ -131,52 +124,44 @@ describe('Unit | Controller | answer-controller', () => {
         usecases.correctAnswerThenUpdateAssessment.resolves(createdAnswer);
 
         // when
-        promise = answerController.save(request, replyStub);
+        response = await answerController.save(request, hFake);
       });
 
       it('should call the usecase to save the answer', () => {
         // then
-        return promise.then(() => {
-          return expect(usecases.correctAnswerThenUpdateAssessment)
-            .to.have.been.calledWith({ answer: deserializedAnswer });
-        });
+        expect(usecases.correctAnswerThenUpdateAssessment)
+          .to.have.been.calledWith({ answer: deserializedAnswer });
       });
       it('should serialize the answer', () => {
         // then
-        return promise.then(() => {
-          return expect(answerSerializer.serialize)
-            .to.have.been.calledWith(createdAnswer);
-        });
+        expect(answerSerializer.serialize)
+          .to.have.been.calledWith(createdAnswer);
       });
       it('should return the serialized answer', () => {
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(serializedAnswer);
-          expect(codeStub).to.have.been.calledWith(201);
-        });
+        expect(response.source).to.deep.equal(serializedAnswer);
+        expect(response.statusCode).to.equal(201);
       });
     });
 
     context('when answer already exists', () => {
 
       let error;
-      let promise;
+      let response;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         // given
         error = new ChallengeAlreadyAnsweredError();
         usecases.correctAnswerThenUpdateAssessment.rejects(error);
 
         // when
-        promise = answerController.save(request, replyStub);
+        response = await answerController.save(request, hFake);
       });
 
       it('should call the usecase to save the answer', () => {
         // then
-        return promise.then(() => {
-          return expect(usecases.correctAnswerThenUpdateAssessment)
-            .to.have.been.calledWith({ answer: deserializedAnswer });
-        });
+        expect(usecases.correctAnswerThenUpdateAssessment)
+          .to.have.been.calledWith({ answer: deserializedAnswer });
       });
       it('should return a 409 jsonAPIError', () => {
         // then
@@ -187,39 +172,33 @@ describe('Unit | Controller | answer-controller', () => {
             title: 'Conflict',
           }],
         };
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(jsonAPIError);
-          expect(codeStub).to.have.been.calledWith(409);
-        });
+        expect(response.source).to.deep.equal(jsonAPIError);
+        expect(response.statusCode).to.equal(409);
       });
     });
 
     context('when a unexpected error happens', () => {
 
       let error;
-      let promise;
+      let response;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         // given
         error = new Error();
         usecases.correctAnswerThenUpdateAssessment.rejects(error);
 
         // when
-        promise = answerController.save(request, replyStub);
+        response = await answerController.save(request, hFake);
       });
 
       it('should call the usecase to save the answer', () => {
         // then
-        return promise.then(() => {
-          return expect(usecases.correctAnswerThenUpdateAssessment)
-            .to.have.been.calledWith({ answer: deserializedAnswer });
-        });
+        return expect(usecases.correctAnswerThenUpdateAssessment)
+          .to.have.been.calledWith({ answer: deserializedAnswer });
       });
       it('should log the error', () => {
         // then
-        return promise.then(() => {
-          expect(logger.error).to.have.been.calledWith(error);
-        });
+        expect(logger.error).to.have.been.calledWith(error);
       });
       it('should return a 500 jsonAPIError', () => {
         // then
@@ -229,10 +208,8 @@ describe('Unit | Controller | answer-controller', () => {
             title: 'Internal Server Error',
           }],
         };
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(jsonAPIError);
-          expect(codeStub).to.have.been.calledWith(500);
-        });
+        expect(response.source).to.deep.equal(jsonAPIError);
+        expect(response.statusCode).to.equal(500);
       });
     });
   });
@@ -289,10 +266,10 @@ describe('Unit | Controller | answer-controller', () => {
 
       let existingAnswer;
       let existingBookshelfAnswer;
-      let promise;
+      let response;
       let assessment;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         // given
         existingAnswer = domainBuilder.buildAnswer({
           id: answerId,
@@ -321,31 +298,24 @@ describe('Unit | Controller | answer-controller', () => {
         smartPlacementAssessmentRepository.get.resolves(assessment);
 
         // when
-        promise = answerController.update(request, replyStub);
+        response = await answerController.update(request, hFake);
       });
 
-      it('should succeed', () => {
-        return expect(promise).to.be.fulfilled;
-      });
       it('should get existing answer', () => {
         // then
-        return promise.then(() => {
-          return expect(answerRepository.findByChallengeAndAssessment)
-            .to.have.been.calledWith(challengeId, assessmentId);
-        });
+        return expect(answerRepository.findByChallengeAndAssessment)
+          .to.have.been.calledWith(challengeId, assessmentId);
       });
+
       it('should call the smartPlacementAssessmentRepository to try and get the assessment', () => {
         // then
-        return promise.then(() => {
-          return expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(assessmentId);
-        });
+        return expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(assessmentId);
       });
+
       it('should return no content', () => {
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith();
-          expect(codeStub).to.have.been.calledWith(204);
-        });
+        expect(response.source).to.be.undefined;
+        expect(response.statusCode).to.equal(204);
       });
     });
   });

@@ -31,7 +31,7 @@ const {
 
 module.exports = {
 
-  save(request, reply) {
+  save(request, h) {
 
     const reCaptchaToken = request.payload.data.attributes['recaptcha-token'];
     const user = userSerializer.deserialize(request.payload);
@@ -41,27 +41,25 @@ module.exports = {
       reCaptchaToken,
     })
       .then((savedUser) => {
-        reply(userSerializer.serialize(savedUser)).code(201);
+        return h.response(userSerializer.serialize(savedUser)).code(201);
       })
       .catch((error) => {
 
         if (error instanceof EntityValidationError) {
-          return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
+          return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
 
         logger.error(error);
-        return reply(JSONAPI.internalError('Une erreur est survenue lors de la création de l’utilisateur')).code(500);
+        return h.response(JSONAPI.internalError('Une erreur est survenue lors de la création de l’utilisateur')).code(500);
       });
   },
 
-  getUser(request, reply) {
+  getUser(request, h) {
     const requestedUserId = parseInt(request.params.id, 10);
     const authenticatedUserId = request.auth.credentials.userId;
 
     return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
-      .then((foundUser) => {
-        return reply(userSerializer.serialize(foundUser)).code(200);
-      })
+      .then(userSerializer.serialize)
       .catch((err) => {
 
         if (err instanceof UserNotAuthorizedToAccessEntity) {
@@ -70,16 +68,16 @@ module.exports = {
             title: 'Forbidden Access',
             detail: 'Vous n’avez pas accès à cet utilisateur',
           });
-          return reply(jsonAPIError).code(403);
+          return h.response(jsonAPIError).code(403);
         }
 
         logger.error(err);
-        return reply(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
+        return h.response(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
       });
   },
 
   // FIXME: Pas de tests ?!
-  getAuthenticatedUserProfile(request, reply) {
+  getAuthenticatedUserProfile(request, h) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
     return userRepository.findUserById(userId)
@@ -87,25 +85,25 @@ module.exports = {
         return profileService.getByUserId(foundUser.id);
       })
       .then((buildedProfile) => {
-        reply(profileSerializer.serialize(buildedProfile)).code(201);
+        return h.response(profileSerializer.serialize(buildedProfile)).code(201);
       })
       .catch((err) => {
 
         if (err instanceof InvalidTokenError) {
-          return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
+          return _replyErrorWithMessage(h, 'Le token n’est pas valide', 401);
         }
 
         if (err instanceof Bookshelf.Model.NotFoundError) {
-          return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 404);
+          return _replyErrorWithMessage(h, 'Cet utilisateur est introuvable', 404);
         }
 
         logger.error(err);
 
-        return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de l’authentification de l’utilisateur', 500);
+        return _replyErrorWithMessage(h, 'Une erreur est survenue lors de l’authentification de l’utilisateur', 500);
       });
   },
 
-  updateUser(request, reply) {
+  updateUser(request, h) {
     const userId = request.params.id;
 
     return Promise.resolve(request.payload)
@@ -129,47 +127,44 @@ module.exports = {
         }
         return Promise.reject(new BadRequestError());
       })
-      .then(() => reply().code(204))
+      .then(() => h.response().code(204))
       .catch((err) => {
         if (err instanceof PasswordResetDemandNotFoundError) {
-          return reply(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);
+          return h.response(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);
         }
 
         if (err instanceof BadRequestError) {
-          return reply(errorSerializer.serialize(err)).code(err.code);
+          return h.response(errorSerializer.serialize(err)).code(err.code);
         }
 
-        return reply(JSONAPI.internalError('Une erreur interne est survenue.')).code(500);
+        return h.response(JSONAPI.internalError('Une erreur interne est survenue.')).code(500);
       });
   },
 
-  getProfileToCertify(request, reply) {
+  getProfileToCertify(request) {
     const userId = request.params.id;
     const currentDate = moment().toISOString();
 
     return userService.getProfileToCertify(userId, currentDate)
-      .then(reply)
       .catch((err) => {
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        throw Boom.badImplementation(err);
       });
   },
 
-  getMemberships(request, reply) {
+  getMemberships(request, h) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
     return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
-      .then((user) => {
-        return reply(membershipSerializer.serialize(user.memberships)).code(200);
-      })
+      .then((user) => membershipSerializer.serialize(user.memberships))
       .catch((error) => {
         const mappedError = _mapToInfrastructureErrors(error);
-        return controllerReplies(reply).error(mappedError);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
-  find(request, reply) {
+  find(request) {
     const filters = {
       firstName: request.query['firstName'],
       lastName: request.query['lastName'],
@@ -188,27 +183,27 @@ module.exports = {
           itemsCount: searchResultList.totalResults,
           pagesCount: searchResultList.pagesCount,
         };
-        return reply(userSerializer.serialize(searchResultList.paginatedResults, meta));
+        return userSerializer.serialize(searchResultList.paginatedResults, meta);
       });
   },
 
-  getCampaignParticipations(request, reply) {
+  getCampaignParticipations(request, h) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
       .then(campaignParticipationSerializer.serialize)
-      .then(controllerReplies(reply).ok)
+      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfrastructureErrors(error);
-        return controllerReplies(reply).error(mappedError);
+        return controllerReplies(h).error(mappedError);
       });
   }
 };
 
 // TODO refacto, extract and simplify
-const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
-  reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
+const _replyErrorWithMessage = function(h, errorMessage, statusCode) {
+  return h.response(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
 
 function _handleWhenInvalidAuthorization(errorMessage) {

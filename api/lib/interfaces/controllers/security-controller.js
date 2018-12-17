@@ -4,7 +4,7 @@ const checkUserIsAuthenticatedUseCase = require('../../application/usecases/chec
 const checkUserHasRolePixMasterUseCase = require('../../application/usecases/checkUserHasRolePixMaster');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
-function _replyWithAuthenticationError(reply) {
+function _replyWithAuthenticationError(h) {
   return Promise.resolve().then(() => {
     const errorHttpStatusCode = 401;
 
@@ -14,11 +14,11 @@ function _replyWithAuthenticationError(reply) {
       detail: 'Missing or invalid access token in request auhorization headers.'
     });
 
-    return reply(jsonApiError).code(errorHttpStatusCode).takeover();
+    return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
   });
 }
 
-function _replyWithAuthorizationError(reply) {
+function _replyWithAuthorizationError(h) {
   return Promise.resolve().then(() => {
     const errorHttpStatusCode = 403;
 
@@ -28,36 +28,36 @@ function _replyWithAuthorizationError(reply) {
       detail: 'Missing or insufficient permissions.'
     });
 
-    return reply(jsonApiError).code(errorHttpStatusCode).takeover();
+    return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
   });
 }
 
 module.exports = {
 
-  checkUserIsAuthenticated(request, reply) {
+  checkUserIsAuthenticated(request, h) {
     const authorizationHeader = request.headers.authorization;
     const accessToken = tokenService.extractTokenFromAuthChain(authorizationHeader);
 
     if (!accessToken) {
-      return _replyWithAuthenticationError(reply);
+      return _replyWithAuthenticationError(h);
     }
 
     return checkUserIsAuthenticatedUseCase.execute(accessToken)
       .then((authenticatedUser) => {
         if (authenticatedUser) {
-          return reply.continue({ credentials: { accessToken, userId: authenticatedUser.user_id } });
+          return h.authenticated({ credentials: { accessToken, userId: authenticatedUser.user_id } });
         }
-        return _replyWithAuthenticationError(reply);
+        return _replyWithAuthenticationError(h);
       })
       .catch((err) => {
         logger.error(err);
-        return _replyWithAuthenticationError(reply);
+        return _replyWithAuthenticationError(h);
       });
   },
 
-  checkUserHasRolePixMaster(request, reply) {
+  checkUserHasRolePixMaster(request, h) {
     if (!request.auth.credentials || !request.auth.credentials.userId) {
-      return _replyWithAuthorizationError(reply);
+      return _replyWithAuthorizationError(h);
     }
 
     const userId = request.auth.credentials.userId;
@@ -65,13 +65,13 @@ module.exports = {
     return checkUserHasRolePixMasterUseCase.execute(userId)
       .then((hasRolePixMaster) => {
         if (hasRolePixMaster) {
-          return reply(true);
+          return h.response(true);
         }
-        return _replyWithAuthorizationError(reply);
+        return _replyWithAuthorizationError(h);
       })
       .catch((err) => {
         logger.error(err);
-        return _replyWithAuthorizationError(reply);
+        return _replyWithAuthorizationError(h);
       });
   }
 

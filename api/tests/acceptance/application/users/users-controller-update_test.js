@@ -1,10 +1,16 @@
 const { expect, knex } = require('../../../test-helper');
 const faker = require('faker');
 
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 
 describe('Acceptance | Controller | users-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('Patch /api/users/{id}', () => {
     let userId;

@@ -3,7 +3,7 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 module.exports = {
-  verify(request, reply) {
+  verify(request, h) {
     // FIXME: This validation should be part of the use case, as it is a rule of business
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
@@ -11,10 +11,9 @@ module.exports = {
 
     return assessmentRepository
       .getByUserIdAndAssessmentId(assessmentId, userId)
-      .then(reply)
       .catch(() => {
         const buildedError = _handleWhenInvalidAuthorization('Vous n’êtes pas autorisé à accéder à cette évaluation');
-        return reply(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
+        return h.response(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
       });
   }
 };

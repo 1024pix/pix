@@ -1,8 +1,7 @@
 const passwordController = require('./password-controller');
 const Joi = require('joi');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'POST',
@@ -37,11 +36,6 @@ exports.register = function(server, options, next) {
       }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'passwords-api',
-  version: '1.0.0'
-};
+exports.name = 'passwords-api';

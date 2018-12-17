@@ -5,21 +5,21 @@ const tokenService = require('../../domain/services/token-service');
 
 module.exports = {
 
-  metadata(request, reply) {
-    return reply(saml.getServiceProviderMetadata()).type('application/xml');
+  metadata(request, h) {
+    return h.response(saml.getServiceProviderMetadata()).type('application/xml');
   },
 
-  login(request, reply) {
-    return reply.redirect(saml.createLoginRequest());
+  login(request, h) {
+    return h.redirect(saml.createLoginRequest());
   },
 
-  assert: async function(request, reply) {
+  assert: async function(request, h) {
     let userAttributes;
     try {
       userAttributes = await saml.parsePostResponse(request.payload);
     } catch (e) {
       logger.error(e);
-      return reply(e.toString()).code(400);
+      return h.response(e.toString()).code(400);
     }
 
     try {
@@ -27,10 +27,10 @@ module.exports = {
 
       const token = tokenService.createTokenFromUser(user);
 
-      return reply.redirect(`/connexion?token=${encodeURIComponent(token)}&user-id=${user.id}`);
+      return h.redirect(`/connexion?token=${encodeURIComponent(token)}&user-id=${user.id}`);
     } catch(e) {
       logger.error(e);
-      return reply(e.toString()).code(500);
+      return h.response(e.toString()).code(500);
     }
   },
 };

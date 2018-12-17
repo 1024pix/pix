@@ -9,12 +9,12 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, reply) => reply('ok').code(201));
-    sandbox.stub(campaignParticipationController, 'getCampaignParticipationByAssessment').callsFake((request, reply) => reply('ok').code(201));
+    sandbox.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, h) => h.response('ok').code(201));
+    sandbox.stub(campaignParticipationController, 'getCampaignParticipationByAssessment').callsFake((request, h) => h.response('ok').code(201));
 
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/campaignParticipations') });
+    server = Hapi.server();
+
+    return server.register(require('../../../../lib/application/campaignParticipations'));
   });
 
   afterEach(() => {
@@ -24,25 +24,23 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
 
   describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // when
-      const promise = server.inject({
+      const response = await server.inject({
         method: 'GET',
         url: '/api/campaign-participations',
       });
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(201);
-      });
+      expect(response.statusCode).to.equal(201);
     });
   });
 
   describe('PATCH /api/campaign-participations/{id}', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // when
-      const promise = server.inject({
+      const response = await server.inject({
         method: 'PATCH',
         url: '/api/campaign-participations/FAKE_ID',
         payload: {
@@ -56,10 +54,7 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
       });
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(201);
-      });
-
+      expect(response.statusCode).to.equal(201);
     });
   });
 

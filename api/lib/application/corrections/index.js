@@ -1,7 +1,6 @@
 const correctionsController = require('./corrections-controller');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'GET',
@@ -13,11 +12,6 @@ exports.register = function(server, options, next) {
       }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'corrections-api',
-  version: '1.0.0'
-};
+exports.name = 'corrections-api';

@@ -1,7 +1,13 @@
 const { expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
-const server = require('../../../server');
+const createServer = require('../../../server');
 
 describe('Acceptance | Controller | cache-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('DELETE /api/cache/{cachekey}', () => {
 
@@ -11,37 +17,33 @@ describe('Acceptance | Controller | cache-controller', () => {
       options = {
         method: 'DELETE',
         url: '/api/cache/cache-test-key',
-        headers: { }
+        headers: {}
       };
     });
 
     describe('Resource access management', () => {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
         options.headers.authorization = 'invalid.access.token';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMAsterUserId = 9999;
         options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
@@ -54,37 +56,33 @@ describe('Acceptance | Controller | cache-controller', () => {
       options = {
         method: 'DELETE',
         url: '/api/cache',
-        headers: { }
+        headers: {}
       };
     });
 
     describe('Resource access management', () => {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
         options.headers.authorization = 'invalid.access.token';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMAsterUserId = 9999;
         options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
@@ -97,37 +95,33 @@ describe('Acceptance | Controller | cache-controller', () => {
       options = {
         method: 'PATCH',
         url: '/api/cache',
-        headers: { }
+        headers: {}
       };
     });
 
     describe('Resource access management', () => {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
         options.headers.authorization = 'invalid.access.token';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMAsterUserId = 9999;
         options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
   });

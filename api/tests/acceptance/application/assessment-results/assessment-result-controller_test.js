@@ -1,12 +1,14 @@
 const { expect, knex } = require('../../../test-helper');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 const _ = require('lodash');
 
 describe('Acceptance | Controller | assessment-results', function() {
 
-  after((done) => {
-    server.stop(done);
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
   });
 
   describe('POST /api/assessment-results', () => {

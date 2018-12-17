@@ -1,10 +1,11 @@
 const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | answer-controller', () => {
 
   describe('GET /api/answers/:id', () => {
 
+    let server;
     let options;
     let inserted_answer_id;
 
@@ -19,8 +20,9 @@ describe('Acceptance | Controller | answer-controller', () => {
       challengeId: 'recLt9uwa2dR3IYpi',
     };
 
-    beforeEach(() => {
-      return knex('assessments').insert(inserted_assessment,'id')
+    beforeEach(async () => {
+      server = await createServer();
+      return knex('assessments').insert(inserted_assessment, 'id')
         .then(([id]) => {
           inserted_answer.assessmentId = id;
           return knex('answers').insert(inserted_answer,'id');

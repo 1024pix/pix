@@ -9,14 +9,19 @@ client.collectDefaultMetrics();
 const metrics = {
   request: {
     total: new client.Counter({ name: 'api_request_total', help: 'The total number of all API responses' }),
-    success: new client.Counter({ name: 'api_request_success', help: 'The number of successful API responses' }),
-    server_error: new client.Counter({ name: 'api_request_server_error', help: 'The number of 50x API responses' }),
-    client_error: new client.Counter({ name: 'api_request_client_error', help: 'The number of 40x API responses' }),
-    api_request_duration: new client.Summary({ name: 'api_request_duration', help: 'Summary of request duration per API endpoint' })
+    success: new client.Counter({ name: 'api_request_success', help: 'The number of successful API responses', labelNames: [ 'path' ] }),
+    server_error: new client.Counter({ name: 'api_request_server_error', help: 'The number of 50x API responses', labelNames: [ 'path' ] }),
+    client_error: new client.Counter({ name: 'api_request_client_error', help: 'The number of 40x API responses', labelNames: [ 'path' ] }),
+    api_request_duration: new client.Summary({
+      name: 'api_request_duration',
+      help: 'Summary of request duration per API endpoint',
+      labelNames: [ 'path' ]
+    })
   }
 };
 
 const Metrics = {
+  name: 'metrics-plugin',
 
   reset() {
     metrics.request.total.reset();
@@ -26,9 +31,9 @@ const Metrics = {
     metrics.request.api_request_duration.reset();
   },
 
-  register(server, options, next) {
+  register(server) {
 
-    server.on('response', (request) => {
+    server.events.on('response', (request) => {
 
       const responseDuration = request.info.responded - request.info.received;
       metrics.request.api_request_duration.observe(responseDuration);
@@ -50,15 +55,9 @@ const Metrics = {
         metrics.request.server_error.inc({ 'path': request.route.path });
       }
     });
-
-    return next();
   },
 
   prometheusClient: client.register,
-};
-
-Metrics.register.attributes = {
-  name: 'metrics-plugin'
 };
 
 module.exports = Metrics;

@@ -1,8 +1,14 @@
 const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
-const server = require('../../../server');
+const createServer = require('../../../server');
 const Feedback = require('../../../lib/infrastructure/data/feedback');
 
 describe('Acceptance | Controller | feedback-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('POST /api/feedbacks', () => {
 

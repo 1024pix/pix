@@ -1,19 +1,17 @@
-const { expect, knex,  generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../../test-helper');
-const server = require('../../../../server');
+const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../../test-helper');
+const createServer = require('../../../../server');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Acceptance | Controller | assessment-results-controller', function() {
-
-  after(function(done) {
-    server.stop(done);
-  });
+  let server;
 
   describe('POST /admin/assessment-results', () => {
     const certificationId = 2;
     let options;
 
-    beforeEach(() => {
+    beforeEach(async () => {
+      server = await createServer();
 
       options = {
         method: 'POST', url: '/api/admin/assessment-results',

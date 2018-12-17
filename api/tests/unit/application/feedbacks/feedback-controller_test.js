@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../../test-helper');
 const Hapi = require('hapi');
 const _ = require('lodash');
 const Feedback = require('../../../../lib/infrastructure/data/feedback');
@@ -11,9 +11,8 @@ describe('Unit | Controller | feedback-controller', function() {
   let server;
 
   before(function() {
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/feedbacks') });
+    server = Hapi.server();
+    return server.register(require('../../../../lib/application/feedbacks'));
   });
 
   describe('#save', function() {
@@ -54,44 +53,35 @@ describe('Unit | Controller | feedback-controller', function() {
       Feedback.prototype.save.restore();
     });
 
-    function executeRequest(payload, callback) {
-      server.inject({ method: 'POST', url: '/api/feedbacks', payload }, (res) => {
-        callback(res);
-      });
-    }
-
-    it('should return a successful response with HTTP code 201 when feedback was saved', function(done) {
+    it('should return a successful response with HTTP code 201 when feedback was saved', async function() {
       // when
-      executeRequest(jsonFeedback, (res) => {
-        // then
-        expect(res.statusCode).to.equal(201);
-        done();
-      });
+      const res = await server.inject({ method: 'POST', url: '/api/feedbacks', payload: jsonFeedback });
+
+      // then
+      expect(res.statusCode).to.equal(201);
     });
 
-    it('should return an error 400 if feedback content is missing or empty', function(done) {
+    it('should return an error 400 if feedback content is missing or empty', async function() {
       // given
       const payload = _.clone(jsonFeedback);
       payload.data.attributes.content = '   ';
 
       // when
-      executeRequest(payload, (res) => {
-        // then
-        expect(res.statusCode).to.equal(400);
-        done();
-      });
+      const res = await server.inject({ method: 'POST', url: '/api/feedbacks', payload });
+
+      // then
+      expect(res.statusCode).to.equal(400);
     });
 
-    it('should persist feedback data into the Feedback Repository', function(done) {
+    it('should persist feedback data into the Feedback Repository', async function() {
       // given
       const payload = _.clone(jsonFeedback);
 
       // when
-      executeRequest(payload, () => {
-        // then
-        expect(Feedback.prototype.save.calledOnce).to.be.true;
-        done();
-      });
+      await server.inject({ method: 'POST', url: '/api/feedbacks', payload });
+
+      // then
+      expect(Feedback.prototype.save).to.have.been.calledOnce;
     });
 
   });
@@ -99,10 +89,8 @@ describe('Unit | Controller | feedback-controller', function() {
   describe('#find', () => {
 
     let sandbox;
-    let reply;
 
     beforeEach(() => {
-      reply = sinon.stub().returns(true);
       sandbox = sinon.sandbox.create();
       sandbox.stub(feedbackRepository, 'find');
       sandbox.stub(feedbackSerializer, 'serialize');
@@ -112,22 +100,20 @@ describe('Unit | Controller | feedback-controller', function() {
       sandbox.restore();
     });
 
-    it('should fetch all the feedbacks from the DB when no query params are passed', function() {
+    it('should fetch all the feedbacks from the DB when no query params are passed', async function() {
       // given
       feedbackRepository.find.resolves(Feedback.collection());
       const request = { query: {} };
 
       // when
-      const promise = feedbackController.find(request, reply);
+      await feedbackController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(feedbackRepository.find);
-        sinon.assert.calledWithExactly(feedbackRepository.find, { startDate: undefined, endDate: undefined });
-      });
+      sinon.assert.calledOnce(feedbackRepository.find);
+      sinon.assert.calledWithExactly(feedbackRepository.find, { startDate: undefined, endDate: undefined });
     });
 
-    it('should fetch only the matching feedbacks from the DB when query params "start_date" and "end_date" params are passed', () => {
+    it('should fetch only the matching feedbacks from the DB when query params "start_date" and "end_date" params are passed', async () => {
       // given
       feedbackRepository.find.resolves(Feedback.collection());
       const startDate = '2017-09-05';
@@ -140,16 +126,14 @@ describe('Unit | Controller | feedback-controller', function() {
       };
 
       // when
-      const promise = feedbackController.find(request, reply);
+      await feedbackController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(feedbackRepository.find);
-        sinon.assert.calledWithExactly(feedbackRepository.find, { startDate, endDate });
-      });
+      sinon.assert.calledOnce(feedbackRepository.find);
+      sinon.assert.calledWithExactly(feedbackRepository.find, { startDate, endDate });
     });
 
-    it('should reply with a serialized array of feedbacks', function() {
+    it('should reply with a serialized array of feedbacks', async function() {
       // given
       const simpleFeedback = new Feedback({
         id: 'simple_feedback',
@@ -167,21 +151,14 @@ describe('Unit | Controller | feedback-controller', function() {
       });
       const persistedFeedbacks = Feedback.collection([simpleFeedback, otherFeedback]);
       feedbackRepository.find.resolves(persistedFeedbacks);
-      const serializedFeedback = 'The Dragon and The Wolf';
-      feedbackSerializer.serialize.returns(serializedFeedback);
+      feedbackSerializer.serialize.returns({ serialized: persistedFeedbacks });
       const request = { query: {} };
 
       // when
-      const promise = feedbackController.find(request, reply);
+      const response = await feedbackController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(reply);
-        sinon.assert.calledWith(reply, serializedFeedback);
-        sinon.assert.calledOnce(feedbackSerializer.serialize);
-        sinon.assert.calledWithExactly(feedbackSerializer.serialize, persistedFeedbacks.toJSON());
-      });
-
+      expect(response).to.deep.equal({ serialized: persistedFeedbacks });
     });
 
   });

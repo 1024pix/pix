@@ -1,4 +1,4 @@
-const { sinon } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 const snapshotAuthorization = require('../../../../lib/application/preHandlers/snapshot-authorization');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -6,10 +6,7 @@ const organizationRepository = require('../../../../lib/infrastructure/repositor
 describe('Unit | Pre-handler | Snapshot Authorization', () => {
 
   describe('#verify', () => {
-
     let sandbox;
-    let replyStub;
-    let codeStub;
     const request = {
       headers: { },
       params: {
@@ -25,10 +22,6 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
       sandbox.stub(tokenService, 'extractTokenFromAuthChain');
       sandbox.stub(tokenService, 'extractUserId');
       sandbox.stub(organizationRepository, 'getByUserId');
-      codeStub = sandbox.stub();
-      replyStub = sandbox.stub().returns({
-        code: codeStub
-      });
     });
 
     afterEach(() => {
@@ -41,7 +34,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
       organizationRepository.getByUserId.resolves([{ get: () => 8 }]);
 
       // when
-      const promise = snapshotAuthorization.verify(request, replyStub);
+      const promise = snapshotAuthorization.verify(request, hFake);
 
       // then
       return promise.then(() => {
@@ -60,42 +53,33 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         organizationRepository.getByUserId.resolves(fetchedOrganization);
 
         // when
-        const promise = snapshotAuthorization.verify(request, replyStub);
+        const promise = snapshotAuthorization.verify(request, hFake);
 
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(organizationRepository.getByUserId);
           sinon.assert.calledWith(organizationRepository.getByUserId, extractedUserId);
-          sinon.assert.calledOnce(replyStub);
         });
       });
     });
 
     describe('When userId (from token) is not linked to organization', () => {
-      it('should take over the request and response with 401 status code', () => {
+      it('should take over the request and response with 401 status code', async () => {
         // XXX should take over to avoid the call of controller
 
         // given
         const extractedUserId = null;
-        const takeOverSpy = sinon.spy();
 
-        codeStub.returns({
-          takeover: takeOverSpy
-        });
         tokenService.extractUserId.returns(extractedUserId);
         organizationRepository.getByUserId.resolves([]);
 
         // when
-        const promise = snapshotAuthorization.verify(request, replyStub);
+        const response = await snapshotAuthorization.verify(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(codeStub, 401);
-          sinon.assert.calledOnce(takeOverSpy);
-        });
+        expect(response.statusCode).to.equal(401);
+        expect(response.isTakeOver).to.be.true;
       });
     });
-
   });
 });

@@ -1,4 +1,4 @@
-const { sinon } = require('../../../test-helper');
+const { sinon, hFake, expect } = require('../../../test-helper');
 const profileService = require('../../../../lib/domain/services/profile-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const snapshotService = require('../../../../lib/domain/services/snapshot-service');
@@ -55,12 +55,7 @@ describe('Unit | Controller | snapshot-controller', () => {
     };
 
     describe('Behavior', () => {
-
       let sandbox;
-      const codeSpy = sinon.spy();
-      const replyStub = sinon.stub().returns({
-        code: codeSpy
-      });
 
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
@@ -82,67 +77,59 @@ describe('Unit | Controller | snapshot-controller', () => {
 
       describe('Test collaboration', function() {
 
-        it('should verify that user is well authenticated / authorized', () => {
+        it('should verify that user is well authenticated / authorized', async () => {
           // given
           authorizationToken.verify.resolves();
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(authorizationToken.verify);
-            sinon.assert.calledWith(authorizationToken.verify, 'valid_token');
-          });
+          sinon.assert.calledOnce(authorizationToken.verify);
+          sinon.assert.calledWith(authorizationToken.verify, 'valid_token');
         });
 
-        it('should fetch the user', () => {
+        it('should fetch the user', async () => {
           // given
           authorizationToken.verify.resolves(USER_ID);
           userRepository.findUserById.resolves();
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(userRepository.findUserById);
-            sinon.assert.calledWith(userRepository.findUserById, USER_ID);
-          });
+          sinon.assert.calledOnce(userRepository.findUserById);
+          sinon.assert.calledWith(userRepository.findUserById, USER_ID);
         });
 
-        it('should deserialize the request payload', () => {
+        it('should deserialize the request payload', async () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves();
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(snapshotSerializer.deserialize);
-            sinon.assert.calledWith(snapshotSerializer.deserialize, request.payload);
-          });
+          sinon.assert.calledOnce(snapshotSerializer.deserialize);
+          sinon.assert.calledWith(snapshotSerializer.deserialize, request.payload);
         });
 
-        it('should verify that the organization exists', () => {
+        it('should verify that the organization exists', async () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves();
           snapshotSerializer.deserialize.resolves(deserializedSnapshot);
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(organizationRepository.isOrganizationIdExist);
-            sinon.assert.calledWith(organizationRepository.isOrganizationIdExist, 3);
-          });
+          sinon.assert.calledOnce(organizationRepository.isOrganizationIdExist);
+          sinon.assert.calledWith(organizationRepository.isOrganizationIdExist, 3);
         });
 
-        it('should retrieve profile for user', () => {
+        it('should retrieve profile for user', async () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
@@ -150,16 +137,14 @@ describe('Unit | Controller | snapshot-controller', () => {
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(profileService.getByUserId);
-            sinon.assert.calledWith(profileService.getByUserId, USER_ID);
-          });
+          sinon.assert.calledOnce(profileService.getByUserId);
+          sinon.assert.calledWith(profileService.getByUserId, USER_ID);
         });
 
-        it('should serialize profile in JSON in order to be saved in DB', () => {
+        it('should serialize profile in JSON in order to be saved in DB', async () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
@@ -168,16 +153,14 @@ describe('Unit | Controller | snapshot-controller', () => {
           profileService.getByUserId.resolves({ profile: 'a_valid_profile' });
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(profileSerializer.serialize);
-            sinon.assert.calledWith(profileSerializer.serialize, { profile: 'a_valid_profile' });
-          });
+          sinon.assert.calledOnce(profileSerializer.serialize);
+          sinon.assert.calledWith(profileSerializer.serialize, { profile: 'a_valid_profile' });
         });
 
-        it('should calculate profile completion in percentage', () => {
+        it('should calculate profile completion in percentage', async () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
@@ -187,16 +170,14 @@ describe('Unit | Controller | snapshot-controller', () => {
           profileSerializer.serialize.resolves({ profile: 'a_valid_profile' });
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(profileCompletionService.getNumberOfFinishedTests);
-            sinon.assert.calledWith(profileCompletionService.getNumberOfFinishedTests, { profile: 'a_valid_profile' });
-          });
+          sinon.assert.calledOnce(profileCompletionService.getNumberOfFinishedTests);
+          sinon.assert.calledWith(profileCompletionService.getNumberOfFinishedTests, { profile: 'a_valid_profile' });
         });
 
-        it('should create & save a Snapshot entity into the repository', () => {
+        it('should create & save a Snapshot entity into the repository', async () => {
           // given
           const serializedProfile = { profile: 'a_valid_profile' };
 
@@ -209,16 +190,14 @@ describe('Unit | Controller | snapshot-controller', () => {
           profileCompletionService.getNumberOfFinishedTests.resolves();
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(snapshotService.create);
-            sinon.assert.calledWith(snapshotService.create, deserializedSnapshot, user, serializedProfile);
-          });
+          sinon.assert.calledOnce(snapshotService.create);
+          sinon.assert.calledWith(snapshotService.create, deserializedSnapshot, user, serializedProfile);
         });
 
-        it('should serialize the response payload', () => {
+        it('should serialize the response payload', async () => {
           // given
           const serializedProfile = { profile: 'a_valid_profile' };
 
@@ -232,20 +211,18 @@ describe('Unit | Controller | snapshot-controller', () => {
           snapshotService.create.resolves(SNAPSHOT_ID);
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(snapshotSerializer.serialize);
-            sinon.assert.calledWith(snapshotSerializer.serialize, { id: SNAPSHOT_ID });
-          });
+          sinon.assert.calledOnce(snapshotSerializer.serialize);
+          sinon.assert.calledWith(snapshotSerializer.serialize, { id: SNAPSHOT_ID });
         });
 
       });
 
       describe('Errors cases', () => {
 
-        it('should return a specific error JsonApi, when token is invalid', () => {
+        it('should return a specific error JsonApi, when token is invalid', async () => {
           // given
           authorizationToken.verify.rejects(new InvalidTokenError());
           const exepectedErr = new JSONAPIError({
@@ -255,15 +232,13 @@ describe('Unit | Controller | snapshot-controller', () => {
           });
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          const response = await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledWith(replyStub, exepectedErr);
-          });
+          expect(response.source).to.deep.equal(exepectedErr);
         });
 
-        it('should return a specific error JsonApi, when user is not found', () => {
+        it('should return a specific error JsonApi, when user is not found', async () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.rejects(new NotFoundError());
@@ -274,15 +249,13 @@ describe('Unit | Controller | snapshot-controller', () => {
           });
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          const response = await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledWith(replyStub, exepectedErr);
-          });
+          expect(response.source).to.deep.equal(exepectedErr);
         });
 
-        it('should return a specific error JsonApi, when organisation is not found', () => {
+        it('should return a specific error JsonApi, when organisation is not found', async () => {
           // given
           deserializedSnapshot.organization = { id: 'unknnown_organization_id' };
 
@@ -298,15 +271,13 @@ describe('Unit | Controller | snapshot-controller', () => {
           });
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          const response = await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledWith(replyStub, exepectedErr);
-          });
+          expect(response.source).to.deep.equal(exepectedErr);
         });
 
-        it('should return a specific error JsonApi, when snapshot saving fails', () => {
+        it('should return a specific error JsonApi, when snapshot saving fails', async () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves();
@@ -322,26 +293,22 @@ describe('Unit | Controller | snapshot-controller', () => {
           });
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          const response = await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledWith(replyStub, exepectedErr);
-          });
+          expect(response.source).to.deep.equal(exepectedErr);
         });
 
-        it('should log an error, when unknown error has occured', () => {
+        it('should log an error, when unknown error has occured', async () => {
           // given
           const error = new Error('Another error');
           authorizationToken.verify.rejects(error);
 
           // when
-          const promise = snapshotController.create(request, replyStub);
+          await snapshotController.create(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledWith(logger.error, error);
-          });
+          sinon.assert.calledWith(logger.error, error);
         });
 
       });
