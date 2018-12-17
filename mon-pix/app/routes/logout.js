@@ -9,13 +9,22 @@ export default BaseRoute.extend({
 
   beforeModel() {
     const session = this.get('session');
+    this.source = session.data.authenticated.source;
     if (session.get('isAuthenticated')) {
       session.invalidate();
     }
   },
 
   afterModel() {
-    this._redirectToHome();
+    if(this.source === 'pix') {
+      this._redirectToHome();
+    } else {
+      this._redirectToDisconnectedPage();
+    }
+  },
+
+  _redirectToDisconnectedPage() {
+    this.transitionTo('disconnected');
   },
 
   _redirectToHome() {

@@ -65,6 +65,7 @@ describe('Unit | Authenticator | simple', function() {
     return promise.then((data) => {
       expect(data.userId).to.equal(expectedUserId);
       expect(data.token).to.equal(expectedToken);
+      expect(data.source).to.equal('pix');
     });
   });
 
@@ -81,6 +82,7 @@ describe('Unit | Authenticator | simple', function() {
     return promise.then((data) => {
       expect(data.userId).to.equal(expectedUserId);
       expect(data.token).to.equal(expectedToken);
+      expect(data.source).to.equal('external');
     });
   });
 });

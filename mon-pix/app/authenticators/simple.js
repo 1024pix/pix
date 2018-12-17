@@ -12,7 +12,7 @@ export default Base.extend({
 
   authenticate({ email, password, token, userId }) {
     if (token) {
-      return RSVP.resolve({ token, userId });
+      return RSVP.resolve({ token, userId, source: 'external' });
     }
 
     return this.get('ajax').request('/api/authentications', {
@@ -28,7 +28,8 @@ export default Base.extend({
     }).then((payload) => {
       return RSVP.Promise.resolve({
         token: payload.data.attributes.token,
-        userId: payload.data.attributes['user-id']
+        userId: payload.data.attributes['user-id'],
+        source: 'pix'
       });
     });
   }

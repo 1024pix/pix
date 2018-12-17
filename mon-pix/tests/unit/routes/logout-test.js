@@ -11,7 +11,12 @@ describe('Unit | Route | logout', () => {
   it('should disconnect the user', function() {
     // Given
     const invalidateStub = sinon.stub();
-    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub, data: {
+      authenticated: {
+        source: 'external'
+      }
+    }
+    }));
     this.inject.service('session', { as: 'session' });
 
     const route = this.subject();
@@ -23,20 +28,40 @@ describe('Unit | Route | logout', () => {
     sinon.assert.calledOnce(invalidateStub);
   });
 
-  it('should redirect to home', function() {
+  it('should redirect to home when source of connexion is pix', function() {
     // Given
     const invalidateStub = sinon.stub();
+
     this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
     this.inject.service('session', { as: 'session' });
 
     const route = this.subject();
     route._redirectToHome = sinon.stub();
+    route.source = 'pix';
 
     // When
     route.afterModel();
 
     // Then
     sinon.assert.calledOnce(route._redirectToHome);
+  });
+
+  it('should redirect to disconnected page when source of connexion is external', function() {
+    // Given
+    const invalidateStub = sinon.stub();
+
+    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+    this.inject.service('session', { as: 'session' });
+
+    const route = this.subject();
+    route._redirectToDisconnectedPage = sinon.stub();
+    route.source = 'external';
+
+    // When
+    route.afterModel();
+
+    // Then
+    sinon.assert.calledOnce(route._redirectToDisconnectedPage);
   });
 
 });
