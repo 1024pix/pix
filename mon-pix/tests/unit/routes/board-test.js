@@ -12,12 +12,14 @@ describe('Unit | Route | board', function() {
   });
 
   const findRecord = sinon.stub();
+  const query = sinon.stub();
   let route;
 
   beforeEach(function() {
 
     this.register('service:store', Service.extend({
-      findRecord: findRecord
+      findRecord: findRecord,
+      query: query,
     }));
     this.inject.service('store', { as: 'store' });
     this.register('service:session', Service.extend({
@@ -46,15 +48,11 @@ describe('Unit | Route | board', function() {
     sinon.assert.calledWith(findRecord, 'user', 12);
   });
 
-  it('should return user first organization informations', function() {
+  it('should return user first organization and snapshots', function() {
     // given
-    const firstOrganization = EmberObject.create({ id: 1, snapshots: [] });
-    const reloadStub = sinon.stub();
-    firstOrganization.get = sinon.stub().returns({
-      reload: reloadStub
-    });
-    const user = EmberObject.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
+    const user = EmberObject.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
     findRecord.resolves(user);
+    query.resolves([{ id: 1 }, { id: 2 }]);
 
     // when
     const result = route.model();
@@ -62,51 +60,7 @@ describe('Unit | Route | board', function() {
     // then
     return result.then((model) => {
       expect(model.organization.id).to.equal(1);
-    });
-  });
-
-  it('should return load snapshots every time with reload', function() {
-    // given
-    const firstOrganization = EmberObject.create({ id: 1, snapshots: [] });
-    const reloadStub = sinon.stub();
-    firstOrganization.get = sinon.stub().returns({
-      reload: reloadStub
-    });
-
-    const user = EmberObject.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
-    findRecord.resolves(user);
-
-    // when
-    const result = route.model();
-
-    // then
-    return result.then((model) => {
-      expect(model.organization.id).to.equal(1);
-      sinon.assert.calledWith(firstOrganization.get, 'snapshots');
-      sinon.assert.calledOnce(reloadStub);
-    });
-  });
-
-  it('should return url to download snapshots CSV', function() {
-    // given
-    const firstOrganization = EmberObject.create({ id: 1, snapshots: [] });
-    const reloadStub = sinon.stub();
-    sinon.stub(firstOrganization, 'get')
-      .withArgs('id').returns(2)
-      .withArgs('snapshots').returns({
-        reload: reloadStub
-      });
-    const user = EmberObject.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
-    findRecord.resolves(user);
-
-    // when
-    const result = route.model();
-
-    // then
-    return result.then((model) => {
-      expect(model.organization.id).to.equal(1);
-      expect(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=VALID-TOKEN');
-
+      expect(model.snapshots.length).to.equal(2);
     });
   });
 
