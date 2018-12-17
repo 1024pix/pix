@@ -1,4 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
 const passwordController = require('../../../../lib/application/passwords/password-controller');
@@ -37,7 +37,6 @@ describe('Unit | Controller | PasswordController', () => {
         }
       };
 
-      let replyStub;
       let sandbox;
 
       beforeEach(() => {
@@ -51,12 +50,6 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(errorSerializer, 'serialize');
         sandbox.stub(passwordResetSerializer, 'serialize');
         sandbox.stub(logger, 'error');
-
-        replyStub = sandbox.stub();
-        replyStub.returns({
-          code: () => {
-          }
-        });
       });
 
       afterEach(() => {
@@ -65,21 +58,19 @@ describe('Unit | Controller | PasswordController', () => {
 
       describe('User existence test cases', () => {
 
-        it('should verify user existence (by email)', () => {
+        it('should verify user existence (by email)', async () => {
           // given
           userService.isUserExistingByEmail.resolves();
 
           //when
-          const promise = passwordController.createResetDemand(request, replyStub);
+          await passwordController.createResetDemand(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(userService.isUserExistingByEmail);
-            sinon.assert.calledWith(userService.isUserExistingByEmail, userEmail);
-          });
+          sinon.assert.calledOnce(userService.isUserExistingByEmail);
+          sinon.assert.calledWith(userService.isUserExistingByEmail, userEmail);
         });
 
-        it('should verify user existence without being case sensitive', () => {
+        it('should verify user existence without being case sensitive', async () => {
           // given
           userService.isUserExistingByEmail.resolves();
 
@@ -97,16 +88,14 @@ describe('Unit | Controller | PasswordController', () => {
           };
 
           //when
-          const promise = passwordController.createResetDemand(request, replyStub);
+          await passwordController.createResetDemand(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(userService.isUserExistingByEmail);
-            sinon.assert.calledWith(userService.isUserExistingByEmail, normalizedUserEmail);
-          });
+          sinon.assert.calledOnce(userService.isUserExistingByEmail);
+          sinon.assert.calledWith(userService.isUserExistingByEmail, normalizedUserEmail);
         });
 
-        it('should rejects an error, when user is not found', () => {
+        it('should rejects an error, when user is not found', async () => {
           // given
           const error = new UserNotFoundError();
           const expectedErrorMessage = error.getErrorMessage();
@@ -115,63 +104,54 @@ describe('Unit | Controller | PasswordController', () => {
           userService.isUserExistingByEmail.rejects(error);
 
           //when
-          const promise = passwordController.createResetDemand(request, replyStub);
+          const response = await passwordController.createResetDemand(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(errorSerializer.serialize);
-            sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-            sinon.assert.calledOnce(replyStub);
-            sinon.assert.calledWith(replyStub, serializedError);
-          });
+          sinon.assert.calledOnce(errorSerializer.serialize);
+          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
+          expect(response.source).to.deep.equal(serializedError);
         });
 
-        it('should log the error when something turns wrong', () => {
+        it('should log the error when something turns wrong', async () => {
           // given
           const error = new Error();
           userService.isUserExistingByEmail.rejects(error);
 
           //when
-          const promise = passwordController.createResetDemand(request, replyStub);
+          await passwordController.createResetDemand(request, hFake);
 
           // then
-          return promise.then(() => {
-            expect(logger.error).to.have.been.calledWith(error);
-          });
+          expect(logger.error).to.have.been.calledWith(error);
         });
       });
 
-      it('should invalid old reset password demand', () => {
+      it('should invalid old reset password demand', async () => {
         // given
         userService.isUserExistingByEmail.resolves();
         resetPasswordService.invalidOldResetPasswordDemand.resolves();
 
         //when
-        const promise = passwordController.createResetDemand(request, replyStub);
+        await passwordController.createResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(resetPasswordService.invalidOldResetPasswordDemand);
-          sinon.assert.calledWith(resetPasswordService.invalidOldResetPasswordDemand, request.payload.data.attributes.email);
-        });
+        sinon.assert.calledOnce(resetPasswordService.invalidOldResetPasswordDemand);
+        sinon.assert.calledWith(resetPasswordService.invalidOldResetPasswordDemand, request.payload.data.attributes.email);
       });
 
-      it('should ask for a temporary token generation', () => {
+      it('should ask for a temporary token generation', async () => {
         // given
         const generatedToken = 'token';
         userService.isUserExistingByEmail.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
 
         //when
-        const promise = passwordController.createResetDemand(request, replyStub);
+        await passwordController.createResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(resetPasswordService.generateTemporaryKey);
-        });
+        sinon.assert.calledOnce(resetPasswordService.generateTemporaryKey);
       });
 
-      it('should save a new reset password demand', () => {
+      it('should save a new reset password demand', async () => {
         // given
         const generatedToken = 'token';
         const demand = { email: 'shi@fu.me', temporaryKey: generatedToken };
@@ -180,16 +160,14 @@ describe('Unit | Controller | PasswordController', () => {
         resetPasswordRepository.create.resolves();
 
         //when
-        const promise = passwordController.createResetDemand(request, replyStub);
+        await passwordController.createResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(resetPasswordRepository.create);
-          sinon.assert.calledWith(resetPasswordRepository.create, demand);
-        });
+        sinon.assert.calledOnce(resetPasswordRepository.create);
+        sinon.assert.calledWith(resetPasswordRepository.create, demand);
       });
 
-      it('should send an email with a reset password link', () => {
+      it('should send an email with a reset password link', async () => {
         // given
         const generatedToken = 'token';
         const hostBaseUrl = 'http://localhost';
@@ -205,16 +183,14 @@ describe('Unit | Controller | PasswordController', () => {
         resetPasswordRepository.create.resolves(resolvedPasswordReset);
 
         //when
-        const promise = passwordController.createResetDemand(request, replyStub);
+        await passwordController.createResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(mailService.sendResetPasswordDemandEmail);
-          sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.data.attributes.email, hostBaseUrl, generatedToken);
-        });
+        sinon.assert.calledOnce(mailService.sendResetPasswordDemandEmail);
+        sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.data.attributes.email, hostBaseUrl, generatedToken);
       });
 
-      it('should reply with serialized password reset demand when all went well', () => {
+      it('should reply with serialized password reset demand when all went well', async () => {
         // given
         const generatedToken = 'token';
         userService.isUserExistingByEmail.resolves();
@@ -231,17 +207,14 @@ describe('Unit | Controller | PasswordController', () => {
         passwordResetSerializer.serialize.resolves();
 
         // when
-        const promise = passwordController.createResetDemand(request, replyStub);
+        await passwordController.createResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(passwordResetSerializer.serialize, resolvedPasswordReset.attributes);
-        });
+        sinon.assert.calledWith(passwordResetSerializer.serialize, resolvedPasswordReset.attributes);
       });
 
       describe('When internal error has occured', () => {
-        it('should reply with an serialized error', () => {
+        it('should reply with an serialized error', async () => {
           // given
           const error = new InternalError();
           const expectedErrorMessage = error.getErrorMessage();
@@ -250,22 +223,18 @@ describe('Unit | Controller | PasswordController', () => {
           userService.isUserExistingByEmail.rejects(error);
 
           //when
-          const promise = passwordController.createResetDemand(request, replyStub);
+          const response = await passwordController.createResetDemand(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(errorSerializer.serialize);
-            sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-            sinon.assert.calledOnce(replyStub);
-            sinon.assert.calledWith(replyStub, serializedError);
-          });
+          sinon.assert.calledOnce(errorSerializer.serialize);
+          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
+          expect(response.source).to.deep.equal(serializedError);
         });
       });
     });
   });
 
   describe('#checkResetDemand', () => {
-    let reply;
     let sandbox;
     const request = {
       params: {
@@ -288,10 +257,6 @@ describe('Unit | Controller | PasswordController', () => {
       sandbox.stub(errorSerializer, 'serialize');
       sandbox.stub(UserRepository, 'findByEmail').resolves(fetchedUser);
       sandbox.stub(userSerializer, 'serialize');
-      reply = sinon.stub().returns({
-        code: () => {
-        }
-      });
     });
 
     afterEach(() => {
@@ -300,7 +265,7 @@ describe('Unit | Controller | PasswordController', () => {
 
     it('should verify temporary key validity (format, signature, expiration)', () => {
       // when
-      const promise = passwordController.checkResetDemand(request, reply);
+      const promise = passwordController.checkResetDemand(request, hFake);
 
       // then
       return promise.catch(() => {
@@ -313,7 +278,7 @@ describe('Unit | Controller | PasswordController', () => {
     it('should verify password reset demand  from provided temporary key', () => {
       // when
       resetPasswordService.verifyDemand.resolves(fetchedPasswordResetDemand);
-      const promise = passwordController.checkResetDemand(request, reply);
+      const promise = passwordController.checkResetDemand(request, hFake);
 
       // then
       return promise.catch(() => {
@@ -325,21 +290,19 @@ describe('Unit | Controller | PasswordController', () => {
 
     describe('When temporaryKey is valid and related to a password reset demand', () => {
 
-      it('should get user details from email', () => {
+      it('should get user details from email', async () => {
         // given
         resetPasswordService.verifyDemand.resolves(fetchedPasswordResetDemand);
 
         // when
-        const promise = passwordController.checkResetDemand(request, reply);
+        await passwordController.checkResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(UserRepository.findByEmail);
-          sinon.assert.calledWith(UserRepository.findByEmail, fetchedPasswordResetDemand.email);
-        });
+        sinon.assert.calledOnce(UserRepository.findByEmail);
+        sinon.assert.calledWith(UserRepository.findByEmail, fetchedPasswordResetDemand.email);
       });
 
-      it('should reply with a serialized user with some fields', () => {
+      it('should reply with a serialized user with some fields', async () => {
         // given
         const serializedUser = {};
         resetPasswordService.verifyDemand.resolves(fetchedPasswordResetDemand);
@@ -347,23 +310,19 @@ describe('Unit | Controller | PasswordController', () => {
         userSerializer.serialize.returns(serializedUser);
 
         // when
-        const promise = passwordController.checkResetDemand(request, reply);
+        const response = await passwordController.checkResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(reply);
-          sinon.assert.calledOnce(userSerializer.serialize);
-          sinon.assert.calledWith(userSerializer.serialize, fetchedUser);
-          sinon.assert.calledWith(reply, serializedUser);
-        });
-
+        sinon.assert.calledOnce(userSerializer.serialize);
+        sinon.assert.calledWith(userSerializer.serialize, fetchedUser);
+        expect(response).to.deep.equal(serializedUser);
       });
 
     });
 
     describe('When temporaryKey is not valid', () => {
 
-      it('should reply with a InvalidTemporaryKeyError serialized', () => {
+      it('should reply with a InvalidTemporaryKeyError serialized', async () => {
         // given
         const error = new InvalidTemporaryKeyError();
         const expectedErrorMessage = error.getErrorMessage();
@@ -372,21 +331,18 @@ describe('Unit | Controller | PasswordController', () => {
         resetPasswordService.verifyDemand.rejects(error);
 
         // when
-        const promise = passwordController.checkResetDemand(request, reply);
+        const response = await passwordController.checkResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(reply);
-          sinon.assert.calledOnce(errorSerializer.serialize);
-          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-          sinon.assert.calledWith(reply, serializedError);
-        });
+        sinon.assert.calledOnce(errorSerializer.serialize);
+        sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
+        expect(response.source).to.deep.equal(serializedError);
       });
     });
 
     describe('When temporaryKey is valid but not related to a password reset demand', () => {
 
-      it('should reply with a PasswordResetDemandNotFoundError serialized', () => {
+      it('should reply with a PasswordResetDemandNotFoundError serialized', async () => {
         // given
         const error = new PasswordResetDemandNotFoundError();
         const expectedErrorMessage = error.getErrorMessage();
@@ -395,21 +351,18 @@ describe('Unit | Controller | PasswordController', () => {
         resetPasswordService.verifyDemand.rejects(error);
 
         // when
-        const promise = passwordController.checkResetDemand(request, reply);
+        const response = await passwordController.checkResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(reply);
-          sinon.assert.calledOnce(errorSerializer.serialize);
-          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-          sinon.assert.calledWith(reply, serializedError);
-        });
+        sinon.assert.calledOnce(errorSerializer.serialize);
+        sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
+        expect(response.source).to.deep.equal(serializedError);
       });
     });
 
     describe('When unknown error has occured', () => {
 
-      it('should reply with a InternalError serialized', () => {
+      it('should reply with a InternalError serialized', async () => {
         // given
         const error = new InternalError();
         const expectedErrorMessage = error.getErrorMessage();
@@ -418,15 +371,12 @@ describe('Unit | Controller | PasswordController', () => {
         resetPasswordService.verifyDemand.rejects(error);
 
         // when
-        const promise = passwordController.checkResetDemand(request, reply);
+        const response = await passwordController.checkResetDemand(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(reply);
-          sinon.assert.calledOnce(errorSerializer.serialize);
-          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-          sinon.assert.calledWith(reply, serializedError);
-        });
+        sinon.assert.calledOnce(errorSerializer.serialize);
+        sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
+        expect(response.source).to.deep.equal(serializedError);
       });
     });
 

@@ -8,12 +8,11 @@ describe('Integration | Application | Route | Corrections ', () => {
 
   beforeEach(() => {
     // stub dependencies
-    sinon.stub(correctionsController, 'findByAnswerId').callsFake((_request, reply) => reply('ok'));
+    sinon.stub(correctionsController, 'findByAnswerId').returns('ok');
 
     // configure and start server
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/corrections') });
+    server = Hapi.server();
+    return server.register(require('../../../../lib/application/corrections'));
   });
 
   afterEach(() => {

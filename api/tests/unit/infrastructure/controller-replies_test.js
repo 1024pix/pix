@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../test-helper');
+const { expect, sinon, hFake } = require('../../test-helper');
 const controllerReplies = require('../../../lib/infrastructure/controller-replies');
 const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi/error-serializer');
 const infraErrors = require('../../../lib/infrastructure/errors');
@@ -7,21 +7,12 @@ const logger = require('../../../lib/infrastructure/logger');
 describe('Unit | Infrastructure | ControllerReplies', () => {
 
   describe('#controllerReplies', () => {
-
     let sandbox;
-    let replyStub;
-    let codeStub;
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(errorSerializer, 'serialize');
       sandbox.stub(logger, 'error');
-
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({
-        code: codeStub,
-      });
-      codeStub.resolves();
     });
 
     afterEach(() => {
@@ -31,80 +22,62 @@ describe('Unit | Infrastructure | ControllerReplies', () => {
     context('ok', () => {
 
       let payload;
-      let promise;
+      let response;
 
       beforeEach(() => {
         // given
         payload = { data: 'stuff' };
 
         // when
-        promise = controllerReplies(replyStub).ok(payload);
+        response = controllerReplies(hFake).ok(payload);
       });
 
-      it('should succeed', () => {
-        // then
-        return expect(promise).to.be.fulfilled;
-      });
       it('should return reply with payload and 200', () => {
         // then
-        promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(payload);
-          expect(codeStub).to.have.been.calledWith(200);
-        });
+        expect(response.source).to.deep.equal(payload);
+        expect(response.statusCode).to.equal(200);
       });
     });
 
     context('created', () => {
 
       let payload;
-      let promise;
+      let response;
 
       beforeEach(() => {
         // given
         payload = { data: 'stuff' };
 
         // when
-        promise = controllerReplies(replyStub).created(payload);
+        response = controllerReplies(hFake).created(payload);
       });
 
-      it('should succeed', () => {
-        // then
-        return expect(promise).to.be.fulfilled;
-      });
       it('should return reply with payload and 201', () => {
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(payload);
-          expect(codeStub).to.have.been.calledWith(201);
-        });
+        expect(response.source).to.deep.equal(payload);
+        expect(response.statusCode).to.equal(201);
       });
     });
 
     context('noContent', () => {
 
-      let promise;
+      let response;
 
       beforeEach(() => {
         // when
-        promise = controllerReplies(replyStub).noContent();
+        response = controllerReplies(hFake).noContent();
       });
 
-      it('should succeed', () => {
-        // then
-        return expect(promise).to.be.fulfilled;
-      });
       it('should return reply with payload and 201', () => {
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith();
-          expect(codeStub).to.have.been.calledWith(204);
-        });
+        expect(response.source).to.deep.equal();
+        expect(response.statusCode).to.equal(204);
       });
     });
 
     context('error', () => {
 
-      let promise;
+      let response;
       let error;
       let serializedError;
 
@@ -121,25 +94,17 @@ describe('Unit | Infrastructure | ControllerReplies', () => {
           errorSerializer.serialize.returns(serializedError);
 
           // when
-          promise = controllerReplies(replyStub).error(error);
+          response = controllerReplies(hFake).error(error);
         });
 
-        it('should succeed', () => {
-          // then
-          return expect(promise).to.be.fulfilled;
-        });
         it('should call the infrastructure error serializer to serialize the error', () => {
           // then
-          return promise.then(() => {
-            expect(errorSerializer.serialize).to.have.been.calledWith(error);
-          });
+          expect(errorSerializer.serialize).to.have.been.calledWith(error);
         });
         it('should return reply with serialized error and status code from error', () => {
           // then
-          return promise.then(() => {
-            expect(replyStub).to.have.been.calledWith(serializedError);
-            expect(codeStub).to.have.been.calledWith(409);
-          });
+          expect(response.source).to.deep.equal(serializedError);
+          expect(response.statusCode).to.equal(409);
         });
       });
 
@@ -158,32 +123,22 @@ describe('Unit | Infrastructure | ControllerReplies', () => {
           errorSerializer.serialize.returns(serializedError);
 
           // when
-          promise = controllerReplies(replyStub).error(error);
+          response = controllerReplies(hFake).error(error);
         });
 
-        it('should succeed', () => {
-          // then
-          return expect(promise).to.be.fulfilled;
-        });
         it('should call the infrastructure error serializer to serialize the newly created infra error', () => {
           // then
-          return promise.then(() => {
-            expect(errorSerializer.serialize.args[0][0]).to.be.an.instanceOf(infraErrors.InfrastructureError);
-            expect(errorSerializer.serialize.args[0][0].message).to.equal(errorMessage);
-          });
+          expect(errorSerializer.serialize.args[0][0]).to.be.an.instanceOf(infraErrors.InfrastructureError);
+          expect(errorSerializer.serialize.args[0][0].message).to.equal(errorMessage);
         });
         it('should log the unexpectedError', () => {
           // then
-          return promise.then(() => {
-            expect(logger.error).to.have.been.calledWith(error);
-          });
+          expect(logger.error).to.have.been.calledWith(error);
         });
         it('should return reply with serialized error and status code from error', () => {
           // then
-          return promise.then(() => {
-            expect(replyStub).to.have.been.calledWith(serializedError);
-            expect(codeStub).to.have.been.calledWith(500);
-          });
+          expect(response.source).to.deep.equal(serializedError);
+          expect(response.statusCode).to.equal(500);
         });
       });
     });

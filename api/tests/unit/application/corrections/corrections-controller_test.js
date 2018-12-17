@@ -1,4 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const usecases = require('../../../../lib/domain/usecases');
 const Correction = require('../../../../lib/domain/models/Correction');
@@ -9,17 +9,10 @@ const { NotFoundError, NotCompletedAssessmentError } = require('../../../../lib/
 const correctionsController = require('../../../../lib/application/corrections/corrections-controller');
 
 describe('Unit | Controller | corrections-controller', () => {
-
-  let replyStub;
-  let codeStub;
   let sandbox;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    codeStub = sinon.stub();
-    replyStub = sinon.stub().returns({
-      code: codeStub
-    });
     sandbox.stub(usecases, 'getCorrectionForAnswerWhenAssessmentEnded');
   });
 
@@ -37,7 +30,7 @@ describe('Unit | Controller | corrections-controller', () => {
       };
     }
 
-    it('should return an 400 error when query param answerId is missing', () => {
+    it('should return an 400 error when query param answerId is missing', async () => {
       // given
       const request = _buildRequest(undefined);
       const expectedError = JSONAPIError({
@@ -47,16 +40,14 @@ describe('Unit | Controller | corrections-controller', () => {
       });
 
       // when
-      const promise = correctionsController.findByAnswerId(request, replyStub);
+      const response = await correctionsController.findByAnswerId(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(replyStub, expectedError);
-        sinon.assert.calledWith(codeStub, 400);
-      });
+      expect(response.source).to.deep.equal(expectedError);
+      expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a serialized correction when usecase returns an array of one correction', () => {
+    it('should return a serialized correction when usecase returns an array of one correction', async () => {
       // given
       const responseCorrection = new Correction({
         id: '234',
@@ -115,19 +106,17 @@ describe('Unit | Controller | corrections-controller', () => {
       };
 
       // when
-      const promise = correctionsController.findByAnswerId(request, replyStub);
+      const response = await correctionsController.findByAnswerId(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(replyStub, expectedResponse);
-        sinon.assert.calledWith(codeStub, 200);
-        expect(usecases.getCorrectionForAnswerWhenAssessmentEnded).to.have.been.calledWith({
-          answerId: '234'
-        });
+      expect(response.source).to.deep.equal(expectedResponse);
+      expect(response.statusCode).to.equal(200);
+      expect(usecases.getCorrectionForAnswerWhenAssessmentEnded).to.have.been.calledWith({
+        answerId: '234'
       });
     });
 
-    it('should return a 404 error if no answer found', () => {
+    it('should return a 404 error if no answer found', async () => {
       // given
       const request = _buildRequest('234');
       const responseError = new NotFoundError('Not found answer for ID 234');
@@ -140,16 +129,14 @@ describe('Unit | Controller | corrections-controller', () => {
       usecases.getCorrectionForAnswerWhenAssessmentEnded.rejects(responseError);
 
       // when
-      const promise = correctionsController.findByAnswerId(request, replyStub);
+      const response = await correctionsController.findByAnswerId(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(replyStub, expectedError);
-        sinon.assert.calledWith(codeStub, 404);
-      });
+      expect(response.source).to.deep.equal(expectedError);
+      expect(response.statusCode).to.equal(404);
     });
 
-    it('should return a 409 conflict error if assessment not finished', () => {
+    it('should return a 409 conflict error if assessment not finished', async () => {
       // given
       const request = _buildRequest('234');
       const responseError = new NotCompletedAssessmentError();
@@ -162,13 +149,11 @@ describe('Unit | Controller | corrections-controller', () => {
       usecases.getCorrectionForAnswerWhenAssessmentEnded.rejects(responseError);
 
       // when
-      const promise = correctionsController.findByAnswerId(request, replyStub);
+      const response = await correctionsController.findByAnswerId(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(replyStub, expectedError);
-        sinon.assert.calledWith(codeStub, 409);
-      });
+      expect(response.source).to.deep.equal(expectedError);
+      expect(response.statusCode).to.equal(409);
     });
   });
 });

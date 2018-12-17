@@ -1,7 +1,6 @@
 const healthcheckController = require('./healthcheck-controller');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'GET',
@@ -29,11 +28,6 @@ exports.register = function(server, options, next) {
         tags: ['api'] }
     },
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'healthcheck-api',
-  version: '1.0.0'
-};
+exports.name = 'healthcheck-api';

@@ -24,7 +24,7 @@ function _sendPasswordResetDemandUrlEmail(email, temporaryKey, passwordResetDema
 }
 
 module.exports = {
-  createResetDemand(request, reply) {
+  createResetDemand(request, h) {
 
     const user = userSerializer.deserialize(request.payload);
 
@@ -35,36 +35,34 @@ module.exports = {
         return resetPasswordDemandRepository.create({ email: user.email, temporaryKey })
           .then((passwordResetDemand) => _sendPasswordResetDemandUrlEmail(user.email, temporaryKey, passwordResetDemand))
           .then((passwordResetDemand) => passwordResetSerializer.serialize(passwordResetDemand.attributes))
-          .then((serializedPayload) => reply(serializedPayload).code(201));
+          .then((serializedPayload) => h.response(serializedPayload).code(201));
       })
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
-          return reply(errorSerializer.serialize(err.getErrorMessage())).code(404);
+          return h.response(errorSerializer.serialize(err.getErrorMessage())).code(404);
         }
 
         logger.error(err);
-        return reply(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
+        return h.response(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
       });
   },
 
-  checkResetDemand(request, reply) {
+  checkResetDemand(request, h) {
     const temporaryKey = request.params.temporaryKey;
 
     return tokenService.verifyValidity(temporaryKey)
       .then(() => resetPasswordService.verifyDemand(temporaryKey))
       .then((passwordResetDemand) => userRepository.findByEmail(passwordResetDemand.email))
       .then((user) => userSerializer.serialize(user))
-      .then(reply)
       .catch((err) => {
         if (err instanceof InvalidTemporaryKeyError) {
-          return reply(errorSerializer.serialize(err.getErrorMessage())).code(401);
+          return h.response(errorSerializer.serialize(err.getErrorMessage())).code(401);
         } else if (err instanceof PasswordResetDemandNotFoundError) {
-          return reply(errorSerializer.serialize(err.getErrorMessage())).code(404);
+          return h.response(errorSerializer.serialize(err.getErrorMessage())).code(404);
         }
 
         logger.error(err);
-
-        return reply(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
+        return h.response(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
       });
   }
 };

@@ -1,8 +1,7 @@
 const securityController = require('../../interfaces/controllers/security-controller');
 const CacheController = require('./cache-controller');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'DELETE',
@@ -53,11 +52,6 @@ exports.register = function(server, options, next) {
       }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'cache-api',
-  version: '1.0.0'
-};
+exports.name = 'cache-api';

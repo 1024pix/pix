@@ -7,35 +7,41 @@ const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/
 describe('Unit | Controller | challenge-controller', function() {
 
   let server;
+  let sandbox;
+  let ChallengeRepoStub;
+  let ChallengeSerializerStub;
 
-  before(function() {
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/challenges') });
+  beforeEach(function() {
+    sandbox = sinon.sandbox.create();
+    ChallengeRepoStub = sandbox.stub(ChallengeRepository, 'get');
+    ChallengeSerializerStub = sandbox.stub(ChallengeSerializer, 'serialize');
+    server = Hapi.server();
+
+    return server.register(require('../../../../lib/application/challenges'));
+  });
+
+  afterEach(() => {
+    ChallengeRepository.get.restore();
+    ChallengeSerializer.serialize.restore();
   });
 
   describe('#get', function() {
 
     const challenge = Challenge.fromAttributes({ 'id': 'challenge_id' });
 
-    it('should fetch and return the given challenge, serialized as JSONAPI', () => {
+    it('should fetch and return the given challenge, serialized as JSONAPI', async () => {
       // given
-      sinon.stub(ChallengeRepository, 'get').resolves(challenge);
-      sinon.stub(ChallengeSerializer, 'serialize').callsFake((_) => challenge);
+      ChallengeRepoStub.resolves(challenge);
+      ChallengeSerializerStub.resolves({ serialized: challenge });
 
       // when
-      return server.inject({ method: 'GET', url: '/api/challenges/challenge_id' })
-        .then((res) => {
-          // then
-          expect(res.result).to.deep.equal(challenge);
+      const response = await server.inject({ method: 'GET', url: '/api/challenges/challenge_id' });
 
-          // after
-          ChallengeRepository.get.restore();
-          ChallengeSerializer.serialize.restore();
-        });
+      // then
+      expect(response.result).to.deep.equal({ serialized: challenge });
     });
 
-    it('should reply with error status code 404 if challenge not found', () => {
+    it('should reply with error status code 404 if challenge not found', async () => {
       // given
       const error = {
         'error': {
@@ -43,17 +49,13 @@ describe('Unit | Controller | challenge-controller', function() {
           'message': 'Could not find row by id unknown_id'
         }
       };
-      sinon.stub(ChallengeRepository, 'get').rejects(error);
+      ChallengeRepoStub.rejects(error);
 
       // when
-      return server.inject({ method: 'GET', url: '/api/challenges/unknown_id' })
-        .then((res) => {
-          // then
-          expect(res.statusCode).to.equal(404);
+      const response = await server.inject({ method: 'GET', url: '/api/challenges/unknown_id' });
 
-          // after
-          ChallengeRepository.get.restore();
-        });
+      // then
+      expect(response.statusCode).to.equal(404);
     });
   });
 });

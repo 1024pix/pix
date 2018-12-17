@@ -2,7 +2,7 @@ const securityController = require('../../interfaces/controllers/security-contro
 const organisationController = require('./organization-controller');
 const snapshotsAuthorization = require('../../application/preHandlers/snapshot-authorization');
 
-exports.register = (server, options, next) => {
+exports.register = async (server) => {
   server.route([
     {
       method: 'POST',
@@ -109,11 +109,6 @@ exports.register = (server, options, next) => {
       }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'organization-api',
-  version: '1.0.0'
-};
+exports.name = 'organization-api';

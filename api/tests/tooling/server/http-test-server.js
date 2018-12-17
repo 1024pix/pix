@@ -19,9 +19,8 @@ const Hapi = require('hapi');
 class HttpTestServer {
 
   constructor(moduleUnderTest) {
-    this.hapiServer = new Hapi.Server();
-    this.hapiServer.connection({ port: null });
-    this.hapiServer.register({ register: moduleUnderTest });
+    this.hapiServer = Hapi.server();
+    this.hapiServer.register(moduleUnderTest);
   }
 
   request(method, url, payload) {

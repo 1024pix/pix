@@ -1,6 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const Boom = require('boom');
+const { expect, sinon, hFake } = require('../../../test-helper');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -16,7 +14,6 @@ describe('Unit | Controller | assessment-controller', () => {
     let sandbox;
 
     const ASSESSMENT_ID = 12;
-    const reply = sinon.spy();
 
     let request;
 
@@ -40,54 +37,33 @@ describe('Unit | Controller | assessment-controller', () => {
       expect(assessmentController.get).to.exist;
     });
 
-    it('should call AssessmentService#fetchAssessment with request param', () => {
-      // given
-      request = { params: { id: 1234567 } };
-
-      // when
-      assessmentController.get(request, reply);
-
-      // then
-      sinon.assert.calledWithExactly(assessmentService.fetchAssessment, 1234567);
-    });
-
     it('should return a NotFound error when the assessment does not exist', () => {
       // given
-      const expectedError = { error: 'Expected API Return 404' };
-
-      const boomNotFound = sinon.stub(Boom, 'notFound').returns(expectedError);
-      const getScoredError = new NotFoundError('Expected API Return 404');
-      assessmentService.fetchAssessment.rejects(getScoredError);
+      assessmentService.fetchAssessment.rejects(new NotFoundError);
 
       // when
-      const promise = assessmentController.get(request, reply);
+      const promise = assessmentController.get(request, hFake);
 
       // then
-      return promise.then(() => {
-        boomNotFound.restore();
-        sinon.assert.calledWithExactly(boomNotFound, getScoredError);
-
+      return promise.catch((error) => {
+        expect(error.output.statusCode).to.equal(404);
       });
     });
 
     it('should return a Bad Implementation error when we cannot retrieve the score', () => {
       // given
-      const expectedError = { error: 'Expected API Return ' };
-
-      const boomBadImplementationStub = sinon.stub(Boom, 'badImplementation').returns(expectedError);
-      assessmentService.fetchAssessment.rejects(new Error('Expected Error Message'));
+      assessmentService.fetchAssessment.rejects(new Error('Expected Error'));
 
       // when
-      const promise = assessmentController.get(request, reply);
+      const promise = assessmentController.get(request, hFake);
 
       // then
-      return promise.then(() => {
-        boomBadImplementationStub.restore();
-        sinon.assert.calledWithExactly(reply, expectedError);
+      return promise.catch((error) => {
+        expect(error.output.statusCode).to.equal(500);
       });
     });
 
-    it('should reply with the scored assessment', () => {
+    it('should reply with the scored assessment', async () => {
       // given
       const serializedAssessment = { data: { type: 'Assessment' } };
       const scoredAssessment = { id: 'assessment_id' };
@@ -97,16 +73,14 @@ describe('Unit | Controller | assessment-controller', () => {
       };
 
       assessmentSerializer.serialize.returns(serializedAssessment);
-      assessmentService.fetchAssessment.resolves(expectedSerializerArgs);
+      assessmentService.fetchAssessment.withArgs(ASSESSMENT_ID).resolves(expectedSerializerArgs);
 
       // when
-      const promise = assessmentController.get(request, reply);
+      const response = await assessmentController.get(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWithExactly(assessmentSerializer.serialize, scoredAssessment);
-        sinon.assert.calledWithExactly(reply, serializedAssessment);
-      });
+      sinon.assert.calledWithExactly(assessmentSerializer.serialize, scoredAssessment);
+      expect(response).to.deep.equal(serializedAssessment);
     });
 
   });

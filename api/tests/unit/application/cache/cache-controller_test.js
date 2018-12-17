@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const preloader = require('../../../../lib/infrastructure/caches/preloader');
@@ -6,22 +6,18 @@ const logger = require('../../../../lib/infrastructure/logger');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
 
 describe('Unit | Controller | cache-controller', () => {
-
-  const replyStub = sinon.stub();
-  const codeSpy = sinon.spy();
+  let sandbox;
 
   beforeEach(() => {
-    replyStub.returns({
-      code: codeSpy
-    });
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
-    replyStub.reset();
-    codeSpy.resetHistory();
+    sandbox.restore();
   });
 
   describe('#reloadCacheEntry', () => {
+
     const request = {
       params: {
         cachekey: 'Epreuves_recABCDEF'
@@ -29,82 +25,72 @@ describe('Unit | Controller | cache-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'reloadCacheEntry');
+      sandbox.stub(usecases, 'reloadCacheEntry');
     });
 
-    afterEach(() => {
-      usecases.reloadCacheEntry.restore();
-    });
-
-    it('should reply with 204 when the cache key exists', () => {
+    it('should reply with 204 when the cache key exists', async () => {
       // given
       const numberOfDeletedKeys = 1;
       usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
 
       // when
-      const promise = cacheController.reloadCacheEntry(request, replyStub);
+      const response = await cacheController.reloadCacheEntry(request, hFake);
 
-      // Then
-      return expect(promise).to.have.been.fulfilled
-        .then(() => {
-          expect(usecases.reloadCacheEntry).to.have.been.calledWith({ preloader, tableName: 'Epreuves', recordId: 'recABCDEF' });
-          expect(replyStub).to.have.been.calledWith();
-          expect(codeSpy).to.have.been.calledWith(204);
-        });
+      // then
+      expect(usecases.reloadCacheEntry).to.have.been.calledWith({
+        preloader,
+        tableName: 'Epreuves',
+        recordId: 'recABCDEF'
+      });
+      expect(response.source).to.deep.equal();
+      expect(response.statusCode).to.equal(204);
     });
 
-    it('should reply with 204 when the cache key does not exist', () => {
+    it('should reply with 204 when the cache key does not exist', async () => {
       // given
       const numberOfDeletedKeys = 0;
       usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
 
       // when
-      const promise = cacheController.reloadCacheEntry(request, replyStub);
+      const response = await cacheController.reloadCacheEntry(request, hFake);
 
       // Then
-      return expect(promise).to.have.been.fulfilled
-        .then(() => {
-          expect(replyStub).to.have.been.calledWith();
-          expect(codeSpy).to.have.been.calledWith(204);
-        });
+      expect(response.statusCode).to.equal(204);
     });
 
-    it('should allow a table name without a record id', () => {
+    it('should allow a table name without a record id', async () => {
       // given
       const numberOfDeletedKeys = 1;
       usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
 
       // when
-      const promise = cacheController.reloadCacheEntry({ params: { cachekey: 'Epreuves' } }, replyStub);
+      const response = await cacheController.reloadCacheEntry({ params: { cachekey: 'Epreuves' } }, hFake);
 
       // Then
-      return expect(promise).to.have.been.fulfilled
-        .then(() => {
-          expect(usecases.reloadCacheEntry).to.have.been.calledWith({ preloader, tableName: 'Epreuves', recordId: undefined });
-          expect(replyStub).to.have.been.calledWith();
-          expect(codeSpy).to.have.been.calledWith(204);
-        });
+      expect(usecases.reloadCacheEntry).to.have.been.calledWith({
+        preloader,
+        tableName: 'Epreuves',
+        recordId: undefined
+      });
+      expect(response.statusCode).to.equal(204);
     });
 
     context('when cache reloading fails', () => {
 
-      it('should reply with a JSON API error', () => {
+      it('should reply with a JSON API error', async () => {
         // given
         const cacheError = new Error('Cache Error');
         usecases.reloadCacheEntry.rejects(cacheError);
 
         // when
-        const promise = cacheController.reloadCacheEntry(request, replyStub);
+        const response = await cacheController.reloadCacheEntry(request, hFake);
 
         // Then
-        return expect(promise).to.have.been.fulfilled
-          .then(() => {
-            const expectedJsonApiError = {
-              errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
-            };
-            expect(replyStub).to.have.been.calledWith(expectedJsonApiError);
-            expect(codeSpy).to.have.been.calledWith(500);
-          });
+        const expectedJsonApiError = {
+          errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
+        };
+        expect(response.source).to.deep.equal(expectedJsonApiError);
+        expect(response.statusCode).to.equal(500);
       });
     });
 
@@ -121,41 +107,34 @@ describe('Unit | Controller | cache-controller', () => {
       usecases.removeAllCacheEntries.restore();
     });
 
-    it('should reply with 204 when there is no error', () => {
+    it('should reply with 204 when there is no error', async () => {
       // given
       usecases.removeAllCacheEntries.resolves();
 
       // when
-      const promise = cacheController.removeAllCacheEntries(request, replyStub);
+      const response = await cacheController.removeAllCacheEntries(request, hFake);
 
       // Then
-      return expect(promise).to.have.been.fulfilled
-        .then(() => {
-          expect(usecases.removeAllCacheEntries).to.have.been.calledWith({ cache });
-          expect(replyStub).to.have.been.calledWith();
-          expect(codeSpy).to.have.been.calledWith(204);
-        });
+      expect(usecases.removeAllCacheEntries).to.have.been.calledWith({ cache });
+      expect(response.statusCode).to.equal(204);
     });
 
     context('when cache deletion fails', () => {
 
-      it('should reply with server error', () => {
+      it('should reply with server error', async () => {
         // given
         const cacheError = new Error('Cache Error');
         usecases.removeAllCacheEntries.rejects(cacheError);
 
         // when
-        const promise = cacheController.removeAllCacheEntries(request, replyStub);
+        const response = await cacheController.removeAllCacheEntries(request, hFake);
 
         // Then
-        return expect(promise).to.have.been.fulfilled
-          .then(() => {
-            const expectedJsonApiError = {
-              errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
-            };
-            expect(replyStub).to.have.been.calledWith(expectedJsonApiError);
-            expect(codeSpy).to.have.been.calledWith(500);
-          });
+        const expectedJsonApiError = {
+          errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
+        };
+        expect(response.source).to.deep.equal(expectedJsonApiError);
+        expect(response.statusCode).to.equal(500);
       });
     });
 
@@ -172,41 +151,34 @@ describe('Unit | Controller | cache-controller', () => {
       usecases.preloadCacheEntries.restore();
     });
 
-    it('should reply with 204 when there is no error', () => {
+    it('should reply with 204 when there is no error', async () => {
       // given
       usecases.preloadCacheEntries.resolves();
 
       // when
-      const promise = cacheController.preloadCacheEntries(request, replyStub);
+      const response = await cacheController.preloadCacheEntries(request, hFake);
 
       // Then
-      return expect(promise).to.have.been.fulfilled
-        .then(() => {
-          expect(usecases.preloadCacheEntries).to.have.been.calledWith({ preloader, logger });
-          expect(replyStub).to.have.been.calledWith();
-          expect(codeSpy).to.have.been.calledWith(204);
-        });
+      expect(usecases.preloadCacheEntries).to.have.been.calledWith({ preloader, logger });
+      expect(response.statusCode).to.equal(204);
     });
 
     context('when cache preload fails', () => {
 
-      it('should reply with server error', () => {
+      it('should reply with server error', async () => {
         // given
         const cacheError = new Error('Cache Error');
         usecases.preloadCacheEntries.rejects(cacheError);
 
         // when
-        const promise = cacheController.preloadCacheEntries(request, replyStub);
+        const response = await cacheController.preloadCacheEntries(request, hFake);
 
         // Then
-        return expect(promise).to.have.been.fulfilled
-          .then(() => {
-            const expectedJsonApiError = {
-              errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
-            };
-            expect(replyStub).to.have.been.calledWith(expectedJsonApiError);
-            expect(codeSpy).to.have.been.calledWith(500);
-          });
+        const expectedJsonApiError = {
+          errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
+        };
+        expect(response.source).to.deep.equal(expectedJsonApiError);
+        expect(response.statusCode).to.equal(500);
       });
     });
 

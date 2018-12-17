@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../../test-helper');
 const AssessmentAuhorization = require('../../../../lib/application/preHandlers/assessment-authorization');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -6,10 +6,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 describe('Unit | Pre-handler | Assessment Authorization', () => {
 
   describe('#verify', () => {
-
     let sandbox;
-    let replyStub;
-    let codeStub;
     const request = {
       headers: { authorization: 'VALID_TOKEN' },
       params: {
@@ -22,10 +19,6 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
       sandbox.stub(tokenService, 'extractTokenFromAuthChain');
       sandbox.stub(tokenService, 'extractUserId');
       sandbox.stub(assessmentRepository, 'getByUserIdAndAssessmentId');
-      codeStub = sandbox.stub();
-      replyStub = sandbox.stub().returns({
-        code: codeStub
-      });
     });
 
     afterEach(() => {
@@ -44,7 +37,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
       assessmentRepository.getByUserIdAndAssessmentId.resolves();
 
       // when
-      const promise = AssessmentAuhorization.verify(request, replyStub);
+      const promise = AssessmentAuhorization.verify(request, hFake);
 
       // then
       return promise.then(() => {
@@ -55,7 +48,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
 
     describe('When assessment is linked to userId (userId exist)', () => {
 
-      it('should reply with assessment', () => {
+      it('should reply with assessment', async () => {
         // given
         const fetchedAssessment = {};
         const extractedUserId = 'userId';
@@ -63,21 +56,18 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         assessmentRepository.getByUserIdAndAssessmentId.resolves(fetchedAssessment);
 
         // when
-        const promise = AssessmentAuhorization.verify(request, replyStub);
+        const response = await AssessmentAuhorization.verify(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(assessmentRepository.getByUserIdAndAssessmentId);
-          sinon.assert.calledWith(assessmentRepository.getByUserIdAndAssessmentId, request.params.id, extractedUserId);
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(replyStub, fetchedAssessment);
-        });
+        sinon.assert.calledOnce(assessmentRepository.getByUserIdAndAssessmentId);
+        sinon.assert.calledWith(assessmentRepository.getByUserIdAndAssessmentId, request.params.id, extractedUserId);
+        expect(response).to.deep.equal(fetchedAssessment);
       });
     });
 
     describe('When assessment is linked a null userId', () => {
 
-      it('should reply with assessment', () => {
+      it('should reply with assessment', async () => {
         // given
         const fetchedAssessment = {};
         const extractedUserId = null;
@@ -85,39 +75,28 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         assessmentRepository.getByUserIdAndAssessmentId.resolves(fetchedAssessment);
 
         // when
-        const promise = AssessmentAuhorization.verify(request, replyStub);
+        const response = await AssessmentAuhorization.verify(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(assessmentRepository.getByUserIdAndAssessmentId);
-          sinon.assert.calledWith(assessmentRepository.getByUserIdAndAssessmentId, request.params.id, extractedUserId);
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(replyStub, fetchedAssessment);
-        });
+        sinon.assert.calledOnce(assessmentRepository.getByUserIdAndAssessmentId);
+        sinon.assert.calledWith(assessmentRepository.getByUserIdAndAssessmentId, request.params.id, extractedUserId);
+        expect(response).to.deep.equal(fetchedAssessment);
       });
     });
 
     describe('When userId (from token) is not linked to assessment', () => {
-      it('should take over the request and response with 401 status code', () => {
+      it('should take over the request and response with 401 status code', async () => {
         // given
         const extractedUserId = null;
-        const takeOverSpy = sinon.spy();
-        codeStub.returns({
-          takeover: takeOverSpy
-        });
         tokenService.extractUserId.returns(extractedUserId);
         assessmentRepository.getByUserIdAndAssessmentId.rejects();
         // when
-        const promise = AssessmentAuhorization.verify(request, replyStub);
+        const response = await AssessmentAuhorization.verify(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(codeStub, 401);
-          sinon.assert.calledOnce(takeOverSpy);
-        });
+        expect(response.statusCode).to.equal(401);
+        expect(response.isTakeOver).to.be.true;
       });
     });
-
   });
 });

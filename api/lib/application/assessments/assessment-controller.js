@@ -25,7 +25,7 @@ function _extractUserIdFromRequest(request) {
 
 module.exports = {
 
-  save(request, reply) {
+  save(request, h) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
     assessment.userId = _extractUserIdFromRequest(request);
@@ -48,45 +48,42 @@ module.exports = {
         }
       })
       .then((assessment) => {
-        reply(assessmentSerializer.serialize(assessment)).code(201);
+        return h.response(assessmentSerializer.serialize(assessment)).code(201);
       })
       .catch((err) => {
         if (err instanceof ObjectValidationError) {
-          return reply(Boom.badData(err));
+          throw Boom.badData(err);
         }
         if (err instanceof CampaignCodeError) {
-          return reply(Boom.notFound(CampaignCodeError));
+          throw Boom.notFound(CampaignCodeError);
         }
         if(err instanceof AssessmentStartError) {
-          return controllerReplies(reply).error(new infraErrors.ConflictError(err.message));
+          return controllerReplies(h).error(new infraErrors.ConflictError(err.message));
         }
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        throw Boom.badImplementation(err);
       });
 
   },
 
-  get(request, reply) {
+  get(request) {
     const assessmentId = request.params.id;
 
     return assessmentService
       .fetchAssessment(assessmentId)
-      .then(({ assessmentPix }) => {
-        const serializedAssessment = assessmentSerializer.serialize(assessmentPix);
-        return reply(serializedAssessment);
-      })
+      .then(({ assessmentPix }) => assessmentSerializer.serialize(assessmentPix))
       .catch((err) => {
         if (err instanceof NotFoundError) {
-          return reply(Boom.notFound(err));
+          throw Boom.notFound(err);
         }
 
         logger.error(err);
 
-        return reply(Boom.badImplementation(err));
+        throw Boom.badImplementation(err);
       });
   },
 
-  findByFilters(request, reply) {
+  findByFilters(request) {
     let assessmentsPromise = Promise.resolve([]);
     const userId = _extractUserIdFromRequest(request);
 
@@ -102,12 +99,10 @@ module.exports = {
       }
     }
 
-    return assessmentsPromise.then((assessments) => {
-      reply(assessmentSerializer.serializeArray(assessments));
-    });
+    return assessmentsPromise.then((assessments) => assessmentSerializer.serializeArray(assessments));
   },
 
-  getNextChallenge(request, reply) {
+  getNextChallenge(request, h) {
 
     const logContext = {
       zone: 'assessmentController.getNextChallenge',
@@ -156,16 +151,16 @@ module.exports = {
       .then((challenge) => {
         logContext.challenge = challenge;
         logger.trace(logContext, 'replying with challenge');
-        reply(challengeSerializer.serialize(challenge));
+        return challengeSerializer.serialize(challenge);
       })
       .catch((err) => {
         logContext.err = err;
         logger.trace(logContext, 'catching exception');
         if (err instanceof AssessmentEndedError) {
-          return controllerReplies(reply).ok(JSONAPI.emptyDataResponse());
+          return controllerReplies(h).ok(JSONAPI.emptyDataResponse());
         } else {
           logger.error(err);
-          return controllerReplies(reply).error(err);
+          return controllerReplies(h).error(err);
         }
       });
   }

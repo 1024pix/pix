@@ -10,9 +10,8 @@ describe('Unit | Router | Password router', () => {
     // server dependencies must be stubbed before server registration
     sinon.stub(passwordController, 'createResetDemand');
 
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/passwords') });
+    server = Hapi.server();
+    return server.register(require('../../../../lib/application/passwords'));
   });
 
   afterEach(() => {
@@ -24,9 +23,7 @@ describe('Unit | Router | Password router', () => {
 
     it('should exist', () => {
       // given
-      passwordController.createResetDemand.callsFake((request, reply) => {
-        reply('ok');
-      });
+      passwordController.createResetDemand.returns('ok');
 
       const options = {
         method: 'POST',

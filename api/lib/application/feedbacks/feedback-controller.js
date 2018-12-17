@@ -6,32 +6,31 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
-  save : async(request, reply) => {
+  save : async(request, h) => {
 
     const newFeedback = await serializer.deserialize(request.payload);
 
     if (_.isBlank(newFeedback.get('content'))) {
-      return reply(Boom.badRequest('Feedback content must not be blank'));
+      throw Boom.badRequest('Feedback content must not be blank');
     }
 
     return newFeedback
       .save()
       .then((persistedFeedback) => {
-        reply(serializer.serialize(persistedFeedback.toJSON())).code(201);
+        return h.response(serializer.serialize(persistedFeedback.toJSON())).code(201);
       })
       .catch((err) => {
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        throw Boom.badImplementation(err);
       });
   },
 
-  find(request, reply) {
+  find(request) {
     const { start_date: startDate, end_date: endDate } = request.query;
 
     return repository
       .find({ startDate, endDate })
-      .then((feedbacks) => serializer.serialize(feedbacks.toJSON()))
-      .then(reply);
+      .then((feedbacks) => serializer.serialize(feedbacks.toJSON()));
   }
 
 };

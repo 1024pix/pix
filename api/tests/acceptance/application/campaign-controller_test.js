@@ -1,8 +1,14 @@
 const faker = require('faker');
-const server = require('../../../server');
+const createServer = require('../../../server');
 const { knex, expect, generateValidRequestAuhorizationHeader, databaseBuilder, airtableBuilder } = require('../../test-helper');
 
 describe('Acceptance | API | Campaigns', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('POST /api/campaigns', () => {
 
@@ -37,7 +43,7 @@ describe('Acceptance | API | Campaigns', () => {
         .then(() => airtableBuilder.cleanAll());
     });
 
-    it('should return 201 and the campaign when it has been successfully created', function() {
+    it('should return 201 and the campaign when it has been successfully created', async function() {
       const options = {
         method: 'POST',
         url: '/api/campaigns',
@@ -61,18 +67,16 @@ describe('Acceptance | API | Campaigns', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(201);
-        expect(response.result.data.type).to.equal('campaigns');
-        expect(response.result.data.attributes.name).to.equal('L‘hymne de nos campagnes');
-        expect(response.result.data.attributes.code).to.exist;
-      });
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.data.type).to.equal('campaigns');
+      expect(response.result.data.attributes.name).to.equal('L‘hymne de nos campagnes');
+      expect(response.result.data.attributes.code).to.exist;
     });
 
-    it('should return 403 Unauthorized when a user try to create a campaign for an organization that he does not access', function() {
+    it('should return 403 Unauthorized when a user try to create a campaign for an organization that he does not access', async function() {
       const organizationIdThatNobodyHasAccess = 0;
       const options = {
         method: 'POST',
@@ -97,16 +101,14 @@ describe('Acceptance | API | Campaigns', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(403);
-        expect(response.result.errors[0].title).to.equal('Forbidden Error');
-      });
+      expect(response.statusCode).to.equal(403);
+      expect(response.result.errors[0].title).to.equal('Forbidden Error');
     });
 
-    it('should return 403 Unauthorized when a user try to create a campaign with a profile not shared with his organization', function() {
+    it('should return 403 Unauthorized when a user try to create a campaign with a profile not shared with his organization', async function() {
       const options = {
         method: 'POST',
         url: '/api/campaigns',
@@ -130,13 +132,11 @@ describe('Acceptance | API | Campaigns', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(403);
-        expect(response.result.errors[0].title).to.equal('Forbidden Error');
-      });
+      expect(response.statusCode).to.equal(403);
+      expect(response.result.errors[0].title).to.equal('Forbidden Error');
     });
 
   });
@@ -162,23 +162,21 @@ describe('Acceptance | API | Campaigns', () => {
       await databaseBuilder.clean();
     });
 
-    it('should return the campaign found for the given code', () => {
+    it('should return the campaign found for the given code', async () => {
       // given
       options.headers = { authorization: generateValidRequestAuhorizationHeader() };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        const campaign = response.result.data[0];
-        expect(response.statusCode).to.equal(200);
-        expect(campaign).to.exist;
-        expect(campaign.type).to.equal('campaigns');
-        expect(campaign.attributes.name).to.equal(insertedCampaign.name);
-        expect(campaign.attributes.code).to.equal(insertedCampaign.code);
-        expect(campaign.attributes['organization-logo-url']).to.equal(insertedOrganization.logoUrl);
-      });
+      const campaign = response.result.data[0];
+      expect(response.statusCode).to.equal(200);
+      expect(campaign).to.exist;
+      expect(campaign.type).to.equal('campaigns');
+      expect(campaign.attributes.name).to.equal(insertedCampaign.name);
+      expect(campaign.attributes.code).to.equal(insertedCampaign.code);
+      expect(campaign.attributes['organization-logo-url']).to.equal(insertedOrganization.logoUrl);
     });
 
   });

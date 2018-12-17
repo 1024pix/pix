@@ -1,8 +1,14 @@
 const { expect, knex, nock } = require('../../../test-helper');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 
 describe('Acceptance | Controller | correction-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('GET /api/corrections', function() {
 
