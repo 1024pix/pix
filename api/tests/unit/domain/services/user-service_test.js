@@ -164,7 +164,7 @@ describe('Unit | Service | User Service', () => {
     const skillRemplir4 = new Skill({ name: '@remplir4' });
     const skillUrl3 = new Skill({ name: '@url3' });
     const skillWeb1 = new Skill({ name: '@web1' });
-    const skillUrl1 = new Skill({ name: '@url1' });
+    const skillSearch1 = new Skill({ name: '@url1' });
     const skillWithoutChallenge = new Skill({ name: '@oldSKill8' });
 
     const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper');
@@ -178,8 +178,8 @@ describe('Unit | Service | User Service', () => {
     const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
     const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
     const oldChallengeWithAlreadyValidatedSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
-    const challengeForSkillUrl1 = _createChallenge('challenge_url1', competenceFlipper.id, [skillUrl1], '@url1');
-    const challenge2ForSkillUrl1 = _createChallenge('challenge_bis_url1', competenceFlipper.id, [skillUrl1], '@url1');
+    const challengeForSkillSearch1 = _createChallenge('challenge_url1', competenceFlipper.id, [skillSearch1], '@search1');
+    const challenge2ForSkillSearch1 = _createChallenge('challenge_bis_url1', competenceFlipper.id, [skillSearch1], '@search1');
 
     const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceDauphin.id, [skillRemplir2], '@remplir2');
     const challengeForSkillRemplir4 = _createChallenge('challengeRecordIdSix', competenceDauphin.id, [skillRemplir4], '@remplir4');
@@ -693,9 +693,9 @@ describe('Unit | Service | User Service', () => {
     });
 
     describe('should return always three challenge by competence', () => {
-      context('when competence has simple challenge', () => {
+      context('when competence has not challenge which validated two skills', () => {
 
-        it('should return three challenge by competence', () => {
+        it('should return three challenges by competence', () => {
           // given
           const answer1 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
           const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
@@ -711,36 +711,18 @@ describe('Unit | Service | User Service', () => {
 
           // then
           return promise.then((skillProfile) => {
-            expect(skillProfile).to.deep.equal([
-              {
-                id: 'competenceRecordIdOne',
-                index: '1.1',
-                name: '1.1 Construire un flipper',
-                skills: [],
-                pixScore: 12,
-                estimatedLevel: 1,
-                challenges: []
-              },
-              {
-                id: 'competenceRecordIdTwo',
-                index: '1.2',
-                name: '1.2 Adopter un dauphin',
-                skills: [skillRemplir4, skillUrl3, skillRemplir2],
-                pixScore: 23,
-                estimatedLevel: 2,
-                challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]
-              }
-            ]);
+            expect(skillProfile[1].skills).to.have.members([skillRemplir4, skillUrl3, skillRemplir2]);
+            expect(skillProfile[1].challenges).to.have.members([challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]);
           });
         });
       });
 
-      context('when competence has challenge than validated two skills', () => {
-        it('should return three challenge by competence', () => {
+      context('when competence has challenge which validated two skills', () => {
+        it('should return three challenges by competence', () => {
           // given
           const answer1 = new BookshelfAnswer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
           const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillCitation4AndMoteur3.id, result: 'ok' });
-          const answer4 = new BookshelfAnswer({ challengeId: challengeForSkillUrl1.id, result: 'ok' });
+          const answer4 = new BookshelfAnswer({ challengeId: challengeForSkillSearch1.id, result: 'ok' });
           const answerCollectionArray = AnswerCollection.forge([answer1, answer2, answer4]);
 
           answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
@@ -749,8 +731,8 @@ describe('Unit | Service | User Service', () => {
             challengeForSkillRecherche4,
             challengeForSkillCitation4AndMoteur3,
             challengeForSkillCollaborer4,
-            challengeForSkillUrl1,
-            challenge2ForSkillUrl1,
+            challengeForSkillSearch1,
+            challenge2ForSkillSearch1,
           ]);
 
           // when
@@ -758,8 +740,8 @@ describe('Unit | Service | User Service', () => {
 
           // then
           return promise.then((skillProfile) => {
-            expect(skillProfile[0].skills).to.have.members([skillCitation4, skillRecherche4, skillMoteur3, skillUrl1]);
-            expect(skillProfile[0].challenges).to.have.members([challengeForSkillCitation4AndMoteur3,challengeForSkillRecherche4, challenge2ForSkillUrl1]);
+            expect(skillProfile[0].skills).to.have.members([skillCitation4, skillRecherche4, skillMoteur3, skillSearch1]);
+            expect(skillProfile[0].challenges).to.have.members([challengeForSkillCitation4AndMoteur3,challengeForSkillRecherche4, challenge2ForSkillSearch1]);
           });
         });
       });
