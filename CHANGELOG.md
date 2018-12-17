@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.16.0 (17/12/2018)
+
+- [#295](https://github.com/1024pix/pix/pull/295) [TECH] Hapi v17 migration (PF-144).
+
 ## v2.15.0 (14/12/2018)
 
 - [#296](https://github.com/1024pix/pix/pull/296) [TECH] Ajout de règles côté back-end lors du démarrage d'un positionnement (PF-458).
