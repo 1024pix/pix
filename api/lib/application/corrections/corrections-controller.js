@@ -20,7 +20,7 @@ function _validateQueryParams(query) {
 
 module.exports = {
 
-  findByAnswerId(request, reply) {
+  findByAnswerId(request, h) {
     return _validateQueryParams(request.query)
       .then(() => {
         return usecases.getCorrectionForAnswerWhenAssessmentEnded({
@@ -28,11 +28,11 @@ module.exports = {
         });
       })
       .then((correction) => Array.of(correction))
-      .then((corrections) => reply(correctionSerializer.serialize(corrections)).code(200))
+      .then((corrections) => h.response(correctionSerializer.serialize(corrections)).code(200))
       .catch((error) => {
         // TODO: factoriser la gestion des erreurs
         if (error instanceof infraErrors.InfrastructureError) {
-          return reply(errorSerializer.serialize(error)).code(error.code);
+          return h.response(errorSerializer.serialize(error)).code(error.code);
         }
         if (error instanceof domainErrors.NotFoundError) {
           const jsonApiError = new JSONAPIError({
@@ -40,7 +40,7 @@ module.exports = {
             title: 'Not Found',
             detail: error.message
           });
-          return reply(jsonApiError).code(404);
+          return h.response(jsonApiError).code(404);
         }
         if (error instanceof domainErrors.NotCompletedAssessmentError) {
           const jsonApiError = new JSONAPIError({
@@ -48,11 +48,11 @@ module.exports = {
             title: 'Assessment Not Completed',
             detail: error.message
           });
-          return reply(jsonApiError).code(409);
+          return h.response(jsonApiError).code(409);
         }
 
         logger.error(error);
-        return reply(Boom.badImplementation(error));
+        throw Boom.badImplementation(error);
       });
   }
 };

@@ -10,23 +10,24 @@ describe('Unit | Router | cache-router', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(cacheController, 'reloadCacheEntry').callsFake((request, reply) => reply().code(204));
-    sandbox.stub(cacheController, 'removeAllCacheEntries').callsFake((request, reply) => reply().code(204));
-    sandbox.stub(cacheController, 'preloadCacheEntries').callsFake((request, reply) => reply().code(204));
-    sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
+    sandbox.stub(cacheController, 'reloadCacheEntry').callsFake((request, h) => h.response().code(204));
+    sandbox.stub(cacheController, 'removeAllCacheEntries').callsFake((request, h) => h.response().code(204));
+    sandbox.stub(cacheController, 'preloadCacheEntries').callsFake((request, h) => h.response().code(204));
+    sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/cache') });
+    server = Hapi.server();
+
+    return server.register(require('../../../../lib/application/cache'));
   });
 
   afterEach(() => {
     sandbox.restore();
+    server.stop();
   });
 
-  describe('DELETE /api/cache/{cachekey}', function() {
+  describe('DELETE /api/cache/{cachekey}', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // given
       const options = {
         method: 'DELETE',
@@ -34,18 +35,15 @@ describe('Unit | Router | cache-router', () => {
       };
 
       // when
-      const promise = server.inject(options);
-
+      const result = await server.inject(options);
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(204);
-      });
+      expect(result.statusCode).to.equal(204);
     });
   });
 
-  describe('DELETE /api/cache', function() {
+  describe('DELETE /api/cache', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // given
       const options = {
         method: 'DELETE',
@@ -53,18 +51,16 @@ describe('Unit | Router | cache-router', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const result = await server.inject(options);
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(204);
-      });
+      expect(result.statusCode).to.equal(204);
     });
   });
 
-  describe('PATCH /api/cache', function() {
+  describe('PATCH /api/cache', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // given
       const options = {
         method: 'PATCH',
@@ -72,12 +68,10 @@ describe('Unit | Router | cache-router', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const result = await server.inject(options);
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(204);
-      });
+      expect(result.statusCode).to.equal(204);
     });
   });
 

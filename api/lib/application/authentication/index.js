@@ -2,8 +2,7 @@ const Joi = require('joi');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const AuthenticationController = require('./authentication-controller');
 
-exports.register = (server, options, next) => {
-
+exports.register = async (server) => {
   server.route([
     {
       method: 'POST',
@@ -30,14 +29,14 @@ exports.register = (server, options, next) => {
             password: Joi.string().required(),
             scope: Joi.string(),
           }),
-          failAction: (request, reply) => {
+          failAction: (request, h) => {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
               code: errorHttpStatusCode.toString(),
               title: 'Bad request',
               detail: 'The server could not understand the request due to invalid syntax.',
             });
-            return reply(jsonApiError).code(errorHttpStatusCode);
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
           }
         },
         handler: AuthenticationController.authenticateUser,
@@ -62,27 +61,22 @@ exports.register = (server, options, next) => {
             token: Joi.string().required(),
             token_type_hint: 'access_token'
           }),
-          failAction: (request, reply) => {
+          failAction: (request, h) => {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
               code: errorHttpStatusCode.toString(),
               title: 'Bad request',
               detail: 'The server could not understand the request due to invalid syntax.',
             });
-            return reply(jsonApiError).code(errorHttpStatusCode);
+            return h.response(jsonApiError).code(errorHttpStatusCode).takeover();
           }
         },
-        handler: (request, reply) => reply(),
+        handler: (request, h) => h.response(),
         tags: ['api']
       }
     },
 
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'authentication-api',
-  version: '1.0.0'
-};
+exports.name = 'authentication-api';

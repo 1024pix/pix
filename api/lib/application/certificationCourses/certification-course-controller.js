@@ -9,46 +9,41 @@ const { NotFoundError, WrongDateFormatError } = require('../../domain/errors');
 
 module.exports = {
 
-  computeResult(request, reply) {
+  computeResult(request) {
     const certificationCourseId = request.params.id;
 
     return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId)
-      .then(reply)
       .catch((err) => {
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        throw Boom.badImplementation(err);
       });
   },
 
-  getResult(request, reply) {
+  getResult(request) {
     const certificationCourseId = request.params.id;
     return certificationService.getCertificationResult(certificationCourseId)
-      .then((certificationResult) => {
-        reply(certificationCourseSerializer.serializeResult(certificationResult));
-      })
+      .then(certificationCourseSerializer.serializeResult)
       .catch((err) => {
         if (err instanceof NotFoundError) {
-          return reply(Boom.notFound(err));
+          throw Boom.notFound(err);
         }
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        throw Boom.badImplementation(err);
       });
   },
 
-  update(request, reply) {
+  update(request, h) {
 
     return certificationSerializer.deserialize(request.payload)
       .then((certificationCourse) => certificationCourseService.update(certificationCourse))
-      .then((savedCertificationCourse) => {
-        return reply(certificationSerializer.serializeFromCertificationCourse(savedCertificationCourse));
-      })
+      .then(certificationSerializer.serializeFromCertificationCourse)
       .catch((err) => {
         if (err instanceof WrongDateFormatError) {
-          reply(errorSerializer.serialize(err.getErrorMessage())).code(400);
+          return h.response(errorSerializer.serialize(err.getErrorMessage())).code(400);
         } else if (err.message === 'ValidationError') {
-          reply(errorSerializer.serialize(err)).code(400);
+          return h.response(errorSerializer.serialize(err)).code(400);
         } else {
-          reply(Boom.notFound(err));
+          throw Boom.notFound(err);
         }
       });
   },

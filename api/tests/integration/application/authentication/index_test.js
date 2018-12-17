@@ -3,33 +3,26 @@ const querystring = require('querystring');
 const { expect, sinon } = require('../../../test-helper');
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
-function _expectBadRequestResponse(promise) {
-  return promise.then((response) => {
-    const jsonApiError = {
-      errors:
-        [{
-          code: '400',
-          title: 'Bad request',
-          detail: 'The server could not understand the request due to invalid syntax.',
-        }]
-    };
-    expect(response.statusCode).to.equal(400);
-    expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
-  });
-}
-
 describe('Integration | Application | Route | AuthenticationRouter', () => {
 
   let server;
+  const jsonApiError = {
+    errors:
+      [{
+        code: '400',
+        title: 'Bad request',
+        detail: 'The server could not understand the request due to invalid syntax.',
+      }]
+  };
 
   beforeEach(() => {
     // stub dependencies
-    sinon.stub(authenticationController, 'save').callsFake((request, reply) => reply('ok'));
+    sinon.stub(authenticationController, 'save').returns('ok');
 
     // configure and start server
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/authentication') });
+    server = Hapi.server();
+
+    return server.register(require('../../../../lib/application/authentication'));
   });
 
   afterEach(() => {
@@ -39,7 +32,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
   describe('POST /api/authentications', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // given
       const options = {
         method: 'POST',
@@ -47,12 +40,10 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
   });
 
@@ -79,29 +70,27 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       };
 
       // stub dependencies
-      sinon.stub(authenticationController, 'authenticateUser').callsFake((request, reply) => reply(useCaseResult));
+      sinon.stub(authenticationController, 'authenticateUser').callsFake((request, h) => h.response(useCaseResult));
 
       // instance new Hapi.js server with minimal config to test route
-      server = new Hapi.Server();
-      server.connection({ port: null });
-      server.register({ register: require('../../../../lib/application/authentication') });
+      server = Hapi.server();
+
+      return server.register(require('../../../../lib/application/authentication'));
     });
 
     afterEach(() => {
       authenticationController.authenticateUser.restore();
     });
 
-    it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', () => {
+    it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a response with HTTP status code 200 even if there is no scope in the request', () => {
+    it('should return a response with HTTP status code 200 even if there is no scope in the request', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'password',
@@ -110,15 +99,13 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when grant type is not "password"', () => {
+    it('should return a "Bad request error" (400) formatted as JSON API when grant type is not "password"', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'authorization_code',
@@ -127,13 +114,14 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return _expectBadRequestResponse(promise);
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when username is missing', () => {
+    it('should return a "Bad request error" (400) formatted as JSON API when username is missing', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'password',
@@ -141,13 +129,14 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return _expectBadRequestResponse(promise);
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when password is missing', () => {
+    it('should return a "Bad request error" (400) formatted as JSON API when password is missing', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'password',
@@ -155,13 +144,14 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return _expectBadRequestResponse(promise);
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when username is not an email', () => {
+    it('should return a "Bad request error" (400) formatted as JSON API when username is not an email', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'authorization_code',
@@ -170,10 +160,11 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return _expectBadRequestResponse(promise);
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
     it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', () => {
@@ -193,7 +184,6 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
   describe('POST /revoke', () => {
 
     let options;
-    let server;
 
     beforeEach(() => {
       // configure a request (valid by default)
@@ -208,24 +198,17 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
           token_type_hint: 'access_token',
         })
       };
-
-      // instance new Hapi.js server with minimal config to test route
-      server = new Hapi.Server();
-      server.connection({ port: null });
-      server.register({ register: require('../../../../lib/application/authentication') });
     });
 
-    it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', () => {
+    it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when grant type is not "access_token" nor "refresh_token"', () => {
+    it('should return a "Bad request error" (400) formatted as JSON API when grant type is not "access_token" nor "refresh_token"', async () => {
       // given
       options.payload = querystring.stringify({
         token: 'jwt.access.token',
@@ -233,51 +216,49 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return _expectBadRequestResponse(promise);
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when token is missing', () => {
+    it('should return a "Bad request error" (400) formatted as JSON API when token is missing', async () => {
       // given
       options.payload = querystring.stringify({
         token_type_hint: 'access_token',
       });
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return _expectBadRequestResponse(promise);
+      expect(response.statusCode).to.equal(400);
+      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
-    it('should return a response with HTTP status code 200 even when token type hint is missing', () => {
+    it('should return a response with HTTP status code 200 even when token type hint is missing', async () => {
       // given
       options.payload = querystring.stringify({
         token: 'jwt.access.token',
       });
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', () => {
+    it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', async () => {
       // given
       options.headers['content-type'] = 'text/html';
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(415);
-      });
+      expect(response.statusCode).to.equal(415);
     });
   });
 

@@ -23,14 +23,12 @@ describe('Unit | Plugins | Metrics', () => {
   beforeEach(() => {
     Metrics.reset();
 
-    serverStub = new EventEmitter();
+    serverStub = { events: new EventEmitter() };
     Metrics.register(serverStub, null, () => {});
   });
 
   it('should be exposed as a Hapi Plugin', () => {
-    expect(Metrics.register.attributes).to.contains.all.keys({
-      name: 'Metrics-plugin',
-    });
+    expect(Metrics.name).to.equal('metrics-plugin');
   });
 
   it('should set the default labels to current instance', () => {
@@ -94,7 +92,7 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should increment on response event', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
@@ -105,20 +103,9 @@ describe('Unit | Plugins | Metrics', () => {
 
   describe('the metric api_request_success', () => {
 
-    it('should start at 0', () => {
-      // given
-      const prometheusMetrics = Metrics.prometheusClient.metrics();
-
-      // when
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_success');
-
-      // then
-      expect(result).to.equals('0');
-    });
-
     it('should increment on successful response event', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
@@ -128,8 +115,8 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should not increment on error response event', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
@@ -140,21 +127,10 @@ describe('Unit | Plugins | Metrics', () => {
 
   describe('the metric api_request_server_error', () => {
 
-    it('should start at 0', () => {
-      // given
-      const prometheusMetrics = Metrics.prometheusClient.metrics();
-
-      // when
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_server_error');
-
-      // then
-      expect(result).to.equals('0');
-    });
-
     it('should NOT increment on successful response event or 400s', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
@@ -164,7 +140,7 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should increment on error response event', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
@@ -175,20 +151,9 @@ describe('Unit | Plugins | Metrics', () => {
 
   describe('the metric api_request_client_error', () => {
 
-    it('should start at 0', () => {
-      // given
-      const prometheusMetrics = Metrics.prometheusClient.metrics();
-
-      // when
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_client_error');
-
-      // then
-      expect(result).to.equals('0');
-    });
-
     it('should increment on response with statusCode 400', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
@@ -198,7 +163,7 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should NOT increment on response event with statusCode 200 or 500', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
@@ -223,7 +188,7 @@ describe('Unit | Plugins | Metrics', () => {
     it('should count request duration metric', () => {
 
       // when
-      serverStub.emit('response', new ResponseStub({}, defaultInfo, defaultRoute));
+      serverStub.events.emit('response', new ResponseStub({}, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
@@ -237,9 +202,9 @@ describe('Unit | Plugins | Metrics', () => {
       const oneSecondToAnswer = { received: 1, responded: 2 };
       const threeSecondToAnswer = { received: 1, responded: 4 };
 
-      serverStub.emit('response', new ResponseStub({}, tenSecondsToAnswer, { path: '/api/other/{id}' }));
-      serverStub.emit('response', new ResponseStub({}, oneSecondToAnswer, { path: '/api/toto/{id}' }));
-      serverStub.emit('response', new ResponseStub({}, threeSecondToAnswer, { path: '/api/toto/{id}' }));
+      serverStub.events.emit('response', new ResponseStub({}, tenSecondsToAnswer, { path: '/api/other/{id}' }));
+      serverStub.events.emit('response', new ResponseStub({}, oneSecondToAnswer, { path: '/api/toto/{id}' }));
+      serverStub.events.emit('response', new ResponseStub({}, threeSecondToAnswer, { path: '/api/toto/{id}' }));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();

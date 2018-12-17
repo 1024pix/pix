@@ -24,7 +24,7 @@ module.exports = {
   /**
    * @deprecated We use OAuth2 => the endpoint to use is /token and not /authentication
    */
-  save(request, reply) {
+  save(request, h) {
 
     const userFromRequest = userSerializer.deserialize((request.payload));
     let user;
@@ -43,23 +43,23 @@ module.exports = {
         const token = tokenService.createTokenFromUser(user);
 
         const authentication = new Authentication({ userId: user.id, token });
-        return reply(authenticationSerializer.serialize(authentication)).code(201);
+        return h.response(authenticationSerializer.serialize(authentication)).code(201);
       })
       .catch(() => {
         const message = validationErrorSerializer.serialize(_buildError());
-        reply(message).code(400);
+        return h.response(message).code(400);
       });
   },
 
   /**
    * @see https://tools.ietf.org/html/rfc6749#section-4.3
    */
-  authenticateUser(request, reply) {
+  authenticateUser(request, h) {
     const { username, password, scope } = request.payload;
 
     return usecases.authenticateUser({ userEmail: username, password, scope })
       .then((accessToken) => {
-        return reply({
+        return h.response({
           token_type: 'bearer',
           expires_in: 3600,
           access_token: accessToken,
@@ -77,7 +77,7 @@ module.exports = {
           title: 'Forbidden',
           detail: 'Bad credentials',
         });
-        return reply(jsonApiError).code(errorStatusCode);
+        return h.response(jsonApiError).code(errorStatusCode);
       });
   },
 

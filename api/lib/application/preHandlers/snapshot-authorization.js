@@ -3,7 +3,7 @@ const organizationRepository = require('../../infrastructure/repositories/organi
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 module.exports = {
-  verify(request, reply) {
+  verify(request, h) {
     const token = request.query.userToken;
     const userId = tokenService.extractUserId(token);
     const organizationId = request.params.id;
@@ -11,11 +11,10 @@ module.exports = {
     return organizationRepository
       .getByUserId(userId)
       .then((organizations) => organizations.some((organization) => organization.get('id') == organizationId))
-      .then((organizationFound) => organizationFound ? Promise.resolve() : Promise.reject())
-      .then(reply)
+      .then((organizationFound) => organizationFound ? null : Promise.reject())
       .catch(() => {
         const buildedError = _dataAuthorizationPayload('Vous n’êtes pas autorisé à accéder à ces profils partagés');
-        return reply(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
+        return h.response(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
       });
   }
 };

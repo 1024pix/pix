@@ -14,7 +14,7 @@ function _buildJsonApiInternalServerError(error) {
 
 module.exports = {
 
-  get(request, reply) {
+  get(request, h) {
     const userId = request.auth.credentials.userId;
 
     const skillReviewId = request.params.id;
@@ -24,7 +24,7 @@ module.exports = {
       userId,
     })
       .then(skillReviewSerializer.serialize)
-      .then((serializedSkillReview) => reply(serializedSkillReview).code(200))
+      .then((serializedSkillReview) => h.response(serializedSkillReview).code(200))
       .catch((error) => {
 
         if (error instanceof UserNotAuthorizedToAccessEntity) {
@@ -33,7 +33,7 @@ module.exports = {
             title: 'Unauthorized Access',
             detail: 'Vous n’avez pas accès à ce profil d’avancement',
           });
-          return reply(jsonAPIError).code(403);
+          return h.response(jsonAPIError).code(403);
         }
 
         if (error instanceof NotFoundError) {
@@ -42,11 +42,11 @@ module.exports = {
             code: '404',
             detail: `Profil d’avancement introuvable pour l’id ${skillReviewId}`,
           });
-          return reply(jsonApiError).code(404);
+          return h.response(jsonApiError).code(404);
         }
 
         logger.error(error);
-        reply(_buildJsonApiInternalServerError(error)).code(500);
+        return h.response(_buildJsonApiInternalServerError(error)).code(500);
       });
   },
 };

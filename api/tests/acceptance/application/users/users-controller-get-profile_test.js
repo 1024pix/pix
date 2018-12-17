@@ -1,6 +1,6 @@
 const { expect, sinon, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const faker = require('faker');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/infrastructure/data/user');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
@@ -32,14 +32,16 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
   const email = faker.internet.email();
 
   let options;
+  let server;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     options = {
       method: 'GET',
       url: '/api/users/me',
       payload: {},
       headers: { authorization: generateValidRequestAuhorizationHeader() },
     };
+    server = await createServer();
   });
 
   const expectedSerializedProfile = {

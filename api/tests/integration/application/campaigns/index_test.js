@@ -6,14 +6,14 @@ describe('Integration | Application | Route | campaignRouter', () => {
   let server;
 
   beforeEach(() => {
-    sinon.stub(campaignController, 'save').callsFake((request, reply) => reply('ok').code(201));
-    sinon.stub(campaignController, 'getCsvResults').callsFake((request, reply) => reply('ok').code(201));
-    sinon.stub(campaignController, 'getById').callsFake((request, reply) => reply('ok').code(201));
-    sinon.stub(campaignController, 'update').callsFake((request, reply) => reply('ok').code(201));
+    sinon.stub(campaignController, 'save').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(campaignController, 'getCsvResults').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
 
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/campaigns') });
+    server = Hapi.server();
+
+    return server.register(require('../../../../lib/application/campaigns'));
   });
 
   afterEach(() => {

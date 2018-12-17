@@ -19,7 +19,8 @@ const infraErrors = require('../../infrastructure/errors');
 
 module.exports = {
 
-  save(request, reply) {
+  save(request, h) {
+
     const userId = request.auth.credentials.userId;
 
     return campaignSerializer.deserialize(request.payload)
@@ -29,49 +30,49 @@ module.exports = {
       })
       .then((campaign) => usecases.createCampaign({ campaign }))
       .then((createdCampaign) => {
-        return reply(campaignSerializer.serialize(createdCampaign)).code(201);
+        return h.response(campaignSerializer.serialize(createdCampaign)).code(201);
       })
       .catch((error) => {
         if (error instanceof UserNotAuthorizedToCreateCampaignError) {
-          return reply(JSONAPI.forbiddenError(error.message)).code(403);
+          return h.response(JSONAPI.forbiddenError(error.message)).code(403);
         }
 
         if (error instanceof EntityValidationError) {
-          return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
+          return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
 
         logger.error(error);
-        return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la création de la campagne')).code(500);
+        return h.response(JSONAPI.internalError('Une erreur inattendue est survenue lors de la création de la campagne')).code(500);
       });
   },
 
-  getByCode(request, reply) {
+  getByCode(request, h) {
     const filters = queryParamsUtils.extractFilters(request);
     return _validateFilters(filters)
       .then(() => usecases.getCampaignByCode({ code: filters.code }))
       .then((campaign) => {
         return campaignSerializer.serialize([campaign]);
       })
-      .then(controllerReplies(reply).ok)
+      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
-        return controllerReplies(reply).error(mappedError);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
-  getById(request, reply) {
+  getById(request, h) {
     const campaignId = request.params.id;
 
     return usecases.getCampaign({ campaignId })
       .then(campaignSerializer.serialize)
-      .then(controllerReplies(reply).ok)
+      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
-        return controllerReplies(reply).error(mappedError);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
-  getCsvResults(request, reply) {
+  getCsvResults(request, h) {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserIdForCampaignResults(token);
 
@@ -80,36 +81,36 @@ module.exports = {
     return usecases.getResultsCampaignInCSVFormat({ userId, campaignId })
       .then((resultCampaign) => {
         const fileName = `Resultats-${resultCampaign.campaignName}-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
-        return reply(resultCampaign.csvData)
+        return h.response(resultCampaign.csvData)
           .header('Content-Type', 'text/csv;charset=utf-8')
           .header('Content-Disposition', `attachment; filename="${fileName}"`);
       })
       .catch((error) => {
         if (error instanceof UserNotAuthorizedToGetCampaignResultsError) {
-          return reply(JSONAPI.forbiddenError(error.message)).code(403);
+          return h.response(JSONAPI.forbiddenError(error.message)).code(403);
         }
 
         logger.error(error);
-        return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la récupération des résultats de la campagne')).code(500);
+        return h.response(JSONAPI.internalError('Une erreur inattendue est survenue lors de la récupération des résultats de la campagne')).code(500);
       });
   },
 
-  update(request, reply) {
+  update(request, h) {
     const userId = request.auth.credentials.userId;
     const campaignId = request.params.id;
     const { title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
     return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
       .then(campaignSerializer.serialize)
-      .then(controllerReplies(reply).ok)
+      .then(controllerReplies(h).ok)
       .catch((error) => {
         if (error instanceof UserNotAuthorizedToUpdateCampaignError) {
           const infraError = new infraErrors.ForbiddenError(error.message);
-          return controllerReplies(reply).error(infraError);
+          return controllerReplies(h).error(infraError);
         }
 
         const mappedError = _mapToInfraError(error);
-        return controllerReplies(reply).error(mappedError);
+        return controllerReplies(h).error(mappedError);
       });
   },
 };

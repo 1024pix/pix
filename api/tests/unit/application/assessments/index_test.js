@@ -30,19 +30,20 @@ describe('Integration | Route | AssessmentRoute', () => {
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
 
     // instance server
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/assessments') });
+    server = this.server = Hapi.server();
+
+    return server.register(require('../../../../lib/application/assessments'));
   });
 
   afterEach(() => {
     sandbox.restore();
+    server.stop();
   });
 
   describe('POST /api/assessments', () => {
 
     beforeEach(() => {
-      assessmentController.save.callsFake((request, reply) => reply('ok'));
+      assessmentController.save.returns('ok');
     });
 
     it('should exist', () => {
@@ -53,7 +54,7 @@ describe('Integration | Route | AssessmentRoute', () => {
   describe('GET /api/assessments/assessment_id/next', () => {
 
     beforeEach(() => {
-      assessmentController.getNextChallenge.callsFake((request, reply) => reply('ok'));
+      assessmentController.getNextChallenge.returns('ok');
     });
 
     it('should exist', () => {
@@ -64,7 +65,7 @@ describe('Integration | Route | AssessmentRoute', () => {
   describe('GET /api/assessments/assessment_id/next/challenge_id', () => {
 
     beforeEach(() => {
-      assessmentController.getNextChallenge.callsFake((request, reply) => reply('ok'));
+      assessmentController.getNextChallenge.returns('ok');
     });
 
     it('should exist', () => {
@@ -75,7 +76,7 @@ describe('Integration | Route | AssessmentRoute', () => {
   describe('GET /api/assessments', () => {
 
     beforeEach(() => {
-      assessmentController.findByFilters.callsFake((request, reply) => reply('ok'));
+      assessmentController.findByFilters.returns('ok');
     });
 
     it('should exist', () => {
@@ -93,8 +94,8 @@ describe('Integration | Route | AssessmentRoute', () => {
         url: '/api/assessments/assessment_id'
       };
 
-      assessmentController.get.callsFake((request, reply) => reply('ok'));
-      assessmentAuthorization.verify.callsFake((request, reply) => reply('userId'));
+      assessmentController.get.returns('ok');
+      assessmentAuthorization.verify.returns('userId');
     });
 
     it('should exist', () => {

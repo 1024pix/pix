@@ -1,6 +1,6 @@
 const { expect, knex, sinon } = require('../../test-helper');
 const samlify = require('samlify');
-const server = require('../../../server');
+const createServer = require('../../../server');
 const settings = require('../../../lib/settings');
 const _ = require('lodash');
 
@@ -94,8 +94,10 @@ const spConfig = {
 
 describe('Acceptance | Controller | saml-controller', () => {
   let sandbox;
+  let server;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    server = await createServer();
     sandbox = sinon.createSandbox();
     sandbox.stub(settings.saml, 'spConfig').value(spConfig);
     sandbox.stub(settings.saml, 'idpConfig').value(idpConfig);

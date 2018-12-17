@@ -74,6 +74,42 @@ function cleanupUsersAndPixRolesTables() {
     ]));
 }
 
+// Hapi
+const hFake = {
+  response(source) {
+    return {
+      source,
+      code(c) {
+        this.statusCode = c;
+        return this;
+      },
+      headers: {},
+      header(key, value) {
+        this.headers[key] = value;
+        return this;
+      },
+      type(type) {
+        this.contentType = type;
+        return this;
+      },
+      takeover() {
+        this.isTakeOver = true;
+        return this;
+      },
+    };
+  },
+  authenticated(data) {
+    return {
+      authenticated: data
+    };
+  },
+  redirect(location) {
+    return {
+      location
+    };
+  },
+};
+
 module.exports = {
   airtableBuilder,
   cleanupUsersAndPixRolesTables,
@@ -81,6 +117,7 @@ module.exports = {
   domainBuilder: require('./tooling/domain-builder/factory'),
   databaseBuilder,
   generateValidRequestAuhorizationHeader,
+  hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertUserWithRolePixMaster,
   insertUserWithStandardRole,

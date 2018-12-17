@@ -1,6 +1,4 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
-
-const Boom = require('boom');
+const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const User = require('../../../../lib/domain/models/User');
@@ -28,12 +26,6 @@ const {
 describe('Unit | Controller | user-controller', () => {
 
   describe('#save', () => {
-
-    let boomBadRequestMock;
-
-    let replyStub;
-    let codeStub;
-
     let sandbox;
     const email = 'to-be-free@ozone.airplane';
     const deserializedUser = new User({ password: 'password_1234' });
@@ -41,13 +33,6 @@ describe('Unit | Controller | user-controller', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-
-      boomBadRequestMock = sinon.mock(Boom);
-
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({
-        code: codeStub,
-      });
 
       sandbox.stub(logger, 'error').returns({});
       sandbox.stub(userSerializer, 'deserialize').returns(deserializedUser);
@@ -60,7 +45,6 @@ describe('Unit | Controller | user-controller', () => {
     });
 
     afterEach(() => {
-      boomBadRequestMock.restore();
       sandbox.restore();
     });
 
@@ -85,23 +69,21 @@ describe('Unit | Controller | user-controller', () => {
         usecases.createUser.resolves(savedUser);
       });
 
-      it('should return a serialized user and a 201 status code', () => {
+      it('should return a serialized user and a 201 status code', async () => {
         // given
         const expectedSerializedUser = { message: 'serialized user' };
         userSerializer.serialize.returns(expectedSerializedUser);
 
         // when
-        const promise = userController.save(request, replyStub);
+        const response = await userController.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
-          expect(replyStub).to.have.been.calledWith(expectedSerializedUser);
-          expect(codeStub).to.have.been.calledWith(201);
-        });
+        expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
+        expect(response.source).to.deep.equal(expectedSerializedUser);
+        expect(response.statusCode).to.equal(201);
       });
 
-      it('should call the user creation usecase', () => {
+      it('should call the user creation usecase', async () => {
         // given
         const reCaptchaToken = 'reCAPTCHAToken';
         const useCaseParameters = {
@@ -110,12 +92,10 @@ describe('Unit | Controller | user-controller', () => {
         };
 
         // when
-        const promise = userController.save(request, replyStub);
+        await userController.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
-        });
+        expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
       });
     });
 
@@ -132,7 +112,7 @@ describe('Unit | Controller | user-controller', () => {
         },
       };
 
-      it('should reply with code 422 when a validation error occurs', () => {
+      it('should reply with code 422 when a validation error occurs', async () => {
         // given
         const expectedValidationError = new EntityValidationError({
           invalidAttributes: [
@@ -166,13 +146,11 @@ describe('Unit | Controller | user-controller', () => {
         usecases.createUser.rejects(expectedValidationError);
 
         // when
-        const promise = userController.save(request, replyStub);
+        const response = await userController.save(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(codeStub, 422);
-          sinon.assert.calledWith(replyStub, jsonApiValidationErrors);
-        });
+        expect(response.statusCode).to.equal(422);
+        expect(response.source).to.deep.equal(jsonApiValidationErrors);
       });
     });
 
@@ -192,7 +170,7 @@ describe('Unit | Controller | user-controller', () => {
         usecases.createUser.rejects(raisedError);
       });
 
-      it('should reply with a badImplementation', () => {
+      it('should reply with a badImplementation', async () => {
         // given
         const expectedError = {
           errors: [
@@ -205,31 +183,21 @@ describe('Unit | Controller | user-controller', () => {
         };
 
         // when
-        const promise = userController.save(request, replyStub);
+        const response = await userController.save(request, hFake);
 
         // then
-        return promise
-          .then(() => {
-            expect(replyStub).to.have.been.calledWith(expectedError);
-          });
+        expect(response.source).to.deep.equal(expectedError);
       });
 
-      it('should log the error', () => {
-        // given
-        boomBadRequestMock.expects('badImplementation').returns({});
-
+      it('should log the error', async () => {
         // when
-        const promise = userController.save(request, replyStub);
+        await userController.save(request, hFake);
 
         // then
-        return promise
-          .then(() => {
-            expect(logger.error).to.have.been.calledWith(raisedError);
-          });
+        expect(logger.error).to.have.been.calledWith(raisedError);
       });
 
     });
-
   });
 
   describe('#getAuthenticatedUserProfile', () => {
@@ -242,9 +210,7 @@ describe('Unit | Controller | user-controller', () => {
   describe('#updateUser', () => {
 
     context('When payload is good (with a payload and a password attribute)', () => {
-
       let sandbox;
-      let reply;
       const request = {
         params: {
           id: 7,
@@ -261,7 +227,6 @@ describe('Unit | Controller | user-controller', () => {
         id: 7,
         email: 'maryz@acme.xh',
       });
-      let codeStub;
 
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
@@ -271,39 +236,29 @@ describe('Unit | Controller | user-controller', () => {
         sandbox.stub(userRepository, 'updatePassword');
         sandbox.stub(userRepository, 'findUserById').resolves(user);
         sandbox.stub(encryptionService, 'hashPassword');
-        codeStub = sinon.stub();
-        reply = sandbox.stub().returns({
-          code: () => {
-          },
-        });
       });
 
       afterEach(() => {
         sandbox.restore();
       });
 
-      it('should reply with no content', () => {
+      it('should reply with no content', async () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
         userRepository.updatePassword.resolves();
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
         // when
-        const promise = userController.updateUser(request, reply);
+        const response = await userController.updateUser(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(reply);
-        });
+        expect(response.source).to.be.undefined;
       });
 
       describe('When unknown error is handle', () => {
-        it('should reply with a serialized  error', () => {
+        it('should reply with a serialized  error', async () => {
           // given
           const error = new InternalError();
-          reply.returns({
-            code: codeStub,
-          });
           const serializedError = {
             errors: [{
               detail: 'Une erreur interne est survenue.',
@@ -315,22 +270,18 @@ describe('Unit | Controller | user-controller', () => {
           passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
 
           // when
-          const promise = userController.updateUser(request, reply);
+          const response = await userController.updateUser(request, hFake);
 
           // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(reply);
-            sinon.assert.calledWith(reply, serializedError);
-            sinon.assert.calledWith(codeStub, 500);
-          });
+          expect(response.source).to.deep.equal(serializedError);
+          expect(response.statusCode).to.equal(500);
         });
       });
-
     });
 
     context('When payload does not contain any field', () => {
 
-      it('should returns 400 status code', () => {
+      it('should returns 400 status code', async () => {
         // given
         const request = {
           params: {
@@ -344,25 +295,17 @@ describe('Unit | Controller | user-controller', () => {
             },
           },
         };
-        const sandbox = sinon.sandbox.create();
-        const codeStub = sandbox.stub();
-        const reply = sandbox.stub().returns({
-          code: codeStub,
-        });
 
         // when
-        const promise = userController.updateUser(request, reply);
+        const response = await userController.updateUser(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(codeStub).to.have.been.calledWith(400);
-        });
-
+        expect(response.statusCode).to.equal(400);
       });
     });
 
     context('When payload has a password field', () => {
-      it('should update password', () => {
+      it('should update password', async () => {
         // given
         const userId = 7;
         const password = 'PIX123$';
@@ -379,26 +322,20 @@ describe('Unit | Controller | user-controller', () => {
           },
         };
         const sandbox = sinon.sandbox.create();
-        const codeStub = sandbox.stub();
-        const reply = sandbox.stub().returns({
-          code: codeStub,
-        });
         const usecaseUpdateUserPasswordStub = sandbox.stub(usecases, 'updateUserPassword');
 
         // when
-        const promise = userController.updateUser(request, reply);
+        await userController.updateUser(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(usecaseUpdateUserPasswordStub).to.have.been.calledWith({ userId, password });
-        });
+        expect(usecaseUpdateUserPasswordStub).to.have.been.calledWith({ userId, password });
       });
 
     });
 
     context('When payload has a pix-orga-terms-of-service-accepted field', () => {
 
-      it('should accept pix orga terms of service', () => {
+      it('should accept pix orga terms of service', async () => {
         // given
         const userId = 7;
         const request = {
@@ -414,19 +351,13 @@ describe('Unit | Controller | user-controller', () => {
           },
         };
         const sandbox = sinon.sandbox.create();
-        const codeStub = sandbox.stub();
-        const reply = sandbox.stub().returns({
-          code: codeStub,
-        });
         const usecaseAcceptPixOrgaTermsOfServiceStub = sandbox.stub(usecases, 'acceptPixOrgaTermsOfService');
 
         // when
-        const promise = userController.updateUser(request, reply);
+        await userController.updateUser(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(usecaseAcceptPixOrgaTermsOfServiceStub).to.have.been.calledWith({ userId });
-        });
+        expect(usecaseAcceptPixOrgaTermsOfServiceStub).to.have.been.calledWith({ userId });
       });
     });
 
@@ -448,14 +379,10 @@ describe('Unit | Controller | user-controller', () => {
           },
         };
         const sandbox = sinon.sandbox.create();
-        const codeStub = sandbox.stub();
-        const reply = sandbox.stub().returns({
-          code: codeStub,
-        });
         const usecaseAcceptPixCertifTermsOfServiceStub = sandbox.stub(usecases, 'acceptPixCertifTermsOfService');
 
         // when
-        const promise = userController.updateUser(request, reply);
+        const promise = userController.updateUser(request, hFake);
 
         // then
         return promise.then(() => {
@@ -466,22 +393,15 @@ describe('Unit | Controller | user-controller', () => {
   });
 
   describe('#getProfileToCertify', () => {
-
     let sandbox;
-    let replyStub;
 
     const request = { params: { id: 1 } };
-    const jsonAPI404error = { message: 'Error' };
-    const jsonAPI500error = { message: 'Internal Error' };
 
     beforeEach(() => {
-      replyStub = sinon.stub();
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(userService, 'isUserExistingById').resolves(true);
       sandbox.stub(userService, 'getProfileToCertify').resolves([]);
-      sandbox.stub(Boom, 'badRequest').returns(jsonAPI404error);
-      sandbox.stub(Boom, 'badImplementation').returns(jsonAPI500error);
       sandbox.stub(logger, 'error').returns({});
     });
 
@@ -494,37 +414,21 @@ describe('Unit | Controller | user-controller', () => {
     });
 
     context('when loading user competences fails', () => {
-      it('should reply with an INTERNAL error', () => {
+      it('should reply with an INTERNAL error and log the error', async () => {
         // given
-        const anyErrorFromProfileBuilding = new Error();
+        const anyErrorFromProfileBuilding = new Error('Error building profile');
         userService.getProfileToCertify.rejects(anyErrorFromProfileBuilding);
 
         // when
-        const promise = userController.getProfileToCertify(request, replyStub);
+        const promise = userController.getProfileToCertify(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(replyStub);
-
-          sinon.assert.notCalled(Boom.badRequest);
-          sinon.assert.calledOnce(Boom.badImplementation);
-          sinon.assert.calledWith(Boom.badImplementation, anyErrorFromProfileBuilding);
-        });
-      });
-
-      it('should log the error', () => {
-        // given
-        const anyErrorFromProfileBuilding = new Error();
-        userService.getProfileToCertify.rejects(anyErrorFromProfileBuilding);
-
-        // when
-        const promise = userController.getProfileToCertify(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(logger.error);
-          sinon.assert.calledWith(logger.error, anyErrorFromProfileBuilding);
-        });
+        await expect(promise).to.be.rejected
+          .and.eventually.to.include.nested({
+            message: 'Error building profile',
+            'output.statusCode': 500,
+          });
+        expect(logger.error).to.have.been.calledWith(anyErrorFromProfileBuilding);
       });
     });
 
@@ -540,36 +444,29 @@ describe('Unit | Controller | user-controller', () => {
         clock.restore();
       });
 
-      it('should load his current achieved assessments', () => {
+      it('should load his current achieved assessments', async () => {
         // when
-        const promise = userController.getProfileToCertify(request, replyStub);
+        await userController.getProfileToCertify(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(userService.getProfileToCertify);
-          sinon.assert.calledWith(userService.getProfileToCertify, 1, '1970-01-01T00:00:00.000Z');
-        });
+        sinon.assert.calledOnce(userService.getProfileToCertify);
+        sinon.assert.calledWith(userService.getProfileToCertify, 1, '1970-01-01T00:00:00.000Z');
       });
 
-      it('should reply the skillProfile', () => {
+      it('should reply the skillProfile', async () => {
         // when
-        const promise = userController.getProfileToCertify(request, replyStub);
+        const response = await userController.getProfileToCertify(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledWith(replyStub, []);
-        });
+        expect(response).to.deep.equal([]);
       });
     });
   });
 
   describe('#getUser', () => {
-
     let sandbox;
     let requestedUserId;
     let authenticatedUserId;
-    let codeStub;
-    let replyStub;
     let request;
 
     beforeEach(() => {
@@ -586,8 +483,6 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       sandbox = sinon.sandbox.create();
-      codeStub = sandbox.stub();
-      replyStub = sandbox.stub().returns({ code: codeStub });
       sandbox.stub(usecases, 'getUserWithMemberships').resolves();
       sandbox.stub(userSerializer, 'serialize');
     });
@@ -596,34 +491,30 @@ describe('Unit | Controller | user-controller', () => {
       sandbox.restore();
     });
 
-    it('should retrieve user informations from user Id', () => {
+    it('should retrieve user informations from user Id', async () => {
       // when
-      const promise = userController.getUser(request, replyStub);
+      await userController.getUser(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.getUserWithMemberships).to.have.been.calledWith({
-          authenticatedUserId,
-          requestedUserId,
-        });
+      expect(usecases.getUserWithMemberships).to.have.been.calledWith({
+        authenticatedUserId,
+        requestedUserId,
       });
     });
 
-    it('should serialize the authenticated user', () => {
+    it('should serialize the authenticated user', async () => {
       // given
       const foundUser = domainBuilder.buildUser();
       usecases.getUserWithMemberships.resolves(foundUser);
 
       // when
-      const promise = userController.getUser(request, replyStub);
+      await userController.getUser(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(userSerializer.serialize).to.have.been.calledWith(foundUser);
-      });
+      expect(userSerializer.serialize).to.have.been.calledWith(foundUser);
     });
 
-    it('should return 403 if authenticated user is not authorized to access requested user id', () => {
+    it('should return 403 if authenticated user is not authorized to access requested user id', async () => {
       // given
       const expectedError = {
         errors: [{
@@ -635,16 +526,14 @@ describe('Unit | Controller | user-controller', () => {
       usecases.getUserWithMemberships.rejects(new UserNotAuthorizedToAccessEntity());
 
       // when
-      const promise = userController.getUser(request, replyStub);
+      const response = await userController.getUser(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(codeStub, 403);
-        sinon.assert.calledWith(replyStub, expectedError);
-      });
+      expect(response.statusCode).to.equal(403);
+      expect(response.source).to.deep.equal(expectedError);
     });
 
-    it('should return the user found based on the given userId', () => {
+    it('should return the user found based on the given userId', async () => {
       // given
       const foundUser = domainBuilder.buildUser();
       const serializedUser = {
@@ -663,18 +552,14 @@ describe('Unit | Controller | user-controller', () => {
       userSerializer.serialize.returns(serializedUser);
 
       // when
-      const promise = userController.getUser(request, replyStub);
+      const response = await userController.getUser(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(replyStub).to.have.been.calledWith(serializedUser);
-      });
+      expect(response).to.deep.equal(serializedUser);
     });
-
   });
 
   describe('#getMemberships', () => {
-
     let sandbox;
     const authenticatedUserId = 1;
     const requestedUserId = '1';
@@ -688,34 +573,28 @@ describe('Unit | Controller | user-controller', () => {
         id: requestedUserId
       }
     };
-    let codeStub;
-    let replyStub;
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(membershipSerializer, 'serialize');
-      codeStub = sandbox.stub();
-      replyStub = sandbox.stub().returns({ code: codeStub });
     });
 
     afterEach(() => {
       sandbox.restore();
     });
 
-    it('should get accesses of the user passed on params', () => {
+    it('should get accesses of the user passed on params', async () => {
       // given
       const stringifiedAuthenticatedUserId = authenticatedUserId.toString();
       sandbox.stub(usecases, 'getUserWithMemberships').resolves();
 
       // when
-      const promise = userController.getMemberships(request, replyStub);
+      await userController.getMemberships(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.getUserWithMemberships).to.have.been.calledWith({
-          requestedUserId,
-          authenticatedUserId: stringifiedAuthenticatedUserId,
-        });
+      expect(usecases.getUserWithMemberships).to.have.been.calledWith({
+        requestedUserId,
+        authenticatedUserId: stringifiedAuthenticatedUserId,
       });
     });
 
@@ -725,71 +604,61 @@ describe('Unit | Controller | user-controller', () => {
         sandbox.stub(usecases, 'getUserWithMemberships');
       });
 
-      it('should serialize found memberships', () => {
+      it('should serialize found memberships', async () => {
         // given
         const foundAccesses = [];
         const foundUser = new User({ memberships: foundAccesses });
         usecases.getUserWithMemberships.resolves(foundUser);
 
         // when
-        const promise = userController.getMemberships(request, replyStub);
+        await userController.getMemberships(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(membershipSerializer.serialize).to.have.been.calledWith(foundAccesses);
-        });
+        expect(membershipSerializer.serialize).to.have.been.calledWith(foundAccesses);
       });
 
-      it('should return serialized Organizations Accesses, a 200 code response', function() {
+      it('should return serialized Organizations Accesses, a 200 code response', async function() {
         // given
         const serializedMemberships = {};
         membershipSerializer.serialize.returns(serializedMemberships);
         usecases.getUserWithMemberships.resolves({});
 
         // when
-        const promise = userController.getMemberships(request, replyStub);
+        const response = await userController.getMemberships(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledWith(serializedMemberships);
-          expect(codeStub).to.have.been.calledWith(200);
-        });
+        expect(response).to.deep.equal(serializedMemberships);
       });
 
     });
 
     context('When authenticated user want to retrieve access of another user', () => {
-      it('should return a 403 Forbidden access error ', () => {
+      it('should return a 403 Forbidden access error ', async () => {
         // given
         sandbox.stub(usecases, 'getUserWithMemberships').rejects(new UserNotAuthorizedToAccessEntity());
 
         // when
-        const promise = userController.getMemberships(request, replyStub);
+        const response = await userController.getMemberships(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(codeStub).to.have.been.calledWith(403);
-        });
+        expect(response.statusCode).to.equal(403);
       });
 
     });
 
     context('When an unexpected error occurs', () => {
-      it('should return a 500 internal error ', () => {
+      it('should return a 500 internal error ', async () => {
         // given
         sandbox.stub(usecases, 'getUserWithMemberships').rejects(new Error());
 
         // when
-        const promise = userController.getMemberships(request, replyStub);
+        const response = await userController.getMemberships(request, hFake);
 
         // then
-        return promise.then(() => {
-          expect(codeStub).to.have.been.calledWith(500);
-        });
+        expect(response.statusCode).to.equal(500);
       });
 
     });
-
   });
 
   describe('#find', () => {
@@ -804,28 +673,23 @@ describe('Unit | Controller | user-controller', () => {
       userSerializer.serialize.restore();
     });
 
-    it('should return a list of JSON API users fetched from the data repository', () => {
+    it('should return a list of JSON API users fetched from the data repository', async () => {
       // given
       const request = { query: {} };
-      const replyStub = sinon.stub();
       usecases.findUsers.resolves(new SearchResultList());
       userSerializer.serialize.returns({ data: {}, meta: {} });
 
       // when
-      const promise = userController.find(request, replyStub);
+      await userController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.findUsers).to.have.been.calledOnce;
-        expect(userSerializer.serialize).to.have.been.calledOnce;
-        expect(replyStub).to.have.been.calledOnce;
-      });
+      expect(usecases.findUsers).to.have.been.calledOnce;
+      expect(userSerializer.serialize).to.have.been.calledOnce;
     });
 
-    it('should return a JSON API response with pagination information in the data field "meta"', () => {
+    it('should return a JSON API response with pagination information in the data field "meta"', async () => {
       // given
       const request = { query: {} };
-      const replyStub = sinon.stub();
       const searchResultList = new SearchResultList({
         page: 2,
         pageSize: 25,
@@ -835,94 +699,77 @@ describe('Unit | Controller | user-controller', () => {
       usecases.findUsers.resolves(searchResultList);
 
       // when
-      const promise = userController.find(request, replyStub);
+      await userController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        const expectedResults = searchResultList.paginatedResults;
-        const expectedMeta = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, };
-        expect(userSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedMeta);
-      });
+      const expectedResults = searchResultList.paginatedResults;
+      const expectedMeta = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, };
+      expect(userSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedMeta);
     });
 
-    it('should allow to filter users by first name', () => {
+    it('should allow to filter users by first name', async () => {
       // given
       const request = { query: { firstName: 'first_name' } };
-      const replyStub = sinon.stub();
       usecases.findUsers.resolves(new SearchResultList());
 
       // when
-      const promise = userController.find(request, replyStub);
+      await userController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        const expectedFilters = { firstName: 'first_name' };
-        expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
-      });
+      const expectedFilters = { firstName: 'first_name' };
+      expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
     });
 
-    it('should allow to filter users by last name', () => {
+    it('should allow to filter users by last name', async () => {
       // given
       const request = { query: { lastName: 'last_name' } };
-      const replyStub = sinon.stub();
       usecases.findUsers.resolves(new SearchResultList());
 
       // when
-      const promise = userController.find(request, replyStub);
+      await userController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        const expectedFilters = { lastName: 'last_name' };
-        expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
-      });
+      const expectedFilters = { lastName: 'last_name' };
+      expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
     });
 
-    it('should allow to filter users by email', () => {
+    it('should allow to filter users by email', async () => {
       // given
       const request = { query: { email: 'email' } };
-      const replyStub = sinon.stub();
       usecases.findUsers.resolves(new SearchResultList());
 
       // when
-      const promise = userController.find(request, replyStub);
+      await userController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        const expectedFilters = { email: 'email' };
-        expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
-      });
+      const expectedFilters = { email: 'email' };
+      expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
     });
 
-    it('should allow to paginate on a given page and page size', () => {
+    it('should allow to paginate on a given page and page size', async () => {
       // given
       const request = { query: { page: 2, pageSize: 25 } };
-      const replyStub = sinon.stub();
       usecases.findUsers.resolves(new SearchResultList());
 
       // when
-      const promise = userController.find(request, replyStub);
+      await userController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        const expectedPagination = { page: 2, pageSize: 25 };
-        expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
-      });
+      const expectedPagination = { page: 2, pageSize: 25 };
+      expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
     });
 
-    it('should paginate on page 1 for a page size of 10 elements by default', () => {
+    it('should paginate on page 1 for a page size of 10 elements by default', async () => {
       // given
       const request = { query: {} };
-      const replyStub = sinon.stub();
       usecases.findUsers.resolves(new SearchResultList());
 
       // when
-      const promise = userController.find(request, replyStub);
+      await userController.find(request, hFake);
 
       // then
-      return promise.then(() => {
-        const expectedPagination = { page: 1, pageSize: 10 };
-        expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
-      });
+      const expectedPagination = { page: 1, pageSize: 10 };
+      expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
     });
   });
 });

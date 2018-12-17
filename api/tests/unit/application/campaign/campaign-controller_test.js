@@ -1,4 +1,4 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
+const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
@@ -12,17 +12,10 @@ const { UserNotAuthorizedToCreateCampaignError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
-
   let sandbox;
-  let replyStub;
-  let codeStub;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    codeStub = sandbox.stub();
-    replyStub = sandbox.stub().returns({
-      code: codeStub,
-    });
   });
 
   afterEach(() => {
@@ -39,7 +32,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       sandbox.stub(campaignSerializer, 'serialize');
     });
 
-    it('should call the use case to create the new campaign', () => {
+    it('should call the use case to create the new campaign', async () => {
       // given
       const connectedUserId = 1;
       const request = { auth: { credentials: { userId: connectedUserId } } };
@@ -48,19 +41,17 @@ describe('Unit | Application | Controller | Campaign', () => {
       usecases.createCampaign.resolves(createdCampaign);
 
       // when
-      const promise = campaignController.save(request, replyStub);
+      await campaignController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.createCampaign).to.have.been.calledOnce;
-        const createCampaignArgs = usecases.createCampaign.firstCall.args[0];
-        expect(createCampaignArgs.campaign).to.have.property('name', deserializedCampaign.name);
-        expect(createCampaignArgs.campaign).to.have.property('creatorId', connectedUserId);
-        expect(createCampaignArgs.campaign).to.have.property('organizationId', deserializedCampaign.organizationId);
-      });
+      expect(usecases.createCampaign).to.have.been.calledOnce;
+      const createCampaignArgs = usecases.createCampaign.firstCall.args[0];
+      expect(createCampaignArgs.campaign).to.have.property('name', deserializedCampaign.name);
+      expect(createCampaignArgs.campaign).to.have.property('creatorId', connectedUserId);
+      expect(createCampaignArgs.campaign).to.have.property('organizationId', deserializedCampaign.organizationId);
     });
 
-    it('should return a serialized campaign when the campaign has been successfully created', () => {
+    it('should return a serialized campaign when the campaign has been successfully created', async () => {
       // given
       const userId = 1245;
       const request = { auth: { credentials: { userId } } };
@@ -72,17 +63,15 @@ describe('Unit | Application | Controller | Campaign', () => {
       campaignSerializer.serialize.returns(serializedCampaign);
 
       // when
-      const promise = campaignController.save(request, replyStub);
+      const response = await campaignController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(campaignSerializer.serialize).to.have.been.calledWith(createdCampaign);
-        expect(replyStub).to.have.been.calledWith(serializedCampaign);
-        expect(codeStub).to.have.been.calledWith(201);
-      });
+      expect(campaignSerializer.serialize).to.have.been.calledWith(createdCampaign);
+      expect(response.source).to.deep.equal(serializedCampaign);
+      expect(response.statusCode).to.equal(201);
     });
 
-    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', () => {
+    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', async () => {
       // given
       const request = { auth: { credentials: { userId: 51423 } } };
       const errorMessage = 'User is not authorized to create campaign';
@@ -97,17 +86,14 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
 
       // when
-      const promise = campaignController.save(request, replyStub);
+      const response = await campaignController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWith(403);
-        expect(replyStub).to.have.been.calledWith(expectedUnprocessableEntityError);
-
-      });
+      expect(response.statusCode).to.equal(403);
+      expect(response.source).to.deep.equal(expectedUnprocessableEntityError);
     });
 
-    it('should throw a 422 JSONAPI error if user there is a validation error on the campaign', () => {
+    it('should throw a 422 JSONAPI error if user there is a validation error on the campaign', async () => {
       // given
       const request = { auth: { credentials: { userId: 51423 } } };
       const expectedValidationError = new EntityValidationError({
@@ -142,17 +128,14 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
 
       // when
-      const promise = campaignController.save(request, replyStub);
+      const response = await campaignController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWith(422);
-        expect(replyStub).to.have.been.calledWith(jsonApiValidationErrors);
-
-      });
+      expect(response.statusCode).to.equal(422);
+      expect(response.source).to.deep.equal(jsonApiValidationErrors);
     });
 
-    it('should throw a 500 JSONAPI error if an unknown error occurs', () => {
+    it('should throw a 500 JSONAPI error if an unknown error occurs', async () => {
       // given
       const request = { auth: { credentials: { userId: 51423 } } };
       usecases.createCampaign.rejects(new Error());
@@ -166,41 +149,30 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
 
       // when
-      const promise = campaignController.save(request, replyStub);
+      const response = await campaignController.save(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWith(500);
-        expect(replyStub).to.have.been.calledWith(expectedInternalServerError);
-      });
+      expect(response.statusCode).to.equal(500);
+      expect(response.source).to.deep.equal(expectedInternalServerError);
     });
 
   });
 
   describe('#getCsvResult', () => {
     let sandbox;
-    let replyStub;
-    let codeStub;
     const userId = 1;
 
     beforeEach(() => {
       sandbox = sinon.createSandbox();
       sandbox.stub(usecases, 'getResultsCampaignInCSVFormat');
       sandbox.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
-      codeStub = sandbox.stub();
-      replyStub = sandbox.stub().returns({
-        code: codeStub,
-        header: sandbox.stub().returns({
-          header: sandbox.stub()
-        }),
-      });
     });
 
     afterEach(() => {
       sandbox.restore();
     });
 
-    it('should call the use case to get result campaign in csv', () => {
+    it('should call the use case to get result campaign in csv', async () => {
       // given
       const campaignId = 2;
       const request = {
@@ -214,18 +186,16 @@ describe('Unit | Application | Controller | Campaign', () => {
       usecases.getResultsCampaignInCSVFormat.resolves('csv;result');
 
       // when
-      const promise = campaignController.getCsvResults(request, replyStub);
+      await campaignController.getCsvResults(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.getResultsCampaignInCSVFormat).to.have.been.calledOnce;
-        const getResultsCampaignArgs = usecases.getResultsCampaignInCSVFormat.firstCall.args[0];
-        expect(getResultsCampaignArgs).to.have.property('userId');
-        expect(getResultsCampaignArgs).to.have.property('campaignId');
-      });
+      expect(usecases.getResultsCampaignInCSVFormat).to.have.been.calledOnce;
+      const getResultsCampaignArgs = usecases.getResultsCampaignInCSVFormat.firstCall.args[0];
+      expect(getResultsCampaignArgs).to.have.property('userId');
+      expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
-    it('should return a serialized campaign when the campaign has been successfully created', () => {
+    it('should return a serialized campaign when the campaign has been successfully created', async () => {
       // given
       const campaignId = 2;
       const request = {
@@ -239,15 +209,13 @@ describe('Unit | Application | Controller | Campaign', () => {
       usecases.getResultsCampaignInCSVFormat.resolves({ csvData: 'csv;result', campaignName: 'Campagne' });
 
       // when
-      const promise = campaignController.getCsvResults(request, replyStub);
+      const response = await campaignController.getCsvResults(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(replyStub).to.have.been.calledWith('csv;result');
-      });
+      expect(response.source).to.deep.equal('csv;result');
     });
 
-    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', () => {
+    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', async () => {
       // given
       const campaignId = 2;
       const request = {
@@ -270,16 +238,12 @@ describe('Unit | Application | Controller | Campaign', () => {
       };
 
       // when
-      const promise = campaignController.getCsvResults(request, replyStub);
+      const response = await campaignController.getCsvResults(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWith(403);
-        expect(replyStub).to.have.been.calledWith(expectedUnprocessableEntityError);
-
-      });
+      expect(response.statusCode).to.equal(403);
+      expect(response.source).to.deep.equal(expectedUnprocessableEntityError);
     });
-
   });
 
   describe('#findByCode ', () => {
@@ -295,7 +259,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       sandbox.stub(campaignSerializer, 'serialize');
     });
 
-    it('should call the use case to retrieve the campaign with the expected code', () => {
+    it('should call the use case to retrieve the campaign with the expected code', async () => {
       // given
       const createdCampaign = domainBuilder.buildCampaign();
       usecases.getCampaignByCode.resolves(createdCampaign);
@@ -304,15 +268,13 @@ describe('Unit | Application | Controller | Campaign', () => {
       campaignSerializer.serialize.returns(serializedCampaign);
 
       // when
-      const promise = campaignController.getByCode(request, replyStub);
+      await campaignController.getByCode(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.getCampaignByCode).to.have.been.calledWith({ code: campaignCode });
-      });
+      expect(usecases.getCampaignByCode).to.have.been.calledWith({ code: campaignCode });
     });
 
-    it('should return the serialized campaign found by the use case', () => {
+    it('should return the serialized campaign found by the use case', async () => {
       // given
       const createdCampaign = domainBuilder.buildCampaign();
       usecases.getCampaignByCode.resolves(createdCampaign);
@@ -321,40 +283,34 @@ describe('Unit | Application | Controller | Campaign', () => {
       campaignSerializer.serialize.returns(serializedCampaign);
 
       // when
-      const promise = campaignController.getByCode(request, replyStub);
+      const response = await campaignController.getByCode(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(campaignSerializer.serialize).to.have.been.calledWith([createdCampaign]);
-        expect(replyStub).to.have.been.calledWith(serializedCampaign);
-        expect(codeStub).to.have.been.calledWith(200);
-      });
+      expect(campaignSerializer.serialize).to.have.been.calledWith([createdCampaign]);
+      expect(response.source).to.deep.equal(serializedCampaign);
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 404 error if campaign is not found', () => {
+    it('should return a 404 error if campaign is not found', async () => {
       // given
       usecases.getCampaignByCode.rejects(new NotFoundError());
 
       // when
-      const promise = campaignController.getByCode(request, replyStub);
+      const response = await campaignController.getByCode(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWith(404);
-      });
+      expect(response.statusCode).to.equal(404);
     });
 
-    it('should return a 400 error if there is no code param in the request', () => {
+    it('should return a 400 error if there is no code param in the request', async () => {
       // given
       request.query = {};
 
       // when
-      const promise = campaignController.getByCode(request, replyStub);
+      const response = await campaignController.getByCode(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWith(400);
-      });
+      expect(response.statusCode).to.equal(400);
     });
 
   });
@@ -377,45 +333,39 @@ describe('Unit | Application | Controller | Campaign', () => {
       sandbox.stub(campaignSerializer, 'serialize');
     });
 
-    it('should returns the campaign', () => {
+    it('should returns the campaign', async () => {
       // given
       usecases.getCampaign.withArgs({ campaignId: campaign.id }).resolves(campaign);
       campaignSerializer.serialize.withArgs(campaign).returns(campaign);
 
       // when
-      const promise = campaignController.getById(request, replyStub);
+      const response = await campaignController.getById(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(replyStub).to.have.been.calledWithExactly(campaign);
-        expect(codeStub).to.have.been.calledWithExactly(200);
-      });
+      expect(response.source).to.deep.equal(campaign);
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should throw an error when the campaign could not be retrieved', () => {
+    it('should throw an error when the campaign could not be retrieved', async () => {
       // given
       usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects();
 
       // when
-      const promise = campaignController.getById(request, replyStub);
+      const response = await campaignController.getById(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWithExactly(500);
-      });
+      expect(response.statusCode).to.equal(500);
     });
 
-    it('should throw an infra NotFoundError when a NotFoundError is catched', () => {
+    it('should throw an infra NotFoundError when a NotFoundError is catched', async () => {
       // given
       usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects(new NotFoundError());
 
       // when
-      const promise = campaignController.getById(request, replyStub);
+      const response = await campaignController.getById(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWithExactly(404);
-      });
+      expect(response.statusCode).to.equal(404);
     });
 
   });
@@ -454,60 +404,51 @@ describe('Unit | Application | Controller | Campaign', () => {
       sandbox.stub(campaignSerializer, 'serialize');
     });
 
-    it('should returns the updated campaign', () => {
+    it('should returns the updated campaign', async () => {
       // given
       usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
       campaignSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
 
       // when
-      const promise = campaignController.update(request, replyStub);
+      const response = await campaignController.update(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(replyStub).to.have.been.calledWithExactly(updatedCampaign);
-        expect(codeStub).to.have.been.calledWithExactly(200);
-      });
+      expect(response.source).to.deep.equal(updatedCampaign);
+      expect(response.statusCode).to.equal(200);
     });
 
-    it('should throw an error when the campaign could not be updated', () => {
+    it('should throw an error when the campaign could not be updated', async () => {
       // given
       usecases.updateCampaign.withArgs(updateCampaignArgs).rejects();
 
       // when
-      const promise = campaignController.update(request, replyStub);
+      const response = await campaignController.update(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWithExactly(500);
-      });
+      expect(response.statusCode).to.equal(500);
     });
 
-    it('should throw an infra NotFoundError when a NotFoundError is catched', () => {
+    it('should throw an infra NotFoundError when a NotFoundError is catched', async () => {
       // given
       usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new NotFoundError());
 
       // when
-      const promise = campaignController.update(request, replyStub);
+      const response = await campaignController.update(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWithExactly(404);
-      });
+      expect(response.statusCode).to.equal(404);
     });
 
-    it('should throw a forbiddenError when user is not authorized to update the campaign', () => {
+    it('should throw a forbiddenError when user is not authorized to update the campaign', async () => {
       // given
       usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new UserNotAuthorizedToUpdateCampaignError());
 
       // when
-      const promise = campaignController.update(request, replyStub);
+      const response = await campaignController.update(request, hFake);
 
       // then
-      return promise.then(() => {
-        expect(codeStub).to.have.been.calledWithExactly(403);
-      });
+      expect(response.statusCode).to.equal(403);
     });
 
   });
-
 });

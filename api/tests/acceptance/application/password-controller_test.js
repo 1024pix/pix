@@ -4,9 +4,15 @@ const mailjetService = require('../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
 const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
 
-const server = require('../../../server');
+const createServer = require('../../../server');
 
 describe('Acceptance | Controller | password-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('POST /api/password-reset-demands', () => {
 

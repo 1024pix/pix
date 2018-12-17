@@ -7,18 +7,17 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
-  get(request, reply) {
+  get(request) {
 
-    challengeRepository
+    return challengeRepository
       .get(request.params.id)
-      .then((challenge) => reply(challengeSerializer.serialize(challenge)))
+      .then((challenge) => challengeSerializer.serialize(challenge))
       .catch((err) => {
         logger.error(err);
-        let error = Boom.badImplementation(err);
-        if ('MODEL_ID_NOT_FOUND' == err.error.type) {
-          error = Boom.notFound(err);
+        if (err.error && 'MODEL_ID_NOT_FOUND' === err.error.type) {
+          throw Boom.notFound(err);
         }
-        return reply(error);
+        throw Boom.badImplementation(err);
       });
 
   },

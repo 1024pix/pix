@@ -1,9 +1,15 @@
 const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
-const server = require('../../../server');
+const createServer = require('../../../server');
 
 const Assessment = require('../../../lib/domain/models/Assessment');
 
 describe('Acceptance | API | Certification Course', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('GET /api/admin/certifications/{id}/details', () => {
 

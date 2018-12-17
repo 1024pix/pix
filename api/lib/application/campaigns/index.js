@@ -1,7 +1,6 @@
 const campaignController = require('./campaign-controller');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
 
     {
@@ -69,12 +68,6 @@ exports.register = function(server, options, next) {
       }
     },
   ]);
-
-  return next();
-
 };
 
-exports.register.attributes = {
-  name: 'campaigns-api',
-  version: '1.0.0'
-};
+exports.name = 'campaigns-api';

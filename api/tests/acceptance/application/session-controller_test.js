@@ -1,7 +1,13 @@
-const { databaseBuilder, expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
-const server = require('../../../server');
+const { expect, knex, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const createServer = require('../../../server');
 
 describe('Acceptance | Controller | session-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   describe('GET /sessions/{id}', function() {
     let session;

@@ -1,20 +1,16 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 const samlController = require('../../../../lib/application/saml/saml-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const saml = require('../../../../lib/infrastructure/saml');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Application | Controller | Saml', () => {
-
   let sandbox;
-  let replyStub;
 
   describe('#assert', () => {
 
     beforeEach(() => {
       sandbox = sinon.createSandbox();
-      replyStub = { redirect: () => {} };
-      sandbox.stub(replyStub, 'redirect').resolves();
 
       sandbox.stub(tokenService, 'createTokenFromUser').returns('dummy-token');
     });
@@ -23,7 +19,7 @@ describe('Unit | Application | Controller | Saml', () => {
       sandbox.restore();
     });
 
-    it('should call use case to get or create account for user', () => {
+    it('should call use case to get or create account for user', async () => {
       // given
       const userAttributes = {
         'urn:oid:0.9.2342.19200300.100.1.3': 'adele@example.net',
@@ -40,13 +36,11 @@ describe('Unit | Application | Controller | Saml', () => {
       });
 
       // when
-      const promise = samlController.assert({ payload: 'fake-request-payload' }, replyStub);
+      const response = await samlController.assert({ payload: 'fake-request-payload' }, hFake);
 
       // then
-      return promise.then(() => {
-        expect(usecases.getOrCreateSamlUser).to.have.been.calledWith({ userAttributes });
-        expect(replyStub.redirect).to.have.been.calledWithMatch(/^\/connexion\?token=dummy-token&user-id=12$/);
-      });
+      expect(usecases.getOrCreateSamlUser).to.have.been.calledWith({ userAttributes });
+      expect(response.location).to.match(/^\/connexion\?token=dummy-token&user-id=12$/);
     });
   });
 });

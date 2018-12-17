@@ -1,11 +1,15 @@
 const { expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
-const server = require('../../../../server');
+const createServer = require('../../../../server');
 
 describe('Acceptance | users-controller-find-users', () => {
 
+  let server;
   let options;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    // create server
+    server = await createServer();
+
     // Insert 1 user with role PixMaster
     const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 

@@ -1,7 +1,6 @@
 const QmailController = require('./qmail-controller');
 
-exports.register = function(server, options, next) {
-
+exports.register = async function(server) {
   server.route([
     {
       method: 'POST',
@@ -9,11 +8,6 @@ exports.register = function(server, options, next) {
       config: { handler: QmailController.validate, tags: ['api'] }
     }
   ]);
-
-  return next();
 };
 
-exports.register.attributes = {
-  name: 'qmail-api',
-  version: '1.0.0'
-};
+exports.name = 'qmail-api';

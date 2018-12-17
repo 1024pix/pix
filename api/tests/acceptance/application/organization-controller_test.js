@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
-const server = require('../../../server');
+const createServer = require('../../../server');
 const settings = require('../../../lib/settings');
 const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 
@@ -119,6 +119,12 @@ function _createToken(user) {
 }
 
 describe('Acceptance | Application | organization-controller', () => {
+
+  let server;
+
+  beforeEach(async () => {
+    server = await createServer();
+  });
 
   before(() => {
     nock('https://api.airtable.com')
