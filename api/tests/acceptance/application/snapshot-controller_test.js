@@ -275,7 +275,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
       };
       const options = {
         method: 'GET',
-        url: `/api/snapshots?organizationId=${organizationId}&page=1&pageSize=200`,
+        url: `/api/snapshots?filter[organizationId]=${organizationId}&page[number]=1&page[size]=200&sort=-createdAt&include=user`,
         headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
       };
 
