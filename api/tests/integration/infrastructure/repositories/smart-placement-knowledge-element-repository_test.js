@@ -125,7 +125,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: '' }),
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: '' }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ createdAt: '' })
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ createdAt: '' });
 
       await databaseBuilder.commit();
     });
