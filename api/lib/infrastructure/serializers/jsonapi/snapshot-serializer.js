@@ -2,7 +2,7 @@ const { Serializer, Deserializer } = require('jsonapi-serializer');
 
 module.exports = {
 
-  serialize(snapshots) {
+  serialize(snapshots, meta) {
     return new Serializer('snapshot', {
       attributes: ['score', 'createdAt', 'testsFinished', 'user', 'studentCode', 'campaignCode'],
       user: {
@@ -14,7 +14,8 @@ module.exports = {
         snapshot.testsFinished = json.testsFinished && json.testsFinished.toString() || null;
         snapshot.score = json.score && json.score.toString() || null;
         return snapshot;
-      }
+      },
+      meta
     }).serialize(snapshots);
   },
 

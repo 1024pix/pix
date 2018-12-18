@@ -7,8 +7,15 @@ module.exports = {
 
   getSnapshotsByOrganizationId(organizationId) {
     return Snapshot
-      .where('organizationId', organizationId)
-      .orderBy('-createdAt')
+      .where({ organizationId })
+      .orderBy('createdAt', 'desc')
       .fetchAll();
-  }
+  },
+
+  find(options) {
+    return Snapshot
+      .where({ organizationId: options.organizationId })
+      .orderBy('createdAt', 'desc')
+      .fetchPage({ page: options.page, pageSize: options.pageSize });
+  },
 };

@@ -6,7 +6,9 @@ const profileSerializer = require('../../../lib/infrastructure/serializers/jsona
 const snapshotService = require('../../../lib/domain/services/snapshot-service');
 const profileService = require('../../domain/services/profile-service');
 const profileCompletionService = require('../../domain/services/profile-completion-service');
+const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const logger = require('../../../lib/infrastructure/logger');
+const usecases = require('../../domain/usecases');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
 const MAX_CODE_LENGTH = 255;
@@ -105,4 +107,20 @@ function create(request, h) {
     .catch((err) => _replyError(err, h));
 }
 
-module.exports = { create };
+function find(request) {
+  let meta;
+
+  return usecases.findSnapshots({ options: request.query })
+    .then((results) => {
+      meta = results.pagination;
+
+      return bookshelfUtils.mergeModelWithRelationship(results, 'user');
+    })
+    .then((snapshotsWithRelatedUsers) => {
+      const jsonSnapshots = snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
+
+      return snapshotSerializer.serialize(jsonSnapshots, meta);
+    });
+}
+
+module.exports = { create, find };
