@@ -17,7 +17,7 @@ module.exports = function getCorrectionForAnswerWhenAssessmentEnded({
 };
 
 function _validateCorrectionIsAccessible(assessment) {
-  if (!assessment.isCompleted() && !assessment.isSmartPlacementAssessment()) {
+  if (!assessment.isCompleted() && !assessment.hasTypeSmartPlacement()) {
     throw new NotCompletedAssessmentError();
   }
 }

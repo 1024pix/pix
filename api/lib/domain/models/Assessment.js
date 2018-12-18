@@ -125,15 +125,23 @@ class Assessment {
     return Promise.resolve();
   }
 
-  isSmartPlacementAssessment() {
+  hasTypePreview() {
+    return this.type === type.PREVIEW;
+  }
+
+  hasTypeDemo() {
+    return this.type === type.DEMO;
+  }
+
+  hasTypeSmartPlacement() {
     return this.type === type.SMARTPLACEMENT;
   }
 
-  isCertificationAssessment() {
+  hasTypeCertification() {
     return this.type === type.CERTIFICATION;
   }
 
-  isPlacementAssessment() {
+  hasTypePlacement() {
     return this.type === type.PLACEMENT;
   }
 
@@ -142,7 +150,7 @@ class Assessment {
   }
 
   canStartNewAttemptOnCourse() {
-    if(!this.isPlacementAssessment()) throw new Error('Only available for a placement assessment');
+    if(!this.hasTypePlacement()) throw new Error('Only available for a placement assessment');
 
     return this.isCompleted() && this.getRemainingDaysBeforeNewAttempt() <= 0;
   }

@@ -32,7 +32,7 @@ module.exports = {
 
     return Promise.resolve()
       .then(() => {
-        if (assessment.isSmartPlacementAssessment()) {
+        if (assessment.hasTypeSmartPlacement()) {
           const codeCampaign = request.payload.data.attributes['code-campaign'];
           const participantExternalId = request.payload.data.attributes['participant-external-id'];
           return useCases.createAssessmentForCampaign({
@@ -40,7 +40,7 @@ module.exports = {
             codeCampaign,
             participantExternalId
           });
-        } else if (assessment.isPlacementAssessment()) {
+        } else if (assessment.hasTypePlacement()) {
           return useCases.startPlacementAssessment({ assessment, assessmentRepository });
         } else {
           assessment.state = 'started';
@@ -118,30 +118,30 @@ module.exports = {
         logContext.assessmentType = assessment.type;
         logger.trace(logContext, 'assessment loaded');
 
-        if (assessmentService.isPreviewAssessment(assessment)) {
+        if (assessment.hasTypePreview()) {
           return useCases.getNextChallengeForPreview({});
         }
 
-        if (assessmentService.isCertificationAssessment(assessment)) {
+        if (assessment.hasTypeCertification()) {
           return useCases.getNextChallengeForCertification({
             assessment
           });
         }
 
-        if (assessmentService.isDemoAssessment(assessment)) {
+        if (assessment.hasTypeDemo()) {
           return useCases.getNextChallengeForDemo({
             assessment,
             challengeId: request.params.challengeId,
           });
         }
 
-        if (assessment.isPlacementAssessment()) {
+        if (assessment.hasTypePlacement()) {
           return useCases.getNextChallengeForPlacement({
             assessment,
           });
         }
 
-        if (assessment.isSmartPlacementAssessment()) {
+        if (assessment.hasTypeSmartPlacement()) {
           return useCases.getNextChallengeForSmartPlacement({
             assessment,
           });

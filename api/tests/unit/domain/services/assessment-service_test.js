@@ -462,70 +462,16 @@ describe('Unit | Domain | Services | assessment', () => {
 
     context('when assessment is not a Certification/Placement', () => {
 
-      it('should return an empty array', () => {
+      it('should return an empty array', async () => {
         // given
         const assessment = domainBuilder.buildAssessment({ type: Assessment.types.DEMO });
 
         // when
-        const result = service.getCompetenceMarks(assessment);
+        const result = await service.getCompetenceMarks(assessment);
 
         // then
         expect(result).to.deep.equal([]);
       });
     });
-  });
-
-  describe('#isCertificationAssessment', () => {
-
-    context('if assessment type is \'CERTIFICATION\'', () => {
-      it('should return true', () => {
-        // given
-        const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CERTIFICATION });
-
-        // when
-        const result = service.isCertificationAssessment(assessment);
-
-        // then
-        expect(result).to.be.true;
-      });
-    });
-
-    context('if assessment type is different of \'CERTIFICATION\'', () => {
-      it('should return false', () => {
-        // given
-        const assessment = domainBuilder.buildAssessment({ type: 'RANDOM TYPE' });
-
-        // when
-        const result = service.isCertificationAssessment(assessment);
-
-        // then
-        expect(result).to.be.false;
-      });
-    });
-  });
-
-  describe('#isDemoAssessment', () => {
-    it('should return true when the assessment is a DEMO', () => {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.DEMO });
-
-      // when
-      const isDemoAssessment = service.isDemoAssessment(assessment);
-
-      // then
-      expect(isDemoAssessment).to.be.true;
-    });
-
-    it('should return true when the assessment is not defined', () => {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: '' });
-
-      // when
-      const isDemoAssessment = service.isDemoAssessment(assessment);
-
-      // then
-      expect(isDemoAssessment).to.be.false;
-    });
-
   });
 });
