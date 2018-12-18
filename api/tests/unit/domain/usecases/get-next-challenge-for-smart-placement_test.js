@@ -26,7 +26,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     beforeEach(() => {
       answerRepository.findByAssessment = sinon.stub().resolves([]);
-      smartPlacementKnowledgeElementRepository.findByUserId = sinon.stub().resolves([[kE_2], [kE_1, kE_3]]);
+      smartPlacementKnowledgeElementRepository.findByUserId = sinon.stub().resolves([kE_1, kE_2, kE_3]);
       challengeRepository.findBySkills = sinon.stub().resolves([challenge]);
       smartRandom.getNextChallenge = sinon.stub().returns(challenge);
 
