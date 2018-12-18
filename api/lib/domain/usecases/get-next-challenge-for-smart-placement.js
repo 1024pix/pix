@@ -5,35 +5,21 @@ const _ = require('lodash');
 module.exports = getNextChallengeForSmartPlacement;
 
 function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository } = {}) {
-  let answers, targetProfile, knowledgeElements;
-  const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
-  const userId = assessment.userId;
-
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
-    targetProfileRepository.get(targetProfileId),
-    getSmartPlacementKnowledgeElements({ userId, smartPlacementKnowledgeElementRepository })]
+    targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId()),
+    getSmartPlacementKnowledgeElements({ userId: assessment.userId, smartPlacementKnowledgeElementRepository })]
 
-  ).then(([answersOfAssessments, targetProfileFound, knowledgeElementsOfAssessments]) => {
-    answers = answersOfAssessments;
-    targetProfile = targetProfileFound;
-    knowledgeElements = knowledgeElementsOfAssessments;
-
-    return challengeRepository.findBySkills(targetProfile.skills);
-  })
-    .then((challenges) => getNextChallengeInSmartRandom({ answers, challenges, targetProfile, knowledgeElements }))
-    .then((nextChallenge) => {
-      if (nextChallenge) {
-        return nextChallenge;
-      }
-      throw new AssessmentEndedError();
-    })
-    .then(challengeRepository.get);
-}
-
-function getNextChallengeInSmartRandom({ answers, challenges, targetProfile, knowledgeElements }) {
-  const nextChallenge = smartRandom.getNextChallenge({ answers, challenges, targetProfile, knowledgeElements });
-  return _.get(nextChallenge, 'id', null);
+  ).then(([answers, targetProfile, knowledgeElements]) =>
+    challengeRepository.findBySkills(targetProfile.skills)
+      .then((challenges) => smartRandom.getNextChallenge({ answers, challenges, targetProfile, knowledgeElements }))
+      .then((nextChallenge) => {
+        if (nextChallenge) {
+          return nextChallenge;
+        }
+        throw new AssessmentEndedError();
+      })
+  );
 }
 
 function getSmartPlacementKnowledgeElements({ userId, smartPlacementKnowledgeElementRepository }) {
