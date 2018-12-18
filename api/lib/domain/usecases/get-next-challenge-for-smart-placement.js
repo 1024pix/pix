@@ -2,23 +2,18 @@ const { AssessmentEndedError } = require('../errors');
 const smartRandom = require('../strategies/smartRandom');
 const _ = require('lodash');
 
-module.exports = getNextChallengeForSmartPlacement;
+function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository }) {
+  return getSmartRandomInputValues({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository })
+    .then(([answers, [targetProfile, challenges], knowledgeElements]) => smartRandom.getNextChallenge({ answers, challenges, targetProfile, knowledgeElements }))
+    .then((nextChallenge) => nextChallenge || Promise.reject(AssessmentEndedError));
+}
 
-function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository } = {}) {
+function getSmartRandomInputValues({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository }) {
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
-    targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId()),
+    targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId())
+      .then((targetProfile) => Promise.all([targetProfile, challengeRepository.findBySkills(targetProfile.skills)])),
     getSmartPlacementKnowledgeElements({ userId: assessment.userId, smartPlacementKnowledgeElementRepository })]
-
-  ).then(([answers, targetProfile, knowledgeElements]) =>
-    challengeRepository.findBySkills(targetProfile.skills)
-      .then((challenges) => smartRandom.getNextChallenge({ answers, challenges, targetProfile, knowledgeElements }))
-      .then((nextChallenge) => {
-        if (nextChallenge) {
-          return nextChallenge;
-        }
-        throw new AssessmentEndedError();
-      })
   );
 }
 
@@ -50,3 +45,5 @@ function thereExistsAMoreRecentEquivalentKnowledgeElement(knowledgeElements, cur
 function replaceKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement) {
   return _.differenceBy(uniqueKnowledgeElements, [currentKnowledgeElement], 'skillId').concat(currentKnowledgeElement);
 }
+
+module.exports = getNextChallengeForSmartPlacement;
