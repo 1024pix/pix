@@ -138,7 +138,7 @@ function _limitMarkLevel(mark, assessment) {
 }
 
 function _updateCompletedDateOfCertification(assessment, certificationCourseRepository) {
-  if (assessment.isCertificationAssessment()) {
+  if (assessment.hasTypeCertification()) {
     return certificationCourseRepository.changeCompletionDate(
       assessment.courseId,
       moment().toISOString(),

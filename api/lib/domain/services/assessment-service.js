@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -6,13 +8,8 @@ const skillRepository = require('../../infrastructure/repositories/skill-reposit
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const answerService = require('../services/answer-service');
 const certificationService = require('../services/certification-service');
-
 const CompetenceMark = require('../../domain/models/CompetenceMark');
-const Assessment = require('../../domain/models/Assessment');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
-
-const _ = require('../../infrastructure/utils/lodash-utils');
-
 const { NotFoundError } = require('../../domain/errors');
 
 // FIXME: Devrait plutot 1) splitter entre les calculs des acquis 2) calcul du result
@@ -35,7 +32,7 @@ async function fetchAssessment(assessmentId) {
 
   const response = { assessmentPix: assessment, skills: null };
 
-  if (!assessment.isPlacementAssessment()) {
+  if (!assessment.hasTypePlacement()) {
     return Promise.resolve(response);
   }
 
@@ -72,7 +69,7 @@ async function getSkillsReport(assessment) {
     failedSkills: []
   };
 
-  if (!assessment.isPlacementAssessment()) {
+  if (!assessment.hasTypePlacement()) {
     return Promise.resolve(skillsReport);
   }
 
@@ -92,9 +89,9 @@ async function getSkillsReport(assessment) {
   return Promise.resolve(skillsReport);
 }
 
-function getCompetenceMarks(assessment) {
+async function getCompetenceMarks(assessment) {
 
-  if (assessment.isPlacementAssessment()) {
+  if (assessment.hasTypePlacement()) {
     let pixScore;
     let level;
     return courseRepository.get(assessment.courseId)
@@ -123,9 +120,12 @@ function getCompetenceMarks(assessment) {
       });
   }
 
-  if (this.isCertificationAssessment(assessment)) {
+  if (assessment.hasTypeCertification()) {
     return Promise
-      .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessment.id)])
+      .all([
+        competenceRepository.list(),
+        certificationService.calculateCertificationResultByAssessmentId(assessment.id)
+      ])
       .then(([competences, { competencesWithMark }]) => {
         return competencesWithMark.map((certifiedCompetence) => {
 
@@ -139,32 +139,15 @@ function getCompetenceMarks(assessment) {
             area_code,
             competence_code: certifiedCompetence.index,
           });
-
         });
       });
   }
 
-  return [];
-}
-
-// TODO Move the below functions into Assessment
-function isPreviewAssessment(assessment) {
-  return assessment.type === Assessment.types.PREVIEW;
-}
-
-function isDemoAssessment(assessment) {
-  return assessment.type === Assessment.types.DEMO;
-}
-
-function isCertificationAssessment(assessment) {
-  return assessment.type === Assessment.types.CERTIFICATION;
+  return Promise.resolve([]);
 }
 
 module.exports = {
   fetchAssessment,
-  isPreviewAssessment,
-  isDemoAssessment,
-  isCertificationAssessment,
   getSkillsReport,
   getCompetenceMarks,
 };
