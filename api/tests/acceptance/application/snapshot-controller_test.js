@@ -184,4 +184,114 @@ describe('Acceptance | Controller | snapshot-controller', () => {
       });
     });
   });
+
+  describe('GET /api/organizations/{id}/snapshots', () => {
+    beforeEach(() => {
+      const serializedUserProfile = {
+        data: {
+          type: 'users',
+          id: userId,
+        },
+      };
+
+      const snapshotRaws = [{
+        id: 1,
+        organizationId: organizationId,
+        testsFinished: 1,
+        userId,
+        score: 15,
+        profile: JSON.stringify(serializedUserProfile),
+        createdAt: '2017-08-31 15:57:06'
+      }, {
+        id: 2,
+        organizationId: organizationId,
+        testsFinished: 3,
+        userId,
+        score: 4,
+        profile: JSON.stringify(serializedUserProfile),
+        createdAt: '2017-06-31 15:57:06'
+      }];
+
+      return knex('snapshots').insert(snapshotRaws);
+    });
+
+    afterEach(() => {
+      return knex('snapshots').delete();
+    });
+
+    it('should return the paginated snapshots', () => {
+      // given
+      const expectedSnapshots = {
+        data:
+          [{
+            type: 'snapshots',
+            id: 1,
+            attributes: {
+              score: '15',
+              'tests-finished': '1',
+              'created-at': '2017-08-31 15:57:06',
+              'student-code': null,
+              'campaign-code': null
+            },
+            relationships: {
+              user: {
+                data: {
+                  'id': userId.toString(),
+                  'type': 'users'
+                }
+              }
+            }
+          }, {
+            type: 'snapshots',
+            id: 2,
+            attributes: {
+              score: '4',
+              'tests-finished': '3',
+              'created-at': '2017-06-31 15:57:06',
+              'student-code': null,
+              'campaign-code': null
+            },
+            relationships: {
+              user: {
+                data: {
+                  'id': userId.toString(),
+                  'type': 'users'
+                }
+              }
+            }
+          }],
+        included: [
+          {
+            type: 'users',
+            id: userId.toString(),
+            attributes: {
+              'first-name': inserted_user.firstName,
+              'last-name': inserted_user.lastName,
+            },
+            relationships: {},
+          }
+        ],
+        meta: {
+          page: 1,
+          pageCount: 1,
+          pageSize: 200,
+          rowCount: 2,
+        }
+      };
+      const options = {
+        method: 'GET',
+        url: `/api/snapshots?organizationId=${organizationId}&page=1&pageSize=200`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedSnapshots);
+      });
+    });
+  });
 });
