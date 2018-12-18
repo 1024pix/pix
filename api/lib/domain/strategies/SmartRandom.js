@@ -17,8 +17,8 @@ function getNextChallenge({ knowledgeElements, challenges, targetProfile, answer
 
   // First challenge has specific rules
   const nextChallenge = isUserStartingTheTest
-    ? _findFirstChallenge({ knowledgeElements, challenges, targetSkills, courseTubes })
-    : _findAnyChallenge({ knowledgeElements, challenges, targetSkills, lastChallenge });
+    ? _findFirstChallenge({ challenges, knowledgeElements, targetSkills, courseTubes })
+    : _findAnyChallenge({ challenges, knowledgeElements, targetSkills, courseTubes, lastChallenge });
 
   // Test is considered finished when it returns null
   return nextChallenge || TEST_ENDED_CHAR;
@@ -47,8 +47,7 @@ function _filterSkillsByChallenges(skills, challenges) {
   return skillsWithChallenges;
 }
 
-function _findAnyChallenge({ challenges, knowledgeElements, targetSkills, lastChallenge }) {
-  const courseTubes = _findCourseTubes(targetSkills, challenges);
+function _findAnyChallenge({ challenges, knowledgeElements, targetSkills, courseTubes, lastChallenge }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
   const availableChallenges = getFilteredChallengesForAnyChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
   const maxRewardingChallenges = catAlgorithm.findMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
