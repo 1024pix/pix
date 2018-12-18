@@ -1,12 +1,13 @@
 const tokenService = require('../../../lib/domain/services/token-service');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
   verify(request, h) {
     const token = request.query.userToken || tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
-    const organizationId = request.params.id || request.query.organizationId;
+    const organizationId = request.params.id || extractParameters(request.query).filter.organizationId;
 
     return organizationRepository
       .getByUserId(userId)

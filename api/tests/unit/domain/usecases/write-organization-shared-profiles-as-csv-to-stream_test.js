@@ -15,12 +15,14 @@ describe('Unit | UseCase | write-organization-shared-profiles-as-csv-to-stream',
       organizationRepository: { async get(id) { return { id, type: 'PRO' }; } },
       competenceRepository: { async list() { return [ { index: '1.1' }, { index: '1.2' }]; } },
       snapshotRepository: {
-        async find({ organizationId, page, pageSize }) {
-          expect(pageSize).to.equal(200);
-          return page <= 2 ? [
-            { toJSON: () => `orga${organizationId}-page${page}-user1` },
-            { toJSON: () => `orga${organizationId}-page${page}-user2` }
-          ] : [];
+        async find({ filter, page }) {
+          expect(page.size).to.equal(200);
+          return page.number <= 2
+            ? { models: [
+              `orga${filter.organizationId}-page${page.number}-user1`,
+              `orga${filter.organizationId}-page${page.number}-user2`,
+            ] }
+            : { models: [] };
         }
       },
       snapshotsCsvConverter: {
