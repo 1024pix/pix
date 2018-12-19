@@ -39,7 +39,7 @@ export default Router.map(function() {
   this.route('assessments.checkpoint', { path: '/assessments/:assessment_id/checkpoint' });
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
-  this.route('disconnected', { path: '/non-connecte' });
+  this.route('disconnected', { path: '/nonconnecte' });
   this.route('board');
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });

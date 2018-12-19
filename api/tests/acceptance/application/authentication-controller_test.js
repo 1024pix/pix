@@ -66,7 +66,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
     it('should return 201 HTTP status code', () => {
       // given
       const expectedToken = jsonwebtoken.sign({
-        user_id: userId
+        user_id: userId,
+        source: 'pix'
       }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 
       // when

@@ -17,17 +17,18 @@ export default BaseRoute.extend({
 
   afterModel() {
     if(this.source === 'pix') {
-      this._redirectToHome();
+      return this._redirectToHome();
     } else {
-      this._redirectToDisconnectedPage();
+      return this._redirectToDisconnectedPage();
     }
   },
 
   _redirectToDisconnectedPage() {
-    this.transitionTo('disconnected');
+    return this.transitionTo('disconnected');
   },
 
   _redirectToHome() {
-    window.location.replace(ENV.APP.HOME_HOST);
+    return window.location.replace(ENV.APP.HOME_HOST);
   },
+  
 });
