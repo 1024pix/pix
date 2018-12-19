@@ -9,7 +9,7 @@ const competenceRepository = require('../../infrastructure/repositories/competen
 const answerService = require('../services/answer-service');
 const certificationService = require('../services/certification-service');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
+const scoring  = require('../strategies/scoring/scoring');
 const { NotFoundError } = require('../../domain/errors');
 
 // FIXME: Devrait plutot 1) splitter entre les calculs des acquis 2) calcul du result
@@ -46,108 +46,93 @@ async function fetchAssessment(assessmentId) {
   course.competenceSkills = competenceSkills;
   course.computeTubes(course.competenceSkills);
 
-  assessment.pixScore = AssessmentResult.ComputePixScore(course.competenceSkills, challenges, answers, course.tubes);
-  assessment.estimatedLevel = AssessmentResult.ComputeLevel(assessment.pixScore);
+  const validatedSkills = scoring.getValidatedSkills(answers, challenges, course.tubes);
+
+  assessment.pixScore = scoring.computeObtainedPixScore(course.competenceSkills, validatedSkills);
+  assessment.estimatedLevel = scoring.computeLevel(assessment.pixScore);
 
   response.skills = {
     assessmentId,
-    validatedSkills: AssessmentResult.GetValidatedSkills(answers, challenges, course.tubes),
-    failedSkills: AssessmentResult.GetFailedSkills(answers, challenges, course.tubes),
+    validatedSkills,
+    failedSkills: scoring.getFailedSkills(answers, challenges, course.tubes),
   };
 
   return Promise.resolve(response);
 }
 
-async function getSkillsReport(assessment) {
+async function getSkillsReportAndCompetenceMarks(assessment) {
   if (!assessment) {
-    return Promise.reject(new NotFoundError('Unable to getSkillsReport without assessment'));
+    return Promise.reject(new NotFoundError('Unable to get skills report nor competences mark without assessment'));
   }
-
-  const skillsReport = {
-    assessmentId: assessment.id,
-    validatedSkills: [],
-    failedSkills: []
+  const response = {
+    skills: {
+      assessmentId: assessment.id,
+      validatedSkills: [],
+      failedSkills: []
+    },
+    competenceMarks: []
   };
 
-  if (!assessment.hasTypePlacement()) {
-    return Promise.resolve(skillsReport);
+  if (!assessment.hasTypePlacement() && !assessment.hasTypeCertification()) {
+    return Promise.resolve(response);
   }
 
   const course = await courseRepository.get(assessment.courseId);
 
-  const [competenceSkills, answers] = await Promise.all([
+  const [competenceSkills, answers, challenges] = await Promise.all([
     skillRepository.findByCompetenceId(course.competences[0]),
-    answerRepository.findByAssessment(assessment.id)
+    answerRepository.findByAssessment(assessment.id),
+    challengeRepository.findByCompetenceId(course.competences[0]),
   ]);
 
   course.competenceSkills = competenceSkills;
   course.computeTubes(course.competenceSkills);
 
-  skillsReport.validatedSkills = AssessmentResult.GetValidatedSkills(answers, course.challenges, course.tubes);
-  skillsReport.failedSkills = AssessmentResult.GetFailedSkills(answers, course.challenges, course.tubes);
+  const validatedSkills = scoring.getValidatedSkills(answers, challenges, course.tubes);
+  const failedSkills = scoring.getFailedSkills(answers, challenges, course.tubes);
 
-  return Promise.resolve(skillsReport);
-}
-
-async function getCompetenceMarks(assessment) {
-
-  if (assessment.hasTypePlacement()) {
-    let pixScore;
-    let level;
-    return courseRepository.get(assessment.courseId)
-      .then((course) => {
-        return Promise.all([
-          answerRepository.findByAssessment(assessment.id),
-          skillRepository.findByCompetenceId(course.competences[0]),
-          challengeRepository.findByCompetenceId(course.competences[0]),
-        ]).then(([answers, competenceSkills, challenges]) => {
-          course.competenceSkills = competenceSkills;
-          course.computeTubes(competenceSkills);
-          pixScore = AssessmentResult.ComputePixScore(course.competenceSkills, challenges, answers, course.tubes);
-          level = AssessmentResult.ComputeLevel(pixScore);
-          return course;
-        });
-      }).then((course) => competenceRepository.get(course.competences[0])
-      ).then((competence) => {
-        return [
-          new CompetenceMark({
-            level,
-            score: pixScore,
-            area_code: competence.area.code,
-            competence_code: competence.index
-          })
-        ];
-      });
-  }
+  response.skills.validatedSkills = validatedSkills;
+  response.skills.failedSkills = failedSkills;
 
   if (assessment.hasTypeCertification()) {
-    return Promise
-      .all([
-        competenceRepository.list(),
-        certificationService.calculateCertificationResultByAssessmentId(assessment.id)
-      ])
-      .then(([competences, { competencesWithMark }]) => {
-        return competencesWithMark.map((certifiedCompetence) => {
+    await Promise.all([
+      competenceRepository.list(),
+      certificationService.calculateCertificationResultByAssessmentId(assessment.id)
+    ]).then(([competences, { competencesWithMark }]) => {
+      response.competenceMarks = competencesWithMark.map((certifiedCompetence) => {
 
-          const area_code = _(competences).find((competence) => {
-            return competence.index === certifiedCompetence.index;
-          }).area.code;
+        const area_code = _(competences).find((competence) => {
+          return competence.index === certifiedCompetence.index;
+        }).area.code;
 
-          return new CompetenceMark({
-            level: certifiedCompetence.obtainedLevel,
-            score: certifiedCompetence.obtainedScore,
-            area_code,
-            competence_code: certifiedCompetence.index,
-          });
+        return new CompetenceMark({
+          level: certifiedCompetence.obtainedLevel,
+          score: certifiedCompetence.obtainedScore,
+          area_code,
+          competence_code: certifiedCompetence.index,
         });
       });
+    });
+  } else {
+    const competencePixScore = scoring.computeObtainedPixScore(course.competenceSkills, validatedSkills);
+    const competenceLevel = scoring.computeLevel(competencePixScore);
+
+    const competence = await competenceRepository.get(course.competences[0]);
+
+    const competenceMark = new CompetenceMark({
+      level: competenceLevel,
+      score: competencePixScore,
+      area_code: competence.area.code,
+      competence_code: competence.index
+    });
+
+    response.competenceMarks = [competenceMark];
   }
 
-  return Promise.resolve([]);
+  return Promise.resolve(response);
 }
 
 module.exports = {
   fetchAssessment,
-  getSkillsReport,
-  getCompetenceMarks,
+  getSkillsReportAndCompetenceMarks
 };

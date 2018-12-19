@@ -22,8 +22,7 @@ function _buildCompetence(competenceCode, areaCode) {
 describe('Unit | UseCase | create-assessment-result-for-completed-certification', () => {
 
   const assessmentService = {
-    getSkillsReport: () => undefined,
-    getCompetenceMarks: () => undefined,
+    getSkillsReportAndCompetenceMarks: () => undefined,
   };
   const assessmentRepository = {
     get: () => undefined,
@@ -145,8 +144,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     sandbox = sinon.sandbox.create();
 
-    sandbox.stub(assessmentService, 'getSkillsReport').resolves(evaluatedSkills);
-    sandbox.stub(assessmentService, 'getCompetenceMarks').resolves(competenceMarksForPlacement);
+    sandbox.stub(assessmentService, 'getSkillsReportAndCompetenceMarks').resolves({ skills: evaluatedSkills, competenceMarks: competenceMarksForPlacement });
     sandbox.stub(assessmentRepository, 'save').resolves();
     sandbox.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
     sandbox.stub(assessmentRepository, 'get').resolves(assessment);
@@ -242,9 +240,9 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   });
 
-  it('should reject a not found error when getSkillsReport raise a notFoundError because the assessment does not exist', () => {
+  it('should reject a not found error when getSkillsReportAndCompetenceMarks raise a notFoundError because the assessment does not exist', () => {
     // given
-    assessmentService.getSkillsReport.rejects(new NotFoundError());
+    assessmentService.getSkillsReportAndCompetenceMarks.rejects(new NotFoundError());
 
     // when
     const promise = createAssessmentResultForCompletedCertification({
@@ -333,12 +331,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   context('when the assessment is a PLACEMENT', () => {
 
-    beforeEach(() => {
-      assessmentService.getCompetenceMarks.resolves(competenceMarksForPlacement);
-
-    });
-
-    it('should retrieve the skills', () => {
+    it('should retrieve the skills report and competence marks', () => {
       // when
       const promise = createAssessmentResultForCompletedCertification({
         assessmentId,
@@ -352,25 +345,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       // then
       return promise.then(() => {
-        expect(assessmentService.getSkillsReport).to.have.been.calledWith(assessment);
-      });
-    });
-
-    it('should retrieve the competenceMarks', () => {
-      // when
-      const promise = createAssessmentResultForCompletedCertification({
-        assessmentId,
-        assessmentResultRepository,
-        assessmentRepository,
-        assessmentService,
-        certificationCourseRepository,
-        competenceMarkRepository,
-        skillsService,
-      });
-
-      // then
-      return promise.then(() => {
-        expect(assessmentService.getCompetenceMarks).to.have.been.calledWith(assessment);
+        expect(assessmentService.getSkillsReportAndCompetenceMarks).to.have.been.calledWith(assessment);
       });
     });
 
@@ -457,7 +432,14 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     beforeEach(() => {
       assessmentRepository.get.resolves(previewAssessment);
-      assessmentService.getCompetenceMarks.resolves([]);
+      assessmentService.getSkillsReportAndCompetenceMarks.resolves({
+        skills: {
+          assessmentId: previewAssessment.id,
+          validatedSkills: [],
+          failedSkills: []
+        },
+        competenceMarks: []
+      });
     });
 
     it('should not try to save the related marks', () => {
@@ -493,7 +475,14 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         type: 'DEMO',
       });
       assessmentRepository.get.resolves(demoAssessment);
-      assessmentService.getCompetenceMarks.resolves([]);
+      assessmentService.getSkillsReportAndCompetenceMarks.resolves({
+        skills: {
+          assessmentId: demoAssessment.id,
+          validatedSkills: [],
+          failedSkills: []
+        },
+        competenceMarks: []
+      });
     });
 
     it('should not try to save the related marks', () => {
@@ -556,7 +545,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       assessment.assessmentResults = [];
 
       assessmentRepository.get.resolves(assessment);
-      assessmentService.getCompetenceMarks.resolves(competenceMarksForCertification);
+      assessmentService.getSkillsReportAndCompetenceMarks.resolves({ skills: evaluatedSkills, competenceMarks: competenceMarksForCertification });
       AssessmentResult.ComputeLevel.returns(Math.floor(sumOfCompetenceMarksScores / 8));
 
       clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
@@ -713,7 +702,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     context('something goes wrong during the compute of the certification', () => {
 
       beforeEach(() => {
-        assessmentService.getCompetenceMarks.throws(new CertificationComputeError('Erreur spécifique'));
+        assessmentService.getSkillsReportAndCompetenceMarks.throws(new CertificationComputeError('Erreur spécifique'));
       });
 
       it('should not persists a mark', () => {

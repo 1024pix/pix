@@ -3,7 +3,7 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getNextChallengeForSmartRandom = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
-const SmartRandom = require('../../../../lib/domain/strategies/SmartRandom');
+const SmartRandom = require('../../../../lib/domain/strategies/smart-random/SmartRandom');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', () => {
 

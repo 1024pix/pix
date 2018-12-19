@@ -12,10 +12,10 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const Skill = require('../../../../lib/domain/models/Skill');
+const scoring  = require('../../../../lib/domain/strategies/scoring/scoring');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Services | assessment', () => {
@@ -49,11 +49,11 @@ describe('Unit | Domain | Services | assessment', () => {
       sandbox.stub(skillRepository, 'findByCompetenceId').resolves(new Set([new Skill({ name: '@web1' }), new Skill({ name: '@web2' })]));
       sandbox.stub(challengeRepository, 'findByCompetenceId').resolves(challenges);
       sandbox.stub(answerRepository, 'findByAssessment').resolves([answer_web1_ok, answer_web2_ko]);
-      sandbox.stub(AssessmentResult, 'ComputePixScore').returns(17);
-      sandbox.stub(AssessmentResult, 'ComputeLevel').returns(2);
+      sandbox.stub(scoring, 'computeObtainedPixScore').returns(17);
+      sandbox.stub(scoring, 'computeLevel').returns(2);
       sandbox.stub(answerService, 'getAnswersSuccessRate').returns(100);
-      sandbox.stub(AssessmentResult, 'GetValidatedSkills').returns(['@web1']);
-      sandbox.stub(AssessmentResult, 'GetFailedSkills').returns(['@web2']);
+      sandbox.stub(scoring, 'getValidatedSkills').returns(['@web1']);
+      sandbox.stub(scoring, 'getFailedSkills').returns(['@web2']);
     });
 
     afterEach(() => {
@@ -179,16 +179,16 @@ describe('Unit | Domain | Services | assessment', () => {
           expect(courseRepository.get).to.have.been.calledWithExactly(COURSE_ID);
           expect(skillRepository.findByCompetenceId).to.have.been.calledWithExactly(COMPETENCE_ID);
           expect(challengeRepository.findByCompetenceId).to.have.been.calledWithExactly(COMPETENCE_ID);
-          expect(AssessmentResult.ComputePixScore).to.have.been.calledOnce;
-          expect(AssessmentResult.ComputeLevel).to.have.been.calledWithExactly(17);
-          expect(AssessmentResult.GetValidatedSkills).to.have.been.calledOnce;
-          expect(AssessmentResult.GetFailedSkills).to.have.been.calledOnce;
+          expect(scoring.computeObtainedPixScore).to.have.been.calledOnce;
+          expect(scoring.computeLevel).to.have.been.calledWithExactly(17);
+          expect(scoring.getValidatedSkills).to.have.been.calledOnce;
+          expect(scoring.getFailedSkills).to.have.been.calledOnce;
         });
       });
     });
   });
 
-  describe('#getSkillsReport', () => {
+  describe('#getSkillsReportAndCompetenceMarks', () => {
 
     const COURSE_ID = 123;
     const COMPETENCE_ID = 'competence_id';
@@ -204,7 +204,7 @@ describe('Unit | Domain | Services | assessment', () => {
     const answer_web2_ko = domainBuilder.buildAnswer({ result: AnswerStatus.KO, assessmentId: ASSESSMENT_ID, challengeId: challenge_web2.id, });
 
     const challenges = [challenge_web1, challenge_web2];
-    const competence = domainBuilder.buildCompetence({ id: COMPETENCE_ID, skills: [skill_web1, skill_web2] });
+    const competence = domainBuilder.buildCompetence({ id: COMPETENCE_ID,  index: '1.1', skills: [skill_web1, skill_web2] });
     const course = domainBuilder.buildCourse({ id: COURSE_ID, competences: [COMPETENCE_ID] });
 
     const sandbox = sinon.sandbox.create();
@@ -215,10 +215,10 @@ describe('Unit | Domain | Services | assessment', () => {
       sandbox.stub(skillRepository, 'findByCompetenceId').resolves([skill_web1, skill_web2]);
       sandbox.stub(challengeRepository, 'findByCompetenceId').resolves(challenges);
       sandbox.stub(answerRepository, 'findByAssessment').resolves([answer_web1_ok, answer_web2_ko]);
-      sandbox.stub(AssessmentResult, 'ComputePixScore').returns(2);
-      sandbox.stub(AssessmentResult, 'ComputeLevel').returns(2);
-      sandbox.stub(AssessmentResult, 'GetValidatedSkills').returns(['@web1']);
-      sandbox.stub(AssessmentResult, 'GetFailedSkills').returns(['@web2']);
+      sandbox.stub(scoring, 'computeObtainedPixScore').returns(18);
+      sandbox.stub(scoring, 'computeLevel').returns(2);
+      sandbox.stub(scoring, 'getValidatedSkills').returns([skill_web1.name]);
+      sandbox.stub(scoring, 'getFailedSkills').returns([skill_web2.name]);
     });
 
     afterEach(() => {
@@ -229,167 +229,64 @@ describe('Unit | Domain | Services | assessment', () => {
 
       it('should reject a domain NotFoundError when assessment is undefined', () => {
         // when
-        const promise = service.getSkillsReport();
+        const promise = service.getSkillsReportAndCompetenceMarks();
 
         // then
-        return expect(promise).to.have.been.rejectedWith(NotFoundError, 'Unable to getSkillsReport without assessment');
+        return expect(promise).to.have.been.rejectedWith(NotFoundError, 'Unable to get skills report nor competences mark without assessment');
       });
 
       it('should reject a domain NotFoundError when assessment is null', () => {
         // when
-        const promise = service.getSkillsReport(null);
+        const promise = service.getSkillsReportAndCompetenceMarks(null);
 
         // then
-        return expect(promise).to.have.been.rejectedWith(NotFoundError, 'Unable to getSkillsReport without assessment');
+        return expect(promise).to.have.been.rejectedWith(NotFoundError, 'Unable to get skills report nor competences mark without assessment');
       });
     });
 
-    context('when the given assessment’s type is "preview"', () => {
+    context('when the given assessment type is "preview"', () => {
 
       it('should return a report with empty lists for validated and failed skills', async () => {
         // given
         const assessment = domainBuilder.buildAssessment({ id: ASSESSMENT_ID, type: Assessment.types.PREVIEW });
 
         // when
-        const skillsReport = await service.getSkillsReport(assessment);
+        const response = await service.getSkillsReportAndCompetenceMarks(assessment);
 
         // then
-        expect(skillsReport).to.deep.equal({
-          assessmentId: assessment.id,
-          validatedSkills: [],
-          failedSkills: []
+        expect(response).to.deep.equal({
+          skills: {
+            assessmentId: ASSESSMENT_ID,
+            failedSkills: [],
+            validatedSkills: []
+          },
+          competenceMarks: []
         });
       });
     });
 
-    context('when the given assessment’s type is "certification"', () => {
-
-      it('should return a report with empty lists for validated and failed skills', async () => {
-        // given
-        const assessment = domainBuilder.buildAssessment({ id: ASSESSMENT_ID, type: Assessment.types.CERTIFICATION });
-
-        // when
-        const skillsReport = await service.getSkillsReport(assessment);
-
-        // then
-        expect(skillsReport).to.deep.equal({
-          assessmentId: assessment.id,
-          validatedSkills: [],
-          failedSkills: []
-        });
-      });
-    });
-
-    context('when the given assessment’s type is "demo"', () => {
+    context('when the given assessment type is "demo"', () => {
 
       it('should return a report with empty lists for validated and failed skills', async () => {
         // given
         const assessment = domainBuilder.buildAssessment({ id: ASSESSMENT_ID, type: Assessment.types.DEMO });
 
         // when
-        const skillsReport = await service.getSkillsReport(assessment);
+        const response = await service.getSkillsReportAndCompetenceMarks(assessment);
 
         // then
-        expect(skillsReport).to.deep.equal({
-          assessmentId: assessment.id,
-          validatedSkills: [],
-          failedSkills: []
+        expect(response).to.deep.equal({
+          skills: {
+            assessmentId: ASSESSMENT_ID,
+            failedSkills: [],
+            validatedSkills: []
+          },
+          competenceMarks: []
         });
       });
     });
 
-    context('when the given assessment’s type is "placement"', () => {
-
-      it('should resolve the promise with validated and failed skills', async () => {
-        // given
-        const assessment = domainBuilder.buildAssessment({
-          id: ASSESSMENT_ID,
-          type: Assessment.types.PLACEMENT,
-          courseId: COURSE_ID
-        });
-
-        // when
-        const skillsReport = await service.getSkillsReport(assessment);
-
-        // then
-        return expect(skillsReport).to.deep.equal({
-          assessmentId: assessment.id,
-          validatedSkills: ['@web1'],
-          failedSkills: ['@web2']
-        });
-      });
-    });
-  });
-
-  describe('#getCompetenceMarks', () => {
-
-    context('when assessment’s type is "placement"', () => {
-      const COURSE_ID = 'course_id';
-      const COMPETENCE_ID = 'competence_id';
-      const ASSESSMENT_ID = 836;
-
-      const skill_web1 = domainBuilder.buildSkill({ name: '@web1' });
-      const skill_web2 = domainBuilder.buildSkill({ name: '@web2' });
-
-      const challenge_web1 = domainBuilder.buildChallenge({ id: 'challenge_web_1', skills: [skill_web1] });
-      const challenge_web2 = domainBuilder.buildChallenge({ id: 'challenge_web_2', skills: [skill_web2] });
-
-      const answer_web1_ok = domainBuilder.buildAnswer({ result: AnswerStatus.OK, assessmentId: ASSESSMENT_ID, challengeId: challenge_web1.id, });
-      const answer_web2_ko = domainBuilder.buildAnswer({ result: AnswerStatus.KO, assessmentId: ASSESSMENT_ID, challengeId: challenge_web2.id, });
-
-      const challenges = [challenge_web1, challenge_web2];
-      const competence = domainBuilder.buildCompetence({ id: COMPETENCE_ID,  index: '1.1', skills: [skill_web1, skill_web2] });
-      const course = domainBuilder.buildCourse({ id: COURSE_ID, competences: [COMPETENCE_ID] });
-      const assessment = domainBuilder.buildAssessment({ id: ASSESSMENT_ID, type: Assessment.types.PLACEMENT, courseId: COURSE_ID });
-
-      const sandbox = sinon.sandbox.create();
-
-      beforeEach(() => {
-        sandbox.stub(competenceRepository, 'get').resolves(competence);
-        sandbox.stub(courseRepository, 'get').resolves(course);
-        sandbox.stub(skillRepository, 'findByCompetenceId').resolves(new Set([new Skill({ name: '@web1' }), new Skill({ name: '@web2' })]));
-        sandbox.stub(challengeRepository, 'findByCompetenceId').resolves(challenges);
-        sandbox.stub(answerRepository, 'findByAssessment').resolves([answer_web2_ko, answer_web1_ok]);
-        sandbox.stub(AssessmentResult, 'ComputePixScore').returns(18);
-        sandbox.stub(AssessmentResult, 'ComputeLevel').returns(2);
-      });
-
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should return an array of Competence Marks', async () => {
-        // when
-        const competenceMarks = await service.getCompetenceMarks(assessment);
-
-        // then
-        expect(competenceMarks).to.have.lengthOf(1);
-        expect(competenceMarks[0]).to.be.an.instanceOf(CompetenceMark);
-        expect(competenceMarks[0].level).to.equal(2);
-        expect(competenceMarks[0].score).to.equal(18);
-        expect(competenceMarks[0].area_code).to.deep.equal(competence.area.code);
-        expect(competenceMarks[0].competence_code).to.deep.equal('1.1');
-      });
-
-      it('should call dependencies with good args', async () => {
-        // when
-        await service.getCompetenceMarks(assessment);
-
-        // then
-        expect(courseRepository.get).to.have.been.calledWithExactly(COURSE_ID);
-        expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(ASSESSMENT_ID);
-        expect(skillRepository.findByCompetenceId).to.have.been.calledWithExactly(COMPETENCE_ID);
-        expect(challengeRepository.findByCompetenceId).to.have.been.calledWithExactly(COMPETENCE_ID);
-        expect(AssessmentResult.ComputePixScore).to.have.been.calledOnce;
-        expect(AssessmentResult.ComputeLevel).to.have.been.calledOnce;
-        expect(competenceRepository.get).to.have.been.calledWithExactly(COMPETENCE_ID);
-      });
-    });
-
-    context('when assessment’s type is "certification"', () => {
-      const assessment = domainBuilder.buildAssessment({ id: 1, type: Assessment.types.CERTIFICATION });
-
-      const sandbox = sinon.sandbox.create();
+    context('when the given assessment type is "certification"', () => {
 
       beforeEach(() => {
         sandbox.stub(competenceRepository, 'list').resolves([
@@ -416,61 +313,108 @@ describe('Unit | Domain | Services | assessment', () => {
         sandbox.restore();
       });
 
-      it('should get a list of all competence', () => {
+      it('should get a list of all competence', async () => {
+        // given
+        const assessment = domainBuilder.buildAssessment({ id: ASSESSMENT_ID, type: Assessment.types.CERTIFICATION });
+
         // when
-        const promise = service.getCompetenceMarks(assessment);
+        await service.getSkillsReportAndCompetenceMarks(assessment);
 
         // then
-        return promise.then(() => {
-          expect(competenceRepository.list).to.have.been.calledOnce;
-        });
+        expect(competenceRepository.list).to.have.been.calledOnce;
       });
 
-      it('should call certificationService to calculate the certification Result', () => {
+      it('should call certificationService to calculate the certification Result', async () => {
+        // given
+        const assessment = domainBuilder.buildAssessment({ id: ASSESSMENT_ID, type: Assessment.types.CERTIFICATION });
+
         // when
-        const promise = service.getCompetenceMarks(assessment);
+        await service.getSkillsReportAndCompetenceMarks(assessment);
 
         // then
-        return promise.then(() => {
-          expect(certificationService.calculateCertificationResultByAssessmentId).to.have.been.calledOnce;
-          expect(certificationService.calculateCertificationResultByAssessmentId).to.have.been.calledWithExactly(1);
-        });
+        expect(certificationService.calculateCertificationResultByAssessmentId).to.have.been.calledOnce;
+        expect(certificationService.calculateCertificationResultByAssessmentId).to.have.been.calledWithExactly(ASSESSMENT_ID);
       });
 
-      it('should return a list of Competence Marks with all informations', () => {
+      it('should return a skill report and a list of competences Mark with all information', async () => {
+        // given
+        const assessment = domainBuilder.buildAssessment({ id: ASSESSMENT_ID, type: Assessment.types.CERTIFICATION });
+
         // when
-        const promise = service.getCompetenceMarks(assessment);
+        const response = await service.getSkillsReportAndCompetenceMarks(assessment);
 
         // then
-        return promise.then((result) => {
-          expect(result).to.have.lengthOf(2);
-
-          expect(result[0]).to.be.an.instanceOf(CompetenceMark);
-          expect(result[0].level).to.deep.equal(2);
-          expect(result[0].score).to.deep.equal(18);
-          expect(result[0].area_code).to.deep.equal('area_1');
-          expect(result[0].competence_code).to.deep.equal('1.1');
-
-          expect(result[1]).to.be.an.instanceOf(CompetenceMark);
-          expect(result[1].level).to.deep.equal(3);
-          expect(result[1].score).to.deep.equal(28);
-          expect(result[1].area_code).to.deep.equal('area_2');
-          expect(result[1].competence_code).to.deep.equal('1.2');
+        expect(response.skills).to.deep.equal({
+          assessmentId: ASSESSMENT_ID,
+          failedSkills: [skill_web2.name],
+          validatedSkills: [skill_web1.name]
         });
+
+        expect(response.competenceMarks).to.have.lengthOf(2);
+
+        expect(response.competenceMarks[0]).to.be.an.instanceOf(CompetenceMark);
+        expect(response.competenceMarks[0].level).to.deep.equal(2);
+        expect(response.competenceMarks[0].score).to.deep.equal(18);
+        expect(response.competenceMarks[0].area_code).to.deep.equal('area_1');
+        expect(response.competenceMarks[0].competence_code).to.deep.equal('1.1');
+
+        expect(response.competenceMarks[1]).to.be.an.instanceOf(CompetenceMark);
+        expect(response.competenceMarks[1].level).to.deep.equal(3);
+        expect(response.competenceMarks[1].score).to.deep.equal(28);
+        expect(response.competenceMarks[1].area_code).to.deep.equal('area_2');
+        expect(response.competenceMarks[1].competence_code).to.deep.equal('1.2');
       });
     });
 
-    context('when assessment is not a Certification/Placement', () => {
+    context('when the given assessment type is "placement"', () => {
 
-      it('should return an empty array', async () => {
+      it('should return a skill report and a list of competences Mark with all information', async () => {
         // given
-        const assessment = domainBuilder.buildAssessment({ type: Assessment.types.DEMO });
+        const assessment = domainBuilder.buildAssessment({
+          id: ASSESSMENT_ID,
+          type: Assessment.types.PLACEMENT,
+          courseId: COURSE_ID
+        });
 
         // when
-        const result = await service.getCompetenceMarks(assessment);
+        const response = await service.getSkillsReportAndCompetenceMarks(assessment);
 
         // then
-        expect(result).to.deep.equal([]);
+        expect(response.skills).to.deep.equal({
+          assessmentId: assessment.id,
+          validatedSkills: [skill_web1.name],
+          failedSkills: [skill_web2.name]
+        });
+
+        expect(response.competenceMarks).to.have.lengthOf(1);
+        expect(response.competenceMarks[0]).to.be.an.instanceOf(CompetenceMark);
+        expect(response.competenceMarks[0].level).to.equal(2);
+        expect(response.competenceMarks[0].score).to.equal(18);
+        expect(response.competenceMarks[0].area_code).to.deep.equal(competence.area.code);
+        expect(response.competenceMarks[0].competence_code).to.deep.equal('1.1');
+      });
+
+      it('should call dependencies with good args', async () => {
+        // given
+        const assessment = domainBuilder.buildAssessment({
+          id: ASSESSMENT_ID,
+          type: Assessment.types.PLACEMENT,
+          courseId: COURSE_ID
+        });
+
+        // when
+        await service.getSkillsReportAndCompetenceMarks(assessment);
+
+        // then
+        expect(courseRepository.get).to.have.been.calledWithExactly(COURSE_ID);
+        expect(skillRepository.findByCompetenceId).to.have.been.calledWithExactly(COMPETENCE_ID);
+        expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(ASSESSMENT_ID);
+        expect(challengeRepository.findByCompetenceId).to.have.been.calledWithExactly(COMPETENCE_ID);
+        expect(scoring.getValidatedSkills).to.have.been.calledOnce;
+        expect(scoring.getFailedSkills).to.have.been.calledOnce;
+        expect(scoring.computeObtainedPixScore).to.have.been.calledOnce;
+        expect(scoring.computeLevel).to.have.been.calledOnce;
+        expect(competenceRepository.get).to.have.been.calledWithExactly(COMPETENCE_ID);
       });
     });
   });

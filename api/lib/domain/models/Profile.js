@@ -1,6 +1,5 @@
 const _ = require('lodash');
-
-const MAX_REACHABLE_LEVEL = 5;
+const scoring = require('../strategies/scoring/scoring');
 
 const competenceStatus = {
   NOT_ASSESSED: 'notAssessed',
@@ -70,7 +69,7 @@ class Profile {
         const course = this._getCourseById(courses, courseIdFromAssessment);
         const competence = this.competences.find((competence) => course.competences.includes(competence.id));
 
-        competence.level = Math.min(assessment.getLevel(), MAX_REACHABLE_LEVEL);
+        competence.level = scoring.computeCeilingLevel(assessment.getLevel());
         competence.pixScore = assessment.getPixScore();
       }
     });
@@ -102,18 +101,13 @@ class Profile {
   }
 
   _calculateTotalPixScore() {
-    const competencesWithScore = _.filter(this.competences, (competence) => {
+    const competencesPixScore = _.filter(this.competences, (competence) => {
       return competence.hasOwnProperty('pixScore');
-    });
+    }).map((competence) => competence.pixScore);
 
-    if (competencesWithScore.length > 0) {
-      let pixScore = 0;
-
-      competencesWithScore.forEach((competence) => {
-        pixScore += competence.pixScore;
-      });
-
-      this.user.set('pix-score', pixScore);
+    if (competencesPixScore.length > 0) {
+      const totalPixScore = scoring.computeTotalPixScore(competencesPixScore);
+      this.user.set('pix-score', totalPixScore);
     }
   }
 }
