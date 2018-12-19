@@ -10,4 +10,6 @@ export default BaseRoute.extend(ApplicationRouteMixin, {
     this.get('splash').hide();
   },
 
+  sessionInvalidated() {}
+
 });

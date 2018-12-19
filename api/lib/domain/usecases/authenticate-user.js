@@ -23,7 +23,7 @@ module.exports = function authenticateUser({
     .then((foundUser) => (user = foundUser))
     .then(() => _checkUserAccessScope(scope, user))
     .then(() => encryptionService.check(password, user.password))
-    .then(() => tokenService.createTokenFromUser(user))
+    .then(() => tokenService.createTokenFromUser(user, 'pix'))
     .catch((error) => {
       if (error instanceof ForbiddenAccess) {
         throw error;

@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 const expectedUserId = 1;
-const expectedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6InBpeEBjb250YWN0LmNvbSIsImlhdCI6MTQ5Njg0NTY3OSwiZXhwIjoxNDk3NDUwNDc5fQ.6Mkkstj-9SjXX4lsXrsZ2KL91Ol3kbxn6tlus2apGVY';
+const expectedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.6Mkkstj-9SjXX4lsXrsZ2KL91Ol3kbxn6tlus2apGVY';
 
 describe('Unit | Authenticator | simple', function() {
 
@@ -82,7 +82,22 @@ describe('Unit | Authenticator | simple', function() {
     return promise.then((data) => {
       expect(data.userId).to.equal(expectedUserId);
       expect(data.token).to.equal(expectedToken);
-      expect(data.source).to.equal('external');
+      expect(data.source).to.equal('pix');
+    });
+  });
+
+  describe('#extractDataFromToken', function() {
+    it('should extract userId and source from token', function() {
+      // given
+      const token = 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb';
+      const authenticator = this.subject();
+
+      // when
+      const dataFromToken = authenticator.extractDataFromToken(token);
+
+      // then
+      expect(dataFromToken.user_id).to.equal(1);
+      expect(dataFromToken.source).to.equal('pix');
     });
   });
 });

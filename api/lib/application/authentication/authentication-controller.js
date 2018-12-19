@@ -40,7 +40,7 @@ module.exports = {
         return encrypt.check(userFromRequest.password, foundUser.password);
       })
       .then((_) => {
-        const token = tokenService.createTokenFromUser(user);
+        const token = tokenService.createTokenFromUser(user, 'pix');
 
         const authentication = new Authentication({ userId: user.id, token });
         return h.response(authenticationSerializer.serialize(authentication)).code(201);

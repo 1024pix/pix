@@ -42,7 +42,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     // then
     return promise.then((accessToken) => {
       expect(userRepository.findByEmailWithRoles).to.have.been.calledWithExactly(userEmail);
-      expect(tokenService.createTokenFromUser).to.have.been.calledWithExactly(user);
+      expect(tokenService.createTokenFromUser).to.have.been.calledWithExactly(user, 'pix');
       expect(accessToken).to.equal(accessToken);
     });
   });
