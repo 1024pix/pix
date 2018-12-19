@@ -1,8 +1,9 @@
-const _ = require('lodash');
 const moment = require('moment');
 
 const Assessment = require('../models/Assessment');
 const AssessmentResult = require('../models/AssessmentResult');
+
+const scoring = require('../strategies/scoring/scoring');
 
 const {
   AlreadyRatedAssessmentError,
@@ -43,12 +44,9 @@ module.exports = function createAssessmentResultForCompletedCertification({
         throw new AlreadyRatedAssessmentError();
       }
 
-      return Promise.all([
-        assessmentService.getSkillsReport(assessment),
-        assessmentService.getCompetenceMarks(assessment),
-      ]);
+      return assessmentService.getSkillsReportAndCompetenceMarks(assessment);
     })
-    .then(([skills, competenceMarks]) => _saveCertificationResult({
+    .then(({ skills, competenceMarks }) => _saveCertificationResult({
       assessment,
       assessmentId,
       competenceMarks,
@@ -107,8 +105,11 @@ function _saveCertificationResult({
 }
 
 function _getAssessmentResultEvaluations(competenceMarks, assessmentType) {
-  const totalPixScore = _.sumBy(competenceMarks, 'score');
-  let level = AssessmentResult.ComputeLevel(totalPixScore);
+  const competencesPixScore = competenceMarks.map((competenceMark) => competenceMark.score);
+  // for PLACEMENT, there is only one competence, so totalPixScore is the same as competence Pix score
+  // for CERTIFICATION, we compute all competences score
+  const totalPixScore = scoring.computeTotalPixScore(competencesPixScore);
+  let level = scoring.computeLevel(totalPixScore);
 
   if (totalPixScore === 0 && assessmentType === Assessment.types.CERTIFICATION) {
     const status = CERTIFICATION_REJECTED;

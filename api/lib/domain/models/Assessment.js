@@ -6,7 +6,6 @@ const { ObjectValidationError } = require('../errors');
 const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 
 const MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = 7;
-const MAX_REACHABLE_LEVEL = 5;
 
 const states = {
   COMPLETED: 'completed',
@@ -103,13 +102,6 @@ class Assessment {
     return null;
   }
 
-  getCeilingLevel() {
-    if (this.getLevel()) {
-      return (this.getLevel() >= MAX_REACHABLE_LEVEL) ? MAX_REACHABLE_LEVEL : this.getLevel();
-    }
-    return null;
-  }
-
   setCompleted() {
     this.state = Assessment.states.COMPLETED;
   }
@@ -169,6 +161,5 @@ class Assessment {
 Assessment.states = states;
 Assessment.types = type;
 Assessment.MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS;
-Assessment.MAX_REACHABLE_LEVEL = MAX_REACHABLE_LEVEL;
 
 module.exports = Assessment;
