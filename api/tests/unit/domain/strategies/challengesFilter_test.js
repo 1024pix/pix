@@ -1,6 +1,6 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const filterChallenge = require('../../../../lib/domain/strategies/challengesFilter');
+const filterChallenge = require('../../../../lib/domain/strategies/challenges-filter');
 const Tube = require('../../../../lib/domain/models/Tube');
 
 const KNOWLEDGE_ELEMENT_STATUS = {

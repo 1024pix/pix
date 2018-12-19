@@ -1,5 +1,5 @@
 const { AssessmentEndedError } = require('../errors');
-const smartRandom = require('../strategies/smartRandom');
+const smartRandom = require('../strategies/smart-random');
 const _ = require('lodash');
 
 function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository }) {
