@@ -2,6 +2,9 @@ const { sampleSize, random, uniqBy, concat, orderBy } = require('lodash');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const userRepository = require('../../infrastructure/repositories/user-repository');
+const logger = require('../../infrastructure/logger');
+
+const SNAPSHOT_CSV_PAGE_SIZE = 200;
 
 function _randomLetters(count) {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'.split('');
@@ -51,28 +54,44 @@ module.exports = {
       });
   },
 
-  getOrganizationSharedProfilesAsCsv(dependencies, organizationId) {
-    const { organizationRepository, competenceRepository, snapshotRepository, bookshelfUtils, snapshotsCsvConverter } = dependencies;
+  async writeOrganizationSharedProfilesAsCsvToStream(
+    { organizationRepository, competenceRepository, snapshotRepository, snapshotsCsvConverter },
+    organizationId,
+    writableStream) {
 
-    let organization;
-    let competences;
-    let snapshots;
-
-    const promises = [
+    const [organization, competences] = await Promise.all([
       organizationRepository.get(organizationId),
       competenceRepository.list(),
-      snapshotRepository.getSnapshotsByOrganizationId(organizationId)
-    ];
+    ]);
 
-    return Promise.all(promises)
-      .then(([_organization, _competences, _snapshots]) => {
-        organization = _organization;
-        competences = _competences;
-        snapshots = _snapshots;
-      })
-      .then(() => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
-      .then((snapshotsWithRelatedUsers) => snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON()))
-      .then((jsonSnapshots) => snapshotsCsvConverter.convertJsonToCsv(organization, competences, jsonSnapshots));
+    writableStream.write(snapshotsCsvConverter.generateHeader(organization, competences));
+
+    const processPage = async (page) => {
+      try {
+        const snapshots = await snapshotRepository.find({
+          organizationId,
+          page,
+          pageSize: SNAPSHOT_CSV_PAGE_SIZE
+        });
+
+        if (snapshots.length) {
+          const jsonSnapshots = snapshots.map((snapshot) => snapshot.toJSON());
+
+          const csvPage = snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots);
+          writableStream.write(csvPage);
+          processPage(page + 1);
+        } else {
+          writableStream.end();
+        }
+      } catch (err) {
+        logger.error(err);
+        writableStream.emit('error', err);
+      }
+    };
+
+    // No return/await here, we need the writing to continue in the
+    // background after this function's returned promise resolves.
+    processPage(1);
   },
 
   search(userId, filters = {}) {

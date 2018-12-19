@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const Competence = require('../../../../lib/domain/models/Competence');
+const { expect, sinon, domainBuilder, streamToPromise } = require('../../../test-helper');
 const Organization = require('../../../../lib/domain/models/Organization');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const { PassThrough } = require('stream');
 
 const organizationService = require('../../../../lib/domain/services/organization-service');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -48,78 +48,53 @@ describe('Unit | Service | OrganizationService', () => {
     });
   });
 
-  describe('#getOrganizationSharedProfilesAsCsv', () => {
-
-    const organization = new Organization({ id: 123, type: 'PRO' });
-    const competences = [
-      new Competence({ id: 2, index: '1.1', name: 'Mener une recherche et une veille d’information' }),
-      new Competence({ id: 3, index: '1.2', name: 'Gérer des données' }),
-      new Competence({ id: 4, index: '1.3', name: 'Traiter des données' }),
-    ];
+  describe('#writeOrganizationSharedProfilesAsCsvToStream', () => {
 
     let dependencies;
 
     beforeEach(() => {
       // given
       dependencies = {
-        organizationRepository: { get: sinon.stub().resolves(organization) },
-        competenceRepository: { list: sinon.stub().resolves(competences) },
-        snapshotRepository: { getSnapshotsByOrganizationId: sinon.stub().resolves([]) },
-        bookshelfUtils: { mergeModelWithRelationship: sinon.stub().resolves([]) },
-        snapshotsCsvConverter: { convertJsonToCsv: sinon.stub().returns() }
+        organizationRepository: { async get(id) { return { id, type: 'PRO' }; } },
+        competenceRepository: { async list() { return [ { index: '1.1' }, { index: '1.2' }]; } },
+        snapshotRepository: {
+          async find({ organizationId, page, pageSize }) {
+            expect(pageSize).to.equal(200);
+            return page <= 2 ? [
+              { toJSON: () => `orga${organizationId}-page${page}-user1` },
+              { toJSON: () => `orga${organizationId}-page${page}-user2` }
+            ] : [];
+          }
+        },
+        snapshotsCsvConverter: {
+          generateHeader(organization, competences) {
+            return `csv-header-orga${organization.id}-${competences.map((c)=>c.index)}\n`;
+          },
+
+          convertJsonToCsv(jsonSnapshots) {
+            return 'csv-' + JSON.stringify(jsonSnapshots) + '\n';
+          }
+        }
       };
     });
 
     context('[interactions]', () => {
 
-      it('should fetch the organization', () => {
+      it('should convert the profiles into CSV format as a stream', async () => {
         // when
-        const promise = organizationService.getOrganizationSharedProfilesAsCsv(dependencies, 123);
+        const stream = new PassThrough;
+        const csvPromise = streamToPromise(stream);
+
+        await organizationService.writeOrganizationSharedProfilesAsCsvToStream(dependencies, 123, stream);
 
         // then
-        return promise.then(() => {
-          expect(dependencies.organizationRepository.get).to.have.been.calledWith(organization.id);
-        });
-      });
-
-      it('should fetch the competences', () => {
-        // when
-        const promise = organizationService.getOrganizationSharedProfilesAsCsv(dependencies, 123);
-
-        // then
-        return promise.then(() => {
-          expect(dependencies.competenceRepository.list).to.have.been.called;
-        });
-      });
-
-      it('should fetch the shared profiles to the organization', () => {
-        // when
-        const promise = organizationService.getOrganizationSharedProfilesAsCsv(dependencies, 123);
-
-        // then
-        return promise.then(() => {
-          expect(dependencies.snapshotRepository.getSnapshotsByOrganizationId).to.have.been.calledWith(123);
-        });
-      });
-
-      it('should load the user of each shared profiles', () => {
-        // when
-        const promise = organizationService.getOrganizationSharedProfilesAsCsv(dependencies, 123);
-
-        // then
-        return promise.then(() => {
-          expect(dependencies.bookshelfUtils.mergeModelWithRelationship).to.have.been.calledWith([], 'user');
-        });
-      });
-
-      it('should convert the profiles into CSV format', () => {
-        // when
-        const promise = organizationService.getOrganizationSharedProfilesAsCsv(dependencies, 123);
-
-        // then
-        return promise.then(() => {
-          expect(dependencies.snapshotsCsvConverter.convertJsonToCsv).to.have.been.calledWith(organization, competences, []);
-        });
+        const csv = await csvPromise;
+        expect(csv.split('\n')).to.deep.equal([
+          'csv-header-orga123-1.1,1.2',
+          'csv-["orga123-page1-user1","orga123-page1-user2"]',
+          'csv-["orga123-page2-user1","orga123-page2-user2"]',
+          ''
+        ]);
       });
     });
 
@@ -130,7 +105,7 @@ describe('Unit | Service | OrganizationService', () => {
         dependencies.organizationRepository.get = sinon.stub().rejects(new NotFoundError('Not found organization for ID 1234'));
 
         //when
-        const promise = organizationService.getOrganizationSharedProfilesAsCsv(dependencies, 123);
+        const promise = organizationService.writeOrganizationSharedProfilesAsCsvToStream(dependencies, 123, null);
 
         // then
         return promise.then(() => {
@@ -138,6 +113,21 @@ describe('Unit | Service | OrganizationService', () => {
         }).catch((err) => {
           expect(err).to.be.an.instanceof(NotFoundError);
         });
+      });
+
+      it('should abort stream on error', async () => {
+        // given
+        dependencies.snapshotRepository.find = () => Promise.reject(new Error('failure'));
+
+        // when
+        const stream = new PassThrough;
+        const csvPromise = streamToPromise(stream);
+
+        await organizationService.writeOrganizationSharedProfilesAsCsvToStream(dependencies, 123, stream);
+
+        // then
+        return expect(csvPromise).to.be.rejected
+          .and.eventually.to.have.property('message', 'failure');
       });
     });
   });

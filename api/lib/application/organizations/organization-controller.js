@@ -19,6 +19,7 @@ const Boom = require('boom');
 const JSONAPI = require('../../interfaces/jsonapi');
 const { EntityValidationError, NotFoundError } = require('../../domain/errors');
 const { NotFoundError : InfrastructureNotFoundError } = require('../../infrastructure/errors');
+const { PassThrough } = require('stream');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
@@ -106,7 +107,7 @@ module.exports = {
       });
   },
 
-  exportSharedSnapshotsAsCsv: (request, h) => {
+  exportSharedSnapshotsAsCsv: async (request, h) => {
     const dependencies = {
       organizationRepository,
       competenceRepository,
@@ -116,18 +117,23 @@ module.exports = {
     };
     const organizationId = request.params.id;
 
-    return organizationService.getOrganizationSharedProfilesAsCsv(dependencies, organizationId)
-      .then((snapshotsTextCsv) => {
-        return h.response(snapshotsTextCsv)
-          .header('Content-Type', 'text/csv;charset=utf-8')
-          .header('Content-Disposition', `attachment; filename="${EXPORT_CSV_FILE_NAME}"`);
-      })
-      .catch((err) => {
-        logger.error(err);
-        return h.response(validationErrorSerializer.serialize(
-          _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
-        )).code(500);
-      });
+    try {
+      const stream = new PassThrough();
+
+      stream.headers = {
+        'Content-Type': 'text/csv;charset=utf-8',
+        'Content-Disposition': `attachment; filename="${EXPORT_CSV_FILE_NAME}"`
+      };
+
+      await organizationService.writeOrganizationSharedProfilesAsCsvToStream(dependencies, organizationId, stream);
+
+      return stream;
+    } catch(err) {
+      logger.error(err);
+      return h.response(validationErrorSerializer.serialize(
+        _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
+      )).code(500);
+    }
   }
 };
 

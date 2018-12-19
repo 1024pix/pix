@@ -16,6 +16,10 @@ module.exports = {
     return Snapshot
       .where({ organizationId: options.organizationId })
       .orderBy('createdAt', 'desc')
-      .fetchPage({ page: options.page, pageSize: options.pageSize });
+      .fetchPage({
+        withRelated: { user: function(qb) { qb.columns('id', 'firstName', 'lastName'); } },
+        page: options.page,
+        pageSize: options.pageSize
+      });
   },
 };
