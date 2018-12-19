@@ -1,7 +1,9 @@
 .disconnected {
   background: $pix-blue-to-purple-gradient;
   height: 100vh;
-  padding: 10%;
+  padding-top: 5%;
+  padding-left: 20%;
+  padding-right: 20%;
 
   &__white-block {
     background-color: white;
@@ -9,6 +11,21 @@
     box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
 
     text-align: center;
-    padding: 10%;
+    padding: 15%;
+  }
+
+  &__logo {
+    width: 100px;
+    height: 80px;
+  }
+
+  &__text-block {
+    padding-top: 30px;
+    text-align: center;
+    line-height: 46px;
+    font-family: $font-lato;
+    font-size: 3rem;
+    font-weight: $font-light;
+    color: $grayish-grey;
   }
 }
