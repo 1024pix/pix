@@ -13,37 +13,16 @@ function getSmartRandomInputValues({ assessment, answerRepository, challengeRepo
     answerRepository.findByAssessment(assessment.id),
     targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId())
       .then((targetProfile) => Promise.all([targetProfile, challengeRepository.findBySkills(targetProfile.skills)])),
-    getSmartPlacementKnowledgeElements({ userId: assessment.userId, smartPlacementKnowledgeElementRepository })]
+    keepOnlyMostRecentKnowledgeElements({ userId: assessment.userId, smartPlacementKnowledgeElementRepository })]
   );
 }
 
-function getSmartPlacementKnowledgeElements({ userId, smartPlacementKnowledgeElementRepository }) {
-  return smartPlacementKnowledgeElementRepository.findByUserId(userId)
-    .then((knowledgeElements) => removeEquivalentKnowledgeElements(knowledgeElements));
-}
-
-// Two knowledge elements are equivalent if they correspond to the same skill
-// We must only keep the most recent.
-function removeEquivalentKnowledgeElements(knowledgeElements) {
-  return _.reduce(knowledgeElements, (uniqueKnowledgeElements, currentKnowledgeElement) => {
-    
-    return thereExistsAMoreRecentEquivalentKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement) 
-      ? replaceKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement)
-      : uniqueKnowledgeElements.concat(currentKnowledgeElement);
-  }, []);
-}
-
-function thereExistsAMoreRecentEquivalentKnowledgeElement(knowledgeElements, currentKnowledgeElement) {
-  return _.find(knowledgeElements, (duplicatedKnowledgeElement) => {
-    const isEquivalent = duplicatedKnowledgeElement.skillId === currentKnowledgeElement.skillId;
-    const isMoreRecent = duplicatedKnowledgeElement.createdAt > currentKnowledgeElement.createdAt;
-
-    return isEquivalent && isMoreRecent;
-  });
-}
-
-function replaceKnowledgeElement(uniqueKnowledgeElements, currentKnowledgeElement) {
-  return _.differenceBy(uniqueKnowledgeElements, [currentKnowledgeElement], 'skillId').concat(currentKnowledgeElement);
+// Two knowledge elements can match the same skill id
+function keepOnlyMostRecentKnowledgeElements(knowledgeElements) {
+  return _(knowledgeElements)
+    .orderBy('createdAt')
+    .sortedUniqBy('skillId')
+    .value();
 }
 
 module.exports = getNextChallengeForSmartPlacement;
