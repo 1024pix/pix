@@ -1,5 +1,6 @@
-const organizationRepository = require('../../infrastructure/repositories/organization-repository');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const Boom = require('boom');
+const { PassThrough } = require('stream');
+
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
@@ -8,18 +9,15 @@ const targetProfileSerializer = require('../../infrastructure/serializers/jsonap
 const organizationService = require('../../domain/services/organization-service');
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
 const logger = require('../../infrastructure/logger');
 const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
-const Boom = require('boom');
 const JSONAPI = require('../../interfaces/jsonapi');
 const { EntityValidationError, NotFoundError } = require('../../domain/errors');
 const { NotFoundError : InfrastructureNotFoundError } = require('../../infrastructure/errors');
-const { PassThrough } = require('stream');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
@@ -108,13 +106,6 @@ module.exports = {
   },
 
   exportSharedSnapshotsAsCsv: async (request, h) => {
-    const dependencies = {
-      organizationRepository,
-      competenceRepository,
-      snapshotRepository,
-      bookshelfUtils,
-      snapshotsCsvConverter,
-    };
     const organizationId = request.params.id;
 
     try {
@@ -125,7 +116,10 @@ module.exports = {
         'Content-Disposition': `attachment; filename="${EXPORT_CSV_FILE_NAME}"`
       };
 
-      await organizationService.writeOrganizationSharedProfilesAsCsvToStream(dependencies, organizationId, stream);
+      await usecases.writeOrganizationSharedProfilesAsCsvToStream({
+        organizationId,
+        writableStream: stream
+      });
 
       return stream;
     } catch(err) {
