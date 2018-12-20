@@ -24,7 +24,7 @@ export default BaseRoute.extend({
   },
 
   _redirectToDisconnectedPage() {
-    return this.transitionTo('disconnected');
+    return this.transitionTo('not-connected');
   },
 
   _redirectToHome() {
