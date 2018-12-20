@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.17.0 (20/12/2018)
+
+- [#304](https://github.com/1024pix/pix/pull/304) [FEATURE] Affiche au maximum 200 snapshots dans la page board (PF-473).
+
 ## v2.16.0 (17/12/2018)
 
 - [#295](https://github.com/1024pix/pix/pull/295) [TECH] Hapi v17 migration (PF-144).
