@@ -71,7 +71,7 @@ module.exports = {
 
     return assessmentService
       .fetchAssessment(assessmentId)
-      .then(({ assessmentPix }) => assessmentSerializer.serialize(assessmentPix))
+      .then((assessment) => assessmentSerializer.serialize(assessment))
       .catch((err) => {
         if (err instanceof NotFoundError) {
           throw Boom.notFound(err);
