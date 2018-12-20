@@ -46,7 +46,7 @@ describe('Unit | Domain | Services | assessment', () => {
       sandbox.stub(assessmentRepository, 'get');
       sandbox.stub(competenceRepository, 'get').resolves(competence);
       sandbox.stub(courseRepository, 'get').resolves(course);
-      sandbox.stub(skillRepository, 'findByCompetenceId').resolves(new Set([new Skill({ name: '@web1' }), new Skill({ name: '@web2' })]));
+      sandbox.stub(skillRepository, 'findByCompetenceId').resolves([new Skill({ name: '@web1' }), new Skill({ name: '@web2' })]);
       sandbox.stub(challengeRepository, 'findByCompetenceId').resolves(challenges);
       sandbox.stub(answerRepository, 'findByAssessment').resolves([answer_web1_ok, answer_web2_ko]);
       sandbox.stub(scoring, 'computeObtainedPixScore').returns(17);

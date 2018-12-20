@@ -137,6 +137,10 @@ class Assessment {
     return this.type === type.PLACEMENT;
   }
 
+  canBeScored() {
+    return this.hasTypePlacement() || this.hasTypeCertification();
+  }
+
   isCertifiable() {
     return this.getLastAssessmentResult().level >= 1;
   }

@@ -378,6 +378,28 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
+  describe('#canBeScored', () => {
+
+    [
+      { type: Assessment.types.CERTIFICATION, expected: true },
+      { type: Assessment.types.DEMO, expected: false },
+      { type: Assessment.types.PLACEMENT, expected: true },
+      { type: Assessment.types.PREVIEW, expected: false },
+      { type: Assessment.types.SMARTPLACEMENT, expected: false }
+    ].forEach((data) => {
+      it(`should return ${data.expected} when assessment has type ${data.type}`, () => {
+        // given
+        const assessment = domainBuilder.buildAssessment({ type: data.type });
+
+        // when
+        const result = assessment.canBeScored();
+
+        // then
+        expect(result).to.equal(data.expected);
+      });
+    });
+  });
+
   describe('#isCertifiable', () => {
 
     it('should return true when the last assessment has a level > 0', () => {
