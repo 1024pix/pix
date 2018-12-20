@@ -141,7 +141,7 @@ describe('Unit | Repository | SnapshotRepository', function() {
       return promise.then(() => {
         sinon.assert.calledOnce(Snapshot.prototype.where);
         sinon.assert.calledOnce(orderByStub);
-        sinon.assert.calledWith(orderByStub, '-createdAt');
+        sinon.assert.calledWith(orderByStub, 'createdAt', 'desc');
         sinon.assert.calledOnce(fetchAllStub);
       });
     });
