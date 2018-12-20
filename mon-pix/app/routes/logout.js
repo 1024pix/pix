@@ -16,10 +16,10 @@ export default BaseRoute.extend({
   },
 
   afterModel() {
-    if(this.source === 'pix') {
-      return this._redirectToHome();
-    } else {
+    if(this.source === 'external') {
       return this._redirectToDisconnectedPage();
+    } else {
+      return this._redirectToHome();
     }
   },
 
