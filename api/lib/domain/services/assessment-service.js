@@ -73,7 +73,7 @@ async function getSkillsReportAndCompetenceMarks(assessment) {
     competenceMarks: []
   };
 
-  if (!assessment.hasTypePlacement() && !assessment.hasTypeCertification()) {
+  if (!assessment.canBeScored()) {
     return Promise.resolve(response);
   }
 
@@ -113,7 +113,11 @@ async function getSkillsReportAndCompetenceMarks(assessment) {
         });
       });
     });
-  } else {
+
+    return Promise.resolve(response);
+  }
+
+  if (assessment.hasTypePlacement()) {
     const competencePixScore = scoring.computeObtainedPixScore(course.competenceSkills, validatedSkills);
     const competenceLevel = scoring.computeLevel(competencePixScore);
 
@@ -127,9 +131,9 @@ async function getSkillsReportAndCompetenceMarks(assessment) {
     });
 
     response.competenceMarks = [competenceMark];
-  }
 
-  return Promise.resolve(response);
+    return Promise.resolve(response);
+  }
 }
 
 module.exports = {
