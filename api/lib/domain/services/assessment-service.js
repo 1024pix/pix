@@ -30,10 +30,8 @@ async function fetchAssessment(assessmentId) {
   assessment.pixScore = 0;
   assessment.successRate = answerService.getAnswersSuccessRate(answers);
 
-  const response = { assessmentPix: assessment, skills: null };
-
   if (!assessment.hasTypePlacement()) {
-    return Promise.resolve(response);
+    return Promise.resolve(assessment);
   }
 
   const course = await courseRepository.get(assessment.courseId);
@@ -51,13 +49,7 @@ async function fetchAssessment(assessmentId) {
   assessment.pixScore = scoring.computeObtainedPixScore(course.competenceSkills, validatedSkills);
   assessment.estimatedLevel = scoring.computeLevel(assessment.pixScore);
 
-  response.skills = {
-    assessmentId,
-    validatedSkills,
-    failedSkills: scoring.getFailedSkills(answers, challenges, course.tubes),
-  };
-
-  return Promise.resolve(response);
+  return Promise.resolve(assessment);
 }
 
 async function getSkillsReportAndCompetenceMarks(assessment) {

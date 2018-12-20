@@ -110,16 +110,12 @@ describe('Unit | Domain | Services | assessment', () => {
           assessmentRepository.get.resolves(assessment);
         });
 
-        it('should resolve an object with properties "assessmentPix" and "skills"', async () => {
+        it('should resolve an Assessment', async () => {
           // when
           const response = await service.fetchAssessment(ASSESSMENT_ID);
 
           // then
-          expect(response).to.have.property('assessmentPix');
-          expect(response.assessmentPix).to.be.an.instanceOf(Assessment);
-
-          expect(response).to.have.property('skills');
-          expect(response.skills).to.be.null;
+          expect(response).to.be.an.instanceOf(Assessment);
         });
 
         it('should return an assessment with an estimated level of 0, a pix-score of 0 and a success rate of 100', async () => {
@@ -127,9 +123,9 @@ describe('Unit | Domain | Services | assessment', () => {
           const response = await service.fetchAssessment(ASSESSMENT_ID);
 
           // then
-          expect(response.assessmentPix.estimatedLevel).to.equal(0);
-          expect(response.assessmentPix.pixScore).to.equal(0);
-          expect(response.assessmentPix.successRate).to.equal(100);
+          expect(response.estimatedLevel).to.equal(0);
+          expect(response.pixScore).to.equal(0);
+          expect(response.successRate).to.equal(100);
         });
       });
 
@@ -140,16 +136,12 @@ describe('Unit | Domain | Services | assessment', () => {
           assessmentRepository.get.resolves(assessment);
         });
 
-        it('should resolve an object with properties "assessmentPix" and "skills"', async () => {
+        it('should resolve an Assessment', async () => {
           // when
           const response = await service.fetchAssessment(ASSESSMENT_ID);
 
           // then
-          expect(response).to.have.property('assessmentPix');
-          expect(response.assessmentPix).to.be.an.instanceOf(Assessment);
-
-          expect(response).to.have.property('skills');
-          expect(response.skills).to.exist;
+          expect(response).to.be.an.instanceOf(Assessment);
         });
 
         it('should resolve the promise with a scored assessment', async () => {
@@ -157,15 +149,11 @@ describe('Unit | Domain | Services | assessment', () => {
           const response = await service.fetchAssessment(ASSESSMENT_ID);
 
           // then
-          expect(response.assessmentPix.id).to.equal(ASSESSMENT_ID);
-          expect(response.assessmentPix.courseId).to.equal(COURSE_ID);
-          expect(response.assessmentPix.pixScore).to.equal(17);
-          expect(response.assessmentPix.estimatedLevel).to.equal(2);
-          expect(response.assessmentPix.successRate).to.equal(100);
-
-          expect(response.skills.assessmentId).to.equal(ASSESSMENT_ID);
-          expect(response.skills.validatedSkills).to.deep.equal(['@web1']);
-          expect(response.skills.failedSkills).to.deep.equal(['@web2']);
+          expect(response.id).to.equal(ASSESSMENT_ID);
+          expect(response.courseId).to.equal(COURSE_ID);
+          expect(response.pixScore).to.equal(17);
+          expect(response.estimatedLevel).to.equal(2);
+          expect(response.successRate).to.equal(100);
         });
 
         it('should call dependencies with good args', async () => {
@@ -179,10 +167,9 @@ describe('Unit | Domain | Services | assessment', () => {
           expect(courseRepository.get).to.have.been.calledWithExactly(COURSE_ID);
           expect(skillRepository.findByCompetenceId).to.have.been.calledWithExactly(COMPETENCE_ID);
           expect(challengeRepository.findByCompetenceId).to.have.been.calledWithExactly(COMPETENCE_ID);
+          expect(scoring.getValidatedSkills).to.have.been.calledOnce;
           expect(scoring.computeObtainedPixScore).to.have.been.calledOnce;
           expect(scoring.computeLevel).to.have.been.calledWithExactly(17);
-          expect(scoring.getValidatedSkills).to.have.been.calledOnce;
-          expect(scoring.getFailedSkills).to.have.been.calledOnce;
         });
       });
     });

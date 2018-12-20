@@ -67,13 +67,9 @@ describe('Unit | Controller | assessment-controller', () => {
       // given
       const serializedAssessment = { data: { type: 'Assessment' } };
       const scoredAssessment = { id: 'assessment_id' };
-      const expectedSerializerArgs = {
-        assessmentPix: scoredAssessment,
-        skills: {}
-      };
 
       assessmentSerializer.serialize.returns(serializedAssessment);
-      assessmentService.fetchAssessment.withArgs(ASSESSMENT_ID).resolves(expectedSerializerArgs);
+      assessmentService.fetchAssessment.withArgs(ASSESSMENT_ID).resolves(scoredAssessment);
 
       // when
       const response = await assessmentController.get(request, hFake);
