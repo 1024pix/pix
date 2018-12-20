@@ -37,7 +37,7 @@ export default EmberObject.extend({
   }),
 
   text: computed('_currentStep', '_maxSteps', function() {
-    return `${this.get('_currentStep')} / ${this.get('_maxSteps')}`;
+    return `${this.get('_currentStep')}/${this.get('_maxSteps')}`;
   })
 
 });
