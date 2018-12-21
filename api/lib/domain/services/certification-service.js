@@ -13,9 +13,9 @@ const CertificationContract = require('../../domain/models/CertificationContract
 
 const { CertificationComputeError, UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
 
-const answerServices = require('./answer-service');
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 const userService = require('../../../lib/domain/services/user-service');
+const scoringFormulas = require('../strategies/scoring/scoring-formulas');
 
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
@@ -151,7 +151,7 @@ function _getResult(listAnswers, certificationChallenges, testedCompetences, con
     CertificationContract.assertThatWeHaveEnoughAnswers(listAnswers, certificationChallenges);
   }
 
-  const reproductibilityRate = Math.round(answerServices.getAnswersSuccessRate(listAnswers));
+  const reproductibilityRate = Math.round(scoringFormulas.computeAnswersSuccessRate(listAnswers));
   if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
     return {
       competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),

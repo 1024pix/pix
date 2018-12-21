@@ -1,15 +1,16 @@
-const scoringUtils = require('./scoring-utils.js');
+const scoringFormulas = require('./scoring-formulas.js');
 const AssessmentScore = require('../../models/AssessmentScore');
 const CompetenceMark = require('../../models/CompetenceMark');
 
+const certificationService = require('../../services/certification-service');
+
 module.exports = {
 
-  async calculate({ answerRepository, certificationService, competenceRepository }, assessment) {
+  async calculate({ competenceRepository }, assessment) {
 
     // 1. Fetch data
 
-    const [answers, competences, { competencesWithMark }] = await Promise.all([
-      answerRepository.findByAssessment(assessment.id),
+    const [competences, { competencesWithMark }] = await Promise.all([
       competenceRepository.list(),
       certificationService.calculateCertificationResultByAssessmentId(assessment.id)
     ]);
@@ -30,20 +31,14 @@ module.exports = {
       });
     });
 
-    const nbPixByCompetence = competenceMarks.map((competenceMark) => competenceMark.score);
+    const competencesPixScore = competenceMarks.map((competenceMark) => competenceMark.score);
 
-    const nbPix = scoringUtils.computeTotalPixScore(nbPixByCompetence);
-
-    const level = scoringUtils.computeLevel(assessment.pixScore);
-
-    const successRate = scoringUtils.computeAnswersSuccessRate(answers);
+    const nbPix = scoringFormulas.computeTotalPixScore(competencesPixScore);
 
     // 3. Format response
 
     return new AssessmentScore({
-      level,
       nbPix,
-      successRate,
       competenceMarks,
     });
   }

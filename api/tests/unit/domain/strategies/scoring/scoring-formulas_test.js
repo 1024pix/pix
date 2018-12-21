@@ -1,11 +1,83 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
+const Answer = require('../../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const Tube = require('../../../../../lib/domain/models/Tube');
-const scoring  = require('../../../../../lib/domain/strategies/scoring/scoring-utils');
+const scoringFormulas = require('../../../../../lib/domain/strategies/scoring/scoring-formulas');
 
-describe('Integration | Domain | strategies | scoring', () => {
+describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
 
-  describe('#computeMaxReachablePixScoreForSkill', () => {
+  describe('#computeAnswersSuccessRate', () => {
+
+    context('when no answers is given', () => {
+
+      it('should have a trust level has unknown', () => {
+        // given
+        const answers = [];
+
+        // when
+        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
+
+        // then
+        expect(successRate).to.equal(0);
+      });
+    });
+
+    context('when all answers are OK', () => {
+
+      it('should has a success rate at 100%', () => {
+        // given
+        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ok' })];
+
+        // when
+        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
+
+        // then
+        expect(successRate).to.equal(100);
+      });
+    });
+
+    context('when all answers are KO', () => {
+
+      it('should has a success rate at 0%', () => {
+        // given
+        const answers = [new Answer({ result: 'ko' }), new Answer({ result: 'ko' })];
+
+        // when
+        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
+
+        // then
+        expect(successRate).to.equal(0);
+      });
+    });
+
+    context('when the answers are a mixed of valid and wrong answers', () => {
+
+      it('should has a success rate at 50% with 1W and 1R', () => {
+        // given
+        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ko' })];
+
+        // when
+        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
+
+        // then
+        expect(successRate).to.equal(50);
+      });
+
+      it('should has a success rate at 50% with 2W and 1R', () => {
+        // given
+        const answers = [new Answer({ result: 'ok' }), new Answer({ result: '#ABAND#' }), new Answer({ result: 'ko' })];
+
+        // when
+        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
+
+        // then
+        expect(successRate).to.be.within(33.333333, 33.333334);
+      });
+
+    });
+  });
+
+  describe('#computeObtainedPixScore', () => {
 
     it('should be 0 if no skill has been validated', function() {
       // given
@@ -15,7 +87,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const competenceSkills = [skill_web1, skill_web2, skill_web3];
 
       // when
-      const score = scoring.computeObtainedPixScore(competenceSkills, []);
+      const score = scoringFormulas.computeObtainedPixScore(competenceSkills, []);
 
       // then
       expect(score).to.equal(0);
@@ -29,7 +101,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const competenceSkills = [skill_web1, skill_web2, skill_web3];
 
       // when
-      const score = scoring.computeObtainedPixScore(competenceSkills, [skill_web1, skill_web2]);
+      const score = scoringFormulas.computeObtainedPixScore(competenceSkills, [skill_web1, skill_web2]);
 
       // then
       expect(score).to.equal(8);
@@ -45,7 +117,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const competenceSkills = [skill_web1, skill_web2, skill_web3, skill_fou3, skill_chi3];
 
       // when
-      const score = scoring.computeObtainedPixScore(competenceSkills, [skill_web1, skill_fou3]);
+      const score = scoringFormulas.computeObtainedPixScore(competenceSkills, [skill_web1, skill_fou3]);
 
       // then
       expect(score).to.equal(6);
@@ -59,7 +131,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const pixScores = [8, 12, undefined, null];
 
       // when
-      const totalPixScore = scoring.computeTotalPixScore(pixScores);
+      const totalPixScore = scoringFormulas.computeTotalPixScore(pixScores);
 
       // then
       expect(totalPixScore).to.equal(20);
@@ -70,7 +142,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const pixScores = [];
 
       // when
-      const totalPixScore = scoring.computeTotalPixScore(pixScores);
+      const totalPixScore = scoringFormulas.computeTotalPixScore(pixScores);
 
       // then
       expect(totalPixScore).to.equal(0);
@@ -81,7 +153,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const pixScores = [8, 12, 11, 5];
 
       // when
-      const totalPixScore = scoring.computeTotalPixScore(pixScores);
+      const totalPixScore = scoringFormulas.computeTotalPixScore(pixScores);
 
       // then
       expect(totalPixScore).to.equal(36);
@@ -95,7 +167,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const pixScore = 7.98;
 
       // when
-      const level = scoring.computeLevel(pixScore);
+      const level = scoringFormulas.computeLevel(pixScore);
 
       // then
       expect(level).to.equal(0);
@@ -106,7 +178,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const pixScore = 8.02;
 
       // when
-      const level = scoring.computeLevel(pixScore);
+      const level = scoringFormulas.computeLevel(pixScore);
 
       // then
       expect(level).to.equal(1);
@@ -120,7 +192,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const level = 2;
 
       // when
-      const ceilingLevel = scoring.computeCeilingLevel(level);
+      const ceilingLevel = scoringFormulas.computeCeilingLevel(level);
 
       // then
       expect(ceilingLevel).to.equal(2);
@@ -131,7 +203,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const level = 48;
 
       // when
-      const ceilingLevel = scoring.computeCeilingLevel(level);
+      const ceilingLevel = scoringFormulas.computeCeilingLevel(level);
 
       // then
       expect(ceilingLevel).to.equal(5);
@@ -157,7 +229,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const tubes = [tube];
 
       // when
-      const validatedSkills = scoring.getValidatedSkills(answers, challenges, tubes);
+      const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
 
       // then
       expect(validatedSkills).to.deep.equal([skill_web1, skill_web2]);
@@ -182,7 +254,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const tubes = [tube];
 
       // when
-      const validatedSkills = scoring.getValidatedSkills(answers, challenges, tubes);
+      const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
 
       // then
       expect(validatedSkills).to.deep.equal([skill_web1, skill_web2]);
@@ -207,7 +279,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const tubes = [tube];
 
       // when
-      const validatedSkills = scoring.getValidatedSkills(answers, challenges, tubes);
+      const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
 
       // then
       expect(validatedSkills).to.deep.equal([skill_web1]);
@@ -248,7 +320,7 @@ describe('Integration | Domain | strategies | scoring', () => {
         const tubes = [tube_web, tube_chi, tube_truc];
 
         // when
-        const validatedSkills = scoring.getValidatedSkills(answers, challenges, tubes);
+        const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
 
         // then
         expect(validatedSkills).to.deep.equal(competenceSkills);
@@ -285,7 +357,7 @@ describe('Integration | Domain | strategies | scoring', () => {
         const tubes = [tube_web, tube_chi];
 
         // when
-        const validatedSkills = scoring.getValidatedSkills(answers, challenges, tubes);
+        const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
 
         // then
         expect(validatedSkills).to.deep.equal(competenceSkills);
@@ -312,7 +384,7 @@ describe('Integration | Domain | strategies | scoring', () => {
       const tubes = [tube];
 
       // when
-      const failedSkills = scoring.getFailedSkills(answers, challenges, tubes);
+      const failedSkills = scoringFormulas.getFailedSkills(answers, challenges, tubes);
 
       // then
       expect(failedSkills).to.deep.equal(skills);

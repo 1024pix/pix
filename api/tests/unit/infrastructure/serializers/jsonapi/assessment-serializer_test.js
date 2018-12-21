@@ -34,7 +34,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
           'estimated-level': undefined,
           'pix-score': undefined,
           'state': undefined,
-          'success-rate': undefined,
           'type': 'charade',
           'certification-number': null,
         },
@@ -68,7 +67,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         attributes: {
           'estimated-level': undefined,
           'pix-score': undefined,
-          'success-rate': 24,
           'type': 'SMART_PLACEMENT',
           'certification-number': null,
         },
@@ -82,7 +80,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         attributes: {
           'estimated-level': undefined,
           'pix-score': undefined,
-          'success-rate': 24,
           'type': 'PREVIEW',
           'certification-number': null,
         },

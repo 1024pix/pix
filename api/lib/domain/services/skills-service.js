@@ -3,14 +3,14 @@ const skillsRespository = require('../../infrastructure/repositories/skill-repos
 module.exports = {
 
   saveAssessmentSkills(assessmentId, validatedSkills, failedSkills) {
-    const formattedValitedSkills = _formatValitedSkills(assessmentId, validatedSkills);
+    const formattedValidatedSkills = _formatValidatedSkills(assessmentId, validatedSkills);
     const formattedFailedSkills = _formatFailedSkills(assessmentId, failedSkills);
-    const formattedSkills = [].concat(formattedValitedSkills, formattedFailedSkills);
+    const formattedSkills = [].concat(formattedValidatedSkills, formattedFailedSkills);
     return skillsRespository.save(formattedSkills);
   }
 };
 
-function _formatValitedSkills(assessmentId, skills) {
+function _formatValidatedSkills(assessmentId, skills) {
   return [...skills].reduce((acc, skill) => {
     acc.push({
       assessmentId,

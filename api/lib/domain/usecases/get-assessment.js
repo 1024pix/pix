@@ -1,4 +1,5 @@
 const scoringService = require('../services/scoring-service');
+const { NotFoundError } = require('../errors');
 
 module.exports = async function getAssessment(
   {
@@ -15,13 +16,16 @@ module.exports = async function getAssessment(
 
   const dependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
 
-  const assessment = await await assessmentRepository.get(assessmentId);
+  const assessment = await assessmentRepository.get(assessmentId);
+
+  if (!assessment) {
+    throw new NotFoundError(`Assessment not found for ID ${assessmentId}`);
+  }
 
   const assessmentScore = await scoringService.calculateAssessmentScore(dependencies, assessment);
 
-  assessment.pixScore = assessmentScore.nbPix;
   assessment.estimatedLevel = assessmentScore.level;
-  assessment.successRate = assessmentScore.successRate;
+  assessment.pixScore = assessmentScore.nbPix;
 
   return assessment;
 
