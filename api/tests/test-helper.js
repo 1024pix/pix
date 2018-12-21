@@ -110,6 +110,17 @@ const hFake = {
   },
 };
 
+function streamToPromise(stream) {
+  return new Promise((resolve, reject) => {
+    let totalData = '';
+    stream.on('data', (data) => { totalData += data; });
+    stream.on('end', () => {
+      resolve(totalData);
+    });
+    stream.on('error', reject);
+  });
+}
+
 module.exports = {
   airtableBuilder,
   cleanupUsersAndPixRolesTables,
@@ -124,4 +135,5 @@ module.exports = {
   knex,
   nock,
   sinon,
+  streamToPromise,
 };

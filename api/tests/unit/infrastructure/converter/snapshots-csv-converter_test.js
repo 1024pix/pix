@@ -64,81 +64,66 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
   const expectedTextCSVFirstUser = '"NomUser";"PrenomUser";"UNIV123";"CAMPAIGN123";13/10/2017;22;="2/2";4;3\n';
   const expectedTextCSVSecondUser = '"NomUser";"PrenomUser";"AAA";"EEE";12/10/2017;;="1/2";2;\n';
 
-  describe('#convertJsonToCsv()', () => {
+  describe('#generateHeader()', () => {
 
-    it('should return a CSV String with at least the headers line when there is no shared profiles', () => {
+    it('should display headers information', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv(organization, competences, []);
+      const result = snapshotsConverter.generateHeader(organization, competences);
 
       // then
-      expect(result).to.be.a('string');
-      expect(result).to.equal(expectedTextHeadersCSV);
-
+      expect(result).to.contains(expectedTextHeadersCSV);
     });
 
-    describe('First row of the table', () => {
+    it('should display "Numéro Étudiant" when organization has type "SUP"', () => {
+      // given
+      organization.type = 'SUP';
 
-      it('should display headers information', () => {
-        // when
-        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
+      // when
+      const result = snapshotsConverter.generateHeader(organization, competences);
 
-        // then
-        expect(result).to.contains(expectedTextHeadersCSV);
-      });
-
-      it('should display "Numéro Étudiant" when organization has type "SUP"', () => {
-        // given
-        organization.type = 'SUP';
-
-        // when
-        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
-
-        // then
-        expect(result).to.contains('"Numéro Étudiant"');
-      });
-
-      it('should display "Numéro INE" when organization has type "SCO"', () => {
-        // given
-        organization.type  = 'SCO';
-
-        // when
-        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
-
-        // then
-        expect(result).to.contains('"Numéro INE"');
-      });
-
-      it('should display "ID-Pix" when organization has type "PRO"', () => {
-        // given
-        organization.type  = 'PRO';
-
-        // when
-        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
-
-        // then
-        expect(result).to.contains('"ID-Pix"');
-      });
-
+      // then
+      expect(result).to.contains('"Numéro Étudiant"');
     });
 
-    describe('Shared profile data rows', () => {
+    it('should display "Numéro INE" when organization has type "SCO"', () => {
+      // given
+      organization.type  = 'SCO';
 
-      it('should set information for users', () => {
-        // when
-        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
+      // when
+      const result = snapshotsConverter.generateHeader(organization, competences);
 
-        // then
-        expect(result).to.contains(expectedTextCSVFirstUser);
-        expect(result).to.contains(expectedTextCSVSecondUser);
-      });
+      // then
+      expect(result).to.contains('"Numéro INE"');
+    });
 
-      it('should return string with headers and users informations in this exact order', () => {
-        // when
-        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
+    it('should display "ID-Pix" when organization has type "PRO"', () => {
+      // given
+      organization.type  = 'PRO';
 
-        // then
-        expect(result).to.contains(expectedTextHeadersCSV + expectedTextCSVFirstUser + expectedTextCSVSecondUser);
-      });
+      // when
+      const result = snapshotsConverter.generateHeader(organization, competences);
+
+      // then
+      expect(result).to.contains('"ID-Pix"');
+    });
+  });
+
+  describe('#convertJsonToCsv()', () => {
+
+    it('should return an empty string when there are no shared profiles', () => {
+      // when
+      const result = snapshotsConverter.convertJsonToCsv([]);
+
+      // then
+      expect(result).to.equal('');
+    });
+
+    it('should set information for users', () => {
+      // when
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots);
+
+      // then
+      expect(result).to.equal(expectedTextCSVFirstUser + expectedTextCSVSecondUser);
     });
   });
 });
