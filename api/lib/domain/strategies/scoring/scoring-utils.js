@@ -4,6 +4,18 @@ const AnswerStatus = require('../../models/AnswerStatus');
 const NB_PIX_BY_LEVEL = 8;
 const MAX_REACHABLE_LEVEL = 5;
 
+function computeAnswersSuccessRate(answers = []) {
+  const numberOfAnswers = answers.length;
+
+  if (!numberOfAnswers) {
+    return 0;
+  }
+
+  const numberOfValidAnswers = answers.filter((answer) => answer.isOk()).length;
+
+  return (numberOfValidAnswers % 100 / numberOfAnswers) * 100;
+}
+
 function computeObtainedPixScore(allSkills, validatedSkills) {
   const pixScoreBySkill = [];
 
@@ -72,6 +84,7 @@ function getFailedSkills(answers, challenges, tubes) {
 }
 
 module.exports = {
+  computeAnswersSuccessRate,
   computeObtainedPixScore,
   computeTotalPixScore,
   computeLevel,

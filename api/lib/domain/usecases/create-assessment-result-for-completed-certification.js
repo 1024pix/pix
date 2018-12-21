@@ -3,8 +3,6 @@ const moment = require('moment');
 const Assessment = require('../models/Assessment');
 const AssessmentResult = require('../models/AssessmentResult');
 
-const scoring = require('../strategies/scoring/scoring');
-
 const {
   AlreadyRatedAssessmentError,
   CertificationComputeError,
@@ -26,7 +24,7 @@ module.exports = function createAssessmentResultForCompletedCertification({
   certificationCourseRepository,
   competenceMarkRepository,
   // Services
-  assessmentService,
+  scoringService,
   skillsService,
 }) {
   let assessment;
@@ -44,13 +42,11 @@ module.exports = function createAssessmentResultForCompletedCertification({
         throw new AlreadyRatedAssessmentError();
       }
 
-      return assessmentService.getSkillsReportAndCompetenceMarks(assessment);
+      return scoringService.calculateAssessmentScore(assessment);
     })
-    .then(({ skills, competenceMarks }) => _saveCertificationResult({
+    .then((assessmentScore) => _saveCertificationResult({
       assessment,
-      assessmentId,
-      competenceMarks,
-      skills,
+      assessmentScore,
       assessmentRepository,
       assessmentResultRepository,
       certificationCourseRepository,
@@ -70,9 +66,7 @@ module.exports = function createAssessmentResultForCompletedCertification({
 function _saveCertificationResult({
   // Parameters
   assessment,
-  assessmentId,
-  competenceMarks,
-  skills,
+  assessmentScore,
   // Repositories
   assessmentRepository,
   assessmentResultRepository,
@@ -81,14 +75,14 @@ function _saveCertificationResult({
   // Services
   skillsService,
 }) {
-  const { pixScore, level, status } = _getAssessmentResultEvaluations(competenceMarks, assessment.type);
-  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(level, pixScore, status, assessmentId);
+  const status = _getCertificationStatus(assessment, assessmentScore);
+  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(assessmentScore.level, assessmentScore.nbPix, status, assessment.id);
   assessment.setCompleted();
 
   return Promise.all([
     assessmentResultRepository.save(assessmentResult),
-    competenceMarks,
-    skillsService.saveAssessmentSkills(skills),
+    assessmentScore.competenceMarks,
+    skillsService.saveAssessmentSkills(assessment.id, assessmentScore.validatedSkills, assessmentScore.failedSkills),
     assessmentRepository.save(assessment),
   ])
     .then(([assessmentResult, competenceMarks]) => {
@@ -104,20 +98,12 @@ function _saveCertificationResult({
     .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
 }
 
-function _getAssessmentResultEvaluations(competenceMarks, assessmentType) {
-  const competencesPixScore = competenceMarks.map((competenceMark) => competenceMark.score);
-  // for PLACEMENT, there is only one competence, so totalPixScore is the same as competence Pix score
-  // for CERTIFICATION, we compute all competences score
-  const totalPixScore = scoring.computeTotalPixScore(competencesPixScore);
-  let level = scoring.computeLevel(totalPixScore);
-
-  if (totalPixScore === 0 && assessmentType === Assessment.types.CERTIFICATION) {
-    const status = CERTIFICATION_REJECTED;
-    level = NOT_VALIDATED_CERTIF_LEVEL;
-    return { pixScore: totalPixScore, level, status };
+function _getCertificationStatus(assessment, assessmentScore) {
+  if (assessmentScore.nbPix === 0 && assessment.hasTypeCertification()) {
+    assessmentScore.level = NOT_VALIDATED_CERTIF_LEVEL;
+    return CERTIFICATION_REJECTED;
   } else {
-    const status = CERTIFICATION_VALIDATED;
-    return { pixScore: totalPixScore, level, status };
+    return CERTIFICATION_VALIDATED;
   }
 }
 

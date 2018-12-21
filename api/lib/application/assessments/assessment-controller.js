@@ -9,11 +9,22 @@ const challengeSerializer = require('../../infrastructure/serializers/jsonapi/ch
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const infraErrors = require('../../infrastructure/errors');
 
-const { NotFoundError, AssessmentEndedError, AssessmentStartError,
-  ObjectValidationError, CampaignCodeError } = require('../../domain/errors');
-const assessmentService = require('../../domain/services/assessment-service');
+const {
+  NotFoundError,
+  AssessmentEndedError,
+  AssessmentStartError,
+  ObjectValidationError,
+  CampaignCodeError
+} = require('../../domain/errors');
+const scoringService = require('../../domain/services/scoring-service');
 const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
+
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const courseRepository = require('../../infrastructure/repositories/course-repository');
+const skillRepository = require('../../infrastructure/repositories/skill-repository');
 
 function _extractUserIdFromRequest(request) {
   if (request.headers && request.headers.authorization) {
@@ -57,7 +68,7 @@ module.exports = {
         if (err instanceof CampaignCodeError) {
           throw Boom.notFound(CampaignCodeError);
         }
-        if(err instanceof AssessmentStartError) {
+        if (err instanceof AssessmentStartError) {
           return controllerReplies(h).error(new infraErrors.ConflictError(err.message));
         }
         logger.error(err);
@@ -66,21 +77,32 @@ module.exports = {
 
   },
 
-  get(request) {
+  async get(request, h) {
     const assessmentId = request.params.id;
 
-    return assessmentService
-      .fetchAssessment(assessmentId)
-      .then((assessment) => assessmentSerializer.serialize(assessment))
-      .catch((err) => {
-        if (err instanceof NotFoundError) {
-          throw Boom.notFound(err);
-        }
+    const dependencies = {
+      answerRepository,
+      challengeRepository,
+      competenceRepository,
+      courseRepository,
+      skillRepository
+    };
 
-        logger.error(err);
+    try {
+      const assessment = await await assessmentRepository.get(assessmentId);
 
-        throw Boom.badImplementation(err);
-      });
+      const assessmentScore = await scoringService.calculateAssessmentScore(dependencies, assessment);
+
+      assessment.pixScore = assessmentScore.nbPix;
+      assessment.estimatedLevel = assessmentScore.level;
+      assessment.successRate = assessmentScore.successRate;
+
+      return assessmentSerializer.serialize(assessment);
+    } catch (err) {
+      logger.error(err);
+      return controllerReplies(h).error(err);
+    }
+
   },
 
   findByFilters(request) {
