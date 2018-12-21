@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.17.1 (21/12/2018)
+
+- [#308](https://github.com/1024pix/pix/pull/308) [BUGFIX] CSV des snapshots : transformer les données depuis la base de données en espace constant (pf-474)
+
 ## v2.17.0 (20/12/2018)
 
 - [#304](https://github.com/1024pix/pix/pull/304) [FEATURE] Affiche au maximum 200 snapshots dans la page board (PF-473).
