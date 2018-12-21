@@ -75,18 +75,15 @@ function _createProfileLine(snapshot) {
   return snapshotCsvLine + '\n';
 }
 
-function _createProfileLines(jsonSnapshots) {
-  return jsonSnapshots.map(_createProfileLine).join('');
-}
-
 module.exports = {
 
-  convertJsonToCsv(organization, competences, jsonSnapshots) {
+  generateHeader(organization, competences) {
     // XXX: add the UTF-8 BOM at the start of the text; see https://stackoverflow.com/a/38192870
-    let textCsv = '\uFEFF';
-    textCsv += _createHeadersLine(organization, competences);
-    textCsv += _createProfileLines(jsonSnapshots);
-    return textCsv;
+    return '\uFEFF' + _createHeadersLine(organization, competences);
+  },
+
+  convertJsonToCsv(jsonSnapshots) {
+    return jsonSnapshots.map(_createProfileLine).join('');
   }
 
 };
