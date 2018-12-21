@@ -16,15 +16,9 @@ const {
   ObjectValidationError,
   CampaignCodeError
 } = require('../../domain/errors');
-const scoringService = require('../../domain/services/scoring-service');
+const InfrastructureNotFoundError = require('../../infrastructure/errors').NotFoundError;
 const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
-
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const courseRepository = require('../../infrastructure/repositories/course-repository');
-const skillRepository = require('../../infrastructure/repositories/skill-repository');
 
 function _extractUserIdFromRequest(request) {
   if (request.headers && request.headers.authorization) {
@@ -78,31 +72,22 @@ module.exports = {
   },
 
   async get(request, h) {
-    const assessmentId = request.params.id;
-
-    const dependencies = {
-      answerRepository,
-      challengeRepository,
-      competenceRepository,
-      courseRepository,
-      skillRepository
-    };
-
     try {
-      const assessment = await await assessmentRepository.get(assessmentId);
+      const assessmentId = request.params.id;
 
-      const assessmentScore = await scoringService.calculateAssessmentScore(dependencies, assessment);
-
-      assessment.pixScore = assessmentScore.nbPix;
-      assessment.estimatedLevel = assessmentScore.level;
-      assessment.successRate = assessmentScore.successRate;
+      const assessment = await useCases.getAssessment({ assessmentId });
 
       return assessmentSerializer.serialize(assessment);
     } catch (err) {
+
+      if (err instanceof NotFoundError) {
+        const error = new InfrastructureNotFoundError(err.message);
+        return controllerReplies(h).error(error);
+      }
+
       logger.error(err);
       return controllerReplies(h).error(err);
     }
-
   },
 
   findByFilters(request) {
