@@ -5,6 +5,10 @@ export async function authenticateAsSimpleUser() {
   await click('.signin-form__submit_button');
 }
 
+export async function authenticateAsSimpleExternalUser() {
+  await visit('/connexion?token=aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJleHRlcm5hbCIsImlhdCI6MTU0NTMyMTQ2OSwiZXhwIjoxNTQ1OTI2MjY5fQ.bbbb');
+}
+
 export async function authenticateAsPrescriber() {
   await visit('/connexion');
   await fillIn('#pix-email', 'john@acme.com');
