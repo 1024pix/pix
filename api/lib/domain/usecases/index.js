@@ -31,6 +31,7 @@ const dependencies = {
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
   tokenService: require('../../domain/services/token-service'),
   userRepository: require('../../infrastructure/repositories/user-repository'),
+  snapshotsCsvConverter: require('../../infrastructure/converter/snapshots-csv-converter'),
   snapshotRepository: require('../../infrastructure/repositories/snapshot-repository'),
 };
 
@@ -82,4 +83,5 @@ module.exports = injectDependencies({
   updateCertification: require('./update-certification'),
   updateOrganizationInformation: require('./update-organization-information'),
   updateUserPassword: require('./update-user-password'),
+  writeOrganizationSharedProfilesAsCsvToStream: require('./write-organization-shared-profiles-as-csv-to-stream'),
 });

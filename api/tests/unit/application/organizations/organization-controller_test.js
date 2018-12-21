@@ -399,12 +399,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#exportSharedSnapshotsAsCsv', () => {
 
     beforeEach(() => {
-      sinon.stub(organizationService, 'getOrganizationSharedProfilesAsCsv').resolves();
+      sinon.stub(usecases, 'writeOrganizationSharedProfilesAsCsvToStream').resolves();
       sinon.stub(validationErrorSerializer, 'serialize');
     });
 
     afterEach(() => {
-      organizationService.getOrganizationSharedProfilesAsCsv.restore();
+      usecases.writeOrganizationSharedProfilesAsCsvToStream.restore();
       validationErrorSerializer.serialize.restore();
     });
 
@@ -430,7 +430,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       it('should return a JSONAPI serialized NotFoundError, when expected organization does not exist', async () => {
         // given
-        organizationService.getOrganizationSharedProfilesAsCsv.rejects(NotFoundError);
+        usecases.writeOrganizationSharedProfilesAsCsvToStream.rejects(NotFoundError);
         const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);
         const request = {
@@ -450,7 +450,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       it('should log an error, when unknown error has occured', async () => {
         // given
         const error = new NotFoundError();
-        organizationService.getOrganizationSharedProfilesAsCsv.rejects(error);
+        usecases.writeOrganizationSharedProfilesAsCsvToStream.rejects(error);
         const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);
         const request = {

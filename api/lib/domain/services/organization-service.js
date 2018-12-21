@@ -51,30 +51,6 @@ module.exports = {
       });
   },
 
-  getOrganizationSharedProfilesAsCsv(dependencies, organizationId) {
-    const { organizationRepository, competenceRepository, snapshotRepository, bookshelfUtils, snapshotsCsvConverter } = dependencies;
-
-    let organization;
-    let competences;
-    let snapshots;
-
-    const promises = [
-      organizationRepository.get(organizationId),
-      competenceRepository.list(),
-      snapshotRepository.getSnapshotsByOrganizationId(organizationId)
-    ];
-
-    return Promise.all(promises)
-      .then(([_organization, _competences, _snapshots]) => {
-        organization = _organization;
-        competences = _competences;
-        snapshots = _snapshots;
-      })
-      .then(() => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
-      .then((snapshotsWithRelatedUsers) => snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON()))
-      .then((jsonSnapshots) => snapshotsCsvConverter.convertJsonToCsv(organization, competences, jsonSnapshots));
-  },
-
   search(userId, filters = {}) {
     return userRepository
       .hasRolePixMaster(userId)
