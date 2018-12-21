@@ -54,10 +54,10 @@ describe('Unit | Route | login page', function() {
       sinon.stub(route, 'transitionTo');
 
       // When
-      await route.beforeModel({ queryParams: { token: 'dummy-token', 'user-id': '123' } });
+      await route.beforeModel({ queryParams: { token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb' } });
 
       // Then
-      sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { token: 'dummy-token', userId: 123 });
+      sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb' });
       sinon.assert.calledWith(route.transitionTo, 'compte');
     });
   });

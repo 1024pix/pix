@@ -9,16 +9,26 @@ export default BaseRoute.extend({
 
   beforeModel() {
     const session = this.get('session');
+    this.source = session.data.authenticated.source;
     if (session.get('isAuthenticated')) {
       session.invalidate();
     }
   },
 
   afterModel() {
-    this._redirectToHome();
+    if(this.source === 'external') {
+      return this._redirectToDisconnectedPage();
+    } else {
+      return this._redirectToHome();
+    }
+  },
+
+  _redirectToDisconnectedPage() {
+    return this.transitionTo('not-connected');
   },
 
   _redirectToHome() {
-    window.location.replace(ENV.APP.HOME_HOST);
+    return window.location.replace(ENV.APP.HOME_HOST);
   },
+  
 });
