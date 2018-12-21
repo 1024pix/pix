@@ -19,10 +19,15 @@ module.exports = function createAssessmentResultForCompletedCertification({
   assessmentId,
   forceRecomputeResult = false,
   // Repositories
+  answerRepository,
   assessmentRepository,
   assessmentResultRepository,
   certificationCourseRepository,
+  challengeRepository,
+  competenceRepository,
   competenceMarkRepository,
+  courseRepository,
+  skillRepository,
   // Services
   scoringService,
   skillsService,
@@ -42,7 +47,9 @@ module.exports = function createAssessmentResultForCompletedCertification({
         throw new AlreadyRatedAssessmentError();
       }
 
-      return scoringService.calculateAssessmentScore(assessment);
+      const dependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
+
+      return scoringService.calculateAssessmentScore(dependencies, assessment);
     })
     .then((assessmentScore) => _saveCertificationResult({
       assessment,

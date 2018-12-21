@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const scoring = require('../strategies/scoring/scoring-utils');
+const scoringFormulas = require('../strategies/scoring/scoring-formulas');
 
 const competenceStatus = {
   NOT_ASSESSED: 'notAssessed',
@@ -69,7 +69,7 @@ class Profile {
         const course = this._getCourseById(courses, courseIdFromAssessment);
         const competence = this.competences.find((competence) => course.competences.includes(competence.id));
 
-        competence.level = scoring.computeCeilingLevel(assessment.getLevel());
+        competence.level = scoringFormulas.computeCeilingLevel(assessment.getLevel());
         competence.pixScore = assessment.getPixScore();
       }
     });
@@ -106,7 +106,7 @@ class Profile {
     }).map((competence) => competence.pixScore);
 
     if (competencesPixScore.length > 0) {
-      const totalPixScore = scoring.computeTotalPixScore(competencesPixScore);
+      const totalPixScore = scoringFormulas.computeTotalPixScore(competencesPixScore);
       this.user.set('pix-score', totalPixScore);
     }
   }

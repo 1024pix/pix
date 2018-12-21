@@ -2,9 +2,8 @@ class AssessmentScore {
   constructor(
     {
       // attributes
-      level = 0,
+      level = null,
       nbPix = 0,
-      successRate = 0,
       validatedSkills = [],
       failedSkills = [],
       competenceMarks = [],
@@ -14,7 +13,6 @@ class AssessmentScore {
     // attributes
     this.level = level;
     this.nbPix = nbPix;
-    this.successRate = successRate;
     this.validatedSkills = validatedSkills;
     this.failedSkills = failedSkills;
     this.competenceMarks = competenceMarks;

@@ -1,4 +1,4 @@
-const scoringUtils = require('./scoring-utils.js');
+const scoringFormulas = require('./scoring-formulas.js');
 const AssessmentScore = require('../../models/AssessmentScore');
 const CompetenceMark = require('../../models/CompetenceMark');
 
@@ -21,15 +21,13 @@ module.exports = {
 
     // 2. Process data
 
-    const validatedSkills = scoringUtils.getValidatedSkills(answers, challenges, course.tubes);
+    const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, course.tubes);
 
-    const failedSkills = scoringUtils.getFailedSkills(answers, challenges, course.tubes);
+    const failedSkills = scoringFormulas.getFailedSkills(answers, challenges, course.tubes);
 
-    const nbPix = scoringUtils.computeObtainedPixScore(course.competenceSkills, validatedSkills);
+    const nbPix = scoringFormulas.computeObtainedPixScore(course.competenceSkills, validatedSkills);
 
-    const level = scoringUtils.computeLevel(nbPix);
-
-    const successRate = scoringUtils.computeAnswersSuccessRate(answers);
+    const level = scoringFormulas.computeLevel(nbPix);
 
     const competenceMarks = [new CompetenceMark({
       level: level,
@@ -43,7 +41,6 @@ module.exports = {
     return new AssessmentScore({
       level,
       nbPix,
-      successRate,
       validatedSkills,
       failedSkills,
       competenceMarks,
