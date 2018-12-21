@@ -14,11 +14,13 @@
     {{score-pastille pixScore=totalPixScore}}
   </div>
 
-  <div class="profile-header__share">
-    {{share-profile
-      searchForOrganization=searchForOrganization
-      shareProfileSnapshot=shareProfileSnapshot}}
-  </div>
+  {{#if showSharedButton}}
+    <div class="profile-header__share">
+        {{share-profile
+          searchForOrganization=searchForOrganization
+          shareProfileSnapshot=shareProfileSnapshot}}
+    </div>
+  {{/if}}
 
 </div>
 
