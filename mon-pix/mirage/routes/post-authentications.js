@@ -3,7 +3,7 @@ const simpleUserAuthentication = {
     type: 'authentication',
     attributes: {
       'user-id': 1,
-      token: 'simple-user-token'
+      token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUyMTg5MDh9.bbbb'
     },
     id: 1
   }
@@ -14,7 +14,7 @@ const prescriberAuthentication = {
     type: 'authentication',
     attributes: {
       'user-id': 2,
-      token: 'prescriber-user-token'
+      token: 'aaa.eyJ1c2VyX2lkIjoyLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUyMTg4Nzl9.bbbb'
     },
     id: 2
   }

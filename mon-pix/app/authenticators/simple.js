@@ -10,9 +10,11 @@ export default Base.extend({
     return RSVP.resolve(data);
   },
 
-  authenticate({ email, password, token, userId }) {
+  authenticate({ email, password, token }) {
     if (token) {
-      return RSVP.resolve({ token, userId });
+      const userId = this.extractDataFromToken(token).user_id;
+      const source = this.extractDataFromToken(token).source;
+      return RSVP.resolve({ token, userId, source });
     }
 
     return this.get('ajax').request('/api/authentications', {
@@ -26,11 +28,20 @@ export default Base.extend({
         }
       })
     }).then((payload) => {
+      const token = payload.data.attributes.token;
+      const userId = this.extractDataFromToken(token).user_id;
+      const source = this.extractDataFromToken(token).source;
+
       return RSVP.Promise.resolve({
         token: payload.data.attributes.token,
-        userId: payload.data.attributes['user-id']
+        userId,
+        source
       });
     });
-  }
+  },
 
+  extractDataFromToken(token) {
+    const payloadOfToken = token.split('.')[1];
+    return JSON.parse(atob(payloadOfToken));
+  }
 });

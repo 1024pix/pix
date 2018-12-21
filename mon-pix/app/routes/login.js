@@ -10,9 +10,9 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
   routeIfAlreadyAuthenticated: 'compte',
 
   beforeModel({ queryParams }) {
-    if (queryParams && queryParams.token && queryParams['user-id']) {
+    if (queryParams && queryParams.token) {
       return this.get('session')
-        .authenticate('authenticator:simple', { token: queryParams.token, userId: parseInt(queryParams['user-id']) })
+        .authenticate('authenticator:simple', { token: queryParams.token })
         .then((_) => {
           this.transitionTo('compte');
         });

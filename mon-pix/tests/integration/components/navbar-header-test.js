@@ -87,7 +87,9 @@ describe('Integration | Component | navbar-header', function() {
         isAuthenticated: true,
         data: {
           authenticated: {
-            userId: 1435
+            token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUyMTg5MDh9.bbbb',
+            userId: 1,
+            source: 'pix'
           }
         }
       }));

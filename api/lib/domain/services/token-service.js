@@ -2,9 +2,10 @@ const jsonwebtoken = require('jsonwebtoken');
 const { InvalidTemporaryKeyError } = require('../../domain/errors');
 const settings = require('../../settings');
 
-function createTokenFromUser(user) {
+function createTokenFromUser(user, source) {
   return jsonwebtoken.sign({
-    user_id: user.id
+    user_id: user.id,
+    source
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 
