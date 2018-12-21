@@ -57,6 +57,7 @@ module.exports = injectDependencies({
   findSmartPlacementAssessments: require('./find-smart-placement-assessments'),
   findSnapshots: require('./find-snapshots.js'),
   findUsers: require('./find-users.js'),
+  getAssessment: require('./get-assessment'),
   getCampaign: require('./get-campaign'),
   getCampaignByCode: require('./get-campaign-by-code'),
   getCorrectionForAnswerWhenAssessmentEnded: require('./get-correction-for-answer-when-assessment-ended'),
