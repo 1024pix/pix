@@ -1,5 +1,8 @@
 module.exports = {
 
+  /**
+   * @deprecated
+   */
   getAnswersSuccessRate: (answers = []) => {
     const numberOfAnswers = answers.length;
 

@@ -15,7 +15,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const Skill = require('../../../../lib/domain/models/Skill');
-const scoring  = require('../../../../lib/domain/strategies/scoring/scoring');
+const scoring  = require('../../../../lib/domain/strategies/scoring/scoring-utils');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Services | assessment', () => {

@@ -2,55 +2,13 @@ const _ = require('lodash');
 
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const answerService = require('../services/answer-service');
 const certificationService = require('../services/certification-service');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
-const scoring  = require('../strategies/scoring/scoring');
+const scoring  = require('../strategies/scoring/scoring-utils');
 const { NotFoundError } = require('../../domain/errors');
-
-// FIXME: Devrait plutot 1) splitter entre les calculs des acquis 2) calcul du result
-/**
- * @deprecated since getSkillsReport and getCompetenceMarks
- */
-async function fetchAssessment(assessmentId) {
-
-  const assessment = await assessmentRepository.get(assessmentId);
-
-  if (!assessment) {
-    return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
-  }
-
-  const answers = await answerRepository.findByAssessment(assessmentId);
-
-  assessment.estimatedLevel = 0;
-  assessment.pixScore = 0;
-  assessment.successRate = answerService.getAnswersSuccessRate(answers);
-
-  if (!assessment.hasTypePlacement()) {
-    return Promise.resolve(assessment);
-  }
-
-  const course = await courseRepository.get(assessment.courseId);
-
-  const [competenceSkills, challenges] = await Promise.all([
-    skillRepository.findByCompetenceId(course.competences[0]),
-    challengeRepository.findByCompetenceId(course.competences[0])
-  ]);
-
-  course.competenceSkills = competenceSkills;
-  course.computeTubes(course.competenceSkills);
-
-  const validatedSkills = scoring.getValidatedSkills(answers, challenges, course.tubes);
-
-  assessment.pixScore = scoring.computeObtainedPixScore(course.competenceSkills, validatedSkills);
-  assessment.estimatedLevel = scoring.computeLevel(assessment.pixScore);
-
-  return Promise.resolve(assessment);
-}
 
 async function getSkillsReportAndCompetenceMarks(assessment) {
   if (!assessment) {
@@ -129,6 +87,5 @@ async function getSkillsReportAndCompetenceMarks(assessment) {
 }
 
 module.exports = {
-  fetchAssessment,
   getSkillsReportAndCompetenceMarks
 };
