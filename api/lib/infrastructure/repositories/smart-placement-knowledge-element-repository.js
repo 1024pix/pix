@@ -1,6 +1,7 @@
 const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const _ = require('lodash');
+
 module.exports = {
 
   save(smartPlacementKnowledgeElement) {
@@ -28,6 +29,7 @@ module.exports = {
       .fetchAll()
       .then((knowledgeElements) => knowledgeElements.map(toDomain));
   }
+
 };
 
 function toDomain(knowledgeElementBookshelf) {
