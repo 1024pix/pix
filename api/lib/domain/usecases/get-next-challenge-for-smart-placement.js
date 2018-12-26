@@ -13,16 +13,14 @@ function getSmartRandomInputValues({ assessment, answerRepository, challengeRepo
     answerRepository.findByAssessment(assessment.id),
     targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId())
       .then((targetProfile) => Promise.all([targetProfile, challengeRepository.findBySkills(targetProfile.skills)])),
-    keepOnlyMostRecentKnowledgeElements({ userId: assessment.userId, smartPlacementKnowledgeElementRepository })]
+    findMostRecentKnowledgeElements({ userId: assessment.userId, smartPlacementKnowledgeElementRepository })]
   );
 }
 
 // Two knowledge elements can match the same skill id
-function keepOnlyMostRecentKnowledgeElements(knowledgeElements) {
-  return _(knowledgeElements)
-    .orderBy('createdAt')
-    .sortedUniqBy('skillId')
-    .value();
+function findMostRecentKnowledgeElements({ userId, smartPlacementKnowledgeElementRepository }) {
+  return smartPlacementKnowledgeElementRepository.findByUserId(userId)
+    .then(((knowledgeElements) => _(knowledgeElements).orderBy('createdAt', 'desc').uniqBy('skillId').value()));
 }
 
 module.exports = getNextChallengeForSmartPlacement;
