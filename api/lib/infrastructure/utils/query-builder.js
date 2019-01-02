@@ -2,8 +2,8 @@ const DomainBuilder = require('./domain-builder');
 
 module.exports = { find };
 
-function find(bookShelf, options) {
-  return bookShelf
+async function find(bookShelf, options) {
+  const query = bookShelf
     .where(options.filter)
     .query((qb) => {
       options.sort.forEach((sort) => {
@@ -13,16 +13,22 @@ function find(bookShelf, options) {
 
         qb.orderBy(column, order);
       });
-    })
-    .fetchPage({
+    });
+
+  const withRelated = options.include;
+
+  if (options.page) {
+    return query.fetchPage({
       page: options.page.number,
       pageSize: options.page.size,
-      withRelated: options.include,
-    })
-    .then((results) => {
+      withRelated,
+    }).then((results) => {
       return {
         pagination: results.pagination,
         models: DomainBuilder.buildDomainObjects(results.models),
       };
     });
+  }
+
+  return query.fetch({ withRelated }).then(DomainBuilder.buildDomainObjects);
 }

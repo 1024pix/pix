@@ -2,8 +2,8 @@ const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 const Models = require('../../domain/models');
 
-const belongsToKeys = _.keys(Models).map((key) => key.toLowerCase());
-const hasManyKeys = _.keys(Models).map((key) => key.toLowerCase() + 's');
+const belongsToKeys = _.keys(Models).map((key) => _.lowerFirst(key));
+const hasManyKeys = _.keys(Models).map((key) => _.lowerFirst(key) + 's');
 
 module.exports = {
   buildDomainObjects,
@@ -35,7 +35,7 @@ function _buildDomainObject(domainObject, bookshelfObject) {
     if (belongsToKeys.includes(key) && bookshelfObject[key] instanceof Object) {
       return _buildDomainObject(new Models[_.capitalize(key)], bookshelfObject[key]);
     }
-    
+
     if (hasManyKeys.includes(key) && Array.isArray(bookshelfObject[key])) {
       return bookshelfObject[key].map(
         (bookshelfObject) => _buildDomainObject(new Models[_.capitalize(key)], bookshelfObject)
