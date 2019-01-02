@@ -483,6 +483,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
   describe('#getCertificationAssessmentByUserIdAndCourseId', () => {
 
     let assessmentsInDb;
+    let answersInDb;
 
     beforeEach(() => {
       assessmentsInDb = [
@@ -511,15 +512,31 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           type: 'CERTIFICATION',
         }),
       ];
-      return knex('assessments').insert(assessmentsInDb);
+
+      answersInDb = [
+        databaseBuilder.factory.buildAnswer({
+          id: 1,
+          assessmentId: 2
+        }),
+        databaseBuilder.factory.buildAnswer({
+          id: 2,
+          assessmentId: 2
+        }),
+      ];
+      return Promise.all([
+        knex('assessments').insert(assessmentsInDb),
+        knex('answers').insert(answersInDb),
+      ]);
     });
 
     afterEach(() => {
-      return knex('assessments').delete()
-        .then(() => databaseBuilder.clean());
+      return Promise.all([
+        knex('assessments').delete(),
+        knex('answers').delete()
+      ]).then(() => databaseBuilder.clean());
     });
 
-    it('should return assessment when it matches with userId and courseId', function() {
+    it('should return assessment with answers when it matches with userId and courseId', function() {
       // given
       const userId = 2;
       const courseId = 'courseId1';
@@ -530,6 +547,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       // then
       return promise.then((assessment) => {
         expect(assessment.id).to.equal(2);
+        expect(assessment.answers).to.have.lengthOf(2);
       });
     });
 
