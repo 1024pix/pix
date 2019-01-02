@@ -5,16 +5,11 @@ const UNCERTIFIED_LEVEL = -1;
 const qrocmDepChallenge = 'QROCM-dep';
 
 const _ = require('lodash');
-const moment = require('moment');
 
 const AnswerStatus = require('../models/AnswerStatus');
-const CertificationCourse = require('../../domain/models/CertificationCourse');
 const CertificationContract = require('../../domain/models/CertificationContract');
 
-const { CertificationComputeError, UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
-
-const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
-const userService = require('../../../lib/domain/services/user-service');
+const { CertificationComputeError } = require('../../../lib/domain/errors');
 
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
@@ -133,15 +128,6 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       obtainedScore: 0,
     };
   });
-}
-
-function _checkIfUserCanStartACertification(userCompetences) {
-  const nbCompetencesWithEstimatedLevelHigherThan0 = userCompetences
-    .filter((competence) => competence.estimatedLevel > 0)
-    .length;
-
-  if (nbCompetencesWithEstimatedLevelHigherThan0 < 5)
-    throw new UserNotAuthorizedToCertifyError();
 }
 
 function _getResult(listAnswers, certificationChallenges, testedCompetences, continueOnError) {
@@ -303,20 +289,6 @@ module.exports = {
           isPublished: certification.isPublished,
         };
       });
-  },
-
-  startNewCertification(userId, sessionId) {
-    let userCompetencesToCertify;
-    const newCertificationCourse = new CertificationCourse({ userId, sessionId });
-
-    return userService.getProfileToCertify(userId, moment().toISOString())
-      .then((userCompetences) => {
-        userCompetencesToCertify = userCompetences;
-        return _checkIfUserCanStartACertification(userCompetences);
-      })
-      .then(() => certificationCourseRepository.save(newCertificationCourse))
-      //TODO : Creer ici un tableau de CertificationChalleges (Domain Object) avec certificationCourseId rempli
-      .then((savedCertificationCourse) => certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse));
   },
 
   _computeAnswersSuccessRate,
