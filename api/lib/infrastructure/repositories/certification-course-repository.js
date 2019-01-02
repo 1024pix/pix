@@ -6,22 +6,25 @@ const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(model) {
-  return CertificationCourse.fromAttributes({
-    id: model.get('id'),
-    userId: model.get('userId'),
-    type: Assessment.types.CERTIFICATION,
-    assessment: model.related('assessment').toJSON(),
-    challenges: model.related('challenges').toJSON(),
-    createdAt: model.get('createdAt'),
-    completedAt: model.get('completedAt'),
-    firstName: model.get('firstName'),
-    lastName: model.get('lastName'),
-    birthplace: model.get('birthplace'),
-    birthdate: model.get('birthdate'),
-    sessionId: model.get('sessionId'),
-    externalId: model.get('externalId'),
-    isPublished: model.get('isPublished'),
-  });
+  if (model) {
+    return CertificationCourse.fromAttributes({
+      id: model.get('id'),
+      userId: model.get('userId'),
+      type: Assessment.types.CERTIFICATION,
+      assessment: model.related('assessment').toJSON(),
+      challenges: model.related('challenges').toJSON(),
+      createdAt: model.get('createdAt'),
+      completedAt: model.get('completedAt'),
+      firstName: model.get('firstName'),
+      lastName: model.get('lastName'),
+      birthplace: model.get('birthplace'),
+      birthdate: model.get('birthdate'),
+      sessionId: model.get('sessionId'),
+      externalId: model.get('externalId'),
+      isPublished: Boolean(model.get('isPublished')),
+    });
+  }
+  return null;
 }
 
 module.exports = {
@@ -50,6 +53,15 @@ module.exports = {
         }
         return Promise.reject(bookshelfError);
       });
+  },
+
+  findLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
+    return CertificationCourseBookshelf
+      .where({ userId, sessionId })
+      .orderBy('createdAt', 'desc')
+      .query((qb) => qb.limit(1))
+      .fetchAll()
+      .then((certificationCourses) => certificationCourses.map(_toDomain));
   },
 
   update(certificationCourse) {
