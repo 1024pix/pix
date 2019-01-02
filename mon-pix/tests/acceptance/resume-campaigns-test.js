@@ -52,7 +52,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         // then
         return andThen(() => {
           expect(currentURL()).to.contains('/assessments/');
-          expect(find('.progress-bar-info').text()).to.contains('2 / 5');
+          expect(find('.progress-bar-info').text()).to.contains('2/5');
         });
       });
 
@@ -69,7 +69,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
           // then
           return andThen(() => {
             expect(currentURL()).to.contains('/assessments/');
-            expect(find('.progress-bar-info').text()).to.contains('2 / 5');
+            expect(find('.progress-bar-info').text()).to.contains('2/5');
           });
         });
       });
