@@ -1,12 +1,9 @@
 const { PassThrough } = require('stream');
 
-const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
-const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const organizationService = require('../../domain/services/organization-service');
-const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
@@ -102,18 +99,6 @@ module.exports = {
       .catch(controllerReplies(h).error);
   },
 
-  // TODO extract domain logic into service
-  getSharedProfiles: (request, h) => {
-    return _extractSnapshotsForOrganization(request.params.id)
-      .then((jsonSnapshots) => snapshotSerializer.serialize(jsonSnapshots))
-      .catch((err) => {
-        logger.error(err);
-        return h.response(validationErrorSerializer.serialize(
-          _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
-        )).code(500);
-      });
-  },
-
   exportSharedSnapshotsAsCsv: async (request, h) => {
     const organizationId = request.params.id;
 
@@ -139,15 +124,6 @@ module.exports = {
     }
   }
 };
-
-function _extractSnapshotsForOrganization(organizationId) {
-  return snapshotRepository
-    .getSnapshotsByOrganizationId(organizationId)
-    .then((snapshots) => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
-    .then((snapshotsWithRelatedUsers) => {
-      return snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
-    });
-}
 
 function _buildErrorMessage(errorMessage) {
   return {
