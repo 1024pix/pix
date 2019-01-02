@@ -101,43 +101,4 @@ describe('Unit | Repository | SnapshotRepository', function() {
     });
   });
 
-  describe('#getSnapshotsByOrganizationId', () => {
-
-    beforeEach(() => {
-      sinon.stub(Snapshot.prototype, 'where');
-    });
-
-    it('should be a function', () => {
-      // then
-      expect(snapshotRepository.getSnapshotsByOrganizationId).to.be.a('function');
-    });
-
-    it('should query snapshot model', () => {
-      // given
-      const fetchAllStub = sinon.stub().resolves();
-      const orderByStub = sinon.stub().returns({
-        fetchAll: fetchAllStub
-      });
-
-      // then
-      Snapshot.prototype.where.returns({
-        orderBy: orderByStub
-      });
-
-      const organizationId = 123;
-
-      // when
-      const promise = snapshotRepository.getSnapshotsByOrganizationId(organizationId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(Snapshot.prototype.where);
-        sinon.assert.calledOnce(orderByStub);
-        sinon.assert.calledWith(orderByStub, 'createdAt', 'desc');
-        sinon.assert.calledOnce(fetchAllStub);
-      });
-    });
-
-  });
-
 });
