@@ -4,21 +4,17 @@ const scoringCertification = require('../strategies/scoring/scoring-certificatio
 
 async function calculateAssessmentScore(dependencies, assessment) {
 
-  let assessmentScore;
-
   if (!assessment.canBeScored()) {
-    assessmentScore = new AssessmentScore();
+    return new AssessmentScore();
   }
 
   if (assessment.hasTypePlacement()) {
-    assessmentScore = await scoringPlacement.calculate(dependencies, assessment);
+    return scoringPlacement.calculate(dependencies, assessment);
   }
 
   if (assessment.hasTypeCertification()) {
-    assessmentScore = await scoringCertification.calculate(dependencies, assessment);
+    return scoringCertification.calculate(dependencies, assessment);
   }
-
-  return assessmentScore;
 }
 
 module.exports = {

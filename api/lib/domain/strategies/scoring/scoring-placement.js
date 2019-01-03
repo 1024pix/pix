@@ -6,8 +6,6 @@ module.exports = {
 
   async calculate({ answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository }, assessment) {
 
-    // 1. Fetch data
-
     const course = await courseRepository.get(assessment.courseId);
 
     const [answers, challenges, competence, competenceSkills] = await Promise.all([
@@ -18,8 +16,6 @@ module.exports = {
     ]);
     course.competenceSkills = competenceSkills;
     course.computeTubes(course.competenceSkills);
-
-    // 2. Process data
 
     const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, course.tubes);
 
@@ -35,8 +31,6 @@ module.exports = {
       area_code: competence.area.code,
       competence_code: competence.index
     })];
-
-    // 3. Format response
 
     return new AssessmentScore({
       level,
