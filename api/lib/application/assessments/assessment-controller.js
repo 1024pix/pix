@@ -1,13 +1,4 @@
 const Boom = require('boom');
-const JSONAPI = require('../../interfaces/jsonapi');
-
-const controllerReplies = require('../../infrastructure/controller-replies');
-const logger = require('../../infrastructure/logger');
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
-const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const infraErrors = require('../../infrastructure/errors');
 
 const {
   NotFoundError,
@@ -16,9 +7,19 @@ const {
   ObjectValidationError,
   CampaignCodeError
 } = require('../../domain/errors');
-const InfrastructureNotFoundError = require('../../infrastructure/errors').NotFoundError;
 const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
+const controllerReplies = require('../../infrastructure/controller-replies');
+const {
+  NotFoundError: InfrastructureNotFoundError,
+  ConflictError
+} = require('../../infrastructure/errors');
+const logger = require('../../infrastructure/logger');
+const JSONAPI = require('../../interfaces/jsonapi');
+const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
+const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 function _extractUserIdFromRequest(request) {
   if (request.headers && request.headers.authorization) {
@@ -63,7 +64,7 @@ module.exports = {
           throw Boom.notFound(CampaignCodeError);
         }
         if (err instanceof AssessmentStartError) {
-          return controllerReplies(h).error(new infraErrors.ConflictError(err.message));
+          return controllerReplies(h).error(new ConflictError(err.message));
         }
         logger.error(err);
         throw Boom.badImplementation(err);
