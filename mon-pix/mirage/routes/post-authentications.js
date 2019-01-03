@@ -3,7 +3,7 @@ const simpleUserAuthentication = {
     type: 'authentication',
     attributes: {
       'user-id': 1,
-      token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUyMTg5MDh9.bbbb'
+      token: 'aaa.'+btoa('{"user_id":1,"source":"pix","iat":1545321469,"exp":4702193958}')+'.bbb'
     },
     id: 1
   }
@@ -14,7 +14,7 @@ const simpleExternalUserAuthentication = {
     type: 'authentication',
     attributes: {
       'user-id': 3,
-      token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJleHRlcm5hbCIsImlhdCI6MTU0NTMyMTQ2OSwiZXhwIjoxNTQ1OTI2MjY5fQ.bbbb'
+      token: 'aaa.'+btoa('{"user_id":3,"source":"external","iat":1545321469,"exp":4702193958}')+'.bbb'
     },
     id: 3
   }
@@ -24,7 +24,7 @@ const prescriberAuthentication = {
     type: 'authentication',
     attributes: {
       'user-id': 2,
-      token: 'aaa.eyJ1c2VyX2lkIjoyLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUyMTg4Nzl9.bbbb'
+      token: 'aaa.'+btoa('{"user_id":2,"source":"pix","iat":1545321469}')+'.bbb'
     },
     id: 2
   }
@@ -48,7 +48,8 @@ export default function(schema, request) {
 
   if (email === 'john@acme.com') return prescriberAuthentication;
 
-  if (token === 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJleHRlcm5hbCIsImlhdCI6MTU0NTMyMTQ2OSwiZXhwIjoxNTQ1OTI2MjY5fQ.bbbb') return simpleExternalUserAuthentication;
+  const userId = JSON.parse(atob(token.split('.')[1])).user_id;
+  if (userId === 3) return simpleExternalUserAuthentication;
 
   return badUser;
 }

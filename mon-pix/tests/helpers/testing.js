@@ -6,7 +6,7 @@ export async function authenticateAsSimpleUser() {
 }
 
 export async function authenticateAsSimpleExternalUser() {
-  await visit('/connexion?token=aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJleHRlcm5hbCIsImlhdCI6MTU0NTMyMTQ2OSwiZXhwIjoxNTQ1OTI2MjY5fQ.bbbb');
+  await visit('/connexion?token=aaa.'+btoa('{"user_id":3,"source":"external","iat":1545321469,"exp":4702193958}')+'.bbb');
 }
 
 export async function authenticateAsPrescriber() {
