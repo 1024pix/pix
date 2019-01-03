@@ -1,6 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
+const queryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
 
 describe('Unit | Repository | SnapshotRepository', function() {
 
@@ -98,6 +99,35 @@ describe('Unit | Repository | SnapshotRepository', function() {
         expect(snapshot).to.not.be.null;
         sinon.assert.calledOnce(Snapshot.prototype.save);
       });
+    });
+  });
+
+  describe('#find', () => {
+    let sandbox;
+    let options;
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      sandbox.stub(queryBuilder, 'find');
+
+      options = {
+        filter: { organisationId: 1 },
+      };
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should find the snapshots', async () => {
+      // given
+      queryBuilder.find.withArgs(Snapshot, options).resolves('ok');
+
+      // when
+      const result = await snapshotRepository.find(options);
+
+      // then
+      expect(result).to.equal('ok');
     });
   });
 
