@@ -5,6 +5,10 @@ export async function authenticateAsSimpleUser() {
   await click('.signin-form__submit_button');
 }
 
+export async function authenticateAsSimpleExternalUser() {
+  await visit('/connexion?token=aaa.'+btoa('{"user_id":3,"source":"external","iat":1545321469,"exp":4702193958}')+'.bbb');
+}
+
 export async function authenticateAsPrescriber() {
   await visit('/connexion');
   await fillIn('#pix-email', 'john@acme.com');

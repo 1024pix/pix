@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
+import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | profile panel', function() {
@@ -9,6 +10,14 @@ describe('Integration | Component | profile panel', function() {
   });
 
   describe('(Rendering behavior) Component: ', function() {
+
+    beforeEach(function() {
+      this.register('service:session', Service.extend({
+        data: { authenticated: { userId: 123, source: 'pix' } }
+      }));
+      this.inject.service('session', { as: 'session' });
+
+    });
 
     it('should be rendered', function() {
       // when
