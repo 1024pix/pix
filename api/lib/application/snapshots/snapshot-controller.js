@@ -9,7 +9,7 @@ const profileCompletionService = require('../../domain/services/profile-completi
 const logger = require('../../../lib/infrastructure/logger');
 const usecases = require('../../domain/usecases');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
 const MAX_CODE_LENGTH = 255;
 
@@ -107,11 +107,12 @@ function create(request, h) {
     .catch((err) => _replyError(err, h));
 }
 
-function find(request) {
-  return usecases.findSnapshots({ options: extractParameters(request.query) })
-    .then((result) => {
-      return snapshotSerializer.serialize(result.models, result.pagination);
-    });
+async function find(request) {
+  const result = await usecases.findSnapshots({
+    options: queryParamsUtils.extractParameters(request.query)
+  });
+
+  return snapshotSerializer.serialize(result.models, result.pagination);
 }
 
 module.exports = { create, find };

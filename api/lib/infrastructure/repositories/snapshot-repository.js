@@ -1,5 +1,5 @@
 const BookshelfSnapshot = require('../data/snapshot');
-const QueryBuilder = require('../utils/query-builder');
+const queryBuilder = require('../utils/query-builder');
 
 module.exports = {
   save(snapshotRawData) {
@@ -7,6 +7,6 @@ module.exports = {
   },
 
   find(options) {
-    return QueryBuilder.find(BookshelfSnapshot, options);
+    return queryBuilder.find(BookshelfSnapshot, options);
   },
 };

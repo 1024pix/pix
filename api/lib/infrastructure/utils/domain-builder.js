@@ -11,6 +11,10 @@ module.exports = {
 };
 
 function buildDomainObjects(bookshelfObjects) {
+  if (bookshelfObjects.length === 0) {
+    return [];
+  }
+
   const modelName = _getModelName(bookshelfObjects[0]);
 
   return bookshelfObjects.map(
@@ -33,12 +37,12 @@ function _getModelName(bookshelfObject) {
 function _buildDomainObject(domainObject, bookshelfObject) {
   return _.mapValues(domainObject, (value, key) => {
     if (belongsToKeys.includes(key) && bookshelfObject[key] instanceof Object) {
-      return _buildDomainObject(new Models[_.capitalize(key)], bookshelfObject[key]);
+      return _buildDomainObject(new Models[_.upperFirst(key)], bookshelfObject[key]);
     }
 
     if (hasManyKeys.includes(key) && Array.isArray(bookshelfObject[key])) {
       return bookshelfObject[key].map(
-        (bookshelfObject) => _buildDomainObject(new Models[_.capitalize(key)], bookshelfObject)
+        (bookshelfObject) => _buildDomainObject(new Models[_.upperFirst(key).slice(0, -1)], bookshelfObject)
       );
     }
 
