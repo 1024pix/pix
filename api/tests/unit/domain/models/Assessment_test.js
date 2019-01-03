@@ -227,13 +227,13 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   });
 
-  describe('#hasTypeSmartPlacement', () => {
+  describe('#isSmartPlacement', () => {
     it('should return true when the assessment is a SMART_PLACEMENT', () => {
       // given
       const assessment = Assessment.fromAttributes({ type: 'SMART_PLACEMENT' });
 
       // when
-      const isSmartPlacementAssessment = assessment.hasTypeSmartPlacement();
+      const isSmartPlacementAssessment = assessment.isSmartPlacement();
 
       // then
       expect(isSmartPlacementAssessment).to.be.true;
@@ -244,7 +244,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = Assessment.fromAttributes({ type: 'PLACEMENT' });
 
       // when
-      const isSmartPlacementAssessment = assessment.hasTypeSmartPlacement();
+      const isSmartPlacementAssessment = assessment.isSmartPlacement();
 
       // then
       expect(isSmartPlacementAssessment).to.be.false;
@@ -255,20 +255,20 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = Assessment.fromAttributes({});
 
       // when
-      const isSmartPlacementAssessment = assessment.hasTypeSmartPlacement();
+      const isSmartPlacementAssessment = assessment.isSmartPlacement();
 
       // then
       expect(isSmartPlacementAssessment).to.be.false;
     });
   });
 
-  describe('#hasTypeCertification', () => {
+  describe('#isCertification', () => {
     it('should return true when the assessment is a CERTIFICATION', () => {
       // given
       const assessment = domainBuilder.buildAssessment({ type: 'CERTIFICATION' });
 
       // when
-      const isCertificationAssessment = assessment.hasTypeCertification();
+      const isCertificationAssessment = assessment.isCertification();
 
       // then
       expect(isCertificationAssessment).to.be.true;
@@ -279,7 +279,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = domainBuilder.buildAssessment({ type: 'PLACEMENT' });
 
       // when
-      const isCertificationAssessment = assessment.hasTypeCertification();
+      const isCertificationAssessment = assessment.isCertification();
 
       // then
       expect(isCertificationAssessment).to.be.false;
@@ -290,21 +290,21 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = domainBuilder.buildAssessment({ type: null });
 
       // when
-      const isCertificationAssessment = assessment.hasTypeCertification();
+      const isCertificationAssessment = assessment.isCertification();
 
       // then
       expect(isCertificationAssessment).to.be.false;
     });
   });
 
-  describe('#hasTypePlacement', () => {
+  describe('#isPlacement', () => {
 
     it('should return true when the assessment is a placement', () => {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.PLACEMENT });
 
       // when/then
-      expect(assessment.hasTypePlacement()).to.be.true;
+      expect(assessment.isPlacement()).to.be.true;
     });
 
     it('should return false when the assessment is not a placement', () => {
@@ -312,7 +312,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
 
       // when/then
-      expect(assessment.hasTypePlacement()).to.be.false;
+      expect(assessment.isPlacement()).to.be.false;
     });
 
     it('should return false when the assessment has no type', () => {
@@ -320,18 +320,18 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = domainBuilder.buildAssessment({ type: null });
 
       // when/then
-      expect(assessment.hasTypePlacement()).to.be.false;
+      expect(assessment.isPlacement()).to.be.false;
     });
   });
 
-  describe('#hasTypePreview', () => {
+  describe('#isPreview', () => {
 
     it('should return true when the assessment is a preview', () => {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.PREVIEW });
 
       // when/then
-      expect(assessment.hasTypePreview()).to.be.true;
+      expect(assessment.isPreview()).to.be.true;
     });
 
     it('should return false when the assessment is not a placement', () => {
@@ -339,7 +339,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
 
       // when/then
-      expect(assessment.hasTypePreview()).to.be.false;
+      expect(assessment.isPreview()).to.be.false;
     });
 
     it('should return false when the assessment has no type', () => {
@@ -347,18 +347,18 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = domainBuilder.buildAssessment({ type: null });
 
       // when/then
-      expect(assessment.hasTypePreview()).to.be.false;
+      expect(assessment.isPreview()).to.be.false;
     });
   });
 
-  describe('#hasTypeDemo', () => {
+  describe('#isDemo', () => {
 
     it('should return true when the assessment is a preview', () => {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.DEMO });
 
       // when/then
-      expect(assessment.hasTypeDemo()).to.be.true;
+      expect(assessment.isDemo()).to.be.true;
     });
 
     it('should return false when the assessment is not a placement', () => {
@@ -366,7 +366,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
 
       // when/then
-      expect(assessment.hasTypeDemo()).to.be.false;
+      expect(assessment.isDemo()).to.be.false;
     });
 
     it('should return false when the assessment has no type', () => {
@@ -374,7 +374,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = domainBuilder.buildAssessment({ type: null });
 
       // when/then
-      expect(assessment.hasTypeDemo()).to.be.false;
+      expect(assessment.isDemo()).to.be.false;
     });
   });
 
