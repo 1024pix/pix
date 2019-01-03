@@ -44,42 +44,35 @@ function getValidatedSkills(answers, challenges, tubes) {
   return answers
     .filter((answer) => AnswerStatus.isOK(answer.result))
     .reduce((validatedSkills, answer) => {
-      challenges
-        .filter((challenge) => challenge.id === answer.challengeId)
-        .filter((challenge) => challenge.skills)
-        .map((challenge) => {
-          challenge.skills.forEach((skill) => {
-            const tube = tubes.find((t) => t.name === skill.tubeName);
-            tube.getEasierThan(skill).forEach((easierSkill) => {
-              if (!validatedSkills.includes(easierSkill))
-                validatedSkills.push(easierSkill);
-            });
+      const challenge = challenges.find((challenge) => challenge.id === answer.challengeId);
+      if (challenge && challenge.skills) {
+        challenge.skills.forEach((skill) => {
+          const tube = tubes.find((tube) => tube.name === skill.tubeName);
+          tube.getEasierThan(skill).forEach((easierSkill) => {
+            if (!validatedSkills.includes(easierSkill))
+              validatedSkills.push(easierSkill);
           });
         });
+      }
       return validatedSkills;
     }, []);
 }
 
 function getFailedSkills(answers, challenges, tubes) {
-  // FIXME refactor !
-  // XXX we take the current failed skill and all the harder skills in
-  // its tube and mark them all as failed
   return answers
     .filter((answer) => AnswerStatus.isFailed(answer.result))
-    .reduce((validatedSkills, answer) => {
-      challenges
-        .filter((challenge) => challenge.id === answer.challengeId)
-        .filter((challenge) => challenge.skills)
-        .map((challenge) => {
-          challenge.skills.forEach((skill) => {
-            const tube = tubes.find((tube) => tube.name === skill.tubeName);
-            tube.getHarderThan(skill).forEach((easierSkill) => {
-              if (!validatedSkills.includes(easierSkill))
-                validatedSkills.push(easierSkill);
-            });
+    .reduce((failedSkills, answer) => {
+      const challenge = challenges.find((challenge) => challenge.id === answer.challengeId);
+      if (challenge && challenge.skills) {
+        challenge.skills.forEach((skill) => {
+          const tube = tubes.find((tube) => tube.name === skill.tubeName);
+          tube.getHarderThan(skill).forEach((harderSkill) => {
+            if (!failedSkills.includes(harderSkill))
+              failedSkills.push(harderSkill);
           });
         });
-      return validatedSkills;
+      }
+      return failedSkills;
     }, []);
 }
 
