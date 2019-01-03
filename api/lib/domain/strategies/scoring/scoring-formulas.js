@@ -17,15 +17,15 @@ function computeAnswersSuccessRate(answers = []) {
 }
 
 function computeObtainedPixScore(allSkills, validatedSkills) {
-  const pixScoreBySkill = [];
 
-  allSkills.forEach((skill) => pixScoreBySkill[skill.name] = skill.computeMaxReachablePixScoreForSkill(allSkills));
+  const pixScore = _(validatedSkills)
+    .map((validatedSkill) => {
+      const skill = _.find(allSkills, { name: validatedSkill.name });
+      return skill ? skill.computeMaxReachablePixScoreForSkill(allSkills) : 0;
+    })
+    .sum();
 
-  const realScore = validatedSkills
-    .map((skill) => pixScoreBySkill[skill.name] || 0)
-    .reduce((a, b) => a + b, 0);
-
-  return Math.floor(realScore);
+  return Math.floor(pixScore);
 }
 
 function computeTotalPixScore(pixScores) {
@@ -92,3 +92,4 @@ module.exports = {
   getValidatedSkills,
   getFailedSkills
 };
+

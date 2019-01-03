@@ -107,6 +107,22 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
       expect(score).to.equal(8);
     });
 
+    it('should work even if validated skill(s) is not in all skills', () => {
+      // given
+      const skill_web1 = domainBuilder.buildSkill({ name: '@web1' });
+      const skill_web2 = domainBuilder.buildSkill({ name: '@web2' });
+      const skill_web3 = domainBuilder.buildSkill({ name: '@web3' });
+      const competenceSkills = [skill_web1, skill_web2, skill_web3];
+
+      const skill_deprecated = domainBuilder.buildSkill({ name: '@deprecated5' });
+
+      // when
+      const score = scoringFormulas.computeObtainedPixScore(competenceSkills, [skill_web1, skill_web2, skill_deprecated]);
+
+      // then
+      expect(score).to.equal(8);
+    });
+
     it('should be 6 if validated skills are web1 (4 pix) and fou3 among 4 (2 pix) (web2 was failed)', () => {
       // given
       const skill_web1 = domainBuilder.buildSkill({ name: '@web1' });
