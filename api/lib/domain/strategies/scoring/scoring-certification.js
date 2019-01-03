@@ -8,14 +8,10 @@ module.exports = {
 
   async calculate({ competenceRepository }, assessment) {
 
-    // 1. Fetch data
-
     const [competences, { competencesWithMark }] = await Promise.all([
       competenceRepository.list(),
       certificationService.calculateCertificationResultByAssessmentId(assessment.id)
     ]);
-
-    // 2. Process data
 
     const competenceMarks = competencesWithMark.map((certifiedCompetence) => {
 
@@ -34,8 +30,6 @@ module.exports = {
     const competencesPixScore = competenceMarks.map((competenceMark) => competenceMark.score);
 
     const nbPix = scoringFormulas.computeTotalPixScore(competencesPixScore);
-
-    // 3. Format response
 
     return new AssessmentScore({
       nbPix,
