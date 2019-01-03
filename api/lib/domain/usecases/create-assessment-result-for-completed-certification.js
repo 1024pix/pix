@@ -106,7 +106,7 @@ function _saveCertificationResult({
 }
 
 function _getCertificationStatus(assessment, assessmentScore) {
-  if (assessmentScore.nbPix === 0 && assessment.hasTypeCertification()) {
+  if (assessmentScore.nbPix === 0 && assessment.isCertification()) {
     assessmentScore.level = NOT_VALIDATED_CERTIF_LEVEL;
     return CERTIFICATION_REJECTED;
   } else {
@@ -132,7 +132,7 @@ function _limitMarkLevel(mark, assessment) {
 }
 
 function _updateCompletedDateOfCertification(assessment, certificationCourseRepository) {
-  if (assessment.hasTypeCertification()) {
+  if (assessment.isCertification()) {
     return certificationCourseRepository.changeCompletionDate(
       assessment.courseId,
       moment().toISOString(),

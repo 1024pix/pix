@@ -8,11 +8,11 @@ async function calculateAssessmentScore(dependencies, assessment) {
     return new AssessmentScore();
   }
 
-  if (assessment.hasTypePlacement()) {
+  if (assessment.isPlacement()) {
     return scoringPlacement.calculate(dependencies, assessment);
   }
 
-  if (assessment.hasTypeCertification()) {
+  if (assessment.isCertification()) {
     return scoringCertification.calculate(dependencies, assessment);
   }
 }

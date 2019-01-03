@@ -117,28 +117,28 @@ class Assessment {
     return Promise.resolve();
   }
 
-  hasTypePreview() {
+  isPreview() {
     return this.type === type.PREVIEW;
   }
 
-  hasTypeDemo() {
+  isDemo() {
     return this.type === type.DEMO;
   }
 
-  hasTypeSmartPlacement() {
+  isSmartPlacement() {
     return this.type === type.SMARTPLACEMENT;
   }
 
-  hasTypeCertification() {
+  isCertification() {
     return this.type === type.CERTIFICATION;
   }
 
-  hasTypePlacement() {
+  isPlacement() {
     return this.type === type.PLACEMENT;
   }
 
   canBeScored() {
-    return this.hasTypePlacement() || this.hasTypeCertification();
+    return this.isPlacement() || this.isCertification();
   }
 
   isCertifiable() {
@@ -146,7 +146,7 @@ class Assessment {
   }
 
   canStartNewAttemptOnCourse() {
-    if(!this.hasTypePlacement()) throw new Error('Only available for a placement assessment');
+    if(!this.isPlacement()) throw new Error('Only available for a placement assessment');
 
     return this.isCompleted() && this.getRemainingDaysBeforeNewAttempt() <= 0;
   }

@@ -38,7 +38,7 @@ module.exports = {
 
     return Promise.resolve()
       .then(() => {
-        if (assessment.hasTypeSmartPlacement()) {
+        if (assessment.isSmartPlacement()) {
           const codeCampaign = request.payload.data.attributes['code-campaign'];
           const participantExternalId = request.payload.data.attributes['participant-external-id'];
           return useCases.createAssessmentForCampaign({
@@ -46,7 +46,7 @@ module.exports = {
             codeCampaign,
             participantExternalId
           });
-        } else if (assessment.hasTypePlacement()) {
+        } else if (assessment.isPlacement()) {
           return useCases.startPlacementAssessment({ assessment, assessmentRepository });
         } else {
           assessment.state = 'started';
@@ -126,30 +126,30 @@ module.exports = {
         logContext.assessmentType = assessment.type;
         logger.trace(logContext, 'assessment loaded');
 
-        if (assessment.hasTypePreview()) {
+        if (assessment.isPreview()) {
           return useCases.getNextChallengeForPreview({});
         }
 
-        if (assessment.hasTypeCertification()) {
+        if (assessment.isCertification()) {
           return useCases.getNextChallengeForCertification({
             assessment
           });
         }
 
-        if (assessment.hasTypeDemo()) {
+        if (assessment.isDemo()) {
           return useCases.getNextChallengeForDemo({
             assessment,
             challengeId: request.params.challengeId,
           });
         }
 
-        if (assessment.hasTypePlacement()) {
+        if (assessment.isPlacement()) {
           return useCases.getNextChallengeForPlacement({
             assessment,
           });
         }
 
-        if (assessment.hasTypeSmartPlacement()) {
+        if (assessment.isSmartPlacement()) {
           return useCases.getNextChallengeForSmartPlacement({
             assessment,
           });
