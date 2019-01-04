@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.18.0 (04/01/2019)
+
+- [#303](https://github.com/1024pix/pix/pull/303) [FEATURE] Lors des certifications, il faut que l'on propose toujours 3 épreuves (PF-254).
+- [#305](https://github.com/1024pix/pix/pull/305) [FEATURE] Si l'utilisateur vient du GAR, se rediriger vers une page de déconnexion (PF-465).
+- [#309](https://github.com/1024pix/pix/pull/309) [FEATURE] Ne pas afficher le bouton de partage quand la personne vient de l'extérieur (PF-478).
+
 ## v2.17.1 (21/12/2018)
 
 - [#308](https://github.com/1024pix/pix/pull/308) [BUGFIX] CSV des snapshots : transformer les données depuis la base de données en espace constant (pf-474)
