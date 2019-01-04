@@ -19,6 +19,17 @@ export default function(server) {
     competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
   });
 
+  server.create('user', {
+    id: 3,
+    firstName: 'JaneExternal',
+    lastName: 'Doe',
+    email: 'janeExternal@acme.com',
+    password: 'Jane1234',
+    cgu: true,
+    recaptchaToken: 'recaptcha-token-xxxxxx',
+    totalPixScore: 456,
+    competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+  });
   const prescriber = server.create('user', {
     id: 2,
     firstName: 'John',

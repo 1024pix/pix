@@ -10,4 +10,7 @@ export default BaseRoute.extend(ApplicationRouteMixin, {
     this.get('splash').hide();
   },
 
+  // XXX: For override the sessionInvalidated from ApplicationRouteMixin to avoid the automatic redirection
+  sessionInvalidated() {}
+
 });

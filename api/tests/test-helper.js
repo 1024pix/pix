@@ -33,7 +33,7 @@ function generateValidRequestAuhorizationHeader(userId = 1234) {
   const user = {
     id: userId,
   };
-  const accessToken = tokenService.createTokenFromUser(user);
+  const accessToken = tokenService.createTokenFromUser(user, 'pix');
   return `Bearer ${accessToken}`;
 }
 

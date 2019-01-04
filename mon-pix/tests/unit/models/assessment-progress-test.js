@@ -139,7 +139,7 @@ describe('Unit | Model | assessment progress', function() {
       const text = model.get('text');
 
       // then
-      expect(text).to.equal('2 / 10');
+      expect(text).to.equal('2/10');
     });
   });
 });
