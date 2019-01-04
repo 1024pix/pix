@@ -46,7 +46,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         return assessment.reload();
       })
       .then((assessment) => {
-        if (!this.get('userHasJustConsultedTutorial') && assessment.answers.length === 0) {
+        if (!this.get('userHasJustConsultedTutorial') && assessment.answers.length === 0 && !assessment.isCompleted) {
           return this.transitionTo('campaigns.tutorial', this.get('campaignCode'));
         }
         return this._fetchChallenge(assessment);
