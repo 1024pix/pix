@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getAssessment = require('../../../../lib/domain/usecases/get-assessment');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const scoringService = require('../../../../lib/domain/services/scoring-service');
+const scoringService = require('../../../../lib/domain/services/scoring/scoring-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 

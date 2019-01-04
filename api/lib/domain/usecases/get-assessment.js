@@ -1,4 +1,4 @@
-const scoringService = require('../services/scoring-service');
+const scoringService = require('../services/scoring/scoring-service');
 const { NotFoundError } = require('../errors');
 
 module.exports = async function getAssessment(

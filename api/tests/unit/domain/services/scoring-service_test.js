@@ -1,9 +1,9 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const scoringService = require('../../../../lib/domain/services/scoring-service');
+const scoringService = require('../../../../lib/domain/services/scoring/scoring-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentScore = require('../../../../lib/domain/models/AssessmentScore');
-const scoringPlacement = require('../../../../lib/domain/strategies/scoring/scoring-placement');
-const scoringCertification = require('../../../../lib/domain/strategies/scoring/scoring-certification');
+const scoringPlacement = require('../../../../lib/domain/services/scoring/scoring-placement');
+const scoringCertification = require('../../../../lib/domain/services/scoring/scoring-certification');
 
 describe('Unit | Service | scoring-service', () => {
 

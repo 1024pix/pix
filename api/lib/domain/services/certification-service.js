@@ -15,7 +15,7 @@ const { CertificationComputeError, UserNotAuthorizedToCertifyError } = require('
 
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 const userService = require('../../../lib/domain/services/user-service');
-const scoringFormulas = require('../strategies/scoring/scoring-formulas');
+const scoringFormulas = require('./scoring/scoring-formulas');
 
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');

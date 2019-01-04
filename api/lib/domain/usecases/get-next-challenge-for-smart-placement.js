@@ -1,5 +1,5 @@
 const { AssessmentEndedError } = require('../errors');
-const SmartRandom = require('../strategies/smart-random/SmartRandom');
+const SmartRandom = require('../services/smart-random/SmartRandom');
 const _ = require('lodash');
 
 function getNextChallengeInSmartRandom(answersPix, challengesPix, targetProfile, knowledgeElements) {

@@ -2,7 +2,7 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const Answer = require('../../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const Tube = require('../../../../../lib/domain/models/Tube');
-const scoringFormulas = require('../../../../../lib/domain/strategies/scoring/scoring-formulas');
+const scoringFormulas = require('../../../../../lib/domain/services/scoring/scoring-formulas');
 
 describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
 

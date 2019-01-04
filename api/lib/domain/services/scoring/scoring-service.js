@@ -1,6 +1,6 @@
-const AssessmentScore = require('../models/AssessmentScore');
-const scoringPlacement = require('../strategies/scoring/scoring-placement');
-const scoringCertification = require('../strategies/scoring/scoring-certification');
+const AssessmentScore = require('../../models/AssessmentScore');
+const scoringPlacement = require('./scoring-placement');
+const scoringCertification = require('./scoring-certification');
 
 async function calculateAssessmentScore(dependencies, assessment) {
 

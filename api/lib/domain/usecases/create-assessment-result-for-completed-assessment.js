@@ -49,7 +49,7 @@ module.exports = function createAssessmentResultForCompletedAssessment({
 
       return scoringService.calculateAssessmentScore(dependencies, assessment);
     })
-    .then((assessmentScore) => _saveCertificationResult({
+    .then((assessmentScore) => _saveAssessmentResult({
       assessment,
       assessmentScore,
       assessmentRepository,
@@ -68,7 +68,7 @@ module.exports = function createAssessmentResultForCompletedAssessment({
     }));
 };
 
-function _saveCertificationResult({
+function _saveAssessmentResult({
   // Parameters
   assessment,
   assessmentScore,
