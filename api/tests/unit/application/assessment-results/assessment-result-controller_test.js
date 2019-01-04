@@ -40,7 +40,7 @@ describe('Unit | Controller | assessment-results', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(usecases, 'createAssessmentResultForCompletedCertification').resolves();
+      sandbox.stub(usecases, 'createAssessmentResultForCompletedAssessment').resolves();
       sandbox.stub(logger, 'error');
     });
 
@@ -53,7 +53,7 @@ describe('Unit | Controller | assessment-results', () => {
       const response = await assessmentResultController.evaluate(request, hFake);
 
       // then
-      expect(usecases.createAssessmentResultForCompletedCertification).to.have.been.calledWith({
+      expect(usecases.createAssessmentResultForCompletedAssessment).to.have.been.calledWith({
         assessmentId: '22',
         forceRecomputeResult: false,
       });
@@ -63,7 +63,7 @@ describe('Unit | Controller | assessment-results', () => {
     it('should return 404 when the assessment is not found', () => {
       // given
       const notFoundError = new NotFoundError('Assessment 123 not found');
-      usecases.createAssessmentResultForCompletedCertification.rejects(notFoundError);
+      usecases.createAssessmentResultForCompletedAssessment.rejects(notFoundError);
 
       // when
       const promise = assessmentResultController.evaluate(request, hFake);
@@ -81,7 +81,7 @@ describe('Unit | Controller | assessment-results', () => {
       it('should do nothing', async () => {
         // given
         const alreadyRatedAssessmentError = new AlreadyRatedAssessmentError();
-        usecases.createAssessmentResultForCompletedCertification.rejects(alreadyRatedAssessmentError);
+        usecases.createAssessmentResultForCompletedAssessment.rejects(alreadyRatedAssessmentError);
         const jsonApiError = new JSONAPIError({
           status: '412',
           title: 'Assessment is already rated',
@@ -102,7 +102,7 @@ describe('Unit | Controller | assessment-results', () => {
       it('should reply with an internal error', () => {
         // given
         const undefinedError = new Error();
-        usecases.createAssessmentResultForCompletedCertification.rejects(undefinedError);
+        usecases.createAssessmentResultForCompletedAssessment.rejects(undefinedError);
 
         // when
         const promise = assessmentResultController.evaluate(request, hFake);

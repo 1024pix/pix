@@ -9,12 +9,10 @@ const {
   NotFoundError,
 } = require('../errors');
 
-const CERTIFICATION_MAX_LEVEL = 5;
-const CERTIFICATION_VALIDATED = 'validated';
-const CERTIFICATION_REJECTED = 'rejected';
-const NOT_VALIDATED_CERTIF_LEVEL = -1;
+const COMPETENCE_MAX_LEVEL_FOR_CERTIFICATION = 5;
+const NOT_VALIDATED_COMPETENCE_LEVEL = -1;
 
-module.exports = function createAssessmentResultForCompletedCertification({
+module.exports = function createAssessmentResultForCompletedAssessment({
   // Parameters
   assessmentId,
   forceRecomputeResult = false,
@@ -82,7 +80,7 @@ function _saveCertificationResult({
   // Services
   skillsService,
 }) {
-  const status = _getCertificationStatus(assessment, assessmentScore);
+  const status = _getAssessmentStatus(assessment, assessmentScore);
   const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(assessmentScore.level, assessmentScore.nbPix, status, assessment.id);
   assessment.setCompleted();
 
@@ -105,12 +103,12 @@ function _saveCertificationResult({
     .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
 }
 
-function _getCertificationStatus(assessment, assessmentScore) {
+function _getAssessmentStatus(assessment, assessmentScore) {
   if (assessmentScore.nbPix === 0 && assessment.isCertification()) {
-    assessmentScore.level = NOT_VALIDATED_CERTIF_LEVEL;
-    return CERTIFICATION_REJECTED;
+    assessmentScore.level = NOT_VALIDATED_COMPETENCE_LEVEL;
+    return AssessmentResult.status.REJECTED;
   } else {
-    return CERTIFICATION_VALIDATED;
+    return AssessmentResult.status.VALIDATED;
   }
 }
 
@@ -122,11 +120,11 @@ function _setAssessmentResultIdOnMark(mark, assessmentResultId) {
 function _limitMarkLevel(mark, assessment) {
   /*
    * XXX une certification ne peut pas avoir une compétence en base au dessus de niveau 5;
-   * par contre le reste de l'algorithme peut avoir des niveaux au dessus, et l'on ne plafonnera pas pour les
+   * par contre le reste de l'algorithme peut avoir des niveaux au-dessus, et l'on ne plafonnera pas pour les
    * autres Assessments (par exemple Placements).
    */
   if (assessment.type === Assessment.types.CERTIFICATION) {
-    mark.level = Math.min(mark.level, CERTIFICATION_MAX_LEVEL);
+    mark.level = Math.min(mark.level, COMPETENCE_MAX_LEVEL_FOR_CERTIFICATION);
   }
   return mark;
 }
