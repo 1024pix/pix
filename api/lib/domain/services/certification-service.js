@@ -15,7 +15,6 @@ const { CertificationComputeError, UserNotAuthorizedToCertifyError } = require('
 
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 const userService = require('../../../lib/domain/services/user-service');
-const scoringFormulas = require('./scoring/scoring-formulas');
 
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
@@ -151,7 +150,7 @@ function _getResult(listAnswers, certificationChallenges, testedCompetences, con
     CertificationContract.assertThatWeHaveEnoughAnswers(listAnswers, certificationChallenges);
   }
 
-  const reproductibilityRate = Math.round(scoringFormulas.computeAnswersSuccessRate(listAnswers));
+  const reproductibilityRate = Math.round(_computeAnswersSuccessRate(listAnswers));
   if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
     return {
       competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),
@@ -227,6 +226,18 @@ function _getCertificationResult(assessment, continueOnError = false) {
     result.listChallengesAndAnswers = _getChallengeInformation(assessmentAnswers, certificationChallenges, allCompetences);
     return result;
   });
+}
+
+function _computeAnswersSuccessRate(answers = []) {
+  const numberOfAnswers = answers.length;
+
+  if (!numberOfAnswers) {
+    return 0;
+  }
+
+  const numberOfValidAnswers = answers.filter((answer) => answer.isOk()).length;
+
+  return (numberOfValidAnswers % 100 / numberOfAnswers) * 100;
 }
 
 module.exports = {
@@ -307,4 +318,6 @@ module.exports = {
       //TODO : Creer ici un tableau de CertificationChalleges (Domain Object) avec certificationCourseId rempli
       .then((savedCertificationCourse) => certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse));
   },
+
+  _computeAnswersSuccessRate,
 };

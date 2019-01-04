@@ -4,7 +4,7 @@ const certificationService = require('../../../../../lib/domain/services/certifi
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 const scoringCertification = require('../../../../../lib/domain/services/scoring/scoring-certification');
 
-describe('Integration | Domain | strategies | scoring | scoring-certification', () => {
+describe('Integration | Domain | services | scoring | scoring-certification', () => {
 
   describe('#calculate', () => {
 

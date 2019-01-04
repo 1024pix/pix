@@ -1,83 +1,37 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const Answer = require('../../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const Tube = require('../../../../../lib/domain/models/Tube');
-const scoringFormulas = require('../../../../../lib/domain/services/scoring/scoring-formulas');
 
-describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
+const scoringPlacement = require('../../../../../lib/domain/services/scoring/scoring-placement');
 
-  describe('#computeAnswersSuccessRate', () => {
+describe('Unit | Domain | services | scoring | scoring-placement', () => {
 
-    context('when no answers is given', () => {
+  describe('#_computeLevel', () => {
 
-      it('should have a trust level has unknown', () => {
-        // given
-        const answers = [];
+    it('should be 0 if pixScore is 7.98', function() {
+      // given
+      const pixScore = 7.98;
 
-        // when
-        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
+      // when
+      const level = scoringPlacement._computeLevel(pixScore);
 
-        // then
-        expect(successRate).to.equal(0);
-      });
+      // then
+      expect(level).to.equal(0);
     });
 
-    context('when all answers are OK', () => {
+    it('should be 1 if pixScore is 8.02', function() {
+      // given
+      const pixScore = 8.02;
 
-      it('should has a success rate at 100%', () => {
-        // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ok' })];
+      // when
+      const level = scoringPlacement._computeLevel(pixScore);
 
-        // when
-        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.equal(100);
-      });
-    });
-
-    context('when all answers are KO', () => {
-
-      it('should has a success rate at 0%', () => {
-        // given
-        const answers = [new Answer({ result: 'ko' }), new Answer({ result: 'ko' })];
-
-        // when
-        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.equal(0);
-      });
-    });
-
-    context('when the answers are a mixed of valid and wrong answers', () => {
-
-      it('should has a success rate at 50% with 1W and 1R', () => {
-        // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'ko' })];
-
-        // when
-        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.equal(50);
-      });
-
-      it('should has a success rate at 50% with 2W and 1R', () => {
-        // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: '#ABAND#' }), new Answer({ result: 'ko' })];
-
-        // when
-        const successRate = scoringFormulas.computeAnswersSuccessRate(answers);
-
-        // then
-        expect(successRate).to.be.within(33.333333, 33.333334);
-      });
-
+      // then
+      expect(level).to.equal(1);
     });
   });
 
-  describe('#computeObtainedPixScore', () => {
+  describe('#_computeObtainedPixScore', () => {
 
     it('should be 0 if no skill has been validated', function() {
       // given
@@ -87,7 +41,7 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
       const competenceSkills = [skill_web1, skill_web2, skill_web3];
 
       // when
-      const score = scoringFormulas.computeObtainedPixScore(competenceSkills, []);
+      const score = scoringPlacement._computeObtainedPixScore(competenceSkills, []);
 
       // then
       expect(score).to.equal(0);
@@ -101,7 +55,7 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
       const competenceSkills = [skill_web1, skill_web2, skill_web3];
 
       // when
-      const score = scoringFormulas.computeObtainedPixScore(competenceSkills, [skill_web1, skill_web2]);
+      const score = scoringPlacement._computeObtainedPixScore(competenceSkills, [skill_web1, skill_web2]);
 
       // then
       expect(score).to.equal(8);
@@ -117,7 +71,7 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
       const skill_deprecated = domainBuilder.buildSkill({ name: '@deprecated5' });
 
       // when
-      const score = scoringFormulas.computeObtainedPixScore(competenceSkills, [skill_web1, skill_web2, skill_deprecated]);
+      const score = scoringPlacement._computeObtainedPixScore(competenceSkills, [skill_web1, skill_web2, skill_deprecated]);
 
       // then
       expect(score).to.equal(8);
@@ -133,100 +87,14 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
       const competenceSkills = [skill_web1, skill_web2, skill_web3, skill_fou3, skill_chi3];
 
       // when
-      const score = scoringFormulas.computeObtainedPixScore(competenceSkills, [skill_web1, skill_fou3]);
+      const score = scoringPlacement._computeObtainedPixScore(competenceSkills, [skill_web1, skill_fou3]);
 
       // then
       expect(score).to.equal(6);
     });
   });
 
-  describe('#computeTotalPixScore', () => {
-
-    it('should sum all valid pix scores', function() {
-      // given
-      const pixScores = [8, 12, undefined, null];
-
-      // when
-      const totalPixScore = scoringFormulas.computeTotalPixScore(pixScores);
-
-      // then
-      expect(totalPixScore).to.equal(20);
-    });
-
-    it('should return 0 when there is no pix scores', function() {
-      // given
-      const pixScores = [];
-
-      // when
-      const totalPixScore = scoringFormulas.computeTotalPixScore(pixScores);
-
-      // then
-      expect(totalPixScore).to.equal(0);
-    });
-
-    it('should sum all pix scores', function() {
-      // given
-      const pixScores = [8, 12, 11, 5];
-
-      // when
-      const totalPixScore = scoringFormulas.computeTotalPixScore(pixScores);
-
-      // then
-      expect(totalPixScore).to.equal(36);
-    });
-  });
-
-  describe('#computeLevel', () => {
-
-    it('should be 0 if pixScore is 7.98', function() {
-      // given
-      const pixScore = 7.98;
-
-      // when
-      const level = scoringFormulas.computeLevel(pixScore);
-
-      // then
-      expect(level).to.equal(0);
-    });
-
-    it('should be 1 if pixScore is 8.02', function() {
-      // given
-      const pixScore = 8.02;
-
-      // when
-      const level = scoringFormulas.computeLevel(pixScore);
-
-      // then
-      expect(level).to.equal(1);
-    });
-  });
-
-  describe('#computeCeilingLevel', () => {
-
-    it('should be 2 if level is 2', function() {
-      // given
-      const level = 2;
-
-      // when
-      const ceilingLevel = scoringFormulas.computeCeilingLevel(level);
-
-      // then
-      expect(ceilingLevel).to.equal(2);
-    });
-
-    it('should be 5 even if level is 48 (level 6 must not be reachable for the moment)', function() {
-      // given
-      const level = 48;
-
-      // when
-      const ceilingLevel = scoringFormulas.computeCeilingLevel(level);
-
-      // then
-      expect(ceilingLevel).to.equal(5);
-    });
-  });
-
-  describe('#getValidatedSkills', () => {
+  describe('#_getValidatedSkills', () => {
 
     it('should return [web1, web2] if the user answered correctly a question that requires web2', function() {
       // given
@@ -245,7 +113,7 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
       const tubes = [tube];
 
       // when
-      const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
+      const validatedSkills = scoringPlacement._getValidatedSkills(answers, challenges, tubes);
 
       // then
       expect(validatedSkills).to.deep.equal([skill_web1, skill_web2]);
@@ -270,7 +138,7 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
       const tubes = [tube];
 
       // when
-      const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
+      const validatedSkills = scoringPlacement._getValidatedSkills(answers, challenges, tubes);
 
       // then
       expect(validatedSkills).to.deep.equal([skill_web1, skill_web2]);
@@ -295,7 +163,7 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
       const tubes = [tube];
 
       // when
-      const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
+      const validatedSkills = scoringPlacement._getValidatedSkills(answers, challenges, tubes);
 
       // then
       expect(validatedSkills).to.deep.equal([skill_web1]);
@@ -336,7 +204,7 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
         const tubes = [tube_web, tube_chi, tube_truc];
 
         // when
-        const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
+        const validatedSkills = scoringPlacement._getValidatedSkills(answers, challenges, tubes);
 
         // then
         expect(validatedSkills).to.deep.equal(competenceSkills);
@@ -373,7 +241,7 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
         const tubes = [tube_web, tube_chi];
 
         // when
-        const validatedSkills = scoringFormulas.getValidatedSkills(answers, challenges, tubes);
+        const validatedSkills = scoringPlacement._getValidatedSkills(answers, challenges, tubes);
 
         // then
         expect(validatedSkills).to.deep.equal(competenceSkills);
@@ -381,7 +249,7 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
     });
   });
 
-  describe('#getFailedSkills', () => {
+  describe('#_getFailedSkills', () => {
 
     it('should return [web1, web2, web3] if the user fails a question that requires web1', function() {
       // given
@@ -400,10 +268,11 @@ describe('Unit | Domain | strategies | scoring | scoring-formulas', () => {
       const tubes = [tube];
 
       // when
-      const failedSkills = scoringFormulas.getFailedSkills(answers, challenges, tubes);
+      const failedSkills = scoringPlacement._getFailedSkills(answers, challenges, tubes);
 
       // then
       expect(failedSkills).to.deep.equal(skills);
     });
   });
+
 });

@@ -8,7 +8,7 @@ const KNOWLEDGE_ELEMENT_STATUS = {
   INVALIDATED: 'invalidated'
 };
 
-describe('Unit | Domain | Models | filterChallenge', () => {
+describe('Unit | Domain | services | smart-random | filterChallenge', () => {
 
   describe('#getFilteredChallengesForFirstChallenge', () => {
     it('should return a first challenge possible', () => {
