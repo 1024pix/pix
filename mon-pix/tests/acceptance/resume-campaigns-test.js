@@ -143,12 +143,12 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     beforeEach(async function() {
       server.create('assessment', {
         id: 1,
-        state: 'completed',
+        state: 'started',
       });
 
       server.create('assessment', {
         id: 2,
-        state: 'completed',
+        state: 'started',
       });
 
       server.create('campaignParticipation', {
