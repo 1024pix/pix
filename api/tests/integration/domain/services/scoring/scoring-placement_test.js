@@ -11,7 +11,7 @@ const competenceRepository = require('../../../../../lib/infrastructure/reposito
 
 const scoringPlacement = require('../../../../../lib/domain/services/scoring/scoring-placement');
 
-describe('Integration | Domain | strategies | scoring | scoring-placement', () => {
+describe('Integration | Domain | services | scoring | scoring-placement', () => {
 
   describe('#calculate', () => {
 
