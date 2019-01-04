@@ -5,7 +5,7 @@ const _ = require('lodash');
 function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository }) {
   return getSmartRandomInputValues({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository })
     .then(([answers, [targetProfile, challenges], knowledgeElements]) => SmartRandom.getNextChallenge({ answers, challenges, targetProfile, knowledgeElements }))
-    .then((nextChallenge) => nextChallenge || Promise.reject(AssessmentEndedError));
+    .then((nextChallenge) => nextChallenge || Promise.reject(new AssessmentEndedError()));
 }
 
 function getSmartRandomInputValues({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository }) {
