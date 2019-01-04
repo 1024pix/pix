@@ -9,7 +9,7 @@ const challengeRepository = require('../../../../../lib/infrastructure/repositor
 const skillRepository = require('../../../../../lib/infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
 
-const scoringPlacement = require('../../../../../lib/domain/strategies/scoring/scoring-placement');
+const scoringPlacement = require('../../../../../lib/domain/services/scoring/scoring-placement');
 
 describe('Integration | Domain | strategies | scoring | scoring-placement', () => {
 

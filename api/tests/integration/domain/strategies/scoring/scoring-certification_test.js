@@ -2,7 +2,7 @@ const { expect, domainBuilder, sinon } = require('../../../../test-helper');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const certificationService = require('../../../../../lib/domain/services/certification-service');
 const competenceRepository = require('../../../../../lib/infrastructure/repositories/competence-repository');
-const scoringCertification = require('../../../../../lib/domain/strategies/scoring/scoring-certification');
+const scoringCertification = require('../../../../../lib/domain/services/scoring/scoring-certification');
 
 describe('Integration | Domain | strategies | scoring | scoring-certification', () => {
 

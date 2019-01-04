@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const scoringFormulas = require('../strategies/scoring/scoring-formulas');
+const scoringFormulas = require('../services/scoring/scoring-formulas');
 
 const competenceStatus = {
   NOT_ASSESSED: 'notAssessed',

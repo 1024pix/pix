@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const Tube = require('../../../../../lib/domain/models/Tube');
 const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
-const SmartRandom = require('../../../../../lib/domain/strategies/smart-random/SmartRandom');
+const SmartRandom = require('../../../../../lib/domain/services/smart-random/SmartRandom');
 const _ = require('lodash');
 
 const KNOWLEDGE_ELEMENT_STATUS = {
