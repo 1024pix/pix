@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const createAssessmentResultForCompletedCertification = require('../../../../lib/domain/usecases/create-assessment-result-for-completed-certification');
+const createAssessmentResultForCompletedAssessment = require('../../../../lib/domain/usecases/create-assessment-result-for-completed-assessment');
 const { NotFoundError, AlreadyRatedAssessmentError, CertificationComputeError } = require('../../../../lib/domain/errors');
 
 function _buildCompetence(competenceCode, areaCode) {
@@ -167,7 +167,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     assessmentRepository.get.resolves(null);
 
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId: assessmentIdThatDoesNotExist,
       assessmentResultRepository,
       assessmentRepository,
@@ -195,7 +195,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
 
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
@@ -222,7 +222,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
 
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         forceRecomputeResult,
         assessmentResultRepository,
@@ -244,7 +244,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     scoringService.calculateAssessmentScore.rejects(new NotFoundError());
 
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId,
       assessmentResultRepository,
       assessmentRepository,
@@ -260,7 +260,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   it('should change the assessment status', () => {
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId,
       assessmentResultRepository,
       assessmentRepository,
@@ -279,7 +279,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   it('should save the assessment skills', () => {
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId,
       assessmentResultRepository,
       assessmentRepository,
@@ -312,7 +312,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     assessmentResult.createdAt = undefined;
 
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId,
       assessmentResultRepository,
       assessmentRepository,
@@ -332,7 +332,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should save the evaluated competence', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
@@ -361,7 +361,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should not try to evaluate as a certification', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
@@ -384,7 +384,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         competenceMarkRepository.save.rejects(error);
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
@@ -425,7 +425,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should not try to save the related marks', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
@@ -468,7 +468,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should not try to save the related marks', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
@@ -486,7 +486,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should not update the certification status', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
@@ -546,7 +546,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should persists a mark for each evaluated competence', () => {
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
@@ -619,7 +619,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         assessmentResult.createdAt = undefined;
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
@@ -649,7 +649,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         expectedAssessment.assessmentResults = [];
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
@@ -670,7 +670,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should update the certification course date', () => {
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
@@ -696,7 +696,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should not persists a mark', () => {
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
@@ -729,7 +729,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         assessmentResult.createdAt = undefined;
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
@@ -759,7 +759,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         expectedAssessment.assessmentResults = [];
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
@@ -780,7 +780,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should update the certification course date', () => {
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
@@ -806,7 +806,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         certificationCourseRepository.changeCompletionDate.rejects(error);
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,

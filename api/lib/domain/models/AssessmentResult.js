@@ -1,3 +1,8 @@
+const status = {
+  REJECTED: 'rejected',
+  VALIDATED: 'validated'
+};
+
 class AssessmentResult {
   // FIXME: assessmentId && juryId to replace by assessment && jury domain objects
   constructor({
@@ -56,5 +61,7 @@ class AssessmentResult {
     });
   }
 }
+
+AssessmentResult.status = status;
 
 module.exports = AssessmentResult;
