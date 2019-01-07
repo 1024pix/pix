@@ -1,11 +1,11 @@
 const moment = require('moment');
 
 module.exports = [
-  { id:1, createdAt: moment().subtract(7, 'day').add(1, 'hour').toString(), emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 1, level: 5, pixScore: 44 },
+  { id:1, createdAt: moment().subtract(7, 'day').add(1, 'hour').toISOString(), emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 1, level: 5, pixScore: 44 },
   { id:2, createdAt: '2018-02-15 15:00:34', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 2, level: 2, pixScore: 23 },
   { id:3, createdAt: '2018-02-15 15:03:18', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 3, level: 8, pixScore: 47 },
   { id:4, createdAt: '2018-02-15 15:04:26', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 4, level: 4, pixScore: 34 },
-  { id:5, createdAt: moment().subtract(1, 'day').toString(), emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 5, level: 5, pixScore: 48 },
+  { id:5, createdAt: moment().subtract(1, 'day').toISOString(), emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 5, level: 5, pixScore: 48 },
   { id:6, createdAt: '2018-02-15 15:14:46', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 6, level: 0, pixScore: 157 },
   { id:7, createdAt: '2018-04-27 10:11:02', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 7, level: -1, pixScore: 0 },
   { id:8, createdAt: '2018-04-27 17:23:02', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 8, level: 7, pixScore: 666 },
