@@ -18,15 +18,16 @@ module.exports = function getSkillReview(
     smartPlacementKnowledgeElementRepository.findByUserId(userId)
   ])
     .then(([assessment, knowledgeElements]) => {
+
+      if(`${assessment.userId}` !== `${userId}`) {
+        throw new UserNotAuthorizedToAccessEntity();
+      }
+
       assessment.knowledgeElements = _(knowledgeElements)
         .filter((ke) => _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt))
         .orderBy('createdAt', 'desc')
         .uniqBy('skillId')
         .value();
-
-      if(`${assessment.userId}` !== `${userId}`) {
-        throw new UserNotAuthorizedToAccessEntity();
-      }
 
       return assessment.generateSkillReview();
     });
