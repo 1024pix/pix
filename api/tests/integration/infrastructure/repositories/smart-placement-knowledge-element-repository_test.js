@@ -61,8 +61,8 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         .then((savedSmartPlacementKnowledgeElement) => {
           expect(savedSmartPlacementKnowledgeElement.id).to.not.equal(undefined);
           expect(savedSmartPlacementKnowledgeElement).to.be.an.instanceOf(SmartPlacementKnowledgeElement);
-          expect(_.omit(savedSmartPlacementKnowledgeElement, ['id']))
-            .to.deep.equal(_.omit(smartPlacementKnowledgeElement, ['id']));
+          expect(_.omit(savedSmartPlacementKnowledgeElement, ['id', 'createdAt']))
+            .to.deep.equal(_.omit(smartPlacementKnowledgeElement, ['id', 'createdAt']));
         });
     });
   });
