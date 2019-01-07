@@ -60,9 +60,21 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         if (challenge) {
           return this.transitionTo('assessments.challenge', { assessment, challenge });
         } else {
-          return this.transitionTo('campaigns.skill-review', this.get('campaignCode'), assessment.get('id'));
+          return this._redirectToSkillReviewPageAfterCreateResultIfNeeded(assessment, this.get('campaignCode'));
         }
       });
+  },
+
+  _redirectToSkillReviewPageAfterCreateResultIfNeeded(assessment, campaignCode) {
+    if(!assessment.isCompleted) {
+      return this.get('store')
+        .createRecord('assessment-result', { assessment })
+        .save()
+        .finally(() => {
+          return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
+        });
+    }
+    return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
   },
 
   _userIsUnauthenticated() {
