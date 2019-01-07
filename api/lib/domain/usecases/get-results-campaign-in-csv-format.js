@@ -121,6 +121,13 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 }
 
+function _createdBeforeLimitDate(dateToVerify, limitDate) {
+  if(limitDate) {
+    return moment(dateToVerify).format('YYYY-MM-DD HH:mm:ss') <= moment(limitDate).format('YYYY-MM-DD HH:mm:ss');
+  }
+  return true;
+}
+
 function _createOneLineOfCSV(
   headers,
   organization,
@@ -146,7 +153,7 @@ function _createOneLineOfCSV(
     .then(([assessment, user, allKnowledgeElements]) => {
 
       const knowledgeElements = _(allKnowledgeElements)
-        .filter((ke) => ke.createdAt < moment(campaignParticipation.sharedAt).format('YYYY-MM-DD HH:mm'))
+        .filter((ke) => _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt))
         .orderBy('createdAt', 'desc')
         .uniqBy('skillId')
         .value();
@@ -178,8 +185,6 @@ function _createOneLineOfCSV(
       const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
       line = _addCellByHeadersTitleForText('"Partage (O/N)"', textForParticipationShared, line, headers);
 
-      console.log(assessment.isCompleted);
-      console.log(campaignParticipation.isShared);
       if(assessment.isCompleted && campaignParticipation.isShared) {
 
         line = _addCellByHeadersTitleForNumber('"Date du partage"', moment(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
