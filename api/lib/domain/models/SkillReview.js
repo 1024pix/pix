@@ -11,25 +11,47 @@ class SkillReview {
     // attributes
     // includes
     targetedSkills = [],
-    validatedSkills = [],
-    failedSkills = [],
-    unratableSkills = [],
+    knowledgeElements = [],
+    computeUnratableSkill = false,
     // references
   }) {
     this.id = id;
     // attributes
     // includes
     this.targetedSkills = targetedSkills;
-    this.validatedSkills = validatedSkills;
-    this.failedSkills = failedSkills;
-    this.unratableSkills = unratableSkills;
+    this.knowledgeElements = knowledgeElements;
+    this.computeUnratableSkill = computeUnratableSkill;
     // references
+  }
+
+  _getValidatedSkills() {
+
+    return this.knowledgeElements
+      .filter((knowledgeElement) => knowledgeElement.isValidated)
+      .map((knowledgeElement) => knowledgeElement.skillId)
+      .map((skillId) => this.targetedSkills.find((skill) => skill.id === skillId));
+  }
+
+  _getUnratableSkills() {
+
+    if(!this.computeUnratableSkill) {
+      return [];
+    }
+
+    return this.targetedSkills.filter((skillInProfile) => {
+
+      const foundKnowledgeElementForTheSkill = this.knowledgeElements.find((knowledgeElement) => {
+        return knowledgeElement.skillId === skillInProfile.id;
+      });
+
+      return (!foundKnowledgeElementForTheSkill);
+    });
   }
 
   get profileMasteryRate() {
     const numberOfTargetedSkills = this.targetedSkills.length;
 
-    const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.validatedSkills, 'name');
+    const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this._getValidatedSkills(), 'name');
     const numberOfValidatedSkills = validatedSkillsThatExistsInTargetedSkills.length;
 
     return numberOfValidatedSkills / numberOfTargetedSkills;
@@ -37,15 +59,12 @@ class SkillReview {
 
   get profileCompletionRate() {
     const numberOfTargetedSkills = this.targetedSkills.length;
-    const numberOfUnratableSkills = this.unratableSkills.length;
+    const numberOfUnratableSkills = this._getUnratableSkills().length;
 
-    const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.validatedSkills, 'name');
-    const numberOfValidatedSkills = validatedSkillsThatExistsInTargetedSkills.length;
+    const testedSkillsInTargetProfile =  this.knowledgeElements
+      .filter((knowledgeElement) => this.targetedSkills.find((targetedSkill) => targetedSkill.id === knowledgeElement.skillId));
 
-    const failedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.failedSkills, 'name');
-    const numberOfFailedSkills = failedSkillsThatExistsInTargetedSkills.length;
-
-    const profileCompletionRate = (numberOfFailedSkills + numberOfValidatedSkills + numberOfUnratableSkills) / numberOfTargetedSkills;
+    const profileCompletionRate = (testedSkillsInTargetProfile.length + numberOfUnratableSkills) / numberOfTargetedSkills;
     return profileCompletionRate;
   }
 

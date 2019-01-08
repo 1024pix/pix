@@ -9,7 +9,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     let sandbox, userId, assessmentId, targetProfileId, campaignParticipation,
       assessment, answers, answerRepository, challengeRepository, challenges,
-      smartPlacementKnowledgeElementRepository, knowledgeElements, recentKnowledgeElements,
+      smartPlacementKnowledgeElementRepository, recentKnowledgeElements,
       targetProfileRepository, targetProfile, skills, expectedComputedChallenge, actualComputedChallenge;
 
     beforeEach(async () => {
@@ -28,9 +28,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       skills = [];
       targetProfile = { skills };
       targetProfileRepository = { get: sandbox.stub().resolves(targetProfile) };
-      knowledgeElements = [{ createdAt: 1, skillId: 'web1' }, { createdAt: 2, skillId: 'web1' }, { createdAt: 4, skillId: 'url2' }];
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
-      smartPlacementKnowledgeElementRepository = { findByUserId: sandbox.stub().resolves(knowledgeElements) };
+      smartPlacementKnowledgeElementRepository = { findUniqByUserId: sandbox.stub().resolves(recentKnowledgeElements) };
       expectedComputedChallenge = {};
       sandbox.stub(SmartRandom, 'getNextChallenge').resolves(expectedComputedChallenge);
 
@@ -56,7 +55,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     });
 
     it('should have fetched the most recent knowledge elements', () => {
-      expect(smartPlacementKnowledgeElementRepository.findByUserId).to.have.been.calledWithExactly(userId);
+      expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly(userId);
     });
 
     it('should have fetched the challenges', () => {

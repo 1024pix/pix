@@ -19,7 +19,9 @@ module.exports = {
       .then((knowledgeElements) => knowledgeElements.map(toDomain));
   },
 
-  findByUserId(userId) {
+  //TODO : faire le filtre dans la query
+
+  findUniqByUserId(userId) {
     return BookshelfKnowledgeElement
       .query((qb) => {
         qb.innerJoin('assessments', 'knowledge-elements.assessmentId', 'assessments.id');
@@ -27,7 +29,13 @@ module.exports = {
         qb.where('assessments.type', '=', 'SMART_PLACEMENT');
       })
       .fetchAll()
-      .then((knowledgeElements) => knowledgeElements.map(toDomain));
+      .then((knowledgeElements) => knowledgeElements.map(toDomain))
+      .then((knowledgeElements) => {
+        return _(knowledgeElements)
+          .orderBy('createdAt', 'desc')
+          .uniqBy('skillId')
+          .value();
+      });
   }
 
 };

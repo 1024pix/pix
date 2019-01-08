@@ -3,6 +3,7 @@ const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/Sm
 const SmartPlacementKnowledgeElementRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-knowledge-element-repository');
 const _ = require('lodash');
+const moment = require('moment');
 
 describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', () => {
 
@@ -105,7 +106,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     });
   });
 
-  describe('#findByUserId', () => {
+  describe('#findUniqByUserId', () => {
 
     let knowledgeElementsWanted;
     let userId;
@@ -118,14 +119,15 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       const assessment3Id = databaseBuilder.factory.buildAssessment({ userId, type: PLACEMENT }).id;
 
       knowledgeElementsWanted = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: '' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: '' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment2Id, createdAt: '' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: moment().toString(), skillId: '1' }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: moment().toString(), skillId: '2' }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment2Id, createdAt: moment().toString(), skillId: '3', status: 'validated' })
       ];
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: '' }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: '' }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ createdAt: '' });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment2Id, createdAt: moment().subtract(2, 'days').toString(), skillId: '3', status: 'invalidated' }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: moment().toString() }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: moment().toString() }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ createdAt: moment().toString() });
 
       await databaseBuilder.commit();
     });
@@ -136,7 +138,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
     it('should find the knowledge elements for smart placement assessment associated with a user id', async () => {
       // when
-      const promise = SmartPlacementKnowledgeElementRepository.findByUserId(userId);
+      const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId(userId);
 
       return promise
         .then((knowledgeElementsFound) => {
