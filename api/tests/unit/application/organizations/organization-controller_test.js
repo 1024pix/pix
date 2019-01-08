@@ -3,6 +3,7 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
 const Organization = require('../../../../lib/domain/models/Organization');
+const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
@@ -175,83 +176,116 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#search', () => {
-
-    const arrayOfSerializedOrganization = [{ code: 'AAA111' }, { code: 'BBB222' }];
-    const arrayOfOrganizations = [new Organization({ code: 'AAA111' }), new Organization({ code: 'BBB222' })];
+  describe('#find', () => {
 
     beforeEach(() => {
-
-      sinon.stub(logger, 'error');
-      sinon.stub(organizationService, 'search').resolves(arrayOfOrganizations);
-      sinon.stub(organizationSerializer, 'serialize').returns(arrayOfSerializedOrganization);
+      sinon.stub(usecases, 'findOrganizations');
+      sinon.stub(organizationSerializer, 'serialize');
     });
 
-    it('should retrieve organizations with one filter', async () => {
+    afterEach(() => {
+      usecases.findOrganizations.restore();
+      organizationSerializer.serialize.restore();
+    });
+
+    it('should return a list of JSON API organizations fetched from the data repository', async () => {
       // given
-      const userId = 1234;
-      const request = {
-        auth: { credentials: { userId: 1234 } },
-        query: { 'filter[query]': 'my search' }
-      };
+      const request = { query: {} };
+      usecases.findOrganizations.resolves(new SearchResultList());
+      organizationSerializer.serialize.returns({ data: {}, meta: {} });
 
       // when
-      await organizationController.search(request, hFake);
+      await organizationController.find(request, hFake);
 
       // then
-      sinon.assert.calledWith(organizationService.search, userId, { query: 'my search' });
+      expect(usecases.findOrganizations).to.have.been.calledOnce;
+      expect(organizationSerializer.serialize).to.have.been.calledOnce;
     });
 
-    it('should retrieve organizations with two different filters', async () => {
+    it('should return a JSON API response with pagination information in the data field "meta"', async () => {
       // given
-      const userId = 1234;
-      const request = {
-        auth: { credentials: { userId } },
-        query: {
-          'filter[query]': 'my search',
-          'filter[code]': 'with params'
-        }
-      };
+      const request = { query: {} };
+      const searchResultList = new SearchResultList({
+        page: 2,
+        pageSize: 25,
+        totalResults: 100,
+        paginatedResults: [new Organization({ id: 1 }), new Organization({ id: 2 }), new Organization({ id: 3 })],
+      });
+      usecases.findOrganizations.resolves(searchResultList);
 
       // when
-      await organizationController.search(request, hFake);
+      await organizationController.find(request, hFake);
 
       // then
-      sinon.assert.calledWith(organizationService.search, userId, { query: 'my search', code: 'with params' });
+      const expectedResults = searchResultList.paginatedResults;
+      const expectedMeta = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, };
+      expect(organizationSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedMeta);
     });
 
-    it('should reply 500 and log while getting data is on error', async () => {
+    it('should allow to filter organization by name', async () => {
       // given
-      const error = new Error('Fail');
-      organizationService.search.rejects(error);
-      const request = {
-        auth: { credentials: { userId: 1234 } },
-        query: { 'filter[first]': 'with params' }
-      };
+      const request = { query: { name: 'organization_name' } };
+      usecases.findOrganizations.resolves(new SearchResultList());
 
       // when
-      const promise = organizationController.search(request, hFake);
+      await organizationController.find(request, hFake);
 
       // then
-      await expect(promise).to.be.rejectedWith('Fail');
-      sinon.assert.calledOnce(organizationService.search);
-      sinon.assert.calledWith(logger.error, error);
+      const expectedFilters = { name: 'organization_name' };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ filters: expectedFilters });
     });
 
-    it('should serialize results', async () => {
+    it('should allow to filter organization by code', async () => {
       // given
-      const request = {
-        auth: { credentials: { userId: 1234 } },
-        query: { 'filter[first]': 'with params' }
-      };
+      const request = { query: { code: 'organization_code' } };
+      usecases.findOrganizations.resolves(new SearchResultList());
 
       // when
-      const response = await organizationController.search(request, hFake);
+      await organizationController.find(request, hFake);
 
       // then
-      expect(response).to.deep.equal(arrayOfSerializedOrganization);
+      const expectedFilters = { code: 'organization_code' };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ filters: expectedFilters });
     });
 
+    it('should allow to filter users by type', async () => {
+      // given
+      const request = { query: { type: 'organization_type' } };
+      usecases.findOrganizations.resolves(new SearchResultList());
+
+      // when
+      await organizationController.find(request, hFake);
+
+      // then
+      const expectedFilters = { type: 'organization_type' };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ filters: expectedFilters });
+    });
+
+    it('should allow to paginate on a given page and page size', async () => {
+      // given
+      const request = { query: { page: 2, pageSize: 25 } };
+      usecases.findOrganizations.resolves(new SearchResultList());
+
+      // when
+      await organizationController.find(request, hFake);
+
+      // then
+      const expectedPagination = { page: 2, pageSize: 25 };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ pagination: expectedPagination });
+    });
+
+    it('should paginate on page 1 for a page size of 10 elements by default', async () => {
+      // given
+      const request = { query: {} };
+      usecases.findOrganizations.resolves(new SearchResultList());
+
+      // when
+      await organizationController.find(request, hFake);
+
+      // then
+      const expectedPagination = { page: 1, pageSize: 10 };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ pagination: expectedPagination });
+    });
   });
 
   describe('#getSharedProfiles', () => {

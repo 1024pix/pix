@@ -37,9 +37,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
           pixOrgaTermsOfServiceAccepted: false,
           pixCertifTermsOfServiceAccepted: false
         });
-
+        const meta = { some: 'meta' };
         // when
-        const json = serializer.serialize(modelObject);
+        const json = serializer.serialize(modelObject, meta);
 
         // then
         expect(json).to.be.deep.equal({
@@ -54,6 +54,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             },
             id: '234567',
             type: 'users'
+          },
+          meta: {
+            some: 'meta'
           }
         });
       });
