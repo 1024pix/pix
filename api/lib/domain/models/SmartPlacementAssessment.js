@@ -1,4 +1,3 @@
-const SkillReview = require('./SkillReview');
 const SMART_PLACEMENT_TYPE = 'SMART_PLACEMENT';
 
 const SmartPlacementAssessmentState = Object.freeze({
@@ -66,31 +65,6 @@ class SmartPlacementAssessment {
       .map((skillId) => this.targetProfile.skills.find((skill) => skill.id === skillId));
   }
 
-  getUnratableSkills() {
-
-    if(this.state !== SmartPlacementAssessment.State.COMPLETED) {
-      return [];
-    }
-
-    return this.targetProfile.skills.filter((skillInProfile) => {
-
-      const foundKnowledgeElementForTheSkill = this.knowledgeElements.find((knowledgeElement) => {
-        return knowledgeElement.skillId === skillInProfile.id;
-      });
-
-      return (!foundKnowledgeElementForTheSkill);
-    });
-  }
-
-  generateSkillReview() {
-    return new SkillReview({
-      id: SkillReview.generateIdFromAssessmentId(this.id),
-      targetedSkills: this.targetProfile.skills,
-      validatedSkills: this.getValidatedSkills(),
-      failedSkills: this.getFailedSkills(),
-      unratableSkills: this.getUnratableSkills(),
-    });
-  }
 }
 
 SmartPlacementAssessment.State = SmartPlacementAssessmentState;

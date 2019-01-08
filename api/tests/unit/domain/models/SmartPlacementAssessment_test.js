@@ -2,7 +2,6 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
-const SkillReview = require('../../../../lib/domain/models/SkillReview');
 
 function generateSmartPlacementAssessmentWithNoKnowledgeElement() {
   const skills = domainBuilder.buildSkillCollection();
@@ -204,83 +203,4 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
     });
   });
 
-  describe('#getUnratableSkills', () => {
-
-    context('when the assessment is STARTED', () => {
-
-      it('should return an empty array', () => {
-        // given
-        const { assessment } =
-          generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
-            knowledgeElement1Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
-            knowledgeElement2Status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
-          });
-
-        assessment.state = SmartPlacementAssessment.State.STARTED;
-
-        // when
-        const unratableSkills = assessment.getUnratableSkills();
-
-        // then
-        expect(unratableSkills).to.deep.equal([]);
-      });
-    });
-
-    context('when the assessment is COMPLETED', () => {
-
-      it('should return a list of unratable skills', () => {
-        // given
-        const validatedSkill = domainBuilder.buildSkill({ name: '@good2' });
-        const unratableSkill = domainBuilder.buildSkill({ name: '@ignored5' });
-
-        const targetProfile = domainBuilder.buildTargetProfile({ skills: [validatedSkill, unratableSkill] });
-
-        const knowledgeElementForGood2 = domainBuilder.buildSmartPlacementKnowledgeElement({
-          answerId: -1,
-          skillId: validatedSkill.id,
-          status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
-          source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-        });
-
-        const assessment = domainBuilder.buildSmartPlacementAssessment({
-          state: SmartPlacementAssessment.State.COMPLETED,
-          answers: [],
-          knowledgeElements: [knowledgeElementForGood2],
-          targetProfile,
-        });
-
-        // when
-        const unratableSkills = assessment.getUnratableSkills();
-
-        // then
-        expect(unratableSkills).to.deep.equal([
-          unratableSkill,
-        ]);
-      });
-    });
-  });
-
-  describe('#generateSkillReview', () => {
-
-    it('should return a skill review with the right skills', () => {
-      // given
-      const { assessment } =
-        generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
-          knowledgeElement1Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
-          knowledgeElement2Status: SmartPlacementKnowledgeElement.StatusType.UNRATABLE,
-          knowledgeElement3Status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
-        });
-
-      // when
-      const skillReview = assessment.generateSkillReview();
-
-      // then
-      expect(skillReview).to.be.an.instanceof(SkillReview);
-      expect(skillReview.id).to.be.equal(`skill-review-${assessment.id}`);
-      expect(skillReview.targetedSkills).to.be.deep.equal(assessment.targetProfile.skills);
-      expect(skillReview.validatedSkills).to.be.deep.equal(assessment.getValidatedSkills());
-      expect(skillReview.failedSkills).to.be.deep.equal(assessment.getFailedSkills());
-      expect(skillReview.unratableSkills).to.be.deep.equal(assessment.getUnratableSkills());
-    });
-  });
 });
