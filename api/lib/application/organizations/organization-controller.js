@@ -1,4 +1,3 @@
-const Boom = require('boom');
 const { PassThrough } = require('stream');
 
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
@@ -14,7 +13,6 @@ const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
 const logger = require('../../infrastructure/logger');
-const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
 const JSONAPI = require('../../interfaces/jsonapi');
 const { EntityValidationError, NotFoundError } = require('../../domain/errors');
 const { NotFoundError : InfrastructureNotFoundError } = require('../../infrastructure/errors');
@@ -62,15 +60,26 @@ module.exports = {
       });
   },
 
-  search: (request) => {
-    const userId = request.auth.credentials.userId;
-    const filters = extractFilters(request);
+  find(request) {
+    const filters = {
+      name: request.query['name'],
+      type: request.query['type'],
+      code: request.query['code']
+    };
+    const pagination = {
+      page: request.query['page'] ? request.query['page'] : 1,
+      pageSize: request.query['pageSize'] ? request.query['pageSize'] : 10,
+    };
 
-    return organizationService.search(userId, filters)
-      .then((organizations) => organizationSerializer.serialize(organizations))
-      .catch((err) => {
-        logger.error(err);
-        throw Boom.internal(err);
+    return usecases.findOrganizations({ filters, pagination })
+      .then((searchResultList) => {
+        const meta = {
+          page: searchResultList.page,
+          pageSize: searchResultList.pageSize,
+          itemsCount: searchResultList.totalResults,
+          pagesCount: searchResultList.pagesCount,
+        };
+        return organizationSerializer.serialize(searchResultList.paginatedResults, meta);
       });
   },
 
