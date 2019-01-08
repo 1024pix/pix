@@ -17,14 +17,14 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
   });
 
   const smartPlacementAssessmentRepository = { get: () => undefined };
-  const smartPlacementKnowledgeElementRepository = { findByUserId: () => undefined };
+  const smartPlacementKnowledgeElementRepository = { findUniqByUserId: () => undefined };
 
   let sandbox;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(smartPlacementAssessmentRepository, 'get').resolves(smartPlacementAssessment);
-    sandbox.stub(smartPlacementKnowledgeElementRepository, 'findByUserId').resolves([]);
+    sandbox.stub(smartPlacementKnowledgeElementRepository, 'findUniqByUserId').resolves([]);
   });
 
   afterEach(() => {
@@ -49,19 +49,22 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
         });
       });
 
-      it('should add the correct knowledgeElements to the assessments', () => {
+      it('should add the correct knowledgeElements to the assessments', async () => {
         // given
         const endOfCampaignParticipation = smartPlacementAssessment.campaignParticipation.sharedAt;
-        const knowledgeElements = [
+        const expectedKnowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({ status: 'validated', id:1, createdAt: moment(endOfCampaignParticipation).subtract(2, 'days'), skillId: 1 }),
           domainBuilder.buildSmartPlacementKnowledgeElement({ status: 'invalidated', id:2, createdAt: moment(endOfCampaignParticipation).subtract(4, 'days'), skillId: 1 }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ status: 'validated', id:3, createdAt: moment(endOfCampaignParticipation).add(2, 'days'), skillId: 2 }),
           domainBuilder.buildSmartPlacementKnowledgeElement({ status: 'validated', id:4, createdAt: moment(endOfCampaignParticipation).subtract(2, 'days'), skillId: 3 })
         ];
-        smartPlacementKnowledgeElementRepository.findByUserId.resolves(knowledgeElements);
+        const knowledgeElements = expectedKnowledgeElements.concat([
+          domainBuilder.buildSmartPlacementKnowledgeElement({ status: 'validated', id:3, createdAt: moment(endOfCampaignParticipation).add(2, 'days'), skillId: 2 }),
+        ]);
+
+        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
 
         // when
-        const promise = getSkillReview({
+        const skillReview = await getSkillReview({
           userId,
           skillReviewId,
           smartPlacementAssessmentRepository,
@@ -69,37 +72,8 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
         });
 
         // then
-        return promise.then((skillReview) => {
-          expect(skillReview.validatedSkills).to.have.lengthOf(2);
-          expect(skillReview.failedSkills).to.have.lengthOf(0);
-        });
-      });
+        expect(skillReview.knowledgeElements).to.deep.equals(expectedKnowledgeElements);
 
-      it('should add knowledgeElements with no limit on date', () => {
-        // given
-        smartPlacementAssessment.campaignParticipation.sharedAt = null;
-
-        const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ status: 'validated', id:1, createdAt: moment().subtract(2, 'days'), skillId: 1 }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ status: 'invalidated', id:2, createdAt: moment().subtract(4, 'days'), skillId: 1 }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ status: 'validated', id:3, createdAt: moment().add(2, 'days'), skillId: 2 }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ status: 'validated', id:4, createdAt: moment().subtract(2, 'days'), skillId: 3 })
-        ];
-        smartPlacementKnowledgeElementRepository.findByUserId.resolves(knowledgeElements);
-
-        // when
-        const promise = getSkillReview({
-          userId,
-          skillReviewId,
-          smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
-        });
-
-        // then
-        return promise.then((skillReview) => {
-          expect(skillReview.validatedSkills).to.have.lengthOf(3);
-          expect(skillReview.failedSkills).to.have.lengthOf(0);
-        });
       });
 
       it('should return the skillReview associated to the assessment', () => {
@@ -113,8 +87,7 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
 
         // then
         return promise.then((skillReview) => {
-          expect(skillReview).to.be.an.instanceOf(SkillReview)
-            .and.to.deep.equal(smartPlacementAssessment.generateSkillReview());
+          expect(skillReview).to.be.an.instanceOf(SkillReview);
         });
       });
     });

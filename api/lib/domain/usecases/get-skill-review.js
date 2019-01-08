@@ -1,9 +1,8 @@
-const _ = require('lodash');
 const moment = require('moment');
 const SkillReview = require('../../../lib/domain/models/SkillReview');
 const { UserNotAuthorizedToAccessEntity } = require('../../../lib/domain/errors');
 
-module.exports = function getSkillReview(
+module.exports = async function getSkillReview(
   {
     skillReviewId,
     userId,
@@ -13,24 +12,23 @@ module.exports = function getSkillReview(
 
   const assessmentId = SkillReview.getAssessmentIdFromId(skillReviewId);
 
-  return Promise.all([
-    smartPlacementAssessmentRepository.get(assessmentId),
-    smartPlacementKnowledgeElementRepository.findByUserId(userId)
-  ])
-    .then(([assessment, knowledgeElements]) => {
+  const assessment = await smartPlacementAssessmentRepository.get(assessmentId);
+  if(`${assessment.userId}` !== `${userId}`) {
+    throw new UserNotAuthorizedToAccessEntity();
+  }
 
-      if(`${assessment.userId}` !== `${userId}`) {
-        throw new UserNotAuthorizedToAccessEntity();
-      }
+  const allKnowledgeElements = await smartPlacementKnowledgeElementRepository.findUniqByUserId(userId);
 
-      assessment.knowledgeElements = _(knowledgeElements)
-        .filter((ke) => _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt))
-        .orderBy('createdAt', 'desc')
-        .uniqBy('skillId')
-        .value();
+  const knowledgeElementsBeforeSharedDate = allKnowledgeElements
+    .filter((ke) => _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt));
 
-      return assessment.generateSkillReview();
-    });
+  return new SkillReview({
+    id: skillReviewId,
+    targetedSkills: assessment.targetProfile.skills,
+    knowledgeElements: knowledgeElementsBeforeSharedDate,
+    computeUnratableSkill: assessment.isCompleted
+  });
+
 };
 
 function _createdBeforeLimitDate(dateToVerify, limitDate) {
