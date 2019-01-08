@@ -10,7 +10,7 @@ const {
 } = require('../errors');
 
 const COMPETENCE_MAX_LEVEL_FOR_CERTIFICATION = 5;
-const NOT_VALIDATED_COMPETENCE_LEVEL = -1;
+const NOT_VALIDATED_LEVEL = -1;
 
 module.exports = function createAssessmentResultForCompletedAssessment({
   // Parameters
@@ -95,7 +95,7 @@ function _saveAssessmentResult({
 
       const saveMarksPromises = competenceMarks
         .map((mark) => _setAssessmentResultIdOnMark(mark, assessmentResultId))
-        .map((mark) => _limitMarkLevel(mark, assessment))
+        .map((mark) => _ceilCompetenceMarkLevelForCertification(mark, assessment))
         .map(competenceMarkRepository.save);
 
       return Promise.all(saveMarksPromises);
@@ -105,7 +105,7 @@ function _saveAssessmentResult({
 
 function _getAssessmentStatus(assessment, assessmentScore) {
   if (assessmentScore.nbPix === 0 && assessment.isCertification()) {
-    assessmentScore.level = NOT_VALIDATED_COMPETENCE_LEVEL;
+    assessmentScore.level = NOT_VALIDATED_LEVEL;
     return AssessmentResult.status.REJECTED;
   } else {
     return AssessmentResult.status.VALIDATED;
@@ -117,7 +117,7 @@ function _setAssessmentResultIdOnMark(mark, assessmentResultId) {
   return mark;
 }
 
-function _limitMarkLevel(mark, assessment) {
+function _ceilCompetenceMarkLevelForCertification(mark, assessment) {
   /*
    * XXX une certification ne peut pas avoir une compétence en base au dessus de niveau 5;
    * par contre le reste de l'algorithme peut avoir des niveaux au-dessus, et l'on ne plafonnera pas pour les
