@@ -5,5 +5,4 @@ module.exports = [
   { id:5, courseId: 'rec5gEPqhxYjz15eI', createdAt: '2018-02-15 15:07:02', updatedAt: '2018-02-15 15:07:02', userId: 1, type:'PLACEMENT', state: 'completed' },
   { id:6, courseId: '1', createdAt: '2018-02-15 15:14:46', updatedAt: '2018-02-15 15:14:46', userId: 1, type:'CERTIFICATION', state: 'completed' },
   { id:7, courseId: '2', createdAt: '2018-04-27 10:10:52', updatedAt: '2018-04-27 10:10:52', userId: 1, type:'CERTIFICATION', state: 'completed' },
-  { id:8, courseId: '3', createdAt: '2018-05-15 15:14:46', updatedAt: '2018-02-15 15:14:46', userId: 1, type:'CERTIFICATION', state: 'completed' },
 ];

@@ -8,7 +8,6 @@ module.exports = [
   { id:5, createdAt: moment().subtract(1, 'day').toISOString(), emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 5, level: 5, pixScore: 48 },
   { id:6, createdAt: '2018-02-15 15:14:46', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 6, level: 0, pixScore: 157 },
   { id:7, createdAt: '2018-04-27 10:11:02', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 7, level: -1, pixScore: 0 },
-  { id:8, createdAt: '2018-04-27 17:23:02', emitter: 'PIX-ALGO', commentForJury: 'Computed', status: 'validated', assessmentId: 8, level: 7, pixScore: 666 },
   {
     id: 9,
     createdAt: '2018-04-28 09:17:41',
@@ -26,7 +25,7 @@ module.exports = [
       'l\'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour ' +
       'réaliser un livre spécimen de polices de texte.',
     status: 'rejected',
-    assessmentId: 8,
+    assessmentId: 7,
     level: -1,
     pixScore: 0
   }

@@ -20,5 +20,16 @@ module.exports = [
     description: 'Session de rattrapage',
     room: 'Salle Eau',
     accessCode: 'DEF34'
+  },
+  {
+    id: 3,
+    certificationCenter: 'Tour Alpha',
+    address: 'Rue Bikub',
+    examiner: 'Sophie',
+    date: '2028-05-27',
+    time: '15:00',
+    description: 'Session',
+    room: 'Salle Feu',
+    accessCode: 'GHI56'
   }
 ];
