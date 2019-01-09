@@ -5,14 +5,15 @@ const Feedback = require('../../../../lib/infrastructure/data/feedback');
 const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
 const feedbackRepository = require('../../../../lib/infrastructure/repositories/feedback-repository');
 const feedbackSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/feedback-serializer');
+const route = require('../../../../lib/application/feedbacks');
 
 describe('Unit | Controller | feedback-controller', function() {
 
   let server;
 
-  before(function() {
+  beforeEach(function() {
     server = Hapi.server();
-    return server.register(require('../../../../lib/application/feedbacks'));
+    return server.register(route);
   });
 
   describe('#save', function() {
@@ -45,12 +46,8 @@ describe('Unit | Controller | feedback-controller', function() {
       content: 'Lorem ipsum dolor sit amet consectetur adipiscet.'
     });
 
-    before(function() {
+    beforeEach(function() {
       sinon.stub(Feedback.prototype, 'save').resolves(persistedFeedback);
-    });
-
-    after(function() {
-      Feedback.prototype.save.restore();
     });
 
     it('should return a successful response with HTTP code 201 when feedback was saved', async function() {
@@ -63,7 +60,7 @@ describe('Unit | Controller | feedback-controller', function() {
 
     it('should return an error 400 if feedback content is missing or empty', async function() {
       // given
-      const payload = _.clone(jsonFeedback);
+      const payload = _.cloneDeep(jsonFeedback);
       payload.data.attributes.content = '   ';
 
       // when
@@ -75,7 +72,7 @@ describe('Unit | Controller | feedback-controller', function() {
 
     it('should persist feedback data into the Feedback Repository', async function() {
       // given
-      const payload = _.clone(jsonFeedback);
+      const payload = _.cloneDeep(jsonFeedback);
 
       // when
       await server.inject({ method: 'POST', url: '/api/feedbacks', payload });

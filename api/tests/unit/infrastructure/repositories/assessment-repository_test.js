@@ -220,10 +220,6 @@ describe('Unit | Repository | assessmentRepository', () => {
         });
       });
 
-      after(() => {
-        BookshelfAssessment.query.restore();
-      });
-
       it('should correctly query Assessment', () => {
         // given
         const fakeUserId = 3;
@@ -322,10 +318,6 @@ describe('Unit | Repository | assessmentRepository', () => {
       sinon.stub(BookshelfAssessment, 'where').returns({
         fetch: fetchStub,
       });
-    });
-
-    after(() => {
-      BookshelfAssessment.where.restore();
     });
 
     it('should correctly query Assessment', () => {
