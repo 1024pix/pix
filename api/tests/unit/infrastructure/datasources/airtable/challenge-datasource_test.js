@@ -52,7 +52,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     });
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {

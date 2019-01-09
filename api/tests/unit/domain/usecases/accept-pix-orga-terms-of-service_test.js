@@ -8,7 +8,7 @@ describe('Unit | UseCase | accept-pix-orga-terms-of-service', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(userRepository, 'get');
     sandbox.stub(userRepository, 'updateUser');
   });

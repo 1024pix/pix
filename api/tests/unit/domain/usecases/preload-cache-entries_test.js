@@ -8,7 +8,7 @@ describe('Unit | UseCase | preload-cache-entries', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(preloader, 'loadAllTables').resolves();
     sandbox.stub(logger, 'info').returns();
   });

@@ -24,7 +24,7 @@ describe('Unit | UseCase | create-campaign', () => {
   }
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(campaignCodeGenerator, 'generate');
     sandbox.stub(campaignRepository, 'save');
     sandbox.stub(campaignValidator, 'validate');

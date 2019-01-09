@@ -27,7 +27,7 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(campaignParticipationRepository, 'findByUserId');
     });
 

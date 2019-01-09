@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {

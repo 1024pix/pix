@@ -8,7 +8,7 @@ describe('Integration | Application | Assessments | assessment-controller', () =
 
   const assessment = domainBuilder.buildAssessment({ id: 1234 });
 
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   let httpTestServer;
 

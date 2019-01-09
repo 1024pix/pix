@@ -15,7 +15,7 @@ describe('Unit | Controller | certification-course-controller', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {

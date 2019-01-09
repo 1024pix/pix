@@ -29,7 +29,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
     assessmentId = assessment.id;
     campaignParticipation = domainBuilder.buildCampaignParticipation({ assessmentId });
 
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(smartPlacementAssessmentRepository, 'checkIfAssessmentBelongToUser');
     sandbox.stub(campaignParticipationRepository, 'get').resolves();
   });

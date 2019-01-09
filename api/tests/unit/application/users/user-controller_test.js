@@ -32,7 +32,7 @@ describe('Unit | Controller | user-controller', () => {
     const savedUser = new User({ email });
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(logger, 'error').returns({});
       sandbox.stub(userSerializer, 'deserialize').returns(deserializedUser);
@@ -229,7 +229,7 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       beforeEach(() => {
-        sandbox = sinon.sandbox.create();
+        sandbox = sinon.createSandbox();
         sandbox.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
         sandbox.stub(passwordResetService, 'invalidOldResetPasswordDemand');
         sandbox.stub(validationErrorSerializer, 'serialize');
@@ -321,7 +321,7 @@ describe('Unit | Controller | user-controller', () => {
             },
           },
         };
-        const sandbox = sinon.sandbox.create();
+        const sandbox = sinon.createSandbox();
         const usecaseUpdateUserPasswordStub = sandbox.stub(usecases, 'updateUserPassword');
 
         // when
@@ -350,7 +350,7 @@ describe('Unit | Controller | user-controller', () => {
             },
           },
         };
-        const sandbox = sinon.sandbox.create();
+        const sandbox = sinon.createSandbox();
         const usecaseAcceptPixOrgaTermsOfServiceStub = sandbox.stub(usecases, 'acceptPixOrgaTermsOfService');
 
         // when
@@ -378,7 +378,7 @@ describe('Unit | Controller | user-controller', () => {
             },
           },
         };
-        const sandbox = sinon.sandbox.create();
+        const sandbox = sinon.createSandbox();
         const usecaseAcceptPixCertifTermsOfServiceStub = sandbox.stub(usecases, 'acceptPixCertifTermsOfService');
 
         // when
@@ -398,7 +398,7 @@ describe('Unit | Controller | user-controller', () => {
     const request = { params: { id: 1 } };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(userService, 'isUserExistingById').resolves(true);
       sandbox.stub(userService, 'getProfileToCertify').resolves([]);
@@ -482,7 +482,7 @@ describe('Unit | Controller | user-controller', () => {
         }
       };
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(usecases, 'getUserWithMemberships').resolves();
       sandbox.stub(userSerializer, 'serialize');
     });
@@ -575,7 +575,7 @@ describe('Unit | Controller | user-controller', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(membershipSerializer, 'serialize');
     });
 

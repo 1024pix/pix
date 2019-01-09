@@ -53,7 +53,7 @@ describe('Unit | Service | OrganizationService', () => {
     const userId = 1234;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(userRepository, 'hasRolePixMaster');
       sandbox.stub(organizationRepository, 'findBy');
     });
@@ -168,7 +168,7 @@ describe('Unit | Service | OrganizationService', () => {
       }];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(targetProfileRepository, 'findPublicTargetProfiles').resolves(publicTargetProfiles);
       sandbox.stub(targetProfileRepository, 'findTargetProfilesOwnedByOrganizationId').resolves(targetProfilesOwnedByOrganization);
       sandbox.stub(organizationRepository, 'get').resolves(organization);

@@ -8,7 +8,7 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, h) => h.response('ok').code(201));
     sandbox.stub(campaignParticipationController, 'getCampaignParticipationByAssessment').callsFake((request, h) => h.response('ok').code(201));
 

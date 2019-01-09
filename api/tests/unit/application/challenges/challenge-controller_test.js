@@ -12,7 +12,7 @@ describe('Unit | Controller | challenge-controller', function() {
   let ChallengeSerializerStub;
 
   beforeEach(function() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     ChallengeRepoStub = sandbox.stub(ChallengeRepository, 'get');
     ChallengeSerializerStub = sandbox.stub(ChallengeSerializer, 'serialize');
     server = Hapi.server();

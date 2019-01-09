@@ -20,7 +20,7 @@ const solutionAdapter = require('../../../../lib/infrastructure/adapters/solutio
 
 describe('Unit | Repository | challenge-repository', () => {
 
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   afterEach(() => {
     sandbox.restore();

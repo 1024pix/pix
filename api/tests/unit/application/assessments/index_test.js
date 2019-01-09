@@ -21,7 +21,7 @@ describe('Integration | Route | AssessmentRoute', () => {
 
   beforeEach(() => {
     // stub dependencies
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(assessmentController, 'save');
     sandbox.stub(assessmentController, 'getNextChallenge');
     sandbox.stub(assessmentController, 'findByFilters');

@@ -9,7 +9,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', (
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {

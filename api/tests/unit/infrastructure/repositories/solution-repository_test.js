@@ -9,7 +9,7 @@ describe('Unit | Repository | solution-repository', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(challengeDatasource, 'get');
     sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
   });

@@ -9,7 +9,7 @@ describe('Unit | Router | answer-router', function() {
 
   beforeEach(function() {
 
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(AnswerController, 'save').callsFake((request, h) => h.response().code(201));
     sandbox.stub(AnswerController, 'get').callsFake((request, h) => h.response().code(200));
     sandbox.stub(AnswerController, 'findByChallengeAndAssessment').callsFake((request, h) => h.response().code(200));

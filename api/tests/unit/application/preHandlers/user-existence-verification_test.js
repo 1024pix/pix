@@ -15,7 +15,7 @@ describe('Unit | Pre-handler | User Verification', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(userRepository, 'findUserById');
       sandbox.stub(errorSerializer, 'serialize');
     });

@@ -15,7 +15,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
   const assessmentRepository = { save: () => undefined };
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(campaignRepository, 'getByCode');
     sandbox.stub(assessmentRepository, 'save');
     sandbox.stub(campaignParticipationRepository, 'save');

@@ -16,7 +16,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(queryParamsUtils, 'extractFilters').resolves(resultFilter);
       sandbox.stub(usecases, 'findCampaignParticipationsByAssessmentId');
     });
@@ -170,7 +170,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const userId = 6;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(usecases, 'startCampaignParticipation');
       sandbox.stub(serializer, 'serialize');
       request = {

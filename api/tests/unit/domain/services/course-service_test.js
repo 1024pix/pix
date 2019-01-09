@@ -16,7 +16,7 @@ describe('Unit | Service | Course Service', () => {
     const certificationCourse = new Course({ id: 1 });
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     afterEach(() => {

@@ -28,7 +28,7 @@ describe('Unit | Controller | sessionController', () => {
         accessCode: 'ABCD12'
       });
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(sessionService, 'save').resolves();
       sandbox.stub(logger, 'error');
       sandbox.stub(sessionSerializer, 'deserialize').resolves(expectedSession);
@@ -117,7 +117,7 @@ describe('Unit | Controller | sessionController', () => {
   describe('#get', function() {
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(sessionService, 'get');
       sandbox.stub(sessionSerializer, 'serialize');
       request = {

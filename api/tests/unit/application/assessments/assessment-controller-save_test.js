@@ -17,7 +17,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     afterEach(() => {

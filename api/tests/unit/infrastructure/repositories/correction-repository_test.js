@@ -14,7 +14,7 @@ describe('Unit | Repository | correction-repository', function() {
   let sandbox;
 
   beforeEach(function() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(challengeDatasource, 'get');
     sandbox.stub(skillDatasource, 'get');
     sandbox.stub(tutorialDataSource, 'get');

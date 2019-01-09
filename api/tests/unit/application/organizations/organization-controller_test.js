@@ -25,7 +25,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#getOrganizationDetails', () => {
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(usecases, 'getOrganizationDetails');
       sandbox.stub(organizationSerializer, 'serialize');
     });
@@ -55,7 +55,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#create', () => {
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(usecases, 'createOrganization');
       sandbox.stub(organizationSerializer, 'serialize');
@@ -193,7 +193,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     const arrayOfOrganizations = [new Organization({ code: 'AAA111' }), new Organization({ code: 'BBB222' })];
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(logger, 'error');
       sandbox.stub(organizationService, 'search').resolves(arrayOfOrganizations);
@@ -276,7 +276,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(logger, 'error');
       sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
       sandbox.stub(snapshotSerializer, 'serialize');
@@ -492,7 +492,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       campaign = domainBuilder.buildCampaign();
       serializedCampaigns = { data: [{ name: campaign.name, code: campaign.code }] };
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(usecases, 'getOrganizationCampaigns');
       sandbox.stub(campaignSerializer, 'serialize');
     });
@@ -552,7 +552,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     const organizationId = '145';
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId }
