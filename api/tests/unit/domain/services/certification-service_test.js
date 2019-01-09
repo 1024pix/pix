@@ -183,7 +183,6 @@ describe('Unit | Service | Certification Service', function() {
 
   describe('#calculateCertificationResultByCertificationCourseId', () => {
 
-    let sandbox;
     const dateCreationCertif = '2018-01-01';
     const certificationAssessment = Assessment.fromAttributes({
       id: 'assessment_id',
@@ -196,18 +195,13 @@ describe('Unit | Service | Certification Service', function() {
     const certificationCourse = { id: 'course1', status: 'completed', completedAt: dateCreationCertif };
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessment);
-      sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves(assessments);
-      sandbox.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
-      sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
-      sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
-      sandbox.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
-      sandbox.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessment);
+      sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves(assessments);
+      sinon.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
+      sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
+      sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
+      sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
+      sinon.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
     });
 
     it('should call Assessment Repository to get Assessment by CertificationCourseId', function() {
@@ -727,7 +721,6 @@ describe('Unit | Service | Certification Service', function() {
 
   describe('#calculateCertificationResultByAssessmentId', () => {
 
-    let sandbox;
     const certificationCourse = { id: 'course1', status: 'completed' };
     const dateCreationCertif = '2018-02-02';
 
@@ -740,19 +733,14 @@ describe('Unit | Service | Certification Service', function() {
     });
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(assessmentRepository, 'get').resolves(certificationAssessment);
-      sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves(assessments);
-      sandbox.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
-      sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
-      sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
-      sandbox.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
-      sandbox.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
+      sinon.stub(assessmentRepository, 'get').resolves(certificationAssessment);
+      sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves(assessments);
+      sinon.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
+      sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
+      sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
+      sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
+      sinon.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
 
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should call Assessment Repository to get Assessment by CertificationCourseId', function() {
@@ -1190,19 +1178,12 @@ describe('Unit | Service | Certification Service', function() {
 
   describe('#startNewCertification', () => {
 
-    let sandbox;
-
     const certificationCourse = { id: 'newlyCreatedCertificationCourse' };
     const certificationCourseWithNbOfChallenges = { id: 'certificationCourseWithChallenges', nbChallenges: 3 };
     const sessionId = 23;
 
     beforeEach(() => {
       sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
-      sandbox = sinon.createSandbox();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     const noCompetences = [];
@@ -1232,8 +1213,8 @@ describe('Unit | Service | Certification Service', function() {
       it(`should not create a new certification if ${testCase.label}`, function() {
         // given
         const userId = 12345;
-        sandbox.stub(userService, 'getProfileToCertify').resolves(testCase.competences);
-        sandbox.stub(certificationCourseRepository, 'save');
+        sinon.stub(userService, 'getProfileToCertify').resolves(testCase.competences);
+        sinon.stub(certificationCourseRepository, 'save');
 
         // when
         const createNewCertificationPromise = certificationService.startNewCertification(userId, sessionId);
@@ -1249,9 +1230,9 @@ describe('Unit | Service | Certification Service', function() {
     it('should create the certification course with status "started", if at least 5 competences with level higher than 0', function() {
       // given
       const userId = 12345;
-      sandbox.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
-      sandbox.stub(userService, 'getProfileToCertify').resolves(fiveCompetencesWithLevelHigherThan0);
-      sandbox.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
+      sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
+      sinon.stub(userService, 'getProfileToCertify').resolves(fiveCompetencesWithLevelHigherThan0);
+      sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
 
       // when
       const promise = certificationService.startNewCertification(userId, sessionId);
@@ -1267,9 +1248,9 @@ describe('Unit | Service | Certification Service', function() {
     it('should create the challenges for the certification course, based on the user profile', function() {
       // given
       const userId = 12345;
-      sandbox.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
-      sandbox.stub(userService, 'getProfileToCertify').resolves(fiveCompetencesWithLevelHigherThan0);
-      sandbox.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
+      sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
+      sinon.stub(userService, 'getProfileToCertify').resolves(fiveCompetencesWithLevelHigherThan0);
+      sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
 
       // when
       const promise = certificationService.startNewCertification(userId);
@@ -1285,20 +1266,18 @@ describe('Unit | Service | Certification Service', function() {
   });
 
   describe('#getCertificationResult', () => {
-    let sandbox;
 
     context('when certification is finished', () => {
 
       beforeEach(() => {
-        sandbox = sinon.createSandbox();
         const assessmentResult = _buildAssessmentResult(20, 3);
-        sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
+        sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
           state: 'completed',
           assessmentResults: [
             _buildAssessmentResult(20, 3),
           ],
         }));
-        sandbox.stub(certificationCourseRepository, 'get').resolves({
+        sinon.stub(certificationCourseRepository, 'get').resolves({
           createdAt: '2017-12-23 15:23:12',
           completedAt: '2017-12-23T16:23:12.232Z',
           firstName: 'Pumba',
@@ -1309,13 +1288,9 @@ describe('Unit | Service | Certification Service', function() {
           externalId: 'TimonsFriend',
         });
         assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
-        sandbox.stub(assessmentResultRepository, 'get').resolves(
+        sinon.stub(assessmentResultRepository, 'get').resolves(
           assessmentResult,
         );
-      });
-
-      afterEach(() => {
-        sandbox.restore();
       });
 
       it('should return certification results with pix score, date and certified competences levels', () => {
@@ -1364,11 +1339,10 @@ describe('Unit | Service | Certification Service', function() {
     context('when certification is not finished', () => {
 
       beforeEach(() => {
-        sandbox = sinon.createSandbox();
-        sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
+        sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
           state: 'started',
         }));
-        sandbox.stub(certificationCourseRepository, 'get').resolves({
+        sinon.stub(certificationCourseRepository, 'get').resolves({
           createdAt: '2017-12-23 15:23:12',
           firstName: 'Pumba',
           lastName: 'De La Savane',
@@ -1377,11 +1351,7 @@ describe('Unit | Service | Certification Service', function() {
           sessionId: 'MoufMufassa',
           externalId: 'TimonsFriend',
         });
-        sandbox.stub(assessmentResultRepository, 'get').resolves(null);
-      });
-
-      afterEach(() => {
-        sandbox.restore();
+        sinon.stub(assessmentResultRepository, 'get').resolves(null);
       });
 
       it('should return certification results with state at started, empty marks and undefined for information not yet valid', () => {

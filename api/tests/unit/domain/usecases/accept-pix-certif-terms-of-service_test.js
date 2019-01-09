@@ -5,16 +5,9 @@ const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | UseCase | accept-pix-certif-terms-of-service', () => {
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(userRepository, 'get');
-    sandbox.stub(userRepository, 'updateUser');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(userRepository, 'get');
+    sinon.stub(userRepository, 'updateUser');
   });
 
   context('when user has already accepted pix-certif terms of service', () => {

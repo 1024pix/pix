@@ -82,24 +82,18 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const campaignParticipationRepository = { findByCampaignId: () => undefined };
     const smartPlacementAssessmentRepository = { get: () => undefined };
 
-    let sandbox;
     let findCampaignParticipationStub;
 
     beforeEach(() => {
 
-      sandbox = sinon.createSandbox();
-      sandbox.stub(campaignRepository, 'get').resolves(campaign);
-      sandbox.stub(competenceRepository, 'list').resolves(competences);
-      sandbox.stub(targetProfileRepository, 'get').resolves(targetProfile);
-      sandbox.stub(userRepository, 'getWithMemberships').resolves(user);
-      sandbox.stub(organizationRepository, 'get').resolves(organization);
-      sandbox.stub(userRepository, 'get').resolves(user);
-      sandbox.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
-      findCampaignParticipationStub = sandbox.stub(campaignParticipationRepository, 'findByCampaignId');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(campaignRepository, 'get').resolves(campaign);
+      sinon.stub(competenceRepository, 'list').resolves(competences);
+      sinon.stub(targetProfileRepository, 'get').resolves(targetProfile);
+      sinon.stub(userRepository, 'getWithMemberships').resolves(user);
+      sinon.stub(organizationRepository, 'get').resolves(organization);
+      sinon.stub(userRepository, 'get').resolves(user);
+      sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
+      findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findByCampaignId');
     });
 
     it('should return the header in CSV styles with all competence, domain and skills', () => {

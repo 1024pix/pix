@@ -9,7 +9,6 @@ const { AssessmentStartError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | start-placement-assessment', () => {
 
-  let sandbox;
   let clock;
   let testCurrentDate;
 
@@ -22,14 +21,12 @@ describe('Unit | UseCase | start-placement-assessment', () => {
     testCurrentDate = new Date('2018-01-10 05:00:00');
     clock = sinon.useFakeTimers(testCurrentDate.getTime());
 
-    sandbox = sinon.createSandbox();
-    sandbox.stub(assessmentRepository, 'save');
-    sandbox.stub(assessmentRepository, 'getLastPlacementAssessmentByUserIdAndCourseId');
+    sinon.stub(assessmentRepository, 'save');
+    sinon.stub(assessmentRepository, 'getLastPlacementAssessmentByUserIdAndCourseId');
   });
 
   afterEach(() => {
     clock.restore();
-    sandbox.restore();
   });
 
   context('when there is no assessment completed and no assessment started concerning the user and course', () => {

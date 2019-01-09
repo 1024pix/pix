@@ -10,17 +10,11 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
   const assessmentRepository = { get: () => undefined };
   const answerRepository = { get: () => undefined };
   const correctionRepository = { getByChallengeId: () => undefined };
-  let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(assessmentRepository, 'get');
-    sandbox.stub(answerRepository, 'get');
-    sandbox.stub(correctionRepository, 'getByChallengeId');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(assessmentRepository, 'get');
+    sinon.stub(answerRepository, 'get');
+    sinon.stub(correctionRepository, 'getByChallengeId');
   });
 
   context('when assessment is not completed', () => {

@@ -93,23 +93,17 @@ const spConfig = {
 };
 
 describe('Acceptance | Controller | saml-controller', () => {
-  let sandbox;
   let server;
 
   beforeEach(async () => {
     server = await createServer();
-    sandbox = sinon.createSandbox();
-    sandbox.stub(settings.saml, 'spConfig').value(spConfig);
-    sandbox.stub(settings.saml, 'idpConfig').value(idpConfig);
-    sandbox.stub(settings.saml, 'attributeMapping').value({
+    sinon.stub(settings.saml, 'spConfig').value(spConfig);
+    sinon.stub(settings.saml, 'idpConfig').value(idpConfig);
+    sinon.stub(settings.saml, 'attributeMapping').value({
       samlId: 'IDO',
       firstName: 'PRE',
       lastName: 'NOM',
     });
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('GET /api/saml/metadata.xml', () => {

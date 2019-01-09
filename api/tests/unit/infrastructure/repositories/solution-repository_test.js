@@ -6,16 +6,9 @@ const Solution = require('../../../../lib/domain/models/Solution');
 
 describe('Unit | Repository | solution-repository', () => {
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(challengeDatasource, 'get');
-    sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(challengeDatasource, 'get');
+    sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
   });
 
   describe('#getByChallengeId', () => {

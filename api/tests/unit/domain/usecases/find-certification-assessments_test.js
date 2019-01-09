@@ -8,22 +8,12 @@ describe('Unit | UseCase | find-certification-assessments', () => {
     },
   };
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   it('should resolve an empty array', () => {
     // given
     const userId = 1234;
     const courseId = 2;
     const filters = { type: 'CERTIFICATION', courseId };
-    sandbox.stub(assessmentRepository, 'getCertificationAssessmentByUserIdAndCourseId').resolves(null);
+    sinon.stub(assessmentRepository, 'getCertificationAssessmentByUserIdAndCourseId').resolves(null);
 
     // when
     const promise = findCertificationAssessments({ userId, filters, assessmentRepository });
@@ -58,7 +48,7 @@ describe('Unit | UseCase | find-certification-assessments', () => {
       ...filters,
       userId,
     });
-    sandbox.stub(assessmentRepository, 'getCertificationAssessmentByUserIdAndCourseId').resolves(assessment);
+    sinon.stub(assessmentRepository, 'getCertificationAssessmentByUserIdAndCourseId').resolves(assessment);
 
     // when
     const promise = findCertificationAssessments({ userId, filters, assessmentRepository });

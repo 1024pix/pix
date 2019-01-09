@@ -55,24 +55,18 @@ describe('Unit | Controller | snapshot-controller', () => {
     };
 
     describe('Behavior', () => {
-      let sandbox;
 
       beforeEach(() => {
-        sandbox = sinon.createSandbox();
-        sandbox.stub(authorizationToken, 'verify');
-        sandbox.stub(userRepository, 'findUserById');
-        sandbox.stub(snapshotSerializer, 'deserialize');
-        sandbox.stub(profileService, 'getByUserId');
-        sandbox.stub(organizationRepository, 'isOrganizationIdExist');
-        sandbox.stub(snapshotService, 'create');
-        sandbox.stub(profileSerializer, 'serialize');
-        sandbox.stub(profileCompletionService, 'getNumberOfFinishedTests');
-        sandbox.stub(snapshotSerializer, 'serialize');
-        sandbox.stub(logger, 'error');
-      });
-
-      afterEach(() => {
-        sandbox.restore();
+        sinon.stub(authorizationToken, 'verify');
+        sinon.stub(userRepository, 'findUserById');
+        sinon.stub(snapshotSerializer, 'deserialize');
+        sinon.stub(profileService, 'getByUserId');
+        sinon.stub(organizationRepository, 'isOrganizationIdExist');
+        sinon.stub(snapshotService, 'create');
+        sinon.stub(profileSerializer, 'serialize');
+        sinon.stub(profileCompletionService, 'getNumberOfFinishedTests');
+        sinon.stub(snapshotSerializer, 'serialize');
+        sinon.stub(logger, 'error');
       });
 
       describe('Test collaboration', function() {

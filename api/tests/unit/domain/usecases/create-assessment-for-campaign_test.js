@@ -8,21 +8,15 @@ const { CampaignCodeError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-assessment-for-campaign', () => {
 
-  let sandbox;
   const availableCampaignCode = 'ABCDEF123';
   const campaignRepository = { getByCode: () => undefined };
   const campaignParticipationRepository = { save: () => undefined };
   const assessmentRepository = { save: () => undefined };
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(campaignRepository, 'getByCode');
-    sandbox.stub(assessmentRepository, 'save');
-    sandbox.stub(campaignParticipationRepository, 'save');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(campaignRepository, 'getByCode');
+    sinon.stub(assessmentRepository, 'save');
+    sinon.stub(campaignParticipationRepository, 'save');
   });
 
   context('when campaignCode not exist', () => {

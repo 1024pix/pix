@@ -5,15 +5,13 @@ const securityController = require('../../../../lib/interfaces/controllers/secur
 
 describe('Unit | Router | cache-router', () => {
 
-  let sandbox;
   let server;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(cacheController, 'reloadCacheEntry').callsFake((request, h) => h.response().code(204));
-    sandbox.stub(cacheController, 'removeAllCacheEntries').callsFake((request, h) => h.response().code(204));
-    sandbox.stub(cacheController, 'preloadCacheEntries').callsFake((request, h) => h.response().code(204));
-    sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(cacheController, 'reloadCacheEntry').callsFake((request, h) => h.response().code(204));
+    sinon.stub(cacheController, 'removeAllCacheEntries').callsFake((request, h) => h.response().code(204));
+    sinon.stub(cacheController, 'preloadCacheEntries').callsFake((request, h) => h.response().code(204));
+    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
 
     server = Hapi.server();
 
@@ -21,7 +19,6 @@ describe('Unit | Router | cache-router', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
     server.stop();
   });
 

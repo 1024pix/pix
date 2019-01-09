@@ -7,21 +7,15 @@ const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/
 describe('Unit | Controller | challenge-controller', function() {
 
   let server;
-  let sandbox;
   let ChallengeRepoStub;
   let ChallengeSerializerStub;
 
   beforeEach(function() {
-    sandbox = sinon.createSandbox();
-    ChallengeRepoStub = sandbox.stub(ChallengeRepository, 'get');
-    ChallengeSerializerStub = sandbox.stub(ChallengeSerializer, 'serialize');
+    ChallengeRepoStub = sinon.stub(ChallengeRepository, 'get');
+    ChallengeSerializerStub = sinon.stub(ChallengeSerializer, 'serialize');
     server = Hapi.server();
 
     return server.register(require('../../../../lib/application/challenges'));
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('#get', function() {

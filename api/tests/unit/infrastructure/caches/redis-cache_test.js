@@ -5,7 +5,6 @@ const RedisCache = require('../../../../lib/infrastructure/caches/redis-cache');
 
 describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
-  let sandbox;
   let stubbedClient;
   let redisCache;
 
@@ -14,18 +13,13 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
   const REDIS_CLIENT_ERROR = new Error('A Redis client error');
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
     stubbedClient = {
       lockDisposer: sinon.stub().resolves(() => {})
     };
-    sandbox.stub(RedisCache, 'createClient')
+    sinon.stub(RedisCache, 'createClient')
       .withArgs(REDIS_URL)
       .returns(stubbedClient);
     redisCache = new RedisCache(REDIS_URL);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('#get', () => {

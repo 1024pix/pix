@@ -10,7 +10,6 @@ function _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise) {
 
 describe('Unit | Application | Use Case | authenticate-user', () => {
 
-  let sandbox;
   let userRepository;
   let tokenService;
 
@@ -18,14 +17,9 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   const userPassword = 'user_password';
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    userRepository = { findByEmailWithRoles: sandbox.stub() };
-    tokenService = { createTokenFromUser: sandbox.stub() };
-    sandbox.stub(encryptionService, 'check');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    userRepository = { findByEmailWithRoles: sinon.stub() };
+    tokenService = { createTokenFromUser: sinon.stub() };
+    sinon.stub(encryptionService, 'check');
   });
 
   it('should resolves a valid JWT access token when authentication succeeded', () => {

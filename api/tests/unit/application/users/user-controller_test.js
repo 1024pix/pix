@@ -26,26 +26,20 @@ const {
 describe('Unit | Controller | user-controller', () => {
 
   describe('#save', () => {
-    let sandbox;
     const email = 'to-be-free@ozone.airplane';
     const deserializedUser = new User({ password: 'password_1234' });
     const savedUser = new User({ email });
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
-      sandbox.stub(logger, 'error').returns({});
-      sandbox.stub(userSerializer, 'deserialize').returns(deserializedUser);
-      sandbox.stub(userSerializer, 'serialize');
-      sandbox.stub(userRepository, 'create').resolves(savedUser);
-      sandbox.stub(validationErrorSerializer, 'serialize');
-      sandbox.stub(encryptionService, 'hashPassword');
-      sandbox.stub(mailService, 'sendAccountCreationEmail');
-      sandbox.stub(usecases, 'createUser');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(logger, 'error').returns({});
+      sinon.stub(userSerializer, 'deserialize').returns(deserializedUser);
+      sinon.stub(userSerializer, 'serialize');
+      sinon.stub(userRepository, 'create').resolves(savedUser);
+      sinon.stub(validationErrorSerializer, 'serialize');
+      sinon.stub(encryptionService, 'hashPassword');
+      sinon.stub(mailService, 'sendAccountCreationEmail');
+      sinon.stub(usecases, 'createUser');
     });
 
     describe('when request is valid', () => {
@@ -210,7 +204,6 @@ describe('Unit | Controller | user-controller', () => {
   describe('#updateUser', () => {
 
     context('When payload is good (with a payload and a password attribute)', () => {
-      let sandbox;
       const request = {
         params: {
           id: 7,
@@ -229,17 +222,12 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       beforeEach(() => {
-        sandbox = sinon.createSandbox();
-        sandbox.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
-        sandbox.stub(passwordResetService, 'invalidOldResetPasswordDemand');
-        sandbox.stub(validationErrorSerializer, 'serialize');
-        sandbox.stub(userRepository, 'updatePassword');
-        sandbox.stub(userRepository, 'findUserById').resolves(user);
-        sandbox.stub(encryptionService, 'hashPassword');
-      });
-
-      afterEach(() => {
-        sandbox.restore();
+        sinon.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
+        sinon.stub(passwordResetService, 'invalidOldResetPasswordDemand');
+        sinon.stub(validationErrorSerializer, 'serialize');
+        sinon.stub(userRepository, 'updatePassword');
+        sinon.stub(userRepository, 'findUserById').resolves(user);
+        sinon.stub(encryptionService, 'hashPassword');
       });
 
       it('should reply with no content', async () => {
@@ -321,8 +309,7 @@ describe('Unit | Controller | user-controller', () => {
             },
           },
         };
-        const sandbox = sinon.createSandbox();
-        const usecaseUpdateUserPasswordStub = sandbox.stub(usecases, 'updateUserPassword');
+        const usecaseUpdateUserPasswordStub = sinon.stub(usecases, 'updateUserPassword');
 
         // when
         await userController.updateUser(request, hFake);
@@ -350,8 +337,7 @@ describe('Unit | Controller | user-controller', () => {
             },
           },
         };
-        const sandbox = sinon.createSandbox();
-        const usecaseAcceptPixOrgaTermsOfServiceStub = sandbox.stub(usecases, 'acceptPixOrgaTermsOfService');
+        const usecaseAcceptPixOrgaTermsOfServiceStub = sinon.stub(usecases, 'acceptPixOrgaTermsOfService');
 
         // when
         await userController.updateUser(request, hFake);
@@ -378,8 +364,7 @@ describe('Unit | Controller | user-controller', () => {
             },
           },
         };
-        const sandbox = sinon.createSandbox();
-        const usecaseAcceptPixCertifTermsOfServiceStub = sandbox.stub(usecases, 'acceptPixCertifTermsOfService');
+        const usecaseAcceptPixCertifTermsOfServiceStub = sinon.stub(usecases, 'acceptPixCertifTermsOfService');
 
         // when
         const promise = userController.updateUser(request, hFake);
@@ -393,20 +378,14 @@ describe('Unit | Controller | user-controller', () => {
   });
 
   describe('#getProfileToCertify', () => {
-    let sandbox;
 
     const request = { params: { id: 1 } };
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
-      sandbox.stub(userService, 'isUserExistingById').resolves(true);
-      sandbox.stub(userService, 'getProfileToCertify').resolves([]);
-      sandbox.stub(logger, 'error').returns({});
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(userService, 'isUserExistingById').resolves(true);
+      sinon.stub(userService, 'getProfileToCertify').resolves([]);
+      sinon.stub(logger, 'error').returns({});
     });
 
     it('should be a function', () => {
@@ -458,7 +437,6 @@ describe('Unit | Controller | user-controller', () => {
   });
 
   describe('#getUser', () => {
-    let sandbox;
     let requestedUserId;
     let authenticatedUserId;
     let request;
@@ -476,13 +454,8 @@ describe('Unit | Controller | user-controller', () => {
         }
       };
 
-      sandbox = sinon.createSandbox();
-      sandbox.stub(usecases, 'getUserWithMemberships').resolves();
-      sandbox.stub(userSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'getUserWithMemberships').resolves();
+      sinon.stub(userSerializer, 'serialize');
     });
 
     it('should retrieve user informations from user Id', async () => {
@@ -554,7 +527,6 @@ describe('Unit | Controller | user-controller', () => {
   });
 
   describe('#getMemberships', () => {
-    let sandbox;
     const authenticatedUserId = 1;
     const requestedUserId = '1';
     const request = {
@@ -569,18 +541,13 @@ describe('Unit | Controller | user-controller', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(membershipSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(membershipSerializer, 'serialize');
     });
 
     it('should get accesses of the user passed on params', async () => {
       // given
       const stringifiedAuthenticatedUserId = authenticatedUserId.toString();
-      sandbox.stub(usecases, 'getUserWithMemberships').resolves();
+      sinon.stub(usecases, 'getUserWithMemberships').resolves();
 
       // when
       await userController.getMemberships(request, hFake);
@@ -595,7 +562,7 @@ describe('Unit | Controller | user-controller', () => {
     context('When accesses are found', () => {
 
       beforeEach(() => {
-        sandbox.stub(usecases, 'getUserWithMemberships');
+        sinon.stub(usecases, 'getUserWithMemberships');
       });
 
       it('should serialize found memberships', async () => {
@@ -629,7 +596,7 @@ describe('Unit | Controller | user-controller', () => {
     context('When authenticated user want to retrieve access of another user', () => {
       it('should return a 403 Forbidden access error ', async () => {
         // given
-        sandbox.stub(usecases, 'getUserWithMemberships').rejects(new UserNotAuthorizedToAccessEntity());
+        sinon.stub(usecases, 'getUserWithMemberships').rejects(new UserNotAuthorizedToAccessEntity());
 
         // when
         const response = await userController.getMemberships(request, hFake);
@@ -643,7 +610,7 @@ describe('Unit | Controller | user-controller', () => {
     context('When an unexpected error occurs', () => {
       it('should return a 500 internal error ', async () => {
         // given
-        sandbox.stub(usecases, 'getUserWithMemberships').rejects(new Error());
+        sinon.stub(usecases, 'getUserWithMemberships').rejects(new Error());
 
         // when
         const response = await userController.getMemberships(request, hFake);

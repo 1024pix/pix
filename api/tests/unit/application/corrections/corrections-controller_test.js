@@ -9,15 +9,9 @@ const { NotFoundError, NotCompletedAssessmentError } = require('../../../../lib/
 const correctionsController = require('../../../../lib/application/corrections/corrections-controller');
 
 describe('Unit | Controller | corrections-controller', () => {
-  let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(usecases, 'getCorrectionForAnswerWhenAssessmentEnded');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(usecases, 'getCorrectionForAnswerWhenAssessmentEnded');
   });
 
   describe('#findByAnswerId', () => {

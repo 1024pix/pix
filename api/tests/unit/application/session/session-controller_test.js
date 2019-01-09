@@ -10,7 +10,6 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Controller | sessionController', () => {
-  let sandbox;
   let request;
   let expectedSession;
 
@@ -28,11 +27,10 @@ describe('Unit | Controller | sessionController', () => {
         accessCode: 'ABCD12'
       });
 
-      sandbox = sinon.createSandbox();
-      sandbox.stub(sessionService, 'save').resolves();
-      sandbox.stub(logger, 'error');
-      sandbox.stub(sessionSerializer, 'deserialize').resolves(expectedSession);
-      sandbox.stub(sessionSerializer, 'serialize');
+      sinon.stub(sessionService, 'save').resolves();
+      sinon.stub(logger, 'error');
+      sinon.stub(sessionSerializer, 'deserialize').resolves(expectedSession);
+      sinon.stub(sessionSerializer, 'serialize');
 
       request = {
         payload: {
@@ -50,10 +48,6 @@ describe('Unit | Controller | sessionController', () => {
           }
         }
       };
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should save the session', async () => {
@@ -117,18 +111,13 @@ describe('Unit | Controller | sessionController', () => {
   describe('#get', function() {
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(sessionService, 'get');
-      sandbox.stub(sessionSerializer, 'serialize');
+      sinon.stub(sessionService, 'get');
+      sinon.stub(sessionSerializer, 'serialize');
       request = {
         params: {
           id: 'sessionId'
         }
       };
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     context('when session exists', () => {

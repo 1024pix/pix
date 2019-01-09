@@ -19,7 +19,6 @@ const Skill = require('../../../../lib/cat/skill');
 describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
   describe('#getNextChallenge', () => {
-    let sandbox;
     let assessmentWithoutScore;
     let assessmentWithScore;
     let scoredAsssessment;
@@ -31,7 +30,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
       assessmentWithoutScore = Assessment.fromAttributes({
         id: 1,
@@ -52,21 +50,17 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         skills: assessmentSkills,
       };
 
-      sandbox.stub(skillService, 'saveAssessmentSkills').resolves();
-      sandbox.stub(assessmentRepository, 'get');
-      sandbox.stub(assessmentRepository, 'save');
-      sandbox.stub(challengeRepository, 'get').resolves({});
-      sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
+      sinon.stub(skillService, 'saveAssessmentSkills').resolves();
+      sinon.stub(assessmentRepository, 'get');
+      sinon.stub(assessmentRepository, 'save');
+      sinon.stub(challengeRepository, 'get').resolves({});
+      sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
 
-      sandbox.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
-      sandbox.stub(usecases, 'getNextChallengeForCertification').resolves();
-      sandbox.stub(usecases, 'getNextChallengeForDemo').resolves();
-      sandbox.stub(usecases, 'getNextChallengeForSmartPlacement').resolves();
-      sandbox.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId').resolves();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
+      sinon.stub(usecases, 'getNextChallengeForCertification').resolves();
+      sinon.stub(usecases, 'getNextChallengeForDemo').resolves();
+      sinon.stub(usecases, 'getNextChallengeForSmartPlacement').resolves();
+      sinon.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId').resolves();
     });
 
     // TODO: Que faire si l'assessment n'existe pas pas ?

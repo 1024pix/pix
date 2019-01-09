@@ -43,24 +43,18 @@ describe('Unit | Repository | skill-repository', function() {
   });
 
   describe('#save', () => {
-    let sandbox;
     let forgeStub;
     let invokeStub;
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      invokeStub = sandbox.stub().resolves();
-      forgeStub = sandbox.stub().returns({
+      invokeStub = sinon.stub().resolves();
+      forgeStub = sinon.stub().returns({
         invokeThen: invokeStub
       });
 
-      sandbox.stub(Bookshelf.Collection, 'extend').returns({
+      sinon.stub(Bookshelf.Collection, 'extend').returns({
         forge: forgeStub
       });
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should save assessment skills', () => {

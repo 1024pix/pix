@@ -30,15 +30,9 @@ describe('Integration | Domain | services | scoring | scoring-certification', ()
 
     const dependencies = { competenceRepository };
 
-    const sandbox = sinon.createSandbox();
-
     beforeEach(() => {
-      sandbox.stub(competenceRepository, 'list').resolves(competences);
-      sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark });
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(competenceRepository, 'list').resolves(competences);
+      sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark });
     });
 
     context('when an error occurred', () => {

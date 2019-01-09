@@ -19,19 +19,13 @@ const targetProfileSerializer = require('../../../../lib/infrastructure/serializ
 
 describe('Unit | Application | Organizations | organization-controller', () => {
 
-  let sandbox;
   let request;
 
   describe('#getOrganizationDetails', () => {
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(usecases, 'getOrganizationDetails');
-      sandbox.stub(organizationSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'getOrganizationDetails');
+      sinon.stub(organizationSerializer, 'serialize');
     });
 
     it('should call the usecase and serialize the response', async () => {
@@ -55,10 +49,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#create', () => {
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
-      sandbox.stub(usecases, 'createOrganization');
-      sandbox.stub(organizationSerializer, 'serialize');
+      sinon.stub(usecases, 'createOrganization');
+      sinon.stub(organizationSerializer, 'serialize');
 
       request = {
         payload: {
@@ -70,10 +63,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           }
         }
       };
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     context('successful case', () => {
@@ -188,20 +177,14 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
   describe('#search', () => {
 
-    let sandbox;
     const arrayOfSerializedOrganization = [{ code: 'AAA111' }, { code: 'BBB222' }];
     const arrayOfOrganizations = [new Organization({ code: 'AAA111' }), new Organization({ code: 'BBB222' })];
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
-      sandbox.stub(logger, 'error');
-      sandbox.stub(organizationService, 'search').resolves(arrayOfOrganizations);
-      sandbox.stub(organizationSerializer, 'serialize').returns(arrayOfSerializedOrganization);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(logger, 'error');
+      sinon.stub(organizationService, 'search').resolves(arrayOfOrganizations);
+      sinon.stub(organizationSerializer, 'serialize').returns(arrayOfSerializedOrganization);
     });
 
     it('should retrieve organizations with one filter', async () => {
@@ -273,19 +256,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
   describe('#getSharedProfiles', () => {
 
-    let sandbox;
-
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(logger, 'error');
-      sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
-      sandbox.stub(snapshotSerializer, 'serialize');
-      sandbox.stub(validationErrorSerializer, 'serialize');
-      sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(logger, 'error');
+      sinon.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
+      sinon.stub(snapshotSerializer, 'serialize');
+      sinon.stub(validationErrorSerializer, 'serialize');
+      sinon.stub(bookshelfUtils, 'mergeModelWithRelationship');
     });
 
     describe('Collaborations', () => {
@@ -468,7 +444,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
   describe('#getCampaigns', () => {
 
-    let sandbox;
     let organizationId;
     let request;
     let campaign;
@@ -487,13 +462,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       campaign = domainBuilder.buildCampaign();
       serializedCampaigns = { data: [{ name: campaign.name, code: campaign.code }] };
 
-      sandbox = sinon.createSandbox();
-      sandbox.stub(usecases, 'getOrganizationCampaigns');
-      sandbox.stub(campaignSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'getOrganizationCampaigns');
+      sinon.stub(campaignSerializer, 'serialize');
     });
 
     it('should call the usecase to get the campaigns', async () => {
@@ -547,16 +517,11 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     const organizationId = '145';
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId }
       };
-      sandbox.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization').resolves();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization').resolves();
     });
 
     it('should call usecases with appropriated arguments', async () => {
@@ -576,7 +541,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         // given
         foundTargetProfiles = [domainBuilder.buildTargetProfile()];
         organizationService.findAllTargetProfilesAvailableForOrganization.resolves(foundTargetProfiles);
-        sandbox.stub(targetProfileSerializer, 'serialize');
+        sinon.stub(targetProfileSerializer, 'serialize');
       });
 
       it('should serialize the array of target profile', async () => {
@@ -605,7 +570,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     context('error cases', () => {
 
       beforeEach(() => {
-        sandbox.stub(logger, 'error');
+        sinon.stub(logger, 'error');
       });
 
       it('should log the error and reply with 500 error', async () => {

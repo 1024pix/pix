@@ -58,7 +58,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
   const competenceId = 'competenceId';
 
   let course;
-  let sandbox;
 
   let competence11;
   let competence12;
@@ -142,23 +141,18 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       competenceMarks: competenceMarksForPlacement
     };
 
-    sandbox = sinon.createSandbox();
+    sinon.stub(scoringService, 'calculateAssessmentScore').resolves(assessmentScore);
+    sinon.stub(assessmentRepository, 'save').resolves();
+    sinon.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
+    sinon.stub(assessmentRepository, 'get').resolves(assessment);
+    sinon.stub(skillsService, 'saveAssessmentSkills').resolves();
+    sinon.stub(courseRepository, 'get').resolves(course);
+    sinon.stub(competenceRepository, 'get').resolves(competence11);
+    sinon.stub(competenceRepository, 'list').resolves(listOfAllCompetences);
+    sinon.stub(competenceMarkRepository, 'save').resolves();
+    sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves();
+    sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
 
-    sandbox.stub(scoringService, 'calculateAssessmentScore').resolves(assessmentScore);
-    sandbox.stub(assessmentRepository, 'save').resolves();
-    sandbox.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
-    sandbox.stub(assessmentRepository, 'get').resolves(assessment);
-    sandbox.stub(skillsService, 'saveAssessmentSkills').resolves();
-    sandbox.stub(courseRepository, 'get').resolves(course);
-    sandbox.stub(competenceRepository, 'get').resolves(competence11);
-    sandbox.stub(competenceRepository, 'list').resolves(listOfAllCompetences);
-    sandbox.stub(competenceMarkRepository, 'save').resolves();
-    sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves();
-    sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   it('should reject with a NotFoundError when the assessment does not exist', () => {

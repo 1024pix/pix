@@ -6,23 +6,17 @@ const certificationCoursesController = require('../../../../lib/application/cert
 describe('Unit | Application | Certifications Course | Route', function() {
 
   let server;
-  let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
 
-    sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sandbox.stub(certificationCoursesController, 'getResult').returns('ok');
-    sandbox.stub(certificationCoursesController, 'update').returns('ok');
-    sandbox.stub(certificationCoursesController, 'computeResult').returns('ok');
+    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(certificationCoursesController, 'getResult').returns('ok');
+    sinon.stub(certificationCoursesController, 'update').returns('ok');
+    sinon.stub(certificationCoursesController, 'computeResult').returns('ok');
 
     server = Hapi.server();
 
     return server.register(require('../../../../lib/application/certificationCourses'));
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('GET /api/admin/certifications/{id}/details', () => {

@@ -10,8 +10,6 @@ const competenceRepository = require('../../../../lib/infrastructure/repositorie
 
 describe('Unit | Repository | competence-repository', () => {
 
-  const sandbox = sinon.createSandbox();
-
   const rawCompetence1 = new AirtableRecord('Competences', 'recCompetence1', {
     fields: {
       'Titre': 'Mener une recherche d’information',
@@ -37,7 +35,7 @@ describe('Unit | Repository | competence-repository', () => {
   });
 
   beforeEach(() => {
-    sandbox.stub(areaDatasource, 'list')
+    sinon.stub(areaDatasource, 'list')
       .resolves([
         new airTableDataObjects.Area({
           id: 'recArea',
@@ -47,14 +45,10 @@ describe('Unit | Repository | competence-repository', () => {
       ]);
   });
 
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#list', () => {
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords')
+      sinon.stub(airtable, 'findRecords')
         .withArgs('Competences')
         .resolves([rawCompetence2, rawCompetence1]);
     });
@@ -85,7 +79,7 @@ describe('Unit | Repository | competence-repository', () => {
 
     beforeEach(() => {
       // given
-      sandbox.stub(competenceDatasource, 'get')
+      sinon.stub(competenceDatasource, 'get')
         .withArgs('recCompetence1')
         .resolves(competenceData1);
     });

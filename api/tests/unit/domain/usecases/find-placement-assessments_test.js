@@ -8,22 +8,12 @@ describe('Unit | UseCase | find-placement-assessments', () => {
     },
   };
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   it('should resolve an empty array', () => {
     // given
     const userId = 1234;
     const courseId = 2;
     const filters = { type: 'PLACEMENT', courseId, state: 'started' };
-    sandbox.stub(assessmentRepository, 'getStartedPlacementAssessmentByUserIdAndCourseId').resolves(null);
+    sinon.stub(assessmentRepository, 'getStartedPlacementAssessmentByUserIdAndCourseId').resolves(null);
 
     // when
     const promise = findPlacementAssessments({ userId, filters, assessmentRepository });
@@ -58,7 +48,7 @@ describe('Unit | UseCase | find-placement-assessments', () => {
       ...filters,
       userId,
     });
-    sandbox.stub(assessmentRepository, 'getStartedPlacementAssessmentByUserIdAndCourseId').resolves(assessment);
+    sinon.stub(assessmentRepository, 'getStartedPlacementAssessmentByUserIdAndCourseId').resolves(assessment);
 
     // when
     const promise = findPlacementAssessments({ userId, filters, assessmentRepository });

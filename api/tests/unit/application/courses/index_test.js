@@ -5,22 +5,16 @@ const courseController = require('../../../../lib/application/courses/course-con
 
 describe('Integration | Router | course-router', () => {
 
-  let sandbox;
   let server;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sandbox.stub(courseController, 'list').returns('ok');
-    sandbox.stub(courseController, 'get').returns('ok');
-    sandbox.stub(courseController, 'save').returns('ok');
+    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+    sinon.stub(courseController, 'list').returns('ok');
+    sinon.stub(courseController, 'get').returns('ok');
+    sinon.stub(courseController, 'save').returns('ok');
 
     server = this.server = Hapi.server();
     return server.register(require('../../../../lib/application/courses'));
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('GET /api/courses', () => {

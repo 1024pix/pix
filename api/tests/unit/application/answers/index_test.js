@@ -5,15 +5,13 @@ const AnswerController = require('../../../../lib/application/answers/answer-con
 describe('Unit | Router | answer-router', function() {
 
   let server;
-  let sandbox;
 
   beforeEach(function() {
 
-    sandbox = sinon.createSandbox();
-    sandbox.stub(AnswerController, 'save').callsFake((request, h) => h.response().code(201));
-    sandbox.stub(AnswerController, 'get').callsFake((request, h) => h.response().code(200));
-    sandbox.stub(AnswerController, 'findByChallengeAndAssessment').callsFake((request, h) => h.response().code(200));
-    sandbox.stub(AnswerController, 'update').callsFake((request, h) => h.response().code(204));
+    sinon.stub(AnswerController, 'save').callsFake((request, h) => h.response().code(201));
+    sinon.stub(AnswerController, 'get').callsFake((request, h) => h.response().code(200));
+    sinon.stub(AnswerController, 'findByChallengeAndAssessment').callsFake((request, h) => h.response().code(200));
+    sinon.stub(AnswerController, 'update').callsFake((request, h) => h.response().code(204));
 
     server = Hapi.server();
 
@@ -21,7 +19,6 @@ describe('Unit | Router | answer-router', function() {
   });
 
   afterEach(() => {
-    sandbox.restore();
     server.stop();
   });
 

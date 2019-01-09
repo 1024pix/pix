@@ -11,16 +11,6 @@ const certificationSerializer = require('../../../../lib/infrastructure/serializ
 
 describe('Unit | Controller | certifications-controller', () => {
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#findUserCertifications', () => {
 
     const retrievedCertifications = [];
@@ -32,9 +22,9 @@ describe('Unit | Controller | certifications-controller', () => {
     const infraError = new Error();
 
     beforeEach(() => {
-      sandbox.stub(usecases, 'findCompletedUserCertifications');
-      sandbox.stub(certificationSerializer, 'serialize').returns(serializedCertifications);
-      sandbox.stub(logger, 'error');
+      sinon.stub(usecases, 'findCompletedUserCertifications');
+      sinon.stub(certificationSerializer, 'serialize').returns(serializedCertifications);
+      sinon.stub(logger, 'error');
     });
 
     it('should return a serialized certifications array when use case return a array of Certifications', async () => {
@@ -75,9 +65,9 @@ describe('Unit | Controller | certifications-controller', () => {
     };
 
     beforeEach(() => {
-      sandbox.stub(usecases, 'getUserCertificationWithResultTree');
-      sandbox.stub(certificationSerializer, 'serialize').returns(serializedCertification);
-      sandbox.stub(logger, 'error');
+      sinon.stub(usecases, 'getUserCertificationWithResultTree');
+      sinon.stub(certificationSerializer, 'serialize').returns(serializedCertification);
+      sinon.stub(logger, 'error');
     });
 
     it('should return a serialized certification when use case returns a certification', async () => {
@@ -185,10 +175,10 @@ describe('Unit | Controller | certifications-controller', () => {
     const usecaseError = new Error('This is a critical error.');
 
     beforeEach(() => {
-      sandbox.stub(usecases, 'updateCertification');
-      sandbox.stub(certificationSerializer, 'serialize');
+      sinon.stub(usecases, 'updateCertification');
+      sinon.stub(certificationSerializer, 'serialize');
 
-      sandbox.stub(logger, 'error');
+      sinon.stub(logger, 'error');
     });
 
     it('should return a serialized certification when update was successful', async () => {
