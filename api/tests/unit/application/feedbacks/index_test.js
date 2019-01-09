@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
+const route = require('../../../../lib/application/feedbacks');
 
 describe('Unit | Router | feedback-router', () => {
 
@@ -9,17 +10,13 @@ describe('Unit | Router | feedback-router', () => {
 
   beforeEach(() => {
     server = Hapi.server();
-    return server.register(require('../../../../lib/application/feedbacks'));
   });
 
   describe('POST /api/feedbacks', () => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(feedbackController, 'save').returns('ok');
-    });
-
-    after(() => {
-      feedbackController.save.restore();
+      return server.register(route);
     });
 
     it('should exist', () => {
@@ -41,18 +38,13 @@ describe('Unit | Router | feedback-router', () => {
 
   describe('GET /api/feedbacks', () => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
         h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(feedbackController, 'find').returns('ok');
-    });
-
-    after(() => {
-      securityController.checkUserIsAuthenticated.restore();
-      securityController.checkUserHasRolePixMaster.restore();
-      feedbackController.find.restore();
+      return server.register(route);
     });
 
     it('should exist', () => {

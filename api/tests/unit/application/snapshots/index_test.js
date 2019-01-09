@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-
 const snapshotController = require('../../../../lib/application/snapshots/snapshot-controller');
+const route = require('../../../../lib/application/snapshots');
 
 describe('Unit | Router | snapshot-router', () => {
 
@@ -9,17 +9,13 @@ describe('Unit | Router | snapshot-router', () => {
 
   beforeEach(() => {
     server = Hapi.server();
-    return server.register(require('../../../../lib/application/snapshots'));
   });
 
   describe('POST /api/snapshots', (_) => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(snapshotController, 'create').returns('ok');
-    });
-
-    after(() => {
-      snapshotController.create.restore();
+      return server.register(route);
     });
 
     it('should exist', () => {

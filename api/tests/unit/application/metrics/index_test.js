@@ -1,25 +1,20 @@
-const PROJECT_ROOT = '../../../..';
-
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const metricController = require(`${PROJECT_ROOT}/lib/application/metrics/metric-controller`);
+const metricController = require('../../../../lib/application/metrics/metric-controller');
+const route = require('../../../../lib/application/metrics');
 
 describe('Unit | Router | Metrics', () => {
   let server;
 
   beforeEach(() => {
-    server = this.server = Hapi.server();
-    return server.register(require(`${PROJECT_ROOT}/lib/application/metrics`));
+    server = Hapi.server();
   });
 
   describe('GET /metrics', () => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(metricController, 'get').returns('ok');
-    });
-
-    after(() => {
-      metricController.get.restore();
+      return server.register(route);
     });
 
     it('should exist', async () => {
