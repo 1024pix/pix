@@ -164,7 +164,12 @@ function _createOneLineOfCSV(
         line = _addCellByHeadersTitleForText(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, line, headers);
       }
 
-      const knowledgeElements = allKnowledgeElements.filter((ke) => _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt));
+      const knowledgeElements = allKnowledgeElements
+        .filter((ke) => {
+          const isKnownBeforeTheEndOfCampaignParticipation = _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt);
+          const isPresentIntTargetProfile = targetProfile.skills.find((skill) => skill.id === ke.skillId);
+          return isKnownBeforeTheEndOfCampaignParticipation && isPresentIntTargetProfile;
+        });
 
       const notCompletedPercentageProgression = _.round(
         knowledgeElements.length / (targetProfile.skills.length),
