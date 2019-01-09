@@ -31,7 +31,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       assessmentWithoutScore = Assessment.fromAttributes({
         id: 1,

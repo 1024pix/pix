@@ -13,7 +13,7 @@ function assertAirtableRecordToEqualExpected(actualRecord, expectedRecord) {
 
 describe('Integration | Infrastructure | airtable', () => {
 
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   const findStub = sandbox.stub();
   const allStub = sandbox.stub();

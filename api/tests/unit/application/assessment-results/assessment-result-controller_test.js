@@ -39,7 +39,7 @@ describe('Unit | Controller | assessment-results', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(usecases, 'createAssessmentResultForCompletedAssessment').resolves();
       sandbox.stub(logger, 'error');
     });
@@ -163,7 +163,7 @@ describe('Unit | Controller | assessment-results', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(assessmentResultService, 'save').resolves();
     });

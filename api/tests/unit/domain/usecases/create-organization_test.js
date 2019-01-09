@@ -10,7 +10,7 @@ describe('Unit | UseCase | create-organization', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(organizationCreationValidator, 'validate');
     sandbox.stub(organizationService, 'generateUniqueOrganizationCode');
   });

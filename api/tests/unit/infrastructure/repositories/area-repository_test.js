@@ -10,7 +10,7 @@ describe('Unit | Repository | area-repository', function() {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(areaDatasource, 'list');
 
     areaDatasource.list.resolves([

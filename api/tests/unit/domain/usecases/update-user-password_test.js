@@ -24,7 +24,7 @@ describe('Unit | UseCase | update-user-password', () => {
   const password = '123ASXCG';
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(resetPasswordService, 'hasUserAPasswordResetDemandInProgress');
     sandbox.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
     sandbox.stub(validationErrorSerializer, 'serialize');

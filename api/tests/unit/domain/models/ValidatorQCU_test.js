@@ -10,7 +10,7 @@ describe('Unit | Domain | Models | ValidatorQCU', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
 
     sandbox.stub(solutionServiceQcu, 'match');
   });

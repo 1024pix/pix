@@ -35,7 +35,7 @@ describe('Integration | Domain | services | scoring | scoring-placement', () => 
 
     const dependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
 
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     beforeEach(() => {
       sandbox.stub(competenceRepository, 'get').resolves(competence);

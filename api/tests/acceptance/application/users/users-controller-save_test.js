@@ -37,7 +37,7 @@ describe('Acceptance | Controller | users-controller', () => {
       let sandbox;
 
       beforeEach(() => {
-        sandbox = sinon.sandbox.create();
+        sandbox = sinon.createSandbox();
         sandbox.stub(mailJet, 'sendEmail');
 
         nock('https://www.google.com')

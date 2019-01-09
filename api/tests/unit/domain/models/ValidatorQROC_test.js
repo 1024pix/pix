@@ -10,7 +10,7 @@ describe('Unit | Domain | Models | ValidatorQROC', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
 
     sandbox.stub(solutionServiceQroc, 'match');
   });

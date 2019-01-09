@@ -19,7 +19,7 @@ describe('Integration | Controller | course-controller', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(courseService, 'getCourse');
     sandbox.stub(courseSerializer, 'serialize');
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');

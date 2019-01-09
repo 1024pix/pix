@@ -87,7 +87,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
     beforeEach(() => {
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(campaignRepository, 'get').resolves(campaign);
       sandbox.stub(competenceRepository, 'list').resolves(competences);
       sandbox.stub(targetProfileRepository, 'get').resolves(targetProfile);

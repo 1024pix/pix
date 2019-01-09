@@ -29,7 +29,7 @@ describe('Unit | UseCase | get-user-with-memberships', () => {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(userRepository, 'getWithMemberships');
     });
 

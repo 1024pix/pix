@@ -10,7 +10,7 @@ describe('Unit | UseCase | get-assessment', () => {
   let assessment;
   let assessmentScore;
 
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   beforeEach(() => {
     assessment = domainBuilder.buildAssessment();

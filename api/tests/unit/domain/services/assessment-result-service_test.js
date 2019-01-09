@@ -39,7 +39,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       }),
     ];
 
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     beforeEach(() => {
       sandbox.stub(assessmentResultRepository, 'save').resolves({ id: 1 });

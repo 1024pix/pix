@@ -14,7 +14,7 @@ describe('Unit | Controller | answer-controller', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
 
     sandbox.stub(answerSerializer, 'serialize');
     sandbox.stub(answerRepository, 'findByChallengeAndAssessment');

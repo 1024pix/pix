@@ -9,7 +9,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () =>
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {

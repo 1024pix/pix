@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-certification-assessments', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {

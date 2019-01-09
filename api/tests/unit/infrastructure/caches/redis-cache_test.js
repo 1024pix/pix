@@ -14,7 +14,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
   const REDIS_CLIENT_ERROR = new Error('A Redis client error');
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     stubbedClient = {
       lockDisposer: sinon.stub().resolves(() => {})
     };

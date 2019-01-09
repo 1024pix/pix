@@ -10,7 +10,7 @@ describe('Unit | Infrastructure | ControllerReplies', () => {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(errorSerializer, 'serialize');
       sandbox.stub(logger, 'error');
     });

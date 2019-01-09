@@ -9,7 +9,7 @@ describe('Unit | Service | CodeSession', () => {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     afterEach(() => {
@@ -64,7 +64,7 @@ describe('Unit | Service | CodeSession', () => {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     afterEach(() => {

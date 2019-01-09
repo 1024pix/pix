@@ -24,7 +24,7 @@ describe('Unit | Controller | assessment-controller', function() {
     const userId = 24504875;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(useCases, 'findCertificationAssessments');
       sandbox.stub(useCases, 'findPlacementAssessments');

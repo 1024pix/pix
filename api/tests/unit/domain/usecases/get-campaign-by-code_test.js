@@ -18,7 +18,7 @@ describe('Unit | UseCase | get-campaign-by-code', () => {
   const testError = 'some error';
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     campaignRepository.getByCode = sandbox.stub();
     organizationRepository.get = sandbox.stub();
     requestErr = null;

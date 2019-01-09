@@ -9,7 +9,7 @@ describe('Unit | Service | scoring-service', () => {
 
   describe('#calculateAssessmentScore', () => {
 
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     beforeEach(() => {
       sandbox.stub(scoringPlacement, 'calculate').resolves();

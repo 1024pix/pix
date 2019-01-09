@@ -22,7 +22,7 @@ describe('Unit | UseCase | start-placement-assessment', () => {
     testCurrentDate = new Date('2018-01-10 05:00:00');
     clock = sinon.useFakeTimers(testCurrentDate.getTime());
 
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(assessmentRepository, 'save');
     sandbox.stub(assessmentRepository, 'getLastPlacementAssessmentByUserIdAndCourseId');
   });

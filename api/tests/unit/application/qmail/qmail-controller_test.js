@@ -34,7 +34,7 @@ describe('Unit | Controller | qmailController', () => {
     const challengeToEvaluate = { type: 'QMAIL', value: '--- TOTO' };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       answer = new Answer({ result: '#PENDING#' });
       sinon.stub(answer, 'save').resolves();

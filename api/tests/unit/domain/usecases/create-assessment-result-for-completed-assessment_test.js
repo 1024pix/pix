@@ -142,7 +142,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       competenceMarks: competenceMarksForPlacement
     };
 
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
 
     sandbox.stub(scoringService, 'calculateAssessmentScore').resolves(assessmentScore);
     sandbox.stub(assessmentRepository, 'save').resolves();

@@ -10,7 +10,7 @@ const competenceRepository = require('../../../../lib/infrastructure/repositorie
 
 describe('Unit | Repository | competence-repository', () => {
 
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   const rawCompetence1 = new AirtableRecord('Competences', 'recCompetence1', {
     fields: {
