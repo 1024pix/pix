@@ -56,22 +56,22 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
     cnil2 = domainBuilder.buildSkill({ name: '@cnil2' });
 
     // Challenges
-    challengeWeb_1 = domainBuilder.buildChallenge({ id: 'rec1', skills: [web1] });
-    challengeWeb_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [web2] });
-    challengeWeb_3 = domainBuilder.buildChallenge({ id: 'rec3', skills: [web3] });
-    challengeWeb_4 = domainBuilder.buildChallenge({ id: 'rec4', skills: [web4] });
-    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [web5] });
-    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'rec6', skills: [web6] });
-    challengeWeb_7 = domainBuilder.buildChallenge({ id: 'rec7', skills: [web7] });
-    challengeUrl_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [url2] });
-    challengeUrl_3 = domainBuilder.buildChallenge({ id: 'rec3', skills: [url3] });
-    challengeUrl_4 = domainBuilder.buildChallenge({ id: 'rec4', skills: [url4] });
-    challengeUrl_5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [url5] });
-    challengeUrl_6 = domainBuilder.buildChallenge({ id: 'rec6', skills: [url6] });
-    challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'rec5', skills: [rechInfo5] });
-    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'rec5', skills: [rechInfo7] });
-    challengeCnil_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [cnil2] });
-    challengeInfo_2 = domainBuilder.buildChallenge({ id: 'rec2', skills: [info2] });
+    challengeWeb_1 = domainBuilder.buildChallenge({ id: 'recweb1', skills: [web1] });
+    challengeWeb_2 = domainBuilder.buildChallenge({ id: 'recweb2', skills: [web2] });
+    challengeWeb_3 = domainBuilder.buildChallenge({ id: 'recweb3', skills: [web3] });
+    challengeWeb_4 = domainBuilder.buildChallenge({ id: 'recweb4', skills: [web4] });
+    challengeWeb_5 = domainBuilder.buildChallenge({ id: 'recweb5', skills: [web5] });
+    challengeWeb_6 = domainBuilder.buildChallenge({ id: 'recweb6', skills: [web6] });
+    challengeWeb_7 = domainBuilder.buildChallenge({ id: 'recweb7', skills: [web7] });
+    challengeUrl_2 = domainBuilder.buildChallenge({ id: 'recurl2', skills: [url2] });
+    challengeUrl_3 = domainBuilder.buildChallenge({ id: 'recurl3', skills: [url3] });
+    challengeUrl_4 = domainBuilder.buildChallenge({ id: 'recurl4', skills: [url4] });
+    challengeUrl_5 = domainBuilder.buildChallenge({ id: 'recurl5', skills: [url5] });
+    challengeUrl_6 = domainBuilder.buildChallenge({ id: 'recurl6', skills: [url6] });
+    challengeRechInfo_5 = domainBuilder.buildChallenge({ id: 'recinfo5', skills: [rechInfo5] });
+    challengeRechInfo_7 = domainBuilder.buildChallenge({ id: 'recinfo7', skills: [rechInfo7] });
+    challengeCnil_2 = domainBuilder.buildChallenge({ id: 'reccnil2', skills: [cnil2] });
+    challengeInfo_2 = domainBuilder.buildChallenge({ id: 'recinfo2', skills: [info2] });
   });
 
   describe('#nextChallenge', function() {
@@ -186,8 +186,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // given
         targetProfile = { skills: [web1, web2, web3, web4, web5, web6] };
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec1', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_1.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -215,8 +215,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // given
         targetProfile = { skills: [web1, web2, web3, web4, web5, web6] };
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec1', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_1.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -244,9 +244,9 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // given
         targetProfile = { skills: [web1, web2, web3, web4, web5, web6] };
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec1', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec3', result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_1.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_3.id, result: AnswerStatus.OK }),
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -279,9 +279,9 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         // given
         targetProfile = { skills: [web1, web2, web3, web4, web5, web6] };
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec1', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec4', result: AnswerStatus.KO }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_1.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_4.id, result: AnswerStatus.KO }),
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -322,9 +322,9 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         challenges = [challengeUrl_2, challengeUrl_3, challengeRechInfo_5, challengeWeb_7];
 
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec3', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec5', result: AnswerStatus.KO })
+          domainBuilder.buildAnswer({ challengeId: challengeUrl_2.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeUrl_3.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeRechInfo_5.id, result: AnswerStatus.KO })
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -357,7 +357,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         targetProfile = new TargetProfile({ skills: [web1, web2, web3] });
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2, challengeWeb_3];
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.SKIPPED })
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.SKIPPED })
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -414,9 +414,9 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         ];
 
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec4', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec6', result: AnswerStatus.KO })
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeUrl_4.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeUrl_6.id, result: AnswerStatus.KO })
         ];
 
         // when
@@ -434,8 +434,8 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_4, challengeWeb_6, challengeWeb_7];
 
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK }),
-          domainBuilder.buildAnswer({ challengeId: 'rec6', result: AnswerStatus.OK })
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK }),
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_6.id, result: AnswerStatus.OK })
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -473,7 +473,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         targetProfile = new TargetProfile({ skills });
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_4, challengeWeb_6];
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -500,7 +500,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         skills = [url4, url5, web3, info2];
         targetProfile = new TargetProfile({ skills });
         challenges = [challengeUrl_4, challengeUrl_5, challengeInfo_2, challengeWeb_3];
-        answers = [domainBuilder.buildAnswer({ challengeId: '@recInfo2', result: AnswerStatus.OK })];
+        answers = [domainBuilder.buildAnswer({ challengeId: challengeInfo_2.id, result: AnswerStatus.OK })];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
             skillId: info2.id,
@@ -521,7 +521,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         skills = [url4, url6, info2];
         targetProfile = new TargetProfile({ skills });
         challenges = [challengeUrl_4, challengeUrl_6, challengeInfo_2];
-        answers = [domainBuilder.buildAnswer({ challengeId: '@recInfo2', result: AnswerStatus.OK })];
+        answers = [domainBuilder.buildAnswer({ challengeId: challengeInfo_2.id, result: AnswerStatus.OK })];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
             skillId: info2.id,
