@@ -16,11 +16,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
-  afterEach(() => {
-    usecases.updateOrganizationInformation.restore();
-    securityController.checkUserHasRolePixMaster.restore();
-  });
-
   describe('#updateOrganizationInformation', () => {
 
     const payload = {

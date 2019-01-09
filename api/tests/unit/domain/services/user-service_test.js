@@ -27,10 +27,6 @@ describe('Unit | Service | User Service', () => {
       sinon.stub(userRepository, 'findByEmail');
     });
 
-    afterEach(() => {
-      userRepository.findByEmail.restore();
-    });
-
     it('should call a userRepository#findByEmail', () => {
       // given
       userRepository.findByEmail.resolves();
@@ -79,10 +75,6 @@ describe('Unit | Service | User Service', () => {
 
     beforeEach(() => {
       sinon.stub(userRepository, 'findUserById');
-    });
-
-    afterEach(() => {
-      userRepository.findUserById.restore();
     });
 
     it('should call a userRepository.findUserById', () => {

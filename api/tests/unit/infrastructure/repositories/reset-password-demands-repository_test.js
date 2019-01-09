@@ -9,10 +9,6 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
     sinon.stub(ResetPasswordDemand.prototype, 'save');
   });
 
-  afterEach(() => {
-    ResetPasswordDemand.prototype.save.restore();
-  });
-
   describe('#create', () => {
 
     it('should save a new reset password demand', () => {
@@ -51,10 +47,6 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
 
     beforeEach(() => {
       sinon.stub(ResetPasswordDemand, 'where');
-    });
-
-    afterEach(() => {
-      ResetPasswordDemand.where.restore();
     });
 
     it('should be a function', () => {
@@ -121,10 +113,6 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
 
     beforeEach(() => {
       sinon.stub(ResetPasswordDemand, 'where');
-    });
-
-    afterEach(() => {
-      ResetPasswordDemand.where.restore();
     });
 
     it('should be a function', () => {

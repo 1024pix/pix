@@ -21,8 +21,7 @@ describe('Unit | Controller | challenge-controller', function() {
   });
 
   afterEach(() => {
-    ChallengeRepository.get.restore();
-    ChallengeSerializer.serialize.restore();
+    sandbox.restore();
   });
 
   describe('#get', function() {

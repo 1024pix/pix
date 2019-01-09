@@ -218,7 +218,6 @@ describe('Integration | Repository | Campaign Participation', () => {
   describe('#updateCampaignParticipation', () => {
 
     let campaignParticipation;
-    let clock;
     const frozenTime = new Date('1987-09-01:00:00.000+01:00');
 
     beforeEach(async () => {
@@ -227,13 +226,12 @@ describe('Integration | Repository | Campaign Participation', () => {
         sharedAt: null,
       });
 
-      clock = sinon.useFakeTimers(frozenTime);
+      sinon.useFakeTimers(frozenTime);
 
       await databaseBuilder.commit();
     });
 
     afterEach(async () => {
-      clock.restore();
       await databaseBuilder.clean();
     });
 

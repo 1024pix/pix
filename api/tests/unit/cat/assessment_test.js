@@ -757,7 +757,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new CatAssessment(course, answers);
       // XXX getters stubs does not spy so we do it manually in the getter stub
       const firstChallengeSpy = sinon.stub().returns(firstChallenge);
-      const firstChallengeStub = sinon.stub(assessment, '_firstChallenge').get(firstChallengeSpy);
+      sinon.stub(assessment, '_firstChallenge').get(firstChallengeSpy);
 
       // when
       const result = assessment.nextChallenge;
@@ -765,7 +765,6 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(firstChallengeSpy).to.have.been.called;
       expect(result).to.be.equal(firstChallenge);
-      firstChallengeStub.restore();
     });
 
     it('should return an easier challenge if user skipped previous challenge', function() {

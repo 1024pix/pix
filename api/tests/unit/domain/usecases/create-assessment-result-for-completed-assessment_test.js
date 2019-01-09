@@ -505,7 +505,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   context('when the assessment is a CERTIFICATION', () => {
 
-    let clock;
     let assessment;
     let sumOfCompetenceMarksScores;
 
@@ -537,10 +536,8 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       assessmentRepository.get.resolves(assessment);
       scoringService.calculateAssessmentScore.resolves(assessmentScore);
 
-      clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
+      sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
     });
-
-    afterEach(() => clock.restore());
 
     context('happy path', () => {
 

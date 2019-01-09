@@ -1190,7 +1190,6 @@ describe('Unit | Service | Certification Service', function() {
 
   describe('#startNewCertification', () => {
 
-    let clock;
     let sandbox;
 
     const certificationCourse = { id: 'newlyCreatedCertificationCourse' };
@@ -1198,12 +1197,11 @@ describe('Unit | Service | Certification Service', function() {
     const sessionId = 23;
 
     beforeEach(() => {
-      clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
+      sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
       sandbox = sinon.createSandbox();
     });
 
     afterEach(() => {
-      clock.restore();
       sandbox.restore();
     });
 
