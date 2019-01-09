@@ -4,8 +4,6 @@ const securityController = require('../../../../lib/interfaces/controllers/secur
 const userController = require('../../../../lib/application/users/user-controller');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 
-const sandbox = sinon.createSandbox();
-
 let server;
 
 function startServer() {
@@ -15,18 +13,14 @@ function startServer() {
 
 describe('Unit | Router | user-router', () => {
 
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('GET /api/users', () => {
 
     beforeEach(() => {
-      sandbox.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
+      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, h) => {
         h.continue({ credentials: { accessToken: 'jwt.access.token' } });
       });
-      sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      sandbox.stub(userController, 'find').returns('ok');
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(userController, 'find').returns('ok');
       startServer();
     });
 
@@ -50,7 +44,7 @@ describe('Unit | Router | user-router', () => {
   describe('POST /api/users', () => {
 
     beforeEach(() => {
-      sandbox.stub(userController, 'save').returns('ok');
+      sinon.stub(userController, 'save').returns('ok');
       startServer();
     });
 
@@ -84,7 +78,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}', function() {
 
     beforeEach(() => {
-      sandbox.stub(userController, 'getUser').returns('ok');
+      sinon.stub(userController, 'getUser').returns('ok');
       startServer();
     });
 
@@ -105,7 +99,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/me', function() {
 
     beforeEach(() => {
-      sandbox.stub(userController, 'getAuthenticatedUserProfile').returns('ok');
+      sinon.stub(userController, 'getAuthenticatedUserProfile').returns('ok');
       startServer();
     });
 
@@ -125,8 +119,8 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/{id}/skills', function() {
     beforeEach(() => {
-      sandbox.stub(userController, 'getProfileToCertify').returns('ok');
-      sandbox.stub(userVerification, 'verifyById').returns('ok');
+      sinon.stub(userController, 'getProfileToCertify').returns('ok');
+      sinon.stub(userVerification, 'verifyById').returns('ok');
       startServer();
     });
 
@@ -147,7 +141,7 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/{id}/memberships', function() {
     beforeEach(() => {
-      sandbox.stub(userController, 'getMemberships').returns('ok');
+      sinon.stub(userController, 'getMemberships').returns('ok');
       startServer();
     });
 
@@ -176,8 +170,8 @@ describe('Unit | Router | user-router', () => {
     });
 
     beforeEach(() => {
-      sandbox.stub(userController, 'updateUser').returns('ok');
-      sandbox.stub(userVerification, 'verifyById').returns('ok');
+      sinon.stub(userController, 'updateUser').returns('ok');
+      sinon.stub(userVerification, 'verifyById').returns('ok');
       startServer();
     });
 

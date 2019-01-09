@@ -121,7 +121,6 @@ describe('Unit | Service | User Service', () => {
 
   describe('#getProfileToCertify', () => {
 
-    let sandbox;
     const userId = 63731;
 
     const AnswerCollection = Bookshelf.Collection.extend({
@@ -186,17 +185,16 @@ describe('Unit | Service | User Service', () => {
     const assessment3 = Assessment.fromAttributes({ id: 145, status: 'completed', courseId: 'courseId3', assessmentResults: [assessmentResult3] });
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
-      sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves([
+      sinon.stub(courseRepository, 'getAdaptiveCourses').resolves([
         { competences: ['competenceRecordIdOne'], id: 'courseId1' },
         { competences: ['competenceRecordIdTwo'], id: 'courseId2' },
       ]);
-      sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
+      sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
         assessment1, assessment2, assessment3
       ]);
 
-      sandbox.stub(challengeRepository, 'list').resolves([
+      sinon.stub(challengeRepository, 'list').resolves([
         challengeForSkillCitation4,
         archivedChallengeForSkillCitation4,
         challengeForSkillCitation4AndMoteur3,
@@ -209,15 +207,11 @@ describe('Unit | Service | User Service', () => {
         challengeRecordWithoutSkills,
         oldChallengeWithAlreadyValidatedSkill
       ]);
-      sandbox.stub(answerRepository, 'findCorrectAnswersByAssessment').resolves(answerCollectionWithEmptyData);
-      sandbox.stub(competenceRepository, 'list').resolves([
+      sinon.stub(answerRepository, 'findCorrectAnswersByAssessment').resolves(answerCollectionWithEmptyData);
+      sinon.stub(competenceRepository, 'list').resolves([
         competenceFlipper,
         competenceDauphin
       ]);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should load achieved assessments', () => {

@@ -4,7 +4,6 @@ const { NotFoundError, InternalError } = require('../../../../lib/domain/errors'
 
 describe('Unit | UseCase | get-campaign-by-code', () => {
 
-  let sandbox;
   let requestErr;
   let requestResult;
 
@@ -18,15 +17,10 @@ describe('Unit | UseCase | get-campaign-by-code', () => {
   const testError = 'some error';
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    campaignRepository.getByCode = sandbox.stub();
-    organizationRepository.get = sandbox.stub();
+    campaignRepository.getByCode = sinon.stub();
+    organizationRepository.get = sinon.stub();
     requestErr = null;
     requestResult = null;
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
   
   context('the campaign was retrieved by code', () => {

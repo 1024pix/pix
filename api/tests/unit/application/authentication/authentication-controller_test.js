@@ -8,10 +8,8 @@ describe('Unit | Application | Controller | Authentication', () => {
 
   describe('#authenticateUser', () => {
     let request;
-    let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
       request = {
         headers: {
@@ -24,12 +22,8 @@ describe('Unit | Application | Controller | Authentication', () => {
           scope: 'pix-orga'
         }
       };
-      sandbox.stub(usecases, 'authenticateUser').resolves('jwt.access.token');
-      sandbox.stub(tokenService, 'extractUserId').returns(1);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'authenticateUser').resolves('jwt.access.token');
+      sinon.stub(tokenService, 'extractUserId').returns(1);
     });
 
     it('should check user credentials', async () => {

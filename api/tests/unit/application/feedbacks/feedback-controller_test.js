@@ -85,16 +85,9 @@ describe('Unit | Controller | feedback-controller', function() {
 
   describe('#find', () => {
 
-    let sandbox;
-
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(feedbackRepository, 'find');
-      sandbox.stub(feedbackSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(feedbackRepository, 'find');
+      sinon.stub(feedbackSerializer, 'serialize');
     });
 
     it('should fetch all the feedbacks from the DB when no query params are passed', async function() {

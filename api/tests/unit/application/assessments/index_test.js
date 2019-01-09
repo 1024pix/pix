@@ -6,7 +6,6 @@ const securityController = require('../../../../lib/interfaces/controllers/secur
 
 describe('Integration | Route | AssessmentRoute', () => {
 
-  let sandbox;
   let server;
 
   function _expectRouteToExist(routeOptions) {
@@ -21,13 +20,12 @@ describe('Integration | Route | AssessmentRoute', () => {
 
   beforeEach(() => {
     // stub dependencies
-    sandbox = sinon.createSandbox();
-    sandbox.stub(assessmentController, 'save');
-    sandbox.stub(assessmentController, 'getNextChallenge');
-    sandbox.stub(assessmentController, 'findByFilters');
-    sandbox.stub(assessmentController, 'get');
-    sandbox.stub(assessmentAuthorization, 'verify');
-    sandbox.stub(securityController, 'checkUserHasRolePixMaster');
+    sinon.stub(assessmentController, 'save');
+    sinon.stub(assessmentController, 'getNextChallenge');
+    sinon.stub(assessmentController, 'findByFilters');
+    sinon.stub(assessmentController, 'get');
+    sinon.stub(assessmentAuthorization, 'verify');
+    sinon.stub(securityController, 'checkUserHasRolePixMaster');
 
     // instance server
     server = this.server = Hapi.server();
@@ -36,7 +34,6 @@ describe('Integration | Route | AssessmentRoute', () => {
   });
 
   afterEach(() => {
-    sandbox.restore();
     server.stop();
   });
 

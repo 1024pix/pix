@@ -49,17 +49,11 @@ describe('Unit | Service | OrganizationService', () => {
 
   describe('#search', () => {
 
-    let sandbox;
     const userId = 1234;
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(userRepository, 'hasRolePixMaster');
-      sandbox.stub(organizationRepository, 'findBy');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(userRepository, 'hasRolePixMaster');
+      sinon.stub(organizationRepository, 'findBy');
     });
 
     context('when user has role PIX_MASTER', () => {
@@ -152,7 +146,6 @@ describe('Unit | Service | OrganizationService', () => {
 
   describe('#findAllTargetProfilesAvailableForOrganization', () => {
 
-    let sandbox;
     let organizationId;
     let targetProfilesOwnedByOrganization;
     let targetProfileSharesWithOrganization;
@@ -168,14 +161,9 @@ describe('Unit | Service | OrganizationService', () => {
       }];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
-      sandbox = sinon.createSandbox();
-      sandbox.stub(targetProfileRepository, 'findPublicTargetProfiles').resolves(publicTargetProfiles);
-      sandbox.stub(targetProfileRepository, 'findTargetProfilesOwnedByOrganizationId').resolves(targetProfilesOwnedByOrganization);
-      sandbox.stub(organizationRepository, 'get').resolves(organization);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(targetProfileRepository, 'findPublicTargetProfiles').resolves(publicTargetProfiles);
+      sinon.stub(targetProfileRepository, 'findTargetProfilesOwnedByOrganizationId').resolves(targetProfilesOwnedByOrganization);
+      sinon.stub(organizationRepository, 'get').resolves(organization);
     });
 
     it('should return an array of target profiles', () => {

@@ -30,22 +30,16 @@ describe('Unit | Controller | qmailController', () => {
       }
     };
 
-    let sandbox;
     const challengeToEvaluate = { type: 'QMAIL', value: '--- TOTO' };
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
       answer = new Answer({ result: '#PENDING#' });
       sinon.stub(answer, 'save').resolves();
 
-      sandbox.stub(AnswerRepository, 'findByChallengeAndAssessment').resolves(answer);
-      sandbox.stub(solutionRepository, 'getByChallengeId').resolves(challengeToEvaluate);
-      sandbox.stub(QmailValidationService, 'validateEmail').returns(true);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(AnswerRepository, 'findByChallengeAndAssessment').resolves(answer);
+      sinon.stub(solutionRepository, 'getByChallengeId').resolves(challengeToEvaluate);
+      sinon.stub(QmailValidationService, 'validateEmail').returns(true);
     });
 
     it('should fetch the validation rules', async () => {

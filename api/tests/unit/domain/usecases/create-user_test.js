@@ -22,16 +22,13 @@ describe('Unit | UseCase | create-user', () => {
   const encryptedPassword = '3ncrypt3dP@$$w@rd';
   const savedUser = new User({ id: userId, email: userEmail });
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(userRepository, 'isEmailAvailable');
-    sandbox.stub(userRepository, 'create');
-    sandbox.stub(userValidator, 'validate');
-    sandbox.stub(encryptionService, 'hashPassword');
-    sandbox.stub(mailService, 'sendAccountCreationEmail');
-    sandbox.stub(reCaptchaValidator, 'verify');
+    sinon.stub(userRepository, 'isEmailAvailable');
+    sinon.stub(userRepository, 'create');
+    sinon.stub(userValidator, 'validate');
+    sinon.stub(encryptionService, 'hashPassword');
+    sinon.stub(mailService, 'sendAccountCreationEmail');
+    sinon.stub(reCaptchaValidator, 'verify');
 
     userRepository.isEmailAvailable.resolves();
     userRepository.create.resolves(savedUser);
@@ -39,10 +36,6 @@ describe('Unit | UseCase | create-user', () => {
     encryptionService.hashPassword.resolves(encryptedPassword);
     mailService.sendAccountCreationEmail.resolves();
     reCaptchaValidator.verify.resolves();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   context('step validation of user', () => {

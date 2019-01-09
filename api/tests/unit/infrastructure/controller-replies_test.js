@@ -7,16 +7,10 @@ const logger = require('../../../lib/infrastructure/logger');
 describe('Unit | Infrastructure | ControllerReplies', () => {
 
   describe('#controllerReplies', () => {
-    let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(errorSerializer, 'serialize');
-      sandbox.stub(logger, 'error');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(errorSerializer, 'serialize');
+      sinon.stub(logger, 'error');
     });
 
     context('ok', () => {

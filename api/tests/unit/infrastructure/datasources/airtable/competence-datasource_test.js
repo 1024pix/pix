@@ -6,21 +6,11 @@ const airTableDataModels = require('../../../../../lib/infrastructure/datasource
 
 describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource', () => {
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#get', () => {
 
     it('should call airtable on Competences table with the id and return a Competence data object', () => {
       // given
-      sandbox.stub(airtable, 'getRecord')
+      sinon.stub(airtable, 'getRecord')
         .withArgs('Competences', 'recsvLz0W2ShyfD63')
         .resolves(competenceRawAirTableFixture());
 
@@ -40,7 +30,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource',
 
     it('should call airtable on Competences table to retrieve all Competences', () => {
       // given
-      sandbox.stub(airtable, 'findRecords')
+      sinon.stub(airtable, 'findRecords')
         .withArgs('Competences')
         .resolves([ competenceRawAirTableFixture() ]);
 

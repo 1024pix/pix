@@ -11,17 +11,10 @@ const tutorialAirtableDataObjectFixture = require('../../../tooling/fixtures/inf
 
 describe('Unit | Repository | correction-repository', function() {
 
-  let sandbox;
-
   beforeEach(function() {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(challengeDatasource, 'get');
-    sandbox.stub(skillDatasource, 'get');
-    sandbox.stub(tutorialDataSource, 'get');
-  });
-
-  afterEach(function() {
-    sandbox.restore();
+    sinon.stub(challengeDatasource, 'get');
+    sinon.stub(skillDatasource, 'get');
+    sinon.stub(tutorialDataSource, 'get');
   });
 
   describe('#getByChallengeId', function() {

@@ -16,8 +16,6 @@ describe('Unit | Controller | assessment-results', () => {
 
   describe('#evaluate', () => {
 
-    let sandbox;
-
     const request = {
       payload: {
         data: {
@@ -39,13 +37,8 @@ describe('Unit | Controller | assessment-results', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(usecases, 'createAssessmentResultForCompletedAssessment').resolves();
-      sandbox.stub(logger, 'error');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'createAssessmentResultForCompletedAssessment').resolves();
+      sinon.stub(logger, 'error');
     });
 
     it('should evaluate the assessment', async () => {
@@ -118,8 +111,6 @@ describe('Unit | Controller | assessment-results', () => {
 
   describe('#save', () => {
 
-    let sandbox;
-
     const request = {
       payload: {
         data: {
@@ -163,13 +154,8 @@ describe('Unit | Controller | assessment-results', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
-      sandbox.stub(assessmentResultService, 'save').resolves();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(assessmentResultService, 'save').resolves();
     });
 
     it('should return a Assessment Result and an Array of Competence Marks', async () => {

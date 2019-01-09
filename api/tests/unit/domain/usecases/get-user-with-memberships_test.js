@@ -26,15 +26,8 @@ describe('Unit | UseCase | get-user-with-memberships', () => {
 
   context('When authenticated User is authorized to retrieve his accesses', () => {
 
-    let sandbox;
-
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(userRepository, 'getWithMemberships');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(userRepository, 'getWithMemberships');
     });
 
     it('should use find all organizations user accesses', () => {

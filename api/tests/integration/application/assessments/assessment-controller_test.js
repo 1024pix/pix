@@ -8,18 +8,12 @@ describe('Integration | Application | Assessments | assessment-controller', () =
 
   const assessment = domainBuilder.buildAssessment({ id: 1234 });
 
-  const sandbox = sinon.createSandbox();
-
   let httpTestServer;
 
   beforeEach(() => {
-    sandbox.stub(usecases, 'getAssessment');
-    sandbox.stub(assessmentAuthorization, 'verify');
+    sinon.stub(usecases, 'getAssessment');
+    sinon.stub(assessmentAuthorization, 'verify');
     httpTestServer = new HttpTestServer(moduleUnderTest);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('#get', () => {

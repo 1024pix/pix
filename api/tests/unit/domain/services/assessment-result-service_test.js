@@ -39,15 +39,9 @@ describe('Unit | Domain | Services | assessment-results', () => {
       }),
     ];
 
-    const sandbox = sinon.createSandbox();
-
     beforeEach(() => {
-      sandbox.stub(assessmentResultRepository, 'save').resolves({ id: 1 });
-      sandbox.stub(competenceMarkRepository, 'save').resolves();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(assessmentResultRepository, 'save').resolves({ id: 1 });
+      sinon.stub(competenceMarkRepository, 'save').resolves();
     });
 
     it('should save the assessment results', () => {

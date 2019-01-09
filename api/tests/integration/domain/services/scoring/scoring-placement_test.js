@@ -35,18 +35,12 @@ describe('Integration | Domain | services | scoring | scoring-placement', () => 
 
     const dependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
 
-    const sandbox = sinon.createSandbox();
-
     beforeEach(() => {
-      sandbox.stub(competenceRepository, 'get').resolves(competence);
-      sandbox.stub(courseRepository, 'get').resolves(course);
-      sandbox.stub(skillRepository, 'findByCompetenceId').resolves([skill_web1, skill_web2]);
-      sandbox.stub(challengeRepository, 'findByCompetenceId').resolves(challenges);
-      sandbox.stub(answerRepository, 'findByAssessment').resolves([answer_web1_ok, answer_web2_ko]);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(competenceRepository, 'get').resolves(competence);
+      sinon.stub(courseRepository, 'get').resolves(course);
+      sinon.stub(skillRepository, 'findByCompetenceId').resolves([skill_web1, skill_web2]);
+      sinon.stub(challengeRepository, 'findByCompetenceId').resolves(challenges);
+      sinon.stub(answerRepository, 'findByAssessment').resolves([answer_web1_ok, answer_web2_ko]);
     });
 
     context('when an error occurred', () => {

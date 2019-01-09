@@ -5,12 +5,10 @@ const campaignParticipationController = require('../../../../lib/application/cam
 describe('Integration | Application | Route | campaignParticipationRouter', () => {
 
   let server;
-  let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, h) => h.response('ok').code(201));
-    sandbox.stub(campaignParticipationController, 'getCampaignParticipationByAssessment').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(campaignParticipationController, 'getCampaignParticipationByAssessment').callsFake((request, h) => h.response('ok').code(201));
 
     server = Hapi.server();
 
@@ -18,7 +16,6 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
   });
 
   afterEach(() => {
-    sandbox.restore();
     server.stop();
   });
 

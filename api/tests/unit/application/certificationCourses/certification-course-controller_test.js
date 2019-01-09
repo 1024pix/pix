@@ -12,16 +12,6 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Controller | certification-course-controller', () => {
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#computeResult', () => {
 
     const certificationCourseId = 1245;
@@ -37,8 +27,8 @@ describe('Unit | Controller | certification-course-controller', () => {
     };
 
     beforeEach(() => {
-      sandbox.stub(certificationService, 'calculateCertificationResultByCertificationCourseId').resolves(certificationScore);
-      sandbox.stub(logger, 'error');
+      sinon.stub(certificationService, 'calculateCertificationResultByCertificationCourseId').resolves(certificationScore);
+      sinon.stub(logger, 'error');
     });
 
     it('should call certification Service to compute score', async () => {
@@ -98,12 +88,9 @@ describe('Unit | Controller | certification-course-controller', () => {
     };
 
     beforeEach(() => {
-      sandbox.stub(certificationService, 'getCertificationResult').resolves({});
+      sinon.stub(certificationService, 'getCertificationResult').resolves({});
     });
 
-    afterEach(() => {
-      sandbox.restore();
-    });
     it('should call certification-service to get certification result from database', async () => {
       // when
       await certificationCourseController.getResult(request, hFake);
@@ -130,8 +117,8 @@ describe('Unit | Controller | certification-course-controller', () => {
     };
 
     beforeEach(() => {
-      sandbox.stub(certificationSerializer, 'deserialize').resolves();
-      sandbox.stub(certificationSerializer, 'serializeFromCertificationCourse').returns(JsonAPISavedCertification);
+      sinon.stub(certificationSerializer, 'deserialize').resolves();
+      sinon.stub(certificationSerializer, 'serializeFromCertificationCourse').returns(JsonAPISavedCertification);
     });
 
     const options = {
@@ -149,7 +136,7 @@ describe('Unit | Controller | certification-course-controller', () => {
 
     it('should deserialize the request payload', async () => {
       // given
-      sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
+      sinon.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
 
       // when
       await certificationCourseController.update(options, hFake);
@@ -160,7 +147,7 @@ describe('Unit | Controller | certification-course-controller', () => {
 
     it('should patch certificationCourse data using save method', async () => {
       // given
-      sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
+      sinon.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
 
       // when
       await certificationCourseController.update(options, hFake);
@@ -172,7 +159,7 @@ describe('Unit | Controller | certification-course-controller', () => {
     context('when certification course was modified', () => {
 
       beforeEach(() => {
-        sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
+        sinon.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
       });
 
       it('should serialize saved certification course', async () => {
@@ -196,7 +183,7 @@ describe('Unit | Controller | certification-course-controller', () => {
     context('When certification course was not modified', () => {
 
       beforeEach(() => {
-        sandbox.stub(certificationCourseService, 'update').rejects(NotFoundError);
+        sinon.stub(certificationCourseService, 'update').rejects(NotFoundError);
       });
 
       it('should reply a 404 if no certification where updated', function() {

@@ -13,16 +13,14 @@ function assertAirtableRecordToEqualExpected(actualRecord, expectedRecord) {
 
 describe('Integration | Infrastructure | airtable', () => {
 
-  const sandbox = sinon.createSandbox();
-
-  const findStub = sandbox.stub();
-  const allStub = sandbox.stub();
+  const findStub = sinon.stub();
+  const allStub = sinon.stub();
 
   beforeEach(() => {
-    sandbox.stub(cache, 'get');
-    sandbox.stub(cache, 'set');
-    sandbox.stub(Airtable.prototype, 'init').returns();
-    sandbox.stub(Airtable.prototype, 'base').returns({
+    sinon.stub(cache, 'get');
+    sinon.stub(cache, 'set');
+    sinon.stub(Airtable.prototype, 'init').returns();
+    sinon.stub(Airtable.prototype, 'base').returns({
       table() {
         return {
           find: findStub,
@@ -34,10 +32,6 @@ describe('Integration | Infrastructure | airtable', () => {
         };
       }
     });
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('#getRecord{SkipCache}', () => {

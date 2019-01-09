@@ -6,25 +6,11 @@ const checkUserHasRolePixMasterUseCase = require('../../../../lib/application/us
 
 describe('Unit | Interfaces | Controllers | SecurityController', () => {
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#checkUserIsAuthenticated', () => {
 
     beforeEach(() => {
-      sandbox.stub(tokenService, 'extractTokenFromAuthChain');
-      sandbox.stub(checkUserIsAuthenticatedUseCase, 'execute');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(checkUserIsAuthenticatedUseCase, 'execute');
     });
 
     context('Successful case', () => {
@@ -101,8 +87,8 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
     let hasRolePixMasterStub;
 
     beforeEach(() => {
-      sandbox.stub(tokenService, 'extractTokenFromAuthChain');
-      hasRolePixMasterStub = sandbox.stub(checkUserHasRolePixMasterUseCase, 'execute');
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      hasRolePixMasterStub = sinon.stub(checkUserHasRolePixMasterUseCase, 'execute');
     });
 
     context('Successful case', () => {

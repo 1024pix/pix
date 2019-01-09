@@ -7,16 +7,9 @@ const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | ValidatorQCM', () => {
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
 
-    sandbox.stub(solutionServiceQcm, 'match');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(solutionServiceQcm, 'match');
   });
 
   describe('#assess', () => {

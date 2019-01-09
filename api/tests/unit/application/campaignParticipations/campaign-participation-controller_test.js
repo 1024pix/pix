@@ -10,19 +10,13 @@ const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-par
 describe('Unit | Application | Controller | Campaign-Participation', () => {
 
   describe('#getCampaignParticipationByAssessment', () => {
-    let sandbox;
     const resultFilter = {
       assessmentId: 4,
     };
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(queryParamsUtils, 'extractFilters').resolves(resultFilter);
-      sandbox.stub(usecases, 'findCampaignParticipationsByAssessmentId');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(queryParamsUtils, 'extractFilters').resolves(resultFilter);
+      sinon.stub(usecases, 'findCampaignParticipationsByAssessmentId');
     });
 
     it('should call the usecases to get the campaign participations of the given assessmentId', async () => {
@@ -44,18 +38,12 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
   });
 
   describe('#shareCampaignResult', () => {
-    let sandbox;
     const userId = 1;
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(usecases, 'shareCampaignResult');
-      sandbox.stub(tokenService, 'extractTokenFromAuthChain').resolves();
-      sandbox.stub(tokenService, 'extractUserId').resolves(userId);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'shareCampaignResult');
+      sinon.stub(tokenService, 'extractTokenFromAuthChain').resolves();
+      sinon.stub(tokenService, 'extractUserId').resolves(userId);
     });
 
     it('should call the use case to share campaign result', async () => {
@@ -163,16 +151,14 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
   });
 
   describe('#save', () => {
-    let sandbox;
     let request;
     const campaignId = 123456;
     const participantExternalId = 'azer@ty.com';
     const userId = 6;
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(usecases, 'startCampaignParticipation');
-      sandbox.stub(serializer, 'serialize');
+      sinon.stub(usecases, 'startCampaignParticipation');
+      sinon.stub(serializer, 'serialize');
       request = {
         headers: { authorization: 'token' },
         auth: { credentials: { userId } },
@@ -193,10 +179,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
           }
         }
       };
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should call the usecases to start the campaign participation', async () => {
