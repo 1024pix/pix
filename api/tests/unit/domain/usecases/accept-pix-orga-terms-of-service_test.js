@@ -1,6 +1,7 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const acceptPixOrgaTermsOfService = require('../../../../lib/domain/usecases/accept-pix-orga-terms-of-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | UseCase | accept-pix-orga-terms-of-service', () => {
 
@@ -44,7 +45,7 @@ describe('Unit | UseCase | accept-pix-orga-terms-of-service', () => {
         pixOrgaTermsOfServiceAccepted: false
       });
       userRepository.get.resolves(user);
-      const expectedUser = { ...user, pixOrgaTermsOfServiceAccepted: true };
+      const expectedUser = new User({ ...user, pixOrgaTermsOfServiceAccepted: true });
 
       // when
       const promise = acceptPixOrgaTermsOfService({ userId, userRepository });
