@@ -173,7 +173,6 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
     describe('Success cases:', () => {
 
       let profileServiceStub;
-      let userRepositoryStub;
       const user = new User({
         id: 1234,
         'first-name': faker.name.firstName(),
@@ -184,13 +183,8 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
       });
 
       beforeEach(() => {
-        userRepositoryStub = sinon.stub(userRepository, 'findUserById').resolves(user);
+        sinon.stub(userRepository, 'findUserById').resolves(user);
         profileServiceStub = sinon.stub(profileService, 'getByUserId');
-      });
-
-      afterEach(() => {
-        profileServiceStub.restore();
-        userRepositoryStub.restore();
       });
 
       it('should response with 201 HTTP status code, when authorization is valid and user is found', () => {
@@ -212,10 +206,6 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
 
       beforeEach(() => {
         sinon.stub(userRepository, 'findUserById').resolves();
-      });
-
-      afterEach(() => {
-        userRepository.findUserById.restore();
       });
 
       it('should response with 401 HTTP status code, when authorization token is not valid', () => {

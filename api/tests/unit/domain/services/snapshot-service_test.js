@@ -95,10 +95,6 @@ describe('Unit | Service | Snapshot service', function() {
       sinon.stub(snapshotRepository, 'save');
     });
 
-    afterEach(() => {
-      snapshotRepository.save.restore();
-    });
-
     it('should correctly call snapshot repository', () => {
       // given
       const snapshotModel = new Snapshot({ id: 3 });

@@ -16,11 +16,6 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       sinon.spy(randomString, 'generate');
     });
 
-    afterEach(() => {
-      randomString.generate.restore();
-      campaignRepository.isCodeAvailable.restore();
-    });
-
     it('should create a code with a length of 9 characters', () => {
       // when
       const promise = campaignCodeGenerator.generate(campaignRepository);

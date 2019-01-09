@@ -17,7 +17,6 @@ describe('Integration | Application | Route | Corrections ', () => {
 
   afterEach(() => {
     server.stop();
-    correctionsController.findByAnswerId.restore();
   });
 
   describe('GET /api/corrections?answerId=234', () => {

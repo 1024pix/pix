@@ -10,11 +10,6 @@ const Hapi = require('hapi');
  *   sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
  *   httpTestServer = new HttpTestServer(moduleUnderTest);
  * });
- *
- * afterEach(() => {
- *   usecases.updateOrganizationInformation.restore();
- *   securityController.checkUserHasRolePixMaster.restore();
- * });
  */
 class HttpTestServer {
 

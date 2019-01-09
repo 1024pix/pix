@@ -27,7 +27,6 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
   afterEach(() => {
     server.stop();
-    authenticationController.save.restore();
   });
 
   describe('POST /api/authentications', () => {
@@ -76,10 +75,6 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       server = Hapi.server();
 
       return server.register(require('../../../../lib/application/authentication'));
-    });
-
-    afterEach(() => {
-      authenticationController.authenticateUser.restore();
     });
 
     it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', async () => {

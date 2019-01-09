@@ -43,10 +43,6 @@ describe('Unit | Validator | json-web-token-verify', function() {
         });
       });
 
-      afterEach(function() {
-        jsonwebtokenStub.restore();
-      });
-
       it('should reject a promise, when token is valid but has not key word bearer', () => {
         // when
         const promise = authorizationToken.verify('VALID_TOKEN');

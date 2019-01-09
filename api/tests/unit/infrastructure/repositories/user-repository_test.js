@@ -11,10 +11,6 @@ describe('Unit | Infrastructure | Repository | UserRepository', () => {
     sinon.stub(BookshelfUser.prototype, 'where');
   });
 
-  afterEach(() => {
-    BookshelfUser.prototype.where.restore();
-  });
-
   describe('#get', () => {
 
     it('should resolve a domain User matching its ID', () => {

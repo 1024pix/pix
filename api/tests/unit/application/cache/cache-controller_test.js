@@ -103,10 +103,6 @@ describe('Unit | Controller | cache-controller', () => {
       sinon.stub(usecases, 'removeAllCacheEntries');
     });
 
-    afterEach(() => {
-      usecases.removeAllCacheEntries.restore();
-    });
-
     it('should reply with 204 when there is no error', async () => {
       // given
       usecases.removeAllCacheEntries.resolves();
@@ -145,10 +141,6 @@ describe('Unit | Controller | cache-controller', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'preloadCacheEntries');
-    });
-
-    afterEach(() => {
-      usecases.preloadCacheEntries.restore();
     });
 
     it('should reply with 204 when there is no error', async () => {

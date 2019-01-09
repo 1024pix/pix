@@ -460,16 +460,11 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   describe('#getRemainingDaysBeforeNewAttempt', () => {
 
-    let clock;
     let testCurrentDate;
 
     beforeEach(() => {
       testCurrentDate = new Date('2018-01-10 05:00:00');
-      clock = sinon.useFakeTimers(testCurrentDate.getTime());
-    });
-
-    afterEach(() => {
-      clock.restore();
+      sinon.useFakeTimers(testCurrentDate.getTime());
     });
 
     [
@@ -505,16 +500,11 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   describe('canStartNewAttemptOnCourse', () => {
 
-    let clock;
     let testCurrentDate;
 
     beforeEach(() => {
       testCurrentDate = new Date('2018-01-10 05:00:00');
-      clock = sinon.useFakeTimers(testCurrentDate.getTime());
-    });
-
-    afterEach(() => {
-      clock.restore();
+      sinon.useFakeTimers(testCurrentDate.getTime());
     });
 
     it('should throw an error if the assessment if not a placement', () => {

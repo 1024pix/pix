@@ -403,11 +403,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(validationErrorSerializer, 'serialize');
     });
 
-    afterEach(() => {
-      usecases.writeOrganizationSharedProfilesAsCsvToStream.restore();
-      validationErrorSerializer.serialize.restore();
-    });
-
     it('should call the use case service that exports shared profile of an organization as CSV (and reply an HTTP response)', async () => {
       // given
       const request = {

@@ -17,11 +17,6 @@ describe('Integration | Application | Route | campaignRouter', () => {
   });
 
   afterEach(() => {
-    campaignController.save.restore();
-    campaignController.getCsvResults.restore();
-    campaignController.getById.restore();
-    campaignController.update.restore();
-
     server.stop();
   });
 

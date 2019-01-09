@@ -11,10 +11,6 @@ describe('Unit | Service | Skills Service', () => {
       sinon.stub(skillRepository, 'save').resolves();
     });
 
-    afterEach(() => {
-      skillRepository.save.restore();
-    });
-
     it('should call Skills Repository#save with formatted skills', () => {
 
       const skillsFormatted = [

@@ -117,11 +117,6 @@ describe('Acceptance | Controller | snapshot-controller', () => {
       sinon.stub(profileService, 'getByUserId').resolves(fakeBuildedProfile);
     });
 
-    afterEach(() => {
-      authorizationToken.verify.restore();
-      profileService.getByUserId.restore();
-    });
-
     context('When creating with a correct payload', () => {
 
       it('should return 201 HTTP status code', () => {

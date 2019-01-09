@@ -368,10 +368,6 @@ describe('Delete User Script', () => {
         consoleLog = sinon.stub(console, 'log');
       });
 
-      afterEach(() => {
-        consoleLog.restore();
-      });
-
       it('should delete feedbacks, skills, answers, competence-marks and assessment-results', () => {
         // given
         const ids = [123, 456];

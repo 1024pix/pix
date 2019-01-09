@@ -25,7 +25,6 @@ describe('Integration | Repository | Target-profile', () => {
     });
 
     afterEach(async () => {
-      skillDatasource.findByRecordIds.restore();
       await databaseBuilder.clean();
     });
 
@@ -71,7 +70,6 @@ describe('Integration | Repository | Target-profile', () => {
     });
 
     afterEach(async () => {
-      skillDatasource.findByRecordIds.restore();
       await databaseBuilder.clean();
     });
 
@@ -144,7 +142,6 @@ describe('Integration | Repository | Target-profile', () => {
     });
 
     afterEach(async () => {
-      skillDatasource.findByRecordIds.restore();
       await databaseBuilder.clean();
     });
 

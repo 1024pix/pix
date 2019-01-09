@@ -5,14 +5,8 @@ describe('Unit | Scripts | recompute-assessment-results', () => {
 
   describe('#recomputeScore', () => {
 
-    let consoleLog;
-
     beforeEach(() => {
-      consoleLog = sinon.stub(console, 'log');
-    });
-
-    afterEach(() => {
-      consoleLog.restore();
+      sinon.stub(console, 'log');
     });
 
     it('shoud call request with assessment informations', () => {

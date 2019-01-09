@@ -15,7 +15,6 @@ describe('Unit | Router | Password router', () => {
   });
 
   afterEach(() => {
-    passwordController.createResetDemand.restore();
     server.stop();
   });
 

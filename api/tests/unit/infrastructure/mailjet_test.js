@@ -9,10 +9,6 @@ describe('Unit | Class | Mailjet', function() {
     sinon.stub(nodeMailjet, 'connect');
   });
 
-  afterEach(() => {
-    nodeMailjet.connect.restore();
-  });
-
   describe('#sendEmail', () => {
 
     it('should create an instance of mailJet', () => {

@@ -11,10 +11,6 @@ describe('Unit | Repository | skill-repository', function() {
     sinon.stub(skillDatasource, 'findByCompetenceId');
   });
 
-  afterEach(() => {
-    skillDatasource.findByCompetenceId.restore();
-  });
-
   describe('#findByCompetenceId', function() {
 
     const competenceID = 'competence_id';

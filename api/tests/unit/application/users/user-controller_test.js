@@ -434,14 +434,8 @@ describe('Unit | Controller | user-controller', () => {
 
     context('when the user exists', () => {
 
-      let clock;
-
       beforeEach(() => {
-        clock = sinon.useFakeTimers();
-      });
-
-      afterEach(() => {
-        clock.restore();
+        sinon.useFakeTimers();
       });
 
       it('should load his current achieved assessments', async () => {
@@ -666,11 +660,6 @@ describe('Unit | Controller | user-controller', () => {
     beforeEach(() => {
       sinon.stub(usecases, 'findUsers');
       sinon.stub(userSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      usecases.findUsers.restore();
-      userSerializer.serialize.restore();
     });
 
     it('should return a list of JSON API users fetched from the data repository', async () => {
