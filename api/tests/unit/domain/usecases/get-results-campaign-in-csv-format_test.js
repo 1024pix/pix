@@ -11,7 +11,9 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const user = domainBuilder.buildUser();
     const organization = user.memberships[0].organization;
     const listSkills = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 5 });
+    const listSkillsNotInTargetProfile = domainBuilder.buildSkillCollection({ name: 'url', minLevel: 1, maxLevel: 2 });
     const [skillWeb1, skillWeb2, skillWeb3, skillWeb4, skillWeb5] = listSkills;
+    const [skillUrl1, skillUrl2] = listSkillsNotInTargetProfile;
     const knowledgeElements = [
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'validated',
@@ -49,6 +51,17 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         skillId: skillWeb5.id,
         createdAt: moment().subtract(2, 'days').format()
       }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'validated',
+        skillId: skillUrl1.id,
+        createdAt: moment().subtract(2, 'days').format()
+      }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'validated',
+        skillId: skillUrl2.id,
+        createdAt: moment().subtract(2, 'days').format()
+      }),
+
     ];
 
     const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
