@@ -1,6 +1,7 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const acceptPixCertifTermsOfService = require('../../../../lib/domain/usecases/accept-pix-certif-terms-of-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | UseCase | accept-pix-certif-terms-of-service', () => {
 
@@ -44,7 +45,7 @@ describe('Unit | UseCase | accept-pix-certif-terms-of-service', () => {
         pixCertifTermsOfServiceAccepted: false
       });
       userRepository.get.resolves(user);
-      const expectedUser = { ...user, pixCertifTermsOfServiceAccepted: true };
+      const expectedUser = new User({ ...user, pixCertifTermsOfServiceAccepted: true });
 
       // when
       const promise = acceptPixCertifTermsOfService({ userId, userRepository });
