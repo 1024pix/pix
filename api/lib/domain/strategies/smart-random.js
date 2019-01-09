@@ -14,11 +14,12 @@ function getNextChallenge({ knowledgeElements, challenges, targetProfile, answer
   const targetSkills = targetProfile.skills;
   const isUserStartingTheTest = !lastChallenge;
   const courseTubes = _findCourseTubes(targetSkills, challenges);
+  const kowledgeElementsOfTargetProfile = knowledgeElements.filter((ke)=> targetSkills.find((skill) => skill.id === ke.skillId));
 
   // First challenge has specific rules
   const nextChallenge = isUserStartingTheTest
-    ? _findFirstChallenge({ challenges, knowledgeElements, targetSkills, courseTubes })
-    : _findAnyChallenge({ challenges, knowledgeElements, targetSkills, courseTubes, lastChallenge });
+    ? _findFirstChallenge({ challenges, knowledgeElements: kowledgeElementsOfTargetProfile, targetSkills, courseTubes })
+    : _findAnyChallenge({ challenges, knowledgeElements: kowledgeElementsOfTargetProfile, targetSkills, courseTubes, lastChallenge });
 
   // Test is considered finished when it returns null
   return nextChallenge || TEST_ENDED_CHAR;
@@ -62,4 +63,3 @@ function _findFirstChallenge({ challenges, knowledgeElements, targetSkills, cour
 function _pickRandomChallenge(challenges) {
   return _.sample(challenges);
 }
-

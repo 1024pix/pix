@@ -549,7 +549,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         targetProfile = new TargetProfile({ skills });
         challenges = [challengeWeb_1, challengeWeb_2, duplicateChallengeOfSameDifficulty(challengeWeb_2)];
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec2', result: AnswerStatus.OK })
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -577,7 +577,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         targetProfile = new TargetProfile({ skills });
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
         answers = [
-          domainBuilder.buildAnswer({ challengeId: 'rec2a', result: AnswerStatus.OK })
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
         ];
         knowledgeElements = [
           domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -606,6 +606,50 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
       });
     });
 
+    context('when knowledge elements contains skills no present in the target profile', () => {
+      it('should return correctly a next challenge', function() {
+        // given
+        skills = [web1, web2, web3, url3];
+        targetProfile = new TargetProfile({ skills });
+        challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
+        answers = [
+          domainBuilder.buildAnswer({ challengeId: challengeWeb_2.id, result: AnswerStatus.OK })
+        ];
+        knowledgeElements = [
+          domainBuilder.buildSmartPlacementKnowledgeElement({
+            skillId: web1.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'indirect'
+          }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({
+            skillId: web2.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct'
+          }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({
+            skillId: web5.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct'
+          }),
+          domainBuilder.buildSmartPlacementKnowledgeElement({
+            skillId: url2.id,
+            status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED,
+            source: 'direct'
+          }),
+        ];
+
+        sinon.stub(_, 'sample').returns(challengeWeb_3);
+
+        // when
+        const nextChallenge = smartRandom.getNextChallenge({ targetProfile, challenges, knowledgeElements, answers });
+
+        // then
+        expect(nextChallenge).to.deep.equal(challengeWeb_3);
+
+        // This is where we assert the randomness behavior to have deterministic test
+        expect(_.sample).to.have.been.called;
+        _.sample.restore();
+      });
+    });
   });
 });
-
