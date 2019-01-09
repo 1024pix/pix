@@ -147,16 +147,10 @@ function _createOneLineOfCSV(
       return Promise.all([
         assessment,
         userRepository.get(assessment.userId),
-        smartPlacementKnowledgeElementRepository.findByUserId(assessment.userId)
+        smartPlacementKnowledgeElementRepository.findUniqByUserId(assessment.userId)
       ]);
     })
     .then(([assessment, user, allKnowledgeElements]) => {
-
-      const knowledgeElements = _(allKnowledgeElements)
-        .filter((ke) => _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt))
-        .orderBy('createdAt', 'desc')
-        .uniqBy('skillId')
-        .value();
 
       line = _addCellByHeadersTitleForText('"Nom de l\'organisation"', organization.name, line, headers);
       line = _addCellByHeadersTitleForNumber('"ID Campagne"', campaign.id, line, headers);
@@ -169,6 +163,9 @@ function _createOneLineOfCSV(
       if (campaign.idPixLabel) {
         line = _addCellByHeadersTitleForText(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, line, headers);
       }
+
+      const knowledgeElements = allKnowledgeElements.filter((ke) => _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt));
+
       const notCompletedPercentageProgression = _.round(
         knowledgeElements.length / (targetProfile.skills.length),
         3,

@@ -17,43 +17,37 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb1.id,
-        createdAt: moment().subtract(2, 'days')
-      }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({
-        status: 'invalidated',
-        pixScore: 2,
-        skillId: skillWeb1.id,
-        createdAt: moment().subtract(4, 'days')
+        createdAt: moment().subtract(2, 'days').format()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb2.id,
-        createdAt: moment().subtract(2, 'days')
+        createdAt: moment().subtract(2, 'days').format()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb2.id,
-        createdAt: moment().add(2, 'days')
+        createdAt: moment().add(2, 'days').format()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb3.id,
-        createdAt: moment().subtract(2, 'days')
+        createdAt: moment().subtract(2, 'days').format()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb4.id,
-        createdAt: moment().subtract(2, 'days')
+        createdAt: moment().subtract(2, 'days').format()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb5.id,
-        createdAt: moment().subtract(2, 'days')
+        createdAt: moment().subtract(2, 'days').format()
       }),
     ];
 
@@ -100,7 +94,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const organizationRepository = { get: () => undefined };
     const campaignParticipationRepository = { findByCampaignId: () => undefined };
     const smartPlacementAssessmentRepository = { get: () => undefined };
-    const smartPlacementKnowledgeElementRepository = { findByUserId: () => undefined };
+    const smartPlacementKnowledgeElementRepository = { findUniqByUserId: () => undefined };
 
     let findCampaignParticipationStub;
 
@@ -169,7 +163,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
       it('should return the complete line with user results for her participation', () => {
         // given
-        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true, sharedAt: moment() });
+        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true, sharedAt: moment().format() });
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
         const csvSecondLine = `"${organization.name}";` +
