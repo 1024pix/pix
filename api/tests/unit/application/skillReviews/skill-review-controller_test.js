@@ -26,7 +26,7 @@ describe('Unit | Controller | skill-review-controller', () => {
 
     context('if assessment exists', () => {
 
-      const skillReview = domainBuilder.buildSkillReview({ validatedSkills: [], failedSkills: [] });
+      const skillReview = domainBuilder.buildSkillReview({ knowledgeElements: [], isProfileCompleted: true });
 
       context('and belongs to current user', () => {
 
@@ -37,7 +37,7 @@ describe('Unit | Controller | skill-review-controller', () => {
               id: skillReviewId,
               attributes: {
                 'profile-mastery-rate': 0,
-                'profile-completion-rate': 0,
+                'profile-completion-rate': 1,
               },
               type: 'skill-reviews',
             },

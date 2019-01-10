@@ -12,7 +12,7 @@ class SkillReview {
     // includes
     targetedSkills = [],
     knowledgeElements = [],
-    computeUnratableSkill = false,
+    isProfileCompleted = false,
     // references
   }) {
     this.id = id;
@@ -20,32 +20,15 @@ class SkillReview {
     // includes
     this.targetedSkills = targetedSkills;
     this.knowledgeElements = knowledgeElements;
-    this.computeUnratableSkill = computeUnratableSkill;
+    this.isProfileCompleted = isProfileCompleted;
     // references
   }
 
   _getValidatedSkills() {
-
     return this.knowledgeElements
       .filter((knowledgeElement) => knowledgeElement.isValidated)
       .map((knowledgeElement) => knowledgeElement.skillId)
       .map((skillId) => this.targetedSkills.find((skill) => skill.id === skillId));
-  }
-
-  _getUnratableSkills() {
-
-    if(!this.computeUnratableSkill) {
-      return [];
-    }
-
-    return this.targetedSkills.filter((skillInProfile) => {
-
-      const foundKnowledgeElementForTheSkill = this.knowledgeElements.find((knowledgeElement) => {
-        return knowledgeElement.skillId === skillInProfile.id;
-      });
-
-      return (!foundKnowledgeElementForTheSkill);
-    });
   }
 
   get profileMasteryRate() {
@@ -58,14 +41,16 @@ class SkillReview {
   }
 
   get profileCompletionRate() {
+    if(this.isProfileCompleted) {
+      return 1;
+    }
+
     const numberOfTargetedSkills = this.targetedSkills.length;
-    const numberOfUnratableSkills = this._getUnratableSkills().length;
 
     const testedSkillsInTargetProfile =  this.knowledgeElements
       .filter((knowledgeElement) => this.targetedSkills.find((targetedSkill) => targetedSkill.id === knowledgeElement.skillId));
 
-    const profileCompletionRate = (testedSkillsInTargetProfile.length + numberOfUnratableSkills) / numberOfTargetedSkills;
-    return profileCompletionRate;
+    return testedSkillsInTargetProfile.length / numberOfTargetedSkills;
   }
 
   static generateIdFromAssessmentId(assessmentId) {
@@ -78,3 +63,4 @@ class SkillReview {
 }
 
 module.exports = SkillReview;
+
