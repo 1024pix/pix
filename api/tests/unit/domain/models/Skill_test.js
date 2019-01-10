@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | Skill', () => {
     });
   });
 
-  describe('#computePixScore()', function() {
+  describe('#computeMaxReachablePixScoreForSkill()', function() {
 
     it('should return the pixScore gained by the skill', function() {
       // given
@@ -35,10 +35,10 @@ describe('Unit | Domain | Models | Skill', () => {
       const skillChi5 = new Skill({ name: '@chi5' });
 
       // when
-      const pixScoreWeb1 = skillWeb1.computePixScore(competenceSkills);
-      const pixScoreWeb3 = skillWeb3.computePixScore(competenceSkills);
-      const pixScoreWeb4 = skillWeb4.computePixScore(competenceSkills);
-      const pixScoreChi5 = skillChi5.computePixScore(competenceSkills);
+      const pixScoreWeb1 = skillWeb1.computeMaxReachablePixScoreForSkill(competenceSkills);
+      const pixScoreWeb3 = skillWeb3.computeMaxReachablePixScoreForSkill(competenceSkills);
+      const pixScoreWeb4 = skillWeb4.computeMaxReachablePixScoreForSkill(competenceSkills);
+      const pixScoreChi5 = skillChi5.computeMaxReachablePixScoreForSkill(competenceSkills);
 
       // then
       expect(pixScoreWeb1).to.equal(2);

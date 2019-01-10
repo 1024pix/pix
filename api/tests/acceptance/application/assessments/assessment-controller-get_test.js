@@ -79,6 +79,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   const inserted_assessment = {
     courseId,
+    type: 'PLACEMENT'
   };
 
   before(() => {
@@ -207,8 +208,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'estimated-level': 0,
             'pix-score': 0,
             'state': null,
-            'success-rate': null,
-            'type': null,
+            'type': 'PLACEMENT',
             'certification-number': null,
           },
           'relationships': {
@@ -356,10 +356,9 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'id': inserted_assessment_id,
           'attributes': {
             'estimated-level': 1,
-            'pix-score': 8,
+            'pix-score': 12,
             'state': null,
-            'success-rate': 50,
-            'type': null,
+            'type': 'PLACEMENT',
             'certification-number': null,
           },
           'relationships': {
@@ -460,7 +459,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'estimated-level': undefined,
           'pix-score': undefined,
           'state': 'completed',
-          'success-rate': undefined,
           'type': 'SMART_PLACEMENT',
           'certification-number': null,
           'code-campaign': 'TESTCODE',

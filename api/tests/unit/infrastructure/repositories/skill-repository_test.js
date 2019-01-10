@@ -15,13 +15,9 @@ describe('Unit | Repository | skill-repository', function() {
     skillDatasource.findByCompetenceId.restore();
   });
 
-  describe('#findByCompetence', function() {
+  describe('#findByCompetenceId', function() {
 
-    const competence = {
-      id: 'competence_id',
-      index: 'X.Y',
-      reference: 'X.Y Titre de la compétence'
-    };
+    const competenceID = 'competence_id';
 
     beforeEach(() => {
       skillDatasource.findByCompetenceId
@@ -36,7 +32,7 @@ describe('Unit | Repository | skill-repository', function() {
       //given
 
       // when
-      const promise = skillRepository.findByCompetence(competence);
+      const promise = skillRepository.findByCompetenceId(competenceID);
 
       // then
       return promise.then((skills) => {
