@@ -162,7 +162,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     });
   });
 
-  describe('#findByCompetence', () => {
+  describe('#findByCompetenceId', () => {
 
     let promise;
 
@@ -176,7 +176,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       ]);
 
       // when
-      promise = challengeDatasource.findByCompetence(competence1);
+      promise = challengeDatasource.findByCompetenceId(competence1.id);
     });
 
     it('should resolve to an array of matching Challenges from airTable', () => {

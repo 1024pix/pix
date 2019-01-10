@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const createAssessmentResultForCompletedCertification = require('../../../../lib/domain/usecases/create-assessment-result-for-completed-certification');
+const createAssessmentResultForCompletedAssessment = require('../../../../lib/domain/usecases/create-assessment-result-for-completed-assessment');
 const { NotFoundError, AlreadyRatedAssessmentError, CertificationComputeError } = require('../../../../lib/domain/errors');
 
 function _buildCompetence(competenceCode, areaCode) {
@@ -21,9 +21,8 @@ function _buildCompetence(competenceCode, areaCode) {
 
 describe('Unit | UseCase | create-assessment-result-for-completed-certification', () => {
 
-  const assessmentService = {
-    getSkills: () => undefined,
-    getCompetenceMarks: () => undefined,
+  const scoringService = {
+    calculateAssessmentScore: () => undefined,
   };
   const assessmentRepository = {
     get: () => undefined,
@@ -58,7 +57,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
   const assessmentCourseId = 'recHzEA6lN4PEs7LG';
   const competenceId = 'competenceId';
 
-  let evaluatedSkills;
   let course;
   let sandbox;
 
@@ -69,6 +67,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
   let competence31;
   let listOfAllCompetences = [];
 
+  let assessmentScore;
   let assessment;
 
   let competenceMarksForCertification;
@@ -83,12 +82,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       state: 'started',
       type: 'PLACEMENT',
     });
-
-    evaluatedSkills = {
-      assessmentId: assessmentId,
-      validatedSkills: [domainBuilder.buildSkill({ name: '@url2' }), domainBuilder.buildSkill({ name: '@web3' })],
-      failedSkills: [domainBuilder.buildSkill({ name: '@recherch2' }), domainBuilder.buildSkill({ name: '@securite3' })],
-    };
 
     competenceMarksForCertification = [
       domainBuilder.buildCompetenceMark({
@@ -140,10 +133,18 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       competence: [competenceId],
     });
 
+    assessmentScore = {
+      level: 2,
+      nbPix: 18,
+      successRate: 0,
+      validatedSkills: [domainBuilder.buildSkill({ name: '@url2' }), domainBuilder.buildSkill({ name: '@web3' })],
+      failedSkills: [domainBuilder.buildSkill({ name: '@recherch2' }), domainBuilder.buildSkill({ name: '@securite3' })],
+      competenceMarks: competenceMarksForPlacement
+    };
+
     sandbox = sinon.sandbox.create();
 
-    sandbox.stub(assessmentService, 'getSkills').resolves(evaluatedSkills);
-    sandbox.stub(assessmentService, 'getCompetenceMarks').resolves(competenceMarksForPlacement);
+    sandbox.stub(scoringService, 'calculateAssessmentScore').resolves(assessmentScore);
     sandbox.stub(assessmentRepository, 'save').resolves();
     sandbox.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
     sandbox.stub(assessmentRepository, 'get').resolves(assessment);
@@ -154,7 +155,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     sandbox.stub(competenceMarkRepository, 'save').resolves();
     sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves();
     sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
-
   });
 
   afterEach(() => {
@@ -167,13 +167,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     assessmentRepository.get.resolves(null);
 
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId: assessmentIdThatDoesNotExist,
       assessmentResultRepository,
       assessmentRepository,
-      assessmentService,
       certificationCourseRepository,
       competenceMarkRepository,
+      scoringService,
       skillsService,
     });
 
@@ -195,13 +195,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
 
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
-        assessmentService,
         certificationCourseRepository,
         competenceMarkRepository,
+        scoringService,
         skillsService,
       });
 
@@ -222,14 +222,14 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
 
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         forceRecomputeResult,
         assessmentResultRepository,
         assessmentRepository,
-        assessmentService,
         certificationCourseRepository,
         competenceMarkRepository,
+        scoringService,
         skillsService,
       });
 
@@ -239,18 +239,18 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   });
 
-  it('should reject a not found error when getSkills raise a notFoundError because the assessment does not exist', () => {
+  it('should reject a not found error when calculateAssessmentScore raise a notFoundError because the assessment does not exist', () => {
     // given
-    assessmentService.getSkills.rejects(new NotFoundError());
+    scoringService.calculateAssessmentScore.rejects(new NotFoundError());
 
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId,
       assessmentResultRepository,
       assessmentRepository,
-      assessmentService,
       certificationCourseRepository,
       competenceMarkRepository,
+      scoringService,
       skillsService,
     });
 
@@ -260,13 +260,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   it('should change the assessment status', () => {
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId,
       assessmentResultRepository,
       assessmentRepository,
-      assessmentService,
       certificationCourseRepository,
       competenceMarkRepository,
+      scoringService,
       skillsService,
     });
 
@@ -277,29 +277,29 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     });
   });
 
-  it('should save the evaluated skills', () => {
+  it('should save the assessment skills', () => {
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId,
       assessmentResultRepository,
       assessmentRepository,
-      assessmentService,
       certificationCourseRepository,
       competenceMarkRepository,
+      scoringService,
       skillsService,
     });
 
     // then
     return promise.then(() => {
-      expect(skillsService.saveAssessmentSkills).to.have.been.calledWith(evaluatedSkills);
+      expect(skillsService.saveAssessmentSkills).to.have.been.calledWith(assessment.id, assessmentScore.validatedSkills, assessmentScore.failedSkills);
     });
   });
 
   it('should create a new assessment result', () => {
     // given
     const assessmentResult = domainBuilder.buildAssessmentResult({
-      level: 2,
-      pixScore: 18,
+      level: assessmentScore.level,
+      pixScore: assessmentScore.nbPix,
       emitter: 'PIX-ALGO',
       commentForJury: 'Computed',
       status: 'validated',
@@ -312,13 +312,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     assessmentResult.createdAt = undefined;
 
     // when
-    const promise = createAssessmentResultForCompletedCertification({
+    const promise = createAssessmentResultForCompletedAssessment({
       assessmentId,
       assessmentResultRepository,
       assessmentRepository,
-      assessmentService,
       certificationCourseRepository,
       competenceMarkRepository,
+      scoringService,
       skillsService,
     });
 
@@ -330,56 +330,15 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   context('when the assessment is a PLACEMENT', () => {
 
-    beforeEach(() => {
-      assessmentService.getCompetenceMarks.resolves(competenceMarksForPlacement);
-
-    });
-
-    it('should retrieve the skills', () => {
-      // when
-      const promise = createAssessmentResultForCompletedCertification({
-        assessmentId,
-        assessmentResultRepository,
-        assessmentRepository,
-        assessmentService,
-        certificationCourseRepository,
-        competenceMarkRepository,
-        skillsService,
-      });
-
-      // then
-      return promise.then(() => {
-        expect(assessmentService.getSkills).to.have.been.calledWith(assessment);
-      });
-    });
-
-    it('should retrieve the competenceMarks', () => {
-      // when
-      const promise = createAssessmentResultForCompletedCertification({
-        assessmentId,
-        assessmentResultRepository,
-        assessmentRepository,
-        assessmentService,
-        certificationCourseRepository,
-        competenceMarkRepository,
-        skillsService,
-      });
-
-      // then
-      return promise.then(() => {
-        expect(assessmentService.getCompetenceMarks).to.have.been.calledWith(assessment);
-      });
-    });
-
     it('should save the evaluated competence', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
-        assessmentService,
         certificationCourseRepository,
         competenceMarkRepository,
+        scoringService,
         skillsService,
       });
       const expectedSavedCompetenceMark = {
@@ -402,13 +361,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should not try to evaluate as a certification', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
-        assessmentService,
         certificationCourseRepository,
         competenceMarkRepository,
+        scoringService,
         skillsService,
       });
 
@@ -425,13 +384,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         competenceMarkRepository.save.rejects(error);
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 
@@ -454,18 +413,25 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     beforeEach(() => {
       assessmentRepository.get.resolves(previewAssessment);
-      assessmentService.getCompetenceMarks.resolves([]);
+      scoringService.calculateAssessmentScore.resolves({
+        level: 0,
+        nbPix: 0,
+        successRate: 0,
+        validatedSkills: [],
+        failedSkills: [],
+        competenceMarks: [],
+      });
     });
 
     it('should not try to save the related marks', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
-        assessmentService,
         certificationCourseRepository,
         competenceMarkRepository,
+        scoringService,
         skillsService,
       });
 
@@ -490,18 +456,25 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         type: 'DEMO',
       });
       assessmentRepository.get.resolves(demoAssessment);
-      assessmentService.getCompetenceMarks.resolves([]);
+      scoringService.calculateAssessmentScore.resolves({
+        level: 0,
+        nbPix: 0,
+        successRate: 0,
+        validatedSkills: [],
+        failedSkills: [],
+        competenceMarks: [],
+      });
     });
 
     it('should not try to save the related marks', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
-        assessmentService,
         certificationCourseRepository,
         competenceMarkRepository,
+        scoringService,
         skillsService,
       });
 
@@ -513,13 +486,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should not update the certification status', () => {
       // when
-      const promise = createAssessmentResultForCompletedCertification({
+      const promise = createAssessmentResultForCompletedAssessment({
         assessmentId,
         assessmentResultRepository,
         assessmentRepository,
-        assessmentService,
         certificationCourseRepository,
         competenceMarkRepository,
+        scoringService,
         skillsService,
       });
 
@@ -534,8 +507,12 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     let clock;
     let assessment;
+    let sumOfCompetenceMarksScores;
 
     beforeEach(() => {
+      sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
+        return sum + competenceMark.score;
+      }, 0);
       assessment = domainBuilder.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
@@ -548,8 +525,17 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       assessment.answers = [];
       assessment.assessmentResults = [];
 
+      assessmentScore = {
+        level: Math.floor(sumOfCompetenceMarksScores / 8),
+        nbPix: sumOfCompetenceMarksScores,
+        successRate: 0,
+        validatedSkills: [domainBuilder.buildSkill({ name: '@url2' }), domainBuilder.buildSkill({ name: '@web3' })],
+        failedSkills: [domainBuilder.buildSkill({ name: '@recherch2' }), domainBuilder.buildSkill({ name: '@securite3' })],
+        competenceMarks: competenceMarksForCertification
+      };
+
       assessmentRepository.get.resolves(assessment);
-      assessmentService.getCompetenceMarks.resolves(competenceMarksForCertification);
+      scoringService.calculateAssessmentScore.resolves(assessmentScore);
 
       clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
     });
@@ -560,13 +546,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should persists a mark for each evaluated competence', () => {
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 
@@ -618,9 +604,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should create a new assessment result', () => {
         // given
-        const sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
-          return sum + competenceMark.score;
-        }, 0);
         const assessmentResult = domainBuilder.buildAssessmentResult({
           level: Math.floor(sumOfCompetenceMarksScores / 8),
           pixScore: sumOfCompetenceMarksScores,
@@ -636,13 +619,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         assessmentResult.createdAt = undefined;
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 
@@ -666,13 +649,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         expectedAssessment.assessmentResults = [];
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 
@@ -687,13 +670,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should update the certification course date', () => {
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 
@@ -708,18 +691,18 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     context('something goes wrong during the compute of the certification', () => {
 
       beforeEach(() => {
-        assessmentService.getCompetenceMarks.throws(new CertificationComputeError('Erreur spécifique'));
+        scoringService.calculateAssessmentScore.throws(new CertificationComputeError('Erreur spécifique'));
       });
 
       it('should not persists a mark', () => {
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 
@@ -746,13 +729,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         assessmentResult.createdAt = undefined;
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 
@@ -776,13 +759,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         expectedAssessment.assessmentResults = [];
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 
@@ -797,13 +780,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should update the certification course date', () => {
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 
@@ -823,13 +806,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         certificationCourseRepository.changeCompletionDate.rejects(error);
 
         // when
-        const promise = createAssessmentResultForCompletedCertification({
+        const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
           assessmentResultRepository,
           assessmentRepository,
-          assessmentService,
           certificationCourseRepository,
           competenceMarkRepository,
+          scoringService,
           skillsService,
         });
 

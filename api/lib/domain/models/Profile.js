@@ -102,18 +102,13 @@ class Profile {
   }
 
   _calculateTotalPixScore() {
-    const competencesWithScore = _.filter(this.competences, (competence) => {
+    const competencesPixScore = _.filter(this.competences, (competence) => {
       return competence.hasOwnProperty('pixScore');
-    });
+    }).map((competence) => competence.pixScore);
 
-    if (competencesWithScore.length > 0) {
-      let pixScore = 0;
-
-      competencesWithScore.forEach((competence) => {
-        pixScore += competence.pixScore;
-      });
-
-      this.user.set('pix-score', pixScore);
+    if (competencesPixScore.length > 0) {
+      const totalPixScore = _.sum(competencesPixScore);
+      this.user.set('pix-score', totalPixScore);
     }
   }
 }

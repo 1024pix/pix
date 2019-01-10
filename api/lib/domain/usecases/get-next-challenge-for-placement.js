@@ -30,9 +30,9 @@ module.exports = function getNextChallengeForPlacement({
     .then((fetchedAnswers) => (answers = fetchedAnswers))
     .then(() => competenceRepository.get(course.competences[0]))
     .then((fetchedCompetence) => (competence = fetchedCompetence))
-    .then(() => challengeRepository.findByCompetence(competence))
+    .then(() => challengeRepository.findByCompetenceId(competence.id))
     .then((fetchedChallenges) => (challenges = fetchedChallenges))
-    .then(() => skillRepository.findByCompetence(competence))
+    .then(() => skillRepository.findByCompetenceId(competence.id))
     .then((skills) => {
       logContext.answers = answers.map((answer) => answer.id);
       logContext.challenges = challenges.map((challenge) => challenge.id);

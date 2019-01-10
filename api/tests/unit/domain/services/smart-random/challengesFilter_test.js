@@ -1,14 +1,14 @@
-const { expect, domainBuilder } = require('../../../test-helper');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const filterChallenge = require('../../../../lib/domain/strategies/challengesFilter');
-const Tube = require('../../../../lib/domain/models/Tube');
+const { expect, domainBuilder } = require('../../../../test-helper');
+const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
+const filterChallenge = require('../../../../../lib/domain/services/smart-random/challengesFilter');
+const Tube = require('../../../../../lib/domain/models/Tube');
 
 const KNOWLEDGE_ELEMENT_STATUS = {
   VALIDATED: 'validated',
   INVALIDATED: 'invalidated'
 };
 
-describe('Unit | Domain | Models | filterChallenge', () => {
+describe('Unit | Domain | services | smart-random | filterChallenge', () => {
 
   describe('#getFilteredChallengesForFirstChallenge', () => {
     it('should return a first challenge possible', () => {
