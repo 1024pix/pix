@@ -119,15 +119,15 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       const assessment3Id = databaseBuilder.factory.buildAssessment({ userId, type: PLACEMENT }).id;
 
       knowledgeElementsWanted = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: moment().toString(), skillId: '1' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: moment().toString(), skillId: '2' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment2Id, createdAt: moment().toString(), skillId: '3', status: 'validated' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: moment().format(), skillId: '1' }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment1Id, createdAt: moment().format(), skillId: '2' }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment2Id, createdAt: moment().format(), skillId: '3', status: 'validated' })
       ];
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment2Id, createdAt: moment().subtract(2, 'days').toString(), skillId: '3', status: 'invalidated' }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: moment().toString() }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: moment().toString() }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ createdAt: moment().toString() });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment2Id, createdAt: moment().subtract(2, 'days').format(), skillId: '3', status: 'invalidated' }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: moment().format() }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessment3Id, createdAt: moment().format() }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ createdAt: moment().format() });
 
       await databaseBuilder.commit();
     });

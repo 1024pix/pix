@@ -640,7 +640,7 @@ describe('Integration | Domain | Stategies | SmartRandom', () => {
         sinon.stub(_, 'sample').returns(challengeWeb_3);
 
         // when
-        const nextChallenge = smartRandom.getNextChallenge({ targetProfile, challenges, knowledgeElements, answers });
+        const nextChallenge = SmartRandom.getNextChallenge({ targetProfile, challenges, knowledgeElements, answers });
 
         // then
         expect(nextChallenge).to.deep.equal(challengeWeb_3);

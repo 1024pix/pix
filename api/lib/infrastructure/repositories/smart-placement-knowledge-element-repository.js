@@ -19,8 +19,6 @@ module.exports = {
       .then((knowledgeElements) => knowledgeElements.map(toDomain));
   },
 
-  //TODO : faire le filtre dans la query
-
   findUniqByUserId(userId) {
     return BookshelfKnowledgeElement
       .query((qb) => {
