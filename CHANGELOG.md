@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.19.0 (10/01/2019)
+
+- [#307](https://github.com/1024pix/pix/pull/307) [TECH] Retirer l'ancien algorithme CAT du système de calcul du score (PF-476).
+
 ## v2.18.0 (04/01/2019)
 
 - [#303](https://github.com/1024pix/pix/pull/303) [FEATURE] Lors des certifications, il faut que l'on propose toujours 3 épreuves (PF-254).
