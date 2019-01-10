@@ -26,7 +26,7 @@ module.exports = async function getSkillReview(
     id: skillReviewId,
     targetedSkills: assessment.targetProfile.skills,
     knowledgeElements: knowledgeElementsBeforeSharedDate,
-    computeUnratableSkill: assessment.isCompleted
+    isProfileCompleted: assessment.isCompleted
   });
 
 };
