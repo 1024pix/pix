@@ -1,20 +1,16 @@
 const skillsRespository = require('../../infrastructure/repositories/skill-repository');
 
 module.exports = {
-  saveAssessmentSkills(skills) {
-    if (!skills) {
-      return Promise.resolve(null);
-    }
-    const formattedValitedSkills = _formatValitedSkills(skills.assessmentId, skills.validatedSkills);
-    const formattedFailedSkills = _formatFailedSkills(skills.assessmentId, skills.failedSkills);
 
-    const formattedSkills = [].concat(formattedValitedSkills, formattedFailedSkills);
-
+  saveAssessmentSkills(assessmentId, validatedSkills, failedSkills) {
+    const formattedValidatedSkills = _formatValidatedSkills(assessmentId, validatedSkills);
+    const formattedFailedSkills = _formatFailedSkills(assessmentId, failedSkills);
+    const formattedSkills = [].concat(formattedValidatedSkills, formattedFailedSkills);
     return skillsRespository.save(formattedSkills);
   }
 };
 
-function _formatValitedSkills(assessmentId, skills) {
+function _formatValidatedSkills(assessmentId, skills) {
   return [...skills].reduce((acc, skill) => {
     acc.push({
       assessmentId,

@@ -65,7 +65,7 @@ module.exports = {
     const assessmentRating = assessmentResultsSerializer.deserialize(request.payload);
     const forceRecomputeResult = (request.query) ? request.query.recompute : false;
 
-    return usecases.createAssessmentResultForCompletedCertification({
+    return usecases.createAssessmentResultForCompletedAssessment({
       assessmentId: assessmentRating.assessmentId,
       forceRecomputeResult,
     })

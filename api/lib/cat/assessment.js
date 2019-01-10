@@ -2,8 +2,6 @@ const AnswerStatus = require('../domain/models/AnswerStatus');
 const _ = require('lodash');
 const logger = require('../infrastructure/logger');
 
-const MAX_REACHABLE_LEVEL = 5;
-const NB_PIX_BY_LEVEL = 8;
 const MAX_NUMBER_OF_CHALLENGES = 20;
 const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
@@ -270,22 +268,6 @@ class Assessment {
     logContext.bestChallenges = bestChallenges.map((challenge) => challenge.id);
     logger.trace(logContext, 'best challenges selected. Choosing one randomly.');
     return bestChallenges.sort(this._randomly)[0];
-  }
-
-  get pixScore() {
-    const pixScoreOfSkills = this.course.computePixScoreOfSkills();
-    return this.validatedSkills
-      .map((skill) => pixScoreOfSkills[skill.name] || 0)
-      .reduce((a, b) => a + b, 0);
-  }
-
-  get displayedPixScore() {
-    return Math.floor(this.pixScore);
-  }
-
-  get obtainedLevel() {
-    const estimatedLevel = Math.floor(this.pixScore / NB_PIX_BY_LEVEL);
-    return (estimatedLevel >= MAX_REACHABLE_LEVEL) ? MAX_REACHABLE_LEVEL : estimatedLevel;
   }
 }
 

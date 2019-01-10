@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
 
-const AnswerStatus = require('./AnswerStatus');
 const { ObjectValidationError } = require('../errors');
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
@@ -118,72 +117,28 @@ class Assessment {
     return Promise.resolve();
   }
 
-  isSmartPlacementAssessment() {
+  isPreview() {
+    return this.type === type.PREVIEW;
+  }
+
+  isDemo() {
+    return this.type === type.DEMO;
+  }
+
+  isSmartPlacement() {
     return this.type === type.SMARTPLACEMENT;
   }
 
-  isCertificationAssessment() {
+  isCertification() {
     return this.type === type.CERTIFICATION;
   }
 
-  isPlacementAssessment() {
+  isPlacement() {
     return this.type === type.PLACEMENT;
   }
 
-  addAnswersWithTheirChallenge(answers, challenges) {
-    this.answers = answers;
-    this.answers.forEach((answer) => {
-      answer.challenge = challenges.find((challenge) => challenge.id === answer.challengeId);
-    });
-  }
-
-  getValidatedSkills() {
-    return this.answers
-      .filter((answer) => AnswerStatus.isOK(answer.result))
-      .filter((answer) => answer.challenge)
-      .reduce((validatedSkills, answer) => {
-        answer.challenge.skills.forEach((skill) => {
-          const tube = this.course.findTube(skill.tubeName);
-          tube.getEasierThan(skill).forEach((easierSkill) => {
-            if (!validatedSkills.includes(easierSkill))
-              validatedSkills.push(easierSkill);
-          });
-        });
-        return validatedSkills;
-      }, []);
-  }
-
-  getFailedSkills() {
-    return this.answers
-      .filter((answer) => AnswerStatus.isFailed(answer.result))
-      .filter((answer) => answer.challenge)
-      .reduce((failedSkills, answer) => {
-        // FIXME refactor !
-        // XXX we take the current failed skill and all the harder skills in
-        // its tube and mark them all as failed
-        answer.challenge.skills.forEach((skill) => {
-          const tube = this.course.findTube(skill.tubeName);
-          tube.getHarderThan(skill).forEach((harderSkill) => {
-            if (!failedSkills.includes(harderSkill))
-              failedSkills.push(harderSkill);
-          });
-        });
-        return failedSkills;
-      }, []);
-  }
-
-  getAssessedSkills() {
-    return _.union(this.getValidatedSkills(), this.getFailedSkills());
-  }
-
-  computePixScore() {
-    const skillsEvaluated = this.course.competenceSkills;
-    const pixScoreBySkill = [];
-
-    skillsEvaluated.forEach((skill) => pixScoreBySkill[skill.name] = skill.computePixScore(skillsEvaluated));
-    return this.getValidatedSkills()
-      .map((skill) => pixScoreBySkill[skill.name] || 0)
-      .reduce((a, b) => a + b, 0);
+  canBeScored() {
+    return this.isPlacement() || this.isCertification();
   }
 
   isCertifiable() {
@@ -191,7 +146,7 @@ class Assessment {
   }
 
   canStartNewAttemptOnCourse() {
-    if(!this.isPlacementAssessment()) throw new Error('Only available for a placement assessment');
+    if(!this.isPlacement()) throw new Error('Only available for a placement assessment');
 
     return this.isCompleted() && this.getRemainingDaysBeforeNewAttempt() <= 0;
   }

@@ -27,7 +27,7 @@ class Skill {
     return this.name.slice(0, -1);
   }
 
-  computePixScore(competenceSkills) {
+  computeMaxReachablePixScoreForSkill(competenceSkills) {
     const skillsOfThisDifficulty = _.filter(competenceSkills, (skill) => skill.difficulty === this.difficulty);
     const numberOfSkillsOfThisDifficulty = skillsOfThisDifficulty.length;
 

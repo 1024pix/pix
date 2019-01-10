@@ -1,19 +1,25 @@
 const Boom = require('boom');
-const JSONAPI = require('../../interfaces/jsonapi');
 
+const {
+  NotFoundError,
+  AssessmentEndedError,
+  AssessmentStartError,
+  ObjectValidationError,
+  CampaignCodeError
+} = require('../../domain/errors');
+const tokenService = require('../../domain/services/token-service');
+const useCases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
+const {
+  NotFoundError: InfrastructureNotFoundError,
+  ConflictError
+} = require('../../infrastructure/errors');
 const logger = require('../../infrastructure/logger');
+const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const infraErrors = require('../../infrastructure/errors');
-
-const { NotFoundError, AssessmentEndedError, AssessmentStartError,
-  ObjectValidationError, CampaignCodeError } = require('../../domain/errors');
-const assessmentService = require('../../domain/services/assessment-service');
-const tokenService = require('../../domain/services/token-service');
-const useCases = require('../../domain/usecases');
 
 function _extractUserIdFromRequest(request) {
   if (request.headers && request.headers.authorization) {
@@ -32,7 +38,7 @@ module.exports = {
 
     return Promise.resolve()
       .then(() => {
-        if (assessment.isSmartPlacementAssessment()) {
+        if (assessment.isSmartPlacement()) {
           const codeCampaign = request.payload.data.attributes['code-campaign'];
           const participantExternalId = request.payload.data.attributes['participant-external-id'];
           return useCases.createAssessmentForCampaign({
@@ -40,7 +46,7 @@ module.exports = {
             codeCampaign,
             participantExternalId
           });
-        } else if (assessment.isPlacementAssessment()) {
+        } else if (assessment.isPlacement()) {
           return useCases.startPlacementAssessment({ assessment, assessmentRepository });
         } else {
           assessment.state = 'started';
@@ -57,8 +63,8 @@ module.exports = {
         if (err instanceof CampaignCodeError) {
           throw Boom.notFound(CampaignCodeError);
         }
-        if(err instanceof AssessmentStartError) {
-          return controllerReplies(h).error(new infraErrors.ConflictError(err.message));
+        if (err instanceof AssessmentStartError) {
+          return controllerReplies(h).error(new ConflictError(err.message));
         }
         logger.error(err);
         throw Boom.badImplementation(err);
@@ -66,21 +72,23 @@ module.exports = {
 
   },
 
-  get(request) {
-    const assessmentId = request.params.id;
+  async get(request, h) {
+    try {
+      const assessmentId = request.params.id;
 
-    return assessmentService
-      .fetchAssessment(assessmentId)
-      .then(({ assessmentPix }) => assessmentSerializer.serialize(assessmentPix))
-      .catch((err) => {
-        if (err instanceof NotFoundError) {
-          throw Boom.notFound(err);
-        }
+      const assessment = await useCases.getAssessment({ assessmentId });
 
-        logger.error(err);
+      return assessmentSerializer.serialize(assessment);
+    } catch (err) {
 
-        throw Boom.badImplementation(err);
-      });
+      if (err instanceof NotFoundError) {
+        const error = new InfrastructureNotFoundError(err.message);
+        return controllerReplies(h).error(error);
+      }
+
+      logger.error(err);
+      return controllerReplies(h).error(err);
+    }
   },
 
   findByFilters(request) {
@@ -118,30 +126,30 @@ module.exports = {
         logContext.assessmentType = assessment.type;
         logger.trace(logContext, 'assessment loaded');
 
-        if (assessmentService.isPreviewAssessment(assessment)) {
+        if (assessment.isPreview()) {
           return useCases.getNextChallengeForPreview({});
         }
 
-        if (assessmentService.isCertificationAssessment(assessment)) {
+        if (assessment.isCertification()) {
           return useCases.getNextChallengeForCertification({
             assessment
           });
         }
 
-        if (assessmentService.isDemoAssessment(assessment)) {
+        if (assessment.isDemo()) {
           return useCases.getNextChallengeForDemo({
             assessment,
             challengeId: request.params.challengeId,
           });
         }
 
-        if (assessment.isPlacementAssessment()) {
+        if (assessment.isPlacement()) {
           return useCases.getNextChallengeForPlacement({
             assessment,
           });
         }
 
-        if (assessment.isSmartPlacementAssessment()) {
+        if (assessment.isSmartPlacement()) {
           return useCases.getNextChallengeForSmartPlacement({
             assessment,
           });

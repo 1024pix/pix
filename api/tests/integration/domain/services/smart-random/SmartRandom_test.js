@@ -1,8 +1,8 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Tube = require('../../../../lib/domain/models/Tube');
-const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
-const SmartRandom = require('../../../../lib/domain/strategies/SmartRandom');
+const { expect, sinon, domainBuilder } = require('../../../../test-helper');
+const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
+const Tube = require('../../../../../lib/domain/models/Tube');
+const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
+const SmartRandom = require('../../../../../lib/domain/services/smart-random/SmartRandom');
 const _ = require('lodash');
 
 const KNOWLEDGE_ELEMENT_STATUS = {
@@ -25,7 +25,7 @@ function duplicateChallengeOfSameDifficulty(challenge) {
   return _.assign(_.cloneDeep(challenge), { id: 'rec' + challengeId });
 }
 
-describe('Integration | Domain | Stategies | SmartRandom', () => {
+describe('Integration | Domain | strategies | smart-random | SmartRandom', () => {
   let challenges, targetProfile, skills, knowledgeElements, answers, web1, web2, web3, web4, web5,
     web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil2, challengeWeb_1,
     challengeWeb_2, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6, challengeWeb_7,

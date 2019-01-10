@@ -1,7 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
-const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const skillService = require('../../../../lib/domain/services/skills-service');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -27,7 +26,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     const assessmentSkills = {
       assessmentId: 1,
-      validatedSkills: _generateValitedSkills(),
+      validatedSkills: _generateValidatedSkills(),
       failedSkills: _generateFailedSkills(),
     };
 
@@ -53,13 +52,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         skills: assessmentSkills,
       };
 
-      sandbox.stub(assessmentService, 'fetchAssessment').resolves(scoredAsssessment);
       sandbox.stub(skillService, 'saveAssessmentSkills').resolves();
       sandbox.stub(assessmentRepository, 'get');
       sandbox.stub(assessmentRepository, 'save');
       sandbox.stub(challengeRepository, 'get').resolves({});
       sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
 
+      sandbox.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
       sandbox.stub(usecases, 'getNextChallengeForCertification').resolves();
       sandbox.stub(usecases, 'getNextChallengeForDemo').resolves();
       sandbox.stub(usecases, 'getNextChallengeForSmartPlacement').resolves();
@@ -122,7 +121,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
-        assessmentService.fetchAssessment.resolves(scoredAsssessment);
+        usecases.getAssessment.resolves(scoredAsssessment);
       });
 
       context('when the assessment is a DEMO', () => {
@@ -147,7 +146,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
 
         // then
-        expect(assessmentService.fetchAssessment).not.to.have.been.called;
+        expect(usecases.getAssessment).not.to.have.been.called;
       });
 
     });
@@ -215,7 +214,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
   });
 });
 
-function _generateValitedSkills() {
+function _generateValidatedSkills() {
   const url2 = new Skill('@url2');
   const web3 = new Skill('@web3');
   const skills = new Set();
