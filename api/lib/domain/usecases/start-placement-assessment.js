@@ -2,7 +2,7 @@ const { AssessmentStartError } = require('../../domain/errors');
 
 module.exports = async function startAssessmentForPlacement({ assessment, assessmentRepository }) {
 
-  const lastPlacement = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(assessment.userId, assessment.courseId);
+  const lastPlacement = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(assessment.userId, assessment.courseId);
 
   if(lastPlacement && !lastPlacement.canStartNewAttemptOnCourse()) {
     throw new AssessmentStartError('Impossible de démarrer un nouveau positionnement');

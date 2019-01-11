@@ -77,7 +77,7 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId) {
+  findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId) {
     return BookshelfAssessment
       .where({ userId, courseId, type: 'PLACEMENT' })
       .orderBy('createdAt', 'desc')
@@ -106,17 +106,10 @@ module.exports = {
       .then(_toDomain);
   },
 
-  getCertificationAssessmentByUserIdAndCourseId(userId, courseId) {
+  findOneCertificationAssessmentByUserIdAndCourseId(userId, courseId) {
     return BookshelfAssessment
       .where({ userId, courseId, type: 'CERTIFICATION' })
       .fetch({ withRelated: ['assessmentResults', 'answers'] })
-      .then(_toDomain);
-  },
-
-  getStartedPlacementAssessmentByUserIdAndCourseId(userId, courseId) {
-    return BookshelfAssessment
-      .where({ userId, courseId, type: 'PLACEMENT', state: 'started' })
-      .fetch({ require: false })
       .then(_toDomain);
   },
 
