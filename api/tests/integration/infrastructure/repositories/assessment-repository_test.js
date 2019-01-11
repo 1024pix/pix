@@ -480,7 +480,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#getCertificationAssessmentByUserIdAndCourseId', () => {
+  describe('#findOneCertificationAssessmentByUserIdAndCourseId', () => {
 
     let assessmentsInDb;
     let answersInDb;
@@ -542,7 +542,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const courseId = 'courseId1';
 
       // when
-      const promise = assessmentRepository.getCertificationAssessmentByUserIdAndCourseId(userId, courseId);
+      const promise = assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return promise.then((assessment) => {
@@ -557,84 +557,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const courseId = 'inexistantId';
 
       // when
-      const promise = assessmentRepository.getStartedPlacementAssessmentByUserIdAndCourseId(userId, courseId);
-
-      // then
-      return promise.then((assessment) => {
-        expect(assessment).to.equal(null);
-      });
-    });
-  });
-
-  describe('#getStartedPlacementAssessmentByUserIdAndCourseId', () => {
-
-    let assessmentsInDb;
-
-    beforeEach(() => {
-      assessmentsInDb = [
-        databaseBuilder.factory.buildAssessment({
-          id: 1,
-          courseId: 'courseId1',
-          userId: 1,
-          type: 'PLACEMENT'
-        }),
-        databaseBuilder.factory.buildAssessment({
-          id: 2,
-          courseId: 'courseId1',
-          userId: 2,
-          type: 'PLACEMENT',
-        }),
-        databaseBuilder.factory.buildAssessment({
-          id: 3,
-          courseId: 'courseId1',
-          userId: 2,
-          type: 'CERTIFICATION',
-          state: 'started',
-        }),
-        databaseBuilder.factory.buildAssessment({
-          id: 4,
-          courseId: 'courseId2',
-          userId: 2,
-          type: 'PLACEMENT',
-          state: 'started',
-        }),
-        databaseBuilder.factory.buildAssessment({
-          id: 5,
-          courseId: 'courseId1',
-          userId: 2,
-          type: 'PLACEMENT',
-          state: 'started',
-        }),
-      ];
-      return knex('assessments').insert(assessmentsInDb);
-    });
-
-    afterEach(() => {
-      return knex('assessments').delete()
-        .then(() => databaseBuilder.clean());
-    });
-
-    it('should return assessment when it matches with userId and courseId', function() {
-      // given
-      const userId = 2;
-      const courseId = 'courseId1';
-
-      // when
-      const promise = assessmentRepository.getStartedPlacementAssessmentByUserIdAndCourseId(userId, courseId);
-
-      // then
-      return promise.then((assessment) => {
-        expect(assessment.id).to.equal(5);
-      });
-    });
-
-    it('should return null when it does not match with userId and courseId', function() {
-      // given
-      const userId = 234;
-      const courseId = 'inexistantId';
-
-      // when
-      const promise = assessmentRepository.getStartedPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const promise = assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return promise.then((assessment) => {
@@ -710,7 +633,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#getLastPlacementAssessmentByUserIdAndCourseId', () => {
+  describe('#findOneLastPlacementAssessmentByUserIdAndCourseId', () => {
 
     const userId = 42;
     const courseId = 'rec23kfr5hfD54f';
@@ -721,7 +644,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should return null if nothing found', async () => {
       // when
-      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return expect(foundAssessment).to.be.null;
@@ -747,7 +670,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
@@ -772,13 +695,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
     });
 
-    it('should return a placement', async () => {
+    it('should return an assessment of type placement', async () => {
       // given
       const userOlderAssessment = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.PLACEMENT,
@@ -797,7 +720,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
@@ -829,7 +752,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return expect(foundAssessment.id).to.deep.equal(lastAssessment.id);
@@ -850,7 +773,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.commit();
 
       // when
-      const foundAssessment = await assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
+      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
       return expect(foundAssessment.assessmentResults).to.have.length.of(2);

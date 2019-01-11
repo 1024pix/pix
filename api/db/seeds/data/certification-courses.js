@@ -24,5 +24,18 @@ module.exports = [
     sessionId: 2,
     externalId: 'L\'élève',
     isPublished: true
+  },
+  {
+    id: 3,
+    userId: 1,
+    completedAt: '2018-01-15T15:15:52.504Z',
+    createdAt: '2018-01-15 15:14:46',
+    firstName: 'Pix',
+    lastName: 'Aile',
+    birthdate: '01/04/1994',
+    birthplace: 'Bruxelles',
+    sessionId: 1,
+    externalId: 'L\'élève',
+    isPublished: false
   }
 ];
