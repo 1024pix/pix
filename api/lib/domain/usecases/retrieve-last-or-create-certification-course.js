@@ -27,7 +27,7 @@ async function _startNewCertification({
   return certificationChallengesService.saveChallenges(userCompetences, savedCertificationCourse);
 }
 
-module.exports = async function createCertificationCourseOrRetrieveLast({
+module.exports = async function retrieveLastOrCreateCertificationCourse({
   accessCode,
   userId,
   sessionService,

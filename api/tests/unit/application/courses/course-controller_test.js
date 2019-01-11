@@ -16,7 +16,7 @@ describe('Integration | Controller | course-controller', () => {
   let server;
 
   beforeEach(() => {
-    sinon.stub(usecases, 'createCertificationCourseOrRetrieveLast');
+    sinon.stub(usecases, 'retrieveLastOrCreateCertificationCourse');
     sinon.stub(courseService, 'getCourse');
     sinon.stub(courseSerializer, 'serialize');
     sinon.stub(securityController, 'checkUserHasRolePixMaster');
@@ -157,7 +157,7 @@ describe('Integration | Controller | course-controller', () => {
 
       it('should reply the certification course serialized', async () => {
         // given
-        usecases.createCertificationCourseOrRetrieveLast
+        usecases.retrieveLastOrCreateCertificationCourse
           .withArgs({ accessCode: 'ABCD12', userId: 'userId' })
           .resolves({ created: true, certificationCourse: newlyCreatedCertificationCourse });
         certificationCourseSerializer.serialize.resolves({});
@@ -174,7 +174,7 @@ describe('Integration | Controller | course-controller', () => {
       it('should return 403 error if cannot start a new certification course', async () => {
         // given
         const error = new UserNotAuthorizedToCertifyError();
-        usecases.createCertificationCourseOrRetrieveLast.rejects(error);
+        usecases.retrieveLastOrCreateCertificationCourse.rejects(error);
         certificationCourseSerializer.serialize.resolves({});
 
         // when
@@ -196,7 +196,7 @@ describe('Integration | Controller | course-controller', () => {
         // given
         const existingCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
 
-        usecases.createCertificationCourseOrRetrieveLast
+        usecases.retrieveLastOrCreateCertificationCourse
           .withArgs({ accessCode: 'ABCD12', userId: 'userId' })
           .resolves({ created: false, certificationCourse: existingCertificationCourse });
         certificationCourseSerializer.serialize.resolves({});

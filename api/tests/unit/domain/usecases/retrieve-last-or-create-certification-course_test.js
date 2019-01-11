@@ -4,12 +4,12 @@ const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../../../../
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const sessionService = require('../../../../lib/domain/services/session-service');
 const userService = require('../../../../lib/domain/services/user-service');
-const createCertificationCourseOrRetrieveLast = require('../../../../lib/domain/usecases/create-certification-course-or-retrieve-last');
+const retrieveLastOrCreateCertificationCourse = require('../../../../lib/domain/usecases/retrieve-last-or-create-certification-course');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 
-describe('Unit | UseCase | create-certification-course-or-retrieve-last', () => {
+describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => {
 
-  describe('#createCertificationCourseOrRetrieveLast', () => {
+  describe('#retrieveLastOrCreateCertificationCourse', () => {
 
     context('when a certification course already exists for given sessionId and userId', function() {
 
@@ -32,7 +32,7 @@ describe('Unit | UseCase | create-certification-course-or-retrieve-last', () => 
 
       it('should get last started certification course for given sessionId and userId', async function() {
         // when
-        const result = await createCertificationCourseOrRetrieveLast({ accessCode, userId, sessionService, userService, certificationChallengesService, certificationCourseRepository });
+        const result = await retrieveLastOrCreateCertificationCourse({ accessCode, userId, sessionService, userService, certificationChallengesService, certificationCourseRepository });
 
         // then
         expect(result).to.deep.equal({
@@ -60,7 +60,7 @@ describe('Unit | UseCase | create-certification-course-or-retrieve-last', () => 
 
       it('should rejects an error when the session does not exist',  function() {
         // when
-        const promise = createCertificationCourseOrRetrieveLast({ accessCode, userId, sessionService, userService, certificationChallengesService, certificationCourseRepository });
+        const promise = retrieveLastOrCreateCertificationCourse({ accessCode, userId, sessionService, userService, certificationChallengesService, certificationCourseRepository });
 
         // then
         return expect(promise).to.be.rejectedWith(NotFoundError);
@@ -116,7 +116,7 @@ describe('Unit | UseCase | create-certification-course-or-retrieve-last', () => 
           sinon.stub(certificationCourseRepository, 'save');
 
           // when
-          const createNewCertificationPromise = createCertificationCourseOrRetrieveLast({ accessCode, userId, sessionService, userService, certificationChallengesService, certificationCourseRepository });
+          const createNewCertificationPromise = retrieveLastOrCreateCertificationCourse({ accessCode, userId, sessionService, userService, certificationChallengesService, certificationCourseRepository });
 
           // then
           return createNewCertificationPromise.catch((error) => {
@@ -133,7 +133,7 @@ describe('Unit | UseCase | create-certification-course-or-retrieve-last', () => 
         sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
 
         // when
-        const newCertification = await createCertificationCourseOrRetrieveLast({ accessCode, userId, sessionService, userService, certificationChallengesService, certificationCourseRepository });
+        const newCertification = await retrieveLastOrCreateCertificationCourse({ accessCode, userId, sessionService, userService, certificationChallengesService, certificationCourseRepository });
 
         // then
         expect(newCertification).to.deep.equal({

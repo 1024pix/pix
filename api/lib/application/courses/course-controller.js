@@ -52,7 +52,7 @@ module.exports = {
   save(request, h) {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];
-    return usecases.createCertificationCourseOrRetrieveLast({ accessCode, userId })
+    return usecases.retrieveLastOrCreateCertificationCourse({ accessCode, userId })
       .then(({ created, certificationCourse }) => {
         return h.response(certificationCourseSerializer.serialize(certificationCourse)).code(created ? 201 : 200);
       })
