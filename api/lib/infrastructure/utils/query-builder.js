@@ -1,4 +1,4 @@
-const DomainBuilder = require('./domain-builder');
+const bookshelfToDomainConverter = require('./bookshelf-to-domain-converter');
 const _ = require('lodash');
 
 module.exports = { find };
@@ -21,7 +21,9 @@ async function find(bookShelf, options) {
   if (_.isEmpty(options.page)) {
     const results = await query.fetchAll({ withRelated });
 
-    return DomainBuilder.buildDomainObjects(results.models);
+    return {
+      models: bookshelfToDomainConverter.buildDomainObjects(results.models)
+    };
   }
 
   const results = await query.fetchPage({
@@ -32,6 +34,6 @@ async function find(bookShelf, options) {
 
   return {
     pagination: results.pagination,
-    models: DomainBuilder.buildDomainObjects(results.models),
+    models: bookshelfToDomainConverter.buildDomainObjects(results.models),
   };
 }

@@ -2,6 +2,7 @@ const _ = require('lodash');
 
 module.exports = { extractParameters };
 
+// query example : 'filter[organizationId]=4&page[size]=30$page[number]=3&sort=-createdAt,name&include=user'
 function extractParameters(query) {
   return {
     filter: _extractFilter(query),
