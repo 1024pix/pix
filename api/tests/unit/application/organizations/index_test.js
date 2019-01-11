@@ -2,8 +2,6 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 
-const sandbox = sinon.createSandbox();
-
 let server;
 
 function startServer() {
@@ -12,15 +10,10 @@ function startServer() {
 }
 
 describe('Unit | Router | organization-router', () => {
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('GET /api/organizations', () => {
 
     beforeEach(() => {
-      sandbox.stub(organizationController, 'find').returns('ok');
+      sinon.stub(organizationController, 'find').returns('ok');
       startServer();
     });
 

@@ -103,20 +103,14 @@ describe('Unit | Repository | SnapshotRepository', function() {
   });
 
   describe('#find', () => {
-    let sandbox;
     let options;
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(queryBuilder, 'find');
+      sinon.stub(queryBuilder, 'find');
 
       options = {
         filter: { organisationId: 1 },
       };
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should find the snapshots', async () => {

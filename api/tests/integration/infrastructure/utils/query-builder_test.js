@@ -27,7 +27,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
       });
 
       // then
-      expect(results).to.have.lengthOf(10);
+      expect(results.models).to.have.lengthOf(10);
     });
 
     it('should return filtered snapshots', async function() {
@@ -42,7 +42,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
       });
 
       // then
-      expect(results[0].organization.id).to.equal(snapshots[4].organizationId);
+      expect(results.models[0].organization.id).to.equal(snapshots[4].organizationId);
     });
 
     it('should return all snapshots sorted', async function() {
@@ -55,8 +55,8 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
       });
 
       // then
-      expect(results).to.have.lengthOf(10);
-      expect(results).to.have.lengthOf(10).to.be.descendingBy('createdAt');
+      expect(results.models).to.have.lengthOf(10);
+      expect(results.models).to.have.lengthOf(10).to.be.descendingBy('createdAt');
     });
 
     it('should return all snapshots with pagination', async function() {

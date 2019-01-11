@@ -26,16 +26,6 @@ const user = {
 };
 
 describe('Unit | Controller | snapshot-controller', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#Create', () => {
 
     const request = {
@@ -339,9 +329,9 @@ describe('Unit | Controller | snapshot-controller', () => {
         meta: {},
       };
 
-      sandbox.stub(queryParamsUtils, 'extractParameters');
-      sandbox.stub(usecases, 'findSnapshots');
-      sandbox.stub(snapshotSerializer, 'serialize');
+      sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(usecases, 'findSnapshots');
+      sinon.stub(snapshotSerializer, 'serialize');
     });
 
     it('should returns the snapshots with pagination', async () => {

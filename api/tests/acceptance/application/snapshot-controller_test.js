@@ -210,10 +210,6 @@ describe('Acceptance | Controller | snapshot-controller', () => {
       return knex('snapshots').insert(snapshotRaws);
     });
 
-    afterEach(() => {
-      return knex('snapshots').delete();
-    });
-
     it('should return the paginated snapshots', () => {
       // given
       const expectedSnapshots = {
