@@ -1,14 +1,14 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const moment = require('moment');
-const getSkillReview = require('../../../../lib/domain/usecases/get-skill-review');
+const getSmartPlacementProgression = require('../../../../lib/domain/usecases/get-smart-placement-progression');
 
-const SkillReview = require('../../../../lib/domain/models/SkillReview');
+const SmartPlacementProgression = require('../../../../lib/domain/models/SmartPlacementProgression');
 
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Use Cases | get-skill-review', () => {
+describe('Unit | Domain | Use Cases | get-smart-placement-progression', () => {
 
-  const skillReviewId = 'skill-review-1234';
+  const smartPlacementProgressionId = 'smart-placement-progression-1234';
   const assessmentId = 1234;
   const userId = 9874;
   const smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment({
@@ -31,14 +31,14 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
     sandbox.restore();
   });
 
-  describe('#getSkillReview', () => {
+  describe('#getSmartPlacementProgression', () => {
 
     context('when the assessment exists and belongs to user', () => {
       it('should load the right assessment', () => {
         // when
-        const promise = getSkillReview({
+        const promise = getSmartPlacementProgression({
           userId,
-          skillReviewId,
+          smartPlacementProgressionId,
           smartPlacementAssessmentRepository,
           smartPlacementKnowledgeElementRepository,
         });
@@ -64,30 +64,30 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
         smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
 
         // when
-        const skillReview = await getSkillReview({
+        const smartPlacementProgression = await getSmartPlacementProgression({
           userId,
-          skillReviewId,
+          smartPlacementProgressionId,
           smartPlacementAssessmentRepository,
           smartPlacementKnowledgeElementRepository,
         });
 
         // then
-        expect(skillReview.knowledgeElements).to.deep.equals(expectedKnowledgeElements);
+        expect(smartPlacementProgression.knowledgeElements).to.deep.equals(expectedKnowledgeElements);
 
       });
 
-      it('should return the skillReview associated to the assessment', () => {
+      it('should return the smartPlacementProgression associated to the assessment', () => {
         // when
-        const promise = getSkillReview({
+        const promise = getSmartPlacementProgression({
           userId,
-          skillReviewId,
+          smartPlacementProgressionId,
           smartPlacementAssessmentRepository,
           smartPlacementKnowledgeElementRepository,
         });
 
         // then
-        return promise.then((skillReview) => {
-          expect(skillReview).to.be.an.instanceOf(SkillReview);
+        return promise.then((smartPlacementProgression) => {
+          expect(smartPlacementProgression).to.be.an.instanceOf(SmartPlacementProgression);
         });
       });
     });
@@ -98,9 +98,9 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
         smartPlacementAssessmentRepository.get.rejects(new NotFoundError('No found Assessment for ID 1234'));
 
         // when
-        const promise = getSkillReview({
+        const promise = getSmartPlacementProgression({
           userId,
-          skillReviewId,
+          smartPlacementProgressionId,
           smartPlacementAssessmentRepository,
           smartPlacementKnowledgeElementRepository,
         });
@@ -116,9 +116,9 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
         const unauthorizedUserId = 66666666666666;
 
         // when
-        const promise = getSkillReview({
+        const promise = getSmartPlacementProgression({
           smartPlacementAssessmentRepository,
-          skillReviewId,
+          smartPlacementProgressionId,
           userId: unauthorizedUserId,
           smartPlacementKnowledgeElementRepository,
         });

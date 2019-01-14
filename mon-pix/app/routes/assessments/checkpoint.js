@@ -7,7 +7,7 @@ export default Route.extend({
 
     return RSVP.hash({
       campaigns: this.get('store').query('campaign', { filter: { code: assessment.codeCampaign } }),
-      skillReview: assessment.belongsTo('skillReview').reload()
+      smartPlacementProgression: assessment.belongsTo('smartPlacementProgression').reload()
     }).then((hash) => {
       assessment.set('campaign', hash.campaigns.get('firstObject'));
       return assessment;
