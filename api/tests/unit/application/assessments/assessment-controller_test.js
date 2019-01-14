@@ -8,8 +8,6 @@ describe('Unit | Controller | assessment-controller', function() {
 
   describe('#findByFilters', () => {
 
-    let sandbox;
-
     const assessments = [{ id: 1 }, { id: 2 }];
     const assessmentsInJSONAPI = [{
       id: 1,
@@ -24,16 +22,11 @@ describe('Unit | Controller | assessment-controller', function() {
     const userId = 24504875;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
 
-      sandbox.stub(useCases, 'findCertificationAssessments');
-      sandbox.stub(useCases, 'findPlacementAssessments');
-      sandbox.stub(useCases, 'findSmartPlacementAssessments');
-      sandbox.stub(assessmentSerializer, 'serializeArray');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(useCases, 'findCertificationAssessments');
+      sinon.stub(useCases, 'findPlacementAssessments');
+      sinon.stub(useCases, 'findSmartPlacementAssessments');
+      sinon.stub(assessmentSerializer, 'serializeArray');
     });
 
     it('should serialize assessment to JSON API', async function() {

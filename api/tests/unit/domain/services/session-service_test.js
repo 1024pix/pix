@@ -12,10 +12,6 @@ describe('Unit | Service | session', () => {
       sinon.stub(sessionCodeService, 'getSessionByAccessCode');
     });
 
-    afterEach(() => {
-      sessionCodeService.getSessionByAccessCode.restore();
-    });
-
     context('when access-code is not given', () => {
       it('should stop the request', () => {
         // given

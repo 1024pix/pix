@@ -20,18 +20,12 @@ const solutionAdapter = require('../../../../lib/infrastructure/adapters/solutio
 
 describe('Unit | Repository | challenge-repository', () => {
 
-  const sandbox = sinon.sandbox.create();
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#get', () => {
 
     beforeEach(() => {
-      sandbox.stub(challengeDatasource, 'get');
-      sandbox.stub(skillDatasource, 'get').resolves();
-      sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+      sinon.stub(challengeDatasource, 'get');
+      sinon.stub(skillDatasource, 'get').resolves();
+      sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
     });
 
     const challengeTypeAndValidators = {
@@ -197,8 +191,8 @@ describe('Unit | Repository | challenge-repository', () => {
       skills = [skillWeb1, skillURL2, skillURL3];
       skillIds = [skillWeb1.id, skillURL2.id, skillURL3.id];
 
-      sandbox.stub(skillDatasource, 'get');
-      sandbox.stub(skillDatasource, 'list');
+      sinon.stub(skillDatasource, 'get');
+      sinon.stub(skillDatasource, 'list');
       skillDatasource.list.resolves([
         domainBuilder.buildSkillAirtableDataObject({
           id: skillURL3.id, name: skillURL3.name,
@@ -216,8 +210,8 @@ describe('Unit | Repository | challenge-repository', () => {
     describe('#list', () => {
 
       beforeEach(() => {
-        sandbox.stub(challengeDatasource, 'list');
-        sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+        sinon.stub(challengeDatasource, 'list');
+        sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
       context('when query happens with no error', () => {
@@ -317,8 +311,8 @@ describe('Unit | Repository | challenge-repository', () => {
       beforeEach(() => {
         competence = domainBuilder.buildCompetence();
 
-        sandbox.stub(challengeDatasource, 'findByCompetenceId');
-        sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+        sinon.stub(challengeDatasource, 'findByCompetenceId');
+        sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
       context('when query happens with no error', () => {
@@ -391,8 +385,8 @@ describe('Unit | Repository | challenge-repository', () => {
 
       beforeEach(() => {
 
-        sandbox.stub(challengeDatasource, 'findBySkillIds');
-        sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+        sinon.stub(challengeDatasource, 'findBySkillIds');
+        sinon.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
       context('when query happens with no error', () => {

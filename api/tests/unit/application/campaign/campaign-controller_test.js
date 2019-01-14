@@ -12,24 +12,15 @@ const { UserNotAuthorizedToCreateCampaignError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   describe('#save', () => {
 
     const deserializedCampaign = domainBuilder.buildCampaign({ id: NaN, code: '' });
 
     beforeEach(() => {
-      sandbox.stub(usecases, 'createCampaign');
-      sandbox.stub(campaignSerializer, 'deserialize').resolves(deserializedCampaign);
-      sandbox.stub(campaignSerializer, 'serialize');
+      sinon.stub(usecases, 'createCampaign');
+      sinon.stub(campaignSerializer, 'deserialize').resolves(deserializedCampaign);
+      sinon.stub(campaignSerializer, 'serialize');
     });
 
     it('should call the use case to create the new campaign', async () => {
@@ -159,17 +150,11 @@ describe('Unit | Application | Controller | Campaign', () => {
   });
 
   describe('#getCsvResult', () => {
-    let sandbox;
     const userId = 1;
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
-      sandbox.stub(usecases, 'getResultsCampaignInCSVFormat');
-      sandbox.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'getResultsCampaignInCSVFormat');
+      sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
     });
 
     it('should call the use case to get result campaign in csv', async () => {
@@ -255,8 +240,8 @@ describe('Unit | Application | Controller | Campaign', () => {
       request = {
         query: { 'filter[code]': campaignCode }
       };
-      sandbox.stub(usecases, 'getCampaignByCode');
-      sandbox.stub(campaignSerializer, 'serialize');
+      sinon.stub(usecases, 'getCampaignByCode');
+      sinon.stub(campaignSerializer, 'serialize');
     });
 
     it('should call the use case to retrieve the campaign with the expected code', async () => {
@@ -329,8 +314,8 @@ describe('Unit | Application | Controller | Campaign', () => {
         }
       };
 
-      sandbox.stub(usecases, 'getCampaign');
-      sandbox.stub(campaignSerializer, 'serialize');
+      sinon.stub(usecases, 'getCampaign');
+      sinon.stub(campaignSerializer, 'serialize');
     });
 
     it('should returns the campaign', async () => {
@@ -400,8 +385,8 @@ describe('Unit | Application | Controller | Campaign', () => {
         customLandingPageText: updatedCampaign.customLandingPageText,
       };
 
-      sandbox.stub(usecases, 'updateCampaign');
-      sandbox.stub(campaignSerializer, 'serialize');
+      sinon.stub(usecases, 'updateCampaign');
+      sinon.stub(campaignSerializer, 'serialize');
     });
 
     it('should returns the updated campaign', async () => {

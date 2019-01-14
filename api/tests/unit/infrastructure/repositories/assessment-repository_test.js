@@ -84,7 +84,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     it('should throw an error if something went wrong', () => {
       //Given
       const error = new Error('Unable to fetch');
-      const whereStub = sinon.stub(BookshelfAssessment, 'where').returns({
+      sinon.stub(BookshelfAssessment, 'where').returns({
         fetchAll: () => {
           return Promise.reject(error);
         },
@@ -94,7 +94,6 @@ describe('Unit | Repository | assessmentRepository', () => {
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
       // then
-      whereStub.restore();
       return promise
         .catch((err) => {
           expect(err).to.equal(error);
@@ -185,7 +184,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     it('should throw an error if something went wrong', () => {
       //Given
       const error = new Error('Unable to fetch');
-      const whereStub = sinon.stub(BookshelfAssessment, 'where').returns({
+      sinon.stub(BookshelfAssessment, 'where').returns({
         fetchAll: () => {
           return Promise.reject(error);
         },
@@ -195,7 +194,6 @@ describe('Unit | Repository | assessmentRepository', () => {
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
       // then
-      whereStub.restore();
       return promise
         .catch((err) => {
           expect(err).to.equal(error);
@@ -218,10 +216,6 @@ describe('Unit | Repository | assessmentRepository', () => {
         sinon.stub(BookshelfAssessment, 'query').returns({
           fetch: fetchStub,
         });
-      });
-
-      after(() => {
-        BookshelfAssessment.query.restore();
       });
 
       it('should correctly query Assessment', () => {
@@ -250,10 +244,6 @@ describe('Unit | Repository | assessmentRepository', () => {
   describe('#save', function() {
 
     let assessment;
-
-    afterEach(() => {
-      BookshelfAssessment.prototype.save.restore();
-    });
 
     context('when assessment is valid', () => {
       beforeEach(() => {
@@ -322,10 +312,6 @@ describe('Unit | Repository | assessmentRepository', () => {
       sinon.stub(BookshelfAssessment, 'where').returns({
         fetch: fetchStub,
       });
-    });
-
-    after(() => {
-      BookshelfAssessment.where.restore();
     });
 
     it('should correctly query Assessment', () => {

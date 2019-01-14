@@ -11,20 +11,14 @@ const smartPlacementAssessmentRepository =
 const { ChallengeAlreadyAnsweredError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | answer-controller', () => {
-  let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
 
-    sandbox.stub(answerSerializer, 'serialize');
-    sandbox.stub(answerRepository, 'findByChallengeAndAssessment');
-    sandbox.stub(smartPlacementAssessmentRepository, 'get');
-    sandbox.stub(usecases, 'correctAnswerThenUpdateAssessment');
-    sandbox.stub(logger, 'error');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(answerSerializer, 'serialize');
+    sinon.stub(answerRepository, 'findByChallengeAndAssessment');
+    sinon.stub(smartPlacementAssessmentRepository, 'get');
+    sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
+    sinon.stub(logger, 'error');
   });
 
   describe('#save', () => {

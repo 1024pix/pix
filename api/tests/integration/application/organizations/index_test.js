@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const organisationController = require('../../../../lib/application/organizations/organization-controller');
+const route = require('../../../../lib/application/organizations/index');
 
 describe('Integration | Application | Organizations | Routes', () => {
 
@@ -9,19 +10,14 @@ describe('Integration | Application | Organizations | Routes', () => {
 
   beforeEach(() => {
     server = Hapi.server();
-    return server.register(require('../../../../lib/application/organizations/index'));
   });
 
   describe('POST /api/organizations', (_) => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(organisationController, 'create').returns('ok');
-    });
-
-    after(() => {
-      securityController.checkUserHasRolePixMaster.restore();
-      organisationController.create.restore();
+      return server.register(route);
     });
 
     it('should exist', () => {
@@ -33,12 +29,9 @@ describe('Integration | Application | Organizations | Routes', () => {
 
   describe('GET /api/organizations', (_) => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(organisationController, 'search').returns('ok');
-    });
-
-    after(() => {
-      organisationController.search.restore();
+      return server.register(route);
     });
 
     it('should exist', () => {
@@ -50,12 +43,9 @@ describe('Integration | Application | Organizations | Routes', () => {
 
   describe('GET /api/organizations/:id/snapshots', (_) => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(organisationController, 'getSharedProfiles').returns('ok');
-    });
-
-    after(() => {
-      organisationController.getSharedProfiles.restore();
+      return server.register(route);
     });
 
     it('should exist', () => {
@@ -67,12 +57,9 @@ describe('Integration | Application | Organizations | Routes', () => {
 
   describe('GET /api/organizations/:id/campaigns', () => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(organisationController, 'getCampaigns').returns('ok');
-    });
-
-    after(() => {
-      organisationController.getCampaigns.restore();
+      return server.register(route);
     });
 
     it('should call the organization controller to get the campaigns', () => {

@@ -5,18 +5,12 @@ const saml = require('../../../../lib/infrastructure/saml');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Application | Controller | Saml', () => {
-  let sandbox;
 
   describe('#assert', () => {
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
 
-      sandbox.stub(tokenService, 'createTokenFromUser').returns('dummy-token');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(tokenService, 'createTokenFromUser').returns('dummy-token');
     });
 
     it('should call use case to get or create account for user', async () => {
@@ -27,11 +21,11 @@ describe('Unit | Application | Controller | Saml', () => {
         'urn:oid:2.5.4.42': 'Adèle',
       };
 
-      sandbox.stub(saml, 'parsePostResponse')
+      sinon.stub(saml, 'parsePostResponse')
         .withArgs('fake-request-payload')
         .resolves(userAttributes);
 
-      sandbox.stub(usecases, 'getOrCreateSamlUser').resolves({
+      sinon.stub(usecases, 'getOrCreateSamlUser').resolves({
         id: 12,
       });
 

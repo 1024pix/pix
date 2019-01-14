@@ -31,10 +31,6 @@ describe('Unit | Repository | Certification Course', function() {
       sinon.stub(CertificationCourseBookshelf.prototype, 'save').resolves(certificationCourseBookshelf);
     });
 
-    afterEach(() => {
-      CertificationCourseBookshelf.prototype.save.restore();
-    });
-
     it('should save the certification-course', () => {
       // when
       const promise = CertificationCourseRepository.save(certificationCourse);

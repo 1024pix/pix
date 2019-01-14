@@ -20,12 +20,11 @@ describe('Unit | Domain | Models | Profile', () => {
     let lastAssessments;
     let competences;
 
-    let clock;
     let testCurrentDate;
 
     beforeEach(() => {
       testCurrentDate = new Date('2018-01-10 05:00:00');
-      clock = sinon.useFakeTimers(testCurrentDate.getTime());
+      sinon.useFakeTimers(testCurrentDate.getTime());
       user = new BookshelfUser({
         'first-name': faker.name.findName(),
         'last-name': faker.name.findName(),
@@ -75,10 +74,6 @@ describe('Unit | Domain | Models | Profile', () => {
           level: -1,
           status: 'notAssessed',
         }];
-    });
-
-    afterEach(() => {
-      clock.restore();
     });
 
     it('should exist', () => {

@@ -18,15 +18,8 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
 
   const smartPlacementAssessmentRepository = { get: () => undefined };
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(smartPlacementAssessmentRepository, 'get').resolves(smartPlacementAssessment);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(smartPlacementAssessment);
   });
 
   describe('#getSkillReview', () => {

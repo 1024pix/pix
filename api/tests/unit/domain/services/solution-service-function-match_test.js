@@ -59,8 +59,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQcu.match.restore();
-
         expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
 
@@ -76,8 +74,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQcu.match.restore();
-
         expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });
       });
 
@@ -104,8 +100,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQcm.match.restore();
-
         expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
 
@@ -121,8 +115,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQcm.match.restore();
-
         expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });
       });
 
@@ -151,8 +143,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQroc.match.restore();
-
         sinon.assert.calledOnce(serviceQrocMatch);
         sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', {
           t1: true,
@@ -175,8 +165,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQroc.match.restore();
-
         sinon.assert.calledOnce(serviceQrocMatch);
         sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', {
           t1: true,
@@ -211,8 +199,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQrocmInd.match.restore();
-
         sinon.assert.calledOnce(serviceQrocmInd$match);
         sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
         expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: { shi: true, fu: false, mi: true } });
@@ -232,8 +218,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQrocmInd.match.restore();
-
         sinon.assert.calledOnce(serviceQrocmInd$match);
         sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
 
@@ -264,8 +248,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQrocmDep.match.restore();
-
         sinon.assert.calledOnce(serviceQrocmDep$match);
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', {
           t1: true,
@@ -288,8 +270,6 @@ describe('Unit | Service | SolutionService', function() {
         const result = service.validate(answer, solution);
 
         // then
-        serviceQrocmDep.match.restore();
-
         sinon.assert.calledOnce(serviceQrocmDep$match);
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', {
           t1: true,

@@ -13,11 +13,6 @@ describe('Unit | Application | Use Case | CheckUserHasRolePixMaster', () => {
     sinon.stub(userRepository, 'get');
   });
 
-  afterEach(() => {
-    tokenService.extractUserId.restore();
-    userRepository.get.restore();
-  });
-
   it('should resolve true when the user (designed by the access_token via its userId) has role PIX_MASTER', () => {
     // given
     const user = {

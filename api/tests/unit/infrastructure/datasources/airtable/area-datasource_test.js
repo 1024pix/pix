@@ -6,21 +6,11 @@ const airTableDataObjects = require('../../../../../lib/infrastructure/datasourc
 
 describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () => {
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#list', () => {
 
     it('should call airtable on Domaines table with the id and return an Area dataObject', () => {
       // given
-      sandbox.stub(airtable, 'findRecords').resolves([areaRawAirTableFixture()]);
+      sinon.stub(airtable, 'findRecords').resolves([areaRawAirTableFixture()]);
 
       // when
       const promise = areaDatasource.list();

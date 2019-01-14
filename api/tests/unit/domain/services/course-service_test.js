@@ -11,22 +11,13 @@ describe('Unit | Service | Course Service', () => {
 
   describe('#getCourse', function() {
 
-    let sandbox;
     const airtableCourse = { id: 'recAirtableId' };
     const certificationCourse = new Course({ id: 1 });
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
 
     context('when the id is a certification course id', () => {
 
       beforeEach(() => {
-        sandbox.stub(certificationCourseRepository, 'get');
+        sinon.stub(certificationCourseRepository, 'get');
       });
 
       it('should call the certification course repository  ', () => {
@@ -84,7 +75,7 @@ describe('Unit | Service | Course Service', () => {
     context('when the id is not a certification course id', () => {
 
       beforeEach(() => {
-        sandbox.stub(courseRepository, 'get');
+        sinon.stub(courseRepository, 'get');
       });
 
       it('should call the course repository', () => {

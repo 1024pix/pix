@@ -16,26 +16,20 @@ const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/erro
 describe('Integration | Controller | course-controller', () => {
 
   let server;
-  let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(courseService, 'getCourse');
-    sandbox.stub(courseSerializer, 'serialize');
-    sandbox.stub(securityController, 'checkUserHasRolePixMaster');
-    sandbox.stub(courseRepository, 'getProgressionCourses');
-    sandbox.stub(courseRepository, 'getAdaptiveCourses');
-    sandbox.stub(courseRepository, 'getCoursesOfTheWeek');
-    sandbox.stub(certificationService, 'startNewCertification');
-    sandbox.stub(certificationCourseSerializer, 'serialize');
-    sandbox.stub(sessionService, 'sessionExists');
+    sinon.stub(courseService, 'getCourse');
+    sinon.stub(courseSerializer, 'serialize');
+    sinon.stub(securityController, 'checkUserHasRolePixMaster');
+    sinon.stub(courseRepository, 'getProgressionCourses');
+    sinon.stub(courseRepository, 'getAdaptiveCourses');
+    sinon.stub(courseRepository, 'getCoursesOfTheWeek');
+    sinon.stub(certificationService, 'startNewCertification');
+    sinon.stub(certificationCourseSerializer, 'serialize');
+    sinon.stub(sessionService, 'sessionExists');
 
     server = this.server = Hapi.server();
     return server.register(require('../../../../lib/application/courses'));
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('#list', () => {

@@ -10,18 +10,12 @@ describe('Unit | UseCase | get-assessment', () => {
   let assessment;
   let assessmentScore;
 
-  const sandbox = sinon.sandbox.create();
-
   beforeEach(() => {
     assessment = domainBuilder.buildAssessment();
     assessmentScore = domainBuilder.buildAssessmentScore();
 
-    sandbox.stub(assessmentRepository, 'get');
-    sandbox.stub(scoringService, 'calculateAssessmentScore');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(assessmentRepository, 'get');
+    sinon.stub(scoringService, 'calculateAssessmentScore');
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async () => {

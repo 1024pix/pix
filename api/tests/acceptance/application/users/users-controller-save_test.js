@@ -34,11 +34,8 @@ describe('Acceptance | Controller | users-controller', () => {
         },
       };
 
-      let sandbox;
-
       beforeEach(() => {
-        sandbox = sinon.sandbox.create();
-        sandbox.stub(mailJet, 'sendEmail');
+        sinon.stub(mailJet, 'sendEmail');
 
         nock('https://www.google.com')
           .post('/recaptcha/api/siteverify')
@@ -50,7 +47,6 @@ describe('Acceptance | Controller | users-controller', () => {
 
       afterEach(() => {
         nock.cleanAll();
-        sandbox.restore();
         return knex('users').delete();
       });
 

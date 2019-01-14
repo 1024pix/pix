@@ -24,15 +24,8 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
 
   context('When authenticated User is authorized to retrieve his campaign participations', () => {
 
-    let sandbox;
-
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(campaignParticipationRepository, 'findByUserId');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(campaignParticipationRepository, 'findByUserId');
     });
 
     it('should call findByUserId to find all campaign-participations', () => {

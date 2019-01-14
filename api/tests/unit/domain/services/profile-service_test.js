@@ -87,23 +87,15 @@ describe('Unit | Service | Profil User Service', function() {
 
     describe('Enhanced user', () => {
 
-      let sandbox;
-
       beforeEach(() => {
 
-        sandbox = sinon.sandbox.create();
-
-        sandbox.stub(userRepository, 'findUserById').resolves(fakeUserRecord);
-        sandbox.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);
-        sandbox.stub(areaRepository, 'list').resolves(fakeAreaRecords);
-        sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
-        sandbox.stub(assessmentRepository, 'findLastAssessmentsForEachCoursesByUser').resolves(fakeAssessmentRecords);
-        sandbox.stub(assessmentRepository, 'findCompletedAssessmentsByUserId').resolves(fakeAssessmentRecords);
-        sandbox.stub(organizationRepository, 'getByUserId').resolves(fakeOrganizationsRecords);
-      });
-
-      afterEach(() => {
-        sandbox.restore();
+        sinon.stub(userRepository, 'findUserById').resolves(fakeUserRecord);
+        sinon.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);
+        sinon.stub(areaRepository, 'list').resolves(fakeAreaRecords);
+        sinon.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
+        sinon.stub(assessmentRepository, 'findLastAssessmentsForEachCoursesByUser').resolves(fakeAssessmentRecords);
+        sinon.stub(assessmentRepository, 'findCompletedAssessmentsByUserId').resolves(fakeAssessmentRecords);
+        sinon.stub(organizationRepository, 'getByUserId').resolves(fakeOrganizationsRecords);
       });
 
       it('should return a resolved promise', () => {

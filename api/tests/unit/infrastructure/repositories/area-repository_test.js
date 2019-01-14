@@ -7,11 +7,8 @@ const areaRepository = require('../../../../lib/infrastructure/repositories/area
 
 describe('Unit | Repository | area-repository', function() {
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(areaDatasource, 'list');
+    sinon.stub(areaDatasource, 'list');
 
     areaDatasource.list.resolves([
       domainBuilder.buildAreaAirtableDataObject({
@@ -27,10 +24,6 @@ describe('Unit | Repository | area-repository', function() {
         name: '2. Domaine 2',
       }),
     ]);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('#list', () => {
@@ -81,7 +74,7 @@ describe('Unit | Repository | area-repository', function() {
       });
 
     beforeEach(() => {
-      sandbox.stub(competenceRepository, 'list');
+      sinon.stub(competenceRepository, 'list');
       competenceRepository.list.resolves([
         competence1,
         competence2,

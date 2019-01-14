@@ -106,8 +106,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
   describe('#deserialize()', function() {
     beforeEach(() => sinon.stub(sessionCodeService, 'getNewSessionCode').resolves('ABCD12'));
 
-    afterEach(() => sessionCodeService.getNewSessionCode.restore());
-
     it('should convert JSON API data to a Session', function() {
       // when
       const promise = serializer.deserialize(jsonSession);

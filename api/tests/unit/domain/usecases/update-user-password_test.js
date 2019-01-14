@@ -14,8 +14,6 @@ const { PasswordResetDemandNotFoundError } = require('../../../../lib/domain/err
 
 describe('Unit | UseCase | update-user-password', () => {
 
-  let sandbox;
-
   const userId = 1;
   const user = new BookshelfUser({
     id: userId,
@@ -24,17 +22,12 @@ describe('Unit | UseCase | update-user-password', () => {
   const password = '123ASXCG';
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(resetPasswordService, 'hasUserAPasswordResetDemandInProgress');
-    sandbox.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
-    sandbox.stub(validationErrorSerializer, 'serialize');
-    sandbox.stub(userRepository, 'updatePassword');
-    sandbox.stub(userRepository, 'findUserById').resolves(user);
-    sandbox.stub(encryptionService, 'hashPassword');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(resetPasswordService, 'hasUserAPasswordResetDemandInProgress');
+    sinon.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
+    sinon.stub(validationErrorSerializer, 'serialize');
+    sinon.stub(userRepository, 'updatePassword');
+    sinon.stub(userRepository, 'findUserById').resolves(user);
+    sinon.stub(encryptionService, 'hashPassword');
   });
 
   it('should get user by his id', () => {

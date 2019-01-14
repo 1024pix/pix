@@ -24,11 +24,6 @@ describe('Unit | Controller | skill-review-controller', () => {
       sinon.stub(logger, 'error').returns();
     });
 
-    afterEach(() => {
-      usecases.getSkillReview.restore();
-      logger.error.restore();
-    });
-
     context('if assessment exists', () => {
 
       const skillReview = domainBuilder.buildSkillReview({ validatedSkills: [], failedSkills: [] });

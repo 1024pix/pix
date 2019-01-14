@@ -24,10 +24,6 @@ describe('Unit | Controller | healthcheckController', () => {
       sinon.stub(healthcheckRepository, 'check');
     });
 
-    afterEach(() => {
-      healthcheckRepository.check.restore();
-    });
-
     it('should check if DB connection is successful', async () => {
       // given
       healthcheckRepository.check.resolves();

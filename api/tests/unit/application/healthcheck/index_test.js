@@ -1,23 +1,20 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
+const route = require('../../../../lib/application/healthcheck');
 
 describe('Unit | Router | HealthcheckRouter', function() {
   let server;
 
   beforeEach(function() {
     server = this.server = Hapi.server();
-    return server.register(require('../../../../lib/application/healthcheck'));
   });
 
   describe('GET /api', function() {
 
-    before(function() {
+    beforeEach(function() {
       sinon.stub(healthcheckController, 'get').returns('ok');
-    });
-
-    after(function() {
-      healthcheckController.get.restore();
+      return server.register(route);
     });
 
     it('should exist', async function() {

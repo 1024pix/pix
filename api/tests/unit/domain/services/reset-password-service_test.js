@@ -12,10 +12,6 @@ describe('Unit | Service | Password Service', function() {
       sinon.stub(jsonwebtoken, 'sign');
     });
 
-    afterEach(() => {
-      jsonwebtoken.sign.restore();
-    });
-
     it('should call sign function from jwt', () => {
       // given
       const signParams = {
@@ -37,10 +33,6 @@ describe('Unit | Service | Password Service', function() {
 
     beforeEach(() => {
       sinon.stub(resetPasswordRepository, 'markAsBeingUsed');
-    });
-
-    afterEach(() => {
-      resetPasswordRepository.markAsBeingUsed.restore();
     });
 
     it('should call reset password repository', () => {

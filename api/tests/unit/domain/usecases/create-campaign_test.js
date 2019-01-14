@@ -6,7 +6,6 @@ const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = requir
 
 describe('Unit | UseCase | create-campaign', () => {
 
-  let sandbox;
   const availableCampaignCode = 'ABCDEF123';
   const targetProfileId = 12;
   const campaignToCreate = domainBuilder.buildCampaign({ id: '', code: '', targetProfileId  });
@@ -24,16 +23,11 @@ describe('Unit | UseCase | create-campaign', () => {
   }
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(campaignCodeGenerator, 'generate');
-    sandbox.stub(campaignRepository, 'save');
-    sandbox.stub(campaignValidator, 'validate');
-    sandbox.stub(userRepository, 'getWithMemberships');
-    sandbox.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(campaignCodeGenerator, 'generate');
+    sinon.stub(campaignRepository, 'save');
+    sinon.stub(campaignValidator, 'validate');
+    sinon.stub(userRepository, 'getWithMemberships');
+    sinon.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization');
   });
 
   it('should throw an EntityValidationError if campaign is not valid', () => {
