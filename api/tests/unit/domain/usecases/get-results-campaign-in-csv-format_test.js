@@ -120,7 +120,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       sinon.stub(organizationRepository, 'get').resolves(organization);
       sinon.stub(userRepository, 'get').resolves(user);
       sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
-      sinon.stub(smartPlacementKnowledgeElementRepository, 'findByUserId').resolves([]);
+      sinon.stub(smartPlacementKnowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
       findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findByCampaignId');
     });
 
