@@ -489,7 +489,7 @@ describe('Integration | Repository | Organization', function() {
         return databaseBuilder.commit();
       });
 
-      it('should return only Organizations matching name" if given in filters', async () => {
+      it('should return only Organizations matching "name" if given in filters', async () => {
         // given
         const filters = { name: 'dra' };
         const pagination = { page: 1, pageSize: 10 };
@@ -500,6 +500,7 @@ describe('Integration | Repository | Organization', function() {
         // then
         return promise.then((matchingOrganizations) => {
           expect(matchingOrganizations).to.have.lengthOf(2);
+          expect(_.map(matchingOrganizations, 'name')).to.have.members(['Dragon & co', 'Dragonades & co']);
         });
       });
     });
@@ -524,7 +525,7 @@ describe('Integration | Repository | Organization', function() {
 
         // then
         return promise.then((matchingOrganizations) => {
-          expect(matchingOrganizations).to.have.lengthOf(2);
+          expect(_.map(matchingOrganizations, 'type')).to.have.members(['SUP', 'SCO']);
         });
       });
     });
@@ -548,7 +549,7 @@ describe('Integration | Repository | Organization', function() {
 
         // then
         return promise.then((matchingOrganizations) => {
-          expect(matchingOrganizations).to.have.lengthOf(2);
+          expect(_.map(matchingOrganizations, 'code')).to.have.members(['AZH578', 'AZH002']);
         });
       });
     });
@@ -579,7 +580,33 @@ describe('Integration | Repository | Organization', function() {
 
         // then
         return promise.then((matchingOrganizations) => {
-          expect(matchingOrganizations).to.have.lengthOf(3);
+          expect(_.map(matchingOrganizations, 'name')).to.have.members(['name_ok_1', 'name_ok_2', 'name_ok_3']);
+          expect(_.map(matchingOrganizations, 'type')).to.have.members(['SCO', 'SCO', 'SCO']);
+          expect(_.map(matchingOrganizations, 'code')).to.have.members(['c_ok_1', 'c_ok_2', 'c_ok_3']);
+        });
+      });
+    });
+
+    context('when there are filters that should be ignored', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildOrganization({ id: 1 });
+        databaseBuilder.factory.buildOrganization({ id: 2 });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should ignore the filters and retrieve all organizations', () => {
+        // given
+        const filters = { id: 1 };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = organizationRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingOrganizations) => {
+          expect(_.map(matchingOrganizations, 'id')).to.have.members([1, 2]);
         });
       });
     });

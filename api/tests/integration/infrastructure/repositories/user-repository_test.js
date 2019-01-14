@@ -23,6 +23,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     samlId: 'some-saml-id',
   };
 
+  beforeEach(() => {
+    return databaseBuilder.clean();
+  });
+
+  afterEach(() => {
+    return databaseBuilder.clean();
+  });
+
   function _insertUser() {
     return knex('users')
       .insert(userToInsert)
@@ -639,7 +647,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // then
         return promise.then((matchingUsers) => {
-          expect(matchingUsers).to.have.lengthOf(3);
+          expect(_.map(matchingUsers, 'firstName')).to.have.members(['Son Gohan', 'Son Goku', 'Son Goten']);
         });
       });
     });
@@ -669,7 +677,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // then
         return promise.then((matchingUsers) => {
-          expect(matchingUsers).to.have.lengthOf(3);
+          expect(_.map(matchingUsers, 'firstName')).to.have.members(['Anakin', 'Luke', 'Leia']);
         });
       });
     });
@@ -699,7 +707,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // then
         return promise.then((matchingUsers) => {
-          expect(matchingUsers).to.have.lengthOf(3);
+          expect(_.map(matchingUsers, 'email')).to.have.members(['playpus@pix.fr', 'panda@pix.fr', 'otter@pix.fr']);
         });
       });
     });
@@ -734,10 +742,37 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // then
         return promise.then((matchingUsers) => {
-          expect(matchingUsers).to.have.lengthOf(3);
+          expect(_.map(matchingUsers, 'firstName')).to.have.members(['fn_ok_1', 'fn_ok_2', 'fn_ok_3']);
+          expect(_.map(matchingUsers, 'lastName')).to.have.members(['ln_ok_1', 'ln_ok_2', 'ln_ok_3']);
+          expect(_.map(matchingUsers, 'email')).to.have.members(['email_ok_1@mail.com', 'email_ok_2@mail.com', 'email_ok_3@mail.com']);
         });
       });
     });
+
+    context('when there are filters that should be ignored', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildUser({ id: 1 });
+        databaseBuilder.factory.buildUser({ id: 2 });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should ignore the filters and retrieve all users', () => {
+        // given
+        const filters = { id: 1 };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(_.map(matchingUsers, 'id')).to.have.members([1, 2]);
+        });
+      });
+    });
+
   });
 
   describe('#count', () => {
