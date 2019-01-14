@@ -7,16 +7,9 @@ const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-organization', () => {
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(organizationCreationValidator, 'validate');
-    sandbox.stub(organizationService, 'generateUniqueOrganizationCode');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(organizationCreationValidator, 'validate');
+    sinon.stub(organizationService, 'generateUniqueOrganizationCode');
   });
 
   context('Green cases', () => {

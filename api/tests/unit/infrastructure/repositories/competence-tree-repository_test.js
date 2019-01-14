@@ -5,15 +5,8 @@ const CompetenceTree = require('../../../../lib/domain/models/CompetenceTree');
 
 describe('Unit | Repository | competence-tree-repository', () => {
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(areaRepository, 'listWithCompetences');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(areaRepository, 'listWithCompetences');
   });
 
   describe('#get', () => {

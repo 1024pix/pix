@@ -11,10 +11,6 @@ describe('Unit | Repository | skill-repository', function() {
     sinon.stub(skillDatasource, 'findByCompetenceId');
   });
 
-  afterEach(() => {
-    skillDatasource.findByCompetenceId.restore();
-  });
-
   describe('#findByCompetenceId', function() {
 
     const competenceID = 'competence_id';
@@ -47,24 +43,18 @@ describe('Unit | Repository | skill-repository', function() {
   });
 
   describe('#save', () => {
-    let sandbox;
     let forgeStub;
     let invokeStub;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      invokeStub = sandbox.stub().resolves();
-      forgeStub = sandbox.stub().returns({
+      invokeStub = sinon.stub().resolves();
+      forgeStub = sinon.stub().returns({
         invokeThen: invokeStub
       });
 
-      sandbox.stub(Bookshelf.Collection, 'extend').returns({
+      sinon.stub(Bookshelf.Collection, 'extend').returns({
         forge: forgeStub
       });
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should save assessment skills', () => {

@@ -6,22 +6,12 @@ const tutorialRawAirTableFixture = require('../../../../tooling/fixtures/infrast
 
 describe('Unit | Infrastructure | Datasource | Airtable | TutorialDatasource', () => {
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#get', () => {
 
     it('should call airtable on Tutoriels table with the id and return a datamodel Tutorial object', () => {
       // given
       const givenAirtableTutorial = tutorialRawAirTableFixture();
-      sandbox.stub(airtable, 'getRecord').resolves(givenAirtableTutorial);
+      sinon.stub(airtable, 'getRecord').resolves(givenAirtableTutorial);
 
       // when
       const promise = tutorialDatasource.get(givenAirtableTutorial.getId());

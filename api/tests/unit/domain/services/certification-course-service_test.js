@@ -12,10 +12,6 @@ describe('Unit | Service | Certification Course Service', function() {
     certificationCourseRepositoryUpdateStub = sinon.stub(certificationCourseRepository, 'update');
   });
 
-  afterEach(() => {
-    certificationCourseRepositoryUpdateStub.restore();
-  });
-
   describe('#updatedCertifcationCourse', () => {
 
     const certificationCourse = CertificationCourse.fromAttributes({

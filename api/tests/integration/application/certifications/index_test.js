@@ -18,11 +18,6 @@ describe('Integration | Application | Route | Certifications', () => {
   });
 
   afterEach(() => {
-    certificationController.findUserCertifications.restore();
-    certificationController.updateCertification.restore();
-    certificationController.getCertification.restore();
-    securityController.checkUserHasRolePixMaster.restore();
-
     server.stop();
   });
 

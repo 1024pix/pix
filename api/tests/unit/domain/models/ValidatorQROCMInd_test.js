@@ -7,16 +7,9 @@ const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | ValidatorQROCMInd', () => {
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
 
-    sandbox.stub(solutionServiceQrocmInd, 'match');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(solutionServiceQrocmInd, 'match');
   });
 
   describe('#assess', () => {

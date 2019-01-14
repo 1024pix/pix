@@ -11,10 +11,6 @@ describe('Unit | Application | Use Case | CheckUserIsAuthenticated', () => {
     sinon.stub(tokenService, 'verifyValidity');
   });
 
-  afterEach(() => {
-    tokenService.verifyValidity.restore();
-  });
-
   it('should resolve credentials (ie. userId) when JWT access token is valid', () => {
     // given
     const authenticatedUser = { user_id: 1234 };

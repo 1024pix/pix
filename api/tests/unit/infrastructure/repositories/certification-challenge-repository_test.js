@@ -38,10 +38,6 @@ describe('Unit | Repository | certification-challenge-repository', () => {
       sinon.stub(CertificationChallengeBookshelf.prototype, 'save').resolves(certificationChallengeBookshelf);
     });
 
-    afterEach(() => {
-      CertificationChallengeBookshelf.prototype.save.restore();
-    });
-
     it('should save certification challenge object', () => {
       // when
       const promise = certificationChallengeRepository.save(challengeObject, certificationCourseObject);

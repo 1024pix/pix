@@ -14,16 +14,6 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
   describe('#save', () => {
 
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
     context('when the assessment saved is a smart placement', () => {
 
       const request = {
@@ -43,7 +33,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        sandbox.stub(usecases, 'createAssessmentForCampaign').resolves({});
+        sinon.stub(usecases, 'createAssessmentForCampaign').resolves({});
       });
 
       it('should save an assessment with the type SMART_PLACEMENT and with a fake courseId', async function() {
@@ -96,7 +86,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'save').resolves({});
+        sinon.stub(assessmentRepository, 'save').resolves({});
       });
 
       it('should save an assessment with the type CERTIFICATION', async function() {
@@ -158,7 +148,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'save').resolves({});
+        sinon.stub(assessmentRepository, 'save').resolves({});
       });
 
       it('should save an assessment with type PREVIEW', async function() {
@@ -220,8 +210,8 @@ describe('Unit | Controller | assessment-controller-save', () => {
           state: null,
         });
 
-        sandbox.stub(assessmentSerializer, 'deserialize').returns(assessmentToStart);
-        sandbox.stub(usecases, 'startPlacementAssessment').resolves(startedAssessment);
+        sinon.stub(assessmentSerializer, 'deserialize').returns(assessmentToStart);
+        sinon.stub(usecases, 'startPlacementAssessment').resolves(startedAssessment);
 
         // when
         const promise = controller.save(request, hFake);
@@ -240,8 +230,8 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
         const expectedError = { errors: [{ code: '409', detail: 'Error', title: 'Conflict' }] };
 
-        sandbox.stub(assessmentSerializer, 'deserialize').returns(assessmentToStart);
-        sandbox.stub(usecases, 'startPlacementAssessment').throws(new AssessmentStartError('Error'));
+        sinon.stub(assessmentSerializer, 'deserialize').returns(assessmentToStart);
+        sinon.stub(usecases, 'startPlacementAssessment').throws(new AssessmentStartError('Error'));
 
         // when
         const promise = controller.save(request, hFake);
@@ -284,7 +274,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       const deserializedAssessment = Assessment.fromAttributes({ id: 42, courseId: 'recCourseId', type: 'PLACEMENT' });
-      const assessment = {
+      const assessment = Assessment.fromAttributes({
         id: 42,
         courseId: 'recCourseId',
         createdAt: undefined,
@@ -296,7 +286,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         course: undefined,
         targetProfile: undefined,
         campaignParticipation: undefined,
-      };
+      });
       const serializedAssessment = {
         id: 42,
         attributes: {
@@ -305,10 +295,10 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        sandbox.stub(assessmentSerializer, 'deserialize').returns(deserializedAssessment);
-        sandbox.stub(tokenService, 'extractUserId').returns('userId');
-        sandbox.stub(assessmentRepository, 'save').resolves(deserializedAssessment);
-        sandbox.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
+        sinon.stub(assessmentSerializer, 'deserialize').returns(deserializedAssessment);
+        sinon.stub(tokenService, 'extractUserId').returns('userId');
+        sinon.stub(assessmentRepository, 'save').resolves(deserializedAssessment);
+        sinon.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
       });
 
       it('should de-serialize the payload', () => {
@@ -378,7 +368,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'save');
+        sinon.stub(assessmentRepository, 'save');
       });
 
       it('should throw a badImplementationError', () => {

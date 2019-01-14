@@ -630,7 +630,6 @@ describe('Integration | Domain | strategies | smart-random | SmartRandom', () =>
 
         // This is where we assert the randomness behavior to have deterministic test
         expect(_.sample).to.have.been.called;
-        _.sample.restore();
       });
     });
 

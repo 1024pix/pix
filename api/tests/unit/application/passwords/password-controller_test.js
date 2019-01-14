@@ -37,23 +37,16 @@ describe('Unit | Controller | PasswordController', () => {
         }
       };
 
-      let sandbox;
-
       beforeEach(() => {
-        sandbox = sinon.sandbox.create();
 
-        sandbox.stub(userService, 'isUserExistingByEmail');
-        sandbox.stub(mailService, 'sendResetPasswordDemandEmail');
-        sandbox.stub(resetPasswordService, 'generateTemporaryKey');
-        sandbox.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
-        sandbox.stub(resetPasswordRepository, 'create');
-        sandbox.stub(errorSerializer, 'serialize');
-        sandbox.stub(passwordResetSerializer, 'serialize');
-        sandbox.stub(logger, 'error');
-      });
-
-      afterEach(() => {
-        sandbox.restore();
+        sinon.stub(userService, 'isUserExistingByEmail');
+        sinon.stub(mailService, 'sendResetPasswordDemandEmail');
+        sinon.stub(resetPasswordService, 'generateTemporaryKey');
+        sinon.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
+        sinon.stub(resetPasswordRepository, 'create');
+        sinon.stub(errorSerializer, 'serialize');
+        sinon.stub(passwordResetSerializer, 'serialize');
+        sinon.stub(logger, 'error');
       });
 
       describe('User existence test cases', () => {
@@ -235,7 +228,6 @@ describe('Unit | Controller | PasswordController', () => {
   });
 
   describe('#checkResetDemand', () => {
-    let sandbox;
     const request = {
       params: {
         temporaryKey: 'token'
@@ -251,16 +243,11 @@ describe('Unit | Controller | PasswordController', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(resetPasswordService, 'verifyDemand');
-      sandbox.stub(tokenService, 'verifyValidity').resolves({});
-      sandbox.stub(errorSerializer, 'serialize');
-      sandbox.stub(UserRepository, 'findByEmail').resolves(fetchedUser);
-      sandbox.stub(userSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(resetPasswordService, 'verifyDemand');
+      sinon.stub(tokenService, 'verifyValidity').resolves({});
+      sinon.stub(errorSerializer, 'serialize');
+      sinon.stub(UserRepository, 'findByEmail').resolves(fetchedUser);
+      sinon.stub(userSerializer, 'serialize');
     });
 
     it('should verify temporary key validity (format, signature, expiration)', () => {

@@ -39,10 +39,6 @@ describe('Unit | Service | Certification Challenge Service', function() {
       sinon.stub(certificationChallengeRepository, 'save').resolves({});
     });
 
-    afterEach(() => {
-      certificationChallengeRepository.save.restore();
-    });
-
     context('when profile return one competence with two challenges', () => {
       it('should call certification Challenge Repository save twice', () => {
         //When

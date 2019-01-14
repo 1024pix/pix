@@ -2,25 +2,21 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
+const route = require('../../../../lib/application/sessions');
 
 describe('Unit | Application | Sessions | Routes', () => {
   let server;
 
   beforeEach(() => {
     server = this.server = Hapi.server();
-    return server.register(require('../../../../lib/application/sessions'));
   });
 
   describe('GET /api/sessions/{id}', () => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'get').returns('ok');
-    });
-
-    after(() => {
-      securityController.checkUserHasRolePixMaster.restore();
-      sessionController.get.restore();
+      return server.register(route);
     });
 
     it('should exist', async () => {
@@ -31,14 +27,10 @@ describe('Unit | Application | Sessions | Routes', () => {
 
   describe('GET /api/sessions', () => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'find').returns('ok');
-    });
-
-    after(() => {
-      securityController.checkUserHasRolePixMaster.restore();
-      sessionController.find.restore();
+      return server.register(route);
     });
 
     it('should exist', async () => {
@@ -49,14 +41,10 @@ describe('Unit | Application | Sessions | Routes', () => {
 
   describe('POST /api/session', () => {
 
-    before(() => {
+    beforeEach(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'save').returns('ok');
-    });
-
-    after(() => {
-      securityController.checkUserHasRolePixMaster.restore();
-      sessionController.save.restore();
+      return server.register(route);
     });
 
     it('should exist', async () => {

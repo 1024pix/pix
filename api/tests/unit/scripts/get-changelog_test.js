@@ -57,7 +57,7 @@ describe('Unit | Script | GET Changelog', () => {
   describe('getHeadOfChangelog', () => {
     it('should return the head of changelog in correct value', () => {
       // given
-      const clock = sinon.useFakeTimers();
+      sinon.useFakeTimers();
       const headChangelog = '## v1.0.0 (01/01/1970) \n\n';
       const pullRequestsInMilestone = {
         title: '[BUGFIX] TEST (US-11).',
@@ -70,7 +70,6 @@ describe('Unit | Script | GET Changelog', () => {
       const result = getHeadOfChangelog(pullRequestsInMilestone);
       // then
       expect(result).to.equal(headChangelog);
-      clock.restore();
     });
   });
 
