@@ -7,31 +7,31 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
   describe('#getNextChallengeForSmartPlacement', () => {
 
-    let sandbox, userId, assessmentId, targetProfileId, campaignParticipation,
+    let userId, assessmentId, targetProfileId, campaignParticipation,
       assessment, answers, answerRepository, challengeRepository, challenges,
       smartPlacementKnowledgeElementRepository, recentKnowledgeElements,
       targetProfileRepository, targetProfile, skills, expectedComputedChallenge, actualComputedChallenge;
 
     beforeEach(async () => {
-      sandbox = sinon.sandbox.create();
 
       userId = 'dummyUserId';
       targetProfileId = 'dummyTargetProfileId';
       assessmentId = 'dummyAssessmentId';
 
       answers = [];
-      answerRepository = { findByAssessment: sandbox.stub().resolves(answers) };
+      answerRepository = { findByAssessment: sinon.stub().resolves(answers) };
       challenges = [];
-      challengeRepository = { findBySkills: sandbox.stub().resolves(challenges) };
-      campaignParticipation = { getTargetProfileId: sandbox.stub().returns(targetProfileId) };
+      challengeRepository = { findBySkills: sinon.stub().resolves(challenges) };
+      campaignParticipation = { getTargetProfileId: sinon.stub().returns(targetProfileId) };
       assessment = { id: assessmentId, userId, campaignParticipation };
       skills = [];
       targetProfile = { skills };
-      targetProfileRepository = { get: sandbox.stub().resolves(targetProfile) };
+      targetProfileRepository = { get: sinon.stub().resolves(targetProfile) };
+
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
-      smartPlacementKnowledgeElementRepository = { findUniqByUserId: sandbox.stub().resolves(recentKnowledgeElements) };
+      smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
       expectedComputedChallenge = {};
-      sandbox.stub(SmartRandom, 'getNextChallenge').resolves(expectedComputedChallenge);
+      sinon.stub(SmartRandom, 'getNextChallenge').resolves(expectedComputedChallenge);
 
       actualComputedChallenge = await getNextChallengeForSmartPlacement({
         assessment,
@@ -40,10 +40,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
         smartPlacementKnowledgeElementRepository,
         targetProfileRepository
       });
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should have fetched the answers', () => {
