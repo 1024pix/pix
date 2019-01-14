@@ -363,8 +363,8 @@ describe('Integration | Repository | Organization', function() {
       });
 
       it('should return an empty Array, when organization id is not found', function() {
-        const organizationId = 10083;
-        return organizationRepository.getByUserId(organizationId)
+        const userId = 10083;
+        return organizationRepository.getByUserId(userId)
           .then((organization) => {
             expect(organization).to.deep.equal([]);
           });
