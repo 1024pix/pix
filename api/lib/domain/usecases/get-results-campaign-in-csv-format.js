@@ -167,8 +167,8 @@ function _createOneLineOfCSV(
       const knowledgeElements = allKnowledgeElements
         .filter((ke) => {
           const isKnownBeforeTheEndOfCampaignParticipation = _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt);
-          const isPresentIntTargetProfile = targetProfile.skills.find((skill) => skill.id === ke.skillId);
-          return isKnownBeforeTheEndOfCampaignParticipation && isPresentIntTargetProfile;
+          const isPresentInTargetProfile = targetProfile.skills.find((skill) => skill.id === ke.skillId);
+          return isKnownBeforeTheEndOfCampaignParticipation && isPresentInTargetProfile;
         });
 
       const notCompletedPercentageProgression = _.round(

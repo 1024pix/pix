@@ -66,15 +66,16 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   },
 
   _redirectToSkillReviewPageAfterCreateResultIfNeeded(assessment, campaignCode) {
-    if(!assessment.isCompleted) {
-      return this.get('store')
-        .createRecord('assessment-result', { assessment })
-        .save()
-        .finally(() => {
-          return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
-        });
+    if(assessment.isCompleted) {
+      return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
     }
-    return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
+
+    return this.get('store')
+      .createRecord('assessment-result', { assessment })
+      .save()
+      .finally(() => {
+        return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
+      });
   },
 
   _userIsUnauthenticated() {
