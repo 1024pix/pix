@@ -2,7 +2,7 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 const logger = require('../../infrastructure/logger');
-const skillReviewSerializer = require('../../infrastructure/serializers/jsonapi/skill-review-serializer');
+const smartPlacementProgressionSerializer = require('../../infrastructure/serializers/jsonapi/smart-placement-progression-serializer');
 const usecases = require('../../domain/usecases');
 const { InfrastructureError } = require('../../infrastructure/errors');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
@@ -17,14 +17,14 @@ module.exports = {
   get(request, h) {
     const userId = request.auth.credentials.userId;
 
-    const skillReviewId = request.params.id;
+    const smartPlacementProgressionId = request.params.id;
 
-    return usecases.getSkillReview({
-      skillReviewId,
+    return usecases.getSmartPlacementProgression({
+      smartPlacementProgressionId,
       userId,
     })
-      .then(skillReviewSerializer.serialize)
-      .then((serializedSkillReview) => h.response(serializedSkillReview).code(200))
+      .then(smartPlacementProgressionSerializer.serialize)
+      .then((serializedSmartPlacementProgression) => h.response(serializedSmartPlacementProgression).code(200))
       .catch((error) => {
 
         if (error instanceof UserNotAuthorizedToAccessEntity) {
@@ -40,7 +40,7 @@ module.exports = {
           const jsonApiError = new JSONAPIError({
             title: 'Not Found',
             code: '404',
-            detail: `Profil d’avancement introuvable pour l’id ${skillReviewId}`,
+            detail: `Profil d’avancement introuvable pour l’id ${smartPlacementProgressionId}`,
           });
           return h.response(jsonApiError).code(404);
         }

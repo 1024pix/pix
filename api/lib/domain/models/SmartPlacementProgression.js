@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const SKILL_REVIEW_ID_PREFIX = 'skill-review-';
+const SMART_PLACEMENT_PROGRESSION_ID_PREFIX = 'smart-placement-progression-';
 
 /*
  * Traduction : Profil d'avancement
  */
-class SkillReview {
+class SmartPlacementProgression {
 
   constructor({
     id,
@@ -31,7 +31,7 @@ class SkillReview {
       .map((skillId) => this.targetedSkills.find((skill) => skill.id === skillId));
   }
 
-  get profileMasteryRate() {
+  get masteryRate() {
     const numberOfTargetedSkills = this.targetedSkills.length;
 
     const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this._getValidatedSkills(), 'name');
@@ -40,7 +40,7 @@ class SkillReview {
     return numberOfValidatedSkills / numberOfTargetedSkills;
   }
 
-  get profileCompletionRate() {
+  get completionRate() {
     if(this.isProfileCompleted) {
       return 1;
     }
@@ -54,13 +54,13 @@ class SkillReview {
   }
 
   static generateIdFromAssessmentId(assessmentId) {
-    return `${SKILL_REVIEW_ID_PREFIX}${assessmentId}`;
+    return `${SMART_PLACEMENT_PROGRESSION_ID_PREFIX}${assessmentId}`;
   }
 
-  static getAssessmentIdFromId(skillReviewId) {
-    return parseInt(skillReviewId.replace(SKILL_REVIEW_ID_PREFIX, ''), 10);
+  static getAssessmentIdFromId(smartPlacementProgressionId) {
+    return parseInt(smartPlacementProgressionId.replace(SMART_PLACEMENT_PROGRESSION_ID_PREFIX, ''), 10);
   }
 }
 
-module.exports = SkillReview;
+module.exports = SmartPlacementProgression;
 

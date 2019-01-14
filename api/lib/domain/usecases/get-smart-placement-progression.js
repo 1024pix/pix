@@ -1,16 +1,16 @@
 const moment = require('moment');
-const SkillReview = require('../../../lib/domain/models/SkillReview');
+const SmartPlacementProgression = require('../../../lib/domain/models/SmartPlacementProgression');
 const { UserNotAuthorizedToAccessEntity } = require('../../../lib/domain/errors');
 
-module.exports = async function getSkillReview(
+module.exports = async function getSmartPlacementProgression(
   {
-    skillReviewId,
+    smartPlacementProgressionId,
     userId,
     smartPlacementAssessmentRepository,
     smartPlacementKnowledgeElementRepository
   }) {
 
-  const assessmentId = SkillReview.getAssessmentIdFromId(skillReviewId);
+  const assessmentId = SmartPlacementProgression.getAssessmentIdFromId(smartPlacementProgressionId);
 
   const assessment = await smartPlacementAssessmentRepository.get(assessmentId);
   if(`${assessment.userId}` !== `${userId}`) {
@@ -22,8 +22,8 @@ module.exports = async function getSkillReview(
   const knowledgeElementsBeforeSharedDate = allKnowledgeElements
     .filter((ke) => _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt));
 
-  return new SkillReview({
-    id: skillReviewId,
+  return new SmartPlacementProgression({
+    id: smartPlacementProgressionId,
     targetedSkills: assessment.targetProfile.skills,
     knowledgeElements: knowledgeElementsBeforeSharedDate,
     isProfileCompleted: assessment.isCompleted

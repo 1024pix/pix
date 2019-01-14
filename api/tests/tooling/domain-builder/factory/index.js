@@ -34,7 +34,7 @@ module.exports = {
   buildSkill: require('./build-skill'),
   buildSkillAirtableDataObject: require('./build-skill-airtable-data-object'),
   buildSkillCollection: require('./build-skill-collection'),
-  buildSkillReview: require('./build-skill-review'),
+  buildSmartPlacementProgression: require('./build-smart-placement-progression'),
   buildSolution: require('./build-solution'),
   buildSmartPlacementAnswer: require('./build-smart-placement-answer'),
   buildSmartPlacementAssessment: require('./build-smart-placement-assessment'),

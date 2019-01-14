@@ -77,7 +77,7 @@ module.exports = injectDependencies({
   getOrganizationDetails: require('./get-organization-details.js'),
   getResultsCampaignInCSVFormat: require('./get-results-campaign-in-csv-format'),
   getOrCreateSamlUser: require('./get-or-create-saml-user'),
-  getSkillReview: require('./get-skill-review'),
+  getSmartPlacementProgression: require('./get-smart-placement-progression'),
   getUserCampaignParticipations: require('./get-user-campaign-participations'),
   getUserCertification: require('./get-user-certification'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),

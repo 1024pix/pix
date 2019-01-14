@@ -1,24 +1,24 @@
-const SkillReview = require('../../../../lib/domain/models/SkillReview');
+const SmartPlacementProgression = require('../../../../lib/domain/models/SmartPlacementProgression');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | SkillReview', () => {
+describe('Unit | Domain | Models | SmartPlacementProgression', () => {
 
   const [skillLevel1, skillLevel2, skillLevel3] = domainBuilder.buildSkillCollection();
 
-  describe('#profileMasteryRate', () => {
+  describe('#masteryRate', () => {
 
     context('when there is no knowledge-elements', () => {
 
-      it('should returns the profileMasteryRate of 0 ', () => {
+      it('should returns the masteryRate of 0 ', () => {
         // Given
         const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
         const knowledgeElements = [];
 
         // When
-        const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: true });
+        const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true });
 
         // Then
-        expect(skillReview.profileMasteryRate).to.eq(0);
+        expect(smartPlacementProgression.masteryRate).to.eq(0);
       });
     });
 
@@ -32,10 +32,10 @@ describe('Unit | Domain | Models | SkillReview', () => {
         ];
 
         // When
-        const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
+        const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(skillReview.profileMasteryRate).to.eq(1);
+        expect(smartPlacementProgression.masteryRate).to.eq(1);
       });
 
       it('should returns 0 when there is one skill and one validated knowledge element but not on this skill', () => {
@@ -46,10 +46,10 @@ describe('Unit | Domain | Models | SkillReview', () => {
         ];
 
         // When
-        const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
+        const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(skillReview.profileMasteryRate).to.eq(0);
+        expect(smartPlacementProgression.masteryRate).to.eq(0);
       });
 
       it('should returns the percentage of validated skills when all skills are not tested', () => {
@@ -60,10 +60,10 @@ describe('Unit | Domain | Models | SkillReview', () => {
         ];
 
         // When
-        const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
+        const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(skillReview.profileMasteryRate).to.eq(0.5);
+        expect(smartPlacementProgression.masteryRate).to.eq(0.5);
       });
 
       it('should returns the percentage of validated skills when there is an invalidated one', () => {
@@ -75,10 +75,10 @@ describe('Unit | Domain | Models | SkillReview', () => {
         ];
 
         // When
-        const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
+        const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(skillReview.profileMasteryRate).to.eq(0.5);
+        expect(smartPlacementProgression.masteryRate).to.eq(0.5);
       });
 
     });
@@ -94,32 +94,32 @@ describe('Unit | Domain | Models | SkillReview', () => {
         ];
 
         // When
-        const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
+        const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(skillReview.profileMasteryRate).to.eq(1);
+        expect(smartPlacementProgression.masteryRate).to.eq(1);
       });
 
     });
 
   });
 
-  describe('#profileCompletionRate', () => {
+  describe('#completionRate', () => {
 
     context('when the profile is not fully evaluated', () => {
 
       context('and there is no knowledge elements',() => {
 
-        it('should returns a profileCompletionRate of 0', () => {
+        it('should returns a completionRate of 0', () => {
           // Given
           const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
           const knowledgeElements = [];
 
           // When
-          const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: false });
+          const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: false });
 
           // Then
-          expect(skillReview.profileCompletionRate).to.eq(0);
+          expect(smartPlacementProgression.completionRate).to.eq(0);
         });
 
       });
@@ -135,10 +135,10 @@ describe('Unit | Domain | Models | SkillReview', () => {
           ];
 
           // When
-          const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: false });
+          const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: false });
 
           // Then
-          expect(skillReview.profileCompletionRate).to.eq(1);
+          expect(smartPlacementProgression.completionRate).to.eq(1);
         });
 
         it('should returns a ratio different than 1 when some targeted skills are not evaluated', () => {
@@ -150,10 +150,10 @@ describe('Unit | Domain | Models | SkillReview', () => {
           ];
 
           // When
-          const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: false });
+          const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: false });
 
           // Then
-          expect(skillReview.profileCompletionRate).to.eq(0.6666666666666666);
+          expect(smartPlacementProgression.completionRate).to.eq(0.6666666666666666);
         });
 
       });
@@ -169,10 +169,10 @@ describe('Unit | Domain | Models | SkillReview', () => {
           ];
 
           // When
-          const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: false  });
+          const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: false  });
 
           // Then
-          expect(skillReview.profileCompletionRate).to.eq(1);
+          expect(smartPlacementProgression.completionRate).to.eq(1);
         });
 
       });
@@ -181,16 +181,16 @@ describe('Unit | Domain | Models | SkillReview', () => {
 
     context('when the profile is fully evaluated', () => {
 
-      it('should returns the profileCompletionRate of 1', () => {
+      it('should returns the completionRate of 1', () => {
         // Given
         const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
         const knowledgeElements = [];
 
         // When
-        const skillReview = new SkillReview({ targetedSkills, knowledgeElements, isProfileCompleted: true });
+        const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true });
 
         // Then
-        expect(skillReview.profileCompletionRate).to.eq(1);
+        expect(smartPlacementProgression.completionRate).to.eq(1);
       });
 
     });
@@ -199,28 +199,28 @@ describe('Unit | Domain | Models | SkillReview', () => {
 
   describe('#generateIdFromAssessmentId', () => {
 
-    it('should returns the id prepended with "skill-review-"', () => {
+    it('should returns the id prepended with "smart-placement-progression-"', () => {
       // Given
       const assessmentId = 12345;
-      const expectedSkillReviewId = `skill-review-${assessmentId}`;
+      const expectedSmartPlacementProgressionId = `smart-placement-progression-${assessmentId}`;
 
       // When
-      const skillReviewId = SkillReview.generateIdFromAssessmentId(assessmentId);
+      const smartPlacementProgressionId = SmartPlacementProgression.generateIdFromAssessmentId(assessmentId);
 
       // Then
-      expect(skillReviewId).to.equal(expectedSkillReviewId);
+      expect(smartPlacementProgressionId).to.equal(expectedSmartPlacementProgressionId);
     });
   });
 
   describe('#getAssessmentIdFromId', () => {
 
-    it('should returns the id without the "skill-review-"', () => {
+    it('should returns the id without the "smart-placement-progression-"', () => {
       // Given
       const expectedAssessmentId = 12345;
-      const skillReviewId = `skill-review-${expectedAssessmentId}`;
+      const smartPlacementProgressionId = `smart-placement-progression-${expectedAssessmentId}`;
 
       // When
-      const assessmentId = SkillReview.getAssessmentIdFromId(skillReviewId);
+      const assessmentId = SmartPlacementProgression.getAssessmentIdFromId(smartPlacementProgressionId);
 
       // Then
       expect(assessmentId).to.equal(expectedAssessmentId);
