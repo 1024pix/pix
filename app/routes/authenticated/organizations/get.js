@@ -2,8 +2,13 @@ import Route from '@ember/routing/route';
 
 export default Route.extend({
 
-  model(params) {
-    return this.get('store').findRecord('organization', params.organization_id, { include: 'members' });
-  }
+  async model(params) {
 
+    const store = this.get('store');
+    const organization = await store.findRecord('organization', params.organization_id);
+    const users = await store.query('user', {
+      membershipOrganizationId: organization.id,
+    });
+    return { organization, users };
+  },
 });
