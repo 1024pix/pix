@@ -30,7 +30,7 @@ describe('Integration | Application | Organizations | Routes', () => {
   describe('GET /api/organizations', (_) => {
 
     beforeEach(() => {
-      sinon.stub(organisationController, 'search').returns('ok');
+      sinon.stub(organisationController, 'find').returns('ok');
       return server.register(route);
     });
 

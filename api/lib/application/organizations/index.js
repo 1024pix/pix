@@ -20,7 +20,7 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations',
       config: {
-        handler: organisationController.search,
+        handler: organisationController.find,
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',

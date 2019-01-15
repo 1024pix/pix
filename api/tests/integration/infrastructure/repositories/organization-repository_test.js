@@ -10,6 +10,14 @@ const organizationRepository = require('../../../../lib/infrastructure/repositor
 
 describe('Integration | Repository | Organization', function() {
 
+  beforeEach(() => {
+    return databaseBuilder.clean();
+  });
+
+  afterEach(() => {
+    return databaseBuilder.clean();
+  });
+
   describe('#create', () => {
 
     afterEach(() => {
@@ -421,4 +429,233 @@ describe('Integration | Repository | Organization', function() {
       expect(foundOrganization.user).to.be.undefined;
     });
   });
+
+  describe('#find', () => {
+
+    context('when there are Organizations in the database', () => {
+
+      beforeEach(() => {
+        _.times(3, databaseBuilder.factory.buildOrganization);
+        return databaseBuilder.commit();
+      });
+
+      it('should return an Array of Organizations', async () => {
+        // given
+        const filters = {};
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = organizationRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingOrganizations) => {
+          expect(matchingOrganizations).to.exist;
+          expect(matchingOrganizations).to.have.lengthOf(3);
+          expect(matchingOrganizations[0]).to.be.an.instanceOf(Organization);
+        });
+      });
+
+    });
+
+    context('when there are lots of Organizations (> 10) in the database', () => {
+
+      beforeEach(() => {
+        _.times(12, databaseBuilder.factory.buildOrganization);
+        return databaseBuilder.commit();
+      });
+
+      it('should return paginated matching Organizations', async () => {
+        // given
+        const filters = {};
+        const pagination = { page: 1, pageSize: 3 };
+
+        // when
+        const promise = organizationRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingOrganizations) => {
+          expect(matchingOrganizations).to.have.lengthOf(3);
+        });
+      });
+    });
+
+    context('when there are multiple Organizations matching the same "name" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildOrganization({ name: 'Dragon & co' });
+        databaseBuilder.factory.buildOrganization({ name: 'Dragonades & co' });
+        databaseBuilder.factory.buildOrganization({ name: 'Broca & co' });
+        databaseBuilder.factory.buildOrganization({ name: 'Donnie & co' });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Organizations matching "name" if given in filters', async () => {
+        // given
+        const filters = { name: 'dra' };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = organizationRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingOrganizations) => {
+          expect(matchingOrganizations).to.have.lengthOf(2);
+          expect(_.map(matchingOrganizations, 'name')).to.have.members(['Dragon & co', 'Dragonades & co']);
+        });
+      });
+    });
+
+    context('when there are multiple Organizations matching the same "type" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+        databaseBuilder.factory.buildOrganization({ type: 'PRO' });
+        databaseBuilder.factory.buildOrganization({ type: 'SUP' });
+        databaseBuilder.factory.buildOrganization({ type: 'SCO' });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Organizations matching "type" if given in filters', async () => {
+        // given
+        const filters = { type: 'S' };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = organizationRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingOrganizations) => {
+          expect(_.map(matchingOrganizations, 'type')).to.have.members(['SUP', 'SCO']);
+        });
+      });
+    });
+
+    context('when there are multiple Organizations matching the same "code" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildOrganization({ code: 'AZH578' });
+        databaseBuilder.factory.buildOrganization({ code: 'BFR842' });
+        databaseBuilder.factory.buildOrganization({ code: 'AZH002' });
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Organizations matching "code" if given in filters', async () => {
+        // given
+        const filters = { code: 'AZ' };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = organizationRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingOrganizations) => {
+          expect(_.map(matchingOrganizations, 'code')).to.have.members(['AZH578', 'AZH002']);
+        });
+      });
+    });
+
+    context('when there are multiple Organizations matching the fields "first name", "last name" and "email" search pattern', () => {
+
+      beforeEach(() => {
+        // Matching users
+        databaseBuilder.factory.buildOrganization({ name: 'name_ok_1', type: 'SCO', code: 'c_ok_1' });
+        databaseBuilder.factory.buildOrganization({ name: 'name_ok_2', type: 'SCO', code: 'c_ok_2' });
+        databaseBuilder.factory.buildOrganization({ name: 'name_ok_3', type: 'SCO', code: 'c_ok_3' });
+
+        // Unmatching users
+        databaseBuilder.factory.buildOrganization({ name: 'name_ko_4', type: 'SCO', code: 'c_ok_4' });
+        databaseBuilder.factory.buildOrganization({ name: 'name_ok_5', type: 'SUP', code: 'c_ok_5' });
+        databaseBuilder.factory.buildOrganization({ name: 'name_ok_6', type: 'SCO', code: 'c_ko_1' });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should return only Organizations matching "name" AND "type" AND "code" if given in filters', async () => {
+        // given
+        const filters = { name: 'name_ok', type: 'SCO', code: 'c_ok' };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = organizationRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingOrganizations) => {
+          expect(_.map(matchingOrganizations, 'name')).to.have.members(['name_ok_1', 'name_ok_2', 'name_ok_3']);
+          expect(_.map(matchingOrganizations, 'type')).to.have.members(['SCO', 'SCO', 'SCO']);
+          expect(_.map(matchingOrganizations, 'code')).to.have.members(['c_ok_1', 'c_ok_2', 'c_ok_3']);
+        });
+      });
+    });
+
+    context('when there are filters that should be ignored', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildOrganization({ id: 1 });
+        databaseBuilder.factory.buildOrganization({ id: 2 });
+
+        return databaseBuilder.commit();
+      });
+
+      it('should ignore the filters and retrieve all organizations', () => {
+        // given
+        const filters = { id: 1 };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = organizationRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingOrganizations) => {
+          expect(_.map(matchingOrganizations, 'id')).to.have.members([1, 2]);
+        });
+      });
+    });
+  });
+
+  describe('#count', () => {
+
+    context('when there are multiple Organizations in database', () => {
+
+      beforeEach(() => {
+        _.times(8, databaseBuilder.factory.buildOrganization);
+        return databaseBuilder.commit();
+      });
+
+      it('should return the total number of Organizations when there is no filter', async () => {
+        // given
+        const filters = {};
+
+        // when
+        const promise = organizationRepository.count(filters);
+
+        // then
+        return promise.then((totalMatchingOrganizations) => {
+          expect(totalMatchingOrganizations).to.equal(8);
+        });
+      });
+    });
+
+    context('when there are multiple Organizations matching the same "name" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildOrganization({ name: 'Drago & co' });
+        databaseBuilder.factory.buildOrganization({ name: 'Maxie & co' });
+        return databaseBuilder.commit();
+      });
+
+      it('should return the total number of matching Organizations', async () => {
+        // given
+        const filters = { name: 'dra' };
+
+        // when
+        const promise = organizationRepository.count(filters);
+
+        // then
+        return promise.then((totalMatchingOrganizations) => {
+          expect(totalMatchingOrganizations).to.equal(1);
+        });
+      });
+    });
+  });
+  
 });
