@@ -478,9 +478,6 @@ describe('Acceptance | Application | organization-controller', () => {
               'user': {
                 'data': null
               },
-              'members': {
-                'data': []
-              }
             },
             'type': 'organizations'
           }
