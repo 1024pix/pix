@@ -8,9 +8,9 @@ describe('Unit | Serializer | organization-serializer', () => {
     it('should return a JSON API serialized organization', () => {
       // given
       const organization = domainBuilder.buildOrganization();
-
+      const meta = { some: 'meta' };
       // when
-      const serializedOrganization = serializer.serialize(organization);
+      const serializedOrganization = serializer.serialize(organization, meta);
 
       // then
       expect(serializedOrganization).to.deep.equal({
@@ -27,6 +27,9 @@ describe('Unit | Serializer | organization-serializer', () => {
             user: { data: null },
             members: { data: [] }
           }
+        },
+        meta: {
+          some: 'meta'
         }
       });
     });

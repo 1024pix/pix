@@ -35,6 +35,7 @@ function _replyWithAuthorizationError(h) {
 module.exports = {
 
   checkUserIsAuthenticated(request, h) {
+
     const authorizationHeader = request.headers.authorization;
     const accessToken = tokenService.extractTokenFromAuthChain(authorizationHeader);
 

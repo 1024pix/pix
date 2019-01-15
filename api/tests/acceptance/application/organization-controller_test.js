@@ -17,9 +17,9 @@ function _insertOrganization(userId) {
 
 function _insertUser() {
   const userRaw = {
-    'firstName': 'john',
-    'lastName': 'Doe',
-    'email': 'john.Doe@internet.fr',
+    firstName: 'john',
+    lastName: 'Doe',
+    email: 'john.Doe@internet.fr',
     password: 'Pix2017!'
   };
 
@@ -376,7 +376,7 @@ describe('Acceptance | Application | organization-controller', () => {
     let userId;
     const options = {
       method: 'GET',
-      url: '/api/organizations?filter[code]=AAA111',
+      url: '/api/organizations?code=AAA111&type=Sup&name=the',
       headers: {},
     };
 
@@ -413,7 +413,7 @@ describe('Acceptance | Application | organization-controller', () => {
       });
     });
 
-    it('should return the expected organization with no email nor user', () => {
+    it('should return the expected organization', () => {
       // when
       const promise = server.inject(options);
 
