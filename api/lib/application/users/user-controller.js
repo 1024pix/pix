@@ -181,7 +181,8 @@ module.exports = {
     const filters = {
       firstName: request.query['firstName'],
       lastName: request.query['lastName'],
-      email: request.query['email']
+      email: request.query['email'],
+      organizationId: request.query['organizationId'],
     };
     const pagination = {
       page: request.query['page'] ? request.query['page'] : 1,

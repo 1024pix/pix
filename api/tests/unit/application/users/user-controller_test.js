@@ -702,7 +702,19 @@ describe('Unit | Controller | user-controller', () => {
       expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
     });
 
-    it('should allow to paginate on a given page and page size', async () => {
+    it('should allow to filter users by organizationId', async () => {
+      // given
+      const organizationId = 1;
+      const request = { query: { organizationId } };
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      await userController.find(request, hFake);
+
+      // then
+      const expectedFilters = { organizationId };
+      expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+    });    it('should allow to paginate on a given page and page size', async () => {
       // given
       const request = { query: { page: 2, pageSize: 25 } };
       usecases.findUsers.resolves(new SearchResultList());
