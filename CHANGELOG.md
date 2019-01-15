@@ -1,5 +1,11 @@
 # Pix Changelog
 
+# v2.20.0 (15/01/2019)
+
+- [#312](https://github.com/1024pix/pix/pull/312) [FEATURE] Ajouter de la recherche filtrée et paginée des organisations (PA-60).
+- [#316](https://github.com/1024pix/pix/pull/316) [TECH] Ne pas planter l'application quand Redis est temporairement déconnecté (PA-60).
+- [#314](https://github.com/1024pix/pix/pull/314) [TECH] Mise à jour de sinon.js (API).
+
 ## v2.19.0 (10/01/2019)
 
 - [#307](https://github.com/1024pix/pix/pull/307) [TECH] Retirer l'ancien algorithme CAT du système de calcul du score (PF-476).
