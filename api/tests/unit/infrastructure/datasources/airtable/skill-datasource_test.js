@@ -8,22 +8,12 @@ const _ = require('lodash');
 
 describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () => {
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#get', () => {
 
     it('should call airtable on Acquis table with the id and return a datamodel Skill object', () => {
       // given
       const rawSkill = skillRawAirTableFixture();
-      sandbox.stub(airtable, 'getRecord').withArgs('Acquis', rawSkill.id).resolves(rawSkill);
+      sinon.stub(airtable, 'getRecord').withArgs('Acquis', rawSkill.id).resolves(rawSkill);
 
       // when
       const promise = skillDatasource.get(rawSkill.id);
@@ -55,7 +45,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       rawSkill4.id = 'FAKE_REC_ID_RAW_SKILL_4' ;
       rawSkill4.fields['Status'] = 'périmé';
 
-      sandbox.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2, rawSkill3, rawSkill4]);
+      sinon.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2, rawSkill3, rawSkill4]);
 
       // when
       const promise = skillDatasource.findByRecordIds([rawSkill1.id, rawSkill2.id, rawSkill4.id]);
@@ -76,7 +66,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
     it('should query Airtable skills with empty query', () => {
       // given
-      sandbox.stub(airtable, 'findRecords').resolves([]);
+      sinon.stub(airtable, 'findRecords').resolves([]);
 
       // when
       const promise = skillDatasource.list();
@@ -92,7 +82,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       const
         rawSkill1 = skillRawAirTableFixture(),
         rawSkill2 = skillRawAirTableFixture();
-      sandbox.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2]);
+      sinon.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2]);
 
       // when
       const promise = skillDatasource.list();
@@ -111,7 +101,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
         rawSkill2 = skillRawAirTableFixture(),
         rawSkill3 = skillRawAirTableFixture();
       rawSkill3.fields['Status'] = 'périmé';
-      sandbox.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2, rawSkill3]);
+      sinon.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2, rawSkill3]);
 
       // when
       const promise = skillDatasource.list();
@@ -131,7 +121,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix2', 'Status': 'actif', 'Compétence': [ 'recCompetence' ] } });
       const acquix3 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix3', 'Status': 'en construction', 'Compétence': [ 'recCompetence' ] } });
       const acquix4 = new AirtableRecord('Acquis', 'recAcquix4', { fields: { 'Nom': '@acquix4', 'Status': 'actif', 'Compétence': [ 'recOtherCompetence' ] } });
-      sandbox.stub(airtable, 'findRecords')
+      sinon.stub(airtable, 'findRecords')
         .withArgs('Acquis')
         .resolves([acquix1, acquix2, acquix3, acquix4]);
     });

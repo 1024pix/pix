@@ -8,8 +8,6 @@ const _ = require('lodash');
 
 describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
 
-  let sandbox;
-
   const
     competence1 = { id: 'competence1' },
     competence2 = { id: 'competence2' },
@@ -51,21 +49,13 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       fields: { Acquix: [ web3.id ] }
     });
 
-  beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe('#list', () => {
 
     let promise;
 
     beforeEach(() => {
       // when
-      sandbox.stub(airtable, 'findRecords').resolves([
+      sinon.stub(airtable, 'findRecords').resolves([
         challenge_competence1,
         challenge_competence1_notValidated,
       ]);
@@ -92,7 +82,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     it('should call airtable on Epreuves table with the id and return a datamodel Challenge object', () => {
       // given
-      sandbox.stub(airtable, 'getRecord').resolves(challengeRawAirTableFixture());
+      sinon.stub(airtable, 'getRecord').resolves(challengeRawAirTableFixture());
 
       // when
       const promise = challengeDatasource.get('243');
@@ -111,7 +101,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
       it('should reject with a specific error when resource not found', () => {
         // given
-        sandbox.stub(airtable, 'getRecord').rejects(new AirtableError('NOT_FOUND'));
+        sinon.stub(airtable, 'getRecord').rejects(new AirtableError('NOT_FOUND'));
 
         // when
         const promise = challengeDatasource.get('243');
@@ -122,7 +112,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
       it('should reject with the original error in any other case', () => {
         // given
-        sandbox.stub(airtable, 'getRecord').rejects(new AirtableError('SERVICE_UNAVAILABLE'));
+        sinon.stub(airtable, 'getRecord').rejects(new AirtableError('SERVICE_UNAVAILABLE'));
 
         // when
         const promise = challengeDatasource.get('243');
@@ -136,7 +126,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
   describe('#findBySkillIds', () => {
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords').resolves([
+      sinon.stub(airtable, 'findRecords').resolves([
         challenge_web1,
         challenge_web1_notValidated,
         challenge_web2,
@@ -168,7 +158,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     beforeEach(() => {
       // given
-      sandbox.stub(airtable, 'findRecords').resolves([
+      sinon.stub(airtable, 'findRecords').resolves([
         challenge_competence1,
         challenge_competence1_noSkills,
         challenge_competence1_notValidated,

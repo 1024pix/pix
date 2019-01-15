@@ -3,6 +3,7 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
 const Organization = require('../../../../lib/domain/models/Organization');
+const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
@@ -19,19 +20,13 @@ const targetProfileSerializer = require('../../../../lib/infrastructure/serializ
 
 describe('Unit | Application | Organizations | organization-controller', () => {
 
-  let sandbox;
   let request;
 
   describe('#getOrganizationDetails', () => {
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(usecases, 'getOrganizationDetails');
-      sandbox.stub(organizationSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'getOrganizationDetails');
+      sinon.stub(organizationSerializer, 'serialize');
     });
 
     it('should call the usecase and serialize the response', async () => {
@@ -55,10 +50,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#create', () => {
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
 
-      sandbox.stub(usecases, 'createOrganization');
-      sandbox.stub(organizationSerializer, 'serialize');
+      sinon.stub(usecases, 'createOrganization');
+      sinon.stub(organizationSerializer, 'serialize');
 
       request = {
         payload: {
@@ -70,10 +64,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           }
         }
       };
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     context('successful case', () => {
@@ -186,106 +176,126 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#search', () => {
-
-    let sandbox;
-    const arrayOfSerializedOrganization = [{ code: 'AAA111' }, { code: 'BBB222' }];
-    const arrayOfOrganizations = [new Organization({ code: 'AAA111' }), new Organization({ code: 'BBB222' })];
+  describe('#find', () => {
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-
-      sandbox.stub(logger, 'error');
-      sandbox.stub(organizationService, 'search').resolves(arrayOfOrganizations);
-      sandbox.stub(organizationSerializer, 'serialize').returns(arrayOfSerializedOrganization);
+      sinon.stub(usecases, 'findOrganizations');
+      sinon.stub(organizationSerializer, 'serialize');
     });
 
     afterEach(() => {
-      sandbox.restore();
+      usecases.findOrganizations.restore();
+      organizationSerializer.serialize.restore();
     });
 
-    it('should retrieve organizations with one filter', async () => {
+    it('should return a list of JSON API organizations fetched from the data repository', async () => {
       // given
-      const userId = 1234;
-      const request = {
-        auth: { credentials: { userId: 1234 } },
-        query: { 'filter[query]': 'my search' }
-      };
+      const request = { query: {} };
+      usecases.findOrganizations.resolves(new SearchResultList());
+      organizationSerializer.serialize.returns({ data: {}, meta: {} });
 
       // when
-      await organizationController.search(request, hFake);
+      await organizationController.find(request, hFake);
 
       // then
-      sinon.assert.calledWith(organizationService.search, userId, { query: 'my search' });
+      expect(usecases.findOrganizations).to.have.been.calledOnce;
+      expect(organizationSerializer.serialize).to.have.been.calledOnce;
     });
 
-    it('should retrieve organizations with two different filters', async () => {
+    it('should return a JSON API response with pagination information in the data field "meta"', async () => {
       // given
-      const userId = 1234;
-      const request = {
-        auth: { credentials: { userId } },
-        query: {
-          'filter[query]': 'my search',
-          'filter[code]': 'with params'
-        }
-      };
+      const request = { query: {} };
+      const searchResultList = new SearchResultList({
+        page: 2,
+        pageSize: 25,
+        totalResults: 100,
+        paginatedResults: [new Organization({ id: 1 }), new Organization({ id: 2 }), new Organization({ id: 3 })],
+      });
+      usecases.findOrganizations.resolves(searchResultList);
 
       // when
-      await organizationController.search(request, hFake);
+      await organizationController.find(request, hFake);
 
       // then
-      sinon.assert.calledWith(organizationService.search, userId, { query: 'my search', code: 'with params' });
+      const expectedResults = searchResultList.paginatedResults;
+      const expectedMeta = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, };
+      expect(organizationSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedMeta);
     });
 
-    it('should reply 500 and log while getting data is on error', async () => {
+    it('should allow to filter organization by name', async () => {
       // given
-      const error = new Error('Fail');
-      organizationService.search.rejects(error);
-      const request = {
-        auth: { credentials: { userId: 1234 } },
-        query: { 'filter[first]': 'with params' }
-      };
+      const request = { query: { name: 'organization_name' } };
+      usecases.findOrganizations.resolves(new SearchResultList());
 
       // when
-      const promise = organizationController.search(request, hFake);
+      await organizationController.find(request, hFake);
 
       // then
-      await expect(promise).to.be.rejectedWith('Fail');
-      sinon.assert.calledOnce(organizationService.search);
-      sinon.assert.calledWith(logger.error, error);
+      const expectedFilters = { name: 'organization_name' };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ filters: expectedFilters });
     });
 
-    it('should serialize results', async () => {
+    it('should allow to filter organization by code', async () => {
       // given
-      const request = {
-        auth: { credentials: { userId: 1234 } },
-        query: { 'filter[first]': 'with params' }
-      };
+      const request = { query: { code: 'organization_code' } };
+      usecases.findOrganizations.resolves(new SearchResultList());
 
       // when
-      const response = await organizationController.search(request, hFake);
+      await organizationController.find(request, hFake);
 
       // then
-      expect(response).to.deep.equal(arrayOfSerializedOrganization);
+      const expectedFilters = { code: 'organization_code' };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ filters: expectedFilters });
     });
 
+    it('should allow to filter users by type', async () => {
+      // given
+      const request = { query: { type: 'organization_type' } };
+      usecases.findOrganizations.resolves(new SearchResultList());
+
+      // when
+      await organizationController.find(request, hFake);
+
+      // then
+      const expectedFilters = { type: 'organization_type' };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ filters: expectedFilters });
+    });
+
+    it('should allow to paginate on a given page and page size', async () => {
+      // given
+      const request = { query: { page: 2, pageSize: 25 } };
+      usecases.findOrganizations.resolves(new SearchResultList());
+
+      // when
+      await organizationController.find(request, hFake);
+
+      // then
+      const expectedPagination = { page: 2, pageSize: 25 };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ pagination: expectedPagination });
+    });
+
+    it('should paginate on page 1 for a page size of 10 elements by default', async () => {
+      // given
+      const request = { query: {} };
+      usecases.findOrganizations.resolves(new SearchResultList());
+
+      // when
+      await organizationController.find(request, hFake);
+
+      // then
+      const expectedPagination = { page: 1, pageSize: 10 };
+      expect(usecases.findOrganizations).to.have.been.calledWithMatch({ pagination: expectedPagination });
+    });
   });
 
   describe('#getSharedProfiles', () => {
 
-    let sandbox;
-
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(logger, 'error');
-      sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
-      sandbox.stub(snapshotSerializer, 'serialize');
-      sandbox.stub(validationErrorSerializer, 'serialize');
-      sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(logger, 'error');
+      sinon.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
+      sinon.stub(snapshotSerializer, 'serialize');
+      sinon.stub(validationErrorSerializer, 'serialize');
+      sinon.stub(bookshelfUtils, 'mergeModelWithRelationship');
     });
 
     describe('Collaborations', () => {
@@ -403,11 +413,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(validationErrorSerializer, 'serialize');
     });
 
-    afterEach(() => {
-      usecases.writeOrganizationSharedProfilesAsCsvToStream.restore();
-      validationErrorSerializer.serialize.restore();
-    });
-
     it('should call the use case service that exports shared profile of an organization as CSV (and reply an HTTP response)', async () => {
       // given
       const request = {
@@ -473,7 +478,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
   describe('#getCampaigns', () => {
 
-    let sandbox;
     let organizationId;
     let request;
     let campaign;
@@ -492,13 +496,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       campaign = domainBuilder.buildCampaign();
       serializedCampaigns = { data: [{ name: campaign.name, code: campaign.code }] };
 
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(usecases, 'getOrganizationCampaigns');
-      sandbox.stub(campaignSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(usecases, 'getOrganizationCampaigns');
+      sinon.stub(campaignSerializer, 'serialize');
     });
 
     it('should call the usecase to get the campaigns', async () => {
@@ -552,16 +551,11 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     const organizationId = '145';
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId }
       };
-      sandbox.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization').resolves();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization').resolves();
     });
 
     it('should call usecases with appropriated arguments', async () => {
@@ -581,7 +575,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         // given
         foundTargetProfiles = [domainBuilder.buildTargetProfile()];
         organizationService.findAllTargetProfilesAvailableForOrganization.resolves(foundTargetProfiles);
-        sandbox.stub(targetProfileSerializer, 'serialize');
+        sinon.stub(targetProfileSerializer, 'serialize');
       });
 
       it('should serialize the array of target profile', async () => {
@@ -610,7 +604,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     context('error cases', () => {
 
       beforeEach(() => {
-        sandbox.stub(logger, 'error');
+        sinon.stub(logger, 'error');
       });
 
       it('should log the error and reply with 500 error', async () => {

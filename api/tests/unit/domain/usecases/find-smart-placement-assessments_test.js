@@ -8,16 +8,6 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
     },
   };
 
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   it('should resolve assessments that match userId and belong to the user but has no campaign participation', () => {
     // given
     const userId = 1234;
@@ -26,7 +16,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
       ...filters,
       userId,
     });
-    sandbox.stub(assessmentRepository, 'findSmartPlacementAssessmentsByUserId').resolves([assessment]);
+    sinon.stub(assessmentRepository, 'findSmartPlacementAssessmentsByUserId').resolves([assessment]);
 
     // when
     const promise = findSmartPlacementAssessments({ userId, filters, assessmentRepository });
@@ -48,7 +38,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
       userId,
       campaignParticipation
     });
-    sandbox.stub(assessmentRepository, 'findSmartPlacementAssessmentsByUserId').resolves([assessment]);
+    sinon.stub(assessmentRepository, 'findSmartPlacementAssessmentsByUserId').resolves([assessment]);
 
     // when
     const promise = findSmartPlacementAssessments({ userId, filters, assessmentRepository });

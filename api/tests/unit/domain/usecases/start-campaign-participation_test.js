@@ -6,7 +6,6 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | start-campaign-participation', () => {
 
-  let sandbox;
   const userId = 19837482;
   const campaignParticipation = domainBuilder.buildCampaignParticipation({});
   const campaignRepository = { get: () => undefined };
@@ -14,16 +13,11 @@ describe('Unit | UseCase | start-campaign-participation', () => {
   const assessmentRepository = { save: () => undefined };
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(campaignRepository, 'get');
-    sandbox.stub(campaignParticipationRepository, 'save');
-    sandbox.stub(assessmentRepository, 'save');
+    sinon.stub(campaignRepository, 'get');
+    sinon.stub(campaignParticipationRepository, 'save');
+    sinon.stub(assessmentRepository, 'save');
 
     campaignRepository.get.resolves(domainBuilder.buildCampaign());
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   it('should throw an error if the campaign does not exists', () => {

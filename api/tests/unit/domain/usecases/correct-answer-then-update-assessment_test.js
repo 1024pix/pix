@@ -9,8 +9,6 @@ const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../li
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
 
-  let sandbox;
-
   const answerRepository = {
     hasChallengeAlreadyBeenAnswered: () => undefined,
     save: () => undefined,
@@ -20,18 +18,13 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   const smartPlacementKnowledgeElementRepository = { save: () => undefined };
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
 
-    sandbox.stub(answerRepository, 'hasChallengeAlreadyBeenAnswered');
-    sandbox.stub(answerRepository, 'save');
-    sandbox.stub(challengeRepository, 'get');
-    sandbox.stub(smartPlacementAssessmentRepository, 'get');
-    sandbox.stub(smartPlacementKnowledgeElementRepository, 'save');
-    sandbox.stub(SmartPlacementKnowledgeElement, 'createKnowledgeElementsForAnswer');
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(answerRepository, 'hasChallengeAlreadyBeenAnswered');
+    sinon.stub(answerRepository, 'save');
+    sinon.stub(challengeRepository, 'get');
+    sinon.stub(smartPlacementAssessmentRepository, 'get');
+    sinon.stub(smartPlacementKnowledgeElementRepository, 'save');
+    sinon.stub(SmartPlacementKnowledgeElement, 'createKnowledgeElementsForAnswer');
   });
 
   context('when an answer for that challenge and that assessment already exists', () => {

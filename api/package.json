@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "2.19.0",
+  "version": "2.20.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "main": "server.js",
   "author": "SGMAP",
@@ -68,8 +68,8 @@
     "nodemon": "^1.17.2",
     "nyc": "^13.0.1",
     "plop": "^2.1.0",
-    "sinon": "^4.4.3",
-    "sinon-chai": "^3.0.0"
+    "sinon": "^7.2.2",
+    "sinon-chai": "^3.3.0"
   },
   "scripts": {
     "clean": "rm -rf node_modules db/*.sqlite3",

@@ -1,6 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const ChallengeController = require('../../../../lib/application/challenges/challenge-controller');
+const route = require('../../../../lib/application/challenges');
 
 describe('Unit | Router | challenge-router', function() {
 
@@ -8,18 +9,14 @@ describe('Unit | Router | challenge-router', function() {
 
   beforeEach(function() {
     server = Hapi.server();
-
-    return server.register(require('../../../../lib/application/challenges'));
   });
 
   describe('GET /api/challenges/{id}', function() {
 
-    before(function() {
+    beforeEach(function() {
       sinon.stub(ChallengeController, 'get').returns('ok');
-    });
 
-    after(function() {
-      ChallengeController.get.restore();
+      return server.register(route);
     });
 
     it('should exist', async () => {

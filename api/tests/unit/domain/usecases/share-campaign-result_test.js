@@ -4,7 +4,6 @@ const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | UseCase | share-campaign-result', () => {
 
-  let sandbox;
   let user;
   let userId;
   let assessment;
@@ -29,13 +28,8 @@ describe('Unit | UseCase | share-campaign-result', () => {
     assessmentId = assessment.id;
     campaignParticipation = domainBuilder.buildCampaignParticipation({ assessmentId });
 
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(smartPlacementAssessmentRepository, 'checkIfAssessmentBelongToUser');
-    sandbox.stub(campaignParticipationRepository, 'get').resolves();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(smartPlacementAssessmentRepository, 'checkIfAssessmentBelongToUser');
+    sinon.stub(campaignParticipationRepository, 'get').resolves();
   });
 
   context('when the share request comes from the owner of the assessment', () => {
@@ -55,7 +49,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
           isShared: true
         });
 
-        sandbox.stub(campaignParticipationRepository, 'updateCampaignParticipation')
+        sinon.stub(campaignParticipationRepository, 'updateCampaignParticipation')
           .resolves(expectedCampaignParticipation);
       });
 

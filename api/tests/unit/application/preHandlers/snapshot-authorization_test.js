@@ -6,7 +6,6 @@ const organizationRepository = require('../../../../lib/infrastructure/repositor
 describe('Unit | Pre-handler | Snapshot Authorization', () => {
 
   describe('#verify', () => {
-    let sandbox;
     const request = {
       headers: { },
       params: {
@@ -18,14 +17,9 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(tokenService, 'extractTokenFromAuthChain');
-      sandbox.stub(tokenService, 'extractUserId');
-      sandbox.stub(organizationRepository, 'getByUserId');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(tokenService, 'extractUserId');
+      sinon.stub(organizationRepository, 'getByUserId');
     });
 
     it('should get userId from token in queryString', () => {

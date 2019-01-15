@@ -90,9 +90,6 @@ describe('Unit | Service | SolutionService', function() {
       service.revalidate(new Answer(ko_answer)).then(function(foundAnswer) {
 
         // then
-        solutionRepository.getByChallengeId.restore();
-        service.validate.restore();
-
         expect(solutionRepository.getByChallengeId.callOnce);
         expect(service.validate.callOnce);
         expect(foundAnswer.id).equals(ko_answer.id);
@@ -117,9 +114,6 @@ describe('Unit | Service | SolutionService', function() {
       service.revalidate(new Answer(ok_answer)).then(function(foundAnswer) {
 
         // then
-        solutionRepository.getByChallengeId.restore();
-        service.validate.restore();
-
         expect(solutionRepository.getByChallengeId.callOnce);
         expect(service.validate.callOnce);
         expect(foundAnswer.id).equals(ok_answer.id);
@@ -144,9 +138,6 @@ describe('Unit | Service | SolutionService', function() {
       service.revalidate(new Answer(unimplemented_answer)).then(function(foundAnswer) {
 
         // then
-        solutionRepository.getByChallengeId.restore();
-        service.validate.restore();
-
         expect(solutionRepository.getByChallengeId.callOnce);
         expect(service.validate.callOnce);
         expect(foundAnswer.id).equals(unimplemented_answer.id);

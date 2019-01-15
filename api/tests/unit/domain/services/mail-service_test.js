@@ -14,10 +14,6 @@ describe('Unit | Service | MailService', () => {
       sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
     });
 
-    afterEach(() => {
-      sendEmailStub.restore();
-    });
-
     it('should use mailJet to send an email', () => {
       // given
       const email = 'text@example.net';
@@ -44,10 +40,6 @@ describe('Unit | Service | MailService', () => {
 
     beforeEach(() => {
       sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
-    });
-
-    afterEach(() => {
-      sendEmailStub.restore();
     });
 
     it('should use mailJet to send an email', () => {
@@ -90,13 +82,6 @@ describe('Unit | Service | MailService', () => {
       lodashSampleSpy = sinon.spy(_, 'sample');
       getContactListByNameStub = sinon.stub(mailJet, 'getContactListByName').resolves(contactListDetails);
       addEmailToContactListStub = sinon.stub(mailJet, 'addEmailToContactList').resolves();
-    });
-
-    afterEach(() => {
-      lodashSampleSpy.restore();
-      getContactListByNameStub.restore();
-      addEmailToContactListStub.restore();
-      errorStub.restore();
     });
 
     it('should randomly pick a contact list', () => {
@@ -165,10 +150,6 @@ describe('Unit | Service | MailService', () => {
 
     beforeEach(() => {
       sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
-    });
-
-    afterEach(() => {
-      sendEmailStub.restore();
     });
 
     it('should be a function', () => {

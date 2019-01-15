@@ -5,16 +5,9 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | UseCase | preload-cache-entries', () => {
 
-  let sandbox;
-
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(preloader, 'loadAllTables').resolves();
-    sandbox.stub(logger, 'info').returns();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    sinon.stub(preloader, 'loadAllTables').resolves();
+    sinon.stub(logger, 'info').returns();
   });
 
   it('should load Airtable objects', () => {

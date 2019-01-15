@@ -34,6 +34,19 @@ function _toDomain(bookshelfOrganization) {
   return organization;
 }
 
+function _setSearchFiltersForQueryBuilder(filters, qb) {
+  const { name, type, code } = filters;
+  if (name) {
+    qb.whereRaw('LOWER("name") LIKE ?', `%${name.toLowerCase()}%`);
+  }
+  if (type) {
+    qb.whereRaw('LOWER("type") LIKE ?', `%${type.toLowerCase()}%`);
+  }
+  if (code) {
+    qb.whereRaw('LOWER("code") LIKE ?', `%${code.toLowerCase()}%`);
+  }
+}
+
 module.exports = {
 
   create(organization) {
@@ -101,6 +114,17 @@ module.exports = {
       .where(filters)
       .fetchAll()
       .then((organizations) => organizations.models.map(_toDomain));
+  },
+
+  find(filters, pagination) {
+    const { page, pageSize } = pagination;
+    return BookshelfOrganization.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb))
+      .fetchPage({ page, pageSize })
+      .then((results) => results.map(_toDomain));
+  },
+
+  count(filters) {
+    return BookshelfOrganization.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb)).count();
   },
 
   // TODO return domain object

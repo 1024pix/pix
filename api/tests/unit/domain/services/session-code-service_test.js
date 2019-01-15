@@ -6,19 +6,9 @@ describe('Unit | Service | CodeSession', () => {
 
   describe('#isSessionCodeAvailable', () => {
 
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
     it('should return a session code with 4 random capital letters and 2 random numbers', () => {
       // given
-      sandbox.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
+      sinon.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
 
       // when
       const promise = sessionCodeService.getNewSessionCode();
@@ -31,7 +21,7 @@ describe('Unit | Service | CodeSession', () => {
 
     it('should call Repository isSessionCodeAvailable to validate code unicity', () => {
       // given
-      sandbox.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
+      sinon.stub(sessionRepository, 'isSessionCodeAvailable').resolves(true);
 
       // when
       const promise = sessionCodeService.getNewSessionCode();
@@ -45,7 +35,7 @@ describe('Unit | Service | CodeSession', () => {
 
     it('should call Repository isSessionCodeAvailable twice if first code was not unique', () => {
       // given
-      sandbox.stub(sessionRepository, 'isSessionCodeAvailable')
+      sinon.stub(sessionRepository, 'isSessionCodeAvailable')
         .onCall(0).resolves(false)
         .onCall(1).resolves(true);
 
@@ -61,19 +51,9 @@ describe('Unit | Service | CodeSession', () => {
 
   describe('#getSessionByAccessCode', () => {
 
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
     it('should return true if session exists with this accessCode', () => {
       // given
-      sandbox.stub(sessionRepository, 'getByAccessCode').resolves({ id: 1 });
+      sinon.stub(sessionRepository, 'getByAccessCode').resolves({ id: 1 });
 
       // when
       const promise = sessionCodeService.getSessionByAccessCode('ABCD12');
@@ -86,7 +66,7 @@ describe('Unit | Service | CodeSession', () => {
 
     it('should return false if accessCode does not link to a session', () => {
       // given
-      sandbox.stub(sessionRepository, 'getByAccessCode').resolves(null);
+      sinon.stub(sessionRepository, 'getByAccessCode').resolves(null);
 
       // when
       const promise = sessionCodeService.getSessionByAccessCode('BBAAAHHHHH');

@@ -20,9 +20,8 @@ describe('Unit | Service | google-recaptcha-validator', () => {
 
     it('should call google verify with good url and query parameters', function() {
       // given
-      const requestPostStub = sinon.stub(request, 'post').callsFake((uri, cb) => {
+      sinon.stub(request, 'post').callsFake((uri, cb) => {
         // then
-        requestPostStub.restore();
         expect(uri).to.equal(`https://www.google.com/recaptcha/api/siteverify?secret=${googleReCaptcha.secret}&response=${RECAPTCHA_TOKEN}`);
 
         cb(null, SUCCESSFULL_VERIFICATION_RESPONSE);
@@ -35,12 +34,8 @@ describe('Unit | Service | google-recaptcha-validator', () => {
     describe('Success case', function() {
       let requestPostErrorStub;
 
-      before(() => {
+      beforeEach(() => {
         requestPostErrorStub = sinon.stub(request, 'post');
-      });
-
-      after(() => {
-        requestPostErrorStub.restore();
       });
 
       it('should return a resolved promise when user response token is valid', function() {
@@ -65,11 +60,6 @@ describe('Unit | Service | google-recaptcha-validator', () => {
       beforeEach(() => {
         loggerStub = sinon.stub(logger, 'error').returns({});
         requestPostErrorStub = sinon.stub(request, 'post');
-      });
-
-      afterEach(() => {
-        loggerStub.restore();
-        requestPostErrorStub.restore();
       });
 
       it('should return a rejected promise, when user response token is invalid', function() {

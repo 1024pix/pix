@@ -89,10 +89,6 @@ describe('Unit | Repository | SnapshotRepository', function() {
       sinon.spy(Snapshot.prototype, 'save');
     });
 
-    afterEach(() => {
-      Snapshot.prototype.save.restore();
-    });
-
     it('should save a snapshot', () => {
       // when
       const promise = snapshotRepository.save(snapshot);
@@ -109,10 +105,6 @@ describe('Unit | Repository | SnapshotRepository', function() {
 
     beforeEach(() => {
       sinon.stub(Snapshot.prototype, 'where');
-    });
-
-    afterEach(() => {
-      Snapshot.prototype.where.restore();
     });
 
     it('should be a function', () => {

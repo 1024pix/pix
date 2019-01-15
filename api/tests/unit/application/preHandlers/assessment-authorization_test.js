@@ -6,7 +6,6 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 describe('Unit | Pre-handler | Assessment Authorization', () => {
 
   describe('#verify', () => {
-    let sandbox;
     const request = {
       headers: { authorization: 'VALID_TOKEN' },
       params: {
@@ -15,14 +14,9 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(tokenService, 'extractTokenFromAuthChain');
-      sandbox.stub(tokenService, 'extractUserId');
-      sandbox.stub(assessmentRepository, 'getByUserIdAndAssessmentId');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      sinon.stub(tokenService, 'extractUserId');
+      sinon.stub(assessmentRepository, 'getByUserIdAndAssessmentId');
     });
 
     it('should be a function', () => {

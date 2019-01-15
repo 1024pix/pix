@@ -6,15 +6,6 @@ const logger = require('../../../../lib/infrastructure/logger');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
 
 describe('Unit | Controller | cache-controller', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   describe('#reloadCacheEntry', () => {
 
@@ -25,7 +16,7 @@ describe('Unit | Controller | cache-controller', () => {
     };
 
     beforeEach(() => {
-      sandbox.stub(usecases, 'reloadCacheEntry');
+      sinon.stub(usecases, 'reloadCacheEntry');
     });
 
     it('should reply with 204 when the cache key exists', async () => {
@@ -103,10 +94,6 @@ describe('Unit | Controller | cache-controller', () => {
       sinon.stub(usecases, 'removeAllCacheEntries');
     });
 
-    afterEach(() => {
-      usecases.removeAllCacheEntries.restore();
-    });
-
     it('should reply with 204 when there is no error', async () => {
       // given
       usecases.removeAllCacheEntries.resolves();
@@ -145,10 +132,6 @@ describe('Unit | Controller | cache-controller', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'preloadCacheEntries');
-    });
-
-    afterEach(() => {
-      usecases.preloadCacheEntries.restore();
     });
 
     it('should reply with 204 when there is no error', async () => {

@@ -7,7 +7,6 @@ const errorSerializer = require('../../../../lib/infrastructure/serializers/json
 describe('Unit | Pre-handler | User Verification', () => {
 
   describe('#verifyById', () => {
-    let sandbox;
     const request = {
       params: {
         id: 7
@@ -15,13 +14,8 @@ describe('Unit | Pre-handler | User Verification', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(userRepository, 'findUserById');
-      sandbox.stub(errorSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      sinon.stub(userRepository, 'findUserById');
+      sinon.stub(errorSerializer, 'serialize');
     });
 
     it('should be a function', () => {

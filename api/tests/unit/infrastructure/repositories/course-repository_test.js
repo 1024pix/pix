@@ -76,16 +76,10 @@ const courses = [
   }),
 ];
 
-const sandbox = sinon.sandbox.create();
-
-afterEach(() => {
-  sandbox.restore();
-});
-
 describe('Unit | Repository | course-repository', function() {
 
   beforeEach(() => {
-    sandbox.stub(airtable, 'findRecords')
+    sinon.stub(airtable, 'findRecords')
       .withArgs('Tests')
       .resolves(courses);
   });
@@ -93,7 +87,7 @@ describe('Unit | Repository | course-repository', function() {
   describe('#get', function() {
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'getRecord')
+      sinon.stub(airtable, 'getRecord')
         .withArgs('Tests', 'recTestAdaptative')
         .resolves(adaptativeCourse);
     });

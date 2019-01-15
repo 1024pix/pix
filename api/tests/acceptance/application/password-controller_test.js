@@ -72,10 +72,6 @@ describe('Acceptance | Controller | password-controller', () => {
         sinon.stub(mailjetService, 'sendResetPasswordDemandEmail').resolves();
       });
 
-      afterEach(() => {
-        mailjetService.sendResetPasswordDemandEmail.restore();
-      });
-
       it('should reply with 201', () => {
         // when
         const promise = server.inject(options);
@@ -102,10 +98,6 @@ describe('Acceptance | Controller | password-controller', () => {
         };
 
         sinon.stub(resetPasswordDemandRepository, 'create').rejects(new Error());
-      });
-
-      afterEach(() => {
-        resetPasswordDemandRepository.create.restore();
       });
 
       it('should reply with 500', () => {
@@ -202,10 +194,6 @@ describe('Acceptance | Controller | password-controller', () => {
 
       beforeEach(() => {
         sinon.stub(resetPasswordService, 'verifyDemand').rejects(new Error());
-      });
-
-      afterEach(() => {
-        resetPasswordService.verifyDemand.restore();
       });
 
       it('should reply with 500 status code', () => {
