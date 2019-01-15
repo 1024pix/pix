@@ -96,9 +96,7 @@ describe('Unit | Route | compte', function() {
       // Then
       sinon.assert.calledOnce(storeQueryStub);
       sinon.assert.calledWith(storeQueryStub, 'organization', {
-        filter: {
-          code: 'RVSG44'
-        }
+        code: 'RVSG44'
       });
     });
 

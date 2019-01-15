@@ -27,14 +27,11 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   actions: {
 
     searchForOrganization(code) {
-      return this.get('store').query('organization', {
-        filter: {
-          code
-        }
-      }).then((organisations) => {
-        const isOrganizationFound = organisations.content.length === 1;
-        return isOrganizationFound ? organisations.get('firstObject') : null;
-      });
+      return this.get('store').query('organization', { code })
+        .then((organisations) => {
+          const isOrganizationFound = organisations.content.length === 1;
+          return isOrganizationFound ? organisations.get('firstObject') : null;
+        });
     },
 
     shareProfileSnapshot(organization, studentCode, campaignCode) {
