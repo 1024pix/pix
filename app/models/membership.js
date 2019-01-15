@@ -8,7 +8,7 @@ export default DS.Model.extend({
   role: attr(),
 
   // Relationships
-  organization: belongsTo('organization'),
+  organization: belongsTo('organization', { inverse: null } ),
   user: belongsTo('user')
 
 });
