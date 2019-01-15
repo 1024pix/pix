@@ -66,7 +66,12 @@ function _toDomain(userBookshelf) {
 }
 
 function _setSearchFiltersForQueryBuilder(filters, qb) {
-  const { firstName, lastName, email } = filters;
+  const { firstName, lastName, email, organizationId } = filters;
+  if (organizationId) {
+    qb.innerJoin('memberships', 'users.id', 'memberships.userId');
+    qb.innerJoin('organizations', 'organizations.id', 'memberships.organizationId');
+    qb.where('organizations.id', organizationId);
+  }
   if (firstName) {
     qb.whereRaw('LOWER("firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
   }
