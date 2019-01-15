@@ -1,5 +1,5 @@
 export default function(schema, request) {
-  const code = request.queryParams['filter[code]'];
+  const code = request.queryParams['code'];
 
   if (code) {
     return schema.organizations.where({ code });
