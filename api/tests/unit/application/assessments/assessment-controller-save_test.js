@@ -215,7 +215,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
         // then
         return promise.then(() => {
-          expect(usecases.startPlacementAssessment).to.have.been.calledWith({ assessment: assessmentToStart, assessmentRepository });
+          expect(usecases.startPlacementAssessment).to.have.been.calledWith({ assessment: assessmentToStart });
         });
       });
 

@@ -47,7 +47,7 @@ module.exports = {
             participantExternalId
           });
         } else if (assessment.isPlacement()) {
-          return useCases.startPlacementAssessment({ assessment, assessmentRepository });
+          return useCases.startPlacementAssessment({ assessment });
         } else if (assessment.isCertification()) {
           return useCases.createAssessmentForCertification({ assessment });
         } else {
