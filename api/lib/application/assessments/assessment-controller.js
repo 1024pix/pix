@@ -48,6 +48,8 @@ module.exports = {
           });
         } else if (assessment.isPlacement()) {
           return useCases.startPlacementAssessment({ assessment, assessmentRepository });
+        } else if (assessment.isCertification()) {
+          return useCases.createAssessmentForCertification({ assessment });
         } else {
           assessment.state = 'started';
           return assessmentRepository.save(assessment);
@@ -60,8 +62,8 @@ module.exports = {
         if (err instanceof ObjectValidationError) {
           throw Boom.badData(err);
         }
-        if (err instanceof CampaignCodeError) {
-          throw Boom.notFound(CampaignCodeError);
+        if (err instanceof CampaignCodeError || err instanceof NotFoundError) {
+          throw Boom.notFound(err);
         }
         if (err instanceof AssessmentStartError) {
           return controllerReplies(h).error(new ConflictError(err.message));

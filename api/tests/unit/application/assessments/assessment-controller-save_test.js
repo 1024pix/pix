@@ -68,16 +68,13 @@ describe('Unit | Controller | assessment-controller-save', () => {
         },
         payload: {
           data: {
-            id: 42,
             attributes: {
-              'estimated-level': 4,
-              'pix-score': 4,
               'type': 'CERTIFICATION',
             },
             relationships: {
               course: {
                 data: {
-                  id: '1',
+                  id: 'courseId',
                 },
               },
             },
@@ -86,39 +83,39 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       beforeEach(() => {
-        sinon.stub(assessmentRepository, 'save').resolves({});
+        sinon.stub(tokenService, 'extractUserId').returns('userId');
+        sinon.stub(usecases, 'createAssessmentForCertification').resolves({});
       });
 
-      it('should save an assessment with the type CERTIFICATION', async function() {
+      it('should call createAssessmentForCertification usecase', async function() {
         // given
         const expected = Assessment.fromAttributes({
-          id: 42,
-          courseId: '1',
           type: Assessment.types.CERTIFICATION,
-          state: 'started',
-          userId: null,
+          courseId: 'courseId',
+          userId: 'userId',
         });
 
         // when
         await controller.save(request, hFake);
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.save);
-        expect(assessmentRepository.save).to.have.been.calledWith(expected);
+        expect(usecases.createAssessmentForCertification).to.have.been.calledWith({ assessment: expected });
       });
 
-      context('where there is no UserId', () => {
-        it('should throw a ObjectValidationError', () => {
-          const rejectedError = new ObjectValidationError('The Assessment CERTIFICATION needs UserId');
-          assessmentRepository.save.rejects(rejectedError);
+      context('when usecase fails with a validation error', () => {
+        it('should convert exception to HTTP error', () => {
+          const validationError = new ObjectValidationError();
+          usecases.createAssessmentForCertification.rejects(validationError);
 
           // when
           const promise = controller.save(request, hFake);
 
           // then
-          return promise.catch((error) => {
-            expect(error.output.statusCode).to.equal(422);
-          });
+          return promise.then(
+            () => expect.fail('should have been rejected'),
+            (error) => {
+              expect(error.output.statusCode).to.equal(422);
+            });
         });
       });
     });
