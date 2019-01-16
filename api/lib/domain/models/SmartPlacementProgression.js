@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const SMART_PLACEMENT_PROGRESSION_ID_PREFIX = 'smart-placement-progression-';
 
+const ONE_HUNDRED_PERCENT = 1;
+
 /*
  * Traduction : Profil d'avancement
  */
@@ -18,39 +20,34 @@ class SmartPlacementProgression {
     this.id = id;
     // attributes
     // includes
-    this.targetedSkills = targetedSkills;
     this.knowledgeElements = knowledgeElements;
+    this.targetedSkills = targetedSkills;
+    this.targetedSkillsIds = _.map(targetedSkills, 'id');
+    this.targetedKnowledgeElements = _.filter(knowledgeElements, (ke) => _.includes(this.targetedSkillsIds, ke.skillId));
     this.isProfileCompleted = isProfileCompleted;
     // references
   }
 
-  _getValidatedSkills() {
-    return this.knowledgeElements
-      .filter((knowledgeElement) => knowledgeElement.isValidated)
-      .map((knowledgeElement) => knowledgeElement.skillId)
-      .map((skillId) => this.targetedSkills.find((skill) => skill.id === skillId));
+  _getTargetedSkillsValidatedCount() {
+    return _(this.targetedKnowledgeElements).filter('isValidated').value().length;
   }
 
-  get masteryRate() {
-    const numberOfTargetedSkills = this.targetedSkills.length;
+  _getTargetedSkillsAlreadyTestedCount() {
+    return this.targetedKnowledgeElements.length;
+  }
 
-    const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this._getValidatedSkills(), 'name');
-    const numberOfValidatedSkills = validatedSkillsThatExistsInTargetedSkills.length;
+  _getTargetedSkillsCount() {
+    return this.targetedSkillsIds.length;
+  }
 
-    return numberOfValidatedSkills / numberOfTargetedSkills;
+  get validationRate() {
+    return this._getTargetedSkillsValidatedCount() / this._getTargetedSkillsCount();
   }
 
   get completionRate() {
-    if(this.isProfileCompleted) {
-      return 1;
-    }
-
-    const numberOfTargetedSkills = this.targetedSkills.length;
-
-    const testedSkillsInTargetProfile =  this.knowledgeElements
-      .filter((knowledgeElement) => this.targetedSkills.find((targetedSkill) => targetedSkill.id === knowledgeElement.skillId));
-
-    return testedSkillsInTargetProfile.length / numberOfTargetedSkills;
+    return this.isProfileCompleted
+      ? ONE_HUNDRED_PERCENT
+      : this._getTargetedSkillsAlreadyTestedCount() / this._getTargetedSkillsCount();
   }
 
   static generateIdFromAssessmentId(assessmentId) {

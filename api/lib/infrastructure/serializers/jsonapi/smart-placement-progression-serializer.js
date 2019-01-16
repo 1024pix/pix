@@ -4,7 +4,7 @@ module.exports = {
 
   serialize(smartPlacementProgression) {
     return new Serializer('smart-placement-progression', {
-      attributes: ['masteryRate', 'completionRate'],
+      attributes: ['validationRate', 'completionRate'],
     }).serialize(smartPlacementProgression);
   }
 };

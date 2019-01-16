@@ -1,24 +1,27 @@
 const SmartPlacementProgression = require('../../../../lib/domain/models/SmartPlacementProgression');
 const { expect, domainBuilder } = require('../../../test-helper');
+const _ = require("lodash");
 
 describe('Unit | Domain | Models | SmartPlacementProgression', () => {
 
   const [skillLevel1, skillLevel2, skillLevel3] = domainBuilder.buildSkillCollection();
 
-  describe('#masteryRate', () => {
+  describe('#validationRate', () => {
 
     context('when there is no knowledge-elements', () => {
 
-      it('should returns the masteryRate of 0 ', () => {
+      it('should return a rate of 0 ', () => {
         // Given
         const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
+        const targetedSkillsIds = _.map([skillLevel1, skillLevel2, skillLevel3], 'id');
         const knowledgeElements = [];
 
         // When
-        const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true });
+        const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills,
+          targetedSkillsIds, knowledgeElements, isProfileCompleted: true });
 
         // Then
-        expect(smartPlacementProgression.masteryRate).to.eq(0);
+        expect(smartPlacementProgression.validationRate).to.eq(0);
       });
     });
 
@@ -35,7 +38,7 @@ describe('Unit | Domain | Models | SmartPlacementProgression', () => {
         const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(smartPlacementProgression.masteryRate).to.eq(1);
+        expect(smartPlacementProgression.validationRate).to.eq(1);
       });
 
       it('should returns 0 when there is one skill and one validated knowledge element but not on this skill', () => {
@@ -49,7 +52,7 @@ describe('Unit | Domain | Models | SmartPlacementProgression', () => {
         const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(smartPlacementProgression.masteryRate).to.eq(0);
+        expect(smartPlacementProgression.validationRate).to.eq(0);
       });
 
       it('should returns the percentage of validated skills when all skills are not tested', () => {
@@ -63,7 +66,7 @@ describe('Unit | Domain | Models | SmartPlacementProgression', () => {
         const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(smartPlacementProgression.masteryRate).to.eq(0.5);
+        expect(smartPlacementProgression.validationRate).to.eq(0.5);
       });
 
       it('should returns the percentage of validated skills when there is an invalidated one', () => {
@@ -78,7 +81,7 @@ describe('Unit | Domain | Models | SmartPlacementProgression', () => {
         const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(smartPlacementProgression.masteryRate).to.eq(0.5);
+        expect(smartPlacementProgression.validationRate).to.eq(0.5);
       });
 
     });
@@ -97,7 +100,7 @@ describe('Unit | Domain | Models | SmartPlacementProgression', () => {
         const smartPlacementProgression = new SmartPlacementProgression({ targetedSkills, knowledgeElements, isProfileCompleted: true  });
 
         // Then
-        expect(smartPlacementProgression.masteryRate).to.eq(1);
+        expect(smartPlacementProgression.validationRate).to.eq(1);
       });
 
     });

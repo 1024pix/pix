@@ -26,7 +26,11 @@ describe('Unit | Controller | smart-placement-progression-controller', () => {
 
     context('if assessment exists', () => {
 
-      const smartPlacementProgression = domainBuilder.buildSmartPlacementProgression({ knowledgeElements: [], isProfileCompleted: true });
+      let smartPlacementProgression;
+
+      beforeEach(() => {
+        smartPlacementProgression = domainBuilder.buildSmartPlacementProgression({ knowledgeElements: [], isProfileCompleted: true });
+      });
 
       context('and belongs to current user', () => {
 
@@ -36,7 +40,7 @@ describe('Unit | Controller | smart-placement-progression-controller', () => {
             data: {
               id: smartPlacementProgressionId,
               attributes: {
-                'mastery-rate': 0,
+                'validation-rate': 0,
                 'completion-rate': 1,
               },
               type: 'smart-placement-progressions',
