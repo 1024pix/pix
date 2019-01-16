@@ -158,6 +158,12 @@ class InvalidTemporaryKeyError extends DomainError {
   }
 }
 
+class MembershipCreationError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class MissingOrInvalidCredentialsError extends DomainError {
   constructor() {
     super('Missing or invalid credentials');
@@ -294,6 +300,7 @@ module.exports = {
   InvalidTemporaryKeyError,
   InvalidTokenError,
   InvaliOrganizationIdError,
+  MembershipCreationError,
   MissingOrInvalidCredentialsError,
   NotCompletedAssessmentError,
   NotElligibleToQmailError,
