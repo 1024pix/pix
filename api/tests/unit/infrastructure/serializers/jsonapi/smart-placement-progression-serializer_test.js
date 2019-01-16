@@ -17,7 +17,7 @@ describe('Unit | Serializer | JSONAPI | smart-placement-progression-serializer',
           'type': 'smart-placement-progressions',
           'id': smartPlacementProgression.id,
           'attributes': {
-            'mastery-rate': smartPlacementProgression.masteryRate,
+            'validation-rate': smartPlacementProgression.validationRate,
             'completion-rate': smartPlacementProgression.completionRate,
           },
         },

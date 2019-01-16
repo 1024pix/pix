@@ -1,7 +1,7 @@
 import { Factory } from 'ember-cli-mirage';
 
 export default Factory.extend({
-  masteryRate() {
+  validationRate() {
     return '0.651';
   }
 });
