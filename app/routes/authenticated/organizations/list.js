@@ -8,7 +8,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   model() {
-    return this.get('store').findAll('organization');
+    return this.get('store').query('organization', {});
   }
 
 });
