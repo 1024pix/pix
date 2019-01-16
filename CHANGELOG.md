@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.20.1 (16/01/2019)
+
+- [#318](https://github.com/1024pix/pix/pull/318) [BUGFIX] Correction du partage du profil (cassé en v2.20.0)
+
 # v2.20.0 (15/01/2019)
 
 - [#312](https://github.com/1024pix/pix/pull/312) [FEATURE] Ajouter de la recherche filtrée et paginée des organisations (PA-60).
