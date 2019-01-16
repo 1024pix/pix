@@ -1,6 +1,7 @@
+const _ = require('lodash');
 const {
   expect, generateValidRequestAuhorizationHeader, cleanupUsersAndPixRolesTables,
-  insertUserWithRolePixMaster
+  insertUserWithRolePixMaster, databaseBuilder
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
@@ -9,6 +10,7 @@ describe('Acceptance | API | Certification Center', () => {
   let server, options;
 
   beforeEach(async () => {
+    await cleanupUsersAndPixRolesTables();
     server = await createServer();
     await insertUserWithRolePixMaster();
   });
@@ -17,11 +19,18 @@ describe('Acceptance | API | Certification Center', () => {
   });
 
   describe('GET /api/certification-centers', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       options = {
         method: 'GET',
         url: '/api/certification-centers',
       };
+
+      _.times(5, databaseBuilder.factory.buildCertificationCenter);
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     context('when user is Pix Master', () => {
@@ -38,8 +47,18 @@ describe('Acceptance | API | Certification Center', () => {
           expect(response.statusCode).to.equal(200);
         });
       });
-    });
 
+      it('should return a list of certificationCenter, with their name and id', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result.data).to.have.lengthOf(5);
+          expect(_.keys(response.result.data[0].attributes)).to.have.members(['id', 'name', 'created-at']);
+        });
+      });
+    });
     context('when user is not PixMaster', () => {
       beforeEach(() => {
         options.headers = { authorization: generateValidRequestAuhorizationHeader(1111) };
@@ -74,6 +93,14 @@ describe('Acceptance | API | Certification Center', () => {
       options = {
         method: 'POST',
         url: '/api/certification-centers',
+        payload: {
+          data: {
+            type: 'certification-center',
+            attributes: {
+              name: 'Nouveau Centre de Certif'
+            }
+          }
+        }
       };
     });
 
@@ -91,6 +118,18 @@ describe('Acceptance | API | Certification Center', () => {
           expect(response.statusCode).to.equal(200);
         });
       });
+
+      it('should return the certification center created', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
+          expect(response.result.data.attributes.id).to.be.ok;
+        });
+      });
+
     });
 
     context('when user is not PixMaster', () => {
@@ -124,11 +163,20 @@ describe('Acceptance | API | Certification Center', () => {
   });
 
   describe('GET /api/certification-centers/{id}', () => {
-    beforeEach(() => {
+    const expectedCertificationCenterId = 1;
+    let expectedCertificationCenter;
+    beforeEach(async() => {
       options = {
         method: 'GET',
-        url: '/api/certification-centers/1',
+        url: '/api/certification-centers/'+expectedCertificationCenterId,
       };
+      expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({ id: expectedCertificationCenterId });
+      databaseBuilder.factory.buildCertificationCenter({ id: expectedCertificationCenterId+1 });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     context('when user is Pix Master', () => {
@@ -145,6 +193,33 @@ describe('Acceptance | API | Certification Center', () => {
           expect(response.statusCode).to.equal(200);
         });
       });
+
+      it('should return the certification center asked', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result.data.id).to.equal(1);
+          expect(response.result.data.attributes.name).to.equal(expectedCertificationCenter.name);
+        });
+      });
+
+      it('should return notFoundError when the certificationCenter not exist', () => {
+        // given
+        options.url = '/api/certification-centers/112334';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(404);
+          expect(response.result.errors[0].title).to.equal('Not Found');
+          expect(response.result.errors[0].detail).to.equal('Certification center with id: 112334 not found');
+        });
+      });
+
     });
 
     context('when user is not PixMaster', () => {
