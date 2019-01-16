@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "description": "Small description for pix-admin goes here",
-  "license": "MIT",
-  "author": "",
+  "license": "AGPL-3.0",
+  "author": "Team Pix",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -14,7 +14,6 @@
     "build": "npx ember build",
     "dev": "npx ember serve",
     "lint:js": "eslint ./*.js app config lib server tests",
-    "api": "(cd api && npm start)",
     "test": "npx ember exam",
     "coverage": "COVERAGE=true npx ember test",
     "scalingo-postbuild": "npx ember build --environment $BUILD_ENVIRONMENT"
