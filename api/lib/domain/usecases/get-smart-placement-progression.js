@@ -13,7 +13,7 @@ module.exports = async function getSmartPlacementProgression(
   const assessmentId = SmartPlacementProgression.getAssessmentIdFromId(smartPlacementProgressionId);
 
   const assessment = await smartPlacementAssessmentRepository.get(assessmentId);
-  if(`${assessment.userId}` !== `${userId}`) {
+  if(assessment.userId != userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 
@@ -33,7 +33,7 @@ module.exports = async function getSmartPlacementProgression(
 
 function _createdBeforeLimitDate(dateToVerify, limitDate) {
   if(limitDate) {
-    return moment(dateToVerify).format('YYYY-MM-DD HH:mm:ss') <= moment(limitDate).format('YYYY-MM-DD HH:mm:ss');
+    return moment(dateToVerify).isBefore((limitDate));
   }
   return true;
 }
