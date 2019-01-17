@@ -1,3 +1,3 @@
-module.exports = function findCertificationCenters({ certificationCenter, certificationCenterRepository }) {
+module.exports = function saveCertificationCenters({ certificationCenter, certificationCenterRepository }) {
   return certificationCenterRepository.save(certificationCenter);
 };
