@@ -123,7 +123,7 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 function _createdBeforeLimitDate(dateToVerify, limitDate) {
   if(limitDate) {
-    return moment(dateToVerify).isBefore((limitDate));
+    return moment(dateToVerify).isBefore(limitDate);
   }
   return true;
 }
