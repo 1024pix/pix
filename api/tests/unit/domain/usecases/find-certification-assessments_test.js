@@ -58,11 +58,11 @@ describe('Unit | UseCase | find-certification-assessments', () => {
   it('should resolve an assessment of type CERTIFICATION even if state is started', () => {
     // given
     const userId = 1234;
-    const course = domainBuilder.buildCertificationCourse();
-    const filters = { type: 'CERTIFICATION', courseId: course.id, resumable: 'true' };
+    const courseId = 5678;
+    const filters = { type: 'CERTIFICATION', courseId, resumable: 'true' };
     const  assessment = domainBuilder.buildAssessment({
       type: 'CERTIFICATION',
-      courseId: course.id,
+      courseId,
       state: 'started',
       userId,
     });
@@ -80,11 +80,11 @@ describe('Unit | UseCase | find-certification-assessments', () => {
   it('should resolve an assessment of type CERTIFICATION even if state is completed', () => {
     // given
     const userId = 1234;
-    const course = domainBuilder.buildCertificationCourse();
-    const filters = { type: 'CERTIFICATION', courseId: course.id, resumable: 'true' };
+    const courseId = 5678;
+    const filters = { type: 'CERTIFICATION', courseId, resumable: 'true' };
     const  assessment = domainBuilder.buildAssessment({
       type: 'CERTIFICATION',
-      courseId: course.id,
+      courseId,
       state: 'completed',
       userId,
     });

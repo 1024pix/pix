@@ -66,11 +66,11 @@ describe('Unit | UseCase | find-placement-assessments', () => {
   it('should resolve an assessment of type PLACEMENT', () => {
     // given
     const userId = 1234;
-    const course = domainBuilder.buildCertificationCourse();
-    const filters = { type: 'PLACEMENT', courseId: course.id, resumable: 'true' };
+    const courseId = 5678;
+    const filters = { type: 'PLACEMENT', courseId, resumable: 'true' };
     const assessment = domainBuilder.buildAssessment({
       type: 'PLACEMENT',
-      courseId: course.id,
+      courseId,
       state: 'started',
       userId,
     });
