@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-const { attr } = DS;
+const { attr, hasMany } = DS;
 
 export default DS.Model.extend({
 
@@ -9,5 +9,8 @@ export default DS.Model.extend({
   type: attr(),
   code: attr(),
   logoUrl: attr(),
+
+  // Relationships
+  memberships: hasMany('membership'),
 
 });
