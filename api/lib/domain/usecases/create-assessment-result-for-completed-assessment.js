@@ -47,6 +47,7 @@ module.exports = function createAssessmentResultForCompletedAssessment({
 
       const dependencies = { answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository };
 
+      assessment.setCompleted();
       return scoringService.calculateAssessmentScore(dependencies, assessment);
     })
     .then((assessmentScore) => _saveAssessmentResult({
@@ -82,7 +83,6 @@ function _saveAssessmentResult({
 }) {
   const status = _getAssessmentStatus(assessment, assessmentScore);
   const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(assessmentScore.level, assessmentScore.nbPix, status, assessment.id);
-  assessment.setCompleted();
 
   return Promise.all([
     assessmentResultRepository.save(assessmentResult),
