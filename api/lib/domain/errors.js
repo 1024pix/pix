@@ -4,6 +4,12 @@ class DomainError extends Error {
   }
 }
 
+class AlreadyExistingMembershipError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class AlreadyRatedAssessmentError extends DomainError {
   constructor() {
     super('Cette évaluation a déjà été évaluée.');
@@ -264,6 +270,7 @@ class InternalError extends DomainError {
 
 module.exports = {
   DomainError,
+  AlreadyExistingMembershipError,
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
   AssessmentEndedError,
