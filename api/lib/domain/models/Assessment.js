@@ -138,7 +138,7 @@ class Assessment {
   }
 
   canBeScored() {
-    return this.isPlacement() || this.isCertification();
+    return (this.isPlacement() || this.isCertification()) && this.isCompleted();
   }
 
   isCertifiable() {

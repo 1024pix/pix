@@ -3,22 +3,18 @@ import { isEmpty } from '@ember/utils';
 
 export default BaseRoute.extend({
 
-  redirect(course) {
+  afterModel(course) {
     const store = this.get('store');
-    let assessment;
 
     return store.query('assessment', { filter: { type: course.get('type'), courseId: course.id, state: 'started' } })
-      .then(async (assessments) => {
+      .then((assessments) => {
         if (this._thereIsNoStartedAssessment(assessments)) {
-          await store.createRecord('assessment', { course, type: course.get('type') }).save()
-            .then((createdAssessment) => assessment = createdAssessment);
+          return store.createRecord('assessment', { course, type: course.get('type') }).save();
         } else {
-          assessment = assessments.get('firstObject');
+          return assessments.get('firstObject');
         }
-        return store.queryRecord('challenge', { assessmentId: assessment.get('id') })
-          .then((challenge) => {
-            this.replaceWith('assessments.challenge', { assessment, challenge });
-          });
+      }).then((assessment) => {
+        return this.replaceWith('assessments.resume', assessment.get('id'));
       });
   },
 

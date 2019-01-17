@@ -42,10 +42,10 @@ describe('Unit | Route | Courses | Create Assessment', function() {
     route.replaceWith = sinon.stub();
   });
 
-  describe('#redirect', function() {
+  describe('#afterModel', function() {
     it('should call queryStub with filters', function() {
       // when
-      const promise = route.redirect(course);
+      const promise = route.afterModel(course);
 
       // then
       return promise.then(() => {
@@ -53,25 +53,15 @@ describe('Unit | Route | Courses | Create Assessment', function() {
       });
     });
 
-    context('when there is started assessment', function() {
+    context('when there is a started assessment', function() {
 
-      it('should set assessment with the retrieved one', function() {
+      it('should resume the assessment', function() {
         // when
-        const promise = route.redirect(course);
+        const promise = route.afterModel(course);
 
         // then
         return promise.then(() => {
-          sinon.assert.called(getAssessmentStub);
-        });
-      });
-
-      it('should call queryRecordStub with retrieved assessment id', function() {
-        // when
-        const promise = route.redirect(course);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: assessment.get('id') });
+          sinon.assert.calledWith(route.replaceWith, 'assessments.resume', assessment.get('id'));
         });
       });
     });
@@ -82,9 +72,9 @@ describe('Unit | Route | Courses | Create Assessment', function() {
         queryStub.resolves([]);
       });
 
-      it('should call createRecordStub with filters', function() {
+      it('create a new assessment for the course', function() {
         // when
-        const promise = route.redirect(course);
+        const promise = route.afterModel(course);
 
         // then
         return promise.then(() => {
@@ -92,13 +82,13 @@ describe('Unit | Route | Courses | Create Assessment', function() {
         });
       });
 
-      it('should call queryRecordStub with created assessment id', function() {
+      it('should resume the assessment', function() {
         // when
-        const promise = route.redirect(course);
+        const promise = route.afterModel(course);
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: createdAssessment.get('id') });
+          sinon.assert.calledWith(route.replaceWith, 'assessments.resume', createdAssessment.get('id'));
         });
       });
     });
