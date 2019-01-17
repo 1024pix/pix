@@ -1,6 +1,6 @@
 const SmartPlacementProgression = require('../../../../lib/domain/models/SmartPlacementProgression');
 const { expect, domainBuilder } = require('../../../test-helper');
-const _ = require("lodash");
+const _ = require('lodash');
 
 describe('Unit | Domain | Models | SmartPlacementProgression', () => {
 

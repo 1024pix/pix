@@ -15,7 +15,7 @@ describe('Unit | Model | Smart Placement Progression', function() {
       run(() => {
         // given
         const store = this.store();
-        const smartPlacementProgression = store.createRecord('smart-placement-progression', { masteryRate: 0.6815 });
+        const smartPlacementProgression = store.createRecord('smart-placement-progression', { validationRate: 0.6815 });
 
         // when
         const masteryInPourcent = smartPlacementProgression.get('masteryPercentage');
