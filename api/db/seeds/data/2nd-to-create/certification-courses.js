@@ -23,19 +23,6 @@ module.exports = [
     birthplace: 'Bruxelles',
     sessionId: 2,
     externalId: 'L\'élève',
-    isPublished: false
-  },
-  {
-    id: 3,
-    userId: 1,
-    completedAt: '2018-05-12T15:15:52.504Z',
-    createdAt: '2018-05-12 15:14:46',
-    firstName: 'Pix',
-    lastName: 'Aile',
-    birthdate: '12/12/1964',
-    birthplace: 'Paris <- Et oui !',
-    sessionId: 2,
-    externalId: 'NumeroEtudiant',
     isPublished: true
   }
 ];

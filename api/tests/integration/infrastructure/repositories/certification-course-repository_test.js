@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const { expect, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -130,6 +130,50 @@ describe('Integration | Repository | Certification Course', function() {
       });
     });
 
+  });
+
+  describe('#findLastCertificationCourseByUserIdAndSessionId', function() {
+
+    let userId;
+    let sessionId;
+    let certificationCourses;
+
+    beforeEach(() => {
+      userId = 1;
+      sessionId = 'ABCD12';
+      certificationCourses = [
+        databaseBuilder.factory.buildCertificationCourse({ id: 1, userId: 2, sessionId, completedAt: null }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 2, userId, sessionId: 'ABCD21', completedAt: null }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 3, userId, sessionId }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 4, userId, sessionId, completedAt: null, createdAt: '2018-11-11' }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 5, userId, sessionId, completedAt: null, createdAt: '2018-12-12' }),
+      ];
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    it('should retrieve certification course with given userId, sessionId and with value null as completedAt', async function() {
+      // given
+      const expectedCertificationCourse = certificationCourses[4];
+
+      // when
+      const result = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
+
+      // then
+      expect(result).to.have.lengthOf(1);
+      expect(_.omit(result[0], ['assessment', 'challenges', 'type', 'nbChallenges'])).to.deep.equal(expectedCertificationCourse);
+    });
+
+    it('should retrieve empty array when none of certification courses matches', async function() {
+      // when
+      const certificationCourse = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(999, 'wrongSessionId');
+
+      // then
+      expect(certificationCourse).to.deep.equal([]);
+    });
   });
 
   describe('#update', function() {

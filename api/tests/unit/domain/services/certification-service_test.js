@@ -2,17 +2,14 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const Answer = require('../../../../lib/domain/models/Answer');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const Competence = require('../../../../lib/domain/models/Competence');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMarks = require('../../../../lib/domain/models/CompetenceMark');
 
-const { CertificationComputeError, UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
+const { CertificationComputeError } = require('../../../../lib/domain/errors');
 
-const userService = require('../../../../lib/domain/services/user-service');
-const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const answersRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
@@ -53,7 +50,8 @@ function _buildAssessment(courseId, pixScore, estimatedLevel) {
     pixScore,
     level: estimatedLevel,
     assessmentResults: [assessmentResult],
-    courseId });
+    courseId
+  });
   return assessment;
 }
 
@@ -1174,95 +1172,6 @@ describe('Unit | Service | Certification Service', function() {
       });
     });
 
-  });
-
-  describe('#startNewCertification', () => {
-
-    const certificationCourse = { id: 'newlyCreatedCertificationCourse' };
-    const certificationCourseWithNbOfChallenges = { id: 'certificationCourseWithChallenges', nbChallenges: 3 };
-    const sessionId = 23;
-
-    beforeEach(() => {
-      sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
-    });
-
-    const noCompetences = [];
-    const oneCompetenceWithLevel0 = [{ id: 'competence1', estimatedLevel: 0 }];
-    const oneCompetenceWithLevel5 = [{ id: 'competence1', estimatedLevel: 5 }];
-    const fiveCompetencesAndOneWithLevel0 = [
-      { id: 'competence1', estimatedLevel: 1 },
-      { id: 'competence2', estimatedLevel: 2 },
-      { id: 'competence3', estimatedLevel: 0 },
-      { id: 'competence4', estimatedLevel: 4 },
-      { id: 'competence5', estimatedLevel: 5 },
-    ];
-    const fiveCompetencesWithLevelHigherThan0 = [
-      { id: 'competence1', estimatedLevel: 1 },
-      { id: 'competence2', estimatedLevel: 0 },
-      { id: 'competence3', estimatedLevel: 3 },
-      { id: 'competence4', estimatedLevel: 4 },
-      { id: 'competence5', estimatedLevel: 5 },
-      { id: 'competence6', estimatedLevel: 6 },
-    ];
-
-    [{ label: 'User Has No AirtableCompetence', competences: noCompetences },
-      { label: 'User Has Only 1 AirtableCompetence at Level 0', competences: oneCompetenceWithLevel0 },
-      { label: 'User Has Only 1 AirtableCompetence at Level 5', competences: oneCompetenceWithLevel5 },
-      { label: 'User Has 5 Competences with 1 at Level 0', competences: fiveCompetencesAndOneWithLevel0 },
-    ].forEach(function(testCase) {
-      it(`should not create a new certification if ${testCase.label}`, function() {
-        // given
-        const userId = 12345;
-        sinon.stub(userService, 'getProfileToCertify').resolves(testCase.competences);
-        sinon.stub(certificationCourseRepository, 'save');
-
-        // when
-        const createNewCertificationPromise = certificationService.startNewCertification(userId, sessionId);
-
-        // then
-        return createNewCertificationPromise.catch((error) => {
-          expect(error).to.be.an.instanceOf(UserNotAuthorizedToCertifyError);
-          sinon.assert.notCalled(certificationCourseRepository.save);
-        });
-      });
-    });
-
-    it('should create the certification course with status "started", if at least 5 competences with level higher than 0', function() {
-      // given
-      const userId = 12345;
-      sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
-      sinon.stub(userService, 'getProfileToCertify').resolves(fiveCompetencesWithLevelHigherThan0);
-      sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
-
-      // when
-      const promise = certificationService.startNewCertification(userId, sessionId);
-
-      // then
-      return promise.then((newCertification) => {
-        sinon.assert.calledOnce(certificationCourseRepository.save);
-        expect(certificationCourseRepository.save).to.have.been.calledWith(CertificationCourse.fromAttributes({ userId, sessionId }));
-        expect(newCertification.id).to.equal('certificationCourseWithChallenges');
-      });
-    });
-
-    it('should create the challenges for the certification course, based on the user profile', function() {
-      // given
-      const userId = 12345;
-      sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
-      sinon.stub(userService, 'getProfileToCertify').resolves(fiveCompetencesWithLevelHigherThan0);
-      sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
-
-      // when
-      const promise = certificationService.startNewCertification(userId);
-
-      // then
-      return promise.then((newCertification) => {
-        expect(userService.getProfileToCertify).to.have.been.calledWith(userId, '2018-02-04T00:00:00.000Z');
-        sinon.assert.calledOnce(certificationChallengesService.saveChallenges);
-        expect(certificationChallengesService.saveChallenges).to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0, certificationCourse);
-        expect(newCertification.nbChallenges).to.equal(3);
-      });
-    });
   });
 
   describe('#getCertificationResult', () => {
