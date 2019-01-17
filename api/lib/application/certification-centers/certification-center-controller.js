@@ -1,20 +1,21 @@
 const usecases = require('../../domain/usecases');
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
 const controllerReplies = require('../../infrastructure/controller-replies');
-const {
-  NotFoundError: InfrastructureNotFoundError,
-} = require('../../infrastructure/errors');
 
 const {
   NotFoundError,
 } = require('../../domain/errors');
+
+const {
+  NotFoundError: InfrastructureNotFoundError,
+} = require('../../infrastructure/errors');
 
 module.exports = {
 
   save(request, h) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
     return usecases.saveCertificationCenter({ certificationCenter })
-      .then((certificationCenter) => certificationCenterSerializer.serialize(certificationCenter))
+      .then(certificationCenterSerializer.serialize)
       .catch((error) => {
         return controllerReplies(h).error(error);
       });
@@ -38,8 +39,6 @@ module.exports = {
     return usecases.findCertificationCenters()
       .then(certificationCenterSerializer.serialize)
       .then(controllerReplies(h).ok)
-      .catch((error) => {
-        return controllerReplies(h).error(error);
-      });
+      .catch(controllerReplies(h).error);
   },
 };
