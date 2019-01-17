@@ -30,6 +30,10 @@ module.exports = Bookshelf.model('User', {
     return this.hasMany('Membership', 'userId');
   },
 
+  certificationCenterMemberships() {
+    return this.hasMany('certificationCenterMembership', 'userId');
+  },
+
   toDomainEntity() {
     const model = this.toJSON();
     if (model.pixRoles) {
