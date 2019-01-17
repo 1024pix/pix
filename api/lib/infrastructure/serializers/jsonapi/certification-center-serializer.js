@@ -10,9 +10,10 @@ module.exports = {
     }).serialize(certificationCenter);
   },
 
-  deserialize(json) {
+  deserialize(jsonAPI) {
     return new CertificationCenter({
-      name: json.data.attributes.name
+      id: jsonAPI.data.id,
+      name: jsonAPI.data.attributes.name
     });
   },
 };
