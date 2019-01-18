@@ -2,13 +2,13 @@
   <div class="page-title">
     {{link-to 'Toutes les organisations' 'authenticated.organizations.list'}}
     <span style="color: #DDDDDD;">&nbsp;>&nbsp;</span>
-    {{model.name}}
+    {{model.organization.name}}
   </div>
   <div class="page-actions">
-    <button class="btn btn-outline-default btn-thin hidden" {{action "toggleWipModal"}}>
+    <button class="btn btn-outline-default btn-thin hidden">
       {{fa-icon "edit"}} Modifier
     </button>
-    <button class="btn btn-outline-default btn-thin hidden" {{action "toggleWipModal"}}>
+    <button class="btn btn-outline-default btn-thin hidden">
       {{fa-icon "trash"}} Supprimer
     </button>
   </div>
@@ -18,6 +18,6 @@
 
   {{organization-information-section organization=model.organization onLogoUpdated=(action "updateOrganizationInformation")}}
 
-  {{organization-members-section organization=model.users onMembershipAdded=(action "addMembership")}}
+  {{organization-members-section users=model.users onMembershipAdded=(action "addMembership")}}
 
 </main>

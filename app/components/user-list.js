@@ -3,6 +3,7 @@ import Component from '@ember/component';
 const columns = [
   {
     propertyName: "id",
+    disableFiltering: true,
   },
   {
     propertyName: "firstName",
