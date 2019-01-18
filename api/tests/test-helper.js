@@ -17,7 +17,8 @@ afterEach(function() {
 
 // Knex
 const knexConfig = require('../db/knexfile');
-const knex = require('knex')(knexConfig['test']);
+const { environment } = require('../lib/settings');
+const knex = require('knex')(knexConfig[environment]);
 
 // DatabaseBuilder
 const DatabaseBuilder = require('./tooling/database-builder/database-builder');
