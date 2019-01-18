@@ -194,15 +194,13 @@ describe('Integration | Repository | Campaign', () => {
       expect(result.name).to.equal(campaign.name);
     });
 
-    it('should throw a NotFoundError if campaign can not be found', async () => {
+    it('should throw a NotFoundError if campaign can not be found', () => {
       // given
       const nonExistentId = 666;
-
       // when
       const promise = campaignRepository.get(nonExistentId);
-
       // then
-      expect(promise).to.have.been.rejectedWith(NotFoundError);
+      return expect(promise).to.have.been.rejectedWith(NotFoundError);
     });
   });
 
