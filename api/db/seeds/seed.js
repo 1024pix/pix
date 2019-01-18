@@ -1,60 +1,38 @@
 'use strict';
 const DatabaseBuilder = require('../../tests/tooling/database-builder/database-builder');
-const pixAileBuilder = require('./data/user-with-related/pix-aile-builder');
-const dragonAndCoBuilder = require('./data/organization-with-related/dragon-and-co-builder');
+const pixAileBuilder = require('./data/pix-aile-builder');
+const dragonAndCoBuilder = require('./data/dragon-and-co-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 
-const listSeeds = {
-  '1st-to-create': [
-    'sessions',
-    'users',
-  ],
-  '2nd-to-create': [
-    'assessments',
-    'certification-courses',
-    'organizations',
-    'users_pix_roles',
-  ],
-  '3rd-to-create': [
-    'answers',
-    'assessment-results',
-    'certification-challenges',
-    'snapshots',
-    'campaigns',
-  ],
-  '4th-to-create': [
-    'competence-marks',
-  ],
-};
+// Tables must be inserted in a specific orderr
+const orderedTableNames = [
+  'users',
+  'sessions',
+  'assessments',
+  'certification-courses',
+  'organizations',
+  'users_pix_roles',
+  'answers',
+  'assessment-results',
+  'campaigns',
+  'certification-challenges',
+  'snapshots',
+  'competence-marks'
+];
 
-function addData(knex, table, data) {
-  return Promise.all(data)
-    .then((data) => {
-      return knex(table)
-        .insert(data)
-        .catch(console.log);
-    });
+// Some seed datas are wrapped into promises, hence the need for #Promise.all
+async function insertSeeds(knex, orderedTableNames) {
+  for (const tableName of orderedTableNames) {
+    const seedData = await Promise.all(require('./data/' + tableName + '.js'));
+    await insertSeedByData(knex, tableName, seedData);
+  }
 }
 
-function createDataByTables(groupName) {
-  const directory = groupName;
-  const files = listSeeds[groupName];
-
-  return files.map((tableName) => {
-    return {
-      table: tableName,
-      data: require('./data/' + directory + '/' + tableName + '.js'),
-    };
-  });
-}
-
-function insertSeedsByGroup(knex, groupName) {
-  const dataByTables = createDataByTables(groupName);
-  const dataToAdd = dataByTables.map((dataByTable) => {
-    return addData(knex, dataByTable.table, dataByTable.data);
-  });
-  return Promise.all(dataToAdd);
+async function insertSeedByData(knex, tableName, tableRows) {
+  for (const row of tableRows) {
+    await knex(tableName).insert(row).catch(console.log);
+  }
 }
 
 exports.seed = (knex) => {
@@ -64,10 +42,7 @@ exports.seed = (knex) => {
   dragonAndCoBuilder({ databaseBuilder });
 
   return databaseBuilder.commit()
-    .then(() => insertSeedsByGroup(knex, '1st-to-create'))
-    .then(() => insertSeedsByGroup(knex, '2nd-to-create'))
-    .then(() => insertSeedsByGroup(knex, '3rd-to-create'))
-    .then(() => insertSeedsByGroup(knex, '4th-to-create'))
+    .then(() => insertSeeds(knex, orderedTableNames))
     .then(() => alterSequenceIfPG(knex));
 };
 
