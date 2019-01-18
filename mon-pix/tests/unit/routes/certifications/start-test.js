@@ -2,7 +2,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | certification test', function() {
+describe('Unit | Route | Certification | Start', function() {
 
   setupTest('route:certifications.start', {
     needs: ['service:session', 'service:current-routed-modal', 'service:metrics'],

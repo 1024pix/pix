@@ -5,7 +5,7 @@ import EmberObject from '@ember/object';
 import EmberService from '@ember/service';
 import sinon from 'sinon';
 
-describe('Unit | Route | assessments.rating', function() {
+describe('Unit | Route | Assessments | Rating', function() {
   setupTest('route:assessments.rating', {
     needs: ['service:current-routed-modal', 'service:metrics'],
   });
@@ -43,62 +43,56 @@ describe('Unit | Route | assessments.rating', function() {
     const challengeOne = EmberObject.create({ id: 'recChallengeOne' });
     const answerToChallengeOne = EmberObject.create({ challenge: challengeOne });
 
-    context('when the assessment is a certification', function() {
-      it('should redirect to the certification end page', function() {
-        // given
-        const assessment = EmberObject.create({ id: 12, type: 'CERTIFICATION', answers: [answerToChallengeOne] });
-
-        // when
-        const promise = route.afterModel(assessment);
-
-        // then
-        return promise.then(() => {
-          return sinon.assert.calledWith(route.replaceWith, 'certifications.results');
-        });
-      });
-    });
-
-    context('when the assessment is a SMART_PLACEMENT', function() {
-      it('should redirect to the certification end page', function() {
-        // given
-        const assessmentId = 12;
-        const assessment = EmberObject.create({ id: assessmentId, type: 'SMART_PLACEMENT', answers: [answerToChallengeOne] });
-
-        // when
-        const promise = route.afterModel(assessment);
-
-        // then
-        return promise.then(() => {
-          return sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', assessmentId, {
-            queryParams: { finalCheckpoint: true }
-          });
-        });
-      });
-    });
-
-    context('when the assessment is not certification', function() {
-      it('should redirect to the assessment results page', function() {
-        // given
-        const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
-
-        // when
-        const promise = route.afterModel(assessment);
-
-        // then
-        return promise.then(() => sinon.assert.calledWith(route.replaceWith, 'assessments.results', assessment.get('id')));
-      });
-    });
-
-    it('should trigger an assessment rating by creating a model and saving it', function() {
+    it('should trigger an assessment rating by creating a model and saving it', async function() {
       // given
       const assessment = EmberObject.create({ answers: [] });
 
       // when
-      route.afterModel(assessment);
+      await route.afterModel(assessment);
 
       // then
-      sinon.assert.calledWith(createRecordStub, 'assessment-result', { assessment });
+      sinon.assert.calledWithExactly(createRecordStub, 'assessment-result', { assessment });
       sinon.assert.called(assessmentRating.save);
+    });
+
+    context('when the assessment is a CERTIFICATION', function() {
+      it('should redirect to the certification end page', async function() {
+        // given
+        const assessment = EmberObject.create({ id: 12, type: 'CERTIFICATION', answers: [answerToChallengeOne], certificationNumber: 'courseId' });
+
+        // when
+        await route.afterModel(assessment);
+
+        // then
+        sinon.assert.calledWithExactly(route.replaceWith, 'certifications.results', 'courseId');
+      });
+    });
+
+    context('when the assessment is a SMART_PLACEMENT', function() {
+      it('should redirect to the skill-review page', async function() {
+        // given
+        const assessmentId = 12;
+        const assessment = EmberObject.create({ id: assessmentId, type: 'SMART_PLACEMENT', codeCampaign: 'CODE', answers: [answerToChallengeOne] });
+
+        // when
+        await route.afterModel(assessment);
+
+        // then
+        sinon.assert.calledWithExactly(route.replaceWith, 'campaigns.skill-review', 'CODE', assessmentId);
+      });
+    });
+
+    context('when the assessment is not a CERTIFICATION nor SMART_PLACEMENT', function() {
+      it('should redirect to the assessment results page', async function() {
+        // given
+        const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
+
+        // when
+        await route.afterModel(assessment);
+
+        // then
+        sinon.assert.calledWithExactly(route.replaceWith, 'assessments.results', assessment.get('id'));
+      });
     });
   });
 });

@@ -6,10 +6,10 @@ import AssessmentProgression from '../models/assessment-progression';
 export default Component.extend({
   classNames: ['progress', 'pix-progress-bar'],
 
-  progression: computed('assessment.{type,course.nbChallenges,nbCurrentAnswers}', function() {
+  progression: computed('assessment.{type,answers,course.nbChallenges}', function() {
     return new AssessmentProgression({
       assessmentType: this.get('assessment.type'),
-      nbAnswers: this.get('assessment.nbCurrentAnswers'),
+      nbAnswers: this.get('assessment.answers.length'),
       nbChallenges: this.get('assessment.course.nbChallenges')
     });
   }),

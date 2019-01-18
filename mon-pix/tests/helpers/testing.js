@@ -42,3 +42,11 @@ export async function completeCampaignByCode(campaignCode) {
   await click('.challenge-item-warning__confirm-btn');
   await click('.challenge-actions__action-skip');
 }
+
+export async function completeCampaignAndSeeResultsByCode(campaignCode) {
+  await visit(`/campagnes/${campaignCode}`);
+  await click('.challenge-actions__action-skip');
+  await click('.challenge-item-warning__confirm-btn');
+  await click('.challenge-actions__action-skip');
+  await click('.assessment-checkpoint__continue-button');
+}

@@ -59,17 +59,6 @@ describe('Integration | Route | AssessmentRoute', () => {
     });
   });
 
-  describe('GET /api/assessments/assessment_id/next/challenge_id', () => {
-
-    beforeEach(() => {
-      assessmentController.getNextChallenge.returns('ok');
-    });
-
-    it('should exist', () => {
-      return _expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id/next/challenge_id' });
-    });
-  });
-
   describe('GET /api/assessments', () => {
 
     beforeEach(() => {

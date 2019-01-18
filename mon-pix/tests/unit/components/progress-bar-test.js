@@ -14,7 +14,7 @@ describe('Unit | Component | progress-bar', function() {
       // given
       const assessment = EmberObject.create({
         type: 'DEMO',
-        nbCurrentAnswers: 3,
+        answers: [{}, {}, {}],
         course: {
           nbChallenges: 10
         }

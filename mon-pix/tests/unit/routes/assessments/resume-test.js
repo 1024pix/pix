@@ -5,7 +5,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | resume', function() {
+describe('Unit | Route | Assessments | Resume', function() {
   setupTest('route:assessments.resume', {
     needs: ['service:current-routed-modal', 'service:metrics']
   });
@@ -30,7 +30,7 @@ describe('Unit | Route | resume', function() {
 
     // instance route object
     route = this.subject();
-    route.transitionTo = sinon.stub();
+    route.replaceWith = sinon.stub();
   });
 
   it('exists', function() {
@@ -40,7 +40,11 @@ describe('Unit | Route | resume', function() {
 
   describe('#afterModel', function() {
 
-    const assessment = EmberObject.create({ id: 123 });
+    let assessment;
+
+    beforeEach(function() {
+      assessment = EmberObject.create({ id: 123 });
+    });
 
     it('should get the next challenge of the assessment', function() {
       // given
@@ -58,41 +62,181 @@ describe('Unit | Route | resume', function() {
 
     context('when the next challenge exists', function() {
 
-      it('should redirect to the challenge view', function() {
-        // given
-        const nextChallenge = EmberObject.create({ id: 456 });
+      let nextChallenge;
+
+      beforeEach(function() {
+        nextChallenge = EmberObject.create({ id: 456 });
         queryRecordStub.resolves(nextChallenge);
+      });
 
-        // when
-        const promise = route.afterModel(assessment);
+      context('when assessment is a SMART_PLACEMENT', function() {
 
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.challenge', 123, 456);
+        beforeEach(function() {
+          assessment.type = 'SMART_PLACEMENT';
+          assessment.hasCheckpoints = true;
+        });
+
+        context('when checkpoint is reached', function() {
+
+          beforeEach(function() {
+            assessment.answers = [{}, {}, {}, {}, {}];
+          });
+
+          context('when user has seen checkpoint', function() {
+
+            beforeEach(function() {
+              route.hasSeenCheckpoint = true;
+            });
+
+            it('should redirect to the challenge view', function() {
+              // when
+              const promise = route.afterModel(assessment);
+
+              // then
+              return promise.then(() => {
+                sinon.assert.calledOnce(route.replaceWith);
+                sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123, 456);
+              });
+            });
+          });
+
+          context('when user has not seen checkpoint', function() {
+
+            beforeEach(function() {
+              route.hasSeenCheckpoint = false;
+            });
+
+            it('should redirect to assessment checkpoint page', function() {
+              // when
+              const promise = route.afterModel(assessment);
+
+              // then
+              return promise.then(() => {
+                sinon.assert.calledOnce(route.replaceWith);
+                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123);
+              });
+            });
+          });
+        });
+
+        context('when checkpoint is not reached', function() {
+
+          it('should redirect to the challenge view', function() {
+            // when
+            const promise = route.afterModel(assessment);
+
+            // then
+            return promise.then(() => {
+              sinon.assert.calledOnce(route.replaceWith);
+              sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123, 456);
+            });
+          });
         });
       });
 
+      context('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function() {
+        it('should redirect to the challenge view', function() {
+          // when
+          const promise = route.afterModel(assessment);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledOnce(route.replaceWith);
+            sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123, 456);
+          });
+        });
+      });
     });
 
     context('when the next challenge does not exist (is null)', function() {
 
-      it('should redirect to assessment results page', function() {
-        // given
+      beforeEach(function() {
         queryRecordStub.resolves(null);
+      });
 
-        // when
-        const promise = route.afterModel(assessment);
+      context('when assessment is a SMART_PLACEMENT', function() {
 
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.rating', 123);
+        beforeEach(function() {
+          assessment.type = 'SMART_PLACEMENT';
+          assessment.hasCheckpoints = true;
+        });
+
+        context('when assessment is not completed', function() {
+
+          beforeEach(function() {
+            assessment.state = 'started';
+            assessment.isCompleted = false;
+          });
+
+          context('when user has seen checkpoint', function() {
+
+            beforeEach(function() {
+              route.hasSeenCheckpoint = true;
+            });
+
+            it('should redirect to assessment rating page', function() {
+              // when
+              const promise = route.afterModel(assessment);
+
+              // then
+              return promise.then(() => {
+                sinon.assert.calledOnce(route.replaceWith);
+                sinon.assert.calledWith(route.replaceWith, 'assessments.rating', 123);
+              });
+            });
+          });
+
+          context('when user has not seen checkpoint', function() {
+
+            beforeEach(function() {
+              route.hasSeenCheckpoint = false;
+            });
+
+            it('should redirect to assessment last checkpoint page', function() {
+              // when
+              const promise = route.afterModel(assessment);
+
+              // then
+              return promise.then(() => {
+                sinon.assert.calledOnce(route.replaceWith);
+                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123, { queryParams: { finalCheckpoint: true } });
+              });
+            });
+          });
+        });
+
+        context('when assessment is completed', function() {
+
+          beforeEach(function() {
+            assessment.state = 'completed';
+            assessment.isCompleted = true;
+          });
+
+          it('should redirect to assessment rating page', function() {
+            // when
+            const promise = route.afterModel(assessment);
+
+            // then
+            return promise.then(() => {
+              sinon.assert.calledOnce(route.replaceWith);
+              sinon.assert.calledWith(route.replaceWith, 'assessments.rating', 123);
+            });
+          });
         });
       });
 
+      context('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function() {
+        it('should redirect to assessment rating page', function() {
+          // when
+          const promise = route.afterModel(assessment);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledOnce(route.replaceWith);
+            sinon.assert.calledWith(route.replaceWith, 'assessments.rating', 123);
+          });
+        });
+      });
     });
-
   });
-
 });
