@@ -251,7 +251,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     // then
     return expect(promise).to.have.been.rejectedWith(NotFoundError);
   });
-
+    
   it('should change the assessment status', () => {
     // when
     const promise = createAssessmentResultForCompletedAssessment({
@@ -269,6 +269,30 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       const savedCompetenceMark = assessmentRepository.save.firstCall.args;
       expect(savedCompetenceMark[0].state).to.deep.equal('completed');
     });
+  });
+
+  it('should resolves the computing of assessment Score when assessment is completed', () => {
+    // given
+    scoringService.calculateAssessmentScore = (dependencies, assessment) => {
+      if(assessment.state === 'completed') {
+        return Promise.resolve(assessmentScore);
+      }
+      return Promise.reject();
+    };
+
+    // when
+    const promise = createAssessmentResultForCompletedAssessment({
+      assessmentId,
+      assessmentResultRepository,
+      assessmentRepository,
+      certificationCourseRepository,
+      competenceMarkRepository,
+      scoringService,
+      skillsService,
+    });
+
+    // then
+    return expect(promise).to.have.been.fulfilled;
   });
 
   it('should save the assessment skills', () => {
