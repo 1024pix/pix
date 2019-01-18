@@ -1,4 +1,4 @@
-const encrypt = require('../../../../lib/domain/services/encryption-service');
+const encrypt = require('../../../lib/domain/services/encryption-service');
 
 function hashPassword(password) {
   return encrypt
