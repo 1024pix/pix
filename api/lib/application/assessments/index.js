@@ -33,15 +33,6 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/assessments/{id}/next/{challengeId}',
-      config: {
-        auth: false,
-        handler: assessmentController.getNextChallenge,
-        tags: ['api']
-      }
-    },
-    {
-      method: 'GET',
       path: '/api/assessments/{id}',
       config: {
         auth: false,

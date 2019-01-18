@@ -39,7 +39,6 @@ function getNextChallengeForTestingAssessment(assessmentId, currentChallengeId) 
 export default function(schema, request) {
 
   const assessmentId = request.params.assessmentId;
-  const currentChallengeId = request.params.challengeId;
 
   // dynamic assessment
   const assessment = schema.assessments.find(assessmentId);
@@ -50,5 +49,5 @@ export default function(schema, request) {
   }
 
   // testing assessment
-  return getNextChallengeForTestingAssessment(assessmentId, currentChallengeId);
+  return getNextChallengeForTestingAssessment(assessmentId, null);
 }

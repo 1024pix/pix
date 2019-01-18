@@ -1,7 +1,6 @@
 import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 import BaseRoute from 'mon-pix/routes/base-route';
-import ENV from 'mon-pix/config/environment';
 
 export default BaseRoute.extend({
 
@@ -84,15 +83,6 @@ export default BaseRoute.extend({
     return answer;
   },
 
-  _getNextChallenge(assessment, challenge) {
-    return this.get('store')
-      .queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') });
-  },
-
-  _hasReachedCheckpoint(assessment) {
-    return assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT === 0;
-  },
-
   actions: {
 
     saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
@@ -104,25 +94,10 @@ export default BaseRoute.extend({
       });
 
       return answer.save()
-        .then(() => this._getNextChallenge(assessment, challenge))
-        .then((nextChallenge) => {
-          if (nextChallenge) {
-            const nbCurrentAnswers = assessment.get('nbCurrentAnswers');
-
-            if (assessment.get('hasCheckpoints') && this._hasReachedCheckpoint(assessment)) {
-              assessment.set('nbCurrentAnswers', 0);
-              return this.transitionTo('assessments.checkpoint', assessment.get('id'));
-            }
-
-            assessment.set('nbCurrentAnswers', nbCurrentAnswers + 1);
-            this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
-          } else {
-            this.transitionTo('assessments.rating', assessment.get('id'));
-          }
-        })
-        .catch(() => {
-          this.send('error');
-        });
+        .then(
+          () => this.transitionTo('assessments.resume', assessment.get('id')),
+          () => this.send('error')
+        );
     },
     error() {
       return true;

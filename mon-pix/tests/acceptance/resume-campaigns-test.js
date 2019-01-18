@@ -2,7 +2,12 @@ import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import { authenticateAsSimpleUser, resumeCampaignByCode, completeCampaignByCode } from '../helpers/testing';
+import {
+  authenticateAsSimpleUser,
+  resumeCampaignByCode,
+  completeCampaignByCode,
+  completeCampaignAndSeeResultsByCode
+} from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 import { invalidateSession } from 'mon-pix/tests/helpers/ember-simple-auth';
 
@@ -76,13 +81,27 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       context('When user has completed his assessment', async function() {
 
-        beforeEach(async function() {
+        it('should show the last checkpoint page', async function() {
+          // given
           await completeCampaignByCode('AZERTY1');
-        });
 
-        it('should show the result page', async function() {
           // when
           await visit('/campagnes/AZERTY1');
+
+          // then
+          return andThen(() => {
+            expect(currentURL()).to.contains('checkpoint?finalCheckpoint=true');
+            expect(find('.assessment-checkpoint__continue-button').text()).to.contains('Voir mes résultats');
+          });
+        });
+
+        it('should show the results page when user clicks on "voir mes résultats"', async function() {
+          // given
+          await completeCampaignByCode('AZERTY1');
+          await visit('/campagnes/AZERTY1');
+
+          // when
+          await click('.assessment-checkpoint__continue-button');
 
           // then
           return andThen(() => {
@@ -94,7 +113,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
           it('should suggest to share his results', async function() {
             // when
-            await visit('/campagnes/AZERTY1');
+            await completeCampaignAndSeeResultsByCode('AZERTY1');
 
             // then
             return andThen(() => {
@@ -102,9 +121,9 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
             });
           });
 
-          it('should thank the user when he click on the share button', async function() {
+          it('should thank the user when he clicks on the share button', async function() {
             // when
-            await visit('/campagnes/AZERTY1');
+            await completeCampaignAndSeeResultsByCode('AZERTY1');
             await click('.skill-review__share__button');
 
             // then
@@ -118,15 +137,11 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
           it('should still display thank message when reloading the page', async function() {
             // given
-            server.create('campaignParticipation', {
-              id: 1,
-              isShared: true,
-              campaignId: 1,
-              assessmentId: 1,
-            });
+            await completeCampaignAndSeeResultsByCode('AZERTY1');
+            await click('.skill-review__share__button');
 
             // when
-            await visit('/campagnes/AZERTY1');
+            await visit('/campagnes/AZERTY1/resultats/1');
 
             // then
             return andThen(() => {
@@ -143,12 +158,16 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     beforeEach(async function() {
       server.create('assessment', {
         id: 1,
-        state: 'started',
+        type: 'SMART_PLACEMENT',
+        codeCampaign: 'AZERTY1',
+        state: 'completed',
       });
 
       server.create('assessment', {
         id: 2,
-        state: 'started',
+        type: 'SMART_PLACEMENT',
+        codeCampaign: 'AZERTY2',
+        state: 'completed',
       });
 
       server.create('campaignParticipation', {
@@ -167,12 +186,10 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       await authenticateAsSimpleUser();
       await visit('/campagnes/AZERTY1');
-      await click('.campaign-tutorial__ignore-button');
       await click('.challenge-actions__action-skip');
       await completeCampaignByCode('AZERTY1');
 
       await visit('/campagnes/AZERTY2');
-      await click('.campaign-tutorial__ignore-button');
       await click('.challenge-actions__action-skip');
       await completeCampaignByCode('AZERTY2');
     });
