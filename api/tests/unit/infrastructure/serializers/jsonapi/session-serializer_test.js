@@ -6,11 +6,12 @@ const CertificationCourse = require('../../../../../lib/domain/models/Certificat
 const sessionCodeService = require('../../../../../lib/domain/services/session-code-service');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
-describe('Unit | Serializer | JSONAPI | session-serializer', function() {
+describe.only('Unit | Serializer | JSONAPI | session-serializer', function() {
 
   const modelSession = new Session({
     id: 12,
     certificationCenter: 'Université de dressage de loutres',
+    certificationCenterId: 42,
     address: 'Nice',
     room: '28D',
     examiner: 'Antoine Toutvenant',
@@ -20,12 +21,13 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     accessCode: '',
   });
 
-  const jsonSession = {
+  const jsonApiSession = {
     data: {
       type: 'sessions',
       id: 12,
       attributes: {
         'certification-center': 'Université de dressage de loutres',
+        'certification-center-id': 42,
         address: 'Nice',
         room: '28D',
         'access-code': '',
@@ -49,7 +51,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       const json = serializer.serialize(modelSession);
 
       // then
-      expect(json).to.deep.equal(jsonSession);
+      expect(json).to.deep.equal(jsonApiSession);
     });
 
     it('should convert certifications relationships into JSON API relationships', () => {
@@ -60,6 +62,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       const session = new Session({
         id: '12',
         certificationCenter: 'Université de dressage de loutres',
+        certificationCenterId: 42,
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
@@ -80,6 +83,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           type: 'sessions',
           attributes: {
             'certification-center': 'Université de dressage de loutres',
+            'certification-center-id': 42,
             address: 'Nice',
             room: '28D',
             'access-code': '',
@@ -108,7 +112,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
     it('should convert JSON API data to a Session', function() {
       // when
-      const promise = serializer.deserialize(jsonSession);
+      const promise = serializer.deserialize(jsonApiSession);
 
       // then
       return promise.then((session) => {
@@ -119,12 +123,13 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
     it('should have attributes', function() {
       // when
-      const promise = serializer.deserialize(jsonSession);
+      const promise = serializer.deserialize(jsonApiSession);
 
       // then
       return promise.then((session) => {
         expect(session.id).to.equal(12);
         expect(session.certificationCenter).to.equal('Université de dressage de loutres');
+        expect(session.certificationCenterId).to.equal(42);
         expect(session.address).to.equal('Nice');
         expect(session.room).to.equal('28D');
         expect(session.examiner).to.equal('Antoine Toutvenant');
@@ -137,10 +142,10 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
     it('should return an error if date is in wrong format', function() {
       // given
-      jsonSession.data.attributes.date = '12/14/2015';
+      jsonApiSession.data.attributes.date = '12/14/2015';
 
       // then
-      expect(() => serializer.deserialize(jsonSession)).to.throw(WrongDateFormatError);
+      expect(() => serializer.deserialize(jsonApiSession)).to.throw(WrongDateFormatError);
     });
 
   });
