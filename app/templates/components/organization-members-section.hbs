@@ -1,43 +1,29 @@
 <section class="page-section mb_10">
   <header class="page-section__header">
-    <h2 class="page-section__title">Membres</h2>
-    <div class="page-section__actions">
-      <button class="btn btn-outline-default btn-thin hidden" {{action "toggleWipModal"}}>
-        {{fa-icon "plus"}} Ajouter un membre
-      </button>
-    </div>
+    <h2 class="page-section__title">Ajouter un membre</h2>
   </header>
+    <form class="add-membership-form form">
+      {{input class="add-membership-form__user-email-input form-field__text form-control" 
+              id="userEmail" 
+              value=_userEmail 
+              placeholder="E-mail de l'utilisateur à ajouter"}}
+      <button class="add-membership-form__validate-button btn btn-outline-default btn-thin" {{action (action "addMembership")}}>Valider</button>
+    </form>
+</section>
 
-  <div>
-    <button {{action "addMembership"}}>
-      Hello button
-    </button>
-  </div>
-  <div class="organization__resource">
-    {{#if organization.members}}
-      <table>
-        <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Rôle</th>
-        </tr>
-        </thead>
-        <tbody>
-        {{#each organization.members as |member|}}
-          <tr class="organization__member">
-            <td>{{member.firstName}} {{member.lastName}}</td>
-            <td>{{member.email}}</td>
-            <td>Administrateur</td>
-          </tr>
-        {{/each}}
-        </tbody>
-      </table>
-
-    {{else}}
-      <p>
-        Cette organisation ne possède pas encore de membre.
-      </p>
-    {{/if}}
+<section class="page-section mb_10">
+  <header class="page-section__header">
+    <h2 class="page-section__title">Membres</h2>
+  </header>
+  <div class="member-list">
+    {{models-table
+      data=users
+      columns=columns
+      themeInstance=themeInstance
+      showColumnsDropdown=false
+      useFilteringByColumns=false
+      showGlobalFilter=false
+      showComponentFooter=false
+    }}
   </div>
 </section>
