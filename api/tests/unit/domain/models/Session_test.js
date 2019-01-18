@@ -24,7 +24,7 @@ describe('Unit | Domain | Models | Session', () => {
     session = new Session({
       id: 'id',
       accessCode: '',
-      address: '\'\'',
+      address: '',
       certificationCenter: '',
       certificationCenterId: '',
       date: '',
