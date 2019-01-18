@@ -646,17 +646,17 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
   describe('#findSmartPlacementAssessmentsByUserId', () => {
     let assessmentId;
 
-    const assessmentInDb = databaseBuilder.factory.buildAssessment({
-      courseId: 'course_A',
-      userId: 1,
-      type: 'SMART_PLACEMENT',
-    });
-
-    const campaign = databaseBuilder.factory.buildCampaign({
-      name: 'Campagne',
-    });
-
     beforeEach(() => {
+      const assessmentInDb = databaseBuilder.factory.buildAssessment({
+        courseId: 'course_A',
+        userId: 1,
+        type: 'SMART_PLACEMENT',
+      });
+
+      const campaign = databaseBuilder.factory.buildCampaign({
+        name: 'Campagne',
+      });
+
       return knex('assessments').insert(assessmentInDb)
         .then((assessmentIds) => {
           assessmentId = _.first(assessmentIds);
