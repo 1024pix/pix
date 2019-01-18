@@ -7,7 +7,7 @@ export default Controller.extend({
   actions: {
 
     goBackToOrganizationList() {
-      this.doGoBackToOrganizationListPage();
+      this.transitionToRoute('authenticated.organizations');
     },
 
     addOrganization() {
