@@ -23,4 +23,6 @@ function main(args) {
     .pipe(fs.createWriteStream(`organization-${organizationId}-${fileName}.csv`));
 }
 
-main(process.argv);
+if (require.main === module) {
+  main(process.argv);
+}
