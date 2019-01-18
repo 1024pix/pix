@@ -58,7 +58,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         data: {
           type: 'campaign',
           attributes: {
-            name: 'My zuper campaign',
+            name: 'My super campaign',
             'organization-id': organizationId,
           },
           relationships: {

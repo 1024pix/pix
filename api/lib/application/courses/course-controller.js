@@ -1,10 +1,9 @@
 const Boom = require('boom');
 
+const usecases = require('../../domain/usecases');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const certificationService = require('../../../lib/domain/services/certification-service');
-const sessionService = require('../../../lib/domain/services/session-service');
 const courseService = require('../../../lib/domain/services/course-service');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const { UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
@@ -53,9 +52,10 @@ module.exports = {
   save(request, h) {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];
-    return sessionService.sessionExists(accessCode)
-      .then((sessionId) => certificationService.startNewCertification(userId, sessionId))
-      .then((certificationCourse) => h.response(certificationCourseSerializer.serialize(certificationCourse)).code(201))
+    return usecases.retrieveLastOrCreateCertificationCourse({ accessCode, userId })
+      .then(({ created, certificationCourse }) => {
+        return h.response(certificationCourseSerializer.serialize(certificationCourse)).code(created ? 201 : 200);
+      })
       .catch((err) => {
         if (err instanceof UserNotAuthorizedToCertifyError) {
           const errorHttpStatusCode = 403;

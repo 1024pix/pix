@@ -17,7 +17,6 @@ module.exports = function buildCertificationCourse({
   externalId = faker.random.uuid(),
   isPublished = faker.random.boolean(),
   createdAt = faker.date.past().toISOString(),
-  updatedAt = faker.date.recent().toISOString(),
 } = {}) {
 
   const values = {
@@ -31,7 +30,6 @@ module.exports = function buildCertificationCourse({
     isPublished,
     lastName,
     sessionId,
-    updatedAt,
     userId,
   };
 

@@ -256,14 +256,14 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
   });
 
-  describe('(answers provided) GET /api/assessments/:id', () => {
+  describe('(answers provided, assessment completed) GET /api/assessments/:id', () => {
 
     let inserted_assessment_id;
     let inserted_good_answer_id;
     let inserted_bad_answer_id;
 
     beforeEach(() => {
-      return knex('assessments').insert([inserted_assessment]).returning('id').then(([id]) => {
+      return knex('assessments').insert([{ ...inserted_assessment, state: 'completed' }]).returning('id').then(([id]) => {
         inserted_assessment_id = id;
 
         const inserted_good_answer = {
@@ -357,7 +357,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'attributes': {
             'estimated-level': 1,
             'pix-score': 12,
-            'state': null,
+            'state': 'completed',
             'type': 'PLACEMENT',
             'certification-number': null,
           },
