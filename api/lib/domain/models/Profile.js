@@ -114,5 +114,6 @@ class Profile {
 }
 
 Profile.competenceStatus = competenceStatus;
+Profile.MAX_REACHABLE_LEVEL = MAX_REACHABLE_LEVEL;
 
 module.exports = Profile;
