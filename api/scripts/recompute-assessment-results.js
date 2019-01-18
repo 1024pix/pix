@@ -49,7 +49,7 @@ function main() {
 
 }
 
-if (process.env.NODE_ENV !== 'test') {
+if (require.main === module) {
   main();
 }
 
