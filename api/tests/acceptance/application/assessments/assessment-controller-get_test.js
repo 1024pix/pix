@@ -205,7 +205,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'type': 'assessment',
           'id': inserted_assessment_id,
           'attributes': {
-            'estimated-level': null,
+            'estimated-level': 0,
             'pix-score': 0,
             'state': null,
             'type': 'PLACEMENT',

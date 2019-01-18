@@ -12,7 +12,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
   beforeEach(() => {
     assessment = domainBuilder.buildAssessment();
-    assessmentScore = domainBuilder.buildAssessmentScore();
 
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(scoringService, 'calculateAssessmentScore');
@@ -20,6 +19,7 @@ describe('Unit | UseCase | get-assessment', () => {
 
   it('should resolve the Assessment domain object matching the given assessment ID', async () => {
     // given
+    assessmentScore = domainBuilder.buildAssessmentScore();
     assessmentRepository.get.resolves(assessment);
     scoringService.calculateAssessmentScore.resolves(assessmentScore);
 
@@ -29,8 +29,33 @@ describe('Unit | UseCase | get-assessment', () => {
     // then
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
-    expect(result.estimatedLevel).to.equal(assessmentScore.level);
     expect(result.pixScore).to.equal(assessmentScore.nbPix);
+  });
+
+  it('should resolve the Assessment domain object with estimated level', async () => {
+    // given
+    assessmentScore = domainBuilder.buildAssessmentScore({ level: 2 });
+    assessmentRepository.get.resolves(assessment);
+    scoringService.calculateAssessmentScore.resolves(assessmentScore);
+
+    // when
+    const result = await getAssessment({ assessmentRepository, assessmentId: assessment.id  });
+
+    // then
+    expect(result.estimatedLevel).to.equal(2);
+  });
+
+  it('should resolve the Assessment domain object with ceiling level', async () => {
+    // given
+    assessmentScore = domainBuilder.buildAssessmentScore({ level: 6 });
+    assessmentRepository.get.resolves(assessment);
+    scoringService.calculateAssessmentScore.resolves(assessmentScore);
+
+    // when
+    const result = await getAssessment({ assessmentRepository, assessmentId: assessment.id  });
+
+    // then
+    expect(result.estimatedLevel).to.equal(5);
   });
 
   it('should reject a domain NotFoundError when there is no assessment for given ID', () => {
