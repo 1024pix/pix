@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.20.2 (18/01/2019) 
+
+- [#311](https://github.com/1024pix/pix/pull/311) [BUGFIX] Une seule évaluation pour une certification (PF-143).
+- [#319](https://github.com/1024pix/pix/pull/319) [BUGFIX] Changement de l'état d'une évaluation avant la création des résultats (PF-143).
+- [#325](https://github.com/1024pix/pix/pull/325) [BUGFIX] Ajout de test (PF-143).
+- [#326](https://github.com/1024pix/pix/pull/326) [BUGFIX] Le niveau affiché à la fin d'un parcours par compétence devrait être plafonné (PF-492).
+- [#321](https://github.com/1024pix/pix/pull/321) [TECH] Ajout de l'identifiant du centre de certification dans la session (PC-15-1).
+
 ## v2.20.1 (16/01/2019)
 
 - [#318](https://github.com/1024pix/pix/pull/318) [BUGFIX] Correction du partage du profil (cassé en v2.20.0)
