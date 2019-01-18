@@ -48,7 +48,7 @@ function main() {
 
 /*=================== tests =============================*/
 
-if (process.env.NODE_ENV !== 'test') {
+if (require.main === module) {
   console.log('Start script : ');
   main();
 }

@@ -50,4 +50,6 @@ function main() {
   process.exit();
 }
 
-main();
+if (require.main === module) {
+  main();
+}
