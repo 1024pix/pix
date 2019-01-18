@@ -8,6 +8,7 @@ const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 // Tables must be inserted in a specific orderr
 const orderedTableNames = [
   'users',
+  'certification-centers',
   'sessions',
   'assessments',
   'certification-courses',
