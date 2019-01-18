@@ -1,3 +1,4 @@
+const { MAX_REACHABLE_LEVEL } = require('../../../lib/domain/models/Profile');
 const scoringService = require('../services/scoring/scoring-service');
 const { NotFoundError } = require('../errors');
 
@@ -29,7 +30,7 @@ module.exports = async function getAssessment(
    * dans le front plutôt qu'engager un calcul lourd à chaque affichage d'épreuve ou chaque récupération d'assessment.
    */
   const assessmentScore = await scoringService.calculateAssessmentScore(dependencies, assessment);
-  assessment.estimatedLevel = assessmentScore.level;
+  assessment.estimatedLevel = Math.min(assessmentScore.level, MAX_REACHABLE_LEVEL);
   assessment.pixScore = assessmentScore.nbPix;
 
   return assessment;
