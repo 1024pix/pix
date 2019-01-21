@@ -78,6 +78,12 @@ class CertificationComputeError extends DomainError {
   }
 }
 
+class CertificationCenterMembershipCreationError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class ChallengeAlreadyAnsweredError extends DomainError {
   constructor(message) {
     super(message);
@@ -278,6 +284,7 @@ module.exports = {
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CertificationComputeError,
+  CertificationCenterMembershipCreationError,
   ChallengeAlreadyAnsweredError,
   EntityValidationError,
   ForbiddenAccess,

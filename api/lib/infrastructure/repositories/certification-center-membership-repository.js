@@ -1,5 +1,5 @@
 const BookshelfCertificationCenterMembership = require('../data/certification-center-membership');
-const { AlreadyExistingMembershipError } = require('../../domain/errors');
+const { CertificationCenterMembershipCreationError } = require('../../domain/errors');
 const { InfrastructureError } = require('../../infrastructure/errors');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
@@ -13,7 +13,6 @@ function _toDomain(certificationCenterMembership) {
 
   return new CertificationCenterMembership({
     id: certificationCenterMembership.get('id'),
-    userId: certificationCenterMembership.get('userId'),
     certificationCenter,
   });
 }
@@ -26,7 +25,7 @@ module.exports = {
       .then(_toDomain)
       .catch((err) => {
         if (bookshelfUtils.isUniqConstraintViolated(err)) {
-          throw new AlreadyExistingMembershipError();
+          throw new CertificationCenterMembershipCreationError();
         }
         throw new InfrastructureError(err);
       });

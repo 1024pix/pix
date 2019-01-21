@@ -5,15 +5,11 @@ class CertificationCenterMembership {
     // attributes
     // includes
     certificationCenter,
-    // references
-    userId
   } = {}) {
     this.id = id;
     // attributes
     // references
     this.certificationCenter = certificationCenter;
-    // includes
-    this.userId = userId;
   }
 }
 

@@ -2,7 +2,7 @@ const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
-const { AlreadyExistingMembershipError } = require('../../../../lib/domain/errors');
+const { CertificationCenterMembershipCreationError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Certification Center Membership', () => {
 
@@ -40,8 +40,8 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
       // then
       expect(createdCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
-      expect(createdCertificationCenterMembership.userId).to.equal(user.id);
       expect(createdCertificationCenterMembership.certificationCenter).to.be.an.instanceOf(CertificationCenter);
+      expect(createdCertificationCenterMembership.certificationCenter.id).to.equal(certificationCenter.id);
     });
 
     context('Error cases', () => {
@@ -54,7 +54,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
         const promise = certificationCenterMembershipRepository.create(user.id, certificationCenter.id);
 
         // then
-        return expect(promise).to.have.been.rejectedWith(AlreadyExistingMembershipError);
+        return expect(promise).to.have.been.rejectedWith(CertificationCenterMembershipCreationError);
       });
 
     });
