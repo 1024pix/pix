@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 [ -z $GITHUB_USER ] && {
 	echo 'FATAL: $GITHUB_USER is absent'
@@ -24,6 +24,15 @@ RA_ORGA_URL="https://pix-orga-integration-pr$PR_NUMBER.scalingo.io"
 RA_CERTIF_URL="https://pix-certif-integration-pr$PR_NUMBER.scalingo.io"
 RA_API_URL="https://pix-api-integration-pr$PR_NUMBER.scalingo.io"
 
-curl -u $GITHUB_USER:$GITHUB_USER_TOKEN --verbose \
-	-X POST "https://api.github.com/repos/1024pix/pix/issues/${PR_NUMBER}/comments" \
-	--data "{\"body\":\"I'm deploying this PR to these urls:\n\n- App: $RA_APP_URL\n- Orga: $RA_ORGA_URL\n- Certif: $RA_CERTIF_URL\n- API: $RA_API_URL\n\n Please check it out\"}"
+MESSAGE_PREFIX="I'm deploying this PR to these urls:"
+
+existing_comments=$(curl -Ssf -u $GITHUB_USER:$GITHUB_USER_TOKEN \
+	"https://api.github.com/repos/1024pix/pix/issues/${PR_NUMBER}/comments")
+
+if [[ $existing_comments == *"${MESSAGE_PREFIX}"* ]]; then
+	echo 'INFO: found a matching comment on the PR, not posting another one.'
+else
+	curl -Ssf -u $GITHUB_USER:$GITHUB_USER_TOKEN \
+		-X POST "https://api.github.com/repos/1024pix/pix/issues/${PR_NUMBER}/comments" \
+		--data "{\"body\":\"$MESSAGE_PREFIX\n\n- App: $RA_APP_URL\n- Orga: $RA_ORGA_URL\n- Certif: $RA_CERTIF_URL\n- API: $RA_API_URL\n\n Please check it out\"}"
+fi
