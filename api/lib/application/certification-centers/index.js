@@ -54,7 +54,19 @@ exports.register = async function(server) {
         ],
         tags: ['api', 'certification-center']
       }
-    }
+    },
+    {
+      method: 'GET',
+      path: '/api/certification-centers/{id}/sessions',
+      config: {
+        handler: certificationCenterController.getSessions,
+        tags: ['api', 'certification-center'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les sessions rattachées au centre de certification.',
+        ]
+      }
+    },
   ]);
 };
 

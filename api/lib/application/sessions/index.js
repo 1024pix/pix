@@ -7,10 +7,6 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions',
       config: {
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
-        }],
         handler: sessionController.find,
         tags: ['api', 'sessions'],
         notes: [

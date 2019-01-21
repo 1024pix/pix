@@ -5,7 +5,7 @@ function _checkUserAccessScope(scope, user) {
   if (
     (scope === 'pix-orga' && !user.isLinkedToOrganizations()) ||
     (scope === 'pix-admin' && !user.hasRolePixMaster) ||
-    (scope === 'pix-certif' && !user.hasRolePixMaster)
+    (scope === 'pix-certif' && !user.isLinkedToCertificationCenter())
   ) {
     throw new ForbiddenAccess('User is not allowed to access this area');
   }

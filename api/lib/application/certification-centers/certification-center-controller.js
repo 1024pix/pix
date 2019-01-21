@@ -41,4 +41,14 @@ module.exports = {
       .then(controllerReplies(h).ok)
       .catch(controllerReplies(h).error);
   },
+
+  getSessions(request, h) {
+    const certificationCenterId = request.params.id;
+    const userId = request.auth.credentials.userId;
+
+    return usecases.findSessions({ certificationCenterId })
+      .then((sessions) => campaignSerializer.serialize(sessions))
+      .then(controllerReplies(h).ok)
+      .catch(controllerReplies(h).error);
+  }
 };

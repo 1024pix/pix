@@ -15,6 +15,7 @@ class User {
     samlId,
     // includes
     memberships = [],
+    certificationCenterMemberships = [],
     pixRoles = [],
     // references
   } = {}) {
@@ -31,6 +32,7 @@ class User {
     // includes
     this.pixRoles = pixRoles;
     this.memberships = memberships;
+    this.certificationCenterMemberships = certificationCenterMemberships;
     // references
   }
 
@@ -40,6 +42,10 @@ class User {
 
   isLinkedToOrganizations() {
     return this.memberships.length > 0;
+  }
+
+  isLinkedToCertificationCenter() {
+    return this.certificationCenterMemberships.length > 0;
   }
 
   hasAccessToOrganization(organizationId) {
