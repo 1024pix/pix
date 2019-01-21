@@ -164,6 +164,18 @@ module.exports = {
       });
   },
 
+  getCertificationCenterMemberships(request, h) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+
+    return usecases.getUserWithCertificationCenterMemberships({ authenticatedUserId, requestedUserId })
+      .then((user) => certificationCenterMembershipsSerializer.serialize(user.certificationCenterMemberships))
+      .catch((error) => {
+        const mappedError = _mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
+      });
+  },
+
   find(request) {
     const filters = {
       firstName: request.query['firstName'],

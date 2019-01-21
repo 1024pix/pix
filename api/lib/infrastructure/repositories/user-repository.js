@@ -5,8 +5,22 @@ const { UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
 const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
+const CertificationCenter = require('../../domain/models/CertificationCenter');
+const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
 const OrganizationRole = require('../../domain/models/OrganizationRole');
+
+function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
+  return certificationCenterMembershipBookshelf.map((bookshelf) => {
+    return new CertificationCenterMembership({
+      id: bookshelf.get('id'),
+      certificationCenter: new CertificationCenter({
+        id: bookshelf.related('certificationCenter').get('id'),
+        name: bookshelf.related('certificationCenter').get('name'),
+      })
+    });
+  });
+}
 
 function _toMembershipsDomain(membershipsBookshelf) {
   return membershipsBookshelf.map((membershipBookshelf) => {
@@ -46,6 +60,7 @@ function _toDomain(userBookshelf) {
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
     pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
     memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
+    certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
   });
 }
@@ -84,6 +99,8 @@ module.exports = {
           'memberships.organization',
           'memberships.organizationRole',
           'pixRoles',
+          'certificationCenterMemberships',
+          'certificationCenterMemberships.certificationCenter',
         ]
       })
       .then((foundUser) => {
@@ -185,7 +202,7 @@ module.exports = {
   },
 
   updateUser(domainUser) {
-    const userToUpdate = _.omit(domainUser, ['pixRoles', 'memberships']);
+    const userToUpdate = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships']);
     return BookshelfUser.where({ id: domainUser.id })
       .save(userToUpdate, {
         patch: true,

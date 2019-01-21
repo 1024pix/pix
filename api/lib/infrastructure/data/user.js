@@ -31,7 +31,7 @@ module.exports = Bookshelf.model('User', {
   },
 
   certificationCenterMemberships() {
-    return this.hasMany('certificationCenterMembership', 'userId');
+    return this.hasMany('CertificationCenterMembership', 'userId');
   },
 
   toDomainEntity() {
