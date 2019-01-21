@@ -6,7 +6,7 @@ const CertificationCourse = require('../../../../../lib/domain/models/Certificat
 const sessionCodeService = require('../../../../../lib/domain/services/session-code-service');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
-describe.only('Unit | Serializer | JSONAPI | session-serializer', function() {
+describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
   const modelSession = new Session({
     id: 12,
