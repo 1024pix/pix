@@ -60,5 +60,15 @@ module.exports = {
       })
       .fetchAll({})
       .then((sessions) => sessions.map(_toDomain));
+  },
+
+  findByCertificationCenter(certificationCenterId) {
+    return BookshelfSession
+      .query((qb) => {
+        qb.orderBy('createdAt', 'desc')
+          .limit(10); // remove after pagination
+      })
+      .fetchAll({})
+      .then((sessions) => sessions.map(_toDomain));
   }
 };

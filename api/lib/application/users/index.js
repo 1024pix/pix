@@ -80,7 +80,7 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/certificationCenterMemberships',
+      path: '/api/users/{id}/certification-center-memberships',
       config: {
         handler: userController.getCertificationCenterMemberships,
         notes : [
