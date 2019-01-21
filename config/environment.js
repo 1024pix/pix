@@ -47,7 +47,7 @@ module.exports = function(environment) {
     metricsAdapters: [
       {
         name: 'Piwik',
-        environments: ['all'],
+        environments: ['production'],
         config: {
           piwikUrl: '//stats.pix.fr',
           siteId: 7
