@@ -97,6 +97,28 @@ describe('Unit | Domain | Models | User', () => {
 
   });
 
+  describe('isLinkedToCertificationCenters', () => {
+
+    it('should be true if user has a role in a certification center', () => {
+      // given
+      const user = domainBuilder.buildUser({
+        certificationCenterMemberships: [domainBuilder.buildCertificationCenterMembership()]
+      });
+
+      // when/then
+      expect(user.isLinkedToCertificationCenters()).to.be.true;
+    });
+
+    it('should be false is user has no role in certification center', () => {
+      // given
+      const user = new User();
+
+      // when/then
+      expect(user.isLinkedToCertificationCenters()).to.be.false;
+    });
+
+  });
+
   describe('hasAccessToOrganization', () => {
 
     it('should be false is user has no access to no organizations', () => {

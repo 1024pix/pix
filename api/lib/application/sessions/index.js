@@ -8,6 +8,10 @@ exports.register = async (server) => {
       path: '/api/sessions',
       config: {
         handler: sessionController.find,
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
