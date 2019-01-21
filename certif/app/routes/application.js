@@ -6,6 +6,7 @@ export default Route.extend(ApplicationRouteMixin, {
 
   routeAfterAuthentication: 'authenticated',
   currentUser: service(),
+  currentCertificationCenter: service(),
 
   beforeModel() {
     return this._loadInitialData();
@@ -22,8 +23,10 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   _loadInitialData() {
-    return this._loadCurrentUser();
+    return this._loadCurrentUser()
+      .then((user) => this._loadCurrentCertificationCenter(user));
   },
+
 
   _loadCurrentUser() {
     return this.get('currentUser').load()
@@ -32,5 +35,9 @@ export default Route.extend(ApplicationRouteMixin, {
         throw error;
       });
   },
+
+  _loadCurrentCertificationCenter(user) {
+    return this.get('currentCertificationCenter').load(user);
+  }
 
 });

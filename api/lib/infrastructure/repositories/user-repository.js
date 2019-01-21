@@ -164,6 +164,22 @@ module.exports = {
         return _toDomain(foundUser);
       });
   },
+  getWithCertificationCenterMemberships(userId) {
+    return BookshelfUser
+      .where({ id: userId })
+      .fetch({
+        withRelated: [
+          'certificationCenterMemberships',
+          'certificationCenterMemberships.certificationCenter',
+        ]
+      })
+      .then((foundUser) => {
+        if (foundUser === null) {
+          return Promise.reject(new UserNotFoundError(`User not found for ID ${userId}`));
+        }
+        return _toDomain(foundUser);
+      });
+  },
 
   async getBySamlId(samlId) {
     const bookshelfUser = await BookshelfUser

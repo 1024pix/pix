@@ -5,4 +5,6 @@ export default DS.Model.extend({
   firstName: DS.attr('string'),
   lastName: DS.attr('string'),
   pixCertifTermsOfServiceAccepted: DS.attr('boolean'),
+  certificationCenterMemberships: DS.hasMany('certificationCenterMembership')
+
 });

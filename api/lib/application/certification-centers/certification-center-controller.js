@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
+const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
 const {
@@ -46,8 +47,8 @@ module.exports = {
     const certificationCenterId = request.params.id;
     const userId = request.auth.credentials.userId;
 
-    return usecases.findSessions({ certificationCenterId })
-      .then((sessions) => campaignSerializer.serialize(sessions))
+    return usecases.findSessions({ userId, certificationCenterId })
+      .then((sessions) => sessionSerializer.serialize(sessions))
       .then(controllerReplies(h).ok)
       .catch(controllerReplies(h).error);
   }
