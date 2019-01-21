@@ -9,6 +9,6 @@ module('Integration | Component | organization-members-section', function(hooks)
   test('it renders', async function(assert) {
     await render(hbs`{{organization-members-section}}`);
 
-    assert.dom('.organization__resource').exists();
+    assert.dom('.member-list').exists();
   });
 });

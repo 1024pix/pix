@@ -1,4 +1,4 @@
-import { module, test, only } from 'qunit';
+import { module, test } from 'qunit';
 import { click, fillIn, visit, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
@@ -23,11 +23,11 @@ module('Acceptance | organization memberships management', function(hooks) {
     assert.equal(currentURL(), `/organizations/${organization.id}`);
   });
 
-  only('adding a member', async function(assert) {
+  test('adding a member', async function(assert) {
     // given
     const organization = this.server.create('organization');
-    const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com'});
-    
+    this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com'});
+
     // when
     await visit(`/organizations/${organization.id}`);
     await fillIn('input.add-membership-form__user-email-input', 'user@example.com');
