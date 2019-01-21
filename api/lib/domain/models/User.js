@@ -44,7 +44,7 @@ class User {
     return this.memberships.length > 0;
   }
 
-  isLinkedToCertificationCenter() {
+  isLinkedToCertificationCenters() {
     return this.certificationCenterMemberships.length > 0;
   }
 

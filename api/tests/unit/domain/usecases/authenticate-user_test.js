@@ -111,10 +111,10 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       return expect(promise).to.be.rejectedWith(ForbiddenAccess);
     });
 
-    it('rejects an error when scope is pix-certif and user has not pix master role', function() {
+    it('rejects an error when scope is pix-certif and user is not linked to any certification centers', function() {
       // given
       const scope = 'pix-certif';
-      const user = new User({ email: userEmail, password: userPassword, pixRoles: [] });
+      const user = domainBuilder.buildUser({ email: userEmail, password: userPassword, certificationCenterMemberships: []});
       userRepository.findByEmailWithRoles.resolves(user);
 
       // when
