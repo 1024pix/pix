@@ -2,7 +2,6 @@ const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
-const { CertificationCenterMembershipCreationError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Certification Center Membership', () => {
 
@@ -46,7 +45,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
     context('Error cases', () => {
 
-      it('should throw a domain error when a membership already exist for user + certificationCenter', async () => {
+      it('should throw an error when a membership already exist for user + certificationCenter', async () => {
         // given
         await certificationCenterMembershipRepository.create(user.id, certificationCenter.id);
 
@@ -54,7 +53,7 @@ describe('Integration | Repository | Certification Center Membership', () => {
         const promise = certificationCenterMembershipRepository.create(user.id, certificationCenter.id);
 
         // then
-        return expect(promise).to.have.been.rejectedWith(CertificationCenterMembershipCreationError);
+        return expect(promise).to.have.been.rejectedWith(Error);
       });
 
     });

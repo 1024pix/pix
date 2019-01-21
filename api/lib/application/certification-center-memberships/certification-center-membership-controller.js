@@ -1,7 +1,7 @@
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
 const infraErrors = require('../../infrastructure/errors');
-const { CertificationCenterMembershipCreationError } = require('../../domain/errors');
+const { CertificationCenterMembershipCreationError, AlreadyExistingMembershipError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -12,10 +12,14 @@ module.exports = {
       .then(controllerReplies(h).created)
       .catch((error) => {
         if (error instanceof CertificationCenterMembershipCreationError) {
-          const badRequestError = new infraErrors.BadRequestError(error.message);
+          const badRequestError = new infraErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');
           return controllerReplies(h).error(badRequestError);
         }
 
+        if (error instanceof AlreadyExistingMembershipError) {
+          const badRequestError = new infraErrors.BadRequestError('Ce membre est déjà lié à ce centre de certification.');
+          return controllerReplies(h).error(badRequestError);
+        }
         return controllerReplies(h).error(error);
       });
   },
