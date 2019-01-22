@@ -64,9 +64,9 @@ module.exports = {
 
   findByCertificationCenter(certificationCenterId) {
     return BookshelfSession
+      .where({ certificationCenterId })
       .query((qb) => {
-        qb.orderBy('createdAt', 'desc')
-          .limit(10); // remove after pagination
+        qb.orderBy('date', 'desc');
       })
       .fetchAll({})
       .then((sessions) => sessions.map(_toDomain));
