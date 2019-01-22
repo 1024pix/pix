@@ -53,6 +53,10 @@ class User {
       .some((membership) => membership.organization.id === organizationId);
   }
 
+  hasAccessToCertificationCenter(certificationCenterId) {
+    return this.certificationCenterMemberships
+      .some((certificationCenterMembership) => certificationCenterMembership.certificationCenter.id === certificationCenterId);
+  }
 }
 
 module.exports = User;
