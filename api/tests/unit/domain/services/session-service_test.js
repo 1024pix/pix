@@ -89,66 +89,81 @@ describe('Unit | Service | session', () => {
       getCertificationCenterStub = sinon.stub(certificationCenterRepository, 'get');
       saveSessionStub = sinon.stub(sessionRepository, 'save');
     });
-    context('the certification center was retrieved', () => {
-      context('the certification center exists', () => {
-        context('the session was saved', () => {
-          it('should have fetched the certification center and saved an augmented session', async () => {
+    context('the certification center is supposed to exist', () => {
+      context('the certification center was retrieved', () => {
+        context('the certification center exists', () => {
+          context('the session was saved', () => {
+            it('should have fetched the certification center and saved an augmented session', async () => {
+              // given
+              getCertificationCenterStub.resolves(certificationCenter);
+              saveSessionStub.resolves();
+
+              // when
+              await sessionService.save(sessionModel);
+
+              // then
+              expect(sessionModel).to.deep.equal(sessionModelAugmented);
+              expect(certificationCenterRepository.get).to.have.been.calledWithExactly(certificationCenterId);
+              expect(sessionRepository.save).to.have.been.calledWithExactly(sessionModelAugmented);
+            });
+          });
+          context('the session could not be saved', () => {
+            it('should forward the error', async () => {
+              // given
+              getCertificationCenterStub.resolves(certificationCenter);
+              saveSessionStub.rejects(testErr);
+
+              // when
+              const promise = sessionService.save(sessionModel);
+
+              // then
+              return promise.catch((err) => {
+                expect(err).to.deep.equal(testErr);
+              });
+            });
+          });
+        });
+        context('the certification center does not exist', () => {
+          it('should save the session as it is', async () => {
             // given
-            getCertificationCenterStub.resolves(certificationCenter);
+            getCertificationCenterStub.rejects(testDomainNotFoundErr);
             saveSessionStub.resolves();
 
             // when
             await sessionService.save(sessionModel);
 
             // then
-            expect(sessionModel).to.deep.equal(sessionModelAugmented);
-            expect(certificationCenterRepository.get).to.have.been.calledWithExactly(certificationCenterId);
-            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionModelAugmented);
-          });
-        });
-        context('the session could not be saved', () => {
-          it('should forward the error', async () => {
-            // given
-            getCertificationCenterStub.resolves(certificationCenter);
-            saveSessionStub.rejects(testErr);
-
-            // when
-            const promise = sessionService.save(sessionModel);
-
-            // then
-            return promise.catch((err) => {
-              expect(err).to.deep.equal(testErr);
-            });
+            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionModel);
           });
         });
       });
-      context('the certification center does not exist', () => {
-        it('should save the session as it is', async () => {
+      context('the certification center could not be retrieved', () => {
+        it('should forward the error', () => {
           // given
-          getCertificationCenterStub.rejects(testDomainNotFoundErr);
+          getCertificationCenterStub.rejects(testErr);
           saveSessionStub.resolves();
 
           // when
-          await sessionService.save(sessionModel);
+          const promise = sessionService.save(sessionModel);
 
           // then
-          expect(sessionRepository.save).to.have.been.calledWithExactly(sessionModel);
+          return promise.catch((err) => {
+            expect(err).to.deep.equal(testErr);
+          });
         });
       });
     });
-    context('the certification center could not be retrieved', () => {
-      it('should forward the error', () => {
+    context('the certification center is not supposed to exist', () => {
+      it('should save the session without attempting to link it to any certification center', async () => {
         // given
-        getCertificationCenterStub.rejects(testErr);
+        sessionModel.certificationCenterId = null;
         saveSessionStub.resolves();
 
         // when
-        const promise = sessionService.save(sessionModel);
+        await sessionService.save(sessionModel);
 
         // then
-        return promise.catch((err) => {
-          expect(err).to.deep.equal(testErr);
-        });
+        expect(sessionRepository.save).to.have.been.calledWithExactly(sessionModel);
       });
     });
 

@@ -26,19 +26,21 @@ module.exports = {
 
   save(sessionModel) {
     const promise = sessionModel.certificationCenterId
-      ? certificationCenterRepository.get(sessionModel.certificationCenterId)
+      ? this.updateSessionWithCertificationCenter(sessionModel)
       : Promise.resolve();
 
     return promise
-      .then((certificationCenter) => {
-        sessionModel.certificationCenter = certificationCenter.name;
-        return sessionRepository.save(sessionModel);
-      })
+      .then(() => sessionRepository.save(sessionModel))
       .catch((err) => {
         if (err instanceof NotFoundError) {
           return sessionRepository.save(sessionModel);
         }
         throw err;
       });
+  },
+
+  updateSessionWithCertificationCenter(sessionModel) {
+    return certificationCenterRepository.get(sessionModel.certificationCenterId)
+      .then((certificationCenter) => sessionModel.certificationCenter = certificationCenter.name);
   }
 };
