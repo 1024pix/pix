@@ -294,8 +294,8 @@ describe('Unit | Model | Assessment', function() {
     it('should return the union of failed and validated skills', function() {
       // given
       let tube1, tube2;
-      const [s1, s2] = tube1 = domainBuilder.buildCatTube({ maxLevel: 3 });
-      const [t1, t2, t3] = tube2 = domainBuilder.buildCatTube({ maxLevel: 3 });
+      const [s1, s2] = tube1 = domainBuilder.buildCatTube({ maxLevel: 2, name: 'web' });
+      const [t1, t2, t3] = tube2 = domainBuilder.buildCatTube({ maxLevel: 3, name: 'rechUrl' });
       const ch1 = domainBuilder.buildCatChallenge({ skills: [s1] });
       const ch2 = domainBuilder.buildCatChallenge({ skills: [s2] });
       const ch3 = domainBuilder.buildCatChallenge({ skills: [t1] });
