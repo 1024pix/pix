@@ -4,6 +4,7 @@ const sessionCodeService = require('../../../../lib/domain/services/session-code
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
+const { cloneDeep } = require('lodash');
 
 describe('Unit | Service | session', () => {
 
@@ -76,15 +77,16 @@ describe('Unit | Service | session', () => {
     });
   });
 
-  describe('#save', () => {
+  describe.only('#save', () => {
     let certificationCenter, certificationCenterName, sessionModel, certificationCenterId, sessionId, sessionModelAugmented,
-      getCertificationCenterStub, saveSessionStub;
+      getCertificationCenterStub, saveSessionStub, sessionModelCleared;
     beforeEach(() => {
       sessionId = 'session id';
       certificationCenterId = 'certification center id';
       certificationCenterName = 'certification center name';
       certificationCenter = { id: certificationCenterId, name: certificationCenterName };
       sessionModel = { id: sessionId, certificationCenterId };
+      sessionModelCleared = { id: sessionId };
       sessionModelAugmented = { id: sessionId, certificationCenterId, certificationCenter: certificationCenterName };
       getCertificationCenterStub = sinon.stub(certificationCenterRepository, 'get');
       saveSessionStub = sinon.stub(sessionRepository, 'save');
@@ -124,16 +126,16 @@ describe('Unit | Service | session', () => {
           });
         });
         context('the certification center does not exist', () => {
-          it('should save the session as it is', async () => {
+          it('should save the session without the certification center id', async () => {
             // given
             getCertificationCenterStub.rejects(testDomainNotFoundErr);
             saveSessionStub.resolves();
 
             // when
-            await sessionService.save(sessionModel);
+            await sessionService.save(cloneDeep(sessionModel));
 
             // then
-            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionModel);
+            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionModelCleared);
           });
         });
       });
