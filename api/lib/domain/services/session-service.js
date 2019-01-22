@@ -33,6 +33,7 @@ module.exports = {
       .then(() => sessionRepository.save(sessionModel))
       .catch((err) => {
         if (err instanceof NotFoundError) {
+          delete sessionModel.certificationCenterId;
           return sessionRepository.save(sessionModel);
         }
         throw err;
