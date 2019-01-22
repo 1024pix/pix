@@ -25,23 +25,12 @@ module.exports = {
   },
 
   save(sessionModel) {
-    const promise = sessionModel.certificationCenterId
-      ? this.updateSessionWithCertificationCenter(sessionModel)
-      : Promise.resolve();
-
-    return promise
-      .then(() => sessionRepository.save(sessionModel))
-      .catch((err) => {
-        if (err instanceof NotFoundError) {
-          delete sessionModel.certificationCenterId;
-          return sessionRepository.save(sessionModel);
-        }
-        throw err;
-      });
+    if (!sessionModel.certificationCenterId) {
+      return sessionRepository.save(sessionModel);
+    }
+    return certificationCenterRepository.get(sessionModel.certificationCenterId)
+      .then((certificationCenter) => sessionModel.certificationCenter = certificationCenter.name)
+      .then(() => sessionRepository.save(sessionModel));
   },
 
-  updateSessionWithCertificationCenter(sessionModel) {
-    return certificationCenterRepository.get(sessionModel.certificationCenterId)
-      .then((certificationCenter) => sessionModel.certificationCenter = certificationCenter.name);
-  }
 };
