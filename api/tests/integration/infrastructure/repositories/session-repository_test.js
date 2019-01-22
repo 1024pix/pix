@@ -144,7 +144,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#get', function() {
+  describe('#get', () => {
 
     beforeEach(() => {
       databaseBuilder.factory.buildSession({
@@ -224,7 +224,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#find', function() {
+  describe('#find', () => {
 
     context('when there are some sessions', function() {
 
@@ -279,4 +279,73 @@ describe('Integration | Repository | Session', function() {
       });
     });
   });
+
+  describe('#findByCertificationCenter', () => {
+
+    context('when there are some sessions', function() {
+      let certificationCenterId;
+
+      beforeEach(() => {
+        const certificationCenter1 = databaseBuilder.factory.buildCertificationCenter();
+        certificationCenterId = certificationCenter1.id;
+        const certificationCenter2 = databaseBuilder.factory.buildCertificationCenter();
+        databaseBuilder.factory.buildSession({
+          id: 1,
+          date: '2017-12-08',
+          certificationCenterId
+        });
+        databaseBuilder.factory.buildSession({
+          id: 2,
+          date: '2017-12-09',
+          certificationCenterId
+        });
+        databaseBuilder.factory.buildSession({
+          id: 3,
+          date: '2017-12-07',
+          certificationCenterId
+        });
+        databaseBuilder.factory.buildSession({
+          id: 4,
+          date: '2017-12-07',
+          certificationCenterId: undefined
+        });
+        databaseBuilder.factory.buildSession({
+          id: 5,
+          date: '2017-12-07',
+          certificationCenterId: certificationCenter2.id
+        });
+
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => databaseBuilder.clean());
+
+      it('should return all sessions of the certification Center ordered by date', function() {
+        // when
+        const promise = sessionRepository.findByCertificationCenter(certificationCenterId);
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.an('array');
+          expect(result).to.have.lengthOf(3);
+          expect(result.map((session) => session.id)).to.deep.equal([2, 1, 3]);
+        });
+      });
+    });
+
+    context('when there is no session', function() {
+
+      it('should return an empty array', function() {
+        // when
+        const promise = sessionRepository.findByCertificationCenter(1);
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.an('array');
+          expect(result).to.have.lengthOf(0);
+        });
+      });
+    });
+  });
+
 });
