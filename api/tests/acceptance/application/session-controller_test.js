@@ -349,6 +349,33 @@ describe('Acceptance | Controller | session-controller', () => {
         });
       });
 
+      context('The certification center does not exist', () => {
+        beforeEach(() => {
+          options.payload.data.attributes['certification-center-id'] = 1337;
+        });
+        afterEach(() => {
+          delete options.payload.data.attributes['certification-center-id'];
+        });
+        it('should return a not found error', () => {
+          const expectedErrorRespond = {
+            errors: [
+              {
+                code: '404',
+                detail: 'Le centre de certification n\'existe pas',
+                title: 'Not Found'
+              }
+            ]
+          };
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise.then((response) => {
+            expect(response.result).to.deep.equal(expectedErrorRespond);
+          });
+        });
+      });
+
     });
 
     describe('Resource access management', () => {
