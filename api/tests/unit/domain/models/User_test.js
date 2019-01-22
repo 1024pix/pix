@@ -154,7 +154,44 @@ describe('Unit | Domain | Models | User', () => {
 
   });
 
-  describe('#email', function() {
+  describe('hasAccessToCertificationCenter', () => {
+
+    it('should be false is user has no access to no CertificationCenter', () => {
+      // given
+      const user = new User();
+      const certificationCenterId = 12345;
+
+      // when/then
+      expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.false;
+    });
+
+    it('should be false is the user has access to many CertificationCenters, but not the one asked', () => {
+      // given
+      const certificationCenterId = 12345;
+      const user = domainBuilder.buildUser();
+      user.certificationCenterMemberships.push(domainBuilder.buildCertificationCenterMembership());
+      user.certificationCenterMemberships.push(domainBuilder.buildCertificationCenterMembership());
+      user.certificationCenterMemberships[0].certificationCenter.id = 93472;
+      user.certificationCenterMemberships[1].certificationCenter.id = 74569;
+
+      // when/then
+      expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.false;
+    });
+
+    it('should be true if the user has an access to the given CertificationCenterId', () => {
+      // given
+      const certificationCenterId = 12345;
+      const user = domainBuilder.buildUser();
+      user.certificationCenterMemberships.push(domainBuilder.buildCertificationCenterMembership());
+      user.certificationCenterMemberships[0].certificationCenter.id = 12345;
+
+      // when/then
+      expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.true;
+    });
+
+  });
+
+  describe('#email', () => {
 
     it('should normalize email', () => {
       // given
