@@ -607,7 +607,7 @@ describe('Acceptance | Application | organization-controller', () => {
       });
     });
 
-    context('Resource access management', () => {
+    describe('Resource access management', () => {
 
       it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
         // given

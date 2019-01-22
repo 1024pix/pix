@@ -93,6 +93,7 @@ describe('Acceptance | Controller | session-controller', () => {
       databaseBuilder.factory.buildSession({
         id: 1,
         certificationCenter: 'Centre 1',
+        certificationCenterId: 42,
         address: 'Paris',
         room: 'Salle 1',
         examiner: 'Bernard',
@@ -105,6 +106,7 @@ describe('Acceptance | Controller | session-controller', () => {
       databaseBuilder.factory.buildSession({
         id: 2,
         certificationCenter: 'Centre 2',
+        certificationCenterId: null,
         address: 'Lyon',
         room: 'Salle 2',
         examiner: 'Bernard',
@@ -148,6 +150,7 @@ describe('Acceptance | Controller | session-controller', () => {
             'access-code': 'ABC123',
             'address': 'Paris',
             'certification-center': 'Centre 1',
+            'certification-center-id': 42,
             'date': '2017-12-08',
             'description': '',
             'examiner': 'Bernard',
@@ -166,6 +169,7 @@ describe('Acceptance | Controller | session-controller', () => {
             'access-code': 'DEF456',
             'address': 'Lyon',
             'certification-center': 'Centre 2',
+            'certification-center-id': null,
             'date': '2017-12-08',
             'description': '',
             'examiner': 'Bernard',
@@ -195,7 +199,7 @@ describe('Acceptance | Controller | session-controller', () => {
 
     beforeEach(() => {
       const pixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
-
+      databaseBuilder.factory.buildCertificationCenter({ id: 42, name: 'Tour Gamma' });
       options = {
         method: 'POST',
         url: '/api/sessions',
@@ -204,9 +208,10 @@ describe('Acceptance | Controller | session-controller', () => {
             type: 'sessions',
             attributes: {
               'certification-center': 'Université de dressage de loutres',
+              'certification-center-id': 42,
               address: 'Nice',
               room: '28D',
-              examiner: 'Antoine Toutvenant',
+              examiner: 'Michel Essentiel',
               date: '08/12/2017',
               time: '14:30',
               description: ''
@@ -343,6 +348,34 @@ describe('Acceptance | Controller | session-controller', () => {
           });
         });
       });
+
+      context('The certification center does not exist', () => {
+        beforeEach(() => {
+          options.payload.data.attributes['certification-center-id'] = 1337;
+        });
+        afterEach(() => {
+          delete options.payload.data.attributes['certification-center-id'];
+        });
+        it('should return a not found error', () => {
+          const expectedErrorRespond = {
+            errors: [
+              {
+                code: '404',
+                detail: 'Le centre de certification n\'existe pas',
+                title: 'Not Found'
+              }
+            ]
+          };
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise.then((response) => {
+            expect(response.result).to.deep.equal(expectedErrorRespond);
+          });
+        });
+      });
+
     });
 
     describe('Resource access management', () => {

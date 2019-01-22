@@ -12,12 +12,13 @@ describe('Integration | Repository | Session', function() {
     beforeEach(() => {
       session = new Session({
         certificationCenter: 'Université de dressage de loutres',
+        certificationCenterId: 42,
         address: 'Nice',
         room: '28D',
-        examiner: 'Antoine Toutvenant',
+        examiner: 'Michel Essentiel',
         date: '2017-12-08',
         time: '14:30',
-        description: 'Premiere certification EVER !!!'
+        description: 'Première certification EVER !!!'
       });
     });
 
