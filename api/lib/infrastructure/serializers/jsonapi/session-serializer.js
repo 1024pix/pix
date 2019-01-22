@@ -11,6 +11,7 @@ module.exports = {
     return new Serializer('session', {
       attributes: [
         'certificationCenter',
+        'certificationCenterId',
         'address',
         'room',
         'examiner',
@@ -38,6 +39,7 @@ module.exports = {
         return new Session({
           id: json.data.id,
           certificationCenter: attributes['certification-center'],
+          certificationCenterId: attributes['certification-center-id'],
           address: attributes.address,
           room: attributes.room,
           examiner: attributes.examiner,

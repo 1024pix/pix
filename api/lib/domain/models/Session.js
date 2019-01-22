@@ -6,6 +6,7 @@ class Session {
     accessCode,
     address,
     certificationCenter,
+    certificationCenterId,
     date,
     description,
     examiner,
@@ -20,6 +21,7 @@ class Session {
     this.accessCode = accessCode;
     this.address = address;
     this.certificationCenter = certificationCenter;
+    this.certificationCenterId = certificationCenterId;
     this.date = date;
     this.description = description;
     this.examiner = examiner;

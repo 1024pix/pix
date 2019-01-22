@@ -4,6 +4,7 @@ const databaseBuffer = require('../database-buffer');
 module.exports = function buildSession({
   id = faker.random.number(),
   certificationCenter = faker.company.companyName(),
+  certificationCenterId,
   accessCode = faker.random.alphaNumeric(9),
   address = faker.address.streetAddress(),
   room = '28D',
@@ -17,6 +18,7 @@ module.exports = function buildSession({
   const values = {
     id,
     certificationCenter,
+    certificationCenterId,
     accessCode,
     address,
     room,

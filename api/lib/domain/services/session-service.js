@@ -1,8 +1,10 @@
 const sessionCodeService = require('./session-code-service');
 const { NotFoundError } = require('../errors');
+const certificationCenterRepository = require('../../infrastructure/repositories/certification-center-repository');
 const sessionRepository = require('../../infrastructure/repositories/session-repository');
 
 module.exports = {
+
   get(sessionId) {
     return sessionRepository.get(sessionId);
   },
@@ -23,6 +25,12 @@ module.exports = {
   },
 
   save(sessionModel) {
-    return sessionRepository.save(sessionModel);
-  }
+    if (!sessionModel.certificationCenterId) {
+      return sessionRepository.save(sessionModel);
+    }
+    return certificationCenterRepository.get(sessionModel.certificationCenterId)
+      .then((certificationCenter) => sessionModel.certificationCenter = certificationCenter.name)
+      .then(() => sessionRepository.save(sessionModel));
+  },
+
 };
