@@ -1,7 +1,7 @@
 module.exports = [
   {
     id: 1,
-    name: 'Tour Gemma',
+    name: 'Tour Gamma',
   },
   {
     id: 2,
