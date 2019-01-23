@@ -164,6 +164,7 @@ module.exports = {
         return _toDomain(foundUser);
       });
   },
+
   getWithCertificationCenterMemberships(userId) {
     return BookshelfUser
       .where({ id: userId })

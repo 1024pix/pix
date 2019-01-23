@@ -9,6 +9,7 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const { AlreadyRegisteredEmailError, UserNotFoundError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
 const Membership = require('../../../../lib/domain/models/Membership');
+const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole');
@@ -23,7 +24,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     cgu: true,
     samlId: 'some-saml-id',
   };
-  let userInDB, organizationInDB, organizationRoleInDB, membershipInDB, certificationCenterInDB;
+  let userInDB, organizationInDB, organizationRoleInDB, membershipInDB, certificationCenterInDB, certificationCenterMembershipInDB;
 
   beforeEach(() => {
     return databaseBuilder.clean();
@@ -43,26 +44,26 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
   }
 
-  function _insertUserWithOrganizationsAccesses() {
+  function _insertUserWithOrganizationsAndCertificationCenterAccesses() {
     organizationInDB = databaseBuilder.factory.buildOrganization({
       type: 'PRO',
       name: 'Mon Entreprise',
       code: 'ABCD12',
     });
     userInDB = databaseBuilder.factory.buildUser(userToInsert);
-    organizationRoleInDB = databaseBuilder.factory.buildOrganizationRole({id: 1, name: 'ADMIN'});
+    organizationRoleInDB = databaseBuilder.factory.buildOrganizationRole({ id: 1, name: 'ADMIN' });
     membershipInDB = databaseBuilder.factory.buildMembership({
       userId: userInDB.id,
       organizationRoleId: organizationRoleInDB.id,
       organizationId: organizationInDB.id
     });
     certificationCenterInDB = databaseBuilder.factory.buildCertificationCenter();
-    databaseBuilder.factory.buildCertificationCenterMembership({
+    certificationCenterMembershipInDB = databaseBuilder.factory.buildCertificationCenterMembership({
       userId: userInDB.id,
       certificationCenterId: certificationCenterInDB.id
     });
 
-    databaseBuilder.commit();
+    return databaseBuilder.commit();
 
   }
 
@@ -146,9 +147,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     describe('#findByEmailWithRoles', () => {
 
-
-      beforeEach(() => {
-        return _insertUserWithOrganizationsAccesses();
+      beforeEach(async () => {
+        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
       });
 
       afterEach(() => {
@@ -176,7 +176,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return membership associated to the user', () => {
         // when
-        const promise = userRepository.findByEmailWithRoles(userToInsert.email);
+        const promise = userRepository.findByEmailWithRoles(userInDB.email);
 
         // then
         return promise.then((user) => {
@@ -203,7 +203,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return certification center membership associated to the user', () => {
         // when
-        const promise = userRepository.findByEmailWithRoles(userToInsert.email);
+        const promise = userRepository.findByEmailWithRoles(userInDB.email);
 
         // then
         return promise.then((user) => {
@@ -312,8 +312,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     describe('#getWithMemberships', () => {
 
-      beforeEach(() => {
-        return _insertUserWithOrganizationsAccesses();
+      beforeEach(async () => {
+        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
       });
 
       afterEach(() => {
@@ -372,6 +372,63 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // when
         const promise = userRepository.getWithMemberships(unknownUserId);
+
+        // then
+        return expect(promise).to.be.rejectedWith(UserNotFoundError);
+      });
+    });
+
+    describe('#getWithCertificationCenterMemberships', () => {
+
+      beforeEach(async () => {
+        await _insertUserWithOrganizationsAndCertificationCenterAccesses();
+      });
+
+      it('should return user for the given id', () => {
+        // given
+        const expectedUser = new User(userInDB);
+
+        // when
+        const promise = userRepository.getWithCertificationCenterMemberships(userInDB.id);
+
+        // then
+        return promise.then((user) => {
+          expect(user).to.be.an.instanceof(User);
+          expect(user.id).to.equal(expectedUser.id);
+          expect(user.firstName).to.equal(expectedUser.firstName);
+          expect(user.lastName).to.equal(expectedUser.lastName);
+          expect(user.email).to.equal(expectedUser.email);
+          expect(user.password).to.equal(expectedUser.password);
+          expect(user.cgu).to.equal(expectedUser.cgu);
+        });
+      });
+
+      it('should return certification center membership associated to the user', () => {
+        // when
+        const promise = userRepository.getWithCertificationCenterMemberships(userInDB.id);
+
+        // then
+        return promise.then((user) => {
+
+          expect(user.certificationCenterMemberships).to.be.an('array');
+
+          const certificationCenterMembership = user.certificationCenterMemberships[0];
+          expect(certificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
+          expect(certificationCenterMembership.id).to.equal(certificationCenterMembershipInDB.id);
+
+          const associatedCertificationCenter = certificationCenterMembership.certificationCenter;
+          expect(associatedCertificationCenter).to.be.an.instanceof(CertificationCenter);
+          expect(associatedCertificationCenter.id).to.equal(certificationCenterInDB.id);
+          expect(associatedCertificationCenter.name).to.equal(certificationCenterInDB.name);
+        });
+      });
+
+      it('should reject with a UserNotFound error when no user was found with the given id', () => {
+        // given
+        const unknownUserId = 666;
+
+        // when
+        const promise = userRepository.getWithCertificationCenterMemberships(unknownUserId);
 
         // then
         return expect(promise).to.be.rejectedWith(UserNotFoundError);
