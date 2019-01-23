@@ -61,6 +61,7 @@
   "devDependencies": {
     "chai": "^4.1.1",
     "chai-as-promised": "^7.1.1",
+    "chai-sorted": "^0.2.0",
     "eslint": "^4.18.2",
     "eslint-plugin-mocha": "^4.12.1",
     "mocha": "^5.0.4",

@@ -1,6 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
+const queryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
 
 describe('Unit | Repository | SnapshotRepository', function() {
 
@@ -101,43 +102,27 @@ describe('Unit | Repository | SnapshotRepository', function() {
     });
   });
 
-  describe('#getSnapshotsByOrganizationId', () => {
+  describe('#find', () => {
+    let options;
 
     beforeEach(() => {
-      sinon.stub(Snapshot.prototype, 'where');
+      sinon.stub(queryBuilder, 'find');
+
+      options = {
+        filter: { organisationId: 1 },
+      };
     });
 
-    it('should be a function', () => {
-      // then
-      expect(snapshotRepository.getSnapshotsByOrganizationId).to.be.a('function');
-    });
-
-    it('should query snapshot model', () => {
+    it('should find the snapshots', async () => {
       // given
-      const fetchAllStub = sinon.stub().resolves();
-      const orderByStub = sinon.stub().returns({
-        fetchAll: fetchAllStub
-      });
-
-      // then
-      Snapshot.prototype.where.returns({
-        orderBy: orderByStub
-      });
-
-      const organizationId = 123;
+      queryBuilder.find.withArgs(Snapshot, options).resolves('ok');
 
       // when
-      const promise = snapshotRepository.getSnapshotsByOrganizationId(organizationId);
+      const result = await snapshotRepository.find(options);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(Snapshot.prototype.where);
-        sinon.assert.calledOnce(orderByStub);
-        sinon.assert.calledWith(orderByStub, 'createdAt', 'desc');
-        sinon.assert.calledOnce(fetchAllStub);
-      });
+      expect(result).to.equal('ok');
     });
-
   });
 
 });

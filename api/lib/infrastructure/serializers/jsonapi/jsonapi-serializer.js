@@ -61,4 +61,3 @@ class JSONAPISerializer {
 }
 
 module.exports = JSONAPISerializer;
-

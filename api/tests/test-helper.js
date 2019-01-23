@@ -5,6 +5,7 @@ const infraErrors = require('../lib/infrastructure/errors');
 const chai = require('chai');
 const expect = chai.expect;
 chai.use(require('chai-as-promised'));
+chai.use(require('chai-sorted'));
 
 // Sinon
 const sinon = require('sinon');

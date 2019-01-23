@@ -7,7 +7,7 @@ module.exports = Bookshelf.model('Snapshot', {
   tableName: 'snapshots',
 
   organization() {
-    return this.belongsTo('Organization');
+    return this.belongsTo('Organization', 'organizationId');
   },
 
   user() {
