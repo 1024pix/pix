@@ -41,20 +41,6 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('GET /api/organizations/:id/snapshots', (_) => {
-
-    beforeEach(() => {
-      sinon.stub(organisationController, 'getSharedProfiles').returns('ok');
-      return server.register(route);
-    });
-
-    it('should exist', () => {
-      server.inject({ method: 'GET', url: '/api/organizations/:id/snapshots' }).then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
-    });
-  });
-
   describe('GET /api/organizations/:id/campaigns', () => {
 
     beforeEach(() => {

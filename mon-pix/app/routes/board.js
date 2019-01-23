@@ -18,9 +18,15 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         return RSVP.hash({
           organization,
           snapshots: this.store.query('snapshot', {
-            organizationId: organization.id,
-            page: 1,
-            pageSize: 200
+            filter: {
+              organizationId: organization.id,
+            },
+            page: {
+              number: 1,
+              size: 200,
+            },
+            sort: '-createdAt',
+            include: 'user',
           }),
         });
       });

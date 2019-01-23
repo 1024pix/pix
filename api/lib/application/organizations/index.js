@@ -65,14 +65,6 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/snapshots',
-      config: {
-        handler: organisationController.getSharedProfiles,
-        tags: ['api', 'organizations']
-      }
-    },
-    {
-      method: 'GET',
       path: '/api/organizations/{id}/snapshots/export',
       config: {
         auth: false,

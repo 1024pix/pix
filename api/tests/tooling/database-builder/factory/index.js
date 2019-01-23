@@ -11,6 +11,7 @@ module.exports = {
   buildMembership: require('./build-membership'),
   buildPixRole: require('./build-pix-role'),
   buildSmartPlacementKnowledgeElement: require('./build-smart-placement-knowledge-element'),
+  buildSnapshot: require('./build-snapshot'),
   buildSession: require('./build-session'),
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfilesSkills: require('./build-target-profiles-skills'),

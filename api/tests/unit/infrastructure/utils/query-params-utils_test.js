@@ -1,60 +1,56 @@
-const { expect, } = require('../../../test-helper');
-const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const { expect } = require('../../../test-helper');
+const { extractParameters } = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Utils | Query Params Utils', function() {
 
-  describe('#extractFilters', function() {
+  describe('#extractParameters', function() {
 
-    it('should extract a filter from request Object', function() {
+    it('should extract multiple parameters from request Object', function() {
       // given
-      const request = {
-        query: {
-          'filter[courseId]': '26'
-        }
+      const query = {
+        'filter[courseId]': 26,
+        'filter[userId]': 1,
+        'page[number]': 1,
+        'page[size]': 200,
+        sort: '-createdAt,id',
+        include: 'user,organization',
       };
 
       // when
-      const result = queryParamsUtils.extractFilters(request);
+      const result = extractParameters(query);
 
       // then
       expect(result).to.deep.equal({
-        courseId: '26'
+        filter: {
+          courseId: 26,
+          userId: 1,
+        },
+        page: {
+          number: 1,
+          size: 200,
+        },
+        sort: ['-createdAt', 'id'],
+        include: ['user', 'organization'],
       });
     });
 
-    it('should extract multiple filters from request Object', function() {
+    it('should return an object with empty properties if query does not contain jsonapi params', function() {
       // given
-      const request = {
-        query: {
-          'filter[courseId]': '26',
-          'filter[userId]': '1'
-        }
+      const query = {
+        'page': 1,
+        'pageSize': 10
       };
 
       // when
-      const result = queryParamsUtils.extractFilters(request);
+      const result = extractParameters(query);
 
       // then
       expect(result).to.deep.equal({
-        courseId: '26',
-        userId: '1'
+        filter: {},
+        page: {},
+        sort: [],
+        include: [],
       });
-    });
-
-    it('should return an empty object if the request contains no query param "filter"', function() {
-      // given
-      const request = {
-        query: {
-          'page': 1,
-          'pageSize': 10
-        }
-      };
-
-      // when
-      const result = queryParamsUtils.extractFilters(request);
-
-      // then
-      expect(result).to.deep.equal({});
     });
   });
 });
