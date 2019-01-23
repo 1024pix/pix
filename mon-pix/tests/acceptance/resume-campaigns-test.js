@@ -91,7 +91,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
           // then
           return andThen(() => {
             expect(currentURL()).to.contains('checkpoint?finalCheckpoint=true');
-            expect(find('.assessment-checkpoint__continue-button').text()).to.contains('Voir mes résultats');
+            expect(find('.checkpoint__continue-button').text()).to.contains('Voir mes résultats');
           });
         });
 
@@ -101,7 +101,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
           await visit('/campagnes/AZERTY1');
 
           // when
-          await click('.assessment-checkpoint__continue-button');
+          await click('.checkpoint__continue-button');
 
           // then
           return andThen(() => {

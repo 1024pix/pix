@@ -84,6 +84,11 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
+
+  & > div {
+    border: none;
+    outline: none;
+  }
 }
 
 /* Button 'go back'
@@ -110,7 +115,7 @@
 }
 
 .assessment-results__index-link__element:hover {
-  background-color: $blue-ribbon;
+  background-color: $pix-blue-hover;
 }
 
 .assessment-results__link-back {
