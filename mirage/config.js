@@ -1,3 +1,6 @@
+import {createMembership} from "./handlers/memberships";
+import { findUsers } from "./handlers/users";
+
 export default function() {
 
   // These comments are here to help you get started. Feel free to delete them.
@@ -25,31 +28,8 @@ export default function() {
   */
   this.namespace = '/api';
 
-  this.post('/memberships');
-
+  this.post('/memberships', createMembership);
   this.get('/organizations/:id');
-
-  this.get('/users', (schema, request) => {
-    let users = schema.users;
-
-    if (!request.queryParams) {
-      return users;
-    }
-
-    if (request.queryParams.organizationId) {
-      const organizationId = request.queryParams.organizationId;
-      const memberships = schema.memberships.where({ organizationId });
-      const userIds = memberships.models.map(membership => membership.userId);
-      users = users.find(userIds);
-    }
-
-    if (request.queryParams.email) {
-      const email = request.queryParams.email;
-      users = users.where({ email });
-    }
-
-    return users;
-
-  });
+  this.get('/users', findUsers);
 
 }
