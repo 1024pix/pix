@@ -114,7 +114,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     it('rejects an error when scope is pix-certif and user is not linked to any certification centers', function() {
       // given
       const scope = 'pix-certif';
-      const user = domainBuilder.buildUser({ email: userEmail, password: userPassword, certificationCenterMemberships: []});
+      const user = domainBuilder.buildUser({ email: userEmail, password: userPassword, certificationCenterMemberships: [] });
       userRepository.findByEmailWithRoles.resolves(user);
 
       // when

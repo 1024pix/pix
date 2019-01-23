@@ -44,8 +44,8 @@ module.exports = {
   },
 
   getSessions(request, h) {
-    const certificationCenterId = request.params.id;
-    const userId = request.auth.credentials.userId;
+    const certificationCenterId = parseInt(request.params.id);
+    const userId = parseInt(request.auth.credentials.userId);
 
     return usecases.findSessions({ userId, certificationCenterId })
       .then((sessions) => sessionSerializer.serialize(sessions))
