@@ -43,6 +43,10 @@ module.exports = function(environment) {
       'Overpass' //used on the trophy
     ],
 
+    fontawesome: {
+      warnIfNoIconsIncluded: false,
+    },
+
     metricsAdapters: [
       {
         name: 'Piwik',
