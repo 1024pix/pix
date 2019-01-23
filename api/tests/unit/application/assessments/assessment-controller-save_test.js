@@ -298,7 +298,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         sinon.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
       });
 
-      it('should de-serialize the payload', async() => {
+      it('should de-serialize the payload', async () => {
         // when
         await controller.save(request, hFake);
 

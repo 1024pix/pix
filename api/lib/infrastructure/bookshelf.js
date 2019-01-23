@@ -1,10 +1,8 @@
-const knexConfig = require('../../db/knexfile');
-const settings = require('./../settings');
 const logger = require('./logger');
 const validator = require('validator');
 const _ = require('lodash');
 
-const knex = require('knex')(knexConfig[settings.environment]);
+const { knex } = require('../../db/knex-database-connection');
 const bookshelf = require('bookshelf')(knex);
 
 validator.isRequired = function(value) {

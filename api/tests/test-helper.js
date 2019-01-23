@@ -16,9 +16,7 @@ afterEach(function() {
 });
 
 // Knex
-const knexConfig = require('../db/knexfile');
-const { environment } = require('../lib/settings');
-const knex = require('knex')(knexConfig[environment]);
+const { knex } = require('../db/knex-database-connection');
 
 // DatabaseBuilder
 const DatabaseBuilder = require('./tooling/database-builder/database-builder');
@@ -28,7 +26,7 @@ const databaseBuilder = new DatabaseBuilder({ knex });
 const nock = require('nock');
 nock.disableNetConnect();
 
-// airtableBuilde
+// airtableBuilder
 const AirtableBuilder = require('./tooling/airtable-builder/airtable-builder');
 const airtableBuilder = new AirtableBuilder({ nock });
 
@@ -122,7 +120,9 @@ const hFake = {
 function streamToPromise(stream) {
   return new Promise((resolve, reject) => {
     let totalData = '';
-    stream.on('data', (data) => { totalData += data; });
+    stream.on('data', (data) => {
+      totalData += data;
+    });
     stream.on('end', () => {
       resolve(totalData);
     });

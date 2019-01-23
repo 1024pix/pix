@@ -1,6 +1,4 @@
-const settings = require('../../../lib/settings');
-const knexConfig = require('../../../db/knexfile');
-const knex = require('knex')(knexConfig[settings.environment]);
+const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
 
