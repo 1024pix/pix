@@ -22,8 +22,6 @@ const columns = [
 
 export default Component.extend({
 
-  _userEmail: null,
-
   init() {
     this._super(...arguments);
     this.columns = columns;
@@ -36,8 +34,7 @@ export default Component.extend({
 
   actions: {
     addMembership() {
-      return this.get('onMembershipAdded')(this.get('_userEmail'))
-        .then(() => this.set('_userEmail', null));
+      return this.get('onMembershipAdded')();
     }
   }
 });

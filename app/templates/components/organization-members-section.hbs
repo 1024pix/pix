@@ -5,7 +5,7 @@
     <form class="add-membership-form form">
       {{input class="add-membership-form__user-email-input form-field__text form-control" 
               id="userEmail" 
-              value=_userEmail 
+              value=userEmail
               placeholder="E-mail de l'utilisateur à ajouter"}}
       <button class="add-membership-form__validate-button btn btn-outline-default btn-thin" {{action (action "addMembership")}}>Valider</button>
     </form>
