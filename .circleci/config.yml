@@ -137,8 +137,13 @@ jobs:
           command: |
             npm run lint
             npm test
+      - run:
+          command: |
+            npm run db:migrate
+            npm run db:seed
           environment:
-            DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
+            TEST_DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
+            NODE_ENV: "test"
 
   # mon_pix
   mon_pix_build:
