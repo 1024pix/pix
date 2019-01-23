@@ -19,11 +19,12 @@ function _checkCampaignExists(campaignId, campaignRepository) {
 }
 
 function _createSmartPlacementAssessment(userId, assessmentRepository) {
-  const assessment = new Assessment();
-  assessment.state = Assessment.states.STARTED;
-  assessment.type = Assessment.types.SMARTPLACEMENT;
-  assessment.courseId = 'Smart Placement Tests CourseId Not Used';
-  assessment.userId = userId;
+  const assessment = new Assessment({
+    userId,
+    state: Assessment.states.STARTED,
+    type: Assessment.types.SMARTPLACEMENT,
+    courseId: 'Smart Placement Tests CourseId Not Used'
+  });
   return assessmentRepository.save(assessment);
 }
 

@@ -49,7 +49,7 @@ describe('Unit | Route | Courses | Create Assessment', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(queryStub, 'assessment', { filter: { type: course.get('type'), courseId: course.id, state: 'started' } });
+        sinon.assert.calledWith(queryStub, 'assessment', { filter: { type: course.get('type'), courseId: course.id, resumable: true } });
       });
     });
 
