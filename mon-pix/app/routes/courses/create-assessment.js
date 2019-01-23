@@ -6,9 +6,9 @@ export default BaseRoute.extend({
   afterModel(course) {
     const store = this.get('store');
 
-    return store.query('assessment', { filter: { type: course.get('type'), courseId: course.id, state: 'started' } })
+    return store.query('assessment', { filter: { type: course.get('type'), courseId: course.id, resumable: true } })
       .then((assessments) => {
-        if (this._thereIsNoStartedAssessment(assessments)) {
+        if (this._thereIsNoResumableAssessment(assessments)) {
           return store.createRecord('assessment', { course, type: course.get('type') }).save();
         } else {
           return assessments.get('firstObject');
@@ -18,7 +18,7 @@ export default BaseRoute.extend({
       });
   },
 
-  _thereIsNoStartedAssessment(assessments) {
+  _thereIsNoResumableAssessment(assessments) {
     return isEmpty(assessments);
   }
 });

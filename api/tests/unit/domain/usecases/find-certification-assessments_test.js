@@ -3,32 +3,17 @@ const findCertificationAssessments = require('../../../../lib/domain/usecases/fi
 
 describe('Unit | UseCase | find-certification-assessments', () => {
 
-  const assessmentRepository = {
-    getCertificationAssessmentByUserIdAndCourseId: () => {
-    },
-  };
+  const assessmentRepository = {};
 
-  it('should resolve an empty array', () => {
-    // given
-    const userId = 1234;
-    const courseId = 2;
-    const filters = { type: 'CERTIFICATION', courseId };
-    sinon.stub(assessmentRepository, 'getCertificationAssessmentByUserIdAndCourseId').resolves(null);
-
-    // when
-    const promise = findCertificationAssessments({ userId, filters, assessmentRepository });
-
-    // then
-    return promise.then((result) => {
-      expect(result).to.deep.equal([]);
-    });
+  beforeEach(() => {
+    assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId = sinon.stub();
   });
 
-  it('should resolve an empty array since there is no courseId', () => {
+  it('should resolve an empty array when courseId is null', () => {
     // given
     const userId = 1234;
     const courseId = null;
-    const filters = { type: 'CERTIFICATION', courseId };
+    const filters = { type: 'CERTIFICATION', courseId, resumable: 'true' };
 
     // when
     const promise = findCertificationAssessments({ userId, filters, assessmentRepository });
@@ -39,16 +24,71 @@ describe('Unit | UseCase | find-certification-assessments', () => {
     });
   });
 
-  it('should resolve an assessment of type CERTIFICATION', () => {
+  it('should resolve an empty array when resumable is false', () => {
     // given
     const userId = 1234;
-    const course = domainBuilder.buildCertificationCourse();
-    const filters = { type: 'CERTIFICATION', courseId: course.id };
+    const courseId = null;
+    const filters = { type: 'CERTIFICATION', courseId, resumable: 'false' };
+
+    // when
+    const promise = findCertificationAssessments({ userId, filters, assessmentRepository });
+
+    // then
+    return promise.then((result) => {
+      expect(result).to.deep.equal([]);
+    });
+  });
+
+  it('should resolve an empty array when the repository returns null', () => {
+    // given
+    const userId = 1234;
+    const courseId = 2;
+    const filters = { type: 'CERTIFICATION', courseId, resumable: 'true' };
+    assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId.resolves(null);
+
+    // when
+    const promise = findCertificationAssessments({ userId, filters, assessmentRepository });
+
+    // then
+    return promise.then((result) => {
+      expect(result).to.deep.equal([]);
+    });
+  });
+
+  it('should resolve an assessment of type CERTIFICATION even if state is started', () => {
+    // given
+    const userId = 1234;
+    const courseId = 5678;
+    const filters = { type: 'CERTIFICATION', courseId, resumable: 'true' };
     const  assessment = domainBuilder.buildAssessment({
-      ...filters,
+      type: 'CERTIFICATION',
+      courseId,
+      state: 'started',
       userId,
     });
-    sinon.stub(assessmentRepository, 'getCertificationAssessmentByUserIdAndCourseId').resolves(assessment);
+    assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId.resolves(assessment);
+
+    // when
+    const promise = findCertificationAssessments({ userId, filters, assessmentRepository });
+
+    // then
+    return promise.then((result) => {
+      expect(result).to.deep.equal([assessment]);
+    });
+  });
+
+  it('should resolve an assessment of type CERTIFICATION even if state is completed', () => {
+    // given
+    const userId = 1234;
+    const courseId = 5678;
+    const filters = { type: 'CERTIFICATION', courseId, resumable: 'true' };
+    const  assessment = domainBuilder.buildAssessment({
+      type: 'CERTIFICATION',
+      courseId,
+      state: 'completed',
+      userId,
+    });
+    assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId.resolves(assessment);
 
     // when
     const promise = findCertificationAssessments({ userId, filters, assessmentRepository });
