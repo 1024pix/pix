@@ -4,7 +4,7 @@ import Component from '@ember/component';
 import AssessmentProgression from '../models/assessment-progression';
 
 export default Component.extend({
-  classNames: ['progress', 'pix-progress-bar'],
+  classNames: ['progress'],
 
   progression: computed('assessment.{type,answers,course.nbChallenges}', function() {
     return new AssessmentProgression({

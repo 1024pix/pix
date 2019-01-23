@@ -53,7 +53,7 @@
   justify-content: flex-end;
   align-items: center;
   padding-right: 2px;
-  background-image: linear-gradient(to right, rgba(255, 190, 0, 0.0), $pizazz-orange), linear-gradient($marigold, $marigold);
+  background-image: linear-gradient(to right, rgba(255, 190, 0, 0.0), $pizazz-orange), linear-gradient($pix-yellow-hover, $pix-yellow-hover);
   border-radius: 12px;
   height: 24px;
 
@@ -90,7 +90,7 @@
   cursor: pointer;
 
   &:hover, &:active, &:focus {
-    color: $mariner-blue;
+    color: $pix-blue-hover;
     cursor: pointer;
     text-decoration: underline;
   }
@@ -107,7 +107,7 @@
   cursor: pointer;
 
   &:hover, &:active, &:focus {
-    color: $mariner-blue;
+    color: $pix-blue-hover;
     cursor: pointer;
     text-decoration: underline;
   }
@@ -125,7 +125,7 @@
   text-decoration: none;
 
   &:hover, &:active, &:focus {
-    color: $mariner-blue;
+    color: $pix-blue-hover;
     cursor: pointer;
     text-decoration: underline;
   }
@@ -190,7 +190,7 @@
   text-transform: uppercase;
 
   &:hover, &:active, &:focus {
-    background-color: $mariner-blue;
+    background-color: $pix-blue-hover;
     color: white;
     text-decoration: none;
   }

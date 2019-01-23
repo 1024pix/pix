@@ -4,13 +4,13 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | result item', function() {
+describe('Integration | Component | result item campaign', function() {
 
-  setupComponentTest('result-item', {
+  setupComponentTest('result-item-campaign-campaign', {
     integration: true
   });
 
-  describe('Component rendering ', function() {
+  describe('Component rendering', function() {
 
     const providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
 
@@ -42,22 +42,10 @@ describe('Integration | Component | result item', function() {
       this.set('answer', '');
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
 
       // then
       expect(this.$()).to.have.lengthOf(1);
-    });
-
-    it('should render an index 1 when 0 provided', function() {
-      // given
-      this.set('answer', '');
-
-      // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
-
-      // then
-      const index = this.$('.result-item__index').text();
-      expect(index.trim().replace('\n', '')).to.equal('1');
     });
 
     it('should render an instruction with no empty content', function() {
@@ -65,11 +53,11 @@ describe('Integration | Component | result item', function() {
       this.set('answer', '');
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
 
       // then
-      expect(this.$('.result-item__instruction')).to.have.lengthOf(1);
-      expect(this.$('.result-item__instruction').text()).to.contain('\n');
+      expect(this.$('.result-item-campaign__instruction')).to.have.lengthOf(1);
+      expect(this.$('.result-item-campaign__instruction').text()).to.contain('\n');
     });
 
     it('should render the challenge instruction', function() {
@@ -77,20 +65,20 @@ describe('Integration | Component | result item', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
 
       // then
-      const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir...';
-      expect(this.$('.result-item__instruction').text().trim()).to.equal(expectedChallengeInstruction);
+      const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
+      expect(this.$('.result-item-campaign__instruction').text().trim()).to.equal(expectedChallengeInstruction);
     });
 
     it('should render an button when QCM', function() {
       // given
       this.set('answer', answer);
 
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
       // Then
-      expect(this.$('.result-item__correction__button').text().trim()).to.deep.equal('RÉPONSE');
+      expect(this.$('.result-item-campaign__correction__button').text().trim()).to.deep.equal('Réponses et tutos');
     });
 
     it('should render tooltip for the answer', function() {
@@ -98,7 +86,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
 
       // then
       expect(this.$('div[data-toggle="tooltip"]').attr('data-original-title').trim()).to.equal('Réponse incorrecte');
@@ -109,7 +97,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', null);
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
 
       // then
       expect(this.$('div[data-toggle="tooltip"]').attr('data-original-title')).to.equal(undefined);
@@ -118,7 +106,7 @@ describe('Integration | Component | result item', function() {
     it('should update the tooltip when the answer is eventually retrieved', function() {
       // given
       this.set('answer', null);
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
 
       // when
       this.set('answer', answer);
@@ -132,19 +120,19 @@ describe('Integration | Component | result item', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
 
       // Then
-      expect(this.$('result-item__icon-img'));
+      expect(this.$('result-item-campaign__icon-img'));
     });
 
     [
-      { status: 'ok' },
-      { status: 'ko' },
-      { status: 'aband' },
-      { status: 'partially' },
-      { status: 'timedout' },
-      { status: 'default' },
+      { status: 'ok', color:'green' },
+      { status: 'ko', color:'red' },
+      { status: 'aband', color:'grey' },
+      { status: 'partially', color:'orange' },
+      { status: 'timedout', color:'red' },
+      { status: 'default', color:'blue' },
     ].forEach(function(data) {
 
       it(`should display the good result icon when answer's result is "${data.status}"`, function() {
@@ -153,14 +141,11 @@ describe('Integration | Component | result item', function() {
         this.set('answer', answer);
 
         // when
-        this.render(hbs`{{result-item answer=answer index=index}}`);
+        this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
 
         // then
-        const $icon = this.$('.result-item__icon-img');
-        expect(this.$(`.result-item__icon-img--${data.status}`)).to.have.lengthOf(1);
-        expect($icon.attr('src')).to.equal(`/images/answer-validation/icon-${data.status}.svg`);
+        expect(this.$(`.result-item-campaign__icon--${data.color}`)).to.have.lengthOf(1);
       });
     });
-
   });
 });
