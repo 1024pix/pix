@@ -7,16 +7,17 @@ export default Route.extend({
 
   beforeModel() {
     return this.get('currentUser').load()
-      .then((user) => {
-        if (user.pixCertifTermsOfServiceAccepted) {
-            return this.transitionTo('authenticated.sessions.list');
-        } else {
-          return this.transitionTo('authenticated.terms-of-service');
-        }
-      })
       .catch((error) => {
         this.get('session').invalidate();
         throw error;
       });
+  },
+
+  afterModel(user) {
+    if (user.pixCertifTermsOfServiceAccepted) {
+      return this.transitionTo('authenticated.sessions.list');
+    } else {
+      return this.transitionTo('authenticated.terms-of-service');
+    }
   }
 });

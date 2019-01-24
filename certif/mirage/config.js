@@ -35,15 +35,6 @@ export default function() {
 
   this.get('/users/:id');
 
-  this.patch('/users/:id', (schema, request) => {
-    const userId = request.params.id;
-    const user = schema.users.where({ userId });
-    user.set('pixCertifTermsOfServiceAccepted', true);
-    return user;
-  });
-
-  this.get('/sessions');
-
   this.get('/users/:id/certification-center-memberships', (schema, request) => {
     const userId = request.params.id;
     return schema.certificationCenterMemberships.where({ userId });
