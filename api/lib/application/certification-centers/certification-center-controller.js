@@ -5,10 +5,12 @@ const controllerReplies = require('../../infrastructure/controller-replies');
 
 const {
   NotFoundError,
+  ForbiddenAccess
 } = require('../../domain/errors');
 
 const {
   NotFoundError: InfrastructureNotFoundError,
+  ForbiddenError
 } = require('../../infrastructure/errors');
 
 module.exports = {
@@ -50,6 +52,12 @@ module.exports = {
     return usecases.findSessions({ userId, certificationCenterId })
       .then((sessions) => sessionSerializer.serialize(sessions))
       .then(controllerReplies(h).ok)
-      .catch(controllerReplies(h).error);
+      .catch((error) => {
+        if(error instanceof ForbiddenAccess) {
+          const err = new ForbiddenError(error.message);
+          return controllerReplies(h).error(err);
+        }
+        return controllerReplies(h).error(error);
+      });
   }
 };

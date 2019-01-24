@@ -251,4 +251,88 @@ describe('Acceptance | API | Certification Center', () => {
     });
   });
 
+  describe('GET /api/certification-centers/{id}/sessions', () => {
+    const certificationCenterId = 1;
+    let expectedSessions;
+    let user, otherUser;
+
+    beforeEach(async() => {
+      options = {
+        method: 'GET',
+        url: '/api/certification-centers/'+certificationCenterId+'/sessions',
+      };
+      databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId });
+      user = databaseBuilder.factory.buildUser();
+      otherUser = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId: certificationCenterId, userId: user.id });
+      expectedSessions = [
+        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenterId }),
+        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenterId })
+      ];
+      databaseBuilder.factory.buildSession({ certificationCenterId: null });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    context('when user is linked to the certification center', () => {
+      beforeEach(() => {
+        options.headers = { authorization: generateValidRequestAuhorizationHeader(user.id) };
+      });
+
+      it('should return 200 HTTP status', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
+      it('should return the list of sessions', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result.data).to.have.lengthOf(expectedSessions.length);
+          expect(response.result.data.map((sessions) => sessions.id))
+            .to.have.members(expectedSessions.map((sessions) => sessions.id));
+        });
+      });
+
+    });
+
+    context('when user is not linked to certification center', () => {
+      beforeEach(async () => {
+        options.headers = { authorization: generateValidRequestAuhorizationHeader(otherUser.id) };
+      });
+
+      it('should return 403 HTTP status code ', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+
+    context('when user is not connected', () => {
+      it('should return 401 HTTP status code if user is not authenticated', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+    });
+  });
+
 });
