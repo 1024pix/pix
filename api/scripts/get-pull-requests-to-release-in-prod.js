@@ -43,11 +43,7 @@ function orderPr(listPR) {
 }
 
 function filterPullRequest(pullrequests, dateOfLastMEP) {
-  return pullrequests.filter(PR => {
-    if (PR.merged_at && PR.merged_at > dateOfLastMEP) {
-      return PR;
-    }
-  });
+  return pullrequests.filter(PR => PR.merged_at > dateOfLastMEP);
 }
 
 function getHeadOfChangelog(tagVersion) {
@@ -57,28 +53,27 @@ function getHeadOfChangelog(tagVersion) {
 
 function main() {
   const tagVersion = process.argv[2];
+  let dateOfLastMEP;
   let addToChangeLog = '';
 
   request(getTheLastCommitOnMaster())
     .then((lastCommit) => {
-      return getTheCommitDate(lastCommit);
+      dateOfLastMEP = getTheCommitDate(lastCommit);
+      return request(buildRequestObject())
     })
-    .then((dateOfLastMEP) => {
-      request(buildRequestObject())
-        .then((pullRequests) => {
+    .then((pullRequests) => {
 
-          addToChangeLog += getHeadOfChangelog(tagVersion);
-          const pullRequestsSinceLastMEP = filterPullRequest(pullRequests, dateOfLastMEP);
+      addToChangeLog += getHeadOfChangelog(tagVersion);
+      const pullRequestsSinceLastMEP = filterPullRequest(pullRequests, dateOfLastMEP);
 
-          const orderedPR = orderPr(pullRequestsSinceLastMEP);
-          orderedPR.forEach(pr => addToChangeLog += displayPullRequest(pr));
+      const orderedPR = orderPr(pullRequestsSinceLastMEP);
+      orderedPR.forEach(pr => addToChangeLog += displayPullRequest(pr));
 
-          console.log('Pull Requests which will be add to the CHANGELOG.md : \n');
-          console.log(addToChangeLog);
+      console.log('Pull Requests which will be add to the CHANGELOG.md : \n');
+      console.log(addToChangeLog);
 
-        })
-        .catch(console.log);
-    });
+    })
+    .catch(console.log);
 }
 
 /*=================== tests =============================*/
