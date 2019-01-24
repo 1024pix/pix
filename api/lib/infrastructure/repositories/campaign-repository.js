@@ -2,6 +2,7 @@ const _ = require('lodash');
 
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
+const queryBuilder = require('../utils/query-builder');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfCampaign) {
@@ -46,16 +47,8 @@ module.exports = {
       });
   },
 
-  get(id) {
-    return BookshelfCampaign
-      .where({ id })
-      .fetch()
-      .then((campaign) => {
-        if (campaign) {
-          return _toDomain(campaign);
-        }
-        throw new NotFoundError(`Campaign with id : ${id} not found`);
-      });
+  get(id, options) {
+    return queryBuilder.get(BookshelfCampaign, id, options);
   },
 
   save(campaignToSave) {
