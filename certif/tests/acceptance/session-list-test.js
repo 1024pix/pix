@@ -46,7 +46,7 @@ module('Acceptance | Session List', function(hooks) {
     await visit('/sessions/liste');
 
     // then
-    assert.dom('.page-title').hasText('Créez votre première session');
+    assert.dom('.page-title').hasText('Créez votre première session de certification');
   });
 
   test('it should list the sessions', async function(assert) {
