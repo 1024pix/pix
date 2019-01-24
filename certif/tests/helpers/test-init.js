@@ -16,7 +16,12 @@ export function createUserWithMembership() {
 }
 
 export function createUserWithMembershipAndTermsOfServiceAccepted() {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixCertifTermsOfServiceAccepted': true });
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    'pixCertifTermsOfServiceAccepted': true
+  });
 
   const certificationCenter = server.create('certificationCenter', {
     name: 'Centre de certification du pix'
