@@ -62,8 +62,8 @@ module.exports = {
 
   getById(request, h) {
     const campaignId = request.params.id;
-
-    return usecases.getCampaign({ campaignId })
+    const options = extractParameters(request.query);
+    return usecases.getCampaign({ campaignId, options })
       .then(campaignSerializer.serialize)
       .then(controllerReplies(h).ok)
       .catch((error) => {

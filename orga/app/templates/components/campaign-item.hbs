@@ -1,6 +1,6 @@
 <div class="campaign-list__item campaign-item white-panel">
   <div class="campaign-name"> 
-    {{#link-to "authenticated.campaigns.details" campaign}}
+    {{#link-to "authenticated.campaigns.details" campaign.id}}
       {{campaign.name}} 
     {{/link-to}}
   </div>
@@ -14,7 +14,7 @@
     </a>
   </div>
   <div class="campaign-edit">
-    {{#link-to "authenticated.campaigns.update" campaign}}
+    {{#link-to "authenticated.campaigns.update" campaign.id}}
       <img src="/icons/edit.svg">
     {{/link-to}}
   </div>
