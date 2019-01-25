@@ -101,10 +101,10 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       // given
       const assessmentId = 15615386;
       const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({ id: assessmentId });
-      const expectedSkillReviewRelationship = {
+      const expectedSmartPlacementProgressionRelationship = {
         data: {
-          id: 'skill-review-15615386',
-          type: 'skill-reviews',
+          id: 'smart-placement-progression-15615386',
+          type: 'smart-placement-progressions',
         },
       };
 
@@ -114,9 +114,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       // then
 
       expect(json.data).to.have.property('relationships')
-        .and.to.contain.key('skill-review');
+        .and.to.contain.key('smart-placement-progression');
 
-      expect(json.data.relationships['skill-review']).to.deep.equal(expectedSkillReviewRelationship);
+      expect(json.data.relationships['smart-placement-progression']).to.deep.equal(expectedSmartPlacementProgressionRelationship);
     });
 
     it('should add campaign-code when the model has a campaign', function() {

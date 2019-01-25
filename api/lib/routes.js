@@ -22,7 +22,7 @@ module.exports = [
   require('./application/saml'),
   require('./application/sessions'),
   require('./application/simulateErrors'),
-  require('./application/skillReviews'),
+  require('./application/smartPlacementProgressions'),
   require('./application/snapshots'),
   require('./application/users'),
 ];

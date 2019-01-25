@@ -167,6 +167,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
+              createdAt:undefined,
             });
           });
 
@@ -179,6 +180,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
               skillId: skill.id,
+              createdAt:undefined,
             });
             directKnowledgeElement.id = undefined;
             const inferredKnowledgeElementForEasierSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -188,6 +190,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
               skillId: easierSkill.id,
+              createdAt:undefined,
             });
             inferredKnowledgeElementForEasierSkill.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
@@ -197,6 +200,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
               skillId: muchEasierSkill.id,
+              createdAt:undefined,
             });
             inferredKnowledgeElementForMuchEasierSkill.id = undefined;
             const expectedKnowledgeElements = [
@@ -221,6 +225,8 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
+              createdAt:undefined,
+
             });
           });
 

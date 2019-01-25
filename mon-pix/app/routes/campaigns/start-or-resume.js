@@ -46,7 +46,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         return assessment.reload();
       })
       .then((assessment) => {
-        if (!this.get('userHasJustConsultedTutorial') && assessment.answers.length === 0) {
+        if (!this.get('userHasJustConsultedTutorial') && assessment.answers.length === 0 && !assessment.isCompleted) {
           return this.transitionTo('campaigns.tutorial', this.get('campaignCode'));
         }
         return this._fetchChallenge(assessment);
@@ -60,8 +60,21 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         if (challenge) {
           return this.transitionTo('assessments.challenge', { assessment, challenge });
         } else {
-          return this.transitionTo('campaigns.skill-review', this.get('campaignCode'), assessment.get('id'));
+          return this._redirectToSkillReviewPageAfterCreateResultIfNeeded(assessment, this.get('campaignCode'));
         }
+      });
+  },
+
+  _redirectToSkillReviewPageAfterCreateResultIfNeeded(assessment, campaignCode) {
+    if(assessment.isCompleted) {
+      return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
+    }
+
+    return this.get('store')
+      .createRecord('assessment-result', { assessment })
+      .save()
+      .finally(() => {
+        return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
       });
   },
 

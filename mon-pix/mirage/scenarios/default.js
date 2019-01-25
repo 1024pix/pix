@@ -70,7 +70,7 @@ export default function(server) {
     type: 'CERTIFICATION',
   });
 
-  server.create('skill-review', {
+  server.create('smart-placement-progression', {
     id: 12
   });
 

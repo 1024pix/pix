@@ -1,7 +1,7 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
 const Bookshelf = require('../../../infrastructure/bookshelf');
 const Assessment = require('../../../domain/models/Assessment');
-const SkillReview = require('../../../domain/models/SkillReview');
+const SmartPlacementProgression = require('../../../domain/models/SmartPlacementProgression');
 
 class AssessmentSerializer extends JSONAPISerializer {
 
@@ -75,13 +75,13 @@ class AssessmentSerializer extends JSONAPISerializer {
       }
     }
 
-    // XXX - to link smart placement assessment to the associated skill-review
+    // XXX - to link smart placement assessment to the associated smart-placement-progression
     // which exists only on smartPlacementAssessment
     if (model.type === Assessment.types.SMARTPLACEMENT) {
-      data.relationships['skill-review'] = {
+      data.relationships['smart-placement-progression'] = {
         data: {
-          type: 'skill-reviews',
-          id: SkillReview.generateIdFromAssessmentId(model.id),
+          type: 'smart-placement-progressions',
+          id: SmartPlacementProgression.generateIdFromAssessmentId(model.id),
         }
       };
     }
