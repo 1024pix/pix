@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.20.3 (25/01/2019)
+
+- [#310](https://github.com/1024pix/pix/pull/310) [PF-479] Ajout d'un parser de query params, d'un query builder générique et un domain builder générique.
+- [#315](https://github.com/1024pix/pix/pull/315) [PF-484] Retenter une compétence doit créer une nouvelle évaluation sur la compétence (et non en reprendre une ancienne).
+- [#322](https://github.com/1024pix/pix/pull/322) [PC-15-3] Faire un lien entre les centres de certifications et les utilisateurs.
+- [#320](https://github.com/1024pix/pix/pull/320) [PC-15-2] Ajout de l'identifiant du centre de certification dans les session.
+- [#323](https://github.com/1024pix/pix/pull/323) [BUGFIX] Change /api/scripts to avoid side effects in tests.
+- [#328](https://github.com/1024pix/pix/pull/328) [TECH] Ne pas répéter le message de déploiement sur les PR.
+- [#330](https://github.com/1024pix/pix/pull/330) [BSR] Fix a randomly failing test.
+
 ## v2.20.2 (18/01/2019) 
 
 - [#311](https://github.com/1024pix/pix/pull/311) [BUGFIX] Une seule évaluation pour une certification (PF-143).
