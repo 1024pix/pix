@@ -44,6 +44,10 @@ function create_a_release_commit {
     git commit --message "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE_VERSION} to ${NEW_PACKAGE_VERSION}."
 }
 
+function complete_change_log {
+  node api/scripts/get-pull-requests-to-release-in-prod.js $1
+}
+
 echo -e "Preparing a new release for ${RED}production${RESET_COLOR}.\n"
 
 ensure_no_uncommited_changes_are_present
@@ -53,6 +57,7 @@ fetch_and_rebase
 update_version
 reinstall_dependencies
 create_a_release_commit
+complete_change_log NEW_PACKAGE_VERSION
 
 echo -e "From now edit the ${CYAN}CHANGELOG.md${RESET_COLOR} file and then execute ${CYAN}release:perform${RESET_COLOR} NPM task.\n"
 echo -e "Release preparation ${GREEN}succeeded${RESET_COLOR}."
