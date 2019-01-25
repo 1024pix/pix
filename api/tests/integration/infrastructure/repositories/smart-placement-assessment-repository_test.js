@@ -135,6 +135,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       });
 
       databaseBuilder.factory.buildCampaignParticipation({
+        isShared: true,
         assessmentId: assessment.id,
         campaignId: campaign.id,
       });
@@ -177,6 +178,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         expect(assessmentFind.answers.length).to.equal(assessment.answers.length);
         expect(assessmentFind.knowledgeElements.length).to.equal(assessment.knowledgeElements.length);
         expect(assessmentFind.targetProfile.id).to.equal(assessment.targetProfile.id);
+        expect(assessmentFind.campaignParticipation.isShared).to.be.ok;
       });
     });
 

@@ -1,77 +1,106 @@
-.skill-review__gradient {
-  position: absolute;
-  top: 100px;
-  z-index: -1;
+.skill-review {
+  &__result__container {
+    max-width: 850px;
+    margin: 55px 10px;
+    padding: 60px;
 
-  height: 320px;
-  width: 100%;
-  background: $pix-blue-to-purple-gradient;
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
-}
+    background-color: $white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
 
-.skill-review__result__container {
-  max-width: 850px;
-  margin: 55px 10px;
-  padding: 20px;
-
-  background-color: $white;
-  border-radius: 10px;
-  box-shadow: 0 0 20px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
-
-  @include device-is('tablet') {
-    margin: 35px auto;
-  }
-}
-
-.skill-review__result__text {
-  text-align: center;
-  font-family: $font-open-sans;
-  font-weight: 300;
-
-  .announcement {
-    padding: 35px;
-    letter-spacing: 2px;
-    font-size: 2.5rem;
+    @include device-is('tablet') {
+      margin: 35px auto;
+    }
   }
 
-  .score {
-    padding-bottom: 35px;
-    font-size: 5rem;
+  &__dash-line {
+    height: 1px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-image: linear-gradient(to right, transparent 50%, #BBB 50%);
+    background-size: 10px 100%;
+  }
+
+  &__gradient {
+    position: absolute;
+    top: 100px;
+    z-index: -1;
+
+    height: 320px;
+    width: 100%;
+    background: $pix-blue-to-purple-gradient;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
+  }
+
+  &__result-text {
+    text-align: center;
+    font-size: 4.5rem;
+    font-family: $font-open-sans;
+    font-weight: 200;
+    padding-bottom: 45px;
     line-height: 48px;
+    color: $tundora-grey;
+
+    &__percentage {
+      color: $pix-blue;
+      display: inline-block;
+    }
   }
-}
 
-.skill-review__share_container {
-  padding: 20px;
-  text-align: center;
-}
+  &__share_container {
+    padding: 20px;
+    text-align: center;
 
-.skill-review__share__button {
-  height: 60px;
-  width: 280px;
-  padding: 10px 30px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  border: 0;
-  color: $white;
-  background-color: $pix-blue;
-}
-
-.skill-review__share__legal {
-  margin: auto;
-  text-align: center;
-  font-size: 1.2rem;
-  color: $dove-gray;
-
-
-  @include device-is('tablet') {
-    max-width: 380px;
   }
-}
 
-.skill-review__share__thanks {
-  font-family: $font-open-sans;
-  font-weight: 300;
-  font-size: 2.5rem;
-  padding-bottom: 20px;
+  &__share__button {
+    height: 60px;
+    width: 280px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    border: 0;
+    color: $white;
+    font-weight: 600;
+    background-color: $pix-blue;
+  }
+
+  &__share__legal {
+    text-align: center;
+    font-size: 3rem;
+    color: $dove-gray;
+    line-height: 33px;
+    font-weight: 300;
+    margin: 30px auto;
+
+    @include device-is('tablet') {
+    }
+  }
+
+  &__share__thanks {
+    font-family: $font-open-sans;
+    font-weight: 300;
+    font-size: 2.5rem;
+    padding-top: 20px;
+  }
+
+  &__information {
+    margin:auto;
+    text-align: left;
+    max-width: 850px;
+
+    &__info-icon {
+      height: 20px;
+      float:left;
+    }
+
+    &__text {
+      padding-left: 30px;
+      color: $dove-gray;
+      font-family: $font-open-sans;
+      font-size: 1.6rem;
+      line-height: 22px;
+    }
+  }
+
 }

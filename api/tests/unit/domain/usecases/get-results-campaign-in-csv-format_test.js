@@ -11,37 +11,63 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const user = domainBuilder.buildUser();
     const organization = user.memberships[0].organization;
     const listSkills = domainBuilder.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 5 });
+    const listSkillsNotInTargetProfile = domainBuilder.buildSkillCollection({ name: 'url', minLevel: 1, maxLevel: 2 });
     const [skillWeb1, skillWeb2, skillWeb3, skillWeb4, skillWeb5] = listSkills;
+    const [skillUrl1, skillUrl2] = listSkillsNotInTargetProfile;
+    const knowledgeElements = [
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'validated',
+        pixScore: 2,
+        skillId: skillWeb1.id,
+        createdAt: moment().subtract(2, 'days').format()
+      }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'validated',
+        pixScore: 2,
+        skillId: skillWeb2.id,
+        createdAt: moment().subtract(2, 'days').format()
+      }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'invalidated',
+        pixScore: 2,
+        skillId: skillWeb2.id,
+        createdAt: moment().add(2, 'days').format()
+      }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'validated',
+        pixScore: 2,
+        skillId: skillWeb3.id,
+        createdAt: moment().subtract(2, 'days').format()
+      }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'invalidated',
+        pixScore: 2,
+        skillId: skillWeb4.id,
+        createdAt: moment().subtract(2, 'days').format()
+      }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'invalidated',
+        pixScore: 2,
+        skillId: skillWeb5.id,
+        createdAt: moment().subtract(2, 'days').format()
+      }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'validated',
+        skillId: skillUrl1.id,
+        createdAt: moment().subtract(2, 'days').format()
+      }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({
+        status: 'validated',
+        skillId: skillUrl2.id,
+        createdAt: moment().subtract(2, 'days').format()
+      }),
+
+    ];
+
     const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
       state: 'completed',
       createdAt: new Date('05/05/2017'),
-      knowledgeElements: [
-        domainBuilder.buildSmartPlacementKnowledgeElement({
-          status: 'validated',
-          pixScore: 2,
-          skillId: skillWeb1.id,
-        }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({
-          status: 'validated',
-          pixScore: 2,
-          skillId: skillWeb2.id,
-        }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({
-          status: 'validated',
-          pixScore: 2,
-          skillId: skillWeb3.id,
-        }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({
-          status: 'invalidated',
-          pixScore: 2,
-          skillId: skillWeb4.id,
-        }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({
-          status: 'invalidated',
-          pixScore: 2,
-          skillId: skillWeb5.id,
-        }),
-      ],
+      knowledgeElements
     });
 
     const targetProfile = domainBuilder.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
@@ -81,6 +107,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const organizationRepository = { get: () => undefined };
     const campaignParticipationRepository = { findByCampaignId: () => undefined };
     const smartPlacementAssessmentRepository = { get: () => undefined };
+    const smartPlacementKnowledgeElementRepository = { findUniqByUserId: () => undefined };
 
     let findCampaignParticipationStub;
 
@@ -93,6 +120,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       sinon.stub(organizationRepository, 'get').resolves(organization);
       sinon.stub(userRepository, 'get').resolves(user);
       sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
+      sinon.stub(smartPlacementKnowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
       findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findByCampaignId');
     });
 
@@ -135,6 +163,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         organizationRepository,
         campaignParticipationRepository,
         smartPlacementAssessmentRepository,
+        smartPlacementKnowledgeElementRepository,
       });
 
       // then
@@ -147,7 +176,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
       it('should return the complete line with user results for her participation', () => {
         // given
-        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true });
+        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true, sharedAt: moment().format() });
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
         const csvSecondLine = `"${organization.name}";` +
@@ -185,6 +214,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           organizationRepository,
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
+          smartPlacementKnowledgeElementRepository,
         });
 
         // then
@@ -238,6 +268,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           organizationRepository,
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
+          smartPlacementKnowledgeElementRepository,
         });
 
         // then
@@ -297,6 +328,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           organizationRepository,
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
+          smartPlacementKnowledgeElementRepository,
         });
 
         // then

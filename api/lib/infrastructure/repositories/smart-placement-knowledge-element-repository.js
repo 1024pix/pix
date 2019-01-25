@@ -1,6 +1,7 @@
 const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const _ = require('lodash');
+
 module.exports = {
 
   save(smartPlacementKnowledgeElement) {
@@ -17,6 +18,24 @@ module.exports = {
       .fetchAll()
       .then((knowledgeElements) => knowledgeElements.map(toDomain));
   },
+
+  findUniqByUserId(userId) {
+    return BookshelfKnowledgeElement
+      .query((qb) => {
+        qb.innerJoin('assessments', 'knowledge-elements.assessmentId', 'assessments.id');
+        qb.where('assessments.userId', '=', userId);
+        qb.where('assessments.type', '=', 'SMART_PLACEMENT');
+      })
+      .fetchAll()
+      .then((knowledgeElements) => knowledgeElements.map(toDomain))
+      .then((knowledgeElements) => {
+        return _(knowledgeElements)
+          .orderBy('createdAt', 'desc')
+          .uniqBy('skillId')
+          .value();
+      });
+  }
+
 };
 
 function toDomain(knowledgeElementBookshelf) {

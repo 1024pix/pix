@@ -92,7 +92,7 @@ export default function() {
     }
   });
 
-  this.get('/skill-reviews/:id');
+  this.get('/smart-placement-progressions/:id');
   this.get('/campaigns', getCampaigns);
   this.post('/campaign-participations', postCampaignParticipation);
   this.get('/campaign-participations', getCampaignParticipation);

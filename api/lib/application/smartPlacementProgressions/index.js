@@ -1,11 +1,11 @@
-const SkillReviewController = require('./skill-review-controller');
+const SmartPlacementProgressionController = require('./smart-placement-progression-controller');
 exports.register = async function(server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/skill-reviews/{id}',
+      path: '/api/smart-placement-progressions/{id}',
       config: {
-        handler: SkillReviewController.get,
+        handler: SmartPlacementProgressionController.get,
         tags: ['api'],
         notes: [
           '- **Route nécessitant une authentification**\n' +
@@ -16,4 +16,4 @@ exports.register = async function(server) {
   ]);
 };
 
-exports.name = 'skill-reviews-api';
+exports.name = 'smart-placement-progressions-api';
