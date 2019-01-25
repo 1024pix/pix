@@ -1,25 +1,12 @@
-const Snapshot = require('../data/snapshot');
+const BookshelfSnapshot = require('../data/snapshot');
+const queryBuilder = require('../utils/query-builder');
 
 module.exports = {
   save(snapshotRawData) {
-    return new Snapshot(snapshotRawData).save();
-  },
-
-  getSnapshotsByOrganizationId(organizationId) {
-    return Snapshot
-      .where({ organizationId })
-      .orderBy('createdAt', 'desc')
-      .fetchAll();
+    return new BookshelfSnapshot(snapshotRawData).save();
   },
 
   find(options) {
-    return Snapshot
-      .where({ organizationId: options.organizationId })
-      .orderBy('createdAt', 'desc')
-      .fetchPage({
-        withRelated: { user: function(qb) { qb.columns('id', 'firstName', 'lastName'); } },
-        page: options.page,
-        pageSize: options.pageSize
-      });
+    return queryBuilder.find(BookshelfSnapshot, options);
   },
 };

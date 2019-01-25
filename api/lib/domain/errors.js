@@ -4,6 +4,12 @@ class DomainError extends Error {
   }
 }
 
+class AlreadyExistingMembershipError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class AlreadyRatedAssessmentError extends DomainError {
   constructor() {
     super('Cette évaluation a déjà été évaluée.');
@@ -67,6 +73,12 @@ class CampaignCodeError extends DomainError {
 }
 
 class CertificationComputeError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class CertificationCenterMembershipCreationError extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -264,6 +276,7 @@ class InternalError extends DomainError {
 
 module.exports = {
   DomainError,
+  AlreadyExistingMembershipError,
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
   AssessmentEndedError,
@@ -271,6 +284,7 @@ module.exports = {
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CertificationComputeError,
+  CertificationCenterMembershipCreationError,
   ChallengeAlreadyAnsweredError,
   EntityValidationError,
   ForbiddenAccess,

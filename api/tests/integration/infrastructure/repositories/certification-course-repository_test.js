@@ -142,9 +142,9 @@ describe('Integration | Repository | Certification Course', function() {
       userId = 1;
       sessionId = 'ABCD12';
       certificationCourses = [
-        databaseBuilder.factory.buildCertificationCourse({ id: 1, userId: 2, sessionId, completedAt: null }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 2, userId, sessionId: 'ABCD21', completedAt: null }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 3, userId, sessionId }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 1, userId: 2, sessionId, completedAt: null, createdAt: '2018-12-21' }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 2, userId, sessionId: 'ABCD21', completedAt: null, createdAt: '2018-12-21' }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 3, userId, sessionId, createdAt: '2018-12-11' }),
         databaseBuilder.factory.buildCertificationCourse({ id: 4, userId, sessionId, completedAt: null, createdAt: '2018-11-11' }),
         databaseBuilder.factory.buildCertificationCourse({ id: 5, userId, sessionId, completedAt: null, createdAt: '2018-12-12' }),
       ];

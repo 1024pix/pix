@@ -14,7 +14,7 @@ describe('Unit | UseCase | start-placement-assessment', () => {
 
   const assessmentRepository = {
     save: () => undefined,
-    getLastPlacementAssessmentByUserIdAndCourseId: () => undefined,
+    findOneLastPlacementAssessmentByUserIdAndCourseId: () => undefined,
   };
 
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('Unit | UseCase | start-placement-assessment', () => {
     clock = sinon.useFakeTimers(testCurrentDate.getTime());
 
     sinon.stub(assessmentRepository, 'save');
-    sinon.stub(assessmentRepository, 'getLastPlacementAssessmentByUserIdAndCourseId');
+    sinon.stub(assessmentRepository, 'findOneLastPlacementAssessmentByUserIdAndCourseId');
   });
 
   afterEach(() => {
@@ -77,7 +77,7 @@ describe('Unit | UseCase | start-placement-assessment', () => {
         state: Assessment.states.STARTED,
       });
 
-      assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId
+      assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId
         .withArgs(userId, courseId)
         .resolves(alreadyStartedPlacementAssessment);
 
@@ -114,7 +114,7 @@ describe('Unit | UseCase | start-placement-assessment', () => {
           assessmentResults: [assessmentResult],
         });
 
-        assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId
+        assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId
           .withArgs(userId, courseId)
           .resolves(completedAssessment);
 
@@ -150,7 +150,7 @@ describe('Unit | UseCase | start-placement-assessment', () => {
           assessmentResults: [assessmentResult],
         });
 
-        assessmentRepository.getLastPlacementAssessmentByUserIdAndCourseId
+        assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId
           .withArgs(userId, courseId)
           .resolves(completedAssessment);
       });

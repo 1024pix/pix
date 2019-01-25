@@ -5,16 +5,14 @@ function isUniqConstraintViolated(err) {
   return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
 }
 
-function mergeModelWithRelationship(snapshots, userModelName) {
-  const pendingMerge = snapshots.reduce((promises, snapshot) => {
-    promises.push(snapshot.load([userModelName]));
-    return promises;
-  }, []);
+function foreignKeyConstraintViolated(err) {
+  const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
+  const PGSQL_UNIQ_CONSTRAINT = '23503';
 
-  return Promise.all(pendingMerge);
+  return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
 }
 
 module.exports = {
   isUniqConstraintViolated,
-  mergeModelWithRelationship
+  foreignKeyConstraintViolated,
 };

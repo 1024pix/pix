@@ -21,16 +21,20 @@ module.exports = async function writeOrganizationSharedProfilesAsCsvToStream(
 
   const writeSnapshotsByPage = async (pageNumber) => {
     try {
-      const snapshots = await snapshotRepository.find({
-        organizationId,
-        page: pageNumber,
-        pageSize: SNAPSHOT_CSV_PAGE_SIZE
+      const paginatedSnapshots = await snapshotRepository.find({
+        filter: { organizationId },
+        page: {
+          number: pageNumber,
+          size: SNAPSHOT_CSV_PAGE_SIZE,
+        },
+        sort: [ '-createdAt' ],
+        include: [ 'user' ],
       });
 
-      if (snapshots.length) {
-        const jsonSnapshots = snapshots.map((snapshot) => snapshot.toJSON());
+      const snapshots = paginatedSnapshots.models;
 
-        const csvPage = snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots);
+      if (snapshots.length) {
+        const csvPage = snapshotsCsvConverter.convertJsonToCsv(snapshots);
         writableStream.write(csvPage);
         writeSnapshotsByPage(pageNumber + 1);
       } else {

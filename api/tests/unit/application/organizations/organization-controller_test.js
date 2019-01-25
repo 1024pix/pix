@@ -1,16 +1,12 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
-const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
 const Organization = require('../../../../lib/domain/models/Organization');
 const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
-const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 const { EntityValidationError, NotFoundError } = require('../../../../lib/domain/errors');
 const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
 const logger = require('../../../../lib/infrastructure/logger');
@@ -286,124 +282,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       const expectedPagination = { page: 1, pageSize: 10 };
       expect(usecases.findOrganizations).to.have.been.calledWithMatch({ pagination: expectedPagination });
     });
-  });
-
-  describe('#getSharedProfiles', () => {
-
-    beforeEach(() => {
-      sinon.stub(logger, 'error');
-      sinon.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
-      sinon.stub(snapshotSerializer, 'serialize');
-      sinon.stub(validationErrorSerializer, 'serialize');
-      sinon.stub(bookshelfUtils, 'mergeModelWithRelationship');
-    });
-
-    describe('Collaborations', () => {
-      it('should call snapshot repository', async () => {
-        // given
-        snapshotRepository.getSnapshotsByOrganizationId.resolves();
-        const request = {
-          params: {
-            id: 7
-          }
-        };
-
-        // when
-        await organizationController.getSharedProfiles(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(snapshotRepository.getSnapshotsByOrganizationId);
-        sinon.assert.calledWith(snapshotRepository.getSnapshotsByOrganizationId, 7);
-      });
-
-      it('should call snapshot serializer', async () => {
-        // given
-        const snapshots = [{
-          toJSON: () => {
-            return {};
-          }
-        }];
-        snapshotRepository.getSnapshotsByOrganizationId.resolves({});
-        bookshelfUtils.mergeModelWithRelationship.resolves(snapshots);
-        const request = {
-          params: {
-            id: 7
-          }
-        };
-
-        // when
-        await organizationController.getSharedProfiles(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(snapshotSerializer.serialize);
-        sinon.assert.calledWith(snapshotSerializer.serialize, [{}]);
-      });
-
-      it('should return serialized snapshots', async () => {
-        // then
-        const snapshots = [];
-        const serializedSnapshots = { data: [] };
-        snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
-        snapshotSerializer.serialize.returns(serializedSnapshots);
-        bookshelfUtils.mergeModelWithRelationship.resolves(snapshots);
-        const request = {
-          params: {
-            id: 7
-          }
-        };
-
-        // when
-        const response = await organizationController.getSharedProfiles(request, hFake);
-
-        // then
-        expect(response).to.deep.equal(serializedSnapshots);
-      });
-
-    });
-
-    describe('Error cases', () => {
-
-      it('should return an serialized NotFoundError, when no snapshot was found', async () => {
-        // given
-        const error = BookshelfSnapshot.NotFoundError;
-        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
-        const serializedError = { errors: [] };
-        validationErrorSerializer.serialize.returns(serializedError);
-        const request = {
-          params: {
-            id: 156778
-          }
-        };
-
-        // when
-        const response = await organizationController.getSharedProfiles(request, hFake);
-
-        // then
-        expect(response.source).to.deep.equal(serializedError);
-        expect(response.statusCode).to.equal(500);
-      });
-
-      it('should log an error, when unknown error has occured', async () => {
-        // given
-        const error = new Error();
-        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
-        const serializedError = { errors: [] };
-        validationErrorSerializer.serialize.returns(serializedError);
-        const request = {
-          params: {
-            id: 156778
-          }
-        };
-
-        // when
-        await organizationController.getSharedProfiles(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(logger.error);
-      });
-
-    });
-
   });
 
   describe('#exportSharedSnapshotsAsCsv', () => {

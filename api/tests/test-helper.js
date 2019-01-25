@@ -1,7 +1,11 @@
+// Errors
+const domainErrors = require('../lib/domain/errors');
+const infraErrors = require('../lib/infrastructure/errors');
 // Chai
 const chai = require('chai');
 const expect = chai.expect;
 chai.use(require('chai-as-promised'));
+chai.use(require('chai-sorted'));
 
 // Sinon
 const sinon = require('sinon');
@@ -140,4 +144,7 @@ module.exports = {
   nock,
   sinon,
   streamToPromise,
+  testErr: new Error('Fake Error'),
+  testDomainNotFoundErr: new domainErrors.NotFoundError('Fake domain NotFoundError'),
+  testInfraNotFoundErr: new infraErrors.NotFoundError('Fake infra NotFoundError')
 };

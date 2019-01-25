@@ -16,15 +16,14 @@ export default function(schema, request) {
 
   const type = request.queryParams['filter[type]'];
   const courseId = request.queryParams['filter[courseId]'];
+  const resumable = request.queryParams['filter[resumable]'];
 
-  if (type === 'CERTIFICATION' && courseId) {
+  if (type === 'CERTIFICATION' && courseId && resumable === 'true') {
     return schema.assessments.where({ courseId, type });
   }
 
-  const state = request.queryParams['filter[state]'];
-
-  if (type === 'PLACEMENT' && courseId && state === 'started') {
-    return schema.assessments.where({ courseId, type, state });
+  if (type === 'PLACEMENT' && courseId && resumable === 'true') {
+    return schema.assessments.where({ courseId, type, state: 'started' });
   }
 
   return schema.assessments.all();
