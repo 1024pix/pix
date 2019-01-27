@@ -1,6 +1,5 @@
 const securityController = require('../../interfaces/controllers/security-controller');
 const organisationController = require('./organization-controller');
-const organizationAuthorization = require('../../application/preHandlers/organization-authorization');
 const snapshotsAuthorization = require('../../application/preHandlers/snapshot-authorization');
 
 exports.register = async (server) => {
@@ -94,8 +93,8 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/memberships',
       config: {
         pre: [{
-          method: organizationAuthorization.verify,
-          assign: 'authorizationCheck'
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
         }],
         handler: organisationController.getMemberships,
         tags: ['api', 'organizations'],
