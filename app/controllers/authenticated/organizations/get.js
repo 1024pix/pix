@@ -18,15 +18,16 @@ export default Controller.extend({
       const user = matchingUsers.findBy('email', email);
 
       if (!user) {
-        return this.get('notifications').error('Il n’existe pas de compte utilisateur associé à cet e-mail.');
+        return this.get('notifications').error('Compte inconnu.');
       }
 
-      return this.store
-        .createRecord('membership', { organization, user })
+      if (await organization.hasMember(email)) {
+        return this.get('notifications').error('Compte déjà associé.');
+      }
+
+      return this.store.createRecord('membership', { organization, user })
         .save()
         .then(async () => {
-          const users = await this.store.query('user', { organizationId: organization.id });
-          this.set('model.users', users);
           this.set('model.userEmail', null);
           this.get('notifications').success('Accès attribué avec succès.');
         })

@@ -1,0 +1,49 @@
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
+import { run } from '@ember/runloop';
+
+module('Unit | Model | organization', function(hooks) {
+  setupTest(hooks);
+
+  // Replace this with your real tests.
+  test('it exists', function(assert) {
+    let store = this.owner.lookup('service:store');
+    let model = run(() => store.createRecord('organization', {}));
+    assert.ok(model);
+  });
+
+  module.only('#hasMember', function(hooks) {
+
+    let store;
+    let organization;
+    let linkedUser;
+
+    hooks.beforeEach(function() {
+      store = this.owner.lookup('service:store');
+      organization = run(() => store.createRecord('organization', {}));
+      linkedUser = run(() => store.createRecord('user', {}));
+      run(() => store.createRecord('membership', { organization, user: linkedUser }));
+    });
+
+    test('should return "false" when the user is not already linked to the organization', function(assert) {
+      // given
+      let notLinkedUser = run(() => store.createRecord('user', {}));
+
+      // when
+      const hasMember = organization.hasMember(notLinkedUser);
+
+      // then
+      assert.equal(hasMember, false);
+    });
+
+    test('should return "true" when the user is already linked to the organization', function(assert) {
+      // when
+      const hasMember = organization.hasMember(linkedUser);
+
+      // then
+      assert.equal(hasMember, true);
+    });
+
+
+  })
+});

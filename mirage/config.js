@@ -1,4 +1,5 @@
-import {createMembership} from "./handlers/memberships";
+import { createMembership } from "./handlers/memberships";
+import { getOrganizationMemberships } from "./handlers/organizations";
 import { findUsers } from "./handlers/users";
 
 export default function() {
@@ -30,6 +31,7 @@ export default function() {
 
   this.post('/memberships', createMembership);
   this.get('/organizations/:id');
+  this.get('/organizations/:id/memberships', getOrganizationMemberships);
   this.get('/users', findUsers);
 
 }
