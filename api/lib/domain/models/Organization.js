@@ -9,6 +9,7 @@ class Organization {
     logoUrl,
     // includes
     user,
+    memberships = [],
     targetProfileShares = [],
     // references
   } = {}) {
@@ -20,6 +21,7 @@ class Organization {
     this.logoUrl = logoUrl;
     // includes
     this.user = user;
+    this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
     // references
   }

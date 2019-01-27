@@ -10,7 +10,7 @@ module.exports = {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
-          related: function(record, current, parent) {
+          related(record, current, parent) {
             return `/users/${parent.id}/memberships`;
           }
         }

@@ -4,14 +4,14 @@ module.exports = {
 
   serialize(membership) {
     return new Serializer('memberships', {
-      transform: function(record) {
+      transform(record) {
         // we add a 'campaigns' attr to the organization so that the serializer
         // can see there is a 'campaigns' attribute and add the relationship link.
         record.organization.campaigns = [];
         record.organization.targetProfiles = [];
         return record;
       },
-      attributes: ['organization'],
+      attributes: ['organization', 'organizationRole', 'user'],
       organization: {
         ref: 'id',
         included: true,
@@ -34,6 +34,16 @@ module.exports = {
             }
           }
         }
+      },
+      organizationRole: {
+        ref: 'id',
+        included: true,
+        attributes: ['name']
+      },
+      user: {
+        ref: 'id',
+        included: true,
+        attributes: ['firstName', 'lastName', 'email']
       }
     }).serialize(membership);
   }

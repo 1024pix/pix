@@ -1,18 +1,18 @@
 const { PassThrough } = require('stream');
 
-const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
-const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
-const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
+const { EntityValidationError, NotFoundError } = require('../../domain/errors');
 const organizationService = require('../../domain/services/organization-service');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
-
+const { NotFoundError: InfrastructureNotFoundError } = require('../../infrastructure/errors');
 const logger = require('../../infrastructure/logger');
+const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
+const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
+const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
+const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
+const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const JSONAPI = require('../../interfaces/jsonapi');
-const { EntityValidationError, NotFoundError } = require('../../domain/errors');
-const { NotFoundError : InfrastructureNotFoundError } = require('../../infrastructure/errors');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
@@ -90,6 +90,15 @@ module.exports = {
       .catch(controllerReplies(h).error);
   },
 
+  getMemberships(request, h) {
+    const organizationId = request.params.id;
+
+    return usecases.getOrganizationMemberships({ organizationId })
+      .then(membershipSerializer.serialize)
+      .then(controllerReplies(h).ok)
+      .catch(controllerReplies(h).error);
+  },
+
   findTargetProfiles(request, h) {
     const requestedOrganizationId = parseInt(request.params.id);
 
@@ -116,7 +125,7 @@ module.exports = {
       });
 
       return stream;
-    } catch(err) {
+    } catch (err) {
       logger.error(err);
       return h.response(validationErrorSerializer.serialize(
         _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
