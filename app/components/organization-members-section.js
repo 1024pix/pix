@@ -7,20 +7,22 @@ const columns = [
     disableFiltering: true,
   },
   {
-    propertyName: "firstName",
+    propertyName: "user.firstName",
     title: "Prénom",
   },
   {
-    propertyName: "lastName",
+    propertyName: "user.lastName",
     title: "Nom",
   },
   {
-    propertyName: "email",
+    propertyName: "user.email",
     title: "Courriel",
   }
 ];
 
 export default Component.extend({
+
+  organization: null,
 
   init() {
     this._super(...arguments);
@@ -29,7 +31,7 @@ export default Component.extend({
       messages: {
         noDataToShow: 'Cette organisation ne contient pas de membre.'
       }
-})
+    });
   },
 
   actions: {

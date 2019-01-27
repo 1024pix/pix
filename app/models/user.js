@@ -4,7 +4,7 @@ const { attr, hasMany } = DS;
 
 export default DS.Model.extend({
 
-  // Props
+  // Attributes
   firstName: attr(),
   lastName: attr(),
   email: attr(),

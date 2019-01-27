@@ -18,6 +18,6 @@
 
   {{organization-information-section organization=model.organization onLogoUpdated=(action "updateOrganizationInformation")}}
 
-  {{organization-members-section users=model.users userEmail=model.userEmail onMembershipAdded=(action "addMembership")}}
+  {{organization-members-section organization=model.organization userEmail=model.userEmail onMembershipAdded=(action "addMembership")}}
 
 </main>

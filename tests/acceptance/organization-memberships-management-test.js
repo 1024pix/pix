@@ -33,9 +33,9 @@ module('Acceptance | organization memberships management', function(hooks) {
       const userBob = this.server.create('user', { firstName: 'Bob', lastName: 'Harr', email: 'bob@example.com' });
       const userCharlie = this.server.create('user', { firstName: 'Charlie', lastName: 'Bideau', email: 'charlie@example.com' });
 
-      this.server.create('membership', { user: userAlice, organization });
-      this.server.create('membership', { user: userBob, organization });
-      this.server.create('membership', { user: userCharlie, organization });
+      this.server.create('membership', { organization, user: userAlice});
+      this.server.create('membership', { organization, user: userBob});
+      this.server.create('membership', { organization, user: userCharlie});
 
       // when
       await visit(`/organizations/${organization.id}`);
