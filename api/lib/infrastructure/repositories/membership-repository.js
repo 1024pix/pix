@@ -1,26 +1,28 @@
 const BookshelfMembership = require('../data/membership');
 const { MembershipCreationError } = require('../../domain/errors');
-const { InfrastructureError } = require('../../infrastructure/errors');
 const Membership = require('../../domain/models/Membership');
 const Organization = require('../../domain/models/Organization');
 const OrganizationRole = require('../../domain/models/OrganizationRole');
+const User = require('../../domain/models/User');
 const bookshelfUtils = require('../utils/bookshelf-utils');
 
-function _toDomain(membershipBookshelf) {
+function _toDomain(bookshelfMembership) {
 
-  const organization = new Organization({
-    id: membershipBookshelf.get('organizationId'),
-  });
+  const membership = new Membership({ id: bookshelfMembership.id });
 
-  const organizationRole = new OrganizationRole({
-    id: membershipBookshelf.get('organizationRoleId'),
-  });
+  if (bookshelfMembership.relations.organization) {
+    membership.organization = new Organization(bookshelfMembership.relations.organization.toJSON());
+  }
 
-  return new Membership({
-    id: membershipBookshelf.get('id'),
-    organization,
-    organizationRole,
-  });
+  if (bookshelfMembership.relations.organizationRole) {
+    membership.organizationRole = new OrganizationRole(bookshelfMembership.relations.organizationRole.toJSON());
+  }
+
+  if (bookshelfMembership.relations.user) {
+    membership.user = new User(bookshelfMembership.relations.user.toJSON());
+  }
+
+  return membership;
 }
 
 module.exports = {
@@ -28,13 +30,20 @@ module.exports = {
   create(userId, organizationId, organizationRoleId) {
     return new BookshelfMembership({ userId, organizationId, organizationRoleId })
       .save()
+      .then((bookshelfMembership) => bookshelfMembership.load(['organization', 'organizationRole', 'user']))
       .then(_toDomain)
       .catch((err) => {
         if (bookshelfUtils.isUniqConstraintViolated(err)) {
           throw new MembershipCreationError();
         }
-        throw new InfrastructureError(err);
+        throw err;
       });
   },
 
+  findByOrganizationId(organizationId) {
+    return BookshelfMembership
+      .where({ organizationId })
+      .fetchAll({ withRelated: ['organization', 'organizationRole', 'user'] })
+      .then((bookshelfMembershipCollection) => bookshelfMembershipCollection.map(_toDomain));
+  }
 };

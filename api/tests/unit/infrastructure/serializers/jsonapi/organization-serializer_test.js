@@ -25,6 +25,11 @@ describe('Unit | Serializer | organization-serializer', () => {
           },
           relationships: {
             user: { data: null },
+            memberships: {
+              links: {
+                related: `/api/organizations/${organization.id}/memberships`
+              }
+            }
           }
         },
         meta: {

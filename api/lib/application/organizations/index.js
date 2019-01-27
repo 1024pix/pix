@@ -90,6 +90,18 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/organizations/{id}/memberships',
+      config: {
+        handler: organisationController.getMemberships,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les membres rattachées à l’organisation.',
+        ]
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/target-profiles',
       config: {
         handler: organisationController.findTargetProfiles,

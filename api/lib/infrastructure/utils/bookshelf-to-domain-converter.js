@@ -37,6 +37,7 @@ function _getModelName(bookshelfObject) {
   });
 }
 
+// TODO take into account nested objects from relationships in order to manage well the object types
 function _buildDomainObject(bookshelfObject, modelName) {
   const domainObject = new Models[modelName];
 

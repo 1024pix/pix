@@ -752,40 +752,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when there are multiple users matching the same "organizationId" search pattern', () => {
-
-      let organizationId;
-      let organizationRoleId;
-
-      beforeEach(() => {
-        organizationId = databaseBuilder.factory.buildOrganization({ name: 'Acme & cie' }).id;
-        organizationRoleId = databaseBuilder.factory.buildOrganizationRole({ name:'ADMIN' }).id;
-
-        databaseBuilder.factory.buildUser({ email: 'playpus@pix.fr' }); // user without membership
-        databaseBuilder.factory.buildUser.withMembership({ email: 'matching_1@acme.cie', organizationId, organizationRoleId }); // user with matching membership #1
-        databaseBuilder.factory.buildUser.withMembership({ email: 'matching_2@acme.cie', organizationId, organizationRoleId }); // user with matching membership #2
-        databaseBuilder.factory.buildUser.withMembership({ email: 'unmatching@company.com', organizationId: 999, organizationRoleId }); // user with unmatching membership
-        return databaseBuilder.commit();
-      });
-
-      afterEach(() => {
-        return databaseBuilder.clean();
-      });
-
-      it('should return only users matching "organizationId" if given in filters', async () => {
-        // given
-        const filters = { organizationId };
-        const pagination = { page: 1, pageSize: 10 };
-
-        // when
-        const matchingUsers = await userRepository.find(filters, pagination);
-
-        // then
-        expect(matchingUsers).to.has.lengthOf(2);
-        expect(_.map(matchingUsers, 'email')).to.have.members(['matching_1@acme.cie', 'matching_2@acme.cie']);
-      });
-    });
-
     context('when there are multiple users matching the fields "first name", "last name" and "email" search pattern', () => {
 
       beforeEach(() => {
