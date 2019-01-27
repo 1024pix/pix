@@ -1,6 +1,7 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const organizationAuthorization = require('../../../../lib/application/preHandlers/organization-authorization');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
@@ -8,13 +9,20 @@ describe('Integration | Application | Organizations | organization-controller', 
 
   const organization = domainBuilder.buildOrganization();
 
+  let sandbox;
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(usecases, 'updateOrganizationInformation');
-    sinon.stub(usecases, 'getOrganizationMemberships');
-    sinon.stub(securityController, 'checkUserHasRolePixMaster');
+    sandbox = sinon.createSandbox();
+    sandbox.stub(usecases, 'updateOrganizationInformation');
+    sandbox.stub(usecases, 'getOrganizationMemberships');
+    sandbox.stub(securityController, 'checkUserHasRolePixMaster');
+    sandbox.stub(organizationAuthorization, 'verify');
     httpTestServer = new HttpTestServer(moduleUnderTest);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   describe('#updateOrganizationInformation', () => {
@@ -115,13 +123,14 @@ describe('Integration | Application | Organizations | organization-controller', 
 
   describe('#getOrganizationMemberships', () => {
 
+    beforeEach(() => {
+      securityController.checkUserHasRolePixMaster.returns(true);
+      organizationAuthorization.verify.returns(true);
+    });
+
     context('Success cases', () => {
 
       const membership = domainBuilder.buildMembership();
-
-      beforeEach(() => {
-        securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-      });
 
       it('should return an HTTP response with status code 200', async () => {
         // given
