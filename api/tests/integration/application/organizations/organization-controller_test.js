@@ -1,7 +1,6 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
-const organizationAuthorization = require('../../../../lib/application/preHandlers/organization-authorization');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
@@ -17,7 +16,6 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'getOrganizationMemberships');
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
-    sandbox.stub(organizationAuthorization, 'verify');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -125,7 +123,6 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     beforeEach(() => {
       securityController.checkUserHasRolePixMaster.returns(true);
-      organizationAuthorization.verify.returns(true);
     });
 
     context('Success cases', () => {
