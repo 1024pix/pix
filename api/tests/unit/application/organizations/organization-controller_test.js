@@ -12,7 +12,6 @@ const { InfrastructureError } = require('../../../../lib/infrastructure/errors')
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
-const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
