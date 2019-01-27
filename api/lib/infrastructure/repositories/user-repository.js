@@ -155,6 +155,7 @@ module.exports = {
           'memberships',
           'memberships.organization',
           'memberships.organizationRole',
+          'pixRoles',
         ]
       })
       .then((foundUser) => {
