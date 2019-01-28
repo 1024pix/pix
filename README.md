@@ -1,11 +1,10 @@
 # Pix Admin
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Interface d'administration pour les *Pix Masters*.   
 
-## Prerequisites
+## Prérequis
 
-You will need the following things properly installed on your computer.
+Vous devez avoir correctement installé les programmes suivants :
 
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with npm)
@@ -14,27 +13,35 @@ You will need the following things properly installed on your computer.
 
 ## Installation
 
-* `git clone git@github.com:1024pix/pix-admin.git` this repository
-* `cd pix-admin`
-* `npm install`
-* `cd api`
-* `npm install`
+```bash
+$ git clone git@github.com:1024pix/pix-admin.git
+$ cd pix-admin
+$ npm install
+$ cd api
+$ npm install
+```
 
-## Running / Development the Back-end API (Express)
+## Développement
 
-* `npm run api`
-* Visit your API at [http://localhost:9000](http://localhost:9000).
+> Vous devez au préalable avoir une instance de [Pix API](https://github.com/1024pix/pix/tree/dev/api) qui tourne à l'URL : [http://localhost:3000](http://localhost:3000).
 
-## Running / Development the Front-end app (Ember)
+```bash
+$ npm run dev
+```
 
-* `ember serve`
-* Visit your app at [http://localhost:4202](http://localhost:4202).
+Accédez à l'application locale via l'URL : [http://localhost:4202](http://localhost:4202).
 
-### Building
+## Intégration
 
-* `ember build` (development)
-* `ember build --environment production` (production)
+L'application est automatiquement déployée sur l'environnement d'intégration dès qu'un commit est poussé sur la branche `dev`.
 
-### Deploying
+Accédez à l'application d'intégration via l'URL : [https://integration.admin.pix.fr](https://integration.admin.pix.fr).
 
-The application is automatically deployed on Heroku when CI is OK.
+
+## Production
+
+Contrairement à l'environnement d'intégration, la mise en production se fait à la demande via la tache npm suivante :
+
+```bash
+$ npm run deploy
+```
