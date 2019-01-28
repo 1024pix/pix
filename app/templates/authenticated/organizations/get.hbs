@@ -2,7 +2,7 @@
   <div class="page-title">
     {{link-to 'Toutes les organisations' 'authenticated.organizations.list'}}
     <span style="color: #DDDDDD;">&nbsp;>&nbsp;</span>
-    {{model.organization.name}}
+    {{model.name}}
   </div>
   <div class="page-actions">
     <button class="btn btn-outline-default btn-thin hidden">
@@ -16,8 +16,8 @@
 
 <main class="page-body" id="organizations-get-page">
 
-  {{organization-information-section organization=model.organization onLogoUpdated=(action "updateOrganizationInformation")}}
+  {{organization-information-section organization=model onLogoUpdated=(action "updateOrganizationInformation")}}
 
-  {{organization-members-section organization=model.organization userEmail=model.userEmail onMembershipAdded=(action "addMembership")}}
+  {{organization-members-section organization=model userEmail=userEmail addMembership=(action "addMembership")}}
 
 </main>

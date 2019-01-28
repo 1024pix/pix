@@ -7,7 +7,10 @@ module('Integration | Component | organization-members-section', function(hooks)
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    await render(hbs`{{organization-members-section}}`);
+
+    this.set('addMembership', () => true);
+
+    await render(hbs`{{organization-members-section addMembership=(action addMembership)}}`);
 
     assert.dom('.member-list').exists();
   });

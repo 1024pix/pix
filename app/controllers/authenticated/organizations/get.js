@@ -5,6 +5,8 @@ export default Controller.extend({
 
   notifications: service('notification-messages'),
 
+  userEmail: null,
+
   actions: {
 
     updateOrganizationInformation() {
@@ -12,10 +14,10 @@ export default Controller.extend({
     },
 
     async addMembership() {
-      const email = this.get('model.userEmail');
-      const organization = this.get('model.organization');
-      const matchingUsers = (await this.store.query('user', { email }));
-      const user = matchingUsers.findBy('email', email);
+      const email = this.get('userEmail');
+      const organization = this.get('model');
+      const matchingUsers = await this.store.query('user', { email });
+      const user = matchingUsers.get('firstObject');
 
       if (!user) {
         return this.get('notifications').error('Compte inconnu.');
@@ -28,7 +30,7 @@ export default Controller.extend({
       return this.store.createRecord('membership', { organization, user })
         .save()
         .then(async () => {
-          this.set('model.userEmail', null);
+          this.set('userEmail', null);
           this.get('notifications').success('Accès attribué avec succès.');
         })
         .catch(() => {
