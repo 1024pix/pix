@@ -6,7 +6,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   currentCertificationCenter: service(),
 
   model() {
-    return this.currentCertificationCenter.certificationCenter.then((certificationCenter) => certificationCenter);
+    return this.currentCertificationCenter.certificationCenter;
   }
 
 });
