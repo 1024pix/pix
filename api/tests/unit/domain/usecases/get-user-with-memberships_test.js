@@ -13,25 +13,6 @@ describe('Unit | UseCase | get-user-with-memberships', () => {
 
   context('Access management', () => {
 
-    it('should resolve the asked user details when authenticated user with role Pix Master', async () => {
-      // given
-      const pixMaster = { id: 1234, hasRolePixMaster: true };
-      const queriedUser = { id: 5678 };
-
-      userRepository.getWithMemberships.withArgs(pixMaster.id).resolves(pixMaster);
-      userRepository.getWithMemberships.withArgs(queriedUser.id).resolves(queriedUser);
-
-      // when
-      const result = await getUserWithMemberships({
-        authenticatedUserId: pixMaster.id,
-        requestedUserId: queriedUser.id,
-        userRepository
-      });
-
-      // then
-      expect(result).to.equal(queriedUser);
-    });
-
     it('should resolve the asked user details when authenticated user is the same as asked', async () => {
       // given
       const authenticatedUser = { id: 1234, hasRolePixMaster: false };
@@ -84,7 +65,7 @@ describe('Unit | UseCase | get-user-with-memberships', () => {
       // then
       expect(result).to.be.an.instanceOf(User);
       expect(result).to.equal(fetchedUser);
-      expect(userRepository.getWithMemberships).to.have.been.calledTwice;
+      expect(userRepository.getWithMemberships).to.have.been.calledOnce;
     });
   });
 });

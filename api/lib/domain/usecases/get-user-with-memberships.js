@@ -2,9 +2,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async ({ authenticatedUserId, requestedUserId, userRepository }) => {
 
-  const authenticatedUser = await userRepository.getWithMemberships(authenticatedUserId);
-
-  if (!authenticatedUser.hasRolePixMaster && authenticatedUserId !== requestedUserId) {
+  if (authenticatedUserId !== requestedUserId) {
     return Promise.reject(new UserNotAuthorizedToAccessEntity());
   }
 
