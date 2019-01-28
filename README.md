@@ -43,5 +43,7 @@ Accédez à l'application d'intégration via l'URL : [https://integration.admin.
 Contrairement à l'environnement d'intégration, la mise en production se fait à la demande via la tache npm suivante :
 
 ```bash
-$ npm run deploy
+$ npm run publish
 ```
+
+Vous pouvez si besoin préciser un type de version (`major`, `minor` [default], `patch`).
