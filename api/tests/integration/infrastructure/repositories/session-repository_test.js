@@ -280,7 +280,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#findByCertificationCenter', () => {
+  describe('#findByCertificationCenterId', () => {
 
     context('when there are some sessions', function() {
       let certificationCenterId;
@@ -331,7 +331,7 @@ describe('Integration | Repository | Session', function() {
 
       it('should return all sessions of the certification Center ordered by date', function() {
         // when
-        const promise = sessionRepository.findByCertificationCenter(certificationCenterId);
+        const promise = sessionRepository.findByCertificationCenterId(certificationCenterId);
 
         // then
         return promise.then((result) => {
@@ -346,7 +346,7 @@ describe('Integration | Repository | Session', function() {
 
       it('should return an empty array', function() {
         // when
-        const promise = sessionRepository.findByCertificationCenter(1);
+        const promise = sessionRepository.findByCertificationCenterId(1);
 
         // then
         return promise.then((result) => {

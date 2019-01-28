@@ -62,7 +62,7 @@ module.exports = {
       .then((sessions) => sessions.map(_toDomain));
   },
 
-  findByCertificationCenter(certificationCenterId) {
+  findByCertificationCenterId(certificationCenterId) {
     return BookshelfSession
       .where({ certificationCenterId })
       .query((qb) => {

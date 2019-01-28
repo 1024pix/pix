@@ -4,7 +4,7 @@ module.exports = function findSessionsForCertificationCenter({ userId, certifica
   return userRepository.getWithCertificationCenterMemberships(userId)
     .then((user) => {
       if(user.hasAccessToCertificationCenter(certificationCenterId)) {
-        return sessionRepository.findByCertificationCenter(certificationCenterId);
+        return sessionRepository.findByCertificationCenterId(certificationCenterId);
       }
       throw new ForbiddenAccess(`User ${userId} is not a member of certification center ${certificationCenterId}`);
     });

@@ -105,16 +105,22 @@ describe('Unit | Domain | Models | User', () => {
         certificationCenterMemberships: [domainBuilder.buildCertificationCenterMembership()]
       });
 
-      // when/then
-      expect(user.isLinkedToCertificationCenters()).to.be.true;
+      // when
+      const isLinked = user.isLinkedToCertificationCenters();
+
+      // then
+      expect(isLinked).to.be.true;
     });
 
     it('should be false if user has no role in certification center', () => {
       // given
       const user = new User();
 
-      // when/then
-      expect(user.isLinkedToCertificationCenters()).to.be.false;
+      // when
+      const isLinked = user.isLinkedToCertificationCenters();
+
+      // then
+      expect(isLinked).to.be.false;
     });
 
   });
