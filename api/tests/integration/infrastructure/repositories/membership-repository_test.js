@@ -3,7 +3,6 @@ const _ = require('lodash');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 const { MembershipCreationError } = require('../../../../lib/domain/errors');
 const Membership = require('../../../../lib/domain/models/Membership');
-const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole');
 const User = require('../../../../lib/domain/models/User');
 const BookshelfMembership = require('../../../../lib/infrastructure/data/membership');
