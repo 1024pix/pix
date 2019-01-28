@@ -5,6 +5,7 @@
 @import "globals/errors";
 @import "globals/fonts";
 @import "globals/forms";
+@import "globals/icons";
 @import "globals/pages";
 @import "globals/panels";
 @import "globals/texts";
@@ -13,6 +14,7 @@
 @import "pages/login";
 @import "pages/authenticated";
 @import "pages/authenticated/campaigns";
+@import "pages/authenticated/campaigns/details";
 @import "pages/authenticated/campaigns/new";
 @import "pages/authenticated/campaigns/list";
 @import "pages/authenticated/campaigns/no-campaign-panel";

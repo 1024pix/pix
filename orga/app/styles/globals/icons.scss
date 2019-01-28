@@ -1,0 +1,9 @@
+.icon-link {
+  color: $dove-gray;
+  padding: 8px;
+
+  &:hover, &:focus, &:active {
+    background-color: $alto;
+    border-radius: 16px;
+  }
+}
