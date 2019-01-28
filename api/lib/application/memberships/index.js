@@ -16,7 +16,7 @@ exports.register = async function(server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
           '- Elle permet de donner l’accès à une organisation, avec un rôle particulier pour un utilisateur donné'
         ],
-        tags: ['api', 'membership']
+        tags: ['api', 'memberships']
       }
     },
   ]);

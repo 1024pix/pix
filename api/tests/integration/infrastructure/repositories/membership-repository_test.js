@@ -1,4 +1,5 @@
 const { expect, knex, databaseBuilder, sinon } = require('../../../test-helper');
+const _ = require('lodash');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 const { MembershipCreationError } = require('../../../../lib/domain/errors');
 const Membership = require('../../../../lib/domain/models/Membership');
@@ -48,7 +49,6 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
       // then
       expect(membership).to.be.an.instanceOf(Membership);
-      expect(membership.organization).to.be.an.instanceOf(Organization);
       expect(membership.organizationRole).to.be.an.instanceOf(OrganizationRole);
     });
 
@@ -77,14 +77,11 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
 
   describe('#findByOrganizationId', () => {
 
-    let organization;
-    let organizationRole;
-    let user;
-
-    beforeEach(() => {
-      organization = databaseBuilder.factory.buildOrganization();
-      organizationRole = databaseBuilder.factory.buildOrganizationRole();
-      user = databaseBuilder.factory.buildUser();
+    it('should return Memberships with well defined relationships (OrganizationRole & User)', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const organizationRole = databaseBuilder.factory.buildOrganizationRole();
+      const user = databaseBuilder.factory.buildUser();
 
       // Matching membership
       databaseBuilder.factory.buildMembership({
@@ -97,31 +94,14 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       databaseBuilder.factory.buildMembership();
       databaseBuilder.factory.buildMembership();
 
-      return databaseBuilder.commit();
-    });
+      await databaseBuilder.commit();
 
-    it('should return all the Memberships associated to the given Organization', async () => {
-      // when
-      const memberships = await membershipRepository.findByOrganizationId(organization.id);
-
-      // then
-      expect(memberships.length).to.equal(1);
-      expect(memberships[0]).to.be.an.instanceOf(Membership);
-    });
-
-    it('should return Memberships with well defined relationships (Organization, OrganizationRole & User)', async () => {
       // when
       const memberships = await membershipRepository.findByOrganizationId(organization.id);
 
       // then
       const anyMembership = memberships[0];
       expect(anyMembership).to.be.an.instanceOf(Membership);
-
-      expect(anyMembership.organization).to.be.an.instanceOf(Organization);
-      expect(anyMembership.organization.id).to.equal(organization.id);
-      expect(anyMembership.organization.name).to.equal(organization.name);
-      expect(anyMembership.organization.type).to.equal(organization.type);
-      expect(anyMembership.organization.code).to.equal(organization.code);
 
       expect(anyMembership.organizationRole).to.be.an.instanceOf(OrganizationRole);
       expect(anyMembership.organizationRole.id).to.equal(organizationRole.id);
@@ -134,6 +114,30 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       expect(anyMembership.user.email).to.equal(user.email);
     });
 
+    it('should return all the memberships for a given organization ID with only required relationships', async () => {
+      // given
+      const organization_1 = databaseBuilder.factory.buildOrganization();
+      const organization_2 = databaseBuilder.factory.buildOrganization();
+
+      const user_1 = databaseBuilder.factory.buildUser();
+      const user_2 = databaseBuilder.factory.buildUser();
+      const user_3 = databaseBuilder.factory.buildUser();
+
+      const organizationRole = databaseBuilder.factory.buildOrganizationRole();
+
+      databaseBuilder.factory.buildMembership({ organizationId: organization_1.id, organizationRoleId: organizationRole.id, userId: user_1.id });
+      databaseBuilder.factory.buildMembership({ organizationId: organization_1.id, organizationRoleId: organizationRole.id, userId: user_2.id });
+      databaseBuilder.factory.buildMembership({ organizationId: organization_2.id, organizationRoleId: organizationRole.id, userId: user_3.id });
+
+      await databaseBuilder.commit();
+
+      // when
+      const memberships = await membershipRepository.findByOrganizationId(organization_1.id);
+
+      // then
+      expect(_.map(memberships, 'user.id')).to.have.members([user_1.id, user_2.id]);
+
+    });
   });
 
 });
