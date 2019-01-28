@@ -168,15 +168,17 @@ module.exports = {
     return BookshelfUser
       .where({ id: userId })
       .fetch({
+        require: true,
         withRelated: [
           'certificationCenterMemberships.certificationCenter',
         ]
       })
-      .then((foundUser) => {
-        if (foundUser === null) {
-          return Promise.reject(new UserNotFoundError(`User not found for ID ${userId}`));
+      .then(_toDomain)
+      .catch((err) => {
+        if (err instanceof BookshelfUser.NotFoundError) {
+          throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
-        return _toDomain(foundUser);
+        throw err;
       });
   },
 
