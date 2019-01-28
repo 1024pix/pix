@@ -62,8 +62,8 @@ exports.register = async function(server) {
         handler: certificationCenterController.getSessions,
         tags: ['api', 'certification-center'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les sessions rattachées au centre de certification.',
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n',
+          '- Elle retourne les sessions rattachées au centre de certification.',
         ]
       }
     },

@@ -99,7 +99,6 @@ module.exports = {
           'memberships.organization',
           'memberships.organizationRole',
           'pixRoles',
-          'certificationCenterMemberships',
           'certificationCenterMemberships.certificationCenter',
         ]
       })
@@ -170,7 +169,6 @@ module.exports = {
       .where({ id: userId })
       .fetch({
         withRelated: [
-          'certificationCenterMemberships',
           'certificationCenterMemberships.certificationCenter',
         ]
       })

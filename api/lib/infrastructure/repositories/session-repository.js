@@ -67,6 +67,7 @@ module.exports = {
       .where({ certificationCenterId })
       .query((qb) => {
         qb.orderBy('date', 'desc');
+        qb.orderBy('time', 'desc');
       })
       .fetchAll({})
       .then((sessions) => sessions.map(_toDomain));

@@ -292,25 +292,34 @@ describe('Integration | Repository | Session', function() {
         databaseBuilder.factory.buildSession({
           id: 1,
           date: '2017-12-08',
+          time: '14:00',
           certificationCenterId
         });
         databaseBuilder.factory.buildSession({
           id: 2,
-          date: '2017-12-09',
+          date: '2017-12-08',
+          time: '16:00',
           certificationCenterId
         });
         databaseBuilder.factory.buildSession({
           id: 3,
-          date: '2017-12-07',
+          date: '2017-12-09',
+          time: '09:00',
           certificationCenterId
         });
         databaseBuilder.factory.buildSession({
           id: 4,
           date: '2017-12-07',
-          certificationCenterId: undefined
+          time: '10:00',
+          certificationCenterId
         });
         databaseBuilder.factory.buildSession({
           id: 5,
+          date: '2017-12-07',
+          certificationCenterId: undefined
+        });
+        databaseBuilder.factory.buildSession({
+          id: 6,
           date: '2017-12-07',
           certificationCenterId: certificationCenter2.id
         });
@@ -327,8 +336,8 @@ describe('Integration | Repository | Session', function() {
         // then
         return promise.then((result) => {
           expect(result).to.be.an('array');
-          expect(result).to.have.lengthOf(3);
-          expect(result.map((session) => session.id)).to.deep.equal([2, 1, 3]);
+          expect(result).to.have.lengthOf(4);
+          expect(result.map((session) => session.id)).to.deep.equal([3, 2, 1, 4]);
         });
       });
     });

@@ -49,7 +49,7 @@ module.exports = {
     const certificationCenterId = parseInt(request.params.id);
     const userId = parseInt(request.auth.credentials.userId);
 
-    return usecases.findSessions({ userId, certificationCenterId })
+    return usecases.findSessionsForCertificationCenter({ userId, certificationCenterId })
       .then((sessions) => sessionSerializer.serialize(sessions))
       .then(controllerReplies(h).ok)
       .catch((error) => {
