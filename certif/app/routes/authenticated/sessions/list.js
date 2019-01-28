@@ -8,8 +8,4 @@ export default Route.extend({
     return this.get('currentCertificationCenter').certificationCenter
       .then((certificationCenter) => certificationCenter.get('sessions'));
   },
-
-  afterModel(model) {
-    model.reload();
-  }
 });
