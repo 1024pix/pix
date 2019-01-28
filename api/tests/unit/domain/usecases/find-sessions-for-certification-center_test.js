@@ -4,7 +4,7 @@ const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
 const User = require('../../../../lib/domain/models/User');
 
-describe('Unit | UseCase | find-sessions', () => {
+describe('Unit | UseCase | find-sessions-for-certification-center', () => {
 
   it('should return sessions of the certificationCenter', async () => {
     // given
@@ -19,13 +19,13 @@ describe('Unit | UseCase | find-sessions', () => {
     };
 
     // when
-    const sessionsFound = await usecases.findSessions({ userId: user.id, certificationCenterId, userRepository, sessionRepository });
+    const sessionsFound = await usecases.findSessionsForCertificationCenter({ userId: user.id, certificationCenterId, userRepository, sessionRepository });
 
     // then
     return expect(sessionsFound).to.be.deep.equal(sessions);
   });
 
-  it('should throw an forbidden error if user is not a certification center member', () => {
+  it('should throw a forbidden error if user is not a member of the given certification center', () => {
     // given
     const userId = 1;
     const certificationCenterId = 1;
@@ -37,7 +37,7 @@ describe('Unit | UseCase | find-sessions', () => {
     };
 
     // when
-    const promise = usecases.findSessions({ userId, certificationCenterId, sessionRepository, userRepository });
+    const promise = usecases.findSessionsForCertificationCenter({ userId, certificationCenterId, sessionRepository, userRepository });
 
     // then
     return promise.catch((error) => {

@@ -1,6 +1,6 @@
 const { ForbiddenAccess } = require('../../domain/errors');
 
-module.exports = function findSessions({ userId, certificationCenterId, sessionRepository, userRepository }) {
+module.exports = function findSessionsForCertificationCenter({ userId, certificationCenterId, sessionRepository, userRepository }) {
   return userRepository.getWithCertificationCenterMemberships(userId)
     .then((user) => {
       if(user.hasAccessToCertificationCenter(certificationCenterId)) {

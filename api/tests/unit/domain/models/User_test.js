@@ -109,7 +109,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.isLinkedToCertificationCenters()).to.be.true;
     });
 
-    it('should be false is user has no role in certification center', () => {
+    it('should be false if user has no role in certification center', () => {
       // given
       const user = new User();
 
@@ -156,7 +156,7 @@ describe('Unit | Domain | Models | User', () => {
 
   describe('hasAccessToCertificationCenter', () => {
 
-    it('should be false is user has no access to no CertificationCenter', () => {
+    it('should be false if user has no access to given certification center', () => {
       // given
       const user = new User();
       const certificationCenterId = 12345;
@@ -165,7 +165,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.false;
     });
 
-    it('should be false is the user has access to many CertificationCenters, but not the one asked', () => {
+    it('should be false if user has access to many CertificationCenters, but not the given one', () => {
       // given
       const certificationCenterId = 12345;
       const user = domainBuilder.buildUser();
