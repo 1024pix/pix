@@ -6,6 +6,7 @@ module.exports = ({ authenticatedUserId, requestedUserId, userRepository }) => {
     return Promise.reject(new UserNotAuthorizedToAccessEntity());
   }
 
-  return userRepository.getWithCertificationCenterMemberships(requestedUserId);
+  return userRepository.getWithCertificationCenterMemberships(requestedUserId)
+    .then((user) => user.certificationCenterMemberships);
 
 };

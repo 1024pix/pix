@@ -169,8 +169,8 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
-    return usecases.getUserWithCertificationCenterMemberships({ authenticatedUserId, requestedUserId })
-      .then((user) => certificationCenterMembershipSerializer.serialize(user.certificationCenterMemberships))
+    return usecases.getUserCertificationCenterMemberships({ authenticatedUserId, requestedUserId })
+      .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships))
       .catch((error) => {
         const mappedError = _mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);

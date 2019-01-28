@@ -1,10 +1,9 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const getUserWithCertificationCenterMemberships = require('../../../../lib/domain/usecases/get-user-with-certification-center-memberships');
+const getUserCertificationCenterMemberships = require('../../../../lib/domain/usecases/get-user-certification-center-memberships');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
-const User = require('../../../../lib/domain/models/User');
 
-describe('Unit | UseCase | get-user-with-certification-center-memberships', () => {
+describe('Unit | UseCase | get-user-certification-center-memberships', () => {
 
   let authenticatedUserId;
   let requestedUserId;
@@ -16,7 +15,7 @@ describe('Unit | UseCase | get-user-with-certification-center-memberships', () =
     requestedUserId = 2;
 
     // when
-    const promise = getUserWithCertificationCenterMemberships({ authenticatedUserId, requestedUserId, userRepository });
+    const promise = getUserCertificationCenterMemberships({ authenticatedUserId, requestedUserId, userRepository });
 
     // then
     return promise.catch((err) => {
@@ -38,7 +37,7 @@ describe('Unit | UseCase | get-user-with-certification-center-memberships', () =
       userRepository.getWithCertificationCenterMemberships.resolves(foundUser);
 
       // when
-      const promise = getUserWithCertificationCenterMemberships({
+      const promise = getUserCertificationCenterMemberships({
         authenticatedUserId,
         requestedUserId,
         userRepository,
@@ -58,16 +57,15 @@ describe('Unit | UseCase | get-user-with-certification-center-memberships', () =
       userRepository.getWithCertificationCenterMemberships.resolves(foundUser);
 
       // when
-      const promise = getUserWithCertificationCenterMemberships({
+      const promise = getUserCertificationCenterMemberships({
         authenticatedUserId,
         requestedUserId,
         userRepository,
       });
 
       // then
-      return promise.then((foundUser) => {
-        expect(foundUser).to.be.an.instanceOf(User);
-        expect(foundUser.certificationCenterMemberships[0].id).to.deep.equal('Le premier accès de l\'utilisateur');
+      return promise.then((foundCertificationCenterMemberships) => {
+        expect(foundCertificationCenterMemberships[0].id).to.deep.equal('Le premier accès de l\'utilisateur');
       });
     });
   });
