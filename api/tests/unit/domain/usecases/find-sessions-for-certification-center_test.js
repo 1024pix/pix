@@ -12,7 +12,7 @@ describe('Unit | UseCase | find-sessions-for-certification-center', () => {
     const certificationCenterId = user.certificationCenterMemberships[0].certificationCenter.id;
     const sessions = [domainBuilder.buildSession({ certificationCenterId })];
     const sessionRepository = {
-      findByCertificationCenter: () => Promise.resolve(sessions)
+      findByCertificationCenterId: () => Promise.resolve(sessions)
     };
     const userRepository = {
       getWithCertificationCenterMemberships: () => Promise.resolve(user)
@@ -30,7 +30,7 @@ describe('Unit | UseCase | find-sessions-for-certification-center', () => {
     const userId = 1;
     const certificationCenterId = 1;
     const sessionRepository = {
-      findByCertificationCenter: () => {}
+      findByCertificationCenterId: () => {}
     };
     const userRepository = {
       getWithCertificationCenterMemberships: () => Promise.resolve(new User())

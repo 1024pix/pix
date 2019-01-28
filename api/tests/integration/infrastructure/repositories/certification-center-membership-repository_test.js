@@ -5,18 +5,18 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 
 describe('Integration | Repository | Certification Center Membership', () => {
 
-  let user, certificationCenter;
-  beforeEach(async () => {
-    user = databaseBuilder.factory.buildUser();
-    certificationCenter = databaseBuilder.factory.buildUser();
-    await databaseBuilder.clean();
-  });
-
   afterEach(async () => {
     await databaseBuilder.clean();
   });
 
   describe('#create', () => {
+    let user, certificationCenter;
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser();
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      await databaseBuilder.clean();
+    });
+
     afterEach(() => {
       return knex('certification-center-memberships').delete();
     });
@@ -40,7 +40,6 @@ describe('Integration | Repository | Certification Center Membership', () => {
       // then
       expect(createdCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
       expect(createdCertificationCenterMembership.certificationCenter).to.be.an.instanceOf(CertificationCenter);
-      expect(createdCertificationCenterMembership.certificationCenter.id).to.equal(certificationCenter.id);
     });
 
     context('Error cases', () => {
@@ -58,6 +57,45 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
     });
 
+  });
+
+  describe('#findByUserId', () => {
+
+    let userAsked, expectedCertificationCenter, expectedCertificationCenterMembership;
+    beforeEach(async () => {
+      userAsked = databaseBuilder.factory.buildUser();
+      const otherUser = databaseBuilder.factory.buildUser();
+      expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      const otherCertificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      expectedCertificationCenterMembership = databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: userAsked.id,
+        certificationCenterId: expectedCertificationCenter.id
+      });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: otherUser.id,
+        certificationCenterId: otherCertificationCenter.id
+      });
+      await databaseBuilder.commit();
+    });
+
+    it('should return certification center membership associated to the user', () => {
+      // when
+      const promise = certificationCenterMembershipRepository.findByUserId(userAsked.id);
+
+      // then
+      return promise.then((certificationCenterMemberships) => {
+        expect(certificationCenterMemberships).to.be.an('array');
+
+        const certificationCenterMembership = certificationCenterMemberships[0];
+        expect(certificationCenterMembership).to.be.an.instanceof(CertificationCenterMembership);
+        expect(certificationCenterMembership.id).to.equal(expectedCertificationCenterMembership.id);
+
+        const associatedCertificationCenter = certificationCenterMembership.certificationCenter;
+        expect(associatedCertificationCenter).to.be.an.instanceof(CertificationCenter);
+        expect(associatedCertificationCenter.id).to.equal(expectedCertificationCenter.id);
+        expect(associatedCertificationCenter.name).to.equal(expectedCertificationCenter.name);
+      });
+    });
   });
 
 });

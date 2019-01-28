@@ -190,8 +190,8 @@ module.exports = {
   },
 
   create(domainUser) {
-    const userRawData = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships']);
-    return new BookshelfUser(userRawData)
+    const userToCreate = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships']);
+    return new BookshelfUser(userToCreate)
       .save()
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
