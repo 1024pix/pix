@@ -37,9 +37,10 @@ describe('Unit | Component | result-item-campaign-component', function() {
       answerWithUndefinedResult,
       answerWithNullResult
     ].forEach(function(answer) {
-      it(`should returns false when answer provided is: ${answer.name}`, function() {
+      it(`should returns undefined when answer provided is: ${answer.name}`, function() {
         // when
         component.set('answer', answer);
+
         // then
         expect(component.get('resultItem')).to.be.undefined;
       });
@@ -48,7 +49,7 @@ describe('Unit | Component | result-item-campaign-component', function() {
   });
 
   describe('#resultItem Computed property - defined case', function() {
-    it('should returns true when answer provided with result ok', function() {
+    it('should return the green check-circle icon with "Réponse correcte" when answer provided has a valid result', function() {
       // given
       const answerWithOkResult = { result: 'ok' };
 
@@ -61,7 +62,7 @@ describe('Unit | Component | result-item-campaign-component', function() {
       expect(component.get('resultItem.icon')).to.equal('check-circle');
     });
 
-    it('should returns true when answer provided with result ko', function() {
+    it('should return the red times-circle icon with "Réponse incorrecte" when answer provided has an invalid result', function() {
       // given
       const answerWithKoResult = { result: 'ko' };
 
@@ -74,7 +75,7 @@ describe('Unit | Component | result-item-campaign-component', function() {
       expect(component.get('resultItem.icon')).to.equal('times-circle');
     });
 
-    it('should returns true when answer provided with result timedout', function() {
+    it('should return the red times-circle icon with "Temps dépassé" when answer provided has a timed out result', function() {
       // given
       const answerWithTimedoutResult = { result: 'timedout' };
 
@@ -87,7 +88,7 @@ describe('Unit | Component | result-item-campaign-component', function() {
       expect(component.get('resultItem.icon')).to.equal('times-circle');
     });
 
-    it('should returns true when answer provided with result partially', function() {
+    it('should return the orange check-circle icon with "Réponse partielle" when answer provided has partially valid result', function() {
       // given
       const answerWithPartiallyResult = { result: 'partially' };
 
@@ -100,7 +101,7 @@ describe('Unit | Component | result-item-campaign-component', function() {
       expect(component.get('resultItem.icon')).to.equal('check-circle');
     });
 
-    it('should returns true when answer provided with result aband', function() {
+    it('should return the grey times-circle icon with "Sans réponse" when answer provided has skipped result', function() {
       // given
       const answerWithAbandResult = { result: 'aband' };
 
