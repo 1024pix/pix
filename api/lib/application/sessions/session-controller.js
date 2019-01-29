@@ -31,10 +31,12 @@ module.exports = {
   },
 
   save(request, h) {
+    const userId = request.auth.credentials.userId;
+
     try {
       return serializer.deserialize(request.payload)
-        .then((sessionModel) => sessionService.save(sessionModel))
-        .then((session) => serializer.serialize(session))
+        .then((session) => sessionService.save({ userId, session }))
+        .then(serializer.serialize)
         .then(h)
         .catch((err) => {
           if (err instanceof NotFoundError) {

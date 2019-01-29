@@ -2,6 +2,13 @@ const sessionCodeService = require('./session-code-service');
 const { NotFoundError } = require('../errors');
 const certificationCenterRepository = require('../../infrastructure/repositories/certification-center-repository');
 const sessionRepository = require('../../infrastructure/repositories/session-repository');
+const userRepository = require('../../infrastructure/repositories/user-repository');
+
+function linkToCertificationCenterAndSave(session) {
+  return certificationCenterRepository.get(session.certificationCenterId)
+    .then((certificationCenter) => session.certificationCenter = certificationCenter.name)
+    .then(() => sessionRepository.save(session));
+}
 
 module.exports = {
 
@@ -24,13 +31,14 @@ module.exports = {
       });
   },
 
-  save(sessionModel) {
-    if (!sessionModel.certificationCenterId) {
-      return sessionRepository.save(sessionModel);
+  async save({ userId, session }) {
+    const user = await userRepository.get(userId);
+
+    if(user.hasRolePixMaster && !session.certificationCenterId) {
+      return sessionRepository.save(session);
     }
-    return certificationCenterRepository.get(sessionModel.certificationCenterId)
-      .then((certificationCenter) => sessionModel.certificationCenter = certificationCenter.name)
-      .then(() => sessionRepository.save(sessionModel));
-  },
+
+    return linkToCertificationCenterAndSave(session);
+  }
 
 };
