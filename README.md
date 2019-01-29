@@ -47,3 +47,5 @@ $ npm run publish
 ```
 
 Vous pouvez si besoin préciser un type de version (`major`, `minor` [default], `patch`).
+
+Accédez à l'application de production via l'URL : [https://admin.pix.fr](https://admin.pix.fr).
