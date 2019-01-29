@@ -4,6 +4,7 @@ const BookshelfAssessment = require('../data/assessment');
 
 const { NotFoundError } = require('../../domain/errors');
 const Assessment = require('../../domain/models/Assessment');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const SmartPlacementAnswer = require('../../domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../domain/models/SmartPlacementAssessment');
 const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
@@ -51,6 +52,9 @@ function _checkIsSmartPlacement(bookshelfAssessment) {
 
 function _fetchAllDependencies(bookshelfAssessment) {
 
+  const bookshelfCampaignParticipation = bookshelfAssessment
+    .related('campaignParticipation');
+
   const bookshelfTargetProfile = bookshelfAssessment
     .related('campaignParticipation')
     .related('campaign')
@@ -62,19 +66,21 @@ function _fetchAllDependencies(bookshelfAssessment) {
 
   return Promise
     .all([
-      bookshelfAssessment, bookshelfTargetProfile, skillDatasource.findByRecordIds(skillRecordIds),
+      bookshelfAssessment, bookshelfTargetProfile, bookshelfCampaignParticipation, skillDatasource.findByRecordIds(skillRecordIds),
     ])
-    .then(([bookshelfAssessment, bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
-      return { bookshelfAssessment, bookshelfTargetProfile, associatedSkillAirtableDataObjects };
+    .then(([bookshelfAssessment, bookshelfTargetProfile, bookshelfCampaignParticipation, associatedSkillAirtableDataObjects]) => {
+      return { bookshelfAssessment, bookshelfTargetProfile, bookshelfCampaignParticipation, associatedSkillAirtableDataObjects };
     });
 }
 
-function _toDomain({ bookshelfAssessment, bookshelfTargetProfile, associatedSkillAirtableDataObjects }) {
+function _toDomain({ bookshelfAssessment, bookshelfTargetProfile, bookshelfCampaignParticipation, associatedSkillAirtableDataObjects }) {
 
   const targetProfile = targetProfileAdapter.fromDatasourceObjects({
     bookshelfTargetProfile,
     associatedSkillAirtableDataObjects,
   });
+
+  const campaignParticipation = new CampaignParticipation(bookshelfCampaignParticipation.attributes);
 
   const answers = bookshelfAssessment
     .related('answers')
@@ -105,6 +111,7 @@ function _toDomain({ bookshelfAssessment, bookshelfTargetProfile, associatedSkil
     state: bookshelfAssessment.get('state'),
     userId: bookshelfAssessment.get('userId'),
     createdAt: bookshelfAssessment.get('createdAt'),
+    campaignParticipation,
     answers,
     knowledgeElements,
     targetProfile,

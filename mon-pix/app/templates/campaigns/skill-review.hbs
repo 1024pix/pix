@@ -4,26 +4,30 @@
 <div class="skill-review__gradient"></div>
 
 <div class="skill-review__result__container">
-  <div class="skill-review__result__text">
-    <p class="skill-review__result__text announcement">
-      VOS RÉSULTATS :
-    </p>
-    <p class="skill-review__result__text score">
-      Vous maîtrisez {{model.assessment.skillReview.profileMasteryPercentage}} des compétences testées.
-    </p>
+  <div class="skill-review__result-text">
+    Vous maîtrisez <div class="skill-review__result-text__percentage">{{model.assessment.smartPlacementProgression.masteryPercentage}}</div><br> des compétences testées.
   </div>
+
+  <div class="skill-review__dash-line"></div>
+
 
   <div class="skill-review__share_container">
     {{#if showButtonToShareResult}}
-      <button class="skill-review__share__button" {{action 'shareCampaignParticipation'}}>J'ENVOIE MES RÉSULTATS</button>
       <p class="skill-review__share__legal">
-        En cliquant, les résultats de votre parcours seront transmis à l’organisateur du parcours pour lui permettre de
-        vous accompagner.
+        Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
       </p>
+
+      <button class="skill-review__share__button" {{action 'shareCampaignParticipation'}}>J'ENVOIE MES RÉSULTATS</button>
     {{else}}
       <p class="skill-review__share__thanks">Merci, vos résultats ont bien été envoyés !</p>
     {{/if}}
   </div>
 </div>
 
+<div class="skill-review__information">
+  <img src="{{rootURL}}/images/icons/icon-info.svg" class="skill-review__information__info-icon">
+  <div class="skill-review__information__text">
+    Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.
+  </div>
+</div>
 {{outlet}}

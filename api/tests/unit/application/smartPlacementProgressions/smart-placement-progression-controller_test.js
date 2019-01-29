@@ -2,58 +2,62 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
-const skillReviewController = require('../../../../lib/application/skillReviews/skill-review-controller');
+const smartPlacementProgressionController = require('../../../../lib/application/smartPlacementProgressions/smart-placement-progression-controller');
 const { UserNotAuthorizedToAccessEntity, NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Controller | skill-review-controller', () => {
+describe('Unit | Controller | smart-placement-progression-controller', () => {
   const userId = 60;
 
   describe('#get', () => {
 
-    const skillReviewId = 'skill-review-1234';
+    const smartPlacementProgressionId = 'smart-placement-progression-1234';
 
     const request = {
       params: {
-        id: skillReviewId,
+        id: smartPlacementProgressionId,
       },
       auth: { credentials: { userId } },
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getSkillReview');
+      sinon.stub(usecases, 'getSmartPlacementProgression');
       sinon.stub(logger, 'error').returns();
     });
 
     context('if assessment exists', () => {
 
-      const skillReview = domainBuilder.buildSkillReview({ validatedSkills: [], failedSkills: [] });
+      let smartPlacementProgression;
+
+      beforeEach(() => {
+        smartPlacementProgression = domainBuilder.buildSmartPlacementProgression({ knowledgeElements: [], isProfileCompleted: true });
+      });
 
       context('and belongs to current user', () => {
 
-        it('should return the serialized skillReview', async () => {
+        it('should return the serialized smartPlacementProgression', async () => {
           // given
-          const serializedSkillReview = {
+          const serializedSmartPlacementProgression = {
             data: {
-              id: skillReviewId,
+              id: smartPlacementProgressionId,
               attributes: {
-                'profile-mastery-rate': 0,
-                'profile-completion-rate': 0,
+                'validation-rate': 0,
+                'completion-rate': 1,
               },
-              type: 'skill-reviews',
+              type: 'smart-placement-progressions',
             },
           };
-          usecases.getSkillReview.resolves(skillReview);
+          usecases.getSmartPlacementProgression.resolves(smartPlacementProgression);
 
           // when
-          const response = await skillReviewController.get(request, hFake);
+          const response = await smartPlacementProgressionController.get(request, hFake);
 
           // Then
-          expect(usecases.getSkillReview).to.have.been.calledWith({
-            skillReviewId,
+          expect(usecases.getSmartPlacementProgression).to.have.been.calledWith({
+            smartPlacementProgressionId,
             userId,
           });
 
-          expect(response.source).to.deep.equal(serializedSkillReview);
+          expect(response.source).to.deep.equal(serializedSmartPlacementProgression);
           expect(response.statusCode).to.equal(200);
         });
       });
@@ -70,10 +74,10 @@ describe('Unit | Controller | skill-review-controller', () => {
             }],
           };
           const error = new UserNotAuthorizedToAccessEntity();
-          usecases.getSkillReview.rejects(error);
+          usecases.getSmartPlacementProgression.rejects(error);
 
           // when
-          const response = await skillReviewController.get(request, hFake);
+          const response = await smartPlacementProgressionController.get(request, hFake);
 
           // Then
           expect(response.source).to.deep.equal(expectedJsonAPIError);
@@ -89,15 +93,15 @@ describe('Unit | Controller | skill-review-controller', () => {
         const expectedJsonAPIError = {
           errors: [{
             code: '404',
-            detail: `Profil d’avancement introuvable pour l’id ${skillReviewId}`,
+            detail: `Profil d’avancement introuvable pour l’id ${smartPlacementProgressionId}`,
             title: 'Not Found',
           }],
         };
-        const error = new NotFoundError(`Profil d'avancement introuvable pour l’id ${skillReviewId}`);
-        usecases.getSkillReview.rejects(error);
+        const error = new NotFoundError(`Profil d'avancement introuvable pour l’id ${smartPlacementProgressionId}`);
+        usecases.getSmartPlacementProgression.rejects(error);
 
         // when
-        const response = await skillReviewController.get(request, hFake);
+        const response = await smartPlacementProgressionController.get(request, hFake);
 
         // Then
         expect(response.source).to.deep.equal(expectedJsonAPIError);
@@ -110,10 +114,10 @@ describe('Unit | Controller | skill-review-controller', () => {
       it('should reply with a 500', async () => {
         // given
         const error = new Error('Error');
-        usecases.getSkillReview.rejects(error);
+        usecases.getSmartPlacementProgression.rejects(error);
 
         // when
-        const response = await skillReviewController.get(request, hFake);
+        const response = await smartPlacementProgressionController.get(request, hFake);
 
         // Then
         const expectedJsonApiError = {

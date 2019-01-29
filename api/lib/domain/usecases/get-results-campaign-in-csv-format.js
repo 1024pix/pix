@@ -89,8 +89,8 @@ function _totalValidatedSkills(knowledgeElements) {
   return sumValidatedSkills;
 }
 
-function _percentageSkillsValidated(assessment, targetProfile) {
-  return _.round(_totalValidatedSkills(assessment.knowledgeElements) / targetProfile.skills.length, 2);
+function _percentageSkillsValidated(knowledgeElements, targetProfile) {
+  return _.round(_totalValidatedSkills(knowledgeElements) / targetProfile.skills.length, 2);
 }
 
 function _stateOfSkill(skillId, knowledgeElements) {
@@ -121,6 +121,13 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 }
 
+function _createdBeforeLimitDate(dateToVerify, limitDate) {
+  if(limitDate) {
+    return moment(dateToVerify).isBefore(limitDate);
+  }
+  return true;
+}
+
 function _createOneLineOfCSV(
   headers,
   organization,
@@ -131,14 +138,20 @@ function _createOneLineOfCSV(
   targetProfile,
   userRepository,
   smartPlacementAssessmentRepository,
+  smartPlacementKnowledgeElementRepository,
 ) {
   let line = headers.map(() => '"NA"');
 
   return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
     .then((assessment) => {
-      return Promise.all([assessment, userRepository.get(assessment.userId)]);
+      return Promise.all([
+        assessment,
+        userRepository.get(assessment.userId),
+        smartPlacementKnowledgeElementRepository.findUniqByUserId(assessment.userId)
+      ]);
     })
-    .then(([assessment, user]) => {
+    .then(([assessment, user, allKnowledgeElements]) => {
+
       line = _addCellByHeadersTitleForText('"Nom de l\'organisation"', organization.name, line, headers);
       line = _addCellByHeadersTitleForNumber('"ID Campagne"', campaign.id, line, headers);
       line = _addCellByHeadersTitleForText('"Nom de la campagne"', campaign.name, line, headers);
@@ -150,8 +163,16 @@ function _createOneLineOfCSV(
       if (campaign.idPixLabel) {
         line = _addCellByHeadersTitleForText(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, line, headers);
       }
+
+      const knowledgeElements = allKnowledgeElements
+        .filter((ke) => {
+          const isKnownBeforeTheEndOfCampaignParticipation = _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt);
+          const isPresentInTargetProfile = targetProfile.skills.find((skill) => skill.id === ke.skillId);
+          return isKnownBeforeTheEndOfCampaignParticipation && isPresentInTargetProfile;
+        });
+
       const notCompletedPercentageProgression = _.round(
-        assessment.knowledgeElements.length / (targetProfile.skills.length),
+        knowledgeElements.length / (targetProfile.skills.length),
         3,
       );
       const percentageProgression = (assessment.isCompleted) ? 1 : notCompletedPercentageProgression;
@@ -172,7 +193,7 @@ function _createOneLineOfCSV(
 
         line = _addCellByHeadersTitleForNumber(
           '"% maitrise de l\'ensemble des acquis du profil"',
-          _percentageSkillsValidated(assessment, targetProfile),
+          _percentageSkillsValidated(knowledgeElements, targetProfile),
           line,
           headers,
         );
@@ -189,7 +210,7 @@ function _createOneLineOfCSV(
         _.forEach(listCompetences, (competence) => {
           const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
           const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence,
-            assessment.knowledgeElements);
+            knowledgeElements);
           const percentage = _.round(numberOfSkillsValidatedForThisCompetence / skillsForThisCompetence.length, 2);
           line = _addCellByHeadersTitleForNumber(
             `"% de maitrise des acquis de la compétence ${competence.name}"`,
@@ -243,7 +264,7 @@ function _createOneLineOfCSV(
         // By Skills
         _.forEach(targetProfile.skills, (skill) => {
           line = _addCellByHeadersTitleForText(`"${skill.name}"`,
-            _stateOfSkill(skill.id, assessment.knowledgeElements),
+            _stateOfSkill(skill.id, knowledgeElements),
             line,
             headers);
         });
@@ -265,6 +286,7 @@ module.exports = function getResultsCampaignInCSVFormat(
     campaignParticipationRepository,
     organizationRepository,
     smartPlacementAssessmentRepository,
+    smartPlacementKnowledgeElementRepository,
   }) {
 
   let campaign, headersAsArray, listCompetences, listArea, organization;
@@ -311,6 +333,7 @@ module.exports = function getResultsCampaignInCSVFormat(
           targetProfile,
           userRepository,
           smartPlacementAssessmentRepository,
+          smartPlacementKnowledgeElementRepository
         );
       });
       return Promise.all(getCSVLineForEachParticipation);

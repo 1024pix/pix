@@ -33,13 +33,13 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       route.set('store', storeStub);
     });
 
-    it('should force the skillReview reload (that has certainly changed since last time)', function() {
+    it('should force the smartPlacementProgression reload (that has certainly changed since last time)', function() {
       // when
       const promise = route.afterModel(assessment);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(assessment.belongsTo, 'skillReview');
+        sinon.assert.calledWith(assessment.belongsTo, 'smartPlacementProgression');
         sinon.assert.calledOnce(reloadStub);
       });
     });
