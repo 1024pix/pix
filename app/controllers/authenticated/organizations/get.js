@@ -17,7 +17,9 @@ export default Controller.extend({
       const email = this.get('userEmail');
       const organization = this.get('model');
       const matchingUsers = await this.store.query('user', { email });
-      const user = matchingUsers.get('firstObject');
+
+      // GET /users?filers[email] makes an approximative request ("LIKE %email%") and not a strict request
+      const user = matchingUsers.findBy('email', email);
 
       if (!user) {
         return this.get('notifications').error('Compte inconnu.');
