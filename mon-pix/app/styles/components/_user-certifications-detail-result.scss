@@ -6,7 +6,9 @@
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: flex-start;
-  flex-shrink: 3;
+  //flex-shrink: 3;
+  max-width:370px;
+
   color: $charcoal-grey;
   font-size: 1.8rem;
   line-height: 2.6rem;
