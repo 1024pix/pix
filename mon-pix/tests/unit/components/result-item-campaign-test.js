@@ -112,19 +112,6 @@ describe('Unit | Component | result-item-campaign-component', function() {
       expect(component.get('resultItem.color')).to.equal('grey');
       expect(component.get('resultItem.icon')).to.equal('times-circle');
     });
-
-    it('should returns true when answer provided with result uncommon value by not null or undefined', function() {
-      // given
-      const answerWithRandomResult = { result: 'RANDOM_RESULT' };
-
-      // when
-      component.set('answer', answerWithRandomResult);
-
-      // then
-      expect(component.get('resultItem.tooltip')).to.equal('Correction automatique en cours de développement ;)');
-      expect(component.get('resultItem.color')).to.equal('blue');
-      expect(component.get('resultItem.icon')).to.equal('exclamation-circle');
-    });
   });
 
   describe('#isBackgroundColorGrey', function() {
