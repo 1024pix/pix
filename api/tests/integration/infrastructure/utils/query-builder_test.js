@@ -2,6 +2,7 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const QueryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
 const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
 const _ = require('lodash');
+const { NotFoundError } = require('../../../../lib/domain/errors'); 
 
 describe('Integration | Infrastructure | Utils | Query Builder', function() {
   let snapshots;
@@ -115,6 +116,42 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
       expect(result.models[0].organization.id).to.equal(snapshots[4].organizationId);
       expect(result.models[1].user.id).to.equal(snapshots[5].userId);
       expect(result.models[1].organization.id).to.equal(snapshots[5].organizationId);
+    });
+  });
+
+  describe('get', function() {
+    let expectedSnapshot;
+
+    beforeEach(() => {
+      expectedSnapshot = snapshots[0];
+    });
+
+    it('should return the snapshot', async function() {
+      // when
+      const result = await QueryBuilder.get(Snapshot, expectedSnapshot.id);
+
+      // then
+      expect(result.id).to.be.equal(snapshots[0].id);
+    });
+
+    it('should return the snapshot with organization', async function() {
+      // when
+      const result = await QueryBuilder.get(Snapshot, expectedSnapshot.id, {
+        include: ['user', 'organization']
+      });
+
+      // then
+      expect(result.id).to.be.equal(expectedSnapshot.id);
+      expect(result.user.id).to.equal(expectedSnapshot.userId);
+      expect(result.organization.id).to.equal(expectedSnapshot.organizationId);
+    });
+
+    it('should throw a NotFoundError if snapshot can not be found', function() {
+      // when
+      const promise = QueryBuilder.get(Snapshot, 'errorId');
+
+      // then
+      return expect(promise).to.have.been.rejectedWith(NotFoundError);
     });
   });
 });
