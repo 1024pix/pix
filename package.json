@@ -21,7 +21,7 @@
     "publish:minor": "npm version minor -m \"Release v%s\"",
     "publish:major": "npm version major -m \"Release v%s\"",
     "preversion": "git checkout dev && git pull && git fetch -t && npm test",
-    "postversion": "git checkout master && git pull && git merge dev --ff-only --no-commit && git push origin master && git push scalingo master && git push --tags",
+    "postversion": "git push origin dev && git checkout master && git pull && git merge --no-ff --no-edit dev && git push origin master && git push scalingo master && git push --tags",
     "scalingo-postbuild": "npx ember build --environment $BUILD_ENVIRONMENT",
     "start": "ember serve --proxy"
   },
