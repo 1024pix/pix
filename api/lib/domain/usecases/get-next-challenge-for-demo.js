@@ -4,7 +4,7 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = function getNextChallengeForDemo({
   assessment,
-  challengeId,
+  answerRepository,
   challengeRepository,
   courseRepository,
 }) {
@@ -14,23 +14,25 @@ module.exports = function getNextChallengeForDemo({
   const logContext = {
     zone: 'usecase.getNextChallengeForDemo',
     type: 'usecase',
-    assessmendId: assessment.id,
-    challengeId,
+    assessmentId: assessment.id,
     courseId,
   };
   logger.trace(logContext, 'looking for next challenge in DEMO assessment');
 
-  return courseRepository.get(courseId)
-    .then((course) => {
+  return Promise.all([
+    courseRepository.get(courseId),
+    answerRepository.findByAssessment(assessment.id)
+  ])
+    .then(([course, answers]) => {
       logContext.courseId = course.id;
       logger.trace(logContext, 'found course, selecting challenge');
-      return _selectNextChallengeId(course, challengeId);
+      return _selectNextChallengeId(course, answers);
     })
-    .then((nextChallenge) => {
-      if (nextChallenge) {
-        logContext.nextChallengeId = nextChallenge.id;
+    .then((nextChallengeId) => {
+      if (nextChallengeId) {
+        logContext.nextChallengeId = nextChallengeId;
         logger.trace(logContext, 'found next challenge');
-        return nextChallenge;
+        return nextChallengeId;
       }
 
       logger.trace(logContext, 'no next challenge. Assessment ended');
@@ -39,25 +41,9 @@ module.exports = function getNextChallengeForDemo({
     .then(challengeRepository.get);
 };
 
-function _selectNextChallengeId(course, currentChallengeId) {
-  const challenges = course.challenges;
+function _selectNextChallengeId(course, answers) {
+  const courseChallengeIds = course.challenges;
+  const answeredChallengeIds = _.map(answers, 'challengeId');
 
-  if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
-    return Promise.resolve(_.first(challenges));
-  }
-
-  return Promise.resolve(_selectNextInNormalMode(currentChallengeId, challenges));
-}
-
-function _selectNextInNormalMode(currentChallengeId, challenges) {
-
-  /*
-   * example : - if challenges is ["1st_challenge", "2nd_challenge", "3rd_challenge", "4th_challenge"]
-   *           - and currentChallengeId is "2nd_challenge"
-   *
-   *           nextChallengeId will be "3rd_challenge"
-   */
-  const nextChallengeId = _(challenges).elementAfter(currentChallengeId).value();
-  return _.defaultTo(nextChallengeId, null); // result MUST be null if not found
-
+  return _(courseChallengeIds).difference(answeredChallengeIds).first();
 }

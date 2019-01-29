@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-describe('Unit | Route | Assessments.ResultsRoute', function() {
+describe('Unit | Route | Assessments | Results', function() {
 
   setupTest('route:assessments.results', {
     needs: ['service:current-routed-modal', 'service:metrics']

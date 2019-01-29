@@ -1,8 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
-
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const Course = require('../../../../lib/domain/models/Course');
-const Challenge = require('../../../../lib/domain/models/Challenge');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
@@ -14,53 +10,57 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
 
     let courseRepository;
     let challengeRepository;
+    let answerRepository;
 
-    let courseId;
     let assessment;
     let course;
+    let firstChallenge;
+    let secondChallenge;
 
     beforeEach(() => {
-      courseId = 18415;
-      course = new Course({ id: courseId, challenges: ['first_challenge', 'second_challenge'] });
-      assessment = Assessment.fromAttributes({ id: 1165, courseId });
+      firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge', skills: ['@url2'] });
+      secondChallenge = domainBuilder.buildChallenge({ id: 'second_challenge', skills: ['@cnil5'] });
+      course = domainBuilder.buildCourse({ id: 18415, challenges: [firstChallenge.id, secondChallenge.id] });
+      assessment = domainBuilder.buildAssessment({ id: 1165, courseId: course.id });
 
       courseRepository = { get: sinon.stub().resolves(course) };
-      challengeRepository = { get: sinon.stub().resolves() };
+      challengeRepository = { get: sinon.stub() };
+      answerRepository = { findByAssessment: sinon.stub() };
+      challengeRepository.get.withArgs('first_challenge').resolves(firstChallenge);
+      challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
     });
 
-    it('should return the first challenge if no currentChallengeId is given', () => {
+    it('should return the first challenge if no answer exist', async () => {
       // given
-      const expectedChallenge = Challenge.fromAttributes({ skills: ['@url2'] });
-      challengeRepository.get.withArgs('first_challenge').resolves(expectedChallenge);
-      challengeRepository.get.withArgs('second_challenge').resolves(Challenge.fromAttributes({ skills: ['@cnil5'] }));
+      answerRepository.findByAssessment.resolves([]);
 
       // when
-      const promise = getNextChallengeForDemo({ courseRepository, challengeRepository, assessment, challengeId: null });
+      const result = await getNextChallengeForDemo({ courseRepository, challengeRepository, answerRepository, assessment });
 
       // then
-      return promise.then((result) => {
-        expect(result).to.equal(expectedChallenge);
-      });
+      expect(result).to.equal(firstChallenge);
     });
 
-    it('should return the second challenge if the challenge id given is first_challenge', () => {
+    it('should return the second challenge if the first challenge is already answered', async () => {
       // given
-      const expectedChallenge = Challenge.fromAttributes({ skills: ['@cnil5'] });
-      challengeRepository.get.withArgs('first_challenge').resolves(Challenge.fromAttributes({ skills: ['@url2'] }));
-      challengeRepository.get.withArgs('second_challenge').resolves(expectedChallenge);
+      const firstAnswer = domainBuilder.buildAnswer({ challengeId: firstChallenge.id, assessmentId: assessment.id });
+      answerRepository.findByAssessment.resolves([firstAnswer]);
 
       // when
-      const promise = getNextChallengeForDemo({ courseRepository, challengeRepository, assessment, challengeId: 'first_challenge' });
+      const result = await getNextChallengeForDemo({ courseRepository, challengeRepository, answerRepository, assessment });
 
       // then
-      return promise.then((result) => {
-        expect(result).to.equal(expectedChallenge);
-      });
+      expect(result).to.equal(secondChallenge);
     });
 
     it('should throw a AssessmentEndedError when there are no more challenges to ask', () => {
+      // given
+      const firstAnswer = domainBuilder.buildAnswer({ challengeId: firstChallenge.id, assessmentId: assessment.id });
+      const secondAnswer = domainBuilder.buildAnswer({ challengeId: secondChallenge.id, assessmentId: assessment.id });
+      answerRepository.findByAssessment.resolves([firstAnswer, secondAnswer]);
+
       // when
-      const promise = getNextChallengeForDemo({ courseRepository, challengeRepository, assessment, challengeId: 'second_challenge' });
+      const promise = getNextChallengeForDemo({ courseRepository, challengeRepository, answerRepository, assessment });
 
       // then
       return expect(promise).to.be.rejectedWith(AssessmentEndedError);
