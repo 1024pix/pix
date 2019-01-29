@@ -120,6 +120,12 @@ module('Acceptance | authentication', function(hooks) {
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
 
+    test('it should show the name of certification center', async function(assert) {
+      await visit('/sessions/liste');
+
+      assert.dom('.sidebar__certification-center-name').hasText('Centre de certification du pix')
+    });
+
     test('it should redirect user to the session list on root url', async function(assert) {
       // when
       await visit('/');

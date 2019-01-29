@@ -35,5 +35,14 @@ export default function() {
 
   this.get('/users/:id');
 
-  this.get('/sessions');
+  this.get('/users/:id/certification-center-memberships', (schema, request) => {
+    const userId = request.params.id;
+    return schema.certificationCenterMemberships.where({ userId });
+  });
+
+  this.get('/certification-centers/:id/sessions', (schema) => {
+    return schema.sessions.all();
+  });
+
+
 }

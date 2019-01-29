@@ -57,7 +57,7 @@ fetch_and_rebase
 update_version
 reinstall_dependencies
 create_a_release_commit
-complete_change_log NEW_PACKAGE_VERSION
+complete_change_log $NEW_PACKAGE_VERSION
 
 echo -e "From now edit the ${CYAN}CHANGELOG.md${RESET_COLOR} file and then execute ${CYAN}release:perform${RESET_COLOR} NPM task.\n"
 echo -e "Release preparation ${GREEN}succeeded${RESET_COLOR}."
