@@ -145,6 +145,5 @@ module.exports = {
   sinon,
   streamToPromise,
   testErr: new Error('Fake Error'),
-  testDomainNotFoundErr: new domainErrors.NotFoundError('Fake domain NotFoundError'),
   testInfraNotFoundErr: new infraErrors.NotFoundError('Fake infra NotFoundError')
 };

@@ -10,8 +10,10 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Controller | sessionController', () => {
+
   let request;
   let expectedSession;
+  const userId = 274939274;
 
   describe('#create', () => {
 
@@ -46,6 +48,11 @@ describe('Unit | Controller | sessionController', () => {
               description: 'ahah'
             }
           }
+        },
+        auth: {
+          credentials: {
+            userId,
+          }
         }
       };
     });
@@ -55,7 +62,7 @@ describe('Unit | Controller | sessionController', () => {
       await sessionController.save(request, hFake);
 
       // then
-      expect(sessionService.save).to.have.been.calledWith(expectedSession);
+      expect(sessionService.save).to.have.been.calledWith({ userId, session: expectedSession });
     });
 
     it('return the saved session in JSON API', async () => {
