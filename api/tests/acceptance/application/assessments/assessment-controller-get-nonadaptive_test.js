@@ -1,4 +1,4 @@
-const { expect, knex, nock } = require('../../../test-helper');
+const { expect, nock, databaseBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const createServer = require('../../../../server');
 
@@ -86,98 +86,117 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
 
   describe('(non-adaptive) GET /api/assessments/:assessment_id/next', () => {
 
-    let insertedAssessmentId = null;
+    const assessmentId = 1;
 
-    const insertedAssessment = {
-      courseId: 'a_non_adaptive_course_id',
-      type: 'DEMO'
-    };
+    context('when no challenge is answered', function() {
 
-    before(() => {
-      return knex('assessments').insert([insertedAssessment]).returning('id')
-        .then((ids) => {
-          insertedAssessmentId = ids[0];
+      beforeEach(() => {
+        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: 'DEMO', courseId: 'a_non_adaptive_course_id' });
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return 200 HTTP status code', () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: '/api/assessments/' + assessmentId + '/next',
+        };
+
+        // when
+        return server.inject(options).then((response) => {
+          expect(response.statusCode).to.equal(200);
         });
-    });
+      });
 
-    after(function() {
-      return knex('assessments').delete();
-    });
+      it('should return application/json', () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: '/api/assessments/' + assessmentId + '/next',
+        };
 
-    it('should return 200 HTTP status code', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/next',
-      };
+        // when
+        const promise = server.inject(options);
 
-      // when
-      return server.inject(options).then((response) => {
-        expect(response.statusCode).to.equal(200);
+        // then
+        return promise.then((response) => {
+          const contentType = response.headers['content-type'];
+          expect(contentType).to.contain('application/json');
+        });
+      });
+
+      it('should return the first challenge if none already answered', () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: '/api/assessments/' + assessmentId + '/next',
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result.data.id).to.equal('first_challenge');
+        });
       });
     });
 
-    it('should return application/json', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/next',
-      };
+    context('when the first challenge is already answered', function() {
+      beforeEach(() => {
+        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: 'DEMO', courseId: 'a_non_adaptive_course_id' });
+        databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
+        return databaseBuilder.commit();
+      });
 
-      // when
-      const promise = server.inject(options);
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
 
-      // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
+      it('should return the second challenge', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: '/api/assessments/' + assessmentId + '/next',
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result.data.id).to.equal('second_challenge');
+        });
       });
     });
 
-    it('should return the first challenge if no challenge specified', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/next',
-      };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.result.data.id).to.equal('first_challenge');
+    context('when all challenges are answered', function() {
+      beforeEach(() => {
+        databaseBuilder.factory.buildAssessment({ id: assessmentId, type: 'DEMO', courseId: 'a_non_adaptive_course_id' });
+        databaseBuilder.factory.buildAnswer({ challengeId: 'first_challenge', assessmentId });
+        databaseBuilder.factory.buildAnswer({ challengeId: 'second_challenge', assessmentId });
+        return databaseBuilder.commit();
       });
-    });
 
-    it('should return the next challenge otherwise', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge',
-      };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.result.data.id).to.equal('second_challenge');
+      afterEach(() => {
+        return databaseBuilder.clean();
       });
-    });
 
-    it('should return null if reached the last challenge of the course', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge',
-      };
+      it('should finish the test', async () => {
+        // given
+        const options = {
+          method: 'GET',
+          url: '/api/assessments/' + assessmentId + '/next',
+        };
 
-      // when
-      const promise = server.inject(options);
+        // when
+        const response = await server.inject(options);
 
-      // then
-      return promise.then((response) => {
+        // then
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
           data: null
