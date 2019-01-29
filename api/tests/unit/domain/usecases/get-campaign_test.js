@@ -14,14 +14,15 @@ describe('Unit | UseCase | get-campaign', () => {
     campaignRepository = {
       get: sinon.stub(),
     };
-    // This has to be done separated from the stub declaration, see :
-    // http://nikas.praninskas.com/javascript/2015/07/28/quickie-sinon-withargs-not-working/
-    campaignRepository.get.withArgs(campaign.id).resolves(campaign);
   });
 
   it('should get the campaign', () => {
+    // given 
+    const options = {};
+    campaignRepository.get.withArgs(campaign.id, options).resolves(campaign);
+
     // when
-    const promise = getCampaign({ campaignId: campaign.id, campaignRepository });
+    const promise = getCampaign({ campaignId: campaign.id, options, campaignRepository });
 
     // then
     return promise.then((resultCampaign) => {

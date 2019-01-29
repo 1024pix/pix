@@ -7,7 +7,7 @@ module.exports = { get, find };
 async function get(bookShelf, id, options) {
   const fetchOptions = {};
 
-  if (options && options.include) {
+  if (options) {
     fetchOptions.withRelated = options.include;
   }
 
