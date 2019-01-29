@@ -1,8 +1,8 @@
 .skill-review {
   &__result__container {
     max-width: 850px;
-    margin: 55px 10px;
-    padding: 60px;
+    margin: 55px 10px 10px 10px;
+    padding: 40px 10px;
 
     background-color: $white;
     border-radius: 10px;
@@ -10,6 +10,7 @@
 
     @include device-is('tablet') {
       margin: 35px auto;
+      padding: 60px;
     }
   }
 
@@ -35,12 +36,16 @@
 
   &__result-text {
     text-align: center;
-    font-size: 4.5rem;
+    font-size: 2.8rem;
     font-family: $font-open-sans;
     font-weight: 200;
     padding-bottom: 45px;
-    line-height: 48px;
+    line-height: 38px;
     color: $tundora-grey;
+    @include device-is('tablet') {
+      font-size: 4.5rem;
+      line-height: 48px;
+    }
 
     &__percentage {
       color: $pix-blue;
@@ -56,24 +61,31 @@
 
   &__share__button {
     height: 60px;
-    width: 280px;
+    width: 200px;
     padding: 10px 30px;
     border-radius: 5px;
     border: 0;
     color: $white;
     font-weight: 600;
     background-color: $pix-blue;
+
+    @include device-is('tablet') {
+      width: 280px;
+    }
+
   }
 
   &__share__legal {
     text-align: center;
-    font-size: 3rem;
+    font-size: 2.4rem;
     color: $dove-gray;
     line-height: 33px;
     font-weight: 300;
-    margin: 30px auto;
+    margin: 0px 10px 30px 10px;
 
     @include device-is('tablet') {
+      font-size: 3rem;
+      margin: 30px 20px;
     }
   }
 
@@ -85,9 +97,13 @@
   }
 
   &__information {
-    margin:auto;
+    margin:10px;
     text-align: left;
     max-width: 850px;
+
+    @include device-is('tablet') {
+      margin:auto;
+    }
 
     &__info-icon {
       height: 20px;
