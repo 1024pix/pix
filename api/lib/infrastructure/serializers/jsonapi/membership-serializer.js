@@ -7,8 +7,10 @@ module.exports = {
       transform(record) {
         // we add a 'campaigns' attr to the organization so that the serializer
         // can see there is a 'campaigns' attribute and add the relationship link.
-        record.organization.campaigns = [];
-        record.organization.targetProfiles = [];
+        if (record.organization) {
+          record.organization.campaigns = [];
+          record.organization.targetProfiles = [];
+        }
         return record;
       },
       attributes: ['organization', 'organizationRole', 'user'],

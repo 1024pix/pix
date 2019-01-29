@@ -119,5 +119,17 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
         'email': 'jean.dupont@example.net',
       });
     });
+
+    it('should not force the add of campaigns and target profiles relation links if the membership does not contain organization data', () => {
+      // given
+      const membership = domainBuilder.buildMembership();
+      membership.organization = null;
+
+      // when
+      const json = serializer.serialize(membership);
+
+      // then
+      expect(json.data.relationships.organization.data).to.be.null;
+    });
   });
 });
