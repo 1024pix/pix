@@ -44,7 +44,7 @@
   }
 }
 
-.result-item-campaign__correction__button {
+.result-item-campaign__correction-button {
   font-family: $font-open-sans;
   font-weight: $font-normal;
   font-size: 1.4rem;
@@ -86,10 +86,6 @@
     color: $dove-gray;
   }
 
-  &--blue {
-    color: $pix-blue;
-  }
-
   /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
   .tooltip-inner {
     padding-top: 13px;
@@ -119,10 +115,5 @@
     left: 50%;
     margin-left: -13px;
     border-width: 10px 13px 0;
-  }
-
-  /* XXX : See https://github.com/sgmap/pix/issues/211 */
-  [data-lines="2"] + div .tooltip-inner {
-    padding-top: 3px;
   }
 }

@@ -78,7 +78,7 @@ describe('Integration | Component | result item campaign', function() {
 
       this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
       // Then
-      expect(this.$('.result-item-campaign__correction__button').text().trim()).to.deep.equal('Réponses et tutos');
+      expect(this.$('.result-item-campaign__correction-button').text().trim()).to.deep.equal('Réponses et tutos');
     });
 
     it('should render tooltip for the answer', function() {
@@ -132,7 +132,6 @@ describe('Integration | Component | result item campaign', function() {
       { status: 'aband', color:'grey' },
       { status: 'partially', color:'orange' },
       { status: 'timedout', color:'red' },
-      { status: 'default', color:'blue' },
     ].forEach(function(data) {
 
       it(`should display the good result icon when answer's result is "${data.status}"`, function() {
