@@ -12,14 +12,17 @@
   text-align: center;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   color: $pix-blue;
-  font-size: 45px;
+  font-size: 3rem;
+  line-height: 100%;
 
   position: absolute;
-  top:15%;
-  left:31%;
+  top: 35px;
+  left: 55px;
 
   @include device-is('tablet') {
-    font-size: 65px;
+    font-size: 4.5rem;
+    top:20%;
+    left:35%;
   }
 
 }

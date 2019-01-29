@@ -67,7 +67,7 @@
   background-color: $white;
   border-radius: 20px;
   text-align: center;
-
+  padding-top: 2px;
   font-family: $font-overpass;
   font-weight: bold;
   color: $pix-blue;
@@ -115,7 +115,7 @@
 
 .competence-level-progress-bar__retry-link {
   border: none;
-  background-color: inherit;
+  background-color: transparent;
   color: $pix-blue;
   font-family: $font-lato;
   font-size: 14px;

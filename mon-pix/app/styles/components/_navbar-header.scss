@@ -55,11 +55,22 @@
   }
 }
 
-.navbar-header-logo__marianne {
+.navbar-header-logo__pix {
+  float:left;
   height: 35px;
   margin-left: 5px;
   @include device-is('tablet') {
     height: 45px;
     margin-left: 30px;
+  }
+}
+.navbar-header-logo__marianne {
+  float:right;
+  margin-top: 5px;
+  height: 35px;
+  margin-left: 5px;
+  @include device-is('tablet') {
+    height: 45px;
+    margin-left: 10px;
   }
 }
