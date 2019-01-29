@@ -24,7 +24,6 @@
   width: 82%;
   font-size: 1.6rem;
   margin-left: 10px;
-  font-family: $font-open-sans;
   overflow: hidden;
 
   @include device-is('tablet') {
@@ -34,7 +33,6 @@
 }
 
 .result-item-campaign__correction {
-  font-family: $font-lato;
   font-size: 1.2rem;
   margin-right: 26px;
   margin-left: 35px;
@@ -45,7 +43,6 @@
 }
 
 .result-item-campaign__correction-button {
-  font-family: $font-open-sans;
   font-weight: $font-normal;
   font-size: 1.4rem;
   color: $pix-blue;
