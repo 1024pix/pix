@@ -19,7 +19,8 @@ const orderedTableNames = [
   'campaigns',
   'certification-challenges',
   'snapshots',
-  'competence-marks'
+  'competence-marks',
+  'certification-center-memberships'
 ];
 
 // Some seed datas are wrapped into promises, hence the need for #Promise.all

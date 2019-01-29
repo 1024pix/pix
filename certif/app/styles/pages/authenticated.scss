@@ -35,6 +35,14 @@
   }
 }
 
+.sidebar__certification-center-name {
+  margin-top: 20px;
+}
+.certification-center-name {
+  color: $wild-sand;
+  font-weight: 500;
+}
+
 .main-content {
   display: flex;
   flex-direction: column;

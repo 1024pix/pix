@@ -1,13 +1,16 @@
 const usecases = require('../../domain/usecases');
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
+const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
 const {
   NotFoundError,
+  ForbiddenAccess
 } = require('../../domain/errors');
 
 const {
   NotFoundError: InfrastructureNotFoundError,
+  ForbiddenError
 } = require('../../infrastructure/errors');
 
 module.exports = {
@@ -41,4 +44,20 @@ module.exports = {
       .then(controllerReplies(h).ok)
       .catch(controllerReplies(h).error);
   },
+
+  getSessions(request, h) {
+    const certificationCenterId = parseInt(request.params.id);
+    const userId = parseInt(request.auth.credentials.userId);
+
+    return usecases.findSessionsForCertificationCenter({ userId, certificationCenterId })
+      .then((sessions) => sessionSerializer.serialize(sessions))
+      .then(controllerReplies(h).ok)
+      .catch((error) => {
+        if(error instanceof ForbiddenAccess) {
+          const err = new ForbiddenError(error.message);
+          return controllerReplies(h).error(err);
+        }
+        return controllerReplies(h).error(error);
+      });
+  }
 };

@@ -57,6 +57,11 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
               links: {
                 related: '/users/1234/memberships'
               }
+            },
+            'certification-center-memberships': {
+              links: {
+                related: '/users/1234/certification-center-memberships'
+              }
             }
           }
         }

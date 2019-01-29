@@ -8,7 +8,8 @@ module.exports = [
     time: '14:00',
     description: 'Sesssion 1',
     room: 'Salle 2',
-    accessCode: 'ABC12'
+    accessCode: 'ABC12',
+    certificationCenterId: 1,
   },
   {
     id: 2,
