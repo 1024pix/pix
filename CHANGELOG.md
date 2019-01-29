@@ -1,11 +1,17 @@
 # Pix Changelog
 
+## v2.21.0 (29/01/2019)
+
+- [#313](https://github.com/1024pix/pix/pull/313) [FEATURE] Le CSV des résultats de campagnes prends tout en compte (PF-438).
+- [#333](https://github.com/1024pix/pix/pull/333) [TECH] Simplifier le process de MEP en utilisant l'api GitHub.
+- [#334](https://github.com/1024pix/pix/pull/334) [BSR] Changement de la phrase de fin de campagne et du style (PF-498).
+
 ## v2.20.3 (25/01/2019)
 
-- [#310](https://github.com/1024pix/pix/pull/310) [PF-479] Ajout d'un parser de query params, d'un query builder générique et un domain builder générique.
-- [#315](https://github.com/1024pix/pix/pull/315) [PF-484] Retenter une compétence doit créer une nouvelle évaluation sur la compétence (et non en reprendre une ancienne).
-- [#322](https://github.com/1024pix/pix/pull/322) [PC-15-3] Faire un lien entre les centres de certifications et les utilisateurs.
-- [#320](https://github.com/1024pix/pix/pull/320) [PC-15-2] Ajout de l'identifiant du centre de certification dans les session.
+- [#310](https://github.com/1024pix/pix/pull/310) [FEATURE] Ajout d'un parser de query params, d'un query builder générique et un domain builder générique (PF-479).
+- [#315](https://github.com/1024pix/pix/pull/315) [FEATURE] Retenter une compétence doit créer une nouvelle évaluation sur la compétence (et non en reprendre une ancienne) (PF-484).
+- [#322](https://github.com/1024pix/pix/pull/322) [FEATURE] Faire un lien entre les centres de certifications et les utilisateurs (PC-15-3).
+- [#320](https://github.com/1024pix/pix/pull/320) [FEATURE] Ajout de l'identifiant du centre de certification dans les session (PC-15-2).
 - [#323](https://github.com/1024pix/pix/pull/323) [BUGFIX] Change /api/scripts to avoid side effects in tests.
 - [#328](https://github.com/1024pix/pix/pull/328) [TECH] Ne pas répéter le message de déploiement sur les PR.
 - [#330](https://github.com/1024pix/pix/pull/330) [BSR] Fix a randomly failing test.
