@@ -8,20 +8,14 @@
   position: relative;
   padding-bottom: 25px;
   margin-bottom: 20px;
+  background: url('/images/banners/welcome-profile-banner.png') center;
+  background-size: cover;
+
 
   @include device-is('desktop') {
     align-items: stretch;
     height: 500px;
   }
-}
-
-.profile-banner__background {
-  position: absolute;
-  top: 0px;
-  background: url('/images/banners/welcome-profile-banner.png') center;
-  background-size: cover;
-  height: 100%;
-  width: 100%;
 }
 
 .profile-banner__content-text-container {
