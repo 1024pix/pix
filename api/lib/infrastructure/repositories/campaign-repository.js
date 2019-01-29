@@ -3,7 +3,6 @@ const _ = require('lodash');
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
 const queryBuilder = require('../utils/query-builder');
-const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfCampaign) {
   const dbCampaign = bookshelfCampaign.toJSON();
@@ -52,7 +51,7 @@ module.exports = {
   },
 
   save(campaignToSave) {
-    const cleanedCampaignToSave = _.omit(campaignToSave, ['createdAt', 'organizationLogoUrl']);
+    const cleanedCampaignToSave = _.omit(campaignToSave, ['createdAt', 'organizationLogoUrl', 'targetProfile']);
     return new BookshelfCampaign(cleanedCampaignToSave)
       .save()
       .then(_toDomain);

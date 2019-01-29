@@ -14,7 +14,7 @@ const {
 const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
 const controllerReplies = require('../../infrastructure/controller-replies');
-const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const infraErrors = require('../../infrastructure/errors');
 
 module.exports = {
@@ -47,7 +47,7 @@ module.exports = {
   },
 
   getByCode(request, h) {
-    const filters = extractParameters(request.query).filter;
+    const filters = queryParamsUtils.extractParameters(request.query).filter;
     return _validateFilters(filters)
       .then(() => usecases.getCampaignByCode({ code: filters.code }))
       .then((campaign) => {
@@ -62,7 +62,7 @@ module.exports = {
 
   getById(request, h) {
     const campaignId = request.params.id;
-    const options = extractParameters(request.query);
+    const options = queryParamsUtils.extractParameters(request.query);
     return usecases.getCampaign({ campaignId, options })
       .then(campaignSerializer.serialize)
       .then(controllerReplies(h).ok)

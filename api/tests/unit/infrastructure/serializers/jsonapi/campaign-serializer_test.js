@@ -1,6 +1,6 @@
-const { expect } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
-const Campaign  = require('../../../../../lib/domain/models/Campaign');
+const Campaign = require('../../../../../lib/domain/models/Campaign');
 
 describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
@@ -20,6 +20,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         organizationId: 10293,
         organizationLogoUrl: 'some logo',
         idPixLabel: 'company id',
+        targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' })
       });
 
       const expectedSerializedCampaign = {
@@ -36,7 +37,24 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
             'token-for-campaign-results': tokenToAccessToCampaign,
             'organization-logo-url': 'some logo',
           },
-        }
+          relationships: {
+            'target-profile': {
+              data: {
+                id: '123',
+                type: 'targetProfiles'
+              }
+            }
+          }
+        }, 
+        included: [
+          {
+            attributes: {
+              name: 'TargetProfile1'
+            },
+            id: '123',
+            type: 'targetProfiles'
+          }
+        ]
       };
 
       // when
