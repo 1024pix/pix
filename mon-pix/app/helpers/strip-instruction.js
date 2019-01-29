@@ -10,8 +10,8 @@ export function stripInstruction(params) {
   const result = $(params[0]).text();
 
   return _.truncate(result, {
-    'length': length,
-    'separator': ' '
+    length,
+    separator: ' '
   });
 }
 
