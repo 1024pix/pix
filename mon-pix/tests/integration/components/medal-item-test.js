@@ -31,6 +31,6 @@ describe('Integration | Component | medal item', function() {
 
     // then
     expect(this.$('.medal-item__medal-img').length).to.equal(1);
-    expect(this.$('.medal-item__pix-text').text()).to.contain('pix');
+    expect(this.$('.medal-item__pix-score').text()).to.contain('pix');
   });
 });

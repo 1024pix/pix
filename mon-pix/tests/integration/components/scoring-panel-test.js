@@ -66,7 +66,6 @@ describe('Integration | Component | scoring panel', function() {
       expect(this.$('.scoring-panel__congrats-course-name')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__congrats-felicitations')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__congrats-scoring')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__congrats-beta')).to.have.lengthOf(1);
     });
 
     it('should display the "back to home" button', function() {
@@ -95,7 +94,6 @@ describe('Integration | Component | scoring panel', function() {
       expect(this.$('.scoring-panel__congrats-course-name')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__congrats-pas-mal')).to.have.lengthOf(1);
       expect(this.$('.scoring-panel__congrats-scoring')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__congrats-beta')).to.have.lengthOf(1);
     });
   });
 });
