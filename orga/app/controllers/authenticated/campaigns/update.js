@@ -8,8 +8,8 @@ export default Controller.extend({
       );
     },
 
-    cancel() {
-      this.transitionToRoute('authenticated.campaigns.list');
+    cancel(campaignId) {
+      this.transitionToRoute('authenticated.campaigns.details', campaignId);
     },
   }
 });

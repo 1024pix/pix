@@ -4,14 +4,4 @@
       {{campaign.name}} 
     {{/link-to}}
   </div>
-  <div class="campaign-csv-export">
-    <a class="campaign-csv-export-link button button--link" href="{{campaign.urlToResult}}" target="_blank" download>
-      Résultats (.csv)
-    </a>
-  </div>
-  <div class="campaign-edit">
-    {{#link-to "authenticated.campaigns.update" campaign.id}}
-      <img src="/icons/edit.svg">
-    {{/link-to}}
-  </div>
 </div>
