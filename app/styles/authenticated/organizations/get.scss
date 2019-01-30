@@ -51,31 +51,23 @@
     }
   }
 
-  .organization__resources {
+  .add-membership-form {
+    display: flex;
 
-    .nav-tabs {
-
-      .nav-link {
-        color: #6f7c87;
-
-        &:hover,
-        &:focus {
-          border-color: #ffffff;
-          color: #333333;
-        }
-      }
-
-      .nav-link.active,
-      .nav-item.show .nav-link {
-        border-color: #ffffff;
-        border-bottom: 3px solid $blue-pix;
-        color: $blue-pix;
-        cursor: default;
-      }
+    .add-membership-form__user-email-input {
+      border-right: none;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      width: 280px;
     }
 
-    .organization__resource {
-      padding: 1rem;
+    .add-membership-form__validate-button {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
+  }
+
+  .membership-list {
+
   }
 }

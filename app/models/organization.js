@@ -4,13 +4,19 @@ const { attr, hasMany } = DS;
 
 export default DS.Model.extend({
 
-  // Props
+  // Attributes
   name: attr(),
   type: attr(),
   code: attr(),
   logoUrl: attr(),
 
   // Relationships
-  members: hasMany('users')
+  memberships: hasMany('membership'),
+
+  // Functions
+  async hasMember(userEmail) {
+    const memberships = await this.get('memberships');
+    return !!memberships.findBy('user.email', userEmail);
+  }
 
 });

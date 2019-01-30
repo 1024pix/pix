@@ -4,11 +4,10 @@ const { attr, belongsTo } = DS;
 
 export default DS.Model.extend({
 
-  // Props
-  role: attr(),
+  // Attributes
+  name: attr(),
 
   // Relationships
-  organization: belongsTo('organization'),
-  user: belongsTo('user')
+  membership: belongsTo('membership'),
 
 });
