@@ -9,7 +9,7 @@ export default Controller.extend({
   actions: {
     createCampaign(campaign) {
       return campaign.save()
-        .then(() => this.transitionToRoute('authenticated.campaigns.list'))
+        .then((campaign) => this.transitionToRoute('authenticated.campaigns.details', campaign.id))
         .catch((errorResponse) => {
           errorResponse.errors.forEach(error => {
             if (error.status === '500') {
