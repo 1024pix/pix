@@ -1,9 +1,12 @@
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import BaseRoute from 'mon-pix/routes/base-route';
 import { isEmpty } from '@ember/utils';
+import { inject as service } from '@ember/service';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
   campaignCode: null,
+  session: service(),
+
 
   beforeModel(transition) {
     this.set('campaignCode',transition.params['campaigns.fill-in-id-pix'].campaign_code);
@@ -41,6 +44,12 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       .save()
       .then(() => {
         return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
+      })
+      .catch((err) => {
+        if(err.errors[0].code === 401) {
+          this.get('session').invalidate();
+          return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
+        }
       });
   },
 });
