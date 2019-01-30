@@ -12,7 +12,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     server = Hapi.server();
   });
 
-  describe('POST /api/organizations', (_) => {
+  describe('POST /api/organizations', () => {
 
     beforeEach(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
@@ -27,7 +27,7 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('GET /api/organizations', (_) => {
+  describe('GET /api/organizations', () => {
 
     beforeEach(() => {
       sinon.stub(organisationController, 'find').returns('ok');

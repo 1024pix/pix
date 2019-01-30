@@ -21,12 +21,14 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: proUserDaenerys.id,
     organizationId: dragonAndCoCompany.id,
+    organizationRoleId: 1,
   });
 
   const privateTargetProfile = databaseBuilder.factory.buildTargetProfile({
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
     isPublic: false,
     organizationId: dragonAndCoCompany.id,
+    organizationRoleId: 1,
   });
 
   databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: privateTargetProfile.id, skillId: 'recGd7oJ2wVEyKmPS' });
@@ -83,7 +85,8 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: proUserSub.id,
-    organizationId: dragonAndCoSubsidiary.id
+    organizationId: dragonAndCoSubsidiary.id,
+    organizationRoleId: 1,
   });
 
   databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: privateTargetProfile.id, organizationId: dragonAndCoSubsidiary.id });
@@ -107,7 +110,8 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
   databaseBuilder.factory.buildMembership({
     userId: proUserSub2.id,
-    organizationId: dragonAndCoSubsidiary2.id
+    organizationId: dragonAndCoSubsidiary2.id,
+    organizationRoleId: 1,
   });
 
 };

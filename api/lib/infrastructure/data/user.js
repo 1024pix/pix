@@ -19,7 +19,7 @@ module.exports = Bookshelf.model('User', {
    * @deprecated Please use #organizationsAccesses() which also manages the access rights
    */
   organizations() {
-    return this.hasMany('Organization');
+    return this.hasMany('Organization', 'userId');
   },
 
   pixRoles() {

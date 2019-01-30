@@ -9,7 +9,7 @@ class Organization {
     logoUrl,
     // includes
     user,
-    members = [],
+    memberships = [],
     targetProfileShares = [],
     // references
   } = {}) {
@@ -21,7 +21,7 @@ class Organization {
     this.logoUrl = logoUrl;
     // includes
     this.user = user;
-    this.members = members;
+    this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
     // references
   }

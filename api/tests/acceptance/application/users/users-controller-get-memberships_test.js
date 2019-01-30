@@ -95,10 +95,9 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
               id: membershipId,
               attributes: {},
               relationships: {
-                organization: {
-                  data:
-                    { type: 'organizations', id: organizationId.toString() },
-                },
+                'organization': { data: { type: 'organizations', id: organizationId.toString() }, },
+                'organization-role': { data: { type: 'organizationRoles', id: organizationRoleId.toString() }, },
+                'user': { data: null, },
               },
             },
           ],
@@ -124,6 +123,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                 }
               }
             },
+            { type: 'organizationRoles', id: organizationRoleId.toString(), attributes: { name: 'ADMIN' } }
           ],
         });
       });

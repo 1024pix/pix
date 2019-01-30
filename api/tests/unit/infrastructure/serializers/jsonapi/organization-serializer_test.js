@@ -25,7 +25,11 @@ describe('Unit | Serializer | organization-serializer', () => {
           },
           relationships: {
             user: { data: null },
-            members: { data: [] }
+            memberships: {
+              links: {
+                related: `/api/organizations/${organization.id}/memberships`
+              }
+            }
           }
         },
         meta: {
@@ -58,45 +62,6 @@ describe('Unit | Serializer | organization-serializer', () => {
             'email': 'jean.bono@example.net'
           }
         },
-      ]);
-    });
-
-    it('should include serialized members data with organization has a members', () => {
-      // given
-      const organization = domainBuilder.buildOrganization.withMembers();
-
-      // when
-      const serializedOrganization = serializer.serialize(organization);
-
-      // then
-      expect(serializedOrganization.data.relationships.members).to.deep.equal({
-        data: [{
-          id: '1',
-          type: 'users'
-        }, {
-          id: '2',
-          type: 'users'
-        }]
-      });
-      expect(serializedOrganization.included).to.deep.equal([
-        {
-          id: '1',
-          type: 'users',
-          attributes: {
-            'first-name': 'John',
-            'last-name': 'Doe',
-            'email': 'john.doe@example.com'
-          }
-        },
-        {
-          id: '2',
-          type: 'users',
-          attributes: {
-            'first-name': 'Jane',
-            'last-name': 'Smith',
-            'email': 'jane.smith@example.com'
-          }
-        }
       ]);
     });
   });

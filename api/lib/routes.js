@@ -15,6 +15,7 @@ module.exports = [
   require('./application/courses'),
   require('./application/feedbacks'),
   require('./application/healthcheck'),
+  require('./application/memberships'),
   require('./application/metrics'),
   require('./application/organizations'),
   require('./application/passwords'),
