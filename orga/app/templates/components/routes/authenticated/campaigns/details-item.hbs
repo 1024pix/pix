@@ -1,5 +1,7 @@
 <div class="campaign-details-page__header-page">
-	{{#link-to "authenticated.campaigns.list"}}{{fa-icon 'arrow-left' class="icon-link campaign-details-return-button"}}{{/link-to}}
+	{{#link-to "authenticated.campaigns.list"}}
+		{{fa-icon 'arrow-left' class="icon-link campaign-details-return-button"}}
+	{{/link-to}}
 	<h1 class="page__title page-title">{{campaign.name}}</h1>
 </div>
 
@@ -19,7 +21,11 @@
 			<h4 class="campaign-details-content-label">Lien direct</h4>
 			<div class="campaign-details-content-clipboard">
 				<p class="campaign-details-content-text">{{campaign.url}}</p>
-				{{#link-to "authenticated.campaigns.list"}}{{fa-icon 'copy' prefix='far' class="icon-link campaign-details-clipboard-button"}}{{/link-to}}
+				{{#if (is-clipboard-supported)}}
+					{{#copy-button clipboardText=campaign.url classNames="icon-link campaign-details-clipboard-button"}}
+						{{fa-icon 'copy' prefix='far'}}
+					{{/copy-button}}
+				{{/if}}
 			</div>
 		</div>
 	</div>

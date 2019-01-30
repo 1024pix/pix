@@ -2,6 +2,9 @@
   color: $dove-gray;
   padding: 8px;
 
+  background-color: transparent;
+  border: none;
+
   &:hover, &:focus, &:active {
     background-color: $alto;
     border-radius: 16px;
