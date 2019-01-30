@@ -28,6 +28,6 @@ module('Acceptance | Campaign Update', function(hooks) {
     // then
     assert.equal(server.db.campaigns.find(1).title, newTitle);
     assert.equal(server.db.campaigns.find(1).customLandingPageText, newText);
-    assert.equal(currentURL(), '/campagnes/liste');
+    assert.equal(currentURL(), '/campagnes/1');
   });
 });
