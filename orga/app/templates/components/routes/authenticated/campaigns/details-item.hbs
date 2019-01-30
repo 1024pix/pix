@@ -1,26 +1,31 @@
 <div class="campaign-details-page__header-page">
-	{{#link-to "authenticated.campaigns.list"}}
-		{{fa-icon 'arrow-left' class="icon-link campaign-details-return-button"}}
-	{{/link-to}}
-	<h1 class="page__title page-title">{{campaign.name}}</h1>
+	<div class="campaign-details-header__title">
+    {{#link-to "authenticated.campaigns.list"}}
+		  {{fa-icon 'arrow-left' class="icon-link campaign-details-return-button"}}
+	  {{/link-to}}
+	  <h1 class="page__title page-title">{{campaign.name}}</h1>
+  </div>
+  <a class="button button--link" href="{{campaign.urlToResult}}" target="_blank" download>
+    Résultats (.csv)
+  </a>
 </div>
 
 <div class="campaign-details-container">
 	<div class="campaign-details-row campaign-details-first-row">
 		<div class="campaign-details-content">
-			<h4 class="campaign-details-content-label">Profil cible</h4>
-			<p class="campaign-details-content-text">{{campaign.targetProfile.name}}</p>
+			<h4 class="campaign-details-content__label">Profil cible</h4>
+			<p class="campaign-details-content__text">{{campaign.targetProfile.name}}</p>
 		</div>
 
 		<div class="campaign-details-content">
-			<h4 class="campaign-details-content-label">Identifiant</h4>
-			<p class="campaign-details-content-text">{{campaign.idPixLabel}}</p>
+			<h4 class="campaign-details-content__label">Identifiant</h4>
+			<p class="campaign-details-content__text">{{campaign.idPixLabel}}</p>
 		</div>
 
 		<div class="campaign-details-content">
-			<h4 class="campaign-details-content-label">Lien direct</h4>
-			<div class="campaign-details-content-clipboard">
-				<p class="campaign-details-content-text">{{campaign.url}}</p>
+			<h4 class="campaign-details-content__label">Lien direct</h4>
+			<div class="campaign-details-content__clipboard">
+				<p class="campaign-details-content__text">{{campaign.url}}</p>
 				{{#if (is-clipboard-supported)}}
 					{{#copy-button clipboardText=campaign.url classNames="icon-link campaign-details-clipboard-button"}}
 						{{fa-icon 'copy' prefix='far'}}
@@ -32,15 +37,23 @@
 
 	<div class="campaign-details-row">
 		<div class="campaign-details-content">
-			<h4 class="campaign-details-content-label">Titre du parcours</h4>
-			<p class="campaign-details-content-text">{{campaign.title}}</p>
+			<h4 class="campaign-details-content__label">Titre du parcours</h4>
+			<p class="campaign-details-content__text">{{campaign.title}}</p>
 		</div>
 	</div>
 
 	<div class="campaign-details-row">
 		<div class="campaign-details-content">
-			<h4 class="campaign-details-content-label">Texte de la page d'accueil</h4>
-			<p class="campaign-details-content-text">{{campaign.customLandingPageText}}</p>
+			<h4 class="campaign-details-content__label">Texte de la page d'accueil</h4>
+			<p class="campaign-details-content__text">{{campaign.customLandingPageText}}</p>
+		</div>
+	</div>
+
+	<div class="campaign-details-row">
+		<div class="campaign-details-content">
+      {{#link-to "authenticated.campaigns.update" campaign.id class="button button--regular button--link campaign-details-update"}}
+        Modifier
+      {{/link-to}}
 		</div>
 	</div>
 </div>

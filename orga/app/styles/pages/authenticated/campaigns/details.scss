@@ -6,8 +6,14 @@
 
 .campaign-details-page__header-page {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin: 1em 0;
+}
+
+.campaign-details-header__title {
+  display: flex;
+  align-items: center;
 }
 
 .campaign-details-container {
@@ -30,6 +36,8 @@
 }
 
 .campaign-details-content {
+  display: flex;
+  flex-direction: column;
   padding: 16px 38px;
 
   &:first-child {
@@ -48,7 +56,7 @@
     border-right: 1px solid $alto;
   }
 
-  &-label {
+  &__label {
     color: $dusty-gray;
     font-family: $roboto;
     font-size: 0.9rem;
@@ -56,14 +64,14 @@
     margin: 0; 
   }
 
-  &-text {
+  &__text {
     color: $dove-gray;
     font-family: $roboto;
     font-size: 1rem;
     margin: 0;
   }
 
-  &-clipboard {
+  &__clipboard {
     display: flex;
     flex-direction: row;
   }
@@ -78,5 +86,10 @@
   margin-top: -4px;
   margin-left: 6px;
   font-size: 1rem;
-  padding: 0px 10px;
+  padding: 0 10px;
+}
+
+.campaign-details-update {
+  height: 15px;
+  line-height: 15px;
 }
