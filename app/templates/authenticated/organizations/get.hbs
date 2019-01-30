@@ -5,10 +5,10 @@
     {{model.name}}
   </div>
   <div class="page-actions">
-    <button class="btn btn-outline-default btn-thin hidden" {{action "toggleWipModal"}}>
+    <button class="btn btn-outline-default btn-thin hidden">
       {{fa-icon "edit"}} Modifier
     </button>
-    <button class="btn btn-outline-default btn-thin hidden" {{action "toggleWipModal"}}>
+    <button class="btn btn-outline-default btn-thin hidden">
       {{fa-icon "trash"}} Supprimer
     </button>
   </div>
@@ -18,6 +18,6 @@
 
   {{organization-information-section organization=model onLogoUpdated=(action "updateOrganizationInformation")}}
 
-  {{organization-members-section organization=model}}
+  {{organization-members-section organization=model userEmail=userEmail addMembership=(action "addMembership")}}
 
 </main>

@@ -47,7 +47,7 @@ module.exports = function(environment) {
     metricsAdapters: [
       {
         name: 'Piwik',
-        environments: ['all'],
+        environments: ['production'],
         config: {
           piwikUrl: '//stats.pix.fr',
           siteId: 7
@@ -76,6 +76,10 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
+
+    ENV['ember-cli-notifications'] = {
+      clearDuration: 300
+    };
   }
 
   if (environment === 'production') {
