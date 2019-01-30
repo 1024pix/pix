@@ -49,7 +49,7 @@ module.exports = {
           .filter((rawChallenge) => (
             _.includes(VALIDATED_CHALLENGES, rawChallenge.fields.Statut)
             && !_.isEmpty(rawChallenge.fields.Acquix)
-            && _.includes(rawChallenge.fields.competences, competenceId)
+            && _.includes(rawChallenge.fields['Compétences (via tube)'], competenceId)
           ))
           .map(fromAirTableObject);
       });
