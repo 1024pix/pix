@@ -22,10 +22,10 @@ function buildOrganization(
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     createdAt = new Date('2018-01-12'),
     user = null,
-    members = [],
+    memberships = [],
     targetProfileShares = []
   } = {}) {
-  return new Organization({ id, code, name, type, logoUrl, createdAt, user, members, targetProfileShares });
+  return new Organization({ id, code, name, type, logoUrl, createdAt, user, memberships, targetProfileShares });
 }
 
 buildOrganization.withUser = function(

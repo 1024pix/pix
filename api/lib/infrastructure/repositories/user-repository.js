@@ -67,6 +67,7 @@ function _toDomain(userBookshelf) {
 
 function _setSearchFiltersForQueryBuilder(filters, qb) {
   const { firstName, lastName, email } = filters;
+
   if (firstName) {
     qb.whereRaw('LOWER("firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
   }

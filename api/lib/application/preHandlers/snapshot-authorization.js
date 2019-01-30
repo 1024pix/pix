@@ -15,7 +15,7 @@ module.exports = {
       .then((organizationFound) => organizationFound ? null : Promise.reject())
       .catch(() => {
         const buildedError = _dataAuthorizationPayload('Vous n’êtes pas autorisé à accéder à ces profils partagés');
-        return h.response(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
+        return h.response(validationErrorSerializer.serialize(buildedError)).code(403).takeover();
       });
   }
 };

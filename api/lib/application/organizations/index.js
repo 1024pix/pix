@@ -90,6 +90,22 @@ exports.register = async (server) => {
     },
     {
       method: 'GET',
+      path: '/api/organizations/{id}/memberships',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: organisationController.getMemberships,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les membres rattachées à l’organisation.',
+        ]
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/target-profiles',
       config: {
         handler: organisationController.findTargetProfiles,

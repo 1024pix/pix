@@ -1,74 +1,71 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getUserWithMemberships = require('../../../../lib/domain/usecases/get-user-with-memberships');
-const Membership = require('../../../../lib/domain/models/Membership');
 const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | UseCase | get-user-with-memberships', () => {
 
-  let authenticatedUserId;
-  let requestedUserId;
-  const userRepository = { getWithMemberships: () => undefined };
+  let userRepository;
 
-  it('should reject a NotAuthorized error if authenticated user ask for another user organizations accesses', () => {
-    // given
-    authenticatedUserId = 1;
-    requestedUserId = 2;
+  beforeEach(() => {
+    userRepository = { getWithMemberships: sinon.stub() };
+  });
 
-    // when
-    const promise = getUserWithMemberships({ authenticatedUserId, requestedUserId, userRepository });
+  context('Access management', () => {
 
-    // then
-    return promise.catch((err) => {
-      expect(err).to.be.an.instanceOf(UserNotAuthorizedToAccessEntity);
+    it('should resolve the asked user details when authenticated user is the same as asked', async () => {
+      // given
+      const authenticatedUser = { id: 1234, hasRolePixMaster: false };
+
+      userRepository.getWithMemberships.withArgs(authenticatedUser.id).resolves(authenticatedUser);
+
+      // when
+      const result = await getUserWithMemberships({
+        authenticatedUserId: authenticatedUser.id,
+        requestedUserId: authenticatedUser.id,
+        userRepository
+      });
+
+      // then
+      expect(result).to.equal(authenticatedUser);
+    });
+
+    it('should reject a "UserNotAuthorizedToAccessEntity" domain error when authenticated user has not role PixMaster and is not the one asked', async () => {
+      // given
+      const authenticatedUser = { id: 1234, hasRolePixMaster: false };
+
+      userRepository.getWithMemberships.withArgs(authenticatedUser.id).resolves(authenticatedUser);
+
+      // when
+      const promise = getUserWithMemberships({
+        authenticatedUserId: authenticatedUser.id,
+        requestedUserId: 5678,
+        userRepository
+      });
+
+      // then
+      expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
     });
   });
 
-  context('When authenticated User is authorized to retrieve his accesses', () => {
+  context('Output checking', () => {
 
-    beforeEach(() => {
-      sinon.stub(userRepository, 'getWithMemberships');
-    });
-
-    it('should use find all organizations user accesses', () => {
+    it('should return a User with its Memberships', async () => {
       // given
-      authenticatedUserId = 1;
-      requestedUserId = 1;
-      const foundUser = domainBuilder.buildUser();
-      userRepository.getWithMemberships.resolves(foundUser);
+      const fetchedUser = domainBuilder.buildUser();
+      userRepository.getWithMemberships.resolves(fetchedUser);
 
       // when
-      const promise = getUserWithMemberships({
-        authenticatedUserId,
-        requestedUserId,
+      const result = await getUserWithMemberships({
+        authenticatedUserId: fetchedUser.id,
+        requestedUserId: fetchedUser.id,
         userRepository,
       });
 
       // then
-      return promise.then(() => {
-        expect(userRepository.getWithMemberships).to.have.been.calledWith(requestedUserId);
-      });
-    });
-
-    it('should return user with the memberships', () => {
-      // given
-      const foundUser = domainBuilder.buildUser({
-        memberships: [new Membership({ id: 'Le premier accès de l\'utilisateur' })],
-      });
-      userRepository.getWithMemberships.resolves(foundUser);
-
-      // when
-      const promise = getUserWithMemberships({
-        authenticatedUserId,
-        requestedUserId,
-        userRepository,
-      });
-
-      // then
-      return promise.then((foundUser) => {
-        expect(foundUser).to.be.an.instanceOf(User);
-        expect(foundUser.memberships[0].id).to.deep.equal('Le premier accès de l\'utilisateur');
-      });
+      expect(result).to.be.an.instanceOf(User);
+      expect(result).to.equal(fetchedUser);
+      expect(userRepository.getWithMemberships).to.have.been.calledOnce;
     });
   });
 });
