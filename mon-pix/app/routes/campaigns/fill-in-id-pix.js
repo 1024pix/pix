@@ -9,6 +9,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
 
   beforeModel(transition) {
+    this._super(...arguments);
     this.set('campaignCode',transition.params['campaigns.fill-in-id-pix'].campaign_code);
     const store = this.get('store');
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.get('campaignCode') } })
@@ -48,7 +49,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       .catch((err) => {
         if(err.errors[0].code === 401) {
           this.get('session').invalidate();
-          return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
+          return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
         }
       });
   },

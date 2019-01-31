@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+import EmberService from '@ember/service';
 import { A } from '@ember/array';
 import Service from '@ember/service';
 import { describe, it, beforeEach } from 'mocha';
@@ -31,6 +32,10 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       queryRecord: queryChallengeStub, query: queryStub, createRecord: createCampaignParticipationStub });
     this.register('service:store', storeStub);
     this.inject.service('store', { as: 'store' });
+    this.register('service:session', EmberService.extend({
+      invalidate: sinon.stub(),
+      isAuthenticated: sinon.stub().returns(true)
+    }));
     savedAssessment = EmberObject.create({ id: 1234, codeCampaign: campaignCode, reload: sinon.stub() });
     createdCampaignParticipation = EmberObject.create({ id: 456, assessment: savedAssessment });
     campaign = EmberObject.create({ code: campaignCode });
@@ -175,6 +180,24 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       return promise.then(() => {
         sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume');
       });
+    });
+
+    it('should invalidate session and relaunch page when user is no longer connected', function() {
+      // given
+      const error = { errors: [{ code: 401 }] };
+      createCampaignParticipationStub.returns({
+        save: () => Promise.reject(error)
+      });
+
+      // when
+      const promise = route.start(campaign, participantExternalId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.called(route.get('session').invalidate);
+        sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume');
+      });
+
     });
   });
 });
