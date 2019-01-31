@@ -7,7 +7,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   campaignCode: null,
   session: service(),
 
-
   beforeModel(transition) {
     this._super(...arguments);
     this.set('campaignCode',transition.params['campaigns.fill-in-id-pix'].campaign_code);
@@ -43,14 +42,14 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     const store = this.get('store');
     return store.createRecord('campaign-participation', { campaign, participantExternalId })
       .save()
-      .then(() => {
-        return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
-      })
       .catch((err) => {
         if(err.errors[0].code === 401) {
           this.get('session').invalidate();
           return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
         }
+      })
+      .then(() => {
+        return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
       });
   },
 });
