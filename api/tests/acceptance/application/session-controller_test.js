@@ -200,6 +200,7 @@ describe('Acceptance | Controller | session-controller', () => {
     beforeEach(() => {
       const pixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       databaseBuilder.factory.buildCertificationCenter({ id: 42, name: 'Tour Gamma' });
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId: pixMaster.id, certificationCenterId: 42 });
       options = {
         method: 'POST',
         url: '/api/sessions',
@@ -350,12 +351,15 @@ describe('Acceptance | Controller | session-controller', () => {
       });
 
       context('The certification center does not exist', () => {
+
         beforeEach(() => {
           options.payload.data.attributes['certification-center-id'] = 1337;
         });
+
         afterEach(() => {
           delete options.payload.data.attributes['certification-center-id'];
         });
+
         it('should return a not found error', () => {
           const expectedErrorRespond = {
             errors: [
@@ -366,6 +370,7 @@ describe('Acceptance | Controller | session-controller', () => {
               }
             ]
           };
+
           // when
           const promise = server.inject(options);
 
