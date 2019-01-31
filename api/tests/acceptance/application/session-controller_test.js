@@ -398,19 +398,6 @@ describe('Acceptance | Controller | session-controller', () => {
         });
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
-        // given
-        const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMasterUserId);
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
-      });
     });
 
   });

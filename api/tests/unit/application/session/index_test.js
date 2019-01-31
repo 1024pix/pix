@@ -42,7 +42,6 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('POST /api/session', () => {
 
     beforeEach(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'save').returns('ok');
       return server.register(route);
     });
