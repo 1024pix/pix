@@ -2,7 +2,7 @@ const { expect, sinon, testErr, domainBuilder } = require('../../../test-helper'
 const Session = require('../../../../lib/domain/models/Session');
 const sessionService = require('../../../../lib/domain/services/session-service');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
@@ -83,7 +83,7 @@ describe('Unit | Service | session', () => {
     let userId, certificationCenter, certificationCenterName, sessionToSave, expectedSavedSession,
       certificationCenterId, sessionId, sessionAugmentedWithName;
 
-    let getUserStub, getCertificationCenterStub, saveSessionStub;
+    let getUserStub, getUserWithCertifCenterMembershipsStub, getCertificationCenterStub, saveSessionStub;
 
     beforeEach(() => {
       userId = 473820;
@@ -99,6 +99,20 @@ describe('Unit | Service | session', () => {
       getCertificationCenterStub = sinon.stub(certificationCenterRepository, 'get');
       saveSessionStub = sinon.stub(sessionRepository, 'save');
       getUserStub = sinon.stub(userRepository, 'get');
+      getUserWithCertifCenterMembershipsStub = sinon.stub(userRepository, 'getWithCertificationCenterMemberships');
+    });
+
+    it('should forward the error if an error occurs while retrieving the user', () => {
+      // given
+      getUserStub.withArgs(userId).rejects(testErr);
+
+      // when
+      const promise = sessionService.save({ userId, session: sessionToSave });
+
+      // then
+      return promise.catch((err) => {
+        expect(err).to.deep.equal(testErr);
+      });
     });
 
     context('when the user is PIX MASTER', () => {
@@ -110,7 +124,7 @@ describe('Unit | Service | session', () => {
 
       context('and there is no certification ID given', () => {
 
-        it('should save the session without linking it to any certification center', async () => {
+        it('should save the session without overriding the name of the certification center in the session', async () => {
           // given
           sessionToSave.certificationCenterId = null;
           saveSessionStub.withArgs(sessionToSave).resolves();
@@ -139,7 +153,7 @@ describe('Unit | Service | session', () => {
 
       context('and the certification ID is given', () => {
 
-        it('should save the session after adding the certification to it', async () => {
+        it('should override the certification center name in the session in order to avoid inconsistencies, and save the session', async () => {
           // given
           getCertificationCenterStub.resolves(certificationCenter);
           saveSessionStub.withArgs(sessionToSave).rejects();
@@ -163,68 +177,84 @@ describe('Unit | Service | session', () => {
         getUserStub.withArgs(userId).resolves(userPixMember);
       });
 
-      it('should save the new session, filled up with the name of the certification', async () => {
-        // given
-        getCertificationCenterStub.withArgs(certificationCenterId).resolves(certificationCenter);
-        saveSessionStub.resolves();
+      context('and the user has not access to the sessions certification center', () => {
 
-        // when
-        await sessionService.save({ userId, session: sessionToSave });
+        it('should throw an error', () => {
+          // given
+          const userWithNoCertifCenterMemberships = domainBuilder.buildUser({ certificationCenterMemberships: [] });
 
-        // then
-        expect(sessionRepository.save).to.have.been.calledWithExactly(sessionAugmentedWithName);
-      });
+          getUserWithCertifCenterMembershipsStub.withArgs(userId).resolves(userWithNoCertifCenterMemberships);
 
-      it('should return the saved session', async () => {
-        // given
-        getCertificationCenterStub.resolves(certificationCenter);
-        saveSessionStub.withArgs(sessionAugmentedWithName).resolves(expectedSavedSession);
+          // when
+          const promise = sessionService.save({ userId, session: sessionToSave });
 
-        // when
-        const savedSession = await sessionService.save({ userId, session: sessionToSave });
-
-        // then
-        expect(savedSession).to.deep.equal(expectedSavedSession);
-      });
-
-      it('should forward the error if an error occurs while retrieveing the certification center', () => {
-        // given
-        getCertificationCenterStub.withArgs(certificationCenterId).rejects(testErr);
-
-        // when
-        const promise = sessionService.save({ userId, session: sessionToSave });
-
-        // then
-        return promise.catch((err) => {
-          expect(err).to.deep.equal(testErr);
+          // then
+          return expect(promise).to.have.been.rejectedWith(ForbiddenAccess);
         });
+
       });
 
-      it('should forward the error if an error occurs while saving the session', () => {
-        // given
-        getCertificationCenterStub.resolves(certificationCenter);
-        saveSessionStub.withArgs(sessionAugmentedWithName).rejects(testErr);
+      context('and the user has access to the sessions certification center', () => {
 
-        // when
-        const promise = sessionService.save({ userId, session: sessionToSave });
-
-        // then
-        return promise.catch((err) => {
-          expect(err).to.deep.equal(testErr);
+        beforeEach(() => {
+          const userWithMembershipToCertificationCenter = domainBuilder.buildUser({
+            certificationCenterMemberships: [{ certificationCenter: { id: certificationCenterId } }]
+          });
+          getUserWithCertifCenterMembershipsStub.withArgs(userId).resolves(userWithMembershipToCertificationCenter);
         });
-      });
 
-      it('should forward the error if an error occurs while retrieving the user', () => {
-        // given
-        getUserStub.withArgs(userId).rejects(testErr);
+        it('should add the certif center name to the session in order not to break pixAdmin' +
+          'and user certifications details, and save the new session', async () => {
+          // given
+          getCertificationCenterStub.withArgs(certificationCenterId).resolves(certificationCenter);
+          saveSessionStub.resolves();
 
-        // when
-        const promise = sessionService.save({ userId, session: sessionToSave });
+          // when
+          await sessionService.save({ userId, session: sessionToSave });
 
-        // then
-        return promise.catch((err) => {
-          expect(err).to.deep.equal(testErr);
+          // then
+          expect(sessionRepository.save).to.have.been.calledWithExactly(sessionAugmentedWithName);
         });
+
+        it('should return the saved session', async () => {
+          // given
+          getCertificationCenterStub.resolves(certificationCenter);
+          saveSessionStub.withArgs(sessionAugmentedWithName).resolves(expectedSavedSession);
+
+          // when
+          const savedSession = await sessionService.save({ userId, session: sessionToSave });
+
+          // then
+          expect(savedSession).to.deep.equal(expectedSavedSession);
+        });
+
+        it('should forward the error if an error occurs while retrieveing the certification center', () => {
+          // given
+          getCertificationCenterStub.withArgs(certificationCenterId).rejects(testErr);
+
+          // when
+          const promise = sessionService.save({ userId, session: sessionToSave });
+
+          // then
+          return promise.catch((err) => {
+            expect(err).to.deep.equal(testErr);
+          });
+        });
+
+        it('should forward the error if an error occurs while saving the session', () => {
+          // given
+          getCertificationCenterStub.resolves(certificationCenter);
+          saveSessionStub.withArgs(sessionAugmentedWithName).rejects(testErr);
+
+          // when
+          const promise = sessionService.save({ userId, session: sessionToSave });
+
+          // then
+          return promise.catch((err) => {
+            expect(err).to.deep.equal(testErr);
+          });
+        });
+
       });
 
     });
