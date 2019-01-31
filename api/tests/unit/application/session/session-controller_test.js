@@ -1,13 +1,15 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
-const logger = require('../../../../lib/infrastructure/logger');
+
+const sessionController = require('../../../../lib/application/sessions/session-controller');
+
+const usecases = require('../../../../lib/domain/usecases');
+const Session = require('../../../../lib/domain/models/Session');
+const sessionService = require('../../../../lib/domain/services/session-service');
+const { NotFoundError } = require('../../../../lib/domain/errors');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
-const sessionController = require('../../../../lib/application/sessions/session-controller');
-const sessionService = require('../../../../lib/domain/services/session-service');
-const Session = require('../../../../lib/domain/models/Session');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -29,7 +31,7 @@ describe('Unit | Controller | sessionController', () => {
         accessCode: 'ABCD12'
       });
 
-      sinon.stub(sessionService, 'save').resolves();
+      sinon.stub(usecases, 'createSession').resolves();
       sinon.stub(logger, 'error');
       sinon.stub(sessionSerializer, 'deserialize').resolves(expectedSession);
       sinon.stub(sessionSerializer, 'serialize');
@@ -62,7 +64,7 @@ describe('Unit | Controller | sessionController', () => {
       await sessionController.save(request, hFake);
 
       // then
-      expect(sessionService.save).to.have.been.calledWith({ userId, session: expectedSession });
+      expect(usecases.createSession).to.have.been.calledWith({ userId, session: expectedSession });
     });
 
     it('return the saved session in JSON API', async () => {
@@ -79,7 +81,7 @@ describe('Unit | Controller | sessionController', () => {
         certificationCenter: 'Université de dressage de loutres'
       });
 
-      sessionService.save.resolves(savedSession);
+      usecases.createSession.resolves(savedSession);
       sessionSerializer.serialize.returns(jsonApiSession);
 
       // when
@@ -95,7 +97,7 @@ describe('Unit | Controller | sessionController', () => {
       const error = new Error('Failure');
 
       beforeEach(() => {
-        sessionService.save.rejects(error);
+        usecases.createSession.rejects(error);
       });
 
       it('should return a 500 internal error and log the error', async () => {
