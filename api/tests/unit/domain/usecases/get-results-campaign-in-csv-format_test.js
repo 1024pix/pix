@@ -28,12 +28,6 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         createdAt: moment().subtract(2, 'days').format()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
-        status: 'invalidated',
-        pixScore: 2,
-        skillId: skillWeb2.id,
-        createdAt: moment().add(2, 'days').format()
-      }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb3.id,
