@@ -6,10 +6,17 @@ import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/campaign | details-item', function(hooks) {
   setupRenderingTest(hooks);
+  
+  let store;
+
+  hooks.beforeEach(function() {
+    run(() => {
+      store = this.owner.lookup('service:store');
+    });
+  });
 
   test('it should display campaign details', async function(assert) {
     // given
-    let store = this.owner.lookup('service:store');
     const campaign = run(() => store.createRecord('campaign', {
       id: 1,
       name: 'campagne 1',
@@ -26,7 +33,6 @@ module('Integration | Component | routes/authenticated/campaign | details-item',
 
   test('it should display target profile related to campaign', async function(assert) {
     // given
-    let store = this.owner.lookup('service:store');
     const targetProfile = run(() => store.createRecord('targetProfile', {
       id: 1,
       name: 'profil cible de la campagne 1',
