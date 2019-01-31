@@ -1,9 +1,11 @@
 const Boom = require('boom');
 
-const logger = require('../../infrastructure/logger');
+const usecases = require('../../domain/usecases');
 const sessionService = require('../../domain/services/session-service');
-const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const { NotFoundError, ForbiddenAccess } = require('../../domain/errors');
+
+const logger = require('../../infrastructure/logger');
+const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const infraErrors = require('../../infrastructure/errors');
 const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -36,7 +38,7 @@ module.exports = {
 
     try {
       return serializer.deserialize(request.payload)
-        .then((session) => sessionService.save({ userId, session }))
+        .then((session) => usecases.createSession({ userId, session }))
         .then(serializer.serialize)
         .then(h)
         .catch((err) => {
