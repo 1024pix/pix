@@ -1,58 +1,68 @@
 <div class="campaign-details-page__header-page">
-	<div class="campaign-details-header__title">
+  <div class="campaign-details-header__title">
     {{#link-to "authenticated.campaigns.list"}}
-		  {{fa-icon 'arrow-left' class="button button--no-color button--icon campaign-details-return-button"}}
-	  {{/link-to}}
-	  <h1 class="page__title page-title">{{campaign.name}}</h1>
+      {{fa-icon 'arrow-left' class="button button--no-color button--icon campaign-details-content__return-button"}}
+    {{/link-to}}
+    <h1 class="page__title page-title">{{campaign.name}}</h1>
   </div>
   <a class="button button--link" href="{{campaign.urlToResult}}" target="_blank" download>
     Résultats (.csv)
   </a>
 </div>
+
 <div class="campaign-details-container">
-	<div class="campaign-details-row campaign-details-first-row">
-		<div class="campaign-details-content">
-			<h4 class="campaign-details-content__label">Profil cible</h4>
-			<p class="campaign-details-content__text">{{campaign.targetProfile.name}}</p>
-		</div>
+  <div class="campaign-details-row campaign-details-first-row">
+    <div class="campaign-details-content">
+      <h4 class="campaign-details-content__label">Profil cible</h4>
+      <p class="campaign-details-content__text">{{campaign.targetProfile.name}}</p>
+    </div>
 
-		<div class="campaign-details-content">
-			<h4 class="campaign-details-content__label">Identifiant</h4>
-			<p class="campaign-details-content__text">{{campaign.idPixLabel}}</p>
-		</div>
+    <div class="campaign-details-content">
+      <h4 class="campaign-details-content__label">Identifiant</h4>
+      <p class="campaign-details-content__text">{{campaign.idPixLabel}}</p>
+    </div>
 
-		<div class="campaign-details-content">
-			<h4 class="campaign-details-content__label">Lien direct</h4>
-			<div class="campaign-details-content__clipboard">
-				<p class="campaign-details-content__text">{{campaign.url}}</p>
-				{{#if (is-clipboard-supported)}}
-					{{#copy-button clipboardText=campaign.url classNames="button button--no-color button--icon campaign-details-clipboard-button"}}
-						{{fa-icon 'copy' prefix='far'}}
-					{{/copy-button}}
-				{{/if}}
-			</div>
-		</div>
-	</div>
+    <div class="campaign-details-content">
+      <h4 class="campaign-details-content__label">Lien direct</h4>
+      <div class="campaign-details-content__clipboard">
+        <p class="campaign-details-content__text">{{campaign.url}}</p>
+        {{#if (is-clipboard-supported)}}
+          {{#copy-button clipboardText=campaign.url title="Copier le lien direct" success=(action 'clipboardSuccess')
+                         error=(action 'clipboardError')
+                         classNames="button button--no-color button--icon campaign-details-content__clipboard-button"}}
+            {{#if this.success}}
+              {{fa-icon 'check' transform='shrink-7 right-2' mask='copy'}}
+            {{else if this.error}}
+              {{fa-icon 'times' transform='shrink-4 right-2' mask='copy'}}
+            {{else}}
+              {{fa-icon 'copy' prefix='far'}}
+            {{/if}}
+          {{/copy-button}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
 
-	<div class="campaign-details-row">
-		<div class="campaign-details-content">
-			<h4 class="campaign-details-content__label">Titre du parcours</h4>
-			<p class="campaign-details-content__text">{{campaign.title}}</p>
-		</div>
-	</div>
+  <div class="campaign-details-row">
+    <div class="campaign-details-content">
+      <h4 class="campaign-details-content__label">Titre du parcours</h4>
+      <p class="campaign-details-content__text">{{campaign.title}}</p>
+    </div>
+  </div>
 
-	<div class="campaign-details-row">
-		<div class="campaign-details-content">
-			<h4 class="campaign-details-content__label">Texte de la page d'accueil</h4>
-			<p class="campaign-details-content__text">{{campaign.customLandingPageText}}</p>
-		</div>
-	</div>
+  <div class="campaign-details-row">
+    <div class="campaign-details-content">
+      <h4 class="campaign-details-content__label">Texte de la page d'accueil</h4>
+      <p class="campaign-details-content__text">{{campaign.customLandingPageText}}</p>
+    </div>
+  </div>
 
-	<div class="campaign-details-row">
-		<div class="campaign-details-content">
-      {{#link-to "authenticated.campaigns.update" campaign.id class="button button--regular button--link campaign-details-update"}}
+  <div class="campaign-details-row">
+    <div class="campaign-details-content">
+      {{#link-to "authenticated.campaigns.update" campaign.id
+                 class="button button--regular button--link campaign-details-content__update-button"}}
         Modifier
       {{/link-to}}
-		</div>
-	</div>
+    </div>
+  </div>
 </div>
