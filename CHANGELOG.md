@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.22.0 (31/01/2019) 
+
+- [#329](https://github.com/1024pix/pix/pull/329) [FEATURE] Pouvoir accéder à pix certif en tant que membre de centre de certification (PC-15).
+- [#331](https://github.com/1024pix/pix/pull/331) [FEATURE] Permettre à un Pix Master de lister et ajouter des membres à une Organisation dans Pix Admin (PA-52).
+- [#335](https://github.com/1024pix/pix/pull/335) [BUGFIX] Problème de style sous IE (PF-440).
+- [#337](https://github.com/1024pix/pix/pull/337) [BUGFIX] Correction de la page de résultat de certif sous IE (PF-499).
+- [#327](https://github.com/1024pix/pix/pull/327) [TECH] Mutualiser la reprise d'évaluation (PF-496). 
+
 ## v2.21.0 (29/01/2019)
 
 - [#313](https://github.com/1024pix/pix/pull/313) [FEATURE] Le CSV des résultats de campagnes prends tout en compte (PF-438).
