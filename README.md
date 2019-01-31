@@ -40,6 +40,8 @@ Accédez à l'application d'intégration via l'URL : [https://integration.admin.
 
 ## Production
 
+> **Prérequis** : vous devez au préalable disposer d'un droit de push sur l'application Scalingo "pix-admin-production" et avoir ajouté le _remote_ Git "scalingo" de l'application.
+
 Contrairement à l'environnement d'intégration, la mise en production se fait à la demande via la tache npm suivante :
 
 ```bash
