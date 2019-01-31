@@ -30,10 +30,6 @@ module.exports = {
   deserialize(json) {
     const attributes = json.data.attributes;
 
-    if (!moment(attributes.date, 'DD/MM/YYYY').isValid()) {
-      throw new WrongDateFormatError();
-    }
-
     return sessionCodeService.getNewSessionCode()
       .then((accessCode) => {
         return new Session({

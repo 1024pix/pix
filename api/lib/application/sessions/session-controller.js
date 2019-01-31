@@ -2,13 +2,12 @@ const Boom = require('boom');
 
 const usecases = require('../../domain/usecases');
 const sessionService = require('../../domain/services/session-service');
-const { NotFoundError, ForbiddenAccess } = require('../../domain/errors');
+const { NotFoundError, ForbiddenAccess, EntityValidationError } = require('../../domain/errors');
 
 const logger = require('../../infrastructure/logger');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const infraErrors = require('../../infrastructure/errors');
-const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const JSONAPI = require('../../interfaces/jsonapi');
 const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
@@ -47,8 +46,8 @@ module.exports = {
             return controllerReplies(h).error(notFoundError);
           }
 
-          if (err instanceof BookshelfValidationError) {
-            return h.response(validationErrorSerializer.serialize(err)).code(400);
+          if (err instanceof EntityValidationError) {
+            return h.response(JSONAPI.unprocessableEntityError(err.invalidAttributes)).code(422);
           }
 
           if(err instanceof ForbiddenAccess) {
