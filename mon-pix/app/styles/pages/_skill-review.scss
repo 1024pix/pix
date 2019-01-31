@@ -97,7 +97,7 @@
   }
 
   &__information {
-    margin:10px;
+    margin: 10px;
     text-align: left;
     max-width: 850px;
 
@@ -106,8 +106,9 @@
     }
 
     &__info-icon {
-      height: 20px;
-      float:left;
+      float: left;
+      color: $dove-gray;
+      font-size: 1.5em;
     }
 
     &__text {

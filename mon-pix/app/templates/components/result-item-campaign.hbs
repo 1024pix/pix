@@ -1,0 +1,17 @@
+<div class="result-item-campaign {{if isBackgroundColorGrey 'result-item-campaign--grey'}}">
+  <div class="result-item-campaign__icon">
+    <div data-toggle="tooltip" data-placement="top" title="{{resultItem.tooltip}}">
+      {{fa-icon resultItem.icon class=(concat 'result-item-campaign__icon--' resultItem.color)}}
+    </div>
+  </div>
+
+  <div class="result-item-campaign__instruction">
+    {{strip-instruction (convert-to-html answer.challenge.instruction) textLength}}
+  </div>
+
+  <div class="result-item-campaign__correction">
+    {{#if validationImplementedForChallengeType}}
+      <button class="result-item-campaign__correction-button js-correct-answer" {{action "openComparisonPopin" a11y-focus-id }} id="{{a11y-focus-id}}">Réponses et tutos</button>
+    {{/if}}
+  </div>
+</div>
