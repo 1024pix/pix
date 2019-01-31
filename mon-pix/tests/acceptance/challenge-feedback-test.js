@@ -52,6 +52,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
       assertThatFeedbackFormIsOpen();
 
       await click('.challenge-actions__action-skip');
+      await click('.challenge-item-warning button');
       assertThatFeedbackFormIsClosed();
     });
   });

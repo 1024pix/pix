@@ -17,13 +17,15 @@
   letter-spacing: 3px;
 
   position: absolute;
-  top:77%;
-  left:19%;
+  top: 135px;
+  left: 25px;
 
   font-size: 17px;
 
   @include device-is('tablet') {
     font-size: 26px;
+    top: 195px;
+    left: 40px;
   }
 
 }

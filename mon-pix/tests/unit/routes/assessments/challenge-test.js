@@ -5,7 +5,7 @@ import EmberObject from '@ember/object';
 import EmberService from '@ember/service';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments.ChallengeRoute', function() {
+describe('Unit | Route | Assessments | Challenge', function() {
   setupTest('route:assessments.challenge', {
     needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
   });
@@ -213,144 +213,33 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
       });
     });
 
-    context('when the assessessment is DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function() {
-      context('when the next challenge exists', function() {
-        it('should redirect to the challenge view', function() {
-          // given
-          const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
-          createRecordStub.returns(answerToChallengeOne);
-          queryRecordStub.resolves(nextChallenge);
-
-          // when
-          const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
-
-          // then
-          return promise.then(function() {
-            sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-            sinon.assert.calledWith(route.transitionTo, 'assessments.challenge', {
-              assessment: assessment,
-              challenge: nextChallenge
-            });
-          });
-        });
-      });
-
-      context('when there is no next challenge to answer', function() {
-        it('should redirect to the assessment rating page', function() {
-          // given
-          const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
-          createRecordStub.returns(answerToChallengeOne);
-          queryRecordStub.returns(null);
-
-          // when
-          const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
-
-          // then
-          return promise.then(function() {
-            sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-            sinon.assert.calledWith(route.transitionTo, 'assessments.rating', assessment.get('id'));
-          });
-        });
-      });
-
-      it('should ignore checkpoint when the assessment is not a SMART_PLACEMENT', function() {
+    context('when saving succeeds', function() {
+      it('should redirect to assessment-resume route', async function() {
         // given
-        const challengeTwo = EmberObject.create({ id: 'recChallengeTwo', hasCheckpoints: false });
-        const listOfAnswers = [
-          answerToChallengeOne,
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo })
-        ];
-
-        const assessment = EmberObject.create({ type: 'SMART_PLACEMENT', answers: listOfAnswers });
-        createRecordStub.returns(answerToChallengeOne);
-        queryRecordStub.resolves(nextChallenge);
+        const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
         // when
-        const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+        await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
 
         // then
-        return promise.then(function() {
-          sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-          sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
-        });
+        sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'));
       });
     });
 
-    context('when the assessment is a SMART_PLACEMENT', () => {
-      it('should redirect to the checkpoint view after 5 answers', function() {
+    context('when saving fails', function() {
+      it('should send error', async function() {
         // given
-        const challengeTwo = EmberObject.create({ id: 'recChallengeTwo' });
-        const listOfAnswers = [
-          answerToChallengeOne,
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo })
-        ];
+        answerToChallengeOne.save.rejects();
+        route.actions.error = sinon.stub();
 
-        const assessmentId = 154;
-        const assessment = EmberObject.create({ id: assessmentId, type: 'SMART_PLACEMENT', answers: listOfAnswers, hasCheckpoints: true });
-        createRecordStub.returns(answerToChallengeOne);
-        queryRecordStub.resolves(nextChallenge);
+        const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
         // when
         const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
 
         // then
-        return promise.then(function() {
-          sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-          sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.checkpoint', assessmentId);
-        });
-      });
-
-      it('should redirect to the next challenge', function() {
-        // given
-        const challengeTwo = EmberObject.create({ id: 'recChallengeTwo' });
-        const listOfAnswers = [
-          answerToChallengeOne,
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo }),
-          EmberObject.create({ challenge: challengeTwo })
-        ];
-
-        const assessment = EmberObject.create({ id: 154, type: 'SMART_PLACEMENT', answers: listOfAnswers, hasCheckpoints: true });
-        createRecordStub.returns(answerToChallengeOne);
-        queryRecordStub.resolves(nextChallenge);
-
-        // when
-        const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
-
-        // then
-        return promise.then(function() {
-          sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-          sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
-        });
-      });
-
-      it('should redirect to rating after the last serie of questions', function() {
-        // given
-        const assessmentId = 947;
-        const assessment = EmberObject.create({ id: assessmentId, answers: [answerToChallengeOne], hasCheckpoints: true });
-        createRecordStub.returns(answerToChallengeOne);
-        queryRecordStub.returns(null);
-
-        // when
-        const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
-
-        // then
-        return promise.then(function() {
-          sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-          sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.rating', assessmentId);
-        });
+        await expect(promise).to.be.rejected;
+        sinon.assert.called(route.actions.error);
       });
     });
   });

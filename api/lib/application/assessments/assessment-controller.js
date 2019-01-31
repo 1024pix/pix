@@ -141,7 +141,6 @@ module.exports = {
         if (assessment.isDemo()) {
           return useCases.getNextChallengeForDemo({
             assessment,
-            challengeId: request.params.challengeId,
           });
         }
 

@@ -120,10 +120,6 @@
     margin-left: 30px;
     align-self: flex-end;
   }
-
-  @include device-is('desktop') {
-    margin-left: 60px;
-  }
 }
 
 .scoring-panel__index-link__element {

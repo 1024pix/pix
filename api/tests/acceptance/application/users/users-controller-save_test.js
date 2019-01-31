@@ -70,6 +70,11 @@ describe('Acceptance | Controller | users-controller', () => {
                 '"links":{'+
                   '"related":"/users/(\\d+)/memberships"'+
                 '}'+
+              '},'+
+              '"certification-center-memberships":{'+
+                '"links":{'+
+                  '"related":"/users/(\\d+)/certification-center-memberships"'+
+                '}'+
               '}'+
             '}'+
             '}' +

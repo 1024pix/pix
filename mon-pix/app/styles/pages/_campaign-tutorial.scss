@@ -8,6 +8,7 @@
     background-color: $white;
     margin: auto;
     max-width: 800px;
+    max-height: 700px;
     padding: 30px 40px;
     border-radius: 10px;
     box-shadow: 0 7px 14px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
@@ -15,6 +16,7 @@
     @include device-is('tablet') {
       padding: 30px 10px;
       width: 800px;
+      height: 600px;
       padding-top: 85px;
     }
   }
@@ -79,19 +81,21 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    margin: auto;
   }
 
   &__next-page-tutorial{
     margin: auto;
     padding: 0px 60px;
+    width: 170px;
   }
 
   &__start-campaign-button{
-    margin: auto;
-    margin-bottom: 50px;
+    margin: auto auto 50px auto;
   }
 
   &__ignore-button {
+    width: 170px;
     margin: auto;
   }
 }

@@ -5,19 +5,28 @@ const CertificationCenterMembership = require('../../domain/models/Certification
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const bookshelfUtils = require('../utils/bookshelf-utils');
 
-function _toDomain(certificationCenterMembership) {
-
-  const certificationCenter = new CertificationCenter({
-    id: certificationCenterMembership.get('certificationCenterId'),
-  });
-
+function _toDomain(certificationCenterMembershipBookshelf) {
   return new CertificationCenterMembership({
-    id: certificationCenterMembership.get('id'),
-    certificationCenter,
+    id: certificationCenterMembershipBookshelf.get('id'),
+    certificationCenter: new CertificationCenter({
+      id: certificationCenterMembershipBookshelf.related('certificationCenter').get('id'),
+      name: certificationCenterMembershipBookshelf.related('certificationCenter').get('name'),
+    })
   });
 }
 
 module.exports = {
+
+  findByUserId(userId) {
+    return BookshelfCertificationCenterMembership
+      .where({ userId: userId })
+      .fetchAll({
+        withRelated: [
+          'certificationCenter',
+        ]
+      })
+      .then((certificationCenterMemberships) => certificationCenterMemberships.map(_toDomain));
+  },
 
   create(userId, certificationCenterId) {
     return new BookshelfCertificationCenterMembership({ userId, certificationCenterId })

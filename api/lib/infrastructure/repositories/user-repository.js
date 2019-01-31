@@ -5,8 +5,22 @@ const { UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
 const PixRole = require('../../domain/models/PixRole');
 const Membership = require('../../domain/models/Membership');
+const CertificationCenter = require('../../domain/models/CertificationCenter');
+const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
 const OrganizationRole = require('../../domain/models/OrganizationRole');
+
+function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
+  return certificationCenterMembershipBookshelf.map((bookshelf) => {
+    return new CertificationCenterMembership({
+      id: bookshelf.get('id'),
+      certificationCenter: new CertificationCenter({
+        id: bookshelf.related('certificationCenter').get('id'),
+        name: bookshelf.related('certificationCenter').get('name'),
+      })
+    });
+  });
+}
 
 function _toMembershipsDomain(membershipsBookshelf) {
   return membershipsBookshelf.map((membershipBookshelf) => {
@@ -46,12 +60,14 @@ function _toDomain(userBookshelf) {
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
     pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
     memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
+    certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
   });
 }
 
 function _setSearchFiltersForQueryBuilder(filters, qb) {
   const { firstName, lastName, email } = filters;
+
   if (firstName) {
     qb.whereRaw('LOWER("firstName") LIKE ?', `%${firstName.toLowerCase()}%`);
   }
@@ -84,6 +100,7 @@ module.exports = {
           'memberships.organization',
           'memberships.organizationRole',
           'pixRoles',
+          'certificationCenterMemberships.certificationCenter',
         ]
       })
       .then((foundUser) => {
@@ -148,6 +165,24 @@ module.exports = {
       });
   },
 
+  getWithCertificationCenterMemberships(userId) {
+    return BookshelfUser
+      .where({ id: userId })
+      .fetch({
+        require: true,
+        withRelated: [
+          'certificationCenterMemberships.certificationCenter',
+        ]
+      })
+      .then(_toDomain)
+      .catch((err) => {
+        if (err instanceof BookshelfUser.NotFoundError) {
+          throw new UserNotFoundError(`User not found for ID ${userId}`);
+        }
+        throw err;
+      });
+  },
+
   async getBySamlId(samlId) {
     const bookshelfUser = await BookshelfUser
       .where({ samlId })
@@ -156,8 +191,8 @@ module.exports = {
   },
 
   create(domainUser) {
-    const userRawData = _.omit(domainUser, ['pixRoles', 'memberships']);
-    return new BookshelfUser(userRawData)
+    const userToCreate = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships']);
+    return new BookshelfUser(userToCreate)
       .save()
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
@@ -185,7 +220,7 @@ module.exports = {
   },
 
   updateUser(domainUser) {
-    const userToUpdate = _.omit(domainUser, ['pixRoles', 'memberships']);
+    const userToUpdate = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships']);
     return BookshelfUser.where({ id: domainUser.id })
       .save(userToUpdate, {
         patch: true,

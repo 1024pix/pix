@@ -97,6 +97,34 @@ describe('Unit | Domain | Models | User', () => {
 
   });
 
+  describe('isLinkedToCertificationCenters', () => {
+
+    it('should be true if user has a role in a certification center', () => {
+      // given
+      const user = domainBuilder.buildUser({
+        certificationCenterMemberships: [domainBuilder.buildCertificationCenterMembership()]
+      });
+
+      // when
+      const isLinked = user.isLinkedToCertificationCenters();
+
+      // then
+      expect(isLinked).to.be.true;
+    });
+
+    it('should be false if user has no role in certification center', () => {
+      // given
+      const user = new User();
+
+      // when
+      const isLinked = user.isLinkedToCertificationCenters();
+
+      // then
+      expect(isLinked).to.be.false;
+    });
+
+  });
+
   describe('hasAccessToOrganization', () => {
 
     it('should be false is user has no access to no organizations', () => {
@@ -132,7 +160,44 @@ describe('Unit | Domain | Models | User', () => {
 
   });
 
-  describe('#email', function() {
+  describe('hasAccessToCertificationCenter', () => {
+
+    it('should be false if user has no access to given certification center', () => {
+      // given
+      const user = new User();
+      const certificationCenterId = 12345;
+
+      // when/then
+      expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.false;
+    });
+
+    it('should be false if user has access to many CertificationCenters, but not the given one', () => {
+      // given
+      const certificationCenterId = 12345;
+      const user = domainBuilder.buildUser();
+      user.certificationCenterMemberships.push(domainBuilder.buildCertificationCenterMembership());
+      user.certificationCenterMemberships.push(domainBuilder.buildCertificationCenterMembership());
+      user.certificationCenterMemberships[0].certificationCenter.id = 93472;
+      user.certificationCenterMemberships[1].certificationCenter.id = 74569;
+
+      // when/then
+      expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.false;
+    });
+
+    it('should be true if the user has an access to the given CertificationCenterId', () => {
+      // given
+      const certificationCenterId = 12345;
+      const user = domainBuilder.buildUser();
+      user.certificationCenterMemberships.push(domainBuilder.buildCertificationCenterMembership());
+      user.certificationCenterMemberships[0].certificationCenter.id = 12345;
+
+      // when/then
+      expect(user.hasAccessToCertificationCenter(certificationCenterId)).to.be.true;
+    });
+
+  });
+
+  describe('#email', () => {
 
     it('should normalize email', () => {
       // given

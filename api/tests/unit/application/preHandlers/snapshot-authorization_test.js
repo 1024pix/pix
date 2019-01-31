@@ -58,7 +58,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
     });
 
     describe('When userId (from token) is not linked to organization', () => {
-      it('should take over the request and response with 401 status code', async () => {
+      it('should take over the request and response with 403 status code', async () => {
         // XXX should take over to avoid the call of controller
 
         // given
@@ -71,7 +71,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         const response = await snapshotAuthorization.verify(request, hFake);
 
         // then
-        expect(response.statusCode).to.equal(401);
+        expect(response.statusCode).to.equal(403);
         expect(response.isTakeOver).to.be.true;
       });
     });

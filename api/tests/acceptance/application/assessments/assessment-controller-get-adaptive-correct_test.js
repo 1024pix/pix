@@ -1,4 +1,4 @@
-const { airtableBuilder, expect, knex } = require('../../../test-helper');
+const { airtableBuilder, expect, databaseBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const createServer = require('../../../../server');
 
@@ -147,42 +147,25 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     cache.flushAll();
   });
 
-  describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', () => {
+  describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next', () => {
 
-    let insertedAssessmentId = null;
-
-    const insertedAssessment = {
-      courseId: adaptiveCourseId,
-      type: 'PLACEMENT',
-    };
+    const assessmentId = 1;
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment]).returning('id')
-        .then((ids) => {
-          insertedAssessmentId = ids[0];
-
-          return {
-            value: 'any good answer',
-            result: 'ok',
-            challengeId: firstChallengeId,
-            assessmentId: insertedAssessmentId,
-          };
-        })
-        .then((inserted_answer) => {
-          return knex('answers').insert([inserted_answer]);
-        });
+      databaseBuilder.factory.buildAssessment({ id: assessmentId, type: 'PLACEMENT', courseId: adaptiveCourseId });
+      databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
-      return knex('answers').delete()
-        .then(() => knex('assessments').delete());
+      return databaseBuilder.clean();
     });
 
     it('should return the second challenge if the first answer is correct', () => {
       // given
       const options = {
         method: 'GET',
-        url: `/api/assessments/${insertedAssessmentId}/next/${firstChallengeId}`,
+        url: `/api/assessments/${assessmentId}/next`,
       };
 
       // when
@@ -195,42 +178,25 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     });
   });
 
-  describe('(adaptive incorrect answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', () => {
+  describe('(adaptive incorrect answer) GET /api/assessments/:assessment_id/next', () => {
 
-    let insertedAssessmentId = null;
-
-    const insertedAssessment = {
-      courseId: adaptiveCourseId,
-      type: 'PLACEMENT',
-    };
+    const assessmentId = 1;
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment]).returning('id')
-        .then((ids) => {
-          insertedAssessmentId = ids[0];
-
-          return {
-            value: 'any bad answer',
-            result: 'ko',
-            challengeId: firstChallengeId,
-            assessmentId: insertedAssessmentId,
-          };
-        })
-        .then((inserted_answer) => {
-          return knex('answers').insert([inserted_answer]);
-        });
+      databaseBuilder.factory.buildAssessment({ id: assessmentId, type: 'PLACEMENT', courseId: adaptiveCourseId });
+      databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any bad answer', result: 'ko' });
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
-      return knex('answers').delete()
-        .then(() => knex('assessments').delete());
+      return databaseBuilder.clean();
     });
 
     it('should return the third challenge if the first answer is incorrect', () => {
       // given
       const options = {
         method: 'GET',
-        url: `/api/assessments/${insertedAssessmentId}/next/${firstChallengeId}`,
+        url: `/api/assessments/${assessmentId}/next`,
       };
 
       // when
@@ -243,49 +209,26 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     });
   });
 
-  describe('(end of adaptive test) GET /api/assessments/:assessment_id/next/:current_challenge_id', () => {
+  describe('(end of adaptive test) GET /api/assessments/:assessment_id/next', () => {
 
-    let insertedAssessmentId = null;
-
-    const insertedAssessment = {
-      courseId: adaptiveCourseId,
-      type: 'PLACEMENT',
-    };
+    const assessmentId = 1;
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment]).returning('id')
-        .then((ids) => {
-          insertedAssessmentId = ids[0];
-
-          return [
-            {
-              value: 'any good answer',
-              result: 'ok',
-              challengeId: firstChallengeId,
-              assessmentId: insertedAssessmentId,
-            }, {
-              value: 'any bad answer',
-              result: 'ko',
-              challengeId: secondChallengeId,
-              assessmentId: insertedAssessmentId,
-            },
-          ];
-        })
-        .then((insertedAnswers) => {
-          return knex('answers').insert(insertedAnswers);
-        });
+      databaseBuilder.factory.buildAssessment({ id: assessmentId, type: 'PLACEMENT', courseId: adaptiveCourseId });
+      databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
+      databaseBuilder.factory.buildAnswer({ challengeId: secondChallengeId, assessmentId, value: 'any bad answer', result: 'ko' });
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
-      return knex('answers').delete()
-        .then(() => knex('assessments').delete());
+      return databaseBuilder.clean();
     });
 
     it('should finish the test if there is no next challenge', () => {
       // given
       const options = {
         method: 'GET',
-        url: `/api/assessments/${insertedAssessmentId}/next/${secondChallengeId}`,
+        url: `/api/assessments/${assessmentId}/next`,
       };
 
       // when

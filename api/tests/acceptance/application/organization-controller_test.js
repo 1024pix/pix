@@ -476,10 +476,12 @@ describe('Acceptance | Application | organization-controller', () => {
             'id': organization.id,
             'relationships': {
               'user': {
-                'data': null
+                'data': null,
               },
-              'members': {
-                'data': []
+              'memberships': {
+                'links': {
+                  'related': `/api/organizations/${organization.id}/memberships`
+                }
               }
             },
             'type': 'organizations'

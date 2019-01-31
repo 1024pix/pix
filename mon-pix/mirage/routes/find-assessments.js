@@ -6,10 +6,10 @@ export default function(schema, request) {
     const campaign = schema.campaigns.findBy({ code: campaignCode });
 
     if (campaign) {
-      const assessment = schema.campaignParticipations.findBy({ campaignId: campaign.id });
+      const campaignParticipation = schema.campaignParticipations.findBy({ campaignId: campaign.id });
 
-      if (assessment) {
-        return schema.assessments.where({ id: assessment.id });
+      if (campaignParticipation) {
+        return schema.assessments.where({ id: campaignParticipation.assessmentId });
       }
     }
   }

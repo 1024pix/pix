@@ -98,7 +98,13 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
                 'links': {
                   'related': '/users/234567/memberships'
                 }
+              },
+              'certification-center-memberships': {
+                'links': {
+                  'related': '/users/234567/certification-center-memberships'
+                }
               }
+
             }
           }
         });

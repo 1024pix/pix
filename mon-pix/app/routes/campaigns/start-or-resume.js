@@ -49,32 +49,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         if (!this.get('userHasJustConsultedTutorial') && assessment.answers.length === 0 && !assessment.isCompleted) {
           return this.transitionTo('campaigns.tutorial', this.get('campaignCode'));
         }
-        return this._fetchChallenge(assessment);
-      });
-  },
-
-  _fetchChallenge(assessment) {
-    const store = this.get('store');
-    return store.queryRecord('challenge', { assessmentId: assessment.get('id') })
-      .then((challenge) => {
-        if (challenge) {
-          return this.transitionTo('assessments.challenge', { assessment, challenge });
-        } else {
-          return this._redirectToSkillReviewPageAfterCreateResultIfNeeded(assessment, this.get('campaignCode'));
-        }
-      });
-  },
-
-  _redirectToSkillReviewPageAfterCreateResultIfNeeded(assessment, campaignCode) {
-    if(assessment.isCompleted) {
-      return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
-    }
-
-    return this.get('store')
-      .createRecord('assessment-result', { assessment })
-      .save()
-      .finally(() => {
-        return this.transitionTo('campaigns.skill-review', campaignCode, assessment.get('id'));
+        return this.transitionTo('assessments.resume', assessment.get('id'));
       });
   },
 

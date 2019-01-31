@@ -112,6 +112,7 @@ describe('Acceptance | Displaying a QCM', function() {
 
   it('should only display the error alert checkbox after the user has tried to at least interact with checkboxes', async function() {
     // given
+    $('input:checkbox').prop('checked', false);
     await click('.challenge-actions__action-validate');
 
     // when
