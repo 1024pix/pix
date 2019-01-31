@@ -1,10 +1,10 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  email: DS.attr('string'),
-  firstName: DS.attr('string'),
-  lastName: DS.attr('string'),
-  pixCertifTermsOfServiceAccepted: DS.attr('boolean'),
+  email: DS.attr(),
+  firstName: DS.attr(),
+  lastName: DS.attr(),
+  pixCertifTermsOfServiceAccepted: DS.attr(),
   certificationCenterMemberships: DS.hasMany('certificationCenterMembership')
 
 });
