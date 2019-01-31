@@ -12,7 +12,7 @@
 @import 'globals/pix-page';
 @import 'globals/pix-button';
 @import 'globals/buttons';
-@import 'globals/progress-bar';
+@import 'globals/checkpoint-progress-bar';
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
@@ -63,6 +63,7 @@
 @import 'components/reset-password-form';
 @import 'components/resume-campaign-banner';
 @import 'components/result-item';
+@import 'components/result-item-campaign';
 @import 'components/results-warning';
 @import 'components/rounded-panel';
 @import 'components/score-pastille';
@@ -86,7 +87,6 @@
 @import 'ember-side-menu';
 /* pages */
 @import 'pages/assessment-challenge';
-@import 'pages/assessment-checkpoint';
 @import 'pages/assessment-results';
 @import 'pages/board';
 @import 'pages/campaign-landing-page';

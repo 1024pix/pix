@@ -89,7 +89,7 @@
   padding: 11px 35px;
 
   &:hover {
-    background-color: $blue-ribbon;
+    background-color: $pix-blue-hover;
     color: white;
     text-decoration: none;
   }
@@ -144,7 +144,7 @@
 }
 
 .index-page-challenges__presentation-title span {
-  color: $marigold;
+  color: $pix-yellow-hover;
 }
 
 .index-page-challenges__presentation-text {
@@ -245,7 +245,7 @@
 .index-page-features__project-button {
   margin-top: 40px;
   border-radius: 20px;
-  background-color: $marigold;
+  background-color: $pix-yellow-hover;
   text-transform: uppercase;
   color: $charcoal-grey;
   font-size: 12px;

@@ -5,15 +5,25 @@
   justify-content: center;
 }
 
+.campaign-banner__checkpoint {
+  background: $pix-blue-to-purple-gradient;
+  color: $white;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  height: 270px;
+}
+
 .campaign-banner-container {
   display: flex;
   align-items: center;
-  min-height: 100px;
+  min-height: 80px;
   max-width: 990px;
   width: 100%;
-  padding: 0 20px;
+  padding-right: 10px;
 
   @include device-is('desktop') {
+    min-height: 100px;
     padding: 0;
   }
 }
@@ -29,15 +39,20 @@
 
 .campaign-banner__title h1 {
   margin: 0;
-  font-size: 2.4rem;
-  font-weight: $font-normal;
+  font-size: 1.4rem;
+  font-weight: $font-light;
+
+  @include device-is('desktop') {
+    font-size: 2.4rem;
+    font-weight: $font-normal;
+  }
 }
 
 .campaign-banner__pix-logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px
+  width: 70px;
 }
 
 .campaign-banner__pix-logo img {
@@ -50,18 +65,27 @@
   width: 1px;
   background: $mercury-grey;
   height: 40px;
-  margin: 0 20px
+  margin: 0 10px;
+
+  @include device-is('desktop') {
+    margin: 0 20px;
+  }
 }
 
 .campaign-banner__home-link {
   font-family: $font-roboto;
-  font-size: 13px;
-  font-weight: $font-medium;
+  font-size: 1.3rem;
+  font-weight: $font-normal;
   margin-left: auto;
   text-align: right;
-  color: white;
+  color: $white;
+  width: 60px;
+
+  @include device-is('desktop') {
+    font-weight: $font-medium;
+  }
 
   &:hover {
-    color: white;
+    color: $white;
   }
 }
