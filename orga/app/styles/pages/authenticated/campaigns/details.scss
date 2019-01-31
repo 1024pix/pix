@@ -85,10 +85,50 @@
 .campaign-details-content__clipboard-button {
   margin-top: -4px;
   margin-left: 6px;
-  padding: 0 10px;
+  padding: 8px 10px;
 }
 
 .campaign-details-content__update-button {
   height: 15px;
   line-height: 15px;
+}
+
+.campaign-detail-content__tooltip {
+  position: relative;
+  display: inline-block;
+
+  &:hover {
+    .campaign-detail-content__tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.campaign-detail-content__tooltip-text {
+  visibility: hidden;
+  width: 140px;
+  background-color: $nero;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: $nero transparent transparent transparent;
+  }
 }

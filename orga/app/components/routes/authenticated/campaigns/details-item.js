@@ -2,16 +2,15 @@ import Component from '@ember/component';
 
 export default Component.extend({
 
-  success: false,
-  error: false,
+  tooltipText: "Copier le lien direct",
 
   actions: {
     clipboardSuccess() {
-      this.set('success', true);
+      this.set('tooltipText', "Copié !");
     },
 
-    clipboardError() {
-      this.set('error', true);
+    clipboardOut() {
+      this.set('tooltipText', "Copier le lien direct");
     }
   }
 });
