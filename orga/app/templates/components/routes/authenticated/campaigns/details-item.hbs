@@ -1,7 +1,7 @@
 <div class="campaign-details-page__header-page">
 	<div class="campaign-details-header__title">
     {{#link-to "authenticated.campaigns.list"}}
-		  {{fa-icon 'arrow-left' class="icon-link campaign-details-return-button"}}
+		  {{fa-icon 'arrow-left' class="button button--no-color button--icon campaign-details-return-button"}}
 	  {{/link-to}}
 	  <h1 class="page__title page-title">{{campaign.name}}</h1>
   </div>
@@ -9,7 +9,6 @@
     Résultats (.csv)
   </a>
 </div>
-
 <div class="campaign-details-container">
 	<div class="campaign-details-row campaign-details-first-row">
 		<div class="campaign-details-content">
@@ -27,7 +26,7 @@
 			<div class="campaign-details-content__clipboard">
 				<p class="campaign-details-content__text">{{campaign.url}}</p>
 				{{#if (is-clipboard-supported)}}
-					{{#copy-button clipboardText=campaign.url classNames="icon-link campaign-details-clipboard-button"}}
+					{{#copy-button clipboardText=campaign.url classNames="button button--no-color button--icon campaign-details-clipboard-button"}}
 						{{fa-icon 'copy' prefix='far'}}
 					{{/copy-button}}
 				{{/if}}
