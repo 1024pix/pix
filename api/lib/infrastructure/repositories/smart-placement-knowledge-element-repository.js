@@ -19,12 +19,15 @@ module.exports = {
       .then((knowledgeElements) => knowledgeElements.map(toDomain));
   },
 
-  findUniqByUserId(userId) {
+  findUniqByUserId(userId, limitDate) {
     return BookshelfKnowledgeElement
       .query((qb) => {
         qb.innerJoin('assessments', 'knowledge-elements.assessmentId', 'assessments.id');
         qb.where('assessments.userId', '=', userId);
         qb.where('assessments.type', '=', 'SMART_PLACEMENT');
+        if(limitDate) {
+          qb.where('knowledge-elements.createdAt', '<', limitDate);
+        }
       })
       .fetchAll()
       .then((knowledgeElements) => knowledgeElements.map(toDomain))
