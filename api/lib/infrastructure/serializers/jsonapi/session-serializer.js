@@ -39,7 +39,7 @@ module.exports = {
         return new Session({
           id: json.data.id,
           certificationCenter: attributes['certification-center'],
-          certificationCenterId: attributes['certification-center-id'],
+          certificationCenterId: parseInt(json.data.relationships['certification-center'].data.id),
           address: attributes.address,
           room: attributes.room,
           examiner: attributes.examiner,
