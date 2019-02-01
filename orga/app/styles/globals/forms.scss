@@ -102,20 +102,24 @@
   &--link {
     text-decoration: none;
   }
-
-  &--icon {
-    color: $dove-gray;
-    padding: 8px;
-    border: none;
-    font-size: 1rem;
-
-    &:hover, &:focus, &:active {
-      background-color: $alto;
-      border-radius: 16px;
-      transition: background-color 0.2s ease;
-    }
-  } 
 }
+
+.icon-button {
+  color: $dove-gray;
+  padding: 8px;
+  border: none;
+  font-size: 1rem;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &:hover, &:focus, &:active {
+    background-color: $alto;
+    border-radius: 16px;
+    transition: background-color 0.2s ease;
+  }
+}Ò
 
 .radio-button {
   -ms-transform: scale(0.0);

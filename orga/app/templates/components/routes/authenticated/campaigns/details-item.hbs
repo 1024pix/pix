@@ -1,7 +1,7 @@
 <div class="campaign-details-page__header-page">
   <div class="campaign-details-header__title">
     {{#link-to "authenticated.campaigns.list"}}
-      {{fa-icon 'arrow-left' class="button button--no-color button--icon campaign-details-content__return-button"}}
+      {{fa-icon 'arrow-left' class="icon-button campaign-details-content__return-button"}}
     {{/link-to}}
     <h1 class="page__title page-title">{{campaign.name}}</h1>
   </div>
@@ -30,7 +30,7 @@
           <div class="tooltip">
             <span class="tooltip-text campaign-details-content__tooltip-text">{{this.tooltipText}}</span>
             {{#copy-button clipboardText=campaign.url success=(action 'clipboardSuccess') mouseLeave=(action 'clipboardOut')
-                           classNames="button button--no-color button--icon campaign-details-content__clipboard-button"}}
+                           classNames="icon-button campaign-details-content__clipboard-button"}}
               {{fa-icon 'copy' prefix='far'}}
             {{/copy-button}}
           </div>
