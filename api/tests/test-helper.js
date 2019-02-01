@@ -1,5 +1,4 @@
 // Errors
-const domainErrors = require('../lib/domain/errors');
 const infraErrors = require('../lib/infrastructure/errors');
 // Chai
 const chai = require('chai');
