@@ -33,7 +33,7 @@ describe('Unit | Controller | sessionController', () => {
 
       sinon.stub(usecases, 'createSession').resolves();
       sinon.stub(logger, 'error');
-      sinon.stub(sessionSerializer, 'deserialize').resolves(expectedSession);
+      sinon.stub(sessionSerializer, 'deserialize').returns(expectedSession);
       sinon.stub(sessionSerializer, 'serialize');
 
       request = {
