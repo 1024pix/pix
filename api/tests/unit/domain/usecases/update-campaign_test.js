@@ -19,9 +19,10 @@ describe('Unit | UseCase | update-campaign', () => {
     };
     userWithMembership = {
       id: 1,
-      memberships: [{ organization: { id: organizationId } }]
+      memberships: [{ organization: { id: organizationId } }],
+      hasAccessToOrganization: sinon.stub(),
     };
-
+    userRepository = { getWithMemberships: sinon.stub() };
     campaignRepository = {
       get: sinon.stub(),
       update: sinon.stub()
@@ -30,11 +31,7 @@ describe('Unit | UseCase | update-campaign', () => {
     // http://nikas.praninskas.com/javascript/2015/07/28/quickie-sinon-withargs-not-working/
     campaignRepository.get.withArgs(originalCampaign.id).resolves(originalCampaign);
     campaignRepository.update.callsFake((updatedCampaign) => updatedCampaign);
-
-    userRepository = { getWithMemberships: sinon.stub() };
     userRepository.getWithMemberships.withArgs(userWithMembership.id).resolves(userWithMembership);
-
-    userWithMembership.hasAccessToOrganization = sinon.stub();
     userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
   });
 

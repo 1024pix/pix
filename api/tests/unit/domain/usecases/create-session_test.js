@@ -12,7 +12,7 @@ describe('Unit | UseCase | create-session', () => {
     let certificationCenter, certificationCenterId, certificationCenterName, expectedSavedSession, sessionAugmentedWithName,
       sessionId, sessionToSave, userId;
 
-    const certificationCenterRepository = {}, sessionRepository = {}, userRepository = {};
+    let certificationCenterRepository, sessionRepository, userRepository;
 
     beforeEach(() => {
       userId = 473820;
@@ -25,11 +25,10 @@ describe('Unit | UseCase | create-session', () => {
       sessionAugmentedWithName = new Session({ ...sessionToSave });
       sessionAugmentedWithName.certificationCenter = certificationCenterName;
 
-      certificationCenterRepository.get = sinon.stub();
-      sessionRepository.save = sinon.stub();
-      sessionValidator.validate = sinon.stub();
-      userRepository.get = sinon.stub();
-      userRepository.getWithCertificationCenterMemberships = sinon.stub();
+      certificationCenterRepository = { get: sinon.stub() };
+      sessionRepository = { save: sinon.stub() };
+      userRepository = { get: sinon.stub(), getWithCertificationCenterMemberships: sinon.stub() };
+      sinon.stub(sessionValidator, 'validate');
     });
 
     it('should forward the error if the session is not valid', () => {
