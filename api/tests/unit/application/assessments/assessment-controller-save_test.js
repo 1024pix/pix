@@ -298,17 +298,17 @@ describe('Unit | Controller | assessment-controller-save', () => {
         sinon.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
       });
 
-      it('should de-serialize the payload', () => {
+      it('should de-serialize the payload', async() => {
         // when
-        controller.save(request, hFake);
+        await controller.save(request, hFake);
 
         // then
         sinon.assert.calledWith(assessmentSerializer.deserialize, request.payload);
       });
 
-      it('should call a service that extract the id of user', () => {
+      it('should call a service that extract the id of user', async () => {
         //When
-        controller.save(request, hFake);
+        await controller.save(request, hFake);
 
         //Then
         expect(tokenService.extractUserId).to.have.been.calledWith('my-token');
