@@ -16,12 +16,12 @@ module.exports = async function getSmartPlacementProgression(
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const allKnowledgeElements = await smartPlacementKnowledgeElementRepository.findUniqByUserId(userId, assessment.campaignParticipation.sharedAt);
+  const knowledgeElementsBeforeSharedDate = await smartPlacementKnowledgeElementRepository.findUniqByUserId(userId, assessment.campaignParticipation.sharedAt);
 
   return new SmartPlacementProgression({
     id: smartPlacementProgressionId,
     targetedSkills: assessment.targetProfile.skills,
-    knowledgeElements: allKnowledgeElements,
+    knowledgeElements: knowledgeElementsBeforeSharedDate,
     isProfileCompleted: assessment.isCompleted
   });
 
