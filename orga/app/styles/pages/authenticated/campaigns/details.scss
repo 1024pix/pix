@@ -57,17 +57,10 @@
   }
 
   &__label {
-    color: $dusty-gray;
-    font-family: $roboto;
-    font-size: 0.9rem;
-    font-weight: 400;
     margin: 0; 
   }
 
   &__text {
-    color: $dove-gray;
-    font-family: $roboto;
-    font-size: 1rem;
     margin: 0;
   }
 
@@ -75,17 +68,17 @@
     display: flex;
     flex-direction: row;
   }
-}
 
-.campaign-details-content__return-button {
-  margin-bottom: 10px;
-  margin-right: 6px;
-}
+  &__return-button {
+    margin-bottom: 10px;
+    margin-right: 6px;
+  }
 
-.campaign-details-content__clipboard-button {
-  margin-top: -4px;
-  margin-left: 6px;
-  padding: 8px 10px;
+  &__clipboard-button {
+    margin-top: -4px;
+    margin-left: 6px;
+    padding: 8px 10px;
+  }
 }
 
 .campaign-details-content__update-button {
@@ -93,42 +86,3 @@
   line-height: 15px;
 }
 
-.campaign-detail-content__tooltip {
-  position: relative;
-  display: inline-block;
-
-  &:hover {
-    .campaign-detail-content__tooltip-text {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-}
-
-.campaign-detail-content__tooltip-text {
-  visibility: hidden;
-  width: 140px;
-  background-color: $nero;
-  color: white;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 150%;
-  left: 50%;
-  margin-left: -75px;
-  opacity: 0;
-  transition: opacity 0.3s;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: $nero transparent transparent transparent;
-  }
-}
