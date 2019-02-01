@@ -5,7 +5,7 @@ const sessionController = require('../../../../lib/application/sessions/session-
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
 const sessionService = require('../../../../lib/domain/services/session-service');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError, EntityValidationError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
@@ -67,7 +67,7 @@ describe('Unit | Controller | sessionController', () => {
       expect(usecases.createSession).to.have.been.calledWith({ userId, session: expectedSession });
     });
 
-    it('return the saved session in JSON API', async () => {
+    it('should return the saved session in JSON API', async () => {
       // given
       const jsonApiSession = {
         data: {
@@ -90,6 +90,37 @@ describe('Unit | Controller | sessionController', () => {
       // then
       expect(response).to.deep.equal(jsonApiSession);
       expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
+    });
+
+    it('should return a 422 error if the session is not valid', async () => {
+      // given
+      const sessionValidationError = new EntityValidationError({
+        invalidAttributes: [
+          {
+            attribute: 'address',
+            message: 'L’adresse n’est pas renseigné.',
+          }
+        ]
+      });
+      usecases.createSession.rejects(sessionValidationError);
+
+      const jsonApiValidationErrors = {
+        errors: [
+          {
+            status: '422',
+            source: { 'pointer': '/data/attributes/address' },
+            title: 'Invalid data attribute "address"',
+            detail: 'L’adresse n’est pas renseigné.'
+          }
+        ]
+      };
+
+      // when
+      const response = await sessionController.save(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(422);
+      expect(response.source).to.deep.equal(jsonApiValidationErrors);
     });
 
     context('when an error is raised', () => {

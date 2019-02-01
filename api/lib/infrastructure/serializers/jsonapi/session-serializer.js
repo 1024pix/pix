@@ -1,8 +1,9 @@
 const { Serializer } = require('jsonapi-serializer');
+const _ = require('lodash');
+
 const Session = require('../../../domain/models/Session');
 const sessionCodeService = require('../../../domain/services/session-code-service');
 
-const { WrongDateFormatError } = require('../../../domain/errors');
 const moment = require('moment-timezone');
 
 module.exports = {
@@ -11,7 +12,6 @@ module.exports = {
     return new Serializer('session', {
       attributes: [
         'certificationCenter',
-        'certificationCenterId',
         'address',
         'room',
         'examiner',
@@ -35,7 +35,7 @@ module.exports = {
         return new Session({
           id: json.data.id,
           certificationCenter: attributes['certification-center'],
-          certificationCenterId: parseInt(json.data.relationships['certification-center'].data.id),
+          certificationCenterId: parseInt(_.get(json.data, ['relationships', 'certification-center', 'data', 'id'])),
           address: attributes.address,
           room: attributes.room,
           examiner: attributes.examiner,
