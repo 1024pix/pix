@@ -4,6 +4,7 @@ const { EntityValidationError } = require('../errors');
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 const sessionValidationJoiSchema = Joi.object().keys({
+
   address: Joi.string().required().error(() => {
     return { message: 'Veuillez donner un nom de site.' };
   }),
@@ -26,6 +27,7 @@ const sessionValidationJoiSchema = Joi.object().keys({
 });
 
 module.exports = {
+
   validate(session) {
     const joiValidationResults = Joi.validate(session, sessionValidationJoiSchema, validationConfiguration);
 
