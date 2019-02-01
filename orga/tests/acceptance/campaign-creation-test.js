@@ -41,7 +41,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       assert.dom('.page__title').hasText('Création d\'une campagne');
     });
 
-    test('it should allow to create a campaign', async function(assert) {
+    test('it should allow to create a campaign and redirect to the newly created campaign', async function(assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
 
