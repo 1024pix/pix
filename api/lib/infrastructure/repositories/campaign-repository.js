@@ -50,9 +50,9 @@ module.exports = {
     return queryBuilder.get(BookshelfCampaign, id, options);
   },
 
-  save(campaignToSave) {
-    const cleanedCampaignToSave = _.omit(campaignToSave, ['createdAt', 'organizationLogoUrl', 'targetProfile']);
-    return new BookshelfCampaign(cleanedCampaignToSave)
+  save(domainCampaign) {
+    const repositoryCampaign = _.omit(domainCampaign, ['createdAt', 'organizationLogoUrl', 'targetProfile']);
+    return new BookshelfCampaign(repositoryCampaign)
       .save()
       .then(_toDomain);
   },
