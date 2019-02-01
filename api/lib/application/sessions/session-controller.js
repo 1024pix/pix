@@ -34,10 +34,10 @@ module.exports = {
 
   save(request, h) {
     const userId = request.auth.credentials.userId;
+    const session = serializer.deserialize(request.payload);
 
     try {
-      return serializer.deserialize(request.payload)
-        .then((session) => usecases.createSession({ userId, session }))
+      return usecases.createSession({ userId, session })
         .then(serializer.serialize)
         .then(h)
         .catch((err) => {

@@ -1,6 +1,8 @@
 const { ForbiddenAccess } = require('../errors');
 const sessionValidator = require('../validators/session-validator');
 
+const sessionCodeService = require('../services/session-code-service');
+
 function _createSessionAsPixMaster(certificationCenterId, session, certificationCenterRepository, sessionRepository) {
   if(certificationCenterId) {
     return _setCertifCenterNameInSessionAndSave(session, certificationCenterId, certificationCenterRepository, sessionRepository);
@@ -25,6 +27,9 @@ function _setCertifCenterNameInSessionAndSave(session, certificationCenterId, ce
 
 module.exports = async function createSession({ userId, session, certificationCenterRepository, sessionRepository, userRepository }) {
   sessionValidator.validate(session);
+
+  const sessionCode = await sessionCodeService.getNewSessionCode();
+  session.accessCode = sessionCode;
 
   const certificationCenterId = session.certificationCenterId;
   const user = await userRepository.get(userId);

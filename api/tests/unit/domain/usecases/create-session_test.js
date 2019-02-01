@@ -1,6 +1,7 @@
 const { expect, sinon, domainBuilder, testErr } = require('../../../test-helper');
 
 const createSession = require('../../../../lib/domain/usecases/create-session');
+const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const sessionValidator= require('../../../../lib/domain/validators/session-validator');
 const Session = require('../../../../lib/domain/models/Session');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
@@ -9,26 +10,34 @@ describe('Unit | UseCase | create-session', () => {
 
   describe('#save', () => {
 
-    let certificationCenter, certificationCenterId, certificationCenterName, expectedSavedSession, sessionAugmentedWithName,
-      sessionId, sessionToSave, userId;
+    let certificationCenter, certificationCenterId, certificationCenterName, expectedSavedSession, sessionWithCodeAndName,
+      sessionAccessCode, sessionId, sessionToSave, sessionWithCode, userId;
 
     let certificationCenterRepository, sessionRepository, userRepository;
 
     beforeEach(() => {
       userId = 473820;
+      sessionAccessCode = 'SHC542';
       sessionId = 'PIX666';
       certificationCenterId = '5';
       certificationCenterName = 'Pass Ta Certif';
+
       certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, name: certificationCenterName });
-      sessionToSave = domainBuilder.buildSession({ id: sessionId, certificationCenterId, certificationCenter: null });
+      sessionToSave = domainBuilder.buildSession({ id: sessionId, certificationCenterId, certificationCenter: null, accessCode: null });
       expectedSavedSession = domainBuilder.buildSession();
-      sessionAugmentedWithName = new Session({ ...sessionToSave });
-      sessionAugmentedWithName.certificationCenter = certificationCenterName;
+
+      sessionWithCode = new Session({ ...sessionToSave });
+      sessionWithCode.accessCode = sessionAccessCode;
+
+      sessionWithCodeAndName = new Session({ ...sessionToSave });
+      sessionWithCodeAndName.certificationCenter = certificationCenterName;
+      sessionWithCodeAndName.accessCode = sessionAccessCode;
 
       certificationCenterRepository = { get: sinon.stub() };
       sessionRepository = { save: sinon.stub() };
       userRepository = { get: sinon.stub(), getWithCertificationCenterMemberships: sinon.stub() };
       sinon.stub(sessionValidator, 'validate');
+      sinon.stub(sessionCodeService, 'getNewSessionCode');
     });
 
     it('should forward the error if the session is not valid', () => {
@@ -46,6 +55,7 @@ describe('Unit | UseCase | create-session', () => {
 
       beforeEach(() => {
         sessionValidator.validate.withArgs(sessionToSave).returns();
+        sessionCodeService.getNewSessionCode.resolves(sessionAccessCode);
       });
 
       it('should forward the error if an error occurs while retrieving the user', () => {
@@ -74,7 +84,7 @@ describe('Unit | UseCase | create-session', () => {
             // given
             sessionToSave.certificationCenterId = null;
             sessionRepository.save.withArgs(sessionToSave).resolves();
-            sessionRepository.save.withArgs(sessionAugmentedWithName).rejects();
+            sessionRepository.save.withArgs(sessionWithCodeAndName).rejects();
 
             // when
             await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
@@ -99,17 +109,17 @@ describe('Unit | UseCase | create-session', () => {
 
         context('and the certification ID is given', () => {
 
-          it('should override the certification center name in the session in order to avoid inconsistencies, and save the session', async () => {
+          it('should add an accessCode and override the certification center name in the session in order to avoid inconsistencies, and save the session', async () => {
             // given
             certificationCenterRepository.get.resolves(certificationCenter);
-            sessionRepository.save.withArgs(sessionToSave).rejects();
-            sessionRepository.save.withArgs(sessionAugmentedWithName).resolves();
+            sessionRepository.save.withArgs(sessionWithCode).rejects();
+            sessionRepository.save.withArgs(sessionWithCodeAndName).resolves();
 
             // when
             await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
             // then
-            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionAugmentedWithName);
+            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionWithCodeAndName);
           });
 
         });
@@ -149,7 +159,7 @@ describe('Unit | UseCase | create-session', () => {
             userRepository.getWithCertificationCenterMemberships.withArgs(userId).resolves(userWithMembershipToCertificationCenter);
           });
 
-          it('should add the certif center name to the session in order not to break pixAdmin' +
+          it('should add an accessCode and add the certif center name to the session in order not to break pixAdmin' +
             'and user certifications details, and save the new session', async () => {
             // given
             certificationCenterRepository.get.withArgs(certificationCenterId).resolves(certificationCenter);
@@ -159,13 +169,13 @@ describe('Unit | UseCase | create-session', () => {
             await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
 
             // then
-            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionAugmentedWithName);
+            expect(sessionRepository.save).to.have.been.calledWithExactly(sessionWithCodeAndName);
           });
 
           it('should return the saved session', async () => {
             // given
             certificationCenterRepository.get.resolves(certificationCenter);
-            sessionRepository.save.withArgs(sessionAugmentedWithName).resolves(expectedSavedSession);
+            sessionRepository.save.withArgs(sessionWithCodeAndName).resolves(expectedSavedSession);
 
             // when
             const savedSession = await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
@@ -190,7 +200,7 @@ describe('Unit | UseCase | create-session', () => {
           it('should forward the error if an error occurs while saving the session', () => {
             // given
             certificationCenterRepository.get.resolves(certificationCenter);
-            sessionRepository.save.withArgs(sessionAugmentedWithName).rejects(testErr);
+            sessionRepository.save.withArgs(sessionWithCodeAndName).rejects(testErr);
 
             // when
             const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
