@@ -62,15 +62,17 @@
   background-color: $dodger-blue;
   color: white;
   cursor: pointer;
+  border: none;
+  outline: none;
 
   &:hover, &:active, &:focus {
     background-color: $mariner;
+    transition: background-color 0.2s ease;
   }
 
   &--white {
     background-color: white;
     color: black;
-    border: none;
 
     &:hover, &:active, &:focus {
       background-color: $alto;
@@ -82,8 +84,12 @@
     color: $nero;
 
     &:hover, &:active, &:focus {
-      background-color: transparent;
+      background-color: $alto;
     }
+  }
+
+  &--regular {
+    width: 120px;
   }
 
   &--big {
@@ -96,6 +102,31 @@
 
   &--link {
     text-decoration: none;
+  }
+
+  &--with-icon {
+    display: flex;
+    align-items: center;
+
+    &>svg {
+      padding-left: 5px;
+    }
+  }
+}
+
+.icon-button {
+  color: $dove-gray;
+  padding: 6px 8px;
+  border: none;
+  font-size: 1rem;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+
+  &:hover, &:focus, &:active {
+    background-color: $alto;
+    border-radius: 16px;
+    transition: background-color 0.2s ease;
   }
 }
 
