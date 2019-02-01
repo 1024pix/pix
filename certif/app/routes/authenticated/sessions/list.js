@@ -5,7 +5,7 @@ export default Route.extend({
   currentCertificationCenter: service(),
 
   model() {
-    return this.get('currentCertificationCenter').certificationCenter
+    return this.currentCertificationCenter.certificationCenter
       .then((certificationCenter) => certificationCenter.get('sessions'));
   },
 });

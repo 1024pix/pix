@@ -29,14 +29,6 @@ module('Acceptance | Session creation', function(hooks) {
       });
     });
 
-    test('it should be accessible for an authenticated user', async function(assert) {
-      // when
-      await visit('/sessions/creation');
-
-      // then
-      assert.equal(currentURL(), '/sessions/creation');
-    });
-
     test('it should create a session', async function(assert) {
       // given
       await visit('/sessions/creation');
