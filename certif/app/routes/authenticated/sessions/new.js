@@ -8,5 +8,11 @@ export default Route.extend({
     const certificationCenter = await this.currentCertificationCenter.certificationCenter;
 
     return this.get('store').createRecord('session', { certificationCenter });
-  }
+  },
+
+  deactivate: function() {
+    if (this.controller.model.hasDirtyAttributes) {
+      this.controller.model.deleteRecord();
+    }
+  },
 });
