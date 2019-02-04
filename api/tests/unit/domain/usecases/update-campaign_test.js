@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const updateCampaign = require('../../../../lib/domain/usecases/update-campaign');
-const { UserNotAuthorizedToUpdateCampaignError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToUpdateRessourceError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-campaign', () => {
   let originalCampaign;
@@ -135,7 +135,7 @@ describe('Unit | UseCase | update-campaign', () => {
       });
 
       // then
-      return expect(promise).to.be.rejectedWith(UserNotAuthorizedToUpdateCampaignError);
+      return expect(promise).to.be.rejectedWith(UserNotAuthorizedToUpdateRessourceError);
     });
 
     it('should throw an error when the campaign could not be updated', () => {

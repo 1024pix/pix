@@ -34,7 +34,7 @@ class UserNotAuthorizedToCreateCampaignError extends DomainError {
   }
 }
 
-class UserNotAuthorizedToUpdateCampaignError extends DomainError {
+class UserNotAuthorizedToUpdateRessourceError extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -311,7 +311,7 @@ module.exports = {
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
-  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToUpdateRessourceError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotFoundError,
   WrongDateFormatError,

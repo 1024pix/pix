@@ -6,7 +6,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const { UserNotAuthorizedToCreateCampaignError,
-  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToUpdateRessourceError,
   UserNotAuthorizedToGetCampaignResultsError,
   EntityValidationError,
   NotFoundError
@@ -439,7 +439,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should throw a forbiddenError when user is not authorized to update the campaign', async () => {
       // given
-      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new UserNotAuthorizedToUpdateCampaignError());
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new UserNotAuthorizedToUpdateRessourceError());
 
       // when
       const response = await campaignController.update(request, hFake);
