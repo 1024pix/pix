@@ -63,5 +63,9 @@ module.exports = {
       const serializedError = errorSerializer.serialize(error.getErrorMessage());
       return h.response(serializedError).code(400);
     }
+  },
+
+  update(request, h) {
+
   }
 };
