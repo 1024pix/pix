@@ -5,7 +5,7 @@ const sessionController = require('../../../../lib/application/sessions/session-
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
 const sessionService = require('../../../../lib/domain/services/session-service');
-const { NotFoundError, EntityValidationError } = require('../../../../lib/domain/errors');
+const { NotFoundError, EntityValidationError, UserNotAuthorizedToUpdateRessourceError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
@@ -227,5 +227,78 @@ describe('Unit | Controller | sessionController', () => {
       });
 
     });
+  });
+
+  describe('#update ', () => {
+    let request, updatedSession, updateSessionArgs;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId: 1 } },
+        params: { id : 1 },
+        payload: {}
+      };
+
+      updatedSession = {
+        id: request.params.id,
+      };
+
+      updateSessionArgs = {
+        userId: request.auth.credentials.userId,
+        session: updatedSession,
+      };
+
+      sinon.stub(usecases, 'updateSession');
+      sinon.stub(sessionSerializer, 'deserialize');
+      sinon.stub(sessionSerializer, 'serialize');
+      sessionSerializer.deserialize.withArgs(request.payload).returns({});
+    });
+
+    it('should returns the updated session', async () => {
+      // given
+      usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
+      sessionSerializer.serialize.withArgs(updatedSession).returns(updatedSession);
+
+      // when
+      const response = await sessionController.update(request, hFake);
+
+      // then
+      expect(response.source).to.deep.equal(updatedSession);
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('should throw an error when the session could not be updated', async () => {
+      // given
+      usecases.updateSession.withArgs(updateSessionArgs).rejects();
+
+      // when
+      const response = await sessionController.update(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(500);
+    });
+
+    it('should throw an infra NotFoundError when a NotFoundError is catched', async () => {
+      // given
+      usecases.updateSession.withArgs(updateSessionArgs).rejects(new NotFoundError());
+
+      // when
+      const response = await sessionController.update(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should throw a forbiddenError when user is not authorized to update the session', async () => {
+      // given
+      usecases.updateSession.withArgs(updateSessionArgs).rejects(new UserNotAuthorizedToUpdateRessourceError());
+
+      // when
+      const response = await sessionController.update(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+
   });
 });

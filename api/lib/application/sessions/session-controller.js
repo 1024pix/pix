@@ -2,7 +2,7 @@ const Boom = require('boom');
 
 const usecases = require('../../domain/usecases');
 const sessionService = require('../../domain/services/session-service');
-const { NotFoundError, ForbiddenAccess, EntityValidationError } = require('../../domain/errors');
+const { NotFoundError, ForbiddenAccess, EntityValidationError, UserNotAuthorizedToUpdateRessourceError } = require('../../domain/errors');
 
 const logger = require('../../infrastructure/logger');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
@@ -66,6 +66,29 @@ module.exports = {
   },
 
   update(request, h) {
+    const userId = request.auth.credentials.userId;
+    const session = serializer.deserialize(request.payload);
+    session.id = request.params.id;
 
+    return usecases.updateSession({ userId, session })
+      .then(serializer.serialize)
+      .then(controllerReplies(h).ok)
+      .catch((error) => {
+
+        let infraError;
+
+        if (error instanceof UserNotAuthorizedToUpdateRessourceError) {
+          infraError = new infraErrors.ForbiddenError(error.message);
+        }
+
+        else if (error instanceof NotFoundError) {
+          infraError = new infraErrors.NotFoundError(error.message);
+        }
+        else {
+          infraError = error;
+        }
+
+        return controllerReplies(h).error(infraError);
+      });
   }
 };

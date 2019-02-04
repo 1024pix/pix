@@ -5,7 +5,7 @@ const tokenService = require('../../../lib/domain/services/token-service');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const {
   UserNotAuthorizedToCreateCampaignError,
-  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToUpdateRessourceError,
   UserNotAuthorizedToGetCampaignResultsError,
   EntityValidationError,
   NotFoundError
@@ -105,7 +105,7 @@ module.exports = {
       .then(campaignSerializer.serialize)
       .then(controllerReplies(h).ok)
       .catch((error) => {
-        if (error instanceof UserNotAuthorizedToUpdateCampaignError) {
+        if (error instanceof UserNotAuthorizedToUpdateRessourceError) {
           const infraError = new infraErrors.ForbiddenError(error.message);
           return controllerReplies(h).error(infraError);
         }
