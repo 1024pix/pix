@@ -46,7 +46,7 @@ module.exports = (function() {
 
     authentication: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: '20s',
+      tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '7d'),
       tokenForCampaignResultLifespan: '1h',
     },
 
