@@ -39,6 +39,19 @@ exports.register = async (server) => {
           '- Elle permet de créer une session de certification liée au centre de certification de l’utilisateur',
         ]
       }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/sessions/{id}',
+      config: {
+        handler: sessionController.update,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Modification d\'une session de certification\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la session à modifier',
+        ],
+        tags: ['api', 'session']
+      }
     }
   ]);
 };
