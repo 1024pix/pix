@@ -15,12 +15,11 @@ const userRepository = require('../../infrastructure/repositories/user-repositor
 
 const { UserNotFoundError, InternalError, PasswordResetDemandNotFoundError, InvalidTemporaryKeyError } = require('../../domain/errors');
 
-function _sendPasswordResetDemandUrlEmail(email, temporaryKey, passwordResetDemand) {
+function _sendPasswordResetDemandUrlEmail(email, temporaryKey) {
 
   const passwordResetDemandUrl = `http://${settings.app.domain}`;
   return mailService
-    .sendResetPasswordDemandEmail(email, passwordResetDemandUrl, temporaryKey)
-    .then(() => passwordResetDemand);
+    .sendResetPasswordDemandEmail(email, passwordResetDemandUrl, temporaryKey);
 }
 
 module.exports = {
@@ -28,15 +27,20 @@ module.exports = {
 
     const user = userSerializer.deserialize(request.payload);
 
+    let temporaryKey, passwordResetDemand;
+
     return userService.isUserExistingByEmail(user.email)
-      .then(() => resetPasswordService.invalidOldResetPasswordDemand(user.email))
       .then(resetPasswordService.generateTemporaryKey)
-      .then((temporaryKey) => {
-        return resetPasswordDemandRepository.create({ email: user.email, temporaryKey })
-          .then((passwordResetDemand) => _sendPasswordResetDemandUrlEmail(user.email, temporaryKey, passwordResetDemand))
-          .then((passwordResetDemand) => passwordResetSerializer.serialize(passwordResetDemand.attributes))
-          .then((serializedPayload) => h.response(serializedPayload).code(201));
+      .then((key) => {
+        temporaryKey = key;
+        return resetPasswordDemandRepository.create({ email: user.email, temporaryKey });
       })
+      .then((demand) => {
+        passwordResetDemand = demand;
+        _sendPasswordResetDemandUrlEmail(user.email, temporaryKey);
+      })
+      .then(() => passwordResetSerializer.serialize(passwordResetDemand.attributes))
+      .then((serializedPayload) => h.response(serializedPayload).code(201))
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
           return h.response(errorSerializer.serialize(err.getErrorMessage())).code(404);
@@ -66,4 +70,3 @@ module.exports = {
       });
   }
 };
-

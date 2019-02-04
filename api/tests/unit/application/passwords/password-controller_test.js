@@ -118,19 +118,6 @@ describe('Unit | Controller | PasswordController', () => {
         });
       });
 
-      it('should invalid old reset password demand', async () => {
-        // given
-        userService.isUserExistingByEmail.resolves();
-        resetPasswordService.invalidOldResetPasswordDemand.resolves();
-
-        //when
-        await passwordController.createResetDemand(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(resetPasswordService.invalidOldResetPasswordDemand);
-        sinon.assert.calledWith(resetPasswordService.invalidOldResetPasswordDemand, request.payload.data.attributes.email);
-      });
-
       it('should ask for a temporary token generation', async () => {
         // given
         const generatedToken = 'token';
