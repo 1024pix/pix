@@ -2,13 +2,13 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 import BaseRoute from 'mon-pix/routes/base-route';
 import { isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
+import _ from 'lodash';
 
-export default BaseRoute.extend(AuthenticatedRouteMixin, {
+export default BaseRoute.extend({
   campaignCode: null,
   session: service(),
 
   beforeModel(transition) {
-    this._super(...arguments);
     this.set('campaignCode',transition.params['campaigns.fill-in-id-pix'].campaign_code);
     const store = this.get('store');
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.get('campaignCode') } })
@@ -43,13 +43,12 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     return store.createRecord('campaign-participation', { campaign, participantExternalId })
       .save()
       .catch((err) => {
-        if(err.errors[0].code === 401) {
-          this.get('session').invalidate();
-          return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
+        if(_.get(err, 'errors[0].code') === 401) {
+          return this.get('session').invalidate();
         }
       })
       .then(() => {
         return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
       });
   },
-});
+}, AuthenticatedRouteMixin);
