@@ -46,6 +46,7 @@ export default BaseRoute.extend({
         if(_.get(err, 'errors[0].code') === 401) {
           return this.get('session').invalidate();
         }
+        return this.send('error');
       })
       .then(() => {
         return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));

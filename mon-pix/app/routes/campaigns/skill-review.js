@@ -5,8 +5,6 @@ import BaseRoute from 'mon-pix/routes/base-route';
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   model(params) {
-    this._super(...arguments);
-
     const store = this.get('store');
     const assessmentId = params.assessment_id;
     return RSVP.hash({
