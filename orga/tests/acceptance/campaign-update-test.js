@@ -10,7 +10,7 @@ module('Acceptance | Campaign Update', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('it should allow to update a campaign', async function(assert) {
+  test('it should allow to update a campaign and redirect to the newly updated campaign', async function(assert) {
     // given
     let user = createUserWithMembership();
     await authenticateSession({ user_id: user.id });
@@ -28,6 +28,6 @@ module('Acceptance | Campaign Update', function(hooks) {
     // then
     assert.equal(server.db.campaigns.find(1).title, newTitle);
     assert.equal(server.db.campaigns.find(1).customLandingPageText, newText);
-    assert.equal(currentURL(), '/campagnes/liste');
+    assert.equal(currentURL(), '/campagnes/1');
   });
 });

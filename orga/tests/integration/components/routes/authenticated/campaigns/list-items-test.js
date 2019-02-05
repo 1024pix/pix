@@ -24,7 +24,7 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     assert.dom('.campaign-list__item').exists({ count: 2 });
   });
 
-  test('it should display the name and the url of the campaigns', async function(assert) {
+  test('it should display the name of the campaigns', async function(assert) {
     // given
     let store = this.owner.lookup('service:store');
     let campaign1 = run(() => store.createRecord('campaign', {
@@ -46,6 +46,5 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
 
     // then
     assert.dom('.campaign-list__item:first-child .campaign-name').hasText('campagne 1');
-    assert.dom('.campaign-list__item:first-child .campaign-link').hasText('http://localhost:4200/campagnes/AAAAAA111');
   });
 });

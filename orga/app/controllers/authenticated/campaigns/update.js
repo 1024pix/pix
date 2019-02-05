@@ -4,12 +4,12 @@ export default Controller.extend({
   actions: {
     update(campaign) {
       return campaign.save().then(
-        () => this.transitionToRoute('authenticated.campaigns.list')
+        (campaign) => this.transitionToRoute('authenticated.campaigns.details', campaign.id)
       );
     },
 
-    cancel() {
-      this.transitionToRoute('authenticated.campaigns.list');
+    cancel(campaignId) {
+      this.transitionToRoute('authenticated.campaigns.details', campaignId);
     },
   }
 });

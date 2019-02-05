@@ -1,3 +1,3 @@
-module.exports = function getCampaign({ campaignId, campaignRepository }) {
-  return campaignRepository.get(campaignId);
+module.exports = function getCampaign({ campaignId, options, campaignRepository }) {
+  return campaignRepository.get(campaignId, options);
 };

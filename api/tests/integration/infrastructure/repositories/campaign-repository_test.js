@@ -59,7 +59,16 @@ describe('Integration | Repository | Campaign', () => {
 
       // then
       return promise.then((result) => {
-        expect(result).to.deep.equal(campaignToInsert);
+        expect(result.id).to.equal(campaignToInsert.id);
+        expect(result.name).to.equal(campaignToInsert.name);
+        expect(result.code).to.equal(campaignToInsert.code);
+        expect(result.organizationId).to.equal(campaignToInsert.organizationId);
+        expect(result.creatorId).to.equal(campaignToInsert.creatorId);
+        expect(result.createdAt).to.equal(campaignToInsert.createdAt);
+        expect(result.targetProfileId).to.equal(campaignToInsert.targetProfileId);
+        expect(result.customLandingPageText).to.equal(campaignToInsert.customLandingPageText);
+        expect(result.idPixLabel).to.equal(campaignToInsert.idPixLabel);
+        expect(result.title).to.equal(campaignToInsert.title);
       });
     });
 

@@ -1,17 +1,6 @@
-<div class="campaign-list__item campaign-item white-panel">
-  <div class="campaign-name"> {{campaign.name}} </div>
-  <div class="campaign-2-lines-column">
-    <div class="campaign-column-label"> Lien direct </div>
-    <div class="campaign-link"> {{campaign.url}} </div>
+{{#link-to "authenticated.campaigns.details" campaign.id
+           class="panel panel--white panel--link campaign-list__item campaign-item"}}
+  <div class="campaign-name">
+    {{campaign.name}}
   </div>
-  <div class="campaign-csv-export">
-    <a class="campaign-csv-export-link button button--link" href="{{campaign.urlToResult}}" target="_blank" download>
-      Résultats (.csv)
-    </a>
-  </div>
-  <div class="campaign-edit">
-    {{#link-to "authenticated.campaigns.update" campaign}}
-      <img src="/icons/edit.svg">
-    {{/link-to}}
-  </div>
-</div>
+{{/link-to}}
