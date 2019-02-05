@@ -52,6 +52,26 @@ module.exports = {
       });
   },
 
+  update(session) {
+    const sessionRawData = _.pick(
+      session,
+      [
+        'address',
+        'room',
+        'accessCode',
+        'examiner',
+        'date',
+        'time',
+        'description'
+      ]
+    );
+
+    return new BookshelfSession({ id: session.id })
+      .save(sessionRawData, { patch: true })
+      .then((model) => model.refresh())
+      .then(_toDomain);
+  },
+
   find() {
     return BookshelfSession
       .query((qb) => {

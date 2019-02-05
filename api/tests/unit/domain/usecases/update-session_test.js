@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const updateSession = require('../../../../lib/domain/usecases/update-session');
 const { UserNotAuthorizedToUpdateRessourceError } = require('../../../../lib/domain/errors');
 
-describe.only('Unit | UseCase | update-session', () => {
+describe('Unit | UseCase | update-session', () => {
   let originalSession;
   let userWithMembership;
   let sessionRepository;
