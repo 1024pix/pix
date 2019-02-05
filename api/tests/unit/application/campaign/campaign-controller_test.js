@@ -4,6 +4,7 @@ const campaignController = require('../../../../lib/application/campaigns/campai
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const { UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToGetCampaignResultsError,
@@ -311,16 +312,20 @@ describe('Unit | Application | Controller | Campaign', () => {
       request = {
         params: {
           id: campaign.id
-        }
+        },
+        query: {}
       };
 
       sinon.stub(usecases, 'getCampaign');
       sinon.stub(campaignSerializer, 'serialize');
+      sinon.stub(queryParamsUtils, 'extractParameters');
+
+      queryParamsUtils.extractParameters.withArgs({}).returns({});
     });
 
     it('should returns the campaign', async () => {
       // given
-      usecases.getCampaign.withArgs({ campaignId: campaign.id }).resolves(campaign);
+      usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).resolves(campaign);
       campaignSerializer.serialize.withArgs(campaign).returns(campaign);
 
       // when
@@ -333,7 +338,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should throw an error when the campaign could not be retrieved', async () => {
       // given
-      usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects();
+      usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).rejects();
 
       // when
       const response = await campaignController.getById(request, hFake);
@@ -344,7 +349,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should throw an infra NotFoundError when a NotFoundError is catched', async () => {
       // given
-      usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects(new NotFoundError());
+      usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).rejects(new NotFoundError());
 
       // when
       const response = await campaignController.getById(request, hFake);

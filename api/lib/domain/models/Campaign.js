@@ -11,6 +11,7 @@ class Campaign {
     organizationLogoUrl,
     customLandingPageText,
     // includes
+    targetProfile,
     // references
     creatorId,
     organizationId,
@@ -26,6 +27,7 @@ class Campaign {
     this.organizationLogoUrl = organizationLogoUrl;
     this.customLandingPageText = customLandingPageText;
     // includes
+    this.targetProfile = targetProfile;
     // references
     this.creatorId = creatorId;
     this.organizationId = organizationId;

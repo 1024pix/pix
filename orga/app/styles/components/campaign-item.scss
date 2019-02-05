@@ -4,6 +4,7 @@
   line-height: 30px;
   align-items: center;
   padding: 8px 38px;
+  min-height: 60px;
 
   @include device-is('desktop') {
     flex-direction: row;
@@ -19,33 +20,4 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.campaign-column-label {
-  color: $dusty-gray;
-  font-size: 0.75rem;
-  font-weight: 300;
-}
-
-.campaign-2-lines-column {
-  min-width: 280px;
-}
-
-.campaign-link {
-  color: $dodger-blue;
-  font-size: 1rem;
-  font-weight: 300;
-}
-
-.campaign-csv-export {
-  padding: 0 30px;
-  font-size: 0.75rem;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.campaign-edit {
-  img {
-    vertical-align: bottom;
-  }
 }
