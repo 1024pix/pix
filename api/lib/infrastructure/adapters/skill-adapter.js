@@ -6,6 +6,7 @@ module.exports = {
     return new Skill({
       id: skillAirtableDataObject.id,
       name: skillAirtableDataObject.name,
+      pixValue: skillAirtableDataObject.pixValue,
     });
   },
 };
