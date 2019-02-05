@@ -1,4 +1,4 @@
-<div class="campaign-details-page__header-page">
+<div class="campaign-details__header">
   <div class="campaign-details-header__title">
     {{#link-to "authenticated.campaigns.list" class="icon-button campaign-details-content__return-button"}}
       {{fa-icon 'arrow-left'}}
@@ -12,17 +12,17 @@
 
 <div class="panel panel--white panel--strong-shadow campaign-details-container">
   <div class="campaign-details-row">
-    <div class="campaign-details-content">
+    <div class="campaign-details-content campaign-details-content--multiple">
       <h4 class="label-text campaign-details-content__label">Profil cible</h4>
       <p class="content-text campaign-details-content__text">{{campaign.targetProfile.name}}</p>
     </div>
 
-    <div class="campaign-details-content">
+    <div class="campaign-details-content campaign-details-content--multiple">
       <h4 class="label-text campaign-details-content__label">Identifiant</h4>
       <p class="content-text campaign-details-content__text">{{campaign.idPixLabel}}</p>
     </div>
 
-    <div class="campaign-details-content">
+    <div class="campaign-details-content campaign-details-content--multiple">
       <h4 class="label-text campaign-details-content__label">Lien direct</h4>
       <div class="campaign-details-content__clipboard">
         <p class="content-text campaign-details-content__text">{{campaign.url}}</p>
@@ -40,14 +40,14 @@
   </div>
 
   <div class="campaign-details-row">
-    <div class="campaign-details-content">
+    <div class="campaign-details-content campaign-details-content--single">
       <h4 class="label-text campaign-details-content__label">Titre du parcours</h4>
       <p class="content-text campaign-details-content__text">{{campaign.title}}</p>
     </div>
   </div>
 
   <div class="campaign-details-row">
-    <div class="campaign-details-content">
+    <div class="campaign-details-content campaign-details-content--single">
       <h4 class="label-text campaign-details-content__label">Texte de la page d'accueil</h4>
       <p class="content-text campaign-details-content__text">{{campaign.customLandingPageText}}</p>
     </div>
