@@ -7,9 +7,6 @@ module.exports = function buildSkill({
     'recYu7YmDXXt5Owo8',
     'recbH4xMDsDZnRzzN',
   ],
-  compétence = [
-    'recofJCxg0NqTqTdP',
-  ],
   comprendre = [
     'receomyzL0AmpMFGw',
   ],
@@ -41,7 +38,6 @@ module.exports = function buildSkill({
       'Indice': indice,
       'Statut de l\'indice': statutDeLIndice,
       'Epreuves': epreuves,
-      'Compétence': compétence,
       'Comprendre': comprendre,
       'En savoir plus': enSavoirPlus,
       'Tags': tags,

@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const mailjetConfig = require('../settings').mailjet;
 const nodeMailjet = require('node-mailjet');
+const logger = require('./logger');
+const mailCheck = require('./mail-check');
 
 function _formatPayload(options) {
 
@@ -23,11 +25,15 @@ function _formatPayload(options) {
 }
 
 function sendEmail(options) {
-  const mailjet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
+  return mailCheck.checkMail(options.to).then(()=>{
+    const mailjet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
 
-  return mailjet
-    .post('send')
-    .request(_formatPayload(options));
+    return mailjet
+      .post('send')
+      .request(_formatPayload(options));
+  }).catch((err)=>{
+    logger.warn({ err }, `Could not send email to '${options.to}'`);
+  });
 }
 
 function getContactListByName(Name) {
