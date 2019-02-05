@@ -4,8 +4,9 @@ const Skill = require('../../../../lib/domain/models/Skill');
 const buildSkill = function buildSkill({
   id = `rec${faker.random.uuid()}`,
   name = `${buildRandomTubeName()}${faker.random.number(8)}`,
+  pixValue = faker.random.number(4),
 } = {}) {
-  return new Skill({ id, name });
+  return new Skill({ id, name, pixValue });
 };
 
 buildSkill.buildRandomTubeName = buildRandomTubeName;
