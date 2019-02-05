@@ -1,5 +1,6 @@
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const faker = require('faker');
+const buildTargetProfile = require('./build-target-profile');
 
 module.exports = function buildCampaign(
   {
@@ -13,6 +14,7 @@ module.exports = function buildCampaign(
     creatorId = faker.random.number(2),
     organizationId = faker.random.number(2),
     targetProfileId = faker.random.number(2),
+    targetProfile = buildTargetProfile({ id: targetProfileId }),
     organizationLogoUrl
   } = {}) {
   return new Campaign({
@@ -26,6 +28,7 @@ module.exports = function buildCampaign(
     creatorId,
     organizationId,
     targetProfileId,
+    targetProfile,
     organizationLogoUrl
   });
 };
