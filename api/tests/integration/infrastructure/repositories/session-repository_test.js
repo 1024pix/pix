@@ -1,7 +1,8 @@
-const { databaseBuilder, expect, knex } = require('../../../test-helper');
+const { databaseBuilder, expect, knex, domainBuilder } = require('../../../test-helper');
 
 const Session = require('../../../../lib/domain/models/Session');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const BookshelfSession = require('../../../../lib/infrastructure/data/campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Session', function() {
@@ -221,6 +222,58 @@ describe('Integration | Repository | Session', function() {
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);
+    });
+  });
+
+  describe('#update', () => {
+    let session;
+
+    beforeEach(() => {
+      const bookshelfSession = databaseBuilder.factory.buildSession({
+        id: 1,
+        room: '28D',
+        examiner: 'Roger'
+      });
+      session = domainBuilder.buildSession(bookshelfSession);
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return a Session domain object', async () => {
+      // when
+      const sessionSaved = await sessionRepository.update(session);
+
+      // then
+      expect(sessionSaved).to.be.an.instanceof(Session);
+    });
+
+    it('should not add row in table "sessions"', async () => {
+      // given
+      const rowCount = await BookshelfSession.count();
+
+      // when
+      await sessionRepository.update(session);
+
+      // then
+      const rowCountAfterUpdate = await BookshelfSession.count();
+      expect(rowCountAfterUpdate).to.equal(rowCount);
+    });
+
+    it('should update model in database', async () => {
+      // given
+      session.room = 'New room';
+      session.examiner = 'New examiner';
+
+      // when
+      const sessionSaved = await sessionRepository.update(session);
+
+      // then
+      expect(sessionSaved.id).to.equal(session.id);
+      expect(sessionSaved.room).to.equal('New room');
+      expect(sessionSaved.examiner).to.equal('New examiner');
     });
   });
 
