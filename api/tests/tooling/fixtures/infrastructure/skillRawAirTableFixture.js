@@ -13,7 +13,7 @@ module.exports = function skillRawAirTableFixture() {
         'recYu7YmDXXt5Owo8',
         'recbH4xMDsDZnRzzN'
       ],
-      'Compétence': [
+      'Compétence (via Tube)': [
         'recofJCxg0NqTqTdP'
       ],
       'Comprendre': [

@@ -18,19 +18,19 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     challenge_competence1 = challengeRawAirTableFixture({
       id: 'challenge-competence1',
-      fields: { competences: [ competence1.id ], Acquix: [ web1.id ] }
+      fields: { 'Compétences (via tube)': [ competence1.id ], Acquix: [ web1.id ] }
     }),
     challenge_competence1_noSkills = challengeRawAirTableFixture({
       id: 'challenge-competence1-noSkills',
-      fields: { competences: [ competence1.id ], Acquix: undefined }
+      fields: { 'Compétences (via tube)': [ competence1.id ], Acquix: undefined }
     }),
     challenge_competence1_notValidated = challengeRawAirTableFixture({
       id: 'challenge-competence1-notValidated',
-      fields: { competences: [ competence1.id ], Acquix: [ web1.id ], Statut: 'proposé' }
+      fields: { 'Compétences (via tube)': [ competence1.id ], Acquix: [ web1.id ], Statut: 'proposé' }
     }),
     challenge_competence2 = challengeRawAirTableFixture({
       id: 'challenge-competence2',
-      fields: { competences: [ competence2.id ] }
+      fields: { 'Compétences (via tube)': [ competence2.id ] }
     }),
     challenge_web1 = challengeRawAirTableFixture({
       id: 'challenge-web1',

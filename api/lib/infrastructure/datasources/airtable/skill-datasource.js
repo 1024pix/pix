@@ -28,7 +28,7 @@ module.exports = {
   },
 
   findByCompetenceId(competenceId) {
-    return _doQuery((rawSkill) => _.includes(rawSkill.fields['Compétence'], competenceId));
+    return _doQuery((rawSkill) => _.includes(rawSkill.fields['Compétence (via Tube)'], competenceId));
   },
 
   list() {

@@ -326,7 +326,7 @@ function rawBuildChallenge({
       'T1 - Espaces, casse & accents': t1EspacesCasseAccents,
       'T2 - Ponctuation': t2Ponctuation,
       'T3 - Distance d\'édition': t3DistanceDEdition,
-      'competences': competences,
+      'Compétences (via tube)': competences,
       'Généalogie': genealogie,
       'Statut': statut,
       'Scoring': scoring,
