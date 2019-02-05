@@ -2,6 +2,8 @@ const { sinon, expect } = require('../../test-helper');
 const Mailjet = require('../../../lib/infrastructure/mailjet');
 
 const nodeMailjet = require('node-mailjet');
+const mailCheck = require('../../../lib/infrastructure/mail-check');
+const logger = require('../../../lib/infrastructure/logger');
 
 describe('Unit | Class | Mailjet', function() {
 
@@ -11,57 +13,79 @@ describe('Unit | Class | Mailjet', function() {
 
   describe('#sendEmail', () => {
 
-    it('should create an instance of mailJet', () => {
-      // given
-      nodeMailjet.connect.returns({
-        post: () => {
-          return {
-            request: () => {
-            }
-          };
-        }
+    describe('when email check fails', () => {
+      let error;
+
+      beforeEach(() => {
+        error = new Error('fail');
+        sinon.stub(mailCheck, 'checkMail').rejects(error);
+        sinon.stub(logger, 'warn');
       });
 
-      // when
-      Mailjet.sendEmail();
+      it('should log a warning, not send email and resolve', async () => {
+        // when
+        await Mailjet.sendEmail({ to: 'test@example.net' });
 
-      // then
-      sinon.assert.calledWith(nodeMailjet.connect, 'test-api-ket', 'test-api-secret');
+        // then
+        expect(nodeMailjet.connect).to.not.have.been.called;
+        expect(logger.warn).to.have.been.calledWith({ err: error }, 'Could not send email to \'test@example.net\'');
+      });
     });
 
-    it('should post a send instruction', () => {
-      // given
-      const postStub = sinon.stub().returns({ request: (_) => Promise.resolve() });
-      nodeMailjet.connect.returns({ post: postStub });
+    describe('when email check succeeds', () => {
 
-      // when
-      const result = Mailjet.sendEmail();
+      beforeEach(() => {
+        sinon.stub(mailCheck, 'checkMail').resolves(true);
+      });
 
-      // then
-      return result.then(() => {
+      it('should create an instance of mailJet', async () => {
+        // given
+        nodeMailjet.connect.returns({
+          post: () => {
+            return {
+              request: () => {
+              }
+            };
+          }
+        });
+
+        // when
+        await Mailjet.sendEmail({ to: 'test@example.net' });
+
+        // then
+        sinon.assert.calledWith(nodeMailjet.connect, 'test-api-ket', 'test-api-secret');
+      });
+
+      it('should post a send instruction', async () => {
+        // given
+        const postStub = sinon.stub().returns({ request: (_) => Promise.resolve() });
+        nodeMailjet.connect.returns({ post: postStub });
+
+        // when
+        await Mailjet.sendEmail({ to: 'test@example.net' });
+
+        // then
         sinon.assert.calledWith(postStub, 'send');
       });
-    });
 
-    it('should request with a payload', () => {
-      // given
-      const from = 'no-reply@example.net';
-      const email = 'test@example.net';
-      const requestStub = sinon.stub().returns(Promise.resolve());
-      const postStub = sinon.stub().returns({ request: requestStub });
-      nodeMailjet.connect.returns({ post: postStub });
+      it('should request with a payload', async () => {
+        // given
+        const from = 'no-reply@example.net';
+        const email = 'test@example.net';
+        const requestStub = sinon.stub().returns(Promise.resolve());
+        const postStub = sinon.stub().returns({ request: requestStub });
+        nodeMailjet.connect.returns({ post: postStub });
 
-      // when
-      const result = Mailjet.sendEmail({
-        from,
-        to: email,
-        fromName: 'Ne Pas Repondre',
-        subject: 'Creation de compte',
-        template: '129291'
-      });
+        // when
+        await Mailjet.sendEmail({
+          from,
+          to: email,
+          fromName: 'Ne Pas Repondre',
+          subject: 'Creation de compte',
+          template: '129291'
+        });
 
-      // then
-      return result.then(() => {
+        // then
         sinon.assert.calledWith(requestStub, {
           'FromEmail': 'no-reply@example.net',
           'FromName': 'Ne Pas Repondre',
@@ -71,20 +95,18 @@ describe('Unit | Class | Mailjet', function() {
           'Recipients': [{ 'Email': email, 'Vars': {} }]
         });
       });
-    });
 
-    it('should have default values', () => {
-      // given
-      const email = 'test@example.net';
-      const requestStub = sinon.stub().returns(Promise.resolve());
-      const postStub = sinon.stub().returns({ request: requestStub });
-      nodeMailjet.connect.returns({ post: postStub });
+      it('should have default values', async () => {
+        // given
+        const email = 'test@example.net';
+        const requestStub = sinon.stub().returns(Promise.resolve());
+        const postStub = sinon.stub().returns({ request: requestStub });
+        nodeMailjet.connect.returns({ post: postStub });
 
-      // when
-      const result = Mailjet.sendEmail({ template: '129291', to: email });
+        // when
+        await Mailjet.sendEmail({ template: '129291', to: email });
 
-      // then
-      return result.then(() => {
+        // then
         sinon.assert.calledWith(requestStub, {
           'FromEmail': 'communaute@pix.fr',
           'FromName': 'Communauté PIX',
@@ -94,21 +116,19 @@ describe('Unit | Class | Mailjet', function() {
           'Recipients': [{ 'Email': email, 'Vars': {} }]
         });
       });
-    });
 
-    it('should set variables in values', () => {
-      // given
-      const email = 'test@example.net';
-      const requestStub = sinon.stub().returns(Promise.resolve());
-      const postStub = sinon.stub().returns({ request: requestStub });
-      const variables = { resetUrl: 'token' };
-      nodeMailjet.connect.returns({ post: postStub });
+      it('should set variables in values', async () => {
+        // given
+        const email = 'test@example.net';
+        const requestStub = sinon.stub().returns(Promise.resolve());
+        const postStub = sinon.stub().returns({ request: requestStub });
+        const variables = { resetUrl: 'token' };
+        nodeMailjet.connect.returns({ post: postStub });
 
-      // when
-      const result = Mailjet.sendEmail({ template: '129291', to: email, variables });
+        // when
+        await Mailjet.sendEmail({ template: '129291', to: email, variables });
 
-      // then
-      return result.then(() => {
+        // then
         sinon.assert.calledWith(requestStub, {
           'FromEmail': 'communaute@pix.fr',
           'FromName': 'Communauté PIX',
