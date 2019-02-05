@@ -18,7 +18,7 @@
   letter-spacing: 0.5px;
   background: $porcelain-grey;
 
-  @include device-is('mobile') {
+  @include device-is('tablet') {
     padding-left: 30px;
     font-size: 14px;
   }
