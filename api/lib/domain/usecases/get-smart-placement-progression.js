@@ -1,4 +1,3 @@
-const moment = require('moment');
 const SmartPlacementProgression = require('../../../lib/domain/models/SmartPlacementProgression');
 const { UserNotAuthorizedToAccessEntity } = require('../../../lib/domain/errors');
 
@@ -17,10 +16,7 @@ module.exports = async function getSmartPlacementProgression(
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const allKnowledgeElements = await smartPlacementKnowledgeElementRepository.findUniqByUserId(userId);
-
-  const knowledgeElementsBeforeSharedDate = allKnowledgeElements
-    .filter((ke) => _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt));
+  const knowledgeElementsBeforeSharedDate = await smartPlacementKnowledgeElementRepository.findUniqByUserId(userId, assessment.campaignParticipation.sharedAt);
 
   return new SmartPlacementProgression({
     id: smartPlacementProgressionId,
@@ -30,10 +26,3 @@ module.exports = async function getSmartPlacementProgression(
   });
 
 };
-
-function _createdBeforeLimitDate(dateToVerify, limitDate) {
-  if(limitDate) {
-    return moment(dateToVerify).isBefore(limitDate);
-  }
-  return true;
-}

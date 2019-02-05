@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.23.0 (05/02/2019) 
+
+- [#346](https://github.com/1024pix/pix/pull/346) [FEATURE] Les tokens de reset password restent valides même si un nouveau est créé. (PF-505)
+- [#332](https://github.com/1024pix/pix/pull/332) [FEATURE] Ajout du nouveau design de la page des résultats intermédiaires lors d'une campagne (PF-485).
+- [#341](https://github.com/1024pix/pix/pull/341) [BUGFIX] Les acquis des anciennes campagnes ne remontent pas dans le CSV (PO-186).
+- [#343](https://github.com/1024pix/pix/pull/343) [TECH] Correction des stack trace des tests API.
+
 ## v2.22.0 (31/01/2019) 
 
 - [#329](https://github.com/1024pix/pix/pull/329) [FEATURE] Pouvoir accéder à pix certif en tant que membre de centre de certification (PC-15).

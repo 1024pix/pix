@@ -121,13 +121,6 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 }
 
-function _createdBeforeLimitDate(dateToVerify, limitDate) {
-  if(limitDate) {
-    return moment(dateToVerify).isBefore(limitDate);
-  }
-  return true;
-}
-
 function _createOneLineOfCSV(
   headers,
   organization,
@@ -147,7 +140,7 @@ function _createOneLineOfCSV(
       return Promise.all([
         assessment,
         userRepository.get(assessment.userId),
-        smartPlacementKnowledgeElementRepository.findUniqByUserId(assessment.userId)
+        smartPlacementKnowledgeElementRepository.findUniqByUserId(assessment.userId, assessment.campaignParticipation.sharedAt)
       ]);
     })
     .then(([assessment, user, allKnowledgeElements]) => {
@@ -165,11 +158,7 @@ function _createOneLineOfCSV(
       }
 
       const knowledgeElements = allKnowledgeElements
-        .filter((ke) => {
-          const isKnownBeforeTheEndOfCampaignParticipation = _createdBeforeLimitDate(ke.createdAt,assessment.campaignParticipation.sharedAt);
-          const isPresentInTargetProfile = targetProfile.skills.find((skill) => skill.id === ke.skillId);
-          return isKnownBeforeTheEndOfCampaignParticipation && isPresentInTargetProfile;
-        });
+        .filter((ke) => targetProfile.skills.find((skill) => skill.id === ke.skillId));
 
       const notCompletedPercentageProgression = _.round(
         knowledgeElements.length / (targetProfile.skills.length),

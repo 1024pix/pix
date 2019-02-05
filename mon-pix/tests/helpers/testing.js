@@ -48,5 +48,5 @@ export async function completeCampaignAndSeeResultsByCode(campaignCode) {
   await click('.challenge-actions__action-skip');
   await click('.challenge-item-warning__confirm-btn');
   await click('.challenge-actions__action-skip');
-  await click('.assessment-checkpoint__continue-button');
+  await click('.checkpoint__continue-button');
 }

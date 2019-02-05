@@ -7,7 +7,7 @@ export default Controller.extend({
   finalCheckpoint: false,
 
   nextPageButtonText: computed('finalCheckpoint', function() {
-    return this.get('finalCheckpoint') ? 'Voir mes résultats' : 'Je continue';
+    return this.get('finalCheckpoint') ? 'Voir mes résultats' : 'Continuer mon parcours';
   }),
 
   actions: {

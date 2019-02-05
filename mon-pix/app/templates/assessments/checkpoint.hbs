@@ -2,42 +2,44 @@
 
   <!-- Currently, there is checkpoints only during campaign participations -->
   <div class="assessment-challenge__course-banner">
-      {{campaign-banner title=model.campaign.title}}
+      {{campaign-banner title=model.campaign.title checkpoint='true'}}
   </div>
 
-  <div class="assessment-challenge__content">
+  <div class="checkpoint__container">
 
-    <div class="smart-random pix-progress-bar-wrapper">
-      <h2 class="checkpoint-title">Mon parcours effectué</h2>
+    <div class="checkpoint__header">
 
-      <div class="pix-progress-bar">
-        <div class="pix-progress-bar__marker" style="width: {{model.smartPlacementProgression.completionPercentage}}"></div>
-      </div>
+      <div class="checkpoint-progress-bar-wrapper">
 
-
-      <div class="pix-progress-bar__legend-wrapper" style="width: {{model.smartPlacementProgression.completionPercentage}}">
-        <div class="pix-progress-bar__legend-circle"></div>
-        <div class="pix-progress-bar__legend">
-          <p class="sr-only">Vous avez effectué</p>{{model.smartPlacementProgression.completionPercentage}}<p class="sr-only"> de votre parcours.</p>
+        <div class="checkpoint-progress-bar">
+          <div class="checkpoint-progress-bar__marker" style="width: {{model.smartPlacementProgression.completionPercentage}}"></div>
         </div>
+
+        <div class="checkpoint-progress-bar__tooltip-wrapper" style="width: {{model.smartPlacementProgression.completionPercentage}}">
+          <div class="checkpoint-progress-bar__tooltip">
+            <p class="sr-only">Vous avez effectué</p>{{model.smartPlacementProgression.completionPercentage}}<p class="sr-only"> de votre parcours.</p>
+          </div>
+        </div>
+
+        <p class="checkpoint-legend">avancement du parcours</p>
+
+      </div>
+      <div class="checkpoint__continue-wrapper">
+        {{checkpoint-continue campaignId=model.id nextPageButtonText=nextPageButtonText}}
       </div>
     </div>
 
-    <h2>Vos réponses :</h2>
-    <div class="assessment-results__list">
-      {{#each model.answersSinceLastCheckpoints as |answer index|}}
-        {{result-item answer=answer index=index openComparison=(action "openComparison") a11y-focus-id=(concat "open-comparison_" (add index 1))}}
-      {{/each}}
+    <div class="checkpoint__content">
+      <div class="checkpoint-title-container">
+        <p class="checkpoint-title">vos réponses</p>
+      </div>
+      <div class="assessment-results__list">
+        {{#each model.answersSinceLastCheckpoints as |answer index|}}
+          {{result-item-campaign answer=answer index=index openComparison=(action "openComparison") a11y-focus-id=(concat "open-comparison_" (add index 1))}}
+        {{/each}}
+      </div>
+      {{checkpoint-continue campaignId=model.id nextPageButtonText=nextPageButtonText}}
     </div>
 
-    <div class="assessment-challenge__continue-wrapper">
-      {{#link-to 'assessments.resume' model.id (query-params hasSeenCheckpoint=true) class="assessment-checkpoint__continue-button"}}
-        {{nextPageButtonText}}
-        <img src="{{rootURL}}/images/button-continue/button-continue-next.png" srcset="
-         {{rootURL}}/images/button-continue/button-continue-next@2x.png 2x,
-         {{rootURL}}/images/button-continue/button-continue-next@3x.png 3x"
-             alt="" class="assessment-checkpoint__continue-button__image">
-      {{/link-to}}
-    </div>
   </div>
 </div>

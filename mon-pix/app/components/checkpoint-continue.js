@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 
 export default Component.extend({
-  title: null,
-  checkpoint: false
+  classNames: ['checkpoint__continue']
 });
