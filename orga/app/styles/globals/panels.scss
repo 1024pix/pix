@@ -54,6 +54,8 @@
     margin-left: -75px;
     opacity: 0;
     transition: opacity 0.3s;
+    font-family: $roboto;
+    font-size: 0.8125rem;
 
     &::after {
       content: "";
