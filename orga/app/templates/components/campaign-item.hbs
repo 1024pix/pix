@@ -1,7 +1,6 @@
-{{#link-to "authenticated.campaigns.details" campaign.id class="button--no-color button--link"}}
-  <div class="campaign-list__item campaign-item white-panel">
-    <div class="campaign-name"> 
-      {{campaign.name}} 
-    </div>
+{{#link-to "authenticated.campaigns.details" campaign.id
+           class="panel panel--white panel--link campaign-list__item campaign-item"}}
+  <div class="campaign-name">
+    {{campaign.name}}
   </div>
 {{/link-to}}

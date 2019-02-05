@@ -9,13 +9,6 @@
   @include device-is('desktop') {
     flex-direction: row;
   }
-
-  &:hover, &:active, &:focus {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
-    border: solid 2px $dodger-blue;
-    transition: border-color 1s ease;
-    cursor: pointer;
-  }
 }
 
 .campaign-name {
