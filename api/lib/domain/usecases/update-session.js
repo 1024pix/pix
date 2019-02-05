@@ -9,7 +9,7 @@ module.exports = async function updateSession(
   }) {
 
   const [ user, sessionToUpdate ] = await Promise.all([
-    userRepository.getMemberships(userId),
+    userRepository.getWithMemberships(userId),
     sessionRepository.get(session.id)
   ]);
 
