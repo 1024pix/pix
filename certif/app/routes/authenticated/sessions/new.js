@@ -7,7 +7,7 @@ export default Route.extend({
   async model() {
     const certificationCenter = await this.currentCertificationCenter.certificationCenter;
 
-    return this.get('store').createRecord('session', { certificationCenter });
+    return this.store.createRecord('session', { certificationCenter });
   },
 
   deactivate: function() {
