@@ -2,7 +2,6 @@ const { PassThrough } = require('stream');
 
 const { EntityValidationError, NotFoundError } = require('../../domain/errors');
 const organizationService = require('../../domain/services/organization-service');
-const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
 const { NotFoundError: InfrastructureNotFoundError } = require('../../infrastructure/errors');
@@ -82,10 +81,9 @@ module.exports = {
 
   getCampaigns(request, h) {
     const organizationId = request.params.id;
-    const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
 
     return usecases.getOrganizationCampaigns({ organizationId })
-      .then((campaigns) => campaignSerializer.serialize(campaigns, tokenForCampaignResults))
+      .then((campaigns) => campaignSerializer.serialize(campaigns))
       .then(controllerReplies(h).ok)
       .catch(controllerReplies(h).error);
   },
