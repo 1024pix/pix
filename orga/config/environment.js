@@ -27,6 +27,10 @@ module.exports = function(environment) {
       'Open+Sans:300',
     ],
 
+    fontawesome: {
+      warnIfNoIconsIncluded: false,
+    },
+    
     metricsAdapters: [
       {
         name: 'Piwik',

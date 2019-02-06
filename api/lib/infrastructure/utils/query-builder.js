@@ -1,7 +1,26 @@
 const bookshelfToDomainConverter = require('./bookshelf-to-domain-converter');
 const _ = require('lodash');
+const { NotFoundError } = require('../../domain/errors'); 
 
-module.exports = { find };
+module.exports = { get, find };
+
+async function get(bookShelf, id, options) {
+  const fetchOptions = {};
+
+  if (options) {
+    fetchOptions.withRelated = options.include;
+  }
+
+  const result = await bookShelf
+    .where({ id })
+    .fetch(fetchOptions);
+
+  if (!result) {
+    throw new NotFoundError(`Object with id : ${id} not found`);
+  }
+
+  return bookshelfToDomainConverter.buildDomainObject(result);
+}
 
 async function find(bookShelf, options) {
   const query = bookShelf

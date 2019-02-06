@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
-const { NotFoundError } = require('../../domain/errors');
+const queryBuilder = require('../utils/query-builder');
 
 function _toDomain(bookshelfCampaign) {
   const dbCampaign = bookshelfCampaign.toJSON();
@@ -46,21 +46,13 @@ module.exports = {
       });
   },
 
-  get(id) {
-    return BookshelfCampaign
-      .where({ id })
-      .fetch()
-      .then((campaign) => {
-        if (campaign) {
-          return _toDomain(campaign);
-        }
-        throw new NotFoundError(`Campaign with id : ${id} not found`);
-      });
+  get(id, options) {
+    return queryBuilder.get(BookshelfCampaign, id, options);
   },
 
-  save(campaignToSave) {
-    const cleanedCampaignToSave = _.omit(campaignToSave, ['createdAt', 'organizationLogoUrl']);
-    return new BookshelfCampaign(cleanedCampaignToSave)
+  save(domainCampaign) {
+    const repositoryCampaign = _.omit(domainCampaign, ['createdAt', 'organizationLogoUrl', 'targetProfile']);
+    return new BookshelfCampaign(repositoryCampaign)
       .save()
       .then(_toDomain);
   },

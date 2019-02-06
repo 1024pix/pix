@@ -32,7 +32,6 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaigns/{id}',
       config: {
-        auth: false,
         handler: campaignController.getById,
         notes: [
           '- Récupération d\'une campagne par son id',

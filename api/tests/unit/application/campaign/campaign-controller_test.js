@@ -4,6 +4,7 @@ const campaignController = require('../../../../lib/application/campaigns/campai
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const { UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToUpdateCampaignError,
   UserNotAuthorizedToGetCampaignResultsError,
@@ -311,29 +312,41 @@ describe('Unit | Application | Controller | Campaign', () => {
       request = {
         params: {
           id: campaign.id
-        }
+        },
+        auth: {
+          credentials: {
+            userId: 1
+          }
+        },
+        query: {}
       };
 
       sinon.stub(usecases, 'getCampaign');
       sinon.stub(campaignSerializer, 'serialize');
+      sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(tokenService, 'createTokenForCampaignResults');
+
+      queryParamsUtils.extractParameters.withArgs({}).returns({});
+      tokenService.createTokenForCampaignResults.withArgs(request.auth.credentials.userId).returns('token');
     });
 
     it('should returns the campaign', async () => {
       // given
-      usecases.getCampaign.withArgs({ campaignId: campaign.id }).resolves(campaign);
-      campaignSerializer.serialize.withArgs(campaign).returns(campaign);
+      const expectedCampaign = { ...campaign, tokenForCampaignResults: 'token' };
+      usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).resolves(campaign);
+      campaignSerializer.serialize.withArgs(campaign, 'token').returns(expectedCampaign);
 
       // when
       const response = await campaignController.getById(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(campaign);
+      expect(response.source).to.deep.equal(expectedCampaign);
       expect(response.statusCode).to.equal(200);
     });
 
     it('should throw an error when the campaign could not be retrieved', async () => {
       // given
-      usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects();
+      usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).rejects();
 
       // when
       const response = await campaignController.getById(request, hFake);
@@ -344,7 +357,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should throw an infra NotFoundError when a NotFoundError is catched', async () => {
       // given
-      usecases.getCampaign.withArgs({ campaignId: campaign.id }).rejects(new NotFoundError());
+      usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).rejects(new NotFoundError());
 
       // when
       const response = await campaignController.getById(request, hFake);
@@ -355,7 +368,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
-  describe('#update ', () => {
+  describe('#update', () => {
     let request, updatedCampaign, updateCampaignArgs;
 
     beforeEach(() => {

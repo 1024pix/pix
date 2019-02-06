@@ -7,11 +7,16 @@ module.exports = {
 
   serialize(campaigns, tokenForCampaignResults) {
     return new Serializer('campaign', {
-      attributes: ['name', 'code', 'title', 'createdAt', 'customLandingPageText', 'tokenForCampaignResults', 'idPixLabel', 'organizationLogoUrl'],
+      attributes: ['name', 'code', 'title', 'createdAt', 'customLandingPageText', 'tokenForCampaignResults', 'idPixLabel', 'organizationLogoUrl', 'targetProfile'],
       transform: (record) => {
         const campaign = Object.assign({}, record);
         campaign.tokenForCampaignResults = tokenForCampaignResults;
         return campaign;
+      }, 
+      targetProfile: {
+        ref: 'id',
+        included: true,
+        attributes: ['name']
       }
 
     }).serialize(campaigns);

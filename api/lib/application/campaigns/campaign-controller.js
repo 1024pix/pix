@@ -14,7 +14,7 @@ const {
 const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
 const controllerReplies = require('../../infrastructure/controller-replies');
-const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const infraErrors = require('../../infrastructure/errors');
 
 module.exports = {
@@ -47,7 +47,7 @@ module.exports = {
   },
 
   getByCode(request, h) {
-    const filters = extractParameters(request.query).filter;
+    const filters = queryParamsUtils.extractParameters(request.query).filter;
     return _validateFilters(filters)
       .then(() => usecases.getCampaignByCode({ code: filters.code }))
       .then((campaign) => {
@@ -62,9 +62,10 @@ module.exports = {
 
   getById(request, h) {
     const campaignId = request.params.id;
-
-    return usecases.getCampaign({ campaignId })
-      .then(campaignSerializer.serialize)
+    const options = queryParamsUtils.extractParameters(request.query);
+    const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
+    return usecases.getCampaign({ campaignId, options })
+      .then((campaign) => campaignSerializer.serialize(campaign, tokenForCampaignResults))
       .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);

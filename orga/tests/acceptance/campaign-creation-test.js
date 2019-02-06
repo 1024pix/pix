@@ -41,7 +41,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       assert.dom('.page__title').hasText('Création d\'une campagne');
     });
 
-    test('it should allow to create a campaign', async function(assert) {
+    test('it should allow to create a campaign and redirect to the newly created campaign', async function(assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
 
@@ -61,7 +61,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       assert.equal(server.db.campaigns[0].title, 'Savoir rechercher');
       assert.equal(server.db.campaigns[0].targetProfileId, expectedTargetProfileId);
       assert.equal(server.db.campaigns[0].customLandingPageText, 'Texte personnalisé');
-      assert.equal(currentURL(), '/campagnes/liste');
+      assert.equal(currentURL(), '/campagnes/1');
     });
 
     test('it should display a list of target profiles', async function(assert) {
