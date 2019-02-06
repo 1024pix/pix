@@ -14,7 +14,7 @@ const sessionValidationJoiSchema = Joi.object().keys({
   }),
 
   date: Joi.string().isoDate().required().error(() => {
-    return { message: 'Veuillez entrer une date au format (JJ/MM/YY).' };
+    return { message: 'Veuillez entrer une date au format (jj/mm/yyyy).' };
   }),
 
   time: Joi.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/).required().error(() => {
