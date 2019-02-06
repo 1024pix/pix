@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.24.0 (06/02/2019)
+
+- [#340](https://github.com/1024pix/pix/pull/340) [FEATURE] Ajout d'une page de détails pour une campagne dans Pix Orga (PO-31).
+- [#349](https://github.com/1024pix/pix/pull/349) [BUGFIX] Génération du token des résultats CSV sur la page de détails (PO-187).
+- [#352](https://github.com/1024pix/pix/pull/352) [BSR] Remove dead code related to email list management.
+
 ## v2.23.0 (05/02/2019) 
 
 - [#346](https://github.com/1024pix/pix/pull/346) [FEATURE] Les tokens de reset password restent valides même si un nouveau est créé. (PF-505)
