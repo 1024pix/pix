@@ -28,7 +28,6 @@ module.exports = function createAssessmentResultForCompletedAssessment({
   skillRepository,
   // Services
   scoringService,
-  skillsService,
 }) {
   let assessment;
 
@@ -57,7 +56,6 @@ module.exports = function createAssessmentResultForCompletedAssessment({
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
-      skillsService,
     }))
     .catch((error) => _saveResultAfterComputingError({
       assessment,
@@ -79,7 +77,6 @@ function _saveAssessmentResult({
   certificationCourseRepository,
   competenceMarkRepository,
   // Services
-  skillsService,
 }) {
   const status = _getAssessmentStatus(assessment, assessmentScore);
   const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(assessmentScore.level, assessmentScore.nbPix, status, assessment.id);
@@ -87,7 +84,6 @@ function _saveAssessmentResult({
   return Promise.all([
     assessmentResultRepository.save(assessmentResult),
     assessmentScore.competenceMarks,
-    skillsService.saveAssessmentSkills(assessment.id, assessmentScore.validatedSkills, assessmentScore.failedSkills),
     assessmentRepository.save(assessment),
   ])
     .then(([assessmentResult, competenceMarks]) => {
