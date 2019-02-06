@@ -36,29 +36,6 @@ function sendEmail(options) {
   });
 }
 
-function getContactListByName(Name) {
-  const mailJet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
-
-  return mailJet
-    .get('contactslist')
-    .request({ Name })
-    .then((contactLists) => {
-      return Promise.resolve(contactLists.body.Data[0]);
-    });
-}
-
-function addEmailToContactList(email, contactListID) {
-  const mailJet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
-
-  return mailJet
-    .post('contactslist')
-    .id(contactListID)
-    .action('managecontact')
-    .request({ Email: email, action: 'addnoforce' });
-}
-
 module.exports = {
   sendEmail,
-  getContactListByName,
-  addEmailToContactList
 };
