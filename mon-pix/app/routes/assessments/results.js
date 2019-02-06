@@ -1,7 +1,6 @@
 import BaseRoute from 'mon-pix/routes/base-route';
 import RSVP from 'rsvp';
 
-
 export default BaseRoute.extend({
 
   afterModel(assessment) {
