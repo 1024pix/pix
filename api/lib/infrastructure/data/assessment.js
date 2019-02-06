@@ -5,16 +5,19 @@ require('./assessment-result');
 require('./knowledge-element');
 require('./campaign-participation');
 
-module.exports = Bookshelf.model('Assessment', {
+const bookshelfName = 'Assessment';
+
+module.exports = Bookshelf.model(bookshelfName, {
 
   tableName: 'assessments',
+  bookshelfName,
 
   answers() {
     return this.hasMany('Answer', 'assessmentId');
   },
 
   assessmentResults() {
-    return this.hasMany('AssessmentResults', 'assessmentId');
+    return this.hasMany('AssessmentResult', 'assessmentId');
   },
 
   knowledgeElements() {

@@ -2,7 +2,7 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const queryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
 
 const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
-const { NotFoundError } = require('../../../../lib/domain/errors'); 
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
 describe('Integration | Infrastructure | Utils | Query Builder', function() {
