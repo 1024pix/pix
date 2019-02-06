@@ -1,6 +1,4 @@
-const _ = require('lodash');
 const mailJet = require('../../infrastructure/mailjet');
-const logger = require('./../../infrastructure/logger');
 const ACCOUNT_CREATION_EMAIL_TEMPLATE_ID = '143620';
 const WELCOME_EMAIL_TEMPLATE_ID = '129291';
 const RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID = '232827';
@@ -22,19 +20,6 @@ function sendWelcomeEmail(email) {
   });
 }
 
-function addEmailToRandomContactList(email) {
-  const contactListToPopulate = _.sample(['WEBPIX', 'TESTPIX', 'BETAPIX']);
-
-  return mailJet
-    .getContactListByName(contactListToPopulate)
-    .then((contactList) => {
-      return mailJet.addEmailToContactList(email, contactList.ID);
-    })
-    .catch((err) => {
-      logger.error(err);
-    });
-}
-
 function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
   return mailJet.sendEmail({
     to: email,
@@ -47,7 +32,6 @@ function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
 }
 
 module.exports = {
-  addEmailToRandomContactList,
   sendAccountCreationEmail,
   sendWelcomeEmail,
   sendResetPasswordDemandEmail
