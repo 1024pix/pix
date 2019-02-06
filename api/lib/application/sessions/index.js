@@ -35,8 +35,8 @@ exports.register = async (server) => {
         handler: sessionController.save,
         tags: ['api', 'sessions'],
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de consulter la liste de toutes les sessions (retourne un tableau avec n éléments)',
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Elle permet de créer une session de certification liée au centre de certification de l’utilisateur',
         ]
       }
     }

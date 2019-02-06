@@ -73,7 +73,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'date',
-            message: 'Veuillez entrer une date au format (jj/mm/yy).'
+            message: 'Veuillez entrer une date au format (JJ/MM/YY).'
           }];
           session.date = MISSING_VALUE;
 
@@ -123,7 +123,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'examiner',
-            message: 'Veuillez entrer un surveillant.'
+            message: 'Veuillez indiquer un(e) surveillant(e).'
           }];
           session.examiner = MISSING_VALUE;
 

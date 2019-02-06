@@ -14,7 +14,7 @@ const sessionValidationJoiSchema = Joi.object().keys({
   }),
 
   date: Joi.string().isoDate().required().error(() => {
-    return { message: 'Veuillez entrer une date au format (jj/mm/yy).' };
+    return { message: 'Veuillez entrer une date au format (JJ/MM/YY).' };
   }),
 
   time: Joi.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/).required().error(() => {
@@ -22,7 +22,7 @@ const sessionValidationJoiSchema = Joi.object().keys({
   }),
 
   examiner: Joi.string().required().error(() => {
-    return { message: 'Veuillez entrer un surveillant.' };
+    return { message: 'Veuillez indiquer un(e) surveillant(e).' };
   }),
 });
 
