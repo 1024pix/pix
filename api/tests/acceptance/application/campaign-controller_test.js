@@ -201,6 +201,9 @@ describe('Acceptance | API | Campaigns', () => {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}`,
+        headers: {
+          authorization: generateValidRequestAuhorizationHeader()
+        },
       };
 
       // when
@@ -211,6 +214,7 @@ describe('Acceptance | API | Campaigns', () => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.type).to.equal('campaigns');
         expect(response.result.data.attributes.name).to.equal(campaign.name);
+        expect(response.result.data.attributes['token-for-campaign-results']).to.be.a('string');
       });
     });
 
@@ -218,6 +222,9 @@ describe('Acceptance | API | Campaigns', () => {
       const options = {
         method: 'GET',
         url: '/api/campaigns/666',
+        headers: {
+          authorization: generateValidRequestAuhorizationHeader()
+        },
       };
 
       // when
@@ -228,7 +235,6 @@ describe('Acceptance | API | Campaigns', () => {
         expect(response.statusCode).to.equal(404);
       });
     });
-
   });
 
   describe('PATCH /api/campaigns/{id}', () => {
