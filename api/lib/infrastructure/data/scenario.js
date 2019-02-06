@@ -1,5 +1,8 @@
 const Bookshelf = require('../bookshelf');
 
-module.exports = Bookshelf.model('Scenario', {
-  tableName: 'scenarios'
+const bookshelfName = 'Scenario';
+
+module.exports = Bookshelf.model(bookshelfName, {
+  tableName: 'scenarios',
+  bookshelfName,
 });

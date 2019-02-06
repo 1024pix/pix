@@ -4,9 +4,12 @@ require('./user');
 require('./membership');
 require('./target-profile-share');
 
-module.exports = Bookshelf.model('Organization', {
+const bookshelfName = 'Organization';
+
+module.exports = Bookshelf.model(bookshelfName, {
 
   tableName: 'organizations',
+  bookshelfName,
 
   // TODO Remove this link, now use membership
   user() {

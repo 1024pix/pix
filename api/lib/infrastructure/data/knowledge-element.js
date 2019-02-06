@@ -2,9 +2,12 @@ const Bookshelf = require('../bookshelf');
 
 require('./assessment');
 
-module.exports = Bookshelf.model('KnowledgeElement', {
+const bookshelfName = 'KnowledgeElement';
+
+module.exports = Bookshelf.model(bookshelfName, {
 
   tableName: 'knowledge-elements',
+  bookshelfName,
 
   assessment() {
     return this.belongsTo('Assessments');

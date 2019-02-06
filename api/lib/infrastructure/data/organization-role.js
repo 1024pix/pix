@@ -1,7 +1,10 @@
 const Bookshelf = require('../bookshelf');
 
-module.exports = Bookshelf.model('OrganizationRole', {
+const bookshelfName = 'OrganizationRole';
 
-  tableName: 'organization-roles'
+module.exports = Bookshelf.model(bookshelfName, {
+
+  tableName: 'organization-roles',
+  bookshelfName,
 
 });

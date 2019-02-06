@@ -4,8 +4,11 @@ require('./assessment');
 require('./certification-challenge');
 require('./session');
 
-module.exports = Bookshelf.model('CertificationCourse', {
+const bookshelfName = 'CertificationCourse';
+
+module.exports = Bookshelf.model(bookshelfName, {
   tableName: 'certification-courses',
+  bookshelfName,
 
   assessment() {
     return this.hasOne('Assessment', 'courseId');
