@@ -313,26 +313,34 @@ describe('Unit | Application | Controller | Campaign', () => {
         params: {
           id: campaign.id
         },
+        auth: {
+          credentials: {
+            userId: 1
+          }
+        },
         query: {}
       };
 
       sinon.stub(usecases, 'getCampaign');
       sinon.stub(campaignSerializer, 'serialize');
       sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(tokenService, 'createTokenForCampaignResults');
 
       queryParamsUtils.extractParameters.withArgs({}).returns({});
+      tokenService.createTokenForCampaignResults.withArgs(request.auth.credentials.userId).returns('token');
     });
 
     it('should returns the campaign', async () => {
       // given
+      const expectedCampaign = { ...campaign, tokenForCampaignResults: 'token' };
       usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).resolves(campaign);
-      campaignSerializer.serialize.withArgs(campaign).returns(campaign);
+      campaignSerializer.serialize.withArgs(campaign, 'token').returns(expectedCampaign);
 
       // when
       const response = await campaignController.getById(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(campaign);
+      expect(response.source).to.deep.equal(expectedCampaign);
       expect(response.statusCode).to.equal(200);
     });
 
@@ -360,7 +368,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
-  describe('#update ', () => {
+  describe('#update', () => {
     let request, updatedCampaign, updateCampaignArgs;
 
     beforeEach(() => {

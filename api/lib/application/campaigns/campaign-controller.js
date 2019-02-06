@@ -63,8 +63,9 @@ module.exports = {
   getById(request, h) {
     const campaignId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);
+    const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getCampaign({ campaignId, options })
-      .then(campaignSerializer.serialize)
+      .then((campaign) => campaignSerializer.serialize(campaign, tokenForCampaignResults))
       .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);

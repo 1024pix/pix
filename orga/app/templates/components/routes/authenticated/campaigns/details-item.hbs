@@ -49,7 +49,9 @@
   <div class="campaign-details-row">
     <div class="campaign-details-content campaign-details-content--single">
       <h4 class="label-text campaign-details-content__label">Texte de la page d'accueil</h4>
-      <p class="content-text campaign-details-content__text">{{campaign.customLandingPageText}}</p>
+      <p class="content-text campaign-details-content__text">
+        {{markdown-to-html markdown=campaign.customLandingPageText}}
+      </p>
     </div>
   </div>
 
