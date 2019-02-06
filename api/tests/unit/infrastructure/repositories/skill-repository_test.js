@@ -8,6 +8,7 @@ describe('Unit | Repository | skill-repository', function() {
 
   beforeEach(() => {
     sinon.stub(skillDatasource, 'findByCompetenceId');
+    sinon.stub(skillDatasource, 'list');
   });
 
   describe('#findByCompetenceId', function() {
@@ -40,4 +41,5 @@ describe('Unit | Repository | skill-repository', function() {
       });
     });
   });
+
 });
