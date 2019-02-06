@@ -62,14 +62,13 @@ class UserEraser {
 
   delete_dependent_data_from_fetched_assessment_ids() {
     if (this.assessmentIds.length === 0) {
-      console.log('No assessment found: skipping deletion of feedbacks, skills, answers, competence-marks and assessment-results');
+      console.log('No assessment found: skipping deletion of feedbacks, answers, competence-marks and assessment-results');
       return Promise.resolve();
     }
 
     return Promise.resolve()
       .then(() => [
         this.queryBuilder.delete_feedbacks_from_assessment_ids(this.assessmentIds),
-        this.queryBuilder.delete_skills_from_assessment_ids(this.assessmentIds),
         this.queryBuilder.delete_answers_from_assessment_ids(this.assessmentIds),
         this.queryBuilder.delete_competence_marks_from_assessment_ids(this.assessmentIds)
       ])
@@ -132,11 +131,6 @@ class ScriptQueryBuilder {
 
   find_assessment_ids_from_user_id(user_id) {
     return `SELECT id FROM assessments WHERE "userId" = '${user_id}'`;
-  }
-
-  delete_skills_from_assessment_ids(assessment_ids) {
-    this._precondition_array_must_not_be_empty(assessment_ids);
-    return `DELETE FROM skills WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
   }
 
   delete_answers_from_assessment_ids(assessment_ids) {

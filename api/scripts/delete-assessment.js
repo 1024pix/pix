@@ -50,7 +50,6 @@ class AssessmentEraser {
     return Promise.resolve()
       .then(() => [
         this.queryBuilder.delete_feedbacks_from_assessment_ids(this.assessment_id),
-        this.queryBuilder.delete_skills_from_assessment_ids(this.assessment_id),
         this.queryBuilder.delete_answers_from_assessment_ids(this.assessment_id),
         this.queryBuilder.delete_competence_marks_from_assessment_ids(this.assessment_id),
       ])
@@ -71,10 +70,6 @@ class AssessmentEraser {
 }
 
 class ScriptQueryBuilder {
-
-  delete_skills_from_assessment_ids(assessment_id) {
-    return `DELETE FROM skills WHERE "assessmentId" = ${assessment_id}`;
-  }
 
   delete_answers_from_assessment_ids(assessment_id) {
     return `DELETE FROM answers WHERE "assessmentId" = ${assessment_id}`;
