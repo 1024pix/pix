@@ -73,7 +73,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'date',
-            message: 'Veuillez entrer une date au format (JJ/MM/YY).'
+            message: 'Veuillez entrer une date au format (jj/mm/yyyy).'
           }];
           session.date = MISSING_VALUE;
 
