@@ -1,44 +1,44 @@
 require('dotenv').config({ path: '../.env' });
 
-function developementEnv() {
-  if (process.env.DATABASE_URL) {
+function localPostgresEnv(databaseUrl) {
+  return {
+    client: 'postgresql',
+    connection: databaseUrl,
+    pool: {
+      min: 1,
+      max: 4,
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: './migrations',
+    },
+    seeds: {
+      directory: './seeds',
+    },
+  };
+}
 
-    return {
-      client: 'postgresql',
-      connection: process.env.DATABASE_URL,
-      pool: {
-        min: 1,
-        max: 4,
-      },
-      migrations: {
-        tableName: 'knex_migrations',
-        directory: './migrations',
-      },
-      seeds: {
-        directory: './seeds',
-      },
-    };
-  } else {
-
-    return {
-      client: 'sqlite3',
-      connection: {
-        filename: `${__dirname}/dev.sqlite3`,
-      },
-      migrations: {
-        directory: './migrations',
-      },
-      seeds: {
-        directory: './seeds',
-      },
-      useNullAsDefault: true,
-    };
-  }
+function localSQLiteEnv(databaseFileName) {
+  return {
+    client: 'sqlite3',
+    connection: {
+      filename: `${__dirname}/${databaseFileName}`,
+    },
+    migrations: {
+      directory: `${__dirname}/migrations`,
+    },
+    seeds: {
+      directory: `${__dirname}/seeds`,
+    },
+    useNullAsDefault: true,
+  };
 }
 
 module.exports = {
 
-  development: developementEnv(),
+  development: process.env.DATABASE_URL ? localPostgresEnv(process.env.DATABASE_URL) : localSQLiteEnv('dev.sqlite3'),
+
+  test: process.env.TEST_DATABASE_URL ? localPostgresEnv(process.env.TEST_DATABASE_URL) : localSQLiteEnv('test.sqlite3'),
 
   staging: {
     client: 'postgresql',
@@ -72,20 +72,4 @@ module.exports = {
     },
     ssl: ('true' === process.env.DATABASE_SSL_ENABLED),
   },
-
-  test: {
-    client: 'sqlite3',
-    connection: {
-      filename: `${__dirname}/test.sqlite3`,
-    },
-    migrations: {
-      directory: `${__dirname}/migrations`,
-    },
-    seeds: {
-      directory: `${__dirname}/seeds`,
-    },
-    useNullAsDefault: true,
-  },
-
 };
-
