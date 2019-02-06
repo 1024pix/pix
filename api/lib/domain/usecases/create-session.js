@@ -34,7 +34,7 @@ module.exports = async function createSession({ userId, session, certificationCe
   const certificationCenterId = session.certificationCenterId;
   const user = await userRepository.get(userId);
 
-  // We keep this code here so that Anne-Cécile can still create the sessions the old way through Postman, for now :)
+  // We keep this code here so that PIX-MASTER can still create the sessions the old way through Postman, for now :)
   // To remove when we will not create sessions with no certifCenterId through Postman anymore
   if(user.hasRolePixMaster) {
     return _createSessionAsPixMaster(certificationCenterId, session, certificationCenterRepository, sessionRepository);
