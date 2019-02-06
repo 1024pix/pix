@@ -2,18 +2,17 @@ const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../errors');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/SmartPlacementKnowledgeElement');
 
-module.exports = function correctAnswerThenUpdateAssessment({
-  answer,
-  answerRepository,
-  challengeRepository,
-  smartPlacementAssessmentRepository,
-  smartPlacementKnowledgeElementRepository,
-} = {}) {
+module.exports = function correctAnswerThenUpdateAssessment(
+  {
+    answer,
+    answerRepository,
+    challengeRepository,
+    smartPlacementAssessmentRepository,
+    smartPlacementKnowledgeElementRepository,
+  } = {}) {
 
-  const contextObject = Object.seal({
-    challenge: undefined,
-    answer: undefined,
-  });
+  let associatedChallenge = null;
+  let answerSaved = null;
 
   return answerRepository
     .hasChallengeAlreadyBeenAnswered({
@@ -21,17 +20,24 @@ module.exports = function correctAnswerThenUpdateAssessment({
       challengeId: answer.challengeId,
     })
     .then(throwIfChallengeAlreadyAnswered)
-    .then(() => challengeRepository.get(answer.challengeId))
-    .then(saveChallengeToContext(contextObject))
-    .then(evaluateAnswer({ answer }))
+    .then(() => {
+      return challengeRepository.get(answer.challengeId);
+    })
+    .then((challengeFind) => {
+      associatedChallenge = challengeFind;
+      return evaluateAnswer(associatedChallenge, answer);
+    })
     .then(answerRepository.save)
-    .then(saveAnswerToContext(contextObject))
-    .then(saveKnowledgeElementsIfSmartPlacement({
-      contextObject,
-      smartPlacementAssessmentRepository,
-      smartPlacementKnowledgeElementRepository,
-    }))
-    .then(() => contextObject.answer);
+    .then((answerReturnAfterSaved) => {
+      answerSaved = answerReturnAfterSaved;
+      return saveKnowledgeElementsIfSmartPlacement({
+        associatedChallenge,
+        answerSaved,
+        smartPlacementAssessmentRepository,
+        smartPlacementKnowledgeElementRepository,
+      });
+    })
+    .then(() => answerSaved);
 };
 
 function throwIfChallengeAlreadyAnswered(challengeHasBeenAnswered) {
@@ -40,65 +46,46 @@ function throwIfChallengeAlreadyAnswered(challengeHasBeenAnswered) {
   }
 }
 
-function saveChallengeToContext(contextObject) {
-
-  return (challenge) => {
-    contextObject.challenge = challenge;
-    return challenge;
-  };
+function evaluateAnswer(challenge, answer) {
+  const examiner = new Examiner({ validator: challenge.validator });
+  return examiner.evaluate(answer);
 }
 
-function saveAnswerToContext(contextObject) {
-
-  return (answer) => {
-    contextObject.answer = answer;
-    return answer;
-  };
+function saveKnowledgeElementsIfSmartPlacement(
+  {
+    associatedChallenge,
+    answerSaved,
+    smartPlacementAssessmentRepository,
+    smartPlacementKnowledgeElementRepository,
+  }) {
+  return smartPlacementAssessmentRepository.get(answerSaved.assessmentId)
+    .then((assessment) => {
+      return saveKnowledgeElements({
+        assessment,
+        answer: answerSaved,
+        associatedChallenge,
+        smartPlacementKnowledgeElementRepository,
+      });
+    })
+    .catch(absorbSmartAssessmentNotFoundError);
 }
 
-function evaluateAnswer({ answer }) {
-  return (challenge) => {
-    const examiner = new Examiner({ validator: challenge.validator });
-    return examiner.evaluate(answer);
-  };
-}
+function saveKnowledgeElements({ assessment, answer, associatedChallenge, smartPlacementKnowledgeElementRepository }) {
 
-function saveKnowledgeElementsIfSmartPlacement({
-  contextObject,
-  smartPlacementAssessmentRepository,
-  smartPlacementKnowledgeElementRepository,
-}) {
-  return (answer) => {
-    return smartPlacementAssessmentRepository
-      .get(answer.assessmentId)
-      .then(
-        saveKnowledgeElements({
-          answer,
-          challenge: contextObject.challenge,
-          smartPlacementKnowledgeElementRepository,
-        }),
-        absorbSmartAssessmentNotFoundError,
-      );
-  };
-}
+  const knowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
+    answer,
+    associatedChallenge,
+    previouslyFailedSkills: assessment.getFailedSkills(),
+    previouslyValidatedSkills: assessment.getValidatedSkills(),
+    targetSkills: assessment.targetProfile.skills,
+  });
 
-function saveKnowledgeElements({ answer, challenge, smartPlacementKnowledgeElementRepository }) {
-  return (assessment) => {
+  const saveKnowledgeElementPromises = knowledgeElements.map((knowledgeElement) => {
+    return smartPlacementKnowledgeElementRepository.save(knowledgeElement);
+  });
 
-    const knowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
-      answer,
-      associatedChallenge: challenge,
-      previouslyFailedSkills: assessment.getFailedSkills(),
-      previouslyValidatedSkills: assessment.getValidatedSkills(),
-      targetSkills: assessment.targetProfile.skills,
-    });
+  return Promise.all(saveKnowledgeElementPromises);
 
-    const saveKnowledgeElementPromises = knowledgeElements.map((knowledgeElement) => {
-      return smartPlacementKnowledgeElementRepository.save(knowledgeElement);
-    });
-
-    return Promise.all(saveKnowledgeElementPromises);
-  };
 }
 
 function absorbSmartAssessmentNotFoundError(error) {

@@ -127,9 +127,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     });
     it('should call the answer repository to save the answer', () => {
       // then
-      const expectedArgument = completedAnswer;
       return promise.then(() => {
-        return expect(answerRepository.save).to.have.been.calledWith(expectedArgument);
+        return expect(answerRepository.save).to.have.been.calledWith(completedAnswer);
       });
     });
     it('should call the smart placement assessment repository to try and get the assessment', () => {

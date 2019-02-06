@@ -195,10 +195,12 @@ function _createInferredInvalidatedKnowledgeElement({ answer, skillToInfer }) {
 }
 
 function _createKnowledgeElementsForSkill({ skill, source, status, answer }) {
+  const pixValue = (status === VALIDATED_STATUS) ? skill.pixValue : 0;
+
   return new SmartPlacementKnowledgeElement({
     answerId: answer.id,
     assessmentId: answer.assessmentId,
-    pixValue: 0,
+    pixValue: pixValue,
     skillId: skill.id,
     source,
     status,
