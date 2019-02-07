@@ -7,7 +7,6 @@ export default BaseRoute.extend({
     if (assessment.get('isCertification')) {
       return this.transitionTo('index');
     }
-
     return RSVP.all([
       assessment.answers,
       assessment.course
