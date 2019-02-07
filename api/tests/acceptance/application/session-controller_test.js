@@ -263,7 +263,7 @@ describe('Acceptance | Controller | session-controller', () => {
 
   describe('PATCH /api/sessions/{id}', () => {
 
-    let user, unauthorizedUser, certificationCenter, session;
+    let user, unauthorizedUser, certificationCenter, session, payload;
 
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser();
@@ -287,6 +287,21 @@ describe('Acceptance | Controller | session-controller', () => {
       databaseBuilder.factory.buildCertificationCourse({
         sessionId: session.id
       });
+      payload = {
+        data: {
+          id: session.id,
+          type: 'sessions',
+          attributes: {
+            address: 'New address',
+            room: 'New room',
+            examiner: 'Antoine Toutvenant',
+            date: '08/12/2017',
+            time: '14:30',
+            description: 'ahah',
+            accessCode: 'ABCD12'
+          }
+        }
+      };
 
       await databaseBuilder.commit();
     });
@@ -300,16 +315,7 @@ describe('Acceptance | Controller | session-controller', () => {
         method: 'PATCH',
         url: `/api/sessions/${session.id}`,
         headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
-        payload: {
-          data: {
-            id: session.id,
-            type: 'sessions',
-            attributes: {
-              address: 'New address',
-              room: 'New room',
-            }
-          }
-        }
+        payload
       };
 
       // when
@@ -332,14 +338,7 @@ describe('Acceptance | Controller | session-controller', () => {
         method: 'PATCH',
         url: '/api/sessions/2',
         headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
-        payload: {
-          data: {
-            type: 'sessions',
-            attributes: {
-              room: 'New room',
-            }
-          }
-        },
+        payload
       });
 
       // then
@@ -353,16 +352,7 @@ describe('Acceptance | Controller | session-controller', () => {
         method: 'PATCH',
         url: `/api/sessions/${session.id}`,
         headers: { authorization: generateValidRequestAuhorizationHeader(unauthorizedUser.id) },
-        payload: {
-          data: {
-            id: session.id,
-            type: 'sessions',
-            attributes: {
-              room: 'New room',
-              examiner: 'New examiner',
-            },
-          }
-        }
+        payload
       };
 
       // when
