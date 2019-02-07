@@ -53,7 +53,7 @@ module.exports = {
   },
 
   update(session) {
-    const sessionRawData = _.pick(
+    const sessionDataToUpdate = _.pick(
       session,
       [
         'address',
@@ -67,7 +67,7 @@ module.exports = {
     );
 
     return new BookshelfSession({ id: session.id })
-      .save(sessionRawData, { patch: true })
+      .save(sessionDataToUpdate, { patch: true })
       .then((model) => model.refresh())
       .then(_toDomain);
   },

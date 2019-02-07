@@ -263,7 +263,7 @@ describe('Acceptance | API | Campaigns', () => {
       return databaseBuilder.clean();
     });
 
-    it('should update a campaign', function() {
+    it('should update a campaign title and landing page text only', function() {
       const options = {
         method: 'PATCH',
         url: `/api/campaigns/${campaign.id}`,
