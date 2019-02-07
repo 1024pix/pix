@@ -71,8 +71,12 @@ module.exports = {
     session.id = request.params.id;
 
     return usecases.updateSession({ userId, session })
-      .then(serializer.serialize)
-      .then(controllerReplies(h).ok)
+      .then((updatedSession) => {
+        return serializer.serialize(updatedSession);
+      })
+      .then((serializedSession) => {
+        return controllerReplies(h).ok(serializedSession);
+      })
       .catch((error) => {
 
         let infraError;

@@ -1,4 +1,5 @@
 const { UserNotAuthorizedToUpdateRessourceError } = require('../errors');
+const _ = require('lodash');
 
 module.exports = async function updateSession(
   {
@@ -9,7 +10,7 @@ module.exports = async function updateSession(
   }) {
 
   const [ user, sessionToUpdate ] = await Promise.all([
-    userRepository.getWithMemberships(userId),
+    userRepository.getWithCertificationCenterMemberships(userId),
     sessionRepository.get(session.id)
   ]);
 

@@ -250,18 +250,6 @@ describe('Integration | Repository | Session', function() {
       expect(sessionSaved).to.be.an.instanceof(Session);
     });
 
-    it('should not add row in table "sessions"', async () => {
-      // given
-      const rowCount = await BookshelfSession.count();
-
-      // when
-      await sessionRepository.update(session);
-
-      // then
-      const rowCountAfterUpdate = await BookshelfSession.count();
-      expect(rowCountAfterUpdate).to.equal(rowCount);
-    });
-
     it('should update model in database', async () => {
       // given
       session.room = 'New room';
@@ -274,6 +262,18 @@ describe('Integration | Repository | Session', function() {
       expect(sessionSaved.id).to.equal(session.id);
       expect(sessionSaved.room).to.equal('New room');
       expect(sessionSaved.examiner).to.equal('New examiner');
+    });
+
+    it('should not add row in table "sessions"', async () => {
+      // given
+      const rowCount = await BookshelfSession.count();
+
+      // when
+      await sessionRepository.update(session);
+
+      // then
+      const rowCountAfterUpdate = await BookshelfSession.count();
+      expect(rowCountAfterUpdate).to.equal(rowCount);
     });
   });
 
