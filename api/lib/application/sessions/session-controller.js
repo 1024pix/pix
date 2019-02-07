@@ -23,6 +23,7 @@ module.exports = {
       .then(serializer.serialize)
       .catch((error) => {
         if (error instanceof NotFoundError) {
+          logger.warn('trololo');
           throw Boom.notFound(error);
         }
         logger.error(error);
