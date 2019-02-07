@@ -1,4 +1,4 @@
-import { gt } from '@ember/object/computed';
+import { gt, notEmpty } from '@ember/object/computed';
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -8,5 +8,6 @@ export default Component.extend({
   assessment: null,
 
   hasATrophy: gt('assessment.estimatedLevel', 0),
-  hasSomePix: gt('assessment.pixScore', 0)
+  hasSomePix: gt('assessment.pixScore', 0),
+  isScored: notEmpty('assessment.pixScore'),
 });

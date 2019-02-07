@@ -31,12 +31,15 @@ export default Router.map(function() {
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
 
-  this.route('assessments.challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
-  this.route('assessments.resume', { path: '/assessments/:assessment_id' });
-  this.route('assessments.results', { path: '/assessments/:assessment_id/results' });
-  this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
-  this.route('assessments.rating', { path: '/assessments/:assessment_id/rating' });
-  this.route('assessments.checkpoint', { path: '/assessments/:assessment_id/checkpoint' });
+  this.route('assessments', function() {
+    this.route('resume', { path: '/:assessment_id' });
+    this.route('challenge', { path: '/:assessment_id/challenges/:challenge_id' });
+    this.route('results', { path: '/:assessment_id/results' });
+    this.route('comparison', { path: '/:assessment_id/results/compare/:answer_id/:index' });
+    this.route('rating', { path: '/:assessment_id/rating' });
+    this.route('checkpoint', { path: '/:assessment_id/checkpoint' });
+  });
+
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('not-connected', { path: '/nonconnecte' });
