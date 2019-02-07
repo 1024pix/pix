@@ -93,7 +93,6 @@ describe('Acceptance | Controller | session-controller', () => {
       databaseBuilder.factory.buildSession({
         id: 1,
         certificationCenter: 'Centre 1',
-        certificationCenterId: 42,
         address: 'Paris',
         room: 'Salle 1',
         examiner: 'Bernard',
@@ -103,10 +102,10 @@ describe('Acceptance | Controller | session-controller', () => {
         description: '',
         createdAt: '2017-12-08',
       });
+
       databaseBuilder.factory.buildSession({
         id: 2,
         certificationCenter: 'Centre 2',
-        certificationCenterId: null,
         address: 'Lyon',
         room: 'Salle 2',
         examiner: 'Bernard',
@@ -116,6 +115,7 @@ describe('Acceptance | Controller | session-controller', () => {
         description: '',
         createdAt: '2017-12-07',
       });
+
       const pixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
 
       request = {
@@ -150,7 +150,6 @@ describe('Acceptance | Controller | session-controller', () => {
             'access-code': 'ABC123',
             'address': 'Paris',
             'certification-center': 'Centre 1',
-            'certification-center-id': 42,
             'date': '2017-12-08',
             'description': '',
             'examiner': 'Bernard',
@@ -169,7 +168,6 @@ describe('Acceptance | Controller | session-controller', () => {
             'access-code': 'DEF456',
             'address': 'Lyon',
             'certification-center': 'Centre 2',
-            'certification-center-id': null,
             'date': '2017-12-08',
             'description': '',
             'examiner': 'Bernard',
@@ -200,6 +198,7 @@ describe('Acceptance | Controller | session-controller', () => {
     beforeEach(() => {
       const pixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       databaseBuilder.factory.buildCertificationCenter({ id: 42, name: 'Tour Gamma' });
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId: pixMaster.id, certificationCenterId: 42 });
       options = {
         method: 'POST',
         url: '/api/sessions',
@@ -243,141 +242,6 @@ describe('Acceptance | Controller | session-controller', () => {
         });
     });
 
-    context('when something is wrong in the payload', () => {
-
-      context('when address is missing', () => {
-
-        beforeEach(() => {
-          options.payload.data.attributes.address = '';
-        });
-
-        afterEach(() => {
-          options.payload.data.attributes.address = 'Nice';
-        });
-
-        it('should return a Bad Request', () => {
-          // when
-          const promise = server.inject(options);
-
-          // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(400);
-          })
-            .then(() => knex('sessions').select())
-            .then((sessions) => {
-              expect(sessions).to.have.lengthOf(0);
-            });
-        });
-
-        it('should return payLoad with error description', () => {
-          // given
-          const expectedErrorRespond = {
-            'errors': [
-              {
-                'detail': 'Vous n\'avez pas renseigné d\'adresse.',
-                'meta': {
-                  'field': 'address'
-                },
-                'source': {
-                  'pointer': '/data/attributes/address',
-                },
-                'status': '400',
-                'title': 'Invalid Attribute'
-              }
-            ]
-          };
-
-          // when
-          const promise = server.inject(options);
-
-          // then
-          return promise.then((response) => {
-            expect(response.result).to.deep.equal(expectedErrorRespond);
-          });
-        });
-      });
-
-      context('when date is missing', () => {
-
-        beforeEach(() => {
-          options.payload.data.attributes.date = '01/25/2017';
-        });
-
-        afterEach(() => {
-          options.payload.data.attributes.date = '08/12/2017';
-        });
-
-        it('should return a Bad Request', () => {
-          // when
-          const promise = server.inject(options);
-
-          // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(400);
-          })
-            .then(() => knex('sessions').select())
-            .then((sessions) => {
-              expect(sessions).to.have.lengthOf(0);
-            });
-        });
-
-        it('should return payLoad with error description', () => {
-          // given
-          const expectedErrorRespond = {
-            'errors': [
-              {
-                'detail': 'Veuillez renseigner une date de session au format (jj/mm/yyyy).',
-                'meta': {
-                  'field': 'date'
-                },
-                'source': {
-                  'pointer': '/data/attributes/date',
-                },
-                'status': '400',
-                'title': 'Invalid Attribute'
-              }
-            ]
-          };
-
-          // when
-          const promise = server.inject(options);
-
-          // then
-          return promise.then((response) => {
-            expect(response.result).to.deep.equal(expectedErrorRespond);
-          });
-        });
-      });
-
-      context('The certification center does not exist', () => {
-        beforeEach(() => {
-          options.payload.data.attributes['certification-center-id'] = 1337;
-        });
-        afterEach(() => {
-          delete options.payload.data.attributes['certification-center-id'];
-        });
-        it('should return a not found error', () => {
-          const expectedErrorRespond = {
-            errors: [
-              {
-                code: '404',
-                detail: 'Le centre de certification n\'existe pas',
-                title: 'Not Found'
-              }
-            ]
-          };
-          // when
-          const promise = server.inject(options);
-
-          // then
-          return promise.then((response) => {
-            expect(response.result).to.deep.equal(expectedErrorRespond);
-          });
-        });
-      });
-
-    });
-
     describe('Resource access management', () => {
 
       it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
@@ -393,19 +257,6 @@ describe('Acceptance | Controller | session-controller', () => {
         });
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
-        // given
-        const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMasterUserId);
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
-      });
     });
 
   });

@@ -2,10 +2,6 @@ import { Factory, faker } from 'ember-cli-mirage';
 
 export default Factory.extend({
 
-  certificationCenter() {
-    return faker.company.companyName();
-  },
-
   examiner() {
     return faker.company.companyName();
   },

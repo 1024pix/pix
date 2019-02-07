@@ -32,12 +32,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/sessions',
       config: {
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
-        }],
         handler: sessionController.save,
-        tags: ['api']
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Elle permet de créer une session de certification liée au centre de certification de l’utilisateur',
+        ]
       }
     }
   ]);

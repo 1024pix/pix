@@ -1,16 +1,18 @@
 const Boom = require('boom');
 
-const logger = require('../../infrastructure/logger');
+const usecases = require('../../domain/usecases');
 const sessionService = require('../../domain/services/session-service');
+const { NotFoundError, ForbiddenAccess, EntityValidationError } = require('../../domain/errors');
+
+const logger = require('../../infrastructure/logger');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
-const { NotFoundError } = require('../../domain/errors');
 const infraErrors = require('../../infrastructure/errors');
-const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const JSONAPI = require('../../interfaces/jsonapi');
 const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
 module.exports = {
+
   find(request, h) {
     return sessionService.find()
       .then(serializer.serialize)
@@ -31,19 +33,28 @@ module.exports = {
   },
 
   save(request, h) {
+    const userId = request.auth.credentials.userId;
+    const session = serializer.deserialize(request.payload);
+
     try {
-      return serializer.deserialize(request.payload)
-        .then((sessionModel) => sessionService.save(sessionModel))
-        .then((session) => serializer.serialize(session))
+      return usecases.createSession({ userId, session })
+        .then(serializer.serialize)
         .then(h)
         .catch((err) => {
           if (err instanceof NotFoundError) {
             const notFoundError = new infraErrors.NotFoundError('Le centre de certification n\'existe pas');
             return controllerReplies(h).error(notFoundError);
           }
-          if (err instanceof BookshelfValidationError) {
-            return h.response(validationErrorSerializer.serialize(err)).code(400);
+
+          if (err instanceof EntityValidationError) {
+            return h.response(JSONAPI.unprocessableEntityError(err.invalidAttributes)).code(422);
           }
+
+          if(err instanceof ForbiddenAccess) {
+            const forbiddenError = new infraErrors.ForbiddenError(err.message);
+            return controllerReplies(h).error(forbiddenError);
+          }
+
           logger.error(err);
           throw Boom.badImplementation(err);
         });
