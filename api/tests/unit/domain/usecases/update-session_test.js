@@ -4,7 +4,7 @@ const { UserNotAuthorizedToUpdateRessourceError } = require('../../../../lib/dom
 
 describe('Unit | UseCase | update-session', () => {
   let originalSession;
-  let userWithMembership;
+  let userWithCertificationCenterMemberships;
   let sessionRepository;
   let userRepository;
 
@@ -23,22 +23,23 @@ describe('Unit | UseCase | update-session', () => {
       description: 'miam',
       accessCode: 'ABCD12'
     };
-    userWithMembership = {
+    userWithCertificationCenterMemberships = {
       id: 1,
-      memberships: [{ organization: { id: certificationCenterId } }],
+      certificationCenterMemberships: [{ certificationCenter: { id: certificationCenterId } }],
       hasAccessToCertificationCenter: sinon.stub(),
     };
-    userRepository = { getWithMemberships: sinon.stub() };
+    userRepository = { getWithCertificationCenterMemberships: sinon.stub() };
     sessionRepository = {
       get: sinon.stub(),
       update: sinon.stub()
     };
-    // This has to be done separated from the stub declaration, see :
+    // This has to be done separated from the stub
+    // declaration, see :
     // http://nikas.praninskas.com/javascript/2015/07/28/quickie-sinon-withargs-not-working/
     sessionRepository.get.withArgs(originalSession.id).resolves(originalSession);
     sessionRepository.update.callsFake((updatedSession) => updatedSession);
-    userRepository.getWithMemberships.withArgs(userWithMembership.id).resolves(userWithMembership);
-    userWithMembership.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
+    userRepository.getWithCertificationCenterMemberships.withArgs(userWithCertificationCenterMemberships.id).resolves(userWithCertificationCenterMemberships);
+    userWithCertificationCenterMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
   });
 
   context('when session exists', () => {
@@ -59,7 +60,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // when
       const promise = updateSession({
-        userId: userWithMembership.id,
+        userId: userWithCertificationCenterMemberships.id,
         session: updatedSession,
         userRepository,
         sessionRepository: sessionRepository,
@@ -89,7 +90,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // when
       const promise = updateSession({
-        userId: userWithMembership.id,
+        userId: userWithCertificationCenterMemberships.id,
         session: updatedSession,
         userRepository,
         sessionRepository: sessionRepository,
@@ -110,7 +111,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // when
       const promise = updateSession({
-        userId: userWithMembership.id,
+        userId: userWithCertificationCenterMemberships.id,
         session: originalSession,
         userRepository,
         sessionRepository: sessionRepository,
@@ -122,11 +123,11 @@ describe('Unit | UseCase | update-session', () => {
 
     it('should throw an error when the user with memberships could not be retrieved', () => {
       // given
-      userRepository.getWithMemberships.withArgs(userWithMembership.id).rejects();
+      userRepository.getWithCertificationCenterMemberships.withArgs(userWithCertificationCenterMemberships.id).rejects();
 
       // when
       const promise = updateSession({
-        userId: userWithMembership.id,
+        userId: userWithCertificationCenterMemberships.id,
         session: originalSession,
         userRepository,
         sessionRepository: sessionRepository,
@@ -138,11 +139,11 @@ describe('Unit | UseCase | update-session', () => {
 
     it('should throw an error when the user does not have an access to the session organization', () => {
       // given
-      userWithMembership.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
+      userWithCertificationCenterMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
 
       // when
       const promise = updateSession({
-        userId: userWithMembership.id,
+        userId: userWithCertificationCenterMemberships.id,
         session: originalSession,
         userRepository,
         sessionRepository: sessionRepository,
@@ -158,7 +159,7 @@ describe('Unit | UseCase | update-session', () => {
 
       // when
       const promise = updateSession({
-        userId: userWithMembership.id,
+        userId: userWithCertificationCenterMemberships.id,
         session: originalSession,
         userRepository,
         sessionRepository: sessionRepository,

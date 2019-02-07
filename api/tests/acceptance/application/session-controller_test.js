@@ -260,4 +260,119 @@ describe('Acceptance | Controller | session-controller', () => {
     });
 
   });
+
+  describe('PATCH /api/sessions/{id}', () => {
+
+    let user, unauthorizedUser, certificationCenter, session;
+
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser();
+      unauthorizedUser = databaseBuilder.factory.buildUser();
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: user.id,
+        certificationCenterId: certificationCenter.id
+      });
+      session = databaseBuilder.factory.buildSession({
+        certificationCenter: certificationCenter.name,
+        certificationCenterId: certificationCenter.id,
+        address: 'Nice',
+        room: '28D',
+        examiner: 'Antoine Toutvenant',
+        date: '2017-12-08',
+        time: '14:30',
+        description: 'ahah',
+        accessCode: 'ABCD12'
+      });
+      databaseBuilder.factory.buildCertificationCourse({
+        sessionId: session.id
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    it('should respond with a 200 and update the session', function() {
+      const options = {
+        method: 'PATCH',
+        url: `/api/sessions/${session.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        payload: {
+          data: {
+            id: session.id,
+            type: 'sessions',
+            attributes: {
+              address: 'New address',
+              room: 'New room',
+            }
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise
+        .then((response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.data.type).to.equal('sessions');
+          expect(response.result.data.id).to.equal(session.id);
+          expect(response.result.data.attributes.address).to.equal('New address');
+          expect(response.result.data.attributes.room).to.equal('New room');
+        });
+    });
+
+    it('should return 404 HTTP status code when session cannot be found', () => {
+      // when
+      const promise = server.inject({
+        method: 'PATCH',
+        url: '/api/sessions/2',
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        payload: {
+          data: {
+            type: 'sessions',
+            attributes: {
+              room: 'New room',
+            }
+          }
+        },
+      });
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
+    it('should respond with a 403 when user is not authorized to update the session', function() {
+      const options = {
+        method: 'PATCH',
+        url: `/api/sessions/${session.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(unauthorizedUser.id) },
+        payload: {
+          data: {
+            id: session.id,
+            type: 'sessions',
+            attributes: {
+              room: 'New room',
+              examiner: 'New examiner',
+            },
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+  });
 });
