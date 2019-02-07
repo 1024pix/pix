@@ -1,5 +1,5 @@
 const { UserNotAuthorizedToUpdateRessourceError } = require('../errors');
-const _ = require('lodash');
+const sessionValidator = require('../validators/session-validator');
 
 module.exports = async function updateSession(
   {
@@ -8,6 +8,8 @@ module.exports = async function updateSession(
     userRepository,
     sessionRepository
   }) {
+
+  sessionValidator.validate(session);
 
   const [ user, sessionToUpdate ] = await Promise.all([
     userRepository.getWithCertificationCenterMemberships(userId),

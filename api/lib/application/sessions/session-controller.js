@@ -79,6 +79,10 @@ module.exports = {
       })
       .catch((error) => {
 
+        if (error instanceof EntityValidationError) {
+          return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
+        }
+
         let infraError;
 
         if (error instanceof UserNotAuthorizedToUpdateRessourceError) {
@@ -88,6 +92,7 @@ module.exports = {
         else if (error instanceof NotFoundError) {
           infraError = new infraErrors.NotFoundError(error.message);
         }
+
         else {
           infraError = error;
         }
