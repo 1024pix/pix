@@ -1,5 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const updateSession = require('../../../../lib/domain/usecases/update-session');
+const sessionValidator= require('../../../../lib/domain/validators/session-validator');
 const { UserNotAuthorizedToUpdateRessourceError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-session', () => {
@@ -33,11 +34,11 @@ describe('Unit | UseCase | update-session', () => {
       get: sinon.stub(),
       update: sinon.stub()
     };
-    // This has to be done separated from the stub
-    // declaration, see :
-    // http://nikas.praninskas.com/javascript/2015/07/28/quickie-sinon-withargs-not-working/
+    sinon.stub(sessionValidator, 'validate');
+
     sessionRepository.get.withArgs(originalSession.id).resolves(originalSession);
     sessionRepository.update.callsFake((updatedSession) => updatedSession);
+    sessionValidator.validate.withArgs(originalSession).returns();
     userRepository.getWithCertificationCenterMemberships.withArgs(userWithCertificationCenterMemberships.id).resolves(userWithCertificationCenterMemberships);
     userWithCertificationCenterMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
   });
@@ -108,6 +109,22 @@ describe('Unit | UseCase | update-session', () => {
     it('should throw an error when the session could not be retrieved', () => {
       // given
       sessionRepository.get.withArgs(originalSession.id).rejects();
+
+      // when
+      const promise = updateSession({
+        userId: userWithCertificationCenterMemberships.id,
+        session: originalSession,
+        userRepository,
+        sessionRepository: sessionRepository,
+      });
+
+      // then
+      return expect(promise).to.be.rejected;
+    });
+
+    it('should throw an error when the payload is invalid', () => {
+      // given
+      sessionValidator.validate.withArgs(originalSession).throws();
 
       // when
       const promise = updateSession({
