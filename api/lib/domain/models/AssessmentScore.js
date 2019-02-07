@@ -3,7 +3,7 @@ class AssessmentScore {
     {
       // attributes
       level = null,
-      nbPix = 0,
+      nbPix = null,
       validatedSkills = [],
       failedSkills = [],
       competenceMarks = [],

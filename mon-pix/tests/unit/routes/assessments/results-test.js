@@ -22,10 +22,10 @@ describe('Unit | Route | Assessments | Results', function() {
       const route = this.subject();
       route.transitionTo = sinon.spy();
 
-      const certification = EmberObject.create({ id: 123, isCertification: true });
+      const assessment = EmberObject.create({ id: 123, isCertification: true });
 
       // when
-      route.afterModel(certification);
+      route.afterModel(assessment);
 
       // then
       sinon.assert.calledWith(route.transitionTo, 'index');
@@ -36,10 +36,10 @@ describe('Unit | Route | Assessments | Results', function() {
       const route = this.subject();
       route.transitionTo = sinon.spy();
 
-      const certification = EmberObject.create({ id: 123, isCertification: false });
+      const assessment = EmberObject.create({ id: 123, isCertification: false, answers: [] });
 
       // when
-      route.afterModel(certification);
+      route.afterModel(assessment);
 
       // then
       sinon.assert.notCalled(route.transitionTo);
