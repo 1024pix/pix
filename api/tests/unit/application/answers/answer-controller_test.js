@@ -3,7 +3,6 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const answerController = require('../../../../lib/application/answers/answer-controller');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
-const bookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
 const smartPlacementAssessmentRepository =
@@ -15,7 +14,7 @@ describe('Unit | Controller | answer-controller', () => {
   beforeEach(() => {
 
     sinon.stub(answerSerializer, 'serialize');
-    sinon.stub(answerRepository, 'findByChallengeAndAssessment');
+    sinon.stub(answerRepository, 'getByChallengeAndAssessment');
     sinon.stub(smartPlacementAssessmentRepository, 'get');
     sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
     sinon.stub(logger, 'error');
@@ -259,7 +258,6 @@ describe('Unit | Controller | answer-controller', () => {
     context('when assessment is a SmartPlacement and Answer exists', () => {
 
       let existingAnswer;
-      let existingBookshelfAnswer;
       let response;
       let assessment;
 
@@ -275,20 +273,9 @@ describe('Unit | Controller | answer-controller', () => {
           assessmentId,
           challengeId,
         });
-        existingBookshelfAnswer = new bookshelfAnswer({
-          id: existingAnswer.id,
-          value: existingAnswer.value,
-          result: existingAnswer.result,
-          resultDetails: existingAnswer.resultDetails,
-          timeout: existingAnswer.timeout,
-          elapsedTime: existingAnswer.elapsedTime,
-          assessmentId: existingAnswer.assessmentId,
-          challengeId: existingAnswer.challengeId,
-        });
-
         assessment = domainBuilder.buildSmartPlacementAssessment({ id: assessmentId });
 
-        answerRepository.findByChallengeAndAssessment.resolves(existingBookshelfAnswer);
+        answerRepository.getByChallengeAndAssessment.resolves(existingAnswer);
         smartPlacementAssessmentRepository.get.resolves(assessment);
 
         // when
@@ -297,8 +284,8 @@ describe('Unit | Controller | answer-controller', () => {
 
       it('should get existing answer', () => {
         // then
-        return expect(answerRepository.findByChallengeAndAssessment)
-          .to.have.been.calledWith({ challengeId, assessmentId });
+        return expect(answerRepository.getByChallengeAndAssessment)
+          .to.have.been.calledWith(challengeId, assessmentId);
       });
 
       it('should call the smartPlacementAssessmentRepository to try and get the assessment', () => {

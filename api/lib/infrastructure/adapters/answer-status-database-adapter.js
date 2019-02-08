@@ -18,20 +18,23 @@ module.exports = {
   },
 
   toSQLString(answerStatus) {
+    if(answerStatus instanceof AnswerStatus) {
 
-    if (answerStatus.isOK()) {
-      return OK;
-    } else if (answerStatus.isKO()) {
-      return KO;
-    } else if (answerStatus.isSKIPPED()) {
-      return SKIPPED;
-    } else if (answerStatus.isPARTIALLY()) {
-      return PARTIALLY;
-    } else if (answerStatus.isTIMEDOUT()) {
-      return TIMEDOUT;
-    } else {
-      return UNIMPLEMENTED;
+      if (answerStatus.isOK()) {
+        return OK;
+      } else if (answerStatus.isKO()) {
+        return KO;
+      } else if (answerStatus.isSKIPPED()) {
+        return SKIPPED;
+      } else if (answerStatus.isPARTIALLY()) {
+        return PARTIALLY;
+      } else if (answerStatus.isTIMEDOUT()) {
+        return TIMEDOUT;
+      } else {
+        return UNIMPLEMENTED;
+      }
     }
+    return answerStatus;
   },
 
   fromSQLString(answerStatusString) {

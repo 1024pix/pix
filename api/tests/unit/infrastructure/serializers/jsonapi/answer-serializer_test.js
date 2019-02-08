@@ -1,21 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const BookshelfAnswer = require('../../../../../lib/infrastructure/data/answer');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const answerStatusJSONAPIAdapter = require('../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 
 describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
-
-  const modelObject = new BookshelfAnswer({
-    id: 'answer_id',
-    value: 'answer_value',
-    timeout: 8,
-    elapsedTime: 30,
-    result: 'result_value',
-    resultDetails: 'resultDetails_value',
-    assessmentId: 'assessment_id',
-    challengeId: 'challenge_id',
-  });
 
   const jsonAnswer = {
     data: {
@@ -101,17 +89,6 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
 
       // then
       expect(json).to.deep.equal(expectedJSON);
-    });
-  });
-
-  describe('#serializeFromBookshelfAnswer()', () => {
-
-    it('should convert an Answer model object into JSON API data', () => {
-      // when
-      const json = serializer.serializeFromBookshelfAnswer(modelObject);
-
-      // then
-      expect(json).to.deep.equal(jsonAnswer);
     });
   });
 

@@ -12,6 +12,7 @@ describe('Acceptance | Controller | answer-controller', () => {
     let inserted_assessment_id;
 
     const inserted_assessment = {
+      type: 'PLACEMENT',
       userId: null,
       courseId: 'rec',
     };
