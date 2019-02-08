@@ -23,14 +23,13 @@ describe('Integration | Component | reset password form', function() {
     describe('When component is rendered,', function() {
 
       [
-        { item: '.reset-password-form' },
-        { item: '.reset-password-form__heading' },
-        { item: '.reset-password-form__user-details' },
-        { item: '.reset-password-form__instruction' },
-        { item: '.reset-password-form__password-textfield-container' },
+        { item: '.pix-logo__link' },
+        { item: '.sign-form-header__title' },
+        { item: '.sign-form-header__instruction' },
+        { item: '.sign-form__form' },
         { item: '.form-textfield__label' },
-        { item: '.reset-password__textfield' },
-        { item: '.form-textfield__input-field-container ' }
+        { item: '.form-textfield__input-field-container' },
+        { item: '.sign-form__submit-button' }
       ].forEach(({ item }) => {
         it(`should contains  a item with class: ${item}`, function() {
           // when
@@ -50,7 +49,7 @@ describe('Integration | Component | reset password form', function() {
         this.render(hbs`{{reset-password-form user=user}}`);
 
         // then
-        expect(this.$('.reset-password-form__user-details').text().trim()).to.equal(user.fullName);
+        expect(this.$('.sign-form-header__title').text().trim()).to.equal(user.fullName);
       });
 
     });
@@ -62,7 +61,7 @@ describe('Integration | Component | reset password form', function() {
         this.render(hbs`{{reset-password-form}}`);
 
         // then
-        expect(this.$('.reset-password-form__submit-button')).to.have.lengthOf(1);
+        expect(this.$('.sign-form__submit-button')).to.have.lengthOf(1);
       });
 
       describe('Saving behavior', function() {
@@ -95,7 +94,7 @@ describe('Integration | Component | reset password form', function() {
           this.$(PASSWORD_INPUT_CLASS).val(validPassword);
           this.$(PASSWORD_INPUT_CLASS).change();
 
-          this.$('.reset-password-form__submit-button').click();
+          this.$('.sign-form__submit-button').click();
 
           // then
           return wait().then(() => {
@@ -118,7 +117,7 @@ describe('Integration | Component | reset password form', function() {
           this.$(PASSWORD_INPUT_CLASS).val(validPassword);
           this.$(PASSWORD_INPUT_CLASS).change();
 
-          this.$('.reset-password-form__submit-button').click();
+          this.$('.sign-form__submit-button').click();
 
           // then
           return wait().then(() => {

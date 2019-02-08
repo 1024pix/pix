@@ -48,6 +48,23 @@
   }
 }
 
+.sign-form-header__instruction {
+  width: 100%;
+  font-family: $font-raleway;
+  color: $charcoal-grey;
+  font-size: 1.5rem;
+  font-weight: $font-light;
+  line-height: 28px;
+  text-align: center;
+  margin: 10px 0 40px;
+
+  @include device-is('tablet') {
+    width: 400px;
+    font-size: 22px;
+    margin: 28px 0 70px;
+  }
+}
+
 .sign-form-header__subtitle {
   font-family: $font-roboto;
   font-size: 1.3rem;
