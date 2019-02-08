@@ -13,7 +13,7 @@
   {{#ember-table class="table" as |table|}}
     {{#table.head columns=columns as |head|}}
       {{#head.row as |row|}}
-        {{#row.cell as |value|}}
+        {{#row.cell class=(if row.columnValue.isUpdate "row--center") as |value|}}
 
           {{value.name}}
 
@@ -23,12 +23,16 @@
 
     {{#table.body rows=sortedSessions as |body|}}
       {{#body.row as |row|}}
-        {{#row.cell as |value column|}}
+        {{#row.cell class=(if row.columnValue.isUpdate "row--center") as |value column|}}
 
           {{#if column.isDate}}
             {{moment-format value 'DD/MM/YYYY' allow-empty=true}}
           {{else if column.isHour}}
             {{moment-format value 'HH:mm' 'HH:mm:ss' allow-empty=true}}
+          {{else if column.isUpdate}}
+            {{#link-to "authenticated.sessions.update" value}}
+              {{fa-icon 'edit' prefix='far' class='icon-button'}}
+            {{/link-to}}
           {{else}}
             {{value}}
           {{/if}}
