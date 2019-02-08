@@ -35,7 +35,7 @@ describe('Integration | Component | password reset demand form', function() {
     this.render(hbs`{{password-reset-demand-form _displayErrorMessage=_displayErrorMessage}}`);
 
     // then
-    expect(this.$('.password-reset-form__form-error-message')).to.have.length(1);
+    expect(this.$('.sign-form__notification-message--error')).to.have.length(1);
   });
 
   it('should display success message when there is an error on password reset demand', function() {
@@ -46,7 +46,7 @@ describe('Integration | Component | password reset demand form', function() {
     this.render(hbs`{{password-reset-demand-form _displaySuccessMessage=_displaySuccessMessage}}`);
 
     // then
-    expect(this.$('.password-reset-form__form-success-message')).to.have.length(1);
+    expect(this.$('.sign-form__notification-message--success')).to.have.length(1);
   });
 
 });

@@ -54,7 +54,7 @@ describe('Acceptance | Reset Password', function() {
     // then
     return andThen(() => {
       expect(currentURL()).to.equal('/mot-de-passe-oublie');
-      expect(find('.password-reset-form__form-success-message')).to.have.lengthOf(1);
+      expect(find('.sign-form__notification-message--success')).to.have.lengthOf(1);
     });
 
   });
@@ -77,7 +77,7 @@ describe('Acceptance | Reset Password', function() {
     // then
     return andThen(() => {
       expect(currentURL()).to.equal('/mot-de-passe-oublie');
-      expect(find('.password-reset-form__form-error-message')).to.have.lengthOf(1);
+      expect(find('.sign-form__notification-message--error')).to.have.lengthOf(1);
     });
 
   });

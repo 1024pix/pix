@@ -12,10 +12,21 @@
 
 .form-textfield__input-field-container {
   display: flex;
-  height: 35px;
+  height: 40px;
   border-radius: 3px;
   margin-bottom: 20px;
   align-items: center;
+  border: 1px solid $gainsboro;
+  background-color: $white;
+  width: 100%;
+  &:hover {
+    border: 1px solid $pix-blue;
+    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
+  }
+
+  @include device-is('desktop') {
+    height: 50px;
+  }
 }
 
 .form-textfield__input-container--default {
@@ -31,11 +42,17 @@
 }
 
 .form-textfield__input-field-container input {
+  height: 38px;
   flex-grow: 1;
   border: none;
-  margin-left: 10px;
+  border-radius: 3px;
   outline: none;
   color: $slate-grey;
+  padding: 0 10px;
+
+  @include device-is('desktop') {
+    height: 48px;
+  }
 }
 
 .form-textfield__message {
@@ -43,7 +60,6 @@
   top: 0;
   right: 0;
   font-size: 12px;
-
 }
 
 .form-textfield__message--error {
