@@ -26,29 +26,6 @@ module.exports = {
   },
 
   /**
-   * @deprecated use serialize with domain model objects instead
-   */
-  serializeFromBookshelfAnswer(answers) {
-    return new Serializer('answer', {
-      attributes: ['value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment', 'challenge'],
-      assessment: {
-        ref: 'id',
-        includes: false,
-      },
-      challenge: {
-        ref: 'id',
-        includes: false,
-      },
-      transform: (model) => {
-        const answer = Object.assign({}, model.toJSON());
-        answer.assessment = { id: model.get('assessmentId') };
-        answer.challenge = { id: model.get('challengeId') };
-        return answer;
-      },
-    }).serialize(answers);
-  },
-
-  /**
    * @deprecated use deserialize with domain model objects instead
    */
   deserializeToBookshelfAnswer(json) {
