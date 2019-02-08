@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | password-reset-form', function() {
+describe('Unit | Component | password-reset-demand-form', function() {
 
-  setupTest('component:password-reset-form', {});
+  setupTest('component:password-reset-demand-form', {});
 
   let component;
   const sentEmail = 'dumb@people.com';
