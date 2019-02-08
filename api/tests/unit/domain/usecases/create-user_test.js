@@ -94,7 +94,7 @@ describe('Unit | UseCase | create-user', () => {
           invalidAttributes: [
             {
               attribute: 'email',
-              message: 'Cette adresse electronique est déjà enregistrée.',
+              message: 'Cette adresse électronique est déjà enregistrée, connectez-vous.',
             }
           ]
         });
