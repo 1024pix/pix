@@ -59,14 +59,14 @@ class SmartPlacementKnowledgeElement {
 
   static createKnowledgeElementsForAnswer({
     answer,
-    associatedChallenge,
+    challenge,
     previouslyFailedSkills,
     previouslyValidatedSkills,
     targetSkills,
   }) {
 
     const directKnowledgeElements = _createDirectKnowledgeElements({
-      answer, associatedChallenge, previouslyFailedSkills, previouslyValidatedSkills, targetSkills,
+      answer, challenge, previouslyFailedSkills, previouslyValidatedSkills, targetSkills,
     });
 
     return _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
@@ -84,7 +84,7 @@ SmartPlacementKnowledgeElement.StatusType = SmartPlacementKnowledgeElementStatus
 
 function _createDirectKnowledgeElements({
   answer,
-  associatedChallenge,
+  challenge,
   previouslyFailedSkills,
   previouslyValidatedSkills,
   targetSkills,
@@ -92,7 +92,7 @@ function _createDirectKnowledgeElements({
 
   const status = answer.isOk() ? VALIDATED_STATUS : INVALIDATED_STATUS;
 
-  return associatedChallenge.skills
+  return challenge.skills
     .filter(_skillIsInTargetedSkills({ targetSkills }))
     .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
     .map((skill) => {

@@ -98,7 +98,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           // when
           createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
             answer: validAnswer,
-            associatedChallenge: challenge,
+            challenge: challenge,
             previouslyValidatedSkills: [],
             previouslyFailedSkills: [],
             targetSkills: [otherSkill],
@@ -123,7 +123,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           // when
           createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
             answer: validAnswer,
-            associatedChallenge: challenge,
+            challenge: challenge,
             previouslyValidatedSkills: [],
             previouslyFailedSkills: [],
             targetSkills,
@@ -163,7 +163,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             // when
             createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
               answer: validAnswer,
-              associatedChallenge: challenge,
+              challenge: challenge,
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
@@ -221,7 +221,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             // when
             createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
               answer: invalidAnswer,
-              associatedChallenge: challenge,
+              challenge: challenge,
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
@@ -335,7 +335,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           // when
           createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
             answer: validAnswer,
-            associatedChallenge: challenge,
+            challenge: challenge,
             previouslyValidatedSkills: [],
             previouslyFailedSkills: [],
             targetSkills: [skillFromTube1, skillFromTube3],
@@ -400,7 +400,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             // when
             createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
               answer: validAnswer,
-              associatedChallenge: challenge,
+              challenge: challenge,
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
@@ -517,7 +517,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             // when
             createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
               answer: invalidAnswer,
-              associatedChallenge: challenge,
+              challenge: challenge,
               previouslyValidatedSkills: [],
               previouslyFailedSkills: [],
               targetSkills,
@@ -716,7 +716,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               // when
               createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
                 answer: validAnswer,
-                associatedChallenge: challenge,
+                challenge: challenge,
                 previouslyValidatedSkills: [easierSkillFromTube1, muchEasierSkillFromTube1],
                 previouslyFailedSkills: [easierSkillFromTube2],
                 targetSkills,
