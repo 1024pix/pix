@@ -1,14 +1,3 @@
-.signup-form__notification-message {
-  max-width: 449px;
-  width: 100%;
-  text-align: center;
-  border-radius: 3px;
-  color: $white;
-  font-size: 14px;
-  padding: 9px;
-  background: $caribbean-green;
-}
-
 .signup-form__cgu-container {
   max-width: 449px;
   width: 100%;
@@ -59,20 +48,6 @@
   @include device-is('tablet') {
     padding: 10px 0;
   }
-}
-
-.form-textfield__cgu-message--error {
-  color: $pure-orange;
-  font-size: 12px;
-  margin-bottom: 7px;
-  text-align: center;
-}
-
-.signup-field__recaptcha-message--error {
-  color: $pure-orange;
-  font-size: 12px;
-  margin-bottom: 7px;
-  text-align: center;
 }
 
 .signup-form__captcha-container {

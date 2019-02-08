@@ -341,7 +341,7 @@ describe('Integration | Component | signup form', function() {
         this.$('.sign-form__submit-button').click();
         // then
         return wait().then(() => {
-          expect(this.$('.signup-field__recaptcha-message--error')).to.have.lengthOf(1);
+          expect(this.$('.sign-form__field-message--error')).to.have.lengthOf(1);
         });
       });
     });

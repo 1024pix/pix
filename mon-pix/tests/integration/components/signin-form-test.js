@@ -49,7 +49,7 @@ describe('Integration | Component | signin form', function() {
       this.render(hbs`{{signin-form}}`);
 
       // then
-      expect(document.querySelector('div.signin-form__errors')).to.not.exist;
+      expect(document.querySelector('div.sign-form__notification-message')).to.not.exist;
     });
 
     it('should display an error if authentication failed', function() {
@@ -60,7 +60,7 @@ describe('Integration | Component | signin form', function() {
       this.render(hbs`{{signin-form displayErrorMessage=displayErrorMessage}}`);
 
       // then
-      expect(document.querySelector('div.signin-form__errors')).to.exist;
+      expect(document.querySelector('div.sign-form__notification-message--error')).to.exist;
     });
   });
 

@@ -3,7 +3,6 @@ import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
-const PASSWORD_SUCCESS_MESSAGE = 'Votre mot de passe a bien été mis à jour';
 const VALIDATION_MAP = {
   default: {
     status: 'default', message: null
@@ -21,11 +20,12 @@ const SUBMISSION_MAP = {
     status: 'error', message: ERROR_PASSWORD_MESSAGE
   },
   success: {
-    status: 'success', message: PASSWORD_SUCCESS_MESSAGE
+    status: 'success', message: ''
   }
 };
 
 export default Component.extend({
+  _displaySuccessMessage: null,
   validation: VALIDATION_MAP['default'],
   urlHome: ENV.APP.HOME_HOST,
 
@@ -37,9 +37,11 @@ export default Component.extend({
     },
 
     handleResetPassword() {
+      this.set('_displaySuccessMessage', false);
       return this.get('user').save()
         .then(() => {
           this.set('validation', SUBMISSION_MAP['success']);
+          this.set('_displaySuccessMessage', true);
           this.set('user.password', null);
         })
         .catch(() => this.set('validation', SUBMISSION_MAP['error']));
