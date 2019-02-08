@@ -10,10 +10,13 @@ module('Acceptance | Session Update', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('it should allow to update a session and redirect to the sessions list', async function(assert) {
-    // given
+  hooks.beforeEach( async () => {
     let user = createUserWithMembership();
     await authenticateSession({ user_id: user.id });
+  });
+
+  test('it should allow to update a session and redirect to the sessions list', async function(assert) {
+    // given
     let session = server.create('session', { id: 1 });
     let newRoom = "New room";
     let newExaminer = "New examiner";
@@ -33,8 +36,6 @@ module('Acceptance | Session Update', function(hooks) {
 
   test('it should not update a session when cancel button is clicked and redirect to the sessions list', async function(assert) {
     // given
-    let user = createUserWithMembership();
-    await authenticateSession({ user_id: user.id });
     let session = server.create('session', { id: 1, room: 'current room', examiner: 'current examiner' });
     let newRoom = "New room";
     let newExaminer = "New examiner";
@@ -44,7 +45,7 @@ module('Acceptance | Session Update', function(hooks) {
     await fillIn('#session-examiner', newExaminer);
 
     // when
-    await click('button[id="cancel-update-button"]');
+    await click('button[data-action="cancel"]');
 
     // then
     assert.equal(server.db.sessions.find(1).room, 'current room');

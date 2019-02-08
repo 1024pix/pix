@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
@@ -63,6 +63,25 @@ module('Acceptance | Session List', function(hooks) {
 
     // then
     assert.dom('table tbody tr').exists({ count: 12 });
+  });
+
+  test('it should redirect to session details on click', async function (assert) {
+    // given
+    const user = createUserWithMembership();
+
+    await authenticateSession({
+      user_id: user.id,
+    });
+
+    const sessionId = 1;
+    server.create('session', { id: sessionId });
+    await visit('/sessions/liste');
+
+    // when
+    await click('.session-list-content__update-button');
+
+    // then
+    assert.equal(currentURL(), `/sessions/${sessionId}/modification`);
   });
 
 });
