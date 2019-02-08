@@ -11,77 +11,82 @@ module('Acceptance | Session List', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  test('it should not be accessible by an unauthenticated user', async function(assert) {
-    // when
-    await visit('/sessions/liste');
+  let user;
 
-    // then
-    assert.equal(currentURL(), '/connexion');
-  });
+  module('When user is not logged in', function () {
 
-  test('it should be accessible for an authenticated user', async function(assert) {
-    // given
-    const user = createUserWithMembership();
+    test('it should not be accessible by an unauthenticated user', async function (assert) {
+      // when
+      await visit('/sessions/liste');
 
-    await authenticateSession({
-      user_id: user.id,
+      // then
+      assert.equal(currentURL(), '/connexion');
     });
 
-    // when
-    await visit('/sessions/liste');
-
-    // then
-    assert.equal(currentURL(), '/sessions/liste');
   });
 
-  test('it should show title indicate than user can create a session', async function(assert) {
-    // given
-    const user = createUserWithMembership();
+  module('When user is logged in', function () {
 
-    await authenticateSession({
-      user_id: user.id,
+    hooks.beforeEach( async () => {
+      user = createUserWithMembership();
     });
 
-    // when
-    await visit('/sessions/liste');
+    test('it should be accessible for an authenticated user', async function (assert) {
+      // given
+      await authenticateSession({
+        user_id: user.id,
+      });
 
-    // then
-    assert.dom('.page-title').hasText('Créez votre première session de certification');
-  });
+      // when
+      await visit('/sessions/liste');
 
-  test('it should list the sessions', async function(assert) {
-    // given
-    const user = createUserWithMembership();
-    server.createList('session', 12);
-
-    await authenticateSession({
-      user_id: user.id,
+      // then
+      assert.equal(currentURL(), '/sessions/liste');
     });
 
-    // when
-    await visit('/sessions/liste');
+    test('it should show title indicate than user can create a session', async function (assert) {
+      // given
+      await authenticateSession({
+        user_id: user.id,
+      });
 
-    // then
-    assert.dom('table tbody tr').exists({ count: 12 });
-  });
+      // when
+      await visit('/sessions/liste');
 
-  test('it should redirect to session details on click', async function (assert) {
-    // given
-    const user = createUserWithMembership();
-
-    await authenticateSession({
-      user_id: user.id,
+      // then
+      assert.dom('.page-title').hasText('Créez votre première session de certification');
     });
 
-    const sessionId = 1;
-    server.create('session', { id: sessionId });
-    await visit('/sessions/liste');
+    test('it should list the sessions', async function (assert) {
+      // give
+      server.createList('session', 12);
 
-    // when
-    await click('.session-list-content__update-button');
+      await authenticateSession({
+        user_id: user.id,
+      });
 
-    // then
-    assert.equal(currentURL(), `/sessions/${sessionId}/modification`);
+      // when
+      await visit('/sessions/liste');
+
+      // then
+      assert.dom('table tbody tr').exists({ count: 12 });
+    });
+
+    test('it should redirect to session details on click', async function (assert) {
+      // given
+      await authenticateSession({
+        user_id: user.id,
+      });
+
+      const sessionId = 1;
+      server.create('session', { id: sessionId });
+      await visit('/sessions/liste');
+
+      // when
+      await click('.session-list-content__update-button');
+
+      // then
+      assert.equal(currentURL(), `/sessions/${sessionId}/modification`);
+    });
   });
-
 });
