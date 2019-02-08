@@ -49,8 +49,9 @@ export default Component.extend({
         width: 10
       },
       {
-        name: '',
-        modify: true,
+        name: 'Modifier',
+        valuePath: 'id',
+        isUpdate: true,
         width: 5
       }
     ]);
