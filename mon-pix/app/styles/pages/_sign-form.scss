@@ -100,4 +100,9 @@
   &:hover, &:active, &:focus {
     background-color: $pix-blue-hover;
   }
+
+  &--big {
+    width: 250px;
+  }
 }
+
