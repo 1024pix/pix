@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import isEmailValid from 'mon-pix/utils/email-validator';
 import isPasswordValid from '../utils/password-validator';
-import config from 'mon-pix/config/environment';
+import ENV from 'mon-pix/config/environment';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
@@ -29,12 +29,11 @@ function isValuePresent(value) {
 }
 
 export default Component.extend({
-  classNames: ['signup-form'],
-
   session: service(),
   _notificationMessage: null,
   validation: null,
   _tokenHasBeenUsed: null,
+  urlHome: ENV.APP.HOME_HOST,
 
   init() {
     this._super(...arguments);
@@ -55,10 +54,10 @@ export default Component.extend({
 
   _toggleConfirmation(status, message) {
     this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message });
-    if(config.APP.isMessageStatusTogglingEnabled) {
+    if(ENV.APP.isMessageStatusTogglingEnabled) {
       later(() => {
         this.set('temporaryAlert', { status: 'default', message: '' });
-      }, config.APP.MESSAGE_DISPLAY_DURATION);
+      }, ENV.APP.MESSAGE_DISPLAY_DURATION);
     }
   },
 

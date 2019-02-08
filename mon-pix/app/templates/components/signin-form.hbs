@@ -1,37 +1,41 @@
-<a href={{urlHome}} class="signin-form__home-link">Revenir à la page d'accueil
-  <img class="signin-form__home-link_close" alt="" src="/images/icons/icon-close.svg"></a>
+<div class="sign-form__container">
 
-<div class="signin-form__panel">
+  <a href={{urlHome}} class="pix-logo__link" title="Lien vers la page d'accueil de PIX">
+    <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+  </a>
 
-  {{pix-logo}}
-
-  <h1 class="signin-form__panel-title">Se connecter</h1>
-
-  {{#if displayErrorMessage}}
-    <div class="signin-form__errors">L'adresse email et/ou le mot de passe saisi sont incorrects</div>
-  {{/if}}
-
-  <div class="signin-form__form">
-    <form {{action "submit" on="submit"}}>
-      <div class="signin-form__form-field">
-        <label for="pix-email">Adresse e-mail</label>
-        {{input id="pix-email" type="email" placeholder="nom@exemple.fr" value=email}}
-      </div>
-
-
-      <div class="signin-form__form-field">
-        <label for="pix-password">Mot de passe</label>
-        {{input id="pix-password" type="password" value=password}}
-      </div>
-
-      <div class="signin-form__form-field">
-        {{#link-to 'password-reset-demand' class="signin-form__forgotten-password-link"}}Mot de passe oublié ?{{/link-to}}
-      </div>
-
-      <div class="signin-form__form-field signin-form__form-field-button">
-        <button type="submit" class="signin-form__submit_button" {{action "submit" allowedKeys="enter"}}>Je me connecte</button>
-      </div>
-    </form>
+  <div class="sign-form__header-container">
+    <h1 class="sign-form-header__title">Connectez-vous</h1>
+    <div class="sign-form-header__subtitle">Vous n'avez pas encore de compte Pix ? {{#link-to 'inscription' class="pix-link"}}Créez un compte{{/link-to}}</div>
   </div>
 
+  {{#if displayErrorMessage}}
+    <div class="signin-form__errors">L'adresse email et/ou le mot de passe saisis sont incorrects</div>
+  {{/if}}
+
+  <form {{action "submit" on="submit"}} class="sign-form__form">
+
+    <div class="sign-form__input-container">
+      {{form-textfield
+        label="Adresse email"
+        textfieldName="email"
+        validationStatus="default"
+        inputBindingValue=email}}
+    </div>
+
+    <div class="sign-form__input-container">
+      {{form-textfield
+        label="Mot de passe"
+        textfieldName="password"
+        textfieldType="password"
+        validationStatus="default"
+        inputBindingValue=password}}
+    </div>
+
+    {{#link-to 'password-reset-demand' class="pix-link signin-form__forgotten-password-link"}}Mot de passe oublié ?{{/link-to}}
+
+    <div class="sign-form__submit-container">
+      <button type="submit" class="sign-form__submit-button" {{action "submit" allowedKeys="enter"}}>Je me connecte</button>
+    </div>
+  </form>
 </div>

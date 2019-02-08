@@ -11,6 +11,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   campaign: null,
   userHasSeenLanding: false,
   userHasJustConsultedTutorial: false,
+  authenticationRoute: 'inscription',
 
   beforeModel(transition) {
     this.set('campaignCode', transition.params['campaigns.start-or-resume'].campaign_code);

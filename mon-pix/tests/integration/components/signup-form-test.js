@@ -10,12 +10,12 @@ import wait from 'ember-test-helpers/wait';
 import sinon from 'sinon';
 import $ from 'jquery';
 
-const FORM_CONTAINER = '.signup-form-container';
-const FORM_HEADING_CONTAINER = '.signup-form__heading-container';
-const FORM_HEADING = '.signup-form__heading';
-const EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
+const FORM_CONTAINER = '.sign-form__container';
+const FORM_HEADER_CONTAINER = '.sign-form__header-container';
+const FORM_HEADER = '.sign-form-header__title';
+const EXPECTED_FORM_HEADER_CONTENT = 'Inscrivez-vous';
 
-const INPUT_TEXT_FIELD = '.signup-form__input-container';
+const INPUT_TEXT_FIELD = '.sign-form__input-container';
 const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default';
 
 const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
@@ -23,11 +23,11 @@ const CHECKBOX_CGU_INPUT = '#pix-cgu';
 const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
 const UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
-const CGU_LINK = '.signup__cgu-link';
+const CGU_LINK = '.signup-form__cgu .pix-link';
 const CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
 
-const SUBMIT_BUTTON_CONTAINER = '.signup-form__submit-container';
-const SUBMIT_BUTTON = '.signup__submit-button';
+const SUBMIT_BUTTON_CONTAINER = '.sign-form__submit-container';
+const SUBMIT_BUTTON = '.sign-form__submit-button';
 const SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
 
 const MESSAGE_ERROR_STATUS = 'form-textfield__message--error';
@@ -62,14 +62,14 @@ describe('Integration | Component | signup form', function() {
       expect(this.$()).to.have.lengthOf(1);
     });
 
-    it(`Should return true if heading content gets <${EXPECTED_FORM_HEADING_CONTENT}>`, function() {
-      expect(this.$(FORM_HEADING).text()).to.equal(EXPECTED_FORM_HEADING_CONTENT);
+    it(`Should return true if heading content gets <${EXPECTED_FORM_HEADER_CONTENT}>`, function() {
+      expect(this.$(FORM_HEADER).text()).to.equal(EXPECTED_FORM_HEADER_CONTENT);
     });
 
     [
       { expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1 },
-      { expectedRendering: 'div to wrap heading of form', input: FORM_HEADING_CONTAINER, expected: 1 },
-      { expectedRendering: 'form title (h1)', input: FORM_HEADING, expected: 1 },
+      { expectedRendering: 'div to wrap heading of form', input: FORM_HEADER_CONTAINER, expected: 1 },
+      { expectedRendering: 'form title (h1)', input: FORM_HEADER, expected: 1 },
       { expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4 },
       { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 },
       { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 },
@@ -282,7 +282,7 @@ describe('Integration | Component | signup form', function() {
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('.signup__submit-button').click();
+        this.$('.sign-form__submit-button').click();
         // then
         return wait().then(() => {
           const cguErrorMessageContent = this.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
@@ -307,7 +307,7 @@ describe('Integration | Component | signup form', function() {
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('.signup__submit-button').click();
+        this.$('.sign-form__submit-button').click();
         // then
         return wait().then(() => {
           expect(this.$('.signup-form__notification-message')).to.have.lengthOf(0);
@@ -338,7 +338,7 @@ describe('Integration | Component | signup form', function() {
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('.signup__submit-button').click();
+        this.$('.sign-form__submit-button').click();
         // then
         return wait().then(() => {
           expect(this.$('.signup-field__recaptcha-message--error')).to.have.lengthOf(1);
@@ -442,7 +442,7 @@ describe('Integration | Component | signup form', function() {
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('.signup__submit-button').click();
+        this.$('.sign-form__submit-button').click();
         // then
         return wait().then(() => {
           const cguErrorMessageContent = this.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
@@ -468,7 +468,7 @@ describe('Integration | Component | signup form', function() {
         this.render(hbs`{{signup-form user=user}}`);
 
         // when
-        this.$('.signup__submit-button').click();
+        this.$('.sign-form__submit-button').click();
 
         // then
         return wait().then(() => {

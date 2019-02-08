@@ -1,8 +1,3 @@
-<div class="signin-container">
-  <div class="signin-no-account">
-    <p class="signin-no-account-text" title="">Vous n'avez pas encore de compte Pix ?</p>
-    {{#link-to "inscription" class="signin-inscription-button"}}S'inscrire <span class="sr-only"> sur Pix</span> {{/link-to}}
-  </div>
-
+<div class="sign-form-page">
   {{signin-form onSubmit=(route-action 'signin')}}
 </div>

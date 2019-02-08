@@ -69,11 +69,11 @@ describe('Acceptance | Espace compte | Authentication', function() {
     it('should stay in /connexion , when authentication failed', async function() {
       // given
       await visit('/connexion');
-      fillIn('#pix-email', 'anyone@pix.world');
-      fillIn('#pix-password', 'Pix20!!');
+      fillIn('#email', 'anyone@pix.world');
+      fillIn('#password', 'Pix20!!');
 
       // when
-      click('.signin-form__submit_button');
+      click('.sign-form__submit-button');
 
       // then
       return andThen(function() {

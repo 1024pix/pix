@@ -1,8 +1,8 @@
 export async function authenticateAsSimpleUser() {
   await visit('/connexion');
-  await fillIn('#pix-email', 'jane@acme.com');
-  await fillIn('#pix-password', 'Jane1234');
-  await click('.signin-form__submit_button');
+  await fillIn('#email', 'jane@acme.com');
+  await fillIn('#password', 'Jane1234');
+  await click('.sign-form__submit-button');
 }
 
 export async function authenticateAsSimpleExternalUser() {
@@ -11,9 +11,9 @@ export async function authenticateAsSimpleExternalUser() {
 
 export async function authenticateAsPrescriber() {
   await visit('/connexion');
-  await fillIn('#pix-email', 'john@acme.com');
-  await fillIn('#pix-password', 'John1234');
-  await click('.signin-form__submit_button');
+  await fillIn('#email', 'john@acme.com');
+  await fillIn('#password', 'John1234');
+  await click('.sign-form__submit-button');
 }
 
 export async function logout() {

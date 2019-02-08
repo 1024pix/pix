@@ -3,9 +3,6 @@ import { inject as service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
 
 export default Component.extend({
-
-  classNames: [ 'signin-form-container' ],
-
   session: service(),
   displayErrorMessage: false,
   signin: null,
