@@ -20,8 +20,10 @@ describe('Integration | Component | password reset form', function() {
     // then
     expect(this.$('.pix-logo__link')).to.have.length(1);
     expect(this.$('.sign-form-header__title')).to.have.length(1);
-    expect(this.$('.password-reset-form__text')).to.have.length(1);
-    expect(this.$('#email')).to.have.length(1);
+    expect(this.$('.sign-form-header__instruction')).to.have.length(1);
+    expect(this.$('.sign-form__form')).to.have.length(1);
+    expect(this.$('.form-textfield__label')).to.have.length(1);
+    expect(this.$('.form-textfield__input-field-container')).to.have.length(1);
     expect(this.$('.sign-form__submit-button')).to.have.length(1);
   });
 

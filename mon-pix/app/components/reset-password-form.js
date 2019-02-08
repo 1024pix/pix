@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import isPasswordValid from '../utils/password-validator';
+import ENV from 'mon-pix/config/environment';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
 const PASSWORD_SUCCESS_MESSAGE = 'Votre mot de passe a bien été mis à jour';
@@ -25,8 +26,8 @@ const SUBMISSION_MAP = {
 };
 
 export default Component.extend({
-  classNames: ['reset-password-form'],
   validation: VALIDATION_MAP['default'],
+  urlHome: ENV.APP.HOME_HOST,
 
   actions: {
     validatePassword() {
