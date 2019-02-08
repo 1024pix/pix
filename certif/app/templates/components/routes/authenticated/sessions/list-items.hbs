@@ -30,8 +30,8 @@
           {{else if column.isHour}}
             {{moment-format value 'HH:mm' 'HH:mm:ss' allow-empty=true}}
           {{else if column.isUpdate}}
-            {{#link-to "authenticated.sessions.update" value}}
-              {{fa-icon 'edit' prefix='far' class='icon-button'}}
+            {{#link-to "authenticated.sessions.update" value class='icon-button session-list-content__update-button'}}
+              {{fa-icon 'edit' prefix='far'}}
             {{/link-to}}
           {{else}}
             {{value}}
