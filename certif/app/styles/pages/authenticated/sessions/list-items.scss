@@ -8,11 +8,18 @@
   }
 }
 
-.session-list__header {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  align-content: center;
-  height: 78px;
-  padding-right: 20px;
+.session-list {
+
+  &__header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: center;
+    height: 78px;
+    padding-right: 20px;
+  }
+
+  &-content__update-button {
+    padding: 6px;
+  }
 }
