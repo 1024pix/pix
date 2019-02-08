@@ -1,0 +1,103 @@
+.sign-form-page {
+  display: flex;
+  justify-content: center;
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.sign-form__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 95%;
+  max-width: 609px;
+  border-radius: 10px;
+  padding-top: 10px;
+  background-color: $white;
+  margin: 10px auto;
+
+  @include device-is('tablet') {
+    width: 609px;
+    margin: 20px 0;
+    padding-top: 20px;
+  }
+}
+
+.sign-form__header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.sign-form-header__title {
+  font-family: $font-raleway;
+  color: $charcoal-grey;
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: $font-light;
+  @include device-is('mobile') {
+    font-size: 2.5rem;
+  }
+  @include device-is('tablet') {
+    font-size: 3.6rem;
+  }
+}
+
+.sign-form-header__subtitle {
+  font-family: $font-roboto;
+  font-size: 1.3rem;
+  font-weight: $font-light;
+  color: $charcoal-grey;
+  padding-top: 5px;
+}
+
+.sign-form__form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px 0;
+
+  @include device-is('tablet') {
+    padding: 40px 80px;
+  }
+}
+
+.sign-form__input-container {
+  max-width: 449px;
+  width: 100%;
+  padding: 0 20px;
+
+  @include device-is('tablet') {
+    padding: 0;
+  }
+
+  input {
+    outline: none;
+    padding: 5px;
+  }
+}
+
+.sign-form__submit-container {
+  margin: 5px auto 20px;
+}
+
+.sign-form__submit-button {
+  width: 150px;
+  height: 40px;
+  border-radius: 25px;
+  border: none;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  background-color: $pix-blue;
+  color: $white;
+  outline: none;
+
+  &:hover, &:active, &:focus {
+    background-color: $pix-blue-hover;
+  }
+}

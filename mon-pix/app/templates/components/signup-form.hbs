@@ -1,90 +1,97 @@
-<form class="signup-form-container">
-  <div class="signup-form__logo">
-    {{pix-logo}}
-  </div>
+<div class="sign-form__container">
 
-  <div class="signup-form__heading-container">
-    <h1 class="signup-form__heading">Inscription gratuite</h1>
+  <a href={{urlHome}} class="pix-logo__link" title="Lien vers la page d'accueil de PIX">
+    <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+  </a>
+
+  <div class="sign-form__header-container">
+    <h1 class="sign-form-header__title">Inscrivez-vous</h1>
+    <div class="sign-form-header__subtitle">ou {{#link-to 'login' class="pix-link"}}connectez-vous à votre compte{{/link-to}}</div>
   </div>
 
   {{#if _notificationMessage}}
     <p class="signup-form__notification-message" aria-live="polite">{{_notificationMessage}}</p>
   {{/if}}
 
-  <div class="signup-form__input-container">
-    {{form-textfield
-      label="Prénom"
-      textfieldName="firstName"
-      inputBindingValue=user.firstName
-      validate="validateInput"
-      validationStatus=validation.firstName.status
-      validationMessage=validation.firstName.message}}
-  </div>
+  <form {{action "signup" on="submit"}} class="sign-form__form">
 
-  <div class="signup-form__input-container">
-    {{form-textfield
-      label="Nom"
-      textfieldName="lastName"
-      inputBindingValue=user.lastName
-      validate="validateInput"
-      validationStatus=validation.lastName.status
-      validationMessage=validation.lastName.message}}
-  </div>
+    <div class="sign-form__input-container">
+      {{form-textfield
+        label="Prénom"
+        textfieldName="firstName"
+        inputBindingValue=user.firstName
+        validate="validateInput"
+        validationStatus=validation.firstName.status
+        validationMessage=validation.firstName.message}}
+    </div>
 
-  <div class="signup-form__input-container">
-    {{form-textfield
-      label="Adresse Email"
-      textfieldName="email"
-      validationStatus=validation.email.status
-      validate="validateInputEmail"
-      inputBindingValue=user.email
-      validationMessage=validation.email.message}}
-  </div>
+    <div class="sign-form__input-container">
+      {{form-textfield
+        label="Nom"
+        textfieldName="lastName"
+        inputBindingValue=user.lastName
+        validate="validateInput"
+        validationStatus=validation.lastName.status
+        validationMessage=validation.lastName.message}}
+    </div>
 
-  <div class="signup-form__input-container">
-    {{form-textfield
-      label="Mot de passe"
-      textfieldName="password"
-      validationStatus=validation.password.status
-      validate="validateInputPassword"
-      inputBindingValue=user.password
-      validationMessage=validation.password.message}}
-  </div>
+    <div class="sign-form__input-container">
+      {{form-textfield
+        label="Adresse Email"
+        textfieldName="email"
+        validationStatus=validation.email.status
+        validate="validateInputEmail"
+        inputBindingValue=user.email
+        validationMessage=validation.email.message}}
+    </div>
 
-  <div class="signup-form__cgu-container">
+    <div class="sign-form__input-container">
+      {{form-textfield
+        label="Mot de passe"
+        textfieldName="password"
+        validationStatus=validation.password.status
+        validate="validateInputPassword"
+        inputBindingValue=user.password
+        validationMessage=validation.password.message}}
+    </div>
 
-    {{#if user.errors.cgu}}
-      <div class="form-textfield__cgu-message--error">
-        {{user.errors.cgu.firstObject.message}}
-      </div>
-    {{/if}}
+    <div class="signup-form__cgu-container">
 
-    <label for="pix-cgu" class="signup-form__cgu-label">
-      {{input type="checkbox" id='pix-cgu' checked=user.cgu}}
-      <span>
-        J'​accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="signup__cgu-link" target="_blank">conditions d'​utilisation de Pix</a>
+      {{#if user.errors.cgu}}
+        <div class="form-textfield__cgu-message--error">
+          {{user.errors.cgu.firstObject.message}}
+        </div>
+      {{/if}}
+
+      <label for="pix-cgu" class="signup-form__cgu-label">
+        {{input type="checkbox" id='pix-cgu' checked=user.cgu}}
+        <span class="signup-form__cgu">
+        J'​accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="pix-link" target="_blank">conditions d'​utilisation de Pix</a>
       </span>
-    </label>
-  </div>
+      </label>
+    </div>
 
-  <div class="signup-form__captcha-container">
-    {{#if user.errors.recaptchaToken}}
-      <div class="signup-field__recaptcha-message--error">{{user.errors.recaptchaToken.firstObject.message}}</div>
-    {{/if}}
-    {{g-recaptcha recaptchaToken=user.recaptchaToken tokenHasBeenUsed=_tokenHasBeenUsed}}
-  </div>
+    <div class="signup-form__captcha-container">
+      {{#if user.errors.recaptchaToken}}
+        <div class="signup-field__recaptcha-message--error">{{user.errors.recaptchaToken.firstObject.message}}</div>
+      {{/if}}
+      {{g-recaptcha recaptchaToken=user.recaptchaToken tokenHasBeenUsed=_tokenHasBeenUsed}}
+    </div>
 
-  <div class="signup-form__submit-container">
-    <button class="signup__submit-button" {{action "signup"}}>Je m'inscris</button>
-  </div>
+    <div class="sign-form__submit-container">
+      <button type="submit" class="sign-form__submit-button" {{action "signup" allowedKeys="enter"}}>Je m'inscris</button>
+    </div>
 
-  <div class="signup-form__legal-details-container">
-    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre
-    l'accès au service offert par Pix.
-    Elles sont conservées pendant la durée d'utilisation du service et sont destinées à Pix exclusivement. Elles ne sont
-    pas communiquées à des tiers.
-    Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous
-    concernant et les faire rectifier en envoyant un mail à dpo@pix.fr.
-  </div>
+    <div class="signup-form__legal-details-container">
+      Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour
+      permettre
+      l'accès au service offert par Pix.
+      Elles sont conservées pendant la durée d'utilisation du service et sont destinées à Pix exclusivement. Elles ne
+      sont
+      pas communiquées à des tiers.
+      Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous
+      concernant et les faire rectifier en envoyant un mail à dpo@pix.fr.
+    </div>
 
-</form>
+  </form>
+</div>

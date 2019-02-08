@@ -17,7 +17,7 @@ describe('Integration | Component | signin form', function() {
       this.render(hbs`{{signin-form}}`);
 
       // then
-      expect(document.querySelector('input#pix-email')).to.exist;
+      expect(document.querySelector('input#email')).to.exist;
     });
 
     it('should display an input for password field', function() {
@@ -25,7 +25,7 @@ describe('Integration | Component | signin form', function() {
       this.render(hbs`{{signin-form}}`);
 
       // then
-      expect(document.querySelector('input#pix-password')).to.exist;
+      expect(document.querySelector('input#password')).to.exist;
     });
 
     it('should display a submit button to authenticate', function() {
@@ -33,7 +33,7 @@ describe('Integration | Component | signin form', function() {
       this.render(hbs`{{signin-form}}`);
 
       // then
-      expect(document.querySelector('button.signin-form__submit_button')).to.exist;
+      expect(document.querySelector('button.sign-form__submit-button')).to.exist;
     });
 
     it('should display a link to password reset view', function() {
@@ -80,13 +80,13 @@ describe('Integration | Component | signin form', function() {
 
       this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction')}}`);
 
-      this.$('input#pix-email').val(expectedEmail);
-      this.$('input#pix-email').change();
-      this.$('input#pix-password').val(expectedPassword);
-      this.$('input#pix-password').change();
+      this.$('input#email').val(expectedEmail);
+      this.$('input#email').change();
+      this.$('input#password').val(expectedPassword);
+      this.$('input#password').change();
 
       // when
-      run(() => document.querySelector('button.signin-form__submit_button').click());
+      run(() => document.querySelector('button.sign-form__submit-button').click());
     });
 
   });

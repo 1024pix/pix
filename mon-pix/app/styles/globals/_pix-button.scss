@@ -32,3 +32,15 @@
   width: 58px;
   margin-top: -5px;
 }
+
+
+.pix-link {
+  color: $pix-blue;
+  text-decoration: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $pix-blue-hover;
+  }
+}

@@ -20,7 +20,7 @@ describe('Acceptance | Page | Inscription', function() {
     visit('/inscription');
 
     andThen(() => {
-      const $termsOfServiceLink = findWithAssert('.signup__cgu-link');
+      const $termsOfServiceLink = findWithAssert('.signup-form__cgu .pix-link');
       return expect($termsOfServiceLink.attr('href').trim()).to.equal('https://pix.fr/conditions-generales-d-utilisation');
     });
   });

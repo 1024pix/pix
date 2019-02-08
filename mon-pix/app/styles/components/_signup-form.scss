@@ -1,50 +1,3 @@
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  max-width: 609px;
-  width: 100%;
-}
-
-.signup-form-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
-  border-radius: 10px;
-  margin: 10px 5px 10px;
-  background-color: $white;
-  @include device-is('tablet') {
-    margin: 25px 15px 15px;
-  }
-}
-
-.signup-form__logo {
-  position: relative;
-  width: 106px;
-  height: 79px;
-  margin: 26px auto 23px;
-  @include device-is('tablet') {
-    margin: 56px auto 53px;
-  }
-}
-
-.signup-form__heading-container {
-  margin-bottom: 20px;
-  @include device-is('tablet') {
-    margin-bottom: 44px;
-  }
-}
-
-.signup-form__heading {
-  font-family: $font-raleway;
-  color: $charcoal-grey;
-  margin: 0;
-  font-size: 22px;
-  @include device-is('tablet') {
-    font-size: 25px;
-  }
-}
-
 .signup-form__notification-message {
   max-width: 449px;
   width: 100%;
@@ -54,15 +7,6 @@
   font-size: 14px;
   padding: 9px;
   background: $caribbean-green;
-}
-
-.signup-form__input-container {
-  max-width: 449px;
-  width: 100%;
-  padding: 0 20px;
-  @include device-is('tablet') {
-    padding: 0;
-  }
 }
 
 .signup-form__cgu-container {
@@ -80,6 +24,12 @@
     margin-bottom: 0;
     padding: 0;
   }
+}
+
+.signup-form__cgu {
+  font-family: $font-roboto;
+  font-size: 1.4rem;
+  font-weight: $font-light;
 }
 
 .signup-form__cgu-label {
@@ -100,22 +50,15 @@
   }
 }
 
-.signup__cgu-link {
-  color: $pix-blue;
-}
-
-.signup-form__submit-container {
-  margin: 5px auto 20px;
-  @include device-is('tablet') {
-    margin: 31px auto 34px;
-  }
-}
-
 .signup-form__legal-details-container {
   display: block;
   max-width: 100%;
-  padding: 10px 80px 50px 80px;
+  padding: 10px;
   font-size: 11px;
+
+  @include device-is('tablet') {
+    padding: 10px 0;
+  }
 }
 
 .form-textfield__cgu-message--error {
@@ -133,17 +76,7 @@
 }
 
 .signup-form__captcha-container {
-  padding: 20px;
-}
-
-.signup__submit-button {
-  width: 150px;
-  height: 40px;
-  border-radius: 25px;
-  border: none;
-  text-transform: uppercase;
-  font-size: 13px;
-  background: $pix-blue;
-  color: $white;
-  outline: none;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
 }

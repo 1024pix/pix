@@ -39,20 +39,23 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         await click('.campaign-landing-page__start-button');
       });
 
-      it('should propose to reconnect', async function() {
+      it('should propose to signup', async function() {
         // then
         return andThen(() => {
-          expect(currentURL()).to.contains('/connexion');
+          expect(currentURL()).to.contains('/inscription');
         });
       });
 
-      it('should redirect to assessment when user is logging in', async function() {
+      it('should redirect to assessment when user is signing up', async function() {
         // given
-        fillIn('#pix-email', 'jane@acme.com');
-        fillIn('#pix-password', 'Jane1234');
+        await fillIn('#firstName', 'Jane');
+        await fillIn('#lastName', 'Acme');
+        await fillIn('#email', 'jane@acme.com');
+        await fillIn('#password', 'Jane1234');
+        await click('#pix-cgu');
 
         // when
-        click('.signin-form__submit_button');
+        await click('.sign-form__submit-button');
 
         // then
         return andThen(() => {
