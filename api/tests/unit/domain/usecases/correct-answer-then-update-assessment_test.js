@@ -243,7 +243,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       // then
       const expectedArgument = {
         answer: savedAnswer,
-        associatedChallenge: challenge,
+        challenge: challenge,
         previouslyFailedSkills: assessment.getFailedSkills(),
         previouslyValidatedSkills: assessment.getValidatedSkills(),
         targetSkills: assessment.targetProfile.skills,
