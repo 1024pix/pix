@@ -28,7 +28,7 @@ describe('Integration | Component | reset password form', function() {
         { item: '.sign-form__form' },
         { item: '.form-textfield__label' },
         { item: '.form-textfield__input-field-container' },
-        { item: '.sign-form__submit-button' }
+        { item: '.button' }
       ].forEach(({ item }) => {
         it(`should contains a item with class: ${item}`, function() {
           // when
@@ -60,7 +60,7 @@ describe('Integration | Component | reset password form', function() {
         this.render(hbs`{{reset-password-form}}`);
 
         // then
-        expect(this.$('.sign-form__submit-button')).to.have.lengthOf(1);
+        expect(this.$('.button')).to.have.lengthOf(1);
       });
 
       describe('Saving behavior', function() {
@@ -93,7 +93,7 @@ describe('Integration | Component | reset password form', function() {
           this.$(PASSWORD_INPUT_CLASS).val(validPassword);
           this.$(PASSWORD_INPUT_CLASS).change();
 
-          await this.$('.sign-form__submit-button').click();
+          await this.$('.button').click();
 
           // then
           expect(isSaveMethodCalled).to.be.true;
@@ -114,7 +114,7 @@ describe('Integration | Component | reset password form', function() {
           this.$(PASSWORD_INPUT_CLASS).val(validPassword);
           this.$(PASSWORD_INPUT_CLASS).change();
 
-          await this.$('.sign-form__submit-button').click();
+          await this.$('.button').click();
 
           // then
           expect(isSaveMethodCalled).to.be.true;

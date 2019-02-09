@@ -24,7 +24,7 @@ describe('Integration | Component | password reset demand form', function() {
     expect(this.$('.sign-form__form')).to.have.length(1);
     expect(this.$('.form-textfield__label')).to.have.length(1);
     expect(this.$('.form-textfield__input-field-container')).to.have.length(1);
-    expect(this.$('.sign-form__submit-button')).to.have.length(1);
+    expect(this.$('.button')).to.have.length(1);
   });
 
   it('should display error message when there is an error on password reset demand', function() {

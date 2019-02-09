@@ -73,7 +73,7 @@ describe('Acceptance | Espace compte | Authentication', function() {
       fillIn('#password', 'Pix20!!');
 
       // when
-      click('.sign-form__submit-button');
+      click('.button');
 
       // then
       return andThen(function() {

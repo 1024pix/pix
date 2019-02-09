@@ -33,7 +33,7 @@ describe('Integration | Component | signin form', function() {
       this.render(hbs`{{signin-form}}`);
 
       // then
-      expect(document.querySelector('button.sign-form__submit-button')).to.exist;
+      expect(document.querySelector('button.button')).to.exist;
     });
 
     it('should display a link to password reset view', function() {
@@ -86,7 +86,7 @@ describe('Integration | Component | signin form', function() {
       this.$('input#password').change();
 
       // when
-      run(() => document.querySelector('button.sign-form__submit-button').click());
+      run(() => document.querySelector('button.button').click());
     });
 
   });

@@ -55,7 +55,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         await click('#pix-cgu');
 
         // when
-        await click('.sign-form__submit-button');
+        await click('.button');
 
         // then
         return andThen(() => {

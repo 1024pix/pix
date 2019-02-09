@@ -93,7 +93,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           await fillIn('#email', 'jane@acme.com');
           await fillIn('#password', 'Jane1234');
           await click('#pix-cgu');
-          await click('.sign-form__submit-button');
+          await click('.button');
         });
 
         it('should redirect to fill-in-id-pix page after signup', async function() {
@@ -106,7 +106,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         it('should redirect to assessment after completion of external id', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.pix-button');
+          await click('.button');
 
           // then
           return andThen(() => {
@@ -123,7 +123,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           await fillIn('#email', 'jane@acme.com');
           await fillIn('#password', 'Jane1234');
           await click('#pix-cgu');
-          await click('.sign-form__submit-button');
+          await click('.button');
         });
 
         it('should redirect to assessment after signup', async function() {
@@ -178,7 +178,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
           // when
           await fillIn('#id-pix-label', participantExternalId);
-          await click('.pix-button');
+          await click('.button');
 
           // then
           expect(receivedParticipantExternalId).to.equal(participantExternalId);
@@ -187,7 +187,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         it('should go to the tutorial when the user fill in his id', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.pix-button');
+          await click('.button');
 
           // then
           return andThen(() => {
@@ -198,7 +198,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         it('should start the assessment when the user has seen tutorial', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.pix-button');
+          await click('.button');
           await click('.campaign-tutorial__next-page-tutorial');
           await click('.campaign-tutorial__next-page-tutorial');
           await click('.campaign-tutorial__next-page-tutorial');
