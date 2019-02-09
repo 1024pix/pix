@@ -7,7 +7,7 @@
   <div class="sign-form__header-container">
     <h1 class="sign-form-header__title">Connectez-vous</h1>
     <div class="sign-form-header__subtitle">Vous n'avez pas encore de compte Pix ?
-      {{#link-to 'inscription' class="pix-link"}} Créez un compte{{/link-to}}
+      {{#link-to 'inscription' class="link"}} Créez un compte{{/link-to}}
     </div>
   </div>
 
@@ -36,11 +36,11 @@
         inputBindingValue=password}}
     </div>
 
-    {{#link-to 'password-reset-demand' class="pix-link signin-form__forgotten-password-link"}}
+    {{#link-to 'password-reset-demand' class="link signin-form__forgotten-password-link"}}
       Mot de passe oublié ?{{/link-to}}
 
     <div class="sign-form__submit-container">
-      <button type="submit" class="sign-form__submit-button" {{action "submit" allowedKeys="enter"}}>
+      <button type="submit" class="button button--thin button--round button--big" {{action "submit" allowedKeys="enter"}}>
         Je me connecte
       </button>
     </div>

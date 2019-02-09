@@ -49,7 +49,7 @@ describe('Acceptance | Reset Password', function() {
     fillIn('#email', 'brandone.martins@pix.com');
 
     // when
-    await click('.sign-form__submit-button');
+    await click('.button');
 
     // then
     return andThen(() => {
@@ -72,7 +72,7 @@ describe('Acceptance | Reset Password', function() {
     fillIn('#email', 'unexisting@user.com');
 
     // when
-    await click('.sign-form__submit-button');
+    await click('.button');
 
     // then
     return andThen(() => {

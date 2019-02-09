@@ -110,26 +110,6 @@
   }
 }
 
-.sign-form__submit-button {
-  width: 150px;
-  height: 40px;
-  border-radius: 25px;
-  border: none;
-  text-transform: uppercase;
-  font-size: 1.3rem;
-  background-color: $pix-blue;
-  color: $white;
-  outline: none;
-
-  &:hover, &:active, &:focus {
-    background-color: $pix-blue-hover;
-  }
-
-  &--big {
-    width: 250px;
-  }
-}
-
 .sign-form__notification-message {
   max-width: 449px;
   width: 100%;

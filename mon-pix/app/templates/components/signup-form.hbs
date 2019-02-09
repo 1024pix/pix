@@ -7,7 +7,7 @@
   <div class="sign-form__header-container">
     <h1 class="sign-form-header__title">Inscrivez-vous</h1>
     <div class="sign-form-header__subtitle">ou
-      {{#link-to 'login' class="pix-link"}} connectez-vous à votre compte{{/link-to}}
+      {{#link-to 'login' class="link"}} connectez-vous à votre compte{{/link-to}}
     </div>
   </div>
 
@@ -71,7 +71,7 @@
       <label for="pix-cgu" class="signup-form__cgu-label">
         {{input type="checkbox" id='pix-cgu' checked=user.cgu}}
         <span class="signup-form__cgu">
-        J'​accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="pix-link" target="_blank">conditions d'​utilisation de Pix</a>
+        J'​accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions d'​utilisation de Pix</a>
       </span>
       </label>
     </div>
@@ -84,7 +84,7 @@
     </div>
 
     <div class="sign-form__submit-container">
-      <button type="submit" class="sign-form__submit-button" {{action "signup" allowedKeys="enter"}}>
+      <button type="submit" class="button button--thin button--round button--big" {{action "signup" allowedKeys="enter"}}>
         Je m'inscris
       </button>
     </div>
