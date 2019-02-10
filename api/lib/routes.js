@@ -19,7 +19,6 @@ module.exports = [
   require('./application/metrics'),
   require('./application/organizations'),
   require('./application/passwords'),
-  require('./application/qmail'),
   require('./application/saml'),
   require('./application/sessions'),
   require('./application/simulateErrors'),
