@@ -116,7 +116,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
             expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
             expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 
-            expect(feedback.id).to.equal(model.id);
+            expect(feedback.id).to.equal(model.id.toString());
             expect(feedback.id).to.equal(response.result.data.id);
             expect(feedback.attributes.content).to.equal(model.get('content'));
             expect(feedback.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());

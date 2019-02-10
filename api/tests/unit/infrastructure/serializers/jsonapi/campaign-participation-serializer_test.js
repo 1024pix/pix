@@ -22,7 +22,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       const expectedSerializedCampaignParticipation = {
         data: {
           type: 'campaign-participations',
-          id: 5,
+          id: '5',
           attributes: {
             'is-shared': true,
             'shared-at': '2018-02-06 14:12:44',
@@ -78,7 +78,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
           relationships: {
             'campaign': {
               data: {
-                id: campaignId,
+                id: campaignId.toString(),
               }
             }
           }

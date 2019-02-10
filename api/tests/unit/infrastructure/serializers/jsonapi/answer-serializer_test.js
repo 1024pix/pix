@@ -71,7 +71,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
       const expectedJSON = {
         data: {
           type: 'answers',
-          id: answerId,
+          id: answerId.toString(),
           attributes: {
             value: answerValue,
             'result-details': resultDetails,

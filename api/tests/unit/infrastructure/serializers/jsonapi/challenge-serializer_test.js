@@ -69,7 +69,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
         expect(json).to.deep.equal({
           data: {
             type: 'challenges',
-            id: 1,
+            id: '1',
             attributes: {
               competence: 'competence_id',
             }
@@ -89,7 +89,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
         expect(json).to.deep.equal({
           data: {
             type: 'challenges',
-            id: 1,
+            id: '1',
             attributes: {
               competence: 'N/A',
             }

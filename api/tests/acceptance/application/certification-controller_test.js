@@ -91,7 +91,7 @@ describe('Acceptance | API | Certifications', () => {
         expect(response.result.data).to.deep.equal([
           {
             type: 'certifications',
-            id: certificationId,
+            id: certificationId.toString(),
             attributes: {
               // TODO Bug birthdate UTC+1
               'birthdate': new Date('1993-12-08'),
@@ -435,7 +435,7 @@ describe('Acceptance | API | Certifications', () => {
             'pix-score': 23,
             'status': 'rejected',
           },
-          'id': 2,
+          'id': '2',
           'relationships': {
             'result-competence-tree': {
               'data': {
@@ -634,7 +634,7 @@ describe('Acceptance | API | Certifications', () => {
           expect(response.statusCode).to.equal(200);
           expect(response.result.data).to.deep.equal({
             type: 'certifications',
-            id: JOHN_CERTIFICATION_ID,
+            id: JOHN_CERTIFICATION_ID.toString(),
             attributes: {
               // TODO Bug birthdate UTC+1
               'birthdate': new Date('1991-10-24'),

@@ -11,7 +11,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
 
       const expectedTargetProfile = {
         data: {
-          id: targetProfile.id,
+          id: targetProfile.id.toString(),
           type: 'target-profiles',
           attributes: {
             name: targetProfile.name

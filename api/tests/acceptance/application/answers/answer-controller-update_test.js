@@ -157,8 +157,8 @@ describe('Acceptance | Controller | answer-controller', () => {
         new Answer()
           .fetch()
           .then((model) => {
-            expect(answer.id).to.equal(model.id);
-            expect(answer.id).to.equal(response.result.data.id);
+            expect(answer.id).to.equal(model.id.toString());
+            expect(answer.id).to.equal(response.result.data.id.toString());
             expect(answer.attributes['value']).to.equal(model.get('value'));
             expect(answer.attributes['elapsed-time']).to.equal(model.get('elapsedTime'));
             expect(answer.attributes['timeout']).to.equal(model.get('timeout'));
