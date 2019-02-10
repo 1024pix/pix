@@ -19,7 +19,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
     it('should convert a Certification Center model object into JSON API data', function() {
       // given
       const certificationCenter = new CertificationCenter({
-        id: certificationCenterId,
+        id: certificationCenterId.toString(),
         name: certificationCenterName,
         createdAt: certificationCenterDate,
         fakeProperty: 'fakeProperty'
@@ -28,9 +28,9 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
       const expectedSerializedCertificationCenter = {
         data: {
           type: 'certification-centers',
-          id: certificationCenterId,
+          id: certificationCenterId.toString(),
           attributes: {
-            id: certificationCenterId,
+            id: certificationCenterId.toString(),
             name: certificationCenterName,
             'created-at': certificationCenterDate,
           },
@@ -53,7 +53,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
       const jsonApi = {
         data: {
           type: 'certification-centers',
-          id: certificationCenterId,
+          id: certificationCenterId.toString(),
           attributes: {
             name: certificationCenterName,
             'created-at': '2018-20'
@@ -67,7 +67,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
 
       // then
       expect(deserializedCertificationCenter).to.be.instanceOf(CertificationCenter);
-      expect(deserializedCertificationCenter.id).to.equal(certificationCenterId);
+      expect(deserializedCertificationCenter.id).to.equal(certificationCenterId.toString());
       expect(deserializedCertificationCenter.name).to.equal(certificationCenterName);
       expect(deserializedCertificationCenter.createdAt).to.be.undefined;
     });

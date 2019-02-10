@@ -95,10 +95,13 @@ module.exports = (function() {
 
     config.authentication = {
       secret: 'test-jwt-key',
+      tokenLifespan: '1d',
+      tokenForCampaignResultLifespan: '1h',
     };
 
     config.temporaryKey = {
-      secret: 'test-jwt-key'
+      secret: 'test-jwt-key',
+      tokenLifespan: '1d',
     };
 
     config.redisUrl = null;

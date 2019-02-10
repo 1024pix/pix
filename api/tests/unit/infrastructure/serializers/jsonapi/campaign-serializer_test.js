@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
       const expectedSerializedCampaign = {
         data: {
           type: 'campaigns',
-          id: 5,
+          id: '5',
           attributes: {
             name: 'My zuper campaign',
             code: 'ATDGER342',

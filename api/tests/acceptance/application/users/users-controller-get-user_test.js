@@ -43,7 +43,7 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
       const expectedUserJSONApi = {
         data: {
           type: 'users',
-          id: 1234,
+          id: '1234',
           attributes: {
             'first-name': userToInsert.firstName,
             'last-name': userToInsert.lastName,

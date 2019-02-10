@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
         data: [
           {
             attributes: {},
-            id: 1,
+            id: '1',
             relationships: {
               'certification-center': {
                 data: {

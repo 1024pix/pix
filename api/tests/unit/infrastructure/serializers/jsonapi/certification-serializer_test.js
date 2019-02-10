@@ -86,7 +86,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               },
             },
             'type': 'certifications',
-            'id': 1,
+            'id': '1',
           },
         ],
       };
@@ -129,7 +129,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               },
             },
             'type': 'certifications',
-            'id': 1,
+            'id': '1',
           },
         };
 
@@ -165,7 +165,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               },
             },
           },
-          'id': 1,
+          'id': '1',
           'type': 'certifications',
         },
         'included': [
@@ -268,7 +268,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     const jsonCertification = {
       data: {
         type: 'certifications',
-        id: 1,
+        id: '1',
         attributes: {
           'first-name': 'Freezer',
           'last-name': 'The all mighty',
