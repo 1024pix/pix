@@ -145,7 +145,7 @@ describe('Acceptance | Controller | session-controller', () => {
       const expectedResult = {
         data: [{
           'type': 'sessions',
-          'id': 1,
+          'id': '1',
           'attributes': {
             'access-code': 'ABC123',
             'address': 'Paris',
@@ -163,7 +163,7 @@ describe('Acceptance | Controller | session-controller', () => {
           }
         }, {
           'type': 'sessions',
-          'id': 2,
+          'id': '2',
           'attributes': {
             'access-code': 'DEF456',
             'address': 'Lyon',

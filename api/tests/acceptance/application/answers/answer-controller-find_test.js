@@ -85,7 +85,7 @@ describe('Acceptance | Controller | answer-controller', () => {
       // then
       return promise.then((response) => {
         const answer = response.result.data;
-        expect(answer.id).to.equal(inserted_answer_id);
+        expect(answer.id).to.equal(inserted_answer_id.toString());
         expect(answer.attributes.value.toString()).to.equal(inserted_answer.value.toString());
         expect(answer.attributes.result.toString()).to.equal(inserted_answer.result.toString());
         expect(answer.relationships.assessment.data.id.toString()).to.equal(inserted_answer.assessmentId.toString());

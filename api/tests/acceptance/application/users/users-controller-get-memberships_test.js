@@ -92,7 +92,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
           data: [
             {
               type: 'memberships',
-              id: membershipId,
+              id: membershipId.toString(),
               attributes: {},
               relationships: {
                 'organization': { data: { type: 'organizations', id: organizationId.toString() }, },
