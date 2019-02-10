@@ -21,7 +21,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
   const jsonApiSession = {
     data: {
       type: 'sessions',
-      id: 12,
+      id: '12',
       attributes: {
         'certification-center': 'Université de dressage de loutres',
         address: 'Nice',
@@ -118,7 +118,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
       // then
       expect(session).to.be.instanceOf(Session);
-      expect(session.id).to.equal(12);
+      expect(session.id).to.equal('12');
       expect(session.certificationCenter).to.equal('Université de dressage de loutres');
       expect(session.certificationCenterId).to.equal(42);
       expect(session.address).to.equal('Nice');

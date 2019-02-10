@@ -288,7 +288,7 @@ describe('Acceptance | API | Campaigns', () => {
       return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.type).to.equal('campaigns');
-        expect(response.result.data.id).to.equal(campaign.id);
+        expect(response.result.data.id).to.equal(campaign.id.toString());
         expect(response.result.data.attributes.name).to.equal(campaign.name);
         expect(response.result.data.attributes.title).to.equal('New title');
         expect(response.result.data.attributes['custom-landing-page-text']).to.equal('New text');

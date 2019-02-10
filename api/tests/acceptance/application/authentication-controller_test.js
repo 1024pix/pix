@@ -78,7 +78,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         expect(response.statusCode).to.equal(201);
         expect(response.result).to.deep.equal({
           data: {
-            id: userId,
+            id: userId.toString(),
             type: 'authentications',
             attributes: {
               'user-id': userId.toString(),
