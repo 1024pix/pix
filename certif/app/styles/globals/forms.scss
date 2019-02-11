@@ -67,6 +67,7 @@
 
   &:hover, &:active, &:focus {
     background-color: $mariner;
+    transition: background-color 0.2s ease;
   }
 
   &--white {
