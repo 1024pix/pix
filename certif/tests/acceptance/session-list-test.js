@@ -13,9 +13,9 @@ module('Acceptance | Session List', function(hooks) {
 
   let user;
 
-  module('When user is not logged in', function() {
+  module('When user is not authenticated', function () {
 
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+    test('it should not be accessible', async function (assert) {
       // when
       await visit('/sessions/liste');
 
@@ -25,13 +25,13 @@ module('Acceptance | Session List', function(hooks) {
 
   });
 
-  module('When user is logged in', function() {
+  module('When user is authenticated', function () {
 
     hooks.beforeEach( async () => {
       user = createUserWithMembership();
     });
 
-    test('it should be accessible for an authenticated user', async function(assert) {
+    test('it should be accessible', async function (assert) {
       // given
       await authenticateSession({
         user_id: user.id,
