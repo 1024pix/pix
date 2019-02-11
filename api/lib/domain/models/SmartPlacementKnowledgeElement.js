@@ -29,7 +29,7 @@ class SmartPlacementKnowledgeElement {
     createdAt,
     source,
     status,
-    pixValue,
+    earnedPix,
     // includes
     // references
     answerId,
@@ -41,7 +41,7 @@ class SmartPlacementKnowledgeElement {
     this.createdAt = createdAt;
     this.source = source;
     this.status = status;
-    this.pixValue = pixValue;
+    this.earnedPix = earnedPix;
     // includes
     // references
     this.answerId = answerId;
@@ -200,7 +200,7 @@ function _createKnowledgeElementsForSkill({ skill, source, status, answer }) {
   return new SmartPlacementKnowledgeElement({
     answerId: answer.id,
     assessmentId: answer.assessmentId,
-    pixValue: pixValue,
+    earnedPix: pixValue,
     skillId: skill.id,
     source,
     status,
