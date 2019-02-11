@@ -11,14 +11,15 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     smartPlacementKnowledgeElementRepository,
   } = {}) {
 
-  const challengeHasBeenAnswered = await answerRepository.hasChallengeAlreadyBeenAnswered({
+  const answersFind = await answerRepository.findByChallengeAndAssessment({
     assessmentId: answer.assessmentId,
     challengeId: answer.challengeId,
   });
-  throwIfChallengeAlreadyAnswered(challengeHasBeenAnswered);
+  throwIfChallengeAlreadyAnswered(answersFind);
 
   const challenge = await challengeRepository.get(answer.challengeId);
-  const answerSaved = await answerRepository.save(evaluateAnswer(challenge, answer));
+  const correctedAnswer = evaluateAnswer(challenge, answer);
+  const answerSaved = await answerRepository.save(correctedAnswer);
   await saveKnowledgeElementsIfSmartPlacement({
     challenge,
     answerSaved,
