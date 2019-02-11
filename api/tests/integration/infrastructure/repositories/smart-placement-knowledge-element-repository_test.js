@@ -43,7 +43,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       const expectedRawKnowledgeElementWithoutIdNorDates = {
         source: smartPlacementKnowledgeElement.source,
         status: smartPlacementKnowledgeElement.status,
-        pixValue: smartPlacementKnowledgeElement.pixValue,
+        earnedPix: smartPlacementKnowledgeElement.earnedPix,
         answerId: smartPlacementKnowledgeElement.answerId,
         assessmentId: smartPlacementKnowledgeElement.assessmentId,
         skillId: `${smartPlacementKnowledgeElement.skillId}`,
