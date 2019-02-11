@@ -46,6 +46,32 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
     assert.dom('table tbody tr td').hasText('1');
   });
 
+  test('it should display properly formatted dates', async function(assert) {
+    // given
+    let store = this.owner.lookup('service:store');
+    let session1 = run(() => store.createRecord('session', {
+      id: 1,
+      date: new Date('2018-08-06')
+    }));
+    let session2 = run(() => store.createRecord('session', {
+      id: 2,
+      date: new Date('2018-08-07')
+    }));
+    const sessions = [session1, session2];
+
+    this.set('model', sessions);
+
+    // when
+    await render(hbs`{{routes/authenticated/sessions/list-items sessions=model}}`);
+    await waitFor('table tbody tr td');
+
+    // then
+    assert.dom('table tbody tr').exists({ count: 2 });
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('07/08/2018');
+    assert.dom('table tbody tr:nth-child(3) td:nth-child(4)').hasText('06/08/2018');
+  });
+
+
   test('it should sort the sessions from recent to older', async function(assert) {
     // given
     const session1 = { id: 1, date: new Date('2018-08-06'), time: '08:00' };
