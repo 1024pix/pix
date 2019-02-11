@@ -10,7 +10,7 @@ export default Controller.extend({
   actions: {
 
     updateOrganizationInformation() {
-      return this.get('model.organization').save();
+      return this.get('model').save();
     },
 
     async addMembership() {
