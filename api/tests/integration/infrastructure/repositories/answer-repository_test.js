@@ -87,7 +87,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     it('should find the answer by challenge and assessment and return its in an object', () => {
       // when
-      const promise = AnswerRepository.findByChallengeAndAssessment('challenge_1234', 1234);
+      const promise = AnswerRepository.findByChallengeAndAssessment({ challengeId: 'challenge_1234', assessmentId: 1234 });
 
       // then
       return promise.then((foundAnswers) => {
@@ -248,42 +248,6 @@ describe('Integration | Repository | AnswerRepository', () => {
         expect(foundAnswer.get('assessmentId')).to.be.equal(1);
         expect(foundAnswer.get('result')).to.be.equal('ok');
       });
-    });
-  });
-
-  describe('#hasChallengeAlreadyBeenAnswered', () => {
-
-    it('should return true if answer exists in database', async () => {
-      // given
-      const { challengeId, assessmentId } = databaseBuilder.factory.buildAnswer();
-
-      await databaseBuilder.commit();
-
-      // when
-      const promise = AnswerRepository.hasChallengeAlreadyBeenAnswered({
-        challengeId,
-        assessmentId,
-      });
-
-      // then
-      return expect(promise).to.eventually.be.true;
-    });
-
-    it('should return false if answer does not exist in database', async () => {
-      // given
-      const { assessmentId } = databaseBuilder.factory.buildAnswer();
-      const otherChallengeId = 'rec1234';
-
-      await databaseBuilder.commit();
-
-      // when
-      const promise = AnswerRepository.hasChallengeAlreadyBeenAnswered({
-        challengeId: otherChallengeId,
-        assessmentId,
-      });
-
-      // then
-      return expect(promise).to.eventually.be.false;
     });
   });
 
