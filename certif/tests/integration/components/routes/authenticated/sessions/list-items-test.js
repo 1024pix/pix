@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, waitFor } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -18,6 +18,7 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
 
     // when
     await render(hbs`{{routes/authenticated/sessions/list-items sessions=model}}`);
+    await waitFor('table tbody tr');
 
     // then
     assert.dom('table').exists();
@@ -39,6 +40,7 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
 
     // when
     await render(hbs`{{routes/authenticated/sessions/list-items sessions=model}}`);
+    await waitFor('table tbody tr td');
 
     // then
     assert.dom('table tbody tr td').hasText('1');
@@ -55,6 +57,7 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
 
     // when
     await render(hbs`{{routes/authenticated/sessions/list-items sessions=model}}`);
+    await waitFor('table tbody tr td');
 
     // then
     assert.dom('table tbody tr').exists({ count: 3 });
