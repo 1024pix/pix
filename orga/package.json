@@ -10,7 +10,7 @@
   "license": "AGPL-3.0",
   "author": "Team PIX",
   "engines": {
-    "node": "8.11.4"
+    "node": "10.15.1"
   },
   "scripts": {
     "build": "ember build --environment $BUILD_ENVIRONMENT",
