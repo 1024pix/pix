@@ -5,7 +5,7 @@ module.exports = [
     address: 'Rue de bercy',
     examiner: 'Benoit',
     date: '2028-01-15',
-    time: '14:00',
+    time: '14:00:00',
     description: 'Sesssion 1',
     room: 'Salle 2',
     accessCode: 'ABC12',
@@ -20,7 +20,7 @@ module.exports = [
     time: '10:00',
     description: 'Session de rattrapage',
     room: 'Salle Eau',
-    accessCode: 'DEF34'
+    accessCode: 'DEF34',
   },
   {
     id: 3,
@@ -31,6 +31,7 @@ module.exports = [
     time: '15:00',
     description: 'Session',
     room: 'Salle Feu',
-    accessCode: 'GHI56'
+    accessCode: 'GHI56',
+    certificationCenterId: 1,
   }
 ];

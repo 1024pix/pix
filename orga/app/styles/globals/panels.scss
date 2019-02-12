@@ -1,12 +1,8 @@
 .panel {
   border-radius: 4px;
-  border: solid 2px;
+  border: solid 2px white;
   box-shadow: 0 1px 1px 0 rgba(12, 22, 58, 0.1), 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-
-  &--white {
-    background-color: white;
-    border-color: white;
-  }
+  background-color: white;
 
   &--strong-shadow {
     box-shadow: 0 6px 12px 0 rgba(12,22,58,0.1), 0 2px 5px 0 rgba(0,0,0,0.1);
@@ -17,14 +13,12 @@
     color: $nero;
     outline: none;
     cursor: pointer;
-  }
-}
 
-.panel--white.panel--link {
-  &:hover, &:active, &:focus {
-    border-color: $dodger-blue;
-    transition: border-color 1s ease;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
+    &:hover, &:active, &:focus {
+      border-color: $dodger-blue;
+      transition: border-color 1s ease;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
+    }
   }
 }
 
