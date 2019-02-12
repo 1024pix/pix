@@ -8,6 +8,7 @@
   }
 
   thead {
+    width: 100%;
     color: $mine-shaft;
   }
 
@@ -24,6 +25,8 @@
   }
 
   tr {
+    width: 100%;
+    display: inline-table;
     height: 60px;
     border-top: 2px solid $wild-sand;
   }
