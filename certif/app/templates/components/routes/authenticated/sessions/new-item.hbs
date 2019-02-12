@@ -40,6 +40,7 @@
                       onChange=(action onDatePicked)
                       dateFormat='d/m/Y'
                       locale='fr'
+                      minDate='today'
                       name='session-date'
                       class='input input--small'
     }}
@@ -54,12 +55,12 @@
     <label for="session-time" class="label">Heure de début (fin 2h plus tard)</label>
     {{ember-flatpickr id='session-time'
                       onChange=(action onTimePicked)
+                      onClose=(action onTimePicked)
                       enableTime=true
                       noCalendar=true
                       dateFormat='H:i'
                       time_24hr=true
                       enableSeconds=false
-                      defaultDate=session.time
                       name='session-time'
                       class='input input--small'
     }}
