@@ -5,6 +5,8 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
+
 
 module('Acceptance | Session creation', function(hooks) {
 
@@ -31,11 +33,19 @@ module('Acceptance | Session creation', function(hooks) {
 
     test('it should create a session', async function(assert) {
       // given
+      let formattedDate = '02/02/2019';
+      let date = new Date(formattedDate);
+      let formattedDateWithTime = '02/02/2019 13:45';
+      let dateWithTime = new Date(formattedDateWithTime);
+
+
       await visit('/sessions/creation');
       await fillIn('#session-address', 'My address');
       await fillIn('#session-room', 'My room');
       await fillIn('#session-examiner', 'My examiner');
       await fillIn('#session-description', 'My description');
+      await setFlatpickrDate('#session-date', date);
+      await setFlatpickrDate('#session-time', dateWithTime);
 
       // when
       await click('button[type="submit"]');
@@ -45,6 +55,8 @@ module('Acceptance | Session creation', function(hooks) {
       assert.equal(server.db.sessions[0].room, 'My room');
       assert.equal(server.db.sessions[0].examiner, 'My examiner');
       assert.equal(server.db.sessions[0].description, 'My description');
+      assert.equal(server.db.sessions[0].date, formattedDate);
+      assert.equal(server.db.sessions[0].time, '13:45');
       assert.equal(currentURL(), '/sessions/liste');
     });
 

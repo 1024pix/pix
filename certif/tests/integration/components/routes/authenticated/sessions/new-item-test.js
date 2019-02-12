@@ -28,8 +28,6 @@ module('Integration | Component | routes/authenticated/session | new-item', func
     assert.dom('#session-examiner').exists();
     assert.dom('#session-description').exists();
     assert.dom('button[type="submit"]').exists();
-    assert.dom('#session-date').hasAttribute('maxLength', "10");
-    assert.dom('#session-time').hasAttribute('maxLength', "5");
     assert.dom('#session-description').hasAttribute('maxLength', "350");
   });
 
