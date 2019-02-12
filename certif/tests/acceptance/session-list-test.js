@@ -34,7 +34,7 @@ module('Acceptance | Session List', function(hooks) {
     assert.equal(currentURL(), '/sessions/liste');
   });
 
-  test('it should show title indicate than user can create a session', async function(assert) {
+  test('it should show title indicating that the user can create a session', async function(assert) {
     // given
     const user = createUserWithMembership();
 
