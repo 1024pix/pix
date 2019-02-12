@@ -3,12 +3,9 @@ const Answer = require('../../domain/models/Answer');
 
 require('./assessment');
 
-const bookshelfName = 'Answer';
-
-module.exports = Bookshelf.model(bookshelfName, {
+module.exports = Bookshelf.model('Answer', {
 
   tableName: 'answers',
-  bookshelfName,
 
   assessment() {
     return this.belongsTo('Assessment');

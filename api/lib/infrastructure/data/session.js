@@ -1,11 +1,8 @@
 const Bookshelf = require('../bookshelf');
 require('./certification-course');
 
-const bookshelfName = 'Session';
-
-module.exports = Bookshelf.model(bookshelfName, {
+module.exports = Bookshelf.model('Session', {
   tableName: 'sessions',
-  bookshelfName,
 
   validations: {
     certificationCenter: [{

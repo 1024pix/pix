@@ -3,12 +3,9 @@ const CompetenceMark = require('../../domain/models/CompetenceMark');
 
 require('./assessment-result');
 
-const bookshelfName = 'CompetenceMark';
-
-module.exports = Bookshelf.model(bookshelfName, {
+module.exports = Bookshelf.model('CompetenceMark', {
 
   tableName: 'competence-marks',
-  bookshelfName,
 
   assessmentResults() {
     return this.belongsTo('AssessmentResult');

@@ -1,11 +1,8 @@
 const Bookshelf = require('../bookshelf');
 
-const bookshelfName = 'CertificationCenterMembership';
-
-module.exports = Bookshelf.model(bookshelfName, {
+module.exports = Bookshelf.model('CertificationCenterMembership', {
 
   tableName: 'certification-center-memberships',
-  bookshelfName,
 
   user() {
     return this.belongsTo('User', 'userId');

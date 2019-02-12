@@ -8,11 +8,8 @@ require('./assessment');
 require('./organization');
 require('./membership');
 
-const bookshelfName = 'User';
-
-module.exports = Bookshelf.model(bookshelfName, {
+module.exports = Bookshelf.model('User', {
   tableName: 'users',
-  bookshelfName,
 
   assessments() {
     return this.hasMany('Assessment');

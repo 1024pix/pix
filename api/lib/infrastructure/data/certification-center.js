@@ -1,11 +1,8 @@
 const Bookshelf = require('../bookshelf');
 
-const bookshelfName = 'CertificationCenter';
-
-module.exports = Bookshelf.model(bookshelfName, {
+module.exports = Bookshelf.model('CertificationCenter', {
 
   tableName: 'certification-centers',
-  bookshelfName,
 
   certificationCenterMemberships() {
     return this.hasMany('CertificationCenterMembership', 'certificationCenterId');
