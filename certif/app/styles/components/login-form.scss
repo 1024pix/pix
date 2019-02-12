@@ -26,5 +26,13 @@
 
   &__forgotten-password {
     text-align: left;
+
+    a {
+      text-decoration: none;
+
+      &:hover, &:active, &:focus {
+        text-decoration: underline;
+      }
+    }
   }
 }
