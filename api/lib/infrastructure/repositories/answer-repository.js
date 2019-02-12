@@ -49,12 +49,7 @@ module.exports = {
       });
   },
 
-  /**
-   * @deprecated use hasChallengeAlreadyBeenAnswered
-   */
   getByChallengeAndAssessment(challengeId, assessmentId) {
-  // TODO return domain object
-  findByChallengeAndAssessment({ challengeId, assessmentId }) {
     return BookshelfAnswer
       .where({ challengeId, assessmentId })
       .fetch()
