@@ -36,12 +36,12 @@
 
   <div class="session-form__field">
     <label for="session-date" class="label">Date de début</label>
-    {{input id='session-date'
-            name='session-date'
-            type='text'
-            maxlength='10'
-            value=session.date
-            class='input input--small'
+    {{ember-flatpickr id='session-date'
+                      onChange=(action onDatePicked)
+                      dateFormat='d/m/Y'
+                      locale='fr'
+                      name='session-date'
+                      class='input input--small'
     }}
     {{#each session.errors.date as |error|}}
       <div class='session-form__error error-message'>
@@ -52,12 +52,16 @@
 
   <div class="session-form__field">
     <label for="session-time" class="label">Heure de début (fin 2h plus tard)</label>
-    {{input id='session-time'
-            name='session-time'
-            type='text'
-            maxlength='5'
-            value=session.time
-            class='input input--small'
+    {{ember-flatpickr id='session-time'
+                      onChange=(action onTimePicked)
+                      enableTime=true
+                      noCalendar=true
+                      dateFormat='H:i'
+                      time_24hr=true
+                      enableSeconds=false
+                      defaultDate=session.time
+                      name='session-time'
+                      class='input input--small'
     }}
     {{#each session.errors.time as |error|}}
       <div class='session-form__error error-message'>
