@@ -55,7 +55,7 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
   });
 
-  describe('#findByChallengeAndAssessment', () => {
+  describe('#getByChallengeAndAssessment', () => {
 
     // nominal case
     const wrongAnswer = {
@@ -87,7 +87,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     it('should find the answer by challenge and assessment and return its in an object', () => {
       // when
-      const promise = AnswerRepository.getByChallengeAndAssessment('challenge_1234', 1234);
+      const promise = AnswerRepository.getByChallengeAndAssessment({ challengeId: 'challenge_1234', assessmentId: 1234 });
 
       // then
       return promise.then((foundAnswers) => {

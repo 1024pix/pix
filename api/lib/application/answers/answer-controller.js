@@ -88,7 +88,7 @@ module.exports = {
 
   findByChallengeAndAssessment(request) {
     return answerRepository
-      .getByChallengeAndAssessment(request.url.query.challenge, request.url.query.assessment)
+      .getByChallengeAndAssessment({ challengeId: request.url.query.challenge, assessmentId: request.url.query.assessment })
       .then(answerSerializer.serialize)
       .catch((err) => {
         logger.error(err);

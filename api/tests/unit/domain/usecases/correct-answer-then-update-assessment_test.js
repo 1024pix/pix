@@ -10,7 +10,7 @@ const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../li
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
 
   const answerRepository = {
-    findByChallengeAndAssessment: () => undefined,
+    getByChallengeAndAssessment: () => undefined,
     save: () => undefined,
   };
   const challengeRepository = { get: () => undefined };
@@ -19,7 +19,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
   beforeEach(() => {
 
-    sinon.stub(answerRepository, 'findByChallengeAndAssessment');
+    sinon.stub(answerRepository, 'getByChallengeAndAssessment');
     sinon.stub(answerRepository, 'save');
     sinon.stub(challengeRepository, 'get');
     sinon.stub(smartPlacementAssessmentRepository, 'get');
@@ -35,7 +35,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     beforeEach(() => {
       // given
       answer = domainBuilder.buildAnswer();
-      answerRepository.findByChallengeAndAssessment.resolves(true);
+      answerRepository.getByChallengeAndAssessment.resolves(true);
 
       // when
       promise = correctAnswerThenUpdateAssessment({
@@ -55,7 +55,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       };
       return promise.catch((error) => error)
         .then(() => {
-          return expect(answerRepository.findByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
+          return expect(answerRepository.getByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
         });
     });
     it('should fail because Challenge Already Answered', () => {
@@ -96,7 +96,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
       savedAnswer = domainBuilder.buildAnswer(completedAnswer);
 
-      answerRepository.findByChallengeAndAssessment.resolves(false);
+      answerRepository.getByChallengeAndAssessment.resolves(false);
       challengeRepository.get.resolves(challenge);
       answerRepository.save.resolves(savedAnswer);
       smartPlacementAssessmentRepository.get.rejects(new NotFoundError());
@@ -122,7 +122,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         challengeId: answer.challengeId,
       };
       return promise.then(() => {
-        return expect(answerRepository.findByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
+        return expect(answerRepository.getByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
       });
     });
     it('should call the answer repository to save the answer', () => {
@@ -186,7 +186,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       firstKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement();
       secondKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement();
 
-      answerRepository.findByChallengeAndAssessment.resolves(false);
+      answerRepository.getByChallengeAndAssessment.resolves(false);
       challengeRepository.get.resolves(challenge);
       answerRepository.save.resolves(savedAnswer);
       smartPlacementAssessmentRepository.get.resolves(assessment);
@@ -215,7 +215,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         challengeId: answer.challengeId,
       };
       return promise.then(() => {
-        return expect(answerRepository.findByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
+        return expect(answerRepository.getByChallengeAndAssessment).to.have.been.calledWith(expectedArguments);
       });
     });
     it('should call the answer repository to save the answer', () => {
