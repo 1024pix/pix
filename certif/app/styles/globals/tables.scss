@@ -1,0 +1,38 @@
+.table {
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: $roboto;
+    font-size: 0.8125rem;
+  }
+
+  thead {
+    width: 100%;
+    color: $mine-shaft;
+  }
+
+  tbody {
+    color: $dove-gray;
+
+    tr {
+      &:hover, &:focus, &:active {
+        color: $nero;
+        background-color: $wild-sand;
+        transition: 0.25s ease;
+      }
+    }
+  }
+
+  tr {
+    width: 100%;
+    display: inline-table;
+    height: 60px;
+    border-top: 2px solid $wild-sand;
+  }
+
+  td, th {
+    text-align: left;
+    padding-left: 15px;
+  }
+}

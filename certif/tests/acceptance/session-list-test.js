@@ -62,7 +62,7 @@ module('Acceptance | Session List', function(hooks) {
     await visit('/sessions/liste');
 
     // then
-    assert.dom('.session-item').exists({ count: 12 });
+    assert.dom('table tbody tr').exists({ count: 12 });
   });
 
 });
