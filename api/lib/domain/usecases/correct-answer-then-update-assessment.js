@@ -15,48 +15,35 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     assessmentId: answer.assessmentId,
     challengeId: answer.challengeId,
   });
-  throwIfChallengeAlreadyAnswered(answersFind);
+  if (answersFind) {
+    throw new ChallengeAlreadyAnsweredError();
+  }
 
   const challenge = await challengeRepository.get(answer.challengeId);
   const correctedAnswer = evaluateAnswer(challenge, answer);
+
   const answerSaved = await answerRepository.save(correctedAnswer);
-  await saveKnowledgeElementsIfSmartPlacement({
-    challenge,
-    answerSaved,
-    smartPlacementAssessmentRepository,
-    smartPlacementKnowledgeElementRepository,
-  });
-  return answerSaved;
-};
-
-function throwIfChallengeAlreadyAnswered(challengeHasBeenAnswered) {
-  if (challengeHasBeenAnswered) {
-    throw new ChallengeAlreadyAnsweredError();
-  }
-}
-
-function evaluateAnswer(challenge, answer) {
-  const examiner = new Examiner({ validator: challenge.validator });
-  return examiner.evaluate(answer);
-}
-
-function saveKnowledgeElementsIfSmartPlacement(
-  {
-    challenge,
-    answerSaved,
-    smartPlacementAssessmentRepository,
-    smartPlacementKnowledgeElementRepository,
-  }) {
-  return smartPlacementAssessmentRepository.get(answerSaved.assessmentId)
-    .then((assessment) => {
+  return smartPlacementAssessmentRepository.get(answer.assessmentId)
+    .then((smartPlacementAssessment) => {
       return saveKnowledgeElements({
-        assessment,
+        assessment: smartPlacementAssessment,
         answer: answerSaved,
         challenge,
         smartPlacementKnowledgeElementRepository,
       });
     })
-    .catch(absorbSmartAssessmentNotFoundError);
+    .then(() => answerSaved)
+    .catch((error) => {
+      if(error instanceof NotFoundError) {
+        return answerSaved;
+      }
+      throw error;
+    });
+};
+
+function evaluateAnswer(challenge, answer) {
+  const examiner = new Examiner({ validator: challenge.validator });
+  return examiner.evaluate(answer);
 }
 
 function saveKnowledgeElements({ assessment, answer, challenge, smartPlacementKnowledgeElementRepository }) {
@@ -75,10 +62,4 @@ function saveKnowledgeElements({ assessment, answer, challenge, smartPlacementKn
 
   return Promise.all(saveKnowledgeElementPromises);
 
-}
-
-function absorbSmartAssessmentNotFoundError(error) {
-  if (!(error instanceof NotFoundError)) {
-    throw error;
-  }
 }
