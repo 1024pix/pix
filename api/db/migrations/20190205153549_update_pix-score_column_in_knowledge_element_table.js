@@ -1,21 +1,57 @@
 const TABLE_NAME = 'knowledge-elements';
 
-exports.up = function(knex) {
-  return knex.schema.table(TABLE_NAME, (t) => {
+const acquisByValue = {
+  "0.6153846153846154": ["rec0qamfwEkhED8IZ", "rec8ygbQq9CUBjeS2", "recAZNK1WFUp3guXT", "recCWDujyNZlaQ4yD", "recJ5WVQBRAVUXsqw", "recJUR7KKNAIC7ncA", "recPiCGFhfgervqr5", "recTbmuGMDxLLPi4C", "recWNtLkYdhbee8Gm", "rechPfXGivHJEo3Il", "recmbjoM7RGtnuucT", "recvVrexxltMHF47H", "reczbrTpCmqotxRzN"],
+  "0.7272727272727273": ["rec0hUc4c5vuk37v7", "rec1mysPzEa6Y2KUf", "rec36DB42w2Kgelul", "rec5B4raGf9qZmd40", "rec5vhUmp3gHRGslL", "rec6OQiXItlrbUD4c", "rec6zw4UTMUtkWy2E", "recB52xsl6Uwsvvlv", "recCx1OJxOyncs6H5", "recFsimETrXnQnQFR", "recMjo2e1pmPyS5Vt", "recPLEcLRFsIlBQ8F", "recPLREwTLP8MZ7Ib", "recPqAMqugJGQgErf", "recRLZWswEL0Qt2BC", "recTTTzjB4q2lgdql", "recTvcFQRv5TmuzOC", "recWrBgVVWVwJ1UBV", "recXqcIXRDfNU5J4w", "recd2VLjUfoo752CZ", "recgDJuwchsgWlsV0", "recghJRKeCNxdSleY", "rechOMFuRB0Eg559Q", "reciVlfNtTgkQJCHt", "recjJzOmdXku6NOZ8", "reckH3Cdkdnm0hm4M", "reckRFT0HOToVzYFV", "reckyBHOf8yIl2UGq", "reclDKLSXIsr4xoZp", "recpsLOOJDbvv6FFA", "recwv1Yfvlfgo5nug", "recxlXx5JA1kv0kMT", "reczbDKZEEHHm7euk"],
+  "0.8": ["rec50NXHkatsRkjVQ", "rec6nFUI1Pxrd74NV", "recAfqVLbVnh1ZAtH", "recCBkEOJVHpKos5m", "recD01ptfJy7c4Sex", "recDMMeHSZRCjqo5x", "recELdSKFfMmsqknD", "recG8X4DGZXl7lUIx", "recGVdbkfFrcPdFQk", "recHj6176ImSsUpHC", "recIF1dQzAadSsX4e", "recIccYH3cLFmJNoQ", "recJaYMeyJ4OAvSGy", "recKbi4ppZT0Nb148", "recLCkyzX81OcG83B", "recLSD9yISZomwdjC", "recMOxOdfesur8E7L", "recNvfsb5AVxdp90e", "recORp2ieZhfQ02I5", "recPdsJQfrc1WG3SM", "recRV35kIeqUQj8cI", "recTl8ec3ztj3nPNK", "recUOBCzy4BmKyZs6", "recUQSpjuDvwqKMst", "recV11ibSCXvaUzZd", "recXWlIrXF467cALf", "recXxk1r86BkTkzV7", "recYLxHqrLVUBjF2a", "recYrgY9k62xChdt7", "recbtdpzdLz6ZqURl", "rece8ECIMBhHXgwo9", "recemvSVcBRVpdSL8", "recfO8994EvSQV9Ip", "reciDyXWqxp7ypbWu", "reciYwi0NTdCM7kbm", "reckLgGIitzPoZRq5", "recnLN4ZCdZdTC32I", "recsOcGsdjIW4IpiV", "recsPpUso9cY2u1I8", "recy101VbUL835zA0"],
+  "0.8888888888888888": ["rec1Qt2PoOvVSBUiF", "rec2Kg1bqEZVI8fBh", "rec55gKVxhWFqeVOY", "rec5nJr3eOQCd5mKB", "rec5pD8Z52C7wtkCh", "rec6mOUr4zvnV5wT2", "rec8YcEun7Ir0QCFt", "recB1qZjFA0s2UsdU", "recCDe0EzWYBRhbEm", "recGHY2N1qq1FYH4J", "recGfKF6LAmg21bOr", "recKjdLuENEtJLx0f", "recLXE4vlQ5vcGsLP", "recLYUZrWeizc4G5d", "recLsem0KbElkpjvp", "recNMxUPjx8PGuxL1", "recNm6lnWzzmbzEG1", "recOYQhD9e6c3YkPu", "recQKmh4OA4aV92tU", "recU3YtZpKaPDjGwQ", "recWdclDku4jfct6s", "recb0ZHKckwrnZeb8", "recfLCMH1SrC4tT3A", "recfuk3QLAOzBQzSU", "recfupZ5UNIUsMlMN", "reci1UtF7akUBqE1v", "recjKYskm2X77c9FT", "reckgdGuUyHtQvhRo", "recl2yqsXSN7GOGiS", "reclciWN1SU2ShyrR", "recm4xwuTVUDuoLZS", "recru5hyHv7PdFuN6", "recrvUNClwcdQSrne", "recvo2KPsvK0fnIIN", "recvwFPbiUMyEBa72", "recyf5AQOJRDQWBtk"],
+  "1": ["rec0o0fVvpExTlZGp", "rec0tk8dZWOzSQbaQ", "rec0yRznVM0AXMI88", "rec336WB21z6wKR6q", "rec3wTu36JBVMu70s", "rec4973AsptLwKr5f", "rec4M2dA9Z1xU3Ql3", "rec4o5Bx8HWwiCPud", "rec5aReFvCie3GK6V", "rec5aeftxfAzIBv44", "rec5tltwWOTXXxCBJ", "rec6oNsRSuOFNrnyl", "rec7uYD3Cxw640dD7", "rec8Ot7GXqSJLn99A", "rec8iipRNapesCjXw", "rec8kjRo71dbtEvdb", "rec8uTHJl7rz39nJ5", "rec9hCuo78BNiz94h", "recABecbFrNBcXAu8", "recDkqabsU2X5a4Z5", "recE7po5liUwYj7Qf", "recEdU3ZJrHxWOLcb", "recErnmLhIy4rnlGr", "recF6K3wLUiBSJCE6", "recFBV390imDjvzba", "recGKVmkTvgWdBd7t", "recGd7oJ2wVEyKmPS", "recHW1A0rzOaxDjgS", "recHvlTH8v706UYvc", "recI05Lq5jJogEZX8", "recIOtIleMBECQayX", "recKFUQ2CzcYHrxPR", "recKTybfk95zVWBDM", "recKbNbM8G7mKaloD", "recMmtrYG3NOyMBpw", "recO6p9wxUDweUysu", "recOyQOjUhDKTO7UN", "recQ8AB9UswqvNsZQ", "recQKJKO8jiRpXoQG", "recQMvNC7GFz9CEQQ", "recSNeBlTllDmtq20", "recU78yTsZnxIghHA", "recUgTQ0bHMSORqAz", "recVfp1idTGE727dl", "recVgnoo6RjCxjCQp", "recVywppdS4hGEekR", "recWXtN5cNP1JQUVx", "recWXv8UVSGUjnbny", "recWee1C5A7Uv97q0", "recX0pphwNBwWvPjw", "recY83MJTaTD20yXO", "recYl19BaK2qf9P8n", "recZQw6nVvfYg0uyB", "recZeLScWhKwaMS4W", "recZpt6xx6yHwHhrK", "reca0BNEsFjFKWdFU", "recaMBgjv3EZnAlWO", "recaPu88TEBjmywdf", "recacGBPjDxXf15h8", "recaiG1a3vn8YMIXf", "recbJElMtknKZ9oEI", "recbZ44oYHqlOGJ2C", "recbhCa10f0cXOdbD", "recd8sxdKeZAg7uN9", "recdNIV5R4KKqc6n5", "recdnFCH9mBrDW06P", "recdwoJE9Po9zdf0A", "recee4kZWBgjM8WrC", "recetgnhc67yFnWbl", "recgUOf2tb8s9rAt2", "recixKw4lXIiHue01", "recjPEwEPLKpXlpV3", "recl0XHK9LTaCvxws", "reclGVSnTOG0mwy4T", "recmoanUlDOyXexPF", "recmxQXDEed9rxCeN", "recndXqXiv4pv2Ukp", "recofc4GUbtQ3ve5g", "recpW0z4HXICpycR8", "recpdpemRXuzV9r10", "recpyHTeNkGnFnqhZ", "recqEHTMkC7YCtE3F", "recqbbWRkS1f6BIEh", "recr9No0p5zGhq2bg", "recrxbonOSuEvsuor", "recsJQl6GTyr5vOcw", "recsRbnr6XQLz6V15", "rect6WYfIN0TuLTk9", "rectLNULqnZz37Ifp", "recueyx9JLiq97Veu", "recuiCzBk96GLsysI", "recveZTgs0xaAs2Iq", "recwUxNiA1AB6ciIQ", "recyUjd6FqBGL9z3U", "recyu8XoQ9Ema9yaK", "reczFExgcErtojjZI"],
+  "1.1428571428571428": ["rec0J9OXaAj5v7w3r", "rec0y0EK2ko8YmmKB", "rec1SAZROBmyXW8VQ", "rec21mXg921OMGbTy", "rec2ji3My121KwShv", "rec2qvj1HEtsMJS1N", "rec2zofANqBsZdecI", "rec32cXZL4SbwyFO8", "rec3VgJtxzmVol3BI", "rec3wGKgBPZknWJCS", "rec4zpx4oqPeZ4ZCp", "rec50QsfNMu0orUFJ", "rec5D35kIp7THYAqy", "rec5V9gp65a58nnco", "rec6Q34O6fdm4Q9q7", "rec71e3PSct2zLEMj", "rec7dt6qpwHrvZ3sV", "rec8cUmkP1Ks9wzZU", "rec8or1zhbHo26Nap", "recAVuop8roeJ1PNW", "recAzV1ljhCdjrasn", "recBNzm4qvyQYMXGo", "recBsT8BoStvZP6av", "recCVDftYqupPtz9d", "recDUnCktq5wj7pZt", "recE4q7GEiKXbNPl5", "recEt62ZnDvmloFXJ", "recEukH8mfKZNvrQo", "recF9oTiR8fMSnQoo", "recFgHS8i420oDDbD", "recFsKYlNkX5Ashv0", "recINswt85utqO5KJ", "recITZJDAxsYtxme3", "recJ0F6Yif4xuQRxR", "recJGN6S3MmTZVa5O", "recJLuQDM9w4GijhT", "recL4pRDGJZhgxsEL", "recLCYATl7TGrkZLh", "recLE6wxreDeHijP5", "recLhYgOVFwOmQSLn", "recN5s1fpqI5E2a70", "recNHNgcitYi9n81B", "recNqowhyTrdnLxO8", "recOfAdb0Me35hpaV", "recP4pkbqSdIDb52b", "recPc4uMolcbvwXzr", "recRPl7tXR8n2D5xU", "recRfECOl9NBwk4qR", "recSByLc0DNQ8F0D1", "recT2PmAAdSu024bX", "recTHXbusrpM7cPzn", "recTmjG8ygtFjGfP9", "recUDrCWD76fp5MsE", "recW0pab7QV7dlB97", "recWavlZbBqcsFgFO", "recXNLTFuNrwVhnLS", "recXVW8xeP3R45061", "recYLE9xXQelhycvQ", "recZCvgQGtgyJPbpv", "recZc5fJv6mNMTAeq", "recaIPe6gcpm3BkfX", "recbCjhZRjMP5Eq0q", "reccoWeM1JxCaILgA", "reccpqInmBJrllxve", "recculI6E4fukySah", "recdBVEP66b2ULkZW", "recds4E6EixYpRGB4", "recfIhkzvfpslF8TO", "recfLjzQKBD8Umdcx", "recgUFRC0y6fYVgUr", "recgchJjKU82Vvu8y", "recgs5q5APUX7kcRp", "rechRPFlSryfY3UnG", "reci70rsZPmL12z5b", "recikpFztTGHAHNad", "recjszQO60D7MR2Ht", "reckXWd5vF577L24l", "reclCMZpPDx3eQ46q", "reclJIkK9MhyawrVU", "reclbhuUTRGc1jZRL", "recmJERLNG5URqDLo", "reco16sNopoBMdhnQ", "recowUXN3qQrfrOPN", "recpWP0L4hcjHyDfq", "recptFWaJNZzUor7l", "recqUtUE0mrjZYmcI", "recqzu8yG4LYDI4Vg", "recrvTvLTUXEcUIV1", "rectL2ZZeWPc7yezp", "rectVTDWtVIT59Dy1", "rectoD505ZcUn5FXg", "recuE3dO6Qjnfbu2y", "recuEZR8LtKVjxLrY", "recvMdYj3tPrMa79u", "recvTpbVdE5n2P9Sc", "recvaR1JeSCutvz3z", "recvzoPoMx8sjqsMm", "recwUxet4xt3eDOGV", "recwYvI6zTdqRHDmp", "recx7WnZJCXVgCvN4", "recxb0eoAaGhQgsjk", "recxtb5aLs6OAAKIg", "recyFujZQ6EXaqruH", "reczBFaDKhPigkKTM", "reczi1YmSo5HDD4ig"],
+  "1.3333333333333333": ["rec0Zmv7pl0SDun28", "rec2AaxOTun0bZzfn", "rec2DvazCDkBnqOmK", "rec2cSfPgCxi6VTTh", "rec2yB5oPVGanX1HB", "rec321J5FD2dx0ywJ", "rec3HEqTcUQEtbU2h", "rec3QOXojeHDk5b6O", "rec4Gvnh9kV1NeMsw", "rec4IOzZc5uaGmR6x", "rec4L20ayTRjHmNfU", "rec4mNOkMOijDoYGs", "rec55NdO9WROICCxk", "rec5F9Z9r8eoKE1Sx", "rec6fiTjaetC7FU1b", "rec7GcwMyDXNv7EM4", "rec7xxKMKsGVYBG3q", "rec8PgJLouOSZ17FG", "rec9Mr8BXJeEZc0tO", "rec9iiMaoi1GLzWVn", "recApfJ4whGUnIEqo", "recBKuSRYggYb2T5K", "recBrDIfDDW2IPpZV", "recDeW2uSVgMTeDKW", "recH4W7MXN9A7k7xc", "recH8iHKeJ5iws289", "recHBMRraNImyqmDF", "recHo6D1spbDR9C2N", "recJLroTYxcfbczfW", "recJSjBXqCzuTkdwZ", "recJVZI7g4Tkmf3yX", "recKMILeYBWZUg0XX", "recNfYHOQrWfUisXa", "recOEhQTiI0ZUT87U", "recOsJGLjr2XoEEPu", "recQ4d7qpGP0ovWtG", "recQAfkPRGBn43siR", "recQD6DtA2OuIucs1", "recQrIZ1YN7TEB4sa", "recTA33N3854qhjEx", "recTF7YKlAOdd5Ar4", "recUHuOfuSoZxtV8J", "recUQEnFmSvPBA807", "recUdMS2pRSF4sgnk", "recUeFXSJEAUKaaXf", "recVv1eoSLW7yFgXv", "recWTGXrt4fLP2QOL", "recWjPO6uH6NqaiD4", "recXO3Ei4vf25mJE7", "recXSjRtUP31qRvun", "recY81R5QMpTjOH7G", "recZDYuOpjt5wPNel", "recZjNl2SZQDRKI7Q", "recZrlGfn4VMyZ8Pc", "reca0RgvdlEPtiji8", "recaKk3e3JAXhuAs3", "recaXcyWricOH5bwn", "recbN4fRmgZrMII0A", "reccH4vZYbnHWJ9Cf", "rece9MYP6eDMb6tvh", "rececWx6MmPhufxXk", "recfQIxf8y4Nrs6M1", "recfgLbm9PTegrNCM", "recfktfO0ROu1OifX", "rechLuj5ydZs48koG", "rechOMv4ejlpZhNfk", "rechkkG2SKJmSMJYO", "recitHsYpZnrQC11t", "recjkHb4g8ZkJs8KL", "reck3MDtC6EiwZk9s", "reckDbjv0yHtNrnOA", "recl2o6fA6oyMGPkb", "reclRdfWgiPqamBxT", "reclX9KELFBQeVKoC", "recp7yJoN6A4eeicl", "recqSPZiRJYzfCDaS", "recrFJG9Ni3vTjAau", "recsaw3Je2OKQy99u", "recsc8ADZWAWtCj8N", "recu2j06RGw2JIBYe", "recumV2YrrA7Lbc6Y", "recuowSWEkRISDADV", "recv8GUT6V3bT9SxZ", "recvJnnjHsOc1Zjwg", "recwOLZ8bzMQK9NF9", "recwgxaMO9E663PXY", "recxij74P8pBL3pdq", "recybd8jWDNiFpbgq", "recyblYaLq5YHTSRk", "reczOCGv8pz976Acl"],
+  "1.6": ["rec0aOgRFRJ1qPG0b", "rec0c0hxwUiqa4EaS", "rec2PfCtfenqXQSnW", "rec2Q6GnAza95QpWM", "rec3Oe2Z980n3Rdn7", "rec3uOZDR2033Hx97", "rec4gk0caF0FsTUdU", "rec5LVAAMsUHYx5eD", "rec5YCXgs5gMvQHAF", "rec6kn3rsncpjt7u5", "rec6wfzMTe5bUv8Hg", "rec7QdcMIhYfmkgq9", "rec8b2zEqznu1VdSu", "rec8uNegbB8PDuYRJ", "rec9IR04aOpn5aSCP", "recB7nVmY0OzuauJJ", "recCDlBGhh4Glaq9r", "recDZTKszXX02aXD1", "recEAJG3c7SNoiUcj", "recEPgGwP6P3nZBbK", "recFwJlpllhWzuLom", "recGenmOM7yaENRPa", "recGu9jrbWTeQ9twT", "recILzLez2U80Y9kL", "recINVk1gM5DHCbs7", "recJYhsVsioiOFycp", "recJZni99M4gvVO78", "recJunGPv2h9qfs7A", "recLIyfyDB8US3I6a", "recPHVXSwiHk4VMFI", "recSF5OuzyBOfg97L", "recSt4BLhSGpuu8cn", "recTkNIkazUnxSVtU", "recUtW4alkeIZsMEz", "recW4iZCujkyyfCve", "recWalmeLbapvhX3K", "recXB6EWWAaRGDvXZ", "recXZWPaaJ6jlcmtq", "recXbHW1c8aMwoagT", "recZz9kJJ5sbRzCjn", "reca2TivtMI9QRWBY", "reca7XPZkf2azEW2q", "recagUd44RPEWti0X", "recbwejYcw1T1zA06", "recdmDASRPMTzOmVc", "rece3lqdR9EVH2xf7", "receCqeeb7z5X4nlK", "receRbbt9Lb661wFB", "recfxLKAdg51iWjdh", "recgOc2OreHCosoRp", "recge7cf9OAGXZDPZ", "rech2dnOo6eO79EPv", "reci0phtJi0lvqW9j", "recij5Nvlub98wUnm", "recj3fmySUYGpIgUl", "recjSNTRIQx0BmVLK", "reckoxKqHKLnFqUje", "reclY3njuk6EySJuU", "recmB2623CruGvA1b", "recmLZ0CypLpsxm96", "recmMMVns3LEFkHeO", "recnaom17JAkKT32Q", "recnwwDaW9KTk0IWf", "recoYZVHyV9JBi7wV", "recouwej3gsdtaQLz", "recp7rTXpecbxjE5d", "recr0WK53KTty7guz", "recrOwaV2PTt1N0i5", "recrV8JAEsieJOAch", "rect38JWziCbiiOQG", "rectZKS13rdkqxHer", "recwTlUh9azBMVj56", "recwkFMKgCoAiaeTV", "recxqogrKZ9p8b1u8", "recydMeuO2PFccEmu"],
+  "2": ["rec1IrdU7gHTM5Msw", "rec50IhKadDxbvjES", "rec5JQfWV9brlT8hO", "rec7CzfsTcPUggJwq", "rec93kdI9MAoOdhOt", "rec9qal2FLjWysrfu", "rec9uQTL8ZFm1rSTY", "recAFoEonOOChXe9t", "recEdhMV5LAMKYl2j", "recI4zS51by3N7Ryi", "recIQPszpNUMEAc0W", "recJ8Zi62i43AQqYI", "recJKLhRCjl9zizHr", "recKUBZJYji1MNuX2", "recKYaHdc5CGoxPkS", "recL0AotZshb9quhR", "recMOy4S8XnaWblYI", "recPG9ftlGZLiF0O6", "recPGDVdX0LSOWQQC", "recPcAKjaq3WaTWVv", "recPgkHUdzk0HPGt1", "recPrXhP0X07OdHXe", "recRahECeTrYpnpYn", "recVSLpyP7v5vVn9M", "recX6aP7OkjU9PVWE", "recX7RyCsdNV2p168", "recZ6RUx2zcIaRAIC", "recbUGChEyOKJ9IhK", "recbZos82xPmwuIKC", "reccDKwWtHoJuBZEO", "recclxUSbi0fvIWpd", "rece0BnqwuRlvVf3k", "receMEAc7Jf2hYll6", "recg3bejb9UiuMkpd", "recgu23nb6PUN7KJ5", "recgwvxjf3gcjYzag", "recinOcg9j0QI6MJS", "reclnIV3HSkIYkBkG", "rectLj7NPg5JcSIqN", "recxq4MHjqRo6EmVz"],
+  "2.6666666666666665": ["rec6IWrDOSaoX4aLn", "rec7WOXWi5ClE8BxH", "recCOD315QFIxDcPx", "recEDHSFyI1TQg0yt", "recFAdmQ99c9zuPwo", "recIyRA2zdCdlX6UD", "recJXRjyczhDhMTvR", "recMMszscECFfMfc5", "recQTOhx1DBPFWp1o", "recR1SlS7sWoquhoC", "recTIddrkopID28Ep", "recZNEhKdBKJm0gA4", "recgUaUfyMezKMFq4", "reckJ9ODlaWplfn0n", "reclutStXNRyf32p9", "recm2r3CA4crfigAk", "recndA9SGppAM2ClX", "recpUxA3Q6Rt2WqPt"],
+  "4": ["rec1B5uk0PGcjueH5", "rec5jAYpcEr4Ad3kV", "rec7EvARki1b9t574", "rec8rfSpgfgeneFXd", "recBeo3fIb35FXtmF", "recCQPm1mgdexw3jV", "recIcL3GuLDaDgGAt", "recIvmKAVY7ufrWZK", "recJioC7FddCdp870", "recOOZgcUabYuKgIS", "recRJyPT0FBEeVkzR", "recW4DxJvcDhrkZiI", "recXDYAkqqIDCDePc", "recZnnTU4WUP6KwwX", "recfbh123x7ttgfGZ", "recipfF8DQqJjv9pI", "recjaPxapJkF1cx5k", "recjkmbLInu7Z4hOz", "recpat1vIILSfkJnW", "recqLmaAKc8EMmzi5", "rect8ZBTLxAJam7uG", "recvBiIG0dvHJOe7i", "recxhMuHFUWbhWHxS"],
+};
+
+exports.up = async function(knex) {
+  await knex.schema.table(TABLE_NAME, (t) => {
     t.float('earnedPix').notNullable().defaultTo(0);
-  }).then(() => {
-    return knex.schema.table(TABLE_NAME, (table) => {
-      table.dropColumn('pixScore');
-    });
+  });
+
+  await Promise.all(Object.keys(acquisByValue).map((value) => {
+    return knex(TABLE_NAME)
+      .where('skillId', 'in', acquisByValue[value])
+      .where('status', '=', 'validated')
+      .update({ earnedPix: parseFloat(value) });
+  }));
+};
+
+exports.down = async function(knex) {
+  await knex.schema.table(TABLE_NAME, (t) => {
+    t.dropColumn('earnedPix');
   });
 };
 
-exports.down = function(knex) {
-  return knex.schema.table(TABLE_NAME, (t) => {
-    t.integer('pixScore').unsigned();
-  }).then(() => {
-    return knex.schema.table(TABLE_NAME, (t) => {
-      t.dropColumn('earnedPix');
-    });
-  });
-};
+/* Generating the skill value table:
+
+require('dotenv').config();
+const airtable = require('./lib/infrastructure/airtable.js');
+const _ = require('lodash');
+
+async function getPixValues() {
+  const acquis = await airtable.findRecords('Acquis');  // [ Acquis { … }, … ]
+  const byValue = _.groupBy(acquis, 'fields.PixValue'); // { "0": [ Acquis { … }, … ], … }
+  const idsByValue = _(byValue)
+    .toPairs()                                          // [ [ "0", [ Acquis { … }, … ] ], … ]
+    .reject([0, "0"])                                   // [ [ "4.0", [ Acquis { … }, … ] ], … ]
+    .sortBy(0)                                          // [ [ "0.5", [ Acquis { … }, … ] ], … ]
+    .map(([value, acquis]) => `  "${value}": ${JSON.stringify(_.map(acquis, 'id').sort())},`)
+                                                        // [ '"0.5": ["recAvcedefz", …]' ]
+    .value();
+  console.log(`const acquisByValue = {\n${idsByValue.join('\n')}\n};`);
+}
+
+getPixValues().then(()=>{process.exit(0)});
+
+*/
