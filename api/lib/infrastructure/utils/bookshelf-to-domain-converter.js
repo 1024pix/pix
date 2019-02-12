@@ -20,7 +20,7 @@ function buildDomainObject(BookshelfClass, bookshelfObject) {
 }
 
 function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson) {
-  const domainObject = new Models[bookshelfPrototype.bookshelfName];
+  const domainObject = new Models[bookshelfPrototype.constructor.bookshelfName];
 
   const bookshelfClassKeys = Object.keys(bookshelfPrototype);
 

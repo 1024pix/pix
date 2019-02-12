@@ -3,12 +3,9 @@ const Bookshelf = require('../bookshelf');
 require('./assessment');
 require('./competence-mark');
 
-const bookshelfName = 'AssessmentResult';
-
-module.exports = Bookshelf.model(bookshelfName, {
+module.exports = Bookshelf.model('AssessmentResult', {
 
   tableName: 'assessment-results',
-  bookshelfName,
 
   validations: {
     status: [

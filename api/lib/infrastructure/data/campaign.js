@@ -6,12 +6,9 @@ require('./organization');
 require('./target-profile');
 require('./user');
 
-const bookshelfName = 'Campaign';
-
-module.exports = Bookshelf.model(bookshelfName, {
+module.exports = Bookshelf.model('Campaign', {
 
   tableName: 'campaigns',
-  bookshelfName,
 
   campaignParticipations() {
     return this.hasMany('CampaignParticipation', 'campaignId');

@@ -5,12 +5,9 @@ require('./assessment-result');
 require('./knowledge-element');
 require('./campaign-participation');
 
-const bookshelfName = 'Assessment';
-
-module.exports = Bookshelf.model(bookshelfName, {
+module.exports = Bookshelf.model('Assessment', {
 
   tableName: 'assessments',
-  bookshelfName,
 
   answers() {
     return this.hasMany('Answer', 'assessmentId');
