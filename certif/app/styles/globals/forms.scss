@@ -18,6 +18,10 @@
   &:focus {
     border: 2px solid $dodger-blue;
   }
+
+  &--small {
+    width: 160px;
+  }
 }
 
 .textarea {
