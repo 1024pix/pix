@@ -153,8 +153,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     });
   });
 
-  describe.only('Resume 2 campaigns', function() {
-    debugger;
+  describe('Resume 2 campaigns', function() {
     beforeEach(async function() {
       server.create('assessment', {
         id: 1,
@@ -185,13 +184,6 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
       });
 
       await authenticateAsSimpleUser();
-      await visit('/campagnes/AZERTY1');
-      await click('.challenge-actions__action-skip');
-      await completeCampaignByCode('AZERTY1');
-
-      await visit('/campagnes/AZERTY2');
-      await click('.challenge-actions__action-skip');
-      await completeCampaignByCode('AZERTY2');
     });
 
     context('When user has finished but not shared 2 campaigns', function() {
