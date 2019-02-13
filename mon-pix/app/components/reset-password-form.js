@@ -9,18 +9,15 @@ const VALIDATION_MAP = {
   },
   error: {
     status: 'error', message: ERROR_PASSWORD_MESSAGE
-  },
-  success: {
-    status: 'success', message: ''
   }
 };
 
 const SUBMISSION_MAP = {
+  default: {
+    status: 'default', message: null
+  },
   error: {
     status: 'error', message: ERROR_PASSWORD_MESSAGE
-  },
-  success: {
-    status: 'success', message: ''
   }
 };
 
@@ -32,7 +29,7 @@ export default Component.extend({
   actions: {
     validatePassword() {
       const password = this.get('user.password');
-      const validationStatus = (isPasswordValid(password)) ? 'success' : 'error';
+      const validationStatus = (isPasswordValid(password)) ? 'default' : 'error';
       this.set('validation', VALIDATION_MAP[validationStatus]);
     },
 
@@ -40,7 +37,7 @@ export default Component.extend({
       this.set('_displaySuccessMessage', false);
       return this.get('user').save()
         .then(() => {
-          this.set('validation', SUBMISSION_MAP['success']);
+          this.set('validation', SUBMISSION_MAP['default']);
           this.set('_displaySuccessMessage', true);
           this.set('user.password', null);
         })

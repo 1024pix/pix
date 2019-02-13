@@ -17,7 +17,7 @@
     </div>
   {{/if}}
 
-  <form {{action "submit" on="submit"}} class="sign-form__form">
+  <form {{action "signin" on="submit"}} class="sign-form__form">
 
     <div class="sign-form__input-container">
       {{form-textfield
@@ -40,7 +40,7 @@
       Mot de passe oublié ?{{/link-to}}
 
     <div class="sign-form__submit-container">
-      <button type="submit" class="button button--thin button--round button--big" {{action "submit" allowedKeys="enter"}}>
+      <button type="submit" class="button button--thin button--round button--big">
         Je me connecte
       </button>
     </div>
