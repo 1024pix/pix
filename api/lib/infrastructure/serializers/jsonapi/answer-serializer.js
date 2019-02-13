@@ -6,7 +6,7 @@ module.exports = {
 
   serialize(answer) {
     return new Serializer('answer', {
-      attributes: ['value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment', 'challenge'],
+      attributes: ['value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment', 'challenge', 'pixEarned'],
       assessment: {
         ref: 'id',
         includes: false,
@@ -20,6 +20,7 @@ module.exports = {
         answer.assessment = { id: answer.assessmentId };
         answer.challenge = { id: answer.challengeId };
         answer.result = answerStatusJSONAPIAdapter.adapt(untouchedAnswer.result);
+        answer.pixEarned = untouchedAnswer.pixEarned;
         return answer;
       },
     }).serialize(answer);

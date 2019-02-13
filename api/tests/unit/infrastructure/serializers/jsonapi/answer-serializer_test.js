@@ -55,6 +55,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
         value: answerValue,
         assessmentId,
         challengeId,
+        knowledgeElements: [domainBuilder.buildSmartPlacementKnowledgeElement({ earnedPix: 23 })]
       });
       const expectedJSON = {
         data: {
@@ -66,6 +67,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
             timeout: timeout,
             'elapsed-time': elapsedTime,
             result: answerStatusJSONAPIAdapter.adapt(result),
+            'pix-earned': 23,
           },
           relationships: {
             assessment: {
