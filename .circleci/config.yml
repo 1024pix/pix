@@ -55,13 +55,17 @@ workflows:
           requires:
             - checkout
 
-      - signal_ci_ok:
+      - e2e_test:
           requires:
             - api_build_and_test
             - mon_pix_build_and_test
             - orga_build_and_test
             - certif_build_and_test
             - admin_build_and_test
+
+      - signal_ci_ok:
+          requires:
+            - e2e_test
           filters:
             branches:
               ignore:
@@ -99,6 +103,11 @@ jobs:
           key: v7-api-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
+      - run: |
+          echo pwd
+          pwd
+          echo ls
+          ls
       - run: |
           npm run lint
           npm test
@@ -195,6 +204,46 @@ jobs:
           paths:
             - ~/.npm
       - run: npm test
+
+  e2e_test:
+    docker:
+      - image: circleci/node:8.11
+      - image: postgres:10-alpine
+        environment:
+          POSTGRES_USER: circleci
+    working_directory: ~/pix
+    steps:
+      - run: |
+            sudo apt-get update
+            sudo apt-get install -y xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+      - checkout
+
+      - run: cd ~/pix/api && npm install
+      - run: cd ~/pix/mon-pix && npm install
+
+      - run:
+          working_directory: ~/pix/high-level-tests/e2e
+          command: npm install
+      - run:
+          background: true
+          environment:
+            DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
+          command: |
+            cd ~/pix/api
+            npm start
+      - run:
+          background: true
+          command: |
+            cd ~/pix/mon-pix
+            npm start
+      - run:
+          environment:
+            DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
+          working_directory: ~/pix/high-level-tests/e2e
+          command: |
+            wget --retry-connrefused -T 60 -qO- http://localhost:4200
+            wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
+            npm run cy:run
 
   signal_ci_ok:
     docker:
