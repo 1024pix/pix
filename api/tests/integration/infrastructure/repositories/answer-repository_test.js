@@ -14,7 +14,6 @@ describe('Integration | Repository | AnswerRepository', () => {
   });
 
   describe('#get', () => {
-    let answerId;
 
     context('when there are no answers', () => {
 
@@ -28,28 +27,28 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
 
     context('when there is an answer', () => {
+      let knowledgeElements, answer;
 
       beforeEach(() => {
-        return knex('answers')
-          .insert({
-            value: '1,2',
-            result: 'ko',
-            challengeId: 'challenge_1234',
-            assessmentId: 353,
-          })
-          .then((createdAnswer) => {
-            answerId = createdAnswer[0];
-          });
+        const assessment = databaseBuilder.factory.buildAssessment();
+        answer = databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id });
+        knowledgeElements = [
+          databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ answerId: answer.id, assessmentId: assessment.id  }),
+          databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ answerId: answer.id,  assessmentId: assessment.id  })
+        ];
+        return databaseBuilder.commit();
       });
 
       it('should retrieve an answer from its id', () => {
         // when
-        const promise = AnswerRepository.get(answerId);
+        const promise = AnswerRepository.get(answer.id);
 
         // then
         return promise.then((foundAnswer) => {
           expect(foundAnswer).to.be.an.instanceof(Answer);
-          expect(foundAnswer.id).to.equal(answerId);
+          expect(foundAnswer.id).to.equal(answer.id);
+          expect(foundAnswer.result.status).to.equal(answer.result);
+          expect(foundAnswer.knowledgeElements).to.have.lengthOf(knowledgeElements.length);
         });
       });
     });

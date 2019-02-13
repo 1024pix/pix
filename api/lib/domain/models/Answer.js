@@ -12,6 +12,7 @@ class Answer {
     timeout,
     value,
     // includes
+    knowledgeElements = [],
     // references
     assessmentId,
     challengeId,
@@ -25,6 +26,7 @@ class Answer {
     this.timeout = timeout;
     this.value = value;
     // includes
+    this.knowledgeElements = knowledgeElements;
     // references
     this.assessmentId = assessmentId;
     this.challengeId = challengeId;
@@ -60,6 +62,13 @@ class Answer {
 
   get hasTimedOut() {
     return _.isInteger(this.timeout) && this.timeout < 0;
+  }
+
+  get pixEarned() {
+    if(this.knowledgeElements.length < 1) {
+      return 0;
+    }
+    return this.knowledgeElements.reduce((sum, ke) => sum + ke.earnedPix, 0);
   }
 }
 

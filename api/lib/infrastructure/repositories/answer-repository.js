@@ -1,4 +1,5 @@
 const Answer = require('../../domain/models/Answer');
+const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const BookshelfAnswer = require('../data/answer');
 const jsYaml = require('js-yaml');
@@ -28,7 +29,7 @@ function _toDomain(bookshelfAnswer) {
       value: bookshelfAnswer.get('value'),
       assessmentId: bookshelfAnswer.get('assessmentId'),
       challengeId: bookshelfAnswer.get('challengeId'),
-      knowledgeElement: bookshelfAnswer.get('knowledgeElement')
+      knowledgeElements: bookshelfAnswer.related('knowledgeElements').map((ke)=> new SmartPlacementKnowledgeElement(ke.toJSON()))
     });
   }
   return null;
@@ -38,7 +39,10 @@ module.exports = {
 
   get(answerId) {
     return BookshelfAnswer.where('id', answerId)
-      .fetch({ require: true })
+      .fetch({
+        withRelated: ['knowledgeElements'],
+        require: true
+      })
       .then(_toDomain)
       .catch((err) => {
         if (err instanceof BookshelfAnswer.NotFoundError) {

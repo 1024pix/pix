@@ -1,7 +1,7 @@
 const Bookshelf = require('../bookshelf');
-const Answer = require('../../domain/models/Answer');
 
 require('./assessment');
+require('./knowledge-element');
 
 module.exports = Bookshelf.model('Answer', {
 
@@ -11,7 +11,8 @@ module.exports = Bookshelf.model('Answer', {
     return this.belongsTo('Assessment');
   },
 
-  toDomainEntity() {
-    return new Answer(this.toJSON());
-  }
+  knowledgeElements() {
+    return this.hasMany('KnowledgeElement', 'answerId');
+  },
+
 });

@@ -27,6 +27,7 @@ describe('Unit | Domain | Models | Answer', () => {
         resultDetails: 'champs1 : ok \n champs2 : ko',
         elapsedTime: 100,
         timeout: 0,
+        knowledgeElements: [],
         challengeId: 'redRecordId',
         assessmentId: 82,
       };
@@ -175,4 +176,33 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(hasTimedOut).to.be.false;
     });
   });
+
+  describe('#pixEarned', () => {
+
+    it('should return the sum of earnedPix from knowledgeElements', () => {
+      // given
+      const answer = domainBuilder.buildAnswer({ knowledgeElements: [
+        domainBuilder.buildSmartPlacementKnowledgeElement({ earnedPix: 4 }),
+        domainBuilder.buildSmartPlacementKnowledgeElement({ earnedPix: 3 })
+      ] });
+
+      // when
+      const pixEarned = answer.pixEarned;
+
+      // then
+      expect(pixEarned).to.equal(7);
+    });
+
+    it('should return 0 if answer has no knowledgeElements', () => {
+      // given
+      const answer = domainBuilder.buildAnswer({ knowledgeElements: [] });
+
+      // when
+      const pixEarned = answer.pixEarned;
+
+      // then
+      expect(pixEarned).to.equal(0);
+    });
+  });
+
 });
