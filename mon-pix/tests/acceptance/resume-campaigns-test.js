@@ -153,8 +153,8 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     });
   });
 
-  describe('Resume 2 campaigns', function() {
-
+  describe.only('Resume 2 campaigns', function() {
+    debugger;
     beforeEach(async function() {
       server.create('assessment', {
         id: 1,
