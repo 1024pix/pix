@@ -128,9 +128,9 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 3, assessmentId: assessment1Id, createdAt: moment().add(1, 'days').format(), skillId: '2' })
       ]);
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 4, assessmentId: assessment2Id, createdAt: moment().subtract(2, 'days').format(), skillId: '3', status: 'invalidated' }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, assessmentId: assessment3Id, createdAt: moment().subtract(1, 'days').format() }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, assessmentId: assessment3Id, createdAt: moment().subtract(1, 'days').format() }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 4, assessmentId: assessment2Id, createdAt: moment().subtract(2, 'days').format(), skillId: '3', status: 'invalidated' });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, assessmentId: assessment3Id, createdAt: moment().subtract(1, 'days').format() });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, assessmentId: assessment3Id, createdAt: moment().subtract(1, 'days').format() });
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 7, createdAt: moment().format() });
 
       await databaseBuilder.commit();
@@ -167,4 +167,72 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     });
 
   });
+
+  describe('#findFirstSavedKnowledgeElementsByUserId', () => {
+
+    let knowledgeElementsWanted, knowledgeElementsWantedWithLimitDate;
+    let userId;
+
+    beforeEach(async () => {
+      // given
+      userId = databaseBuilder.factory.buildUser().id;
+      const UserSmartPlacementAssessment1Id = databaseBuilder.factory.buildAssessment({ userId, type: SMART_PLACEMENT }).id;
+      const UserSmartPlacementAssessment2Id = databaseBuilder.factory.buildAssessment({ userId, type: SMART_PLACEMENT }).id;
+      const UserNotSmartPlacementAssessmentId = databaseBuilder.factory.buildAssessment({ userId, type: PLACEMENT }).id;
+
+      knowledgeElementsWantedWithLimitDate = [
+        // Knowledge element for skill 1 validated
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, assessmentId: UserSmartPlacementAssessment1Id, createdAt: moment().subtract(3, 'days').format(), skillId: '1', status: 'validated' }),
+        // Knowledge element for skill 3 validated
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, assessmentId: UserSmartPlacementAssessment2Id, createdAt: moment().subtract(3, 'days').format(), skillId: '3', status: 'validated' }),
+        // Knowledge element for skill 3 invalidated
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 3, assessmentId: UserSmartPlacementAssessment2Id, createdAt: moment().subtract(3, 'days').format(), skillId: '3', status: 'invalidated' }),
+      ];
+
+      knowledgeElementsWanted = knowledgeElementsWantedWithLimitDate.concat([
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 4, assessmentId: UserSmartPlacementAssessment1Id, createdAt: moment().add(1, 'days').format(), skillId: '2' })
+      ]);
+
+      // Too recent already saved KnowledgeElements
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, assessmentId: UserSmartPlacementAssessment1Id, createdAt: moment().subtract(2, 'days').format(), skillId: '1', status: 'validated'  });
+      // Not from a smart placement assessment
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, assessmentId: UserNotSmartPlacementAssessmentId, createdAt: moment().subtract(1, 'days').format() });
+      // Not a user knowledgeElements
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 8, createdAt: moment().format() });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    context('when there is no limit date', () => {
+      it('should find the knowledge elements for smart placement assessment associated with a user id', async () => {
+        // when
+        const promise = SmartPlacementKnowledgeElementRepository.findFirstSavedKnowledgeElementsByUserId(userId);
+
+        return promise
+          .then((knowledgeElementsFound) => {
+            expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
+            expect(knowledgeElementsFound).have.lengthOf(knowledgeElementsWanted.length);
+          });
+      });
+    });
+
+    context('when there is a limit date', () => {
+      it('should find the knowledge elements for smart placement assessment associated with a user id created before limit date', async () => {
+        // when
+        const promise = SmartPlacementKnowledgeElementRepository.findFirstSavedKnowledgeElementsByUserId(userId, moment().format());
+
+        return promise
+          .then((knowledgeElementsFound) => {
+            expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedWithLimitDate);
+            expect(knowledgeElementsFound).have.lengthOf(knowledgeElementsWantedWithLimitDate.length);
+          });
+      });
+    });
+
+  });
+
 });

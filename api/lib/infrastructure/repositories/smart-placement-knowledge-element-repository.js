@@ -37,8 +37,27 @@ module.exports = {
           .uniqBy('skillId')
           .value();
       });
-  }
+  },
 
+  findFirstSavedKnowledgeElementsByUserId(userId, limitDate) {
+    return BookshelfKnowledgeElement
+      .query((qb) => {
+        qb.innerJoin('assessments', 'knowledge-elements.assessmentId', 'assessments.id');
+        qb.where('assessments.userId', '=', userId);
+        qb.where('assessments.type', '=', 'SMART_PLACEMENT');
+        if(limitDate) {
+          qb.where('knowledge-elements.createdAt', '<', limitDate);
+        }
+      })
+      .fetchAll()
+      .then((knowledgeElements) => knowledgeElements.map(toDomain))
+      .then((knowledgeElements) => {
+        return _(knowledgeElements)
+          .orderBy('createdAt', 'asc')
+          .uniqWith((ke1, ke2) => (ke1.skillId === ke2.skillId && ke1.status === ke2.status))
+          .value();
+      });
+  }
 };
 
 function toDomain(knowledgeElementBookshelf) {
