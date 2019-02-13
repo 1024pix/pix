@@ -78,7 +78,7 @@ describe('Integration | Component | signin form', function() {
         return Promise.resolve();
       });
 
-      this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction')}}`);
+      this.render(hbs`{{signin-form authenticateUser=(action 'onSubmitAction')}}`);
 
       this.$('input#email').val(expectedEmail);
       this.$('input#email').change();

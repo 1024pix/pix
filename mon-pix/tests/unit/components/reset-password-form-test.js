@@ -13,15 +13,12 @@ const VALIDATION_MAP = {
   },
   error: {
     status: 'error', message: ERROR_PASSWORD_MESSAGE
-  },
-  success: {
-    status: 'success', message: ''
-  },
+  }
 };
 
 const SUBMISSION_MAP = {
-  success: {
-    status: 'success', message: ''
+  default: {
+    status: 'default', message: null
   },
   error: {
     status: 'error', message: ERROR_PASSWORD_MESSAGE
@@ -77,7 +74,7 @@ describe('Unit | Component | reset password form', function() {
       component.send('validatePassword');
 
       // then
-      expect(component.get('validation')).to.eql(VALIDATION_MAP['success']);
+      expect(component.get('validation')).to.eql(VALIDATION_MAP['default']);
     });
 
   });
@@ -102,7 +99,7 @@ describe('Unit | Component | reset password form', function() {
         });
 
         // then
-        expect(component.get('validation')).to.eql(SUBMISSION_MAP['success']);
+        expect(component.get('validation')).to.eql(SUBMISSION_MAP['default']);
       });
 
       it('should update _displaySuccessMessage', function() {
