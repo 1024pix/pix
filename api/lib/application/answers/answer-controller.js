@@ -57,7 +57,7 @@ module.exports = {
   },
 
   get(request) {
-    return answerRepository.get(request.params.id)
+    return usecases.getAnswerWithRecentKnowledgeElements({ answerId: request.params.id })
       .then(answerSerializer.serialize)
       .catch((err) => logger.error(err));
   },

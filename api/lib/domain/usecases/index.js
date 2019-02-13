@@ -70,6 +70,7 @@ module.exports = injectDependencies({
   findSnapshots: require('./find-snapshots.js'),
   findUsers: require('./find-users.js'),
   getAssessment: require('./get-assessment'),
+  getAnswerWithRecentKnowledgeElements: require('./get-answer-with-recent-knowledge-elements'),
   getCampaign: require('./get-campaign'),
   getCampaignByCode: require('./get-campaign-by-code'),
   getCertificationCenter: require('./get-certification-center'),
