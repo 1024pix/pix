@@ -25,6 +25,10 @@
   text-align: right;
   color: $charcoal-grey;
   text-transform: capitalize;
+  max-width: 150px;
+  @include device-is('tablet') {
+    max-width: none;
+  }
 }
 
 .index-page-hero__navbar-header .logged-user-name__link {

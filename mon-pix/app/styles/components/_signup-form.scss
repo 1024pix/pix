@@ -13,11 +13,8 @@
   border-radius: 10px;
   margin: 10px 5px 10px;
   background-color: $white;
-  @include device-is('mobile') {
-    margin: 25px 15px 15px;
-  }
   @include device-is('tablet') {
-    margin: 80px 0;
+    margin: 25px 15px 15px;
   }
 }
 
@@ -43,11 +40,8 @@
   color: $charcoal-grey;
   margin: 0;
   font-size: 22px;
-  @include device-is('mobile') {
-    font-size: 25px;
-  }
   @include device-is('tablet') {
-    font-size: 36px;
+    font-size: 25px;
   }
 }
 
@@ -81,7 +75,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  @include device-is('mobile') {
+  @include device-is('tablet') {
     margin-top: 6px;
     margin-bottom: 0;
     padding: 0;
@@ -101,7 +95,7 @@
 .signup-form__cgu-label span {
   color: $slate-grey;
   font-size: 13px;
-  @include device-is('mobile') {
+  @include device-is('tablet') {
     font-size: 14px;
   }
 }
@@ -112,7 +106,7 @@
 
 .signup-form__submit-container {
   margin: 5px auto 20px;
-  @include device-is('mobile') {
+  @include device-is('tablet') {
     margin: 31px auto 34px;
   }
 }
