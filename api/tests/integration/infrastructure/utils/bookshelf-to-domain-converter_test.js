@@ -1,33 +1,27 @@
 const { expect } = require('../../../test-helper');
 const bookshelfToDomainConverter = require('../../../../lib/infrastructure/utils/bookshelf-to-domain-converter');
 
-const DomainAssessment = require('../../../../lib/domain/models/Assessment');
-const DomainAssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const DomainCampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const Assessment = require('../../../../lib/domain/models/Assessment');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
-const Assessment = require('../../../../lib/infrastructure/data/assessment');
-const AssessmentResult = require('../../../../lib/infrastructure/data/assessment-result');
-const CampaignParticipation = require('../../../../lib/infrastructure/data/campaign-participation');
+const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
-describe('Integration | Infrastructure | Utils | Domain Builder', function() {
+describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function() {
   let assessmentWithRelated, assessmentWithoutRelated, assessments;
 
   beforeEach(() => {
-    const assessmentResults = [
-      new AssessmentResult({ id: 1 }),
-      new AssessmentResult({ id: 2 }),
-      new AssessmentResult({ id: 3 }),
-    ];
-
-    const campaignParticipation = new CampaignParticipation({ id: 1 });
-
-    assessmentWithRelated = new Assessment({
+    assessmentWithRelated = new BookshelfAssessment({
       id: 1,
-      assessmentResults,
-      campaignParticipation,
+      assessmentResults: [
+        { id: 1 },
+        { id: 2 },
+        { id: 3 },
+      ],
+      campaignParticipation: { id: 1 },
     });
 
-    assessmentWithoutRelated = new Assessment({ id: 2 });
+    assessmentWithoutRelated = new BookshelfAssessment({ id: 2 });
 
     assessments = [assessmentWithRelated, assessmentWithoutRelated];
   });
@@ -35,7 +29,7 @@ describe('Integration | Infrastructure | Utils | Domain Builder', function() {
   describe('buildDomainObjects', function() {
     it('should convert array of bookshelf object to array of corresponding domain object', function() {
       // when
-      const domainAssessments = bookshelfToDomainConverter.buildDomainObjects(assessments);
+      const domainAssessments = bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments);
       const domainAssessmentWithRelated = domainAssessments[0];
       const domainAssessmentWithoutRelated = domainAssessments[1];
 
@@ -54,7 +48,7 @@ describe('Integration | Infrastructure | Utils | Domain Builder', function() {
 
     it('should return empty array if bookshelf array is empty', function() {
       // when
-      const domainAssessments = bookshelfToDomainConverter.buildDomainObjects([]);
+      const domainAssessments = bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, []);
 
       // then
       expect(domainAssessments).to.be.empty;
@@ -64,23 +58,23 @@ describe('Integration | Infrastructure | Utils | Domain Builder', function() {
   describe('buildDomainObject', function() {
     it('should convert bookshelf object with relation to corresponding domain object', function() {
       // when
-      const domainAssessment = bookshelfToDomainConverter.buildDomainObject(assessmentWithRelated);
+      const domainAssessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessmentWithRelated);
 
       // then
-      expect(domainAssessment).to.be.instanceOf(DomainAssessment);
+      expect(domainAssessment).to.be.instanceOf(Assessment);
       expect(domainAssessment.id).to.equal(1);
 
       expect(domainAssessment.assessmentResults).to.have.lengthOf(3);
-      expect(domainAssessment.assessmentResults[1]).to.be.instanceOf(DomainAssessmentResult);
+      expect(domainAssessment.assessmentResults[1]).to.be.instanceOf(AssessmentResult);
       expect(domainAssessment.assessmentResults[2].id).to.equal(3);
 
-      expect(domainAssessment.campaignParticipation).to.be.instanceOf(DomainCampaignParticipation);
+      expect(domainAssessment.campaignParticipation).to.be.instanceOf(CampaignParticipation);
       expect(domainAssessment.campaignParticipation.id).to.equal(1);
     });
 
     it('should convert bookshelf object without relation to corresponding domain object', function() {
       // when
-      const domainAssessment = bookshelfToDomainConverter.buildDomainObject(assessmentWithoutRelated);
+      const domainAssessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessmentWithoutRelated);
 
       // then
       expect(domainAssessment.id).to.equal(2);
@@ -90,14 +84,14 @@ describe('Integration | Infrastructure | Utils | Domain Builder', function() {
 
     it('should convert bookshelf object with attribute with name equal to a model name but are not a relation', function() {
       // given
-      const assessment = new Assessment({
+      const assessment = new BookshelfAssessment({
         id: 1,
         campaignParticipation: 'Manu',
         assessmentResults: 'EvilCorp',
       });
 
       // when
-      const domainAssessment = bookshelfToDomainConverter.buildDomainObject(assessment);
+      const domainAssessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment);
 
       // then
       expect(domainAssessment.campaignParticipation).to.equal('Manu');

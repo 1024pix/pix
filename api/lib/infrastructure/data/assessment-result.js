@@ -3,7 +3,7 @@ const Bookshelf = require('../bookshelf');
 require('./assessment');
 require('./competence-mark');
 
-module.exports = Bookshelf.model('AssessmentResults', {
+module.exports = Bookshelf.model('AssessmentResult', {
 
   tableName: 'assessment-results',
 
