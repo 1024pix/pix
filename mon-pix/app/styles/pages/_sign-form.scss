@@ -24,7 +24,7 @@
   @include device-is('tablet') {
     width: 609px;
     margin: 20px 0;
-    padding-top: 20px;
+    padding-top: 40px;
   }
 }
 
@@ -95,6 +95,7 @@
 
 .sign-form__submit-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin: 5px auto 20px;
 

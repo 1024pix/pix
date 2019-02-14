@@ -46,7 +46,7 @@ describe('Integration | Component | password reset demand form', function() {
     this.render(hbs`{{password-reset-demand-form _displaySuccessMessage=_displaySuccessMessage}}`);
 
     // then
-    expect(this.$('.sign-form__notification-message--success')).to.have.length(1);
+    expect(this.$('.sign-form__message')).to.have.length(1);
   });
 
 });

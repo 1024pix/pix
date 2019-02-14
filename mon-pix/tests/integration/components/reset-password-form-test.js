@@ -98,8 +98,8 @@ describe('Integration | Component | reset password form', function() {
           // then
           expect(isSaveMethodCalled).to.be.true;
           expect(this.get('user.password')).to.eql(null);
-          expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal('');
-          expect(this.$('.sign-form__notification-message--success')).to.have.lengthOf(1);
+          expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal(undefined);
+          expect(this.$('.sign-form__message')).to.have.lengthOf(1);
         });
 
         it('should get an error, when button is clicked and saving return error', async function() {
