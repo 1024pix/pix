@@ -8,7 +8,7 @@ module.exports = Bookshelf.model('CompetenceMark', {
   tableName: 'competence-marks',
 
   assessmentResults() {
-    return this.belongsTo('AssessmentResults');
+    return this.belongsTo('AssessmentResult');
   },
 
   toDomainEntity() {

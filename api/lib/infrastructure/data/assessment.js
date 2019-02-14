@@ -14,7 +14,7 @@ module.exports = Bookshelf.model('Assessment', {
   },
 
   assessmentResults() {
-    return this.hasMany('AssessmentResults', 'assessmentId');
+    return this.hasMany('AssessmentResult', 'assessmentId');
   },
 
   knowledgeElements() {
