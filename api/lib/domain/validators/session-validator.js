@@ -14,11 +14,11 @@ const sessionValidationJoiSchema = Joi.object().keys({
   }),
 
   date: Joi.string().isoDate().required().error(() => {
-    return { message: 'Veuillez entrer une date au format (jj/mm/yyyy).' };
+    return { message: 'Veuillez indiquer une date de début.' };
   }),
 
   time: Joi.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/).required().error(() => {
-    return { message: 'Veuillez entrer une heure au format (HH:MM).' };
+    return { message: 'Veuillez indiquer une heure de début.' };
   }),
 
   examiner: Joi.string().required().error(() => {

@@ -9,7 +9,7 @@
             type='text'
             maxlength='255'
             value=session.address
-            class="input"
+            class='input'
     }}
     {{#each session.errors.address as |error|}}
       <div class='session-form__error error-message'>
@@ -25,7 +25,7 @@
             type='text'
             maxlength='255'
             value=session.room
-            class="input"
+            class='input'
     }}
     {{#each session.errors.room as |error|}}
       <div class='session-form__error error-message'>
@@ -35,13 +35,14 @@
   </div>
 
   <div class="session-form__field">
-    <label for="session-date" class="label">Date (au format jj/mm/yyyy)</label>
-    {{input id='session-date'
-            name='session-date'
-            type='text'
-            maxlength='10'
-            value=session.date
-            class="input"
+    <label for="session-date" class="label">Date de début</label>
+    {{ember-flatpickr id='session-date'
+                      onChange=(action onDatePicked)
+                      dateFormat='d/m/Y'
+                      locale='fr'
+                      minDate='today'
+                      name='session-date'
+                      class='input input--small'
     }}
     {{#each session.errors.date as |error|}}
       <div class='session-form__error error-message'>
@@ -51,13 +52,17 @@
   </div>
 
   <div class="session-form__field">
-    <label for="session-time" class="label">Heure (au format HH:MM)</label>
-    {{input id='session-time'
-            name='session-time'
-            type='text'
-            maxlength='5'
-            value=session.time
-            class="input"
+    <label for="session-time" class="label">Heure de début (fin 2h plus tard)</label>
+    {{ember-flatpickr id='session-time'
+                      onChange=(action onTimePicked)
+                      onClose=(action onTimePicked)
+                      enableTime=true
+                      noCalendar=true
+                      dateFormat='H:i'
+                      time_24hr=true
+                      enableSeconds=false
+                      name='session-time'
+                      class='input input--small'
     }}
     {{#each session.errors.time as |error|}}
       <div class='session-form__error error-message'>
@@ -73,7 +78,7 @@
             type='text'
             maxlength='255'
             value=session.examiner
-            class="input"
+            class='input'
     }}
     {{#each session.errors.examiner as |error|}}
       <div class='session-form__error error-message'>
@@ -89,7 +94,7 @@
             maxlength='350'
             rows=8
             value=session.description
-            class="textarea"
+            class='textarea'
     }}
   </div>
 
