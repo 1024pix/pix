@@ -1,0 +1,106 @@
+<h1 class="page__title page-title">Création d'une session de certification</h1>
+
+<form {{action createSession session on='submit'}} class="session-form">
+
+  <div class="session-form__field">
+    <label for="session-address" class="label">Nom du site</label>
+    {{input id='session-address'
+            name='session-address'
+            type='text'
+            maxlength='255'
+            value=session.address
+            class='input'
+    }}
+    {{#each session.errors.address as |error|}}
+      <div class='session-form__error error-message'>
+        {{error.message}}
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="session-form__field">
+    <label for="session-room" class="label">Nom de la salle</label>
+    {{input id='session-room'
+            name='session-room'
+            type='text'
+            maxlength='255'
+            value=session.room
+            class='input'
+    }}
+    {{#each session.errors.room as |error|}}
+      <div class='session-form__error error-message'>
+        {{error.message}}
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="session-form__field">
+    <label for="session-date" class="label">Date de début</label>
+    {{ember-flatpickr id='session-date'
+                      onChange=(action onDatePicked)
+                      dateFormat='d/m/Y'
+                      locale='fr'
+                      minDate='today'
+                      name='session-date'
+                      class='input input--small'
+    }}
+    {{#each session.errors.date as |error|}}
+      <div class='session-form__error error-message'>
+        {{error.message}}
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="session-form__field">
+    <label for="session-time" class="label">Heure de début (fin 2h plus tard)</label>
+    {{ember-flatpickr id='session-time'
+                      onChange=(action onTimePicked)
+                      onClose=(action onTimePicked)
+                      enableTime=true
+                      noCalendar=true
+                      dateFormat='H:i'
+                      time_24hr=true
+                      enableSeconds=false
+                      name='session-time'
+                      class='input input--small'
+    }}
+    {{#each session.errors.time as |error|}}
+      <div class='session-form__error error-message'>
+        {{error.message}}
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="session-form__field">
+    <label for="session-examiner" class="label">Surveillant</label>
+    {{input id='session-examiner'
+            name='session-examiner'
+            type='text'
+            maxlength='255'
+            value=session.examiner
+            class='input'
+    }}
+    {{#each session.errors.examiner as |error|}}
+      <div class='session-form__error error-message'>
+        {{error.message}}
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="session-form__field">
+    <label for="session-description" class="label">Description (optionnel)</label>
+    {{textarea id='session-description'
+            name='session-description'
+            maxlength='350'
+            rows=8
+            value=session.description
+            class='textarea'
+    }}
+  </div>
+
+  <div class="session-form__validation">
+    <div class="button button--no-color" {{action cancel}}>Annuler</div>
+    <button class="button" type="submit">Créer la session</button>
+  </div>
+
+</form>

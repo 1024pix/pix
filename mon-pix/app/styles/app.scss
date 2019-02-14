@@ -48,7 +48,6 @@
 @import 'components/modal-mobile';
 @import 'components/navbar-desktop-menu';
 @import 'components/navbar-header';
-@import 'components/navbar-mobile-menu';
 @import 'components/no-certification-panel';
 @import 'components/password-reset-form';
 @import 'components/pix-logo';
@@ -84,7 +83,7 @@
 @import 'components/user-certifications-detail-result';
 @import 'components/user-logged-menu';
 @import 'components/warning-timing-page';
-@import 'ember-side-menu';
+
 /* pages */
 @import 'pages/assessment-challenge';
 @import 'pages/assessment-results';
@@ -98,7 +97,6 @@
 @import 'pages/not-connected';
 @import 'pages/error';
 @import 'pages/fill-in-id-pix';
-@import 'pages/index';
 @import 'pages/inscription';
 @import 'pages/login';
 @import 'pages/password-reset-demand';

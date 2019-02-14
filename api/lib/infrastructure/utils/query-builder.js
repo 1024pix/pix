@@ -1,17 +1,17 @@
 const bookshelfToDomainConverter = require('./bookshelf-to-domain-converter');
 const _ = require('lodash');
-const { NotFoundError } = require('../../domain/errors'); 
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = { get, find };
 
-async function get(bookShelf, id, options) {
+async function get(BookShelfClass, id, options) {
   const fetchOptions = {};
 
   if (options) {
     fetchOptions.withRelated = options.include;
   }
 
-  const result = await bookShelf
+  const result = await BookShelfClass
     .where({ id })
     .fetch(fetchOptions);
 
@@ -19,11 +19,11 @@ async function get(bookShelf, id, options) {
     throw new NotFoundError(`Object with id : ${id} not found`);
   }
 
-  return bookshelfToDomainConverter.buildDomainObject(result);
+  return bookshelfToDomainConverter.buildDomainObject(BookShelfClass, result);
 }
 
-async function find(bookShelf, options) {
-  const query = bookShelf
+async function find(BookShelfClass, options) {
+  const query = BookShelfClass
     .where(options.filter)
     .query((qb) => {
       options.sort.forEach((sort) => {
@@ -41,7 +41,7 @@ async function find(bookShelf, options) {
     const results = await query.fetchAll({ withRelated });
 
     return {
-      models: bookshelfToDomainConverter.buildDomainObjects(results.models)
+      models: bookshelfToDomainConverter.buildDomainObjects(BookShelfClass, results.models)
     };
   }
 
@@ -53,6 +53,6 @@ async function find(bookShelf, options) {
 
   return {
     pagination: results.pagination,
-    models: bookshelfToDomainConverter.buildDomainObjects(results.models),
+    models: bookshelfToDomainConverter.buildDomainObjects(BookShelfClass, results.models),
   };
 }

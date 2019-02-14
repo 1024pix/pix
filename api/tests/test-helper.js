@@ -1,5 +1,4 @@
 // Errors
-const domainErrors = require('../lib/domain/errors');
 const infraErrors = require('../lib/infrastructure/errors');
 // Chai
 const chai = require('chai');
@@ -16,8 +15,7 @@ afterEach(function() {
 });
 
 // Knex
-const knexConfig = require('../db/knexfile');
-const knex = require('knex')(knexConfig['test']);
+const { knex } = require('../db/knex-database-connection');
 
 // DatabaseBuilder
 const DatabaseBuilder = require('./tooling/database-builder/database-builder');
@@ -27,7 +25,7 @@ const databaseBuilder = new DatabaseBuilder({ knex });
 const nock = require('nock');
 nock.disableNetConnect();
 
-// airtableBuilde
+// airtableBuilder
 const AirtableBuilder = require('./tooling/airtable-builder/airtable-builder');
 const airtableBuilder = new AirtableBuilder({ nock });
 
@@ -121,7 +119,9 @@ const hFake = {
 function streamToPromise(stream) {
   return new Promise((resolve, reject) => {
     let totalData = '';
-    stream.on('data', (data) => { totalData += data; });
+    stream.on('data', (data) => {
+      totalData += data;
+    });
     stream.on('end', () => {
       resolve(totalData);
     });
@@ -145,6 +145,5 @@ module.exports = {
   sinon,
   streamToPromise,
   testErr: new Error('Fake Error'),
-  testDomainNotFoundErr: new domainErrors.NotFoundError('Fake domain NotFoundError'),
   testInfraNotFoundErr: new infraErrors.NotFoundError('Fake infra NotFoundError')
 };

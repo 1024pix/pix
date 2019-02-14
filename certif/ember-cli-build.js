@@ -6,8 +6,16 @@ const pluginsToBlacklist = environment === 'production' ? ['ember-freestyle'] : 
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
+    // Add options here
+    'ember-cli-babel': {
+      includePolyfill: true
+    },
     addons: {
       blacklist: pluginsToBlacklist
+    },
+
+    flatpickr: {
+      locales: ['fr']
     }
   });
 

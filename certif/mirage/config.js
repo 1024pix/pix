@@ -44,5 +44,5 @@ export default function() {
     return schema.sessions.all();
   });
 
-
+  this.post('/sessions');
 }

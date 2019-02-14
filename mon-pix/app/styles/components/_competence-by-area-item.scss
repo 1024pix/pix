@@ -8,19 +8,19 @@
   text-transform: uppercase;
   height: 50px;
   width: 100%;
-  padding-left: 100px;
+  padding-left: 30px;
   box-sizing: border-box;
   line-height: 50px;
   color: $charcoal-grey;
   font-family: $font-raleway;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
   background: $porcelain-grey;
 
-  @include device-is('mobile') {
-    padding-left: 30px;
-    font-size: 14px;
+  @include device-is('tablet') {
+    padding-left: 100px;
+    font-size: 18px;
   }
 }
 
