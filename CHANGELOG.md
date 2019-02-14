@@ -1,10 +1,28 @@
 # Pix Changelog
 
+## v2.25.0 (14/02/2019)
+
+- [#361](https://github.com/1024pix/pix/pull/361) [FEATURE] Amélioration de la page de création de session (PC-32).
+- [#348](https://github.com/1024pix/pix/pull/348) [FEATURE] Nouveau design pour la liste des sessions de certification (PC-12).
+- [#345](https://github.com/1024pix/pix/pull/345) [FEATURE] Ajout du formulaire de création de session (PC-6).
+- [#353](https://github.com/1024pix/pix/pull/353) [BUGFIX] Bookshelf to Domain converter créé correctement des objets Domain pour les sous-ressources (PF-501).
+- [#344](https://github.com/1024pix/pix/pull/344) [BUGFIX] Ajout d'un fichier de chargement avant l'affichage des résultats (PF-493).
+- [#357](https://github.com/1024pix/pix/pull/357) [TECH] Ajout de règles dans le fichier contributing.md.
+- [#355](https://github.com/1024pix/pix/pull/355) [TECH] Changement de dossier du template de PR.
+- [#351](https://github.com/1024pix/pix/pull/351) [TECH] Ajoute une première version de nos standards de code.
+- [#324](https://github.com/1024pix/pix/pull/324) [TECH] Add an `emptyAllTables` method for tests.
+- [#336](https://github.com/1024pix/pix/pull/336) [BSR] Suppression d'anciennes pages et du menu mobile (PF-335).
+
 ## v2.24.0 (06/02/2019)
 
 - [#340](https://github.com/1024pix/pix/pull/340) [FEATURE] Ajout d'une page de détails pour une campagne dans Pix Orga (PO-31).
 - [#349](https://github.com/1024pix/pix/pull/349) [BUGFIX] Génération du token des résultats CSV sur la page de détails (PO-187).
 - [#352](https://github.com/1024pix/pix/pull/352) [BSR] Remove dead code related to email list management.
+
+## v2.23.1 (05/02/2019)
+- [#347](https://github.com/1024pix/pix/pull/347) [BUGFIX] Vérifier le domaine d'une adresse avant de la soumettre à Mailjet (PF-509).
+- [#339](https://github.com/1024pix/pix/pull/339) [BUGFIX] Déconnecter l'utilisateur et le rediriger si besoin avant de commencer une campagne (PF-490).
+- [#342](https://github.com/1024pix/pix/pull/342) [BUGFIX] Arrêter d'utiliser les colonnes non-renseigné d'AirTable (PF-503).
 
 ## v2.23.0 (05/02/2019) 
 
