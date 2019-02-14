@@ -34,36 +34,6 @@ describe('Integration | Component | navbar-header', function() {
       expect(this.$('.pix-logo')).to.have.lengthOf(1);
     });
 
-    it('should display link to inscription page', function() {
-      // when
-      this.render(hbs`{{navbar-header}}`);
-
-      // then
-      expect(this.$('.navbar-menu-signup-link')).to.have.lengthOf(1);
-    });
-
-    it('should display link to connection page', function() {
-      // when
-      this.render(hbs`{{navbar-header}}`);
-
-      // then
-      expect(this.$('.navbar-menu-signin-link')).to.have.lengthOf(1);
-    });
-
-    context('when screen has a smartphone or tablet size', function() {
-      it('should display a mobile menu', function() {
-        // given
-        setBreakpointForIntegrationTest(this, 'mobile');
-
-        // when
-        this.render(hbs`{{navbar-header media=media}}`);
-
-        // then
-        expect(this.$('.navbar-mobile-menu')).to.have.lengthOf(1);
-        expect(this.$('.navbar-desktop-menu')).to.have.lengthOf(0);
-      });
-    });
-
     context('when screen has a desktop size', function() {
       it('should display a desktop menu', function() {
         // given
@@ -116,20 +86,7 @@ describe('Integration | Component | navbar-header', function() {
     it('should be rendered', function() {
       expect(this.$()).to.have.lengthOf(1);
     });
-
-    context('when screen has a smartphone or tablet size', function() {
-      it('should display a mobile menu', function() {
-        // given
-        setBreakpointForIntegrationTest(this, 'mobile');
-
-        // when
-        this.render(hbs`{{navbar-header media=media}}`);
-
-        // then
-        expect(this.$('.navbar-mobile-menu')).to.have.lengthOf(1);
-      });
-    });
-
+    
     context('when screen has a desktop size', function() {
       it('should display a desktop menu', function() {
         // given
