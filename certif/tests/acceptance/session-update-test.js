@@ -17,7 +17,7 @@ module('Acceptance | Session Update', function(hooks) {
 
   test('it should allow to update a session and redirect to the sessions list', async function(assert) {
     // given
-    let session = server.create('session', { id: 1 });
+    let session = server.create('session', { id: 1, date: '12/10/2010', time: '13:00' });
     let newRoom = "New room";
     let newExaminer = "New examiner";
 
@@ -36,7 +36,7 @@ module('Acceptance | Session Update', function(hooks) {
 
   test('it should not update a session when cancel button is clicked and redirect to the sessions list', async function(assert) {
     // given
-    let session = server.create('session', { id: 1, room: 'current room', examiner: 'current examiner' });
+    let session = server.create('session', { id: 1, room: 'current room', examiner: 'current examiner', date: '12/10/2010', time: '13:00' });
     let newRoom = "New room";
     let newExaminer = "New examiner";
 

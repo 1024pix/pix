@@ -9,7 +9,9 @@ module('Integration | Component | routes/authenticated/session | update-item', f
   let session;
 
   hooks.beforeEach(function() {
-    session = new EmberObject({});
+    session = new EmberObject({ });
+    session.set('date', '2028-05-26T22:00:00.000Z');
+    session.set('time', '20:00:00');
     this.set('updateSessionSpy', (updatedSession) => {
       session = updatedSession;
     });
@@ -17,8 +19,11 @@ module('Integration | Component | routes/authenticated/session | update-item', f
   });
 
   test('it should contain inputs, attributes and validation button', async function(assert) {
+    // given
+    this.set('model', session);
+
     // when
-    await render(hbs`{{routes/authenticated/sessions/update-item updateSession=(action updateSessionSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`{{routes/authenticated/sessions/update-item session=model updateSession=(action updateSessionSpy) cancel=(action cancelSpy)}}`);
 
     // then
     assert.dom('button[type="submit"]').exists();

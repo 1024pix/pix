@@ -35,13 +35,14 @@
   </div>
 
   <div class="session-form__field">
-    <label for="session-date" class="label">Date (au format jj/mm/yyyy)</label>
-    {{input id='session-date'
-            name='session-date'
-            type='text'
-            maxlength='10'
-            value=session.date
-            class="input"
+    <label for="session-date" class="label">Date de début</label>
+    {{ember-flatpickr id='session-date'
+                      onChange=(action onDatePicked)
+                      dateFormat='d/m/Y'
+                      locale='fr'
+                      name='session-date'
+                      class='input input--small'
+                      date=(readonly session.date)
     }}
     {{#each session.errors.date as |error|}}
       <div class='session-form__error error-message'>
@@ -51,13 +52,18 @@
   </div>
 
   <div class="session-form__field">
-    <label for="session-time" class="label">Heure (au format HH:MM)</label>
-    {{input id='session-time'
-            name='session-time'
-            type='text'
-            maxlength='5'
-            value=session.time
-            class="input"
+    <label for="session-time" class="label">Heure de début (fin 2h plus tard)</label>
+    {{ember-flatpickr id='session-time'
+                      onChange=(action onTimePicked)
+                      onClose=(action onTimePicked)
+                      enableTime=true
+                      noCalendar=true
+                      dateFormat='H:i'
+                      time_24hr=true
+                      enableSeconds=false
+                      name='session-time'
+                      class='input input--small'
+                      date=(readonly session.time)
     }}
     {{#each session.errors.time as |error|}}
       <div class='session-form__error error-message'>
@@ -95,7 +101,7 @@
 
   <div class="session-form__validation">
     <button class="button button--no-color" data-action="cancel" {{action cancel}}>Annuler</button>
-    <button class="button" type="submit">Mettre à jour</button>
+    <button class="button" type="submit">Modifier la session</button>
   </div>
 
 </form>
