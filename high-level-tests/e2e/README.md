@@ -43,5 +43,5 @@ Exécuter `npm install` depuis `~/pix/high-level-tests/e2e`
 Lancer les tests Cypress dans une interface interactive, sur la même base de donnée que l'API :
 
 ```
-DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5432/pix_test npm run cy:open
+DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5433/pix_test npm run cy:open
 ```
