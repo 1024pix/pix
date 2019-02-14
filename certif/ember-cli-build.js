@@ -12,6 +12,10 @@ module.exports = function(defaults) {
     },
     addons: {
       blacklist: pluginsToBlacklist
+    },
+
+    flatpickr: {
+      locales: ['fr']
     }
   });
 

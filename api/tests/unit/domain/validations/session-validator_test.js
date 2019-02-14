@@ -73,7 +73,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'date',
-            message: 'Veuillez entrer une date au format (jj/mm/yyyy).'
+            message: 'Veuillez indiquer une date de début.'
           }];
           session.date = MISSING_VALUE;
 
@@ -91,7 +91,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'time',
-            message: 'Veuillez entrer une heure au format (HH:MM).'
+            message: 'Veuillez indiquer une heure de début.'
           }];
           session.time = '';
 
@@ -105,7 +105,7 @@ describe('Unit | Domain | Validators | session-validator', () => {
           // given
           const expectedErrors = [{
             attribute: 'time',
-            message: 'Veuillez entrer une heure au format (HH:MM).'
+            message: 'Veuillez indiquer une heure de début.'
           }];
           session.time = '14:23:30';
 

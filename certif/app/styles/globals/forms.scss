@@ -18,6 +18,10 @@
   &:focus {
     border: 2px solid $dodger-blue;
   }
+
+  &--small {
+    width: 160px;
+  }
 }
 
 .textarea {
@@ -86,10 +90,6 @@
     &:hover, &:active, &:focus {
       background-color: $alto;
     }
-  }
-
-  &--regular {
-    width: 120px;
   }
 
   &--big {
