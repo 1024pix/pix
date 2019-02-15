@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const updateSession = require('../../../../lib/domain/usecases/update-session');
 const sessionValidator= require('../../../../lib/domain/validators/session-validator');
-const { UserNotAuthorizedToUpdateRessourceError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-session', () => {
   let originalSession;
@@ -167,7 +167,7 @@ describe('Unit | UseCase | update-session', () => {
       });
 
       // then
-      return expect(promise).to.be.rejectedWith(UserNotAuthorizedToUpdateRessourceError);
+      return expect(promise).to.be.rejectedWith(UserNotAuthorizedToUpdateResourceError);
     });
 
     it('should throw an error when the session could not be updated', () => {

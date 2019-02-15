@@ -5,7 +5,7 @@ const tokenService = require('../../../lib/domain/services/token-service');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const {
   UserNotAuthorizedToCreateCampaignError,
-  UserNotAuthorizedToUpdateRessourceError,
+  UserNotAuthorizedToUpdateResourceError,
   UserNotAuthorizedToGetCampaignResultsError,
   EntityValidationError,
   NotFoundError
@@ -105,11 +105,6 @@ module.exports = {
       .then(campaignSerializer.serialize)
       .then(controllerReplies(h).ok)
       .catch((error) => {
-        if (error instanceof UserNotAuthorizedToUpdateRessourceError) {
-          const infraError = new infraErrors.ForbiddenError(error.message);
-          return controllerReplies(h).error(infraError);
-        }
-
         const mappedError = _mapToInfraError(error);
         return controllerReplies(h).error(mappedError);
       });
@@ -126,7 +121,10 @@ function _validateFilters(filters) {
 }
 
 function _mapToInfraError(error) {
-  if (error instanceof NotFoundError) {
+  if (error instanceof UserNotAuthorizedToUpdateResourceError) {
+    return new infraErrors.ForbiddenError(error.message);
+  }
+  else if (error instanceof NotFoundError) {
     return new infraErrors.NotFoundError(error.message);
   }
 

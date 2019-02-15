@@ -5,7 +5,7 @@ const sessionController = require('../../../../lib/application/sessions/session-
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
 const sessionService = require('../../../../lib/domain/services/session-service');
-const { NotFoundError, EntityValidationError, UserNotAuthorizedToUpdateRessourceError } = require('../../../../lib/domain/errors');
+const { NotFoundError, EntityValidationError, UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
@@ -291,7 +291,7 @@ describe('Unit | Controller | sessionController', () => {
 
     it('should throw a forbiddenError when user is not authorized to update the session', async () => {
       // given
-      usecases.updateSession.withArgs(updateSessionArgs).rejects(new UserNotAuthorizedToUpdateRessourceError());
+      usecases.updateSession.withArgs(updateSessionArgs).rejects(new UserNotAuthorizedToUpdateResourceError());
 
       // when
       const response = await sessionController.update(request, hFake);

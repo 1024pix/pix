@@ -2,7 +2,7 @@ const Boom = require('boom');
 
 const usecases = require('../../domain/usecases');
 const sessionService = require('../../domain/services/session-service');
-const { NotFoundError, ForbiddenAccess, EntityValidationError, UserNotAuthorizedToUpdateRessourceError } = require('../../domain/errors');
+const { NotFoundError, ForbiddenAccess, EntityValidationError, UserNotAuthorizedToUpdateResourceError } = require('../../domain/errors');
 
 const logger = require('../../infrastructure/logger');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
@@ -83,21 +83,19 @@ module.exports = {
           return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
 
-        let infraError;
-
-        if (error instanceof UserNotAuthorizedToUpdateRessourceError) {
-          infraError = new infraErrors.ForbiddenError(error.message);
-        }
-
-        else if (error instanceof NotFoundError) {
-          infraError = new infraErrors.NotFoundError(error.message);
-        }
-
-        else {
-          infraError = error;
-        }
-
-        return controllerReplies(h).error(infraError);
+        const mappedError = _mapToInfraError(error);
+        return controllerReplies(h).error(mappedError);
       });
   }
 };
+
+function _mapToInfraError(error) {
+  if (error instanceof UserNotAuthorizedToUpdateResourceError) {
+    return new infraErrors.ForbiddenError(error.message);
+  }
+  else if (error instanceof NotFoundError) {
+    return new infraErrors.NotFoundError(error.message);
+  }
+
+  return error;
+}

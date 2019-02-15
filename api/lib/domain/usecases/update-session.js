@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToUpdateRessourceError } = require('../errors');
+const { UserNotAuthorizedToUpdateResourceError } = require('../errors');
 const sessionValidator = require('../validators/session-validator');
 
 module.exports = async function updateSession(
@@ -19,7 +19,7 @@ module.exports = async function updateSession(
   const certificationCenterId = sessionToUpdate.certificationCenterId;
 
   if (!user.hasAccessToCertificationCenter(certificationCenterId)) {
-    throw new UserNotAuthorizedToUpdateRessourceError(`User does not have an access to the certification center ${certificationCenterId}`);
+    throw new UserNotAuthorizedToUpdateResourceError(`User does not have an access to the certification center ${certificationCenterId}`);
   }
 
   Object.assign(sessionToUpdate, session);
