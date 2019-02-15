@@ -26,9 +26,9 @@
   },
   "devDependencies": {
     "cypress": "^3.1.5",
-    "cypress-cucumber-preprocessor": "^1.10.0",
+    "cypress-cucumber-preprocessor": "^1.11.0",
     "eslint": "^5.13.0",
-    "eslint-plugin-cypress": "^2.1.2",
-    "npm-run-all": "^4.1.0"
+    "eslint-plugin-cypress": "^2.2.0",
+    "npm-run-all": "^4.1.5"
   }
 }
