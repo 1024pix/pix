@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "name": "Campagne de la Néra",
+    "code": "NERA",
+    "organizationId": 1,
+    "creatorId": 1,
+    "targetProfileId": 1
+  }
+]

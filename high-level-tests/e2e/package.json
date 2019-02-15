@@ -1,0 +1,34 @@
+{
+  "name": "pix-e2e",
+  "version": "0.1.0",
+  "description": "Permet d'exécuter des tests de bout en bout sur la plateforme Pix",
+  "homepage": "https://github.com/1024pix/pix#readme",
+  "author": "Pix",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1024pix/pix"
+  },
+  "scripts": {
+    "cy:open": "npm run db:initialize && cypress open",
+    "cy:open:pg": "DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5433/pix_test npm run cy:open",
+    "cy:run": "npm run db:initialize && cypress run --browser=chrome && exit",
+    "cy:run:pg": "DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5433/pix_test npm run cy:run",
+    "cy:test": "run-p start:api start:mon-pix cy:run",
+    "cy:test:open": "run-p start:api start:mon-pix cy:open",
+    "cy:test:pg": "run-p start:api:pg start:mon-pix cy:run:pg",
+    "cy:test:pg:open": "run-p start:api:pg start:mon-pix cy:open:pg",
+    "db:empty": "cd ../../api && npm run db:empty",
+    "db:initialize": "cd ../../api && npm run db:migrate",
+    "start:api": "cd ../../api && npm run start:watch",
+    "start:api:pg": "cd ../../api && DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5433/pix_test npm run start:watch",
+    "start:mon-pix": "cd ../../mon-pix && npx ember serve --proxy"
+  },
+  "devDependencies": {
+    "cypress": "^3.1.5",
+    "cypress-cucumber-preprocessor": "^1.11.0",
+    "eslint": "^5.13.0",
+    "eslint-plugin-cypress": "^2.2.0",
+    "npm-run-all": "^4.1.5"
+  }
+}
