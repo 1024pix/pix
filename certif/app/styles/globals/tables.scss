@@ -34,6 +34,7 @@
   td, th {
     text-align: left;
     padding-left: 15px;
+    box-sizing: content-box;
   }
 
   td.row--center, th.row--center {
