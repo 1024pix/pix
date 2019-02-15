@@ -176,12 +176,6 @@ class NotCompletedAssessmentError extends DomainError {
   }
 }
 
-class NotElligibleToQmailError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
 class NotFoundError extends DomainError {
   constructor(message) {
     super(message);
@@ -303,7 +297,6 @@ module.exports = {
   MembershipCreationError,
   MissingOrInvalidCredentialsError,
   NotCompletedAssessmentError,
-  NotElligibleToQmailError,
   NotFoundError,
   ObjectValidationError,
   PasswordNotMatching,

@@ -14,8 +14,6 @@ export function getChallengeComponentClass(params) {
     result = 'qroc';
   } else if (_(challengeType).isAmongst(['QROCM', 'QROCM-IND', 'QROCM-DEP'])) {
     result = 'qrocm';
-  } else if (_(challengeType).isAmongst(['QMAIL'])) {
-    result = 'qmail';
   }
 
   return 'challenge-item-' + result;
