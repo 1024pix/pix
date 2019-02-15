@@ -1,7 +1,7 @@
 .campaign-tutorial {
   background: $pix-yellow-to-orange-gradient;
   width: 100%;
-  height:100vh;
+  height: 100vh;
   display: flex;
 
   &__container {
@@ -11,7 +11,7 @@
     max-height: 700px;
     padding: 30px 40px;
     border-radius: 10px;
-    box-shadow: 0 7px 14px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 
     @include device-is('tablet') {
       padding: 30px 10px;
@@ -84,18 +84,15 @@
     margin: auto;
   }
 
-  &__next-page-tutorial{
+  &__next-page-tutorial {
     margin: auto;
-    padding: 0px 60px;
-    width: 170px;
   }
 
-  &__start-campaign-button{
+  &__start-campaign-button {
     margin: auto auto 50px auto;
   }
 
   &__ignore-button {
-    width: 170px;
-    margin: auto;
+    margin: 10px auto;
   }
 }

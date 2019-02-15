@@ -1,5 +1,6 @@
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
+import ENV from 'mon-pix/config/environment';
 
 export default Component.extend({
 
@@ -8,6 +9,7 @@ export default Component.extend({
   email: '',
   _displayErrorMessage: false,
   _displaySuccessMessage: false,
+  urlHome: ENV.APP.HOME_HOST,
 
   actions: {
 

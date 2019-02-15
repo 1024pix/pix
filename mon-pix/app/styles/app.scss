@@ -10,7 +10,6 @@
 @import 'globals/redesign-inputs';
 @import 'globals/pix-modale';
 @import 'globals/pix-page';
-@import 'globals/pix-button';
 @import 'globals/buttons';
 @import 'globals/checkpoint-progress-bar';
 /* 3rd-party */
@@ -49,7 +48,7 @@
 @import 'components/navbar-desktop-menu';
 @import 'components/navbar-header';
 @import 'components/no-certification-panel';
-@import 'components/password-reset-form';
+@import 'components/password-reset-demand-form';
 @import 'components/pix-logo';
 @import 'components/placement-banner';
 @import 'components/profile-panel';
@@ -97,10 +96,7 @@
 @import 'pages/not-connected';
 @import 'pages/error';
 @import 'pages/fill-in-id-pix';
-@import 'pages/inscription';
-@import 'pages/login';
-@import 'pages/password-reset-demand';
-@import 'pages/reset-password';
+@import 'pages/sign-form';
 @import 'pages/skill-review';
 @import 'pages/user-certifications';
 @import 'pages/user-certifications-get';

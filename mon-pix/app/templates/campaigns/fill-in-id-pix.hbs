@@ -10,18 +10,18 @@
           {{input required id="id-pix-label" value=model.participantExternalId}}
         </div>
         {{#if model.loading}}
-          <button type="submit" class="pix-button"><span class="loader-in-button"></span></button>
+          <button type="submit" class="button button--big"><span class="loader-in-button"></span></button>
         {{else}}
-          <button type="submit" class="pix-button" {{action "submit"}}>Continuer</button>
+          <button type="submit" class="button button--big" {{action "submit"}}>Continuer</button>
         {{/if}}
         {{#if model.errorMessage}}
           <div class="fill-in-id-pix__form__error-message">{{model.errorMessage}}</div>
         {{/if}}
       </div>
       {{#if model.loading}}
-        <button class="fill-in-id-pix__cancel-button">Annuler</button>
+        <button class="button button--regular button--no-color fill-in-id-pix__cancel-button">Annuler</button>
       {{else}}
-        <button class="fill-in-id-pix__cancel-button" {{action "cancel"}}>Annuler</button>
+        <button class="button button--regular button--no-color fill-in-id-pix__cancel-button" {{action "cancel"}}>Annuler</button>
       {{/if}}
     </div>
   </div>

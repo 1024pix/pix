@@ -33,15 +33,7 @@ describe('Acceptance | Reset Password', function() {
     await visit('/mot-de-passe-oublie');
 
     // then
-    expect(find('.password-reset-page__password-reset-form')).to.have.lengthOf(1);
-  });
-
-  it('display a link to inscription page', async function() {
-    // when
-    await visit('/mot-de-passe-oublie');
-
-    // then
-    expect(find('.password-reset-page__inscription-button')).to.have.lengthOf(1);
+    expect(find('.sign-form__container')).to.have.lengthOf(1);
   });
 
   it('should stay on mot de passe oublié page, and show success message, when email sent correspond to an existing user', async function() {
@@ -54,15 +46,15 @@ describe('Acceptance | Reset Password', function() {
       password: '1024pix!'
     });
     await visit('/mot-de-passe-oublie');
-    fillIn('.password-reset-form__form-email-input', 'brandone.martins@pix.com');
+    fillIn('#email', 'brandone.martins@pix.com');
 
     // when
-    await click('.password-reset-form__submit-button');
+    await click('.button');
 
     // then
     return andThen(() => {
       expect(currentURL()).to.equal('/mot-de-passe-oublie');
-      expect(find('.password-reset-form__form-success-message')).to.have.lengthOf(1);
+      expect(find('.sign-form__message')).to.have.lengthOf(1);
     });
 
   });
@@ -77,15 +69,15 @@ describe('Acceptance | Reset Password', function() {
       password: '1024pix!'
     });
     await visit('/mot-de-passe-oublie');
-    fillIn('.password-reset-form__form-email-input', 'unexisting@user.com');
+    fillIn('#email', 'unexisting@user.com');
 
     // when
-    await click('.password-reset-form__submit-button');
+    await click('.button');
 
     // then
     return andThen(() => {
       expect(currentURL()).to.equal('/mot-de-passe-oublie');
-      expect(find('.password-reset-form__form-error-message')).to.have.lengthOf(1);
+      expect(find('.sign-form__notification-message--error')).to.have.lengthOf(1);
     });
 
   });
