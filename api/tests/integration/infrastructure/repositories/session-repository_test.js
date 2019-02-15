@@ -1,9 +1,10 @@
 const { databaseBuilder, expect, knex, domainBuilder } = require('../../../test-helper');
 
-const Session = require('../../../../lib/domain/models/Session');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
-const BookshelfSession = require('../../../../lib/infrastructure/data/campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const Session = require('../../../../lib/domain/models/Session');
+
+const BookshelfSession = require('../../../../lib/infrastructure/data/campaign');
+const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
 describe('Integration | Repository | Session', function() {
 
