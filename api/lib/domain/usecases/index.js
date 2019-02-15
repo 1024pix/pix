@@ -100,9 +100,9 @@ module.exports = injectDependencies({
   startCampaignParticipation: require('./start-campaign-participation'),
   startPlacementAssessment: require('./start-placement-assessment'),
   updateCampaign: require('./update-campaign'),
-  updateSession: require('./update-session'),
   updateCertification: require('./update-certification'),
   updateOrganizationInformation: require('./update-organization-information'),
+  updateSession: require('./update-session'),
   updateUserPassword: require('./update-user-password'),
   writeOrganizationSharedProfilesAsCsvToStream: require('./write-organization-shared-profiles-as-csv-to-stream'),
 });
