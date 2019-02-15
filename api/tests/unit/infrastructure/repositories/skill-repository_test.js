@@ -1,5 +1,4 @@
 const { expect, sinon } = require('../../../test-helper');
-const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const DomainSkill = require('../../../../lib/domain/models/Skill');
 const airTableDataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
@@ -38,43 +37,6 @@ describe('Unit | Repository | skill-repository', function() {
           { id: 'recAcquix1', name: '@acquix1' },
           { id: 'recAcquix2', name: '@acquix2' },
         ]);
-      });
-    });
-  });
-
-  describe('#save', () => {
-    let forgeStub;
-    let invokeStub;
-
-    beforeEach(() => {
-      invokeStub = sinon.stub().resolves();
-      forgeStub = sinon.stub().returns({
-        invokeThen: invokeStub
-      });
-
-      sinon.stub(Bookshelf.Collection, 'extend').returns({
-        forge: forgeStub
-      });
-    });
-
-    it('should save assessment skills', () => {
-      // given
-      const skillsFormatted = [
-        { assessmentId: '1', name: '@url2', status: 'ok' },
-        { assessmentId: '2', name: '@web3', status: 'ok' },
-        { assessmentId: '3', name: '@recherch2', status: 'ko' },
-        { assessmentId: '4', name: '@securite3', status: 'ko' },
-      ];
-
-      // when
-      const promise = skillRepository.save(skillsFormatted);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(forgeStub);
-        sinon.assert.calledWith(forgeStub, skillsFormatted);
-        sinon.assert.calledOnce(invokeStub);
-        sinon.assert.calledWith(invokeStub, 'save');
       });
     });
   });
