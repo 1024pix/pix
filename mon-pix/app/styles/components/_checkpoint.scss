@@ -89,17 +89,10 @@
 }
 
 .checkpoint__continue-button {
-  background-color: $pix-yellow;
-  border: none;
-  border-radius: 5px;
   padding: 0 10px;
   width: 300px;
   height: 50px;
   line-height: 50px;
-  color: $nero;
-  font-size: 1.45rem;
-  font-weight: $font-heavy;
-  box-shadow: 0 2px 6px 0 rgba(12,22,58,0.11), 0 1px 3px 0 rgba(0,0,0,0.08);
   display: inline-block;
 
   @include device-is('tablet') {
@@ -119,10 +112,6 @@
   &:hover,
   &:focus,
   &:active {
-    background-color: $pix-yellow-hover;
-    color: $nero;
-    text-decoration: none;
-    cursor: pointer;
     padding-right: 4px;
     transition: all 0.25s ease-in-out;
 

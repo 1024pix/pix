@@ -6,7 +6,6 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
-const SUCCESS_VALIDATION_MESSAGE = 'Votre mot de passe a bien été mis à jour';
 
 const VALIDATION_MAP = {
   default: {
@@ -14,15 +13,12 @@ const VALIDATION_MAP = {
   },
   error: {
     status: 'error', message: ERROR_PASSWORD_MESSAGE
-  },
-  success: {
-    status: 'success', message: ''
-  },
+  }
 };
 
 const SUBMISSION_MAP = {
-  success: {
-    status: 'success', message: SUCCESS_VALIDATION_MESSAGE
+  default: {
+    status: 'default', message: null
   },
   error: {
     status: 'error', message: ERROR_PASSWORD_MESSAGE
@@ -78,7 +74,7 @@ describe('Unit | Component | reset password form', function() {
       component.send('validatePassword');
 
       // then
-      expect(component.get('validation')).to.eql(VALIDATION_MAP['success']);
+      expect(component.get('validation')).to.eql(VALIDATION_MAP['default']);
     });
 
   });
@@ -103,7 +99,20 @@ describe('Unit | Component | reset password form', function() {
         });
 
         // then
-        expect(component.get('validation')).to.eql(SUBMISSION_MAP['success']);
+        expect(component.get('validation')).to.eql(SUBMISSION_MAP['default']);
+      });
+
+      it('should update _displaySuccessMessage', function() {
+        // given
+        component.set('user', userWithGoodPassword);
+
+        // when
+        run(() => {
+          component.send('handleResetPassword');
+        });
+
+        // then
+        expect(component.get('_displaySuccessMessage')).to.eql(true);
       });
 
       it('should reset paswword input', function() {

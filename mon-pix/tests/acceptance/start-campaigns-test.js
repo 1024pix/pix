@@ -31,10 +31,10 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         beforeEach(async function() {
           await startCampaignByCode('AZERTY1');
         });
-        it('should redirect to login page', async function() {
+        it('should redirect to signin page', async function() {
           // then
           return andThen(() => {
-            expect(currentURL()).to.equal('/connexion');
+            expect(currentURL()).to.equal('/inscription');
           });
         });
       });
@@ -88,12 +88,15 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       context('When campaign has external id', function() {
         beforeEach(async function() {
           await startCampaignByCode('AZERTY1');
-          await fillIn('#pix-email', 'jane@acme.com');
-          await fillIn('#pix-password', 'Jane1234');
-          await click('.signin-form__submit_button');
+          await fillIn('#firstName', 'Jane');
+          await fillIn('#lastName', 'Acme');
+          await fillIn('#email', 'jane@acme.com');
+          await fillIn('#password', 'Jane1234');
+          await click('#pix-cgu');
+          await click('.button');
         });
 
-        it('should redirect to fill-in-id-pix page after connexion', async function() {
+        it('should redirect to fill-in-id-pix page after signup', async function() {
           // then
           return andThen(() => {
             expect(currentURL()).to.contains('/campagnes/AZERTY1/identifiant');
@@ -103,7 +106,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         it('should redirect to assessment after completion of external id', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.pix-button');
+          await click('.button');
 
           // then
           return andThen(() => {
@@ -115,12 +118,15 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       context('When campaign does not have external id', function() {
         beforeEach(async function() {
           await startCampaignByCode('AZERTY2');
-          await fillIn('#pix-email', 'jane@acme.com');
-          await fillIn('#pix-password', 'Jane1234');
-          await click('.signin-form__submit_button');
+          await fillIn('#firstName', 'Jane');
+          await fillIn('#lastName', 'Acme');
+          await fillIn('#email', 'jane@acme.com');
+          await fillIn('#password', 'Jane1234');
+          await click('#pix-cgu');
+          await click('.button');
         });
 
-        it('should redirect to assessment after connexion', async function() {
+        it('should redirect to assessment after signup', async function() {
           // then
           return andThen(() => {
             expect(currentURL()).to.contains('/didacticiel');
@@ -172,7 +178,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
           // when
           await fillIn('#id-pix-label', participantExternalId);
-          await click('.pix-button');
+          await click('.button');
 
           // then
           expect(receivedParticipantExternalId).to.equal(participantExternalId);
@@ -181,7 +187,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         it('should go to the tutorial when the user fill in his id', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.pix-button');
+          await click('.button');
 
           // then
           return andThen(() => {
@@ -192,7 +198,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         it('should start the assessment when the user has seen tutorial', async function() {
           // when
           fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.pix-button');
+          await click('.button');
           await click('.campaign-tutorial__next-page-tutorial');
           await click('.campaign-tutorial__next-page-tutorial');
           await click('.campaign-tutorial__next-page-tutorial');
