@@ -59,6 +59,15 @@ $ npm start
 [l'application Pix-Orga](http://localhost:4201) sur le port 4201.
 [l'application Pix-Certif](http://localhost:4203) sur le port 4203.
 
+**6/ Tests de haut niveau**
+
+Dans le répertoire `high-level-tests` se situent les tests de haut niveau.
+ À terme, pourront se trouver dans ce répertoire :
+  - les [tests de bout en bout](high-level-tests/e2e/README.md) (end-to-end) que l'on utilise comme tests de non-régression au sein du projet ;
+  - les tests de montée en charge ;
+  - les tests de sécurité.
+
+
 Licence
 -------
 

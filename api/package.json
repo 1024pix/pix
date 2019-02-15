@@ -79,6 +79,7 @@
     "coverage": "npm run coverage:check && npm run coverage:rename",
     "db:create": "npx knex --knexfile db/knexfile.js migrate:make $migrationname",
     "db:delete": "rm -f db/dev.sqlite3",
+    "db:empty": "node scripts/database/empty-database",
     "db:migrate": "knex --knexfile db/knexfile.js migrate:latest",
     "db:pg:create": "node scripts/database/create-database",
     "db:pg:delete": "node scripts/database/drop-database",

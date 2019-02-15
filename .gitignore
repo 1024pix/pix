@@ -54,3 +54,9 @@ api/.nvmrc
 .node_modules.ember-try/
 bower.json.ember-try
 package.json.ember-try
+
+# cypress
+high-level-tests/e2e/cypress/screenshots/*
+high-level-tests/e2e/cypress/screenshots
+high-level-tests/e2e/cypress/videos/*
+high-level-tests/e2e/cypress/videos
