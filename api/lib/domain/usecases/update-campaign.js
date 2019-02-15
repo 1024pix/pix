@@ -1,4 +1,4 @@
-const { UserNotAuthorizedToUpdateRessourceError } = require('../errors');
+const { UserNotAuthorizedToUpdateResourceError } = require('../errors');
 
 module.exports = async function updateCampaign(
   {
@@ -18,7 +18,7 @@ module.exports = async function updateCampaign(
   const organizationId = campaign.organizationId;
 
   if (!user.hasAccessToOrganization(organizationId)) {
-    throw new UserNotAuthorizedToUpdateRessourceError(`User does not have an access to the organization ${organizationId}`);
+    throw new UserNotAuthorizedToUpdateResourceError(`User does not have an access to the organization ${organizationId}`);
   }
 
   if (typeof title !== 'undefined') campaign.title = title;
