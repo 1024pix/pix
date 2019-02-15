@@ -11,7 +11,7 @@
   </div>
 
   {{#ember-table class="table" as |table|}}
-    {{#table.head enableResize=false widthConstraint=eq-container columns=columns as |head|}}
+    {{#table.head enableReorder=false enableResize=false widthConstraint=eq-container columns=columns as |head|}}
       {{#head.row as |row|}}
         {{#row.cell class=(if row.columnValue.isUpdate "row--center") as |value|}}
 
