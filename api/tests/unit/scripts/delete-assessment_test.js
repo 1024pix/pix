@@ -64,19 +64,6 @@ describe('Delete Assessment Script', () => {
       });
     });
 
-    describe('#delete_skills_from_assessment_ids', () => {
-      it('should return the correct query', () => {
-        // given
-        const assessment_id = 123;
-
-        // when
-        const query = subject.delete_skills_from_assessment_ids(assessment_id);
-
-        // then
-        expect(query).to.equal('DELETE FROM skills WHERE "assessmentId" = 123');
-      });
-    });
-
     describe('#delete_answers_from_assessment_ids', () => {
       it('should return the correct query', () => {
         // given
@@ -119,16 +106,15 @@ describe('Delete Assessment Script', () => {
         return expect(promise).to.be.rejectedWith(Error, 'Missing argument : an assessment id should be provided');
       });
 
-      it('should delete feedbacks, skills, answers, competence-marks and assessment-results', () => {
+      it('should delete feedbacks, answers, competence-marks and assessment-results', () => {
         // when
         const promise = subject.delete_dependent_data_from_assessment_id();
 
         // then
         return promise.then(() => {
-          sinon.assert.callCount(clientStub.query_and_log, 5);
+          sinon.assert.callCount(clientStub.query_and_log, 4);
 
           expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM feedbacks WHERE "assessmentId" = 1345');
-          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM skills WHERE "assessmentId" = 1345');
           expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM answers WHERE "assessmentId" = 1345');
           expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" = 1345 )');
           expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM "assessment-results" WHERE "assessmentId" = 1345');

@@ -47,9 +47,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
   const courseRepository = {
     get: () => undefined,
   };
-  const skillsService = {
-    saveAssessmentSkills: () => undefined,
-  };
 
   const assessmentId = 1;
   const assessmentResultId = 1;
@@ -145,7 +142,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     sinon.stub(assessmentRepository, 'save').resolves();
     sinon.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
     sinon.stub(assessmentRepository, 'get').resolves(assessment);
-    sinon.stub(skillsService, 'saveAssessmentSkills').resolves();
     sinon.stub(courseRepository, 'get').resolves(course);
     sinon.stub(competenceRepository, 'get').resolves(competence11);
     sinon.stub(competenceRepository, 'list').resolves(listOfAllCompetences);
@@ -168,7 +164,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       certificationCourseRepository,
       competenceMarkRepository,
       scoringService,
-      skillsService,
     });
 
     // then
@@ -196,7 +191,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         certificationCourseRepository,
         competenceMarkRepository,
         scoringService,
-        skillsService,
       });
 
       // then
@@ -224,7 +218,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         certificationCourseRepository,
         competenceMarkRepository,
         scoringService,
-        skillsService,
       });
 
       // then
@@ -245,7 +238,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       certificationCourseRepository,
       competenceMarkRepository,
       scoringService,
-      skillsService,
     });
 
     // then
@@ -261,7 +253,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       certificationCourseRepository,
       competenceMarkRepository,
       scoringService,
-      skillsService,
     });
 
     // then
@@ -288,29 +279,10 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       certificationCourseRepository,
       competenceMarkRepository,
       scoringService,
-      skillsService,
     });
 
     // then
     return expect(promise).to.have.been.fulfilled;
-  });
-
-  it('should save the assessment skills', () => {
-    // when
-    const promise = createAssessmentResultForCompletedAssessment({
-      assessmentId,
-      assessmentResultRepository,
-      assessmentRepository,
-      certificationCourseRepository,
-      competenceMarkRepository,
-      scoringService,
-      skillsService,
-    });
-
-    // then
-    return promise.then(() => {
-      expect(skillsService.saveAssessmentSkills).to.have.been.calledWith(assessment.id, assessmentScore.validatedSkills, assessmentScore.failedSkills);
-    });
   });
 
   it('should create a new assessment result', () => {
@@ -337,7 +309,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       certificationCourseRepository,
       competenceMarkRepository,
       scoringService,
-      skillsService,
     });
 
     // then
@@ -357,7 +328,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         certificationCourseRepository,
         competenceMarkRepository,
         scoringService,
-        skillsService,
       });
       const expectedSavedCompetenceMark = {
         id: undefined,
@@ -386,7 +356,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         certificationCourseRepository,
         competenceMarkRepository,
         scoringService,
-        skillsService,
       });
 
       // then
@@ -409,7 +378,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then
@@ -450,7 +418,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         certificationCourseRepository,
         competenceMarkRepository,
         scoringService,
-        skillsService,
       });
 
       // then
@@ -493,7 +460,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         certificationCourseRepository,
         competenceMarkRepository,
         scoringService,
-        skillsService,
       });
 
       // then
@@ -511,7 +477,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         certificationCourseRepository,
         competenceMarkRepository,
         scoringService,
-        skillsService,
       });
 
       // then
@@ -568,7 +533,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then
@@ -641,7 +605,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then
@@ -671,7 +634,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then
@@ -692,7 +654,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then
@@ -718,7 +679,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then
@@ -751,7 +711,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then
@@ -781,7 +740,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then
@@ -802,7 +760,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then
@@ -828,7 +785,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           certificationCourseRepository,
           competenceMarkRepository,
           scoringService,
-          skillsService,
         });
 
         // then

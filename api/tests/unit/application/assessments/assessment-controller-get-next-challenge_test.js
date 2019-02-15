@@ -1,7 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
-const skillService = require('../../../../lib/domain/services/skills-service');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -50,7 +49,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         skills: assessmentSkills,
       };
 
-      sinon.stub(skillService, 'saveAssessmentSkills').resolves();
       sinon.stub(assessmentRepository, 'get');
       sinon.stub(assessmentRepository, 'save');
       sinon.stub(challengeRepository, 'get').resolves({});
