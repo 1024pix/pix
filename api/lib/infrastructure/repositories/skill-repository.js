@@ -5,6 +5,7 @@ function _toDomain(skillData) {
   return new Skill({
     id: skillData.id,
     name: skillData.name,
+    pixValue: skillData.pixValue,
   });
 }
 

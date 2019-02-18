@@ -6,6 +6,7 @@ class Skill {
     hintStatus = 'no status',
     tutorialIds = [],
     learningMoreTutorialIds = [],
+    pixValue,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -13,6 +14,7 @@ class Skill {
     this.hintStatus = hintStatus;
     this.tutorialIds = tutorialIds;
     this.learningMoreTutorialIds = learningMoreTutorialIds;
+    this.pixValue = pixValue;
   }
 
   static fromAirTableObject(airtableSkillObject) {
@@ -23,6 +25,7 @@ class Skill {
       hintStatus: airtableSkillObject.get('Statut de l\'indice'),
       tutorialIds: airtableSkillObject.get('Comprendre'),
       learningMoreTutorialIds: airtableSkillObject.get('En savoir plus'),
+      pixValue: airtableSkillObject.get('PixValue'),
     });
   }
 }

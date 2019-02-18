@@ -29,7 +29,7 @@ class SmartPlacementKnowledgeElement {
     createdAt,
     source,
     status,
-    pixScore,
+    earnedPix,
     // includes
     // references
     answerId,
@@ -41,7 +41,7 @@ class SmartPlacementKnowledgeElement {
     this.createdAt = createdAt;
     this.source = source;
     this.status = status;
-    this.pixScore = pixScore;
+    this.earnedPix = earnedPix;
     // includes
     // references
     this.answerId = answerId;
@@ -59,14 +59,14 @@ class SmartPlacementKnowledgeElement {
 
   static createKnowledgeElementsForAnswer({
     answer,
-    associatedChallenge,
+    challenge,
     previouslyFailedSkills,
     previouslyValidatedSkills,
     targetSkills,
   }) {
 
     const directKnowledgeElements = _createDirectKnowledgeElements({
-      answer, associatedChallenge, previouslyFailedSkills, previouslyValidatedSkills, targetSkills,
+      answer, challenge, previouslyFailedSkills, previouslyValidatedSkills, targetSkills,
     });
 
     return _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
@@ -84,7 +84,7 @@ SmartPlacementKnowledgeElement.StatusType = SmartPlacementKnowledgeElementStatus
 
 function _createDirectKnowledgeElements({
   answer,
-  associatedChallenge,
+  challenge,
   previouslyFailedSkills,
   previouslyValidatedSkills,
   targetSkills,
@@ -92,7 +92,7 @@ function _createDirectKnowledgeElements({
 
   const status = answer.isOk() ? VALIDATED_STATUS : INVALIDATED_STATUS;
 
-  return associatedChallenge.skills
+  return challenge.skills
     .filter(_skillIsInTargetedSkills({ targetSkills }))
     .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
     .map((skill) => {
@@ -195,10 +195,12 @@ function _createInferredInvalidatedKnowledgeElement({ answer, skillToInfer }) {
 }
 
 function _createKnowledgeElementsForSkill({ skill, source, status, answer }) {
+  const pixValue = (status === VALIDATED_STATUS) ? skill.pixValue : 0;
+
   return new SmartPlacementKnowledgeElement({
     answerId: answer.id,
     assessmentId: answer.assessmentId,
-    pixScore: 0,
+    earnedPix: pixValue,
     skillId: skill.id,
     source,
     status,

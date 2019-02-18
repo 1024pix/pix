@@ -298,7 +298,7 @@ describe('Unit | Controller | answer-controller', () => {
       it('should get existing answer', () => {
         // then
         return expect(answerRepository.findByChallengeAndAssessment)
-          .to.have.been.calledWith(challengeId, assessmentId);
+          .to.have.been.calledWith({ challengeId, assessmentId });
       });
 
       it('should call the smartPlacementAssessmentRepository to try and get the assessment', () => {

@@ -114,8 +114,8 @@ describe('Unit | Repository | challenge-repository', () => {
           // then
           return promise.then((challenge) => {
             expect(challenge.skills).to.have.lengthOf(2);
-            expect(challenge.skills[0]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@web1' }));
-            expect(challenge.skills[1]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@url2' }));
+            expect(challenge.skills[0]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@web1', pixValue: 2.4 }));
+            expect(challenge.skills[1]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@url2', pixValue: 2.4 }));
           });
         });
         it('should call the solution-adapter to create the solution', () => {
@@ -172,39 +172,28 @@ describe('Unit | Repository | challenge-repository', () => {
     let skillURL2;
     let skillURL3;
     let skills;
-    let skillIds;
 
     beforeEach(() => {
 
-      skillWeb1 = domainBuilder.buildSkill({
+      skillWeb1 = domainBuilder.buildSkillAirtableDataObject({
         id: 'recSkillWeb1',
         name: '@web1',
+        pixValue: 2,
       });
-      skillURL2 = domainBuilder.buildSkill({
+      skillURL2 = domainBuilder.buildSkillAirtableDataObject({
         id: 'recSkillURL2',
         name: '@url2',
+        pixValue: 3,
       });
-      skillURL3 = domainBuilder.buildSkill({
+      skillURL3 = domainBuilder.buildSkillAirtableDataObject({
         id: 'recSkillURL3',
         name: '@url3',
+        pixValue: 3,
       });
       skills = [skillWeb1, skillURL2, skillURL3];
-      skillIds = [skillWeb1.id, skillURL2.id, skillURL3.id];
-
       sinon.stub(skillDatasource, 'get');
       sinon.stub(skillDatasource, 'list');
-      skillDatasource.list.resolves([
-        domainBuilder.buildSkillAirtableDataObject({
-          id: skillURL3.id, name: skillURL3.name,
-        }),
-        domainBuilder.buildSkillAirtableDataObject({
-          id: skillURL2.id,
-          name: skillURL2.name,
-        }),
-        domainBuilder.buildSkillAirtableDataObject({
-          id: skillWeb1.id,
-          name: skillWeb1.name,
-        })]);
+      skillDatasource.list.resolves(skills);
     });
 
     describe('#list', () => {
@@ -265,16 +254,19 @@ describe('Unit | Repository | challenge-repository', () => {
               {
                 'id': 'recSkillWeb1',
                 'name': '@web1',
+                'pixValue': 2
               }
             ]);
             expect(challenges[1].skills).to.deep.equal([
               {
                 'id': 'recSkillURL2',
                 'name': '@url2',
+                'pixValue': 3,
               },
               {
                 'id': 'recSkillURL3',
                 'name': '@url3',
+                'pixValue': 3
               }
             ]);
           });
@@ -410,7 +402,7 @@ describe('Unit | Repository | challenge-repository', () => {
           });
           solution = domainBuilder.buildSolution();
 
-          challengeDatasource.findBySkillIds.withArgs(skillIds).resolves([
+          challengeDatasource.findBySkillIds.resolves([
             challengeDataObject1,
             challengeDataObject2,
           ]);
@@ -428,7 +420,7 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should call challengeDataObjects with competence', () => {
           // then
           return promise.then(() => {
-            expect(challengeDatasource.findBySkillIds).to.have.been.calledWith(skillIds);
+            expect(challengeDatasource.findBySkillIds).to.have.been.calledWith(skills.map((skill) => skill.id));
           });
         });
         it('should resolve an array of 2 Challenge domain objects', () => {

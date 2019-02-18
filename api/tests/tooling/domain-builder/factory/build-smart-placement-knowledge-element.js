@@ -5,7 +5,7 @@ module.exports = function buildSmartPlacementKnowledgeElement({
   id = faker.random.number(),
   source = SmartPlacementKnowledgeElement.SourceType.DIRECT,
   status = SmartPlacementKnowledgeElement.StatusType.VALIDATED,
-  pixScore = 4,
+  earnedPix = 4,
   createdAt,
   // relationship Ids
   answerId = faker.random.number(),
@@ -16,7 +16,7 @@ module.exports = function buildSmartPlacementKnowledgeElement({
     id,
     source,
     status,
-    pixScore,
+    earnedPix,
     createdAt,
     answerId,
     assessmentId,
