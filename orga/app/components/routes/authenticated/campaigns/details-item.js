@@ -1,16 +1,21 @@
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  router: service(),
 
-  tooltipText: "Copier le lien direct",
+  selectedNavbarItem: 'parameters',
+
+  init({ navbarItem }) {
+    this._super(...arguments);
+    this.selectedNavbarItem = navbarItem;
+  },
 
   actions: {
-    clipboardSuccess() {
-      this.set('tooltipText', "Copié !");
-    },
-
-    clipboardOut() {
-      this.set('tooltipText', "Copier le lien direct");
+    selectNavbarItem(item) {
+      this.set('selectedNavbarItem', item);
+      const route = 'authenticated.campaigns.details.'.concat(item);
+      return this.get('router').transitionTo(route);
     }
   }
 });

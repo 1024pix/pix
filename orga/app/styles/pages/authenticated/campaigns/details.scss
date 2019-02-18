@@ -16,6 +16,11 @@
   align-items: center;
 }
 
+.campaign-details__navbar {
+  display: flex;
+  margin: 1em 0;
+}
+
 .campaign-details-container {
   display: flex;
   flex-direction: column;
