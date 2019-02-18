@@ -166,7 +166,7 @@ module.exports = {
         logContext.err = err;
         logger.trace(logContext, 'catching exception');
         if (err instanceof AssessmentEndedError) {
-          return controllerReplies(h).ok(JSONAPI.emptyDataResponse());
+          return JSONAPI.emptyDataResponse();
         } else {
           logger.error(err);
           return controllerReplies(h).error(err);

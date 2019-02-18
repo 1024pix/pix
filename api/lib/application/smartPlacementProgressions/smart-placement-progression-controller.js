@@ -24,7 +24,6 @@ module.exports = {
       userId,
     })
       .then(smartPlacementProgressionSerializer.serialize)
-      .then((serializedSmartPlacementProgression) => h.response(serializedSmartPlacementProgression).code(200))
       .catch((error) => {
 
         if (error instanceof UserNotAuthorizedToAccessEntity) {
