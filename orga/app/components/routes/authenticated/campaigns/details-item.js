@@ -1,9 +1,11 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  router: service(),
 
-  tooltipText: "Copier le lien direct",
+  selectedNavbarItem: 'parameters',
 
   participationsCount: computed('campaign.campaignReport.participationsCount', function() {
     const participationsCount = this.get('campaign.campaignReport.participationsCount');
@@ -17,13 +19,16 @@ export default Component.extend({
     return sharedParticipationsCount > 0 ? sharedParticipationsCount : '-';
   }),
 
-  actions: {
-    clipboardSuccess() {
-      this.set('tooltipText', "Copié !");
-    },
+  init({ navbarItem }) {
+    this._super(...arguments);
+    this.selectedNavbarItem = navbarItem;
+  },
 
-    clipboardOut() {
-      this.set('tooltipText', "Copier le lien direct");
+  actions: {
+    selectNavbarItem(item) {
+      this.set('selectedNavbarItem', item);
+      const route = 'authenticated.campaigns.details.'.concat(item);
+      return this.get('router').transitionTo(route);
     }
   }
 });

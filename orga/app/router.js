@@ -32,7 +32,10 @@ Router.map(function() {
       this.route('new', { path: '/creation' });
       this.route('list', { path: '/liste' });
       this.route('update', { path: '/:campaign_id/modification' });
-      this.route('details', { path: '/:campaign_id' });
+      this.route('details', { path: '/:campaign_id' }, function() {
+        this.route('parameters', { path: '/' });
+        this.route('participants', { path: '/participants' });
+      });
     });
   });
 
