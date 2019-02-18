@@ -46,8 +46,7 @@ module.exports = {
     })
       .then((campaignParticipation) => {
         return serializer.serialize([campaignParticipation]);
-      })
-      .then(controllerReplies(h).ok);
+      });
   },
 
   shareCampaignResult(request, h) {

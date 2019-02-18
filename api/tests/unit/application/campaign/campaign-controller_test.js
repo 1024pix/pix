@@ -273,8 +273,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
       // then
       expect(campaignSerializer.serialize).to.have.been.calledWith([createdCampaign]);
-      expect(response.source).to.deep.equal(serializedCampaign);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal(serializedCampaign);
     });
 
     it('should return a 404 error if campaign is not found', async () => {
@@ -340,8 +339,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const response = await campaignController.getById(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(expectedCampaign);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal(expectedCampaign);
     });
 
     it('should throw an error when the campaign could not be retrieved', async () => {
@@ -411,8 +409,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const response = await campaignController.update(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(updatedCampaign);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal(updatedCampaign);
     });
 
     it('should throw an error when the campaign could not be updated', async () => {

@@ -206,7 +206,6 @@ module.exports = {
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
       .then(campaignParticipationSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
