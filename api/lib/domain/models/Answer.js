@@ -65,9 +65,6 @@ class Answer {
   }
 
   get pixEarned() {
-    if(this.knowledgeElements.length < 1) {
-      return 0;
-    }
     return this.knowledgeElements.reduce((sum, ke) => sum + ke.earnedPix, 0);
   }
 }

@@ -1,4 +1,5 @@
 const Answer = require('../../domain/models/Answer');
+const AnswerStatus = require('../../domain/models/AnswerStatus');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const Boom = require('boom');
@@ -20,7 +21,7 @@ function _updateExistingAnswer(existingAnswer, newAnswer) {
 
       return answerRepository.save({
         id: existingAnswer.id,
-        result: answerCorrectness.result,
+        result: AnswerStatus.from(answerCorrectness.result),
         resultDetails: answerCorrectness.resultDetails,
         value: newAnswer.get('value'),
         timeout: newAnswer.get('timeout'),
