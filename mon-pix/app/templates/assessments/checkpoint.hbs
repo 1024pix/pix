@@ -33,6 +33,8 @@
       <div class="checkpoint-title-container">
         <p class="checkpoint-title">vos réponses</p>
       </div>
+     <p> Vous avez gagnez : {{totalPixForFiveNewAnswer}} pix ! </p>
+
       <div class="assessment-results__list">
         {{#each model.answersSinceLastCheckpoints as |answer index|}}
           {{result-item-campaign answer=answer index=index openComparison=(action "openComparison") a11y-focus-id=(concat "open-comparison_" (add index 1))}}
