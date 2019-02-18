@@ -8,6 +8,7 @@ describe('Unit | Repository | skill-repository', function() {
 
   beforeEach(() => {
     sinon.stub(skillDatasource, 'findByCompetenceId');
+    sinon.stub(skillDatasource, 'list');
   });
 
   describe('#findByCompetenceId', function() {
@@ -18,8 +19,8 @@ describe('Unit | Repository | skill-repository', function() {
       skillDatasource.findByCompetenceId
         .withArgs('competence_id')
         .resolves([
-          new airTableDataObjects.Skill({ id: 'recAcquix1', name: '@acquix1' }),
-          new airTableDataObjects.Skill({ id: 'recAcquix2', name: '@acquix2' }),
+          new airTableDataObjects.Skill({ id: 'recAcquix1', name: '@acquix1', pixValue: 2.4 }),
+          new airTableDataObjects.Skill({ id: 'recAcquix2', name: '@acquix2', pixValue: 2.4 }),
         ]);
     });
 
@@ -34,10 +35,11 @@ describe('Unit | Repository | skill-repository', function() {
         expect(skills).to.have.lengthOf(2);
         expect(skills[0]).to.be.instanceof(DomainSkill);
         expect(skills).to.be.deep.equal([
-          { id: 'recAcquix1', name: '@acquix1' },
-          { id: 'recAcquix2', name: '@acquix2' },
+          { id: 'recAcquix1', name: '@acquix1', pixValue: 2.4 },
+          { id: 'recAcquix2', name: '@acquix2', pixValue: 2.4 },
         ]);
       });
     });
   });
+
 });

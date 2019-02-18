@@ -69,6 +69,7 @@ function _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects 
   const skills = skillDataObjects.map((skillDataObject) => new Skill({
     id: skillDataObject.id,
     name: skillDataObject.name,
+    pixValue: skillDataObject.pixValue,
   }));
 
   const solution = solutionAdapter.fromChallengeAirtableDataObject(challengeDataObject);

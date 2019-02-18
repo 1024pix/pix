@@ -68,7 +68,7 @@ module.exports = {
 
     const updatedAnswer = answerSerializer.deserializeToBookshelfAnswer(request.payload);
     return answerRepository
-      .findByChallengeAndAssessment(updatedAnswer.get('challengeId'), updatedAnswer.get('assessmentId'))
+      .findByChallengeAndAssessment({ challengeId: updatedAnswer.get('challengeId'), assessmentId: updatedAnswer.get('assessmentId') })
       .then((existingAnswer) => {
 
         if (!existingAnswer) {
@@ -92,7 +92,7 @@ module.exports = {
 
   findByChallengeAndAssessment(request) {
     return answerRepository
-      .findByChallengeAndAssessment(request.url.query.challenge, request.url.query.assessment)
+      .findByChallengeAndAssessment({ challengeId: request.url.query.challenge, assessmentId: request.url.query.assessment })
       .then(answerSerializer.serializeFromBookshelfAnswer)
       .catch((err) => {
         logger.error(err);

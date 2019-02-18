@@ -5,12 +5,14 @@ class Skill {
     id,
     // attributes
     name,
+    pixValue,
     // includes
     // references
   } = {}) {
     this.id = id;
     // attributes
     this.name = name;
+    this.pixValue = pixValue;
     // includes
     // references
   }
