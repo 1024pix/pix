@@ -13,7 +13,7 @@
   {{#ember-table class="table" as |table|}}
     {{#table.head enableReorder=false enableResize=false widthConstraint=eq-container columns=columns as |head|}}
       {{#head.row as |row|}}
-        {{#row.cell class=(if row.columnValue.isUpdate "row--center") as |value|}}
+        {{#row.cell class=(if row.columnValue.isUpdate "cell--center") as |value|}}
 
           {{value.name}}
 
@@ -23,7 +23,7 @@
 
     {{#table.body rows=sortedSessions as |body|}}
       {{#body.row as |row|}}
-        {{#row.cell class=(if row.columnValue.isUpdate "row--center") as |value column|}}
+        {{#row.cell class=(if row.columnValue.isUpdate "cell--center") as |value column|}}
 
           {{#if column.isDate}}
             {{moment-format value 'DD/MM/YYYY' allow-empty=true}}
