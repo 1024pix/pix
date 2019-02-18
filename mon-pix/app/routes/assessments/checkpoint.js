@@ -14,4 +14,9 @@ export default Route.extend({
     });
   },
 
+  setupController(controller, model) {
+    this._super(controller, model);
+    controller.set('lastAnswers', model.get('answersSinceLastCheckpoints'));
+  }
+
 });

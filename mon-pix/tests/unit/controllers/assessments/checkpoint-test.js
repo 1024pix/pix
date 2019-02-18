@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import sinon from 'sinon';
 
 describe('Unit | Controller | Assessments | Checkpoint', function() {
 
@@ -22,11 +21,8 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
   describe('#totalPixForFiveNewAnswer', function() {
     it('should return 0 when there is not answers since last checkpoints', function() {
       // when
-      const model = {
-        get: sinon.stub().withArgs('answersSinceLastCheckpoints').returns([])
-      };
       const controller = this.subject();
-      controller.set('model', model);
+      controller.set('lastAnswers', []);
 
       // then
       expect(controller.get('totalPixForFiveNewAnswer')).to.equal(0);
@@ -35,13 +31,10 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
     it('should sum pixEarned by answers since last checkpoint', function() {
       // when
       const controller = this.subject();
-      const model = {
-        get: sinon.stub().withArgs('answersSinceLastCheckpoints').returns([
-          { pixEarned: 2 },
-          { pixEarned: 2.8 },
-        ])
-      };
-      controller.set('model', model);
+      controller.set('lastAnswers', [
+        { pixEarned: 2 },
+        { pixEarned: 2.8 },
+      ]);
 
       // then
       expect(controller.get('totalPixForFiveNewAnswer')).to.equal(4);
