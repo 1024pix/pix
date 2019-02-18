@@ -9,7 +9,7 @@ module.exports = {
     const userId = request.payload.data.attributes['user-id'];
     const certificationCenterId = request.payload.data.attributes['certification-center-id'];
     return usecases.createCertificationCenterMembership({ userId, certificationCenterId })
-      .then(controllerReplies(h).created)
+      .then((membership) => h.response(membership).created())
       .catch((error) => {
         if (error instanceof CertificationCenterMembershipCreationError) {
           const badRequestError = new infraErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');

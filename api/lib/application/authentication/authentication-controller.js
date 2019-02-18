@@ -43,7 +43,7 @@ module.exports = {
         const token = tokenService.createTokenFromUser(user, 'pix');
 
         const authentication = new Authentication({ userId: user.id, token });
-        return h.response(authenticationSerializer.serialize(authentication)).code(201);
+        return h.response(authenticationSerializer.serialize(authentication)).created();
       })
       .catch(() => {
         const message = validationErrorSerializer.serialize(_buildError());

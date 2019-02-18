@@ -103,7 +103,7 @@ function create(request, h) {
     .then((testsFinished) => snapshot.testsFinished = testsFinished)
     .then(() => snapshotService.create(snapshot, user, serializedProfile))
     .then((snapshotId) => snapshotSerializer.serialize({ id: snapshotId }))
-    .then((snapshotSerialized) => h.response(snapshotSerialized).code(201))
+    .then((snapshotSerialized) => h.response(snapshotSerialized).created())
     .catch((err) => _replyError(err, h));
 }
 

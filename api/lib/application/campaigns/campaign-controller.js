@@ -30,7 +30,7 @@ module.exports = {
       })
       .then((campaign) => usecases.createCampaign({ campaign }))
       .then((createdCampaign) => {
-        return h.response(campaignSerializer.serialize(createdCampaign)).code(201);
+        return h.response(campaignSerializer.serialize(createdCampaign)).created();
       })
       .catch((error) => {
         if (error instanceof UserNotAuthorizedToCreateCampaignError) {

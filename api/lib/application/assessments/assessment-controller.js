@@ -56,7 +56,7 @@ module.exports = {
         }
       })
       .then((assessment) => {
-        return h.response(assessmentSerializer.serialize(assessment)).code(201);
+        return h.response(assessmentSerializer.serialize(assessment)).created();
       })
       .catch((err) => {
         if (err instanceof ObjectValidationError) {

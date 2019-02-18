@@ -48,8 +48,9 @@ module.exports = {
           answer: newAnswer,
         });
       })
-      .then(answerSerializer.serialize)
-      .then(controllerReplies(h).created)
+      .then((answer) => {
+        return h.response(answerSerializer.serialize(answer)).created();
+      })
       .catch((error) => {
         const mappedError = mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
