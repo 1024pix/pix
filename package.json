@@ -33,6 +33,10 @@
     "url": "git+https://github.com/1024pix/pix.git"
   },
   "scripts": {
+    "build": "run-p build:mon-pix build:orga build:certif",
+    "build:mon-pix": "(cd mon-pix && npm run build) && mkdir -p dist && cp -R mon-pix/dist dist/app",
+    "build:orga": "(cd orga && npm run build) && mkdir -p dist && cp -R orga/dist dist/orga",
+    "build:certif": "(cd certif && npm run build) && mkdir -p dist && cp -R certif/dist dist/certif",
     "ci:signal-jira": "node ./scripts/jira/comment-with-review-app-url.js",
     "clean": "node_modules/.bin/run-p clean:api clean:mon-pix clean:orga clean:certif clean:coverage && npm run clean:root",
     "clean:api": "cd api && npm run clean",
