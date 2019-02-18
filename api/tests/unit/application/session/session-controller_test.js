@@ -263,8 +263,7 @@ describe('Unit | Controller | sessionController', () => {
       const response = await sessionController.update(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(updatedSession);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal(updatedSession);
     });
 
     it('should throw an error when the session could not be updated', async () => {
