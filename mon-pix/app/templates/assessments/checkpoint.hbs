@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <p class="checkpoint-legend">avancement du parcours</p>
+        <div class="checkpoint-legend">avancement du parcours</div>
 
       </div>
       <div class="checkpoint__continue-wrapper">
@@ -31,9 +31,13 @@
 
     <div class="checkpoint__content">
       <div class="checkpoint-title-container">
+        <p class="checkpoint-title">votre score</p>
+        <div class="checkpoint-result"> Vous avez gagné <span class="checkpoint-result-value">{{totalPixForFiveNewAnswer}} Pix</span> </div>
+      </div>
+      <div class="dash-line"></div>
+      <div class="checkpoint-title-container">
         <p class="checkpoint-title">vos réponses</p>
       </div>
-     <p> Vous avez gagnez : {{totalPixForFiveNewAnswer}} pix ! </p>
 
       <div class="assessment-results__list">
         {{#each model.answersSinceLastCheckpoints as |answer index|}}

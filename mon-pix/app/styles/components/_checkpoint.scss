@@ -76,6 +76,17 @@
     display: flex;
   }
 }
+.checkpoint-result {
+  font-family: $font-open-sans;
+  font-size: 3rem;
+  color: $nero;
+  font-weight: 300;
+
+  &-value {
+    font-weight: bold;
+    color: $mountain-meadow;
+  }
+}
 
 .checkpoint__continue {
   display: flex;
