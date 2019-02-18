@@ -34,7 +34,6 @@ export default function() {
   this.post('/revoke', () => {});
 
   this.get('/users/:id');
-
   this.get('/users/:id/certification-center-memberships', (schema, request) => {
     const userId = request.params.id;
     return schema.certificationCenterMemberships.where({ userId });
@@ -47,6 +46,5 @@ export default function() {
   this.post('/sessions');
 
   this.get('/sessions/:id');
-
   this.patch('/sessions/:id');
 }
