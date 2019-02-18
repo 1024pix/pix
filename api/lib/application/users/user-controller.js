@@ -42,7 +42,7 @@ module.exports = {
       reCaptchaToken,
     })
       .then((savedUser) => {
-        return h.response(userSerializer.serialize(savedUser)).code(201);
+        return h.response(userSerializer.serialize(savedUser)).created();
       })
       .catch((error) => {
 
@@ -85,11 +85,8 @@ module.exports = {
       .then((foundUser) => {
         return profileService.getByUserId(foundUser.id);
       })
-      .then((buildedProfile) => {
-        return h.response(profileSerializer.serialize(buildedProfile)).code(201);
-      })
+      .then((buildedProfile) => profileSerializer.serialize(buildedProfile))
       .catch((err) => {
-
         if (err instanceof InvalidTokenError) {
           return _replyErrorWithMessage(h, 'Le token n’est pas valide', 401);
         }

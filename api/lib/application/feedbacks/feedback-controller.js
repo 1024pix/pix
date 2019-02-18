@@ -17,7 +17,7 @@ module.exports = {
     return newFeedback
       .save()
       .then((persistedFeedback) => {
-        return h.response(serializer.serialize(persistedFeedback.toJSON())).code(201);
+        return h.response(serializer.serialize(persistedFeedback.toJSON())).created();
       })
       .catch((err) => {
         logger.error(err);

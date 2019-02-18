@@ -40,7 +40,7 @@ module.exports = {
         _sendPasswordResetDemandUrlEmail(user.email, temporaryKey);
       })
       .then(() => passwordResetSerializer.serialize(passwordResetDemand.attributes))
-      .then((serializedPayload) => h.response(serializedPayload).code(201))
+      .then((serializedPayload) => h.response(serializedPayload).created())
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
           return h.response(errorSerializer.serialize(err.getErrorMessage())).code(404);

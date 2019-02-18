@@ -13,8 +13,9 @@ module.exports = {
     const organizationId = request.payload.data.relationships.organization.data.id;
 
     return usecases.createMembership({ userId, organizationId })
-      .then(membershipSerializer.serialize)
-      .then(controllerReplies(h).created)
+      .then((membership) => {
+        return h.response(membershipSerializer.serialize(membership)).created();
+      })
       .catch((error) => {
         if (error instanceof MembershipCreationError) {
           const badRequestError = new infraErrors.BadRequestError(error.message);
