@@ -155,6 +155,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
   describe('Resume 2 campaigns', function() {
     beforeEach(async function() {
+
       server.create('assessment', {
         id: 1,
         type: 'SMART_PLACEMENT',
@@ -184,6 +185,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
       });
 
       await authenticateAsSimpleUser();
+
     });
 
     context('When user has finished but not shared 2 campaigns', function() {
@@ -212,17 +214,11 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     context('When user has finished both campaigns but shared only 1 campaign', function() {
 
       beforeEach(async function() {
-        server.create('campaignParticipation', {
-          id: 1,
-          isShared: true,
-          campaignId: 1,
-          assessmentId: 1,
-        });
+        await visit('/campagnes/AZERTY1');
+        await click('.skill-review__share__button');
       });
 
       it('should show thanks message for the first campaign', async function() {
-        // when
-        await visit('/campagnes/AZERTY1');
 
         // then
         return andThen(() => {
