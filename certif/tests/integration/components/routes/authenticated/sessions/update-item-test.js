@@ -57,7 +57,7 @@ module('Integration | Component | routes/authenticated/session | update-item', f
     assert.dom('#session-examiner').hasValue(session.get('examiner'));
   });
 
-  test('it should send session update action when submitted', async function(assert) {
+  test('it should update session information when submitted', async function(assert) {
     // given
     this.set('model', session);
 

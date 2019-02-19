@@ -288,7 +288,7 @@ describe('Unit | Controller | sessionController', () => {
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should throw a forbiddenError when user is not authorized to update the session', async () => {
+    it('should throw a UserNotAuthorizedToUpdateResourceError when user is not authorized to update the session', async () => {
       // given
       usecases.updateSession.withArgs(updateSessionArgs).rejects(new UserNotAuthorizedToUpdateResourceError());
 
