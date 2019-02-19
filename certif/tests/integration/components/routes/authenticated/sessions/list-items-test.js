@@ -7,6 +7,10 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | routes/authenticated/session | list-items', function(hooks) {
   setupRenderingTest(hooks);
 
+  hooks.beforeEach(function () {
+    this.set('goToDetailsSpy', () => {});
+  });
+
   test('it should display a list of sessions', async function(assert) {
     // given
     const sessions = [
@@ -17,7 +21,7 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
     this.set('model', sessions);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/list-items sessions=model}}`);
+    await render(hbs`{{routes/authenticated/sessions/list-items goToDetails=(action goToDetailsSpy) sessions=model}}`);
     await waitFor('table tbody tr');
 
     // then
@@ -39,7 +43,7 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
     this.set('model', sessions);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/list-items sessions=model}}`);
+    await render(hbs`{{routes/authenticated/sessions/list-items goToDetails=(action goToDetailsSpy) sessions=model}}`);
     await waitFor('table tbody tr td');
 
     // then
@@ -62,7 +66,7 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
     this.set('model', sessions);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/list-items sessions=model}}`);
+    await render(hbs`{{routes/authenticated/sessions/list-items goToDetails=(action goToDetailsSpy) sessions=model}}`);
     await waitFor('table tbody tr td');
 
     // then
@@ -82,7 +86,7 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
     this.set('model', sessions);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/list-items sessions=model}}`);
+    await render(hbs`{{routes/authenticated/sessions/list-items goToDetails=(action goToDetailsSpy) sessions=model}}`);
     await waitFor('table tbody tr td');
 
     // then
