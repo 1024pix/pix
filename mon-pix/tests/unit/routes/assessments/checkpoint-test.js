@@ -7,7 +7,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
     needs: ['service:current-routed-modal', 'service:metrics']
   });
 
-  describe('#afterModel', function() {
+  describe('#model', function() {
 
     let route;
     let assessment;
@@ -15,6 +15,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
     let reloadBelongsToStub, reloaHasManyStub;
     let storeStub;
     let getCampaignStub;
+    const params = { assessment_id: 1 };
 
     beforeEach(function() {
       // instance route object
@@ -23,21 +24,32 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       reloadBelongsToStub = sinon.stub();
       reloaHasManyStub = sinon.stub();
       getCampaignStub = sinon.stub();
-      storeStub = {
-        query: sinon.stub().returns({ get: getCampaignStub }),
-      };
       assessment = {
         codeCampaign: 'AZERTY',
         set: sinon.stub(),
         belongsTo: sinon.stub().returns({ reload: reloadBelongsToStub }),
         hasMany: sinon.stub().returns({ reload: reloaHasManyStub }),
       };
+      storeStub = {
+        query: sinon.stub().returns({ get: getCampaignStub }),
+        findRecord: sinon.stub().returns(assessment),
+      };
       route.set('store', storeStub);
+    });
+    it('should query record the assessment', function() {
+      // when
+      const promise = route.model(params);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(assessment.belongsTo, 'smartPlacementProgression');
+        sinon.assert.calledOnce(reloadBelongsToStub);
+      });
     });
 
     it('should force the smartPlacementProgression reload (that has certainly changed since last time)', function() {
       // when
-      const promise = route.afterModel(assessment);
+      const promise = route.model(params);
 
       // then
       return promise.then(() => {
@@ -48,7 +60,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
 
     it('should force answers reload (that has certainly changed since last time)', function() {
       // when
-      const promise = route.afterModel(assessment);
+      const promise = route.model(params);
 
       // then
       return promise.then(() => {
@@ -59,7 +71,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
 
     it('should retrieve campaign with campaign code in assessment', function() {
       // when
-      const promise = route.afterModel(assessment);
+      const promise = route.model(params);
 
       // then
       return promise.then(() => {

@@ -206,4 +206,40 @@ describe('Unit | Model | Assessment', function() {
       expect(model.isPreview).to.be.false;
     });
   });
+
+  describe('@totalPixForFiveNewAnswer', function() {
+    it('should return 0 when there is not answers since last checkpoints', function() {
+      // when
+      const model = this.subject();
+      model.set('answersSinceLastCheckpoints', []);
+
+      // then
+      expect(model.get('totalPixForFiveNewAnswer')).to.equal(0);
+    });
+
+    it('should sum pixEarned by answers since last checkpoint', function() {
+      // when
+      const model = this.subject();
+      model.set('answersSinceLastCheckpoints', [
+        { pixEarned: 2 },
+        { pixEarned: 2.8 },
+      ]);
+
+      // then
+      expect(model.get('totalPixForFiveNewAnswer')).to.equal(4);
+    });
+
+    it('should return 1 if the sum is between 0 and 1', function() {
+      // when
+      const model = this.subject();
+      model.set('answersSinceLastCheckpoints', [
+        { pixEarned: 0.2 },
+      ]);
+
+      // then
+      expect(model.get('totalPixForFiveNewAnswer')).to.equal(1);
+    });
+
+  });
+
 });

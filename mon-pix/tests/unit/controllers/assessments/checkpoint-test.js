@@ -18,38 +18,4 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
     });
   });
 
-  describe('#totalPixForFiveNewAnswer', function() {
-    it('should return 0 when there is not answers since last checkpoints', function() {
-      // when
-      const controller = this.subject();
-      controller.set('lastAnswers', []);
-
-      // then
-      expect(controller.get('totalPixForFiveNewAnswer')).to.equal(0);
-    });
-
-    it('should sum pixEarned by answers since last checkpoint', function() {
-      // when
-      const controller = this.subject();
-      controller.set('lastAnswers', [
-        { pixEarned: 2 },
-        { pixEarned: 2.8 },
-      ]);
-
-      // then
-      expect(controller.get('totalPixForFiveNewAnswer')).to.equal(4);
-    });
-
-    it('should return 1 if the sum is between 0 and 1', function() {
-      // when
-      const controller = this.subject();
-      controller.set('lastAnswers', [
-        { pixEarned: 0.2 },
-      ]);
-
-      // then
-      expect(controller.get('totalPixForFiveNewAnswer')).to.equal(1);
-    });
-
-  });
 });

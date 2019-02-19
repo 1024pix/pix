@@ -2,6 +2,7 @@ import { equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import DS from 'ember-data';
 import ENV from 'mon-pix/config/environment';
+import _ from 'lodash';
 
 const { attr, Model, belongsTo, hasMany } = DS;
 
@@ -37,6 +38,11 @@ export default Model.extend({
       ? -ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT
       : -howManyAnswersSinceTheLastCheckpoint;
     return answers.slice(sliceAnswersFrom);
-  })
+  }),
+
+  totalPixForFiveNewAnswer: computed('answersSinceLastCheckpoints', function() {
+    const sumOfPixEarned = _.sumBy(this.get('answersSinceLastCheckpoints'), 'pixEarned');
+    return (sumOfPixEarned > 0 && sumOfPixEarned < 1) ? 1 : Math.floor(sumOfPixEarned);
+  }),
 
 });
