@@ -50,7 +50,7 @@ describe('Unit | Controller | assessment-results', () => {
         assessmentId: '22',
         forceRecomputeResult: false,
       });
-      expect(response).to.equal('');
+      expect(response).to.be.null;
     });
 
     it('should return 404 when the assessment is not found', () => {
@@ -195,7 +195,7 @@ describe('Unit | Controller | assessment-results', () => {
       const response = await assessmentResultController.save(request, hFake);
 
       // then
-      expect(response).to.equal('');
+      expect(response).to.be.null;
       expect(assessmentResultService.save).to.have.been.calledWith(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
     });
   });

@@ -18,8 +18,9 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     return serializer.deserialize(request.payload)
       .then((campaignParticipation) => usecases.startCampaignParticipation({ campaignParticipation, userId }))
-      .then(serializer.serialize)
-      .then(controllerReplies(h).created)
+      .then((campaignParticipation) => {
+        return h.response(serializer.serialize(campaignParticipation)).created();
+      })
       .catch((error) => {
         logger.error(error);
 
@@ -32,7 +33,7 @@ module.exports = {
       });
   },
 
-  getCampaignParticipationByAssessment(request, h) {
+  getCampaignParticipationByAssessment(request) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
 
@@ -46,8 +47,7 @@ module.exports = {
     })
       .then((campaignParticipation) => {
         return serializer.serialize([campaignParticipation]);
-      })
-      .then(controllerReplies(h).ok);
+      });
   },
 
   shareCampaignResult(request, h) {
@@ -62,9 +62,7 @@ module.exports = {
         campaignParticipationRepository,
         smartPlacementAssessmentRepository
       })
-        .then(() => {
-          return controllerReplies(h).noContent();
-        })
+        .then(() => null)
         .catch((error) => {
           logger.error(error);
           return controllerReplies(h).error(_mapToInfrastructureErrors(error));

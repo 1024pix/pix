@@ -22,7 +22,6 @@ module.exports = {
 
     return usecases.getOrganizationDetails({ organizationId })
       .then(organizationSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
         return controllerReplies(h).error(mappedError);
@@ -34,7 +33,6 @@ module.exports = {
 
     return usecases.createOrganization({ name, type })
       .then(organizationSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         if (error instanceof EntityValidationError) {
           return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
@@ -49,7 +47,6 @@ module.exports = {
 
     return usecases.updateOrganizationInformation({ id, name, type, logoUrl })
       .then(organizationSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
         return controllerReplies(h).error(mappedError);
@@ -84,7 +81,6 @@ module.exports = {
 
     return usecases.getOrganizationCampaigns({ organizationId })
       .then((campaigns) => campaignSerializer.serialize(campaigns))
-      .then(controllerReplies(h).ok)
       .catch(controllerReplies(h).error);
   },
 
@@ -93,7 +89,6 @@ module.exports = {
 
     return usecases.getOrganizationMemberships({ organizationId })
       .then(membershipSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch(controllerReplies(h).error);
   },
 
@@ -102,7 +97,6 @@ module.exports = {
 
     return organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId)
       .then(targetProfileSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch(controllerReplies(h).error);
   },
 

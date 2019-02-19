@@ -98,7 +98,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         const response = await organizationController.create(request, hFake);
 
         // then
-        expect(response.source).to.deep.equal(serializedOrganization);
+        expect(response).to.deep.equal(serializedOrganization);
       });
     });
 
@@ -399,8 +399,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       const response = await organizationController.getCampaigns(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(serializedCampaigns);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal(serializedCampaigns);
     });
 
     it('should return a 500 error when an error occurs', async () => {
@@ -473,8 +472,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         const response = await organizationController.findTargetProfiles(request, hFake);
 
         // then
-        expect(response.source).to.deep.equal(serializedTargetProfiles);
-        expect(response.statusCode).to.equal(200);
+        expect(response).to.deep.equal(serializedTargetProfiles);
       });
 
     });

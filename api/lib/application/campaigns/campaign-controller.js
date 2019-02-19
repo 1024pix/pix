@@ -30,7 +30,7 @@ module.exports = {
       })
       .then((campaign) => usecases.createCampaign({ campaign }))
       .then((createdCampaign) => {
-        return h.response(campaignSerializer.serialize(createdCampaign)).code(201);
+        return h.response(campaignSerializer.serialize(createdCampaign)).created();
       })
       .catch((error) => {
         if (error instanceof UserNotAuthorizedToCreateCampaignError) {
@@ -53,7 +53,6 @@ module.exports = {
       .then((campaign) => {
         return campaignSerializer.serialize([campaign]);
       })
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
         return controllerReplies(h).error(mappedError);
@@ -66,7 +65,6 @@ module.exports = {
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getCampaign({ campaignId, options })
       .then((campaign) => campaignSerializer.serialize(campaign, tokenForCampaignResults))
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
         return controllerReplies(h).error(mappedError);
@@ -103,7 +101,6 @@ module.exports = {
 
     return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
       .then(campaignSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
         return controllerReplies(h).error(mappedError);

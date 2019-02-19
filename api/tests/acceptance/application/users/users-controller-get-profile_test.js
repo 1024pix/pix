@@ -187,7 +187,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         profileServiceStub = sinon.stub(profileService, 'getByUserId');
       });
 
-      it('should response with 201 HTTP status code, when authorization is valid and user is found', () => {
+      it('should response with 200 HTTP status code, when authorization is valid and user is found', () => {
         // given
         profileServiceStub.resolves(fakeBuildedProfile);
 
@@ -196,7 +196,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
 
         // then
         return promise.then((response) => {
-          expect(response.statusCode).to.equal(201);
+          expect(response.statusCode).to.equal(200);
           expect(response.result).to.deep.equal(expectedSerializedProfile);
         });
       });

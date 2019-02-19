@@ -83,7 +83,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         const response = await assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } }, hFake);
 
         // then
-        expect(response.source).to.deep.equal({ data: null });
+        expect(response).to.deep.equal({ data: null });
       });
     });
 
@@ -122,7 +122,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           const response = await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
 
           // then
-          expect(response.source).to.deep.equal({ data: null });
+          expect(response).to.deep.equal({ data: null });
         });
       });
     });
@@ -176,7 +176,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         const response = await assessmentController.getNextChallenge({ params: { id: 12 } }, hFake);
 
         // then
-        expect(response.source).to.deep.equal({ data: null });
+        expect(response).to.deep.equal({ data: null });
       });
     });
 
@@ -225,4 +225,3 @@ function _generateFailedSkills() {
 
   return skill;
 }
-

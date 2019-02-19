@@ -95,14 +95,14 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       });
     });
 
-    it('should return an OK status after saving in database', () => {
+    it('should return a 204 after saving in database', () => {
       // when
       const promise = server.inject(options);
 
       // then
       return promise
         .then((response) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response.statusCode).to.equal(204);
         });
     });
 
@@ -162,7 +162,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
     });
 
     context('when the correction to be applied has a mistake', () => {
-      it('should return an OK status after saving in database', () => {
+      it('should return a 422 error', () => {
         const wrongScore = 9999999999;
 
         const options = {

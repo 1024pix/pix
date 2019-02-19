@@ -103,8 +103,7 @@ describe('Unit | Controller | corrections-controller', () => {
       const response = await correctionsController.findByAnswerId(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(expectedResponse);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal(expectedResponse);
       expect(usecases.getCorrectionForAnswerWhenAssessmentEnded).to.have.been.calledWith({
         answerId: '234'
       });

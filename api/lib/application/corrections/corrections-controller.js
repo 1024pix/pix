@@ -28,7 +28,7 @@ module.exports = {
         });
       })
       .then((correction) => Array.of(correction))
-      .then((corrections) => h.response(correctionSerializer.serialize(corrections)).code(200))
+      .then(correctionSerializer.serialize)
       .catch((error) => {
         // TODO: factoriser la gestion des erreurs
         if (error instanceof infraErrors.InfrastructureError) {

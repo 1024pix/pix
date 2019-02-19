@@ -45,7 +45,7 @@ module.exports = {
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
     assessmentResult.juryId = request.auth.credentials.userId;
     return assessmentResultService.save(assessmentResult, competenceMarks)
-      .then(() => '')
+      .then(() => null)
       .catch((error) => {
         if(error instanceof NotFoundError) {
           throw Boom.notFound(error);
@@ -69,7 +69,7 @@ module.exports = {
       assessmentId: assessmentRating.assessmentId,
       forceRecomputeResult,
     })
-      .then(() => '')
+      .then(() => null)
       .catch((error) => {
         if(error instanceof NotFoundError) {
           throw Boom.notFound(error);

@@ -57,8 +57,7 @@ describe('Unit | Controller | smart-placement-progression-controller', () => {
             userId,
           });
 
-          expect(response.source).to.deep.equal(serializedSmartPlacementProgression);
-          expect(response.statusCode).to.equal(200);
+          expect(response).to.deep.equal(serializedSmartPlacementProgression);
         });
       });
 
