@@ -18,10 +18,10 @@ export default BaseRoute.extend({
       .then((nextChallenge) => {
 
         if (assessment.isPlacement || assessment.isDemo || assessment.isCertification || assessment.isPreview) {
-          return this._resumeAssessmentPlacement(assessment, nextChallenge);
+          return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
         }
         if (assessment.isSmartPlacement) {
-          return this._resumeAssesmentSmartPlacement(assessment, nextChallenge);
+          return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
         }
 
         throw new Error('This transition should not be happening');
@@ -35,7 +35,7 @@ export default BaseRoute.extend({
     }
   },
 
-  _resumeAssessmentPlacement(assessment, nextChallenge) {
+  _resumeAssessmentWithoutCheckpoint(assessment, nextChallenge) {
     const {
       nextChallengeId,
       assessmentIsFinished,
@@ -48,7 +48,7 @@ export default BaseRoute.extend({
     return this._routeToNextChallenge(assessment, nextChallengeId);
   },
 
-  _resumeAssesmentSmartPlacement(assessment, nextChallenge) {
+  _resumeAssessmentWithCheckpoint(assessment, nextChallenge) {
     const {
       nextChallengeId,
       assessmentIsFinished,
