@@ -16,19 +16,19 @@ module.exports = {
     const cacheKey = request.params.cachekey || '';
     const [ tableName, recordId ] = cacheKey.split('_');
     return usecases.reloadCacheEntry({ preloader, tableName, recordId })
-      .then(() => h.response().code(204))
+      .then(() => null)
       .catch((error) => h.response(_buildJsonApiInternalServerError(error)).code(500));
   },
 
   removeAllCacheEntries(request, h) {
     return usecases.removeAllCacheEntries({ cache })
-      .then(() => h.response().code(204))
+      .then(() => null)
       .catch((error) => h.response(_buildJsonApiInternalServerError(error)).code(500));
   },
 
   preloadCacheEntries(request, h) {
     return usecases.preloadCacheEntries({ preloader, logger })
-      .then(() => h.response().code(204))
+      .then(() => null)
       .catch((error) => h.response(_buildJsonApiInternalServerError(error)).code(500));
   }
 };

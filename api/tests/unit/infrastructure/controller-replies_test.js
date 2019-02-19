@@ -13,22 +13,6 @@ describe('Unit | Infrastructure | ControllerReplies', () => {
       sinon.stub(logger, 'error');
     });
 
-    context('noContent', () => {
-
-      let response;
-
-      beforeEach(() => {
-        // when
-        response = controllerReplies(hFake).noContent();
-      });
-
-      it('should return reply with payload and 201', () => {
-        // then
-        expect(response.source).to.deep.equal();
-        expect(response.statusCode).to.equal(204);
-      });
-    });
-
     context('error', () => {
 
       let response;

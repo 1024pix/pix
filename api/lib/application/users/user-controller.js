@@ -125,7 +125,7 @@ module.exports = {
         }
         return Promise.reject(new BadRequestError());
       })
-      .then(() => h.response().code(204))
+      .then(() => null)
       .catch((err) => {
         if (err instanceof PasswordResetDemandNotFoundError) {
           return h.response(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);

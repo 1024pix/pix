@@ -19,7 +19,7 @@ describe('Unit | Controller | cache-controller', () => {
       sinon.stub(usecases, 'reloadCacheEntry');
     });
 
-    it('should reply with 204 when the cache key exists', async () => {
+    it('should reply with null when the cache key exists', async () => {
       // given
       const numberOfDeletedKeys = 1;
       usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
@@ -33,11 +33,10 @@ describe('Unit | Controller | cache-controller', () => {
         tableName: 'Epreuves',
         recordId: 'recABCDEF'
       });
-      expect(response.source).to.deep.equal();
-      expect(response.statusCode).to.equal(204);
+      expect(response).to.be.null;
     });
 
-    it('should reply with 204 when the cache key does not exist', async () => {
+    it('should reply with null when the cache key does not exist', async () => {
       // given
       const numberOfDeletedKeys = 0;
       usecases.reloadCacheEntry.resolves(numberOfDeletedKeys);
@@ -46,7 +45,7 @@ describe('Unit | Controller | cache-controller', () => {
       const response = await cacheController.reloadCacheEntry(request, hFake);
 
       // Then
-      expect(response.statusCode).to.equal(204);
+      expect(response).to.be.null;
     });
 
     it('should allow a table name without a record id', async () => {
@@ -63,7 +62,7 @@ describe('Unit | Controller | cache-controller', () => {
         tableName: 'Epreuves',
         recordId: undefined
       });
-      expect(response.statusCode).to.equal(204);
+      expect(response).to.be.null;
     });
 
     context('when cache reloading fails', () => {
@@ -94,7 +93,7 @@ describe('Unit | Controller | cache-controller', () => {
       sinon.stub(usecases, 'removeAllCacheEntries');
     });
 
-    it('should reply with 204 when there is no error', async () => {
+    it('should reply with null when there is no error', async () => {
       // given
       usecases.removeAllCacheEntries.resolves();
 
@@ -103,7 +102,7 @@ describe('Unit | Controller | cache-controller', () => {
 
       // Then
       expect(usecases.removeAllCacheEntries).to.have.been.calledWith({ cache });
-      expect(response.statusCode).to.equal(204);
+      expect(response).to.be.null;
     });
 
     context('when cache deletion fails', () => {
@@ -134,7 +133,7 @@ describe('Unit | Controller | cache-controller', () => {
       sinon.stub(usecases, 'preloadCacheEntries');
     });
 
-    it('should reply with 204 when there is no error', async () => {
+    it('should reply with null when there is no error', async () => {
       // given
       usecases.preloadCacheEntries.resolves();
 
@@ -143,7 +142,7 @@ describe('Unit | Controller | cache-controller', () => {
 
       // Then
       expect(usecases.preloadCacheEntries).to.have.been.calledWith({ preloader, logger });
-      expect(response.statusCode).to.equal(204);
+      expect(response).to.be.null;
     });
 
     context('when cache preload fails', () => {

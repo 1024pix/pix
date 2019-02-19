@@ -240,7 +240,7 @@ describe('Unit | Controller | user-controller', () => {
         const response = await userController.updateUser(request, hFake);
 
         // then
-        expect(response.source).to.be.undefined;
+        expect(response).to.be.null;
       });
 
       describe('When unknown error is handle', () => {

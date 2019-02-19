@@ -62,9 +62,7 @@ module.exports = {
         campaignParticipationRepository,
         smartPlacementAssessmentRepository
       })
-        .then(() => {
-          return controllerReplies(h).noContent();
-        })
+        .then(() => null)
         .catch((error) => {
           logger.error(error);
           return controllerReplies(h).error(_mapToInfrastructureErrors(error));
