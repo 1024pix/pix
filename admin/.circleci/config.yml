@@ -1,0 +1,68 @@
+---
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:9-browsers
+    working_directory: ~/admin
+    steps:
+      - checkout
+      - run: npm install
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
+      - save_cache:
+          key: v1-pix-admin-{{ checksum ".circle-cache-key" }}
+          paths:
+            - ~/admin
+
+  test:
+    docker:
+      - image: circleci/node:9-browsers
+    working_directory: ~/admin
+    steps:
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
+      - restore_cache:
+          key: v1-pix-admin-{{ checksum ".circle-cache-key" }}
+      - run: npm test
+
+  deploy:
+    docker:
+      - image: circleci/node:9-browsers
+    working_directory: ~/admin
+    steps:
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
+      - restore_cache:
+          key: v1-pix-admin-{{ checksum ".circle-cache-key" }}
+      - add_ssh_keys:
+          fingerprints:
+            - "d8:07:94:de:70:24:96:32:7f:e0:ac:e6:80:dd:0e:9a"
+      - run: ssh-keyscan scalingo.com > ~/.ssh/known_hosts
+      - run: |
+          git config user.email "$GITHUB_EMAIL"
+          git config user.name "$GITHUB_NAME"
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git remote add scalingo git@scalingo.com:pix-admin-production.git
+              git push scalingo master:master
+            elif [ "${CIRCLE_BRANCH}" == "jury" ]; then
+              git remote add scalingo git@scalingo.com:pix-admin-jury.git
+              git push scalingo jury:master
+            fi
+
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - jury

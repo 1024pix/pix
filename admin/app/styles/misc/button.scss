@@ -1,0 +1,29 @@
+button {
+  background: none;
+}
+
+.btn {
+  border-radius: 3px;
+  font-size: 14px;
+  box-sizing: border-box;
+  padding: 0 12px;
+  line-height: 38px;
+
+  i.fa {
+    margin-right: 5px;
+  }
+}
+
+.btn-outline-default {
+  border-color: $grey-border;
+  color: #212529;
+
+  &:hover {
+    background: $grey-body;
+    color: inherit!important;
+  }
+}
+
+.btn-thin {
+  line-height: 28px;
+}
