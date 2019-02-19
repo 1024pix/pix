@@ -45,4 +45,8 @@ export default function() {
   });
 
   this.post('/sessions');
+
+  this.get('/sessions/:id');
+
+  this.patch('/sessions/:id');
 }
