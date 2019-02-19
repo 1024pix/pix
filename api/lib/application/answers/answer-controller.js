@@ -79,10 +79,8 @@ module.exports = {
         // XXX if assessment is a Smart Placement, then return 204 and do not update answer. If not proceed normally.
         return isAssessmentSmartPlacement(existingAnswer.get('assessmentId'))
           .then((assessmentIsSmartPlacement) => {
-
             if (assessmentIsSmartPlacement) {
-              return controllerReplies(h).noContent();
-
+              return null;
             } else {
               return _updateExistingAnswer(existingAnswer, updatedAnswer);
             }

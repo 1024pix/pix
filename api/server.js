@@ -16,6 +16,9 @@ const createServer = async () => {
       cors: {
         origin: ['*'],
         additionalHeaders: ['X-Requested-With']
+      },
+      response: {
+        emptyStatusCode: 204
       }
     },
     port: config.port,

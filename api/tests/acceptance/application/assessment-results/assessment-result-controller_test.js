@@ -55,13 +55,13 @@ describe('Acceptance | Controller | assessment-results', function() {
           .then(() => knex('assessments').delete());
       });
 
-      it('should return a 200 when everything is fine', () => {
+      it('should return a 204 when everything is fine', () => {
         // when
         const request = server.inject(options);
 
         // Then
         return request.then((response) => {
-          expect(response.statusCode).to.equal(200);
+          expect(response.statusCode).to.equal(204);
         });
       });
 

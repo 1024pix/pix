@@ -49,7 +49,7 @@ module.exports = {
       });
   },
 
-  async save(request, h) {
+  save(request, h) {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];
 
