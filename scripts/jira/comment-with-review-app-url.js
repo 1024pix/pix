@@ -36,9 +36,9 @@ extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
   })
   .then(([commentContents, { prNumber }]) => {
 
-    const raAppURL = `https://pix-app-integration-pr${prNumber}.scalingo.io`;
-    const raOrgaURL = `https://pix-orga-integration-pr${prNumber}.scalingo.io`;
-    const raCertifURL = `https://pix-certif-integration-pr${prNumber}.scalingo.io`;
+    const raAppURL = `https://app-pr${prNumber}.review.pix.fr`;
+    const raOrgaURL = `https://orga-pr${prNumber}.review.pix.fr`;
+    const raCertifURL = `https://certif-pr${prNumber}.review.pix.fr`;
     const raAPIURL = `https://pix-api-integration-pr${prNumber}.scalingo.io`;
 
     const scalingoCommentRegex = new RegExp(raAppURL, 'i');
