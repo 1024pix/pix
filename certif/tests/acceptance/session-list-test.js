@@ -1,8 +1,9 @@
 import { module, test } from 'qunit';
-import { currentURL, visit, click } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
+import { waitFor } from '@ember/test-helpers';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -27,7 +28,7 @@ module('Acceptance | Session List', function(hooks) {
 
   module('When user is authenticated', function () {
 
-    hooks.beforeEach( async () => {
+    hooks.beforeEach(async () => {
       user = createUserWithMembership();
     });
 
@@ -44,7 +45,7 @@ module('Acceptance | Session List', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    test('it should show title indicating that the user can create a session', async function(assert) {
+    test('it should show title indicating that the user can create a session', async function (assert) {
       // given
       await authenticateSession({
         user_id: user.id,
@@ -57,7 +58,7 @@ module('Acceptance | Session List', function(hooks) {
       assert.dom('.page-title').hasText('Créez votre première session de certification');
     });
 
-    test('it should list the sessions', async function(assert) {
+    test('it should list the sessions', async function (assert) {
       // give
       server.createList('session', 12);
 
@@ -72,7 +73,7 @@ module('Acceptance | Session List', function(hooks) {
       assert.dom('table tbody tr').exists({ count: 12 });
     });
 
-    test('it should redirect to session details on click', async function(assert) {
+    test('it should redirect to session details on click', async function (assert) {
       // given
       await authenticateSession({
         user_id: user.id,
@@ -87,6 +88,26 @@ module('Acceptance | Session List', function(hooks) {
 
       // then
       assert.equal(currentURL(), `/sessions/${sessionId}/modification`);
+    });
+
+    test('it should redirect to detail page of session id 1 on click on first row', async function (assert) {
+      // given
+      const user = createUserWithMembership();
+      server.createList('session', 2);
+
+      await authenticateSession({
+        user_id: user.id,
+      });
+
+      // when
+      await visit('/sessions/liste');
+      await waitFor('table tbody tr');
+
+      // when
+      await click('table tbody tr:nth-child(2)');
+
+      // then
+      assert.equal(currentURL(), '/sessions/1');
     });
   });
 });

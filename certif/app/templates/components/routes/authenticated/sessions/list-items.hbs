@@ -22,7 +22,7 @@
     {{/table.head}}
 
     {{#table.body rows=sortedSessions as |body|}}
-      {{#body.row as |row|}}
+      {{#body.row onClick=(action goToDetails body.rowValue) as |row|}}
         {{#row.cell class=(if row.columnValue.isUpdate "cell--center") as |value column|}}
 
           {{#if column.isDate}}

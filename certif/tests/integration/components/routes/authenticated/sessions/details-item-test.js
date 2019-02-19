@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
+
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/session | details-item', function(hooks) {
@@ -44,7 +45,7 @@ module('Integration | Component | routes/authenticated/session | details-item', 
     await render(hbs`{{routes/authenticated/sessions/details-item session=session}}`);
 
     // then
-    assert.dom('.session-details-content__date').hasText('2019-02-18');
+    assert.dom('.session-details-header__date').hasText('2019-02-18');
   });
 
 });
