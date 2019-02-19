@@ -1,0 +1,40 @@
+<div class="participant-list__export">
+  <a class="button button--link" href="{{campaign.urlToResult}}" target="_blank" download>
+    Export résultats (.csv)
+  </a>
+</div>
+
+<div class="panel">
+  <div class="participant-list__header">
+    Liste des participants
+  </div>
+  <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          {{#if campaign.idPixLabel}}
+            <th>{{campaign.idPixLabel}}</th>
+          {{/if}}
+        </tr>
+      </thead>
+
+      {{#unless noParticipants}}
+        <tbody>
+          <tr>
+            <td>Doe</td>
+            <td>John</td>
+            {{#if campaign.idPixLabel}}
+              <td>jdoe</td>
+            {{/if}}
+          </tr>
+        </tbody>
+      {{/unless}}
+    </table>
+
+    {{#if noParticipants}}
+      <div class="participant-list__no-participants">En attente de participants</div>
+    {{/if}}
+  </div>
+</div>
