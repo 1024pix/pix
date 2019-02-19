@@ -47,6 +47,12 @@ certif_properties: &certif_properties
     - image: circleci/node:8.11-browsers
   working_directory: ~/pix/certif
 
+# Properties shared by all admin-side jobs
+admin_properties: &admin_properties
+  docker:
+    - image: circleci/node:8.11-browsers
+  working_directory: ~/pix/admin
+
 version: 2.0
 
 workflows:
@@ -93,6 +99,11 @@ workflows:
           requires:
             - checkout_and_install
 
+      # admin side
+      - admin_build_and_test:
+          requires:
+            - checkout_and_install
+
       # common ci notification
       - signal_ci_ok:
           requires:
@@ -102,6 +113,7 @@ workflows:
             - mon_pix_test_3
             - orga_build_and_test
             - certif_build_and_test
+            - admin_build_and_test
           filters:
             branches:
               ignore:
@@ -205,6 +217,15 @@ jobs:
   # certif
   certif_build_and_test:
     <<: *certif_properties
+    steps:
+      - restore_cache:
+          keys:
+            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+      - run: npm test
+
+  # admin
+  admin_build_and_test:
+    <<: *admin_properties
     steps:
       - restore_cache:
           keys:
