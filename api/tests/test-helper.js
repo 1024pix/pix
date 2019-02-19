@@ -102,6 +102,10 @@ const hFake = {
         this.isTakeOver = true;
         return this;
       },
+      created() {
+        this.statusCode = 201;
+        return this;
+      }
     };
   },
   authenticated(data) {

@@ -308,10 +308,8 @@ describe('Unit | Controller | answer-controller', () => {
 
       it('should return no content', () => {
         // then
-        expect(response.source).to.be.undefined;
-        expect(response.statusCode).to.equal(204);
+        expect(response).to.be.null;
       });
     });
   });
 });
-

@@ -42,7 +42,7 @@ module.exports = {
       reCaptchaToken,
     })
       .then((savedUser) => {
-        return h.response(userSerializer.serialize(savedUser)).code(201);
+        return h.response(userSerializer.serialize(savedUser)).created();
       })
       .catch((error) => {
 
@@ -85,11 +85,8 @@ module.exports = {
       .then((foundUser) => {
         return profileService.getByUserId(foundUser.id);
       })
-      .then((buildedProfile) => {
-        return h.response(profileSerializer.serialize(buildedProfile)).code(201);
-      })
+      .then((buildedProfile) => profileSerializer.serialize(buildedProfile))
       .catch((err) => {
-
         if (err instanceof InvalidTokenError) {
           return _replyErrorWithMessage(h, 'Le token n’est pas valide', 401);
         }
@@ -128,7 +125,7 @@ module.exports = {
         }
         return Promise.reject(new BadRequestError());
       })
-      .then(() => h.response().code(204))
+      .then(() => null)
       .catch((err) => {
         if (err instanceof PasswordResetDemandNotFoundError) {
           return h.response(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);
@@ -206,7 +203,6 @@ module.exports = {
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
       .then(campaignParticipationSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);

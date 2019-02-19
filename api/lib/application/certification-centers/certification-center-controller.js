@@ -28,7 +28,6 @@ module.exports = {
     const certificationCenterId = request.params.id;
     return usecases.getCertificationCenter({ id: certificationCenterId })
       .then(certificationCenterSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         if (error instanceof NotFoundError) {
           const err = new InfrastructureNotFoundError(error.message);
@@ -41,7 +40,6 @@ module.exports = {
   find(request, h) {
     return usecases.findCertificationCenters()
       .then(certificationCenterSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch(controllerReplies(h).error);
   },
 
@@ -51,7 +49,6 @@ module.exports = {
 
     return usecases.findSessionsForCertificationCenter({ userId, certificationCenterId })
       .then((sessions) => sessionSerializer.serialize(sessions))
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         if(error instanceof ForbiddenAccess) {
           const err = new ForbiddenError(error.message);
