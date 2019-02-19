@@ -11,7 +11,8 @@ function buildAnswer({
   value = '1',
   assessmentId = faker.random.number(),
   challengeId = faker.random.uuid(),
-  knowledgeElements = []
+  knowledgeElements = [],
+  knowledgeElementsRecentlyKnown = [],
 } = {}) {
   return new Answer({
     id,
@@ -21,6 +22,7 @@ function buildAnswer({
     timeout,
     value,
     knowledgeElements,
+    knowledgeElementsRecentlyKnown,
     assessmentId,
     challengeId,
   });
@@ -31,6 +33,7 @@ buildAnswer.uncorrected = function({
   timeout = faker.random.number(),
   value = '1',
   knowledgeElements = [],
+  knowledgeElementsRecentlyKnown = [],
   assessmentId = faker.random.number(),
   challengeId = faker.random.uuid(),
 } = {}) {
@@ -39,6 +42,7 @@ buildAnswer.uncorrected = function({
     timeout,
     value,
     knowledgeElements,
+    knowledgeElementsRecentlyKnown,
     assessmentId,
     challengeId,
   });

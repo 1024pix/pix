@@ -55,7 +55,8 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
         value: answerValue,
         assessmentId,
         challengeId,
-        knowledgeElements: [domainBuilder.buildSmartPlacementKnowledgeElement({ earnedPix: 23 })]
+        knowledgeElements: [domainBuilder.buildSmartPlacementKnowledgeElement({ earnedPix: 23 })],
+        knowledgeElementsRecentlyKnown: [domainBuilder.buildSmartPlacementKnowledgeElement({ earnedPix: 23 })]
       });
       const expectedJSON = {
         data: {

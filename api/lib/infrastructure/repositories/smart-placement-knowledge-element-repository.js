@@ -39,14 +39,14 @@ module.exports = {
       });
   },
 
-  findFirstSavedKnowledgeElementsByUserId(userId, limitDate) {
+  findFirstSavedKnowledgeElementsByUserId({ userId, skillIds }) {
     return BookshelfKnowledgeElement
       .query((qb) => {
         qb.innerJoin('assessments', 'knowledge-elements.assessmentId', 'assessments.id');
         qb.where('assessments.userId', '=', userId);
         qb.where('assessments.type', '=', 'SMART_PLACEMENT');
-        if(limitDate) {
-          qb.where('knowledge-elements.createdAt', '<', limitDate);
+        if(skillIds) {
+          qb.where('knowledge-elements.skillId', 'IN', skillIds);
         }
       })
       .fetchAll()

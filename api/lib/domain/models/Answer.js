@@ -13,6 +13,7 @@ class Answer {
     value,
     // includes
     knowledgeElements = [],
+    knowledgeElementsRecentlyKnown = [],
     // references
     assessmentId,
     challengeId,
@@ -27,6 +28,7 @@ class Answer {
     this.value = value;
     // includes
     this.knowledgeElements = knowledgeElements;
+    this.knowledgeElementsRecentlyKnown = knowledgeElementsRecentlyKnown;
     // references
     this.assessmentId = assessmentId;
     this.challengeId = challengeId;
@@ -65,7 +67,7 @@ class Answer {
   }
 
   get pixEarned() {
-    return this.knowledgeElements.reduce((sum, ke) => sum + ke.earnedPix, 0);
+    return _.sumBy(this.knowledgeElementsRecentlyKnown, 'earnedPix');
   }
 }
 

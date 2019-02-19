@@ -97,7 +97,7 @@ describe('Unit | Domain | Use Cases | get-answer-with-recent-knowledge-elements
           // then
           return promise.then((answerReturned) => {
             expect(answerReturned.id).to.equal(answer.id);
-            expect(answerReturned.knowledgeElements).to.deep.equal([knowledgeElements1]);
+            expect(answerReturned.knowledgeElementsRecentlyKnown).to.deep.equal([knowledgeElements1]);
           });
         });
       });

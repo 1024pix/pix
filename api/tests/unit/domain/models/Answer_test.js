@@ -28,6 +28,7 @@ describe('Unit | Domain | Models | Answer', () => {
         elapsedTime: 100,
         timeout: 0,
         knowledgeElements: [],
+        knowledgeElementsRecentlyKnown: [],
         challengeId: 'redRecordId',
         assessmentId: 82,
       };
@@ -181,7 +182,7 @@ describe('Unit | Domain | Models | Answer', () => {
 
     it('should return the sum of earnedPix from knowledgeElements', () => {
       // given
-      const answer = domainBuilder.buildAnswer({ knowledgeElements: [
+      const answer = domainBuilder.buildAnswer({ knowledgeElementsRecentlyKnown: [
         domainBuilder.buildSmartPlacementKnowledgeElement({ earnedPix: 4 }),
         domainBuilder.buildSmartPlacementKnowledgeElement({ earnedPix: 3 })
       ] });
@@ -195,7 +196,7 @@ describe('Unit | Domain | Models | Answer', () => {
 
     it('should return 0 if answer has no knowledgeElements', () => {
       // given
-      const answer = domainBuilder.buildAnswer({ knowledgeElements: [] });
+      const answer = domainBuilder.buildAnswer({ knowledgeElementsRecentlyKnown: [] });
 
       // when
       const pixEarned = answer.pixEarned;
