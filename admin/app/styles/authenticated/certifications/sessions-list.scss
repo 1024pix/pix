@@ -1,0 +1,20 @@
+.session-list__actions {
+  text-align:center;
+  padding:20px;
+
+  #session-list__import-file {
+    display:none;
+  }
+
+  .dropdown-item {
+    cursor:pointer;
+  }
+}
+
+.certification-info-published {
+  text-align:center;
+}
+
+.session-list__progress {
+  padding:0 20px;
+}

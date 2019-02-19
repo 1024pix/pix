@@ -1,0 +1,27 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+html {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 15px;
+  color: #212529;
+}
+
+body {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Raleway', Arial, sans-serif;
+}
+
+figure.work-in-progress {
+  margin: 40px auto;
+  text-align: center;
+
+  img {
+    width: 100px;
+  }
+}

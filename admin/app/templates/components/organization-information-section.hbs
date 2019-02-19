@@ -1,0 +1,25 @@
+<section class="page-section mb_10">
+  <div class="organization__information">
+    <div class="organization__logo">
+      <figure class="organization__logo-figure">
+        {{#if organization.logoUrl}}
+          <img src={{organization.logoUrl}}>
+        {{else}}
+          <img src="{{rootURL}}/logo-placeholder.png">
+        {{/if}}
+
+        {{#file-upload name="logo" accept="image/*" onfileadd=(action "updateLogo") as |queue|}}
+          <a class="file-upload__button"/>
+        {{/file-upload}}
+
+      </figure>
+    </div>
+    <div class="organization__data">
+      <h1 class="organization__name">{{organization.name}}</h1>
+      <p>
+        Type : <span class="organization__type">{{organization.type}}</span><br>
+        Code : <span class="organization__code">{{organization.code}}</span><br>
+      </p>
+    </div>
+  </div>
+</section>
