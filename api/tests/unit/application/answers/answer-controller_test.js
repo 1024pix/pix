@@ -14,7 +14,7 @@ describe('Unit | Controller | answer-controller', () => {
   beforeEach(() => {
 
     sinon.stub(answerSerializer, 'serialize');
-    sinon.stub(answerRepository, 'getByChallengeAndAssessment');
+    sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(smartPlacementAssessmentRepository, 'get');
     sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
     sinon.stub(logger, 'error');
@@ -275,7 +275,7 @@ describe('Unit | Controller | answer-controller', () => {
         });
         assessment = domainBuilder.buildSmartPlacementAssessment({ id: assessmentId });
 
-        answerRepository.getByChallengeAndAssessment.resolves(existingAnswer);
+        answerRepository.findByChallengeAndAssessment.resolves(existingAnswer);
         smartPlacementAssessmentRepository.get.resolves(assessment);
 
         // when
@@ -284,7 +284,7 @@ describe('Unit | Controller | answer-controller', () => {
 
       it('should get existing answer', () => {
         // then
-        return expect(answerRepository.getByChallengeAndAssessment)
+        return expect(answerRepository.findByChallengeAndAssessment)
           .to.have.been.calledWith({ challengeId, assessmentId });
       });
 

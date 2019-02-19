@@ -53,6 +53,18 @@ describe('Acceptance | Controller | answer-controller', () => {
       });
     });
 
+    it('should return 404 HTTP status code when answer do not exist', () => {
+      // given
+      options.url = '/api/answers/0';
+      // when
+      const promise = server.inject(options);
+
+      // given
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
     it('should return 200 HTTP status code when missing authorization header', () => {
       // given
       options.headers = {};

@@ -12,6 +12,9 @@ const smartPlacementAssessmentRepository =
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
+const {
+  NotFoundError: InfrastructureNotFoundError,
+} = require('../../infrastructure/errors');
 
 function _updateExistingAnswer(existingAnswer, newAnswer) {
   return solutionRepository
@@ -57,17 +60,25 @@ module.exports = {
       });
   },
 
-  get(request) {
+  get(request, h) {
     return usecases.getAnswerWithRecentKnowledgeElements({ answerId: request.params.id })
       .then(answerSerializer.serialize)
-      .catch((err) => logger.error(err));
+      .catch((err) => {
+        if (err instanceof NotFoundError) {
+          const error = new InfrastructureNotFoundError(err.message);
+          return controllerReplies(h).error(error);
+        }
+
+        logger.error(err);
+        return controllerReplies(h).error(err);
+      });
   },
 
   update(request, h) {
 
     const updatedAnswer = answerSerializer.deserializeToBookshelfAnswer(request.payload);
     return answerRepository
-      .getByChallengeAndAssessment({
+      .findByChallengeAndAssessment({
         challengeId: updatedAnswer.get('challengeId'),
         assessmentId: updatedAnswer.get('assessmentId')
       })
@@ -92,7 +103,7 @@ module.exports = {
 
   findByChallengeAndAssessment(request) {
     return answerRepository
-      .getByChallengeAndAssessment({
+      .findByChallengeAndAssessment({
         challengeId: request.url.query.challenge,
         assessmentId: request.url.query.assessment
       })

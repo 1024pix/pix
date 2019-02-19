@@ -53,7 +53,7 @@ module.exports = {
       });
   },
 
-  getByChallengeAndAssessment({ challengeId, assessmentId }) {
+  findByChallengeAndAssessment({ challengeId, assessmentId }) {
     return BookshelfAnswer
       .where({ challengeId, assessmentId })
       .fetch()

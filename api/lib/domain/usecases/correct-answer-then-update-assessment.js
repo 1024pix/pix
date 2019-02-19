@@ -11,7 +11,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     smartPlacementKnowledgeElementRepository,
   } = {}) {
 
-  const answersFind = await answerRepository.getByChallengeAndAssessment({
+  const answersFind = await answerRepository.findByChallengeAndAssessment({
     assessmentId: answer.assessmentId,
     challengeId: answer.challengeId,
   });
