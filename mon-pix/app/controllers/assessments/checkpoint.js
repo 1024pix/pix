@@ -12,7 +12,7 @@ export default Controller.extend({
 
   totalPixForFiveNewAnswer: computed('lastAnswers', function() {
     const sumOfPixEarned = this.get('lastAnswers').reduce((sum, answer) => sum + (answer.pixEarned || 0), 0);
-    return Math.floor(sumOfPixEarned);
+    return (sumOfPixEarned > 0 && sumOfPixEarned < 1) ? 1 : Math.floor(sumOfPixEarned);
   }),
 
   actions: {

@@ -39,5 +39,17 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
       // then
       expect(controller.get('totalPixForFiveNewAnswer')).to.equal(4);
     });
+
+    it('should return 1 if the sum is between 0 and 1', function() {
+      // when
+      const controller = this.subject();
+      controller.set('lastAnswers', [
+        { pixEarned: 0.2 },
+      ]);
+
+      // then
+      expect(controller.get('totalPixForFiveNewAnswer')).to.equal(1);
+    });
+
   });
 });
