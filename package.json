@@ -33,7 +33,7 @@
     "url": "git+https://github.com/1024pix/pix.git"
   },
   "scripts": {
-    "build": "run-p build:mon-pix build:orga build:certif",
+    "build": "run-p --print-label build:mon-pix build:orga build:certif",
     "build:mon-pix": "(cd mon-pix && npm run build) && mkdir -p dist && cp -R mon-pix/dist dist/app",
     "build:orga": "(cd orga && npm run build) && mkdir -p dist && cp -R orga/dist dist/orga",
     "build:certif": "(cd certif && npm run build) && mkdir -p dist && cp -R certif/dist dist/certif",
