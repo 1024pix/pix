@@ -15,7 +15,6 @@ export default Model.extend({
   pixScore: attr('number'),
   result: belongsTo('assessment-result'),
   type: attr('string'),
-  hasCheckpoints: equal('type', 'SMART_PLACEMENT'),
   isSmartPlacement: equal('type', 'SMART_PLACEMENT'),
   isCertification: equal('type', 'CERTIFICATION'),
   isDemo: equal('type', 'DEMO'),
