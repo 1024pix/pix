@@ -4,8 +4,6 @@ import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 import _ from 'lodash';
 
-const SMART_PLACEMENT_TYPE = 'SMART_PLACEMENT';
-
 describe('Unit | Model | Assessment', function() {
 
   setupModelTest('assessment', {
@@ -15,37 +13,6 @@ describe('Unit | Model | Assessment', function() {
   it('exists', function() {
     const model = this.subject();
     expect(model).to.be.ok;
-  });
-
-  describe('Computed property #hasCheckpoints', function() {
-
-    it('should be true when challenge is a SMART_PLACEMENT', function() {
-      run(() => {
-        // given
-        const store = this.store();
-        const assessment = store.createRecord('assessment', { type: SMART_PLACEMENT_TYPE });
-
-        // when
-        const hasCheckpoints = assessment.get('hasCheckpoints');
-
-        // then
-        expect(hasCheckpoints).to.be.true;
-      });
-    });
-
-    it('should be true when challenge is NOT a SMART_PLACEMENT', function() {
-      run(() => {
-        // given
-        const assessment = this.subject();
-        assessment.set('type', 'DEMO');
-
-        // when
-        const hasCheckpoints = assessment.get('hasCheckpoints');
-
-        // then
-        expect(hasCheckpoints).to.be.false;
-      });
-    });
   });
 
   describe('@answersSinceLastCheckpoints', function() {
