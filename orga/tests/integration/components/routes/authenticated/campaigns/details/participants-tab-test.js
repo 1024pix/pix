@@ -4,18 +4,18 @@ import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign | details-item', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign/details | participants-tab', function (hooks) {
   setupRenderingTest(hooks);
-  
+
   let store;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     run(() => {
       store = this.owner.lookup('service:store');
     });
   });
 
-  test('it should display campaign details', async function(assert) {
+  test('it should display the participant list of the campaign', async function (assert) {
     // given
     const campaign = run(() => store.createRecord('campaign', {
       id: 1,
@@ -25,10 +25,9 @@ module('Integration | Component | routes/authenticated/campaign | details-item',
     this.set('campaign', campaign);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details-item campaign=campaign}}`);
+    await render(hbs`{{routes/authenticated/campaigns/details/participants-tab campaign=campaign}}`);
 
     // then
-    assert.dom('.campaign-details-header__title').hasText('campagne 1');
+    assert.dom('.participant-list__header').hasText('Liste des participants');
   });
-
 });
