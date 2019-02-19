@@ -34,5 +34,11 @@
   td, th {
     text-align: left;
     padding-left: 15px;
+    box-sizing: content-box;
   }
+
+  td.cell--center, th.cell--center {
+    text-align: center;
+  }
+
 }
