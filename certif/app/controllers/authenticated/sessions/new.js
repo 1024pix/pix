@@ -4,7 +4,7 @@ export default Controller.extend({
   actions: {
     createSession(session) {
       return session.save().then(
-        () => this.transitionToRoute('authenticated.sessions.list')
+        () => this.transitionToRoute('authenticated.sessions.details', session.id)
       );
     },
 

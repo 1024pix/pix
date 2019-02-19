@@ -33,7 +33,7 @@ module('Acceptance | Session creation', function(hooks) {
       });
     });
 
-    test('it should create a session', async function(assert) {
+    test('it should create a session and redirect to session details', async function(assert) {
       // given
       let sessionDate = moment();
       let sessionFormattedDate = sessionDate.format('DD/MM/YYYY');
@@ -53,13 +53,14 @@ module('Acceptance | Session creation', function(hooks) {
       await click('button[type="submit"]');
 
       // then
-      assert.equal(server.db.sessions[0].address, 'My address');
-      assert.equal(server.db.sessions[0].room, 'My room');
-      assert.equal(server.db.sessions[0].examiner, 'My examiner');
-      assert.equal(server.db.sessions[0].description, 'My description');
-      assert.equal(server.db.sessions[0].date, sessionFormattedDate);
-      assert.equal(server.db.sessions[0].time, '13:45');
-      assert.equal(currentURL(), '/sessions/liste');
+      const session = server.db.sessions[0];
+      assert.equal(session.address, 'My address');
+      assert.equal(session.room, 'My room');
+      assert.equal(session.examiner, 'My examiner');
+      assert.equal(session.description, 'My description');
+      assert.equal(session.date, sessionFormattedDate);
+      assert.equal(session.time, '13:45');
+      assert.equal(currentURL(), `/sessions/${session.id}`);
     });
 
     test('it should go back to sessions list on cancel', async function(assert) {
