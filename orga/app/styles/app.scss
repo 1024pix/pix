@@ -7,6 +7,7 @@
 @import "globals/forms";
 @import "globals/pages";
 @import "globals/panels";
+@import "globals/tables";
 @import "globals/texts";
 @import "globals/titles";
 
@@ -17,6 +18,8 @@
 @import "pages/authenticated/campaigns/new";
 @import "pages/authenticated/campaigns/list";
 @import "pages/authenticated/campaigns/no-campaign-panel";
+@import "pages/authenticated/campaigns/details/parameters";
+@import "pages/authenticated/campaigns/details/participants";
 @import "pages/authenticated/terms-of-service";
 
 @import "components/login-form";

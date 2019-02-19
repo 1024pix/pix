@@ -1,0 +1,28 @@
+.participant-list__export {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1em 0;
+}
+
+.participant-list__header {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  height: 60px;
+  padding-left: 20px;
+  color: $dove-gray;
+  font-family: $roboto;
+  font-size: 0.875rem;
+}
+
+.participant-list__no-participants {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+  color: $dove-gray;
+  font-family: $roboto;
+  font-size: 1rem;
+  text-align: center;
+  border-top: 2px solid $wild-sand;
+}
