@@ -38,11 +38,11 @@ export default BaseRoute.extend({
   _resumeAssessmentWithoutCheckpoint(assessment, nextChallenge) {
     const {
       nextChallengeId,
-      assessmentIsFinished,
+      assessmentHasNoMoreQuestions,
       assessmentIsCompleted
     } = this._parseState(assessment, nextChallenge);
 
-    if (assessmentIsFinished || assessmentIsCompleted) {
+    if (assessmentHasNoMoreQuestions || assessmentIsCompleted) {
       return this._rateAssessment(assessment);
     }
     return this._routeToNextChallenge(assessment, nextChallengeId);
@@ -51,7 +51,7 @@ export default BaseRoute.extend({
   _resumeAssessmentWithCheckpoint(assessment, nextChallenge) {
     const {
       nextChallengeId,
-      assessmentIsFinished,
+      assessmentHasNoMoreQuestions,
       assessmentIsCompleted,
       userHasSeenCheckpoint,
       userHasReachedCheckpoint
@@ -60,10 +60,10 @@ export default BaseRoute.extend({
     if (assessmentIsCompleted) {
       return this._rateAssessment(assessment);
     }
-    if (assessmentIsFinished && userHasSeenCheckpoint) {
+    if (assessmentHasNoMoreQuestions && userHasSeenCheckpoint) {
       return this._rateAssessment(assessment);
     }
-    if (assessmentIsFinished && !userHasSeenCheckpoint) {
+    if (assessmentHasNoMoreQuestions && !userHasSeenCheckpoint) {
       return this._routeToFinalCheckpoint(assessment);
     }
     if (userHasReachedCheckpoint && !userHasSeenCheckpoint) {
@@ -76,14 +76,14 @@ export default BaseRoute.extend({
   },
 
   _parseState(assessment, nextChallenge) {
-    const assessmentIsFinished = !nextChallenge;
+    const assessmentHasNoMoreQuestions = !nextChallenge;
     const userHasSeenCheckpoint = this.get('hasSeenCheckpoint');
     const userHasReachedCheckpoint = assessment.get('answers.length') > 0 && assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT === 0;
-    const nextChallengeId = !assessmentIsFinished && nextChallenge.get('id');
+    const nextChallengeId = !assessmentHasNoMoreQuestions && nextChallenge.get('id');
     const assessmentIsCompleted = assessment.get('isCompleted');
 
     return {
-      assessmentIsFinished,
+      assessmentHasNoMoreQuestions,
       userHasSeenCheckpoint,
       userHasReachedCheckpoint,
       nextChallengeId,
