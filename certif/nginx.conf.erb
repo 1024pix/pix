@@ -20,10 +20,11 @@ location / {
 location /api/ {
   <%
   # We compute the API host from the front app name, examples:
-  #   pix-certif-integration       -> pix-certif-integration.scalingo.io
-  #   pix-certif-integration-pr123 -> pix-certif-integration-pr123.scalingo.io
-  #   pix-certif-production        -> pix-certif-production.scalingo.io
+  #   pix-orga-integration       -> pix-api-integration.scalingo.io
+  #   pix-orga-integration-pr123 -> pix-api-integration-pr123.scalingo.io
+  #   pix-orga-production        -> pix-api-production.scalingo.io
   %>
-  proxy_pass https://<%= ENV['APP'].gsub(/-certif-/, "-api-") %>.scalingo.io;
+  proxy_pass https://<%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.scalingo.io;
   proxy_redirect default;
 }
+
