@@ -16,3 +16,27 @@
   font-family: $open-sans;
   font-size: 1.2rem;
 }
+
+.label-text {
+  color: $dusty-gray;
+  font-family: $roboto;
+  font-size: 0.8125rem;
+  font-weight: 400;
+}
+
+.content-text {
+  color: $dove-gray;
+  font-family: $roboto;
+  font-size: 1rem;
+  word-break: break-word;
+
+  &--bold {
+    color: $nero;
+    font-weight: 700;
+  }
+
+  &--big {
+    font-size: 2rem;
+    font-weight: 300;
+  }
+}

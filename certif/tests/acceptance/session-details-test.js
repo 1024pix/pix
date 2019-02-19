@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
@@ -47,7 +47,7 @@ module('Acceptance | Session Details', function (hooks) {
       assert.equal(currentURL(), '/sessions/1');
     });
 
-    /*test('it should redirect to update page on click on update button', async function (assert) {
+    test('it should redirect to update page on click on update button', async function (assert) {
       // given
       await authenticateSession({
         user_id: user.id,
@@ -75,6 +75,6 @@ module('Acceptance | Session Details', function (hooks) {
 
       // then
       assert.equal(currentURL(), '/sessions/liste');
-    });*/
+    });
   });
 });

@@ -73,23 +73,6 @@ module('Acceptance | Session List', function(hooks) {
       assert.dom('table tbody tr').exists({ count: 12 });
     });
 
-    test('it should redirect to session details on click', async function (assert) {
-      // given
-      await authenticateSession({
-        user_id: user.id,
-      });
-
-      const sessionId = 1;
-      server.create('session', { id: sessionId });
-      await visit('/sessions/liste');
-
-      // when
-      await click('.session-list-content__update-button');
-
-      // then
-      assert.equal(currentURL(), `/sessions/${sessionId}/modification`);
-    });
-
     test('it should redirect to detail page of session id 1 on click on first row', async function (assert) {
       // given
       const user = createUserWithMembership();
