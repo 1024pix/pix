@@ -1,0 +1,5 @@
+location ~ ^/(?<app>[^/]+)/.*$ {
+  root /app/dist/;
+
+  try_files $uri /$app/index.html =404;
+}
