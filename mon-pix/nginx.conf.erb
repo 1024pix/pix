@@ -3,7 +3,7 @@ set $maintenance_mode <%= ENV['MAINTENANCE'] %>;
 # in case of 503, serve this URI
 error_page 503 /maintenance_page.html;
 location = /maintenance_page.html {
-    # maintenance page is at the root of mon-pix project
+    # maintenance page is at the root of the project
     root /app/;
 }
 
@@ -20,11 +20,11 @@ location / {
 location /api/ {
   <%
   # We compute the API host from the front app name, examples:
-  #   pix-app-integration       -> pix-api-integration.scalingo.io
-  #   pix-app-integration-pr123 -> pix-api-integration-pr123.scalingo.io
-  #   pix-app-production        -> pix-api-production.scalingo.io
+  #   pix-orga-integration       -> pix-api-integration.scalingo.io
+  #   pix-orga-integration-pr123 -> pix-api-integration-pr123.scalingo.io
+  #   pix-orga-production        -> pix-api-production.scalingo.io
   %>
-  proxy_pass https://<%= ENV['APP'].gsub(/-app-/, "-api-") %>.scalingo.io;
+  proxy_pass https://<%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.scalingo.io;
   proxy_redirect default;
 }
 
