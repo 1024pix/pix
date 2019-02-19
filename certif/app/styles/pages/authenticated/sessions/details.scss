@@ -8,12 +8,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1em 0;
 }
 
-.session-details-header__title {
-  display: flex;
-  align-items: center;
+.session-details-header {
+  &__title {
+    display: flex;
+    align-items: center;
+  }
+
+  &__datetime {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+  }
+}
+
+.session-details-header-datetime {
+  &__date {
+    padding-right: 40px;
+    margin-right: 40px;
+    border-right: 1px solid $alto;
+  }
 }
 
 .session-details-container {
@@ -33,19 +48,27 @@
 .session-details-content {
   display: flex;
   flex-direction: column;
-  padding: 22px 38px;
+  padding: 22px 30px;
 
   &--multiple {
     &:first-child {
-      width: 40%;
+      width: 10%;
     }
 
     &:nth-child(2) {
-      width: 15%;
+      width: 25%;
     }
 
     &:nth-child(3) {
-      width: 40%;
+      width: 25%;
+    }
+
+    &:nth-child(4) {
+      width: 25%;
+    }
+
+    &:last-child {
+      width: 10%;
     }
   }
 
@@ -73,7 +96,6 @@
   }
 
   &__return-button {
-    margin-bottom: 10px;
     margin-right: 6px;
   }
 

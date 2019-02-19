@@ -1,23 +1,86 @@
-<div class="session-details__header">
+<div class="page__title session-details__header">
   <div class="session-details-header__title">
     {{#link-to "authenticated.sessions.list" class="icon-button session-details-content__return-button"}}
       {{fa-icon 'arrow-left'}}
     {{/link-to}}
-    <h1 class="page__title page-title">Session {{session.id}}</h1>
+    <h1 class="page-title">Session {{session.id}}</h1>
   </div>
 
-  <div class="session-details-header__date">
-    {{session.date}}
-  </div>
+  <div class="session-details-header__datetime">
+    <div class="session-details-header-datetime__date">
+      <h4 class="label-text session-details-content__label">Date</h4>
+      <p class="content-text content-text--big session-details-content__text">
+        {{moment-format session.date 'dddd DD MMM YYYY' allow-empty=true locale='fr'}}
+      </p>
+    </div>
 
-  <div class="session-details-header__time">
-    {{session.time}}
+    <div class="session-details-header-datetime__time">
+      <h4 class="label-text session-details-content__label">Heure de début (heure locale)</h4>
+      <p class="content-text content-text--big session-details-content__text">
+        {{moment-format session.time 'HH:mm' 'HH:mm:ss' allow-empty=true}}
+      </p>
+    </div>
   </div>
 </div>
 
+<div class="panel panel--strong-shadow session-details-container">
+  <div class="session-details-row">
+    <div class="session-details-content session-details-content--multiple">
+      <h4 class="label-text session-details-content__label">ID session</h4>
+      <p class="content-text session-details-content__text">{{session.id}}</p>
+    </div>
 
-{{session.address}}
-{{session.accessCode}}
-{{session.description}}
-{{session.examiner}}
-{{session.room}}
+    <div class="session-details-content session-details-content--multiple">
+      <h4 class="label-text session-details-content__label">Nom du site</h4>
+      <p class="content-text session-details-content__text">{{session.address}}</p>
+    </div>
+
+    <div class="session-details-content session-details-content--multiple">
+      <h4 class="label-text session-details-content__label">Salle</h4>
+      <p class="content-text session-details-content__text">{{session.room}}</p>
+    </div>
+
+    <div class="session-details-content session-details-content--multiple">
+      <h4 class="label-text session-details-content__label">Surveillant</h4>
+      <p class="content-text session-details-content__text">{{session.examiner}}</p>
+    </div>
+
+    <div class="session-details-content session-details-content--multiple">
+      <h4 class="label-text session-details-content__label">Code d'accès</h4>
+      <div class="session-details-content__clipboard">
+        <p class="content-text content-text--bold session-details-content__text">{{session.accessCode}}</p>
+
+        {{#if (is-clipboard-supported)}}
+          <div class="tooltip">
+            <span class="tooltip-text session-details-content__tooltip-text">{{this.tooltipText}}</span>
+            {{#copy-button clipboardText=session.accessCode
+                           success=(action 'clipboardSuccess')
+                           mouseLeave=(action 'clipboardOut')
+                           classNames="icon-button session-details-content__clipboard-button"}}
+              {{fa-icon 'copy' prefix='far'}}
+            {{/copy-button}}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  <div class="session-details-row">
+    <div class="session-details-content session-details-content--single">
+      <h4 class="label-text session-details-content__label">Observations</h4>
+      <p class="content-text session-details-content__text">
+        {{session.description}}
+      </p>
+    </div>
+  </div>
+
+  <div class="session-details-row">
+    <div class="session-details-content">
+      {{#link-to "authenticated.sessions.update" session.id
+                 class="button button--regular button--link session-details-content__update-button"}}
+        Modifier
+      {{/link-to}}
+    </div>
+  </div>
+
+</div>

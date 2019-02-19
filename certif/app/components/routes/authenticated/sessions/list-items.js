@@ -42,17 +42,6 @@ export default Component.extend({
         name: 'Surveillant',
         valuePath: 'examiner',
         width: 30
-      },
-      {
-        name: 'Code d\'accès',
-        valuePath: 'accessCode',
-        width: 10
-      },
-      {
-        name: 'Modifier',
-        valuePath: 'id',
-        isUpdate: true,
-        width: 5
       }
     ]);
   },

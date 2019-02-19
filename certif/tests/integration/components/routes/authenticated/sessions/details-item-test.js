@@ -45,7 +45,8 @@ module('Integration | Component | routes/authenticated/session | details-item', 
     await render(hbs`{{routes/authenticated/sessions/details-item session=session}}`);
 
     // then
-    assert.dom('.session-details-header__date').hasText('2019-02-18');
+    assert.dom('.session-details-header-datetime__date .content-text').hasText('lundi 18 févr. 2019');
+    assert.dom('.session-details-header-datetime__time .content-text').hasText('14:00');
   });
 
 });
