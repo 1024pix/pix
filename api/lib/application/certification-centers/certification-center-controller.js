@@ -2,16 +2,7 @@ const usecases = require('../../domain/usecases');
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const controllerReplies = require('../../infrastructure/controller-replies');
-
-const {
-  NotFoundError,
-  ForbiddenAccess
-} = require('../../domain/errors');
-
-const {
-  NotFoundError: InfrastructureNotFoundError,
-  ForbiddenError
-} = require('../../infrastructure/errors');
+const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
 
 module.exports = {
 
@@ -20,7 +11,8 @@ module.exports = {
     return usecases.saveCertificationCenter({ certificationCenter })
       .then(certificationCenterSerializer.serialize)
       .catch((error) => {
-        return controllerReplies(h).error(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
@@ -29,18 +21,18 @@ module.exports = {
     return usecases.getCertificationCenter({ id: certificationCenterId })
       .then(certificationCenterSerializer.serialize)
       .catch((error) => {
-        if (error instanceof NotFoundError) {
-          const err = new InfrastructureNotFoundError(error.message);
-          return controllerReplies(h).error(err);
-        }
-        return controllerReplies(h).error(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
   find(request, h) {
     return usecases.findCertificationCenters()
       .then(certificationCenterSerializer.serialize)
-      .catch(controllerReplies(h).error);
+      .catch((error) => {
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
+      });
   },
 
   getSessions(request, h) {
@@ -50,11 +42,8 @@ module.exports = {
     return usecases.findSessionsForCertificationCenter({ userId, certificationCenterId })
       .then((sessions) => sessionSerializer.serialize(sessions))
       .catch((error) => {
-        if(error instanceof ForbiddenAccess) {
-          const err = new ForbiddenError(error.message);
-          return controllerReplies(h).error(err);
-        }
-        return controllerReplies(h).error(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
       });
   }
 };

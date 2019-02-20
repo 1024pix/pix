@@ -4,14 +4,14 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const Boom = require('boom');
 const controllerReplies = require('../../infrastructure/controller-replies');
-const infraErrors = require('../../infrastructure/errors');
 const logger = require('../../infrastructure/logger');
 const usecases = require('../../domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
-const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
+const { NotFoundError } = require('../../domain/errors');
+const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
 
 function _updateExistingAnswer(existingAnswer, newAnswer) {
   return solutionRepository
@@ -52,7 +52,7 @@ module.exports = {
         return h.response(answerSerializer.serialize(answer)).created();
       })
       .catch((error) => {
-        const mappedError = mapToInfrastructureErrors(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
       });
   },
@@ -120,15 +120,6 @@ function partialDeserialize(payload) {
     assessmentId: payload.data.relationships.assessment.data.id,
     challengeId: payload.data.relationships.challenge.data.id,
   });
-}
-
-function mapToInfrastructureErrors(error) {
-
-  if (error instanceof ChallengeAlreadyAnsweredError) {
-    return new infraErrors.ConflictError('This challenge has already been answered.');
-  }
-
-  return error;
 }
 
 function isAssessmentSmartPlacement(assessmentId) {

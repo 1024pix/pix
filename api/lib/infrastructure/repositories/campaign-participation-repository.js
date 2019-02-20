@@ -101,7 +101,7 @@ function _adaptModelToDb(campaignParticipation) {
 
 function _checkNotFoundError(err) {
   if (err instanceof BookshelfCampaignParticipation.NotFoundError) {
-    throw new NotFoundError();
+    throw new NotFoundError('Participation non trouvée');
   }
   throw err;
 }

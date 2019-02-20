@@ -170,13 +170,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
         // then
         expect(response.statusCode).to.equal(404);
-        expect(response.source).to.deep.equal({
-          errors: [{
-            detail: 'Participation non trouvée',
-            code: '404',
-            title: 'Not Found',
-          }]
-        });
       });
     });
 
