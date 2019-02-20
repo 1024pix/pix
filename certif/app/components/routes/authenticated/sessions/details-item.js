@@ -10,7 +10,7 @@ export default Component.extend({
     },
 
     clipboardOut() {
-      this.set('tooltipText', "Copier le lien direct");
+      this.set('tooltipText', "Copier le code d'accès");
     }
   }
 });
