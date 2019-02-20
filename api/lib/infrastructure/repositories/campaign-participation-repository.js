@@ -2,6 +2,7 @@ const BookshelfCampaignParticipation = require('../data/campaign-participation')
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
 const { NotFoundError } = require('../../domain/errors');
+const queryBuilder = require('../utils/query-builder');
 const fp = require('lodash/fp');
 
 function _toDomain(bookshelfCampaignParticipation) {
@@ -51,12 +52,8 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  findByAssessmentId(assessmentId) {
-    return BookshelfCampaignParticipation
-      .where({ assessmentId })
-      .fetch({ require: true, withRelated: ['campaign'] })
-      .then(_toDomain)
-      .catch(_checkNotFoundError);
+  find(options) {
+    return queryBuilder.find(BookshelfCampaignParticipation, options);
   },
 
   updateCampaignParticipation(campaignParticipation) {

@@ -1,8 +1,9 @@
-const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
+const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
+const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/data/campaign-participation');
+const queryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -233,44 +234,30 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findByAssessmentId', () => {
+  describe('#find', () => {
 
     let campaignParticipation;
 
     beforeEach(async () => {
+      sinon.stub(queryBuilder, 'find');
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
-      await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should return the shared campaign-participation of the given assessmentId', () => {
+    it('should return campaign-participations that match given options', async function() {
       // given
-      const expectedAssessmentId = campaignParticipation.assessmentId;
+      const options = {
+        filter: { assessmentId: campaignParticipation.assessmentId },
+      };
+      queryBuilder.find.withArgs(BookshelfCampaignParticipation, options).resolves(campaignParticipation);
 
       // when
-      const promise = campaignParticipationRepository.findByAssessmentId(expectedAssessmentId);
+      const foundCampaignParticipation = await campaignParticipationRepository.find(options);
 
       // then
-      return promise.then((foundCampaignParticipation) => {
-        expect(foundCampaignParticipation.id).to.equal(campaignParticipation.id);
-        expect(foundCampaignParticipation.assessmentId).to.equal(expectedAssessmentId);
-        expect(foundCampaignParticipation.sharedAt).to.deep.equal(campaignParticipation.sharedAt);
-        expect(foundCampaignParticipation.isShared).to.equal(campaignParticipation.isShared);
-      });
-    });
-
-    it('should reject with a not found error if the participation is not found', () => {
-      // given
-      const notFoundAssessmentId = 1789;
-
-      // when
-      const promise = campaignParticipationRepository.findByAssessmentId(notFoundAssessmentId);
-
-      // then
-      return expect(promise).to.be.rejectedWith(NotFoundError);
+      expect(foundCampaignParticipation.id).to.equal(campaignParticipation.id);
+      expect(foundCampaignParticipation.assessmentId).to.equal(campaignParticipation.assessmentId);
+      expect(foundCampaignParticipation.sharedAt).to.deep.equal(campaignParticipation.sharedAt);
+      expect(foundCampaignParticipation.isShared).to.equal(campaignParticipation.isShared);
     });
   });
 

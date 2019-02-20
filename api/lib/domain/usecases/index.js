@@ -59,7 +59,7 @@ module.exports = injectDependencies({
   createOrganization: require('./create-organization.js'),
   createSession: require('./create-session'),
   createUser: require('./create-user'),
-  findCampaignParticipationsByAssessmentId: require('./find-campaign-participations-by-assessmentId'),
+  findCampaignParticipations: require('./find-campaign-participations'),
   findCertificationAssessments: require('./find-certification-assessments'),
   findCertificationCenters: require('./find-certification-centers'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
