@@ -2,13 +2,13 @@ const Boom = require('boom');
 
 const usecases = require('../../domain/usecases');
 const sessionService = require('../../domain/services/session-service');
-const { NotFoundError, ForbiddenAccess, EntityValidationError, UserNotAuthorizedToUpdateResourceError } = require('../../domain/errors');
+const { NotFoundError, EntityValidationError } = require('../../domain/errors');
 
 const logger = require('../../infrastructure/logger');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
-const infraErrors = require('../../infrastructure/errors');
 const JSONAPI = require('../../interfaces/jsonapi');
 const controllerReplies = require('../../infrastructure/controller-replies');
+const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
 
 module.exports = {
 
@@ -16,8 +16,9 @@ module.exports = {
     try {
       const session = await sessionService.find();
       return serializer.serialize(session);
-    } catch(err) {
-      return controllerReplies(h).error(err);
+    } catch(error) {
+      const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+      return controllerReplies(h).error(mappedError);
     }
   },
 
@@ -43,23 +44,13 @@ module.exports = {
     try {
       const newSession = await usecases.createSession({ userId, session });
       return serializer.serialize(newSession);
-    } catch (err) {
-      if (err instanceof NotFoundError) {
-        const notFoundError = new infraErrors.NotFoundError('Le centre de certification n\'existe pas');
-        return controllerReplies(h).error(notFoundError);
+    } catch (error) {
+      if (error instanceof EntityValidationError) {
+        return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
       }
 
-      if (err instanceof EntityValidationError) {
-        return h.response(JSONAPI.unprocessableEntityError(err.invalidAttributes)).code(422);
-      }
-
-      if(err instanceof ForbiddenAccess) {
-        const forbiddenError = new infraErrors.ForbiddenError(err.message);
-        return controllerReplies(h).error(forbiddenError);
-      }
-
-      logger.error(err);
-      throw Boom.badImplementation(err);
+      const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+      return controllerReplies(h).error(mappedError);
     }
   },
 
@@ -75,19 +66,9 @@ module.exports = {
       if (error instanceof EntityValidationError) {
         return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
       }
-      const mappedError = _mapToInfraError(error);
+
+      const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
       return controllerReplies(h).error(mappedError);
     }
   }
 };
-
-function _mapToInfraError(error) {
-  if (error instanceof UserNotAuthorizedToUpdateResourceError) {
-    return new infraErrors.ForbiddenError(error.message);
-  }
-  else if (error instanceof NotFoundError) {
-    return new infraErrors.NotFoundError(error.message);
-  }
-
-  return error;
-}

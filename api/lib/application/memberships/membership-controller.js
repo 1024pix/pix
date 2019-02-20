@@ -1,9 +1,7 @@
 const usecases = require('../../domain/usecases');
-const { MembershipCreationError } = require('../../domain/errors');
-
 const controllerReplies = require('../../infrastructure/controller-replies');
-const infraErrors = require('../../infrastructure/errors');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
+const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
 
 module.exports = {
 
@@ -17,11 +15,8 @@ module.exports = {
         return h.response(membershipSerializer.serialize(membership)).created();
       })
       .catch((error) => {
-        if (error instanceof MembershipCreationError) {
-          const badRequestError = new infraErrors.BadRequestError(error.message);
-          return controllerReplies(h).error(badRequestError);
-        }
-        return controllerReplies(h).error(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
       });
   }
 };
