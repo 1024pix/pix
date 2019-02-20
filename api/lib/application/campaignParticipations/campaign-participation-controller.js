@@ -5,10 +5,9 @@ const infraErrors = require('../../infrastructure/errors');
 const smartPlacementAssessmentRepository = require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
 
-const controllerReplies = require('../../infrastructure/controller-replies');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
@@ -19,10 +18,7 @@ module.exports = {
       .then((campaignParticipation) => {
         return h.response(serializer.serialize(campaignParticipation)).created();
       })
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   getCampaignParticipationByAssessment(request) {
@@ -47,21 +43,13 @@ module.exports = {
     const userId = tokenService.extractUserId(token);
     const campaignParticipationId = parseInt(request.params.id);
 
-    if (campaignParticipationId) {
-      return usecases.shareCampaignResult({
-        userId,
-        campaignParticipationId,
-        campaignParticipationRepository,
-        smartPlacementAssessmentRepository
-      })
-        .then(() => null)
-        .catch((error) => {
-          const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-          return controllerReplies(h).error(mappedError);
-        });
-    }
-    else {
-      return controllerReplies(h).error(new infraErrors.BadRequestError('campaignParticipationId manquant'));
-    }
+    return usecases.shareCampaignResult({
+      userId,
+      campaignParticipationId,
+      campaignParticipationRepository,
+      smartPlacementAssessmentRepository
+    })
+      .then(() => null)
+      .catch((error) => errorManager.send(h, error));
   }
 };

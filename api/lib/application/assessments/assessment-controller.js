@@ -3,21 +3,18 @@ const Boom = require('boom');
 const {
   NotFoundError,
   AssessmentEndedError,
-  AssessmentStartError,
   ObjectValidationError,
   CampaignCodeError
 } = require('../../domain/errors');
 const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
-const controllerReplies = require('../../infrastructure/controller-replies');
-const { ConflictError } = require('../../infrastructure/errors');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
-const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 function _extractUserIdFromRequest(request) {
   if (request.headers && request.headers.authorization) {
@@ -56,18 +53,15 @@ module.exports = {
       .then((assessment) => {
         return h.response(assessmentSerializer.serialize(assessment)).created();
       })
-      .catch((err) => {
-        if (err instanceof ObjectValidationError) {
-          throw Boom.badData(err);
+      .catch((error) => {
+        if (error instanceof ObjectValidationError) {
+          throw Boom.badData(error);
         }
-        if (err instanceof CampaignCodeError || err instanceof NotFoundError) {
-          throw Boom.notFound(err);
+        if (error instanceof CampaignCodeError || error instanceof NotFoundError) {
+          throw Boom.notFound(error);
         }
-        if (err instanceof AssessmentStartError) {
-          return controllerReplies(h).error(new ConflictError(err.message));
-        }
-        logger.error(err);
-        throw Boom.badImplementation(err);
+
+        return errorManager.send(h, error);
       });
 
   },
@@ -80,8 +74,7 @@ module.exports = {
 
       return assessmentSerializer.serialize(assessment);
     } catch (error) {
-      const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-      return controllerReplies(h).error(mappedError);
+      return errorManager.send(h, error);
     }
   },
 
@@ -154,14 +147,13 @@ module.exports = {
         logger.trace(logContext, 'replying with challenge');
         return challengeSerializer.serialize(challenge);
       })
-      .catch((err) => {
-        logContext.err = err;
+      .catch((error) => {
+        logContext.err = error;
         logger.trace(logContext, 'catching exception');
-        if (err instanceof AssessmentEndedError) {
+        if (error instanceof AssessmentEndedError) {
           return JSONAPI.emptyDataResponse();
         } else {
-          logger.error(err);
-          return controllerReplies(h).error(err);
+          return errorManager.send(h, error);
         }
       });
   }

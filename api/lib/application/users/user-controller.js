@@ -13,8 +13,7 @@ const userRepository = require('../../../lib/infrastructure/repositories/user-re
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const tokenService = require('../../domain/services/token-service');
-const controllerReplies = require('../../infrastructure/controller-replies');
-const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 const usecases = require('../../domain/usecases');
 const JSONAPI = require('../../interfaces/jsonapi');
@@ -156,10 +155,7 @@ module.exports = {
 
     return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
       .then((user) => membershipSerializer.serialize(user.memberships))
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   getCertificationCenterMemberships(request, h) {
@@ -168,10 +164,7 @@ module.exports = {
 
     return usecases.getUserCertificationCenterMemberships({ authenticatedUserId, requestedUserId })
       .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships))
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   find(request) {
@@ -203,10 +196,7 @@ module.exports = {
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
       .then(campaignParticipationSerializer.serialize)
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   }
 };
 
