@@ -373,21 +373,15 @@ describe('Unit | Controller | user-controller', () => {
     });
 
     context('when loading user competences fails', () => {
-      it('should reply with an INTERNAL error and log the error', async () => {
+      it('should reply with 500', async () => {
         // given
-        const anyErrorFromProfileBuilding = new Error('Error building profile');
-        userService.getProfileToCertify.rejects(anyErrorFromProfileBuilding);
+        userService.getProfileToCertify.rejects();
 
         // when
-        const promise = userController.getProfileToCertify(request, hFake);
+        const response = await userController.getProfileToCertify(request, hFake);
 
         // then
-        await expect(promise).to.be.rejected
-          .and.eventually.to.include.nested({
-            message: 'Error building profile',
-            'output.statusCode': 500,
-          });
-        expect(logger.error).to.have.been.calledWith(anyErrorFromProfileBuilding);
+        expect(response.statusCode).to.equal(500);
       });
     });
 
