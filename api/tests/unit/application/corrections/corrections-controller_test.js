@@ -133,19 +133,12 @@ describe('Unit | Controller | corrections-controller', () => {
       // given
       const request = _buildRequest('234');
       const responseError = new NotCompletedAssessmentError();
-      const expectedError = JSONAPIError({
-        code: '409',
-        title: 'Assessment Not Completed',
-        detail: 'Cette évaluation n\'est pas terminée.'
-      });
-
       usecases.getCorrectionForAnswerWhenAssessmentEnded.rejects(responseError);
 
       // when
       const response = await correctionsController.findByAnswerId(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(expectedError);
       expect(response.statusCode).to.equal(409);
     });
   });

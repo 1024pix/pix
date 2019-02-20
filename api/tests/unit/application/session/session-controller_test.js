@@ -187,19 +187,16 @@ describe('Unit | Controller | sessionController', () => {
 
     context('when session does not exist', () => {
 
-      it('should reply with Not Found Error', async function() {
+      it('should reply with 404', async function() {
         // given
         const notFoundError = new NotFoundError();
         sessionService.get.rejects(notFoundError);
 
         // when
-        const promise = sessionController.get(request, hFake);
+        const response = await sessionController.get(request, hFake);
 
         // then
-        await expect(promise).to.be.rejected
-          .and.eventually.to.include.nested({
-            'output.statusCode': 404,
-          });
+        expect(response.statusCode).to.equal(404);
       });
 
     });

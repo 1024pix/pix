@@ -8,6 +8,9 @@ function send(h, error) {
   if (error instanceof DomainErrors.EntityValidationError) {
     return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
   }
+  if (error instanceof DomainErrors.AssessmentEndedError) {
+    return h.response(JSONAPI.emptyDataResponse());
+  }
 
   const mappedError = _mapToInfrastructureErrors(error);
 
@@ -21,10 +24,16 @@ function send(h, error) {
 }
 
 function _mapToInfrastructureErrors(error) {
+  if (error instanceof DomainErrors.AlreadyRatedAssessmentError) {
+    return new InfraErrors.PreconditionFailedError('Assessment is already rated.');
+  }
   if (error instanceof DomainErrors.ChallengeAlreadyAnsweredError) {
     return new InfraErrors.ConflictError('This challenge has already been answered.');
   }
   if (error instanceof DomainErrors.NotFoundError) {
+    return new InfraErrors.NotFoundError(error.message);
+  }
+  if (error instanceof DomainErrors.CampaignCodeError) {
     return new InfraErrors.NotFoundError(error.message);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntity) {
@@ -53,6 +62,15 @@ function _mapToInfrastructureErrors(error) {
   }
   if (error instanceof DomainErrors.AssessmentStartError) {
     return new InfraErrors.ConflictError(error.message);
+  }
+  if (error instanceof DomainErrors.ObjectValidationError) {
+    return new InfraErrors.UnprocessableEntityError(error.message);
+  }
+  if (error instanceof DomainErrors.NotCompletedAssessmentError) {
+    return new InfraErrors.ConflictError(error.message);
+  }
+  if (error instanceof DomainErrors.UserNotAuthorizedToCertifyError) {
+    return new InfraErrors.ForbiddenError('The user cannot be certified.');
   }
 
   return error;

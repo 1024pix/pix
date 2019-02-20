@@ -3,6 +3,7 @@ const Hapi = require('hapi');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | challenge-controller', function() {
 
@@ -36,13 +37,7 @@ describe('Unit | Controller | challenge-controller', function() {
 
     it('should reply with error status code 404 if challenge not found', async () => {
       // given
-      const error = {
-        'error': {
-          'type': 'MODEL_ID_NOT_FOUND',
-          'message': 'Could not find row by id unknown_id'
-        }
-      };
-      ChallengeRepoStub.rejects(error);
+      ChallengeRepoStub.rejects(new NotFoundError());
 
       // when
       const response = await server.inject({ method: 'GET', url: '/api/challenges/unknown_id' });

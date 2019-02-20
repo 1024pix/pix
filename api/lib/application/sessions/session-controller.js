@@ -1,10 +1,5 @@
-const Boom = require('boom');
-
 const usecases = require('../../domain/usecases');
 const sessionService = require('../../domain/services/session-service');
-const { NotFoundError } = require('../../domain/errors');
-
-const logger = require('../../infrastructure/logger');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const errorManager = require('../../infrastructure/utils/error-manager');
 
@@ -19,18 +14,14 @@ module.exports = {
     }
   },
 
-  async get(request) {
+  async get(request, h) {
     const sessionId = request.params.id;
 
     try {
       const session = await sessionService.get(sessionId);
       return serializer.serialize(session);
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        throw Boom.notFound(error);
-      }
-      logger.error(error);
-      throw Boom.badImplementation(error);
+      return errorManager.send(h, error);
     }
   },
 

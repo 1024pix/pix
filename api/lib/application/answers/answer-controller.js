@@ -2,9 +2,6 @@ const Answer = require('../../domain/models/Answer');
 const AnswerStatus = require('../../domain/models/AnswerStatus');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
-const Boom = require('boom');
-const controllerReplies = require('../../infrastructure/controller-replies');
-const logger = require('../../infrastructure/logger');
 const usecases = require('../../domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../infrastructure/repositories/smart-placement-assessment-repository');
@@ -30,11 +27,7 @@ function _updateExistingAnswer(existingAnswer, newAnswer) {
         assessmentId: newAnswer.relationships.assessment.data.id,
       });
     })
-    .then(answerSerializer.serialize)
-    .catch((err) => {
-      logger.error(err);
-      throw Boom.badImplementation(err);
-    });
+    .then(answerSerializer.serialize);
 }
 
 module.exports = {
@@ -59,9 +52,8 @@ module.exports = {
       const result = await answerRepository.get(request.params.id);
       return answerSerializer.serialize(result);
 
-    } catch(err) {
-      logger.error(err);
-      return controllerReplies(h).error(err);
+    } catch(error) {
+      return errorManager.send(h, error);
     }
   },
 
@@ -76,7 +68,7 @@ module.exports = {
       .then((existingAnswer) => {
 
         if (!existingAnswer) {
-          throw Boom.notFound();
+          throw new NotFoundError('Answer does not exit');
         }
 
         // XXX if assessment is a Smart Placement, then return 204 and do not update answer. If not proceed normally.
@@ -87,22 +79,20 @@ module.exports = {
             } else {
               return _updateExistingAnswer(existingAnswer, updatedAnswer);
             }
-          })
-          .catch((error) => errorManager.send(h, error));
-      });
+          });
+
+      })
+      .catch((error) => errorManager.send(h, error));
   },
 
-  findByChallengeAndAssessment(request) {
+  findByChallengeAndAssessment(request, h) {
     return answerRepository
       .findByChallengeAndAssessment({
         challengeId: request.url.query.challenge,
         assessmentId: request.url.query.assessment
       })
       .then(answerSerializer.serialize)
-      .catch((err) => {
-        logger.error(err);
-        throw Boom.badImplementation(err);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 };
 

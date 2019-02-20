@@ -211,10 +211,10 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
         return promise
           .then((response) => {
             expect(response.statusCode).to.equal(422);
-            expect(response.result).to.deep.equal({
-              'error': 'Unprocessable Entity',
-              'message': 'ValidationError: child "score" fails because ["score" must be less than or equal to 64]',
-              'statusCode': 422
+            expect(response.result.errors[0]).to.deep.equal({
+              'title': 'Unprocessable entity',
+              'detail': 'ValidationError: child "score" fails because ["score" must be less than or equal to 64]',
+              'code': '422'
             });
           });
       });
