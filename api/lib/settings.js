@@ -1,4 +1,5 @@
 const path = require('path');
+const packageJson = require('../package.json');
 
 function parseJSONEnv(varName) {
   if (process.env[varName]) {
@@ -9,12 +10,16 @@ function parseJSONEnv(varName) {
 
 module.exports = (function() {
 
+  const environment = process.env.NODE_ENV || 'development';
+  const version = packageJson.version;
+
   const config = {
     rootPath: path.normalize(__dirname + '/..'),
 
     port: parseInt(process.env.PORT, 10) || 3000,
 
-    environment: (process.env.NODE_ENV || 'development'),
+    environment,
+    version,
 
     hapi: {
       options: {}
@@ -72,6 +77,15 @@ module.exports = (function() {
     redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
     redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
 
+    // https://github.com/hydra-newmedia/hapi-sentry#options
+    sentry: {
+      client: {
+        dsn: process.env.SENTRY_DSN || false,
+        release: version,
+        environment,
+      },
+    },
+
   };
 
   if (process.env.NODE_ENV === 'test') {
@@ -104,6 +118,8 @@ module.exports = (function() {
     config.redisUrl = null;
     config.redisCacheKeyLockTTL = 0;
     config.redisCacheLockedWaitBeforeRetry = 0;
+
+    config.sentry.client.dsn = false;
   }
 
   return config;

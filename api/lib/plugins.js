@@ -1,8 +1,7 @@
-const Pack = require('../package');
 const Metrics = require('./infrastructure/plugins/metrics');
 const settings = require('./settings');
 
-const isProduction = ['production', 'staging'].includes(process.env.NODE_ENV);
+const isProduction = ['production', 'staging'].includes(settings.environment);
 
 const consoleReporters =
   isProduction ?
@@ -48,7 +47,7 @@ const plugins = [
       grouping: 'tags',
       info: {
         'title': 'PIX API Documentation',
-        'version': Pack.version
+        'version': settings.version,
       },
       documentationPath: '/api/documentation'
     }
@@ -61,17 +60,10 @@ const plugins = [
       }
     }
   },
-  ...(isProduction ? [
-    {
-      plugin: require('hapi-raven'),
-      options: {
-        dsn: process.env.SENTRY_DSN,
-        tags: {
-          source: 'api'
-        }
-      }
-    }
-  ] : [])
+  {
+    plugin: require('hapi-sentry'),
+    options: settings.sentry
+  },
 ];
 
 module.exports = plugins;
