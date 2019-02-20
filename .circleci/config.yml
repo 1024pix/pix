@@ -235,6 +235,7 @@ jobs:
       - run:
           background: true
           environment:
+            AUTH_SECRET: 'cypress_auth_secret'
             DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
           command: |
             cd ~/pix/api
