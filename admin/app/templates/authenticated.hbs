@@ -1,0 +1,18 @@
+<div class="app-container">
+
+  <aside class="app-sidebar">
+    <header class="app-logo">
+      {{#link-to "authenticated.index" class="app-logo__link"}}
+        PIX
+      {{/link-to}}
+    </header>
+    {{menu-bar}}
+  </aside>
+
+  <div class="app-body">
+    <div class="app-page">
+      {{outlet}}
+    </div>
+  </div>
+
+</div>

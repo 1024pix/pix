@@ -1,0 +1,23 @@
+<header class="page-header">
+  <div class="page-title">
+    {{link-to 'Toutes les organisations' 'authenticated.organizations.list'}}
+    <span style="color: #DDDDDD;">&nbsp;>&nbsp;</span>
+    {{model.name}}
+  </div>
+  <div class="page-actions">
+    <button class="btn btn-outline-default btn-thin hidden">
+      {{fa-icon "edit"}} Modifier
+    </button>
+    <button class="btn btn-outline-default btn-thin hidden">
+      {{fa-icon "trash"}} Supprimer
+    </button>
+  </div>
+</header>
+
+<main class="page-body" id="organizations-get-page">
+
+  {{organization-information-section organization=model onLogoUpdated=(action "updateOrganizationInformation")}}
+
+  {{organization-members-section organization=model userEmail=userEmail addMembership=(action "addMembership")}}
+
+</main>

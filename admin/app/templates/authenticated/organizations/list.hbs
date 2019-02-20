@@ -1,0 +1,17 @@
+<header class="page-header">
+  <div class="page-title">Toutes les organisations</div>
+  <div class="page-actions">
+    {{#link-to "authenticated.organizations.new" class="btn btn-outline-default btn-thin"}}
+      {{fa-icon "plus"}}&nbsp;Nouvelle organisation
+    {{/link-to}}
+  </div>
+</header>
+
+<main class="page-body">
+  <section class="page-section">
+    {{organization-list organizations=model}}
+  </section>
+</main>
+
+
+
