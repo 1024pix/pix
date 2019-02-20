@@ -1,4 +1,3 @@
-const Boom = require('boom');
 const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
@@ -129,15 +128,12 @@ module.exports = {
       });
   },
 
-  getProfileToCertify(request) {
+  getProfileToCertify(request, h) {
     const userId = request.params.id;
     const currentDate = moment().toISOString();
 
     return userService.getProfileToCertify(userId, currentDate)
-      .catch((err) => {
-        logger.error(err);
-        throw Boom.badImplementation(err);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   getMemberships(request, h) {

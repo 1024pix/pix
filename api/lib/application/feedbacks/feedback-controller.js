@@ -2,7 +2,7 @@ const Boom = require('boom');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/feedback-serializer');
 const repository = require('../../infrastructure/repositories/feedback-repository');
-const logger = require('../../infrastructure/logger');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
@@ -19,10 +19,7 @@ module.exports = {
       .then((persistedFeedback) => {
         return h.response(serializer.serialize(persistedFeedback.toJSON())).created();
       })
-      .catch((err) => {
-        logger.error(err);
-        throw Boom.badImplementation(err);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   find(request) {

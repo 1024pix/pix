@@ -7,6 +7,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const tokenService = require('../../../../lib/domain/services/token-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
+const errorManager = require('../../../../lib/infrastructure/utils/error-manager');
 
 const { ObjectValidationError, AssessmentStartError } = require('../../../../lib/domain/errors');
 
@@ -85,6 +86,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
       beforeEach(() => {
         sinon.stub(tokenService, 'extractUserId').returns('userId');
         sinon.stub(usecases, 'createAssessmentForCertification').resolves({});
+        sinon.stub(errorManager, 'send').resolves();
       });
 
       it('should call createAssessmentForCertification usecase', async function() {
@@ -103,19 +105,15 @@ describe('Unit | Controller | assessment-controller-save', () => {
       });
 
       context('when usecase fails with a validation error', () => {
-        it('should convert exception to HTTP error', () => {
+        it('should convert exception to HTTP error', async () => {
           const validationError = new ObjectValidationError();
           usecases.createAssessmentForCertification.rejects(validationError);
 
           // when
-          const promise = controller.save(request, hFake);
+          await controller.save(request, hFake);
 
           // then
-          return promise.then(
-            () => expect.fail('should have been rejected'),
-            (error) => {
-              expect(error.output.statusCode).to.equal(422);
-            });
+          return expect(errorManager.send).calledWith(hFake, validationError);
         });
       });
     });

@@ -1,35 +1,25 @@
-const Boom = require('boom');
-const logger = require('../../infrastructure/logger');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const certificationService = require('../../domain/services/certification-service');
 const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const { NotFoundError, WrongDateFormatError } = require('../../domain/errors');
+const { WrongDateFormatError } = require('../../domain/errors');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
-  computeResult(request) {
+  computeResult(request, h) {
     const certificationCourseId = request.params.id;
 
     return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId)
-      .catch((err) => {
-        logger.error(err);
-        throw Boom.badImplementation(err);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
-  getResult(request) {
+  getResult(request, h) {
     const certificationCourseId = request.params.id;
     return certificationService.getCertificationResult(certificationCourseId)
       .then(certificationCourseSerializer.serializeResult)
-      .catch((err) => {
-        if (err instanceof NotFoundError) {
-          throw Boom.notFound(err);
-        }
-        logger.error(err);
-        throw Boom.badImplementation(err);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   update(request, h) {
@@ -37,13 +27,13 @@ module.exports = {
     return certificationSerializer.deserialize(request.payload)
       .then((certificationCourse) => certificationCourseService.update(certificationCourse))
       .then(certificationSerializer.serializeFromCertificationCourse)
-      .catch((err) => {
-        if (err instanceof WrongDateFormatError) {
-          return h.response(errorSerializer.serialize(err.getErrorMessage())).code(400);
-        } else if (err.message === 'ValidationError') {
-          return h.response(errorSerializer.serialize(err)).code(400);
+      .catch((error) => {
+        if (error instanceof WrongDateFormatError) {
+          return h.response(errorSerializer.serialize(error.getErrorMessage())).code(400);
+        } else if (error.message === 'ValidationError') {
+          return h.response(errorSerializer.serialize(error)).code(400);
         } else {
-          throw Boom.notFound(err);
+          return errorManager.send(h, error);
         }
       });
   },

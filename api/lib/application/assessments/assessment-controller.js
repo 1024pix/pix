@@ -1,11 +1,4 @@
-const Boom = require('boom');
-
-const {
-  NotFoundError,
-  AssessmentEndedError,
-  ObjectValidationError,
-  CampaignCodeError
-} = require('../../domain/errors');
+const { AssessmentEndedError } = require('../../domain/errors');
 const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
 const logger = require('../../infrastructure/logger');
@@ -53,17 +46,7 @@ module.exports = {
       .then((assessment) => {
         return h.response(assessmentSerializer.serialize(assessment)).created();
       })
-      .catch((error) => {
-        if (error instanceof ObjectValidationError) {
-          throw Boom.badData(error);
-        }
-        if (error instanceof CampaignCodeError || error instanceof NotFoundError) {
-          throw Boom.notFound(error);
-        }
-
-        return errorManager.send(h, error);
-      });
-
+      .catch((error) => errorManager.send(h, error));
   },
 
   async get(request, h) {
@@ -78,7 +61,7 @@ module.exports = {
     }
   },
 
-  findByFilters(request) {
+  findByFilters(request, h) {
     let assessmentsPromise = Promise.resolve([]);
     const userId = _extractUserIdFromRequest(request);
 
@@ -94,7 +77,9 @@ module.exports = {
       }
     }
 
-    return assessmentsPromise.then((assessments) => assessmentSerializer.serializeArray(assessments));
+    return assessmentsPromise
+      .then((assessments) => assessmentSerializer.serializeArray(assessments))
+      .catch((error) => errorManager.send(h, error));
   },
 
   getNextChallenge(request, h) {
