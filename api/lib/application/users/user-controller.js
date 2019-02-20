@@ -24,7 +24,6 @@ const logger = require('../../infrastructure/logger');
 const { BadRequestError } = require('../../infrastructure/errors');
 const {
   InvalidTokenError,
-  EntityValidationError,
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToAccessEntity,
 } = require('../../domain/errors');
@@ -43,15 +42,7 @@ module.exports = {
       .then((savedUser) => {
         return h.response(userSerializer.serialize(savedUser)).created();
       })
-      .catch((error) => {
-
-        if (error instanceof EntityValidationError) {
-          return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
-        }
-
-        logger.error(error);
-        return h.response(JSONAPI.internalError('Une erreur est survenue lors de la création de l’utilisateur')).code(500);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   getUser(request, h) {
