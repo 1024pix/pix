@@ -10,16 +10,14 @@ const {
 const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
-const {
-  NotFoundError: InfrastructureNotFoundError,
-  ConflictError
-} = require('../../infrastructure/errors');
+const { ConflictError } = require('../../infrastructure/errors');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
+const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
 
 function _extractUserIdFromRequest(request) {
   if (request.headers && request.headers.authorization) {
@@ -81,15 +79,9 @@ module.exports = {
       const assessment = await useCases.getAssessment({ assessmentId });
 
       return assessmentSerializer.serialize(assessment);
-    } catch (err) {
-
-      if (err instanceof NotFoundError) {
-        const error = new InfrastructureNotFoundError(err.message);
-        return controllerReplies(h).error(error);
-      }
-
-      logger.error(err);
-      return controllerReplies(h).error(err);
+    } catch (error) {
+      const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+      return controllerReplies(h).error(mappedError);
     }
   },
 

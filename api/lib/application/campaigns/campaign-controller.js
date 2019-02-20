@@ -5,10 +5,8 @@ const tokenService = require('../../../lib/domain/services/token-service');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const {
   UserNotAuthorizedToCreateCampaignError,
-  UserNotAuthorizedToUpdateResourceError,
   UserNotAuthorizedToGetCampaignResultsError,
   EntityValidationError,
-  NotFoundError
 } = require('../../domain/errors');
 
 const JSONAPI = require('../../interfaces/jsonapi');
@@ -16,6 +14,7 @@ const logger = require('../../infrastructure/logger');
 const controllerReplies = require('../../infrastructure/controller-replies');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const infraErrors = require('../../infrastructure/errors');
+const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
 
 module.exports = {
 
@@ -54,7 +53,7 @@ module.exports = {
         return campaignSerializer.serialize([campaign]);
       })
       .catch((error) => {
-        const mappedError = _mapToInfraError(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
       });
   },
@@ -66,7 +65,7 @@ module.exports = {
     return usecases.getCampaign({ campaignId, options })
       .then((campaign) => campaignSerializer.serialize(campaign, tokenForCampaignResults))
       .catch((error) => {
-        const mappedError = _mapToInfraError(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
       });
   },
@@ -102,7 +101,7 @@ module.exports = {
     return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
       .then(campaignSerializer.serialize)
       .catch((error) => {
-        const mappedError = _mapToInfraError(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
       });
   },
@@ -115,15 +114,4 @@ function _validateFilters(filters) {
     }
     resolve();
   });
-}
-
-function _mapToInfraError(error) {
-  if (error instanceof UserNotAuthorizedToUpdateResourceError) {
-    return new infraErrors.ForbiddenError(error.message);
-  }
-  else if (error instanceof NotFoundError) {
-    return new infraErrors.NotFoundError(error.message);
-  }
-
-  return error;
 }

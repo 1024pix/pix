@@ -4,13 +4,11 @@ const infraErrors = require('../../infrastructure/errors');
 
 const smartPlacementAssessmentRepository = require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
-const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
-
-const logger = require('../../infrastructure/logger');
 
 const controllerReplies = require('../../infrastructure/controller-replies');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
+const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
 
 module.exports = {
 
@@ -22,14 +20,8 @@ module.exports = {
         return h.response(serializer.serialize(campaignParticipation)).created();
       })
       .catch((error) => {
-        logger.error(error);
-
-        if (error instanceof NotFoundError) {
-          const infraError = new infraErrors.NotFoundError(error.message);
-          return controllerReplies(h).error(infraError);
-        }
-
-        return controllerReplies(h).error(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
@@ -64,8 +56,8 @@ module.exports = {
       })
         .then(() => null)
         .catch((error) => {
-          logger.error(error);
-          return controllerReplies(h).error(_mapToInfrastructureErrors(error));
+          const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+          return controllerReplies(h).error(mappedError);
         });
     }
     else {
@@ -73,14 +65,3 @@ module.exports = {
     }
   }
 };
-
-function _mapToInfrastructureErrors(error) {
-  if (error instanceof NotFoundError) {
-    return new infraErrors.NotFoundError('Participation non trouvée');
-  }
-  if (error instanceof UserNotAuthorizedToAccessEntity) {
-    return new infraErrors.UnauthorizedError('Utilisateur non authorisé à accéder à la ressource');
-  }
-
-  return error;
-}

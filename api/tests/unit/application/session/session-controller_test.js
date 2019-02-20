@@ -122,30 +122,6 @@ describe('Unit | Controller | sessionController', () => {
       expect(response.statusCode).to.equal(422);
       expect(response.source).to.deep.equal(jsonApiValidationErrors);
     });
-
-    context('when an error is raised', () => {
-
-      const error = new Error('Failure');
-
-      beforeEach(() => {
-        usecases.createSession.rejects(error);
-      });
-
-      it('should return a 500 internal error and log the error', async () => {
-        // when
-        const promise = sessionController.save(request, hFake);
-
-        // then
-        await expect(promise).to.be.rejected
-          .and.eventually.to.include.nested({
-            message: 'Failure',
-            'output.statusCode': 500
-          });
-        expect(logger.error).to.have.been.calledWith(error);
-      });
-
-    });
-
   });
 
   describe('#get', function() {

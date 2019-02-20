@@ -1,10 +1,9 @@
 const { PassThrough } = require('stream');
 
-const { EntityValidationError, NotFoundError } = require('../../domain/errors');
+const { EntityValidationError } = require('../../domain/errors');
 const organizationService = require('../../domain/services/organization-service');
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
-const { NotFoundError: InfrastructureNotFoundError } = require('../../infrastructure/errors');
 const logger = require('../../infrastructure/logger');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
@@ -12,6 +11,7 @@ const organizationSerializer = require('../../infrastructure/serializers/jsonapi
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const JSONAPI = require('../../interfaces/jsonapi');
+const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
@@ -23,7 +23,7 @@ module.exports = {
     return usecases.getOrganizationDetails({ organizationId })
       .then(organizationSerializer.serialize)
       .catch((error) => {
-        const mappedError = _mapToInfraError(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
       });
   },
@@ -48,7 +48,7 @@ module.exports = {
     return usecases.updateOrganizationInformation({ id, name, type, logoUrl })
       .then(organizationSerializer.serialize)
       .catch((error) => {
-        const mappedError = _mapToInfraError(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
       });
   },
@@ -81,7 +81,10 @@ module.exports = {
 
     return usecases.getOrganizationCampaigns({ organizationId })
       .then((campaigns) => campaignSerializer.serialize(campaigns))
-      .catch(controllerReplies(h).error);
+      .catch((error) => {
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
+      });
   },
 
   getMemberships(request, h) {
@@ -89,7 +92,10 @@ module.exports = {
 
     return usecases.getOrganizationMemberships({ organizationId })
       .then(membershipSerializer.serialize)
-      .catch(controllerReplies(h).error);
+      .catch((error) => {
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
+      });
   },
 
   findTargetProfiles(request, h) {
@@ -97,7 +103,10 @@ module.exports = {
 
     return organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId)
       .then(targetProfileSerializer.serialize)
-      .catch(controllerReplies(h).error);
+      .catch((error) => {
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
+      });
   },
 
   exportSharedSnapshotsAsCsv: async (request, h) => {
@@ -132,11 +141,4 @@ function _buildErrorMessage(errorMessage) {
       authorization: [errorMessage]
     }
   };
-}
-
-function _mapToInfraError(error) {
-  if (error instanceof NotFoundError) {
-    return new InfrastructureNotFoundError(error.message);
-  }
-  return error;
 }

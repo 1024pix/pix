@@ -14,7 +14,7 @@ const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const tokenService = require('../../domain/services/token-service');
 const controllerReplies = require('../../infrastructure/controller-replies');
-const { ForbiddenError, InfrastructureError } = require('../../infrastructure/errors');
+const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
 
 const usecases = require('../../domain/usecases');
 const JSONAPI = require('../../interfaces/jsonapi');
@@ -157,7 +157,7 @@ module.exports = {
     return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
       .then((user) => membershipSerializer.serialize(user.memberships))
       .catch((error) => {
-        const mappedError = _mapToInfrastructureErrors(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
       });
   },
@@ -169,7 +169,7 @@ module.exports = {
     return usecases.getUserCertificationCenterMemberships({ authenticatedUserId, requestedUserId })
       .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships))
       .catch((error) => {
-        const mappedError = _mapToInfrastructureErrors(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
       });
   },
@@ -204,7 +204,7 @@ module.exports = {
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
       .then(campaignParticipationSerializer.serialize)
       .catch((error) => {
-        const mappedError = _mapToInfrastructureErrors(error);
+        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
       });
   }
@@ -221,14 +221,4 @@ function _handleWhenInvalidAuthorization(errorMessage) {
       authorization: [errorMessage],
     },
   };
-}
-
-function _mapToInfrastructureErrors(error) {
-
-  if (error instanceof UserNotAuthorizedToAccessEntity) {
-    return new ForbiddenError(error.message);
-  }
-
-  logger.error(error);
-  return new InfrastructureError('Une erreur est survenue lors de la récupération des campagnes de l’utilisateur');
 }
