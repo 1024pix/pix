@@ -1,9 +1,14 @@
 const DomainErrors = require('../../domain/errors');
 const InfraErrors = require('../errors');
+const JSONAPI = require('../../interfaces/jsonapi');
 const errorSerializer = require('../serializers/jsonapi/error-serializer');
 const logger = require('../logger');
 
 function send(h, error) {
+  if (error instanceof DomainErrors.EntityValidationError) {
+    return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
+  }
+
   const mappedError = _mapToInfrastructureErrors(error);
 
   if (mappedError instanceof InfraErrors.InfrastructureError) {
@@ -29,6 +34,9 @@ function _mapToInfrastructureErrors(error) {
     return new InfraErrors.ForbiddenError(error.message);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdateResourceError) {
+    return new InfraErrors.ForbiddenError(error.message);
+  }
+  if (error instanceof DomainErrors.UserNotAuthorizedToCreateCampaignError) {
     return new InfraErrors.ForbiddenError(error.message);
   }
   if (error instanceof DomainErrors.CertificationCenterMembershipCreationError) {

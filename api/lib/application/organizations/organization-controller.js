@@ -1,6 +1,5 @@
 const { PassThrough } = require('stream');
 
-const { EntityValidationError } = require('../../domain/errors');
 const organizationService = require('../../domain/services/organization-service');
 const usecases = require('../../domain/usecases');
 const logger = require('../../infrastructure/logger');
@@ -9,7 +8,6 @@ const membershipSerializer = require('../../infrastructure/serializers/jsonapi/m
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-const JSONAPI = require('../../interfaces/jsonapi');
 const errorManager = require('../../infrastructure/utils/error-manager');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
@@ -29,12 +27,7 @@ module.exports = {
 
     return usecases.createOrganization({ name, type })
       .then(organizationSerializer.serialize)
-      .catch((error) => {
-        if (error instanceof EntityValidationError) {
-          return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
-        }
-        return errorManager.send(h, error);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   updateOrganizationInformation: (request, h) => {
