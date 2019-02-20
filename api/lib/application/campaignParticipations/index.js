@@ -6,7 +6,7 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/campaign-participations',
       config: {
-        handler: campaignParticipationController.getCampaignParticipationByAssessment,
+        handler: campaignParticipationController.find,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération d\'un campaign-participation en fonction de son assessment',

@@ -14,4 +14,8 @@ module.exports = Bookshelf.model('CampaignParticipation', {
   campaign() {
     return this.belongsTo('Campaign', 'campaignId');
   },
+
+  user() {
+    return this.belongsTo('User', 'userId');
+  },
 });

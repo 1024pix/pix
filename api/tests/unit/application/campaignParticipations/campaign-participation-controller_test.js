@@ -5,32 +5,53 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Application | Controller | Campaign-Participation', () => {
 
-  describe('#getCampaignParticipationByAssessment', () => {
-    beforeEach(() => {
-      sinon.stub(usecases, 'findCampaignParticipationsByAssessmentId');
-    });
+  describe('#find', () => {
 
-    it('should call the usecases to get the campaign participations of the given assessmentId', async () => {
-      const request = {
+    let query, request, result, options, serialized;
+    const userId = 1;
+
+    beforeEach(() => {
+      query = {
+        'filter[campaignId]': 1,
+      };
+      request = {
         headers: {
           authorization: 'token'
         },
-        query: {
-          'filter[assessmentId]': 4,
-        }
+        query
       };
-      usecases.findCampaignParticipationsByAssessmentId.resolves();
+      options = { filter: { campaignId: 1 }, page: {}, sort: [], include: [] };
+      result = {
+        models: [{ id: 1 }, { id: 2 }],
+        pagination: {},
+      };
+      serialized = {
+        'campaign-participation': [{ id: 1 }, { id: 2 }],
+        meta: {},
+      };
+
+      sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(serializer, 'serialize');
+      sinon.stub(usecases, 'findCampaignParticipations');
+      sinon.stub(tokenService, 'extractTokenFromAuthChain').resolves();
+      sinon.stub(tokenService, 'extractUserId').returns(userId);
+    });
+
+    it('should call the usecases to get the campaign participations with matching options', async () => {
+      // given
+      queryParamsUtils.extractParameters.withArgs(query).returns(options);
+      usecases.findCampaignParticipations.withArgs({ userId, options }).resolves(result);
+      serializer.serialize.withArgs(result.models, result.pagination).returns(serialized);
 
       // when
-      await campaignParticipationController.getCampaignParticipationByAssessment(request, hFake);
+      const response = await campaignParticipationController.find(request, hFake);
 
       // then
-      expect(usecases.findCampaignParticipationsByAssessmentId).to.have.been.calledOnce;
-      const findCampaignParticipations = usecases.findCampaignParticipationsByAssessmentId.firstCall.args[0];
-      expect(findCampaignParticipations).to.have.property('assessmentId');
+      expect(response.source).to.deep.equal(serialized);
     });
   });
 

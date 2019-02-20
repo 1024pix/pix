@@ -26,9 +26,10 @@ describe('Acceptance | API | Campaign Participations', () => {
     beforeEach(async () => {
       campaign = databaseBuilder.factory.buildCampaign();
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        isShared: true,
         assessmentId: assessment.id,
-        campaign,
-        campaignId: campaign.id
+        campaignId: campaign.id,
+        userId: user.id
       });
       await databaseBuilder.commit();
     });
@@ -42,7 +43,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       beforeEach(() => {
         options = {
           method: 'GET',
-          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}`,
+          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=campaign,user`,
           headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
         };
       });
@@ -52,23 +53,24 @@ describe('Acceptance | API | Campaign Participations', () => {
         const expectedCampaignParticipation = [
           {
             'attributes': {
-              'created-at': campaignParticipation.createdAt,
-              'is-shared': campaignParticipation.isShared,
-              'shared-at': campaignParticipation.sharedAt,
+              'created-at': campaignParticipation.createdAt.getTime(),
+              'is-shared': Number(campaignParticipation.isShared),
+              'participant-external-id': null,
+              'shared-at': campaignParticipation.sharedAt.getTime(),
             },
             'id': campaignParticipation.id.toString(),
             'type': 'campaign-participations',
             relationships: {
-              assessment: {
-                data: {
-                  type: 'assessments',
-                  id: campaignParticipation.assessmentId.toString()
-                }
-              },
               campaign: {
                 data: {
                   type: 'campaigns',
                   id: campaign.id.toString()
+                }
+              },
+              'user': {
+                'data': {
+                  'id': user.id.toString(),
+                  'type': 'users'
                 }
               }
             }
@@ -186,10 +188,10 @@ describe('Acceptance | API | Campaign Participations', () => {
       const expectedResult = {
         data: {
           type: 'campaign-participations',
-          attributes: { 'is-shared': false, 'shared-at': null, 'created-at': null },
+          attributes: { 'is-shared': false, 'shared-at': null, 'created-at': null, 'participant-external-id': 'iuqezfh13736' },
           relationships: {
             campaign: { data: null },
-            assessment: { data: { type: 'assessments' } }
+            user: { data: null }
           }
         }
       };
@@ -202,7 +204,6 @@ describe('Acceptance | API | Campaign Participations', () => {
         expect(response.statusCode).to.equal(201);
 
         expect(response.result.data.id).to.exist;
-        expect(response.result.data.relationships.assessment.data.id).to.exist;
 
         const result = JSON.parse(response.payload);
         _deleteIrrelevantIds(result);
@@ -228,5 +229,4 @@ describe('Acceptance | API | Campaign Participations', () => {
 
 function _deleteIrrelevantIds(result) {
   delete result.data.id;
-  delete result.data.relationships.assessment.data.id;
 }

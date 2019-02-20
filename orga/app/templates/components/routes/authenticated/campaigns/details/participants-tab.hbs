@@ -20,21 +20,23 @@
         </tr>
       </thead>
 
-      {{#unless noParticipants}}
+      {{#if participants}}
         <tbody>
+        {{#each participants as |participant|}}
           <tr>
-            <td>Doe</td>
-            <td>John</td>
+            <td>{{participant.user.lastName}}</td>
+            <td>{{participant.user.firstName}}</td>
             {{#if campaign.idPixLabel}}
-              <td>jdoe</td>
+              <td>{{participant.participantExternalId}}</td>
             {{/if}}
           </tr>
+        {{/each}}
         </tbody>
-      {{/unless}}
+      {{/if}}
     </table>
 
-    {{#if noParticipants}}
+    {{#unless participants}}
       <div class="participant-list__no-participants">En attente de participants</div>
-    {{/if}}
+    {{/unless}}
   </div>
 </div>
