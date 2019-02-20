@@ -11,10 +11,9 @@ const {
 
 const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
-const controllerReplies = require('../../infrastructure/controller-replies');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const infraErrors = require('../../infrastructure/errors');
-const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
@@ -52,10 +51,7 @@ module.exports = {
       .then((campaign) => {
         return campaignSerializer.serialize([campaign]);
       })
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   getById(request, h) {
@@ -64,10 +60,7 @@ module.exports = {
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getCampaign({ campaignId, options })
       .then((campaign) => campaignSerializer.serialize(campaign, tokenForCampaignResults))
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   getCsvResults(request, h) {
@@ -100,10 +93,7 @@ module.exports = {
 
     return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
       .then(campaignSerializer.serialize)
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 };
 

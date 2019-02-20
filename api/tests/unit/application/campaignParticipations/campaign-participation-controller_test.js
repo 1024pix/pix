@@ -128,30 +128,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     context('when the request is invalid', () => {
 
-      it('should return a 400 status code', async () => {
-        // given
-        const paramsWithMissingAssessmentId = {};
-        const request = {
-          params: paramsWithMissingAssessmentId,
-          headers: {
-            authorization: 'token'
-          },
-        };
-
-        // when
-        const response = await campaignParticipationController.shareCampaignResult(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(400);
-        expect(response.source).to.deep.equal({
-          errors: [{
-            detail: 'campaignParticipationId manquant',
-            code: '400',
-            title: 'Bad Request',
-          }]
-        });
-      });
-
       it('should return a 404 status code if the participation is not found', async () => {
         // given
         const nonExistingAssessmentId = 1789;
