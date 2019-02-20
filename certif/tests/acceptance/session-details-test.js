@@ -13,12 +13,14 @@ module('Acceptance | Session Details', function (hooks) {
 
   let user;
 
+  hooks.beforeEach(() => {
+    user = createUserWithMembership();
+    server.create('session', { id: 1 });
+  });
+
   module('When user is not logged in', function () {
 
     test('it should not be accessible by an unauthenticated user', async function (assert) {
-      // given
-      server.create('session', { id: 1 });
-
       // when
       await visit('/sessions/1');
 
@@ -29,16 +31,9 @@ module('Acceptance | Session Details', function (hooks) {
 
   module('When user is logged in', function () {
 
-    hooks.beforeEach( async () => {
-      user = createUserWithMembership();
-    });
-
     test('it should be accessible for an authenticated user', async function (assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
-      server.create('session', { id: 1 });
+      await authenticateSession({ user_id: user.id });
 
       // when
       await visit('/sessions/1');
@@ -49,10 +44,7 @@ module('Acceptance | Session Details', function (hooks) {
 
     test('it should redirect to update page on click on update button', async function (assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
-      server.create('session', { id: 1 });
+      await authenticateSession({ user_id: user.id });
       await visit('/sessions/1');
 
       // when
@@ -64,10 +56,7 @@ module('Acceptance | Session Details', function (hooks) {
 
     test('it should redirect to update page on click on return button', async function (assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
-      server.create('session', { id: 1 });
+      await authenticateSession({ user_id: user.id });
       await visit('/sessions/1');
 
       // when

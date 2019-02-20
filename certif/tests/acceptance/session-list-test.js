@@ -59,7 +59,7 @@ module('Acceptance | Session List', function(hooks) {
     });
 
     test('it should list the sessions', async function (assert) {
-      // give
+      // given
       server.createList('session', 12);
 
       await authenticateSession({
@@ -82,7 +82,6 @@ module('Acceptance | Session List', function(hooks) {
         user_id: user.id,
       });
 
-      // when
       await visit('/sessions/liste');
       await waitFor('table tbody tr');
 
