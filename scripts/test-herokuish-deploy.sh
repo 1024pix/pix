@@ -3,6 +3,7 @@
 rm -rf ./tmp/pix.tar ./tmp/herokuenv ./tmp/herokuenvfile
 
 # To avoid a slow copy over the Docker mount, we tar the sources
+mkdir -p tmp
 tar -cf tmp/pix.tar $(git ls-files)
 
 APPLICATION_NAME=${APPLICATION_NAME:-mon-pix}
@@ -13,7 +14,6 @@ mkdir -p tmp/herokuenv
 
   case "$APPLICATION_NAME" in
     mon-pix)
-      echo mon-pix > APPLICATION_NAME
       echo pix-app-local > APP
       echo production > NODE_ENV
       echo disabled > MAINTENANCE
@@ -22,7 +22,6 @@ mkdir -p tmp/herokuenv
       echo mon-pix > BUILDPACK_SUBDIR
       ;;
     orga)
-      echo orga > APPLICATION_NAME
       echo pix-orga-local > APP
       echo production > NODE_ENV
       echo disabled > MAINTENANCE
@@ -31,7 +30,6 @@ mkdir -p tmp/herokuenv
       echo orga > BUILDPACK_SUBDIR
       ;;
     certif)
-      echo certif > APPLICATION_NAME
       echo pix-certif-local > APP
       echo production > NODE_ENV
       echo disabled > MAINTENANCE
@@ -39,12 +37,26 @@ mkdir -p tmp/herokuenv
       echo false > NPM_CONFIG_PRODUCTION
       echo certif > BUILDPACK_SUBDIR
       ;;
+    admin)
+      echo pix-admin-local > APP
+      echo production > NODE_ENV
+      echo disabled > MAINTENANCE
+      echo production > BUILD_ENVIRONMENT
+      echo false > NPM_CONFIG_PRODUCTION
+      echo admin > BUILDPACK_SUBDIR
+      ;;
     api)
-      echo api > APPLICATION_NAME
       echo pix-api-local > APP
       # Running in development env because production requires a postgres server
       echo development > NODE_ENV
       echo api > BUILDPACK_SUBDIR
+      ;;
+    front)
+      echo pix-front-local > APP
+      echo production > NODE_ENV
+      echo disabled > MAINTENANCE
+      echo production > BUILD_ENVIRONMENT
+      echo false > NPM_CONFIG_PRODUCTION
       ;;
   esac
 )
