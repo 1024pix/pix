@@ -63,26 +63,17 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', async () => {
+    it('should throw a 403 error if user is not authorized to create a campaign', async () => {
       // given
       const request = { auth: { credentials: { userId: 51423 } } };
       const errorMessage = 'User is not authorized to create campaign';
       usecases.createCampaign.rejects(new UserNotAuthorizedToCreateCampaignError(errorMessage));
-
-      const expectedUnprocessableEntityError = {
-        errors: [{
-          detail: errorMessage,
-          status: '403',
-          title: 'Forbidden Error'
-        }]
-      };
 
       // when
       const response = await campaignController.save(request, hFake);
 
       // then
       expect(response.statusCode).to.equal(403);
-      expect(response.source).to.deep.equal(expectedUnprocessableEntityError);
     });
 
     it('should throw a 422 JSONAPI error if user there is a validation error on the campaign', async () => {
@@ -132,20 +123,11 @@ describe('Unit | Application | Controller | Campaign', () => {
       const request = { auth: { credentials: { userId: 51423 } } };
       usecases.createCampaign.rejects(new Error());
 
-      const expectedInternalServerError = {
-        errors: [{
-          detail: 'Une erreur inattendue est survenue lors de la création de la campagne',
-          status: '500',
-          title: 'Internal Server Error'
-        }]
-      };
-
       // when
       const response = await campaignController.save(request, hFake);
 
       // then
       expect(response.statusCode).to.equal(500);
-      expect(response.source).to.deep.equal(expectedInternalServerError);
     });
 
   });
@@ -201,7 +183,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(response.source).to.deep.equal('csv;result');
     });
 
-    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', async () => {
+    it('should throw a 403 error if user is not authorized to create a campaign', async () => {
       // given
       const campaignId = 2;
       const request = {
@@ -215,20 +197,11 @@ describe('Unit | Application | Controller | Campaign', () => {
       const errorMessage = 'Vous ne pouvez pas accéder à cette campagne';
       usecases.getResultsCampaignInCSVFormat.rejects(new UserNotAuthorizedToGetCampaignResultsError(errorMessage));
 
-      const expectedUnprocessableEntityError = {
-        errors: [{
-          detail: errorMessage,
-          status: '403',
-          title: 'Forbidden Error'
-        }]
-      };
-
       // when
       const response = await campaignController.getCsvResults(request, hFake);
 
       // then
       expect(response.statusCode).to.equal(403);
-      expect(response.source).to.deep.equal(expectedUnprocessableEntityError);
     });
   });
 

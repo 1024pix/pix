@@ -4,9 +4,7 @@ const tokenService = require('../../../lib/domain/services/token-service');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const {
-  UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToGetCampaignResultsError,
-  EntityValidationError,
 } = require('../../domain/errors');
 
 const JSONAPI = require('../../interfaces/jsonapi');
@@ -30,18 +28,7 @@ module.exports = {
       .then((createdCampaign) => {
         return h.response(campaignSerializer.serialize(createdCampaign)).created();
       })
-      .catch((error) => {
-        if (error instanceof UserNotAuthorizedToCreateCampaignError) {
-          return h.response(JSONAPI.forbiddenError(error.message)).code(403);
-        }
-
-        if (error instanceof EntityValidationError) {
-          return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
-        }
-
-        logger.error(error);
-        return h.response(JSONAPI.internalError('Une erreur inattendue est survenue lors de la création de la campagne')).code(500);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   getByCode(request, h) {
