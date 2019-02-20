@@ -1,6 +1,5 @@
 const usecases = require('../../domain/usecases');
-const controllerReplies = require('../../infrastructure/controller-replies');
-const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
@@ -9,9 +8,6 @@ module.exports = {
     const certificationCenterId = request.payload.data.attributes['certification-center-id'];
     return usecases.createCertificationCenterMembership({ userId, certificationCenterId })
       .then((membership) => h.response(membership).created())
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 };

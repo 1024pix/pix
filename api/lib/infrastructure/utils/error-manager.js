@@ -1,7 +1,21 @@
 const DomainErrors = require('../../domain/errors');
 const InfraErrors = require('../errors');
+const errorSerializer = require('../serializers/jsonapi/error-serializer');
+const logger = require('../logger');
 
-function mapToInfrastructureErrors(error) {
+function send(h, error) {
+  const mappedError = _mapToInfrastructureErrors(error);
+
+  if (mappedError instanceof InfraErrors.InfrastructureError) {
+    return h.response(errorSerializer.serialize(mappedError)).code(mappedError.code);
+  }
+
+  logger.error(error);
+  const defaultError = new InfraErrors.InfrastructureError(error.message);
+  return h.response(errorSerializer.serialize(defaultError)).code(defaultError.code);
+}
+
+function _mapToInfrastructureErrors(error) {
   if (error instanceof DomainErrors.ChallengeAlreadyAnsweredError) {
     return new InfraErrors.ConflictError('This challenge has already been answered.');
   }
@@ -23,16 +37,19 @@ function mapToInfrastructureErrors(error) {
   if (error instanceof DomainErrors.AlreadyExistingMembershipError) {
     return new InfraErrors.BadRequestError('Ce membre est déjà lié à ce centre de certification.');
   }
-  if(error instanceof DomainErrors.ForbiddenAccess) {
+  if (error instanceof DomainErrors.ForbiddenAccess) {
     return new InfraErrors.ForbiddenError(error.message);
   }
   if (error instanceof DomainErrors.MembershipCreationError) {
     return new InfraErrors.BadRequestError(error.message);
+  }
+  if (error instanceof DomainErrors.AssessmentStartError) {
+    return new InfraErrors.ConflictError(error.message);
   }
 
   return error;
 }
 
 module.exports = {
-  mapToInfrastructureErrors,
+  send,
 };

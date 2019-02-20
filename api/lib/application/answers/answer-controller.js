@@ -11,7 +11,7 @@ const smartPlacementAssessmentRepository =
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
 const { NotFoundError } = require('../../domain/errors');
-const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 function _updateExistingAnswer(existingAnswer, newAnswer) {
   return solutionRepository
@@ -51,10 +51,7 @@ module.exports = {
       .then((answer) => {
         return h.response(answerSerializer.serialize(answer)).created();
       })
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   async get(request, h) {
@@ -91,7 +88,7 @@ module.exports = {
               return _updateExistingAnswer(existingAnswer, updatedAnswer);
             }
           })
-          .catch(controllerReplies(h).error);
+          .catch((error) => errorManager.send(h, error));
       });
   },
 
