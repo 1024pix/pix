@@ -181,13 +181,7 @@ describe('Unit | Controller | course-controller', () => {
         const response = await courseController.save(request, hFake);
 
         // then
-        expect(response.source).to.deep.equal({
-          errors: [{
-            status: '403',
-            detail: 'The user cannot be certified.',
-            title: 'User not authorized to certify'
-          }]
-        });
+        expect(response.statusCode).to.equal(403);
       });
     });
 

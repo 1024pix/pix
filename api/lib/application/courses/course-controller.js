@@ -1,15 +1,9 @@
-const Boom = require('boom');
-
 const usecases = require('../../domain/usecases');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const courseService = require('../../../lib/domain/services/course-service');
-const { NotFoundError } = require('../../../lib/domain/errors');
-const { UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
-const JSONAPIError = require('jsonapi-serializer').Error;
-
-const logger = require('../../infrastructure/logger');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 function _fetchCourses(query) {
   if (query.isAdaptive === 'true') {
@@ -23,30 +17,19 @@ function _fetchCourses(query) {
 
 module.exports = {
 
-  list(request) {
+  list(request, h) {
     return _fetchCourses(request.query)
       .then(courseSerializer.serialize)
-      .catch((err) => {
-        logger.error(err);
-        throw Boom.badImplementation(err);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
-  get(request) {
+  get(request, h) {
     const courseId = request.params.id;
 
     return courseService
       .getCourse(courseId)
       .then(courseSerializer.serialize)
-      .catch((err) => {
-        if (err instanceof NotFoundError) {
-          throw Boom.notFound(err);
-        }
-
-        logger.error(err);
-
-        throw Boom.badImplementation(err);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   save(request, h) {
@@ -59,27 +42,7 @@ module.exports = {
 
         return created ? h.response(serialized).created() : serialized;
       })
-      .catch((err) => {
-        if (err instanceof UserNotAuthorizedToCertifyError) {
-          const errorHttpStatusCode = 403;
-          const jsonApiError = new JSONAPIError({
-            status: errorHttpStatusCode.toString(),
-            title: 'User not authorized to certify',
-            detail: 'The user cannot be certified.'
-          });
-          return h.response(jsonApiError).code(errorHttpStatusCode);
-        } else if (err instanceof NotFoundError) {
-          const errorHttpStatusCode = 404;
-          const jsonApiError = new JSONAPIError({
-            status: errorHttpStatusCode.toString(),
-            title: 'Session not found',
-            detail: 'The access code given do not correspond to session.'
-          });
-          return h.response(jsonApiError).code(errorHttpStatusCode);
-        }
-        logger.error(err);
-        throw Boom.badImplementation(err);
-      });
+      .catch((error) => errorManager.send(h, error));
   }
 
 };
