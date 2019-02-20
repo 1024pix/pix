@@ -1,6 +1,5 @@
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
-const infraErrors = require('../../infrastructure/errors');
 
 const smartPlacementAssessmentRepository = require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');

@@ -164,33 +164,13 @@ describe('Unit | Controller | user-controller', () => {
         usecases.createUser.rejects(raisedError);
       });
 
-      it('should reply with a badImplementation', async () => {
-        // given
-        const expectedError = {
-          errors: [
-            {
-              status: '500',
-              title: 'Internal Server Error',
-              detail: 'Une erreur est survenue lors de la création de l’utilisateur'
-            }
-          ]
-        };
-
+      it('should reply with a 500 error', async () => {
         // when
         const response = await userController.save(request, hFake);
 
         // then
-        expect(response.source).to.deep.equal(expectedError);
+        expect(response.statusCode).to.equal(500);
       });
-
-      it('should log the error', async () => {
-        // when
-        await userController.save(request, hFake);
-
-        // then
-        expect(logger.error).to.have.been.calledWith(raisedError);
-      });
-
     });
   });
 

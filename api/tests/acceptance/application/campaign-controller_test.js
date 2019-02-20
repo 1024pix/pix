@@ -105,7 +105,6 @@ describe('Acceptance | API | Campaigns', () => {
 
       // then
       expect(response.statusCode).to.equal(403);
-      expect(response.result.errors[0].title).to.equal('Forbidden Error');
     });
 
     it('should return 403 Unauthorized when a user try to create a campaign with a profile not shared with his organization', async function() {
@@ -136,7 +135,6 @@ describe('Acceptance | API | Campaigns', () => {
 
       // then
       expect(response.statusCode).to.equal(403);
-      expect(response.result.errors[0].title).to.equal('Forbidden Error');
     });
 
   });
