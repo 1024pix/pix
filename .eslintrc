@@ -21,7 +21,7 @@ rules:
     - unix
   max-statements:
     - 1
-    - { max: 20 }
+    - { max: 50 }
   "mocha/no-exclusive-tests":
     - 2
   "mocha/no-identical-title":

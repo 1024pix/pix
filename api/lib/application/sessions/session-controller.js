@@ -7,8 +7,7 @@ const { NotFoundError, EntityValidationError } = require('../../domain/errors');
 const logger = require('../../infrastructure/logger');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const JSONAPI = require('../../interfaces/jsonapi');
-const controllerReplies = require('../../infrastructure/controller-replies');
-const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
@@ -17,8 +16,7 @@ module.exports = {
       const session = await sessionService.find();
       return serializer.serialize(session);
     } catch(error) {
-      const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-      return controllerReplies(h).error(mappedError);
+      return errorManager.send(h, error);
     }
   },
 
@@ -49,8 +47,7 @@ module.exports = {
         return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
       }
 
-      const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-      return controllerReplies(h).error(mappedError);
+      return errorManager.send(h, error);
     }
   },
 
@@ -67,8 +64,7 @@ module.exports = {
         return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
       }
 
-      const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-      return controllerReplies(h).error(mappedError);
+      return errorManager.send(h, error);
     }
   }
 };

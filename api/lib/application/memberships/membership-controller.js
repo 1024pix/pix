@@ -1,7 +1,6 @@
 const usecases = require('../../domain/usecases');
-const controllerReplies = require('../../infrastructure/controller-replies');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
-const domainToInfraErrorsConverter = require('../../infrastructure/utils/domain-to-infra-errors-converter');
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
@@ -14,9 +13,6 @@ module.exports = {
       .then((membership) => {
         return h.response(membershipSerializer.serialize(membership)).created();
       })
-      .catch((error) => {
-        const mappedError = domainToInfraErrorsConverter.mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
-      });
+      .catch((error) => errorManager.send(h, error));
   }
 };
