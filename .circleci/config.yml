@@ -207,48 +207,32 @@ jobs:
 
   e2e_test:
     docker:
-      - image: circleci/node:8.11
+      - image: cypress/browsers:chrome67
       - image: postgres:10-alpine
         environment:
           POSTGRES_USER: circleci
-    working_directory: ~/pix
     steps:
-      - run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 zip
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-          echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list && \
-          apt-get update && \
-          apt-get install -y dbus-x11 google-chrome-stable && \
-          rm -rf /var/lib/apt/lists/*
-          DBUS_SESSION_BUS_ADDRESS=/dev/null
-          TERM=xterm
-          npm_config_loglevel=warn
-          npm_config_unsafe_perm=true
-      - checkout
       - restore_cache:
           keys:
             - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
       - run:
-          working_directory: ~/pix/high-level-tests/e2e
+          working_directory: /home/circleci/pix/high-level-tests/e2e
           command: npm install
       - run:
           background: true
           environment:
             AUTH_SECRET: 'cypress_auth_secret'
-            DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
-          command: |
-            cd ~/pix/api
-            npm start
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+          working_directory: /home/circleci/pix/api
+          command: npm start
       - run:
+          working_directory: /home/circleci/pix/mon-pix
           background: true
-          command: |
-            cd ~/pix/mon-pix
-            npm start
+          command: npm start
       - run:
           environment:
-            DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
-          working_directory: ~/pix/high-level-tests/e2e
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+          working_directory: /home/circleci/pix/high-level-tests/e2e
           command: |
             wget --retry-connrefused -T 60 -qO- http://localhost:4200
             wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
