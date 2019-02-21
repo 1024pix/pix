@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.26.1 (21/02/2019)
+
+- [#377](https://github.com/1024pix/pix/pull/377) [TECH] Suppression de l'ajout des pix gagnés lors de la migration de la table knowlege-elements.
+
 ## v2.26.0 (21/02/2019)
 
 - [#362](https://github.com/1024pix/pix/pull/362) [FEATURE] Changements visuels mineurs (PC-27).
