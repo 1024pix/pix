@@ -8,7 +8,7 @@ module('Unit | Components | routes/authenticated/sessions/new-item', function(ho
   let component;
 
   hooks.beforeEach(function() {
-    component = this.owner.lookup('component:routes/authenticated/sessions/new-item');
+    component = this.owner.lookup('component:routes/authenticated/sessions/session-form');
     component.set('session', {});
   });
 

@@ -5,7 +5,7 @@ import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 import moment from 'moment';
 
-module('Integration | Component | routes/authenticated/session | update-item', function(hooks) {
+module('Integration | Component | routes/authenticated/session | session-form', function(hooks) {
   setupRenderingTest(hooks);
   let session;
 
@@ -16,8 +16,8 @@ module('Integration | Component | routes/authenticated/session | update-item', f
     session.set('date', '2028-05-26T22:00:00.000Z');
     session.set('time', '20:00');
     session.set('examiner', 'Monsieur Rougeaud');
-    this.set('updateSessionSpy', (updatedSession) => {
-      session = updatedSession;
+    this.set('saveSessionSpy', (savedSession) => {
+      session = savedSession;
     });
     this.set('cancelSpy', () => {});
   });
@@ -27,7 +27,7 @@ module('Integration | Component | routes/authenticated/session | update-item', f
     this.set('model', session);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/update-item session=model updateSession=(action updateSessionSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`{{routes/authenticated/sessions/session-form session=model saveSession=(action saveSessionSpy) cancel=(action cancelSpy) isNewSession=false}}`);
 
     // then
     assert.dom('button[type="submit"]').exists();
@@ -45,7 +45,7 @@ module('Integration | Component | routes/authenticated/session | update-item', f
     this.set('model', session);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/update-item session=model updateSession=(action updateSessionSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`{{routes/authenticated/sessions/session-form session=model saveSession=(action saveSessionSpy) cancel=(action cancelSpy) isNewSession=false}}`);
 
     // then
     const expectedDate = moment(session.get('date')).format('DD/MM/YYYY');
@@ -57,12 +57,12 @@ module('Integration | Component | routes/authenticated/session | update-item', f
     assert.dom('#session-examiner').hasValue(session.get('examiner'));
   });
 
-  test('it should update session information when submitted', async function(assert) {
+  test('it should save session information when submitted', async function(assert) {
     // given
     this.set('model', session);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/update-item session=model updateSession=(action updateSessionSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`{{routes/authenticated/sessions/session-form session=model saveSession=(action saveSessionSpy) cancel=(action cancelSpy) isNewSession=false}}`);
 
     // then
     await fillIn('#session-room', 'New room');

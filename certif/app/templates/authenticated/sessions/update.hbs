@@ -1,7 +1,8 @@
 <div class="update-session-page">
-  {{routes/authenticated/sessions/update-item
+  {{routes/authenticated/sessions/session-form
     session=model
-    updateSession=(action 'updateSession')
+    saveSession=(action 'saveSession')
     cancel=(action 'cancel')
+    isNewSession=false
   }}
 </div>

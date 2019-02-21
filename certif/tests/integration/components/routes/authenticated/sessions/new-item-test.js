@@ -10,7 +10,7 @@ module('Integration | Component | routes/authenticated/session | new-item', func
 
   hooks.beforeEach(function() {
     session = new EmberObject({});
-    this.set('createSessionSpy', (newSession) => {
+    this.set('saveSessionSpy', (newSession) => {
       session = newSession;
     });
     this.set('cancelSpy', () => {});
@@ -18,7 +18,7 @@ module('Integration | Component | routes/authenticated/session | new-item', func
 
   test('it should contain inputs, attributes and validation button', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/sessions/new-item createSession=(action createSessionSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`{{routes/authenticated/sessions/session-form saveSession=(action saveSessionSpy) cancel=(action cancelSpy) isNewSession=true}}`);
 
     // then
     assert.dom('#session-address').exists();
@@ -36,7 +36,7 @@ module('Integration | Component | routes/authenticated/session | new-item', func
     this.set('model', session);
 
     // when
-    await render(hbs`{{routes/authenticated/sessions/new-item session=model createSession=(action createSessionSpy) cancel=(action cancelSpy)}}`);
+    await render(hbs`{{routes/authenticated/sessions/session-form session=model saveSession=(action saveSessionSpy) cancel=(action cancelSpy) isNewSession=true}}`);
 
     // then
     await fillIn('#session-address', 'New address');

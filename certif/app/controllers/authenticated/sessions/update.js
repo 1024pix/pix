@@ -2,7 +2,7 @@ import Controller from '@ember/controller'
 
 export default Controller.extend({
   actions: {
-    updateSession(session) {
+    saveSession(session) {
       return session.save().then(
         () => this.transitionToRoute('authenticated.sessions.details', session.id)
       );

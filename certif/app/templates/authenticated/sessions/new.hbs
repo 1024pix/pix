@@ -1,7 +1,8 @@
 <div class="new-campaign-page">
-  {{routes/authenticated/sessions/new-item
+  {{routes/authenticated/sessions/session-form
     session=model
-    createSession=(action 'createSession')
+    saveSession=(action 'saveSession')
     cancel=(action 'cancel')
+    isNewSession=true
   }}
 </div>
