@@ -35,7 +35,7 @@
 .challenge-statement__illustration-section {
   display: block;
   text-align: center;
-  border-top: 1px solid $iron-grey;
+  border-top: 1px solid $alto-grey;
   box-sizing: content-box;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .challenge-statement__attachments-section {
-  background-color: $gallery-grey;
+  background-color: $mercury-grey;
   text-align: center;
   padding: 20px;
 }
@@ -86,7 +86,7 @@
   height: auto;
   background-color: $white;
   box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
-  border: solid 1px $gainsboro;
+  border: solid 1px $alto-grey;
   position: absolute;
   z-index: 999;
   left: 50%;
@@ -103,7 +103,7 @@
   margin-left: -10px;
   width: 0;
   height: 0;
-  border-top: 10px solid $gainsboro;
+  border-top: 10px solid $alto-grey;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
 }

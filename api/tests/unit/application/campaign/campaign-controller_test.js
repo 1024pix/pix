@@ -6,7 +6,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const { UserNotAuthorizedToCreateCampaignError,
-  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToUpdateResourceError,
   UserNotAuthorizedToGetCampaignResultsError,
   EntityValidationError,
   NotFoundError
@@ -273,8 +273,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
       // then
       expect(campaignSerializer.serialize).to.have.been.calledWith([createdCampaign]);
-      expect(response.source).to.deep.equal(serializedCampaign);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal(serializedCampaign);
     });
 
     it('should return a 404 error if campaign is not found', async () => {
@@ -340,8 +339,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const response = await campaignController.getById(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(expectedCampaign);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal(expectedCampaign);
     });
 
     it('should throw an error when the campaign could not be retrieved', async () => {
@@ -411,8 +409,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       const response = await campaignController.update(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(updatedCampaign);
-      expect(response.statusCode).to.equal(200);
+      expect(response).to.deep.equal(updatedCampaign);
     });
 
     it('should throw an error when the campaign could not be updated', async () => {
@@ -439,7 +436,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should throw a forbiddenError when user is not authorized to update the campaign', async () => {
       // given
-      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new UserNotAuthorizedToUpdateCampaignError());
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new UserNotAuthorizedToUpdateResourceError());
 
       // when
       const response = await campaignController.update(request, hFake);

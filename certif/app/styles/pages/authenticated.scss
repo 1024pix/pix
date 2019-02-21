@@ -13,10 +13,12 @@
 }
 
 .sidebar {
+  z-index: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: $denim-gradient;
+  background: white;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
 
   &--padding-left {
     padding-left: 25px;
@@ -35,12 +37,27 @@
   }
 }
 
-.sidebar__certification-center-name {
+.sidebar__certification-center {
   margin-top: 20px;
 }
+
+.certification-center {
+  padding-top: 15px;
+
+  &__name {
+    padding-top: 8px;
+  }
+}
+
+.certification-center-label {
+  color: $dove-gray;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+}
+
 .certification-center-name {
-  color: $wild-sand;
-  font-weight: 500;
+  color: $dove-gray;
+  font-size: 0.8125rem;
 }
 
 .main-content {

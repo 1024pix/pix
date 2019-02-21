@@ -1,0 +1,16 @@
+@import '../ember-power-select/themes/bootstrap';
+$ember-power-select-border-color: #ced4da;
+$ember-power-select-default-border-radius: 0.25rem;
+$ember-power-select-trigger-ltr-padding: 0.375rem 0.75rem !default;
+$ember-power-select-line-height: 1.5 !default;
+@import "../ember-power-select";
+
+.ember-power-select-selected-item {
+  margin-left: 0;
+}
+.ember-basic-dropdown-trigger {
+  min-height: 2.375rem;
+}
+.ember-power-select-trigger {
+  line-height: 1.5;
+}

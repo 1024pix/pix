@@ -1,0 +1,41 @@
+.form {
+
+  .form-section {
+    padding: 0 20px 20px;
+
+    &:first-child {
+      padding: 20px;
+    }
+  }
+
+  .form-section--actions {
+    border-top: 1px solid $grey-border;
+    padding: 20px;
+  }
+
+  .form-field {
+
+    .form-field__label {
+
+    }
+
+    .form-field__text {
+
+    }
+
+    .form-field__select {
+
+      &.is-invalid > .ember-power-select-trigger {
+        border-color: #dc3545;
+      }
+    }
+
+    .form-field__error {
+      width: 100%;
+      margin-top: 0.25rem;
+      font-size: 0.8em;
+      color: #dc3545;
+    }
+  }
+}
+

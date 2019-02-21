@@ -1,0 +1,19 @@
+{{#if edition}}
+  <div class='row form-group certification-info-select'>
+    <label class='{{leftWidth}} col-form-label' for={{id}}>{{label}}</label>
+    <div class='{{rightWidth}} certificate'>
+      {{#x-select value=value on-change=(action 'selectOption') as |xs|}}
+        {{#each values as |choice|}}
+          {{#xs.option value=choice}}{{choice}}{{/xs.option}}
+        {{/each}}
+      {{/x-select}}
+    </div>
+  </div>
+{{else}}
+  <div class='row certification-info-select'>
+    <div class='{{leftWidth}} certification-info-label'>{{label}}</div>
+    <div class='{{rightWidth}} certification-info-value'>
+      {{value}}
+    </div>
+  </div>
+{{/if}}

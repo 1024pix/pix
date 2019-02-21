@@ -298,7 +298,7 @@ describe('Unit | Controller | answer-controller', () => {
       it('should get existing answer', () => {
         // then
         return expect(answerRepository.findByChallengeAndAssessment)
-          .to.have.been.calledWith(challengeId, assessmentId);
+          .to.have.been.calledWith({ challengeId, assessmentId });
       });
 
       it('should call the smartPlacementAssessmentRepository to try and get the assessment', () => {
@@ -308,10 +308,8 @@ describe('Unit | Controller | answer-controller', () => {
 
       it('should return no content', () => {
         // then
-        expect(response.source).to.be.undefined;
-        expect(response.statusCode).to.equal(204);
+        expect(response).to.be.null;
       });
     });
   });
 });
-

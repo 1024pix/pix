@@ -116,6 +116,8 @@ module.exports = function(environment) {
     ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
     ENV.APP.useDelay = false;
+    ENV.APP.GOOGLE_RECAPTCHA_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+    ENV.RECAPTCHA_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
   }
 
   if (environment === 'production') {

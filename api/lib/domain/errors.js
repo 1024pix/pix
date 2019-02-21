@@ -34,7 +34,7 @@ class UserNotAuthorizedToCreateCampaignError extends DomainError {
   }
 }
 
-class UserNotAuthorizedToUpdateCampaignError extends DomainError {
+class UserNotAuthorizedToUpdateResourceError extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -176,12 +176,6 @@ class NotCompletedAssessmentError extends DomainError {
   }
 }
 
-class NotElligibleToQmailError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
 class NotFoundError extends DomainError {
   constructor(message) {
     super(message);
@@ -303,7 +297,6 @@ module.exports = {
   MembershipCreationError,
   MissingOrInvalidCredentialsError,
   NotCompletedAssessmentError,
-  NotElligibleToQmailError,
   NotFoundError,
   ObjectValidationError,
   PasswordNotMatching,
@@ -311,7 +304,7 @@ module.exports = {
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
-  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToUpdateResourceError,
   UserNotAuthorizedToGetCampaignResultsError,
   UserNotFoundError,
   WrongDateFormatError,

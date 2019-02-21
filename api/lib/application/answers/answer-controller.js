@@ -48,8 +48,9 @@ module.exports = {
           answer: newAnswer,
         });
       })
-      .then(answerSerializer.serialize)
-      .then(controllerReplies(h).created)
+      .then((answer) => {
+        return h.response(answerSerializer.serialize(answer)).created();
+      })
       .catch((error) => {
         const mappedError = mapToInfrastructureErrors(error);
         return controllerReplies(h).error(mappedError);
@@ -68,7 +69,7 @@ module.exports = {
 
     const updatedAnswer = answerSerializer.deserializeToBookshelfAnswer(request.payload);
     return answerRepository
-      .findByChallengeAndAssessment(updatedAnswer.get('challengeId'), updatedAnswer.get('assessmentId'))
+      .findByChallengeAndAssessment({ challengeId: updatedAnswer.get('challengeId'), assessmentId: updatedAnswer.get('assessmentId') })
       .then((existingAnswer) => {
 
         if (!existingAnswer) {
@@ -78,10 +79,8 @@ module.exports = {
         // XXX if assessment is a Smart Placement, then return 204 and do not update answer. If not proceed normally.
         return isAssessmentSmartPlacement(existingAnswer.get('assessmentId'))
           .then((assessmentIsSmartPlacement) => {
-
             if (assessmentIsSmartPlacement) {
-              return controllerReplies(h).noContent();
-
+              return null;
             } else {
               return _updateExistingAnswer(existingAnswer, updatedAnswer);
             }
@@ -92,7 +91,7 @@ module.exports = {
 
   findByChallengeAndAssessment(request) {
     return answerRepository
-      .findByChallengeAndAssessment(request.url.query.challenge, request.url.query.assessment)
+      .findByChallengeAndAssessment({ challengeId: request.url.query.challenge, assessmentId: request.url.query.assessment })
       .then(answerSerializer.serializeFromBookshelfAnswer)
       .catch((err) => {
         logger.error(err);

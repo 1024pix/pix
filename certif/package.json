@@ -1,6 +1,6 @@
 {
   "name": "pix-certif",
-  "version": "2.25.0",
+  "version": "2.26.0",
   "private": true,
   "description": "Plateforme en ligne de gestion des sessions de certification",
   "repository": {
@@ -56,13 +56,13 @@
     "ember-resolver": "^5.0.1",
     "ember-simple-auth": "^1.6.0",
     "ember-source": "~3.4.0",
-    "ember-table": "^2.0.0-beta.4",
     "eslint-plugin-ember": "^5.2.0",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.7.1"
   },
   "dependencies": {
     "ember-flatpickr": "^2.12.0",
+    "ember-table": "github:1024pix/ember-table",
     "lodash": "latest"
   }
 }

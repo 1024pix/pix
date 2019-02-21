@@ -30,6 +30,7 @@ module.exports = function buildSkill({
     'recofJCxg0NqTqTdP',
   ],
   createdTime = '2018-01-31T12:41:07.000Z',
+  pixValue = 2,
 } = {}) {
 
   return {
@@ -49,6 +50,7 @@ module.exports = function buildSkill({
       'Nom': nom,
       'Record Id': recordId,
       'Compétence (via Tube)': compétenceViaTube,
+      'PixValue': pixValue,
     },
     'createdTime': createdTime,
   };

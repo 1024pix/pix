@@ -6,11 +6,6 @@ export default BaseRoute.extend({
   hasSeenCheckpoint: false,
   campaignCode: null,
 
-  _hasReachedCheckpoint(assessment) {
-    return assessment.get('answers.length') > 0 &&
-      assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT === 0;
-  },
-
   beforeModel({ queryParams }) {
     this.set('hasSeenCheckpoint', queryParams.hasSeenCheckpoint);
     this.set('campaignCode', queryParams.campaignCode);
@@ -21,24 +16,15 @@ export default BaseRoute.extend({
     return this.get('store')
       .queryRecord('challenge', { assessmentId: assessment.get('id') })
       .then((nextChallenge) => {
-        if (nextChallenge) {
-          const nbCurrentAnswers = assessment.get('nbCurrentAnswers');
 
-          if (assessment.get('hasCheckpoints') && this._hasReachedCheckpoint(assessment) && !this.get('hasSeenCheckpoint')) {
-            assessment.set('nbCurrentAnswers', 0);
-            return this.replaceWith('assessments.checkpoint', assessment.get('id'));
-          }
-
-          assessment.set('nbCurrentAnswers', nbCurrentAnswers + 1);
-
-          this.replaceWith('assessments.challenge', assessment.get('id'), nextChallenge.get('id'));
-        } else {
-          if (assessment.get('hasCheckpoints') && !this.get('hasSeenCheckpoint') && !assessment.get('isCompleted')) {
-            return this.replaceWith('assessments.checkpoint', assessment.get('id'), { queryParams: { finalCheckpoint: true } });
-          }
-
-          this.replaceWith('assessments.rating', assessment.get('id'));
+        if (assessment.isPlacement || assessment.isDemo || assessment.isCertification || assessment.isPreview) {
+          return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
         }
+        if (assessment.isSmartPlacement) {
+          return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
+        }
+
+        throw new Error('This transition should not be happening');
       });
   },
 
@@ -47,5 +33,81 @@ export default BaseRoute.extend({
       // allows the loading template to be shown or not
       return originRoute._router.currentRouteName !== 'assessments.challenge';
     }
-  }
+  },
+
+  _resumeAssessmentWithoutCheckpoint(assessment, nextChallenge) {
+    const {
+      nextChallengeId,
+      assessmentHasNoMoreQuestions,
+      assessmentIsCompleted
+    } = this._parseState(assessment, nextChallenge);
+
+    if (assessmentHasNoMoreQuestions || assessmentIsCompleted) {
+      return this._rateAssessment(assessment);
+    }
+    return this._routeToNextChallenge(assessment, nextChallengeId);
+  },
+
+  _resumeAssessmentWithCheckpoint(assessment, nextChallenge) {
+    const {
+      nextChallengeId,
+      assessmentHasNoMoreQuestions,
+      assessmentIsCompleted,
+      userHasSeenCheckpoint,
+      userHasReachedCheckpoint
+    } = this._parseState(assessment, nextChallenge);
+
+    if (assessmentIsCompleted) {
+      return this._rateAssessment(assessment);
+    }
+    if (assessmentHasNoMoreQuestions && userHasSeenCheckpoint) {
+      return this._rateAssessment(assessment);
+    }
+    if (assessmentHasNoMoreQuestions && !userHasSeenCheckpoint) {
+      return this._routeToFinalCheckpoint(assessment);
+    }
+    if (userHasReachedCheckpoint && !userHasSeenCheckpoint) {
+      return this._routeToCheckpoint(assessment);
+    }
+    if (userHasReachedCheckpoint && userHasSeenCheckpoint) {
+      return this._routeToNextChallenge(assessment, nextChallengeId);
+    }
+    return this._routeToNextChallenge(assessment, nextChallengeId);
+  },
+
+  _parseState(assessment, nextChallenge) {
+    const assessmentHasNoMoreQuestions = !nextChallenge;
+    const userHasSeenCheckpoint = this.get('hasSeenCheckpoint');
+    const userHasReachedCheckpoint = assessment.get('answers.length') > 0 && assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT === 0;
+    const nextChallengeId = !assessmentHasNoMoreQuestions && nextChallenge.get('id');
+    const assessmentIsCompleted = assessment.get('isCompleted');
+
+    return {
+      assessmentHasNoMoreQuestions,
+      userHasSeenCheckpoint,
+      userHasReachedCheckpoint,
+      nextChallengeId,
+      nextChallenge,
+      assessmentIsCompleted
+    };
+  },
+
+  _routeToNextChallenge(assessment, nextChallengeId) {
+    assessment.incrementProperty('nbCurrentAnswers');
+    return this.replaceWith('assessments.challenge', assessment.get('id'), nextChallengeId);
+  },
+
+  _rateAssessment(assessment) {
+    return this.replaceWith('assessments.rating', assessment.get('id'));
+  },
+
+  _routeToCheckpoint(assessment) {
+    assessment.set('nbCurrentAnswers', 0);
+    return this.replaceWith('assessments.checkpoint', assessment.get('id'));
+  },
+
+  _routeToFinalCheckpoint(assessment) {
+    return this.replaceWith('assessments.checkpoint', assessment.get('id'), { queryParams: { finalCheckpoint: true } });
+  },
+
 });

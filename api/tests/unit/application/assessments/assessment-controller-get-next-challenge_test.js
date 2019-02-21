@@ -1,7 +1,6 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
-const skillService = require('../../../../lib/domain/services/skills-service');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -50,7 +49,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         skills: assessmentSkills,
       };
 
-      sinon.stub(skillService, 'saveAssessmentSkills').resolves();
       sinon.stub(assessmentRepository, 'get');
       sinon.stub(assessmentRepository, 'save');
       sinon.stub(challengeRepository, 'get').resolves({});
@@ -85,7 +83,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         const response = await assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } }, hFake);
 
         // then
-        expect(response.source).to.deep.equal({ data: null });
+        expect(response).to.deep.equal({ data: null });
       });
     });
 
@@ -124,7 +122,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           const response = await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
 
           // then
-          expect(response.source).to.deep.equal({ data: null });
+          expect(response).to.deep.equal({ data: null });
         });
       });
     });
@@ -178,7 +176,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         const response = await assessmentController.getNextChallenge({ params: { id: 12 } }, hFake);
 
         // then
-        expect(response.source).to.deep.equal({ data: null });
+        expect(response).to.deep.equal({ data: null });
       });
     });
 
@@ -227,4 +225,3 @@ function _generateFailedSkills() {
 
   return skill;
 }
-

@@ -5,7 +5,7 @@ const tokenService = require('../../../lib/domain/services/token-service');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const {
   UserNotAuthorizedToCreateCampaignError,
-  UserNotAuthorizedToUpdateCampaignError,
+  UserNotAuthorizedToUpdateResourceError,
   UserNotAuthorizedToGetCampaignResultsError,
   EntityValidationError,
   NotFoundError
@@ -30,7 +30,7 @@ module.exports = {
       })
       .then((campaign) => usecases.createCampaign({ campaign }))
       .then((createdCampaign) => {
-        return h.response(campaignSerializer.serialize(createdCampaign)).code(201);
+        return h.response(campaignSerializer.serialize(createdCampaign)).created();
       })
       .catch((error) => {
         if (error instanceof UserNotAuthorizedToCreateCampaignError) {
@@ -53,7 +53,6 @@ module.exports = {
       .then((campaign) => {
         return campaignSerializer.serialize([campaign]);
       })
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
         return controllerReplies(h).error(mappedError);
@@ -66,7 +65,6 @@ module.exports = {
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getCampaign({ campaignId, options })
       .then((campaign) => campaignSerializer.serialize(campaign, tokenForCampaignResults))
-      .then(controllerReplies(h).ok)
       .catch((error) => {
         const mappedError = _mapToInfraError(error);
         return controllerReplies(h).error(mappedError);
@@ -103,13 +101,7 @@ module.exports = {
 
     return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
       .then(campaignSerializer.serialize)
-      .then(controllerReplies(h).ok)
       .catch((error) => {
-        if (error instanceof UserNotAuthorizedToUpdateCampaignError) {
-          const infraError = new infraErrors.ForbiddenError(error.message);
-          return controllerReplies(h).error(infraError);
-        }
-
         const mappedError = _mapToInfraError(error);
         return controllerReplies(h).error(mappedError);
       });
@@ -126,7 +118,10 @@ function _validateFilters(filters) {
 }
 
 function _mapToInfraError(error) {
-  if (error instanceof NotFoundError) {
+  if (error instanceof UserNotAuthorizedToUpdateResourceError) {
+    return new infraErrors.ForbiddenError(error.message);
+  }
+  else if (error instanceof NotFoundError) {
     return new infraErrors.NotFoundError(error.message);
   }
 

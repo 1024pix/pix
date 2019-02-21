@@ -39,20 +39,23 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         await click('.campaign-landing-page__start-button');
       });
 
-      it('should propose to reconnect', async function() {
+      it('should propose to signup', async function() {
         // then
         return andThen(() => {
-          expect(currentURL()).to.contains('/connexion');
+          expect(currentURL()).to.contains('/inscription');
         });
       });
 
-      it('should redirect to assessment when user is logging in', async function() {
+      it('should redirect to assessment when user is signing up', async function() {
         // given
-        fillIn('#pix-email', 'jane@acme.com');
-        fillIn('#pix-password', 'Jane1234');
+        await fillIn('#firstName', 'Jane');
+        await fillIn('#lastName', 'Acme');
+        await fillIn('#email', 'jane@acme.com');
+        await fillIn('#password', 'Jane1234');
+        await click('#pix-cgu');
 
         // when
-        click('.signin-form__submit_button');
+        await click('.button');
 
         // then
         return andThen(() => {
@@ -154,8 +157,8 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
   });
 
   describe('Resume 2 campaigns', function() {
-
     beforeEach(async function() {
+
       server.create('assessment', {
         id: 1,
         type: 'SMART_PLACEMENT',
@@ -185,13 +188,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
       });
 
       await authenticateAsSimpleUser();
-      await visit('/campagnes/AZERTY1');
-      await click('.challenge-actions__action-skip');
-      await completeCampaignByCode('AZERTY1');
 
-      await visit('/campagnes/AZERTY2');
-      await click('.challenge-actions__action-skip');
-      await completeCampaignByCode('AZERTY2');
     });
 
     context('When user has finished but not shared 2 campaigns', function() {
@@ -220,17 +217,11 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     context('When user has finished both campaigns but shared only 1 campaign', function() {
 
       beforeEach(async function() {
-        server.create('campaignParticipation', {
-          id: 1,
-          isShared: true,
-          campaignId: 1,
-          assessmentId: 1,
-        });
+        await visit('/campagnes/AZERTY1');
+        await click('.skill-review__share__button');
       });
 
       it('should show thanks message for the first campaign', async function() {
-        // when
-        await visit('/campagnes/AZERTY1');
 
         // then
         return andThen(() => {

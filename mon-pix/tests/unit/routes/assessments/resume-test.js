@@ -43,7 +43,7 @@ describe('Unit | Route | Assessments | Resume', function() {
     let assessment;
 
     beforeEach(function() {
-      assessment = EmberObject.create({ id: 123 });
+      assessment = EmberObject.create({ id: 123, isDemo: true });
     });
 
     it('should get the next challenge of the assessment', function() {
@@ -72,7 +72,8 @@ describe('Unit | Route | Assessments | Resume', function() {
       context('when assessment is a SMART_PLACEMENT', function() {
 
         beforeEach(function() {
-          assessment.type = 'SMART_PLACEMENT';
+          assessment.isSmartPlacement = true;
+          assessment.isDemo = false;
           assessment.hasCheckpoints = true;
         });
 
@@ -135,6 +136,9 @@ describe('Unit | Route | Assessments | Resume', function() {
       });
 
       context('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function() {
+        beforeEach(() => {
+          assessment.isPlacement = true;
+        });
         it('should redirect to the challenge view', function() {
           // when
           const promise = route.afterModel(assessment);
@@ -157,7 +161,8 @@ describe('Unit | Route | Assessments | Resume', function() {
       context('when assessment is a SMART_PLACEMENT', function() {
 
         beforeEach(function() {
-          assessment.type = 'SMART_PLACEMENT';
+          assessment.isSmartPlacement = true;
+          assessment.isDemo = false;
           assessment.hasCheckpoints = true;
         });
 
@@ -226,6 +231,9 @@ describe('Unit | Route | Assessments | Resume', function() {
       });
 
       context('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function() {
+        beforeEach(() => {
+          assessment.isPlacement = true;
+        });
         it('should redirect to assessment rating page', function() {
           // when
           const promise = route.afterModel(assessment);

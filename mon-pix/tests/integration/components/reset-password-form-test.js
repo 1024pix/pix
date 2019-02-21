@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import wait from 'ember-test-helpers/wait';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
@@ -23,16 +22,15 @@ describe('Integration | Component | reset password form', function() {
     describe('When component is rendered,', function() {
 
       [
-        { item: '.reset-password-form' },
-        { item: '.reset-password-form__heading' },
-        { item: '.reset-password-form__user-details' },
-        { item: '.reset-password-form__instruction' },
-        { item: '.reset-password-form__password-textfield-container' },
+        { item: '.pix-logo__link' },
+        { item: '.sign-form-header__title' },
+        { item: '.sign-form-header__instruction' },
+        { item: '.sign-form__form' },
         { item: '.form-textfield__label' },
-        { item: '.reset-password__textfield' },
-        { item: '.form-textfield__input-field-container ' }
+        { item: '.form-textfield__input-field-container' },
+        { item: '.button' }
       ].forEach(({ item }) => {
-        it(`should contains  a item with class: ${item}`, function() {
+        it(`should contains a item with class: ${item}`, function() {
           // when
           this.render(hbs`{{reset-password-form}}`);
 
@@ -50,7 +48,7 @@ describe('Integration | Component | reset password form', function() {
         this.render(hbs`{{reset-password-form user=user}}`);
 
         // then
-        expect(this.$('.reset-password-form__user-details').text().trim()).to.equal(user.fullName);
+        expect(this.$('.sign-form-header__title').text().trim()).to.equal(user.fullName);
       });
 
     });
@@ -62,7 +60,7 @@ describe('Integration | Component | reset password form', function() {
         this.render(hbs`{{reset-password-form}}`);
 
         // then
-        expect(this.$('.reset-password-form__submit-button')).to.have.lengthOf(1);
+        expect(this.$('.button')).to.have.lengthOf(1);
       });
 
       describe('Saving behavior', function() {
@@ -83,7 +81,7 @@ describe('Integration | Component | reset password form', function() {
           isSaveMethodCalled = false;
         });
 
-        it('should save the new password, when button is clicked', function() {
+        it('should save the new password, when button is clicked', async function() {
           // given
           const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save });
           this.set('user', user);
@@ -95,18 +93,16 @@ describe('Integration | Component | reset password form', function() {
           this.$(PASSWORD_INPUT_CLASS).val(validPassword);
           this.$(PASSWORD_INPUT_CLASS).change();
 
-          this.$('.reset-password-form__submit-button').click();
+          await this.$('.button').click();
 
           // then
-          return wait().then(() => {
-            expect(isSaveMethodCalled).to.be.true;
-            expect(this.get('user.password')).to.eql(null);
-            expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal('');
-            expect(this.$('.form-textfield__message--success')).to.have.lengthOf(1);
-          });
+          expect(isSaveMethodCalled).to.be.true;
+          expect(this.get('user.password')).to.eql(null);
+          expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal(undefined);
+          expect(this.$('.sign-form__message')).to.have.lengthOf(1);
         });
 
-        it('should get an error, when button is clicked and saving return error', function() {
+        it('should get an error, when button is clicked and saving return error', async function() {
           // given
           const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save: saveWithRejection });
           this.set('user', user);
@@ -118,15 +114,13 @@ describe('Integration | Component | reset password form', function() {
           this.$(PASSWORD_INPUT_CLASS).val(validPassword);
           this.$(PASSWORD_INPUT_CLASS).change();
 
-          this.$('.reset-password-form__submit-button').click();
+          await this.$('.button').click();
 
           // then
-          return wait().then(() => {
-            expect(isSaveMethodCalled).to.be.true;
-            expect(this.get('user.password')).to.eql(validPassword);
-            expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal(validPassword);
-            expect(this.$('.form-textfield__message--error')).to.have.lengthOf(1);
-          });
+          expect(isSaveMethodCalled).to.be.true;
+          expect(this.get('user.password')).to.eql(validPassword);
+          expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal(validPassword);
+          expect(this.$('.form-textfield__message--error')).to.have.lengthOf(1);
         });
 
       });

@@ -11,7 +11,7 @@ const certificationCourseSerializer = require('../../../../lib/infrastructure/se
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 
-describe('Integration | Controller | course-controller', () => {
+describe('Unit | Controller | course-controller', () => {
 
   let server;
 
@@ -202,11 +202,10 @@ describe('Integration | Controller | course-controller', () => {
         certificationCourseSerializer.serialize.resolves({});
 
         // when
-        const response = await courseController.save(request, hFake);
+        await courseController.save(request, hFake);
 
         // then
         sinon.assert.calledWith(certificationCourseSerializer.serialize, existingCertificationCourse);
-        expect(response.statusCode).to.equal(200);
       });
 
     });

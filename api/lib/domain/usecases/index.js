@@ -29,7 +29,6 @@ const dependencies = {
   scoringService: require('../../domain/services/scoring/scoring-service'),
   settings: require('../../settings'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
-  skillsService: require('../../domain/services/skills-service'),
   smartPlacementAssessmentRepository: require('../../infrastructure/repositories/smart-placement-assessment-repository'),
   smartPlacementKnowledgeElementRepository: require('../../infrastructure/repositories/smart-placement-knowledge-element-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),
@@ -102,6 +101,7 @@ module.exports = injectDependencies({
   updateCampaign: require('./update-campaign'),
   updateCertification: require('./update-certification'),
   updateOrganizationInformation: require('./update-organization-information'),
+  updateSession: require('./update-session'),
   updateUserPassword: require('./update-user-password'),
   writeOrganizationSharedProfilesAsCsvToStream: require('./write-organization-shared-profiles-as-csv-to-stream'),
 });

@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.26.0 (21/02/2019)
+
+- [#362](https://github.com/1024pix/pix/pull/362) [FEATURE] Changements visuels mineurs (PC-27).
+- [#368](https://github.com/1024pix/pix/pull/368) [FEATURE] Ajout du formulaire de modification de session (PC-10).
+- [#356](https://github.com/1024pix/pix/pull/356) [FEATURE] Sauvegarder la valeur des Pix quand on répond à une question (PF-495).
+- [#359](https://github.com/1024pix/pix/pull/359) [FEATURE] Redirection vers la page d'inscription lorsqu'un utilisateur non authentifié veut commencer une campagne (PF-459).
+- [#372](https://github.com/1024pix/pix/pull/372) [TECH] Import des sources de Pix Admin dans le repository.
+- [#364](https://github.com/1024pix/pix/pull/364) [TECH] Refacto des transition de reprise des assessments.
+- [#370](https://github.com/1024pix/pix/pull/370) [TECH] Déployer une seule application "front" pour les "review apps".
+- [#350](https://github.com/1024pix/pix/pull/350) [TECH] Suppression de la table "Skills".
+- [#363](https://github.com/1024pix/pix/pull/363) [TECH] Ajouter des tests end-to-end en local avec Cypress (PF-500).
+- [#367](https://github.com/1024pix/pix/pull/367) [BSR] Suppression de l'utilisation de controllerReplies pour les codes 200, 201 et 204.
+- [#358](https://github.com/1024pix/pix/pull/358) [BSR] Suppression du code obsolète inutile lié à la modalité d'épreuve QMAIL.
+
 ## v2.25.0 (14/02/2019)
 
 - [#361](https://github.com/1024pix/pix/pull/361) [FEATURE] Amélioration de la page de création de session (PC-32).
