@@ -2,6 +2,7 @@ const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper')
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const _ = require('lodash');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -89,6 +90,64 @@ describe('Integration | Repository | Campaign Participation', () => {
       });
     });
 
+  });
+
+  describe('#count', () => {
+
+    let campaign;
+
+    beforeEach(() => {
+      campaign = databaseBuilder.factory.buildCampaign({});
+
+      _.times(2, () => {
+        return databaseBuilder.factory.buildCampaignParticipation({ campaignId: 666 });
+      });
+      _.times(5, () => {
+        return databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          isShared: true,
+        });
+      });
+      _.times(3, () => {
+        return databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          isShared: false,
+        });
+      });
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    it('should count all campaignParticipations', async () => {
+      // when
+      const count = await campaignParticipationRepository.count();
+
+      // then
+      expect(count).to.equal(10);
+    });
+
+    it('should count all campaignParticipations by campaign', async () => {
+      // when
+      const count = await campaignParticipationRepository.count({ campaignId: campaign.id });
+
+      // then
+      expect(count).to.equal(8);
+    });
+
+    it('should count all shared campaignParticipations by campaign', async () => {
+      // when
+      const count = await campaignParticipationRepository.count({
+        campaignId: campaign.id,
+        isShared: true,
+      });
+
+      // then
+      expect(count).to.equal(5);
+    });
   });
 
   describe('#findByCampaignId', () => {

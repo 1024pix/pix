@@ -72,6 +72,7 @@ module.exports = injectDependencies({
   getAssessment: require('./get-assessment'),
   getCampaign: require('./get-campaign'),
   getCampaignByCode: require('./get-campaign-by-code'),
+  getCampaignReport: require('./get-campaign-report'),
   getCertificationCenter: require('./get-certification-center'),
   getCorrectionForAnswerWhenAssessmentEnded: require('./get-correction-for-answer-when-assessment-ended'),
   getNextChallengeForCertification: require('./get-next-challenge-for-certification'),
