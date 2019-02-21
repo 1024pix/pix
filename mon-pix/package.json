@@ -1,14 +1,19 @@
 {
   "name": "mon-pix",
   "version": "2.26.1",
+  "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
-  "author": "Team Pix",
+  "author": "GIP Pix",
   "engines": {
     "node": "8.11.4"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1024pix/pix.git"
+  },
   "directories": {
-    "doc": "doc",
+    "doc": "docs",
     "test": "tests"
   },
   "scripts": {
@@ -100,6 +105,5 @@
     "js-yaml": "^3.12.0",
     "loader.js": "^4.7.0",
     "showdown": "^1.8.6"
-  },
-  "private": false
+  }
 }
