@@ -1,16 +1,20 @@
 {
   "name": "pix-certif",
   "version": "2.26.1",
-  "private": true,
+  "private": false,
   "description": "Plateforme en ligne de gestion des sessions de certification",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:1024pix/pix-certif.git"
-  },
   "license": "AGPL-3.0",
-  "author": "Team PIX",
+  "author": "GIP Pix",
   "engines": {
     "node": "8.11.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1024pix/pix.git"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
   },
   "scripts": {
     "build": "ember build --environment $BUILD_ENVIRONMENT",
