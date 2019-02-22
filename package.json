@@ -1,9 +1,21 @@
 {
   "name": "pix",
-  "version": "2.25.0",
+  "version": "2.26.1",
+  "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
-  "author": "Team PIX",
   "license": "AGPL-3.0",
+  "author": "GIP Pix",
+  "engines": {
+    "node": "8.11.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1024pix/pix.git"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
   "homepage": "https://github.com/1024pix/pix#readme",
   "bugs": {
     "url": "https://github.com/1024pix/pix/issues"
@@ -28,10 +40,6 @@
     "mon-pix/node_modules/",
     "orga/node_modules/"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/1024pix/pix.git"
-  },
   "scripts": {
     "build": "run-p --print-label build:mon-pix build:orga build:certif build:admin",
     "build:admin": "(cd admin && npm run build) && mkdir -p dist && cp -R admin/dist dist/admin",
