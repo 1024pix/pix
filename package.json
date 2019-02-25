@@ -73,6 +73,7 @@
     "lint:certif": "cd certif && npm run lint",
     "lint:mon-pix": "cd mon-pix && npm run lint",
     "lint:orga": "cd orga && npm run lint",
+    "preinstall": "test \"$(npm --version)\" = 6.4.1",
     "postinstall": "run-p --print-label install:api install:mon-pix install:orga install:certif install:admin",
     "release:perform": "./scripts/release/perform.sh",
     "release:prepare": "./scripts/release/prepare.sh",
