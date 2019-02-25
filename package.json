@@ -6,7 +6,7 @@
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "8.11.4"
+    "node": "10.15.1"
   },
   "repository": {
     "type": "git",
@@ -28,9 +28,6 @@
     "eslint-plugin-mocha": "^4.12.1",
     "husky": "^0.14.3",
     "lcov-result-merger": "^1.2.0"
-  },
-  "engines": {
-    "node": "10.15.1"
   },
   "cacheDirectories": [
     "node_modules/",
