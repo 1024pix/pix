@@ -22,7 +22,13 @@ function _createSignedUpUser(server) {
 }
 
 function _createCampaigns(server) {
-  server.createList('campaign', 6);
+  let campaigns = server.createList('campaign', 6);
+  campaigns.map(campaign => {
+    let users = server.createList('user', 100);
+    users.map(user => {
+      server.create('campaign-participation', { user, campaign });
+    })
+  })
 }
 
 export default function(server) {

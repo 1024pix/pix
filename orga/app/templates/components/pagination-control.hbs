@@ -1,0 +1,28 @@
+
+<div class="pagination-control">
+  <div class="page-size">
+    <div class="page-size__label">Voir</div>
+    <div class="page-size__choice">
+      <select class="select">
+        <option value="{{pagination.pageSize}}">{{pagination.pageSize}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="page-navigation">
+    <div class="icon-button page-navigation__arrow page-navigation__arrow--previous">
+      {{#link-to "authenticated.campaigns.details.participants" (query-params pageNumber=previousPage)}}
+        {{fa-icon 'arrow-left'}}
+      {{/link-to}}
+    </div>
+    <div class="page-navigation__body">
+      <div class="page-navigation__label">Page&nbsp;:</div>
+      <div class="page-navigation__current-page">{{pagination.page}}</div>
+      <div class="page-navigation__last-page">/&nbsp;{{pagination.pageCount}}</div>
+    </div>
+    <div class="icon-button page-navigation__arrow page-navigation__arrow--next">
+      {{#link-to "authenticated.campaigns.details.participants" (query-params pageNumber=nextPage)}}
+        {{fa-icon 'arrow-right'}}
+      {{/link-to}}
+    </div>
+  </div>
+</div>
