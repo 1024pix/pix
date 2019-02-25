@@ -100,7 +100,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       campaign = databaseBuilder.factory.buildCampaign({});
 
       _.times(2, () => {
-        return databaseBuilder.factory.buildCampaignParticipation({ campaignId: 666 });
+        return databaseBuilder.factory.buildCampaignParticipation({ campaignId: 'otherCampaignId' });
       });
       _.times(5, () => {
         return databaseBuilder.factory.buildCampaignParticipation({

@@ -13,7 +13,7 @@ describe('Unit | Controller | campaign-report-controller', () => {
       sinon.stub(campaignReportSerializer, 'serialize');
     });
 
-    it('should returns ok', async () => {
+    it('should return ok', async () => {
       // given
       usecases.getCampaignReport.withArgs({ campaignId }).resolves({});
       campaignReportSerializer.serialize.withArgs({}).returns('ok');

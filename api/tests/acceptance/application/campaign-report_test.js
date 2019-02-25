@@ -38,7 +38,7 @@ describe('Acceptance | API | Campaign Report', () => {
   describe('GET /api/campaign/{id}/campaign-report', () => {
     let options;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/campaign-report`,
@@ -52,7 +52,7 @@ describe('Acceptance | API | Campaign Report', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data.id).to.equal(campaign.id);
+      expect(response.result.data.id).to.equal(campaign.id.toString());
       expect(response.result.data.attributes['participations-count']).to.be.equal(12);
       expect(response.result.data.attributes['shared-participations-count']).to.be.equal(5);
     });

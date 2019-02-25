@@ -43,9 +43,14 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
                 id: '123',
                 type: 'targetProfiles'
               }
+            },
+            'campaign-report': {
+              'links': {
+                'related': '/campaigns/5/campaign-report'
+              }
             }
           }
-        }, 
+        },
         included: [
           {
             attributes: {
