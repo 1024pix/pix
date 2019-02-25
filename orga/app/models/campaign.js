@@ -14,6 +14,7 @@ export default DS.Model.extend({
   organization: DS.belongsTo('organization'),
   tokenForCampaignResults: DS.attr('string'),
   targetProfile: DS.belongsTo('target-profile'),
+  campaignReport: DS.belongsTo('campaign-report'),
 
   url: computed('code', function() {
     let code = this.get('code');

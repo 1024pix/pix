@@ -12,6 +12,7 @@ class Campaign {
     customLandingPageText,
     // includes
     targetProfile,
+    campaignReport,
     // references
     creatorId,
     organizationId,
@@ -28,6 +29,7 @@ class Campaign {
     this.customLandingPageText = customLandingPageText;
     // includes
     this.targetProfile = targetProfile;
+    this.campaignReport = campaignReport;
     // references
     this.creatorId = creatorId;
     this.organizationId = organizationId;

@@ -5,6 +5,25 @@
     {{/link-to}}
     <h1 class="page__title page-title">{{campaign.name}}</h1>
   </div>
+
+  <div class="campaign-details-header__report">
+    <div class="campaign-details-header-report__participants">
+      <h4 class="label-text campaign-details-content__label">Participants</h4>
+      <span class="content-text content-text--big campaign-details-content__text">
+        {{participationsCount}}
+      </span>
+    </div>
+
+    <div class="campaign-details-header-report__shared">
+      <h4 class="label-text campaign-details-content__label">Profil reçus</h4>
+      <span class="content-text content-text--big campaign-details-content__text">
+        {{sharedParticipationsCount}}
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class='campaign-details-csv'>
   <a class="button button--link" href="{{campaign.urlToResult}}" target="_blank" download>
     Export résultats (.csv)
   </a>
