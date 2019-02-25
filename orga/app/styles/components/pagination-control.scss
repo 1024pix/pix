@@ -1,0 +1,45 @@
+.pagination-control {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+
+  font-family: $roboto;
+  font-size: 0.8175rem;
+  font-color: $dove-gray;
+}
+
+.page-size {
+  display: flex;
+  align-items: center;
+
+  &__label {
+    margin-right: 10px;
+  }
+}
+
+.page-navigation {
+  display: flex;
+  align-items: center;
+
+  &__arrow {
+    margin: 0 10px;
+  }
+
+  &__body {
+    display: flex;
+    align-items: center;
+  }
+
+  &__label {
+    margin-right: 10px;
+  }
+
+  &__current-page {
+    margin-right: 10px;
+  }
+
+  &__last-page {
+
+  }
+}
+

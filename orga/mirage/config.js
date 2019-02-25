@@ -53,4 +53,23 @@ export default function() {
   });
 
   this.post('/campaigns');
+
+  this.get('/campaign-participations', (schema, request) => {
+    const qp = request.queryParams;
+    const campaignId = qp['filter[campaignId]'];
+    const pageNumber = parseInt(qp['page[number]']);
+    const pageSize = parseInt(qp['page[size]']);
+    const start = (pageNumber-1) * pageSize;
+    const end = start + pageSize;
+    const campaignParticipations = schema.campaignParticipations.where({ campaignId }).models;
+    const campaignParticipationIds = campaignParticipations.slice(start, end).map(
+      campaignParticipation => campaignParticipation.attrs.id
+    );
+    const results = schema.campaignParticipations.find(campaignParticipationIds);
+    const json = this.serializerOrRegistry.serialize(results, request);
+    const rowCount = campaignParticipations.length;
+    const pageCount = Math.ceil(rowCount / pageSize);
+    json.meta = { page: pageNumber, pageSize, rowCount, pageCount };
+    return json;
+  });
 }
