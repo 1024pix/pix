@@ -129,6 +129,21 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       expect(session.description).to.equal('');
     });
 
+    context('when there is no certification center ID', () => {
+
+      beforeEach(() => {
+        jsonApiSession.data.relationships = undefined;
+      });
+
+      it('should set null for session.certificationCenterId (without loosing certification center name)', () => {
+        // when
+        const session = serializer.deserialize(jsonApiSession);
+
+        // then
+        expect(session.certificationCenter).to.equal('Université de dressage de loutres');
+        expect(session.certificationCenterId).to.be.null;
+      });
+    });
   });
 
 });
