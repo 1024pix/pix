@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.26.2 (25/02/2019)
+
+- [#380](https://github.com/1024pix/pix/pull/380) [BUGFIX] Créer une session sans ID de centre de certification depuis Pix Admin.
+- [#378](https://github.com/1024pix/pix/pull/378) [TECH] Mise à jour du script de préparation de release pour monter aussi la version de PixAdmin.
+
 ## v2.26.1 (21/02/2019)
 
 - [#377](https://github.com/1024pix/pix/pull/377) [TECH] Suppression de l'ajout des pix gagnés lors de la migration de la table knowlege-elements.

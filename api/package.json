@@ -1,13 +1,22 @@
 {
   "name": "pix-api",
-  "version": "2.26.1",
+  "version": "2.26.2",
+  "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
-  "main": "server.js",
-  "author": "SGMAP",
   "license": "AGPL-3.0",
+  "author": "GIP Pix",
   "engines": {
     "node": "8.11.4"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1024pix/pix.git"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "main": "server.js",
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {
     "airtable": "^0.5.2",

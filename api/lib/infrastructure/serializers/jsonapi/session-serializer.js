@@ -29,10 +29,12 @@ module.exports = {
   deserialize(json) {
     const attributes = json.data.attributes;
 
+    const certificationCenterId = _.get(json.data, ['relationships', 'certification-center', 'data', 'id']);
+
     return new Session({
       id: json.data.id,
       certificationCenter: attributes['certification-center'],
-      certificationCenterId: parseInt(_.get(json.data, ['relationships', 'certification-center', 'data', 'id'])),
+      certificationCenterId: certificationCenterId ? parseInt(certificationCenterId) : null,
       address: attributes.address,
       room: attributes.room,
       examiner: attributes.examiner,
