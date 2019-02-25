@@ -4,12 +4,12 @@ export default Controller.extend({
   actions: {
     updateSession(session) {
       return session.save().then(
-        () => this.transitionToRoute('authenticated.sessions.list')
+        () => this.transitionToRoute('authenticated.sessions.details', session.id)
       );
     },
 
-    cancel() {
-      this.transitionToRoute('authenticated.sessions.list');
+    cancel(session) {
+      this.transitionToRoute('authenticated.sessions.details', session.id);
     },
   }
 })

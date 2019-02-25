@@ -93,6 +93,10 @@
     }
   }
 
+  &--regular {
+    width: 120px;
+  }
+
   &--big {
     width: 180px;
   }
@@ -117,7 +121,7 @@
 
 .icon-button {
   color: $dove-gray;
-  padding: 6px 6px;
+  padding: 6px 8px;
   border: none;
   font-size: 1rem;
   background-color: transparent;
