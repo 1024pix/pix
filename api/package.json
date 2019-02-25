@@ -100,6 +100,7 @@
     "dev": "npx nodemon bin/www",
     "lint": "npx eslint lib tests",
     "lint:fix": "npx eslint lib tests --fix",
+    "preinstall": "test \"$(npm --version)\" = 6.4.1",
     "scalingo-background-job": "node scripts/reload-cache-everyday.js",
     "scalingo-postbuild": "echo 'nothing to do'",
     "scalingo-post-ra-creation": "npm run db:seed",
