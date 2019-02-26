@@ -1,7 +1,7 @@
 given(`je me connecte avec le compte {string}`, (email) => {
   cy.get('input[type=email]').type(email);
   cy.get('input[type=password]').type('pix123');
-  cy.get('.signin-form__submit_button').click();
+  cy.get('button[type=submit]').click();
 });
 
 then(`je suis redirigé vers le compte de {string}`, (fullName) => {
