@@ -23,11 +23,11 @@ function _updateExistingAnswer(existingAnswer, newAnswer) {
         id: existingAnswer.id,
         result: AnswerStatus.from(answerCorrectness.result),
         resultDetails: answerCorrectness.resultDetails,
-        value: newAnswer.get('value'),
-        timeout: newAnswer.get('timeout'),
-        elapsedTime: newAnswer.get('elapsedTime'),
-        challengeId: newAnswer.get('challengeId'),
-        assessmentId: newAnswer.get('assessmentId'),
+        value: newAnswer.attributes.value,
+        timeout: newAnswer.attributes.timeout,
+        elapsedTime: newAnswer.attributes['elapsed-time'],
+        challengeId: newAnswer.relationships.challenge.data.id,
+        assessmentId: newAnswer.relationships.assessment.data.id,
       });
     })
     .then(answerSerializer.serialize)
@@ -65,11 +65,11 @@ module.exports = {
 
   update(request, h) {
 
-    const updatedAnswer = answerSerializer.deserializeToBookshelfAnswer(request.payload);
+    const updatedAnswer = request.payload.data;
     return answerRepository
       .findByChallengeAndAssessment({
-        challengeId: updatedAnswer.get('challengeId'),
-        assessmentId: updatedAnswer.get('assessmentId')
+        challengeId: updatedAnswer.relationships.challenge.data.id,
+        assessmentId: updatedAnswer.relationships.assessment.data.id
       })
       .then((existingAnswer) => {
 
