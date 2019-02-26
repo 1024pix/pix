@@ -113,6 +113,9 @@ jobs:
   mon_pix_build_and_test:
     docker:
       - image: circleci/node:10.15-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
     working_directory: ~/pix/mon-pix
     parallelism: 3
     steps:
@@ -133,6 +136,9 @@ jobs:
   orga_build_and_test:
     docker:
       - image: circleci/node:10.15-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
     working_directory: ~/pix/orga
     steps:
       - attach_workspace:
@@ -151,6 +157,9 @@ jobs:
   certif_build_and_test:
     docker:
       - image: circleci/node:10.15-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
     working_directory: ~/pix/certif
     steps:
       - attach_workspace:
@@ -169,6 +178,9 @@ jobs:
   admin_build_and_test:
     docker:
       - image: circleci/node:10.15-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
     working_directory: ~/pix/admin
     steps:
       - attach_workspace:
