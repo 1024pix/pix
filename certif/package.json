@@ -1,6 +1,6 @@
 {
   "name": "pix-certif",
-  "version": "2.26.2",
+  "version": "2.27.0",
   "private": false,
   "description": "Plateforme en ligne de gestion des sessions de certification",
   "license": "AGPL-3.0",
@@ -38,6 +38,7 @@
     "ember-cli": "~3.4.2",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-babel": "^6.16.0",
+    "ember-cli-clipboard": "^0.11.1",
     "ember-cli-dependency-checker": "^3.0.0",
     "ember-cli-eslint": "^4.2.3",
     "ember-cli-google-fonts": "^2.16.2",

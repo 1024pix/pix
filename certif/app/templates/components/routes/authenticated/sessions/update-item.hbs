@@ -52,7 +52,7 @@
   </div>
 
   <div class="session-form__field">
-    <label for="session-time" class="label">Heure de début (fin 2h plus tard)</label>
+    <label for="session-time" class="label">Heure de début (heure locale)</label>
     {{ember-flatpickr id='session-time'
                       onChange=(action onTimePicked)
                       onClose=(action onTimePicked)
@@ -89,7 +89,7 @@
   </div>
 
   <div class="session-form__field">
-    <label for="session-description" class="label">Description (optionnel)</label>
+    <label for="session-description" class="label">Observations (optionnel)</label>
     {{textarea id='session-description'
                name='session-description'
                maxlength='350'
@@ -100,7 +100,7 @@
   </div>
 
   <div class="session-form__validation">
-    <button class="button button--no-color" data-action="cancel" {{action cancel}}>Annuler</button>
+    <button class="button button--no-color" data-action="cancel" {{action cancel session}}>Annuler</button>
     <button class="button" type="submit">Modifier la session</button>
   </div>
 

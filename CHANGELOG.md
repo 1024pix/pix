@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.27.0 (26/02/2019)
+
+- [#373](https://github.com/1024pix/pix/pull/373) [FEATURE] Ajout d'une page de détails de session (PC-28).
+
 ## v2.26.2 (25/02/2019)
 
 - [#380](https://github.com/1024pix/pix/pull/380) [BUGFIX] Créer une session sans ID de centre de certification depuis Pix Admin.

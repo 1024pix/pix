@@ -1,6 +1,9 @@
 <div class="session-list-page">
   {{#if hasSession}}
-    {{routes/authenticated/sessions/list-items sessions=model}}
+    {{routes/authenticated/sessions/list-items
+      sessions=model
+      goToDetails=(action 'goToDetails')
+    }}
   {{else}}
     {{routes/authenticated/sessions/no-session-panel}}
   {{/if}}
