@@ -133,6 +133,17 @@ function streamToPromise(stream) {
   });
 }
 
+function catchErr(promiseFn, ctx) {
+  return async (...args) => {
+    try {
+      await promiseFn.call(ctx, ...args);
+      return "should have thrown an error";
+    } catch (err) {
+      return err;
+    }
+  }
+ }
+
 module.exports = {
   airtableBuilder,
   cleanupUsersAndPixRolesTables,
@@ -148,6 +159,7 @@ module.exports = {
   nock,
   sinon,
   streamToPromise,
+  catchErr,
   testErr: new Error('Fake Error'),
   testInfraNotFoundErr: new infraErrors.NotFoundError('Fake infra NotFoundError')
 };

@@ -16,8 +16,5 @@ module.exports = function findCampaignParticipations({
       });
   }
 
-  if (options.filter.campaignId) {
-    return campaignParticipationRepository.find(options);
-  }
-
+  return campaignParticipationRepository.find(options);
 };
