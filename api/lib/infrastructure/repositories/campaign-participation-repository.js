@@ -64,7 +64,11 @@ module.exports = {
       .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true })
       .then(_toDomain)
       .catch(_checkNotFoundError);
-  }
+  },
+
+  count(filters = {}) {
+    return BookshelfCampaignParticipation.where(filters).count();
+  },
 };
 
 function _adaptModelToDb(campaignParticipation) {
