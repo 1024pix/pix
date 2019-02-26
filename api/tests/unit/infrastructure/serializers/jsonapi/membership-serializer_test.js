@@ -21,7 +21,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
       const expectedSerializedMembership = {
         data: {
           type: 'memberships',
-          id: 5,
+          id: '5',
           attributes: {},
           relationships: {
             organization: {

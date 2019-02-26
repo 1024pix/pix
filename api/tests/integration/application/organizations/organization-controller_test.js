@@ -149,7 +149,7 @@ describe('Integration | Application | Organizations | organization-controller', 
 
         // then
         expect(response.result.data[0].type).to.equal('memberships');
-        expect(response.result.data[0].id).to.equal(membership.id);
+        expect(response.result.data[0].id).to.equal(membership.id.toString());
       });
 
       it('should return a JSON:API response including organization, organization role & user information', async () => {

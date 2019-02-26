@@ -200,7 +200,7 @@ describe('Acceptance | API | Certification Center', () => {
 
         // then
         return promise.then((response) => {
-          expect(response.result.data.id).to.equal(1);
+          expect(response.result.data.id).to.equal('1');
           expect(response.result.data.attributes.name).to.equal(expectedCertificationCenter.name);
         });
       });
@@ -300,7 +300,7 @@ describe('Acceptance | API | Certification Center', () => {
         return promise.then((response) => {
           expect(response.result.data).to.have.lengthOf(expectedSessions.length);
           expect(response.result.data.map((sessions) => sessions.id))
-            .to.have.members(expectedSessions.map((sessions) => sessions.id));
+            .to.have.members(expectedSessions.map((sessions) => sessions.id.toString()));
         });
       });
 

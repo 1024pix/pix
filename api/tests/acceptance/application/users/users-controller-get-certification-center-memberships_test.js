@@ -43,7 +43,7 @@ describe('Acceptance | Controller | users-controller-get-certification-center-me
           data: [
             {
               type: 'certificationCenterMemberships',
-              id: certificationCenterMembership.id,
+              id: certificationCenterMembership.id.toString(),
               attributes: {},
               relationships: {
                 'certification-center': {
