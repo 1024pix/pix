@@ -56,7 +56,7 @@ describe('Acceptance | API | Campaign Participations', () => {
               'is-shared': campaignParticipation.isShared,
               'shared-at': campaignParticipation.sharedAt,
             },
-            'id': campaignParticipation.id,
+            'id': campaignParticipation.id.toString(),
             'type': 'campaign-participations',
             relationships: {
               assessment: {

@@ -56,7 +56,7 @@ describe('Acceptance | Controller | users-controller', () => {
           '{' +
             '"data":{' +
               '"type":"users",' +
-              '"id":(\\d+),' +
+              '"id":"(\\d+)",' +
               '"attributes":{' +
                 '"first-name":"John",' +
                 '"last-name":"DoDoe",' +

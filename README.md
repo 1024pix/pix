@@ -18,10 +18,10 @@ Installation
 Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 * [Git](http://git-scm.com/) (2.6.4)
-* [Node.js](http://nodejs.org/) (v8.9.4) et NPM (5.5.1)
-* [Ember CLI](http://ember-cli.com/) (2.18.0)
+* [Node.js](http://nodejs.org/) (v10.15.1) et NPM (6.4.1)
+* [Ember CLI](http://ember-cli.com/) (3.7.0)
 
-⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes. Cependant nous avons constaté des instabilités avec Node 9+ et NPM 5.6.0.
+⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes.
 
 > Les versions indiquées sont celles préconisées pour un bon fonctionnement de l'application.
 
