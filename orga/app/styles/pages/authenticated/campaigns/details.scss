@@ -35,18 +35,11 @@
   flex-direction: column;
   padding: 22px 38px;
 
-  &--multiple {
-    &:first-child {
-      width: 40%;
-    }
-
-    &:nth-child(2) {
-      width: 15%;
-    }
-
-    &:nth-child(3) {
-      width: 40%;
-    }
+  &--large-entry {
+    width: 40%;
+  }
+  &--small-entry {
+    width: 15%;
   }
 
   &--single {
