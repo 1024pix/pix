@@ -2,12 +2,10 @@ const { PassThrough } = require('stream');
 
 const organizationService = require('../../domain/services/organization-service');
 const usecases = require('../../domain/usecases');
-const logger = require('../../infrastructure/logger');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const errorManager = require('../../infrastructure/utils/error-manager');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
