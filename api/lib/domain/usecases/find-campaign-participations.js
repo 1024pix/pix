@@ -16,5 +16,5 @@ module.exports = function findCampaignParticipations({
       });
   }
 
-  return campaignParticipationRepository.find(options);
+  return campaignParticipationRepository.findWithUsersPaginated(options);
 };

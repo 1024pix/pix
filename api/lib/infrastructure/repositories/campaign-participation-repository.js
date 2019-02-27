@@ -3,6 +3,7 @@ const CampaignParticipation = require('../../domain/models/CampaignParticipation
 const Campaign = require('../../domain/models/Campaign');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const fp = require('lodash/fp');
 
 function _toDomain(bookshelfCampaignParticipation) {
@@ -54,6 +55,27 @@ module.exports = {
 
   find(options) {
     return queryBuilder.find(BookshelfCampaignParticipation, options);
+  },
+
+  // TODO: Replace this use-case specific version by adding inner-joins to query-builder
+  findWithUsersPaginated(options) {
+    return BookshelfCampaignParticipation
+      .where(options.filter)
+      .query(function(qb) {
+        qb.innerJoin('users', 'userId', 'users.id');
+        qb.orderBy('users.lastName', 'asc');
+      })
+      .fetchPage({
+        page: options.page.number,
+        pageSize: options.page.size,
+        withRelated: ['user']
+      })
+      .then((results) => {
+        return {
+          pagination: results.pagination,
+          models: bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, results.models)
+        };
+      });
   },
 
   updateCampaignParticipation(campaignParticipation) {

@@ -2,8 +2,6 @@ const _ = require('lodash');
 const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
-const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/data/campaign-participation');
-const queryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -236,28 +234,80 @@ describe('Integration | Repository | Campaign Participation', () => {
 
   describe('#find', () => {
 
-    let campaignParticipation;
+    const campaignId = 'my campaign id';
+    const assessmentId = 'my assessment id';
 
     beforeEach(async () => {
-      sinon.stub(queryBuilder, 'find');
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
+
+      await databaseBuilder.commit();
     });
 
-    it('should return campaign-participations that match given options', async function() {
-      // given
-      const options = {
-        filter: { assessmentId: campaignParticipation.assessmentId },
-      };
-      queryBuilder.find.withArgs(BookshelfCampaignParticipation, options).resolves(campaignParticipation);
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
 
+    it('should return campaign participations that match given assessmentId', async function() {
+      // given
+      const options = { filter: { assessmentId }, sort: [] };
       // when
       const foundCampaignParticipation = await campaignParticipationRepository.find(options);
-
       // then
-      expect(foundCampaignParticipation.id).to.equal(campaignParticipation.id);
-      expect(foundCampaignParticipation.assessmentId).to.equal(campaignParticipation.assessmentId);
-      expect(foundCampaignParticipation.sharedAt).to.deep.equal(campaignParticipation.sharedAt);
-      expect(foundCampaignParticipation.isShared).to.equal(campaignParticipation.isShared);
+      expect(foundCampaignParticipation.models).to.have.length(2);
+    });
+
+    it('should return campaign participations that match given campaignId', async function() {
+      // given
+      const options = { filter: { campaignId }, sort: [] };
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.find(options);
+      // then
+      expect(foundCampaignParticipation.models).to.have.length(2);
+    });
+
+  });
+
+  describe('#findWithUsersPaginated', () => {
+
+    const campaignId = 'my campaign id';
+    const assessmentId = 'my assessment id';
+
+    beforeEach(async () => {
+
+      const pixMembers = [
+        { firstName: 'Mélanie', lastName: 'Boudard' },
+        { firstName: 'Mathieu', lastName: 'Laurent' },
+        { firstName: 'Jérémy', lastName: 'Buget' },
+        { firstName: 'Léo', lastName: 'Jacquemin' },
+        { firstName: 'Forster', lastName: 'Groux' },
+        { firstName: 'Thierry', lastName: 'Loesch' },
+        { firstName: 'Jonathan', lastName: 'Perret' },
+      ];
+
+      const insertPixMember = (member) => {
+        const { id } = databaseBuilder.factory.buildUser(member);
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId: id });
+      };
+
+      pixMembers.forEach(insertPixMember);
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return paginated campaign participations including users sorted by name, lastname', async () => {
+      // given
+      const options = { filter: { campaignId }, sort: [], include: ['user'], page: { number: 1, size: 4 } };
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.findWithUsersPaginated(options);
+      const foundUsers = _.map(foundCampaignParticipation.models, 'user');
+      const foundUserLastNames = _.map(foundUsers, 'lastName');
+      // then
+      expect(foundUserLastNames).to.deep.equal(['Boudard', 'Buget', 'Groux', 'Jacquemin']);
     });
   });
 
