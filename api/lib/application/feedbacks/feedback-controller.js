@@ -7,19 +7,19 @@ const { BadRequestError } = require('../../infrastructure/errors');
 module.exports = {
 
   save : async(request, h) => {
+    try {
+      const newFeedback = await serializer.deserialize(request.payload);
 
-    const newFeedback = await serializer.deserialize(request.payload);
+      if (_.isBlank(newFeedback.get('content'))) {
+        throw new BadRequestError('Feedback content must not be blank');
+      }
 
-    if (_.isBlank(newFeedback.get('content'))) {
-      return errorManager.send(h, new BadRequestError('Feedback content must not be blank'));
+      const persistedFeedback = await newFeedback.save();
+
+      return h.response(serializer.serialize(persistedFeedback.toJSON())).created();
+    } catch (error) {
+      return errorManager.send(h, error);
     }
-
-    return newFeedback
-      .save()
-      .then((persistedFeedback) => {
-        return h.response(serializer.serialize(persistedFeedback.toJSON())).created();
-      })
-      .catch((error) => errorManager.send(h, error));
   },
 
   find(request) {

@@ -1,4 +1,3 @@
-const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const certificationService = require('../../domain/services/certification-service');
 const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
@@ -22,16 +21,9 @@ module.exports = {
   },
 
   update(request, h) {
-
     return certificationSerializer.deserialize(request.payload)
       .then((certificationCourse) => certificationCourseService.update(certificationCourse))
       .then(certificationSerializer.serializeFromCertificationCourse)
-      .catch((error) => {
-        if (error.message === 'ValidationError') {
-          return h.response(errorSerializer.serialize(error)).code(400);
-        } else {
-          return errorManager.send(h, error);
-        }
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 };
