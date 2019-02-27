@@ -4,7 +4,6 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userService = require('../../domain/services/user-service');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
@@ -14,7 +13,6 @@ const errorManager = require('../../infrastructure/utils/error-manager');
 
 const usecases = require('../../domain/usecases');
 
-const Bookshelf = require('../../infrastructure/bookshelf');
 const { BadRequestError } = require('../../infrastructure/errors');
 
 module.exports = {
@@ -52,13 +50,7 @@ module.exports = {
         return profileService.getByUserId(foundUser.id);
       })
       .then((buildedProfile) => profileSerializer.serialize(buildedProfile))
-      .catch((error) => {
-        if (error instanceof Bookshelf.Model.NotFoundError) {
-          return _replyErrorWithMessage(h, 'Cet utilisateur est introuvable', 404);
-        }
-
-        return errorManager.send(h, error);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   updateUser(request, h) {
@@ -147,16 +139,3 @@ module.exports = {
       .catch((error) => errorManager.send(h, error));
   }
 };
-
-// TODO refacto, extract and simplify
-const _replyErrorWithMessage = function(h, errorMessage, statusCode) {
-  return h.response(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
-};
-
-function _handleWhenInvalidAuthorization(errorMessage) {
-  return {
-    data: {
-      authorization: [errorMessage],
-    },
-  };
-}
