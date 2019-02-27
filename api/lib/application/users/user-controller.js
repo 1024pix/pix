@@ -1,7 +1,5 @@
 const moment = require('moment');
-const JSONAPIError = require('jsonapi-serializer').Error;
 
-const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
@@ -15,17 +13,9 @@ const tokenService = require('../../domain/services/token-service');
 const errorManager = require('../../infrastructure/utils/error-manager');
 
 const usecases = require('../../domain/usecases');
-const JSONAPI = require('../../interfaces/jsonapi');
 
 const Bookshelf = require('../../infrastructure/bookshelf');
-
-const logger = require('../../infrastructure/logger');
 const { BadRequestError } = require('../../infrastructure/errors');
-const {
-  InvalidTokenError,
-  PasswordResetDemandNotFoundError,
-  UserNotAuthorizedToAccessEntity,
-} = require('../../domain/errors');
 
 module.exports = {
 
@@ -50,20 +40,7 @@ module.exports = {
 
     return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
       .then(userSerializer.serialize)
-      .catch((err) => {
-
-        if (err instanceof UserNotAuthorizedToAccessEntity) {
-          const jsonAPIError = new JSONAPIError({
-            code: '403',
-            title: 'Forbidden Access',
-            detail: 'Vous n’avez pas accès à cet utilisateur',
-          });
-          return h.response(jsonAPIError).code(403);
-        }
-
-        logger.error(err);
-        return h.response(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   // FIXME: Pas de tests ?!
@@ -75,18 +52,12 @@ module.exports = {
         return profileService.getByUserId(foundUser.id);
       })
       .then((buildedProfile) => profileSerializer.serialize(buildedProfile))
-      .catch((err) => {
-        if (err instanceof InvalidTokenError) {
-          return _replyErrorWithMessage(h, 'Le token n’est pas valide', 401);
-        }
-
-        if (err instanceof Bookshelf.Model.NotFoundError) {
+      .catch((error) => {
+        if (error instanceof Bookshelf.Model.NotFoundError) {
           return _replyErrorWithMessage(h, 'Cet utilisateur est introuvable', 404);
         }
 
-        logger.error(err);
-
-        return _replyErrorWithMessage(h, 'Une erreur est survenue lors de l’authentification de l’utilisateur', 500);
+        return errorManager.send(h, error);
       });
   },
 
@@ -115,17 +86,7 @@ module.exports = {
         return Promise.reject(new BadRequestError());
       })
       .then(() => null)
-      .catch((err) => {
-        if (err instanceof PasswordResetDemandNotFoundError) {
-          return h.response(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);
-        }
-
-        if (err instanceof BadRequestError) {
-          return h.response(errorSerializer.serialize(err)).code(err.code);
-        }
-
-        return h.response(JSONAPI.internalError('Une erreur interne est survenue.')).code(500);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   getProfileToCertify(request, h) {

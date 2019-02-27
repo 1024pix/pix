@@ -1,5 +1,5 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
-const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+const { UserNotFoundError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
@@ -88,21 +88,15 @@ describe('Unit | Controller | PasswordController', () => {
           sinon.assert.calledWith(userService.isUserExistingByEmail, normalizedUserEmail);
         });
 
-        it('should rejects an error, when user is not found', async () => {
+        it('should rejects a 404, when user is not found', async () => {
           // given
-          const error = new UserNotFoundError();
-          const expectedErrorMessage = error.getErrorMessage();
-          const serializedError = {};
-          errorSerializer.serialize.returns(serializedError);
-          userService.isUserExistingByEmail.rejects(error);
+          userService.isUserExistingByEmail.rejects(new UserNotFoundError());
 
           //when
           const response = await passwordController.createResetDemand(request, hFake);
 
           // then
-          sinon.assert.calledOnce(errorSerializer.serialize);
-          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-          expect(response.source).to.deep.equal(serializedError);
+          expect(response.statusCode).to.equal(404);
         });
 
         it('should log the error when something turns wrong', async () => {
@@ -194,21 +188,15 @@ describe('Unit | Controller | PasswordController', () => {
       });
 
       describe('When internal error has occured', () => {
-        it('should reply with an serialized error', async () => {
+        it('should reply with 500', async () => {
           // given
-          const error = new InternalError();
-          const expectedErrorMessage = error.getErrorMessage();
-          const serializedError = {};
-          errorSerializer.serialize.returns(serializedError);
-          userService.isUserExistingByEmail.rejects(error);
+          userService.isUserExistingByEmail.rejects();
 
           //when
           const response = await passwordController.createResetDemand(request, hFake);
 
           // then
-          sinon.assert.calledOnce(errorSerializer.serialize);
-          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-          expect(response.source).to.deep.equal(serializedError);
+          expect(response.statusCode).to.equal(500);
         });
       });
     });
@@ -296,61 +284,43 @@ describe('Unit | Controller | PasswordController', () => {
 
     describe('When temporaryKey is not valid', () => {
 
-      it('should reply with a InvalidTemporaryKeyError serialized', async () => {
+      it('should reply with 401', async () => {
         // given
-        const error = new InvalidTemporaryKeyError();
-        const expectedErrorMessage = error.getErrorMessage();
-        const serializedError = {};
-        errorSerializer.serialize.returns(serializedError);
-        resetPasswordService.verifyDemand.rejects(error);
+        resetPasswordService.verifyDemand.rejects(new InvalidTemporaryKeyError());
 
         // when
         const response = await passwordController.checkResetDemand(request, hFake);
 
         // then
-        sinon.assert.calledOnce(errorSerializer.serialize);
-        sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-        expect(response.source).to.deep.equal(serializedError);
+        expect(response.statusCode).to.equal(401);
       });
     });
 
     describe('When temporaryKey is valid but not related to a password reset demand', () => {
 
-      it('should reply with a PasswordResetDemandNotFoundError serialized', async () => {
+      it('should reply with 404', async () => {
         // given
-        const error = new PasswordResetDemandNotFoundError();
-        const expectedErrorMessage = error.getErrorMessage();
-        const serializedError = {};
-        errorSerializer.serialize.returns(serializedError);
-        resetPasswordService.verifyDemand.rejects(error);
+        resetPasswordService.verifyDemand.rejects(new PasswordResetDemandNotFoundError());
 
         // when
         const response = await passwordController.checkResetDemand(request, hFake);
 
         // then
-        sinon.assert.calledOnce(errorSerializer.serialize);
-        sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-        expect(response.source).to.deep.equal(serializedError);
+        expect(response.statusCode).to.equal(404);
       });
     });
 
     describe('When unknown error has occured', () => {
 
-      it('should reply with a InternalError serialized', async () => {
+      it('should reply with 500', async () => {
         // given
-        const error = new InternalError();
-        const expectedErrorMessage = error.getErrorMessage();
-        const serializedError = {};
-        errorSerializer.serialize.returns(serializedError);
-        resetPasswordService.verifyDemand.rejects(error);
+        resetPasswordService.verifyDemand.rejects();
 
         // when
         const response = await passwordController.checkResetDemand(request, hFake);
 
         // then
-        sinon.assert.calledOnce(errorSerializer.serialize);
-        sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
-        expect(response.source).to.deep.equal(serializedError);
+        expect(response.statusCode).to.equal(500);
       });
     });
 
