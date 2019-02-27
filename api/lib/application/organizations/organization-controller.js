@@ -103,19 +103,8 @@ module.exports = {
       });
 
       return stream;
-    } catch (err) {
-      logger.error(err);
-      return h.response(validationErrorSerializer.serialize(
-        _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
-      )).code(500);
+    } catch (error) {
+      return errorManager.send(h, error);
     }
   }
 };
-
-function _buildErrorMessage(errorMessage) {
-  return {
-    data: {
-      authorization: [errorMessage]
-    }
-  };
-}

@@ -3,12 +3,6 @@ const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
-const {
-  UserNotAuthorizedToGetCampaignResultsError,
-} = require('../../domain/errors');
-
-const JSONAPI = require('../../interfaces/jsonapi');
-const logger = require('../../infrastructure/logger');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const infraErrors = require('../../infrastructure/errors');
 const errorManager = require('../../infrastructure/utils/error-manager');
@@ -63,14 +57,7 @@ module.exports = {
           .header('Content-Type', 'text/csv;charset=utf-8')
           .header('Content-Disposition', `attachment; filename="${fileName}"`);
       })
-      .catch((error) => {
-        if (error instanceof UserNotAuthorizedToGetCampaignResultsError) {
-          return h.response(JSONAPI.forbiddenError(error.message)).code(403);
-        }
-
-        logger.error(error);
-        return h.response(JSONAPI.internalError('Une erreur inattendue est survenue lors de la récupération des résultats de la campagne')).code(500);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   update(request, h) {

@@ -8,9 +8,6 @@ function send(h, error) {
   if (error instanceof DomainErrors.EntityValidationError) {
     return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
   }
-  if (error instanceof DomainErrors.AssessmentEndedError) {
-    return h.response(JSONAPI.emptyDataResponse());
-  }
 
   const mappedError = _mapToInfrastructureErrors(error);
 
@@ -71,6 +68,33 @@ function _mapToInfrastructureErrors(error) {
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToCertifyError) {
     return new InfraErrors.ForbiddenError('The user cannot be certified.');
+  }
+  if (error instanceof DomainErrors.MissingOrInvalidCredentialsError) {
+    return new InfraErrors.ForbiddenError('Bad credentials');
+  }
+  if (error instanceof DomainErrors.UserNotAuthorizedToGetCampaignResultsError) {
+    return new InfraErrors.ForbiddenError(error.message);
+  }
+  if (error instanceof DomainErrors.UserNotFoundError) {
+    return new InfraErrors.NotFoundError(error.message);
+  }
+  if (error instanceof DomainErrors.PasswordResetDemandNotFoundError) {
+    return new InfraErrors.NotFoundError(error.message);
+  }
+  if (error instanceof DomainErrors.InvalidTemporaryKeyError) {
+    return new InfraErrors.UnauthorizedError(error.message);
+  }
+  if (error instanceof DomainErrors.InvalidTokenError) {
+    return new InfraErrors.UnauthorizedError('Le token n’est pas valide');
+  }
+  if (error instanceof DomainErrors.InvaliOrganizationIdError) {
+    return new InfraErrors.UnprocessableEntityError('Cette organisation n’existe pas');
+  }
+  if (error instanceof DomainErrors.InvalidSnapshotCode) {
+    return new InfraErrors.UnprocessableEntityError('Les codes de partage du profil sont trop longs');
+  }
+  if (error instanceof DomainErrors.WrongDateFormatError) {
+    return new InfraErrors.BadRequestError(error.message);
   }
 
   return error;

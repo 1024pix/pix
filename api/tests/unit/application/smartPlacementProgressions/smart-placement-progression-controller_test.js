@@ -65,21 +65,12 @@ describe('Unit | Controller | smart-placement-progression-controller', () => {
 
         it('should reply with a 403', async () => {
           // given
-          const expectedJsonAPIError = {
-            errors: [{
-              detail: 'Vous n’avez pas accès à ce profil d’avancement',
-              code: '403',
-              title: 'Unauthorized Access',
-            }],
-          };
-          const error = new UserNotAuthorizedToAccessEntity();
-          usecases.getSmartPlacementProgression.rejects(error);
+          usecases.getSmartPlacementProgression.rejects(new UserNotAuthorizedToAccessEntity());
 
           // when
           const response = await smartPlacementProgressionController.get(request, hFake);
 
           // Then
-          expect(response.source).to.deep.equal(expectedJsonAPIError);
           expect(response.statusCode).to.equal(403);
         });
       });
@@ -89,21 +80,12 @@ describe('Unit | Controller | smart-placement-progression-controller', () => {
 
       it('should reply with a 404', async () => {
         // given
-        const expectedJsonAPIError = {
-          errors: [{
-            code: '404',
-            detail: `Profil d’avancement introuvable pour l’id ${smartPlacementProgressionId}`,
-            title: 'Not Found',
-          }],
-        };
-        const error = new NotFoundError(`Profil d'avancement introuvable pour l’id ${smartPlacementProgressionId}`);
-        usecases.getSmartPlacementProgression.rejects(error);
+        usecases.getSmartPlacementProgression.rejects(new NotFoundError());
 
         // when
         const response = await smartPlacementProgressionController.get(request, hFake);
 
         // Then
-        expect(response.source).to.deep.equal(expectedJsonAPIError);
         expect(response.statusCode).to.equal(404);
       });
     });

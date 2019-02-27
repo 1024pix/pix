@@ -6,12 +6,11 @@ const profileSerializer = require('../../../lib/infrastructure/serializers/jsona
 const snapshotService = require('../../../lib/domain/services/snapshot-service');
 const profileService = require('../../domain/services/profile-service');
 const profileCompletionService = require('../../domain/services/profile-completion-service');
-const logger = require('../../../lib/infrastructure/logger');
 const usecases = require('../../domain/usecases');
-const JSONAPIError = require('jsonapi-serializer').Error;
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
+const { InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
 const MAX_CODE_LENGTH = 255;
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 async function _assertThatOrganizationExists(organizationId) {
   const isOrganizationExist = await organizationRepository.isOrganizationIdExist(organizationId);
@@ -26,61 +25,15 @@ function _validateSnapshotCode(snapshot) {
   }
 }
 
-function _hasAnAtuhorizationHeaders(request) {
-  return request && request.hasOwnProperty('headers') && request.headers.hasOwnProperty('authorization');
-}
+async function _getSnapshot(snapshotPayload) {
+  const deserializedSnapshot = await snapshotSerializer.deserialize(snapshotPayload);
+  await _validateSnapshotCode(deserializedSnapshot);
+  await _assertThatOrganizationExists(deserializedSnapshot.organization.id);
 
-function _replyError(err, h) {
-  if (err instanceof InvalidTokenError) {
-    return h.response(new JSONAPIError({
-      code: '401',
-      title: 'Unauthorized',
-      detail: 'Le token n’est pas valide'
-    })).code(401);
-  }
-
-  if (err instanceof NotFoundError) {
-    return h.response(new JSONAPIError({
-      code: '422',
-      title: 'Unprocessable entity',
-      detail: 'Cet utilisateur est introuvable'
-    })).code(422);
-  }
-
-  if (err instanceof InvaliOrganizationIdError) {
-    return h.response(new JSONAPIError({
-      code: '422',
-      title: 'Unprocessable entity',
-      detail: 'Cette organisation n’existe pas'
-    })).code(422);
-  }
-
-  if (err instanceof InvalidSnapshotCode) {
-    return h.response(new JSONAPIError({
-      code: '422',
-      title: 'Unprocessable entity',
-      detail: 'Les codes de partage du profil sont trop longs'
-    })).code(422);
-  }
-
-  logger.error(err);
-  return h.response(new JSONAPIError({
-    code: '500',
-    title: 'Internal Server Error',
-    detail: 'Une erreur est survenue lors de la création de l’instantané'
-  })).code(500);
+  return deserializedSnapshot;
 }
 
 async function create(request, h) {
-
-  if (!_hasAnAtuhorizationHeaders(request)) {
-    return h.response(new JSONAPIError({
-      code: '401',
-      title: 'Unauthorized',
-      detail: 'Le token n’est pas valide'
-    })).code(401);
-  }
-
   const token = request.headers.authorization;
 
   try {
@@ -95,18 +48,9 @@ async function create(request, h) {
     const serializedSnapshot = await snapshotSerializer.serialize({ id: snapshotId });
     return h.response(serializedSnapshot).created();
 
-  } catch (err) {
-    return _replyError(err, h);
+  } catch (error) {
+    return errorManager.send(h, error);
   }
-
-}
-
-async function _getSnapshot(snapshotPayload) {
-  const deserializedSnapshot = await snapshotSerializer.deserialize(snapshotPayload);
-  await _validateSnapshotCode(deserializedSnapshot);
-  await _assertThatOrganizationExists(deserializedSnapshot.organization.id);
-
-  return deserializedSnapshot;
 }
 
 async function find(request) {
@@ -115,8 +59,6 @@ async function find(request) {
   });
 
   return snapshotSerializer.serialize(result.models, result.pagination);
-
 }
 
 module.exports = { create, find };
-

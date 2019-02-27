@@ -311,42 +311,27 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     describe('Error cases', () => {
 
-      it('should return a JSONAPI serialized NotFoundError, when expected organization does not exist', async () => {
+      it('should return 404 when expected organization does not exist', async () => {
         // given
-        usecases.writeOrganizationSharedProfilesAsCsvToStream.rejects(NotFoundError);
-        const serializedError = { errors: [] };
-        validationErrorSerializer.serialize.returns(serializedError);
-        const request = {
-          params: {
-            id: 'unexisting id'
-          }
-        };
+        usecases.writeOrganizationSharedProfilesAsCsvToStream.rejects(new NotFoundError());
+        const request = { params: { id: 'unexisting id' } };
 
         // when
         const response = await organizationController.exportSharedSnapshotsAsCsv(request, hFake);
 
         // then
-        expect(response.source).to.deep.equal(serializedError);
-        expect(response.statusCode).to.equal(500);
+        expect(response.statusCode).to.equal(404);
       });
 
-      it('should log an error, when unknown error has occured', async () => {
+      it('should return 500', async () => {
         // given
-        const error = new NotFoundError();
-        usecases.writeOrganizationSharedProfilesAsCsvToStream.rejects(error);
-        const serializedError = { errors: [] };
-        validationErrorSerializer.serialize.returns(serializedError);
-        const request = {
-          params: {
-            id: 'unexisting id'
-          }
-        };
+        usecases.writeOrganizationSharedProfilesAsCsvToStream.rejects();
+        const request = { params: { id: 7 } };
 
         // when
         const response = await organizationController.exportSharedSnapshotsAsCsv(request, hFake);
 
         // then
-        expect(response.source).to.deep.equal(serializedError);
         expect(response.statusCode).to.equal(500);
       });
 

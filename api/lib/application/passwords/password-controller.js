@@ -6,14 +6,10 @@ const resetPasswordService = require('../../domain/services/reset-password-servi
 const tokenService = require('../../domain/services/token-service');
 
 const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
-const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const logger = require('../../infrastructure/logger');
-
+const errorManager = require('../../infrastructure/utils/error-manager');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
 const userRepository = require('../../infrastructure/repositories/user-repository');
-
-const { UserNotFoundError, InternalError, PasswordResetDemandNotFoundError, InvalidTemporaryKeyError } = require('../../domain/errors');
 
 function _sendPasswordResetDemandUrlEmail(email, temporaryKey) {
 
@@ -41,14 +37,7 @@ module.exports = {
       })
       .then(() => passwordResetSerializer.serialize(passwordResetDemand.attributes))
       .then((serializedPayload) => h.response(serializedPayload).created())
-      .catch((err) => {
-        if (err instanceof UserNotFoundError) {
-          return h.response(errorSerializer.serialize(err.getErrorMessage())).code(404);
-        }
-
-        logger.error(err);
-        return h.response(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
   checkResetDemand(request, h) {
@@ -58,15 +47,6 @@ module.exports = {
       .then(() => resetPasswordService.verifyDemand(temporaryKey))
       .then((passwordResetDemand) => userRepository.findByEmail(passwordResetDemand.email))
       .then((user) => userSerializer.serialize(user))
-      .catch((err) => {
-        if (err instanceof InvalidTemporaryKeyError) {
-          return h.response(errorSerializer.serialize(err.getErrorMessage())).code(401);
-        } else if (err instanceof PasswordResetDemandNotFoundError) {
-          return h.response(errorSerializer.serialize(err.getErrorMessage())).code(404);
-        }
-
-        logger.error(err);
-        return h.response(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
-      });
+      .catch((error) => errorManager.send(h, error));
   }
 };
