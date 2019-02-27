@@ -1,8 +1,9 @@
-{{#if this.isNewSession}}
-  <h1 class="page__title page-title">Création d'une session de certification</h1>
-{{else}}
-  <h1 class="page__title page-title">Modification d'une session de certification</h1>
-{{/if}}
+<h1 class="page__title page-title">
+  {{#if this.isNewSession}} Création d'une session de certification
+  {{else}} Modification d'une session de certification
+  {{/if}}
+</h1>
+
 
 <form {{action saveSession session on='submit'}} class="session-form">
 
@@ -47,7 +48,7 @@
                       minDate='today'
                       name='session-date'
                       class='input input--small'
-                      date=(if this.isNewSession "null" (readonly session.date))
+                      date=(if this.isNewSession null (readonly session.date))
     }}
     {{#each session.errors.date as |error|}}
       <div class='session-form__error error-message'>
@@ -68,7 +69,7 @@
                       enableSeconds=false
                       name='session-time'
                       class='input input--small'
-                      date=(if this.isNewSession "null" (readonly session.time))
+                      date=(if this.isNewSession null (readonly session.time))
     }}
     {{#each session.errors.time as |error|}}
       <div class='session-form__error error-message'>
@@ -105,12 +106,12 @@
   </div>
 
   <div class="session-form__validation">
-    <button class="button button--no-color" data-action="cancel" {{action cancel}}>Annuler</button>
-    {{#if this.isNewSession}}
-      <button class="button" type="submit">Créer la session</button>
-    {{else}}
-      <button class="button" type="submit">Modifier la session</button>
-    {{/if}}
+    <button class="button button--no-color" data-action="cancel" {{action cancel session}}>Annuler</button>
+      <button class="button" type="submit">
+        {{#if this.isNewSession}} Créer la session
+        {{else}} Modifier la session
+        {{/if}}
+      </button>
   </div>
 
 </form>
