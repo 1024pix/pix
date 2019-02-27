@@ -1,7 +1,10 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  router: service(),
+
   pagination: null,
 
   nextPage: computed('pagination', function () {
@@ -10,5 +13,11 @@ export default Component.extend({
 
   previousPage: computed('pagination', function () {
     return Math.max(this.pagination.page - 1, 1);
-  })
+  }),
+
+  actions: {
+    changePageSize(pageSize) {
+      this.get('router').replaceWith('authenticated.campaigns.details.participants', { queryParams: { pageSize, pageNumber: 1 } });
+    },
+  }
 });

@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 
 export default Route.extend({
 
-  navbarItem: 'parameters',
+  navbarItem: '',
 
   beforeModel(transition) {
     this.set('navbarItem', transition.targetName.split('.')[3]);
