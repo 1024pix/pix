@@ -3,7 +3,6 @@ const certificationService = require('../../domain/services/certification-servic
 const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const { WrongDateFormatError } = require('../../domain/errors');
 const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
@@ -28,9 +27,7 @@ module.exports = {
       .then((certificationCourse) => certificationCourseService.update(certificationCourse))
       .then(certificationSerializer.serializeFromCertificationCourse)
       .catch((error) => {
-        if (error instanceof WrongDateFormatError) {
-          return h.response(errorSerializer.serialize(error.getErrorMessage())).code(400);
-        } else if (error.message === 'ValidationError') {
+        if (error.message === 'ValidationError') {
           return h.response(errorSerializer.serialize(error)).code(400);
         } else {
           return errorManager.send(h, error);
