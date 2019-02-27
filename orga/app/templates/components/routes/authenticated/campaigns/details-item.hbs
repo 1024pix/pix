@@ -30,14 +30,8 @@
 </div>
 
 <nav class="panel navbar campaign-details__navbar">
-  <button {{action "selectNavbarItem" "parameters"}}
-    class="navbar-item {{if (eq selectedNavbarItem "parameters") "navbar-item-selected"}}">
-    Paramètres
-  </button>
-  <button {{action "selectNavbarItem" "participants"}}
-    class="navbar-item {{if (eq selectedNavbarItem "participants") "navbar-item-selected"}}">
-    Participants
-  </button>
+  {{#link-to 'authenticated.campaigns.details.parameters' class="navbar-item"}}Paramètres{{/link-to}}
+  {{#link-to 'authenticated.campaigns.details.participants' class="navbar-item"}}Participants{{/link-to}}
 </nav>
 
 {{outlet}}
