@@ -235,20 +235,6 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         });
       });
 
-      it('should return 500  HTTP status code, when authorization is valid but error occurred', () => {
-        // given
-        userRepository.findUserById.returns(Promise.reject(new Error()));
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(500);
-          expect(response.result).to.deep.equal(expectedResultWhenErrorOccured);
-        });
-      });
-
     });
 
   });

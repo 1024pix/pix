@@ -133,13 +133,11 @@ module.exports = {
         return challengeSerializer.serialize(challenge);
       })
       .catch((error) => {
-        logContext.err = error;
-        logger.trace(logContext, 'catching exception');
         if (error instanceof AssessmentEndedError) {
           return JSONAPI.emptyDataResponse();
-        } else {
-          return errorManager.send(h, error);
         }
+
+        return errorManager.send(h, error);
       });
   }
 };

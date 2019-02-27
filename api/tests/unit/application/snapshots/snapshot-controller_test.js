@@ -233,21 +233,16 @@ describe('Unit | Controller | snapshot-controller', () => {
           expect(response.source).to.deep.equal(exepectedErr);
         });
 
-        it('should return a specific error JsonApi, when user is not found', async () => {
+        it('should return 404, when user is not found', async () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.rejects(new NotFoundError());
-          const exepectedErr = new JSONAPIError({
-            code: '422',
-            title: 'Unprocessable entity',
-            detail: 'Cet utilisateur est introuvable'
-          });
 
           // when
           const response = await snapshotController.create(request, hFake);
 
           // then
-          expect(response.source).to.deep.equal(exepectedErr);
+          expect(response.statusCode).to.equal(404);
         });
 
         it('should return a specific error JsonApi, when organisation is not found', async () => {
@@ -272,26 +267,20 @@ describe('Unit | Controller | snapshot-controller', () => {
           expect(response.source).to.deep.equal(exepectedErr);
         });
 
-        it('should return a specific error JsonApi, when snapshot saving fails', async () => {
+        it('should return 500 when snapshot saving fails', async () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves();
           organizationRepository.isOrganizationIdExist.resolves();
           profileService.getByUserId.resolves();
           profileSerializer.serialize.resolves();
-          snapshotService.create.rejects(new Error());
-
-          const exepectedErr = new JSONAPIError({
-            code: '500',
-            title: 'Internal Server Error',
-            detail: 'Une erreur est survenue lors de la création de l’instantané'
-          });
+          snapshotService.create.rejects();
 
           // when
           const response = await snapshotController.create(request, hFake);
 
           // then
-          expect(response.source).to.deep.equal(exepectedErr);
+          expect(response.statusCode).to.equal(500);
         });
 
         it('should log an error, when unknown error has occured', async () => {

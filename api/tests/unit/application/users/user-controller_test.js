@@ -18,7 +18,6 @@ const userService = require('../../../../lib/domain/services/user-service');
 const usecases = require('../../../../lib/domain/usecases');
 
 const {
-  InternalError,
   EntityValidationError,
   UserNotAuthorizedToAccessEntity
 } = require('../../../../lib/domain/errors');
@@ -224,24 +223,14 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       describe('When unknown error is handle', () => {
-        it('should reply with a serialized  error', async () => {
+        it('should reply with 500', async () => {
           // given
-          const error = new InternalError();
-          const serializedError = {
-            errors: [{
-              detail: 'Une erreur interne est survenue.',
-              status: '500',
-              title: 'Internal Server Error'
-            }]
-          };
-          validationErrorSerializer.serialize.returns(serializedError);
-          passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
+          passwordResetService.hasUserAPasswordResetDemandInProgress.rejects();
 
           // when
           const response = await userController.updateUser(request, hFake);
 
           // then
-          expect(response.source).to.deep.equal(serializedError);
           expect(response.statusCode).to.equal(500);
         });
       });
@@ -457,13 +446,6 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should return 403 if authenticated user is not authorized to access requested user id', async () => {
       // given
-      const expectedError = {
-        errors: [{
-          code: '403',
-          detail: 'Vous n’avez pas accès à cet utilisateur',
-          title: 'Forbidden Access'
-        }]
-      };
       usecases.getUserWithMemberships.rejects(new UserNotAuthorizedToAccessEntity());
 
       // when
@@ -471,7 +453,6 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       expect(response.statusCode).to.equal(403);
-      expect(response.source).to.deep.equal(expectedError);
     });
 
     it('should return the user found based on the given userId', async () => {

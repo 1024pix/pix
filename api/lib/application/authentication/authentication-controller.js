@@ -8,7 +8,7 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const usecases = require('../../domain/usecases');
 
 const Authentication = require('../../domain/models/Authentication');
-const JSONAPIError = require('jsonapi-serializer').Error;
+const errorManager = require('../../infrastructure/utils/error-manager');
 
 function _buildError() {
   return {
@@ -70,15 +70,7 @@ module.exports = {
           .header('Cache-Control', 'no-store')
           .header('Pragma', 'no-cache');
       })
-      .catch(() => {
-        const errorStatusCode = 403;
-        const jsonApiError = new JSONAPIError({
-          code: errorStatusCode.toString(),
-          title: 'Forbidden',
-          detail: 'Bad credentials',
-        });
-        return h.response(jsonApiError).code(errorStatusCode);
-      });
+      .catch((error) => errorManager.send(h, error));
   },
 
 };
