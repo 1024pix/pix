@@ -3,24 +3,42 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
+  function getMetaForPage(pageNumber) {
+    const rowCount = 50;
+    const pageSize = 25;
+    return {
+      page: pageNumber,
+      pageSize,
+      rowCount,
+      pageCount: Math.ceil(rowCount / pageSize),
+    };
+  }
+
 module('Integration | Component | pagination-control', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+  test('it should disable previous button when user is on first page', async function (assert) {
+    // given
+    this.set('meta', getMetaForPage(1));
 
-    await render(hbs`{{pagination-control}}`);
+    // when
+    await render(hbs`{{pagination-control pagination=meta}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#pagination-control}}
-        template block text
-      {{/pagination-control}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    // then
+    assert.dom('.page-navigation__arrow--previous').hasClass('page-navigation__arrow--disabled');
+    assert.dom('.page-navigation__arrow--previous .icon-button').hasClass('disabled');
   });
+
+  test('it should enable previous button when user is on second page', async function (assert) {
+    // given
+    this.set('meta', getMetaForPage(2));
+
+    // when
+    await render(hbs`{{pagination-control pagination=meta}}`);
+
+    // then
+    assert.dom('.page-navigation__arrow--previous').hasNoClass('page-navigation__arrow--disabled');
+    assert.dom('.page-navigation__arrow--previous .icon-button').hasNoClass('disabled');
+  });
+
 });

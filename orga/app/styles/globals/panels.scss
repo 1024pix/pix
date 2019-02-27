@@ -30,7 +30,9 @@
 
   &-item {
     width: 150px;
-    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: center;
     background-color: transparent;
     border: none;
     border-bottom: 2px solid transparent;
@@ -41,15 +43,16 @@
     font-size: 0.9rem;
     font-weight: 500;
     transition: all ease-in-out .2s;
+    text-decoration: none;
 
     &:hover {
       color: $aqua;
     }
+  }
 
-    &-selected {
+  &-item.active {
       border-bottom: 2px solid $aqua;
       color: $aqua;
-    }
   }
 }
 
