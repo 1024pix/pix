@@ -5,7 +5,7 @@
 
   font-family: $roboto;
   font-size: 0.8175rem;
-  font-color: $dove-gray;
+  color: $dove-gray;
 }
 
 .page-size {
@@ -13,7 +13,14 @@
   align-items: center;
 
   &__label {
-    margin-right: 10px;
+    margin: 0 10px;
+  }
+
+  &__choice .select {
+    height: 35px;
+    width: 70px;
+    background-color: $alto;
+    border: none;
   }
 }
 
@@ -23,11 +30,19 @@
 
   &__arrow {
     margin: 0 10px;
+
+    &--disabled .icon-button{
+        color: $dusty-gray;
+        cursor: default;
+
+      &.icon-button:hover, &.icon-button:active {
+        background-color: transparent;
+      }
+    }
   }
 
   &__body {
     display: flex;
-    align-items: center;
   }
 
   &__label {
@@ -35,11 +50,11 @@
   }
 
   &__current-page {
-    margin-right: 10px;
+    width: 30px;
   }
 
   &__last-page {
-
+    width: 30px;
   }
 }
 
