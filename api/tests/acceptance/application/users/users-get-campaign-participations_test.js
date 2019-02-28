@@ -64,7 +64,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
               id: campaignParticipation2.id.toString(),
               attributes: {
                 'is-shared': campaignParticipation2.isShared,
-                'participant-external-id': null,
+                'participant-external-id': campaignParticipation2.participantExternalId,
                 'shared-at': campaignParticipation2.sharedAt,
                 'created-at': campaignParticipation2.createdAt
               },
@@ -83,7 +83,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
               id: campaignParticipation1.id.toString(),
               attributes: {
                 'is-shared': campaignParticipation1.isShared,
-                'participant-external-id': null,
+                'participant-external-id': campaignParticipation1.participantExternalId,
                 'shared-at': campaignParticipation1.sharedAt,
                 'created-at': campaignParticipation1.createdAt
               },

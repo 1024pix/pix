@@ -55,7 +55,7 @@ describe('Acceptance | API | Campaign Participations', () => {
             'attributes': {
               'created-at': campaignParticipation.createdAt.getTime(),
               'is-shared': Number(campaignParticipation.isShared),
-              'participant-external-id': null,
+              'participant-external-id': campaignParticipation.participantExternalId,
               'shared-at': campaignParticipation.sharedAt.getTime(),
             },
             'id': campaignParticipation.id.toString(),
