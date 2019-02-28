@@ -11,11 +11,11 @@ import sinon from 'sinon';
 import $ from 'jquery';
 
 const FORM_CONTAINER = '.sign-form__container';
-const FORM_HEADER_CONTAINER = '.sign-form__header-container';
-const FORM_HEADER = '.sign-form-header__title';
+const FORM_HEADER_CONTAINER = '.sign-form__header';
+const FORM_HEADER = '.sign-form-title';
 const EXPECTED_FORM_HEADER_CONTENT = 'Inscrivez-vous';
 
-const INPUT_TEXT_FIELD = '.sign-form__input-container';
+const INPUT_TEXT_FIELD = '.sign-form-body__input';
 const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default';
 
 const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
@@ -26,7 +26,7 @@ const UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions général
 const CGU_LINK = '.signup-form__cgu .link';
 const CGU_LINK_CONTENT = 'conditions d\'​utilisation de Pix';
 
-const SUBMIT_BUTTON_CONTAINER = '.sign-form__submit-container';
+const SUBMIT_BUTTON_CONTAINER = '.sign-form-body__bottom-button';
 const SUBMIT_BUTTON = '.button';
 const SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
 
@@ -341,7 +341,7 @@ describe('Integration | Component | signup form', function() {
         this.$('.button').click();
         // then
         return wait().then(() => {
-          expect(this.$('.sign-form__field-message--error')).to.have.lengthOf(1);
+          expect(this.$('.sign-form__validation-error')).to.have.lengthOf(1);
         });
       });
     });
