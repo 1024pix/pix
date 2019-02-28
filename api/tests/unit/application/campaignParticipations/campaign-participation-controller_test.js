@@ -51,7 +51,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       const response = await campaignParticipationController.find(request, hFake);
 
       // then
-      expect(response.source).to.deep.equal(serialized);
+      expect(response).to.deep.equal(serialized);
     });
   });
 

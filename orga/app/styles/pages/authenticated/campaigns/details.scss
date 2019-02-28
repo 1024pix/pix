@@ -32,77 +32,8 @@
   }
 }
 
-.campaign-details-csv {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 15px;
-}
-
 .campaign-details__navbar {
   display: flex;
   margin: 1em 0;
 }
 
-.campaign-details-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.campaign-details-row {
-  display: flex;
-  flex-direction: row;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid $alto;
-  }
-}
-
-.campaign-details-content {
-  display: flex;
-  flex-direction: column;
-  padding: 22px 38px;
-
-  &--large-entry {
-    width: 40%;
-  }
-  &--small-entry {
-    width: 15%;
-  }
-
-  &--single {
-    &:first-child {
-      width: 55%;
-    }
-  }
-
-  &:not(:last-child) {
-    border-right: 1px solid $alto;
-  }
-
-  &__label {
-    margin: 0 0 10px;
-  }
-
-  &__text {
-    margin: 0;
-  }
-
-  &__clipboard {
-    display: flex;
-    flex-direction: row;
-  }
-
-  &__return-button {
-    margin-bottom: 10px;
-    margin-right: 6px;
-  }
-
-  &__clipboard-button {
-    margin-top: -10px;
-    margin-left: 6px;
-  }
-
-  &__tooltip-text {
-    margin-bottom: 6px;
-  }
-}

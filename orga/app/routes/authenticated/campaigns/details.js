@@ -17,6 +17,6 @@ export default Route.extend({
   },
 
   afterModel(model) {
-    model.belongsTo('campaignReport').reload();
+    model.campaign.belongsTo('campaignReport').reload();
   }
 });
