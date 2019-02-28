@@ -1,6 +1,6 @@
 {
   "name": "pix-admin",
-  "version": "2.27.0",
+  "version": "2.28.0",
   "private": false,
   "description": "Interface d'administration pour les Pix Masters.",
   "license": "AGPL-3.0",
@@ -22,6 +22,7 @@
     "coverage": "COVERAGE=true ember test",
     "dev": "ember serve",
     "lint": "eslint .",
+    "preinstall": "test \"$(npm --version)\" = 6.4.1",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember serve --proxy",
     "test": "ember exam"

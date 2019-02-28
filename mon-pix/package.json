@@ -1,12 +1,12 @@
 {
   "name": "mon-pix",
-  "version": "2.27.0",
+  "version": "2.28.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "8.11.4"
+    "node": "10.15.1"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "build": "ember build --environment $BUILD_ENVIRONMENT",
+    "preinstall": "test \"$(npm --version)\" = 6.4.1",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember server --proxy",
     "test": "ember test --reporter dot",
@@ -64,7 +65,6 @@
     "ember-cli-mirage": "^0.4.9",
     "ember-cli-mocha": "^0.15.0",
     "ember-cli-moment-shim": "^3.7.1",
-    "ember-cli-release": "^1.0.0-beta.2",
     "ember-cli-sass": "^7.2.0",
     "ember-cli-sentry": "^3.0.0",
     "ember-cli-shims": "^1.2.0",

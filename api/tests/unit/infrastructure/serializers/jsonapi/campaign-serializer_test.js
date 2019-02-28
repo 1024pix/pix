@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
       const expectedSerializedCampaign = {
         data: {
           type: 'campaigns',
-          id: 5,
+          id: '5',
           attributes: {
             name: 'My zuper campaign',
             code: 'ATDGER342',
@@ -43,9 +43,14 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
                 id: '123',
                 type: 'targetProfiles'
               }
+            },
+            'campaign-report': {
+              'links': {
+                'related': '/campaigns/5/campaign-report'
+              }
             }
           }
-        }, 
+        },
         included: [
           {
             attributes: {

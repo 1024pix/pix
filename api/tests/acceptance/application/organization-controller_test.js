@@ -473,7 +473,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'type': organization.type,
               'logo-url': organization.logoUrl,
             },
-            'id': organization.id,
+            'id': organization.id.toString(),
             'relationships': {
               'user': {
                 'data': null,

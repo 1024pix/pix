@@ -1,12 +1,12 @@
 {
   "name": "pix-certif",
-  "version": "2.27.0",
+  "version": "2.28.0",
   "private": false,
   "description": "Plateforme en ligne de gestion des sessions de certification",
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "8.11.4"
+    "node": "10.15.1"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
     "dev": "ember serve",
     "lint": "eslint ./*.js app blueprints config lib server tests",
     "lint:hbs": "ember-template-lint .",
+    "preinstall": "test \"$(npm --version)\" = 6.4.1",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember serve --proxy",
     "test": "ember test"

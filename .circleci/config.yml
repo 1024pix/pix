@@ -8,50 +8,16 @@
 #
 # Things to know:
 # - every job is a container
-# - we need cache, everywhere for everything
+# - cache is used for data that can potentially be reused between builds, provided we can
+#   be sure it will not influence the build result other than by speeding it up.
 # - cache is immutable. Sometimes we need to flush the cache, but we can't. That's why there is this
-# `v1-` at the beginning. Increment it to `v1-` when you need to change the cache content
-#
-# Cached entries (lifetime = months):
-# - `v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}`       => the source code and dependencies
-#
-# Workspace entries (lifetime = workflow):
-# - `~/pix/mon-pix/dist`                                 => `pix/mon-pix/dist` directory
-
-common_properties: &common_properties
-  docker:
-    - image: circleci/node:8.11
-  working_directory: ~/pix
-
-# Properties shared by all api-side jobs
-api_properties: &api_properties
-  docker:
-    - image: circleci/node:8.11
-  working_directory: ~/pix/api
-
-# Properties shared by all mon_pix-side jobs
-mon_pix_properties: &mon_pix_properties
-  docker:
-    - image: circleci/node:8.11-browsers
-  working_directory: ~/pix/mon-pix
-
-# Properties shared by all orga-side jobs
-orga_properties: &orga_properties
-  docker:
-    - image: circleci/node:8.11-browsers
-  working_directory: ~/pix/orga
-
-# Properties shared by all certif-side jobs
-certif_properties: &certif_properties
-  docker:
-    - image: circleci/node:8.11-browsers
-  working_directory: ~/pix/certif
-
-# Properties shared by all admin-side jobs
-admin_properties: &admin_properties
-  docker:
-    - image: circleci/node:8.11-browsers
-  working_directory: ~/pix/admin
+#   `v1-` at the beginning. Increment it when you need to change the cache content.
+# - because we use `npm ci`, we cache the `~/.npm` directory and not `node_modules` which
+#   is erased by `npm ci`.
+# - to make sure the cache is indexed by the `package.json` and `package-lock.json` files,
+#   we concatenate them into a temporary file whose checksum we use as part of the cache key.
+# - for data that is specific to a build (commit), like the source code downloaded from github,
+#   we use Circle CI's workspace feature to transport it between jobs.
 
 version: 2.0
 
@@ -59,8 +25,7 @@ workflows:
   version: 2
   build-test-and-deploy:
     jobs:
-      # Common
-      - checkout_and_install:
+      - checkout:
           filters:
             branches:
               ignore:
@@ -70,47 +35,30 @@ workflows:
                 - gh-pages
                 - /release-.*/
 
-      # api side
       - api_build_and_test:
           requires:
-            - checkout_and_install
+            - checkout
 
-      # mon_pix side
-      - mon_pix_build:
+      - mon_pix_build_and_test:
           requires:
-            - checkout_and_install
-      - mon_pix_test_1:
-          requires:
-            - mon_pix_build
-      - mon_pix_test_2:
-          requires:
-            - mon_pix_build
-      - mon_pix_test_3:
-          requires:
-            - mon_pix_build
+            - checkout
 
-      # orga side
       - orga_build_and_test:
           requires:
-            - checkout_and_install
+            - checkout
 
-      # certif side
       - certif_build_and_test:
           requires:
-            - checkout_and_install
+            - checkout
 
-      # admin side
       - admin_build_and_test:
           requires:
-            - checkout_and_install
+            - checkout
 
-      # common ci notification
       - signal_ci_ok:
           requires:
             - api_build_and_test
-            - mon_pix_test_1
-            - mon_pix_test_2
-            - mon_pix_test_3
+            - mon_pix_build_and_test
             - orga_build_and_test
             - certif_build_and_test
             - admin_build_and_test
@@ -120,125 +68,150 @@ workflows:
                 - dev
 
 jobs:
-  # Common
-  checkout_and_install:
-    <<: *common_properties
+  checkout:
+    docker:
+      - image: circleci/node:10.15
+    working_directory: ~/pix
     steps:
       - checkout
-      - run: npm install # triggers npm install for subdirectories
-      - run: rm -rf .git/ # do not cache .git
-      - save_cache:
-          key: v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+      - run: rm -rf .git/
+      - persist_to_workspace:
+          root: ~/pix
           paths:
-            - ~/pix
-            - ~/.npm
+            - .
 
-  # api
   api_build_and_test:
     docker:
-      - image: circleci/node:8.11
+      - image: circleci/node:10.15
       - image: postgres:10-alpine
         environment:
           POSTGRES_USER: circleci
     working_directory: ~/pix/api
     steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
-      - run:
-          command: |
-            npm run lint
-            npm test
+            - v7-api-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-api-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+      - run: |
+          npm run lint
+          npm test
       - run:
           command: |
             npm run db:migrate
             npm run db:seed
           environment:
-            TEST_DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
-            NODE_ENV: "test"
+            TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
+            NODE_ENV: test
 
-  # mon_pix
-  mon_pix_build:
-    <<: *mon_pix_properties
+  mon_pix_build_and_test:
+    docker:
+      - image: circleci/node:10.15-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
+    working_directory: ~/pix/mon-pix
+    parallelism: 3
     steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
-      - run: |
-          if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-            npx ember build --environment staging
-          else
-            npx ember build --environment integration
-          fi
-      - persist_to_workspace:
-          root: ~/pix/mon-pix
+            - v7-mon-pix-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-mon-pix-npm-{{ checksum "cachekey" }}
           paths:
-            - dist
+            - ~/.npm
+      - run: |
+          npx ember exam --split=$CIRCLE_NODE_TOTAL --partition=$((1 + CIRCLE_NODE_INDEX)) --reporter dot
 
-  mon_pix_test_1:
-    <<: *mon_pix_properties
-    steps:
-      - restore_cache:
-          keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
-      - attach_workspace:
-          at: ~/pix/mon-pix
-      - run: npx ember exam --path dist --split=3 --partition=1 --reporter dot
-
-  mon_pix_test_2:
-    <<: *mon_pix_properties
-    steps:
-      - restore_cache:
-          keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
-      - attach_workspace:
-          at: ~/pix/mon-pix
-      - run: npx ember exam --path dist --split=3 --partition=2 --reporter dot
-
-  mon_pix_test_3:
-    <<: *mon_pix_properties
-    steps:
-      - restore_cache:
-          keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
-      - attach_workspace:
-          at: ~/pix/mon-pix
-      - run: npx ember exam --path dist --split=3 --partition=3 --reporter dot
-
-  # orga
   orga_build_and_test:
-    <<: *orga_properties
+    docker:
+      - image: circleci/node:10.15-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
+    working_directory: ~/pix/orga
     steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+            - v7-orga-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-orga-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
       - run: npm test
 
-  # certif
   certif_build_and_test:
-    <<: *certif_properties
+    docker:
+      - image: circleci/node:10.15-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
+    working_directory: ~/pix/certif
     steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+            - v7-certif-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-certif-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
       - run: npm test
 
-  # admin
   admin_build_and_test:
-    <<: *admin_properties
+    docker:
+      - image: circleci/node:10.15-browsers
+        environment:
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
+    working_directory: ~/pix/admin
     steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+            - v7-admin-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-admin-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
       - run: npm test
 
-  # common ci notification
   signal_ci_ok:
-    <<: *common_properties
+    docker:
+      - image: circleci/node:10.15
+    working_directory: ~/pix
     steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+            - v7-root-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-root-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
       - run: sudo apt-get install -y jq
       - run: npm run ci:signal-jira
       - run: ~/pix/scripts/signal_deploy_to_pr.sh

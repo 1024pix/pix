@@ -51,7 +51,7 @@ module.exports = {
   },
 
   save(domainCampaign) {
-    const repositoryCampaign = _.omit(domainCampaign, ['createdAt', 'organizationLogoUrl', 'targetProfile']);
+    const repositoryCampaign = _.omit(domainCampaign, ['createdAt', 'organizationLogoUrl', 'targetProfile', 'campaignReport']);
     return new BookshelfCampaign(repositoryCampaign)
       .save()
       .then(_toDomain);

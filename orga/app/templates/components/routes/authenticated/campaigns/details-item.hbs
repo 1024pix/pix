@@ -5,6 +5,25 @@
     {{/link-to}}
     <h1 class="page__title page-title">{{campaign.name}}</h1>
   </div>
+
+  <div class="campaign-details-header__report">
+    <div class="campaign-details-header-report__participants">
+      <h4 class="label-text campaign-details-content__label">Participants</h4>
+      <span class="content-text content-text--big campaign-details-content__text">
+        {{participationsCount}}
+      </span>
+    </div>
+
+    <div class="campaign-details-header-report__shared">
+      <h4 class="label-text campaign-details-content__label">Profil reçus</h4>
+      <span class="content-text content-text--big campaign-details-content__text">
+        {{sharedParticipationsCount}}
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class='campaign-details-csv'>
   <a class="button button--link" href="{{campaign.urlToResult}}" target="_blank" download>
     Export résultats (.csv)
   </a>
@@ -12,17 +31,19 @@
 
 <div class="panel panel--strong-shadow campaign-details-container">
   <div class="campaign-details-row">
-    <div class="campaign-details-content campaign-details-content--multiple">
+    <div class="campaign-details-content campaign-details-content--large-entry">
       <h4 class="label-text campaign-details-content__label">Profil cible</h4>
       <p class="content-text campaign-details-content__text">{{campaign.targetProfile.name}}</p>
     </div>
 
-    <div class="campaign-details-content campaign-details-content--multiple">
-      <h4 class="label-text campaign-details-content__label">Identifiant</h4>
-      <p class="content-text campaign-details-content__text">{{campaign.idPixLabel}}</p>
-    </div>
+    {{#if campaign.idPixLabel}}
+      <div class="campaign-details-content campaign-details-content--small-entry">
+        <h4 class="label-text campaign-details-content__label">Libellé de l'identifiant</h4>
+        <p class="content-text campaign-details-content__text">{{campaign.idPixLabel}}</p>
+      </div>
+    {{/if}}
 
-    <div class="campaign-details-content campaign-details-content--multiple">
+    <div class="campaign-details-content campaign-details-content--large-entry">
       <h4 class="label-text campaign-details-content__label">Lien direct</h4>
       <div class="campaign-details-content__clipboard">
         <p class="content-text campaign-details-content__text">{{campaign.url}}</p>

@@ -216,7 +216,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
         data:
           [{
             type: 'snapshots',
-            id: 1,
+            id: '1',
             attributes: {
               score: '15',
               'tests-finished': '1',
@@ -234,7 +234,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
             }
           }, {
             type: 'snapshots',
-            id: 2,
+            id: '2',
             attributes: {
               score: '4',
               'tests-finished': '3',

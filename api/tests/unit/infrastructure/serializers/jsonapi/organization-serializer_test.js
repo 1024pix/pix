@@ -16,7 +16,7 @@ describe('Unit | Serializer | organization-serializer', () => {
       expect(serializedOrganization).to.deep.equal({
         data: {
           type: 'organizations',
-          id: organization.id,
+          id: organization.id.toString(),
           attributes: {
             'name': organization.name,
             'type': organization.type,

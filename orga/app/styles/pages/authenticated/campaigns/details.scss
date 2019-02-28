@@ -11,9 +11,31 @@
   margin: 1em 0;
 }
 
-.campaign-details-header__title {
+.campaign-details-header {
+  &__title {
+    display: flex;
+    align-items: center;
+  }
+
+  &__report {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+  }
+}
+
+.campaign-details-header-report {
+  &__participants {
+    padding-right: 40px;
+    margin-right: 40px;
+    border-right: 1px solid $alto;
+  }
+}
+
+.campaign-details-csv {
   display: flex;
-  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 15px;
 }
 
 .campaign-details-container {
@@ -35,18 +57,11 @@
   flex-direction: column;
   padding: 22px 38px;
 
-  &--multiple {
-    &:first-child {
-      width: 40%;
-    }
-
-    &:nth-child(2) {
-      width: 15%;
-    }
-
-    &:nth-child(3) {
-      width: 40%;
-    }
+  &--large-entry {
+    width: 40%;
+  }
+  &--small-entry {
+    width: 15%;
   }
 
   &--single {

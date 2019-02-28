@@ -23,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const expectedSerializedSnapshot = {
         data: {
           type: 'snapshots',
-          id: 1,
+          id: '1',
           attributes: {
             'tests-finished': '12',
             'created-at': '2017-08-23 12:52:33',
@@ -76,7 +76,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const snapshotsArray = [snapshot1, snapshot2];
       const expectedJson = {
         data: [{
-          id: 1,
+          id: '1',
           type: 'snapshots',
           attributes: {
             score: '10',
@@ -92,7 +92,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
             }
           }
         }, {
-          id: 2,
+          id: '2',
           type: 'snapshots',
           attributes: {
             score: '12',
@@ -144,7 +144,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
 
       const expectedSerializedSnapshot = {
         data: {
-          id: 1,
+          id: '1',
           type: 'snapshots',
           attributes: {
             'created-at': '2017-08-23 12:52:33',
@@ -176,7 +176,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
 
       const expectedSerializedSnapshot = {
         data: {
-          id: 1,
+          id: '1',
           type: 'snapshots',
           attributes: {
             'created-at': '2017-08-23 12:52:33',
@@ -207,7 +207,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
 
       const expectedSerializedSnapshot = {
         data: {
-          id: 1,
+          id: '1',
           type: 'snapshots',
           attributes: {
             'created-at': '2017-10-05 22:452:58',
@@ -229,7 +229,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
     it('should set the campaign code to null when it is not defined', () => {
       // given
       const snapshot = {
-        id: 1,
+        id: '1',
         createdAt: '2017-10-05 22:452:58',
         score: '12',
         studentCode: 'student_code',
@@ -238,7 +238,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
 
       const expectedSerializedSnapshot = {
         data: {
-          id: 1,
+          id: '1',
           type: 'snapshots',
           attributes: {
             'created-at': '2017-10-05 22:452:58',
