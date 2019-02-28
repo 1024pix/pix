@@ -117,6 +117,10 @@ export default function(server) {
     title: 'Le Titre de la campagne'
   });
 
+  server.create('password-reset-demand', {
+    temporaryKey: 'temporaryKey',
+  });
+
   prescriber.organization = company;
   company.user = prescriber;
 
