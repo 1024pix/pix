@@ -3,12 +3,9 @@ const certificationCourseController = require('../../../../lib/application/certi
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
-const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-
-const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Controller | certification-course-controller', () => {
 
@@ -28,7 +25,6 @@ describe('Unit | Controller | certification-course-controller', () => {
 
     beforeEach(() => {
       sinon.stub(certificationService, 'calculateCertificationResultByCertificationCourseId').resolves(certificationScore);
-      sinon.stub(logger, 'error');
     });
 
     it('should call certification Service to compute score', async () => {
@@ -46,36 +42,6 @@ describe('Unit | Controller | certification-course-controller', () => {
 
       // then
       expect(response).to.equal(certificationScore);
-    });
-
-    context('when the retrieving result is failing', () => {
-      it('should log the error', () => {
-        // given
-        const expectedError = new Error('Expected error');
-        certificationService.calculateCertificationResultByCertificationCourseId.rejects(expectedError);
-
-        // when
-        const promise = certificationCourseController.computeResult(request, hFake);
-
-        // then
-        return promise.catch(() => {
-          sinon.assert.calledWith(logger.error, expectedError);
-        });
-      });
-
-      it('should return a bad implementation error', () => {
-        // given
-        const error = new Error('Unexpected error');
-        certificationService.calculateCertificationResultByCertificationCourseId.rejects(error);
-
-        // when
-        const promise = certificationCourseController.computeResult(request, hFake);
-
-        // then
-        return promise.catch((error) => {
-          expect(error.output.statusCode).to.equal(500);
-        });
-      });
     });
   });
 
@@ -177,23 +143,6 @@ describe('Unit | Controller | certification-course-controller', () => {
 
         // then
         expect(response).to.deep.equal(JsonAPISavedCertification);
-      });
-    });
-
-    context('When certification course was not modified', () => {
-
-      beforeEach(() => {
-        sinon.stub(certificationCourseService, 'update').rejects(NotFoundError);
-      });
-
-      it('should reply a 404 if no certification where updated', function() {
-        // when
-        const promise = certificationCourseController.update(options, hFake);
-
-        // then
-        return promise.catch((error) => {
-          expect(error.output.statusCode).to.equal(404);
-        });
       });
     });
   });
