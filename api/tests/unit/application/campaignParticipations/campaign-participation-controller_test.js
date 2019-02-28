@@ -1,7 +1,6 @@
 const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
-const { NotFoundError } = require('../../../../lib/domain/errors');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
@@ -124,29 +123,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
       expect(updateCampaignParticiaption).to.have.property('userId');
       expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
-    });
-
-    context('when the request is invalid', () => {
-
-      it('should return a 404 status code if the participation is not found', async () => {
-        // given
-        const nonExistingAssessmentId = 1789;
-        const request = {
-          params: {
-            id: nonExistingAssessmentId,
-          },
-          headers: {
-            authorization: 'token'
-          },
-        };
-        usecases.shareCampaignResult.rejects(new NotFoundError());
-
-        // when
-        const response = await campaignParticipationController.shareCampaignResult(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
     });
 
     context('when the request comes from a different user', () => {

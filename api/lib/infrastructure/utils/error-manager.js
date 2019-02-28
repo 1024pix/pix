@@ -4,7 +4,11 @@ const JSONAPI = require('../../interfaces/jsonapi');
 const errorSerializer = require('../serializers/jsonapi/error-serializer');
 const logger = require('../logger');
 
-function send(h, error) {
+function send(h, error, firstPassage = true) {
+  if (firstPassage) {
+    throw error;
+  }
+  
   if (error instanceof DomainErrors.EntityValidationError) {
     return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
   }

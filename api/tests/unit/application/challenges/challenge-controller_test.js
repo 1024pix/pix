@@ -3,7 +3,6 @@ const Hapi = require('hapi');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
-const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | challenge-controller', function() {
 
@@ -33,17 +32,6 @@ describe('Unit | Controller | challenge-controller', function() {
 
       // then
       expect(response.result).to.deep.equal({ serialized: challenge });
-    });
-
-    it('should reply with error status code 404 if challenge not found', async () => {
-      // given
-      ChallengeRepoStub.rejects(new NotFoundError());
-
-      // when
-      const response = await server.inject({ method: 'GET', url: '/api/challenges/unknown_id' });
-
-      // then
-      expect(response.statusCode).to.equal(404);
     });
   });
 });
