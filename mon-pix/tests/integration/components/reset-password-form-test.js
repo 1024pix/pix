@@ -23,9 +23,9 @@ describe('Integration | Component | reset password form', function() {
 
       [
         { item: '.pix-logo__link' },
-        { item: '.sign-form-header__title' },
+        { item: '.sign-form-title' },
         { item: '.sign-form-header__instruction' },
-        { item: '.sign-form__form' },
+        { item: '.sign-form__body' },
         { item: '.form-textfield__label' },
         { item: '.form-textfield__input-field-container' },
         { item: '.button' }
@@ -48,7 +48,7 @@ describe('Integration | Component | reset password form', function() {
         this.render(hbs`{{reset-password-form user=user}}`);
 
         // then
-        expect(this.$('.sign-form-header__title').text().trim()).to.equal(user.fullName);
+        expect(this.$('.sign-form-title').text().trim()).to.equal(user.fullName);
       });
 
     });
@@ -99,7 +99,7 @@ describe('Integration | Component | reset password form', function() {
           expect(isSaveMethodCalled).to.be.true;
           expect(this.get('user.password')).to.eql(null);
           expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal(undefined);
-          expect(this.$('.sign-form__message')).to.have.lengthOf(1);
+          expect(this.$('.password-reset-demand-form__body')).to.have.lengthOf(1);
         });
 
         it('should get an error, when button is clicked and saving return error', async function() {

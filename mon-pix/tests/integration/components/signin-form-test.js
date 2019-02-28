@@ -41,7 +41,7 @@ describe('Integration | Component | signin form', function() {
       this.render(hbs`{{signin-form}}`);
 
       // then
-      expect(document.querySelector('a.signin-form__forgotten-password-link')).to.exist;
+      expect(document.querySelector('a.sign-form-body__forgotten-password-link')).to.exist;
     });
 
     it('should not display any error by default', function() {
