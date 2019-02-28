@@ -2,6 +2,10 @@
 // https://www.npmjs.com/package/dotenv#usage
 require('dotenv').config();
 
+const { DomainError } = require('./lib/domain/errors');
+const { InfrastructureError } = require('./lib/infrastructure/errors');
+const errorManager = require('./lib/infrastructure/utils/error-manager');
+
 const Hapi = require('hapi');
 
 const routes = require('./lib/routes');
@@ -27,6 +31,18 @@ const createServer = async () => {
       stripTrailingSlash: true
     }
   });
+
+  const preResponse = function(request, h) {
+    const response = request.response;
+
+    if (response instanceof DomainError || response instanceof InfrastructureError) {
+      return errorManager.send(h, response, false);
+    }
+
+    return h.continue;
+  };
+
+  server.ext('onPreResponse', preResponse);
 
   server.auth.scheme('jwt-access-token', security.scheme);
   server.auth.strategy('default', 'jwt-access-token');
