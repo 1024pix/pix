@@ -22,7 +22,6 @@ export default Route.extend({
           number: params.pageNumber,
           size: params.pageSize,
         },
-        sort: '-createdAt',
         include: 'user'
       })
     });
