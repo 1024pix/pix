@@ -1,5 +1,4 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
-const { UserNotFoundError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
@@ -17,188 +16,59 @@ const errorSerializer = require('../../../../lib/infrastructure/serializers/json
 
 const User = require('../../../../lib/domain/models/User');
 
-const logger = require('../../../../lib/infrastructure/logger');
-
 describe('Unit | Controller | PasswordController', () => {
 
   describe('#createResetDemand', () => {
+    const userEmail = 'shi@fu.me';
 
-    describe('When payload has a good format: ', () => {
-
-      const userEmail = 'shi@fu.me';
-
-      const request = {
-        payload: {
-          data: {
-            attributes: {
-              email: userEmail
-            }
+    const request = {
+      payload: {
+        data: {
+          attributes: {
+            email: userEmail
           }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      sinon.stub(userService, 'isUserExistingByEmail');
+      sinon.stub(mailService, 'sendResetPasswordDemandEmail');
+      sinon.stub(resetPasswordService, 'generateTemporaryKey');
+      sinon.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
+      sinon.stub(resetPasswordRepository, 'create');
+      sinon.stub(errorSerializer, 'serialize');
+      sinon.stub(passwordResetSerializer, 'serialize');
+    });
+
+    it('should reply with serialized password reset demand when all went well', async () => {
+      // given
+      const generatedToken = 'token';
+      const demand = { email: 'shi@fu.me', temporaryKey: generatedToken };
+      const hostBaseUrl = 'http://localhost';
+      const resolvedPasswordReset = {
+        attributes: {
+          email: 'Giles75@hotmail.com',
+          temporaryKey: 'one token',
+          id: 15
         }
       };
 
-      beforeEach(() => {
+      userService.isUserExistingByEmail.resolves();
+      resetPasswordService.generateTemporaryKey.returns(generatedToken);
+      mailService.sendResetPasswordDemandEmail.resolves(resolvedPasswordReset);
+      resetPasswordRepository.create.resolves(resolvedPasswordReset);
+      passwordResetSerializer.serialize.resolves();
 
-        sinon.stub(userService, 'isUserExistingByEmail');
-        sinon.stub(mailService, 'sendResetPasswordDemandEmail');
-        sinon.stub(resetPasswordService, 'generateTemporaryKey');
-        sinon.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
-        sinon.stub(resetPasswordRepository, 'create');
-        sinon.stub(errorSerializer, 'serialize');
-        sinon.stub(passwordResetSerializer, 'serialize');
-        sinon.stub(logger, 'error');
-      });
+      // when
+      await passwordController.createResetDemand(request, hFake);
 
-      describe('User existence test cases', () => {
-
-        it('should verify user existence (by email)', async () => {
-          // given
-          userService.isUserExistingByEmail.resolves();
-
-          //when
-          await passwordController.createResetDemand(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(userService.isUserExistingByEmail);
-          sinon.assert.calledWith(userService.isUserExistingByEmail, userEmail);
-        });
-
-        it('should verify user existence without being case sensitive', async () => {
-          // given
-          userService.isUserExistingByEmail.resolves();
-
-          const userEmailWithCamelCase = 'my_VERY_email@example.net';
-          const normalizedUserEmail = 'my_very_email@example.net';
-
-          const request = {
-            payload: {
-              data: {
-                attributes: {
-                  email: userEmailWithCamelCase
-                }
-              }
-            }
-          };
-
-          //when
-          await passwordController.createResetDemand(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(userService.isUserExistingByEmail);
-          sinon.assert.calledWith(userService.isUserExistingByEmail, normalizedUserEmail);
-        });
-
-        it('should rejects a 404, when user is not found', async () => {
-          // given
-          userService.isUserExistingByEmail.rejects(new UserNotFoundError());
-
-          //when
-          const response = await passwordController.createResetDemand(request, hFake);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-        });
-
-        it('should log the error when something turns wrong', async () => {
-          // given
-          const error = new Error();
-          userService.isUserExistingByEmail.rejects(error);
-
-          //when
-          await passwordController.createResetDemand(request, hFake);
-
-          // then
-          expect(logger.error).to.have.been.calledWith(error);
-        });
-      });
-
-      it('should ask for a temporary token generation', async () => {
-        // given
-        const generatedToken = 'token';
-        userService.isUserExistingByEmail.resolves();
-        resetPasswordService.generateTemporaryKey.returns(generatedToken);
-
-        //when
-        await passwordController.createResetDemand(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(resetPasswordService.generateTemporaryKey);
-      });
-
-      it('should save a new reset password demand', async () => {
-        // given
-        const generatedToken = 'token';
-        const demand = { email: 'shi@fu.me', temporaryKey: generatedToken };
-        userService.isUserExistingByEmail.resolves();
-        resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        resetPasswordRepository.create.resolves();
-
-        //when
-        await passwordController.createResetDemand(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(resetPasswordRepository.create);
-        sinon.assert.calledWith(resetPasswordRepository.create, demand);
-      });
-
-      it('should send an email with a reset password link', async () => {
-        // given
-        const generatedToken = 'token';
-        const hostBaseUrl = 'http://localhost';
-        userService.isUserExistingByEmail.resolves();
-        resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        const resolvedPasswordReset = {
-          attributes: {
-            email: 'Giles75@hotmail.com',
-            temporaryKey: 'one token',
-            id: 15
-          }
-        };
-        resetPasswordRepository.create.resolves(resolvedPasswordReset);
-
-        //when
-        await passwordController.createResetDemand(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(mailService.sendResetPasswordDemandEmail);
-        sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.data.attributes.email, hostBaseUrl, generatedToken);
-      });
-
-      it('should reply with serialized password reset demand when all went well', async () => {
-        // given
-        const generatedToken = 'token';
-        userService.isUserExistingByEmail.resolves();
-        resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        const resolvedPasswordReset = {
-          attributes: {
-            email: 'Giles75@hotmail.com',
-            temporaryKey: 'one token',
-            id: 15
-          }
-        };
-        mailService.sendResetPasswordDemandEmail.resolves(resolvedPasswordReset);
-        resetPasswordRepository.create.resolves(resolvedPasswordReset);
-        passwordResetSerializer.serialize.resolves();
-
-        // when
-        await passwordController.createResetDemand(request, hFake);
-
-        // then
-        sinon.assert.calledWith(passwordResetSerializer.serialize, resolvedPasswordReset.attributes);
-      });
-
-      describe('When internal error has occured', () => {
-        it('should reply with 500', async () => {
-          // given
-          userService.isUserExistingByEmail.rejects();
-
-          //when
-          const response = await passwordController.createResetDemand(request, hFake);
-
-          // then
-          expect(response.statusCode).to.equal(500);
-        });
-      });
+      // then
+      sinon.assert.calledWith(userService.isUserExistingByEmail, userEmail);
+      sinon.assert.calledOnce(resetPasswordService.generateTemporaryKey);
+      sinon.assert.calledWith(resetPasswordRepository.create, demand);
+      sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.data.attributes.email, hostBaseUrl, generatedToken);
+      sinon.assert.calledWith(passwordResetSerializer.serialize, resolvedPasswordReset.attributes);
     });
   });
 
@@ -281,48 +151,5 @@ describe('Unit | Controller | PasswordController', () => {
       });
 
     });
-
-    describe('When temporaryKey is not valid', () => {
-
-      it('should reply with 401', async () => {
-        // given
-        resetPasswordService.verifyDemand.rejects(new InvalidTemporaryKeyError());
-
-        // when
-        const response = await passwordController.checkResetDemand(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(401);
-      });
-    });
-
-    describe('When temporaryKey is valid but not related to a password reset demand', () => {
-
-      it('should reply with 404', async () => {
-        // given
-        resetPasswordService.verifyDemand.rejects(new PasswordResetDemandNotFoundError());
-
-        // when
-        const response = await passwordController.checkResetDemand(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
-    });
-
-    describe('When unknown error has occured', () => {
-
-      it('should reply with 500', async () => {
-        // given
-        resetPasswordService.verifyDemand.rejects();
-
-        // when
-        const response = await passwordController.checkResetDemand(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(500);
-      });
-    });
-
   });
 });

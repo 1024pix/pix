@@ -1,9 +1,7 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
-const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
 const smartPlacementProgressionController = require('../../../../lib/application/smartPlacementProgressions/smart-placement-progression-controller');
-const { UserNotAuthorizedToAccessEntity, NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | smart-placement-progression-controller', () => {
   const userId = 60;
@@ -21,7 +19,6 @@ describe('Unit | Controller | smart-placement-progression-controller', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'getSmartPlacementProgression');
-      sinon.stub(logger, 'error').returns();
     });
 
     context('if assessment exists', () => {
@@ -59,58 +56,6 @@ describe('Unit | Controller | smart-placement-progression-controller', () => {
 
           expect(response).to.deep.equal(serializedSmartPlacementProgression);
         });
-      });
-
-      context('and does not belong to current user', () => {
-
-        it('should reply with a 403', async () => {
-          // given
-          usecases.getSmartPlacementProgression.rejects(new UserNotAuthorizedToAccessEntity());
-
-          // when
-          const response = await smartPlacementProgressionController.get(request, hFake);
-
-          // Then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-    });
-
-    context('if assessment does not exist', () => {
-
-      it('should reply with a 404', async () => {
-        // given
-        usecases.getSmartPlacementProgression.rejects(new NotFoundError());
-
-        // when
-        const response = await smartPlacementProgressionController.get(request, hFake);
-
-        // Then
-        expect(response.statusCode).to.equal(404);
-      });
-    });
-
-    context('if an internal error occurs', () => {
-
-      it('should reply with a 500', async () => {
-        // given
-        const error = new Error('Error');
-        usecases.getSmartPlacementProgression.rejects(error);
-
-        // when
-        const response = await smartPlacementProgressionController.get(request, hFake);
-
-        // Then
-        const expectedJsonApiError = {
-          errors: [{
-            code: '500',
-            detail: 'Error',
-            title: 'Internal Server Error',
-          }],
-        };
-        expect(logger.error).to.have.been.calledWith(error);
-        expect(response.source).to.deep.equal(expectedJsonApiError);
-        expect(response.statusCode).to.equal(500);
       });
     });
   });

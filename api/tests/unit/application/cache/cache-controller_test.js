@@ -64,26 +64,6 @@ describe('Unit | Controller | cache-controller', () => {
       });
       expect(response).to.be.null;
     });
-
-    context('when cache reloading fails', () => {
-
-      it('should reply with a JSON API error', async () => {
-        // given
-        const cacheError = new Error('Cache Error');
-        usecases.reloadCacheEntry.rejects(cacheError);
-
-        // when
-        const response = await cacheController.reloadCacheEntry(request, hFake);
-
-        // Then
-        const expectedJsonApiError = {
-          errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
-        };
-        expect(response.source).to.deep.equal(expectedJsonApiError);
-        expect(response.statusCode).to.equal(500);
-      });
-    });
-
   });
 
   describe('#removeAllCacheEntries', () => {
@@ -104,26 +84,6 @@ describe('Unit | Controller | cache-controller', () => {
       expect(usecases.removeAllCacheEntries).to.have.been.calledWith({ cache });
       expect(response).to.be.null;
     });
-
-    context('when cache deletion fails', () => {
-
-      it('should reply with server error', async () => {
-        // given
-        const cacheError = new Error('Cache Error');
-        usecases.removeAllCacheEntries.rejects(cacheError);
-
-        // when
-        const response = await cacheController.removeAllCacheEntries(request, hFake);
-
-        // Then
-        const expectedJsonApiError = {
-          errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
-        };
-        expect(response.source).to.deep.equal(expectedJsonApiError);
-        expect(response.statusCode).to.equal(500);
-      });
-    });
-
   });
 
   describe('#preloadCacheEntries', () => {
@@ -144,25 +104,5 @@ describe('Unit | Controller | cache-controller', () => {
       expect(usecases.preloadCacheEntries).to.have.been.calledWith({ preloader, logger });
       expect(response).to.be.null;
     });
-
-    context('when cache preload fails', () => {
-
-      it('should reply with server error', async () => {
-        // given
-        const cacheError = new Error('Cache Error');
-        usecases.preloadCacheEntries.rejects(cacheError);
-
-        // when
-        const response = await cacheController.preloadCacheEntries(request, hFake);
-
-        // Then
-        const expectedJsonApiError = {
-          errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
-        };
-        expect(response.source).to.deep.equal(expectedJsonApiError);
-        expect(response.statusCode).to.equal(500);
-      });
-    });
-
   });
 });

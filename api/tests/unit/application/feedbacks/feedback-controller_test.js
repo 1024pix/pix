@@ -58,18 +58,6 @@ describe('Unit | Controller | feedback-controller', function() {
       expect(res.statusCode).to.equal(201);
     });
 
-    it('should return an error 400 if feedback content is missing or empty', async function() {
-      // given
-      const payload = _.cloneDeep(jsonFeedback);
-      payload.data.attributes.content = '   ';
-
-      // when
-      const res = await server.inject({ method: 'POST', url: '/api/feedbacks', payload });
-
-      // then
-      expect(res.statusCode).to.equal(400);
-    });
-
     it('should persist feedback data into the Feedback Repository', async function() {
       // given
       const payload = _.cloneDeep(jsonFeedback);

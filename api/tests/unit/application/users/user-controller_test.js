@@ -6,7 +6,6 @@ const SearchResultList = require('../../../../lib/domain/models/SearchResultList
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
@@ -17,11 +16,6 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const userService = require('../../../../lib/domain/services/user-service');
 const usecases = require('../../../../lib/domain/usecases');
 
-const {
-  EntityValidationError,
-  UserNotAuthorizedToAccessEntity
-} = require('../../../../lib/domain/errors');
-
 describe('Unit | Controller | user-controller', () => {
 
   describe('#save', () => {
@@ -30,8 +24,6 @@ describe('Unit | Controller | user-controller', () => {
     const savedUser = new User({ email });
 
     beforeEach(() => {
-
-      sinon.stub(logger, 'error').returns({});
       sinon.stub(userSerializer, 'deserialize').returns(deserializedUser);
       sinon.stub(userSerializer, 'serialize');
       sinon.stub(userRepository, 'create').resolves(savedUser);
@@ -91,86 +83,6 @@ describe('Unit | Controller | user-controller', () => {
         expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
       });
     });
-
-    describe('when request is invalid', () => {
-
-      const request = {
-        payload: {
-          data: {
-            attributes: {
-              firstName: '',
-              lastName: '',
-            },
-          },
-        },
-      };
-
-      it('should reply with code 422 when a validation error occurs', async () => {
-        // given
-        const expectedValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'firstName',
-              message: 'Votre prénom n’est pas renseigné.',
-            },
-            {
-              attribute: 'password',
-              message: 'Votre mot de passe n’est pas renseigné.',
-            },
-          ]
-        });
-
-        const jsonApiValidationErrors = {
-          errors: [
-            {
-              status: '422',
-              source: { 'pointer': '/data/attributes/first-name' },
-              title: 'Invalid data attribute "firstName"',
-              detail: 'Votre prénom n’est pas renseigné.'
-            },
-            {
-              status: '422',
-              source: { 'pointer': '/data/attributes/password' },
-              title: 'Invalid data attribute "password"',
-              detail: 'Votre mot de passe n’est pas renseigné.'
-            }
-          ]
-        };
-        usecases.createUser.rejects(expectedValidationError);
-
-        // when
-        const response = await userController.save(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(422);
-        expect(response.source).to.deep.equal(jsonApiValidationErrors);
-      });
-    });
-
-    describe('when an internal error is raised', () => {
-
-      let raisedError;
-      const request = {
-        payload: {
-          data: {
-            attributes: {},
-          },
-        },
-      };
-
-      beforeEach(() => {
-        raisedError = new Error('Something wrong is going on in Gotham City');
-        usecases.createUser.rejects(raisedError);
-      });
-
-      it('should reply with a 500 error', async () => {
-        // when
-        const response = await userController.save(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(500);
-      });
-    });
   });
 
   describe('#getAuthenticatedUserProfile', () => {
@@ -220,44 +132,6 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         expect(response).to.be.null;
-      });
-
-      describe('When unknown error is handle', () => {
-        it('should reply with 500', async () => {
-          // given
-          passwordResetService.hasUserAPasswordResetDemandInProgress.rejects();
-
-          // when
-          const response = await userController.updateUser(request, hFake);
-
-          // then
-          expect(response.statusCode).to.equal(500);
-        });
-      });
-    });
-
-    context('When payload does not contain any field', () => {
-
-      it('should returns 400 status code', async () => {
-        // given
-        const request = {
-          params: {
-            id: 7,
-          },
-          payload: {
-            data: {
-              attributes: {
-                'unknown-attribute': true,
-              },
-            },
-          },
-        };
-
-        // when
-        const response = await userController.updateUser(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(400);
       });
     });
 
@@ -351,27 +225,12 @@ describe('Unit | Controller | user-controller', () => {
     const request = { params: { id: 1 } };
 
     beforeEach(() => {
-
       sinon.stub(userService, 'isUserExistingById').resolves(true);
       sinon.stub(userService, 'getProfileToCertify').resolves([]);
-      sinon.stub(logger, 'error').returns({});
     });
 
     it('should be a function', () => {
       expect(userController).to.have.property('getProfileToCertify').and.to.be.a('function');
-    });
-
-    context('when loading user competences fails', () => {
-      it('should reply with 500', async () => {
-        // given
-        userService.getProfileToCertify.rejects();
-
-        // when
-        const response = await userController.getProfileToCertify(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(500);
-      });
     });
 
     context('when the user exists', () => {
@@ -444,17 +303,6 @@ describe('Unit | Controller | user-controller', () => {
       expect(userSerializer.serialize).to.have.been.calledWith(foundUser);
     });
 
-    it('should return 403 if authenticated user is not authorized to access requested user id', async () => {
-      // given
-      usecases.getUserWithMemberships.rejects(new UserNotAuthorizedToAccessEntity());
-
-      // when
-      const response = await userController.getUser(request, hFake);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-
     it('should return the user found based on the given userId', async () => {
       // given
       const foundUser = domainBuilder.buildUser();
@@ -482,98 +330,37 @@ describe('Unit | Controller | user-controller', () => {
   });
 
   describe('#getMemberships', () => {
-    const authenticatedUserId = 1;
-    const requestedUserId = '1';
+    const userId = '1';
+
     const request = {
       auth: {
         credentials: {
-          userId: authenticatedUserId
+          userId: userId
         }
       },
       params: {
-        id: requestedUserId
+        id: userId
       }
     };
 
     beforeEach(() => {
       sinon.stub(membershipSerializer, 'serialize');
+      sinon.stub(usecases, 'getUserWithMemberships');
     });
 
-    it('should get accesses of the user passed on params', async () => {
+    it('should return serialized Organizations Accesses', async function() {
       // given
-      const stringifiedAuthenticatedUserId = authenticatedUserId.toString();
-      sinon.stub(usecases, 'getUserWithMemberships').resolves();
+      usecases.getUserWithMemberships.withArgs({
+        requestedUserId: userId,
+        authenticatedUserId: userId,
+      }).resolves({ memberships: [] });
+      membershipSerializer.serialize.withArgs([]).returns({});
 
       // when
-      await userController.getMemberships(request, hFake);
+      const response = await userController.getMemberships(request, hFake);
 
       // then
-      expect(usecases.getUserWithMemberships).to.have.been.calledWith({
-        requestedUserId,
-        authenticatedUserId: stringifiedAuthenticatedUserId,
-      });
-    });
-
-    context('When accesses are found', () => {
-
-      beforeEach(() => {
-        sinon.stub(usecases, 'getUserWithMemberships');
-      });
-
-      it('should serialize found memberships', async () => {
-        // given
-        const foundAccesses = [];
-        const foundUser = new User({ memberships: foundAccesses });
-        usecases.getUserWithMemberships.resolves(foundUser);
-
-        // when
-        await userController.getMemberships(request, hFake);
-
-        // then
-        expect(membershipSerializer.serialize).to.have.been.calledWith(foundAccesses);
-      });
-
-      it('should return serialized Organizations Accesses, a 200 code response', async function() {
-        // given
-        const serializedMemberships = {};
-        membershipSerializer.serialize.returns(serializedMemberships);
-        usecases.getUserWithMemberships.resolves({});
-
-        // when
-        const response = await userController.getMemberships(request, hFake);
-
-        // then
-        expect(response).to.deep.equal(serializedMemberships);
-      });
-
-    });
-
-    context('When authenticated user want to retrieve access of another user', () => {
-      it('should return a 403 Forbidden access error ', async () => {
-        // given
-        sinon.stub(usecases, 'getUserWithMemberships').rejects(new UserNotAuthorizedToAccessEntity());
-
-        // when
-        const response = await userController.getMemberships(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-
-    });
-
-    context('When an unexpected error occurs', () => {
-      it('should return a 500 internal error ', async () => {
-        // given
-        sinon.stub(usecases, 'getUserWithMemberships').rejects(new Error());
-
-        // when
-        const response = await userController.getMemberships(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(500);
-      });
-
+      expect(response).to.deep.equal({});
     });
   });
 

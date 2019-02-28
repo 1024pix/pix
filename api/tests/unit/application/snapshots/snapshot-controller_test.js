@@ -5,14 +5,11 @@ const snapshotService = require('../../../../lib/domain/services/snapshot-servic
 const profileCompletionService = require('../../../../lib/domain/services/profile-completion-service');
 const snapshotController = require('../../../../lib/application/snapshots/snapshot-controller');
 const authorizationToken = require('../../../../lib/infrastructure/validators/jsonwebtoken-verify');
-const JSONAPIError = require('jsonapi-serializer').Error;
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
-const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-const { InvalidTokenError, NotFoundError } = require('../../../../lib/domain/errors');
 
 const USER_ID = 1;
 const ORGANIZATION_ID = 3;
@@ -55,249 +52,45 @@ describe('Unit | Controller | snapshot-controller', () => {
       organization: { id: ORGANIZATION_ID }
     };
 
-    describe('Behavior', () => {
+    const serializedProfile = { profile: 'a_valid_profile' };
 
-      beforeEach(() => {
-        sinon.stub(authorizationToken, 'verify');
-        sinon.stub(userRepository, 'findUserById');
-        sinon.stub(snapshotSerializer, 'deserialize');
-        sinon.stub(profileService, 'getByUserId');
-        sinon.stub(organizationRepository, 'isOrganizationIdExist');
-        sinon.stub(snapshotService, 'create');
-        sinon.stub(profileSerializer, 'serialize');
-        sinon.stub(profileCompletionService, 'getNumberOfFinishedTests');
-        sinon.stub(snapshotSerializer, 'serialize');
-        sinon.stub(logger, 'error');
-      });
-
-      describe('Test collaboration', function() {
-
-        it('should verify that user is well authenticated / authorized', async () => {
-          // given
-          authorizationToken.verify.resolves();
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(authorizationToken.verify);
-          sinon.assert.calledWith(authorizationToken.verify, 'valid_token');
-        });
-
-        it('should fetch the user', async () => {
-          // given
-          authorizationToken.verify.resolves(USER_ID);
-          userRepository.findUserById.resolves();
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(userRepository.findUserById);
-          sinon.assert.calledWith(userRepository.findUserById, USER_ID);
-        });
-
-        it('should deserialize the request payload', async () => {
-          // given
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.resolves();
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(snapshotSerializer.deserialize);
-          sinon.assert.calledWith(snapshotSerializer.deserialize, request.payload);
-        });
-
-        it('should verify that the organization exists', async () => {
-          // given
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.resolves();
-          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(organizationRepository.isOrganizationIdExist);
-          sinon.assert.calledWith(organizationRepository.isOrganizationIdExist, 3);
-        });
-
-        it('should retrieve profile for user', async () => {
-          // given
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
-          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(profileService.getByUserId);
-          sinon.assert.calledWith(profileService.getByUserId, USER_ID);
-        });
-
-        it('should serialize profile in JSON in order to be saved in DB', async () => {
-          // given
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
-          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
-          profileService.getByUserId.resolves({ profile: 'a_valid_profile' });
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(profileSerializer.serialize);
-          sinon.assert.calledWith(profileSerializer.serialize, { profile: 'a_valid_profile' });
-        });
-
-        it('should calculate profile completion in percentage', async () => {
-          // given
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
-          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
-          profileService.getByUserId.resolves();
-          profileSerializer.serialize.resolves({ profile: 'a_valid_profile' });
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(profileCompletionService.getNumberOfFinishedTests);
-          sinon.assert.calledWith(profileCompletionService.getNumberOfFinishedTests, { profile: 'a_valid_profile' });
-        });
-
-        it('should create & save a Snapshot entity into the repository', async () => {
-          // given
-          const serializedProfile = { profile: 'a_valid_profile' };
-
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
-          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
-          profileService.getByUserId.resolves();
-          profileSerializer.serialize.resolves(serializedProfile);
-          profileCompletionService.getNumberOfFinishedTests.resolves();
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(snapshotService.create);
-          sinon.assert.calledWith(snapshotService.create, deserializedSnapshot, user, serializedProfile);
-        });
-
-        it('should serialize the response payload', async () => {
-          // given
-          const serializedProfile = { profile: 'a_valid_profile' };
-
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
-          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
-          profileService.getByUserId.resolves();
-          profileSerializer.serialize.resolves(serializedProfile);
-          profileCompletionService.getNumberOfFinishedTests.resolves();
-          snapshotService.create.resolves(SNAPSHOT_ID);
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledOnce(snapshotSerializer.serialize);
-          sinon.assert.calledWith(snapshotSerializer.serialize, { id: SNAPSHOT_ID });
-        });
-
-      });
-
-      describe('Errors cases', () => {
-
-        it('should return a specific error JsonApi, when token is invalid', async () => {
-          // given
-          authorizationToken.verify.rejects(new InvalidTokenError());
-          const exepectedErr = new JSONAPIError({
-            code: '401',
-            title: 'Unauthorized',
-            detail: 'Le token n’est pas valide'
-          });
-
-          // when
-          const response = await snapshotController.create(request, hFake);
-
-          // then
-          expect(response.source).to.deep.equal(exepectedErr);
-        });
-
-        it('should return 404, when user is not found', async () => {
-          // given
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.rejects(new NotFoundError());
-
-          // when
-          const response = await snapshotController.create(request, hFake);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-        });
-
-        it('should return a specific error JsonApi, when organisation is not found', async () => {
-          // given
-          deserializedSnapshot.organization = { id: 'unknnown_organization_id' };
-
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.resolves();
-          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
-          organizationRepository.isOrganizationIdExist.resolves(false);
-
-          const exepectedErr = new JSONAPIError({
-            code: '422',
-            title: 'Unprocessable entity',
-            detail: 'Cette organisation n’existe pas'
-          });
-
-          // when
-          const response = await snapshotController.create(request, hFake);
-
-          // then
-          expect(response.source).to.deep.equal(exepectedErr);
-        });
-
-        it('should return 500 when snapshot saving fails', async () => {
-          // given
-          authorizationToken.verify.resolves();
-          userRepository.findUserById.resolves();
-          organizationRepository.isOrganizationIdExist.resolves();
-          profileService.getByUserId.resolves();
-          profileSerializer.serialize.resolves();
-          snapshotService.create.rejects();
-
-          // when
-          const response = await snapshotController.create(request, hFake);
-
-          // then
-          expect(response.statusCode).to.equal(500);
-        });
-
-        it('should log an error, when unknown error has occured', async () => {
-          // given
-          const error = new Error('Another error');
-          authorizationToken.verify.rejects(error);
-
-          // when
-          await snapshotController.create(request, hFake);
-
-          // then
-          sinon.assert.calledWith(logger.error, error);
-        });
-
-      });
+    beforeEach(() => {
+      sinon.stub(authorizationToken, 'verify');
+      sinon.stub(userRepository, 'findUserById');
+      sinon.stub(snapshotSerializer, 'deserialize');
+      sinon.stub(profileService, 'getByUserId');
+      sinon.stub(organizationRepository, 'isOrganizationIdExist');
+      sinon.stub(snapshotService, 'create');
+      sinon.stub(profileSerializer, 'serialize');
+      sinon.stub(profileCompletionService, 'getNumberOfFinishedTests');
+      sinon.stub(snapshotSerializer, 'serialize');
     });
 
+    it('should create the snapshot', async () => {
+      // given
+      authorizationToken.verify.resolves(USER_ID);
+      userRepository.findUserById.resolves(user);
+      snapshotSerializer.deserialize.resolves(deserializedSnapshot);
+      organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
+      profileService.getByUserId.resolves(serializedProfile);
+      profileSerializer.serialize.resolves(serializedProfile);
+      profileCompletionService.getNumberOfFinishedTests.resolves();
+      snapshotService.create.resolves(SNAPSHOT_ID);
+
+      // when
+      await snapshotController.create(request, hFake);
+
+      // then
+      sinon.assert.calledWith(authorizationToken.verify, 'valid_token');
+      sinon.assert.calledWith(userRepository.findUserById, USER_ID);
+      sinon.assert.calledWith(snapshotSerializer.deserialize, request.payload);
+      sinon.assert.calledWith(organizationRepository.isOrganizationIdExist, 3);
+      sinon.assert.calledWith(profileService.getByUserId, USER_ID);
+      sinon.assert.calledWith(profileSerializer.serialize, { profile: 'a_valid_profile' });
+      sinon.assert.calledWith(profileCompletionService.getNumberOfFinishedTests, { profile: 'a_valid_profile' });
+      sinon.assert.calledWith(snapshotService.create, deserializedSnapshot, user, serializedProfile);
+      sinon.assert.calledWith(snapshotSerializer.serialize, { id: SNAPSHOT_ID });
+    });
   });
 
   describe('#find ', () => {
