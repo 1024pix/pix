@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.28.0 (28/02/2019)
+
+- [#385](https://github.com/1024pix/pix/pull/385) [FEATURE] Modifier un message d'erreur et l'affichage d'un libellé dans pix Orga (PO-191).
+- [#384](https://github.com/1024pix/pix/pull/384) [FEATURE] Affiche le nombre de participants et les profils reçus sur la page de détails d'une campagne (PO-183).
+- [#383](https://github.com/1024pix/pix/pull/383) [TECH] Mise à jour du socle technique (Node/NPM & dépendances API).
+- [#375](https://github.com/1024pix/pix/pull/375) [TECH] Optimisation du build Circle CI.
+- [#386](https://github.com/1024pix/pix/pull/386) [TECH] Fix the login end to end test.
+
 ## v2.27.0 (26/02/2019)
 
 - [#373](https://github.com/1024pix/pix/pull/373) [FEATURE] Ajout d'une page de détails de session (PC-28).
