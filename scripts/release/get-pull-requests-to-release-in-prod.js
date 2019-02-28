@@ -1,28 +1,18 @@
 #! /usr/bin/env node
-const request = require('request-promise-native');
+const axios = require('axios');
 const moment = require('moment');
 const _ = require('lodash');
+const fs = require('fs');
+
+const CHANGELOG_FILE = 'CHANGELOG.md';
+const CHANGELOG_HEADER_LINES = 2;
 
 function buildRequestObject() {
-  return {
-    baseUrl: 'https://api.github.com/repos/1024pix/pix',
-    url: '/pulls?state=closed&sort=updated&direction=desc',
-    headers: {
-      'User-Agent': 'jbuget'
-    },
-    json: true
-  };
+  return 'https://api.github.com/repos/1024pix/pix/pulls?state=closed&sort=updated&direction=desc';
 }
 
 function getTheLastCommitOnMaster() {
-  return {
-    baseUrl: 'https://api.github.com/repos/1024pix/pix',
-    url: '/commits/master',
-    headers: {
-      'User-Agent': 'jbuget'
-    },
-    json: true
-  };
+  return 'https://api.github.com/repos/1024pix/pix/commits/master';
 }
 
 function getTheCommitDate(RawDataCommit) {
@@ -30,7 +20,7 @@ function getTheCommitDate(RawDataCommit) {
 }
 
 function displayPullRequest(pr) {
-  return `- [#${pr.number}](${pr.html_url}) ${pr.title}\n`;
+  return `- [#${pr.number}](${pr.html_url}) ${pr.title}`;
 }
 
 function orderPr(listPR) {
@@ -48,32 +38,40 @@ function filterPullRequest(pullrequests, dateOfLastMEP) {
 
 function getHeadOfChangelog(tagVersion) {
   const date = ' (' + moment().format('DD/MM/YYYY') + ')';
-  return '## v' + tagVersion + date + ' \n\n';
+  return '## v' + tagVersion + date + '\n';
 }
 
 function main() {
   const tagVersion = process.argv[2];
   let dateOfLastMEP;
-  let addToChangeLog = '';
 
-  request(getTheLastCommitOnMaster())
-    .then((lastCommit) => {
+  axios(getTheLastCommitOnMaster())
+    .then(({ data: lastCommit }) => {
       dateOfLastMEP = getTheCommitDate(lastCommit);
-      return request(buildRequestObject())
+      return axios(buildRequestObject())
     })
-    .then((pullRequests) => {
+    .then(({ data: pullRequests }) => {
+      let newChangeLogLines = [];
 
-      addToChangeLog += getHeadOfChangelog(tagVersion);
+      newChangeLogLines.push(getHeadOfChangelog(tagVersion));
       const pullRequestsSinceLastMEP = filterPullRequest(pullRequests, dateOfLastMEP);
 
       const orderedPR = orderPr(pullRequestsSinceLastMEP);
-      orderedPR.forEach(pr => addToChangeLog += displayPullRequest(pr));
+      newChangeLogLines.push(...orderedPR.map(displayPullRequest));
+      newChangeLogLines.push('');
 
-      console.log('Pull Requests which will be add to the CHANGELOG.md : \n');
-      console.log(addToChangeLog);
+      const currentChangeLog = fs.readFileSync(CHANGELOG_FILE, 'utf-8').split('\n');
 
+      currentChangeLog.splice(CHANGELOG_HEADER_LINES, 0, ...newChangeLogLines);
+
+      console.log(`Writing to ${CHANGELOG_FILE}`);
+
+      fs.writeFileSync(CHANGELOG_FILE, currentChangeLog.join('\n'));
     })
-    .catch(console.log);
+    .catch(e=>{
+      console.log(e);
+      process.exit(1);
+    });
 }
 
 /*=================== tests =============================*/
