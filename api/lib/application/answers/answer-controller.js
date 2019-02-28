@@ -57,10 +57,15 @@ module.exports = {
       });
   },
 
-  get(request) {
-    return answerRepository.get(request.params.id)
-      .then(answerSerializer.serialize)
-      .catch((err) => logger.error(err));
+  async get(request, h) {
+    try {
+      const result = await answerRepository.get(request.params.id);
+      return answerSerializer.serialize(result);
+
+    } catch(err) {
+      logger.error(err);
+      return controllerReplies(h).error(err);
+    }
   },
 
   update(request, h) {
