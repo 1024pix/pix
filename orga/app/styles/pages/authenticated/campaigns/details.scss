@@ -4,11 +4,19 @@
   flex-grow: 1;
 }
 
-.campaign-details__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1em 0;
+.campaign-details{
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1em 0;
+  }
+
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    margin: 1em 0;
+  }
 }
 
 .campaign-details-header {
@@ -32,8 +40,15 @@
   }
 }
 
-.campaign-details__navbar {
-  display: flex;
-  margin: 1em 0;
+.campaign-details-controls {
+  &__navbar-tabs {
+    display: flex;
+  }
+
+  &__export-button {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+  }
 }
 

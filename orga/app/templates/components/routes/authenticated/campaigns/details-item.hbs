@@ -23,13 +23,21 @@
   </div>
 </div>
 
-<nav class="panel navbar campaign-details__navbar">
-  {{#link-to 'authenticated.campaigns.details.parameters' class="navbar-item"}}
-    Paramètres
-  {{/link-to}}
-  {{#link-to 'authenticated.campaigns.details.participants' class="navbar-item"}}
-    Participants ({{campaign.campaignReport.participationsCount}})
-  {{/link-to}}
-</nav>
+<div class="panel campaign-details__controls">
+  <nav class="navbar campaign-details-controls__navbar-tabs">
+    {{#link-to 'authenticated.campaigns.details.parameters' class="navbar-item"}}
+      Paramètres
+    {{/link-to}}
+    {{#link-to 'authenticated.campaigns.details.participants' class="navbar-item"}}
+      Participants ({{campaign.campaignReport.participationsCount}})
+    {{/link-to}}
+  </nav>
+
+  <div class="campaign-details-controls__export-button">
+    <a class="button button--link button--with-icon" href="{{campaign.urlToResult}}" target="_blank" download>
+      Exporter résultats (.csv){{fa-icon 'file-download'}}
+    </a>
+  </div>
+</div>
 
 {{outlet}}
