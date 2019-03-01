@@ -29,6 +29,18 @@ module('Integration | Component | pagination-control', function(hooks) {
     assert.dom('.page-navigation__arrow--previous .icon-button').hasClass('disabled');
   });
 
+  test('it should disable next button when user is on last page', async function (assert) {
+    // given
+    this.set('meta', getMetaForPage(2));
+
+    // when
+    await render(hbs`{{pagination-control pagination=meta}}`);
+
+    // then
+    assert.dom('.page-navigation__arrow--next').hasClass('page-navigation__arrow--disabled');
+    assert.dom('.page-navigation__arrow--next .icon-button').hasClass('disabled');
+  });
+
   test('it should enable previous button when user is on second page', async function (assert) {
     // given
     this.set('meta', getMetaForPage(2));
