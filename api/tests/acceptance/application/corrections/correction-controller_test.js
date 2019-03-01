@@ -39,7 +39,8 @@ describe('Acceptance | Controller | correction-controller', () => {
           'fields': {
             'Nom': '@web3',
             'Indice': 'Indice web3',
-            'Statut de l\'indice': 'Validé'
+            'Statut de l\'indice': 'Validé',
+            'Compétence (via Tube)': 'recABCD'
           }
         });
     });

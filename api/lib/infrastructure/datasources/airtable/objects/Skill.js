@@ -7,6 +7,7 @@ class Skill {
     tutorialIds = [],
     learningMoreTutorialIds = [],
     pixValue,
+    competenceId,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -15,6 +16,7 @@ class Skill {
     this.tutorialIds = tutorialIds;
     this.learningMoreTutorialIds = learningMoreTutorialIds;
     this.pixValue = pixValue;
+    this.competenceId = competenceId;
   }
 
   static fromAirTableObject(airtableSkillObject) {
@@ -26,6 +28,7 @@ class Skill {
       tutorialIds: airtableSkillObject.get('Comprendre'),
       learningMoreTutorialIds: airtableSkillObject.get('En savoir plus'),
       pixValue: airtableSkillObject.get('PixValue'),
+      competenceId: airtableSkillObject.get('Compétence (via Tube)')[0],
     });
   }
 }

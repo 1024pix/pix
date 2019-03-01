@@ -11,6 +11,8 @@ module.exports = function buildSmartPlacementKnowledgeElement({
   answerId = faker.random.number(),
   assessmentId = faker.random.number(),
   skillId = `rec${faker.random.uuid()}`,
+  userId = faker.random.number(),
+  competenceId = `rec${faker.random.uuid()}`
 } = {}) {
   return new SmartPlacementKnowledgeElement({
     id,
@@ -21,5 +23,7 @@ module.exports = function buildSmartPlacementKnowledgeElement({
     answerId,
     assessmentId,
     skillId,
+    userId,
+    competenceId
   });
 };

@@ -56,8 +56,8 @@ describe('Unit | Repository | challenge-repository', () => {
           });
           solution = domainBuilder.buildSolution();
           challengeDatasource.get.withArgs(challengeRecordId).resolves(challengeDataObject);
-          skillDatasource.get.withArgs('skillId_1').resolves(domainBuilder.buildSkillAirtableDataObject({ name: '@web1' }));
-          skillDatasource.get.withArgs('skillId_2').resolves(domainBuilder.buildSkillAirtableDataObject({ name: '@url2' }));
+          skillDatasource.get.withArgs('skillId_1').resolves(domainBuilder.buildSkillAirtableDataObject({ name: '@web1', competenceId: 'rec1' }));
+          skillDatasource.get.withArgs('skillId_2').resolves(domainBuilder.buildSkillAirtableDataObject({ name: '@url2', competenceId: 'rec1' }));
           solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
 
           // when
@@ -114,8 +114,8 @@ describe('Unit | Repository | challenge-repository', () => {
           // then
           return promise.then((challenge) => {
             expect(challenge.skills).to.have.lengthOf(2);
-            expect(challenge.skills[0]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@web1', pixValue: 2.4 }));
-            expect(challenge.skills[1]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@url2', pixValue: 2.4 }));
+            expect(challenge.skills[0]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@web1', pixValue: 2.4, competenceId: 'rec1' }));
+            expect(challenge.skills[1]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@url2', pixValue: 2.4, competenceId: 'rec1' }));
           });
         });
         it('should call the solution-adapter to create the solution', () => {
@@ -179,16 +179,19 @@ describe('Unit | Repository | challenge-repository', () => {
         id: 'recSkillWeb1',
         name: '@web1',
         pixValue: 2,
+        competenceId: 'rec1'
       });
       skillURL2 = domainBuilder.buildSkillAirtableDataObject({
         id: 'recSkillURL2',
         name: '@url2',
         pixValue: 3,
+        competenceId: 'rec1'
       });
       skillURL3 = domainBuilder.buildSkillAirtableDataObject({
         id: 'recSkillURL3',
         name: '@url3',
         pixValue: 3,
+        competenceId: 'rec1'
       });
       skills = [skillWeb1, skillURL2, skillURL3];
       sinon.stub(skillDatasource, 'get');
@@ -254,7 +257,8 @@ describe('Unit | Repository | challenge-repository', () => {
               {
                 'id': 'recSkillWeb1',
                 'name': '@web1',
-                'pixValue': 2
+                'pixValue': 2,
+                'competenceId': 'rec1'
               }
             ]);
             expect(challenges[1].skills).to.deep.equal([
@@ -262,11 +266,13 @@ describe('Unit | Repository | challenge-repository', () => {
                 'id': 'recSkillURL2',
                 'name': '@url2',
                 'pixValue': 3,
+                'competenceId': 'rec1'
               },
               {
                 'id': 'recSkillURL3',
                 'name': '@url3',
-                'pixValue': 3
+                'pixValue': 3,
+                'competenceId': 'rec1'
               }
             ]);
           });
