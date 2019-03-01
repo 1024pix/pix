@@ -12,7 +12,7 @@
   </div>
   <div class="page-navigation">
     <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq pagination.page 1) "page-navigation__arrow--disabled"}}">
-      {{#link-to "authenticated.campaigns.details.participants"
+      {{#link-to paginationLink
                  (query-params pageNumber=previousPage)
                  disabledWhen=(eq pagination.page 1)
                  replace=true
@@ -26,7 +26,7 @@
       <div class="page-navigation__last-page">/&nbsp;{{pagination.pageCount}}</div>
     </div>
     <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq pagination.page pagination.pageCount) "page-navigation__arrow--disabled"}}">
-      {{#link-to "authenticated.campaigns.details.participants"
+      {{#link-to paginationLink
                  (query-params pageNumber=nextPage)
                  disabledWhen=(eq pagination.page pagination.pageCount)
                  replace=true
