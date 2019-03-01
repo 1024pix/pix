@@ -7,7 +7,12 @@ describe('Unit | Infrastructure | Adapter | skillAdapter', () => {
   it('should adapt skillAirtableDataObject to domain', () => {
     // given
     const skillDataObject = domainBuilder.buildSkillAirtableDataObject();
-    const expectedSkill = domainBuilder.buildSkill({ id: skillDataObject.id, name: skillDataObject.name, pixValue: skillDataObject.pixValue });
+    const expectedSkill = domainBuilder.buildSkill({
+      id: skillDataObject.id,
+      name: skillDataObject.name,
+      pixValue: skillDataObject.pixValue,
+      competenceId: skillDataObject.competenceId,
+    });
 
     // when
     const skill = skillAdapter.fromAirtableDataObject(skillDataObject);

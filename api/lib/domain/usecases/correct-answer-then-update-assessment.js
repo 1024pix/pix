@@ -54,6 +54,7 @@ function saveKnowledgeElements({ assessment, answer, challenge, smartPlacementKn
     previouslyFailedSkills: assessment.getFailedSkills(),
     previouslyValidatedSkills: assessment.getValidatedSkills(),
     targetSkills: assessment.targetProfile.skills,
+    userId: assessment.userId
   });
 
   const saveKnowledgeElementPromises = knowledgeElements.map((knowledgeElement) => {

@@ -22,7 +22,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
     beforeEach(async () => {
       // given
-      const assessmentId = databaseBuilder.factory.buildAssessment().id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ userId: 3 }).id;
       const answerId = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
 
       await databaseBuilder.commit();
@@ -30,6 +30,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       smartPlacementKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
         assessmentId,
         answerId,
+        competenceId: 'recABC'
       });
       smartPlacementKnowledgeElement.id = undefined;
 
@@ -48,6 +49,8 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         answerId: smartPlacementKnowledgeElement.answerId,
         assessmentId: smartPlacementKnowledgeElement.assessmentId,
         skillId: `${smartPlacementKnowledgeElement.skillId}`,
+        userId: smartPlacementKnowledgeElement.userId,
+        competenceId: smartPlacementKnowledgeElement.competenceId
       };
       return promise
         .then(() => knex('knowledge-elements').first())
