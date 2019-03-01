@@ -6,6 +6,7 @@ export default Component.extend({
   router: service(),
 
   pagination: null,
+  paginationLink: null,
 
   nextPage: computed('pagination', function () {
     return Math.min(this.pagination.page + 1, this.pagination.pageCount);
@@ -17,7 +18,7 @@ export default Component.extend({
 
   actions: {
     changePageSize(pageSize) {
-      this.get('router').replaceWith('authenticated.campaigns.details.participants', { queryParams: { pageSize, pageNumber: 1 } });
+      this.get('router').replaceWith(this.get('paginationLink'), { queryParams: { pageSize, pageNumber: 1 } });
     },
   }
 });
