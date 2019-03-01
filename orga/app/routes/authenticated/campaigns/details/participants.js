@@ -11,7 +11,7 @@ export default Route.extend({
     }
   },
   model(params) {
-    const { campaign } = this.modelFor('authenticated.campaigns.details');
+    const campaign = this.modelFor('authenticated.campaigns.details');
     return RSVP.hash({
       campaign,
       participants: this.store.query('campaignParticipation', {
