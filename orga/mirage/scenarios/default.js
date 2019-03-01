@@ -22,9 +22,13 @@ function _createSignedUpUser(server) {
 }
 
 function _createCampaigns(server) {
-  let campaigns = server.createList('campaign', 6);
+  const participationsCount = 100;
+  let campaignReports = server.createList('campaign-report', 6, { participationsCount });
+  let campaigns = campaignReports.map(campaignReport => {
+    return server.create('campaign', { campaignReport });
+  });
   campaigns.map(campaign => {
-    let users = server.createList('user', 100);
+    let users = server.createList('user', participationsCount);
     users.map(user => {
       server.create('campaign-participation', { user, campaign });
     })

@@ -1,4 +1,4 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { association, Factory, faker } from 'ember-cli-mirage';
 
 export default Factory.extend({
 
@@ -13,6 +13,8 @@ export default Factory.extend({
   createdAt() {
     return faker.date.recent();
   },
+
+  campaignReport: association(),
 
 });
 
