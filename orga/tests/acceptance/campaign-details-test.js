@@ -67,14 +67,16 @@ module('Acceptance | Campaign Details', function (hooks) {
       await authenticateSession({
         user_id: user.id,
       });
-      server.create('campaign', { id: 1 });
+
+      server.create('campaign-report', { id: 1, participationsCount: 2 });
+      server.create('campaign', { id: 1, campaignReportId: 1 });
 
       // when
       await visit('/campagnes/1/participants');
 
       // then
       assert.dom('.participant-list__header').exists();
-      assert.dom('.navbar-item.active').hasText('Participants');
+      assert.dom('.navbar-item.active').hasText('Participants (2)');
     });
 
     test('it should redirect to participants page on click on participants tab', async function (assert) {
@@ -82,14 +84,15 @@ module('Acceptance | Campaign Details', function (hooks) {
       await authenticateSession({
         user_id: user.id,
       });
-      server.create('campaign', { id: 1 });
+      server.create('campaign-report', { id: 1, participationsCount: 2 });
+      server.create('campaign', { id: 1, campaignReportId: 1 });
 
       // when
       await visit('/campagnes/1');
       await click('.navbar-item:nth-child(2)');
 
       // then
-      assert.dom('.navbar-item.active').hasText('Participants');
+      assert.dom('.navbar-item.active').hasText('Participants (2)');
       assert.equal(currentURL(), '/campagnes/1/participants');
     });
 

@@ -24,8 +24,12 @@
 </div>
 
 <nav class="panel navbar campaign-details__navbar">
-  {{#link-to 'authenticated.campaigns.details.parameters' class="navbar-item"}}Paramètres{{/link-to}}
-  {{#link-to 'authenticated.campaigns.details.participants' class="navbar-item"}}Participants{{/link-to}}
+  {{#link-to 'authenticated.campaigns.details.parameters' class="navbar-item"}}
+    Paramètres
+  {{/link-to}}
+  {{#link-to 'authenticated.campaigns.details.participants' class="navbar-item"}}
+    Participants ({{campaign.campaignReport.participationsCount}})
+  {{/link-to}}
 </nav>
 
 {{outlet}}

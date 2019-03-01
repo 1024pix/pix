@@ -9,7 +9,7 @@ function parseQueryString(queryString) {
   return result;
 }
 
-export default function() {
+export default function () {
 
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';
@@ -31,7 +31,8 @@ export default function() {
     }
   });
 
-  this.post('/revoke', () => {});
+  this.post('/revoke', () => {
+  });
 
   this.get('/users/:id');
 
@@ -54,12 +55,20 @@ export default function() {
 
   this.post('/campaigns');
 
+  this.get('/campaigns/:id/campaign-report', (schema, request) => {
+    const campaignId = request.params.id;
+    const campaign = schema.campaigns.find(campaignId);
+    const foundCampaignReport = campaign.campaignReport;
+    const emptyCampaignReport = schema.campaignReports.create({ participationsCount: 0, sharedParticipationsCount: 0 });
+    return foundCampaignReport ? foundCampaignReport : emptyCampaignReport;
+  });
+
   this.get('/campaign-participations', (schema, request) => {
     const qp = request.queryParams;
     const campaignId = qp['filter[campaignId]'];
     const pageNumber = parseInt(qp['page[number]']);
     const pageSize = parseInt(qp['page[size]']);
-    const start = (pageNumber-1) * pageSize;
+    const start = (pageNumber - 1) * pageSize;
     const end = start + pageSize;
     const campaignParticipations = schema.campaignParticipations.where({ campaignId }).models;
     const campaignParticipationIds = campaignParticipations.slice(start, end).map(
