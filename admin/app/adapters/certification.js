@@ -1,7 +1,7 @@
 import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({
-  urlForFindRecord (id) {
+  urlForFindRecord(id) {
     return `${this.host}/api/admin/certifications/${id}`;
   },
 
@@ -17,13 +17,13 @@ export default ApplicationAdapter.extend({
     let data = {};
     let serializer = store.serializerFor(type.modelName);
     if (snapshot.adapterOptions.updateMarks) {
-      serializer.serializeIntoHash(data, type, snapshot, { includeId: true});
+      serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
       data.data.type = 'results';
       data.data.attributes['jury-id'] = null;
       data.data.attributes['emitter'] = 'Jury Pix';
       return this.ajax(this.urlForUpdateMarks(), 'POST', { data: data });
     } else {
-      serializer.serializeIntoHash(data, type, snapshot, { includeId: true, onlyInformation:true  });
+      serializer.serializeIntoHash(data, type, snapshot, { includeId: true, onlyInformation: true });
       return this.ajax(this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord'), 'PATCH', { data: data });
     }
   },

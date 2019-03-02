@@ -8,16 +8,16 @@ import { computed } from '@ember/object';
 export default Controller.extend({
 
   // Properties
-  certification:alias('model'),
-  edition:false,
+  certification: alias('model'),
+  edition: false,
   notifications: service('notification-messages'),
   displayConfirm: false,
-  confirmMessage:'',
-  confirmAction:'onSave',
-  statuses:null,
+  confirmMessage: '',
+  confirmAction: 'onSave',
+  statuses: null,
 
   // private properties
-  _competencesCopy:null,
+  _competencesCopy: null,
   _markStore: service('mark-store'),
 
   init() {
@@ -55,29 +55,29 @@ export default Controller.extend({
       this.set('displayConfirm', false);
       let certification = this.certification;
       let changedAttributes = certification.changedAttributes();
-      let marksUpdateRequired = (changedAttributes.status || changedAttributes.pixScore || changedAttributes.competencesWithMark || changedAttributes.commentForCandidate || changedAttributes.commentForOrganization ||changedAttributes.commentForJury)?true:false;
-      return certification.save({adapterOptions:{updateMarks:false}})
-      .then(() => {
-        if (marksUpdateRequired) {
-          return certification.save({adapterOptions:{updateMarks:true}});
-        } else {
-          return Promise.resolve(true);
-        }
-      })
-      .then(() => {
-        this.notifications.success('Modifications enregistrées');
-        this.set('edition', false);
-        this.set('_competencesCopy', null);
-      })
-      .catch((e) => {
-        if (e.errors && e.errors.length > 0) {
-          e.errors.forEach((error) => {
-            this.notifications.error(error.detail);
-          });
-        } else {
-          this.notifications.error(e);
-        }
-      });
+      let marksUpdateRequired = (changedAttributes.status || changedAttributes.pixScore || changedAttributes.competencesWithMark || changedAttributes.commentForCandidate || changedAttributes.commentForOrganization || changedAttributes.commentForJury) ? true : false;
+      return certification.save({ adapterOptions: { updateMarks: false } })
+        .then(() => {
+          if (marksUpdateRequired) {
+            return certification.save({ adapterOptions: { updateMarks: true } });
+          } else {
+            return Promise.resolve(true);
+          }
+        })
+        .then(() => {
+          this.notifications.success('Modifications enregistrées');
+          this.set('edition', false);
+          this.set('_competencesCopy', null);
+        })
+        .catch((e) => {
+          if (e.errors && e.errors.length > 0) {
+            e.errors.forEach((error) => {
+              this.notifications.error(error.detail);
+            });
+          } else {
+            this.notifications.error(e);
+          }
+        });
     },
     onUpdateScore(code, value) {
       this._saveCompetences();
@@ -100,7 +100,7 @@ export default Controller.extend({
           competence.score = parseInt(value);
         }
       } else if (value.trim().length > 0) {
-        newCompetences.addObject({'competence-code':code, 'score':parseInt(value), 'area-code':code.substr(0,1)});
+        newCompetences.addObject({ 'competence-code': code, 'score': parseInt(value), 'area-code': code.substr(0, 1) });
       }
       this.set('certification.competencesWithMark', newCompetences);
     },
@@ -125,7 +125,7 @@ export default Controller.extend({
           competence.level = parseInt(value);
         }
       } else if (value.trim().length > 0) {
-        newCompetences.addObject({'competence-code':code, 'level':parseInt(value), 'area-code':code.substr(0,1)});
+        newCompetences.addObject({ 'competence-code': code, 'level': parseInt(value), 'area-code': code.substr(0, 1) });
       }
       this.set('certification.competencesWithMark', newCompetences);
     },
@@ -151,13 +151,13 @@ export default Controller.extend({
         certification.set('isPublished', true);
         operation = "publiée";
       }
-      return certification.save({adapterOptions:{updateMarks:false}})
-      .then(() => {
-        this.notifications.success('Certification '+operation);
-      })
-      .catch((e) => {
-        this.notifications.error(e);
-      });
+      return certification.save({ adapterOptions: { updateMarks: false } })
+        .then(() => {
+          this.notifications.success('Certification ' + operation);
+        })
+        .catch((e) => {
+          this.notifications.error(e);
+        });
     },
     onCheckMarks() {
       let markStore = this._markStore;
@@ -167,7 +167,12 @@ export default Controller.extend({
         certification.set('pixScore', state.score);
         let newCompetences = Object.keys(state.marks).reduce((competences, code) => {
           let mark = state.marks[code];
-          competences.addObject({'competence-code':code, 'level':mark.level, 'score': mark.score, 'area-code':code.substr(0,1)});
+          competences.addObject({
+            'competence-code': code,
+            'level': mark.level,
+            'score': mark.score,
+            'area-code': code.substr(0, 1)
+          });
           return competences;
         }, A());
         certification.set('competencesWithMark', newCompetences);

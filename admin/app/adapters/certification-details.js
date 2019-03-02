@@ -1,7 +1,7 @@
 import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({
-  urlForFindRecord (id) {
+  urlForFindRecord(id) {
     return `${this.host}/api/admin/certifications/${id}/details`;
   }
 });

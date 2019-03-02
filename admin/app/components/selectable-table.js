@@ -3,13 +3,13 @@ import layout from 'ember-models-table/templates/components/models-table';
 
 export default ModelsTable.extend({
   layout,
-  actions:{
+  actions: {
     toggleAllSelection() {
       let selectedItems = this.selectedItems;
       let data = this.data;
       const allSelectedBefore = selectedItems.get('length') === data.get('length');
       this.selectedItems.clear();
-      if(!allSelectedBefore) {
+      if (!allSelectedBefore) {
         this.selectedItems.pushObjects(data.toArray());
       }
       this.userInteractionObserver();

@@ -1,7 +1,7 @@
 import CertificationInfoField from './certification-info-field';
 
 export default CertificationInfoField.extend({
-  values:null,
+  values: null,
 
   init() {
     this._super(...arguments);
