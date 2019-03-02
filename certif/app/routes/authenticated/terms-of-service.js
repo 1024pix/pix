@@ -12,7 +12,7 @@ export default Route.extend({
   },
 
   beforeModel() {
-    this.get('currentUser').load()
+    this.currentUser.load()
       .then((user) => {
         if (user.pixCertifTermsOfServiceAccepted) {
           return this.transitionTo('authenticated.sessions.list');

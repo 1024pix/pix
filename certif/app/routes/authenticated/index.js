@@ -6,9 +6,9 @@ export default Route.extend({
   currentUser: service(),
 
   beforeModel() {
-    return this.get('currentUser').load()
+    return this.currentUser.load()
       .catch((error) => {
-        this.get('session').invalidate();
+        this.session.invalidate();
         throw error;
       });
   },
