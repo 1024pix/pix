@@ -9,7 +9,7 @@ module('Integration | Component | routes/authenticated/campaign | update-item', 
   let campaign;
 
   hooks.beforeEach(function() {
-    campaign = new EmberObject({});
+    campaign = EmberObject.create({});
     this.set('updateCampaignSpy', (updatedCampaign) => {
       campaign = updatedCampaign;
     });
