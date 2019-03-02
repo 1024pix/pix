@@ -12,7 +12,7 @@ module('Integration | Component | certification-list-checkbox', function(hooks) 
 
     await render(hbs`{{certification-list-checkbox}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    assert.dom(this.element).hasText('');
 
     // Template block usage:
     await render(hbs`

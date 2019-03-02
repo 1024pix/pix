@@ -36,8 +36,8 @@ export default Controller.extend({
     },
     onCancel() {
       this.set('edition', false);
-      this.get('certification').rollbackAttributes();
-      let competencesCopy = this.get('_competencesCopy');
+      this.certification.rollbackAttributes();
+      let competencesCopy = this._competencesCopy;
       if (competencesCopy) {
         this.set('certification.competencesWithMark', competencesCopy);
         this.set('_competencesCopy', null);
@@ -53,7 +53,7 @@ export default Controller.extend({
     },
     onSave() {
       this.set('displayConfirm', false);
-      let certification = this.get('certification');
+      let certification = this.certification;
       let changedAttributes = certification.changedAttributes();
       let marksUpdateRequired = (changedAttributes.status || changedAttributes.pixScore || changedAttributes.competencesWithMark || changedAttributes.commentForCandidate || changedAttributes.commentForOrganization ||changedAttributes.commentForJury)?true:false;
       return certification.save({adapterOptions:{updateMarks:false}})
@@ -65,17 +65,17 @@ export default Controller.extend({
         }
       })
       .then(() => {
-        this.get('notifications').success('Modifications enregistrées');
+        this.notifications.success('Modifications enregistrées');
         this.set('edition', false);
         this.set('_competencesCopy', null);
       })
       .catch((e) => {
         if (e.errors && e.errors.length > 0) {
           e.errors.forEach((error) => {
-            this.get('notifications').error(error.detail);
+            this.notifications.error(error.detail);
           });
         } else {
-          this.get('notifications').error(e);
+          this.notifications.error(e);
         }
       });
     },
@@ -141,7 +141,7 @@ export default Controller.extend({
     },
     onTogglePublish() {
       this.set('displayConfirm', false);
-      let certification = this.get('certification');
+      let certification = this.certification;
       let currentPublishState = certification.get('isPublished');
       let operation;
       if (currentPublishState) {
@@ -153,17 +153,17 @@ export default Controller.extend({
       }
       return certification.save({adapterOptions:{updateMarks:false}})
       .then(() => {
-        this.get('notifications').success('Certification '+operation);
+        this.notifications.success('Certification '+operation);
       })
       .catch((e) => {
-        this.get('notifications').error(e);
+        this.notifications.error(e);
       });
     },
     onCheckMarks() {
-      let markStore = this.get('_markStore');
+      let markStore = this._markStore;
       if (markStore.hasState()) {
         let state = markStore.getState();
-        let certification = this.get('certification');
+        let certification = this.certification;
         certification.set('pixScore', state.score);
         let newCompetences = Object.keys(state.marks).reduce((competences, code) => {
           let mark = state.marks[code];
@@ -180,7 +180,7 @@ export default Controller.extend({
 
   // Private methods
   _saveCompetences() {
-    let copy = this.get('_competencesCopy');
+    let copy = this._competencesCopy;
     if (!copy) {
       let current = this.get('certification.competencesWithMark');
       this.set('_competencesCopy', current.copy(true));

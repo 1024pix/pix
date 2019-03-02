@@ -15,18 +15,18 @@ export default Component.extend({
 
   // Computed properties
   resultClass: computed('_jury', function() {
-    const jury = this.get('_jury');
+    const jury = this._jury;
     return (jury)? 'answer-result jury' : 'answer-result';
   }),
 
   // Actions
   actions: {
     onSetResult(value){
-      let answer = this.get('answer');
+      let answer = this.answer;
       let jury = (value !== answer.result) ? value : false;
       answer.jury = jury;
       this.set('_jury', jury);
-      this.get('onUpdateRate')();
+      this.onUpdateRate();
     }
   }
 });

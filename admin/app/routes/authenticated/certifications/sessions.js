@@ -27,7 +27,7 @@ export default Route.extend({
       if (controller) {
         controller.set('sessionId', null);
       }
-      this.get('notifications').error(error);
+      this.notifications.error(error);
       this.replaceWith('authenticated.certifications.sessions');
     }
   }

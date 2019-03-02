@@ -14,20 +14,20 @@ export default Component.extend({
 
   // Computed properties
   certifiedWidth: computed('competence', function(){
-    let obtainedLevel = this.get('competence').obtainedLevel;
+    let obtainedLevel = this.competence.obtainedLevel;
     return htmlSafe('width:'+Math.round((obtainedLevel / 8)*100)+'%');
   }),
   positionedWidth: computed('competence', function() {
-    let positionedLevel = this.get('competence').positionedLevel;
+    let positionedLevel = this.competence.positionedLevel;
     return htmlSafe('width:'+Math.round((positionedLevel / 8)*100)+'%');
   }),
   answers: computed('competence', function() {
-    const competence = this.get('competence');
+    const competence = this.competence;
     return competence.answers;
   }),
   competenceJury:computed('juryRate', function() {
-    const juryRate = this.get('juryRate');
-    const competence = this.get('competence');
+    const juryRate = this.juryRate;
+    const competence = this.competence;
     if (juryRate === false )  {
       competence.juryScore = false;
       competence.juryLevel = false;
@@ -55,7 +55,7 @@ export default Component.extend({
     if (rate < 50) {
       return {score:0, level:-1};
     }
-    let competence = this.get('competence');
+    let competence = this.competence;
     const score = competence.positionedScore;
     const level = competence.positionedLevel;
     const answers = competence.answers;

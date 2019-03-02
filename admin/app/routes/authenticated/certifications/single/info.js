@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 
 export default Route.extend({
   model(params) {
-    let store = this.get('store');
+    let store = this.store;
     return store.findRecord('certification', params.certification_id);
   },
   setupController(controller, model) {

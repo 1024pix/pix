@@ -12,7 +12,7 @@ module('Integration | Component | certification-list-select-all', function(hooks
 
     await render(hbs`{{certification-list-select-all}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    assert.dom(this.element).hasText('');
 
     // Template block usage:
     await render(hbs`

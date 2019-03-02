@@ -4,7 +4,7 @@ export default Route.extend({
 
   model() {
     this._super(...arguments);
-    return this.get('store').createRecord('organization');
+    return this.store.createRecord('organization');
   }
 
 });

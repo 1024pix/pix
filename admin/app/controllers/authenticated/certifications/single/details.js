@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { schedule } from '@ember/runloop';
-import { inject as service}  from '@ember/service';
+import { inject as service }  from '@ember/service';
 
 export default Controller.extend({
 
@@ -58,7 +58,7 @@ export default Controller.extend({
       }
       // TODO: find a better way
       schedule('afterRender', this, () => {
-        const score = this.get('score');
+        const score = this.score;
         const competences = this.get('details.competences');
         let newScore = competences.reduce((value,competence) => {
           value += (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false)?competence.juryScore:competence.obtainedScore;
@@ -72,8 +72,8 @@ export default Controller.extend({
       });
     },
     onStoreMarks() {
-      this.get('_markStore').storeState({
-        score:(this.get('juryScore') === false)?this.get('score'):this.get('juryScore'),
+      this._markStore.storeState({
+        score:(this.juryScore === false)?this.score:this.juryScore,
         marks:this.get('details.competences').reduce((marks, competence) => {
           marks[competence.index] = {
             level:(competence.juryLevel === false)?competence.obtainedLevel:competence.juryLevel,
