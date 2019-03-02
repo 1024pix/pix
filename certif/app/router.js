@@ -11,7 +11,6 @@ const Router = EmberRouter.extend({
 
   init() {
     this._super(...arguments);
-
     this.on('routeDidChange', () => {
       this._trackPage();
     });

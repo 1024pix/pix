@@ -68,7 +68,7 @@ export default Controller.extend({
       .then((csv) => {
         this.set('progress', false);
         let fileName = 'session_'+this.get('model.session.id')+' '+(new Date()).toLocaleString('fr-FR')+'.csv';
-        this.get('fileSaver').saveAs(csv+"\n", fileName);
+        this.fileSaver.saveAs(csv+"\n", fileName);
       });
     },
     onImport() {
@@ -104,11 +104,11 @@ export default Controller.extend({
       }
       catch(error) {
         this.set('progress', false);
-        this.get('notifications').error(error);
+        this.notifications.error(error);
       }
     },
     onConfirmPublishSelected() {
-      let count = this.get('selectedCertifications').length;
+      let count = this.selectedCertifications.length;
       if (count === 1) {
         this.set('confirmMessage', 'Souhaitez-vous publier la certification sélectionnée ?');
       } else {
@@ -118,7 +118,7 @@ export default Controller.extend({
       this.set('displayConfirm', true);
     },
     onConfirmUnpublishSelected() {
-      let count = this.get('selectedCertifications').length;
+      let count = this.selectedCertifications.length;
       if (count === 1) {
         this.set('confirmMessage', 'Souhaitez-vous dépublier la certification sélectionnée ?');
       } else {
@@ -148,7 +148,7 @@ export default Controller.extend({
     let ids = certificationsIds.splice(0,10);
     return this._getCertificationsJson(ids)
     .then((value) => {
-      this.set('progressValue', this.get('progressValue')+value.length);
+      this.set('progressValue', this.progressValue+value.length);
       if (certificationsIds.length >0 ) {
         return this._getExportJson(certificationsIds, json.concat(value));
       } else {
@@ -161,7 +161,7 @@ export default Controller.extend({
     let dataPiece = data.splice(0,10);
     return this._updateCertifications(dataPiece)
     .then(() => {
-      this.set('progressValue', this.get('progressValue')+10);
+      this.set('progressValue', this.progressValue+10);
       if (data.length>0) {
         return this._importCertificationsData(data);
       } else {
@@ -172,7 +172,7 @@ export default Controller.extend({
 
   _startCertificationPublication(value) {
     this.set('displayConfirm', false);
-    let certifications = this.get('selectedCertifications');
+    let certifications = this.selectedCertifications;
     let count = certifications.length;
     this.set('progressMax', certifications.length);
     this.set('progressValue', 0);
@@ -182,14 +182,14 @@ export default Controller.extend({
       this.set('progress', false);
       if (count === 1) {
 
-        this.get('notifications').success('La certification a été correctement '+(value?'publiée':'dépubliée'));
+        this.notifications.success('La certification a été correctement '+(value?'publiée':'dépubliée'));
       } else {
-        this.get('notifications').success('Les '+count+' certifications ont été correctement '+(value?'publiées':'dépubliées'));
+        this.notifications.success('Les '+count+' certifications ont été correctement '+(value?'publiées':'dépubliées'));
       }
     })
     .catch((error) => {
       this.set('progress', false);
-      this.get('notifications').error(error);
+      this.notifications.error(error);
     });
   },
 
@@ -197,7 +197,7 @@ export default Controller.extend({
     let piece = certifications.splice(0,10);
     return this._setCertificationPublished(piece, value)
     .then(() => {
-      this.set('progressValue', this.get('progressValue')+10);
+      this.set('progressValue', this.progressValue+10);
       if (certifications.length>0) {
         return this._publishCertifications(certifications, value);
       } else {
@@ -207,7 +207,7 @@ export default Controller.extend({
   },
 
   _getCertificationsJson(ids) {
-    let store = this.get('store');
+    let store = this.store;
     let requests = ids.map((id) => {
       return store.findRecord('certification', id)
       .catch(() => {
@@ -240,7 +240,7 @@ export default Controller.extend({
   },
 
   _updateCertifications(data) {
-    let store = this.get('store');
+    let store = this.store;
     let requests = [];
     let newData = {};
     data.forEach((piece) => {

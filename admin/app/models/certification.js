@@ -13,10 +13,10 @@ export default DS.Model.extend({
   createdAt: DS.attr(),
   completedAt: DS.attr(),
   creationDate:computed('createdAt', function() {
-    return (new Date(this.get('createdAt'))).toLocaleString('fr-FR');
+    return (new Date(this.createdAt)).toLocaleString('fr-FR');
   }),
   completionDate:computed('completedAt', function() {
-    return (new Date(this.get('completedAt'))).toLocaleString('fr-FR');
+    return (new Date(this.completedAt)).toLocaleString('fr-FR');
   }),
   resultsCreationDate:computed('resultCreatedAt', function() {
   }),
@@ -29,18 +29,18 @@ export default DS.Model.extend({
   competencesWithMark: DS.attr(),
   isPublished: DS.attr('boolean', { defaultValue: false }),
   publishedText:computed('isPublished', function() {
-    let value = this.get('isPublished');
+    let value = this.isPublished;
     return value?'Oui':'Non';
   }),
   indexedCompetences:computed('competencesWithMark', function() {
-    let competencesWithMarks = this.get('competencesWithMark');
+    let competencesWithMarks = this.competencesWithMark;
     return competencesWithMarks.reduce((result, value) => {
       result[value['competence-code']] = {index:value['competence-code'], level:value.level, score:value.score};
       return result;
     }, {});
   }),
   competences:computed('indexedCompetences', function() {
-    let indexedCompetences = this.get('indexedCompetences');
+    let indexedCompetences = this.indexedCompetences;
     return Object.keys(indexedCompetences).sort().reduce((result, value) => {
       result.push(indexedCompetences[value]);
       return result;

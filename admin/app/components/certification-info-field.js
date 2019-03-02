@@ -8,7 +8,7 @@ export default Component.extend({
 
   // Computed properties
   leftWidth:computed('large', function() {
-    let large = this.get('large');
+    let large = this.large;
     if (large) {
       return 'col-sm-3';
     } else {
@@ -16,7 +16,7 @@ export default Component.extend({
     }
   }),
   rightWidth:computed('large', function() {
-    let large = this.get('large');
+    let large = this.large;
     if (large) {
       return 'col-sm-9';
     } else {

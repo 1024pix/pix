@@ -5,12 +5,12 @@ export default ModelsTable.extend({
   layout,
   actions:{
     toggleAllSelection() {
-      let selectedItems = this.get('selectedItems');
-      let data = this.get('data');
+      let selectedItems = this.selectedItems;
+      let data = this.data;
       const allSelectedBefore = selectedItems.get('length') === data.get('length');
-      this.get('selectedItems').clear();
+      this.selectedItems.clear();
       if(!allSelectedBefore) {
-        this.get('selectedItems').pushObjects(data.toArray());
+        this.selectedItems.pushObjects(data.toArray());
       }
       this.userInteractionObserver();
     }

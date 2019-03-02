@@ -14,12 +14,12 @@ export default Component.extend({
 
   // Computed properties
   indexedValues:computed('competences', function() {
-    let competences = this.get('competences');
+    let competences = this.competences;
     let indexedCompetences = competences.reduce((result, value) => {
       result[value.index] = value;
       return result;
     }, {});
-    let competencesList = this.get('competenceList');
+    let competencesList = this.competenceList;
     let scores = [];
     let levels = [];
     let index = 0;
@@ -37,12 +37,12 @@ export default Component.extend({
   //Actions
   actions: {
     onScoreChange(index, event) {
-      let list = this.get('competenceList');
-      this.get('onUpdateScore')(list[index], event.target.value);
+      let list = this.competenceList;
+      this.onUpdateScore(list[index], event.target.value);
     },
     onLevelChange(index, event) {
-      let list = this.get('competenceList');
-      this.get('onUpdateLevel')(list[index], event.target.value);
+      let list = this.competenceList;
+      this.onUpdateLevel(list[index], event.target.value);
     }
   }
 });

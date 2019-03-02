@@ -16,11 +16,11 @@ export default Component.extend({
     },
 
     submitOrganization() {
-      return this.get('onSubmit')();
+      return this.onSubmit();
     },
 
     cancelOrganizationSaving() {
-      return this.get('onCancel')();
+      return this.onCancel();
     }
   },
 });

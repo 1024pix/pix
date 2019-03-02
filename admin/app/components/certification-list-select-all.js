@@ -3,7 +3,7 @@ import Component from '@ember/component';
 export default Component.extend({
   actions:{
     onToggleAllSelection() {
-      this.get('toggleAllSelection')();
+      this.toggleAllSelection();
     }
   }
 });

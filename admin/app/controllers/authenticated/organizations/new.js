@@ -11,13 +11,13 @@ export default Controller.extend({
     },
 
     addOrganization() {
-      return this.get('model').save()
+      return this.model.save()
         .then((organization) => {
-          this.get('notifications').success('L’organisation a été créée avec succès.');
+          this.notifications.success('L’organisation a été créée avec succès.');
           this.transitionToRoute('authenticated.organizations.get', organization.get('id'));
         })
         .catch(() => {
-          this.get('notifications').error('Une erreur est survenue.')
+          this.notifications.error('Une erreur est survenue.')
         });
     }
   },

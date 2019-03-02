@@ -12,7 +12,7 @@ export default Controller.extend({
   router:service(),
 
   isValid: computed('certificationStatus', function() {
-    return this.get('certificationStatus') !== 'missing-assessment';
+    return this.certificationStatus !== 'missing-assessment';
   }),
 
   // Actions

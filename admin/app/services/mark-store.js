@@ -6,9 +6,9 @@ export default Service.extend({
   available:false,
 
   getState() {
-    if (this.get('available')) {
+    if (this.available) {
       this.set('available', false);
-      return this.get('state');
+      return this.state;
     }
     return false;
   },
@@ -19,7 +19,7 @@ export default Service.extend({
   },
 
   hasState() {
-    return (this.get('available'));
+    return this.available;
   }
 
 });
