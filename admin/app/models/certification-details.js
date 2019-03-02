@@ -10,7 +10,7 @@ export default DS.Model.extend({
   status: DS.attr(),
   completedAt: DS.attr(),
   listChallengesAndAnswers: DS.attr(),
-  competences:computed('competencesWithMark', 'listChallengesAndAnswers', function() {
+  competences: computed('competencesWithMark', 'listChallengesAndAnswers', function() {
     const competenceData = this.competencesWithMark;
     const answers = this.listChallengesAndAnswers;
     let count = 1;
@@ -37,10 +37,10 @@ export default DS.Model.extend({
     });
     return sortedCompetences;
   }),
-  creationDate:computed('createdAt', function() {
+  creationDate: computed('createdAt', function() {
     return (new Date(this.createdAt)).toLocaleString('fr-FR');
   }),
-  completionDate:computed('completedAt', function() {
+  completionDate: computed('completedAt', function() {
     return (new Date(this.completedAt)).toLocaleString('fr-FR');
   })
 });

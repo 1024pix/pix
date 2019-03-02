@@ -5,9 +5,9 @@ const { belongsTo } = DS;
 export default DS.Model.extend({
 
   // Attributes
-  
+
   // Relationships
-  organization: belongsTo('organization' ),
+  organization: belongsTo('organization'),
   user: belongsTo('user'),
 
 });

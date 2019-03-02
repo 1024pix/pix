@@ -6,9 +6,9 @@ export default Route.extend({
     let certifications = session.hasMany('certifications');
     let ids = certifications.ids();
     return {
-      session:session,
-      certifications:session.get('certifications'),
-      certificationIds:ids
+      session: session,
+      certifications: session.get('certifications'),
+      certificationIds: ids
     }
   }
 });

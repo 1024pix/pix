@@ -12,7 +12,7 @@ export default Component.extend({
   errorMessage: null,
 
   // interactions
-  actions:{
+  actions: {
     authenticateUser() {
       const scope = 'pix-admin';
       let { identification, password } = this;

@@ -2,25 +2,26 @@ import Controller from '@ember/controller';
 import { observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { schedule } from '@ember/runloop';
-import { inject as service }  from '@ember/service';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
 
   // Properties
   juryRate: false,
   juryScore: false,
-  requestedId:'',
+  requestedId: '',
 
   // Private properties
-  _markStore:service('mark-store'),
+  _markStore: service('mark-store'),
 
   // Aliases
-  rate:alias('details.percentageCorrectAnswers'),
-  score:alias('details.totalScore'),
-  details:alias('model'),
+  rate: alias('details.percentageCorrectAnswers'),
+  score: alias('details.totalScore'),
+  details: alias('model'),
 
   // Observers
-  initJury:observer('details', function() {
+  // eslint-disable-next-line ember/no-observers
+  initJury: observer('details', function() {
     this.set('juryRate', false);
     this.set('juryScore', false);
   }),
@@ -50,9 +51,9 @@ export default Controller.extend({
           });
         }
         return data;
-      }, {count:0, good:0});
+      }, { count: 0, good: 0 });
       if (jury) {
-        this.set('juryRate', Math.round(answersData.good*10000/answersData.count)/100);
+        this.set('juryRate', Math.round(answersData.good * 10000 / answersData.count) / 100);
       } else {
         this.set('juryRate', false);
       }
@@ -60,8 +61,8 @@ export default Controller.extend({
       schedule('afterRender', this, () => {
         const score = this.score;
         const competences = this.get('details.competences');
-        let newScore = competences.reduce((value,competence) => {
-          value += (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false)?competence.juryScore:competence.obtainedScore;
+        let newScore = competences.reduce((value, competence) => {
+          value += (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false) ? competence.juryScore : competence.obtainedScore;
           return value;
         }, 0);
         if (newScore !== score) {
@@ -73,11 +74,11 @@ export default Controller.extend({
     },
     onStoreMarks() {
       this._markStore.storeState({
-        score:(this.juryScore === false)?this.score:this.juryScore,
-        marks:this.get('details.competences').reduce((marks, competence) => {
+        score: (this.juryScore === false) ? this.score : this.juryScore,
+        marks: this.get('details.competences').reduce((marks, competence) => {
           marks[competence.index] = {
-            level:(competence.juryLevel === false)?competence.obtainedLevel:competence.juryLevel,
-            score:(competence.juryScore === false)?competence.obtainedScore:competence.juryScore
+            level: (competence.juryLevel === false) ? competence.obtainedLevel : competence.juryLevel,
+            score: (competence.juryScore === false) ? competence.obtainedScore : competence.juryScore
           };
           return marks;
         }, {})

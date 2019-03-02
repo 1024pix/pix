@@ -2,8 +2,8 @@ import Service from '@ember/service';
 
 export default Service.extend({
 
-  state:null,
-  available:false,
+  state: null,
+  available: false,
 
   getState() {
     if (this.available) {

@@ -4,10 +4,10 @@ import { computed } from '@ember/object';
 export default Component.extend({
 
   // Properties
-  large:false,
+  large: false,
 
   // Computed properties
-  leftWidth:computed('large', function() {
+  leftWidth: computed('large', function() {
     let large = this.large;
     if (large) {
       return 'col-sm-3';
@@ -15,7 +15,7 @@ export default Component.extend({
       return 'col-sm-5';
     }
   }),
-  rightWidth:computed('large', function() {
+  rightWidth: computed('large', function() {
     let large = this.large;
     if (large) {
       return 'col-sm-9';

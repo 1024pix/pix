@@ -13,6 +13,10 @@ module.exports = function(defaults) {
 
     'ember-font-awesome': {
       'includeFontFiles': false
+    },
+
+    'ember-cli-template-lint': {
+      testGenerator: 'qunit' // or 'mocha', etc.
     }
   });
 
