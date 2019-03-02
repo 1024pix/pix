@@ -8,7 +8,13 @@ module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
     addons: {
       blacklist: pluginsToBlacklist
+    },
+
+
+    'ember-cli-template-lint': {
+      testGenerator: 'qunit' // or 'mocha', etc.
     }
+
   });
 
   // Use `app.import` to add additional libraries to the generated
