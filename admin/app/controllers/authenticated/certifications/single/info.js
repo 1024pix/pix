@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 import { A } from '@ember/array';
 import { schedule } from '@ember/runloop';
 import { computed } from '@ember/object';
+import { cloneDeep } from 'lodash';
 
 export default Controller.extend({
 
@@ -188,7 +189,7 @@ export default Controller.extend({
     let copy = this._competencesCopy;
     if (!copy) {
       let current = this.get('certification.competencesWithMark');
-      this.set('_competencesCopy', current.copy(true));
+      this.set('_competencesCopy', cloneDeep(current));
     }
   }
 });
