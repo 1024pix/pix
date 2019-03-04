@@ -69,7 +69,7 @@
     "ember-simple-auth": "^1.8.1",
     "ember-source": "~3.8.0",
     "ember-truth-helpers": "^2.1.0",
-    "emberx-select": "^3.1.1",
+    "emberx-select": "^4.0.0-beta.2",
     "eslint-plugin-ember": "^6.2.0",
     "loader.js": "^4.7.0",
     "popper.js": "^1.14.7",
