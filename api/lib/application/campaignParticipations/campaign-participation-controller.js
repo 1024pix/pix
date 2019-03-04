@@ -38,14 +38,19 @@ module.exports = {
     const userId = tokenService.extractUserId(token);
 
     const options = extractParameters(request.query);
-    return usecases.findCampaignParticipations({
-      userId,
-      options,
-    })
+
+    let campaignParticipationsPromise;
+
+    if (options.filter.assessmentId) {
+      campaignParticipationsPromise = usecases.getUserCampaignParticipation({ userId, options });
+    }
+    if (options.filter.campaignId) {
+      campaignParticipationsPromise = usecases.getCampaignParticipations({ userId, options });
+    }
+    return campaignParticipationsPromise
       .then((campaignParticipation) => {
         return serializer.serialize(campaignParticipation.models, campaignParticipation.pagination);
       })
-      .then(controllerReplies(h).ok)
       .catch(controllerReplies(h).error);
   },
 
