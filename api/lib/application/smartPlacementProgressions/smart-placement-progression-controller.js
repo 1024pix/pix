@@ -1,10 +1,9 @@
 const smartPlacementProgressionSerializer = require('../../infrastructure/serializers/jsonapi/smart-placement-progression-serializer');
 const usecases = require('../../domain/usecases');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
-  get(request, h) {
+  get(request) {
     const userId = request.auth.credentials.userId;
 
     const smartPlacementProgressionId = request.params.id;
@@ -13,7 +12,6 @@ module.exports = {
       smartPlacementProgressionId,
       userId,
     })
-      .then(smartPlacementProgressionSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(smartPlacementProgressionSerializer.serialize);
   },
 };

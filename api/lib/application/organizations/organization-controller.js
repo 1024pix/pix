@@ -6,35 +6,31 @@ const campaignSerializer = require('../../infrastructure/serializers/jsonapi/cam
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
-  getOrganizationDetails: (request, h) => {
+  getOrganizationDetails: (request) => {
     const organizationId = request.params.id;
 
     return usecases.getOrganizationDetails({ organizationId })
-      .then(organizationSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(organizationSerializer.serialize);
   },
 
-  create: (request, h) => {
+  create: (request) => {
     const { name, type } = request.payload.data.attributes;
 
     return usecases.createOrganization({ name, type })
-      .then(organizationSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(organizationSerializer.serialize);
   },
 
-  updateOrganizationInformation: (request, h) => {
+  updateOrganizationInformation: (request) => {
     const id = request.payload.data.id;
     const { name, type, 'logo-url': logoUrl } = request.payload.data.attributes;
 
     return usecases.updateOrganizationInformation({ id, name, type, logoUrl })
-      .then(organizationSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(organizationSerializer.serialize);
   },
 
   find(request) {
@@ -60,49 +56,42 @@ module.exports = {
       });
   },
 
-  getCampaigns(request, h) {
+  getCampaigns(request) {
     const organizationId = request.params.id;
 
     return usecases.getOrganizationCampaigns({ organizationId })
-      .then((campaigns) => campaignSerializer.serialize(campaigns))
-      .catch((error) => errorManager.send(h, error));
+      .then((campaigns) => campaignSerializer.serialize(campaigns));
   },
 
-  getMemberships(request, h) {
+  getMemberships(request) {
     const organizationId = request.params.id;
 
     return usecases.getOrganizationMemberships({ organizationId })
-      .then(membershipSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(membershipSerializer.serialize);
   },
 
-  findTargetProfiles(request, h) {
+  findTargetProfiles(request) {
     const requestedOrganizationId = parseInt(request.params.id);
 
     return organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId)
-      .then(targetProfileSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(targetProfileSerializer.serialize);
   },
 
-  exportSharedSnapshotsAsCsv: async (request, h) => {
+  exportSharedSnapshotsAsCsv: async (request) => {
     const organizationId = request.params.id;
 
-    try {
-      const stream = new PassThrough();
+    const stream = new PassThrough();
 
-      stream.headers = {
-        'Content-Type': 'text/csv;charset=utf-8',
-        'Content-Disposition': `attachment; filename="${EXPORT_CSV_FILE_NAME}"`
-      };
+    stream.headers = {
+      'Content-Type': 'text/csv;charset=utf-8',
+      'Content-Disposition': `attachment; filename="${EXPORT_CSV_FILE_NAME}"`
+    };
 
-      await usecases.writeOrganizationSharedProfilesAsCsvToStream({
-        organizationId,
-        writableStream: stream
-      });
+    await usecases.writeOrganizationSharedProfilesAsCsvToStream({
+      organizationId,
+      writableStream: stream
+    });
 
-      return stream;
-    } catch (error) {
-      return errorManager.send(h, error);
-    }
+    return stream;
   }
 };

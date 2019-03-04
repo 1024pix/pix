@@ -1,7 +1,6 @@
 const usecases = require('../../domain/usecases');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const { Deserializer } = require('jsonapi-serializer');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 function _deserializePayload(payload) {
   const deserializer = new Deserializer({
@@ -11,15 +10,14 @@ function _deserializePayload(payload) {
 }
 
 module.exports = {
-  findUserCertifications(request, h) {
+  findUserCertifications(request) {
     const userId = request.auth.credentials.userId;
 
     return usecases.findCompletedUserCertifications({ userId })
-      .then((certifications) => certificationSerializer.serialize(certifications))
-      .catch((error) => errorManager.send(h, error));
+      .then((certifications) => certificationSerializer.serialize(certifications));
   },
 
-  getCertification(request, h) {
+  getCertification(request) {
     const userId = request.auth.credentials.userId;
     const certificationId = request.params.id;
 
@@ -27,11 +25,10 @@ module.exports = {
       userId,
       certificationId,
     })
-      .then((certification) => certificationSerializer.serialize(certification))
-      .catch((error) => errorManager.send(h, error));
+      .then((certification) => certificationSerializer.serialize(certification));
   },
 
-  updateCertification(request, h) {
+  updateCertification(request) {
 
     return Promise.resolve(request.payload)
       .then(_deserializePayload)
@@ -41,7 +38,6 @@ module.exports = {
           attributesToUpdate: payload,
         });
       })
-      .then((certification) => certificationSerializer.serialize(certification))
-      .catch((error) => errorManager.send(h, error));
+      .then((certification) => certificationSerializer.serialize(certification));
   },
 };

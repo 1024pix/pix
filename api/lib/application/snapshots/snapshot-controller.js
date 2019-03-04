@@ -10,7 +10,6 @@ const usecases = require('../../domain/usecases');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
 const MAX_CODE_LENGTH = 255;
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 async function _assertThatOrganizationExists(organizationId) {
   const isOrganizationExist = await organizationRepository.isOrganizationIdExist(organizationId);
@@ -35,22 +34,17 @@ async function _getSnapshot(snapshotPayload) {
 
 async function create(request, h) {
   const token = request.headers.authorization;
-
-  try {
-    const userId = await authorizationToken.verify(token);
-    const user = await userRepository.findUserById(userId);
-    const snapshot = await _getSnapshot(request.payload);
-    const profile = await profileService.getByUserId(user.id);
-    const serializedProfile = await profileSerializer.serialize(profile);
-    const testsFinished = await profileCompletionService.getNumberOfFinishedTests(serializedProfile);
-    snapshot.testsFinished = testsFinished;
-    const snapshotId = await snapshotService.create(snapshot, user, serializedProfile);
-    const serializedSnapshot = await snapshotSerializer.serialize({ id: snapshotId });
-    return h.response(serializedSnapshot).created();
-
-  } catch (error) {
-    return errorManager.send(h, error);
-  }
+  const userId = await authorizationToken.verify(token);
+  const user = await userRepository.findUserById(userId);
+  const snapshot = await _getSnapshot(request.payload);
+  const profile = await profileService.getByUserId(user.id);
+  const serializedProfile = await profileSerializer.serialize(profile);
+  const testsFinished = await profileCompletionService.getNumberOfFinishedTests(serializedProfile);
+  snapshot.testsFinished = testsFinished;
+  const snapshotId = await snapshotService.create(snapshot, user, serializedProfile);
+  const serializedSnapshot = await snapshotSerializer.serialize({ id: snapshotId });
+  
+  return h.response(serializedSnapshot).created();
 }
 
 async function find(request) {

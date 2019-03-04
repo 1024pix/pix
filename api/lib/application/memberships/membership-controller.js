@@ -1,6 +1,5 @@
 const usecases = require('../../domain/usecases');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
@@ -12,7 +11,6 @@ module.exports = {
     return usecases.createMembership({ userId, organizationId })
       .then((membership) => {
         return h.response(membershipSerializer.serialize(membership)).created();
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   }
 };

@@ -3,7 +3,6 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const courseService = require('../../../lib/domain/services/course-service');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 function _fetchCourses(query) {
   if (query.isAdaptive === 'true') {
@@ -17,19 +16,17 @@ function _fetchCourses(query) {
 
 module.exports = {
 
-  list(request, h) {
+  list(request) {
     return _fetchCourses(request.query)
-      .then(courseSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(courseSerializer.serialize);
   },
 
-  get(request, h) {
+  get(request) {
     const courseId = request.params.id;
 
     return courseService
       .getCourse(courseId)
-      .then(courseSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(courseSerializer.serialize);
   },
 
   save(request, h) {
@@ -41,8 +38,7 @@ module.exports = {
         const serialized = certificationCourseSerializer.serialize(certificationCourse);
 
         return created ? h.response(serialized).created() : serialized;
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   }
 
 };

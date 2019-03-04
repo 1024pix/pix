@@ -7,7 +7,6 @@ const tokenService = require('../../domain/services/token-service');
 
 const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const errorManager = require('../../infrastructure/utils/error-manager');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 
@@ -36,17 +35,15 @@ module.exports = {
         _sendPasswordResetDemandUrlEmail(user.email, temporaryKey);
       })
       .then(() => passwordResetSerializer.serialize(passwordResetDemand.attributes))
-      .then((serializedPayload) => h.response(serializedPayload).created())
-      .catch((error) => errorManager.send(h, error));
+      .then((serializedPayload) => h.response(serializedPayload).created());
   },
 
-  checkResetDemand(request, h) {
+  checkResetDemand(request) {
     const temporaryKey = request.params.temporaryKey;
 
     return tokenService.verifyValidity(temporaryKey)
       .then(() => resetPasswordService.verifyDemand(temporaryKey))
       .then((passwordResetDemand) => userRepository.findByEmail(passwordResetDemand.email))
-      .then((user) => userSerializer.serialize(user))
-      .catch((error) => errorManager.send(h, error));
+      .then((user) => userSerializer.serialize(user));
   }
 };
