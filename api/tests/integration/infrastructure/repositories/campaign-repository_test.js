@@ -264,4 +264,45 @@ describe('Integration | Repository | Campaign', () => {
       expect(campaignSaved.customLandingPageText).to.equal('New text');
     });
   });
+
+  describe('checkIfUserOrganizationHasAccessToCampaign', () => {
+    let userId, organizationId, forbiddenUserId, forbiddenOrganizationId, campaignId;
+    beforeEach(async () => {
+
+      // given
+      userId = databaseBuilder.factory.buildUser().id;
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({ userId, organizationId });
+
+      forbiddenUserId = databaseBuilder.factory.buildUser().id;
+      forbiddenOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      databaseBuilder.factory.buildMembership({ userId: forbiddenUserId, organizationId: forbiddenOrganizationId });
+
+      campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+
+      await databaseBuilder.commit();
+
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return true when the user is a member of an organization that owns the campaign', async () => {
+      //when
+      const access = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
+
+      //then
+      expect(access).to.be.true;
+    });
+
+    it('should return false when the user is not a member of an organization that owns campaign', async () => {
+      //when
+      const access = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, forbiddenUserId);
+
+      //then
+      expect(access).to.be.false;
+    });
+
+  });
 });
