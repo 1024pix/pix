@@ -26,7 +26,7 @@ function push_commit_and_tag_to_remote_master {
 
 function update_preview_and_maths {
     for environment in preview maths
-    do 
+    do
         echo -e "Updating ${GREEN}${environment}${RESET_COLOR} environment.\n"
         git checkout ${environment}
         git pull --rebase
@@ -36,7 +36,7 @@ function update_preview_and_maths {
     done
 }
 
-echo -e "Beginning release pulication for version ${GREEN}${PACKAGE_VERSION}${RESET_COLOR}.\n"
+echo -e "Beginning release publication for version ${GREEN}${PACKAGE_VERSION}${RESET_COLOR}.\n"
 
 push_commit_to_remote_dev
 checkout_master
@@ -47,4 +47,5 @@ update_preview_and_maths
 checkout_dev
 
 echo -e "Release publication ${GREEN}succeeded${RESET_COLOR}."
-echo -e "You can check the deployment progression at : https://circleci.com/gh/1024pix/workflows/pix/tree/master"
+echo -e "You can check the build progress at : https://circleci.com/gh/1024pix/workflows/pix/tree/master"
+echo -e "You can check the deployment progress at : https://my.scalingo.com/"
