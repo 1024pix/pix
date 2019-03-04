@@ -5,7 +5,6 @@ const tokenService = require('../../../lib/domain/services/token-service');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const infraErrors = require('../../infrastructure/errors');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
@@ -21,27 +20,24 @@ module.exports = {
       .then((campaign) => usecases.createCampaign({ campaign }))
       .then((createdCampaign) => {
         return h.response(campaignSerializer.serialize(createdCampaign)).created();
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   },
 
-  getByCode(request, h) {
+  getByCode(request) {
     const filters = queryParamsUtils.extractParameters(request.query).filter;
     return _validateFilters(filters)
       .then(() => usecases.getCampaignByCode({ code: filters.code }))
       .then((campaign) => {
         return campaignSerializer.serialize([campaign]);
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   },
 
-  getById(request, h) {
+  getById(request) {
     const campaignId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getCampaign({ campaignId, options })
-      .then((campaign) => campaignSerializer.serialize(campaign, tokenForCampaignResults))
-      .catch((error) => errorManager.send(h, error));
+      .then((campaign) => campaignSerializer.serialize(campaign, tokenForCampaignResults));
   },
 
   getCsvResults(request, h) {
@@ -56,18 +52,16 @@ module.exports = {
         return h.response(resultCampaign.csvData)
           .header('Content-Type', 'text/csv;charset=utf-8')
           .header('Content-Disposition', `attachment; filename="${fileName}"`);
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   },
 
-  update(request, h) {
+  update(request) {
     const userId = request.auth.credentials.userId;
     const campaignId = request.params.id;
     const { title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
     return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
-      .then(campaignSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(campaignSerializer.serialize);
   },
 };
 

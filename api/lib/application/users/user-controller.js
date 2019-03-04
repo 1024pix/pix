@@ -9,7 +9,6 @@ const userRepository = require('../../../lib/infrastructure/repositories/user-re
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const tokenService = require('../../domain/services/token-service');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 const usecases = require('../../domain/usecases');
 
@@ -28,32 +27,29 @@ module.exports = {
     })
       .then((savedUser) => {
         return h.response(userSerializer.serialize(savedUser)).created();
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   },
 
-  getUser(request, h) {
+  getUser(request) {
     const requestedUserId = parseInt(request.params.id, 10);
     const authenticatedUserId = request.auth.credentials.userId;
 
     return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
-      .then(userSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(userSerializer.serialize);
   },
 
   // FIXME: Pas de tests ?!
-  getAuthenticatedUserProfile(request, h) {
+  getAuthenticatedUserProfile(request) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
     return userRepository.findUserById(userId)
       .then((foundUser) => {
         return profileService.getByUserId(foundUser.id);
       })
-      .then((buildedProfile) => profileSerializer.serialize(buildedProfile))
-      .catch((error) => errorManager.send(h, error));
+      .then((buildedProfile) => profileSerializer.serialize(buildedProfile));
   },
 
-  updateUser(request, h) {
+  updateUser(request) {
     const userId = request.params.id;
 
     return Promise.resolve(request.payload)
@@ -77,34 +73,30 @@ module.exports = {
         }
         return Promise.reject(new BadRequestError());
       })
-      .then(() => null)
-      .catch((error) => errorManager.send(h, error));
+      .then(() => null);
   },
 
-  getProfileToCertify(request, h) {
+  getProfileToCertify(request) {
     const userId = request.params.id;
     const currentDate = moment().toISOString();
 
-    return userService.getProfileToCertify(userId, currentDate)
-      .catch((error) => errorManager.send(h, error));
+    return userService.getProfileToCertify(userId, currentDate);
   },
 
-  getMemberships(request, h) {
+  getMemberships(request) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
     return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
-      .then((user) => membershipSerializer.serialize(user.memberships))
-      .catch((error) => errorManager.send(h, error));
+      .then((user) => membershipSerializer.serialize(user.memberships));
   },
 
-  getCertificationCenterMemberships(request, h) {
+  getCertificationCenterMemberships(request) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
     return usecases.getUserCertificationCenterMemberships({ authenticatedUserId, requestedUserId })
-      .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships))
-      .catch((error) => errorManager.send(h, error));
+      .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships));
   },
 
   find(request) {
@@ -130,12 +122,11 @@ module.exports = {
       });
   },
 
-  getCampaignParticipations(request, h) {
+  getCampaignParticipations(request) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
-      .then(campaignParticipationSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(campaignParticipationSerializer.serialize);
   }
 };

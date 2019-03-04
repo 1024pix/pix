@@ -3,7 +3,6 @@ const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const assessmentResultService = require('../../domain/services/assessment-result-service');
 const assessmentResultsSerializer = require('../../infrastructure/serializers/jsonapi/assessment-result-serializer');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {
@@ -31,17 +30,16 @@ function _deserializeResultsAdd(json) {
 
 module.exports = {
 
-  save(request, h) {
+  save(request) {
     const jsonResult = request.payload.data.attributes;
 
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
     assessmentResult.juryId = request.auth.credentials.userId;
     return assessmentResultService.save(assessmentResult, competenceMarks)
-      .then(() => null)
-      .catch((error) => errorManager.send(h, error));
+      .then(() => null);
   },
 
-  evaluate(request, h) {
+  evaluate(request) {
     const assessmentRating = assessmentResultsSerializer.deserialize(request.payload);
     const forceRecomputeResult = (request.query) ? request.query.recompute : false;
 
@@ -49,8 +47,7 @@ module.exports = {
       assessmentId: assessmentRating.assessmentId,
       forceRecomputeResult,
     })
-      .then(() => null)
-      .catch((error) => errorManager.send(h, error));
+      .then(() => null);
   }
 
 };
