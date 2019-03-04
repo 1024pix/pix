@@ -21,6 +21,60 @@ describe('Acceptance | API | Campaign Participations', () => {
     assessment = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.SMARTPLACEMENT });
   });
 
+  describe('GET /api/campaign-participations/{id}', () => {
+
+    beforeEach(async () => {
+      campaign = databaseBuilder.factory.buildCampaign();
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        assessmentId: assessment.id,
+        campaign,
+        campaignId: campaign.id
+      });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the campaign-participation', async () => {
+      // given
+      options = {
+        method: 'GET',
+        url: `/api/campaign-participations/${campaignParticipation.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+      };
+      const expectedCampaignParticipation = {
+        id: campaignParticipation.id.toString(),
+        type: 'campaign-participations',
+        'attributes': {
+          'created-at': campaignParticipation.createdAt,
+          'is-shared': campaignParticipation.isShared,
+          'shared-at': campaignParticipation.sharedAt,
+        },
+
+        relationships: {
+          assessment: {
+            data: {
+              type: 'assessments',
+              id: campaignParticipation.assessmentId.toString()
+            }
+          },
+          campaign: {
+            data: null
+          }
+        }
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
+    });
+  });
+
   describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
 
     beforeEach(async () => {
