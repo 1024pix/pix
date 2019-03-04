@@ -1,8 +1,8 @@
-<div class="pagination-control">
+<div class="pagination-control content-text content-text--small">
   <div class="page-size">
     <div class="page-size__label">Voir</div>
     <div class="page-size__choice">
-      <select class="select" onchange={{action 'changePageSize' value='target.value'}}>
+      <select class="select content-text content-text--small" onchange={{action 'changePageSize' value='target.value'}}>
         <option value="10" selected="{{if (eq pagination.pageSize 10) true}}">10</option>
         <option value="25" selected="{{if (eq pagination.pageSize 25) true}}">25</option>
         <option value="50" selected="{{if (eq pagination.pageSize 50) true}}">50</option>

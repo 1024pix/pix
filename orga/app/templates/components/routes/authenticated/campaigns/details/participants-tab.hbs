@@ -2,14 +2,14 @@
   <div class="participant-list__header">
     Liste des participants ({{participants.meta.rowCount}})
   </div>
-  <div class="table">
+  <div class="table content-text content-text--small">
     <table>
       <thead>
         <tr>
           <th>Nom</th>
           <th>Prénom</th>
           {{#if campaign.idPixLabel}}
-            <th>{{campaign.idPixLabel}}</th>
+            <th>{{idPixLabelDisplay}}</th>
           {{/if}}
         </tr>
       </thead>

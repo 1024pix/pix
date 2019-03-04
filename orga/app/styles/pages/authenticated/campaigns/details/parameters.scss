@@ -6,6 +6,7 @@
 .campaign-details-row {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 
   &:not(:last-child) {
     border-bottom: 1px solid $alto;
@@ -15,15 +16,7 @@
 .campaign-details-content {
   display: flex;
   flex-direction: column;
-  padding: 22px 38px;
-
-  &--large-entry {
-    width: 40%;
-  }
-
-  &--small-entry {
-    width: 15%;
-  }
+  padding: 22px 20px 22px 38px;
 
   &--single {
     &:first-child {
@@ -31,16 +24,20 @@
     }
   }
 
-  &:not(:last-child) {
-    border-right: 1px solid $alto;
+  &:not(:first-child) {
+    border-left: 1px solid $alto;
   }
 
   &__label {
-    margin: 0 0 10px;
+    margin: 0 0 4px;
   }
 
   &__text {
     margin: 0;
+
+    & p {
+      margin: 0;
+    }
   }
 
   &__clipboard {

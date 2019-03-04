@@ -2,10 +2,6 @@
   display: flex;
   justify-content: space-between;
   margin: 20px 0;
-
-  font-family: $roboto;
-  font-size: 0.8175rem;
-  color: $dove-gray;
 }
 
 .page-size {
@@ -21,6 +17,7 @@
     width: 70px;
     background-color: $alto;
     border: none;
+    color: $nero;
   }
 }
 
@@ -32,7 +29,7 @@
     margin: 0 10px;
 
     &--disabled .icon-button{
-        color: $dusty-gray;
+        color: $alto;
         cursor: default;
 
       &.icon-button:hover, &.icon-button:active {
@@ -46,14 +43,12 @@
   }
 
   &__label {
-    margin-right: 10px;
+    margin-right: 4px;
   }
 
-  &__current-page {
-    width: 30px;
-  }
-
-  &__last-page {
+  &__current-page, &__last-page {
+    display: flex;
+    justify-content: center;
     width: 30px;
   }
 }
