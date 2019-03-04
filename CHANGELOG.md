@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.28.1 (04/03/2019)
+
+- [#389](https://github.com/1024pix/pix/pull/389) [TECH] Mise à jour de Pix admin vers Node 10.15.1.
+- [#393](https://github.com/1024pix/pix/pull/393) [BSR] Suppression de l'étape de MEP `release:perform`.
+
 ## v2.28.0 (28/02/2019)
 
 - [#385](https://github.com/1024pix/pix/pull/385) [FEATURE] Modifier un message d'erreur et l'affichage d'un libellé dans pix Orga (PO-191).
