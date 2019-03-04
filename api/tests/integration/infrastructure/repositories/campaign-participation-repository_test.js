@@ -240,6 +240,10 @@ describe('Integration | Repository | Campaign Participation', () => {
     beforeEach(async () => {
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+      databaseBuilder.factory.buildCampaignParticipation({ assessmentId });
+      databaseBuilder.factory.buildCampaignParticipation({ assessmentId });
+      databaseBuilder.factory.buildCampaignParticipation();
 
       await databaseBuilder.commit();
     });
@@ -254,7 +258,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       // when
       const foundCampaignParticipation = await campaignParticipationRepository.find(options);
       // then
-      expect(foundCampaignParticipation.models).to.have.length(2);
+      expect(foundCampaignParticipation.models).to.have.length(4);
     });
 
     it('should return campaign participations that match given campaignId', async function() {
@@ -263,7 +267,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       // when
       const foundCampaignParticipation = await campaignParticipationRepository.find(options);
       // then
-      expect(foundCampaignParticipation.models).to.have.length(2);
+      expect(foundCampaignParticipation.models).to.have.length(3);
     });
 
   });
@@ -276,13 +280,13 @@ describe('Integration | Repository | Campaign Participation', () => {
     beforeEach(async () => {
 
       const pixMembers = [
-        { firstName: 'Mélanie', lastName: 'Boudard' },
-        { firstName: 'Mathieu', lastName: 'Laurent' },
-        { firstName: 'Jérémy', lastName: 'Buget' },
-        { firstName: 'Léo', lastName: 'Jacquemin' },
-        { firstName: 'Forster', lastName: 'Groux' },
+        { firstName: 'Mélanie', lastName: 'Darboo' },
+        { firstName: 'Mathieu', lastName: 'Lorenzio' },
+        { firstName: 'Jérémy', lastName: 'Bugietta' },
+        { firstName: 'Léo', lastName: 'Subzéro' },
+        { firstName: 'Forster', lastName: 'Gillet-Jaune' },
         { firstName: 'Thierry', lastName: 'Loesch' },
-        { firstName: 'Jonathan', lastName: 'Perret' },
+        { firstName: 'Jaune', lastName: 'Attend' },
       ];
 
       const insertPixMember = (member) => {
@@ -307,8 +311,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const foundUsers = _.map(foundCampaignParticipation.models, 'user');
       const foundUserLastNames = _.map(foundUsers, 'lastName');
       // then
-      expect(foundUserLastNames).to.deep.equal(['Boudard', 'Buget', 'Groux', 'Jacquemin']);
-    });
+      expect(foundUserLastNames).to.deep.equal(['Attend', 'Bugietta', 'Darboo', 'Gillet-Jaune']);});
   });
 
   describe('#updateCampaignParticipation', () => {
