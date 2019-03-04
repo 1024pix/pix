@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-
 module('Unit | Components | routes/authenticated/sessions/new-item', function(hooks) {
   setupTest(hooks);
 
