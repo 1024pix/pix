@@ -1,12 +1,12 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const { displayPullRequest, filterPullRequest, getHeadOfChangelog, orderPr, getTheCommitDate } = require('../../../scripts/get-pull-requests-to-release-in-prod');
+const { displayPullRequest, filterPullRequest, getHeadOfChangelog, orderPr, getTheCommitDate } = require('../release/get-pull-requests-to-release-in-prod');
 
 describe('Unit | Script | GET Pull Request to release in Prod', () => {
 
   describe('displayPullRequest', () => {
-    const expectedLine = '- [#111](http://git/111) [BUGFIX] Résolution du problème de surestimation du niveau (US-389).\n';
+    const expectedLine = '- [#111](http://git/111) [BUGFIX] Résolution du problème de surestimation du niveau (US-389).';
 
     it('should return a line with correct format from correct PR name', () => {
       // given
@@ -73,7 +73,7 @@ describe('Unit | Script | GET Pull Request to release in Prod', () => {
     it('should return the head of changelog in correct value', () => {
       // given
       sinon.useFakeTimers();
-      const headChangelog = '## v2.0.0 (01/01/1970) \n\n';
+      const headChangelog = '## v2.0.0 (01/01/1970)\n';
       const versionNumber = '2.0.0';
       // when
       const result = getHeadOfChangelog(versionNumber);

@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "2.28.0",
+  "version": "2.28.1",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "license": "AGPL-3.0",
@@ -22,12 +22,15 @@
   },
   "main": "index.js",
   "devDependencies": {
+    "chai": "^4.2.0",
     "codeclimate-test-reporter": "^0.5.0",
     "coveralls": "^3.0.0",
     "eslint": "^4.18.2",
     "eslint-plugin-mocha": "^4.12.1",
     "husky": "^0.14.3",
-    "lcov-result-merger": "^1.2.0"
+    "lcov-result-merger": "^1.2.0",
+    "mocha": "^6.0.2",
+    "sinon": "^7.2.5"
   },
   "scripts": {
     "build": "run-s ci:front build:front",
@@ -69,7 +72,6 @@
     "lint:mon-pix": "cd mon-pix && npm run lint",
     "lint:orga": "cd orga && npm run lint",
     "preinstall": "test \"$(npm --version)\" = 6.4.1",
-    "release:perform": "./scripts/release/perform.sh",
     "release:prepare": "./scripts/release/prepare.sh",
     "release:publish": "./scripts/release/publish.sh",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
@@ -79,17 +81,19 @@
     "start:certif": "cd certif && npm start",
     "start:mon-pix": "cd mon-pix && npm start",
     "start:orga": "cd orga && npm start",
-    "test": "run-p --print-label test:api test:mon-pix test:orga test:certif test:admin",
+    "test": "run-p --print-label test:api test:mon-pix test:orga test:certif test:admin test:scripts",
     "test:admin": "cd admin && npm test",
     "test:api": "cd api && npm run lint && npm test",
     "test:api:debug": "cd api && npm run test:api:debug",
     "test:certif": "cd certif && npm test",
     "test:mon-pix": "cd mon-pix && npm test",
-    "test:orga": "cd orga && npm test"
+    "test:orga": "cd orga && npm test",
+    "test:scripts": "cd scripts && NODE_ENV=test mocha --recursive --exit --reporter dot tests"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "eslint-plugin-ember": "^5.2.0",
+    "moment": "^2.24.0",
     "npm-run-all": "^4.1.0"
   }
 }
