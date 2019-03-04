@@ -10,6 +10,7 @@ describe('Unit | UseCase | find-campaign-participations', () => {
   let options;
   let userId;
   let assessmentId;
+  let campaignId;
   let campaignParticipations;
 
   const smartPlacementAssessmentRepository = { checkIfAssessmentBelongToUser: sinon.stub() };
@@ -20,6 +21,7 @@ describe('Unit | UseCase | find-campaign-participations', () => {
     requestErr = null;
     userId = 'dummy userId';
     assessmentId = 'dummy assessmentId';
+    campaignId = 'dummy campaignId';
     campaignParticipations = ['some campaigns participations'];
   });
 
@@ -55,14 +57,14 @@ describe('Unit | UseCase | find-campaign-participations', () => {
       });
     });
   });
-  context('the campaign participation is not searched by assessment id', () => {
+  context('the campaign participation is searched by campaign id', () => {
     beforeEach(async () => {
-      options = { filter: {} };
+      options = { filter: { campaignId } };
       campaignParticipationRepository.findWithUsersPaginated.resolves(campaignParticipations);
 
       campaignParticipationsResult = await findCampaignParticipations({ userId, options, campaignParticipationRepository, smartPlacementAssessmentRepository });
     });
-    it('should find the campaign participations', () => {
+    it('should find the campaign participations with users paginated', () => {
       expect(campaignParticipationRepository.findWithUsersPaginated).to.have.been.calledWithExactly(options);
     });
     it('should return the campaign participations', () => {
