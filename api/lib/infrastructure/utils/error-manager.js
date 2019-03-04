@@ -4,23 +4,25 @@ const JSONAPI = require('../../interfaces/jsonapi');
 const errorSerializer = require('../serializers/jsonapi/error-serializer');
 const logger = require('../logger');
 
+module.exports = { send };
+
 function send(h, error) {
+  logger.error(error);
+
   if (error instanceof DomainErrors.EntityValidationError) {
     return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
   }
 
-  const mappedError = _mapToInfrastructureErrors(error);
+  const infraError = _mapToInfrastructureError(error);
 
-  if (mappedError instanceof InfraErrors.InfrastructureError) {
-    return h.response(errorSerializer.serialize(mappedError)).code(mappedError.code);
-  }
-
-  logger.error(error);
-  const defaultError = new InfraErrors.InfrastructureError(error.message);
-  return h.response(errorSerializer.serialize(defaultError)).code(defaultError.code);
+  return h.response(errorSerializer.serialize(infraError)).code(infraError.code);
 }
 
-function _mapToInfrastructureErrors(error) {
+function _mapToInfrastructureError(error) {
+  if (error instanceof InfraErrors.InfrastructureError) {
+    return error;
+  }
+
   if (error instanceof DomainErrors.AlreadyRatedAssessmentError) {
     return new InfraErrors.PreconditionFailedError('Assessment is already rated.');
   }
@@ -35,9 +37,6 @@ function _mapToInfrastructureErrors(error) {
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntity) {
     return new InfraErrors.ForbiddenError('Utilisateur non authorisé à accéder à la ressource');
-  }
-  if (error instanceof DomainErrors.UserNotAuthorizedToUpdateResourceError) {
-    return new InfraErrors.ForbiddenError(error.message);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdateResourceError) {
     return new InfraErrors.ForbiddenError(error.message);
@@ -97,9 +96,5 @@ function _mapToInfrastructureErrors(error) {
     return new InfraErrors.BadRequestError(error.message);
   }
 
-  return error;
+  return new InfraErrors.InfrastructureError(error.message);
 }
-
-module.exports = {
-  send,
-};
