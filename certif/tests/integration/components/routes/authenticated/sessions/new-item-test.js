@@ -9,7 +9,7 @@ module('Integration | Component | routes/authenticated/session | new-item', func
   let session;
 
   hooks.beforeEach(function() {
-    session = new EmberObject({});
+    session = EmberObject.create({});
     this.set('createSessionSpy', (newSession) => {
       session = newSession;
     });
