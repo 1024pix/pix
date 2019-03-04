@@ -7,7 +7,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
-describe.only('Unit | Application | Controller | Campaign-Participation', () => {
+describe('Unit | Application | Controller | Campaign-Participation', () => {
 
   describe('#find', () => {
 
