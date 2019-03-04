@@ -2,10 +2,13 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { select } from 'pix-admin/tests/helpers/x-select';
+import XSelectInteractor from 'emberx-select/test-support/interactor';
 import { resolve } from 'rsvp';
 
 module('Integration | Component | certification-details-answer', function(hooks) {
+
+  let xselect = new XSelectInteractor('.answer-result select');
+
   setupRenderingTest(hooks);
 
   let answerData = {
@@ -13,7 +16,7 @@ module('Integration | Component | certification-details-answer', function(hooks)
     challengeId:'rec12345',
     order:5,
     result:'partially'
-  }
+  };
 
   test('it renders', async function(assert) {
     // given
@@ -50,7 +53,7 @@ module('Integration | Component | certification-details-answer', function(hooks)
 
     // when
     await render(hbs`{{certification-details-answer answer=answerData onUpdateRate=(action externalAction)}}`);
-    await select('.answer-result select', 'ok');
+    await xselect.select('Ok');
 
     // then
     assert.dom('.answer-result').hasClass('jury');
@@ -67,7 +70,7 @@ module('Integration | Component | certification-details-answer', function(hooks)
 
     // when
     await render(hbs`{{certification-details-answer answer=answerData onUpdateRate=(action externalAction)}}`);
-    await select('.answer-result select', 'ok');
+    await xselect.select('Ok');
   });
 
   test('jury is set back to false when answer is set to default value', async function(assert) {
@@ -79,8 +82,8 @@ module('Integration | Component | certification-details-answer', function(hooks)
 
     // when
     await render(hbs`{{certification-details-answer answer=answerData onUpdateRate=(action externalAction)}}`);
-    await select('.answer-result select', 'ok');
-    await select('.answer-result select', 'partially');
+    await xselect.select('Ok');
+    await xselect.select('Partially');
     assert.equal(answerData.jury, false);
   });
 
