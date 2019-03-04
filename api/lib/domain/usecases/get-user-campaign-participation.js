@@ -16,7 +16,4 @@ module.exports = function findCampaignParticipations({
       });
   }
 
-  if (options.filter.campaignId) {
-    return campaignParticipationRepository.findWithUsersPaginated(options);
-  }
 };

@@ -311,7 +311,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const foundUsers = _.map(foundCampaignParticipation.models, 'user');
       const foundUserLastNames = _.map(foundUsers, 'lastName');
       // then
-      expect(foundUserLastNames).to.deep.equal(['Attend', 'Bugietta', 'Darboo', 'Gillet-Jaune']);});
+      expect(foundUserLastNames).to.deep.equal(['Attend', 'Bugietta', 'Darboo', 'Donckele']);});
   });
 
   describe('#updateCampaignParticipation', () => {

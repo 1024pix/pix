@@ -1,8 +1,8 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const findCampaignParticipations = require('../../../../lib/domain/usecases/find-campaign-participations');
+const findCampaignParticipations = require('../../../../lib/domain/usecases/get-user-campaign-participation');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | find-campaign-participations', () => {
+describe('Unit | UseCase | get-user-campaign-participation', () => {
 
   let campaignParticipationsResult;
   let requestErr;
@@ -10,7 +10,6 @@ describe('Unit | UseCase | find-campaign-participations', () => {
   let options;
   let userId;
   let assessmentId;
-  let campaignId;
   let campaignParticipations;
 
   const smartPlacementAssessmentRepository = { checkIfAssessmentBelongToUser: sinon.stub() };
@@ -21,7 +20,6 @@ describe('Unit | UseCase | find-campaign-participations', () => {
     requestErr = null;
     userId = 'dummy userId';
     assessmentId = 'dummy assessmentId';
-    campaignId = 'dummy campaignId';
     campaignParticipations = ['some campaigns participations'];
   });
 
@@ -55,20 +53,6 @@ describe('Unit | UseCase | find-campaign-participations', () => {
       it('should throw a UserNotAuthorizedToAccessEntity error', () => {
         expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntity);
       });
-    });
-  });
-  context('the campaign participation is searched by campaign id', () => {
-    beforeEach(async () => {
-      options = { filter: { campaignId } };
-      campaignParticipationRepository.findWithUsersPaginated.resolves(campaignParticipations);
-
-      campaignParticipationsResult = await findCampaignParticipations({ userId, options, campaignParticipationRepository, smartPlacementAssessmentRepository });
-    });
-    it('should find the campaign participations with users paginated', () => {
-      expect(campaignParticipationRepository.findWithUsersPaginated).to.have.been.calledWithExactly(options);
-    });
-    it('should return the campaign participations', () => {
-      expect(campaignParticipationsResult).to.deep.equal(campaignParticipations);
     });
   });
 
