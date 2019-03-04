@@ -61,7 +61,7 @@ module.exports = {
   findWithUsersPaginated(options) {
     return BookshelfCampaignParticipation
       .where(options.filter)
-      .query(function(qb) {
+      .query((qb) => {
         qb.innerJoin('users', 'userId', 'users.id');
         qb.orderBy('users.lastName', 'asc');
       })
