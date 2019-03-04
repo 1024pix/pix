@@ -16,7 +16,7 @@
                  (query-params pageNumber=previousPage)
                  disabledWhen=(eq pagination.page 1)
                  replace=true
-                 class="icon-button"}}
+                 class="icon-button icon-button--link"}}
         {{fa-icon 'arrow-left'}}
       {{/link-to}}
     </div>
@@ -30,7 +30,7 @@
                  (query-params pageNumber=nextPage)
                  disabledWhen=(eq pagination.page pagination.pageCount)
                  replace=true
-                 class="icon-button"}}
+                 class="icon-button icon-button--link"}}
         {{fa-icon 'arrow-right'}}
       {{/link-to}}
     </div>
