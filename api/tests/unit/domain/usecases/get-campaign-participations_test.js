@@ -1,49 +1,49 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const findCampaignParticipations = require('../../../../lib/domain/usecases/get-campaign-participations');
+const getCampaignParticipations = require('../../../../lib/domain/usecases/get-campaign-participations');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
-xdescribe('Unit | UseCase | get-user-campaign-participation', () => {
+describe('Unit | UseCase | get-campaign-participations', () => {
 
   let campaignParticipationsResult;
   let requestErr;
 
   let options;
   let userId;
-  let assessmentId;
+  let campaignId;
   let campaignParticipations;
 
-  const smartPlacementAssessmentRepository = { checkIfAssessmentBelongToUser: sinon.stub() };
-  const campaignParticipationRepository = { find: sinon.stub(), findWithUsersPaginated: sinon.stub() };
+  const campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
+  const campaignParticipationRepository = { findWithUsersPaginated: sinon.stub() };
 
   beforeEach(() => {
     options = null;
     requestErr = null;
     userId = 'dummy userId';
-    assessmentId = 'dummy assessmentId';
+    campaignId = 'dummy campaignId';
     campaignParticipations = ['some campaigns participations'];
   });
 
-  context('the campaign participation is searched by assessment id', () => {
+  context('the campaign participation is searched by campaign id', () => {
     beforeEach(() => {
-      options = { filter: { assessmentId } };
+      options = { filter: { campaignId } };
     });
     context('the assessment belongs to the user', () => {
       beforeEach(async () => {
-        smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(true);
-        campaignParticipationRepository.find.resolves(campaignParticipations);
+        campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
+        campaignParticipationRepository.findWithUsersPaginated.resolves(campaignParticipations);
 
-        campaignParticipationsResult = await findCampaignParticipations({
+        campaignParticipationsResult = await getCampaignParticipations({
           userId,
           options,
           campaignParticipationRepository,
-          smartPlacementAssessmentRepository
+          campaignRepository
         });
       });
-      it('should check if the assessment belongs to the user', () => {
-        expect(smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser).to.have.been.calledWithExactly(assessmentId, userId);
+      it('should check if the user organization has access to the campaign', () => {
+        expect(campaignRepository.checkIfUserOrganizationHasAccessToCampaign).to.have.been.calledWithExactly(campaignId, userId);
       });
       it('should find the campaign participations', () => {
-        expect(campaignParticipationRepository.find).to.have.been.calledWithExactly(options);
+        expect(campaignParticipationRepository.findWithUsersPaginated).to.have.been.calledWithExactly(options);
       });
       it('should return the campaign participations', () => {
         expect(campaignParticipationsResult).to.deep.equal(campaignParticipations);
@@ -51,13 +51,13 @@ xdescribe('Unit | UseCase | get-user-campaign-participation', () => {
     });
     context('the assessment does not belong to the user', () => {
       beforeEach(async () => {
-        smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(false);
+        campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
 
-        requestErr = await catchErr(findCampaignParticipations)({
+        requestErr = await catchErr(getCampaignParticipations)({
           userId,
           options,
           campaignParticipationRepository,
-          smartPlacementAssessmentRepository
+          campaignRepository
         });
       });
       it('should throw a UserNotAuthorizedToAccessEntity error', () => {
