@@ -36,7 +36,7 @@ const createServer = async () => {
     const response = request.response;
 
     if (response instanceof DomainError || response instanceof InfrastructureError) {
-      return errorManager.send(h, response, false);
+      return errorManager.send(h, response);
     }
 
     return h.continue;

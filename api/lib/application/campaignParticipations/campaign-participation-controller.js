@@ -6,7 +6,6 @@ const campaignParticipationRepository = require('../../infrastructure/repositori
 
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
@@ -16,8 +15,7 @@ module.exports = {
       .then((campaignParticipation) => usecases.startCampaignParticipation({ campaignParticipation, userId }))
       .then((campaignParticipation) => {
         return h.response(serializer.serialize(campaignParticipation)).created();
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   },
 
   getCampaignParticipationByAssessment(request) {
@@ -37,7 +35,7 @@ module.exports = {
       });
   },
 
-  shareCampaignResult(request, h) {
+  shareCampaignResult(request) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
     const campaignParticipationId = parseInt(request.params.id);
@@ -48,7 +46,6 @@ module.exports = {
       campaignParticipationRepository,
       smartPlacementAssessmentRepository
     })
-      .then(() => null)
-      .catch((error) => errorManager.send(h, error));
+      .then(() => null);
   }
 };

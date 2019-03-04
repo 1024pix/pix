@@ -8,7 +8,6 @@ const smartPlacementAssessmentRepository =
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
 const { NotFoundError } = require('../../domain/errors');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 function _updateExistingAnswer(existingAnswer, newAnswer) {
   return solutionRepository
@@ -33,7 +32,6 @@ function _updateExistingAnswer(existingAnswer, newAnswer) {
 module.exports = {
 
   save(request, h) {
-
     return Promise.resolve(request.payload)
       .then(partialDeserialize)
       .then((newAnswer) => {
@@ -43,23 +41,18 @@ module.exports = {
       })
       .then((answer) => {
         return h.response(answerSerializer.serialize(answer)).created();
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   },
 
-  async get(request, h) {
-    try {
-      const result = await answerRepository.get(request.params.id);
-      return answerSerializer.serialize(result);
+  async get(request) {
+    const result = await answerRepository.get(request.params.id);
 
-    } catch(error) {
-      return errorManager.send(h, error);
-    }
+    return answerSerializer.serialize(result);
   },
 
-  update(request, h) {
-
+  update(request) {
     const updatedAnswer = request.payload.data;
+    
     return answerRepository
       .findByChallengeAndAssessment({
         challengeId: updatedAnswer.relationships.challenge.data.id,
@@ -81,18 +74,16 @@ module.exports = {
             }
           });
 
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   },
 
-  findByChallengeAndAssessment(request, h) {
+  findByChallengeAndAssessment(request) {
     return answerRepository
       .findByChallengeAndAssessment({
         challengeId: request.url.query.challenge,
         assessmentId: request.url.query.assessment
       })
-      .then(answerSerializer.serialize)
-      .catch((error) => errorManager.send(h, error));
+      .then(answerSerializer.serialize);
   },
 };
 

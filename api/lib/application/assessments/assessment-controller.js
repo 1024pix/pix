@@ -7,7 +7,6 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 function _extractUserIdFromRequest(request) {
   if (request.headers && request.headers.authorization) {
@@ -45,23 +44,18 @@ module.exports = {
       })
       .then((assessment) => {
         return h.response(assessmentSerializer.serialize(assessment)).created();
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   },
 
-  async get(request, h) {
-    try {
-      const assessmentId = request.params.id;
+  async get(request) {
+    const assessmentId = request.params.id;
 
-      const assessment = await useCases.getAssessment({ assessmentId });
+    const assessment = await useCases.getAssessment({ assessmentId });
 
-      return assessmentSerializer.serialize(assessment);
-    } catch (error) {
-      return errorManager.send(h, error);
-    }
+    return assessmentSerializer.serialize(assessment);
   },
 
-  findByFilters(request, h) {
+  findByFilters(request) {
     let assessmentsPromise = Promise.resolve([]);
     const userId = _extractUserIdFromRequest(request);
 
@@ -78,11 +72,10 @@ module.exports = {
     }
 
     return assessmentsPromise
-      .then((assessments) => assessmentSerializer.serializeArray(assessments))
-      .catch((error) => errorManager.send(h, error));
+      .then((assessments) => assessmentSerializer.serializeArray(assessments));
   },
 
-  getNextChallenge(request, h) {
+  getNextChallenge(request) {
 
     const logContext = {
       zone: 'assessmentController.getNextChallenge',
@@ -137,7 +130,7 @@ module.exports = {
           return JSONAPI.emptyDataResponse();
         }
 
-        return errorManager.send(h, error);
+        throw error;
       });
   }
 };

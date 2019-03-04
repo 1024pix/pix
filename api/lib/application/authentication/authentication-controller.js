@@ -8,7 +8,6 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const usecases = require('../../domain/usecases');
 
 const Authentication = require('../../domain/models/Authentication');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 function _buildError() {
   return {
@@ -69,8 +68,7 @@ module.exports = {
           .header('Content-Type', 'application/json;charset=UTF-8')
           .header('Cache-Control', 'no-store')
           .header('Pragma', 'no-cache');
-      })
-      .catch((error) => errorManager.send(h, error));
+      });
   },
 
 };
