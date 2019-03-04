@@ -18,7 +18,7 @@ export default Component.extend({
 
   actions: {
     changePageSize(pageSize) {
-      this.get('router').replaceWith(this.get('paginationLink'), { queryParams: { pageSize, pageNumber: 1 } });
+      this.router.replaceWith(this.paginationLink, { queryParams: { pageSize, pageNumber: 1 } });
     },
   }
 });
