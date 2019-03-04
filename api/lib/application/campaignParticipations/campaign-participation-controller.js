@@ -9,6 +9,14 @@ const serializer = require('../../infrastructure/serializers/jsonapi/campaign-pa
 
 module.exports = {
 
+  async getById(request) {
+    const campaignParticipationId = request.params.id;
+
+    const campaignParticipation = await usecases.getCampaignParticipation({ campaignParticipationId });
+
+    return serializer.serialize(campaignParticipation);
+  },
+
   save(request, h) {
     const userId = request.auth.credentials.userId;
     return serializer.deserialize(request.payload)

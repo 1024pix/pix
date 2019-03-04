@@ -15,6 +15,18 @@ exports.register = async function(server) {
       }
     },
     {
+      method: 'GET',
+      path: '/api/campaign-participations/{id}',
+      config: {
+        handler: campaignParticipationController.getById,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération d\'und campaign-participation par son id',
+        ],
+        tags: ['api', 'campaign-participation']
+      }
+    },
+    {
       method: 'PATCH',
       path: '/api/campaign-participations/{id}',
       config: {

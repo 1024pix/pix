@@ -220,4 +220,32 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     });
   });
 
+  describe('#getById', () => {
+    const campaignParticipationId = 1;
+    let request;
+
+    beforeEach(() => {
+      request = {
+        params: {
+          id: campaignParticipationId,
+        },
+      };
+
+      sinon.stub(usecases, 'getCampaignParticipation');
+      sinon.stub(serializer, 'serialize');
+    });
+
+    it('should returns the campaignParticipation', async () => {
+      // given
+      usecases.getCampaignParticipation.withArgs({ campaignParticipationId }).resolves({});
+      serializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await campaignParticipationController.getById(request);
+
+      // then
+      expect(response).to.equal('ok');
+    });
+  });
+
 });
