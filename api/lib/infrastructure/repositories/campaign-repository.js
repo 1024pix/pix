@@ -72,5 +72,18 @@ module.exports = {
       .where({ organizationId })
       .fetchAll()
       .then((campaigns) => campaigns.models.map(_toDomain));
+  },
+
+  checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
+    return BookshelfCampaign
+      .where({ 'campaigns.id': campaignId, userId })
+      .query((qb) => {
+        qb.innerJoin('memberships', 'campaigns.organizationId', 'memberships.organizationId');
+      })
+      .fetch({
+        require: true,
+      })
+      .then(() => true)
+      .catch(() => false);
   }
 };
