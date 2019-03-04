@@ -3,7 +3,6 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
 const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
 
-const { AlreadyRatedAssessmentError, NotFoundError } = require('../../../../lib/domain/errors');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const usecases = require('../../../../lib/domain/usecases');
@@ -51,50 +50,6 @@ describe('Unit | Controller | assessment-results', () => {
         forceRecomputeResult: false,
       });
       expect(response).to.be.null;
-    });
-
-    it('should return 404 when the assessment is not found', async () => {
-      // given
-      const notFoundError = new NotFoundError('Assessment 123 not found');
-      usecases.createAssessmentResultForCompletedAssessment.rejects(notFoundError);
-
-      // when
-      await assessmentResultController.evaluate(request, hFake);
-
-      // then
-      return expect(errorManager.send).to.be.calledWith(hFake, notFoundError);
-
-    });
-
-    context('when the assessment is already evaluated',async () => {
-
-      it('should do nothing', async () => {
-        // given
-        const alreadyRatedAssessmentError = new AlreadyRatedAssessmentError();
-        usecases.createAssessmentResultForCompletedAssessment.rejects(alreadyRatedAssessmentError);
-
-        // when
-        await assessmentResultController.evaluate(request, hFake);
-
-        // then
-        return expect(errorManager.send).to.be.calledWith(hFake, alreadyRatedAssessmentError);
-
-      });
-    });
-
-    context('when the database fails', () => {
-
-      it('should reply with an internal error', async () => {
-        // given
-        const undefinedError = new Error();
-        usecases.createAssessmentResultForCompletedAssessment.rejects(undefinedError);
-
-        // when
-        await assessmentResultController.evaluate(request, hFake);
-
-        // then
-        return expect(errorManager.send).to.be.calledWith(hFake, undefinedError);
-      });
     });
   });
 

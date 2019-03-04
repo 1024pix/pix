@@ -2,27 +2,23 @@ const cache = require('../../infrastructure/caches/cache');
 const preloader = require('../../infrastructure/caches/preloader');
 const logger = require('../../infrastructure/logger');
 const usecases = require('../../domain/usecases');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
-  reloadCacheEntry(request, h) {
+  reloadCacheEntry(request) {
     const cacheKey = request.params.cachekey || '';
     const [ tableName, recordId ] = cacheKey.split('_');
     return usecases.reloadCacheEntry({ preloader, tableName, recordId })
-      .then(() => null)
-      .catch((error) => errorManager.send(h, error));
+      .then(() => null);
   },
 
-  removeAllCacheEntries(request, h) {
+  removeAllCacheEntries() {
     return usecases.removeAllCacheEntries({ cache })
-      .then(() => null)
-      .catch((error) => errorManager.send(h, error));
+      .then(() => null);
   },
 
-  preloadCacheEntries(request, h) {
+  preloadCacheEntries() {
     return usecases.preloadCacheEntries({ preloader, logger })
-      .then(() => null)
-      .catch((error) => errorManager.send(h, error));
+      .then(() => null);
   }
 };

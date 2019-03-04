@@ -2,28 +2,24 @@ const certificationService = require('../../domain/services/certification-servic
 const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const errorManager = require('../../infrastructure/utils/error-manager');
 
 module.exports = {
 
-  computeResult(request, h) {
+  computeResult(request) {
     const certificationCourseId = request.params.id;
 
-    return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId)
-      .catch((error) => errorManager.send(h, error));
+    return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId);
   },
 
-  getResult(request, h) {
+  getResult(request) {
     const certificationCourseId = request.params.id;
     return certificationService.getCertificationResult(certificationCourseId)
-      .then(certificationCourseSerializer.serializeResult)
-      .catch((error) => errorManager.send(h, error));
+      .then(certificationCourseSerializer.serializeResult);
   },
 
-  update(request, h) {
+  update(request) {
     return certificationSerializer.deserialize(request.payload)
       .then((certificationCourse) => certificationCourseService.update(certificationCourse))
-      .then(certificationSerializer.serializeFromCertificationCourse)
-      .catch((error) => errorManager.send(h, error));
+      .then(certificationSerializer.serializeFromCertificationCourse);
   },
 };
