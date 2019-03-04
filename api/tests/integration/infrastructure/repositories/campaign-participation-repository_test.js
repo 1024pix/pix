@@ -281,11 +281,11 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       const pixMembers = [
         { firstName: 'Mélanie', lastName: 'Darboo' },
-        { firstName: 'Mathieu', lastName: 'Lorenzio' },
+        { firstName: 'Matteo', lastName: 'Lorenzio' },
         { firstName: 'Jérémy', lastName: 'Bugietta' },
         { firstName: 'Léo', lastName: 'Subzéro' },
         { firstName: 'Forster', lastName: 'Gillet-Jaune' },
-        { firstName: 'Thierry', lastName: 'Loesch' },
+        { firstName: 'Thierry', lastName: 'Donckele' },
         { firstName: 'Jaune', lastName: 'Attend' },
       ];
 
