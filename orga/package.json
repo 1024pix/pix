@@ -67,6 +67,6 @@
     "qunit-dom": "^0.7.1"
   },
   "dependencies": {
-    "lodash": "latest"
+    "lodash": "^4.17.11"
   }
 }
