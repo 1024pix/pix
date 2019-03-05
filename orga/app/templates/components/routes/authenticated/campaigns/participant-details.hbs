@@ -1,0 +1,52 @@
+<div class="participant-details__header">
+  <div class="participant-details-header__title">
+    {{#link-to "authenticated.campaigns.details.participants" class="icon-button campaign-details-content__return-button"}}
+      {{fa-icon 'arrow-left'}}
+    {{/link-to}}
+    <div class="page__title page-title">{{campaignParticipation.user.firstName}} {{campaignParticipation.user.lastName}}</div>
+  </div>
+</div>
+
+<div class="panel panel--light-shadow participant-details__information">
+  <div class="participant-details-row">
+    <div class="participant-details-content participant-details-content--with-border">
+      <div class="label-text participant-details-content__label-text">Identifiant</div>
+      <div class="content-text participant-details-content__content-text">{{campaignParticipation.participantExternalId}}</div>
+    </div>
+    <div class="participant-details-content">
+      <div class="label-text participant-details-content__label-text">Progression</div>
+    <div class="content-text participant-details-content__content-text">
+      {{campaignParticipation.progression}}%
+      {{#if (eq campaignParticipation.progression 100)}}
+        <div class="participant-details-content__progress-bar--completed"></div>
+      {{else}}
+        <div class="participant-details-content__progress-bar">
+          <div class="participant-details-content__progress-bar--completion" style="width:{{campaignParticipation.progression}}px"></div>
+        </div>
+      {{/if}}
+      </div>
+    </div>
+    <div class="participant-details-content">
+      <div class="label-text participant-details-content__label-text">Commencé le</div>
+      <div class="content-text participant-details-content__content-text">{{campaignParticipation.createdAt}}</div>
+    </div>
+    <div class="participant-details-content participant-details-content--with-border">
+      <div class="label-text participant-details-content__label-text">Partagé le</div>
+      <div class="content-text participant-details-content__content-text">
+        {{fa-icon 'check-circle' class="participant-details-content__check-shared--green"}}{{campaignParticipation.createdAt}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel--light-shadow participant-details__result">
+  <div class="participant-details-report">
+    <!--https://codepen.io/xgad/post/svg-radial-progress-meters-->
+    <svg width="80" height="80" viewBox="0 0 80 80" transform="rotate(-90)" class="participant-details-report__round">
+      <circle cx="40" cy="40" r="{{radial}}" fill="none" stroke="#ddd" stroke-width="6" />
+      <circle cx="40" cy="40" r="{{radial}}" fill="none" stroke="#12A3FF"  stroke-width="6"
+              stroke-dasharray="{{roundProgressBarDashArray}}" stroke-dashoffset="{{roundProgressBarDashOffset}}" />
+    </svg>
+    <div  class="participant-details-report__percent participant-details-report__percent-text">50%</div>
+  </div>
+</div>
