@@ -13,20 +13,17 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils'
 const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
 const MAX_CODE_LENGTH = 255;
 
-function _assertThatOrganizationExists(organizationId) {
-  return organizationRepository.isOrganizationIdExist(organizationId)
-    .then((isOrganizationExist) => {
-      if (!isOrganizationExist) {
-        throw new InvaliOrganizationIdError();
-      }
-    });
+async function _assertThatOrganizationExists(organizationId) {
+  const isOrganizationExist = await organizationRepository.isOrganizationIdExist(organizationId);
+  if (!isOrganizationExist) {
+    throw new InvaliOrganizationIdError();
+  }
 }
 
 function _validateSnapshotCode(snapshot) {
   if (snapshot.studentCode.length > MAX_CODE_LENGTH || snapshot.campaignCode.length > MAX_CODE_LENGTH) {
-    return Promise.reject(new InvalidSnapshotCode());
+    throw new InvalidSnapshotCode();
   }
-  return Promise.resolve();
 }
 
 function _hasAnAtuhorizationHeaders(request) {
@@ -74,7 +71,7 @@ function _replyError(err, h) {
   })).code(500);
 }
 
-function create(request, h) {
+async function create(request, h) {
 
   if (!_hasAnAtuhorizationHeaders(request)) {
     return h.response(new JSONAPIError({
@@ -85,26 +82,31 @@ function create(request, h) {
   }
 
   const token = request.headers.authorization;
-  let user;
-  let snapshot;
-  let serializedProfile;
 
-  return authorizationToken.verify(token)
-    .then((userId) => userRepository.findUserById(userId))
-    .then((foundUser) => user = foundUser)
-    .then(() => snapshotSerializer.deserialize(request.payload))
-    .then((deserializedSnapshot) => (snapshot = deserializedSnapshot))
-    .then(() => _validateSnapshotCode(snapshot))
-    .then(() => _assertThatOrganizationExists(snapshot.organization.id))
-    .then(() => profileService.getByUserId(user.id))
-    .then((profile) => profileSerializer.serialize(profile))
-    .then((jsonApiProfile) => (serializedProfile = jsonApiProfile))
-    .then(() => profileCompletionService.getNumberOfFinishedTests(serializedProfile))
-    .then((testsFinished) => snapshot.testsFinished = testsFinished)
-    .then(() => snapshotService.create(snapshot, user, serializedProfile))
-    .then((snapshotId) => snapshotSerializer.serialize({ id: snapshotId }))
-    .then((snapshotSerialized) => h.response(snapshotSerialized).created())
-    .catch((err) => _replyError(err, h));
+  try {
+    const userId = await authorizationToken.verify(token);
+    const user = await userRepository.findUserById(userId);
+    const snapshot = await _getSnapshot(request.payload);
+    const profile = await profileService.getByUserId(user.id);
+    const serializedProfile = await profileSerializer.serialize(profile);
+    const testsFinished = await profileCompletionService.getNumberOfFinishedTests(serializedProfile);
+    snapshot.testsFinished = testsFinished;
+    const snapshotId = await snapshotService.create(snapshot, user, serializedProfile);
+    const serializedSnapshot = await snapshotSerializer.serialize({ id: snapshotId });
+    return h.response(serializedSnapshot).created();
+
+  } catch (err) {
+    return _replyError(err, h);
+  }
+
+}
+
+async function _getSnapshot(snapshotPayload) {
+  const deserializedSnapshot = await snapshotSerializer.deserialize(snapshotPayload);
+  await _validateSnapshotCode(deserializedSnapshot);
+  await _assertThatOrganizationExists(deserializedSnapshot.organization.id);
+
+  return deserializedSnapshot;
 }
 
 async function find(request) {
@@ -113,6 +115,8 @@ async function find(request) {
   });
 
   return snapshotSerializer.serialize(result.models, result.pagination);
+
 }
 
 module.exports = { create, find };
+
