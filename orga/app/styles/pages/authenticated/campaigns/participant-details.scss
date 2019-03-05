@@ -1,0 +1,90 @@
+.participant-details {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1em 0;
+  }
+  &__information {
+    margin-bottom: 10px;
+
+  }
+  &__result {
+    padding: 10px;
+  }
+}
+
+.participant-details-header {
+  &__title {
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+.participant-details-row {
+  display: flex;
+  flex-direction: row;
+}
+.participant-details-content {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  &--with-border {
+    border-right: 1px solid $alto;
+  }
+
+  &__progress-bar {
+    width: 100px;
+    height: 3px;
+    position: relative;
+    background-color: $alto;
+
+  }
+  &__progress-bar--completion {
+    background-color: blue;
+    position: relative;
+    height: 3px;
+  }
+  &__progress-bar--completed {
+    background-color: $mountai-meadow;
+    position: relative;
+    width: 100px;
+    height: 3px;
+  }
+  &__content-text {
+    color: $dove-gray;
+    font-family: $roboto;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  &__label-text {
+  }
+
+  &__check-shared {
+    margin-right: 10px;
+    &--green {
+      color: $mountai-meadow;
+    }
+  }
+}
+
+
+.participant-details-report {
+  display: flex;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+
+  &__percent {
+    position: absolute;
+    text-align: center;
+  }
+  &__percent-text {
+    color: $dove-gray;
+    font-family: $roboto;
+    font-size: 2rem;
+    padding: 10px;
+  }
+}

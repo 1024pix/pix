@@ -36,6 +36,8 @@ Router.map(function() {
         this.route('parameters', { path: '/' });
         this.route('participants', { path: '/participants' });
       });
+      this.route('participant-details', { path: '/:campaign_id/participant/:campaign_participation_id' });
+
     });
   });
 
