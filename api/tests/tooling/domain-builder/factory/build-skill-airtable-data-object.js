@@ -6,7 +6,8 @@ module.exports = function({
   hint = 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?',
   hintStatus = 'Validé',
   tutorialIds = ['receomyzL0AmpMFGw'],
-  pixValue = 2.4
+  pixValue = 2.4,
+  competenceId = 'recABCD1234'
 } = {}) {
 
   return new dataObjects.Skill({
@@ -15,6 +16,7 @@ module.exports = function({
     hint,
     hintStatus,
     tutorialIds,
-    pixValue
+    pixValue,
+    competenceId,
   });
 };

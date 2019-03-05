@@ -7,6 +7,7 @@ module.exports = function SkillAirtableDataObjectFixture({
   hintStatus = 'Validé',
   tutorialIds = ['receomyzL0AmpMFGw'],
   learningMoreTutorialIds = ['recQbjXNAPsVJthXh', 'rec3DkUX0a6RNi2Hz'],
+  competenceId = 'recofJCxg0NqTqTdP'
 } = {}) {
   return new dataModels.Skill({
     id,
@@ -15,5 +16,6 @@ module.exports = function SkillAirtableDataObjectFixture({
     hintStatus,
     tutorialIds,
     learningMoreTutorialIds,
+    competenceId,
   });
 };
