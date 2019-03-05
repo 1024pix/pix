@@ -12,7 +12,7 @@ module.exports = function getCampaignParticipations({
         if(assessmentBelongToUser) {
           return campaignParticipationRepository.find(options);
         }
-        return Promise.reject(new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation'));
+        throw new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation');
       });
   }
 

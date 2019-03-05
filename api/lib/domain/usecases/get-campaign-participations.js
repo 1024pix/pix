@@ -12,7 +12,7 @@ module.exports = function getCampaignParticipations({
         if (access) {
           return campaignParticipationRepository.findWithUsersPaginated(options);
         }
-        return Promise.reject(new UserNotAuthorizedToAccessEntity('User does not belong to an organization that owns the campaign'));
+        throw new UserNotAuthorizedToAccessEntity('User does not belong to an organization that owns the campaign');
       });
   }
 
