@@ -58,8 +58,8 @@ module.exports = {
 
   validate(answer, solution) {
 
-    const answerValue = answer.get('value');
-    const answerTimeout = answer.get('timeout');
+    const answerValue = answer.attributes.value;
+    const answerTimeout = answer.attributes.timeout;
 
     let answerStatus;
     let resultDetails = null;
