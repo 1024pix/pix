@@ -22,7 +22,11 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
       name: bookshelfTargetProfile.get('name'),
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
       organizationId: bookshelfTargetProfile.get('organizationId'),
-      skills: [domainBuilder.buildSkill({ id: skillAirtableDataObject.id, name: skillAirtableDataObject.name, pixValue: skillAirtableDataObject.pixValue })],
+      skills: [domainBuilder.buildSkill({
+        id: skillAirtableDataObject.id,
+        name: skillAirtableDataObject.name,
+        pixValue: skillAirtableDataObject.pixValue,
+        competenceId: skillAirtableDataObject.competenceId })],
       sharedWithOrganizationIds: [organizationWhichShared.get('organizationId')]
     });
 

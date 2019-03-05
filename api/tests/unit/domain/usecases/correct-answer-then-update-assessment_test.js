@@ -247,6 +247,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         previouslyFailedSkills: assessment.getFailedSkills(),
         previouslyValidatedSkills: assessment.getValidatedSkills(),
         targetSkills: assessment.targetProfile.skills,
+        userId: assessment.userId
       };
       return promise.then(() => {
         return expect(SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer)
