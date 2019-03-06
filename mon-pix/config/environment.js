@@ -94,6 +94,7 @@ module.exports = function(environment) {
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.API_HOST = 'http://localhost:3000';
+    ENV.APP.HOME_HOST = '/';
   }
 
   if (environment === 'test') {
@@ -109,6 +110,7 @@ module.exports = function(environment) {
 
     ENV.googleFonts = null;
     ENV.APP.API_HOST = 'http://localhost:3000';
+    ENV.APP.HOME_HOST = '/';
     ENV.APP.isChallengeTimerEnable = false;
     ENV.APP.MESSAGE_DISPLAY_DURATION = 0;
     ENV.APP.isMobileSimulationEnabled = true;
