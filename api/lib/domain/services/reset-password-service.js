@@ -1,6 +1,8 @@
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../settings');
+const Bookshelf = require('../../infrastructure/bookshelf');
 const passwordResetDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
+const { PasswordResetDemandNotFoundError } = require('../../domain/errors');
 
 module.exports = {
   generateTemporaryKey() {
@@ -20,6 +22,11 @@ module.exports = {
   },
 
   hasUserAPasswordResetDemandInProgress(email) {
-    return passwordResetDemandRepository.findByUserEmail(email);
+    return passwordResetDemandRepository.findByUserEmail(email)
+      .catch((err) => {
+        if (err instanceof Bookshelf.Model.NotFoundError) {
+          throw new PasswordResetDemandNotFoundError();
+        }
+      });
   }
 };

@@ -76,7 +76,7 @@ describe('Acceptance | API | Campaigns', () => {
       expect(response.result.data.attributes.code).to.exist;
     });
 
-    it('should return 403 when a user try to create a campaign for an organization that he does not access', async function() {
+    it('should return 403 Unauthorized when a user try to create a campaign for an organization that he does not access', async function() {
       const organizationIdThatNobodyHasAccess = 0;
       const options = {
         method: 'POST',
@@ -105,9 +105,10 @@ describe('Acceptance | API | Campaigns', () => {
 
       // then
       expect(response.statusCode).to.equal(403);
+      expect(response.result.errors[0].title).to.equal('Forbidden Error');
     });
 
-    it('should return 403 when a user try to create a campaign with a profile not shared with his organization', async function() {
+    it('should return 403 Unauthorized when a user try to create a campaign with a profile not shared with his organization', async function() {
       const options = {
         method: 'POST',
         url: '/api/campaigns',
@@ -135,6 +136,7 @@ describe('Acceptance | API | Campaigns', () => {
 
       // then
       expect(response.statusCode).to.equal(403);
+      expect(response.result.errors[0].title).to.equal('Forbidden Error');
     });
 
   });

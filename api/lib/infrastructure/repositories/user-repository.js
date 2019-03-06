@@ -88,12 +88,6 @@ module.exports = {
       .fetch({ require: true })
       .then((bookshelfUser) => {
         return bookshelfUser.toDomainEntity();
-      })
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
-          throw new UserNotFoundError(`User not found for email ${email}`);
-        }
-        throw err;
       });
   },
 
@@ -123,13 +117,7 @@ module.exports = {
   findUserById(userId) {
     return BookshelfUser
       .where({ id: userId })
-      .fetch({ require: true })
-      .catch((err) => {
-        if (err instanceof BookshelfUser.NotFoundError) {
-          throw new UserNotFoundError(`User not found for ID ${userId}`);
-        }
-        throw err;
-      });
+      .fetch({ require: true });
   },
 
   get(userId) {
