@@ -47,6 +47,55 @@ module('Acceptance | Campaign Details', function (hooks) {
       assert.equal(currentURL(), '/campagnes/1');
     });
 
+    test('it should display by default parameters tab', async function (assert) {
+      // given
+      await authenticateSession({
+        user_id: user.id,
+      });
+      server.create('campaign', { id: 1 });
+
+      // when
+      await visit('/campagnes/1');
+
+      // then
+      assert.dom('.campaign-details-content__update-button').exists();
+      assert.dom('.navbar-item.active').hasText('Paramètres');
+    });
+
+    test('it should display participants tab', async function (assert) {
+      // given
+      await authenticateSession({
+        user_id: user.id,
+      });
+
+      server.create('campaign-report', { id: 1, participationsCount: 2 });
+      server.create('campaign', { id: 1, campaignReportId: 1 });
+
+      // when
+      await visit('/campagnes/1/participants');
+
+      // then
+      assert.dom('.participant-list__header').exists();
+      assert.dom('.navbar-item.active').hasText('Participants (2)');
+    });
+
+    test('it should redirect to participants page on click on participants tab', async function (assert) {
+      // given
+      await authenticateSession({
+        user_id: user.id,
+      });
+      server.create('campaign-report', { id: 1, participationsCount: 2 });
+      server.create('campaign', { id: 1, campaignReportId: 1 });
+
+      // when
+      await visit('/campagnes/1');
+      await click('.navbar-item:nth-child(2)');
+
+      // then
+      assert.dom('.navbar-item.active').hasText('Participants (2)');
+      assert.equal(currentURL(), '/campagnes/1/participants');
+    });
+
     test('it should redirect to update page on click on update button', async function (assert) {
       // given
       await authenticateSession({

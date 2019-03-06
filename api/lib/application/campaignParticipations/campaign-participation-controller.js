@@ -33,21 +33,25 @@ module.exports = {
       });
   },
 
-  getCampaignParticipationByAssessment(request) {
+  find(request, h) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
 
-    const filters = extractParameters(request.query).filter;
-    const assessmentId = filters.assessmentId;
-    return usecases.findCampaignParticipationsByAssessmentId({
-      userId,
-      assessmentId,
-      campaignParticipationRepository,
-      smartPlacementAssessmentRepository
-    })
+    const options = extractParameters(request.query);
+
+    let campaignParticipationsPromise;
+
+    if (options.filter.assessmentId) {
+      campaignParticipationsPromise = usecases.getUserCampaignParticipation({ userId, options });
+    }
+    if (options.filter.campaignId) {
+      campaignParticipationsPromise = usecases.getCampaignParticipations({ userId, options });
+    }
+    return campaignParticipationsPromise
       .then((campaignParticipation) => {
-        return serializer.serialize([campaignParticipation]);
-      });
+        return serializer.serialize(campaignParticipation.models, campaignParticipation.pagination);
+      })
+      .catch(controllerReplies(h).error);
   },
 
   shareCampaignResult(request, h) {

@@ -15,7 +15,7 @@
     </div>
 
     <div class="campaign-details-header-report__shared">
-      <h4 class="label-text campaign-details-content__label">Profil reçus</h4>
+      <h4 class="label-text campaign-details-content__label">Profils reçus</h4>
       <span class="content-text content-text--big campaign-details-content__text">
         {{sharedParticipationsCount}}
       </span>
@@ -23,65 +23,21 @@
   </div>
 </div>
 
-<div class='campaign-details-csv'>
-  <a class="button button--link" href="{{campaign.urlToResult}}" target="_blank" download>
-    Export résultats (.csv)
-  </a>
-</div>
+<div class="panel campaign-details__controls">
+  <nav class="navbar campaign-details-controls__navbar-tabs">
+    {{#link-to 'authenticated.campaigns.details.parameters' class="navbar-item"}}
+      Paramètres
+    {{/link-to}}
+    {{#link-to 'authenticated.campaigns.details.participants' class="navbar-item"}}
+      Participants ({{campaign.campaignReport.participationsCount}})
+    {{/link-to}}
+  </nav>
 
-<div class="panel panel--strong-shadow campaign-details-container">
-  <div class="campaign-details-row">
-    <div class="campaign-details-content campaign-details-content--large-entry">
-      <h4 class="label-text campaign-details-content__label">Profil cible</h4>
-      <p class="content-text campaign-details-content__text">{{campaign.targetProfile.name}}</p>
-    </div>
-
-    {{#if campaign.idPixLabel}}
-      <div class="campaign-details-content campaign-details-content--small-entry">
-        <h4 class="label-text campaign-details-content__label">Libellé de l'identifiant</h4>
-        <p class="content-text campaign-details-content__text">{{campaign.idPixLabel}}</p>
-      </div>
-    {{/if}}
-
-    <div class="campaign-details-content campaign-details-content--large-entry">
-      <h4 class="label-text campaign-details-content__label">Lien direct</h4>
-      <div class="campaign-details-content__clipboard">
-        <p class="content-text campaign-details-content__text">{{campaign.url}}</p>
-        {{#if (is-clipboard-supported)}}
-          <div class="tooltip">
-            <span class="tooltip-text campaign-details-content__tooltip-text">{{this.tooltipText}}</span>
-            {{#copy-button clipboardText=campaign.url success=(action 'clipboardSuccess') mouseLeave=(action 'clipboardOut')
-                           classNames="icon-button campaign-details-content__clipboard-button"}}
-              {{fa-icon 'copy' prefix='far'}}
-            {{/copy-button}}
-          </div>
-        {{/if}}
-      </div>
-    </div>
-  </div>
-
-  <div class="campaign-details-row">
-    <div class="campaign-details-content campaign-details-content--single">
-      <h4 class="label-text campaign-details-content__label">Titre du parcours</h4>
-      <p class="content-text campaign-details-content__text">{{campaign.title}}</p>
-    </div>
-  </div>
-
-  <div class="campaign-details-row">
-    <div class="campaign-details-content campaign-details-content--single">
-      <h4 class="label-text campaign-details-content__label">Texte de la page d'accueil</h4>
-      <p class="content-text campaign-details-content__text">
-        {{markdown-to-html markdown=campaign.customLandingPageText}}
-      </p>
-    </div>
-  </div>
-
-  <div class="campaign-details-row">
-    <div class="campaign-details-content">
-      {{#link-to "authenticated.campaigns.update" campaign.id
-                 class="button button--regular button--link campaign-details-content__update-button"}}
-        Modifier
-      {{/link-to}}
-    </div>
+  <div class="campaign-details-controls__export-button">
+    <a class="button button--link button--with-icon" href="{{campaign.urlToResult}}" target="_blank" download>
+      Exporter résultats (.csv){{fa-icon 'file-download'}}
+    </a>
   </div>
 </div>
+
+{{outlet}}
