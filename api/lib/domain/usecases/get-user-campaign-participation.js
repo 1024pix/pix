@@ -6,14 +6,12 @@ module.exports = function getCampaignParticipations({
   campaignParticipationRepository,
   smartPlacementAssessmentRepository
 }) {
-  if (options.filter.assessmentId) {
-    return smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(options.filter.assessmentId, userId)
-      .then((assessmentBelongToUser) => {
-        if(assessmentBelongToUser) {
-          return campaignParticipationRepository.find(options);
-        }
-        throw new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation');
-      });
-  }
+  return smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(options.filter.assessmentId, userId)
+    .then((assessmentBelongToUser) => {
+      if(assessmentBelongToUser) {
+        return campaignParticipationRepository.find(options);
+      }
+      throw new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation');
+    });
 
 };
