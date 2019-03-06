@@ -2,12 +2,16 @@ const Answer = require('../../domain/models/Answer');
 const AnswerStatus = require('../../domain/models/AnswerStatus');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
+const Boom = require('boom');
+const controllerReplies = require('../../infrastructure/controller-replies');
+const infraErrors = require('../../infrastructure/errors');
+const logger = require('../../infrastructure/logger');
 const usecases = require('../../domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
-const { NotFoundError } = require('../../domain/errors');
+const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
 
 function _updateExistingAnswer(existingAnswer, newAnswer) {
   return solutionRepository
@@ -26,12 +30,17 @@ function _updateExistingAnswer(existingAnswer, newAnswer) {
         assessmentId: newAnswer.relationships.assessment.data.id,
       });
     })
-    .then(answerSerializer.serialize);
+    .then(answerSerializer.serialize)
+    .catch((err) => {
+      logger.error(err);
+      throw Boom.badImplementation(err);
+    });
 }
 
 module.exports = {
 
   save(request, h) {
+
     return Promise.resolve(request.payload)
       .then(partialDeserialize)
       .then((newAnswer) => {
@@ -41,18 +50,27 @@ module.exports = {
       })
       .then((answer) => {
         return h.response(answerSerializer.serialize(answer)).created();
+      })
+      .catch((error) => {
+        const mappedError = mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
       });
   },
 
-  async get(request) {
-    const result = await answerRepository.get(request.params.id);
+  async get(request, h) {
+    try {
+      const result = await answerRepository.get(request.params.id);
+      return answerSerializer.serialize(result);
 
-    return answerSerializer.serialize(result);
+    } catch(err) {
+      logger.error(err);
+      return controllerReplies(h).error(err);
+    }
   },
 
-  update(request) {
+  update(request, h) {
+
     const updatedAnswer = request.payload.data;
-    
     return answerRepository
       .findByChallengeAndAssessment({
         challengeId: updatedAnswer.relationships.challenge.data.id,
@@ -61,7 +79,7 @@ module.exports = {
       .then((existingAnswer) => {
 
         if (!existingAnswer) {
-          throw new NotFoundError('Answer does not exit');
+          throw Boom.notFound();
         }
 
         // XXX if assessment is a Smart Placement, then return 204 and do not update answer. If not proceed normally.
@@ -72,8 +90,8 @@ module.exports = {
             } else {
               return _updateExistingAnswer(existingAnswer, updatedAnswer);
             }
-          });
-
+          })
+          .catch(controllerReplies(h).error);
       });
   },
 
@@ -83,7 +101,11 @@ module.exports = {
         challengeId: request.url.query.challenge,
         assessmentId: request.url.query.assessment
       })
-      .then(answerSerializer.serialize);
+      .then(answerSerializer.serialize)
+      .catch((err) => {
+        logger.error(err);
+        throw Boom.badImplementation(err);
+      });
   },
 };
 
@@ -98,6 +120,15 @@ function partialDeserialize(payload) {
     assessmentId: payload.data.relationships.assessment.data.id,
     challengeId: payload.data.relationships.challenge.data.id,
   });
+}
+
+function mapToInfrastructureErrors(error) {
+
+  if (error instanceof ChallengeAlreadyAnsweredError) {
+    return new infraErrors.ConflictError('This challenge has already been answered.');
+  }
+
+  return error;
 }
 
 function isAssessmentSmartPlacement(assessmentId) {

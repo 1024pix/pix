@@ -1,6 +1,19 @@
-const { AssessmentEndedError } = require('../../domain/errors');
+const Boom = require('boom');
+
+const {
+  NotFoundError,
+  AssessmentEndedError,
+  AssessmentStartError,
+  ObjectValidationError,
+  CampaignCodeError
+} = require('../../domain/errors');
 const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
+const controllerReplies = require('../../infrastructure/controller-replies');
+const {
+  NotFoundError: InfrastructureNotFoundError,
+  ConflictError
+} = require('../../infrastructure/errors');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -44,15 +57,40 @@ module.exports = {
       })
       .then((assessment) => {
         return h.response(assessmentSerializer.serialize(assessment)).created();
+      })
+      .catch((err) => {
+        if (err instanceof ObjectValidationError) {
+          throw Boom.badData(err);
+        }
+        if (err instanceof CampaignCodeError || err instanceof NotFoundError) {
+          throw Boom.notFound(err);
+        }
+        if (err instanceof AssessmentStartError) {
+          return controllerReplies(h).error(new ConflictError(err.message));
+        }
+        logger.error(err);
+        throw Boom.badImplementation(err);
       });
+
   },
 
-  async get(request) {
-    const assessmentId = request.params.id;
+  async get(request, h) {
+    try {
+      const assessmentId = request.params.id;
 
-    const assessment = await useCases.getAssessment({ assessmentId });
+      const assessment = await useCases.getAssessment({ assessmentId });
 
-    return assessmentSerializer.serialize(assessment);
+      return assessmentSerializer.serialize(assessment);
+    } catch (err) {
+
+      if (err instanceof NotFoundError) {
+        const error = new InfrastructureNotFoundError(err.message);
+        return controllerReplies(h).error(error);
+      }
+
+      logger.error(err);
+      return controllerReplies(h).error(err);
+    }
   },
 
   findByFilters(request) {
@@ -71,11 +109,10 @@ module.exports = {
       }
     }
 
-    return assessmentsPromise
-      .then((assessments) => assessmentSerializer.serializeArray(assessments));
+    return assessmentsPromise.then((assessments) => assessmentSerializer.serializeArray(assessments));
   },
 
-  getNextChallenge(request) {
+  getNextChallenge(request, h) {
 
     const logContext = {
       zone: 'assessmentController.getNextChallenge',
@@ -125,12 +162,15 @@ module.exports = {
         logger.trace(logContext, 'replying with challenge');
         return challengeSerializer.serialize(challenge);
       })
-      .catch((error) => {
-        if (error instanceof AssessmentEndedError) {
+      .catch((err) => {
+        logContext.err = err;
+        logger.trace(logContext, 'catching exception');
+        if (err instanceof AssessmentEndedError) {
           return JSONAPI.emptyDataResponse();
+        } else {
+          logger.error(err);
+          return controllerReplies(h).error(err);
         }
-
-        throw error;
       });
   }
 };

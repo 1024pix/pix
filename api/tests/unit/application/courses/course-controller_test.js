@@ -3,6 +3,7 @@ const Hapi = require('hapi');
 
 const courseController = require('../../../../lib/application/courses/course-controller');
 const Course = require('../../../../lib/domain/models/Course');
+const { NotFoundError, UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 const courseService = require('../../../../lib/domain/services/course-service');
 const usecases = require('../../../../lib/domain/usecases');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
@@ -115,6 +116,23 @@ describe('Unit | Controller | course-controller', () => {
       expect(courseSerializer.serialize).to.have.been.calledWith(course);
       expect(response).to.deep.equal(course);
     });
+
+    it('should reply with error status code 404 if course not found', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/courses/unknown_id'
+      };
+      courseService.getCourse.rejects(new NotFoundError());
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(404);
+      });
+    });
   });
 
   describe('#save', () => {
@@ -151,6 +169,25 @@ describe('Unit | Controller | course-controller', () => {
         sinon.assert.calledOnce(certificationCourseSerializer.serialize);
         sinon.assert.calledWith(certificationCourseSerializer.serialize, newlyCreatedCertificationCourse);
         expect(response.statusCode).to.equal(201);
+      });
+
+      it('should return 403 error if cannot start a new certification course', async () => {
+        // given
+        const error = new UserNotAuthorizedToCertifyError();
+        usecases.retrieveLastOrCreateCertificationCourse.rejects(error);
+        certificationCourseSerializer.serialize.resolves({});
+
+        // when
+        const response = await courseController.save(request, hFake);
+
+        // then
+        expect(response.source).to.deep.equal({
+          errors: [{
+            status: '403',
+            detail: 'The user cannot be certified.',
+            title: 'User not authorized to certify'
+          }]
+        });
       });
     });
 
