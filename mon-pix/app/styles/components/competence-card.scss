@@ -1,0 +1,95 @@
+.competence-card {
+  width: 210px;
+  height: 300px;
+  font-family: $font-roboto;
+  box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+  border: 1px solid #DDDDDD;
+  border-radius: 10px;
+  background-color: white;
+
+  .competence-card__header {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    height: 110px;
+    overflow: hidden;
+    position: relative;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+
+    .competence-card__color {
+
+      &::after {
+        border-radius: 100%;
+        position: absolute;
+        right: -200px;
+        left: -200px;
+        top: -100px;
+        content: '';
+        bottom: 0;
+      }
+
+      &--red::after {
+        background: radial-gradient(#F24645 0%, #F1A141 100%);
+      }
+    }
+
+    .competence-card__domain-name {
+      position: relative;
+      margin: 8px 0;
+      font-size: 9px;
+      letter-spacing: 0.5px;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+
+    .competence-card__competence-name {
+      position: relative;
+      margin: 8px 0;
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  .competence-card__body {
+
+    .competence-card__level {
+      margin: 15px;
+      max-height: 128px;
+
+      .competence-card__level-label {
+        color: #222222;
+        font-size: 3px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .competence-card__level-value {
+        color: #111111;
+        font-family: $font-open-sans;
+        font-size: 14px;
+      }
+
+      .competence-card__pie {
+        fill: none;
+        stroke-width: 1.6;
+        stroke: #DDDDDD;
+
+        &--slice {
+          stroke: #FFBE00;
+          stroke-width: 1.6;
+          stroke-linecap: round;
+          animation: progress 1s ease-out forwards;
+        }
+      }
+    }
+  }
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
