@@ -45,7 +45,7 @@ module.exports = {
       .fetch({ require: true, withRelated: ['certificationCourses'] })
       .then(_toDomain)
       .catch((error) => {
-        if(error.message === 'EmptyResponse') {
+        if (error instanceof BookshelfSession.NotFoundError) {
           return Promise.reject(new NotFoundError());
         }
         return Promise.reject(error);

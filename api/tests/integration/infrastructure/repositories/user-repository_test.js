@@ -3,8 +3,7 @@ const faker = require('faker');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
-const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
-const BookshelfUser = require('../../../../lib/infrastructure/data/user');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { AlreadyRegisteredEmailError, UserNotFoundError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
@@ -95,11 +94,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         });
 
         it('should handle a rejection, when user id is not found', () => {
+          // given
           const inexistenteId = 10093;
-          return userRepository.findUserById(inexistenteId)
-            .catch((err) => {
-              expect(err).to.be.an.instanceof(BookshelfUser.NotFoundError);
-            });
+
+          // when
+          const promise = userRepository.findUserById(inexistenteId);
+
+          // then
+          return expect(promise).to.be.rejectedWith(NotFoundError);
         });
       });
     });
@@ -129,9 +131,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const promise = userRepository.findByEmail(emailThatDoesNotExist);
 
         // then
-        return promise.catch((err) => {
-          expect(err).to.be.instanceof(Bookshelf.Model.NotFoundError);
-        });
+        return expect(promise).to.be.rejectedWith(NotFoundError);
       });
 
       it('should return a domain user when found', () => {

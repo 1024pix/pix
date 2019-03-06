@@ -6,6 +6,22 @@ class InfrastructureError extends Error {
   }
 }
 
+class UnprocessableEntityError extends InfrastructureError {
+  constructor(message) {
+    super(message);
+    this.title = 'Unprocessable entity';
+    this.code = 422;
+  }
+}
+
+class PreconditionFailedError extends InfrastructureError {
+  constructor(message) {
+    super(message);
+    this.title = 'Precondition Failed';
+    this.code = 421;
+  }
+}
+
 class ConflictError extends InfrastructureError {
   constructor(message = 'Conflict between request and server state.') {
     super(message);
@@ -56,6 +72,7 @@ class BadRequestError extends InfrastructureError {
 }
 
 module.exports = {
+  UnprocessableEntityError,
   BadRequestError,
   ConflictError,
   ForbiddenError,
@@ -63,4 +80,5 @@ module.exports = {
   MissingQueryParamError,
   NotFoundError,
   UnauthorizedError,
+  PreconditionFailedError,
 };

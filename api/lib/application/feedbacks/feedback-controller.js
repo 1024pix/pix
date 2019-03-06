@@ -1,28 +1,20 @@
-const Boom = require('boom');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/feedback-serializer');
 const repository = require('../../infrastructure/repositories/feedback-repository');
-const logger = require('../../infrastructure/logger');
+const { BadRequestError } = require('../../infrastructure/errors');
 
 module.exports = {
 
   save : async(request, h) => {
-
     const newFeedback = await serializer.deserialize(request.payload);
 
     if (_.isBlank(newFeedback.get('content'))) {
-      throw Boom.badRequest('Feedback content must not be blank');
+      throw new BadRequestError('Feedback content must not be blank');
     }
 
-    return newFeedback
-      .save()
-      .then((persistedFeedback) => {
-        return h.response(serializer.serialize(persistedFeedback.toJSON())).created();
-      })
-      .catch((err) => {
-        logger.error(err);
-        throw Boom.badImplementation(err);
-      });
+    const persistedFeedback = await newFeedback.save();
+
+    return h.response(serializer.serialize(persistedFeedback.toJSON())).created();
   },
 
   find(request) {

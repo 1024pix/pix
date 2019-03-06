@@ -61,7 +61,7 @@ describe('Acceptance | Controller | users-controller', () => {
 
     context('without a passwordResetDemand', () => {
 
-      it('should reply with 404 status code, when user has not a password reset demand in progress', () => {
+      it('should reply with 404 status code, when user has not a password reset demand in progress', async () => {
         // given
         options = {
           method: 'PATCH',
@@ -77,12 +77,10 @@ describe('Acceptance | Controller | users-controller', () => {
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
-        });
+        expect(response.statusCode).to.equal(404);
       });
     });
 
