@@ -19,8 +19,8 @@ export default Component.extend({
       this.get('session').authenticate('authenticator:oauth2', identification, password, scope).catch((response) => {
         if (response && response.errors && response.errors.length > 0) {
           const firstError = response.errors[0];
-          switch (firstError.code) {
-            case '403':
+          switch (firstError.status) {
+            case '401':
               this.set('errorMessage', 'Identifiants de connexion invalides.');
               break;
             case '400':

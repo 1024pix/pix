@@ -43,7 +43,7 @@ export default BaseRoute.extend({
     return store.createRecord('campaign-participation', { campaign, participantExternalId })
       .save()
       .catch((err) => {
-        if(_.get(err, 'errors[0].code') === 403) {
+        if(_.get(err, 'errors[0].status') === 403) {
           return this.get('session').invalidate();
         }
         return this.send('error');

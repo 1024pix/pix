@@ -32,7 +32,7 @@ exports.register = async (server) => {
           failAction: (request, h) => {
             const errorHttpStatusCode = 400;
             const jsonApiError = new JSONAPIError({
-              code: errorHttpStatusCode.toString(),
+              status: errorHttpStatusCode.toString(),
               title: 'Bad request',
               detail: 'The server could not understand the request due to invalid syntax.',
             });
