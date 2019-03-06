@@ -10,6 +10,7 @@ class CampaignParticipation {
     createdAt,
     participantExternalId,
     // includes
+    assessment,
     campaign,
     user,
     // references
@@ -21,6 +22,7 @@ class CampaignParticipation {
     this.campaign = campaign;
     this.campaignId = campaignId;
     this.assessmentId = assessmentId;
+    this.assessment = assessment;
     this.participantExternalId = participantExternalId;
     this.isShared = isShared;
     this.sharedAt = sharedAt;
