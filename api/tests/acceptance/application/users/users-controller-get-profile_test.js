@@ -3,8 +3,28 @@ const faker = require('faker');
 const createServer = require('../../../../server');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/infrastructure/data/user');
+const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const profileService = require('../../../../lib/domain/services/profile-service');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+
+const expectedResultUserNotFounded = {
+  errors: [{
+    status: '400',
+    title: 'Invalid Attribute',
+    detail: 'Cet utilisateur est introuvable',
+    source: { 'pointer': '/data/attributes/authorization' },
+    meta: { 'field': 'authorization' }
+  }]
+};
+
+const expectedResultWhenErrorOccured = {
+  errors: [{
+    status: '400',
+    title: 'Invalid Attribute',
+    detail: 'Une erreur est survenue lors de l’authentification de l’utilisateur',
+    source: { 'pointer': '/data/attributes/authorization' },
+    meta: { 'field': 'authorization' }
+  }]
+};
 
 describe('Acceptance | Controller | users-controller-get-profile', () => {
   const firstName = faker.name.firstName();
@@ -201,15 +221,32 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         });
       });
 
-      it('should return 404  HTTP status code, when authorization is valid but user not found', async () => {
+      it('should return 404  HTTP status code, when authorization is valid but user not found', () => {
         // given
-        userRepository.findUserById.rejects(new NotFoundError());
+        userRepository.findUserById.returns(Promise.reject(new Bookshelf.Model.NotFoundError()));
 
         // when
-        const response = await server.inject(options);
+        const promise = server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(404);
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(404);
+          expect(response.result).to.deep.equal(expectedResultUserNotFounded);
+        });
+      });
+
+      it('should return 500  HTTP status code, when authorization is valid but error occurred', () => {
+        // given
+        userRepository.findUserById.returns(Promise.reject(new Error()));
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(500);
+          expect(response.result).to.deep.equal(expectedResultWhenErrorOccured);
+        });
       });
 
     });

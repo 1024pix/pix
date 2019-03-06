@@ -8,6 +8,8 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
 
+const { ObjectValidationError, AssessmentStartError } = require('../../../../lib/domain/errors');
+
 describe('Unit | Controller | assessment-controller-save', () => {
 
   describe('#save', () => {
@@ -98,6 +100,23 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
         // then
         expect(usecases.createAssessmentForCertification).to.have.been.calledWith({ assessment: expected });
+      });
+
+      context('when usecase fails with a validation error', () => {
+        it('should convert exception to HTTP error', () => {
+          const validationError = new ObjectValidationError();
+          usecases.createAssessmentForCertification.rejects(validationError);
+
+          // when
+          const promise = controller.save(request, hFake);
+
+          // then
+          return promise.then(
+            () => expect.fail('should have been rejected'),
+            (error) => {
+              expect(error.output.statusCode).to.equal(422);
+            });
+        });
       });
     });
 
@@ -199,6 +218,27 @@ describe('Unit | Controller | assessment-controller-save', () => {
           expect(usecases.startPlacementAssessment).to.have.been.calledWith({ assessment: assessmentToStart });
         });
       });
+
+      it('should return a 409 error if an AssessmentStartError arises', () => {
+        // given
+        const assessmentToStart = domainBuilder.buildAssessment({
+          type: 'PLACEMENT',
+        });
+
+        const expectedError = { errors: [{ code: '409', detail: 'Error', title: 'Conflict' }] };
+
+        sinon.stub(assessmentSerializer, 'deserialize').returns(assessmentToStart);
+        sinon.stub(usecases, 'startPlacementAssessment').throws(new AssessmentStartError('Error'));
+
+        // when
+        const promise = controller.save(request, hFake);
+
+        // then
+        return promise.catch((error) => {
+          expect(error.output.statusCode).to.deep.equal(expectedError);
+        });
+      });
+
     });
 
     context('when the assessment saved is not a certification test', () => {
@@ -297,6 +337,48 @@ describe('Unit | Controller | assessment-controller-save', () => {
         // then
         expect(response.source).to.deep.equal(serializedAssessment);
         expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    context('when the deserializedAssessment can not be saved', () => {
+
+      const request = {
+        headers: {
+          authorization: 'Bearer my-token',
+        },
+        payload: {
+          data: {
+            id: 256,
+            attributes: {
+              'estimated-level': 4,
+              'pix-score': 4,
+            },
+            relationships: {
+              course: {
+                data: {
+                  id: 'recCourseId',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      beforeEach(() => {
+        sinon.stub(assessmentRepository, 'save');
+      });
+
+      it('should throw a badImplementationError', () => {
+        // given
+        assessmentRepository.save.rejects(new Error());
+
+        // when
+        const promise = controller.save(request, hFake);
+
+        // then
+        return promise.catch((error) => {
+          expect(error.output.statusCode).to.equal(500);
+        });
       });
     });
   });

@@ -1,10 +1,15 @@
 const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 const Organization = require('../../../../lib/domain/models/Organization');
 const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
+const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const { EntityValidationError, NotFoundError } = require('../../../../lib/domain/errors');
+const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
+const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
@@ -94,6 +99,75 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
         // then
         expect(response).to.deep.equal(serializedOrganization);
+      });
+    });
+
+    context('error cases', () => {
+
+      let error;
+
+      context('when an input params validation error occurred', () => {
+
+        beforeEach(() => {
+          const expectedValidationError = new EntityValidationError({
+            invalidAttributes: [
+              {
+                attribute: 'name',
+                message: 'Le nom n’est pas renseigné.',
+              },
+              {
+                attribute: 'type',
+                message: 'Le type n’est pas renseigné.',
+              },
+            ]
+          });
+
+          error = new EntityValidationError(expectedValidationError);
+          usecases.createOrganization.rejects(error);
+        });
+
+        it('should return an error with HTTP status code 422 when a validation error occurred', async () => {
+          // given
+          const jsonApiValidationErrors = {
+            errors: [
+              {
+                status: '422',
+                source: { 'pointer': '/data/attributes/name' },
+                title: 'Invalid data attribute "name"',
+                detail: 'Le nom n’est pas renseigné.'
+              },
+              {
+                status: '422',
+                source: { 'pointer': '/data/attributes/type' },
+                title: 'Invalid data attribute "type"',
+                detail: 'Le type n’est pas renseigné.'
+              }
+            ]
+          };
+
+          // when
+          const response = await organizationController.create(request, hFake);
+
+          // then
+          expect(response.statusCode).to.equal(422);
+          expect(response.source).to.deep.equal(jsonApiValidationErrors);
+        });
+      });
+
+      context('when a treatment error occurred (other than validation)', () => {
+
+        beforeEach(() => {
+          error = new InfrastructureError('Une erreur est survenue lors de la création de l’organisation');
+          usecases.createOrganization.rejects(error);
+        });
+
+        it('should return an error with HTTP status code 500', async () => {
+          // when
+          const response = await organizationController.create(request, hFake);
+
+          // then
+          expect(response.statusCode).to.equal(500);
+        });
       });
     });
   });
@@ -214,6 +288,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'writeOrganizationSharedProfilesAsCsvToStream').resolves();
+      sinon.stub(validationErrorSerializer, 'serialize');
     });
 
     it('should call the use case service that exports shared profile of an organization as CSV (and reply an HTTP response)', async () => {
@@ -233,6 +308,50 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         'Content-Disposition': 'attachment; filename="Pix - Export donnees partagees.csv"'
       });
     });
+
+    describe('Error cases', () => {
+
+      it('should return a JSONAPI serialized NotFoundError, when expected organization does not exist', async () => {
+        // given
+        usecases.writeOrganizationSharedProfilesAsCsvToStream.rejects(NotFoundError);
+        const serializedError = { errors: [] };
+        validationErrorSerializer.serialize.returns(serializedError);
+        const request = {
+          params: {
+            id: 'unexisting id'
+          }
+        };
+
+        // when
+        const response = await organizationController.exportSharedSnapshotsAsCsv(request, hFake);
+
+        // then
+        expect(response.source).to.deep.equal(serializedError);
+        expect(response.statusCode).to.equal(500);
+      });
+
+      it('should log an error, when unknown error has occured', async () => {
+        // given
+        const error = new NotFoundError();
+        usecases.writeOrganizationSharedProfilesAsCsvToStream.rejects(error);
+        const serializedError = { errors: [] };
+        validationErrorSerializer.serialize.returns(serializedError);
+        const request = {
+          params: {
+            id: 'unexisting id'
+          }
+        };
+
+        // when
+        const response = await organizationController.exportSharedSnapshotsAsCsv(request, hFake);
+
+        // then
+        expect(response.source).to.deep.equal(serializedError);
+        expect(response.statusCode).to.equal(500);
+      });
+
+    });
+
   });
 
   describe('#getCampaigns', () => {
@@ -282,37 +401,101 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       // then
       expect(response).to.deep.equal(serializedCampaigns);
     });
+
+    it('should return a 500 error when an error occurs', async () => {
+      // given
+      const errorMessage = 'Unexpected error';
+      const expectedError = new JSONAPIError({
+        code: '500',
+        title: 'Internal Server Error',
+        detail: errorMessage
+      });
+
+      usecases.getOrganizationCampaigns.rejects(new Error(errorMessage));
+
+      // when
+      const response = await organizationController.getCampaigns(request, hFake);
+
+      // then
+      expect(response.source).to.deep.equal(expectedError);
+      expect(response.statusCode).to.equal(500);
+    });
   });
 
   describe('#findTargetProfiles', () => {
+
     const connectedUserId = 1;
     const organizationId = '145';
-    let foundTargetProfiles;
 
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId }
       };
+      sinon.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization').resolves();
+    });
 
-      foundTargetProfiles = [domainBuilder.buildTargetProfile()];
+    it('should call usecases with appropriated arguments', async () => {
+      // when
+      await organizationController.findTargetProfiles(request, hFake);
 
-      sinon.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization');
-      sinon.stub(targetProfileSerializer, 'serialize');
+      // then
+      expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledOnce;
+      expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledWith(145);
     });
 
     context('success cases', () => {
+
+      let foundTargetProfiles;
+
+      beforeEach(() => {
+        // given
+        foundTargetProfiles = [domainBuilder.buildTargetProfile()];
+        organizationService.findAllTargetProfilesAvailableForOrganization.resolves(foundTargetProfiles);
+        sinon.stub(targetProfileSerializer, 'serialize');
+      });
+
+      it('should serialize the array of target profile', async () => {
+        // when
+        await organizationController.findTargetProfiles(request, hFake);
+
+        // then
+        expect(targetProfileSerializer.serialize).to.have.been.calledWith(foundTargetProfiles);
+      });
+
       it('should reply 200 with serialized target profiles', async () => {
         // given
-        organizationService.findAllTargetProfilesAvailableForOrganization.withArgs(145).resolves(foundTargetProfiles);
-        targetProfileSerializer.serialize.withArgs(foundTargetProfiles).returns({});
+        const serializedTargetProfiles = {};
+        targetProfileSerializer.serialize.returns(serializedTargetProfiles);
 
         // when
         const response = await organizationController.findTargetProfiles(request, hFake);
 
         // then
-        expect(response).to.deep.equal({});
+        expect(response).to.deep.equal(serializedTargetProfiles);
+      });
+
+    });
+
+    context('error cases', () => {
+
+      beforeEach(() => {
+        sinon.stub(logger, 'error');
+      });
+
+      it('should log the error and reply with 500 error', async () => {
+        // given
+        const error = new Error();
+        organizationService.findAllTargetProfilesAvailableForOrganization.rejects(error);
+
+        // when
+        const response = await organizationController.findTargetProfiles(request, hFake);
+
+        // then
+        expect(logger.error).to.have.been.called;
+        expect(response.statusCode).to.equal(500);
       });
     });
   });
+
 });

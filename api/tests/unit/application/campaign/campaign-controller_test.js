@@ -5,6 +5,12 @@ const campaignSerializer = require('../../../../lib/infrastructure/serializers/j
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
+const { UserNotAuthorizedToCreateCampaignError,
+  UserNotAuthorizedToUpdateResourceError,
+  UserNotAuthorizedToGetCampaignResultsError,
+  EntityValidationError,
+  NotFoundError
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -56,6 +62,92 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(response.source).to.deep.equal(serializedCampaign);
       expect(response.statusCode).to.equal(201);
     });
+
+    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', async () => {
+      // given
+      const request = { auth: { credentials: { userId: 51423 } } };
+      const errorMessage = 'User is not authorized to create campaign';
+      usecases.createCampaign.rejects(new UserNotAuthorizedToCreateCampaignError(errorMessage));
+
+      const expectedUnprocessableEntityError = {
+        errors: [{
+          detail: errorMessage,
+          status: '403',
+          title: 'Forbidden Error'
+        }]
+      };
+
+      // when
+      const response = await campaignController.save(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      expect(response.source).to.deep.equal(expectedUnprocessableEntityError);
+    });
+
+    it('should throw a 422 JSONAPI error if user there is a validation error on the campaign', async () => {
+      // given
+      const request = { auth: { credentials: { userId: 51423 } } };
+      const expectedValidationError = new EntityValidationError({
+        invalidAttributes: [
+          {
+            attribute: 'name',
+            message: 'Le nom n’est pas renseigné.',
+          },
+          {
+            attribute: 'organizationId',
+            message: 'L’id de l’organisation n’est pas renseigné.',
+          },
+        ]
+      });
+      usecases.createCampaign.rejects(expectedValidationError);
+
+      const jsonApiValidationErrors = {
+        errors: [
+          {
+            status: '422',
+            source: { 'pointer': '/data/attributes/name' },
+            title: 'Invalid data attribute "name"',
+            detail: 'Le nom n’est pas renseigné.'
+          },
+          {
+            status: '422',
+            source: { 'pointer': '/data/relationships/organization' },
+            title: 'Invalid relationship "organization"',
+            detail: 'L’id de l’organisation n’est pas renseigné.'
+          }
+        ]
+      };
+
+      // when
+      const response = await campaignController.save(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(422);
+      expect(response.source).to.deep.equal(jsonApiValidationErrors);
+    });
+
+    it('should throw a 500 JSONAPI error if an unknown error occurs', async () => {
+      // given
+      const request = { auth: { credentials: { userId: 51423 } } };
+      usecases.createCampaign.rejects(new Error());
+
+      const expectedInternalServerError = {
+        errors: [{
+          detail: 'Une erreur inattendue est survenue lors de la création de la campagne',
+          status: '500',
+          title: 'Internal Server Error'
+        }]
+      };
+
+      // when
+      const response = await campaignController.save(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(500);
+      expect(response.source).to.deep.equal(expectedInternalServerError);
+    });
+
   });
 
   describe('#getCsvResult', () => {
@@ -108,6 +200,36 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       expect(response.source).to.deep.equal('csv;result');
     });
+
+    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', async () => {
+      // given
+      const campaignId = 2;
+      const request = {
+        query: {
+          accessToken: 'token'
+        },
+        params: {
+          id: campaignId
+        }
+      };
+      const errorMessage = 'Vous ne pouvez pas accéder à cette campagne';
+      usecases.getResultsCampaignInCSVFormat.rejects(new UserNotAuthorizedToGetCampaignResultsError(errorMessage));
+
+      const expectedUnprocessableEntityError = {
+        errors: [{
+          detail: errorMessage,
+          status: '403',
+          title: 'Forbidden Error'
+        }]
+      };
+
+      // when
+      const response = await campaignController.getCsvResults(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+      expect(response.source).to.deep.equal(expectedUnprocessableEntityError);
+    });
   });
 
   describe('#findByCode ', () => {
@@ -153,6 +275,29 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(campaignSerializer.serialize).to.have.been.calledWith([createdCampaign]);
       expect(response).to.deep.equal(serializedCampaign);
     });
+
+    it('should return a 404 error if campaign is not found', async () => {
+      // given
+      usecases.getCampaignByCode.rejects(new NotFoundError());
+
+      // when
+      const response = await campaignController.getByCode(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should return a 400 error if there is no code param in the request', async () => {
+      // given
+      request.query = {};
+
+      // when
+      const response = await campaignController.getByCode(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(400);
+    });
+
   });
 
   describe('#getById ', () => {
@@ -196,6 +341,29 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       expect(response).to.deep.equal(expectedCampaign);
     });
+
+    it('should throw an error when the campaign could not be retrieved', async () => {
+      // given
+      usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).rejects();
+
+      // when
+      const response = await campaignController.getById(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(500);
+    });
+
+    it('should throw an infra NotFoundError when a NotFoundError is catched', async () => {
+      // given
+      usecases.getCampaign.withArgs({ campaignId: campaign.id, options: {} }).rejects(new NotFoundError());
+
+      // when
+      const response = await campaignController.getById(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
   });
 
   describe('#update', () => {
@@ -243,5 +411,39 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       expect(response).to.deep.equal(updatedCampaign);
     });
+
+    it('should throw an error when the campaign could not be updated', async () => {
+      // given
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects();
+
+      // when
+      const response = await campaignController.update(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(500);
+    });
+
+    it('should throw an infra NotFoundError when a NotFoundError is catched', async () => {
+      // given
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new NotFoundError());
+
+      // when
+      const response = await campaignController.update(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(404);
+    });
+
+    it('should throw a forbiddenError when user is not authorized to update the campaign', async () => {
+      // given
+      usecases.updateCampaign.withArgs(updateCampaignArgs).rejects(new UserNotAuthorizedToUpdateResourceError());
+
+      // when
+      const response = await campaignController.update(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+
   });
 });

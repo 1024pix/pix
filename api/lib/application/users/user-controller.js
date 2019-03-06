@@ -1,18 +1,34 @@
+const Boom = require('boom');
 const moment = require('moment');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
+const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userService = require('../../domain/services/user-service');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const tokenService = require('../../domain/services/token-service');
+const controllerReplies = require('../../infrastructure/controller-replies');
+const { ForbiddenError, InfrastructureError } = require('../../infrastructure/errors');
 
 const usecases = require('../../domain/usecases');
+const JSONAPI = require('../../interfaces/jsonapi');
 
+const Bookshelf = require('../../infrastructure/bookshelf');
+
+const logger = require('../../infrastructure/logger');
 const { BadRequestError } = require('../../infrastructure/errors');
+const {
+  InvalidTokenError,
+  EntityValidationError,
+  PasswordResetDemandNotFoundError,
+  UserNotAuthorizedToAccessEntity,
+} = require('../../domain/errors');
 
 module.exports = {
 
@@ -27,29 +43,65 @@ module.exports = {
     })
       .then((savedUser) => {
         return h.response(userSerializer.serialize(savedUser)).created();
+      })
+      .catch((error) => {
+
+        if (error instanceof EntityValidationError) {
+          return h.response(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
+        }
+
+        logger.error(error);
+        return h.response(JSONAPI.internalError('Une erreur est survenue lors de la création de l’utilisateur')).code(500);
       });
   },
 
-  getUser(request) {
+  getUser(request, h) {
     const requestedUserId = parseInt(request.params.id, 10);
     const authenticatedUserId = request.auth.credentials.userId;
 
     return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
-      .then(userSerializer.serialize);
+      .then(userSerializer.serialize)
+      .catch((err) => {
+
+        if (err instanceof UserNotAuthorizedToAccessEntity) {
+          const jsonAPIError = new JSONAPIError({
+            code: '403',
+            title: 'Forbidden Access',
+            detail: 'Vous n’avez pas accès à cet utilisateur',
+          });
+          return h.response(jsonAPIError).code(403);
+        }
+
+        logger.error(err);
+        return h.response(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
+      });
   },
 
   // FIXME: Pas de tests ?!
-  getAuthenticatedUserProfile(request) {
+  getAuthenticatedUserProfile(request, h) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
     return userRepository.findUserById(userId)
       .then((foundUser) => {
         return profileService.getByUserId(foundUser.id);
       })
-      .then((buildedProfile) => profileSerializer.serialize(buildedProfile));
+      .then((buildedProfile) => profileSerializer.serialize(buildedProfile))
+      .catch((err) => {
+        if (err instanceof InvalidTokenError) {
+          return _replyErrorWithMessage(h, 'Le token n’est pas valide', 401);
+        }
+
+        if (err instanceof Bookshelf.Model.NotFoundError) {
+          return _replyErrorWithMessage(h, 'Cet utilisateur est introuvable', 404);
+        }
+
+        logger.error(err);
+
+        return _replyErrorWithMessage(h, 'Une erreur est survenue lors de l’authentification de l’utilisateur', 500);
+      });
   },
 
-  updateUser(request) {
+  updateUser(request, h) {
     const userId = request.params.id;
 
     return Promise.resolve(request.payload)
@@ -73,30 +125,53 @@ module.exports = {
         }
         return Promise.reject(new BadRequestError());
       })
-      .then(() => null);
+      .then(() => null)
+      .catch((err) => {
+        if (err instanceof PasswordResetDemandNotFoundError) {
+          return h.response(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);
+        }
+
+        if (err instanceof BadRequestError) {
+          return h.response(errorSerializer.serialize(err)).code(err.code);
+        }
+
+        return h.response(JSONAPI.internalError('Une erreur interne est survenue.')).code(500);
+      });
   },
 
   getProfileToCertify(request) {
     const userId = request.params.id;
     const currentDate = moment().toISOString();
 
-    return userService.getProfileToCertify(userId, currentDate);
+    return userService.getProfileToCertify(userId, currentDate)
+      .catch((err) => {
+        logger.error(err);
+        throw Boom.badImplementation(err);
+      });
   },
 
-  getMemberships(request) {
+  getMemberships(request, h) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
     return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
-      .then((user) => membershipSerializer.serialize(user.memberships));
+      .then((user) => membershipSerializer.serialize(user.memberships))
+      .catch((error) => {
+        const mappedError = _mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
+      });
   },
 
-  getCertificationCenterMemberships(request) {
+  getCertificationCenterMemberships(request, h) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
     return usecases.getUserCertificationCenterMemberships({ authenticatedUserId, requestedUserId })
-      .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships));
+      .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships))
+      .catch((error) => {
+        const mappedError = _mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
+      });
   },
 
   find(request) {
@@ -122,11 +197,38 @@ module.exports = {
       });
   },
 
-  getCampaignParticipations(request) {
+  getCampaignParticipations(request, h) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
-      .then(campaignParticipationSerializer.serialize);
+      .then(campaignParticipationSerializer.serialize)
+      .catch((error) => {
+        const mappedError = _mapToInfrastructureErrors(error);
+        return controllerReplies(h).error(mappedError);
+      });
   }
 };
+
+// TODO refacto, extract and simplify
+const _replyErrorWithMessage = function(h, errorMessage, statusCode) {
+  return h.response(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
+};
+
+function _handleWhenInvalidAuthorization(errorMessage) {
+  return {
+    data: {
+      authorization: [errorMessage],
+    },
+  };
+}
+
+function _mapToInfrastructureErrors(error) {
+
+  if (error instanceof UserNotAuthorizedToAccessEntity) {
+    return new ForbiddenError(error.message);
+  }
+
+  logger.error(error);
+  return new InfrastructureError('Une erreur est survenue lors de la récupération des campagnes de l’utilisateur');
+}
