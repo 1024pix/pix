@@ -508,7 +508,7 @@ describe('Acceptance | Application | organization-controller', () => {
         return promise.then((response) => {
           expect(response.result).to.deep.equal({
             'errors': [{
-              'code': '404',
+              'status': '404',
               'detail': 'Not found organization for ID 999',
               'title': 'Not Found',
             }]
