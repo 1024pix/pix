@@ -5,22 +5,18 @@ const CampaignParticipation = require('../../../domain/models/CampaignParticipat
 
 module.exports = {
 
-  serialize(campaignParticipation) {
+  serialize(campaignParticipation, meta) {
     return new Serializer('campaign-participation', {
-      attributes: ['isShared', 'sharedAt', 'createdAt', 'campaign', 'assessment'],
+      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'user'],
       campaign: {
         ref: 'id',
         attributes: ['code', 'title']
       },
-      assessment: {
+      user: {
         ref: 'id',
-        included: false,
+        attributes: ['firstName', 'lastName'],
       },
-      transform: (campaignParticipation) => {
-        const updatedCampaignParticipation = Object.assign({}, campaignParticipation);
-        updatedCampaignParticipation.assessment = { id: updatedCampaignParticipation.assessmentId };
-        return updatedCampaignParticipation;
-      },
+      meta
     }).serialize(campaignParticipation);
   },
 

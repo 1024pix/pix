@@ -8,7 +8,7 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
 
   beforeEach(() => {
     sinon.stub(campaignParticipationController, 'shareCampaignResult').callsFake((request, h) => h.response('ok').code(201));
-    sinon.stub(campaignParticipationController, 'getCampaignParticipationByAssessment').callsFake((request, h) => h.response('ok').code(201));
+    sinon.stub(campaignParticipationController, 'find').callsFake((request, h) => h.response('ok').code(201));
 
     server = Hapi.server();
 

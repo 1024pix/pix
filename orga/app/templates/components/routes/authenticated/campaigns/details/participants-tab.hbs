@@ -1,0 +1,40 @@
+<div class="panel">
+  <div class="participant-list__header">
+    Liste des participants ({{participants.meta.rowCount}})
+  </div>
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          {{#if campaign.idPixLabel}}
+            <th>{{idPixLabelDisplay}}</th>
+          {{/if}}
+        </tr>
+      </thead>
+
+      {{#if participants}}
+        <tbody>
+        {{#each participants as |participant|}}
+          <tr>
+            <td>{{participant.user.lastName}}</td>
+            <td>{{participant.user.firstName}}</td>
+            {{#if campaign.idPixLabel}}
+              <td>{{participant.participantExternalId}}</td>
+            {{/if}}
+          </tr>
+        {{/each}}
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless participants}}
+      <div class="participant-list__no-participants">En attente de participants</div>
+    {{/unless}}
+  </div>
+</div>
+
+{{#if participants}}
+  {{pagination-control pagination=participants.meta paginationLink="authenticated.campaigns.details.participants"}}
+{{/if}}

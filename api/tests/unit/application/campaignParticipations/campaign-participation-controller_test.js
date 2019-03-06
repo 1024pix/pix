@@ -5,33 +5,93 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Application | Controller | Campaign-Participation', () => {
 
-  describe('#getCampaignParticipationByAssessment', () => {
+  describe('#find', () => {
+
+    let query, request, result, options, serialized;
+    const userId = 1;
+
     beforeEach(() => {
-      sinon.stub(usecases, 'findCampaignParticipationsByAssessmentId');
+      sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(serializer, 'serialize');
+      sinon.stub(usecases, 'getCampaignParticipations');
+      sinon.stub(usecases, 'getUserCampaignParticipation');
+      sinon.stub(tokenService, 'extractTokenFromAuthChain').resolves();
+      sinon.stub(tokenService, 'extractUserId').returns(userId);
     });
 
-    it('should call the usecases to get the campaign participations of the given assessmentId', async () => {
-      const request = {
-        headers: {
-          authorization: 'token'
-        },
-        query: {
-          'filter[assessmentId]': 4,
-        }
-      };
-      usecases.findCampaignParticipationsByAssessmentId.resolves();
+    context('when the request contains a campaignId filter', () => {
 
-      // when
-      await campaignParticipationController.getCampaignParticipationByAssessment(request, hFake);
+      it('should call the usecases to get the campaign participations with users', async () => {
 
-      // then
-      expect(usecases.findCampaignParticipationsByAssessmentId).to.have.been.calledOnce;
-      const findCampaignParticipations = usecases.findCampaignParticipationsByAssessmentId.firstCall.args[0];
-      expect(findCampaignParticipations).to.have.property('assessmentId');
+        query = {
+          'filter[campaignId]': 1,
+        };
+        request = {
+          headers: {
+            authorization: 'token'
+          },
+          query
+        };
+        options = { filter: { campaignId: 1 }, page: {}, sort: [], include: [] };
+        result = {
+          models: [{ id: 1 }, { id: 2 }],
+          pagination: {},
+        };
+        serialized = {
+          'campaign-participation': [{ id: 1 }, { id: 2 }],
+          meta: {},
+        };
+
+        // given
+        queryParamsUtils.extractParameters.withArgs(query).returns(options);
+        usecases.getCampaignParticipations.withArgs({ userId, options }).resolves(result);
+        serializer.serialize.withArgs(result.models, result.pagination).returns(serialized);
+
+        // when
+        const response = await campaignParticipationController.find(request, hFake);
+
+        // then
+        expect(response).to.deep.equal(serialized);
+      });
     });
+
+    context('when the request contains an assessmentId filter', () => {
+      it('should call the usecases to get the user campaign participation', async () => {
+        query = {
+          'filter[assessmentId]': 1,
+        };
+        request = {
+          headers: {
+            authorization: 'token'
+          },
+          query
+        };
+        options = { filter: { assessmentId: 1 }, page: {}, sort: [], include: [] };
+        result = {
+          models: [{ id: 1 }, { id: 2 }],
+          pagination: {},
+        };
+        serialized = {
+          'campaign-participation': [{ id: 1 }, { id: 2 }],
+          meta: {},
+        };
+        // given
+        queryParamsUtils.extractParameters.withArgs(query).returns(options);
+        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(result);
+        serializer.serialize.withArgs(result.models, result.pagination).returns(serialized);
+
+        // when
+        const response = await campaignParticipationController.find(request, hFake);
+
+        // then
+        expect(response).to.deep.equal(serialized);
+      });
+    });
+
   });
 
   describe('#shareCampaignResult', () => {
