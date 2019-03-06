@@ -69,7 +69,7 @@ function _mapToInfrastructureError(error) {
     return new InfraErrors.ForbiddenError('The user cannot be certified.');
   }
   if (error instanceof DomainErrors.MissingOrInvalidCredentialsError) {
-    return new InfraErrors.ForbiddenError('Bad credentials');
+    return new InfraErrors.UnauthorizedError('Bad credentials');
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToGetCampaignResultsError) {
     return new InfraErrors.ForbiddenError(error.message);
