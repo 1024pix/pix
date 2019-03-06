@@ -71,6 +71,7 @@ module.exports = injectDependencies({
   getAssessment: require('./get-assessment'),
   getCampaign: require('./get-campaign'),
   getCampaignByCode: require('./get-campaign-by-code'),
+  getCampaignParticipationResult: require('./get-campaign-participation-result'),
   getCampaignParticipations: require('./get-campaign-participations'),
   getCampaignParticipation: require('./get-campaign-participation'),
   getCampaignReport: require('./get-campaign-report'),

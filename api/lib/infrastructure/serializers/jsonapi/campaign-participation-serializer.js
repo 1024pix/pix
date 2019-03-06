@@ -16,6 +16,15 @@ module.exports = {
         ref: 'id',
         attributes: ['firstName', 'lastName'],
       },
+      campaignParticipationResult: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/campaign-participations/${parent.id}/campaign-participation-result`;
+          }
+        }
+      },
       meta
     }).serialize(campaignParticipation);
   },

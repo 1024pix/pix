@@ -1,6 +1,7 @@
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
+const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -10,6 +11,7 @@ function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
     id: bookshelfCampaignParticipation.get('id'),
     assessmentId: bookshelfCampaignParticipation.get('assessmentId'),
+    assessment: new Assessment(bookshelfCampaignParticipation.related('assessment').toJSON()),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     campaignId: bookshelfCampaignParticipation.get('campaignId'),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
@@ -22,12 +24,10 @@ function _toDomain(bookshelfCampaignParticipation) {
 
 module.exports = {
 
-  get(id) {
-    return BookshelfCampaignParticipation
-      .where({ id })
-      .fetch({ require: true })
-      .then(_toDomain)
-      .catch(_checkNotFoundError);
+  async get(id, options) {
+    const campaignParticipation = await queryBuilder.get(BookshelfCampaignParticipation, id, options, false);
+
+    return _toDomain(campaignParticipation);
   },
 
   save(campaignParticipation) {
