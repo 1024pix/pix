@@ -184,7 +184,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
     it('should invalidate session and relaunch page when user is no longer connected', function() {
       // given
-      const error = { errors: [{ code: 403 }] };
+      const error = { errors: [{ status: 403 }] };
       createCampaignParticipationStub.returns({
         save: () => Promise.reject(error)
       });

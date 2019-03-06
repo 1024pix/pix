@@ -11,7 +11,7 @@ describe('Unit | Serializer | JSONAPI | error-serializer', () => {
       // given
       const error = new errors.MissingQueryParamError('assessmentId');
       const expectedJSONAPIError = JSONAPIError({
-        code: '400',
+        status: '400',
         title: 'Missing Query Parameter',
         detail: 'Missing assessmentId query parameter.'
       });
