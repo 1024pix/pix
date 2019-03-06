@@ -1,17 +1,8 @@
-const Boom = require('boom');
-
 const usecases = require('../../domain/usecases');
-const JSONAPIError = require('jsonapi-serializer').Error;
-const logger = require('../../infrastructure/logger');
-
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
-
 const assessmentResultService = require('../../domain/services/assessment-result-service');
-
 const assessmentResultsSerializer = require('../../infrastructure/serializers/jsonapi/assessment-result-serializer');
-
-const { NotFoundError, AlreadyRatedAssessmentError, ObjectValidationError } = require('../../domain/errors');
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {
@@ -45,23 +36,10 @@ module.exports = {
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
     assessmentResult.juryId = request.auth.credentials.userId;
     return assessmentResultService.save(assessmentResult, competenceMarks)
-      .then(() => null)
-      .catch((error) => {
-        if(error instanceof NotFoundError) {
-          throw Boom.notFound(error);
-        }
-
-        if(error instanceof ObjectValidationError) {
-          throw Boom.badData(error);
-        }
-
-        logger.error(error);
-
-        throw Boom.badImplementation(error);
-      });
+      .then(() => null);
   },
 
-  evaluate(request, h) {
+  evaluate(request) {
     const assessmentRating = assessmentResultsSerializer.deserialize(request.payload);
     const forceRecomputeResult = (request.query) ? request.query.recompute : false;
 
@@ -69,24 +47,7 @@ module.exports = {
       assessmentId: assessmentRating.assessmentId,
       forceRecomputeResult,
     })
-      .then(() => null)
-      .catch((error) => {
-        if(error instanceof NotFoundError) {
-          throw Boom.notFound(error);
-        } else if (error instanceof AlreadyRatedAssessmentError) {
-          const errorHttpStatusCode = 412;
-          const jsonApiError = new JSONAPIError({
-            status: errorHttpStatusCode.toString(),
-            title: 'Assessment is already rated',
-            detail: 'The assessment given has already a result.'
-          });
-          return h.response(jsonApiError).code(errorHttpStatusCode);
-        }
-
-        logger.error(error);
-
-        throw Boom.badImplementation(error);
-      });
+      .then(() => null);
   }
 
 };

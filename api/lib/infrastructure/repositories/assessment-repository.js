@@ -6,6 +6,7 @@ const Campaign = require('../../domain/models/Campaign');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const { groupBy, map, head, _ } = require('lodash');
 const fp = require('lodash/fp');
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -89,7 +90,14 @@ module.exports = {
     return BookshelfAssessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
       .fetch({ require: true })
-      .then(_toDomain);
+      .then(_toDomain)
+      .catch((error) => {
+        if (error instanceof BookshelfAssessment.NotFoundError) {
+          throw new NotFoundError();
+        }
+
+        throw error;
+      });
   },
 
   save(assessment) {
