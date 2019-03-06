@@ -1,16 +1,14 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
-const JSONAPIError = require('jsonapi-serializer').Error;
-
 const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
 const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
 
-const { AlreadyRatedAssessmentError, NotFoundError } = require('../../../../lib/domain/errors');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const usecases = require('../../../../lib/domain/usecases');
 
 const logger = require('../../../../lib/infrastructure/logger');
+const errorManager = require('../../../../lib/infrastructure/utils/error-manager');
 
 describe('Unit | Controller | assessment-results', () => {
 
@@ -38,6 +36,7 @@ describe('Unit | Controller | assessment-results', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'createAssessmentResultForCompletedAssessment').resolves();
+      sinon.stub(errorManager, 'send').resolves();
       sinon.stub(logger, 'error');
     });
 
@@ -51,61 +50,6 @@ describe('Unit | Controller | assessment-results', () => {
         forceRecomputeResult: false,
       });
       expect(response).to.be.null;
-    });
-
-    it('should return 404 when the assessment is not found', () => {
-      // given
-      const notFoundError = new NotFoundError('Assessment 123 not found');
-      usecases.createAssessmentResultForCompletedAssessment.rejects(notFoundError);
-
-      // when
-      const promise = assessmentResultController.evaluate(request, hFake);
-
-      // then
-      return expect(promise).to.be.rejected
-        .and.eventually.to.include.nested({
-          'message': 'Assessment 123 not found',
-          'output.statusCode': 404
-        });
-    });
-
-    context('when the assessment is already evaluated', () => {
-
-      it('should do nothing', async () => {
-        // given
-        const alreadyRatedAssessmentError = new AlreadyRatedAssessmentError();
-        usecases.createAssessmentResultForCompletedAssessment.rejects(alreadyRatedAssessmentError);
-        const jsonApiError = new JSONAPIError({
-          status: '412',
-          title: 'Assessment is already rated',
-          detail: 'The assessment given has already a result.'
-        });
-
-        // when
-        const response = await assessmentResultController.evaluate(request, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(412);
-        expect(response.source).to.deep.equal(jsonApiError);
-      });
-    });
-
-    context('when the database fails', () => {
-
-      it('should reply with an internal error', () => {
-        // given
-        const undefinedError = new Error();
-        usecases.createAssessmentResultForCompletedAssessment.rejects(undefinedError);
-
-        // when
-        const promise = assessmentResultController.evaluate(request, hFake);
-
-        // then
-        return expect(promise).to.be.rejected
-          .and.eventually.to.include.nested({
-            'output.statusCode': 500
-          });
-      });
     });
   });
 

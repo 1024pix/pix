@@ -33,22 +33,5 @@ describe('Unit | Controller | challenge-controller', function() {
       // then
       expect(response.result).to.deep.equal({ serialized: challenge });
     });
-
-    it('should reply with error status code 404 if challenge not found', async () => {
-      // given
-      const error = {
-        'error': {
-          'type': 'MODEL_ID_NOT_FOUND',
-          'message': 'Could not find row by id unknown_id'
-        }
-      };
-      ChallengeRepoStub.rejects(error);
-
-      // when
-      const response = await server.inject({ method: 'GET', url: '/api/challenges/unknown_id' });
-
-      // then
-      expect(response.statusCode).to.equal(404);
-    });
   });
 });
