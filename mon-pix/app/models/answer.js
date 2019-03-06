@@ -16,4 +16,5 @@ export default Model.extend(ValueAsArrayOfString, {
 
   isResultOk: computed.equal('result', 'ok'),
   isResultNotOk: computed.not('isResultOk'),
+
 });
