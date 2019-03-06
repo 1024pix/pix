@@ -20,7 +20,7 @@ describe('Unit | Infrastructure | Errors', () => {
       // then
       expect(infrastructureError.title).to.equal(expectedTitle);
       expect(infrastructureError.message).to.equal(expectedMessage);
-      expect(infrastructureError.code).to.equal(expectedErrorCode);
+      expect(infrastructureError.status).to.equal(expectedErrorCode);
     });
   });
 
@@ -49,7 +49,7 @@ describe('Unit | Infrastructure | Errors', () => {
       // then
       expect(missingQueryParamError.title).to.equal(expectedTitle);
       expect(missingQueryParamError.message).to.equal(expectedMessage);
-      expect(missingQueryParamError.code).to.equal(expectedErrorCode);
+      expect(missingQueryParamError.status).to.equal(expectedErrorCode);
     });
   });
 });

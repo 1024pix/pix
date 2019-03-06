@@ -15,7 +15,7 @@ function send(h, error) {
 
   const infraError = _mapToInfrastructureError(error);
 
-  return h.response(errorSerializer.serialize(infraError)).code(infraError.code);
+  return h.response(errorSerializer.serialize(infraError)).code(infraError.status);
 }
 
 function _mapToInfrastructureError(error) {
