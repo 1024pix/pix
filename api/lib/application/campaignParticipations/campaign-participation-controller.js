@@ -18,7 +18,7 @@ module.exports = {
       });
   },
 
-  find(request, h) {
+  find(request) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
 
@@ -35,8 +35,7 @@ module.exports = {
     return campaignParticipationsPromise
       .then((campaignParticipation) => {
         return serializer.serialize(campaignParticipation.models, campaignParticipation.pagination);
-      })
-      .catch(controllerReplies(h).error);
+      });
   },
 
   shareCampaignResult(request) {
