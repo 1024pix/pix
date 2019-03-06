@@ -87,26 +87,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
 
-    describe('when retrieving the next challenge is failing', () => {
-
-      beforeEach(() => {
-        assessmentRepository.get.resolves(assessmentWithoutScore);
-      });
-
-      it('should reply with 500 failing', async () => {
-        // given
-        const error = new Error();
-        usecases.getNextChallengeForDemo.rejects(error);
-
-        // when
-        const response = await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
-
-        // then
-        expect(response.statusCode).to.equal(500);
-      });
-
-    });
-
     describe('when the assessment is over', () => {
 
       beforeEach(() => {

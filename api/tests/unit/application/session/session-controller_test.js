@@ -5,11 +5,9 @@ const sessionController = require('../../../../lib/application/sessions/session-
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
 const sessionService = require('../../../../lib/domain/services/session-service');
-const { NotFoundError, EntityValidationError, UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
-const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -32,7 +30,6 @@ describe('Unit | Controller | sessionController', () => {
       });
 
       sinon.stub(usecases, 'createSession').resolves();
-      sinon.stub(logger, 'error');
       sinon.stub(sessionSerializer, 'deserialize').returns(expectedSession);
       sinon.stub(sessionSerializer, 'serialize');
 
@@ -91,61 +88,6 @@ describe('Unit | Controller | sessionController', () => {
       expect(response).to.deep.equal(jsonApiSession);
       expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
     });
-
-    it('should return a 422 error if the session is not valid', async () => {
-      // given
-      const sessionValidationError = new EntityValidationError({
-        invalidAttributes: [
-          {
-            attribute: 'address',
-            message: 'L’adresse n’est pas renseigné.',
-          }
-        ]
-      });
-      usecases.createSession.rejects(sessionValidationError);
-
-      const jsonApiValidationErrors = {
-        errors: [
-          {
-            status: '422',
-            source: { 'pointer': '/data/attributes/address' },
-            title: 'Invalid data attribute "address"',
-            detail: 'L’adresse n’est pas renseigné.'
-          }
-        ]
-      };
-
-      // when
-      const response = await sessionController.save(request, hFake);
-
-      // then
-      expect(response.statusCode).to.equal(422);
-      expect(response.source).to.deep.equal(jsonApiValidationErrors);
-    });
-
-    context('when an error is raised', () => {
-
-      const error = new Error('Failure');
-
-      beforeEach(() => {
-        usecases.createSession.rejects(error);
-      });
-
-      it('should return a 500 internal error and log the error', async () => {
-        // when
-        const promise = sessionController.save(request, hFake);
-
-        // then
-        await expect(promise).to.be.rejected
-          .and.eventually.to.include.nested({
-            message: 'Failure',
-            'output.statusCode': 500
-          });
-        expect(logger.error).to.have.been.calledWith(error);
-      });
-
-    });
-
   });
 
   describe('#get', function() {
@@ -208,25 +150,6 @@ describe('Unit | Controller | sessionController', () => {
       });
 
     });
-
-    context('when session does not exist', () => {
-
-      it('should reply with Not Found Error', async function() {
-        // given
-        const notFoundError = new NotFoundError();
-        sessionService.get.rejects(notFoundError);
-
-        // when
-        const promise = sessionController.get(request, hFake);
-
-        // then
-        await expect(promise).to.be.rejected
-          .and.eventually.to.include.nested({
-            'output.statusCode': 404,
-          });
-      });
-
-    });
   });
 
   describe('#update ', () => {
@@ -265,39 +188,5 @@ describe('Unit | Controller | sessionController', () => {
       // then
       expect(response).to.deep.equal(updatedSession);
     });
-
-    it('should throw an error when the session could not be updated', async () => {
-      // given
-      usecases.updateSession.withArgs(updateSessionArgs).rejects();
-
-      // when
-      const response = await sessionController.update(request, hFake);
-
-      // then
-      expect(response.statusCode).to.equal(500);
-    });
-
-    it('should throw an infra NotFoundError when a NotFoundError is catched', async () => {
-      // given
-      usecases.updateSession.withArgs(updateSessionArgs).rejects(new NotFoundError());
-
-      // when
-      const response = await sessionController.update(request, hFake);
-
-      // then
-      expect(response.statusCode).to.equal(404);
-    });
-
-    it('should throw a UserNotAuthorizedToUpdateResourceError when user is not authorized to update the session', async () => {
-      // given
-      usecases.updateSession.withArgs(updateSessionArgs).rejects(new UserNotAuthorizedToUpdateResourceError());
-
-      // when
-      const response = await sessionController.update(request, hFake);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-
   });
 });

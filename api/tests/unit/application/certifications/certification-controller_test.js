@@ -2,11 +2,9 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 
-const errors = require('../../../../lib/domain/errors');
 const usecases = require('../../../../lib/domain/usecases');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-const logger = require('../../../../lib/infrastructure/logger');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 
 describe('Unit | Controller | certifications-controller', () => {
@@ -19,12 +17,9 @@ describe('Unit | Controller | certifications-controller', () => {
 
     const request = { auth: { credentials: { userId } } };
 
-    const infraError = new Error();
-
     beforeEach(() => {
       sinon.stub(usecases, 'findCompletedUserCertifications');
       sinon.stub(certificationSerializer, 'serialize').returns(serializedCertifications);
-      sinon.stub(logger, 'error');
     });
 
     it('should return a serialized certifications array when use case return a array of Certifications', async () => {
@@ -38,18 +33,6 @@ describe('Unit | Controller | certifications-controller', () => {
       expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({ userId });
       expect(certificationSerializer.serialize).to.have.been.calledWith(retrievedCertifications);
       expect(response).to.deep.equal(serializedCertifications);
-    });
-
-    it('should reply a 500 error when something went wrong', async () => {
-      // given
-      usecases.findCompletedUserCertifications.rejects(infraError);
-
-      // when
-      const promise = certificationController.findUserCertifications(request, hFake);
-
-      // then
-      await expect(promise).to.be.rejectedWith('Internal Server Error');
-      expect(logger.error).to.have.been.calledWith(infraError);
     });
   });
 
@@ -67,7 +50,6 @@ describe('Unit | Controller | certifications-controller', () => {
     beforeEach(() => {
       sinon.stub(usecases, 'getUserCertificationWithResultTree');
       sinon.stub(certificationSerializer, 'serialize').returns(serializedCertification);
-      sinon.stub(logger, 'error');
     });
 
     it('should return a serialized certification when use case returns a certification', async () => {
@@ -84,66 +66,6 @@ describe('Unit | Controller | certifications-controller', () => {
       });
       expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
       expect(response).to.deep.equal(serializedCertification);
-    });
-
-    it('should return a 403 unauthorized when use case returns a user not authorized to access ressource error', async () => {
-      // given
-      const jsonAPIError = {
-        errors: [
-          {
-            detail: 'Vous n’avez pas accès à cette certification',
-            code: '403',
-            title: 'Unauthorized Access',
-          },
-        ],
-      };
-      usecases.getUserCertificationWithResultTree.rejects(new errors.UserNotAuthorizedToAccessEntity());
-
-      // when
-      const response = await certificationController.getCertification(request, hFake);
-
-      // then
-      expect(response.source).to.deep.equal(jsonAPIError);
-      expect(response.statusCode).to.equal(403);
-    });
-
-    it('should return a 404 not found when use case returns a not found error', async () => {
-      // given
-      const certificationID = '666';
-      const request = {
-        auth: { credentials: { userId } },
-        params: { id: certificationID },
-      };
-      const jsonAPIError = {
-        errors: [
-          {
-            detail: `Not found certification for ID ${certificationID}`,
-            code: '404',
-            title: 'Not Found',
-          },
-        ],
-      };
-      usecases.getUserCertificationWithResultTree.rejects(new errors.NotFoundError(`Not found certification for ID ${certificationID}`));
-
-      // when
-      const response = await certificationController.getCertification(request, hFake);
-
-      // then
-      expect(response.source).to.deep.equal(jsonAPIError);
-      expect(response.statusCode).to.equal(404);
-    });
-
-    it('should reply a 500 error when something went wrong', async () => {
-      // given
-      const error = new Error('Oh no...');
-      usecases.getUserCertificationWithResultTree.rejects(error);
-
-      // when
-      const promise = certificationController.getCertification(request, hFake);
-
-      // then
-      await expect(promise).to.be.rejectedWith('Oh no...');
-      expect(logger.error).to.have.been.calledWith(error);
     });
   });
 
@@ -172,13 +94,9 @@ describe('Unit | Controller | certifications-controller', () => {
       },
     };
 
-    const usecaseError = new Error('This is a critical error.');
-
     beforeEach(() => {
       sinon.stub(usecases, 'updateCertification');
       sinon.stub(certificationSerializer, 'serialize');
-
-      sinon.stub(logger, 'error');
     });
 
     it('should return a serialized certification when update was successful', async () => {
@@ -195,18 +113,6 @@ describe('Unit | Controller | certifications-controller', () => {
       });
       expect(certificationSerializer.serialize).to.have.been.calledWith(updatedCertification);
       expect(response).to.deep.equal(serializedCertification);
-    });
-
-    it('should reply a 500 error when usecase updateCertification returns an error', async () => {
-      // given
-      usecases.updateCertification.rejects(usecaseError);
-
-      // when
-      const promise = certificationController.updateCertification(request, hFake);
-
-      // then
-      await expect(promise).to.be.rejectedWith('This is a critical error.');
-      expect(logger.error).to.have.been.calledWith(usecaseError);
     });
   });
 });
