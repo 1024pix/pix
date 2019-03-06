@@ -104,11 +104,6 @@ jobs:
           paths:
             - ~/.npm
       - run: |
-          echo pwd
-          pwd
-          echo ls
-          ls
-      - run: |
           npm run lint
           npm test
       - run:
@@ -207,32 +202,44 @@ jobs:
 
   e2e_test:
     docker:
-      - image: cypress/browsers:chrome67
+      - image: cypress/browsers:chrome69
       - image: postgres:10-alpine
         environment:
           POSTGRES_USER: circleci
+    working_directory: ~/pix/high-level-tests/e2e
     steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey
       - restore_cache:
           keys:
-            - v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
+            - v7-e2e-npm-{{ checksum "cachekey" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-e2e-npm-{{ checksum "cachekey" }}
+          paths:
+            - ~/.npm
+#      - restore_cache:
+#          working_directory: ~/pix/api
+#          keys:
+#            - v7-api-npm-{{ checksum "cachekey" }}
       - run:
-          working_directory: /home/circleci/pix/high-level-tests/e2e
-          command: npm install
-      - run:
+          working_directory: ~/pix/api
           background: true
           environment:
-            AUTH_SECRET: 'cypress_auth_secret'
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          working_directory: /home/circleci/pix/api
-          command: npm start
+          command: npm ci && npm start
+#      - restore_cache:
+#          working_directory: ~/pix/mon-pix
+#          keys:
+#            - v7-mon-pix-npm-{{ checksum "cachekey" }}
       - run:
-          working_directory: /home/circleci/pix/mon-pix
+          working_directory: ~/pix/mon-pix
           background: true
-          command: npm start
+          command: npm ci && npm start
       - run:
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          working_directory: /home/circleci/pix/high-level-tests/e2e
           command: |
             wget --retry-connrefused -T 60 -qO- http://localhost:4200
             wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
