@@ -19,6 +19,9 @@ rules:
   linebreak-style:
     - 2
     - unix
+  max-statements:
+    - 1
+    - { max: 20 }
   "mocha/no-exclusive-tests":
     - 2
   "mocha/no-identical-title":

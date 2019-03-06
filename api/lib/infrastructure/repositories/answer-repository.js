@@ -1,8 +1,8 @@
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const BookshelfAnswer = require('../data/answer');
-const { NotFoundError } = require('../../domain/errors');
 const jsYaml = require('js-yaml');
+const { NotFoundError } = require('../../domain/errors');
 
 function _adaptModelToDb(answer) {
   return {
@@ -39,12 +39,12 @@ module.exports = {
     return BookshelfAnswer.where('id', answerId)
       .fetch({ require: true })
       .then(_toDomain)
-      .catch((error) => {
-        if (error instanceof BookshelfAnswer.NotFoundError) {
+      .catch((err) => {
+        if (err instanceof BookshelfAnswer.NotFoundError) {
           throw new NotFoundError(`Not found answer for ID ${answerId}`);
+        } else {
+          throw err;
         }
-
-        throw error;
       });
   },
 
