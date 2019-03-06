@@ -258,7 +258,7 @@ describe('Unit | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(403);
     });
 
-    it('should return 403 on domain MissingOrInvalidCredentialsError', function() {
+    it('should return 401 on domain MissingOrInvalidCredentialsError', function() {
       // given
       const error = new DomainErrors.MissingOrInvalidCredentialsError();
 
@@ -266,7 +266,7 @@ describe('Unit | Utils | Error Manager', function() {
       const result = send(hFake, error);
 
       // then
-      expect(result.statusCode).to.equal(403);
+      expect(result.statusCode).to.equal(401);
     });
 
     it('should return 403 on domain UserNotAuthorizedToGetCampaignResultsError', function() {
