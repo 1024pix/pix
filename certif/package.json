@@ -68,7 +68,6 @@
   },
   "dependencies": {
     "ember-flatpickr": "^2.12.0",
-    "ember-table": "github:1024pix/ember-table",
-    "lodash": "latest"
+    "lodash": "^4.17.11"
   }
 }
