@@ -1,6 +1,6 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
+import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -33,31 +33,15 @@ describe('Integration | Component | result item', function() {
       }
     });
 
-    beforeEach(function() {
-      this.set('index', 0);
-    });
-
     it('should exist', function() {
       // given
       this.set('answer', '');
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item answer=answer}}`);
 
       // then
       expect(this.$()).to.have.lengthOf(1);
-    });
-
-    it('should render an index 1 when 0 provided', function() {
-      // given
-      this.set('answer', '');
-
-      // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
-
-      // then
-      const index = this.$('.result-item__index').text();
-      expect(index.trim().replace('\n', '')).to.equal('1');
     });
 
     it('should render an instruction with no empty content', function() {
@@ -65,7 +49,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', '');
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item answer=answer}}`);
 
       // then
       expect(this.$('.result-item__instruction')).to.have.lengthOf(1);
@@ -77,7 +61,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item answer=answer}}`);
 
       // then
       const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir...';
@@ -88,9 +72,9 @@ describe('Integration | Component | result item', function() {
       // given
       this.set('answer', answer);
 
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item answer=answer}}`);
       // Then
-      expect(this.$('.result-item__correction__button').text().trim()).to.deep.equal('RÉPONSE');
+      expect(this.$('.result-item__correction__button').text().trim()).to.deep.equal('Réponses et tutos');
     });
 
     it('should render tooltip for the answer', function() {
@@ -98,7 +82,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item answer=answer}}`);
 
       // then
       expect(this.$('div[data-toggle="tooltip"]').attr('data-original-title').trim()).to.equal('Réponse incorrecte');
@@ -109,7 +93,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', null);
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item answer=answer}}`);
 
       // then
       expect(this.$('div[data-toggle="tooltip"]').attr('data-original-title')).to.equal(undefined);
@@ -118,7 +102,7 @@ describe('Integration | Component | result item', function() {
     it('should update the tooltip when the answer is eventually retrieved', function() {
       // given
       this.set('answer', null);
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item answer=answer}}`);
 
       // when
       this.set('answer', answer);
@@ -132,7 +116,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer=answer index=index}}`);
+      this.render(hbs`{{result-item answer=answer}}`);
 
       // Then
       expect(this.$('result-item__icon-img'));
@@ -153,7 +137,7 @@ describe('Integration | Component | result item', function() {
         this.set('answer', answer);
 
         // when
-        this.render(hbs`{{result-item answer=answer index=index}}`);
+        this.render(hbs`{{result-item answer=answer}}`);
 
         // then
         const $icon = this.$('.result-item__icon-img');

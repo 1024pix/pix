@@ -5,7 +5,9 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | share-profile', function() {
 
-  setupTest('component:share-profile', {});
+  setupTest('component:share-profile', {
+    needs: ['service:pix-modal-dialog']
+  });
 
   let component;
 

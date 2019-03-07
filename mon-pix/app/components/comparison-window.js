@@ -43,8 +43,6 @@ const TEXT_FOR_RESULT = {
 
 export default Component.extend({
 
-  classNames: [ 'comparison-window' ],
-
   answer: null,
   challenge: null,
   correction: null,

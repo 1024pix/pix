@@ -13,9 +13,7 @@ function _assertResultItemTooltip(resultItem, expected) {
 
 describe('Unit | Component | comparison-window', function() {
 
-  setupTest('component:comparison-window', {
-    needs: ['service:current-routed-modal', 'service:keyboard', 'service:component-focus/focus-manager']
-  });
+  setupTest();
 
   let component;
   let answer;
@@ -27,7 +25,7 @@ describe('Unit | Component | comparison-window', function() {
   const challengeQrocmDep = { type: 'QROCM-dep' };
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:comparison-window');
     answer = EmberObject.create();
     component.set('answer', answer);
   });

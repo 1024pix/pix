@@ -38,45 +38,51 @@ describe('Integration | Component | comparison-window', function() {
       this.set('answer', answer);
       this.set('challenge', challenge);
       this.set('correction', correction);
-      this.set('index', '3');
+      this.set('closeComparisonWindow', () => {});
     });
 
     it('renders', function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+
       // then
       expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should render challenge result in the header', function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+
       // then
-      expect(this.$('.comparison-window__header')).to.have.lengthOf(1);
+      expect(document.querySelectorAll('.comparison-window-header')).to.have.lengthOf(1);
+      expect(document.querySelectorAll('.comparison-window__result-icon')).to.have.lengthOf(1);
     });
 
     it('should render challenge instruction', function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+
       // then
-      expect(this.$('.challenge-statement__instruction')).to.have.lengthOf(1);
+      expect(document.querySelectorAll('.comparison-window__instruction')).to.have.lengthOf(1);
     });
 
     it('should not render corrected answers when challenge has no type', function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
       // then
-      expect(this.$('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(0);
+      expect(document.querySelectorAll('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(0);
     });
 
     it('should render corrected answers when challenge type is QROC', function() {
       // given
       challenge = EmberObject.create({ type: 'QROC' });
       this.set('challenge', challenge);
+
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+
       // then
-      expect(this.$('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(1);
+      expect(document.querySelectorAll('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(1);
     });
 
     it('should render corrected answers when challenge type is QROCM-ind', function() {
@@ -86,9 +92,9 @@ describe('Integration | Component | comparison-window', function() {
       this.set('challenge', challenge);
       this.set('correction',  correction);
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
       // then
-      expect(this.$('.comparison-window__corrected-answers--qrocm')).to.have.lengthOf(1);
+      expect(document.querySelectorAll('.comparison-window__corrected-answers--qrocm')).to.have.lengthOf(1);
     });
 
     it('should render corrected answers when challenge type is QCM', function() {
@@ -96,25 +102,18 @@ describe('Integration | Component | comparison-window', function() {
       challenge = EmberObject.create({ type: 'QCM' });
       this.set('challenge', challenge);
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
       // then
-      expect(this.$('.qcm-solution-panel')).to.have.lengthOf(1);
+      expect(document.querySelectorAll('.qcm-solution-panel')).to.have.lengthOf(1);
     });
 
     it('should render a feedback panel already opened', function() {
       //when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
       //then
-      expect(this.$('.comparison-window__feedback-panel')).to.have.lengthOf(1);
-      expect(this.$(FEEDBACK_FORM)).to.have.lengthOf(1);
-      expect(this.$(LINK_OPEN_FORM)).to.have.lengthOf(0);
-    });
-
-    it('should have a max width of 900px and a margin auto in order to quit by clicking beside', function() {
-      // when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
-      // then
-      expect(this.$('.comparison-window').css('max-width')).to.be.equal('900px');
+      expect(document.querySelectorAll('.comparison-window__feedback-panel')).to.have.lengthOf(1);
+      expect(document.querySelectorAll(FEEDBACK_FORM)).to.have.lengthOf(1);
+      expect(document.querySelectorAll(LINK_OPEN_FORM)).to.have.lengthOf(0);
     });
 
     [
@@ -134,12 +133,12 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
+        this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
         // then
-        const $icon = this.$('.comparison-window__result-icon');
-        expect(this.$(`.comparison-window__result-icon--${data.status}`)).to.have.lengthOf(1);
-        expect($icon.attr('src')).to.equal(`/images/answer-validation/icon-${data.status}.svg`);
+        const $icon = document.querySelector('.comparison-window__result-icon');
+        expect(document.querySelectorAll(`.comparison-window__result-icon--${data.status}`)).to.have.lengthOf(1);
+        expect($icon.src).to.have.string(`/images/answer-validation/icon-${data.status}.svg`);
       });
     });
 
@@ -149,10 +148,10 @@ describe('Integration | Component | comparison-window', function() {
       correction.set('hint', 'Conseil : mangez des épinards.');
 
       // when
-      this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
-      expect(this.$('.tutorial-panel').text()).to.contain('Conseil : mangez des épinards.');
+      expect(document.querySelector('.tutorial-panel')).to.contain.text('Conseil : mangez des épinards.');
     });
 
     it('should render a learningMoreTutorials panel when correction has a list of LearningMoreTutorials elements', function() {
@@ -162,10 +161,10 @@ describe('Integration | Component | comparison-window', function() {
       });
 
       // when
-      this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
-      expect(this.$('.learning-more-panel__container')).to.have.lengthOf(1);
+      expect(document.querySelectorAll('.learning-more-panel__container')).to.have.lengthOf(1);
     });
 
     context('when the answer is OK', () => {
@@ -177,12 +176,12 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+        this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
         // then
-        expect(this.$('.tutorial-panel')).to.have.lengthOf(0);
-        expect(this.$('.learning-more-panel__container')).to.have.lengthOf(0);
-        expect(this.$('.comparison-window__default-message-container')).to.have.lengthOf(0);
+        expect(document.querySelectorAll('.tutorial-panel')).to.have.lengthOf(0);
+        expect(document.querySelectorAll('.learning-more-panel__container')).to.have.lengthOf(0);
+        expect(document.querySelectorAll('.comparison-window__default-message-container')).to.have.lengthOf(0);
       });
     });
 
@@ -195,13 +194,13 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+        this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
         // then
-        expect(this.$('.comparison-windows__default-message-container')).to.have.lengthOf(1);
-        expect(this.$('.comparison-windows__default-message-title')).to.have.lengthOf(1);
-        expect(this.$('.comparison-windows__default-message-picto-container')).to.have.lengthOf(1);
-        expect(this.$('.comparison-windows__default-message-picto')).to.have.lengthOf(1);
+        expect(document.querySelectorAll('.comparison-windows__default-message-container')).to.have.lengthOf(1);
+        expect(document.querySelectorAll('.comparison-windows__default-message-title')).to.have.lengthOf(1);
+        expect(document.querySelectorAll('.comparison-windows__default-message-picto-container')).to.have.lengthOf(1);
+        expect(document.querySelectorAll('.comparison-windows__default-message-picto')).to.have.lengthOf(1);
       });
     });
 
@@ -213,12 +212,12 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+        this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
         // then
-        expect(this.$('.tutorial-panel')).to.have.lengthOf(1);
-        expect(this.$('.tutorial-panel__hint-container')).to.have.lengthOf(0);
-        expect(this.$('.tutorial-panel__tutorial-item')).to.have.lengthOf(0);
+        expect(document.querySelectorAll('.tutorial-panel')).to.have.lengthOf(1);
+        expect(document.querySelectorAll('.tutorial-panel__hint-container')).to.have.lengthOf(0);
+        expect(document.querySelectorAll('.tutorial-panel__tutorial-item')).to.have.lengthOf(0);
       });
     });
   });
