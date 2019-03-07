@@ -1,5 +1,5 @@
 @keyframes progress {
-  to {
+  from {
     stroke-dasharray: 0 100;
   }
 }
@@ -22,7 +22,15 @@
 
     &--slice {
       stroke: $dark-orange;
-      animation: progress 1s ease-out reverse;
+      animation: progress 1s ease-out forwards;
+    }
+
+    &--orange {
+      stroke: $dark-orange;
+    }
+
+    &--green {
+      stroke: $caribbean-green;
     }
   }
 }

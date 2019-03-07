@@ -1,5 +1,3 @@
-import { htmlSafe } from '@ember/string';
-import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -9,7 +7,7 @@ export default Component.extend({
     domain: 'Informations et données',
     level: '4',
     pixUntilNextLevel: 60,
-    color: 'red'
+    color: 'green'
   },
 
 });

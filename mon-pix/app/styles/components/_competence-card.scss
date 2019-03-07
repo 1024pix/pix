@@ -3,9 +3,9 @@
   height: 300px;
   font-family: $font-roboto;
   box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
-  border: 1px solid #DDDDDD;
+  border: 1px solid $alto-grey;
   border-radius: 10px;
-  background-color: white;
+  background-color: $white;
 
   .competence-card__header {
     display: flex;
@@ -31,16 +31,20 @@
         bottom: 0;
       }
 
-      &--red::after {
+      &--orange::after {
         background: radial-gradient(#F24645 0%, #F1A141 100%);
+      }
+
+      &--green::after {
+        background: radial-gradient(#1A8C89 0%, #52D987 100%)
       }
     }
 
     .competence-card__domain-name {
       position: relative;
       margin: 8px 0;
-      font-size: 9px;
-      letter-spacing: 0.5px;
+      font-size: 0.9rem;
+      letter-spacing: 0.05rem;
       opacity: 0.8;
       text-transform: uppercase;
     }
@@ -48,48 +52,36 @@
     .competence-card__competence-name {
       position: relative;
       margin: 8px 0;
-      font-size: 16px;
-      font-weight: 500;
+      font-size: 1.6rem;
+      font-weight: $font-medium;
     }
   }
 
   .competence-card__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
 
     .competence-card__level {
-      margin: 15px;
-      max-height: 128px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-      .competence-card__level-label {
-        color: #222222;
-        font-size: 3px;
-        letter-spacing: 1px;
+      .competence-card-level__label {
+        color: $nero;
+        font-size: 1rem;
+        letter-spacing: 0.25rem;
         text-transform: uppercase;
       }
 
-      .competence-card__level-value {
-        color: #111111;
+      .competence-card-level__value {
+        color: $black;
         font-family: $font-open-sans;
-        font-size: 14px;
-      }
-
-      .competence-card__pie {
-        fill: none;
-        stroke-width: 1.6;
-        stroke: #DDDDDD;
-
-        &--slice {
-          stroke: #FFBE00;
-          stroke-width: 1.6;
-          stroke-linecap: round;
-          animation: progress 1s ease-out forwards;
-        }
+        font-size: 4.6rem;
+        line-height: 4.6rem;
       }
     }
   }
 }
 
-@keyframes progress {
-  0% {
-    stroke-dasharray: 0 100;
-  }
-}

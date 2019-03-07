@@ -5,23 +5,12 @@
     <span class="competence-card__competence-name">{{competence.name}}</span>
   </header>
   <div class="competence-card__body">
-    <svg viewBox="0 0 36 36" class="competence-card__level">
-      <path class="competence-card__pie"
-            stroke-dasharray="100, 100"
-            d="M18 2.0845
-      a 15.9155 15.9155 0 0 1 0 31.831
-      a 15.9155 15.9155 0 0 1 0 -31.831"
-      ></path>
-      <!--<circle cx="18" cy="18" r="16" class="competence-card__pie"></circle>-->
-      <path class="competence-card__pie competence-card__pie--slice"
-            stroke-dasharray="{{competence.pixUntilNextLevel}}, 100"
-            d="M18 2.0845
-      a 15.9155 15.9155 0 0 1 0 31.831
-      a 15.9155 15.9155 0 0 1 0 -31.831"
-      ></path>
-      <text x="50%" y="34%" text-anchor="middle" class="competence-card__level-label">Niveau</text>
-      <text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" class="competence-card__level-value">{{competence.level}}</text>
-    </svg>
+    {{#circle-chart value=competence.pixUntilNextLevel sliceColor=competence.color circleWidth='120' strokeWidth='1.6'}}
+      <div class="competence-card__level">
+        <span class="competence-card-level__label">Niveau</span>
+        <span class="competence-card-level__value">{{competence.level}}</span>
+      </div>
+    {{/circle-chart}}
   </div>
   <footer></footer>
 </article>
