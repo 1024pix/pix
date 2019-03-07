@@ -19,9 +19,9 @@ describe('Integration | Component | password reset demand form', function() {
 
     // then
     expect(this.$('.pix-logo__link')).to.have.length(1);
-    expect(this.$('.sign-form-header__title')).to.have.length(1);
+    expect(this.$('.sign-form-title')).to.have.length(1);
     expect(this.$('.sign-form-header__instruction')).to.have.length(1);
-    expect(this.$('.sign-form__form')).to.have.length(1);
+    expect(this.$('.sign-form__body')).to.have.length(1);
     expect(this.$('.form-textfield__label')).to.have.length(1);
     expect(this.$('.form-textfield__input-field-container')).to.have.length(1);
     expect(this.$('.button')).to.have.length(1);
@@ -46,7 +46,7 @@ describe('Integration | Component | password reset demand form', function() {
     this.render(hbs`{{password-reset-demand-form _displaySuccessMessage=_displaySuccessMessage}}`);
 
     // then
-    expect(this.$('.sign-form__message')).to.have.length(1);
+    expect(this.$('.password-reset-demand-form__body')).to.have.length(1);
   });
 
 });

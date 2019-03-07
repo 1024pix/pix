@@ -91,6 +91,11 @@ export default function() {
     }
   });
 
+  this.get('/password-reset-demands/:key', (schema) => {
+    return schema.passwordResetDemands.first();
+  });
+  this.patch('/password-reset-demands/:id');
+
   this.get('/smart-placement-progressions/:id');
   this.get('/campaigns', getCampaigns);
   this.post('/campaign-participations', postCampaignParticipation);

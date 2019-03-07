@@ -4,10 +4,11 @@
     <img class="pix-logo__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
   </a>
 
-  <div class="sign-form__header-container">
-    <h1 class="sign-form-header__title">Inscrivez-vous</h1>
-    <div class="sign-form-header__subtitle">ou
-      {{#link-to 'login' class="link"}} connectez-vous à votre compte{{/link-to}}
+  <div class="sign-form__header">
+    <h1 class="sign-form-title">Inscrivez-vous</h1>
+    <div class="sign-form-header__subtitle">
+      <span class="sign-form-header-subtitle">ou</span>
+      {{#link-to 'login' class="link"}}connectez-vous à votre compte{{/link-to}}
     </div>
   </div>
 
@@ -17,9 +18,9 @@
     </div>
   {{/if}}
 
-  <form {{action "signup" on="submit"}} class="sign-form__form">
+  <form {{action "signup" on="submit"}} class="sign-form__body">
 
-    <div class="sign-form__input-container">
+    <div class="sign-form-body__input">
       {{form-textfield
         label="Prénom"
         textfieldName="firstName"
@@ -29,7 +30,7 @@
         validationMessage=validation.firstName.message}}
     </div>
 
-    <div class="sign-form__input-container">
+    <div class="sign-form-body__input">
       {{form-textfield
         label="Nom"
         textfieldName="lastName"
@@ -39,7 +40,7 @@
         validationMessage=validation.lastName.message}}
     </div>
 
-    <div class="sign-form__input-container">
+    <div class="sign-form-body__input">
       {{form-textfield
         label="Adresse Email"
         textfieldName="email"
@@ -49,7 +50,7 @@
         validationMessage=validation.email.message}}
     </div>
 
-    <div class="sign-form__input-container">
+    <div class="sign-form-body__input">
       {{form-textfield
         label="Mot de passe"
         textfieldName="password"
@@ -63,7 +64,7 @@
     <div class="signup-form__cgu-container">
 
       {{#if user.errors.cgu}}
-        <div class="sign-form__field-message--error">
+        <div class="sign-form__validation-error sign-form-validation-error">
           {{user.errors.cgu.firstObject.message}}
         </div>
       {{/if}}
@@ -78,12 +79,12 @@
 
     <div class="signup-form__captcha-container">
       {{#if user.errors.recaptchaToken}}
-        <div class="sign-form__field-message--error">{{user.errors.recaptchaToken.firstObject.message}}</div>
+        <div class="sign-form__validation-error  sign-form-validation-error">{{user.errors.recaptchaToken.firstObject.message}}</div>
       {{/if}}
       {{g-recaptcha recaptchaToken=user.recaptchaToken tokenHasBeenUsed=_tokenHasBeenUsed}}
     </div>
 
-    <div class="sign-form__submit-container">
+    <div class="sign-form-body__bottom-button">
       <button type="submit" class="button button--thin button--round button--big">
         Je m'inscris
       </button>
