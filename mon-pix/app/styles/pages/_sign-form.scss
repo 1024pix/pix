@@ -9,33 +9,138 @@
   align-items: center;
 }
 
-.sign-form__container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  width: 95%;
-  max-width: 609px;
-  border-radius: 10px;
-  padding-top: 10px;
-  background-color: $white;
-  margin: 10px auto;
+.sign-form {
 
-  @include device-is('tablet') {
-    width: 609px;
-    margin: 20px 0;
-    padding-top: 40px;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 95%;
+    max-width: 609px;
+    border-radius: 10px;
+    padding-top: 10px;
+    background-color: $white;
+    margin: 10px auto;
+
+    @include device-is('tablet') {
+      width: 609px;
+      margin: 20px 0;
+      padding-top: 40px;
+    }
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px 0;
+
+    @include device-is('tablet') {
+      padding: 40px 80px;
+    }
+  }
+
+  &__notification-message {
+    max-width: 449px;
+    width: 100%;
+    text-align: center;
+    border-radius: 3px;
+    color: $white;
+    font-size: 1.4rem;
+    padding: 9px;
+    margin: 10px 0;
+
+    &--success {
+      background: $caribbean-green;
+    }
+
+    &--error {
+      background: $pure-orange;
+    }
+  }
+
+  &__validation-error {
+    margin-bottom: 7px;
+    text-align: center;
   }
 }
 
-.sign-form__header-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+.sign-form-header {
+
+  &__subtitle {
+    display: flex;
+    padding: 5px 20px;
+    flex-direction: column;
+    text-align: center;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+    }
+  }
+
+  &__instruction {
+    width: 100%;
+    margin: 10px 0 40px;
+
+    @include device-is('tablet') {
+      margin: 28px 0 40px;
+
+      &--short {
+        width: 400px
+      }
+    }
+  }
 }
 
-.sign-form-header__title {
+.sign-form-header-subtitle {
+  margin-right: 3px;
+}
+
+.sign-form-body{
+
+  &__input {
+    max-width: 449px;
+    width: 100%;
+    padding: 0 20px;
+
+    @include device-is('tablet') {
+      padding: 0;
+    }
+  }
+
+  &__bottom-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px auto 20px;
+
+    &--big {
+      margin: 10px auto;
+
+      @include device-is('desktop') {
+        margin: 30px auto;
+      }
+    }
+  }
+
+  &__forgotten-password-link {
+    align-self: flex-end;
+    margin-bottom: 20px;
+    margin-right: 10px;
+  }
+}
+
+// Text Styles
+
+.sign-form-title {
   font-family: $font-raleway;
   color: $charcoal-grey;
   margin: 0;
@@ -47,89 +152,42 @@
   }
 }
 
-.sign-form-header__instruction {
-  width: 100%;
+.sign-form-subtitle {
   font-family: $font-raleway;
   color: $charcoal-grey;
   font-size: 1.5rem;
   font-weight: $font-light;
   line-height: 28px;
   text-align: center;
-  margin: 10px 0 40px;
 
   @include device-is('tablet') {
-    width: 400px;
     font-size: 2.2rem;
-    margin: 28px 0 40px;
   }
 }
 
-.sign-form-header__subtitle {
+.sign-form-instruction {
   font-family: $font-roboto;
   font-size: 1.3rem;
   font-weight: $font-light;
   color: $charcoal-grey;
-  padding: 5px;
 }
 
-.sign-form__form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 20px 0;
+.sign-form-text {
+  color: $charcoal-grey;
+  font-family: $font-open-sans;
+  font-size: 1.0rem;
 
   @include device-is('tablet') {
-    padding: 40px 80px;
+    font-size: 1.5rem;
   }
 }
 
-.sign-form__input-container {
-  max-width: 449px;
-  width: 100%;
-  padding: 0 20px;
-
-  @include device-is('tablet') {
-    padding: 0;
-  }
-}
-
-.sign-form__submit-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 5px auto 20px;
-
-  &--big {
-    margin: 10px auto;
-
-    @include device-is('desktop') {
-      margin: 30px auto;
-    }
-  }
-}
-
-.sign-form__notification-message {
-  max-width: 449px;
-  width: 100%;
-  text-align: center;
-  border-radius: 3px;
-  color: $white;
-  font-size: 1.4rem;
-  padding: 9px;
-  margin: 10px 0;
-
-  &--success {
-    background: $caribbean-green;
-  }
-
-  &--error {
-    background: $pure-orange;
-  }
-}
-
-.sign-form__field-message--error {
+.sign-form-validation-error {
   color: $pure-orange;
   font-size: 1.2rem;
-  margin-bottom: 7px;
-  text-align: center;
+}
+
+.sign-form-link {
+  font-family: $font-roboto;
+  font-size: 1.3rem;
 }
