@@ -1,26 +1,11 @@
 .result-item {
   width: auto;
   height: 70px;
-  border-radius: 5px;
-  border-color: $porcelain-grey;
   background-color: $white;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  margin-bottom: 10px;
 
-  &:hover {
-    box-shadow: none;
-    border: solid 2px $dogder-blue;
-    transition: border-color 1s ease;
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: none;
-    border: solid 2px #446eff;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
+  &:nth-child(odd) {
+    background: $porcelain-grey;
+    border-radius: 4px;
   }
 }
 
@@ -36,11 +21,10 @@
 }
 
 .result-item__correction {
-  font-family: $font-lato;
-  font-size: 1.4rem;
   color: $pix-blue;
   margin-right: 23px;
   margin-left: auto;
+  text-align: center;
   height: 21px; /* XXX : should be aligned with flexbox */
 }
 
