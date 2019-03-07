@@ -50,19 +50,21 @@ describe('Acceptance | API | Campaign Participations', () => {
         'attributes': {
           'created-at': campaignParticipation.createdAt,
           'is-shared': campaignParticipation.isShared,
+          'participant-external-id': campaignParticipation.participantExternalId,
           'shared-at': campaignParticipation.sharedAt,
         },
-
         relationships: {
-          assessment: {
-            data: {
-              type: 'assessments',
-              id: campaignParticipation.assessmentId.toString()
-            }
-          },
           campaign: {
             data: null
-          }
+          },
+          user: {
+            data: null
+          },
+          'campaign-participation-result': {
+            links: {
+              'related': `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+            }
+          },
         }
       };
 
@@ -71,7 +73,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
+      expect(response.result.data).to.deep.equal(expectedCampaignParticipation);
     });
   });
 
@@ -125,6 +127,11 @@ describe('Acceptance | API | Campaign Participations', () => {
                 'data': {
                   'id': user.id.toString(),
                   'type': 'users'
+                }
+              },
+              'campaign-participation-result': {
+                links: {
+                  'related': `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
                 }
               }
             }
@@ -238,32 +245,13 @@ describe('Acceptance | API | Campaign Participations', () => {
       await databaseBuilder.clean();
     });
 
-    it('should return 201 and the campaign participation when it has been successfully created', () => {
-      const expectedResult = {
-        data: {
-          type: 'campaign-participations',
-          attributes: { 'is-shared': false, 'shared-at': null, 'created-at': null, 'participant-external-id': 'iuqezfh13736' },
-          relationships: {
-            campaign: { data: null },
-            user: { data: null }
-          }
-        }
-      };
-
+    it('should return 201 and the campaign participation when it has been successfully created', async () => {
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(201);
-
-        expect(response.result.data.id).to.exist;
-
-        const result = JSON.parse(response.payload);
-        _deleteIrrelevantIds(result);
-
-        expect(result).to.deep.equal(expectedResult);
-      });
+      expect(response.statusCode).to.equal(201);
+      expect(response.result.data.id).to.exist;
     });
 
     it('should return 404 error if the campaign related to the participation does not exist', () => {
@@ -280,7 +268,3 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
   });
 });
-
-function _deleteIrrelevantIds(result) {
-  delete result.data.id;
-}

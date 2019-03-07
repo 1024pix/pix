@@ -13,6 +13,7 @@ class CampaignParticipation {
     assessment,
     campaign,
     user,
+    campaignParticipationResult,
     // references
     assessmentId,
     campaignId,
@@ -21,6 +22,7 @@ class CampaignParticipation {
     this.id = id;
     this.campaign = campaign;
     this.campaignId = campaignId;
+    this.campaignParticipationResult = campaignParticipationResult;
     this.assessmentId = assessmentId;
     this.assessment = assessment;
     this.participantExternalId = participantExternalId;
