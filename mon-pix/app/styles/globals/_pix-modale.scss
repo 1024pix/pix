@@ -1,109 +1,87 @@
-@import "../ember-modal-dialog/ember-modal-structure";
+$pix-modal-border-radius: 5px;
 
 /* Structure & layout
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .pix-modal-wrapper {
-  width: 100%;
-  padding: 10px;
-}
+  z-index: 50;
 
-.pix-modal {
-  background: transparent;
-  color: $charcoal-grey;
-  font-family: $font-lato;
-  padding: 10px;
-  width: 100%;
-}
+  .pix-modal-dialog {
+    background: transparent;
+    padding: 10px;
+    box-shadow: none;
+    width: 100vw;
 
-.pix-modal__container {
-  border-radius: 5px;
-  background-color: $porcelain-grey;
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
-  font-size: 16px;
-  position: relative;
-  margin: auto;
-  max-width: 1170px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    @include device-is('desktop') {
+      width: 800px;
+    }
 
-  @include device-is('tablet') {
-    font-size: 18px;
+    .pix-modal__close-link {
+      color: $white;
+      text-align: right;
+
+      &> a {
+        color: inherit;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: inherit;
+        }
+      }
+    }
+
+    .pix-modal__container {
+      border-radius: $pix-modal-border-radius;
+      background-color: $porcelain-grey;
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+      font-size: 16px;
+      position: relative;
+      margin: auto;
+
+      .pix-modal-header {
+        background: $white;
+        border-top-left-radius: $pix-modal-border-radius;
+        border-top-right-radius: $pix-modal-border-radius;
+
+        .pix-modal-header__title {
+          margin: 0;
+          text-align: center;
+          padding: 15px;
+          font-family: $font-open-sans;
+          font-size: 2.8rem;
+        }
+      }
+
+      .pix-modal-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &--with-padding {
+          padding: 20px;
+        }
+      }
+
+      .pix-modal-footer {
+        border-bottom-left-radius: $pix-modal-border-radius;
+        border-bottom-right-radius: $pix-modal-border-radius;
+
+        &--with-centered--buttons {
+          padding: 15px 0;
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: center;
+          background: $white;
+
+          >.button {
+            margin: 0 10px;
+          }
+        }
+      }
+    }
   }
-}
-
-.pix-modal__body {
-  padding: 15px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  @include device-is('tablet') {
-    max-width: 680px;
-    text-align: center;
-  }
-}
-
-/* Text & content
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.pix-modal h1 {
-  background-color: $white;
-  font-weight: $font-bold;
-  color: $pix-blue;
-  text-transform: uppercase;
-  font-size: 18px;
-  margin: 0;
-  border-radius: 5px 5px 0 0;
-  text-align: center;
-  padding: 15px;
-  width: 100%;
-
-  @include device-is('tablet') {
-    padding: 20px 0;
-    font-size: 26px;
-  }
-}
-
-.pix-modal p {
-  margin-bottom: 5px;
-  padding: 0 10px;
-}
-
-.pix-modal ul {
-  margin-bottom: 15px;
-  text-align: left;
-
-  @include device-is('tablet') {
-    text-align: center;
-  }
-}
-
-.pix-modal__text {
-  margin-bottom: 15px;
-
-  @include device-is('tablet') {
-    margin-bottom: 10px;
-  }
-}
-
-.pix-modal__text:last-child {
-  margin-bottom: 5px;
-}
-
-.pix-modal__list {
-  width: 100%;
-  list-style: none;
-  padding: 0 0 0 30px;
-  margin: 0 0 15px;
-}
-
-.pix-modal__list-item {
-  margin-bottom: 5px;
 }
 
 /* Form & input
@@ -111,9 +89,9 @@
 
 .pix-modal__input {
   padding: 15px;
-  border-radius: 5px;
+  border-radius: $pix-modal-border-radius;
   background-color: $white;
-  border: 1px solid $alto-grey;
+  border: 2px solid $alto-grey;
   color: $slate-grey;
   letter-spacing: 2px;
   box-sizing: border-box;
@@ -131,50 +109,44 @@
   }
 }
 
-/* Buttons
+/* Overlay
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.pix-modal__button {
-  border: none;
-  border-radius: 5px;
-  padding: 15px;
-  text-transform: uppercase;
-  color: $white;
-  box-sizing: border-box;
-  font-size: 13px;
-  width: 126px;
-}
-
-.pix-modal__button--primary {
-  background-color: $pix-blue;
-}
-
-.pix-modal__button--secondary {
-  border-radius: 3px;
-  box-sizing: border-box;
-  padding: 10px 20px;
-  background-color: $alto-grey;
-  margin-right: 10px;
-
-}
-
-/* Misc
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.pix-modal__close-link {
-  color: $white;
-  position: absolute;
-  top: -30px;
-  right: 0;
-  font-size: 16px;
-}
-
-.pix-modal__close-link:hover,
-.pix-modal__close-link:active,
-.pix-modal__close-link:focus {
-  color: $white;
-}
 
 .ember-modal-overlay.translucent {
   background-color: rgba(red($charcoal-grey), green($charcoal-grey), blue($charcoal-grey), 0.95);
+}
+
+
+/* Scrolling
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+body.centered-modal-showing {
+  overflow: hidden;
+}
+
+.centered-scrolling-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+}
+
+.centered-scrolling-overlay {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.centered-scrolling-container {
+  position: relative;
+  min-height: 20em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
 }

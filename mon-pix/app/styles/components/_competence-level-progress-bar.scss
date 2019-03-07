@@ -143,55 +143,8 @@
   font-size: 13px;
 }
 
-.competence-level-progress-bar__modal-body {
-  padding: 4% 0;
-}
-
-.competence-level-progress-bar__modal-text {
-  padding: 2% 0;
-  font-size: 1.8rem;
-}
-
-.competence-level-progress-bar__modal-actions {
-  padding-top: 6%;
-  text-align: center;
-}
-
-.competence-level-progress-bar__modal-link-cancel {
-  display: inline-block;
-  background: $dusty-grey;
-  border: none;
-  border-radius: 5px;
-  color: $white;
-  flex-grow: 0;
-  font-size: 1.4rem;
-  margin-top: 10px;
-  margin-right: 25px;
-  padding: 12px 30px;
-  text-transform: uppercase;
-
-  &:hover, &:active, &:focus {
-    background-color: $boulder-grey;
-    color: white;
-    text-decoration: none;
-  }
-}
-
-.competence-level-progress-bar__modal-link-validate {
-  display: inline-block;
-  background: $pix-blue;
-  border: none;
-  border-radius: 5px;
-  color: $white;
-  flex-grow: 0;
-  font-size: 1.4rem;
-  margin-top: 10px;
-  padding: 12px 30px;
-  text-transform: uppercase;
-
-  &:hover, &:active, &:focus {
-    background-color: $pix-blue-hover;
-    color: white;
-    text-decoration: none;
-  }
+.second-chance__modal {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -1,5 +1,8 @@
 @charset 'utf-8';
 
+/* 3rd-party */
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
 /* globals */
 @import 'globals/palette';
 @import 'globals/fonts';
@@ -12,9 +15,6 @@
 @import 'globals/pix-page';
 @import 'globals/buttons';
 @import 'globals/checkpoint-progress-bar';
-/* 3rd-party */
-@import 'vendor/ember-routable-modal/core';
-@import 'vendor/ember-routable-modal/dialog';
 /* components */
 @import 'components/_blue-ribbon';
 @import 'components/_campaign-banner';

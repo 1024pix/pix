@@ -1,6 +1,7 @@
 import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
 const ORGANIZATION_CODE_PLACEHOLDER = 'Ex: ABCD12';
 const STEP_1_ORGANIZATION_CODE_ENTRY = 'organization-code-entry';
@@ -10,6 +11,9 @@ const STEP_3_SUCCESS_NOTIFICATION = 'success-notification';
 export default Component.extend({
 
   classNames: ['share-profile'],
+
+  // DI
+  pixModalDialog: service(),
 
   // Actions
   searchForOrganization: null,
@@ -64,10 +68,12 @@ export default Component.extend({
   actions: {
 
     openModal() {
+      this.get('pixModalDialog').enableScrolling();
       this.set('_showingModal', true);
     },
 
     closeModal() {
+      this.get('pixModalDialog').disableScrolling();
       this.set('_showingModal', false);
       this.set('_view', STEP_1_ORGANIZATION_CODE_ENTRY);
       this.set('_code', null);

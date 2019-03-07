@@ -1,10 +1,14 @@
 import { htmlSafe } from '@ember/string';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
 
   classNames: ['competence-level-progress-bar'],
+
+  // DI
+  pixModalDialog: service(),
 
   _MAX_REACHABLE_LEVEL: 5,
   _MAX_LEVEL: 8,
@@ -33,9 +37,11 @@ export default Component.extend({
 
   actions: {
     openModal() {
+      this.get('pixModalDialog').enableScrolling();
       this.set('_showSecondChanceModal', true);
     },
     closeModal() {
+      this.get('pixModalDialog').disableScrolling();
       this.set('_showSecondChanceModal', false);
     },
   },
