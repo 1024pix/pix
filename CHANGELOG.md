@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.29.1 (07/03/2019)
+
+- [#400](https://github.com/1024pix/pix/pull/400) [BUGFIX] Problème lors des lancements de certifications.
+
 ## v2.29.0 (07/03/2019)
 
 - [#379](https://github.com/1024pix/pix/pull/379) [FEATURE] Affichage de la liste paginée des participants à une campagne (PO-177).

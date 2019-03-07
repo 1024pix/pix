@@ -17,7 +17,7 @@ function _findCorrectAnswersByAssessments(assessments) {
   return Promise.all(answersByAssessmentsPromises)
     .then((answersByAssessments) => {
       return answersByAssessments.reduce((answersInJSON, answersByAssessment) => {
-        answersByAssessment.models.forEach((answer) => {
+        answersByAssessment.forEach((answer) => {
           answersInJSON.push(answer);
         });
         return answersInJSON;
@@ -86,7 +86,7 @@ function _orderSkillsOfCompetenceByDifficulty(competences) {
 }
 
 function _getRelatedChallengeById(challenges, answer) {
-  return challenges.find((challenge) => challenge.id === answer.get('challengeId'));
+  return challenges.find((challenge) => challenge.id === answer.challengeId);
 }
 
 function _getChallengeById(challenges, challengeId) {
@@ -145,7 +145,7 @@ module.exports = {
         });
 
         userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
-        const challengeIdsAlreadyAnswered = answers.map((answer) => answer.get('challengeId'));
+        const challengeIdsAlreadyAnswered = answers.map((answer) => answer.challengeId);
         const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map((challengeId) => _getChallengeById(challenges, challengeId));
 
         userCompetences = _addCourseIdAndPixToCompetence(userCompetences, coursesFromAdaptativeCourses, userLastAssessments);
