@@ -1,60 +1,31 @@
 const usecases = require('../../domain/usecases');
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
 const sessionSerializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
-const controllerReplies = require('../../infrastructure/controller-replies');
-
-const {
-  NotFoundError,
-  ForbiddenAccess
-} = require('../../domain/errors');
-
-const {
-  NotFoundError: InfrastructureNotFoundError,
-  ForbiddenError
-} = require('../../infrastructure/errors');
 
 module.exports = {
 
-  save(request, h) {
+  save(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
     return usecases.saveCertificationCenter({ certificationCenter })
-      .then(certificationCenterSerializer.serialize)
-      .catch((error) => {
-        return controllerReplies(h).error(error);
-      });
+      .then(certificationCenterSerializer.serialize);
   },
 
-  getById(request, h) {
+  getById(request) {
     const certificationCenterId = request.params.id;
     return usecases.getCertificationCenter({ id: certificationCenterId })
-      .then(certificationCenterSerializer.serialize)
-      .catch((error) => {
-        if (error instanceof NotFoundError) {
-          const err = new InfrastructureNotFoundError(error.message);
-          return controllerReplies(h).error(err);
-        }
-        return controllerReplies(h).error(error);
-      });
+      .then(certificationCenterSerializer.serialize);
   },
 
-  find(request, h) {
+  find() {
     return usecases.findCertificationCenters()
-      .then(certificationCenterSerializer.serialize)
-      .catch(controllerReplies(h).error);
+      .then(certificationCenterSerializer.serialize);
   },
 
-  getSessions(request, h) {
+  getSessions(request) {
     const certificationCenterId = parseInt(request.params.id);
     const userId = parseInt(request.auth.credentials.userId);
 
     return usecases.findSessionsForCertificationCenter({ userId, certificationCenterId })
-      .then((sessions) => sessionSerializer.serialize(sessions))
-      .catch((error) => {
-        if(error instanceof ForbiddenAccess) {
-          const err = new ForbiddenError(error.message);
-          return controllerReplies(h).error(err);
-        }
-        return controllerReplies(h).error(error);
-      });
+      .then((sessions) => sessionSerializer.serialize(sessions));
   }
 };

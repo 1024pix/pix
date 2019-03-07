@@ -1,46 +1,37 @@
 const Answer = require('../../domain/models/Answer');
+const AnswerStatus = require('../../domain/models/AnswerStatus');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
-const BookshelfAnswer = require('../../infrastructure/data/answer');
-const Boom = require('boom');
-const controllerReplies = require('../../infrastructure/controller-replies');
-const infraErrors = require('../../infrastructure/errors');
-const jsYaml = require('js-yaml');
-const logger = require('../../infrastructure/logger');
 const usecases = require('../../domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
-const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
+const { NotFoundError } = require('../../domain/errors');
 
 function _updateExistingAnswer(existingAnswer, newAnswer) {
   return solutionRepository
-    .getByChallengeId(existingAnswer.get('challengeId'))
+    .getByChallengeId(existingAnswer.challengeId)
     .then((solution) => {
       const answerCorrectness = solutionService.validate(newAnswer, solution);
-      return new BookshelfAnswer({ id: existingAnswer.id })
-        .save({
-          result: answerCorrectness.result,
-          resultDetails: jsYaml.safeDump(answerCorrectness.resultDetails),
-          value: newAnswer.get('value'),
-          timeout: newAnswer.get('timeout'),
-          elapsedTime: newAnswer.get('elapsedTime'),
-          challengeId: newAnswer.get('challengeId'),
-          assessmentId: newAnswer.get('assessmentId'),
-        }, { method: 'update' });
+
+      return answerRepository.save({
+        id: existingAnswer.id,
+        result: AnswerStatus.from(answerCorrectness.result),
+        resultDetails: answerCorrectness.resultDetails,
+        value: newAnswer.attributes.value,
+        timeout: newAnswer.attributes.timeout,
+        elapsedTime: newAnswer.attributes['elapsed-time'],
+        challengeId: newAnswer.relationships.challenge.data.id,
+        assessmentId: newAnswer.relationships.assessment.data.id,
+      });
     })
-    .then(answerSerializer.serializeFromBookshelfAnswer)
-    .catch((err) => {
-      logger.error(err);
-      throw Boom.badImplementation(err);
-    });
+    .then(answerSerializer.serialize);
 }
 
 module.exports = {
 
   save(request, h) {
-
     return Promise.resolve(request.payload)
       .then(partialDeserialize)
       .then((newAnswer) => {
@@ -50,53 +41,49 @@ module.exports = {
       })
       .then((answer) => {
         return h.response(answerSerializer.serialize(answer)).created();
-      })
-      .catch((error) => {
-        const mappedError = mapToInfrastructureErrors(error);
-        return controllerReplies(h).error(mappedError);
       });
   },
 
-  get(request) {
+  async get(request) {
+    const result = await answerRepository.get(request.params.id);
 
-    return new BookshelfAnswer({ id: request.params.id })
-      .fetch()
-      .then(answerSerializer.serializeFromBookshelfAnswer)
-      .catch((err) => logger.error(err));
+    return answerSerializer.serialize(result);
   },
 
-  update(request, h) {
-
-    const updatedAnswer = answerSerializer.deserializeToBookshelfAnswer(request.payload);
+  update(request) {
+    const updatedAnswer = request.payload.data;
+    
     return answerRepository
-      .findByChallengeAndAssessment({ challengeId: updatedAnswer.get('challengeId'), assessmentId: updatedAnswer.get('assessmentId') })
+      .findByChallengeAndAssessment({
+        challengeId: updatedAnswer.relationships.challenge.data.id,
+        assessmentId: updatedAnswer.relationships.assessment.data.id
+      })
       .then((existingAnswer) => {
 
         if (!existingAnswer) {
-          throw Boom.notFound();
+          throw new NotFoundError('Answer does not exit');
         }
 
         // XXX if assessment is a Smart Placement, then return 204 and do not update answer. If not proceed normally.
-        return isAssessmentSmartPlacement(existingAnswer.get('assessmentId'))
+        return isAssessmentSmartPlacement(existingAnswer.assessmentId)
           .then((assessmentIsSmartPlacement) => {
             if (assessmentIsSmartPlacement) {
               return null;
             } else {
               return _updateExistingAnswer(existingAnswer, updatedAnswer);
             }
-          })
-          .catch(controllerReplies(h).error);
+          });
+
       });
   },
 
   findByChallengeAndAssessment(request) {
     return answerRepository
-      .findByChallengeAndAssessment({ challengeId: request.url.query.challenge, assessmentId: request.url.query.assessment })
-      .then(answerSerializer.serializeFromBookshelfAnswer)
-      .catch((err) => {
-        logger.error(err);
-        throw Boom.badImplementation(err);
-      });
+      .findByChallengeAndAssessment({
+        challengeId: request.url.query.challenge,
+        assessmentId: request.url.query.assessment
+      })
+      .then(answerSerializer.serialize);
   },
 };
 
@@ -111,15 +98,6 @@ function partialDeserialize(payload) {
     assessmentId: payload.data.relationships.assessment.data.id,
     challengeId: payload.data.relationships.challenge.data.id,
   });
-}
-
-function mapToInfrastructureErrors(error) {
-
-  if (error instanceof ChallengeAlreadyAnsweredError) {
-    return new infraErrors.ConflictError('This challenge has already been answered.');
-  }
-
-  return error;
 }
 
 function isAssessmentSmartPlacement(assessmentId) {

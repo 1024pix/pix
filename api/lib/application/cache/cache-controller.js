@@ -2,33 +2,23 @@ const cache = require('../../infrastructure/caches/cache');
 const preloader = require('../../infrastructure/caches/preloader');
 const logger = require('../../infrastructure/logger');
 const usecases = require('../../domain/usecases');
-const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
-const { InfrastructureError } = require('../../infrastructure/errors');
-
-function _buildJsonApiInternalServerError(error) {
-  const internalError = new InfrastructureError(error.message);
-  return errorSerializer.serialize(internalError);
-}
 
 module.exports = {
 
-  reloadCacheEntry(request, h) {
+  reloadCacheEntry(request) {
     const cacheKey = request.params.cachekey || '';
     const [ tableName, recordId ] = cacheKey.split('_');
     return usecases.reloadCacheEntry({ preloader, tableName, recordId })
-      .then(() => null)
-      .catch((error) => h.response(_buildJsonApiInternalServerError(error)).code(500));
+      .then(() => null);
   },
 
-  removeAllCacheEntries(request, h) {
+  removeAllCacheEntries() {
     return usecases.removeAllCacheEntries({ cache })
-      .then(() => null)
-      .catch((error) => h.response(_buildJsonApiInternalServerError(error)).code(500));
+      .then(() => null);
   },
 
-  preloadCacheEntries(request, h) {
+  preloadCacheEntries() {
     return usecases.preloadCacheEntries({ preloader, logger })
-      .then(() => null)
-      .catch((error) => h.response(_buildJsonApiInternalServerError(error)).code(500));
+      .then(() => null);
   }
 };

@@ -18,7 +18,6 @@ module.exports = {
   },
 
   toSQLString(answerStatus) {
-
     if (answerStatus.isOK()) {
       return OK;
     } else if (answerStatus.isKO()) {
@@ -32,6 +31,7 @@ module.exports = {
     } else {
       return UNIMPLEMENTED;
     }
+
   },
 
   fromSQLString(answerStatusString) {

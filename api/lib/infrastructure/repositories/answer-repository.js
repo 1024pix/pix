@@ -1,8 +1,8 @@
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const BookshelfAnswer = require('../data/answer');
-const jsYaml = require('js-yaml');
 const { NotFoundError } = require('../../domain/errors');
+const jsYaml = require('js-yaml');
 
 function _adaptModelToDb(answer) {
   return {
@@ -18,16 +18,19 @@ function _adaptModelToDb(answer) {
 }
 
 function _toDomain(bookshelfAnswer) {
-  return new Answer({
-    id: bookshelfAnswer.get('id'),
-    elapsedTime: bookshelfAnswer.get('elapsedTime'),
-    result: answerStatusDatabaseAdapter.fromSQLString(bookshelfAnswer.get('result')),
-    resultDetails: bookshelfAnswer.get('resultDetails'),
-    timeout: bookshelfAnswer.get('timeout'),
-    value: bookshelfAnswer.get('value'),
-    assessmentId: bookshelfAnswer.get('assessmentId'),
-    challengeId: bookshelfAnswer.get('challengeId'),
-  });
+  if (bookshelfAnswer) {
+    return new Answer({
+      id: bookshelfAnswer.get('id'),
+      elapsedTime: bookshelfAnswer.get('elapsedTime'),
+      result: answerStatusDatabaseAdapter.fromSQLString(bookshelfAnswer.get('result')),
+      resultDetails: bookshelfAnswer.get('resultDetails'),
+      timeout: bookshelfAnswer.get('timeout'),
+      value: bookshelfAnswer.get('value'),
+      assessmentId: bookshelfAnswer.get('assessmentId'),
+      challengeId: bookshelfAnswer.get('challengeId'),
+    });
+  }
+  return null;
 }
 
 module.exports = {
@@ -35,21 +38,21 @@ module.exports = {
   get(answerId) {
     return BookshelfAnswer.where('id', answerId)
       .fetch({ require: true })
-      .then((answer) => answer.toDomainEntity())
-      .catch((err) => {
-        if (err instanceof BookshelfAnswer.NotFoundError) {
+      .then(_toDomain)
+      .catch((error) => {
+        if (error instanceof BookshelfAnswer.NotFoundError) {
           throw new NotFoundError(`Not found answer for ID ${answerId}`);
-        } else {
-          throw err;
         }
+
+        throw error;
       });
   },
 
-  // TODO return domain object
   findByChallengeAndAssessment({ challengeId, assessmentId }) {
     return BookshelfAnswer
       .where({ challengeId, assessmentId })
-      .fetch();
+      .fetch()
+      .then(_toDomain);
   },
 
   findByAssessment(assessmentId) {
@@ -57,22 +60,21 @@ module.exports = {
       .where({ assessmentId })
       .orderBy('createdAt')
       .fetchAll()
-      .then((answers) => answers.models.map((answer) => answer.toDomainEntity()));
+      .then((answers) => answers.models.map(_toDomain));
   },
 
-  // TODO return domain object
   findByChallenge(challengeId) {
     return BookshelfAnswer
       .where({ challengeId })
       .fetchAll()
-      .then((answers) => answers.models);
+      .then((answers) => answers.models.map(_toDomain));
   },
 
-  // TODO return domain object
   findCorrectAnswersByAssessment(assessmentId) {
     return BookshelfAnswer
       .where({ assessmentId, result: 'ok' })
-      .fetchAll();
+      .fetchAll()
+      .then((answers) => answers.models.map(_toDomain));
   },
 
   save(answer) {

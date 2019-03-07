@@ -12,6 +12,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       const campaignParticipation = domainBuilder.buildCampaignParticipation({
         id: 5,
         isShared: true,
+        participantExternalId: 'mail pro',
         sharedAt: '2018-02-06 14:12:44',
         createdAt: '2018-02-05 14:12:44',
         campaign: campaign,
@@ -25,21 +26,19 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
           id: '5',
           attributes: {
             'is-shared': true,
+            'participant-external-id': 'mail pro',
             'shared-at': '2018-02-06 14:12:44',
             'created-at': '2018-02-05 14:12:44',
           },
           relationships: {
-            assessment: {
-              data: {
-                id: '67890',
-                type: 'assessments'
-              }
-            },
             campaign: {
               data: {
                 id: `${ campaign.id }`,
                 type: 'campaigns'
               }
+            },
+            user: {
+              data: null
             }
           },
         },

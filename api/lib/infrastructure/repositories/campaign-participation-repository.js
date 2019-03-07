@@ -2,6 +2,8 @@ const BookshelfCampaignParticipation = require('../data/campaign-participation')
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
 const { NotFoundError } = require('../../domain/errors');
+const queryBuilder = require('../utils/query-builder');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const fp = require('lodash/fp');
 
 function _toDomain(bookshelfCampaignParticipation) {
@@ -51,12 +53,29 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  findByAssessmentId(assessmentId) {
+  find(options) {
+    return queryBuilder.find(BookshelfCampaignParticipation, options);
+  },
+
+  // TODO: Replace this use-case specific version by adding inner-joins to query-builder
+  findWithUsersPaginated(options) {
     return BookshelfCampaignParticipation
-      .where({ assessmentId })
-      .fetch({ require: true, withRelated: ['campaign'] })
-      .then(_toDomain)
-      .catch(_checkNotFoundError);
+      .where(options.filter)
+      .query((qb) => {
+        qb.innerJoin('users', 'userId', 'users.id');
+        qb.orderBy('users.lastName', 'asc');
+      })
+      .fetchPage({
+        page: options.page.number,
+        pageSize: options.page.size,
+        withRelated: ['user']
+      })
+      .then((results) => {
+        return {
+          pagination: results.pagination,
+          models: bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, results.models)
+        };
+      });
   },
 
   updateCampaignParticipation(campaignParticipation) {
@@ -82,7 +101,7 @@ function _adaptModelToDb(campaignParticipation) {
 
 function _checkNotFoundError(err) {
   if (err instanceof BookshelfCampaignParticipation.NotFoundError) {
-    throw new NotFoundError();
+    throw new NotFoundError('Participation non trouvée');
   }
   throw err;
 }

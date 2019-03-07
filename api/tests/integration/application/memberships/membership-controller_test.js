@@ -1,7 +1,6 @@
 const { expect, sinon, domainBuilder, HttpTestServer } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
-const { MembershipCreationError } = require('../../../../lib/domain/errors');
 const moduleUnderTest = require('../../../../lib/application/memberships');
 
 describe('Integration | Application | Memberships | membership-controller', () => {
@@ -71,57 +70,6 @@ describe('Integration | Application | Memberships | membership-controller', () =
             expect(response.statusCode).to.equal(403);
           });
         });
-      });
-
-      context('when user is allowed to access resource', () => {
-
-        beforeEach(() => {
-          securityController.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
-        });
-
-        it('should resolve a JSONAPI 400 HTTP response when membership already exists', () => {
-          // given
-          const error = new MembershipCreationError();
-          usecases.createMembership.rejects(error);
-
-          // when
-          const promise = httpTestServer.request('POST', '/api/memberships', payload);
-
-          // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(400);
-            expect(response.result.errors[0].code).to.equal('400');
-          });
-        });
-
-        it('should resolve a JSONAPI 400 HTTP response when the organization or user is not found', () => {
-          // given
-          usecases.createMembership.rejects(new MembershipCreationError());
-
-          // when
-          const promise = httpTestServer.request('POST', '/api/memberships', payload);
-
-          // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(400);
-            expect(response.result.errors[0].code).to.equal('400');
-          });
-        });
-
-        it('should resolve a JSONAPI 500 HTTP response when an unexpected exception occurred', () => {
-          // given
-          usecases.createMembership.rejects(new Error());
-
-          // when
-          const promise = httpTestServer.request('POST', '/api/memberships', payload);
-
-          // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(500);
-            expect(response.result.errors[0].code).to.equal('500');
-          });
-        });
-
       });
     });
   });

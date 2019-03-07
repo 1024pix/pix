@@ -92,8 +92,8 @@ describe('Integration | Repository | AnswerRepository', () => {
       // then
       return promise.then((foundAnswers) => {
         expect(foundAnswers).to.exist;
-        expect(foundAnswers).to.be.an('object');
-        expect(foundAnswers.attributes.value).to.equal(wrongAnswer.value);
+        expect(foundAnswers).to.be.an.instanceOf(Answer);
+        expect(foundAnswers.value).to.equal(wrongAnswer.value);
       });
     });
   });
@@ -138,11 +138,10 @@ describe('Integration | Repository | AnswerRepository', () => {
 
         expect(foundAnswers).to.have.length.of(2);
 
-        expect(foundAnswers[0].attributes.value).to.equal(wrongAnswerForAssessment1234.value);
-        expect(foundAnswers[0].attributes.challengeId).to.equal(wrongAnswerForAssessment1234.challengeId);
-
-        expect(foundAnswers[1].attributes.value).to.equal(wrongAnswerForAssessment1.value);
-        expect(foundAnswers[1].attributes.challengeId).to.equal(wrongAnswerForAssessment1.challengeId);
+        expect(foundAnswers[0].value).to.equal(wrongAnswerForAssessment1234.value);
+        expect(foundAnswers[0].challengeId).to.equal(wrongAnswerForAssessment1234.challengeId);
+        expect(foundAnswers[1].value).to.equal(wrongAnswerForAssessment1.value);
+        expect(foundAnswers[1].challengeId).to.equal(wrongAnswerForAssessment1.challengeId);
       });
     });
   });
@@ -234,6 +233,9 @@ describe('Integration | Repository | AnswerRepository', () => {
     it('should retrieve answers with ok status from assessment id provided', () => {
       // given
       const assessmentId = 1;
+      const expectedStatus = {
+        status: 'ok'
+      };
 
       // when
       const promise = AnswerRepository.findCorrectAnswersByAssessment(assessmentId);
@@ -243,10 +245,10 @@ describe('Integration | Repository | AnswerRepository', () => {
         expect(answers).to.exist;
         expect(answers).to.have.length.of(1);
 
-        const foundAnswer = answers.models[0];
+        const foundAnswer = answers[0];
 
-        expect(foundAnswer.get('assessmentId')).to.be.equal(1);
-        expect(foundAnswer.get('result')).to.be.equal('ok');
+        expect(foundAnswer.assessmentId).to.be.equal(1);
+        expect(foundAnswer.result).to.deep.equal(expectedStatus);
       });
     });
   });

@@ -103,6 +103,15 @@
   &--link {
     text-decoration: none;
   }
+
+  &--with-icon {
+    display: flex;
+    align-items: center;
+
+    &>svg {
+      padding-left: 5px;
+    }
+  }
 }
 
 .icon-button {
@@ -114,10 +123,14 @@
   cursor: pointer;
   outline: none;
 
-  &:hover, &:focus, &:active {
+  &:hover, &:active {
     background-color: $alto;
     border-radius: 16px;
     transition: background-color 0.2s ease;
+  }
+
+  &--link {
+    text-decoration: none;
   }
 }
 

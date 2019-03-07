@@ -2,7 +2,23 @@ class InfrastructureError extends Error {
   constructor(message) {
     super(message);
     this.title = 'Internal Server Error';
-    this.code = 500;
+    this.status = 500;
+  }
+}
+
+class UnprocessableEntityError extends InfrastructureError {
+  constructor(message) {
+    super(message);
+    this.title = 'Unprocessable entity';
+    this.status = 422;
+  }
+}
+
+class PreconditionFailedError extends InfrastructureError {
+  constructor(message) {
+    super(message);
+    this.title = 'Precondition Failed';
+    this.status = 421;
   }
 }
 
@@ -10,7 +26,7 @@ class ConflictError extends InfrastructureError {
   constructor(message = 'Conflict between request and server state.') {
     super(message);
     this.title = 'Conflict';
-    this.code = 409;
+    this.status = 409;
   }
 }
 
@@ -19,7 +35,7 @@ class MissingQueryParamError extends InfrastructureError {
     const message = `Missing ${missingParamName} query parameter.`;
     super(message);
     this.title = 'Missing Query Parameter';
-    this.code = 400;
+    this.status = 400;
   }
 }
 
@@ -27,7 +43,7 @@ class NotFoundError extends InfrastructureError {
   constructor(message) {
     super(message);
     this.title = 'Not Found';
-    this.code = 404;
+    this.status = 404;
   }
 }
 
@@ -35,7 +51,7 @@ class UnauthorizedError extends InfrastructureError {
   constructor(message) {
     super(message);
     this.title = 'Unauthorized';
-    this.code = 401;
+    this.status = 401;
   }
 }
 
@@ -43,7 +59,7 @@ class ForbiddenError extends InfrastructureError {
   constructor(message) {
     super(message);
     this.title = 'Forbidden';
-    this.code = 403;
+    this.status = 403;
   }
 }
 
@@ -51,11 +67,12 @@ class BadRequestError extends InfrastructureError {
   constructor(message) {
     super(message);
     this.title = 'Bad Request';
-    this.code = 400;
+    this.status = 400;
   }
 }
 
 module.exports = {
+  UnprocessableEntityError,
   BadRequestError,
   ConflictError,
   ForbiddenError,
@@ -63,4 +80,5 @@ module.exports = {
   MissingQueryParamError,
   NotFoundError,
   UnauthorizedError,
+  PreconditionFailedError,
 };

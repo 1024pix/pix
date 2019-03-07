@@ -6,14 +6,6 @@ const authenticationController = require('../../../../lib/application/authentica
 describe('Integration | Application | Route | AuthenticationRouter', () => {
 
   let server;
-  const jsonApiError = {
-    errors:
-      [{
-        code: '400',
-        title: 'Bad request',
-        detail: 'The server could not understand the request due to invalid syntax.',
-      }]
-  };
 
   beforeEach(() => {
     // stub dependencies
@@ -100,7 +92,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when grant type is not "password"', async () => {
+    it('should return a 400 when grant type is not "password"', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'authorization_code',
@@ -113,10 +105,9 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
-      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when username is missing', async () => {
+    it('should return a 400 when username is missing', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'password',
@@ -128,10 +119,9 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
-      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when password is missing', async () => {
+    it('should return a 400 when password is missing', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'password',
@@ -143,10 +133,9 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
-      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when username is not an email', async () => {
+    it('should return a 400 when username is not an email', async () => {
       // given
       options.payload = querystring.stringify({
         grant_type: 'authorization_code',
@@ -159,7 +148,6 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
-      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
     it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', () => {
@@ -203,7 +191,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when grant type is not "access_token" nor "refresh_token"', async () => {
+    it('should return a 400 when grant type is not "access_token" nor "refresh_token"', async () => {
       // given
       options.payload = querystring.stringify({
         token: 'jwt.access.token',
@@ -215,10 +203,9 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
-      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
-    it('should return a "Bad request error" (400) formatted as JSON API when token is missing', async () => {
+    it('should return a 400 when token is missing', async () => {
       // given
       options.payload = querystring.stringify({
         token_type_hint: 'access_token',
@@ -229,7 +216,6 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
       // then
       expect(response.statusCode).to.equal(400);
-      expect(JSON.parse(response.payload)).to.deep.equal(jsonApiError);
     });
 
     it('should return a response with HTTP status code 200 even when token type hint is missing', async () => {
