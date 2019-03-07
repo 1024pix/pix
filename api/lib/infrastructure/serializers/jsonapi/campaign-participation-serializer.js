@@ -7,7 +7,7 @@ module.exports = {
 
   serialize(campaignParticipation, meta) {
     return new Serializer('campaign-participation', {
-      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'user'],
+      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'user', 'campaignParticipationResult'],
       campaign: {
         ref: 'id',
         attributes: ['code', 'title']

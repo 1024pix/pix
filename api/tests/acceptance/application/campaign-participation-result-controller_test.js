@@ -1,5 +1,6 @@
 const createServer = require('../../../server');
 const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/caches/cache');
 const _ = require('lodash');
 
 describe('Acceptance | API | Campaign Participation Result', () => {
@@ -76,6 +77,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
   });
 
   afterEach(async () => {
+    await cache.flushAll();
     await databaseBuilder.clean();
     await airtableBuilder.cleanAll();
   });
