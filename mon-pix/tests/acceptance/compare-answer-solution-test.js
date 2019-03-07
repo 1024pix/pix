@@ -1,9 +1,4 @@
-import {
-  describe,
-  it,
-  beforeEach,
-  afterEach
-} from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -16,15 +11,6 @@ function charCount(str) {
 
 describe('Compare answers and solutions for QCM questions', function() {
 
-  const RESULT_URL = '/assessments/ref_assessment_id/results';
-  const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
-
-  const TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title-text';
-  const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
-
-  const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
-  const IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
-
   let application;
 
   beforeEach(function() {
@@ -35,14 +21,17 @@ describe('Compare answers and solutions for QCM questions', function() {
     destroyApp(application);
   });
 
+  const RESULT_URL = '/assessments/ref_assessment_id/results';
+  const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/ref_answer_qcm_id';
+
   describe('From the results page', function() {
 
     it('should display the REPONSE link from the results screen for QCM  and QCU questions', async function() {
       await visit(RESULT_URL);
-      expect($('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
-      expect($('.result-item:eq(1) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCU
-      expect($('.result-item:eq(2) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
-      expect($('.result-item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
+      expect($('.result-item:eq(0) .js-correct-answer').text()).to.contain('Réponses et tutos'); //QCM
+      expect($('.result-item:eq(1) .js-correct-answer').text()).to.contain('Réponses et tutos'); //QCU
+      expect($('.result-item:eq(2) .js-correct-answer').text()).to.contain('Réponses et tutos'); //QROC
+      expect($('.result-item:eq(3) .js-correct-answer').text()).not.to.contain('Réponses et tutos'); //QROCM
     });
   });
 
@@ -51,39 +40,22 @@ describe('Compare answers and solutions for QCM questions', function() {
     it('should be able to open the correction modal', async function() {
       await visit(RESULT_URL);
       expect($('.comparison-window')).to.have.lengthOf(0);
+
       await click('.result-item__correction__button');
       expect($('.comparison-window')).to.have.lengthOf(1);
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
     it('should be able to access the modal directly from the url and close it', async function() {
       await visit(COMPARISON_MODAL_URL);
       expect($('.comparison-window')).to.have.lengthOf(1);
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
   });
 
   describe('Content of the correction modale : results and instructions', function() {
 
-    it('should check the index along with the image and the results text in the header', async function() {
-
-      await visit(RESULT_URL);
-      expect($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-      expect($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-
-      await visit(COMPARISON_MODAL_URL);
-      expect($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('1');
-
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
-    });
-
     it('should check the presence of instruction, text and image', async function() {
+      const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
+      const IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
 
       await visit(RESULT_URL);
       expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.exist;
@@ -92,12 +64,6 @@ describe('Compare answers and solutions for QCM questions', function() {
       await visit(COMPARISON_MODAL_URL);
       expect(charCount($(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
       expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
-
-      // XXX test env needs the modal to be closed manually
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
     });
-
   });
-
 });

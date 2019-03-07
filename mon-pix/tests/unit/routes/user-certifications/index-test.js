@@ -7,7 +7,7 @@ import Service from '@ember/service';
 
 describe('Unit | Route | user certifications/index', function() {
   setupTest('route:user-certifications/index', {
-    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
+    needs: ['service:session', 'service:metrics']
   });
 
   let route;

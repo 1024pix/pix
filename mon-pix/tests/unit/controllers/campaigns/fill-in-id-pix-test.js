@@ -6,7 +6,7 @@ import sinon from 'sinon';
 describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', function() {
 
   setupTest('controller:campaigns/fill-in-id-pix', {
-    needs: ['service:current-routed-modal', 'service:metrics']
+    needs: ['service:metrics']
   });
 
   const campaign = { id: 1243 };

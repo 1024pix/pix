@@ -5,9 +5,6 @@ export default Controller.extend({
 
   pixModalDialog: service(),
 
-  queryParams: ['index'],
-  index: null,
-
   actions: {
 
     closeComparisonWindow() {

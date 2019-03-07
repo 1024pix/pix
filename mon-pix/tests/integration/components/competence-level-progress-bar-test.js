@@ -4,8 +4,9 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | competence level progress bar', function() {
+
   setupComponentTest('competence-level-progress-bar', {
-    integration: true
+    integration: true,
   });
 
   it('renders', function() {
@@ -180,10 +181,10 @@ describe('Integration | Component | competence level progress bar', function() {
 
         // then
         expect($modal).to.be.ok;
-        expect($modal.querySelector('h1').textContent).to.contains('Retenter');
-        expect($modal.textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
-        expect($modal.querySelector('.pix-modal__action.cancel').textContent).to.contains('Annuler');
-        expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
+        expect($modal.querySelector('.pix-modal-header__title').textContent).to.contains('Retenter');
+        expect($modal.querySelector('.competence-level-progress-bar__modal-body').textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
+        expect($modal.querySelector('.competence-level-progress-bar__modal-link-cancel').textContent).to.contains('Annuler');
+        expect($modal.querySelector('.competence-level-progress-bar__modal-link-validate').textContent).to.contains('J’ai compris');
       });
 
       it('should not display remaining days info', function() {

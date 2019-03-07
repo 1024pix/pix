@@ -1,9 +1,4 @@
-import {
-  describe,
-  it,
-  beforeEach,
-  afterEach
-} from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -28,7 +23,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
     });
 
     it('should display the REPONSE link from the results screen', async function() {
-      expect($('.result-item .js-correct-answer').text()).to.contain('RÉPONSE');
+      expect($('.result-item .js-correct-answer').text()).to.contain('Réponses et tutos');
     });
 
     it('should not yet display the modal nor its content', async function() {
@@ -42,22 +37,11 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
   describe('Content of the correction modal', function() {
 
     beforeEach(async function() {
-      await visit('/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4');
-    });
-
-    afterEach(async function() {
-      // XXX test env needs the modal to be closed manually
-      if (find('.close-button-container').length > 0) {
-        await click('.close-button-container');
-      }
+      await visit('/assessments/ref_assessment_id/results/ref_answer_qroc_id');
     });
 
     it('should be able to access the modal directly from the url', async function() {
       expect($('.comparison-window')).to.have.lengthOf(1);
-    });
-
-    it('should contain a header', async function() {
-      expect($('.comparison-window__header .comparison-window__result-item-index').text().replace(/\n/g, '').trim()).to.equal('4');
     });
 
     it('should contain an instruction', async function() {
@@ -73,8 +57,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
     });
 
     it('should contain a closing button', async function() {
-      await click('.close-button-container');
-      expect($('.comparison-window')).to.have.lengthOf(0);
+      expect($('.pix-modal__close-link > a')).to.have.lengthOf(1);
     });
   });
 

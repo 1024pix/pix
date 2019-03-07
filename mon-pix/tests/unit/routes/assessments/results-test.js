@@ -7,7 +7,7 @@ import EmberObject from '@ember/object';
 describe('Unit | Route | Assessments | Results', function() {
 
   setupTest('route:assessments.results', {
-    needs: ['service:current-routed-modal', 'service:metrics']
+    needs: ['service:metrics']
   });
 
   it('exists', function() {
