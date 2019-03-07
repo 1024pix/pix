@@ -7,7 +7,7 @@ import { keyUp } from 'ember-keyboard';
 
 describe('Unit | Component | pix-modal', function() {
 
-  setupTest('component:pix-modale', {
+  setupTest('component:pix-modal', {
     needs: ['service:keyboard', 'service:modal-dialog']
   });
 
