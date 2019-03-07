@@ -10,31 +10,31 @@
     {{/link-to}}
   </div>
 
-  {{#ember-table class="table" as |table|}}
-    {{#table.head enableReorder=false enableResize=false widthConstraint=eq-container columns=columns as |head|}}
-      {{#head.row as |row|}}
-        {{#row.cell class=(if row.columnValue.isUpdate "cell--center") as |value|}}
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+        <tr>
+          <th class="table__column table__column--small">ID session</th>
+          <th class="table__column table__column--wide">Nom du site</th>
+          <th class="table__column table__column--wide">Salle</th>
+          <th class="table__column">Date</th>
+          <th class="table__column table__column--small">Heure</th>
+          <th class="table__column table__column--wide">Surveillant</th>
+        </tr>
+      </thead>
 
-          {{value.name}}
-
-        {{/row.cell}}
-      {{/head.row}}
-    {{/table.head}}
-
-    {{#table.body rows=sortedSessions as |body|}}
-      {{#body.row onClick=(action goToDetails body.rowValue) as |row|}}
-        {{#row.cell class=(if row.columnValue.isUpdate "cell--center") as |value column|}}
-
-          {{#if column.isDate}}
-            {{moment-format value 'DD/MM/YYYY' allow-empty=true}}
-          {{else if column.isHour}}
-            {{moment-format value 'HH:mm' 'HH:mm:ss' allow-empty=true}}
-          {{else}}
-            {{value}}
-          {{/if}}
-
-        {{/row.cell}}
-      {{/body.row}}
-    {{/table.body}}
-  {{/ember-table}}
+      <tbody>
+        {{#each sortedSessions as |session|}}
+          <tr onclick={{action goToDetails session}}>
+            <td>{{session.id}}</td>
+            <td>{{session.address}}</td>
+            <td>{{session.room}}</td>
+            <td>{{moment-format session.date 'DD/MM/YYYY' allow-empty=true}}</td>
+            <td>{{moment-format session.time 'HH:mm' 'HH:mm:ss' allow-empty=true}}</td>
+            <td>{{session.examiner}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </div>
