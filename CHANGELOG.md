@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.29.0 (07/03/2019)
+
+- [#379](https://github.com/1024pix/pix/pull/379) [FEATURE] Affichage de la liste paginée des participants à une campagne (PO-177).
+- [#399](https://github.com/1024pix/pix/pull/399) [BUGFIX] Corrige la serialization des erreurs.
+- [#392](https://github.com/1024pix/pix/pull/392) [TECH] Supprimer le fichier `seed.js` (PF-530).
+- [#391](https://github.com/1024pix/pix/pull/391) [TECH] Ajouter des colonnes userId et competenceId à la table Knowledge-elements (PF-521).
+- [#388](https://github.com/1024pix/pix/pull/388) [TECH] Remplacement d'une longue chaîne de promesses par async/await (PF-532).
+- [#382](https://github.com/1024pix/pix/pull/382) [TECH] Améliorer Answer controller et repository (PF-531).
+- [#374](https://github.com/1024pix/pix/pull/374) [TECH] Nettoyage de la gestion d'erreurs coté back (PF-529).
+
 ## v2.28.1 (04/03/2019)
 
 - [#389](https://github.com/1024pix/pix/pull/389) [TECH] Mise à jour de Pix admin vers Node 10.15.1.
