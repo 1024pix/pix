@@ -19,6 +19,7 @@ $pix-modal-border-radius: 5px;
     .pix-modal__close-link {
       color: $white;
       text-align: right;
+      margin-bottom: 5px;
 
       &> a {
         color: inherit;
@@ -73,7 +74,7 @@ $pix-modal-border-radius: 5px;
           display: flex;
           flex-direction: row-reverse;
           justify-content: center;
-          background: $white;
+          border-top: 1px solid $alto-grey;
 
           >.button {
             margin: 0 10px;
