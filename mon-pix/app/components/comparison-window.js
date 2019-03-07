@@ -1,12 +1,7 @@
 import { equal } from '@ember/object/computed';
 import Component from '@ember/component';
-import { inject as service } from '@ember/service';
-import { on } from '@ember/object/evented';
 import { computed } from '@ember/object';
-import $ from 'jquery';
 import resultIconUrl from 'mon-pix/utils/result-icon-url';
-import { EKMixin, keyUp } from 'ember-keyboard';
-import FocusableComponent from 'ember-component-focus/mixins/focusable-component';
 
 const TEXT_FOR_RESULT = {
   ok: {
@@ -46,9 +41,7 @@ const TEXT_FOR_RESULT = {
   }
 };
 
-export default Component.extend(EKMixin, FocusableComponent, {
-
-  modal: service('current-routed-modal'),
+export default Component.extend({
 
   classNames: [ 'comparison-window' ],
 
@@ -57,31 +50,12 @@ export default Component.extend(EKMixin, FocusableComponent, {
   correction: null,
   index: null,
 
-  focusNode: '.routable-modal--close-button',
-
   isAssessmentChallengeTypeQroc: equal('challenge.type', 'QROC'),
   isAssessmentChallengeTypeQcm: equal('challenge.type', 'QCM'),
   isAssessmentChallengeTypeQcu: equal('challenge.type', 'QCU'),
   isAssessmentChallengeTypeQrocm: equal('challenge.type', 'QROCM'),
   isAssessmentChallengeTypeQrocmInd: equal('challenge.type', 'QROCM-ind'),
   isAssessmentChallengeTypeQrocmDep: equal('challenge.type', 'QROCM-dep'),
-
-  activateKeyboard: on('init', function() {
-    this.set('keyboardActivated', true);
-  }),
-
-  closeOnEsc: on(keyUp('Escape'), function() {
-    this.get('modal').close();
-  }),
-
-  didInsertElement() {
-    this._super(...arguments);
-    this.focus();
-  },
-
-  didDestroyElement() {
-    $('#open-comparison_' + this.get('index')).focus();
-  },
 
   resultItem: computed('answer.result', function() {
     let resultItem = TEXT_FOR_RESULT['default'];

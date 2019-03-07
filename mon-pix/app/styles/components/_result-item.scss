@@ -1,6 +1,6 @@
 .result-item {
   width: auto;
-  height: 80px;
+  height: 70px;
   border-radius: 5px;
   border-color: $porcelain-grey;
   background-color: $white;
@@ -29,36 +29,15 @@
   align-items: center;
 }
 
-.result-item__index {
-  width: 11px;
-  height: 24px;
-  font-family: $font-open-sans;
-  font-size: 18px;
-  font-weight: $font-bold;
-  text-align: center;
-  color: $charcoal-grey;
-  margin-left: 22px;
-}
-
-.result-item__item-line {
-  width: 2px;
-  height: 61px;
-  border: solid 1.5px $alto-grey;
-  margin-left: 22px;
-}
-
 .result-item__instruction {
-  font-size: 18px;
+  font-size: 1.6rem;
   margin-left: 14px;
-  height: 30px;
   overflow: hidden;
 }
 
 .result-item__correction {
-  width: 73px;
   font-family: $font-lato;
-  font-size: 12px;
-  font-weight: $font-bold;
+  font-size: 1.4rem;
   color: $pix-blue;
   margin-right: 23px;
   margin-left: auto;
@@ -67,21 +46,18 @@
 
 .result-item__correction__button {
   color: $pix-blue;
-  font-weight: $font-bold;
-
   padding-right: 0;
   padding-left: 0;
   margin-left: 12px;
-
   border: none;
   outline: 0;
   background-color: transparent;
-}
 
-.result-item__correction__button:focus,
-.result-item__correction__button:hover {
-  border-bottom: solid 2px;
-  font-weight: $font-heavy;
+  &:active,
+  &:focus,
+  &:hover {
+    color: $pix-blue;
+  }
 }
 
 .result-item__icon {
