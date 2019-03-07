@@ -4,7 +4,7 @@
 </button>
 
 {{#if _showingModal}}
-  {{#pix-modale onClose=(action "closeModal")}}
+  {{#pix-modal onClose=(action "closeModal")}}
 
     <div class="pix-modal__close-link">
       <a href="#" {{action "closeModal"}}>Fermer
@@ -100,7 +100,7 @@
 
     </div>
 
-  {{/pix-modale}}
+  {{/pix-modal}}
 {{/if}}
 
 
