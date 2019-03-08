@@ -1,18 +1,20 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
+  campaignId: null,
 
-  model() {
-    const user = this.store.createRecord('user', {
-      firstName: 'Prénom',
-      lastName: 'Nom',
-    });
-    return this.store.createRecord('campaignParticipation', {
-      isShared: true,
-      participantExternalId: 'mel@test.fr',
-      createdAt: '27/02/1989',
-      progression: 100,
-      user:user
-    });
+  model(params) {
+    const campaignId =  params.campaign_id;
+    return this.store.findRecord('campaignParticipation', params.campaign_participation_id)
+      .then((campaignParticipation) => {
+        return { campaignParticipation, campaignId }
+      });
   },
+
+  afterModel(model) {
+    return Promise.all([
+      model.campaignParticipation.get('campaignParticipationResult'),
+      model.campaignParticipation.get('user'),
+    ]);
+  }
 });

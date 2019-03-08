@@ -1,3 +1,4 @@
+
 .participant-list__header {
   display: flex;
   align-items: center;
@@ -19,4 +20,7 @@
   font-size: 1rem;
   text-align: center;
   border-top: 2px solid $wild-sand;
+}
+.participant-list__line {
+  cursor: pointer;
 }
