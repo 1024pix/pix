@@ -22,7 +22,6 @@ describe('Compare answers and solutions for QCM questions', function() {
   });
 
   const RESULT_URL = '/assessments/ref_assessment_id/results';
-  const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/ref_answer_qcm_id';
 
   describe('From the results page', function() {
 
@@ -44,14 +43,9 @@ describe('Compare answers and solutions for QCM questions', function() {
       await click('.result-item__correction__button');
       expect($('.comparison-window')).to.have.lengthOf(1);
     });
-
-    it('should be able to access the modal directly from the url and close it', async function() {
-      await visit(COMPARISON_MODAL_URL);
-      expect($('.comparison-window')).to.have.lengthOf(1);
-    });
   });
 
-  describe('Content of the correction modale : results and instructions', function() {
+  describe('Content of the correction modal: results and instructions', function() {
 
     it('should check the presence of instruction, text and image', async function() {
       const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
@@ -61,7 +55,7 @@ describe('Compare answers and solutions for QCM questions', function() {
       expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.exist;
       expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.exist;
 
-      await visit(COMPARISON_MODAL_URL);
+      await click('.result-item__correction__button');
       expect(charCount($(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
       expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
     });

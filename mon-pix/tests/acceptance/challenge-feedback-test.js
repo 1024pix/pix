@@ -55,7 +55,8 @@ describe('Acceptance | Giving feedback about a challenge', function() {
   describe('From the comparison modal', function() {
 
     it('should be able to give feedback', async () => {
-      await visit('/assessments/ref_assessment_id/results/ref_answer_qcm_id');
+      await visit('/assessments/ref_assessment_id/results');
+      await click('.result-item__correction__button');
       assertThatFeedbackFormIsOpen();
     });
   });
