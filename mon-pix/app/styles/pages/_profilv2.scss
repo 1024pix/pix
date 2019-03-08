@@ -2,44 +2,44 @@
   display: flex;
   justify-content: center;
   height: 240px;
-  background: $pix-yellow-to-orange-gradient-alt;
+  background: $pix-yellow-to-orange-gradient-horizontal;
   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
   text-rendering: optimizeLegibility;
 }
 
-.profilv2-content {
+.profilv2-panel {
   display: flex;
-  width: 70%;
+  width: 100%;
   margin-top: 35px;
   height: 480px;
-}
 
-.profilv2__header {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 205px;
-  margin: 0 30px;
-  border-bottom: 1px dashed $silver-grey;
+  @include device-is('tablet') {
+    width: 70%;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 205px;
+    margin: 0 30px;
+    border-bottom: 1px dashed $silver-grey;
+  }
 }
 
 .profilv2-header {
-  &__message {
+  &__text {
     margin-top: 34px;
     margin-left: 8px;
   }
 
-  &__hexagon-score {
-    width: 113px;
-    height: 126px;
-    background: url('/images/hexa-pix-blue.svg') no-repeat center center;
-    background-size: cover;
+  &__hexagon-score-wrapper {
     margin-right: 60px;
     margin-top: 30px;
   }
 }
 
-.profilv2-header-message {
+.profilv2-header-text {
   &__content {
     font-weight: $font-light;
     font-family: $font-open-sans;
@@ -47,44 +47,12 @@
 
   &__content--regular {
     font-size: 1.3rem;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.03rem;
     color: $nero;
   }
 
   &__content--big {
     font-size: 3.2rem;
     color: $black;
-  }
-}
-
-.profilv2-header-hexagon-score__content {
-  margin-top: 25px;
-}
-
-.profilv2-header-hexagon-score-content {
-  &__title {
-    font-family: $font-roboto;
-    font-size: 1rem;
-    text-align: center;
-    letter-spacing: 2.5px;
-    color: $nero;
-    margin-bottom: -10px;
-  }
-
-  &__pix-score {
-    font-family: $font-open-sans;
-    font-size: 4.6rem;
-    text-align: center;
-    color: $black;
-    margin-bottom: -5px;
-  }
-
-  &__pix-total {
-    font-family: $font-roboto;
-    font-size: 1.3rem;
-    text-align: center;
-    color: $dove-gray;
-    border-top: 1px solid $dusty-grey;
-    margin: 0 20px;
   }
 }

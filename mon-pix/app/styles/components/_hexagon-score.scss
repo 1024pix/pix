@@ -1,0 +1,38 @@
+.hexagon-score {
+  width: 113px;
+  height: 126px;
+  background: url('/images/hexa-pix-blue.svg') no-repeat center center;
+  background-size: cover;
+
+  &__content {
+    padding-top: 30px;
+  }
+}
+
+.hexagon-score-content {
+  &__title {
+    font-family: $font-roboto;
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 0.25rem;
+    color: $nero;
+    line-height: 1px;
+  }
+
+  &__pix-score {
+    font-family: $font-open-sans;
+    font-size: 4.6rem;
+    text-align: center;
+    color: $black;
+    line-height: 60px;
+  }
+
+  &__pix-total {
+    font-family: $font-roboto;
+    font-size: 1.3rem;
+    text-align: center;
+    color: $dove-gray;
+    border-top: 1px solid $dusty-grey;
+    margin: 0 20px;
+  }
+}

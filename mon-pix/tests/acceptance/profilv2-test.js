@@ -23,10 +23,11 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
   });
 
   describe('Authenticated cases', function() {
-    it('can visit /profilv2', async function() {
-      // given
+    beforeEach(async function() {
       await authenticateAsSimpleUser();
+    });
 
+    it('can visit /profilv2', async function() {
       // when
       await visit('/profilv2');
 
@@ -35,20 +36,6 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
         expect(currentURL()).to.equal('/profilv2');
       });
     });
-
-    it('should display provided score in hexagon', async function() {
-      // given
-      await authenticateAsSimpleUser();
-
-      // when
-      await visit('/profilv2');
-
-      // then
-      return andThen(() => {
-        expect(find('.profilv2-header-hexagon-score-content__pix-score').text().trim()).to.equal('456');
-      });
-    });
-
   });
 
   describe('Not authenticated cases', function() {

@@ -1,32 +1,20 @@
 {{navbar-header class="navbar-header--white"}}
 <div class="profilv2-page">
-  <div class="rounded-panel--profilv2 profilv2-content">
+  <div class="rounded-panel rounded-panel--strong profilv2-panel">
 
-    <div class="profilv2__header">
-      <div class="profilv2-header__message">
-        <div class="profilv2-header-message__content profilv2-header-message__content--regular">
+    <div class="profilv2-panel__header">
+      <div class="profilv2-header__text">
+        <div class="profilv2-header-text__content profilv2-header-text__content--regular">
           VOTRE PROFIL
         </div>
 
-        <div class="profilv2-header-message__content profilv2-header-message__content--big">
+        <div class="profilv2-header-text__content profilv2-header-text__content--big">
           Vous avez 16 compétences à tester.<br>On se concentre et c'est partix !
         </div>
       </div>
 
-      <div class="profilv2-header__hexagon-score">
-        <div class="profilv2-header-hexagon-score__content">
-          <div class="profilv2-header-hexagon-score-content__title">
-            PIX
-          </div>
-
-          <div class="profilv2-header-hexagon-score-content__pix-score">
-            {{model.totalPixScore}}
-          </div>
-
-          <div class="profilv2-header-hexagon-score-content__pix-total">
-            1024
-          </div>
-        </div>
+      <div class="profilv2-header__hexagon-score-wrapper">
+        {{hexagon-score pixScore=model.totalPixScore}}
       </div>
     </div>
 

@@ -101,6 +101,4 @@ export default function() {
   this.post('/campaign-participations', postCampaignParticipation);
   this.get('/campaign-participations', getCampaignParticipation);
   this.patch('/campaign-participations/:id', patchCampaignParticipation);
-
-  this.get('/profilv2', getAuthenticatedUser);
 }
