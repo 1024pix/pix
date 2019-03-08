@@ -43,7 +43,7 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', '');
 
       // when
-      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer}}`);
 
       // then
       expect(this.$()).to.have.lengthOf(1);
@@ -54,7 +54,7 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', '');
 
       // when
-      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer}}`);
 
       // then
       expect(this.$('.result-item-campaign__instruction')).to.have.lengthOf(1);
@@ -66,7 +66,7 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item-campaign answer=answer index=index openAnswerDetails=(action 'openComparisonWindow')}}`);
+      this.render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
       // then
       const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
@@ -77,7 +77,7 @@ describe('Integration | Component | result item campaign', function() {
       // given
       this.set('answer', answer);
 
-      this.render(hbs`{{result-item-campaign answer=answer index=index openAnswerDetails=(action 'openComparisonWindow')}}`);
+      this.render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
       // Then
       expect(this.$('.result-item-campaign__correction-button').text().trim()).to.deep.equal('Réponses et tutos');
     });
@@ -87,7 +87,7 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item-campaign answer=answer index=index openAnswerDetails=(action 'openComparisonWindow')}}`);
+      this.render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
       // then
       expect(this.$('div[data-toggle="tooltip"]').attr('data-original-title').trim()).to.equal('Réponse incorrecte');
@@ -98,7 +98,7 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', null);
 
       // when
-      this.render(hbs`{{result-item-campaign answer=answer index=index}}`);
+      this.render(hbs`{{result-item-campaign answer=answer}}`);
 
       // then
       expect(this.$('div[data-toggle="tooltip"]').attr('data-original-title')).to.equal(undefined);
@@ -107,7 +107,7 @@ describe('Integration | Component | result item campaign', function() {
     it('should update the tooltip when the answer is eventually retrieved', function() {
       // given
       this.set('answer', null);
-      this.render(hbs`{{result-item-campaign answer=answer index=index openAnswerDetails=(action 'openComparisonWindow')}}`);
+      this.render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
       // when
       this.set('answer', answer);
@@ -121,7 +121,7 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item-campaign answer=answer index=index openAnswerDetails=(action 'openComparisonWindow')}}`);
+      this.render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
       // Then
       expect(this.$('result-item-campaign__icon-img'));
@@ -141,7 +141,7 @@ describe('Integration | Component | result item campaign', function() {
         this.set('answer', answer);
 
         // when
-        this.render(hbs`{{result-item-campaign answer=answer index=index openAnswerDetails=(action 'openComparisonWindow')}}`);
+        this.render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
         // then
         expect(this.$(`.result-item-campaign__icon--${data.color}`)).to.have.lengthOf(1);

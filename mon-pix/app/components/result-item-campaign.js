@@ -5,6 +5,7 @@ export default Component.extend({
 
   openComparison: null,
   contentReference: null,
+  classNames: ['result-item-campaign'],
 
   resultItem: computed('answer.result', function() {
     if (!this.get('answer.result')) return;
@@ -19,10 +20,6 @@ export default Component.extend({
     const implementedTypes = [ 'QCM', 'QROC', 'QCU', 'QROCM-ind' ];
     const challengeType = this.get('answer.challenge.type');
     return implementedTypes.includes(challengeType);
-  }),
-
-  isBackgroundColorGrey: computed('index', function() {
-    return this.get('index') % 2 === 0;
   }),
 
   textLength: computed('', function() {
@@ -71,13 +68,4 @@ export default Component.extend({
     }
   },
 
-  actions: {
-    openComparisonPopin() {
-      const assessmentId = this.get('answer.assessment.id');
-      const answerId = this.get('answer.id');
-      const index = this.get('index') + 1;
-
-      return this.openComparison(assessmentId, answerId, index);
-    }
-  }
 });

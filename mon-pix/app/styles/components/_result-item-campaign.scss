@@ -10,8 +10,8 @@
   padding: 8px 0;
   background-color: $white;
 
-  &--grey {
-    background-color: $porcelain-grey;
+  &:nth-child(odd) {
+    background: $porcelain-grey;
   }
 
   @include device-is('tablet') {
