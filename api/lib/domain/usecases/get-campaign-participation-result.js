@@ -16,7 +16,6 @@ module.exports = async function getCampaignParticipationResult({
   const targetProfile = await targetProfileRepository.get(campaignParticipation.campaign.targetProfileId);
 
   const totalSkills = targetProfile.skills.length;
-
   const knowledgeElements = await smartPlacementKnowledgeElementRepository.findUniqByUserId(
     campaignParticipation.assessment.userId,
     campaignParticipation.sharedAt,

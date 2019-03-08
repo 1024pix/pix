@@ -1,6 +1,7 @@
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
+const User = require('../../domain/models/User');
 const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
@@ -15,10 +16,11 @@ function _toDomain(bookshelfCampaignParticipation) {
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     campaignId: bookshelfCampaignParticipation.get('campaignId'),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
-    sharedAt: new Date(bookshelfCampaignParticipation.get('sharedAt')),
+    sharedAt: bookshelfCampaignParticipation.get('sharedAt') ? new Date(bookshelfCampaignParticipation.get('sharedAt')) : null,
     createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
     participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
     userId: bookshelfCampaignParticipation.get('userId'),
+    user: new User(bookshelfCampaignParticipation.related('user').toJSON()),
   });
 }
 

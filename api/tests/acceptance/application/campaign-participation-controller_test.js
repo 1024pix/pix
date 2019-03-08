@@ -28,7 +28,8 @@ describe('Acceptance | API | Campaign Participations', () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         assessmentId: assessment.id,
         campaign,
-        campaignId: campaign.id
+        campaignId: campaign.id,
+        userId: user.id
       });
       await databaseBuilder.commit();
     });
@@ -58,7 +59,10 @@ describe('Acceptance | API | Campaign Participations', () => {
             data: null
           },
           user: {
-            data: null
+            data: {
+              id: `${user.id}`,
+              type: 'users',
+            }
           },
           'campaign-participation-result': {
             links: {

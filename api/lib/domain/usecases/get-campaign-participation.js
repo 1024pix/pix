@@ -1,3 +1,3 @@
 module.exports = function getCampaignParticipation({ campaignParticipationId, campaignParticipationRepository }) {
-  return campaignParticipationRepository.get(campaignParticipationId);
+  return campaignParticipationRepository.get(campaignParticipationId, { include: ['user'] });
 };
