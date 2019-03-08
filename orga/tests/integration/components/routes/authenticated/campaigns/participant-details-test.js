@@ -51,7 +51,7 @@ module('Integration | Component | routes/authenticated/campaign | participant-de
     assert.dom('.participant-details-content:nth-child(2)').hasText('Avancement 100%');
     assert.dom('.participant-details-content:nth-child(3)').hasText('Commencé le 7 jan. 2019');
     assert.dom('.participant-details-content:nth-child(4)').hasText('Partagé le 4 fév. 2019');
-    assert.dom('.participant-details-content:nth-child(5)').hasText('Durée 28 jours');
+    assert.dom('.participant-details-content:nth-child(5)').hasText('Score (Acquis) 15 / 30');
   });
 
 
