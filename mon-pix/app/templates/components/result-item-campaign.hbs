@@ -11,7 +11,7 @@
 
   <div class="result-item-campaign__correction">
     {{#if validationImplementedForChallengeType}}
-      {{link-to 'Réponses et tutos' 'assessments.results.comparison' answer.assessment.id answer.id class="result-item-campaign__correction-button js-correct-answer"}}
+      <button {{action openAnswerDetails answer.id}} class="result-item-campaign__correction-button link js-correct-answer">Réponses et tutos</button>
     {{/if}}
   </div>
 </div>

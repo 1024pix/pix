@@ -4,9 +4,9 @@ import { inject as service } from '@ember/service';
 
 export default Controller.extend({
 
-  pixModalDialog: service(),
-
   urlHome: ENV.APP.HOME_HOST,
+
+  pixModalDialog: service(),
 
   isShowingModal: false,
   answer: null,
