@@ -16,7 +16,7 @@ function _toDomain(bookshelfCampaignParticipation) {
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     campaignId: bookshelfCampaignParticipation.get('campaignId'),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
-    sharedAt: bookshelfCampaignParticipation.get('sharedAt') ? new Date(bookshelfCampaignParticipation.get('sharedAt')) : null,
+    sharedAt: bookshelfCampaignParticipation.get('sharedAt'),
     createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
     participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
     userId: bookshelfCampaignParticipation.get('userId'),
