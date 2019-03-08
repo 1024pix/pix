@@ -10,6 +10,10 @@ describe('Integration | Component | result item', function() {
     integration: true
   });
 
+  beforeEach(function() {
+    return this.on('openComparisonWindow', () => {});
+  });
+
   describe('Component rendering ', function() {
 
     const providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
@@ -61,7 +65,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer=answer}}`);
+      this.render(hbs`{{result-item answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
       // then
       const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir...';
@@ -72,7 +76,7 @@ describe('Integration | Component | result item', function() {
       // given
       this.set('answer', answer);
 
-      this.render(hbs`{{result-item answer=answer}}`);
+      this.render(hbs`{{result-item answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
       // Then
       expect(this.$('.result-item__correction__button').text().trim()).to.deep.equal('Réponses et tutos');
     });
@@ -82,7 +86,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer=answer}}`);
+      this.render(hbs`{{result-item answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
       // then
       expect(this.$('div[data-toggle="tooltip"]').attr('data-original-title').trim()).to.equal('Réponse incorrecte');
@@ -102,7 +106,7 @@ describe('Integration | Component | result item', function() {
     it('should update the tooltip when the answer is eventually retrieved', function() {
       // given
       this.set('answer', null);
-      this.render(hbs`{{result-item answer=answer}}`);
+      this.render(hbs`{{result-item answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
       // when
       this.set('answer', answer);
@@ -116,7 +120,7 @@ describe('Integration | Component | result item', function() {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer=answer}}`);
+      this.render(hbs`{{result-item answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
       // Then
       expect(this.$('result-item__icon-img'));
@@ -137,7 +141,7 @@ describe('Integration | Component | result item', function() {
         this.set('answer', answer);
 
         // when
-        this.render(hbs`{{result-item answer=answer}}`);
+        this.render(hbs`{{result-item answer=answer openAnswerDetails=(action 'openComparisonWindow')}}`);
 
         // then
         const $icon = this.$('.result-item__icon-img');
