@@ -86,7 +86,7 @@ module('Acceptance | Session List', function(hooks) {
       await waitFor('table tbody tr');
 
       // when
-      await click('table tbody tr:nth-child(2)');
+      await click('table tbody tr:nth-child(1)');
 
       // then
       assert.equal(currentURL(), '/sessions/1');
