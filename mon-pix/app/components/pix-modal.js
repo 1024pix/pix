@@ -22,4 +22,22 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
     this.get('onClose')();
   }),
 
+  // The block below fix a warning when closing a modal by clicking on the overlay.
+  // It is copied from the original implementation of ember-modal-dialog, found in v3.0.0-beta.1.
+  // The problem is that this version (up to v3.0.0-beta.3) introduces regression with our
+  // current version of @ember/test-helpers and breaks a ton of rendering / application tests.
+  // We can remove it after upgrading to a stable version of ember-modal-dialog (> v3.0.0-beta.3)
+  //
+  // cf. https://github.com/yapplabs/ember-modal-dialog/blob/26b3a89bab37bc584c3a3e9a221f1de4bb9ff979/addon/components/modal-dialog.js#L107-L114
+  actions: {
+    onClickOverlay(e) {
+      e.preventDefault();
+      if (this.get('onClickOverlay')) {
+        this.get('onClickOverlay')();
+      } else {
+        this.get('onClose')();
+      }
+    }
+  }
+
 });
