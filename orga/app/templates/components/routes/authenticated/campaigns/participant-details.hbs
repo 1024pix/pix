@@ -44,10 +44,10 @@
       </div>
     </div>
     <div class="participant-details-content">
-      <div class="label-text participant-details-content__label-text">Durée <totale></totale></div>
+      <div class="label-text participant-details-content__label-text">Score (Acquis)</div>
       <div class="content-text participant-details-content__content-text">
         {{#if campaignParticipation.isShared}}
-          {{day-between-two-date campaignParticipation.createdAt campaignParticipation.sharedAt}} jours
+          {{campaignParticipation.campaignParticipationResult.validatedSkills}} / {{campaignParticipation.campaignParticipationResult.totalSkills}}
         {{else}}
           Non disponible
         {{/if}}
