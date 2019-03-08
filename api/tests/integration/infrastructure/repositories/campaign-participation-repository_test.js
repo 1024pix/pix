@@ -8,7 +8,7 @@ describe('Integration | Repository | Campaign Participation', () => {
   describe('#get', () => {
 
     let campaign;
-    let campaignParticipation;
+    let campaignParticipation, campaignParticipationNotShared;
 
     beforeEach(() => {
       campaign = databaseBuilder.factory.buildCampaign({});
@@ -16,6 +16,12 @@ describe('Integration | Repository | Campaign Participation', () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         campaignId: campaign.id
       });
+      campaignParticipationNotShared = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id,
+        isShared: false,
+        sharedAt: null
+      });
+
       return databaseBuilder.commit();
     });
 
@@ -32,6 +38,17 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(foundCampaignParticipation.id).to.equal(campaignParticipation.id);
       });
     });
+
+    it('should return a null object for sharedAt when the campaign-participation is not shared', () => {
+      // when
+      const promise = campaignParticipationRepository.get(campaignParticipationNotShared.id);
+
+      // then
+      return promise.then((foundCampaignParticipation) => {
+        expect(foundCampaignParticipation.sharedAt).to.be.null;
+      });
+    });
+
   });
 
   describe('#save', () => {

@@ -11,6 +11,7 @@ describe('Integration | Repository | Certification ', () => {
 
     const USER_ID = 1;
     const CERTIFICATION_ID = 123;
+    const CERTIFICATION_ID_WITHOUTDATE = 456;
 
     const session = {
       id: 321,
@@ -35,6 +36,18 @@ describe('Integration | Repository | Certification ', () => {
       isPublished: true,
     };
 
+    const certificationCourseWithoutDate = {
+      id: CERTIFICATION_ID_WITHOUTDATE,
+      userId: USER_ID,
+      firstName: 'Jane',
+      lastName: 'Kalamity',
+      birthplace: 'Earth',
+      birthdate: null,
+      completedAt: null,
+      sessionId: session.id,
+      isPublished: true,
+    };
+
     const assessment = {
       id: 1000,
       courseId: CERTIFICATION_ID,
@@ -55,6 +68,7 @@ describe('Integration | Repository | Certification ', () => {
     beforeEach(() => {
       return knex('sessions').insert(session)
         .then(() => knex('certification-courses').insert(certificationCourse))
+        .then(() => knex('certification-courses').insert(certificationCourseWithoutDate))
         .then(() => knex('assessments').insert(assessment))
         .then(() => knex('assessment-results').insert(assessmentResult));
     });
@@ -95,6 +109,17 @@ describe('Integration | Repository | Certification ', () => {
       // then
       return promise.then((certification) => {
         expect(certification).to.deep.equal(expectedCertification);
+      });
+    });
+
+    it('should not return a false brithdate or completedAt date if there are null in database', () => {
+      // when
+      const promise = certificationRepository.getCertification({ id: CERTIFICATION_ID_WITHOUTDATE });
+
+      // then
+      return promise.then((certification) => {
+        expect(certification.date).to.be.null;
+        expect(certification.birthdate).to.be.null;
       });
     });
 
