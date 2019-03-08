@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import AssessmentProgression from 'mon-pix/models/assessment-progression';
 import EmberObject from '@ember/object';
 import { setupTest } from 'ember-mocha';
 
@@ -20,6 +19,7 @@ describe('Unit | Component | progress-bar', function() {
         }
       });
       const component = this.subject({ assessment });
+      component.setProgression();
 
       // when
       const progression = component.get('progression');
@@ -35,12 +35,15 @@ describe('Unit | Component | progress-bar', function() {
 
     it('should return the good CSS style value according to progression', function() {
       // given
-      const progression = new AssessmentProgression({
-        assessmentType: 'DEMO',
-        nbAnswers: 5,
-        nbChallenges: 10
+      const assessment = EmberObject.create({
+        type: 'DEMO',
+        answers: [{}, {}, {}, {}, {}],
+        course: {
+          nbChallenges: 10
+        }
       });
-      const component = this.subject({ progression });
+      const component = this.subject({ assessment });
+      component.setProgression();
 
       // when
       const barStyle = component.get('barStyle');

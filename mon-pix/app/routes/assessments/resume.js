@@ -93,7 +93,6 @@ export default BaseRoute.extend({
   },
 
   _routeToNextChallenge(assessment, nextChallengeId) {
-    assessment.incrementProperty('nbCurrentAnswers');
     return this.replaceWith('assessments.challenge', assessment.get('id'), nextChallengeId);
   },
 
@@ -102,7 +101,6 @@ export default BaseRoute.extend({
   },
 
   _routeToCheckpoint(assessment) {
-    assessment.set('nbCurrentAnswers', 0);
     return this.replaceWith('assessments.checkpoint', assessment.get('id'));
   },
 
