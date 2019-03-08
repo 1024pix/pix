@@ -20,8 +20,8 @@
         100%
         <div class="participant-details-content__progress-bar--completed"></div>
       {{else}}
+        {{campaignParticipation.campaignParticipationResult.percentageProgression}}%
         <div class="participant-details-content__progress-bar">
-          {{campaignParticipation.campaignParticipationResult.percentageProgression}}%
           <div class="participant-details-content__progress-bar--completion" style="width:{{campaignParticipation.campaignParticipationResult.percentageProgression}}px"></div>
         </div>
       {{/if}}
