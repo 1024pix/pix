@@ -4,6 +4,11 @@
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   margin-bottom: 30px;
   overflow: hidden;
+
+  &--strong {
+    border-radius: 10px;
+    box-shadow: 0 7px 14px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
+  }
 }
 
 .rounded-panel__row {
@@ -13,12 +18,4 @@
 .rounded-panel hr {
   margin-left: -20px;
   margin-right: -20px;
-}
-
-.rounded-panel--profilv2 {
-  background-color: $white;
-  border-radius: 10px;
-  box-shadow: 0 7px 14px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
-  margin-bottom: 30px;
-  overflow: hidden;
 }

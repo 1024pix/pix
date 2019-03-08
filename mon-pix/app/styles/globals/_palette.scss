@@ -52,5 +52,5 @@ $purple: #985FFF;
   Gradients
  */
 $pix-blue-to-purple-gradient: linear-gradient(to right, $dogder-blue, $purple);
-$pix-yellow-to-orange-gradient: linear-gradient(180deg, $bright-yellow 0%, $pizazz-orange 100%);
-$pix-yellow-to-orange-gradient-alt: linear-gradient(123.84deg, $pix-yellow-hover 0%, $dark-orange 100%);
+$pix-yellow-to-orange-gradient-vertical: linear-gradient(180deg, $bright-yellow 0%, $pizazz-orange 100%);
+$pix-yellow-to-orange-gradient-horizontal: linear-gradient(123.84deg, $pix-yellow-hover 0%, $dark-orange 100%);
