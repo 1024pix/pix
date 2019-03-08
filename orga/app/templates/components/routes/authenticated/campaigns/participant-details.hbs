@@ -16,11 +16,12 @@
     <div class="participant-details-content">
       <div class="label-text participant-details-content__label-text">Avancement</div>
     <div class="content-text participant-details-content__content-text">
-      {{campaignParticipation.campaignParticipationResult.percentageProgression}}%
-      {{#if (eq campaignParticipation.campaignParticipationResult.percentageProgression 100)}}
+      {{#if campaignParticipation.campaignParticipationResult.isCompleted}}
+        100%
         <div class="participant-details-content__progress-bar--completed"></div>
       {{else}}
         <div class="participant-details-content__progress-bar">
+          {{campaignParticipation.campaignParticipationResult.percentageProgression}}%
           <div class="participant-details-content__progress-bar--completion" style="width:{{campaignParticipation.campaignParticipationResult.percentageProgression}}px"></div>
         </div>
       {{/if}}

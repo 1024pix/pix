@@ -13,14 +13,13 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
 
   let user;
 
-  const rowCount = 50;
   hooks.beforeEach(async () => {
     user = createUserWithMembership();
     await authenticateSession({
       user_id: user.id,
     });
     server.create('campaign', { id: 1 });
-    server.createList('campaign-participation', rowCount, { campaignId: 1 });
+    server.createList('campaign-participation', 2, { campaignId: 1 });
   });
 
   module('When user arrives on participants page', function () {
@@ -31,8 +30,17 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
       await click('.participant-list__line:first-child');
 
       // then
-      assert.equal(currentURL(), '/campagnes/1/participant/1');
+      assert.equal(currentURL(), '/campagnes/1/participants/1');
+    });
+    test('it could return on list of participants', async function (assert) {
+      // when
+      await visit('/campagnes/1/participants/1');
+      await click('.campaign-details-content__return-button');
+
+      // then
+      assert.equal(currentURL(), '/campagnes/1/participants');
     });
 
   });
+
 });
