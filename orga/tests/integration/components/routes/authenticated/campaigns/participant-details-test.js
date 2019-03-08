@@ -8,7 +8,7 @@ module('Integration | Component | routes/authenticated/campaign | participant-de
   setupRenderingTest(hooks);
 
   let store;
-  let user, campaignParticipation, campaignId;
+  let user, campaignParticipation, campaignId, campaignParticipationResult;
   hooks.beforeEach(function() {
     campaignId = 1;
 
@@ -19,11 +19,21 @@ module('Integration | Component | routes/authenticated/campaign | participant-de
       firstName: 'Prénom',
       lastName: 'Nom',
     }));
-    campaignParticipation  = run(() => store.createRecord('user', {
-      createdAt: '2019-03-07T10:57:31.567Z',
-      sharedAt: '2019-04-10T10:57:31.567Z',
+
+    campaignParticipationResult  = run(() => store.createRecord('campaign-participation-result', {
+      totalSkills: 30,
+      testedSkills: 29,
+      validatedSkills: 15,
+      isCompleted: true,
+    }));
+
+    campaignParticipation  = run(() => store.createRecord('campaign-participation', {
+      createdAt: '2019-01-07T10:57:31.567Z',
+      sharedAt: '2019-02-04T10:57:31.567Z',
+      isShared: true,
       participantExternalId: 'mail@pro.net',
-      user: user
+      user: user,
+      campaignParticipationResult: campaignParticipationResult
     }));
 
     this.set('campaignParticipation', campaignParticipation);
@@ -37,14 +47,12 @@ module('Integration | Component | routes/authenticated/campaign | participant-de
 
     // then
     assert.dom('.page__title').hasText('Prénom Nom');
+    assert.dom('.participant-details-content--first-part').hasText('Identifiant mail@pro.net');
+    assert.dom('.participant-details-content:nth-child(2)').hasText('Avancement 100%');
+    assert.dom('.participant-details-content:nth-child(3)').hasText('Commencé le 7 jan. 2019');
+    assert.dom('.participant-details-content:nth-child(4)').hasText('Partagé le 4 fév. 2019');
+    assert.dom('.participant-details-content:nth-child(5)').hasText('Durée 28 jours');
   });
 
 
-  test('it should display user details', async function(assert) {
-    // when
-    await render(hbs`{{routes/authenticated/campaigns/participant-details campaignId=campaignId campaignParticipation=campaignParticipation}}`);
-
-    // then
-    assert.dom('.page__title').hasText('Prénom Nom');
-  });
 });
