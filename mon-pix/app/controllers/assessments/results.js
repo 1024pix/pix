@@ -1,7 +1,10 @@
 import Controller from '@ember/controller';
 import ENV from 'mon-pix/config/environment';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+
+  pixModalDialog: service(),
 
   urlHome: ENV.APP.HOME_HOST,
 
@@ -12,7 +15,6 @@ export default Controller.extend({
 
   actions: {
     async openComparisonWindow(answerId) {
-      this.set('isShowingModal', true);
       const store = this.get('store');
 
       const answer = await store.findRecord('answer', answerId);
@@ -21,10 +23,14 @@ export default Controller.extend({
       this.set('challenge', challenge);
       const correction = await store.query('correction', { answerId }).then((corrections) => corrections.get('firstObject'));
       this.set('correction', correction);
+
+      this.pixModalDialog.enableScrolling();
+      this.set('isShowingModal', true);
     },
 
     closeComparisonWindow() {
       this.set('isShowingModal', false);
+      this.pixModalDialog.disableScrolling();
     },
   }
 
