@@ -22,7 +22,7 @@
 
     <div class="assessment-results__list">
       {{#each model.answers as |answer|}}
-        {{result-item answer=answer}}
+        {{result-item answer=answer openAnswerDetails=(action 'openComparisonWindow')}}
       {{/each}}
     </div>
 
@@ -38,5 +38,9 @@
       {{/if}}
     </div>
   </div>
+
+  {{#if isShowingModal}}
+    {{comparison-window answer=answer correction=correction challenge=challenge closeComparisonWindow=(action 'closeComparisonWindow')}}
+  {{/if}}
 
 </div>

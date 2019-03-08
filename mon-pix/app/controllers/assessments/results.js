@@ -5,4 +5,27 @@ export default Controller.extend({
 
   urlHome: ENV.APP.HOME_HOST,
 
+  isShowingModal: false,
+  answer: null,
+  correction: null,
+  challenge: null,
+
+  actions: {
+    async openComparisonWindow(answerId) {
+      this.set('isShowingModal', true);
+      const store = this.get('store');
+
+      const answer = await store.findRecord('answer', answerId);
+      this.set('answer', answer);
+      const challenge = await answer.get('challenge');
+      this.set('challenge', challenge);
+      const correction = await store.query('correction', { answerId }).then((corrections) => corrections.get('firstObject'));
+      this.set('correction', correction);
+    },
+
+    closeComparisonWindow() {
+      this.set('isShowingModal', false);
+    },
+  }
+
 });
