@@ -11,27 +11,27 @@
 
 .hexagon-score-content {
   &__title {
+    color: $nero;
     font-family: $font-roboto;
     font-size: 1rem;
-    text-align: center;
     letter-spacing: 0.25rem;
-    color: $nero;
-    line-height: 1px;
+    line-height: 0.1rem;
+    text-align: center;
   }
 
   &__pix-score {
+    color: $black;
     font-family: $font-open-sans;
     font-size: 4.6rem;
+    line-height: 6rem;
     text-align: center;
-    color: $black;
-    line-height: 60px;
   }
 
   &__pix-total {
+    color: $dove-gray;
     font-family: $font-roboto;
     font-size: 1.3rem;
     text-align: center;
-    color: $dove-gray;
     border-top: 1px solid $dusty-grey;
     margin: 0 20px;
   }
