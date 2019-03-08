@@ -71,8 +71,8 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
 
     // then
     assert.dom('table tbody tr').exists({ count: 2 });
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('07/08/2018');
-    assert.dom('table tbody tr:nth-child(3) td:nth-child(4)').hasText('06/08/2018');
+    assert.dom('table tbody tr:nth-child(1) td:nth-child(4)').hasText('07/08/2018');
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('06/08/2018');
   });
 
 
@@ -91,8 +91,8 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
 
     // then
     assert.dom('table tbody tr').exists({ count: 3 });
-    assert.dom('table tbody tr:nth-child(2) td').hasText('3');
-    assert.dom('table tbody tr:nth-child(3) td').hasText('2');
-    assert.dom('table tbody tr:nth-child(4) td').hasText('1');
+    assert.dom('table tbody tr:nth-child(1) td').hasText('3');
+    assert.dom('table tbody tr:nth-child(2) td').hasText('2');
+    assert.dom('table tbody tr:nth-child(3) td').hasText('1');
   });
 });
