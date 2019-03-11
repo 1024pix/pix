@@ -15,7 +15,8 @@ module.exports = async function getCampaignParticipationResult({
 
   const targetProfile = await targetProfileRepository.get(campaignParticipation.campaign.targetProfileId);
 
-  const totalSkills = targetProfile.skills.length;
+  const totalSkillsCount = targetProfile.skills.length;
+  
   const knowledgeElements = await smartPlacementKnowledgeElementRepository.findUniqByUserId(
     campaignParticipation.assessment.userId,
     campaignParticipation.sharedAt,
@@ -25,17 +26,17 @@ module.exports = async function getCampaignParticipationResult({
     (knowledgeElement) => targetProfile.skills.find((skill) => skill.id === knowledgeElement.skillId)
   );
 
-  const testedSkills = testedKnowledgeElements.length;
+  const testedSkillsCount = testedKnowledgeElements.length;
 
-  const validatedSkills = campaignParticipation.isShared ? testedKnowledgeElements.filter(
+  const validatedSkillsCount = campaignParticipation.isShared ? testedKnowledgeElements.filter(
     (ke) => ke.isValidated
   ).length : null;
 
   return new CampaignParticipationResult({
     id: campaignParticipationId,
-    totalSkills,
-    testedSkills,
-    validatedSkills,
+    totalSkillsCount,
+    testedSkillsCount,
+    validatedSkillsCount,
     isCompleted,
   });
 };

@@ -3,16 +3,16 @@ class CampaignParticipationResult {
     id,
     // attributes
     isCompleted,
-    totalSkills,
-    testedSkills,
-    validatedSkills,
+    totalSkillsCount,
+    testedSkillsCount,
+    validatedSkillsCount,
   } = {}) {
     this.id = id;
     // attributes
     this.isCompleted = isCompleted;
-    this.totalSkills = totalSkills;
-    this.testedSkills = testedSkills;
-    this.validatedSkills = validatedSkills;
+    this.totalSkillsCount = totalSkillsCount;
+    this.testedSkillsCount = testedSkillsCount;
+    this.validatedSkillsCount = validatedSkillsCount;
   }
 }
 
