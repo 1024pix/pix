@@ -19,6 +19,7 @@ module.exports = {
       attributes: [
         'certificationCenter',
         'birthdate',
+        'birthplace',
         'date',
         'firstName',
         'isPublished',
