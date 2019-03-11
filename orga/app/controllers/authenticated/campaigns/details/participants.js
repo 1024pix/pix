@@ -6,8 +6,8 @@ export default Controller.extend({
   pageSize: 10,
 
   actions: {
-    goToParticipantPage:function(participantId, campaignId) {
-      this.transitionToRoute('authenticated.campaigns.participant-details', campaignId, participantId);
+    goToParticipantPage:function(campaignId, participantId) {
+      this.transitionToRoute('authenticated.campaigns.details.participants.results', campaignId, participantId);
     }
   }
 });

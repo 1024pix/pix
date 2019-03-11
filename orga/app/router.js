@@ -34,10 +34,10 @@ Router.map(function() {
       this.route('update', { path: '/:campaign_id/modification' });
       this.route('details', { path: '/:campaign_id' }, function() {
         this.route('parameters', { path: '/' });
-        this.route('participants', { path: '/participants' });
+        this.route('participants', { path: '/participants' }, function() {
+          this.route('results', { path: '/:campaign_participation_id' });
+        });
       });
-      this.route('participant-details', { path: '/:campaign_id/participants/:campaign_participation_id' });
-
     });
   });
 

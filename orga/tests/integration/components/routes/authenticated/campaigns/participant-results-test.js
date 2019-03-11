@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign | participant-details', function(hooks) {
+module('Integration | Component | routes/authenticated/campaign | participant-results', function(hooks) {
   setupRenderingTest(hooks);
 
   let store;
@@ -21,9 +21,9 @@ module('Integration | Component | routes/authenticated/campaign | participant-de
     }));
 
     campaignParticipationResult  = run(() => store.createRecord('campaign-participation-result', {
-      totalSkills: 30,
-      testedSkills: 29,
-      validatedSkills: 15,
+      totalSkillsCount: 30,
+      testedSkillsCount: 29,
+      validatedSkillsCount: 15,
       isCompleted: true,
     }));
 
@@ -43,15 +43,16 @@ module('Integration | Component | routes/authenticated/campaign | participant-de
 
   test('it should display user details', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/campaigns/participant-details campaignId=campaignId campaignParticipation=campaignParticipation}}`);
+    await render(hbs`{{routes/authenticated/campaigns/details/participants/results campaignId=campaignId campaignParticipation=campaignParticipation}}`);
 
     // then
     assert.dom('.page__title').hasText('Prénom Nom');
-    assert.dom('.participant-details-content--first-part').hasText('Identifiant mail@pro.net');
-    assert.dom('.participant-details-content:nth-child(2)').hasText('Avancement 100%');
-    assert.dom('.participant-details-content:nth-child(3)').hasText('Commencé le 7 jan. 2019');
-    assert.dom('.participant-details-content:nth-child(4)').hasText('Partagé le 4 fév. 2019');
-    assert.dom('.participant-details-content:nth-child(5)').hasText('Score (Acquis) 15 / 30');
+    assert.dom('.participant-results-content--first-part').hasText('Identifiant mail@pro.net');
+    assert.dom('.participant-results-content:nth-child(2)').hasText('Avancement 100%');
+    assert.dom('.participant-results-content:nth-child(3)').hasText('Commencé le 7 janv' +
+      '. 2019');
+    assert.dom('.participant-results-content:nth-child(4)').hasText('Partagé le 4 févr. 2019');
+    assert.dom('.participant-results-content:nth-child(5)').hasText('Score (Acquis) 15 / 30');
   });
 
 

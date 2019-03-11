@@ -16,6 +16,10 @@
   tbody {
     color: $dove-gray;
 
+    .clickable {
+      cursor: pointer;
+    }
+
     tr {
       &:hover, &:focus, &:active {
         color: $nero;
