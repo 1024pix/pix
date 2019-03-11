@@ -51,5 +51,5 @@ function _includeRelationship(campaignParticipation, relationshipName) {
     ? campaignParticipation[0]
     : campaignParticipation;
 
-  return Object.keys(item[relationshipName]).length > 1;
+  return item[relationshipName] ? Object.keys(item[relationshipName]).length > 1 : true;
 }
