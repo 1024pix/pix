@@ -39,10 +39,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               }
             },
             user: {
-              data: {
-                type: 'users',
-                id: '123',
-              }
+              data: null
             },
             'campaign-participation-result': {
               links: {

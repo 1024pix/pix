@@ -10,12 +10,10 @@ module.exports = {
       attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult'],
       campaign: {
         ref: 'id',
-        included: _includeRelationship(campaignParticipation, 'campaign'),
         attributes: ['code', 'title']
       },
       user: {
         ref: 'id',
-        included: _includeRelationship(campaignParticipation, 'user'),
         attributes: ['firstName', 'lastName'],
       },
       campaignParticipationResult: {
@@ -40,16 +38,3 @@ module.exports = {
       });
   },
 };
-
-function _includeRelationship(campaignParticipation, relationshipName) {
-  if (_.isEmpty(campaignParticipation)) {
-    // default value for included
-    return true;
-  }
-
-  const item = Array.isArray(campaignParticipation)
-    ? campaignParticipation[0]
-    : campaignParticipation;
-
-  return item[relationshipName] ? Object.keys(item[relationshipName]).length > 1 : true;
-}
