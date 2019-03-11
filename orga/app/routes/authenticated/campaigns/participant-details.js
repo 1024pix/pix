@@ -13,7 +13,7 @@ export default Route.extend({
 
   afterModel(model) {
     return Promise.all([
-      model.campaignParticipation.get('campaignParticipationResult'),
+      model.campaignParticipation.belongsTo('campaignParticipationResult').reload(),
       model.campaignParticipation.get('user'),
     ]);
   }
