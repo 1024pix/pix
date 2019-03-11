@@ -1,11 +1,11 @@
-.participant-details {
+.participant-results {
   width: 100%;
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 1em 0;
+    margin: 16px 0;
   }
   &__information {
     margin-bottom: 10px;
@@ -16,7 +16,7 @@
   }
 }
 
-.participant-details-header {
+.participant-results-header {
   &__title {
     display: flex;
     align-items: center;
@@ -24,22 +24,20 @@
 }
 
 
-.participant-details-row {
+.participant-results-row {
   display: flex;
-  flex-direction: row;
   border-bottom: 1px solid $alto;
-
 }
-.participant-details-content {
+.participant-results-content {
   display: flex;
   flex-direction: column;
   padding: 30px 0px;
-  margin: 0px 3%;
+  margin: 0 3%;
 
   &--first-part {
     border-right: 1px solid $alto;
     width: 40%;
-    margin: 0px 0px 0px 3%;
+    margin: 0 0 0 3%;
   }
 
   &__progress-bar {
@@ -55,7 +53,7 @@
     height: 3px;
   }
   &__progress-bar--completed {
-    background-color: $mountai-meadow;
+    background-color: $mountain-meadow;
     position: relative;
     width: 100px;
     height: 3px;
@@ -73,13 +71,13 @@
   &__check-shared {
     margin-right: 3px;
     &--green {
-      color: $mountai-meadow;
+      color: $mountain-meadow;
     }
   }
 }
 
 
-.participant-details-report {
+.participant-results-report {
   display: flex;
   align-items: center;
   width: 80px;

@@ -4,16 +4,16 @@ import { computed } from '@ember/object';
 
 export default DS.Model.extend({
 
-  totalSkills: DS.attr('number'),
-  testedSkills: DS.attr('number'),
-  validatedSkills: DS.attr('number'),
+  totalSkillsCount: DS.attr('number'),
+  testedSkillsCount: DS.attr('number'),
+  validatedSkillsCount: DS.attr('number'),
   isCompleted: DS.attr('boolean'),
 
-  percentageProgression: computed('totalSkills', 'testedSkills', function () {
-    return (this.get('testedSkills')*100)/this.get('totalSkills');
+  percentageProgression: computed('totalSkillsCount', 'testedSkillsCount', function () {
+    return (this.get('testedSkillsCount')*100)/this.get('totalSkillsCount');
   }),
-  percentageResult: computed('totalSkills', 'validatedSkills', function () {
-    return (this.get('validatedSkills')*100)/this.get('totalSkills');
+  percentageResult: computed('totalSkillsCount', 'validatedSkillsCount', function () {
+    return (this.get('validatedSkillsCount')*100)/this.get('totalSkillsCount');
   }),
 
 });

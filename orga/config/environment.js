@@ -41,6 +41,10 @@ module.exports = function(environment) {
         }
       }
     ],
+    moment: {
+      includeLocales: ['fr']
+    },
+
 
     // Set or update content security policies
     contentSecurityPolicy: {

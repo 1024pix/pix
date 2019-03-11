@@ -27,7 +27,7 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
     test('it could click on user to go to details', async function (assert) {
       // when
       await visit('/campagnes/1/participants');
-      await click('.participant-list__line:first-child');
+      await click('.clickable:first-child');
 
       // then
       assert.equal(currentURL(), '/campagnes/1/participants/1');
