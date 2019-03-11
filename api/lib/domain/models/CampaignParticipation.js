@@ -5,31 +5,31 @@ class CampaignParticipation {
   constructor({
     id,
     // attributes
-    isShared,
-    sharedAt,
     createdAt,
+    isShared,
     participantExternalId,
+    sharedAt,
     // includes
     assessment,
     campaign,
-    user,
     campaignParticipationResult,
+    user,
     // references
     assessmentId,
     campaignId,
     userId,
   } = {}) {
     this.id = id;
-    this.campaign = campaign || { id: campaignId };
-    this.campaignId = campaignId;
-    this.campaignParticipationResult = campaignParticipationResult;
-    this.assessmentId = assessmentId;
-    this.assessment = assessment;
-    this.participantExternalId = participantExternalId;
-    this.isShared = isShared;
-    this.sharedAt = sharedAt;
     this.createdAt = createdAt;
+    this.isShared = isShared;
+    this.participantExternalId = participantExternalId;
+    this.sharedAt = sharedAt;
+    this.assessment = assessment;
+    this.campaign = campaign || { id: campaignId };
+    this.campaignParticipationResult = campaignParticipationResult;
     this.user = user || { id: userId };
+    this.assessmentId = assessmentId;
+    this.campaignId = campaignId;
     this.userId = userId;
   }
 
