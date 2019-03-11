@@ -65,9 +65,9 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     // then
     expect(campaignParticipationResult).to.be.an.instanceOf(CampaignParticipationResult);
     expect(campaignParticipationResult.id).to.be.equal(campaignParticipationId);
-    expect(campaignParticipationResult.totalSkills).to.be.equal(4);
-    expect(campaignParticipationResult.testedSkills).to.be.equal(2);
-    expect(campaignParticipationResult.validatedSkills).to.be.equal(1);
+    expect(campaignParticipationResult.totalSkillsCount).to.be.equal(4);
+    expect(campaignParticipationResult.testedSkillsCount).to.be.equal(2);
+    expect(campaignParticipationResult.validatedSkillsCount).to.be.equal(1);
     expect(campaignParticipationResult.isCompleted).to.be.true;
   });
 
@@ -116,9 +116,9 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     // then
     expect(campaignParticipationResult).to.be.an.instanceOf(CampaignParticipationResult);
     expect(campaignParticipationResult.id).to.be.equal(campaignParticipationId);
-    expect(campaignParticipationResult.totalSkills).to.be.equal(4);
-    expect(campaignParticipationResult.testedSkills).to.be.equal(2);
-    expect(campaignParticipationResult.validatedSkills).to.be.equal(null);
+    expect(campaignParticipationResult.totalSkillsCount).to.be.equal(4);
+    expect(campaignParticipationResult.testedSkillsCount).to.be.equal(2);
+    expect(campaignParticipationResult.validatedSkillsCount).to.be.equal(null);
     expect(campaignParticipationResult.isCompleted).to.be.false;
   });
 

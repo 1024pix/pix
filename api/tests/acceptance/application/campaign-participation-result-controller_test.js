@@ -100,9 +100,9 @@ describe('Acceptance | API | Campaign Participation Result', () => {
           type: 'campaign-participation-results',
           id: campaignParticipation.id.toString(),
           attributes: {
-            'total-skills': 8,
-            'tested-skills': 5,
-            'validated-skills': 3,
+            'total-skills-count': 8,
+            'tested-skills-count': 5,
+            'validated-skills-count': 3,
             'is-completed': true
           }
         }
