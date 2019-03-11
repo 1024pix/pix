@@ -4,6 +4,7 @@ const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
   birthdate: attr('date'),
+  birthplace: attr('string'),
   firstName: attr('string'),
   lastName: attr('string'),
   date: attr('date'),
