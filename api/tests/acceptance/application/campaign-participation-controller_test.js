@@ -42,7 +42,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       // given
       options = {
         method: 'GET',
-        url: `/api/campaign-participations/${campaignParticipation.id}`,
+        url: `/api/campaign-participations/${campaignParticipation.id}?include=user`,
         headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
       };
       const expectedCampaignParticipation = {

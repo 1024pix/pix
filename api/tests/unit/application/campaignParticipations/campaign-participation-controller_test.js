@@ -222,22 +222,29 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
   describe('#getById', () => {
     const campaignParticipationId = 1;
-    let request;
+    let request, options, query;
 
     beforeEach(() => {
+      query = { include: 'user' };
+
       request = {
         params: {
           id: campaignParticipationId,
         },
+        query,
       };
 
+      options = { include: ['user'] };
+
+      sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(usecases, 'getCampaignParticipation');
       sinon.stub(serializer, 'serialize');
     });
 
     it('should returns the campaignParticipation', async () => {
       // given
-      usecases.getCampaignParticipation.withArgs({ campaignParticipationId }).resolves({});
+      queryParamsUtils.extractParameters.withArgs(query).returns(options);
+      usecases.getCampaignParticipation.withArgs({ campaignParticipationId, options }).resolves({});
       serializer.serialize.withArgs({}).returns('ok');
 
       // when

@@ -3,6 +3,8 @@ const getCampaignParticipation = require('../../../../lib/domain/usecases/get-ca
 
 describe('Unit | UseCase | get-campaign-participation', () => {
 
+  const options = {};
+
   let campaignParticipationRepository;
 
   beforeEach(() => {
@@ -14,10 +16,10 @@ describe('Unit | UseCase | get-campaign-participation', () => {
   it('should get the campaignParticipation', async () => {
     // given
     const campaignParticipationId = 1;
-    campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves('ok');
+    campaignParticipationRepository.get.withArgs(campaignParticipationId, options).resolves('ok');
 
     // when
-    const result = await getCampaignParticipation({ campaignParticipationId, campaignParticipationRepository });
+    const result = await getCampaignParticipation({ campaignParticipationId, options, campaignParticipationRepository });
 
     // then
     expect(result).to.equal('ok');
