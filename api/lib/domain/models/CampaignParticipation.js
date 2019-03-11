@@ -20,7 +20,7 @@ class CampaignParticipation {
     userId,
   } = {}) {
     this.id = id;
-    this.campaign = campaign;
+    this.campaign = campaign || { id: campaignId };
     this.campaignId = campaignId;
     this.campaignParticipationResult = campaignParticipationResult;
     this.assessmentId = assessmentId;
@@ -29,7 +29,7 @@ class CampaignParticipation {
     this.isShared = isShared;
     this.sharedAt = sharedAt;
     this.createdAt = createdAt;
-    this.user = user;
+    this.user = user || { id: userId };
     this.userId = userId;
   }
 
