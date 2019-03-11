@@ -112,7 +112,7 @@ describe('Integration | Repository | Certification ', () => {
       });
     });
 
-    it('should not return a false brithdate or completedAt date if there are null in database', () => {
+    it('should not return a false birthdate or completedAt date if there are null in database', () => {
       // when
       const promise = certificationRepository.getCertification({ id: CERTIFICATION_ID_WITHOUTDATE });
 
