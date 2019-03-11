@@ -103,7 +103,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       beforeEach(() => {
         options = {
           method: 'GET',
-          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=campaign,user`,
+          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=user`,
           headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
         };
       });
@@ -122,10 +122,7 @@ describe('Acceptance | API | Campaign Participations', () => {
             'type': 'campaign-participations',
             relationships: {
               campaign: {
-                data: {
-                  type: 'campaigns',
-                  id: campaign.id.toString()
-                }
+                data: null
               },
               'user': {
                 'data': {

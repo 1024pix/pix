@@ -25,9 +25,9 @@ class CampaignParticipation {
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
     this.assessment = assessment;
-    this.campaign = campaign || { id: campaignId };
+    this.campaign = campaign;
     this.campaignParticipationResult = campaignParticipationResult;
-    this.user = user || { id: userId };
+    this.user = user;
     this.assessmentId = assessmentId;
     this.campaignId = campaignId;
     this.userId = userId;
