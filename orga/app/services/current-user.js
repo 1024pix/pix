@@ -19,7 +19,7 @@ export default Service.extend({
       return resolve();
     }
 
-    return (this._userPromise = this.get('store').findRecord('user', userId));
+    return this._userPromise = this.store.findRecord('user', userId);
   }
 
 });
