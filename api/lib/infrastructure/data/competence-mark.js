@@ -6,6 +6,7 @@ require('./assessment-result');
 module.exports = Bookshelf.model('CompetenceMark', {
 
   tableName: 'competence-marks',
+  hasTimestamps: ['createdAt', null],
 
   assessmentResults() {
     return this.belongsTo('AssessmentResult');

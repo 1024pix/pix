@@ -61,7 +61,7 @@ function _createProfileLine(snapshot) {
     `"${snapshot.user.firstName}"`,
     `"${snapshot.studentCode || ''}"`,
     `"${snapshot.campaignCode || ''}"`,
-    moment(snapshot.createdAt).format('DD/MM/YYYY'),
+    moment.utc(snapshot.createdAt).format('DD/MM/YYYY'),
     snapshot.score || ''
   ].join(';');
 

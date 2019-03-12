@@ -48,7 +48,7 @@ module.exports = {
 
     return usecases.getResultsCampaignInCSVFormat({ userId, campaignId })
       .then((resultCampaign) => {
-        const fileName = `Resultats-${resultCampaign.campaignName}-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
+        const fileName = `Resultats-${resultCampaign.campaignName}-${campaignId}-${moment.utc().format('YYYY-MM-DD-hhmm')}.csv`;
         return h.response(resultCampaign.csvData)
           .header('Content-Type', 'text/csv;charset=utf-8')
           .header('Content-Disposition', `attachment; filename="${fileName}"`);

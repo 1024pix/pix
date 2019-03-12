@@ -6,6 +6,7 @@ require('./user');
 module.exports = Bookshelf.model('KnowledgeElement', {
 
   tableName: 'knowledge-elements',
+  hasTimestamps: ['createdAt', null],
 
   assessment() {
     return this.belongsTo('Assessment');

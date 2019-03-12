@@ -12,33 +12,37 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     address: 'Nice',
     room: '28D',
     examiner: 'Antoine Toutvenant',
-    date: '20/01/2017',
+    date: '2017-01-20',
     time: '14:30',
     description: '',
     accessCode: '',
   });
 
-  const jsonApiSession = {
-    data: {
-      type: 'sessions',
-      id: '12',
-      attributes: {
-        'certification-center': 'Université de dressage de loutres',
-        address: 'Nice',
-        room: '28D',
-        'access-code': '',
-        examiner: 'Antoine Toutvenant',
-        date: '20/01/2017',
-        time: '14:30',
-        description: ''
-      },
-      relationships: {
-        certifications: {
-          data: null
+  let jsonApiSession;
+
+  beforeEach(function() {
+    jsonApiSession = {
+      data: {
+        type: 'sessions',
+        id: '12',
+        attributes: {
+          'certification-center': 'Université de dressage de loutres',
+          address: 'Nice',
+          room: '28D',
+          'access-code': '',
+          examiner: 'Antoine Toutvenant',
+          date: '2017-01-20',
+          time: '14:30',
+          description: ''
+        },
+        relationships: {
+          certifications: {
+            data: null
+          }
         }
       }
-    }
-  };
+    };
+  });
 
   describe('#serialize()', function() {
 
@@ -62,7 +66,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
-        date: '20/01/2017',
+        date: '2017-01-20',
         time: '14:30',
         description: '',
         accessCode: '',
@@ -83,7 +87,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
             room: '28D',
             'access-code': '',
             examiner: 'Antoine Toutvenant',
-            date: '20/01/2017',
+            date: '2017-01-20',
             time: '14:30',
             description: ''
           },
@@ -110,6 +114,9 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           id: 42
         }
       };
+
+      // FIXME deserializer expects date in localized format!
+      jsonApiSession.data.attributes.date = '20/01/2017';
     });
 
     it('should convert JSON API data to a Session', function() {

@@ -196,7 +196,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
         userId,
         score: 15,
         profile: JSON.stringify(serializedUserProfile),
-        createdAt: '2017-08-31 15:57:06'
+        createdAt: new Date('2017-08-31T15:57:06Z')
       }, {
         id: 2,
         organizationId: organizationId,
@@ -204,7 +204,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
         userId,
         score: 4,
         profile: JSON.stringify(serializedUserProfile),
-        createdAt: '2017-06-31 15:57:06'
+        createdAt: new Date('2017-06-31T15:57:06Z')
       }];
 
       return knex('snapshots').insert(snapshotRaws);
@@ -220,7 +220,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
             attributes: {
               score: '15',
               'tests-finished': '1',
-              'created-at': '2017-08-31 15:57:06',
+              'created-at': new Date('2017-08-31T15:57:06Z'),
               'student-code': null,
               'campaign-code': null
             },
@@ -238,7 +238,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
             attributes: {
               score: '4',
               'tests-finished': '3',
-              'created-at': '2017-06-31 15:57:06',
+              'created-at': new Date('2017-06-31T15:57:06Z'),
               'student-code': null,
               'campaign-code': null
             },

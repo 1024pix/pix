@@ -106,7 +106,7 @@ function toCSVRow(rowJSON) {
 }
 
 function saveInFile(csv, sessionId) {
-  const filepath = `session_${sessionId}_export_${moment().format('DD-MM-YYYY_HH-mm')}.csv`;
+  const filepath = `session_${sessionId}_export_${moment.utc().format('DD-MM-YYYY_HH-mm')}.csv`;
   fileSystem.writeFile(filepath, csv, (err) => {
     if (err) throw err;
     console.log('Les données de certifications sont dans le fichier :' + filepath);

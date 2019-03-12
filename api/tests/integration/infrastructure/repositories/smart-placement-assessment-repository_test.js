@@ -67,7 +67,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         id: assessmentId,
         answers: [firstAnswer, secondAnswer],
         knowledgeElements: [firstKnowledgeElement, secondKnowledgeElement],
-        createdAt: new Date(' 2017-10-02'),
+        createdAt: new Date('2017-10-02T09:10:12Z'),
         targetProfile,
       });
 

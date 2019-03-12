@@ -37,18 +37,18 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const assessmentResultComputed = new AssessmentResult({
         id: 1,
-        createdAt: '2017-12-20',
+        createdAt: new Date('2017-12-20T02:03:04Z'),
         emitter: 'PIX-ALGO',
       });
       const assessmentResultJury = new AssessmentResult({
         id: 2,
-        createdAt: '2017-12-24',
+        createdAt: new Date('2017-12-24T01:02:03Z'),
         emitter: 'Michel',
       });
 
       const assessmentResultJuryOld = new AssessmentResult({
         id: 3,
-        createdAt: '2017-12-22',
+        createdAt: new Date('2017-12-22T01:02:03Z'),
         emitter: 'Gerard',
       });
 
@@ -84,13 +84,13 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const assessmentResultComputed = new AssessmentResult({
         id: 1,
-        createdAt: '2017-12-20',
+        createdAt: new Date('2017-12-20T01:02:03Z'),
         pixScore: 12,
         emitter: 'PIX-ALGO',
       });
       const assessmentResultJury = new AssessmentResult({
         id: 2,
-        createdAt: '2017-12-24',
+        createdAt: new Date('2017-12-24T01:02:03Z'),
         pixScore: 18,
         emitter: 'Michel',
       });
@@ -126,13 +126,13 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const assessmentResultComputed = new AssessmentResult({
         id: 1,
-        createdAt: '2017-12-20',
+        createdAt: new Date('2017-12-20T01:02:03Z'),
         level: 1,
         emitter: 'PIX-ALGO',
       });
       const assessmentResultJury = new AssessmentResult({
         id: 2,
-        createdAt: '2017-12-24',
+        createdAt: new Date('2017-12-24T01:02:03Z'),
         level: 5,
         emitter: 'Michel',
       });
@@ -408,7 +408,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const assessmentResultComputed = new AssessmentResult({
         id: 3,
-        createdAt: '2017-12-22',
+        createdAt: new Date('2017-12-22T01:02:03Z'),
         emitter: 'Gerard',
         level: 3,
       });
@@ -428,7 +428,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const assessmentResultComputed = new AssessmentResult({
         id: 3,
-        createdAt: '2017-12-22',
+        createdAt: new Date('2017-12-22T01:02:03Z'),
         emitter: 'Gerard',
         level: 0,
       });
@@ -465,8 +465,8 @@ describe('Unit | Domain | Models | Assessment', () => {
     let testCurrentDate;
 
     beforeEach(() => {
-      testCurrentDate = new Date('2018-01-10 05:00:00');
-      sinon.useFakeTimers(testCurrentDate.getTime());
+      testCurrentDate = new Date('2018-01-10T05:00:00Z');
+      sinon.useFakeTimers(testCurrentDate);
     });
 
     [
@@ -505,7 +505,7 @@ describe('Unit | Domain | Models | Assessment', () => {
     let testCurrentDate;
 
     beforeEach(() => {
-      testCurrentDate = new Date('2018-01-10 05:00:00');
+      testCurrentDate = new Date('2018-01-10T05:00:00Z');
       sinon.useFakeTimers(testCurrentDate.getTime());
     });
 
