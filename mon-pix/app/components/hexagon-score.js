@@ -3,11 +3,9 @@ import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
-  classNames: ['hexagon-score'],
   pixScore: null,
 
   score: computed('pixScore', function() {
-    const pixScore = this.get('pixScore');
-    return isNone(pixScore) ? '--' : pixScore;
+    return isNone(this.pixScore) ? '--' : this.pixScore;
   })
 });
