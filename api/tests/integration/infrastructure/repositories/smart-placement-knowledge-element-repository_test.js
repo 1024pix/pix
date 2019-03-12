@@ -166,21 +166,6 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
             expect(knowledgeElementsFound).have.lengthOf(2);
           });
       });
-
-      it('should return knowledgeElements even if the date format is complicated', async () => {
-        // given
-        const currentDate = new Date();
-
-        // when
-        const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId(userId, currentDate);
-
-        return promise
-          .then((knowledgeElementsFound) => {
-            expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedWithLimitDate);
-            expect(knowledgeElementsFound).have.lengthOf(2);
-          });
-      });
-
     });
 
   });

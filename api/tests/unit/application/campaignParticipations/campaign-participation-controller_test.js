@@ -222,14 +222,17 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
   describe('#getById', () => {
     const campaignParticipationId = 1;
+    const userId = 1;
     let request, options, query;
 
     beforeEach(() => {
       query = { include: 'user' };
-
       request = {
         params: {
           id: campaignParticipationId,
+        },
+        auth: {
+          credentials: { userId }
         },
         query,
       };
@@ -244,7 +247,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     it('should returns the campaignParticipation', async () => {
       // given
       queryParamsUtils.extractParameters.withArgs(query).returns(options);
-      usecases.getCampaignParticipation.withArgs({ campaignParticipationId, options }).resolves({});
+      usecases.getCampaignParticipation.withArgs({ campaignParticipationId, options, userId }).resolves({});
       serializer.serialize.withArgs({}).returns('ok');
 
       // when

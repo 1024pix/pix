@@ -7,6 +7,7 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
   describe('#get ', () => {
 
     const campaignParticipationId = 1;
+    const userId = 1;
 
     beforeEach(() => {
       sinon.stub(usecases, 'getCampaignParticipationResult');
@@ -15,11 +16,16 @@ describe('Unit | Controller | campaign-participation-result-controller', () => {
 
     it('should return ok', async () => {
       // given
-      usecases.getCampaignParticipationResult.withArgs({ campaignParticipationId }).resolves({});
+      usecases.getCampaignParticipationResult.withArgs({ campaignParticipationId, userId }).resolves({});
       campaignParticipationResultSerializer.serialize.withArgs({}).returns('ok');
 
       // when
-      const response = await campaignParticipationResultController.get({ params: { id: campaignParticipationId } });
+      const response = await campaignParticipationResultController.get({
+        params: { id: campaignParticipationId },
+        auth: {
+          credentials: { userId }
+        }
+      });
 
       // then
       expect(response).to.be.equal('ok');
