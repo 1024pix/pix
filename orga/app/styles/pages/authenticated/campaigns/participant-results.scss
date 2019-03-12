@@ -58,7 +58,8 @@
     width: 100px;
     height: 3px;
   }
-  &__content-text {
+
+  &__content-text--style-bold-gray {
     color: $dove-gray;
     font-family: $roboto;
     font-size: 0.8rem;
