@@ -26,7 +26,6 @@
 
 .participant-results-row {
   display: flex;
-  border-bottom: 1px solid $alto;
 }
 .participant-results-content {
   display: flex;
@@ -41,28 +40,13 @@
   }
 
   &__progress-bar {
-    width: 100px;
-    height: 3px;
     position: relative;
-    background-color: $alto;
-
-  }
-  &__progress-bar--completion {
-    background-color: blue;
-    position: relative;
-    height: 3px;
-  }
-  &__progress-bar--completed {
-    background-color: $mountain-meadow;
-    position: relative;
-    width: 100px;
-    height: 3px;
   }
 
   &__content-text--style-bold-gray {
     color: $dove-gray;
     font-family: $roboto;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: 600;
   }
   &__label-text {
@@ -96,3 +80,19 @@
     padding: 10px;
   }
 }
+
+
+.progress-bar{
+  width: 100px;
+  height: 3px;
+  border-radius: 10px;
+  background-color: $alto;
+  &--completion {
+    background-color: $mariner;
+  }
+
+  &--completed {
+    background-color: $mountain-meadow;
+  }
+}
+

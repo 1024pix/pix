@@ -8,7 +8,7 @@ module('Integration | Component | routes/authenticated/campaign | participant-re
   setupRenderingTest(hooks);
 
   let store;
-  let user, campaignParticipation, campaignParticipationResult;
+  let user, campaignParticipation, campaignParticipationResult, campaign;
   hooks.beforeEach(function() {
     run(() => {
       store = this.owner.lookup('service:store');
@@ -34,17 +34,23 @@ module('Integration | Component | routes/authenticated/campaign | participant-re
       campaignParticipationResult: campaignParticipationResult
     }));
 
+    campaign  = run(() => store.createRecord('campaign', {
+      idPixLabel: 'MailPro',
+    }));
+
+
     this.set('campaignParticipation', campaignParticipation);
+    this.set('campaign', campaign);
 
   });
 
   test('it should display user details', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation campaignId=1}}`);
+    await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation campaign=campaign}}`);
 
     // then
     assert.dom('.page__title').hasText('Prénom Nom');
-    assert.dom('.participant-results-content--first-part').hasText('Identifiant mail@pro.net');
+    assert.dom('.participant-results-content--first-part').hasText('MailPro mail@pro.net');
     assert.dom('.participant-results-content:nth-child(2)').hasText('Avancement 100%');
     assert.dom('.participant-results-content:nth-child(3)').hasText('Commencé le 7 janv' +
       '. 2019');
