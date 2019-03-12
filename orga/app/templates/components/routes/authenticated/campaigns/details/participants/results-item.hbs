@@ -1,6 +1,6 @@
 <div class="participant-results__header">
   <div class="participant-results-header__title">
-    {{#link-to "authenticated.campaigns.details.participants" campaignParticipation.campaign.id class="icon-button campaign-details-content__return-button"}}
+    {{#link-to "authenticated.campaigns.details.participants" campaignId class="icon-button campaign-details-content__return-button"}}
       {{fa-icon 'arrow-left'}}
     {{/link-to}}
     <div class="page__title page-title">{{campaignParticipation.user.firstName}} {{campaignParticipation.user.lastName}}</div>
@@ -11,11 +11,11 @@
   <div class="participant-results-row">
     <div class="participant-results-content participant-results-content--first-part">
       <div class="label-text participant-results-content__label-text">Identifiant</div>
-      <div class="content-text participant-results-content__content-text">{{campaignParticipation.participantExternalId}}</div>
+      <div class="content-text participant-results-content__content-text--style-bold-gray">{{campaignParticipation.participantExternalId}}</div>
     </div>
     <div class="participant-results-content">
       <div class="label-text participant-results-content__label-text">Avancement</div>
-    <div class="content-text participant-results-content__content-text">
+    <div class="content-text participant-results-content__content-text--style-bold-gray">
       {{#if campaignParticipation.campaignParticipationResult.isCompleted}}
         100%
         <div class="participant-results-content__progress-bar--completed"></div>
@@ -29,13 +29,13 @@
     </div>
     <div class="participant-results-content">
       <div class="label-text participant-results-content__label-text">Commencé le</div>
-      <div class="content-text participant-results-content__content-text">
-        {{moment-format campaignParticipation.createdAt 'll' allow-empty=true}}
+      <div class="content-text participant-results-content__content-text--style-bold-gray">
+        {{moment-format campaignParticipation.createdAt 'll'}}
       </div>
     </div>
     <div class="participant-results-content">
       <div class="label-text participant-results-content__label-text">Partagé le</div>
-      <div class="content-text participant-results-content__content-text">
+      <div class="content-text participant-results-content__content-text--style-bold-gray">
         {{#if campaignParticipation.isShared}}
           {{fa-icon 'check-circle' class="participant-results-content__check-shared participant-results-content__check-shared--green"}}
           {{moment-format campaignParticipation.sharedAt 'll'}}
@@ -47,7 +47,7 @@
     </div>
     <div class="participant-results-content">
       <div class="label-text participant-results-content__label-text">Score (Acquis)</div>
-      <div class="content-text participant-results-content__content-text">
+      <div class="content-text participant-results-content__content-text--style-bold-gray">
         {{#if campaignParticipation.isShared}}
           {{campaignParticipation.campaignParticipationResult.validatedSkillsCount}} / {{campaignParticipation.campaignParticipationResult.totalSkillsCount}}
         {{else}}

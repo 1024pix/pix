@@ -8,10 +8,8 @@ module('Integration | Component | routes/authenticated/campaign | participant-re
   setupRenderingTest(hooks);
 
   let store;
-  let user, campaignParticipation, campaignId, campaignParticipationResult;
+  let user, campaignParticipation, campaignParticipationResult;
   hooks.beforeEach(function() {
-    campaignId = 1;
-
     run(() => {
       store = this.owner.lookup('service:store');
     });
@@ -37,13 +35,12 @@ module('Integration | Component | routes/authenticated/campaign | participant-re
     }));
 
     this.set('campaignParticipation', campaignParticipation);
-    this.set('campaignId', campaignId);
 
   });
 
   test('it should display user details', async function(assert) {
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/participants/results campaignId=campaignId campaignParticipation=campaignParticipation}}`);
+    await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation campaignId=1}}`);
 
     // then
     assert.dom('.page__title').hasText('Prénom Nom');

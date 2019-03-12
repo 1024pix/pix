@@ -2,8 +2,16 @@ import Route from '@ember/routing/route';
 
 export default Route.extend({
 
-  model(params) {
-    return this.store.findRecord('campaignParticipation', params.campaign_participation_id, { include: 'user' });
+
+  model(params, transition) {
+    const campaignId = transition.params['authenticated.campaigns.details'].campaign_id;
+    return this.store.findRecord('campaignParticipation', params.campaign_participation_id, { include: 'user' })
+      .then((campaignParticipation) => {
+        return {
+          campaignParticipation,
+          campaignId
+        }
+      });
   },
 
   renderTemplate() {
@@ -13,6 +21,6 @@ export default Route.extend({
   },
 
   afterModel(model) {
-    model.belongsTo('campaignParticipationResult').reload();
+    model.campaignParticipation.belongsTo('campaignParticipationResult').reload();
   }
 });

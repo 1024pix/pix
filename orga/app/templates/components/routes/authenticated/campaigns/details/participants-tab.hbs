@@ -17,7 +17,7 @@
       {{#if participants}}
         <tbody>
         {{#each participants as |participant|}}
-          <tr onclick={{action goToParticipantPage campaign.id participant.id}} class="clickable">
+          <tr onclick={{action goToParticipantPage campaign.id participant.id}} class="tr--clickable">
             <td>{{participant.user.lastName}}</td>
             <td>{{participant.user.firstName}}</td>
             {{#if campaign.idPixLabel}}
