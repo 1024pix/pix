@@ -48,18 +48,21 @@
 
 .profilv2-header-text {
   &__content {
+    margin: 0;
     font-weight: $font-light;
     font-family: $font-open-sans;
 
     &--regular {
       font-size: 1.3rem;
       letter-spacing: 0.03rem;
+      line-height: 1.8rem;
       color: $nero;
     }
 
     &--big {
       font-size: 3.2rem;
       color: $black;
+      line-height: 4.5rem;
     }
   }
 }

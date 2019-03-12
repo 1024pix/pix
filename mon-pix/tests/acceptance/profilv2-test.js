@@ -5,7 +5,7 @@ import {
   it
 } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateAsPrescriber, authenticateAsSimpleUser } from '../helpers/testing';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
@@ -22,7 +22,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
     destroyApp(application);
   });
 
-  describe('Authenticated cases', function() {
+  describe('Authenticated cases as simple user', function() {
     beforeEach(async function() {
       await authenticateAsSimpleUser();
     });
@@ -34,6 +34,22 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       // then
       return andThen(() => {
         expect(currentURL()).to.equal('/profilv2');
+      });
+    });
+  });
+
+  describe('Authenticated cases as user with organization', function() {
+    beforeEach(async function() {
+      await authenticateAsPrescriber();
+    });
+
+    it('can visit /profilv2', async function() {
+      // when
+      await visit('/profilv2');
+
+      // then
+      return andThen(() => {
+        expect(currentURL()).to.equal('/board');
       });
     });
   });

@@ -8,13 +8,12 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   session: service(),
 
   model() {
-    const store = this.get('store');
-    return store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
-      .then((user) => {
-        if (user.get('organizations.length') > 0) {
-          return this.transitionTo('board');
-        }
-        return user;
-      });
+    return this.store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true });
   },
+
+  afterModel(model) {
+    if (model.get('organizations.length') > 0) {
+      return this.transitionTo('board');
+    }
+  }
 });
