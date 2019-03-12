@@ -1,6 +1,6 @@
 <div class="participant-results__header">
   <div class="participant-results-header__title">
-    {{#link-to "authenticated.campaigns.details.participants" campaignId class="icon-button campaign-details-content__return-button"}}
+    {{#link-to "authenticated.campaigns.details.participants" campaign.id class="icon-button campaign-details-content__return-button"}}
       {{fa-icon 'arrow-left'}}
     {{/link-to}}
     <div class="page__title page-title">{{campaignParticipation.user.firstName}} {{campaignParticipation.user.lastName}}</div>
@@ -9,33 +9,35 @@
 
 <div class="panel panel--light-shadow participant-results__information">
   <div class="participant-results-row">
+    {{#if campaignParticipation.participantExternalId}}
     <div class="participant-results-content participant-results-content--first-part">
-      <div class="label-text participant-results-content__label-text">Identifiant</div>
-      <div class="content-text participant-results-content__content-text--style-bold-gray">{{campaignParticipation.participantExternalId}}</div>
+      <div class="label-text participant-results-content__label-text">{{campaign.idPixLabel}}</div> <!-- IDENTIFIANT A PRENDRE DE LA CAMPAGNE -->
+      <div class="content-text">{{campaignParticipation.participantExternalId}}</div>
     </div>
+    {{/if}}
     <div class="participant-results-content">
       <div class="label-text participant-results-content__label-text">Avancement</div>
-    <div class="content-text participant-results-content__content-text--style-bold-gray">
+    <div class="content-text">
       {{#if campaignParticipation.campaignParticipationResult.isCompleted}}
         100%
-        <div class="participant-results-content__progress-bar--completed"></div>
+        <div class="participant-results-content__progress-bar progress-bar progress-bar--completed"></div>
       {{else}}
         {{campaignParticipation.campaignParticipationResult.percentageProgression}}%
-        <div class="participant-results-content__progress-bar">
-          <div class="participant-results-content__progress-bar--completion" style="width:{{campaignParticipation.campaignParticipationResult.percentageProgression}}px"></div>
+        <div class="participant-results-content__progress-bar progress-bar">
+          <div class="progress-bar progress-bar--completion" style="width:{{campaignParticipation.campaignParticipationResult.percentageProgression}}px"></div>
         </div>
       {{/if}}
       </div>
     </div>
     <div class="participant-results-content">
       <div class="label-text participant-results-content__label-text">Commencé le</div>
-      <div class="content-text participant-results-content__content-text--style-bold-gray">
+      <div class="content-text">
         {{moment-format campaignParticipation.createdAt 'll'}}
       </div>
     </div>
     <div class="participant-results-content">
       <div class="label-text participant-results-content__label-text">Partagé le</div>
-      <div class="content-text participant-results-content__content-text--style-bold-gray">
+      <div class="content-text">
         {{#if campaignParticipation.isShared}}
           {{fa-icon 'check-circle' class="participant-results-content__check-shared participant-results-content__check-shared--green"}}
           {{moment-format campaignParticipation.sharedAt 'll'}}
@@ -47,7 +49,7 @@
     </div>
     <div class="participant-results-content">
       <div class="label-text participant-results-content__label-text">Score (Acquis)</div>
-      <div class="content-text participant-results-content__content-text--style-bold-gray">
+      <div class="content-text">
         {{#if campaignParticipation.isShared}}
           {{campaignParticipation.campaignParticipationResult.validatedSkillsCount}} / {{campaignParticipation.campaignParticipationResult.totalSkillsCount}}
         {{else}}

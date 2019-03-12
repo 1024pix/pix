@@ -5,11 +5,14 @@ export default Route.extend({
 
   model(params, transition) {
     const campaignId = transition.params['authenticated.campaigns.details'].campaign_id;
-    return this.store.findRecord('campaignParticipation', params.campaign_participation_id, { include: 'user' })
-      .then((campaignParticipation) => {
+    return Promise.all([
+      this.store.findRecord('campaignParticipation', params.campaign_participation_id, { include: 'user' }),
+      this.store.findRecord('campaign', campaignId)
+    ])
+      .then(([campaignParticipation, campaign]) => {
         return {
           campaignParticipation,
-          campaignId
+          campaign
         }
       });
   },
