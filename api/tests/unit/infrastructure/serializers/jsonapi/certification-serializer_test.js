@@ -72,7 +72,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
             attributes: {
               'birthdate': new Date('1992-06-12'),
               'certification-center': 'L’univeristé du Pix',
-              'date': new Date('2018-12-01'),
+              'date': new Date('2018-12-01T01:02:03Z'),
               'first-name': 'Jean',
               'is-published': true,
               'last-name': 'Bon',
@@ -115,7 +115,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
             attributes: {
               'birthdate': new Date('1992-06-12'),
               'certification-center': 'L’univeristé du Pix',
-              'date': new Date('2018-12-01'),
+              'date': new Date('2018-12-01T01:02:03Z'),
               'first-name': 'Jean',
               'is-published': true,
               'last-name': 'Bon',
@@ -149,7 +149,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           'attributes': {
             'birthdate': new Date('1992-06-12'),
             'certification-center': 'L’univeristé du Pix',
-            'date': new Date('2018-12-01'),
+            'date': new Date('2018-12-01T01:02:03Z'),
             'first-name': 'Jean',
             'is-published': true,
             'last-name': 'Bon',

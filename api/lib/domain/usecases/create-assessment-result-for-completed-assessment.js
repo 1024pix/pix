@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 const Assessment = require('../models/Assessment');
 const AssessmentResult = require('../models/AssessmentResult');
 
@@ -129,7 +127,7 @@ function _updateCompletedDateOfCertification(assessment, certificationCourseRepo
   if (assessment.isCertification()) {
     return certificationCourseRepository.changeCompletionDate(
       assessment.courseId,
-      moment().toISOString(),
+      new Date(),
     );
   } else {
     return Promise.resolve();

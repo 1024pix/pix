@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | Profile', () => {
     let testCurrentDate;
 
     beforeEach(() => {
-      testCurrentDate = new Date('2018-01-10 05:00:00');
+      testCurrentDate = new Date('2018-01-10T05:00:00Z');
       sinon.useFakeTimers(testCurrentDate.getTime());
       user = new BookshelfUser({
         'first-name': faker.name.findName(),
@@ -98,7 +98,7 @@ describe('Unit | Domain | Models | Profile', () => {
         id: 'assessmentId1',
         courseId: 'courseId8',
         type: Assessment.types.PLACEMENT,
-        assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1, createdAt: new Date('2018-01-01 05:00:00') })],
+        assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1, createdAt: new Date('2018-01-01T05:00:00Z') })],
         state: 'completed',
       });
       assessments = [assessment];
@@ -150,7 +150,7 @@ describe('Unit | Domain | Models | Profile', () => {
       const assessment = domainBuilder.buildAssessment({
         id: 'assessmentId1',
         courseId: 'courseId8',
-        assessmentResults: [new AssessmentResult({ pixScore: 10, level: 6, createdAt: new Date('2018-01-01 05:00:00') })],
+        assessmentResults: [new AssessmentResult({ pixScore: 10, level: 6, createdAt: new Date('2018-01-01T05:00:00Z') })],
         state: 'completed',
         type: Assessment.types.PLACEMENT,
       });
@@ -250,7 +250,7 @@ describe('Unit | Domain | Models | Profile', () => {
           Assessment.fromAttributes({
             id: 'assessmentId1',
             type: Assessment.types.PLACEMENT,
-            assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1, createdAt: new Date('2018-01-01 05:00:00') })],
+            assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1, createdAt: new Date('2018-01-01T05:00:00Z') })],
             state: 'completed',
             courseId: 'courseId8',
           }),

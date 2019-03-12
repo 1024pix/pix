@@ -66,7 +66,7 @@ describe('Unit | Service | Profil User Service', function() {
         assessmentResults: [new AssessmentResult({
           pixScore: 10,
           level: 1,
-          createdAt: new Date('2018-01-01 05:00:00'),
+          createdAt: new Date('2018-01-01T05:00:00Z'),
         })]
       })];
 

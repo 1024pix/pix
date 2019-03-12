@@ -5,6 +5,7 @@ require('./user');
 
 module.exports = Bookshelf.model('Snapshot', {
   tableName: 'snapshots',
+  hasTimestamps: ['createdAt', 'updatedAt'],
 
   organization() {
     return this.belongsTo('Organization', 'organizationId');

@@ -20,7 +20,7 @@ describe('Integration | Repository | Certification Center', () => {
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
           name: 'certificationCenterName',
-          createdAt: 1234
+          createdAt: new Date('2018-01-01T05:43:10Z'),
         });
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
         await databaseBuilder.commit();
@@ -31,7 +31,7 @@ describe('Integration | Repository | Certification Center', () => {
         // then
         expect(certificationCenter.id).to.equal(1);
         expect(certificationCenter.name).to.equal('certificationCenterName');
-        expect(certificationCenter.createdAt).to.equal(1234);
+        expect(certificationCenter.createdAt).to.deep.equal(new Date('2018-01-01T05:43:10Z')),
         expect(certificationCenter).to.have.all.keys(['id', 'name', 'createdAt']);
       });
     });

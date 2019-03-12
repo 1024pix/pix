@@ -6,7 +6,7 @@ const databaseBuffer = require('../database-buffer');
 module.exports = function buildCertificationCourse({
   id = faker.random.number(),
   userId = buildUser().id,
-  completedAt = faker.date.recent().toISOString(),
+  completedAt = faker.date.recent(),
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   birthdate = faker.date.past(12),
@@ -14,7 +14,7 @@ module.exports = function buildCertificationCourse({
   sessionId = buildSession().id,
   externalId = faker.random.uuid(),
   isPublished = faker.random.boolean(),
-  createdAt = faker.date.past().toISOString(),
+  createdAt = faker.date.past(),
 } = {}) {
 
   const values = {

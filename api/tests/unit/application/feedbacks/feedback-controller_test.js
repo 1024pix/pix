@@ -116,14 +116,14 @@ describe('Unit | Controller | feedback-controller', function() {
       const simpleFeedback = new Feedback({
         id: 'simple_feedback',
         content: 'Simple feedback',
-        createdAt: '2015-09-06 15:00:00',
+        createdAt: new Date('2015-09-06T15:00:00Z'),
         assessmentId: 1,
         challengeId: 11
       });
       const otherFeedback = new Feedback({
         id: 'other_feedback',
         content: 'Other feedback',
-        createdAt: '2016-09-06 16:00:00',
+        createdAt: new Date('2016-09-06T16:00:00Z'),
         assessmentId: 1,
         challengeId: 12
       });

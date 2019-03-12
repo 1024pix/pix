@@ -9,6 +9,7 @@ require('./user');
 module.exports = Bookshelf.model('Campaign', {
 
   tableName: 'campaigns',
+  hasTimestamps: ['createdAt', null],
 
   campaignParticipations() {
     return this.hasMany('CampaignParticipation', 'campaignId');

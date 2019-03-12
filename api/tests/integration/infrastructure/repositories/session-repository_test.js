@@ -59,7 +59,7 @@ describe('Integration | Repository | Session', function() {
         address: 'Paris',
         room: 'The lost room',
         examiner: 'Bernard',
-        date: '23/02/2018',
+        date: '2018-02-23',
         time: '12:00',
         description: 'The lost examen',
         accessCode: 'ABC123'
@@ -106,7 +106,7 @@ describe('Integration | Repository | Session', function() {
         address: 'Paris',
         room: 'The lost room',
         examiner: 'Bernard',
-        date: '23/02/2018',
+        date: '2018-02-23',
         time: '12:00',
         description: 'The lost examen',
         accessCode: 'ABC123'
@@ -155,7 +155,7 @@ describe('Integration | Repository | Session', function() {
         address: 'rue de Bercy',
         room: 'Salle A',
         examiner: 'Monsieur Examinateur',
-        date: '23/02/2018',
+        date: '2018-02-23',
         time: '12:00',
         description: 'CertificationPix pour les jeunes',
         accessCode: 'NJR10'
@@ -195,7 +195,7 @@ describe('Integration | Repository | Session', function() {
         expect(session.address).to.be.equal('rue de Bercy');
         expect(session.room).to.be.equal('Salle A');
         expect(session.examiner).to.be.equal('Monsieur Examinateur');
-        expect(session.date).to.be.equal('23/02/2018');
+        expect(session.date).to.be.equal('2018-02-23');
         expect(session.time).to.be.equal('12:00');
         expect(session.description).to.be.equal('CertificationPix pour les jeunes');
         expect(session.accessCode).to.be.equal('NJR10');
@@ -285,11 +285,11 @@ describe('Integration | Repository | Session', function() {
       beforeEach(() => {
         databaseBuilder.factory.buildSession({
           id: 1,
-          createdAt: '2017-12-08'
+          createdAt: new Date('2017-12-08T05:06:00Z')
         });
         databaseBuilder.factory.buildSession({
           id: 2,
-          createdAt: '2017-12-09'
+          createdAt: new Date('2017-12-09T07:08:09Z')
         });
         return databaseBuilder.commit();
       });

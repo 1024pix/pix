@@ -334,7 +334,7 @@ describe('Integration | Repository | Campaign Participation', () => {
   describe('#updateCampaignParticipation', () => {
 
     let campaignParticipation;
-    const frozenTime = new Date('1987-09-01:00:00.000+01:00');
+    const frozenTime = new Date('1987-09-01T00:00:00Z');
 
     beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({

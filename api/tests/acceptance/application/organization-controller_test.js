@@ -106,7 +106,7 @@ function _insertSnapshot(organizationId, userId) {
     userId,
     score: 15,
     profile: JSON.stringify(serializedUserProfile),
-    createdAt: '2017-08-31 15:57:06'
+    createdAt: new Date('2017-08-31T15:57:06Z')
   };
 
   return knex('snapshots').insert(snapshotRaw).returning('id');

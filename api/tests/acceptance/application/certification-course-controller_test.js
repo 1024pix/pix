@@ -66,8 +66,8 @@ describe('Acceptance | API | Certification Course', () => {
       return insertUserWithRolePixMaster()
         .then(() => {
           return knex('certification-courses').insert({
-            createdAt: '2017-12-21 15:44:38',
-            completedAt: '2017-12-21T15:48:38.468Z',
+            createdAt: new Date('2017-12-21T15:44:38Z'),
+            completedAt: new Date('2017-12-21T15:48:38Z'),
             isPublished: false,
           }, 'id');
         })
@@ -83,7 +83,7 @@ describe('Acceptance | API | Certification Course', () => {
           return knex('assessment-results').insert({
             level: 2,
             pixScore: 42,
-            createdAt: '2017-12-21 16:44:38',
+            createdAt: new Date('2017-12-21T16:44:38Z'),
             status: 'validated',
             emitter: 'PIX-ALGO',
             commentForJury: 'Computed',
@@ -148,9 +148,9 @@ describe('Acceptance | API | Certification Course', () => {
 
     it('should retrieve the certification total pix score and certified competences levels', () => {
       // given
-      const expectedCreatedAt = new Date('2017-12-21 15:44:38').toISOString();
-      const expectedResultCreatedAt = new Date('2017-12-21 16:44:38').toISOString();
-      const expectedCompletedAt = new Date('2017-12-21T15:48:38.468Z').toISOString();
+      const expectedCreatedAt = new Date('2017-12-21T15:44:38Z');
+      const expectedResultCreatedAt = new Date('2017-12-21T16:44:38Z');
+      const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
 
       // when
       const promise = server.inject(options);
@@ -159,14 +159,11 @@ describe('Acceptance | API | Certification Course', () => {
       return promise.then((response) => {
         // then
         const result = response.result.data;
-        const givenCompletedAt = new Date(result.attributes['completed-at']).toISOString();
-        const givenCreatedAt = new Date(result.attributes['created-at']).toISOString();
-        const givenResultCreatedAt = new Date(result.attributes['result-created-at']).toISOString();
 
         expect(result.attributes['pix-score']).to.equal(42);
-        expect(givenCreatedAt).to.equal(expectedCreatedAt);
-        expect(givenResultCreatedAt).to.equal(expectedResultCreatedAt);
-        expect(givenCompletedAt).to.equal(expectedCompletedAt);
+        expect(result.attributes['created-at']).to.deep.equal(expectedCreatedAt);
+        expect(result.attributes['result-created-at']).to.deep.equal(expectedResultCreatedAt);
+        expect(result.attributes['completed-at']).to.deep.equal(expectedCompletedAt);
         expect(result.attributes['is-published']).to.not.be.ok;
         expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
 
@@ -235,8 +232,8 @@ describe('Acceptance | API | Certification Course', () => {
     beforeEach(() => {
       return knex('certification-courses').insert(
         {
-          createdAt: '2019-12-21 15:44:38',
-          completedAt: '2017-12-21T15:48:38.468Z'
+          createdAt: new Date('2019-12-21T15:44:38Z'),
+          completedAt: new Date('2017-12-21T15:48:38Z')
         }
       ).then((certification) => {
 

@@ -31,7 +31,7 @@ describe('Integration | Repository | Certification ', () => {
       lastName: 'Kalamity',
       birthplace: 'Earth',
       birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2000-02-12'),
+      completedAt: new Date('2000-02-12T01:02:03Z'),
       sessionId: session.id,
       isPublished: true,
     };
@@ -91,7 +91,7 @@ describe('Integration | Repository | Certification ', () => {
       const expectedCertification = domainBuilder.buildCertification({
         id: 123,
         certificationCenter: 'Université des chocolats',
-        date: new Date('2000-02-12'),
+        date: new Date('2000-02-12T01:02:03Z'),
         isPublished: true,
         assessmentState: 'completed',
         birthdate: new Date('1989-10-24'),
@@ -146,7 +146,7 @@ describe('Integration | Repository | Certification ', () => {
       lastName: 'Kalamity',
       birthplace: 'Earth',
       birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2000-02-12'),
+      completedAt: new Date('2000-02-12T01:02:03Z'),
       sessionId: 321,
       isPublished: true,
     };
@@ -205,7 +205,7 @@ describe('Integration | Repository | Certification ', () => {
         domainBuilder.buildCertification({
           id: 123,
           certificationCenter: 'Université des chocolats',
-          date: new Date('2000-02-12'),
+          date: new Date('2000-02-12T01:02:03Z'),
           isPublished: true,
           assessmentState: 'completed',
           birthdate: new Date('1989-10-24'),
@@ -240,7 +240,7 @@ describe('Integration | Repository | Certification ', () => {
       lastName: 'Kalamity',
       birthplace: 'Earth',
       birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2000-02-12'),
+      completedAt: new Date('2000-02-12T01:02:03Z'),
       sessionId: 321,
       isPublished: true,
     };
@@ -332,7 +332,7 @@ describe('Integration | Repository | Certification ', () => {
           firstName: 'Jane',
           lastName: 'Kalamity',
           birthdate: new Date('1989-10-24'),
-          date: new Date('2000-02-12'),
+          date: new Date('2000-02-12T01:02:03Z'),
           id: 123,
           isPublished: true,
           pixScore: 23,

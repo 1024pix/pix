@@ -19,48 +19,48 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb1.id,
-        createdAt: moment().subtract(2, 'days').format()
+        createdAt: moment().subtract(2, 'days').toDate()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb2.id,
-        createdAt: moment().subtract(2, 'days').format()
+        createdAt: moment().subtract(2, 'days').toDate()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb3.id,
-        createdAt: moment().subtract(2, 'days').format()
+        createdAt: moment().subtract(2, 'days').toDate()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb4.id,
-        createdAt: moment().subtract(2, 'days').format()
+        createdAt: moment().subtract(2, 'days').toDate()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb5.id,
-        createdAt: moment().subtract(2, 'days').format()
+        createdAt: moment().subtract(2, 'days').toDate()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'validated',
         skillId: skillUrl1.id,
-        createdAt: moment().subtract(2, 'days').format()
+        createdAt: moment().subtract(2, 'days').toDate()
       }),
       domainBuilder.buildSmartPlacementKnowledgeElement({
         status: 'validated',
         skillId: skillUrl2.id,
-        createdAt: moment().subtract(2, 'days').format()
+        createdAt: moment().subtract(2, 'days').toDate()
       }),
 
     ];
 
     const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({
       state: 'completed',
-      createdAt: new Date('05/05/2017'),
+      createdAt: new Date('2017-05-09T00:30:00Z'),
       knowledgeElements
     });
 
@@ -170,7 +170,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
       it('should return the complete line with user results for her participation', () => {
         // given
-        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true, sharedAt: moment().format() });
+        const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true, sharedAt: new Date('2019-03-01T23:04:05Z') });
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
         const csvSecondLine = `"${organization.name}";` +
@@ -181,9 +181,9 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           `"${user.firstName}";` +
           `"${factoryCampaignParticipation.participantExternalId}";` +
           '1;' +
-          '2017-05-05;' +
+          '2017-05-09;' +
           '"Oui";' +
-          `${moment(factoryCampaignParticipation.sharedAt).format('YYYY-MM-DD')};` +
+          '2019-03-01;' +
           '0,6;' +
           '0,6;' +
           '5;' +
@@ -235,7 +235,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           `"${user.firstName}";` +
           `"${factoryCampaignParticipation.participantExternalId}";` +
           '1;' +
-          '2017-05-05;' +
+          '2017-05-09;' +
           '"Non";' +
           '"NA";' +
           '"NA";' +
