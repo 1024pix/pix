@@ -122,22 +122,19 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     beforeEach(async () => {
       // given
       userId = databaseBuilder.factory.buildUser().id;
-      const assessment1Id = databaseBuilder.factory.buildAssessment({ userId, type: SMART_PLACEMENT }).id;
-      const assessment2Id = databaseBuilder.factory.buildAssessment({ userId, type: SMART_PLACEMENT }).id;
-      const assessment3Id = databaseBuilder.factory.buildAssessment({ userId, type: PLACEMENT }).id;
 
       knowledgeElementsWantedWithLimitDate = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, assessmentId: assessment1Id, createdAt: yesterday, skillId: '1' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, assessmentId: assessment2Id, createdAt: yesterday, skillId: '3', status: 'validated' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, createdAt: yesterday, skillId: '1' , userId}),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, createdAt: yesterday, skillId: '3', status: 'validated', userId })
       ];
 
       knowledgeElementsWanted = knowledgeElementsWantedWithLimitDate.concat([
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 3, assessmentId: assessment1Id, createdAt: tomorrow, skillId: '2' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 3, createdAt: tomorrow, skillId: '2', userId })
       ]);
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 4, assessmentId: assessment2Id, createdAt: dayBeforeYesterday, skillId: '3', status: 'invalidated' }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, assessmentId: assessment3Id, createdAt: yesterday }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, assessmentId: assessment3Id, createdAt: yesterday }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 4, createdAt: dayBeforeYesterday, skillId: '3', status: 'invalidated' }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, createdAt: yesterday }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, createdAt: yesterday }),
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 7, createdAt: today });
 
       await databaseBuilder.commit();
