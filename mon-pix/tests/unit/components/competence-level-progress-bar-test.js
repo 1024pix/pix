@@ -4,9 +4,7 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | Competence-level-progress-bar ', function() {
 
-  setupTest('component:competence-level-progress-bar', {
-    needs: ['service:pix-modal-dialog']
-  });
+  setupTest('component:competence-level-progress-bar', {});
 
   describe('#Computed Properties behaviors: ', function() {
 

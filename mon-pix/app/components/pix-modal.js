@@ -1,6 +1,7 @@
 import { on } from '@ember/object/evented';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
 import { EKMixin as EmberKeyboardMixin, keyUp } from 'ember-keyboard';
+import ENV from 'mon-pix/config/environment';
 
 export default ModalDialog.extend(EmberKeyboardMixin, {
 
@@ -16,6 +17,22 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
   init() {
     this._super(...arguments);
     this.set('keyboardActivated', true);
+  },
+
+  didRender() {
+    this._super(...arguments);
+    if (ENV.environment !== 'test') {
+      document.querySelector('#modal-overlays').classList.add('active');
+      document.body.classList.add('centered-modal-showing');
+    }
+  },
+
+  willDestroyElement() {
+    if (ENV.environment !== 'test') {
+      document.querySelector('#modal-overlays').classList.remove('active');
+      document.body.classList.remove('centered-modal-showing');
+    }
+    this._super(...arguments);
   },
 
   closeOnEsc: on(keyUp('Escape'), function() {
