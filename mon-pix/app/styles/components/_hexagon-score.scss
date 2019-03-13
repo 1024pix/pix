@@ -3,35 +3,55 @@
   height: 126px;
   background: url('/images/hexa-pix-blue.svg') no-repeat center center;
   background-size: cover;
+  text-align: center;
 
   &__content {
+    position: relative;
     padding-top: 30px;
   }
 }
 
-.hexagon-score-content {
-  text-align: center;
+@mixin hexagon-score-title {
+  color: $nero;
+  font-family: $font-roboto;
+  font-size: 1rem;
+  letter-spacing: 0.25rem;
+}
 
+@mixin hexagon-score-pix-score {
+  color: $black;
+  font-family: $font-open-sans;
+  font-size: 4.6rem;
+}
+
+@mixin hexagon-score-pix-total {
+  color: $dove-gray;
+  font-family: $font-roboto;
+  font-size: 1.3rem;
+  border-top: 1px solid $dusty-grey;
+}
+
+.hexagon-score-content {
   &__title {
-    color: $nero;
-    font-family: $font-roboto;
-    font-size: 1rem;
-    letter-spacing: 0.25rem;
-    line-height: 0.1rem;
+    @include hexagon-score-title;
+    position: absolute;
+    width: 100%;
+    left: 1px;
+    top: 23px;
   }
 
   &__pix-score {
-    color: $black;
-    font-family: $font-open-sans;
-    font-size: 4.6rem;
-    line-height: 6rem;
+    @include hexagon-score-pix-score;
+    position: absolute;
+    left: 15px;
   }
 
   &__pix-total {
-    color: $dove-gray;
-    font-family: $font-roboto;
-    font-size: 1.3rem;
-    border-top: 1px solid $dusty-grey;
-    margin: 0 20px;
+    @include hexagon-score-pix-total;
+    position: absolute;
+    width: 70px;
+    left: 21px;
+    top: 91px;
   }
 }
+
