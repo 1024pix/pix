@@ -30,7 +30,7 @@ module.exports = async function getCampaignParticipationResult(
     });
   }
 
-  throw new UserNotAuthorizedToAccessEntity('User does not have access to campaign participation results');
+  throw new UserNotAuthorizedToAccessEntity('User does not have access to campaign participation');
 };
 
 async function _createCampaignParticipationResult(

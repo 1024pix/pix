@@ -15,5 +15,5 @@ module.exports = async function getCampaignParticipation({
     return campaignParticipation;
   }
 
-  throw new UserNotAuthorizedToAccessEntity('User does not have access to campaign participation results');
+  throw new UserNotAuthorizedToAccessEntity('User does not have access to campaign participation');
 };
