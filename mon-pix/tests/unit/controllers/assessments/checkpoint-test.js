@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Controller | Assessments | Checkpoint', function() {
 
   setupTest('controller:assessments/checkpoint', {
-    needs: ['service:metrics', 'service:pix-modal-dialog']
+    needs: ['service:metrics']
   });
 
   describe('#finalCheckpoint', () => {

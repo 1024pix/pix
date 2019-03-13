@@ -1,10 +1,7 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { inject as service } from '@ember/service';
 
 export default Controller.extend({
-
-  pixModalDialog: service(),
 
   queryParams: ['finalCheckpoint'],
   finalCheckpoint: false,
@@ -28,13 +25,11 @@ export default Controller.extend({
       const correction = await store.query('correction', { answerId }).then((corrections) => corrections.get('firstObject'));
       this.set('correction', correction);
 
-      this.pixModalDialog.enableScrolling();
       this.set('isShowingModal', true);
     },
 
     closeComparisonWindow() {
       this.set('isShowingModal', false);
-      this.pixModalDialog.disableScrolling();
     },
   }
 
