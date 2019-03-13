@@ -16,19 +16,24 @@ module.exports = async function getCampaignParticipationResult(
     { include: ['assessment', 'campaign'] },
   );
 
-  const userIsCampaignOrganizationMember = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignParticipation.campaignId, userId);
+  const userIsCampaignOrganizationMember = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
+    campaignParticipation.campaignId,
+    userId
+  );
+
   if(userId === campaignParticipation.userId || userIsCampaignOrganizationMember) {
-    return await createCampaignParticipationResult({
+    return await _createCampaignParticipationResult({
       campaignParticipationId,
       targetProfileRepository,
       smartPlacementKnowledgeElementRepository,
       campaignParticipation
     });
   }
+
   throw new UserNotAuthorizedToAccessEntity('User does not have access to campaign participation results');
 };
 
-async function createCampaignParticipationResult(
+async function _createCampaignParticipationResult(
   {
     campaignParticipationId,
     targetProfileRepository,
