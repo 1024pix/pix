@@ -1,20 +1,18 @@
 import Route from '@ember/routing/route';
+import RSVP from 'rsvp';
 
 export default Route.extend({
+  model(params) {
+    const campaign = this.modelFor('authenticated.campaigns.details');
 
-
-  model(params, transition) {
-    const campaignId = transition.params['authenticated.campaigns.details'].campaign_id;
-    return Promise.all([
-      this.store.findRecord('campaignParticipation', params.campaign_participation_id, { include: 'user' }),
-      this.store.findRecord('campaign', campaignId)
-    ])
-      .then(([campaignParticipation, campaign]) => {
-        return {
-          campaignParticipation,
-          campaign
-        }
-      });
+    return RSVP.hash({
+      campaign,
+      campaignParticipation: this.store.findRecord(
+        'campaignParticipation',
+        params.campaign_participation_id,
+        { include: 'user' }
+      ),
+    });
   },
 
   renderTemplate() {
