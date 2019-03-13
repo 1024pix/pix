@@ -1,21 +1,20 @@
 .hexagon-score {
-  width: 113px;
-  height: 126px;
+  width: 132px;
+  height: 148px;
   background: url('/images/hexa-pix-blue.svg') no-repeat center center;
   background-size: cover;
-  text-align: center;
 
   &__content {
     position: relative;
-    padding-top: 30px;
+    text-align: center;
   }
 }
 
 @mixin hexagon-score-title {
   color: $nero;
   font-family: $font-roboto;
-  font-size: 1rem;
-  letter-spacing: 0.25rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.35rem;
 }
 
 @mixin hexagon-score-pix-score {
@@ -37,21 +36,22 @@
     position: absolute;
     width: 100%;
     left: 1px;
-    top: 23px;
+    top: 26px;
   }
 
   &__pix-score {
     @include hexagon-score-pix-score;
     position: absolute;
-    left: 15px;
+    width: 100%;
+    top: 40px;
   }
 
   &__pix-total {
     @include hexagon-score-pix-total;
     position: absolute;
     width: 70px;
-    left: 21px;
-    top: 91px;
+    left: 31px;
+    top: 100px;
   }
 }
 
