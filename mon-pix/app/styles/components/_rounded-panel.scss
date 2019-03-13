@@ -45,19 +45,19 @@
 
 .rounded-panel-header {
   &__text-wrapper {
-    margin-top: 34px;
+    margin-top: 28px;
     margin-left: 8px;
   }
 
   &__hexagon-score-wrapper {
-    margin-right: 60px;
-    margin-top: 30px;
+    margin-right: 50px;
+    margin-top: 24px;
   }
 }
 
 .rounded-panel-header-text {
   &__content {
-    margin: 6px 0;
+    margin: 10px 0;
     font-weight: $font-light;
     font-family: $font-open-sans;
 
