@@ -9,7 +9,10 @@ export default DS.Model.extend({
   validatedSkillsCount: DS.attr('number'),
   isCompleted: DS.attr('boolean'),
 
-  percentageProgression: computed('totalSkillsCount', 'testedSkillsCount', function () {
+  percentageProgression: computed('totalSkillsCount', 'testedSkillsCount', 'isCompleted', function () {
+    if(this.get('isCompleted')) {
+      return 100;
+    }
     return (this.get('testedSkillsCount')*100)/this.get('totalSkillsCount');
   }),
   percentageResult: computed('totalSkillsCount', 'validatedSkillsCount', function () {
