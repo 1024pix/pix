@@ -500,4 +500,35 @@ describe('Unit | Controller | user-controller', () => {
       expect(usecases.getUserPixScore).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
     });
   });
+
+  describe('#getScorecard', () => {
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getUserScorecard').resolves();
+    });
+
+    it('should return an scorecard object', async () => {
+      // given
+      const authenticatedUserId= 12;
+      const requestedUserId= 12;
+
+      const request = {
+        auth: {
+          credentials: {
+            userId: authenticatedUserId
+          }
+        },
+        params: {
+          id: requestedUserId
+        }
+      };
+
+      // when
+      await userController.getScorecard(request, hFake);
+
+      // then
+      expect(usecases.getUserScorecard).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
+
+    });
+  });
 });
