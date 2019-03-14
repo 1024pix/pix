@@ -18,31 +18,30 @@
       <div class="comparison-window__title-text">{{resultItem.title}}</div>
     </div>
 
-
     <div class="comparison-window--content">
 
       <div class="comparison-window--body">
 
         <div class="rounded-panel comparison-window__instruction">
           <div class="rounded-panel__row ">
-            {{markdown-to-html class="challenge-statement__instruction" markdown=challenge.instruction}}
+            {{markdown-to-html class="challenge-statement__instruction" markdown=answer.challenge.instruction}}
           </div>
 
-          {{#if challenge.illustrationUrl}}
+          {{#if answer.challenge.illustrationUrl}}
             <div class="rounded-panel__row challenge-statement__illustration-section">
-              <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}"
+              <img class="challenge-statement__illustration" src="{{ answer.challenge.illustrationUrl }}"
                    alt="Illustration de l'épreuve">
             </div>
           {{/if}}
         </div>
         <div class="comparison-window__corrected-answers">
         {{#if isAssessmentChallengeTypeQcm}}
-          {{qcm-solution-panel challenge=challenge answer=answer solution=correction.solution}}
+          {{qcm-solution-panel challenge=answer.challenge answer=answer solution=correction.solution}}
         {{/if}}
 
 
         {{#if isAssessmentChallengeTypeQcu}}
-          {{qcu-solution-panel challenge=challenge answer=answer solution=correction.solution}}
+          {{qcu-solution-panel challenge=answer.challenge answer=answer solution=correction.solution}}
         {{/if}}
 
         {{#if isAssessmentChallengeTypeQroc}}
@@ -53,7 +52,7 @@
 
         {{#if isAssessmentChallengeTypeQrocmInd}}
           <div class="comparison-window__corrected-answers--qrocm">
-            {{qrocm-ind-solution-panel answer=answer solution=correction.solution challenge=challenge}}
+            {{qrocm-ind-solution-panel answer=answer solution=correction.solution challenge=answer.challenge}}
           </div>
         {{/if}}
         </div>
@@ -79,7 +78,7 @@
 
       <div class="pix-modal-footer">
         <div class="comparison-window__feedback-panel">
-          {{feedback-panel assessment=answer.assessment challenge=challenge collapsible=false}}
+          {{feedback-panel assessment=answer.assessment challenge=answer.challenge collapsible=false}}
         </div>
       </div>
     </div>
