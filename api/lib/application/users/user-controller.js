@@ -135,4 +135,10 @@ module.exports = {
     return usecases.getUserPixScore({ authenticatedUserId, requestedUserId })
       .then(pixScoreSerializer.serialize);
   },
+
+  getScorecard(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const requestedUserId = request.params.id;
+    return usecases.getUserScorecard({  authenticatedUserId, requestedUserId  });
+  },
 };

@@ -295,4 +295,25 @@ describe('Unit | Router | user-router', () => {
       });
     });
   });
+
+  describe('GET /api/users/{id}/scorecard', function() {
+    beforeEach(() => {
+      sinon.stub(userController, 'getScorecard').returns('ok');
+      startServer();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/users/42/scorecard',
+      };
+
+      // when
+      return server.inject(options).then(() => {
+        // then
+        sinon.assert.calledOnce(userController.getScorecard);
+      });
+    });
+  });
 });
