@@ -34,10 +34,10 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
     assessmentState: certificationCourseBookshelf.related('assessment').get('state'),
     assessmentResults: assessmentResults,
     certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
-    birthdate: new Date(certificationCourseBookshelf.get('birthdate')),
+    birthdate: certificationCourseBookshelf.get('birthdate'),
     firstName: certificationCourseBookshelf.get('firstName'),
     lastName: certificationCourseBookshelf.get('lastName'),
-    date: new Date(certificationCourseBookshelf.get('completedAt')),
+    date: certificationCourseBookshelf.get('completedAt'),
     isPublished: Boolean(certificationCourseBookshelf.get('isPublished')),
     userId: certificationCourseBookshelf.get('userId'),
   });

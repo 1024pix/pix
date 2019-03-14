@@ -56,7 +56,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
           id: certificationCenterId.toString(),
           attributes: {
             name: certificationCenterName,
-            'created-at': '2018-20'
+            'created-at': new Date('2018-02-01T01:02:03Z')
           },
           relationships: {}
         }

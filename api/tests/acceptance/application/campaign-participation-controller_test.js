@@ -103,7 +103,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       beforeEach(() => {
         options = {
           method: 'GET',
-          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=user`,
+          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=campaign,user`,
           headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
         };
       });
@@ -113,16 +113,19 @@ describe('Acceptance | API | Campaign Participations', () => {
         const expectedCampaignParticipation = [
           {
             'attributes': {
-              'created-at': campaignParticipation.createdAt.getTime(),
+              'created-at': campaignParticipation.createdAt,
               'is-shared': Number(campaignParticipation.isShared),
               'participant-external-id': campaignParticipation.participantExternalId,
-              'shared-at': campaignParticipation.sharedAt.getTime(),
+              'shared-at': campaignParticipation.sharedAt,
             },
             'id': campaignParticipation.id.toString(),
             'type': 'campaign-participations',
             relationships: {
               campaign: {
-                data: null
+                data: {
+                  type: 'campaigns',
+                  id: campaign.id.toString()
+                }
               },
               'user': {
                 'data': {

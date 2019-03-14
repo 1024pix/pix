@@ -245,7 +245,7 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         sinon.assert.calledOnce(userService.getProfileToCertify);
-        sinon.assert.calledWith(userService.getProfileToCertify, 1, '1970-01-01T00:00:00.000Z');
+        sinon.assert.calledWith(userService.getProfileToCertify, 1, new Date('1970-01-01T00:00:00Z'));
       });
 
       it('should reply the skillProfile', async () => {

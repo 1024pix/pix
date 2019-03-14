@@ -12,7 +12,7 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
         content: 'Lorem ipsum dolor sit amet consectetur adipiscet.',
         assessmentId: 'assessment_id',
         challengeId: 'challenge_id',
-        createdAt: '2017-09-01 12:14:33'
+        createdAt: new Date('2017-09-01T12:14:33Z')
       };
 
       const serializedFeedback = {
@@ -53,21 +53,21 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
       const simpleFeedback = {
         id: 'simple_feedback',
         content: 'Simple feedback',
-        createdAt: '2015-09-06 15:00:00',
+        createdAt: new Date('2015-09-06T15:00:00Z'),
         assessmentId: 1,
         challengeId: 11
       };
       const otherFeedback = {
         id: 'other_feedback',
         content: 'Other feedback',
-        createdAt: '2016-09-06 16:00:00',
+        createdAt: new Date('2016-09-06T16:00:00Z'),
         assessmentId: 1,
         challengeId: 12
       };
       const matchingDatesFeedback = {
         id: 'matching_dates_feedback',
         content: 'Matching dates feedback',
-        createdAt: '2017-09-06 17:00:00',
+        createdAt: new Date('2017-09-06T17:00:00Z'),
         assessmentId: 2,
         challengeId: 21
       };

@@ -18,7 +18,7 @@ describe('Unit | UseCase | start-placement-assessment', () => {
   };
 
   beforeEach(() => {
-    testCurrentDate = new Date('2018-01-10 05:00:00');
+    testCurrentDate = new Date('2018-01-10T05:00:00Z');
     clock = sinon.useFakeTimers(testCurrentDate.getTime());
 
     sinon.stub(assessmentRepository, 'save');

@@ -112,7 +112,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         assessmentResults: [new AssessmentResult({
           level: 5,
           pixScore: 128,
-          createdAt: new Date('2018-01-10 05:00:00'),
+          createdAt: new Date('2018-01-10T05:00:00Z'),
         })],
       });
       nonFinishedAssessment = Assessment.fromAttributes({

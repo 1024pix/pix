@@ -519,7 +519,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       assessmentRepository.get.resolves(assessment);
       scoringService.calculateAssessmentScore.resolves(assessmentScore);
 
-      sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
+      sinon.useFakeTimers(new Date('2018-02-04T00:00:00Z'));
     });
 
     context('happy path', () => {
@@ -658,7 +658,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
         // then
         return promise.then(() => {
-          expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWith(assessmentCourseId, '2018-02-04T00:00:00.000Z');
+          expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWith(assessmentCourseId, new Date('2018-02-04T00:00:00Z'));
         });
       });
 
@@ -764,7 +764,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
         // then
         return promise.then(() => {
-          expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWith(assessmentCourseId, '2018-02-04T00:00:00.000Z');
+          expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWith(assessmentCourseId, new Date('2018-02-04T00:00:00Z'));
         });
       });
 

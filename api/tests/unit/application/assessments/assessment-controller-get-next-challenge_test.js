@@ -5,7 +5,6 @@ const assessmentController = require('../../../../lib/application/assessments/as
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 
 const usecases = require('../../../../lib/domain/usecases');
@@ -50,9 +49,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       };
 
       sinon.stub(assessmentRepository, 'get');
-      sinon.stub(assessmentRepository, 'save');
       sinon.stub(challengeRepository, 'get').resolves({});
-      sinon.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
 
       sinon.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
       sinon.stub(usecases, 'getNextChallengeForCertification').resolves();

@@ -20,7 +20,7 @@ function buildOrganization(
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-    createdAt = new Date('2018-01-12'),
+    createdAt = new Date('2018-01-12T01:02:03Z'),
     user = null,
     memberships = [],
     targetProfileShares = []
@@ -35,7 +35,7 @@ buildOrganization.withUser = function(
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-    createdAt = new Date('2018-01-12'),
+    createdAt = new Date('2018-01-12T01:02:03Z'),
     user = _buildMember()
   } = {}
 ) {
@@ -49,7 +49,7 @@ buildOrganization.withMembers = function(
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-    createdAt = new Date('2018-01-12'),
+    createdAt = new Date('2018-01-12T01:02:03Z'),
     members = [
       _buildMember({ id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }),
       _buildMember({ id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com' }),

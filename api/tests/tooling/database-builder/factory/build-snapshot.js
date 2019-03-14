@@ -8,7 +8,7 @@ module.exports = function buildSnapshot({
   profile = '{}',
   organizationId = buildOrganization().id,
   userId = buildUser().id,
-  createdAt = faker.date.recent().toISOString(),
+  createdAt = faker.date.recent(),
 } = {}) {
 
   const values = {

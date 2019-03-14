@@ -6,6 +6,7 @@ require('./competence-mark');
 module.exports = Bookshelf.model('AssessmentResult', {
 
   tableName: 'assessment-results',
+  hasTimestamps: ['createdAt', null],
 
   validations: {
     status: [

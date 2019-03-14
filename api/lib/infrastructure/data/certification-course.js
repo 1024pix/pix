@@ -6,6 +6,19 @@ require('./session');
 
 module.exports = Bookshelf.model('CertificationCourse', {
   tableName: 'certification-courses',
+  hasTimestamps: ['createdAt', 'updatedAt'],
+
+  parse(rawAttributes) {
+    if (rawAttributes.completedAt) {
+      rawAttributes.completedAt = new Date(rawAttributes.completedAt);
+    }
+
+    if (rawAttributes.birthdate) {
+      rawAttributes.birthdate = new Date(rawAttributes.birthdate);
+    }
+
+    return rawAttributes;
+  },
 
   assessment() {
     return this.hasOne('Assessment', 'courseId');

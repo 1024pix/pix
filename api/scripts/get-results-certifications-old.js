@@ -49,7 +49,7 @@ function toCSVRow(rowJSON) {
   res[idColumn] = rowJSON.certificationId;
   res[dateStartColumn] = moment.utc(rowJSON.createdAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
   if (rowJSON.completedAt) {
-    res[dateEndColumn] = moment(rowJSON.completedAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+    res[dateEndColumn] = moment.utc(rowJSON.completedAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
   } else {
     res[dateEndColumn] = '';
   }

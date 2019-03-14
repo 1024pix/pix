@@ -50,7 +50,7 @@ module.exports = {
   },
 
   deserialize(json) {
-    if (!moment(json.data.attributes.birthdate, 'DD/MM/YYYY').isValid()) {
+    if (!moment.utc(json.data.attributes.birthdate, 'DD/MM/YYYY').isValid()) {
       throw new WrongDateFormatError();
     }
 
@@ -62,7 +62,7 @@ module.exports = {
       completedAt: json.data.attributes.completedAt,
       firstName: json.data.attributes.firstName,
       lastName: json.data.attributes.lastName,
-      birthdate: moment(json.data.attributes.birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+      birthdate: moment.utc(json.data.attributes.birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
       birthplace: json.data.attributes.birthplace,
     });
   },

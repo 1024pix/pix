@@ -44,7 +44,7 @@ describe('Integration | Repository | Campaign', () => {
 
     let campaignToInsert;
     beforeEach(async () => {
-      campaignToInsert = domainBuilder.buildCampaign({ code: 'BADOIT710', createdAt: '2018-02-06 14:12:45' });
+      campaignToInsert = domainBuilder.buildCampaign({ code: 'BADOIT710', createdAt: new Date('2018-02-06T14:12:45Z') });
       databaseBuilder.factory.buildCampaign(campaignToInsert);
       await databaseBuilder.commit();
     });
@@ -64,7 +64,7 @@ describe('Integration | Repository | Campaign', () => {
         expect(result.code).to.equal(campaignToInsert.code);
         expect(result.organizationId).to.equal(campaignToInsert.organizationId);
         expect(result.creatorId).to.equal(campaignToInsert.creatorId);
-        expect(result.createdAt).to.equal(campaignToInsert.createdAt);
+        expect(result.createdAt).to.deep.equal(campaignToInsert.createdAt);
         expect(result.targetProfileId).to.equal(campaignToInsert.targetProfileId);
         expect(result.customLandingPageText).to.equal(campaignToInsert.customLandingPageText);
         expect(result.idPixLabel).to.equal(campaignToInsert.idPixLabel);
