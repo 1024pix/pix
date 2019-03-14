@@ -9,9 +9,7 @@
     border-radius: 10px;
     box-shadow: 0 7px 14px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
   }
-}
 
-.rounded-panel {
   &__row {
     padding: 20px;
   }
@@ -44,14 +42,14 @@
 }
 
 .rounded-panel-header {
-  &__text-wrapper {
+  &__left-wrapper {
     margin-top: 28px;
     margin-left: 8px;
   }
 
-  &__hexagon-score-wrapper {
-    margin-right: 50px;
+  &__right-wrapper {
     margin-top: 24px;
+    margin-right: 50px;
   }
 }
 
