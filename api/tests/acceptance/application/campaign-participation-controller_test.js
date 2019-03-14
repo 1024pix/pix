@@ -1,7 +1,6 @@
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const { expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
-const _ = require('lodash');
 
 describe('Acceptance | API | Campaign Participations', () => {
 
