@@ -168,7 +168,7 @@ function _createOneLineOfCSV(
       line = _addCellByHeadersTitleForNumber('"% de progression"', percentageProgression, line, headers);
       line = _addCellByHeadersTitleForNumber(
         '"Date de début"',
-        moment(assessment.createdAt).format('YYYY-MM-DD'),
+        moment.utc(assessment.createdAt).format('YYYY-MM-DD'),
         line,
         headers,
       );
@@ -178,7 +178,7 @@ function _createOneLineOfCSV(
 
       if(assessment.isCompleted && campaignParticipation.isShared) {
 
-        line = _addCellByHeadersTitleForNumber('"Date du partage"', moment(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
+        line = _addCellByHeadersTitleForNumber('"Date du partage"', moment.utc(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
 
         line = _addCellByHeadersTitleForNumber(
           '"% maitrise de l\'ensemble des acquis du profil"',

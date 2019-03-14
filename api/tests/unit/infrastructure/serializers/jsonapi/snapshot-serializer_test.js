@@ -10,7 +10,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const snapshot = {
         id: 1,
         score: '10',
-        createdAt: '2017-08-23 12:52:33',
+        createdAt: new Date('2017-08-23T12:52:33Z'),
         testsFinished: '12',
         studentCode: 'ABCD-1234',
         campaignCode: 'EFGH-5678',
@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           id: '1',
           attributes: {
             'tests-finished': '12',
-            'created-at': '2017-08-23 12:52:33',
+            'created-at': new Date('2017-08-23T12:52:33Z'),
             'score': '10',
             'student-code': 'ABCD-1234',
             'campaign-code': 'EFGH-5678',
@@ -62,14 +62,14 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const snapshot1 = {
         id: 1,
         score: 10,
-        createdAt: '2017-08-23 12:52:33',
+        createdAt: new Date('2017-08-23T12:52:33Z'),
         testsFinished: 12,
         user: { id: 1, firstName: 'Barack', lastName: 'Afrite' }
       };
       const snapshot2 = {
         id: 2,
         score: 12,
-        createdAt: '2017-07-29 12:52:44',
+        createdAt: new Date('2017-07-29T12:52:44Z'),
         testsFinished: 25,
         user: { id: 2, firstName: 'Sandro', lastName: 'Mancuso' }
       };
@@ -80,7 +80,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           type: 'snapshots',
           attributes: {
             score: '10',
-            'created-at': '2017-08-23 12:52:33',
+            'created-at': new Date('2017-08-23T12:52:33Z'),
             'tests-finished': '12'
           },
           relationships: {
@@ -97,7 +97,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           attributes: {
             score: '12',
             'tests-finished': '25',
-            'created-at': '2017-07-29 12:52:44'
+            'created-at': new Date('2017-07-29T12:52:44Z')
           },
           relationships: {
             user: {
@@ -136,7 +136,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       // given
       const snapshot = {
         id: 1,
-        createdAt: '2017-08-23 12:52:33',
+        createdAt: new Date('2017-08-23T12:52:33Z'),
         testsFinished: '12',
         studentCode: 'student_code',
         campaignCode: 'campaign_code',
@@ -147,7 +147,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           id: '1',
           type: 'snapshots',
           attributes: {
-            'created-at': '2017-08-23 12:52:33',
+            'created-at': new Date('2017-08-23T12:52:33Z'),
             'tests-finished': '12',
             'score': null,
             'student-code': 'student_code',
@@ -167,7 +167,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       // given
       const snapshot = {
         id: 1,
-        createdAt: '2017-08-23 12:52:33',
+        createdAt: new Date('2017-08-23T12:52:33Z'),
         score: '12',
         testsFinished: null,
         studentCode: 'student_code',
@@ -179,7 +179,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           id: '1',
           type: 'snapshots',
           attributes: {
-            'created-at': '2017-08-23 12:52:33',
+            'created-at': new Date('2017-08-23T12:52:33Z'),
             'tests-finished': null,
             'score': '12',
             'student-code': 'student_code',
@@ -199,7 +199,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       // given
       const snapshot = {
         id: 1,
-        createdAt: '2017-10-05 22:452:58',
+        createdAt: new Date('2017-10-05T22:45:58Z'),
         score: '12',
         studentCode: null,
         campaignCode: 'campaign_code',
@@ -210,7 +210,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           id: '1',
           type: 'snapshots',
           attributes: {
-            'created-at': '2017-10-05 22:452:58',
+            'created-at': new Date('2017-10-05T22:45:58Z'),
             'tests-finished': null,
             'score': '12',
             'student-code': null,
@@ -230,7 +230,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       // given
       const snapshot = {
         id: '1',
-        createdAt: '2017-10-05 22:452:58',
+        createdAt: new Date('2017-10-05T22:45:58Z'),
         score: '12',
         studentCode: 'student_code',
         campaignCode: null,
@@ -241,7 +241,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           id: '1',
           type: 'snapshots',
           attributes: {
-            'created-at': '2017-10-05 22:452:58',
+            'created-at': new Date('2017-10-05T22:45:58Z'),
             'tests-finished': null,
             'score': '12',
             'student-code': 'student_code',
@@ -269,7 +269,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           id: '1',
           attributes: {
             'tests-finished': '20',
-            'created-at': '2017-10-06 09:33:00',
+            'created-at': new Date('2017-10-06T09:33:00Z'),
             'score': '10',
             'student-code': 'ABCD-1234',
             'campaign-code': 'EFGH-5678',
@@ -283,7 +283,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const expectedObjectLiteral = {
         id: '1',
         score: '10',
-        createdAt: '2017-10-06 09:33:00',
+        createdAt: new Date('2017-10-06T09:33:00Z'),
         testsFinished: '20',
         studentCode: 'ABCD-1234',
         campaignCode: 'EFGH-5678',

@@ -12,8 +12,8 @@ module.exports = function addPixAileUserAndRelations({ databaseBuilder }) {
   databaseBuilder.factory.buildAssessment({
     id: 1,
     courseId: 'recyochcrrSOALQPS',
-    createdAt: new Date('2018-02-15T15:00:34'),
-    updatedAt: new Date('2018-02-15T15:00:34'),
+    createdAt: new Date('2018-02-15T15:00:34Z'),
+    updatedAt: new Date('2018-02-15T15:00:34Z'),
     userId: pixAile.id,
     type: 'PLACEMENT',
     state: 'completed',

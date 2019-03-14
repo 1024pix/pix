@@ -21,7 +21,7 @@ describe('Integration | Repository | Certification Course', function() {
     completedAt: null,
     firstName: 'Timon',
     lastName: 'De La Havane',
-    birthdate: '14/08/1993',
+    birthdate: '1993-08-14',
     birthplace: 'Cuba',
     sessionId: 'HakunaMatata',
     isPublished: true,
@@ -61,12 +61,12 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should update completedAt of the certificationCourse if one date is passed', () => {
       // when
-      const promise = certificationCourseRepository.changeCompletionDate(courseId, '2018-01-01');
+      const promise = certificationCourseRepository.changeCompletionDate(courseId, new Date('2018-01-01T06:07:08Z'));
 
       // then
       return promise.then(() => knex('certification-courses').first('id', 'completedAt'))
         .then((certificationCourse) => {
-          expect(certificationCourse.completedAt).to.equal('2018-01-01');
+          expect(new Date(certificationCourse.completedAt)).to.deep.equal(new Date('2018-01-01T06:07:08Z'));
         });
     });
   });
@@ -101,7 +101,7 @@ describe('Integration | Repository | Certification Course', function() {
           expect(certificationCourse.completedAt).to.equal(null);
           expect(certificationCourse.firstName).to.equal('Timon');
           expect(certificationCourse.lastName).to.equal('De La Havane');
-          expect(certificationCourse.birthdate).to.equal('14/08/1993');
+          expect(certificationCourse.birthdate).to.deep.equal(new Date('1993-08-14'));
           expect(certificationCourse.birthplace).to.equal('Cuba');
           expect(certificationCourse.sessionId).to.equal('HakunaMatata');
           expect(certificationCourse.isPublished).to.be.ok;
@@ -142,11 +142,11 @@ describe('Integration | Repository | Certification Course', function() {
       userId = 1;
       sessionId = 'ABCD12';
       certificationCourses = [
-        databaseBuilder.factory.buildCertificationCourse({ id: 1, userId: 2, sessionId, completedAt: null, createdAt: '2018-12-21' }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 2, userId, sessionId: 'ABCD21', completedAt: null, createdAt: '2018-12-21' }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 3, userId, sessionId, createdAt: '2018-12-11' }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 4, userId, sessionId, completedAt: null, createdAt: '2018-11-11' }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 5, userId, sessionId, completedAt: null, createdAt: '2018-12-12' }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 1, userId: 2, sessionId, completedAt: null, createdAt: new Date('2018-12-21T01:02:03Z') }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 2, userId, sessionId: 'ABCD21', completedAt: null, createdAt: new Date('2018-12-21T01:02:03Z') }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 3, userId, sessionId, createdAt: new Date('2018-12-11T01:02:03Z') }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 4, userId, sessionId, completedAt: null, createdAt: new Date('2018-11-11T01:02:03Z') }),
+        databaseBuilder.factory.buildCertificationCourse({ id: 5, userId, sessionId, completedAt: null, createdAt: new Date('2018-12-12T01:02:03Z') }),
       ];
       return databaseBuilder.commit();
     });

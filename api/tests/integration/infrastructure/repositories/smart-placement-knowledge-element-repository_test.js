@@ -111,6 +111,11 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
   describe('#findUniqByUserId', () => {
 
+    const today = new Date('2018-08-01T12:34:56Z');
+    const yesterday = moment(today).subtract(1, 'days').toDate();
+    const tomorrow = moment(today).add(1, 'days').toDate();
+    const dayBeforeYesterday = moment(today).subtract(2, 'days').toDate();
+
     let knowledgeElementsWanted, knowledgeElementsWantedWithLimitDate;
     let userId;
 
@@ -122,18 +127,18 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       const assessment3Id = databaseBuilder.factory.buildAssessment({ userId, type: PLACEMENT }).id;
 
       knowledgeElementsWantedWithLimitDate = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, assessmentId: assessment1Id, createdAt: moment().subtract(1, 'days').format(), skillId: '1' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, assessmentId: assessment2Id, createdAt: moment().subtract(1, 'days').format(), skillId: '3', status: 'validated' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, assessmentId: assessment1Id, createdAt: yesterday, skillId: '1' }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, assessmentId: assessment2Id, createdAt: yesterday, skillId: '3', status: 'validated' })
       ];
 
       knowledgeElementsWanted = knowledgeElementsWantedWithLimitDate.concat([
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 3, assessmentId: assessment1Id, createdAt: moment().add(1, 'days').format(), skillId: '2' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 3, assessmentId: assessment1Id, createdAt: tomorrow, skillId: '2' })
       ]);
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 4, assessmentId: assessment2Id, createdAt: moment().subtract(2, 'days').format(), skillId: '3', status: 'invalidated' }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, assessmentId: assessment3Id, createdAt: moment().subtract(1, 'days').format() }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, assessmentId: assessment3Id, createdAt: moment().subtract(1, 'days').format() }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 7, createdAt: moment().format() });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 4, assessmentId: assessment2Id, createdAt: dayBeforeYesterday, skillId: '3', status: 'invalidated' }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, assessmentId: assessment3Id, createdAt: yesterday }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, assessmentId: assessment3Id, createdAt: yesterday }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 7, createdAt: today });
 
       await databaseBuilder.commit();
     });
@@ -158,7 +163,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     context('when there is a limit date', () => {
       it('should find the knowledge elements for smart placement assessment associated with a user id created before limit date', async () => {
         // when
-        const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId(userId, moment().format());
+        const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId(userId, today);
 
         return promise
           .then((knowledgeElementsFound) => {

@@ -27,20 +27,20 @@ describe('Unit | Domain | Models | Certification', () => {
       const assessmentResult1 = new AssessmentResult({
         pixScore: 35,
         status: 'validated',
-        createdAt: '2017-02-15 14:59:35',
+        createdAt: new Date('2017-02-15T14:59:35Z'),
         commentForCandidate: 'Vous auriez dû travailler plus.',
       });
       const assessmentResult2 = new AssessmentResult({
         pixScore: 20,
         status: 'validated',
-        createdAt: '2018-02-15 14:59:35',
+        createdAt: new Date('2018-02-15T14:59:35Z'),
         commentForCandidate: 'Vous auriez vraiment dû travailler plus.',
       });
 
       // when
       const certification = new Certification({
         id: 1,
-        date: '12/01/2018',
+        date: new Date('2018-01-12T01:02:03Z'),
         certificationCenter: 'certificationCenter',
         isPublished: 'isPublished',
         assessmentResults: [assessmentResult1, assessmentResult2],

@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const moment = require('moment');
 
 const CertificationCourse = require('../models/CertificationCourse');
 const { UserNotAuthorizedToCertifyError } = require('../errors');
@@ -20,7 +19,7 @@ async function _startNewCertification({
 }) {
   const newCertificationCourse = new CertificationCourse({ userId, sessionId });
 
-  const userCompetences = await userService.getProfileToCertify(userId, moment().toISOString());
+  const userCompetences = await userService.getProfileToCertify(userId, new Date());
   _checkIfUserCanStartACertification(userCompetences);
   const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
   //TODO : Creer ici un tableau de CertificationChalleges (Domain Object) avec certificationCourseId rempli

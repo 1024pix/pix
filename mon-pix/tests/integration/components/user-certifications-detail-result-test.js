@@ -22,10 +22,10 @@ describe('Integration | Component | user certifications detail result', function
       // given
       certification = EmberObject.create({
         id: 1,
-        birthdate: new Date('2000-01-22T15:15:52.504Z'),
+        birthdate: new Date('2000-01-22T15:15:52Z'),
         firstName: 'Jean',
         lastName: 'Bon',
-        date: new Date('2018-02-15T15:15:52.504Z'),
+        date: new Date('2018-02-15T15:15:52Z'),
         certificationCenter: 'Université de Lyon',
         isPublished: true,
         pixScore: 654,
@@ -56,10 +56,10 @@ describe('Integration | Component | user certifications detail result', function
       // given
       certification = EmberObject.create({
         id: 1,
-        birthdate: new Date('2000-01-22T15:15:52.504Z'),
+        birthdate: new Date('2000-01-22T15:15:52Z'),
         firstName: 'Jean',
         lastName: 'Bon',
-        date: new Date('2018-02-15T15:15:52.504Z'),
+        date: new Date('2018-02-15T15:15:52Z'),
         certificationCenter: 'Université de Lyon',
         isPublished: true,
         pixScore: 654,

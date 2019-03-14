@@ -12,7 +12,7 @@ const buildCampaignParticipation = require('./build-campaign-participation');
 function buildAssessment({
   id = faker.random.number(),
   courseId = 'courseId',
-  createdAt = new Date('1992-06-12'),
+  createdAt = new Date('1992-06-12T01:02:03Z'),
   userId = faker.random.number(),
   type = Assessment.types.CERTIFICATION,
   state = Assessment.states.COMPLETED,
@@ -41,7 +41,7 @@ buildAssessment.ofTypeSmartPlacement = function({
   id = faker.random.number(),
 
   courseId = 'courseId',
-  createdAt = new Date('1992-06-12'),
+  createdAt = new Date('1992-06-12T01:02:03Z'),
   userId = faker.random.number(),
   state = Assessment.states.COMPLETED,
 
