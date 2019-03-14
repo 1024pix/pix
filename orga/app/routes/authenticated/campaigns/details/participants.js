@@ -10,6 +10,7 @@ export default Route.extend({
       refreshModel: true
     }
   },
+
   model(params) {
     const campaign = this.modelFor('authenticated.campaigns.details');
     return RSVP.hash({

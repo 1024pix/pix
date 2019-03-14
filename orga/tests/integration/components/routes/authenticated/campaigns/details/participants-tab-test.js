@@ -26,12 +26,14 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
     participants.meta = {
       rowCount: 1
     };
+    const goTo = function() {};
 
     this.set('campaign', campaign);
     this.set('participants', participants);
+    this.set('goToParticipantPage', goTo);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/participants-tab campaign=campaign participants=participants}}`);
+    await render(hbs`{{routes/authenticated/campaigns/details/participants-tab campaign=campaign participants=participants goToParticipantPage=goToParticipantPage}}`);
 
     // then
     assert.dom('.participant-list__header').hasText(`Liste des participants (${participants.meta.rowCount})`);
@@ -54,11 +56,14 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       rowCount: 1
     };
 
+    const goTo = function() {};
+
     this.set('campaign', campaign);
     this.set('participants', participants);
+    this.set('goToParticipantPage', goTo);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/participants-tab campaign=campaign participants=participants}}`);
+    await render(hbs`{{routes/authenticated/campaigns/details/participants-tab campaign=campaign participants=participants goToParticipantPage=goToParticipantPage}}`);
 
     // then
     assert.dom('.participant-list__header').hasText(`Liste des participants (${participants.meta.rowCount})`);

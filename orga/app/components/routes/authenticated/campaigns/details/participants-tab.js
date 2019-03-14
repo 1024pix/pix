@@ -8,4 +8,5 @@ export default Component.extend({
     const idPixLabel = this.get('campaign.idPixLabel');
     return _capitalize(idPixLabel);
   }),
+
 });
