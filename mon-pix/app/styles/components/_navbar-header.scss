@@ -21,10 +21,6 @@
 
   @include device-is('desktop') {
     justify-content: space-between;
-    padding: 0 100px;
-  }
-
-  @include device-is('large-screen') {
     padding: 0;
   }
 }
@@ -61,16 +57,14 @@
   margin-left: 5px;
   @include device-is('tablet') {
     height: 45px;
-    margin-left: 30px;
   }
 }
 .navbar-header-logo__marianne {
   float:right;
   margin-top: 5px;
   height: 35px;
-  margin-left: 5px;
+  margin-left: 30px;
   @include device-is('tablet') {
     height: 45px;
-    margin-left: 10px;
   }
 }
