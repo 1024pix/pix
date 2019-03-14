@@ -8,17 +8,14 @@ export default Controller.extend({
   isShowingModal: false,
   answer: null,
   correction: null,
-  challenge: null,
 
   actions: {
-    async openComparisonWindow(answerId) {
+    async openComparisonWindow(answer) {
       const store = this.get('store');
 
-      const answer = await store.findRecord('answer', answerId);
+      const correction = await store.query('correction', { answerId: answer.id }).then((corrections) => corrections.get('firstObject'));
+
       this.set('answer', answer);
-      const challenge = await answer.get('challenge');
-      this.set('challenge', challenge);
-      const correction = await store.query('correction', { answerId }).then((corrections) => corrections.get('firstObject'));
       this.set('correction', correction);
 
       this.set('isShowingModal', true);

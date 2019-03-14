@@ -44,16 +44,15 @@ const TEXT_FOR_RESULT = {
 export default Component.extend({
 
   answer: null,
-  challenge: null,
   correction: null,
   index: null,
 
-  isAssessmentChallengeTypeQroc: equal('challenge.type', 'QROC'),
-  isAssessmentChallengeTypeQcm: equal('challenge.type', 'QCM'),
-  isAssessmentChallengeTypeQcu: equal('challenge.type', 'QCU'),
-  isAssessmentChallengeTypeQrocm: equal('challenge.type', 'QROCM'),
-  isAssessmentChallengeTypeQrocmInd: equal('challenge.type', 'QROCM-ind'),
-  isAssessmentChallengeTypeQrocmDep: equal('challenge.type', 'QROCM-dep'),
+  isAssessmentChallengeTypeQroc: equal('answer.challenge.type', 'QROC'),
+  isAssessmentChallengeTypeQcm: equal('answer.challenge.type', 'QCM'),
+  isAssessmentChallengeTypeQcu: equal('answer.challenge.type', 'QCU'),
+  isAssessmentChallengeTypeQrocm: equal('answer.challenge.type', 'QROCM'),
+  isAssessmentChallengeTypeQrocmInd: equal('answer.challenge.type', 'QROCM-ind'),
+  isAssessmentChallengeTypeQrocmDep: equal('answer.challenge.type', 'QROCM-dep'),
 
   resultItem: computed('answer.result', function() {
     let resultItem = TEXT_FOR_RESULT['default'];

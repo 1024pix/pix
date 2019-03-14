@@ -36,14 +36,14 @@ describe('Integration | Component | comparison-window', function() {
       correction = EmberObject.create({ solution: '2,3' });
 
       this.set('answer', answer);
-      this.set('challenge', challenge);
+      answer.set('challenge', challenge);
       this.set('correction', correction);
       this.set('closeComparisonWindow', () => {});
     });
 
     it('renders', function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
       expect(this.$()).to.have.lengthOf(1);
@@ -51,7 +51,7 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should render challenge result in the header', function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
       expect(document.querySelectorAll('.comparison-window-header')).to.have.lengthOf(1);
@@ -60,7 +60,7 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should render challenge instruction', function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
       expect(document.querySelectorAll('.comparison-window__instruction')).to.have.lengthOf(1);
@@ -68,7 +68,7 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should not render corrected answers when challenge has no type', function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
       // then
       expect(document.querySelectorAll('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(0);
     });
@@ -76,10 +76,10 @@ describe('Integration | Component | comparison-window', function() {
     it('should render corrected answers when challenge type is QROC', function() {
       // given
       challenge = EmberObject.create({ type: 'QROC' });
-      this.set('challenge', challenge);
+      answer.set('challenge', challenge);
 
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
       expect(document.querySelectorAll('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(1);
@@ -89,10 +89,10 @@ describe('Integration | Component | comparison-window', function() {
       // given
       challenge = EmberObject.create({ type: 'QROCM-ind', proposals: '' });
       correction = EmberObject.create({ solution: '' });
-      this.set('challenge', challenge);
+      answer.set('challenge', challenge);
       this.set('correction',  correction);
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
       // then
       expect(document.querySelectorAll('.comparison-window__corrected-answers--qrocm')).to.have.lengthOf(1);
     });
@@ -100,16 +100,16 @@ describe('Integration | Component | comparison-window', function() {
     it('should render corrected answers when challenge type is QCM', function() {
       // given
       challenge = EmberObject.create({ type: 'QCM' });
-      this.set('challenge', challenge);
+      answer.set('challenge', challenge);
       // when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
       // then
       expect(document.querySelectorAll('.qcm-solution-panel')).to.have.lengthOf(1);
     });
 
     it('should render a feedback panel already opened', function() {
       //when
-      this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+      this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
       //then
       expect(document.querySelectorAll('.comparison-window__feedback-panel')).to.have.lengthOf(1);
       expect(document.querySelectorAll(FEEDBACK_FORM)).to.have.lengthOf(1);
@@ -133,7 +133,7 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction closeComparisonWindow=closeComparisonWindow}}`);
+        this.render(hbs`{{comparison-window answer=answer correction=correction closeComparisonWindow=closeComparisonWindow}}`);
 
         // then
         const $icon = document.querySelector('.comparison-window__result-icon');
