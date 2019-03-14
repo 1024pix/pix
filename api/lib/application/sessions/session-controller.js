@@ -35,5 +35,13 @@ module.exports = {
     const updatedSession = await usecases.updateSession({ userId, session });
 
     return serializer.serialize(updatedSession);
+  },
+
+  async getAttendanceSheet(request, h) {
+    const sessionId = request.params.id;
+
+    return h.response(await usecases.getAttendanceSheet({ sessionId }))
+      .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
+      .header('Content-Disposition', 'attachment; filename=pv-session-' + sessionId + '.ods');
   }
 };

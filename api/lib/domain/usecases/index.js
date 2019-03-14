@@ -69,6 +69,7 @@ module.exports = injectDependencies({
   findSnapshots: require('./find-snapshots.js'),
   findUsers: require('./find-users.js'),
   getAssessment: require('./get-assessment'),
+  getAttendanceSheet: require('./get-attendance-sheet-in-ods-format'),
   getCampaign: require('./get-campaign'),
   getCampaignByCode: require('./get-campaign-by-code'),
   getCampaignParticipations: require('./get-campaign-participations'),

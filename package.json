@@ -93,7 +93,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "eslint-plugin-ember": "^5.2.0",
-    "moment": "^2.24.0",
-    "npm-run-all": "^4.1.0"
+    "moment": "^2.24.0"
   }
 }
