@@ -1,0 +1,75 @@
+.participant-results {
+  width: 100%;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 0;
+  }
+  &__information {
+    margin-bottom: 10px;
+
+  }
+  &__result {
+    padding: 10px;
+  }
+}
+
+.participant-results-header {
+  &__title {
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+.participant-results-row {
+  display: flex;
+}
+.participant-results-content {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0px;
+  margin: 0 2%;
+
+  &--first-part {
+    border-right: 1px solid $alto;
+    width: 40%;
+    margin: 0 0 0 3%;
+  }
+
+  &__progress-bar {
+    position: relative;
+  }
+
+  &__label-text {
+    margin-bottom: 10px;
+  }
+
+  &__check-shared {
+    margin-right: 3px;
+    &--green {
+      color: $mountain-meadow;
+    }
+  }
+}
+
+.participant-results-report {
+  display: flex;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  text-align: center;
+
+  &__percent {
+    position: absolute;
+    text-align: center;
+  }
+  &__percent-text {
+    color: $dove-gray;
+    font-family: $roboto;
+    font-size: 2rem;
+    padding: 10px;
+  }
+}

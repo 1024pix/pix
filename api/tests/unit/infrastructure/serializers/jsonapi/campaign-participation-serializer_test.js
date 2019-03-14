@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         campaign: campaign,
         campaignId: campaign.id,
         assessmentId: 67890,
+        userId: 123,
       });
 
       const expectedSerializedCampaignParticipation = {
@@ -39,7 +40,12 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             },
             user: {
               data: null
-            }
+            },
+            'campaign-participation-result': {
+              links: {
+                'related': '/campaign-participations/5/campaign-participation-result'
+              }
+            },
           },
         },
         included: [

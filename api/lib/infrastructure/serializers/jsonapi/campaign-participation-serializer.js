@@ -7,7 +7,7 @@ module.exports = {
 
   serialize(campaignParticipation, meta) {
     return new Serializer('campaign-participation', {
-      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId', 'campaign', 'user'],
+      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult'],
       campaign: {
         ref: 'id',
         attributes: ['code', 'title']
@@ -15,6 +15,15 @@ module.exports = {
       user: {
         ref: 'id',
         attributes: ['firstName', 'lastName'],
+      },
+      campaignParticipationResult: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/campaign-participations/${parent.id}/campaign-participation-result`;
+          }
+        }
       },
       meta
     }).serialize(campaignParticipation);
@@ -27,5 +36,5 @@ module.exports = {
         campaignParticipation.campaignId = _.get(json.data, ['relationships', 'campaign', 'data', 'id']);
         return new CampaignParticipation(campaignParticipation);
       });
-  }
+  },
 };

@@ -1,7 +1,8 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const queryBuilder = require('../../../../lib/infrastructure/utils/query-builder');
 
-const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
+const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
+const Snapshot = require('../../../../lib/domain/models/Snapshot');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
@@ -21,7 +22,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
   describe('find', function() {
     it('should return all snapshots', async function() {
       // when
-      const results = await queryBuilder.find(Snapshot, {
+      const results = await queryBuilder.find(BookshelfSnapshot, {
         filter: {},
         page: {},
         sort: [],
@@ -34,7 +35,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
 
     it('should return filtered snapshots', async function() {
       // when
-      const results = await queryBuilder.find(Snapshot, {
+      const results = await queryBuilder.find(BookshelfSnapshot, {
         filter: {
           organizationId: snapshots[4].organizationId,
         },
@@ -49,7 +50,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
 
     it('should return all snapshots sorted', async function() {
       // when
-      const results = await queryBuilder.find(Snapshot, {
+      const results = await queryBuilder.find(BookshelfSnapshot, {
         filter: {},
         page: {},
         sort: ['-createdAt'],
@@ -63,7 +64,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
 
     it('should return all snapshots with pagination', async function() {
       // when
-      const result = await queryBuilder.find(Snapshot, {
+      const result = await queryBuilder.find(BookshelfSnapshot, {
         filter: {},
         page: {
           number: 1,
@@ -80,7 +81,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
 
     it('should return a specific page of snapshots', async function() {
       // when
-      const result = await queryBuilder.find(Snapshot, {
+      const result = await queryBuilder.find(BookshelfSnapshot, {
         filter: {},
         page: {
           number: 2,
@@ -100,7 +101,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
 
     it('should return a specific page of snapshots with related objects', async function() {
       // when
-      const result = await queryBuilder.find(Snapshot, {
+      const result = await queryBuilder.find(BookshelfSnapshot, {
         filter: {},
         page: {
           number: 3,
@@ -129,15 +130,24 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
 
     it('should return the snapshot', async function() {
       // when
-      const result = await queryBuilder.get(Snapshot, expectedSnapshot.id);
+      const result = await queryBuilder.get(BookshelfSnapshot, expectedSnapshot.id);
 
       // then
       expect(result.id).to.be.equal(snapshots[0].id);
+      expect(result).to.be.instanceof(Snapshot);
+    });
+
+    it('should return the snapshot without calling domain converter', async function() {
+      // when
+      const result = await queryBuilder.get(BookshelfSnapshot, expectedSnapshot.id, null, false);
+
+      // then
+      expect(result).to.be.instanceof(BookshelfSnapshot);
     });
 
     it('should return the snapshot with organization', async function() {
       // when
-      const result = await queryBuilder.get(Snapshot, expectedSnapshot.id, {
+      const result = await queryBuilder.get(BookshelfSnapshot, expectedSnapshot.id, {
         include: ['user', 'organization']
       });
 
@@ -149,7 +159,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
 
     it('should throw a NotFoundError if snapshot can not be found', function() {
       // when
-      const promise = queryBuilder.get(Snapshot, 'errorId');
+      const promise = queryBuilder.get(BookshelfSnapshot, 'errorId');
 
       // then
       return expect(promise).to.have.been.rejectedWith(NotFoundError);

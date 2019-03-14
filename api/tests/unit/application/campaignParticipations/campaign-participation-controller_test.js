@@ -220,4 +220,42 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     });
   });
 
+  describe('#getById', () => {
+    const campaignParticipationId = 1;
+    const userId = 1;
+    let request, options, query;
+
+    beforeEach(() => {
+      query = { include: 'user' };
+      request = {
+        params: {
+          id: campaignParticipationId,
+        },
+        auth: {
+          credentials: { userId }
+        },
+        query,
+      };
+
+      options = { include: ['user'] };
+
+      sinon.stub(queryParamsUtils, 'extractParameters');
+      sinon.stub(usecases, 'getCampaignParticipation');
+      sinon.stub(serializer, 'serialize');
+    });
+
+    it('should returns the campaignParticipation', async () => {
+      // given
+      queryParamsUtils.extractParameters.withArgs(query).returns(options);
+      usecases.getCampaignParticipation.withArgs({ campaignParticipationId, options, userId }).resolves({});
+      serializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await campaignParticipationController.getById(request);
+
+      // then
+      expect(response).to.equal('ok');
+    });
+  });
+
 });

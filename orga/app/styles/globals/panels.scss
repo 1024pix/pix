@@ -95,3 +95,18 @@
     }
   }
 }
+
+.progress-bar {
+  width: 100px;
+  height: 3px;
+  border-radius: 10px;
+  background-color: $alto;
+
+  &--completion {
+    background-color: $mariner;
+  }
+
+  &--completed {
+    background-color: $mountain-meadow;
+  }
+}
