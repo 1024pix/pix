@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.30.0 (14/03/2019)
+
+- [#390](https://github.com/1024pix/pix/pull/390) [FEATURE] Changement de wording sur les pages et email du changement de mot de passe (PF-497)
+- [#407](https://github.com/1024pix/pix/pull/407) [BUGFIX] Fix bugs affichage réinitialisation mot de passe sous IE
+- [#395](https://github.com/1024pix/pix/pull/395) [BUGFIX] Mise à jour de la barre de progression au bon moment (PF-508).
+- [#404](https://github.com/1024pix/pix/pull/404) [TECH] Supprimer ember-table de Pix Certif (PF-534).
+
 ## v2.29.1 (07/03/2019)
 
 - [#400](https://github.com/1024pix/pix/pull/400) [BUGFIX] Problème lors des lancements de certifications.
