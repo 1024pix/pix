@@ -2,9 +2,31 @@
 
 #### Table des matières
 
-- [Notre utilisation de Git](#notre-utilisation-de-git)
-- [Guide de style JavaScript](#guide-de-style-javascript)
-- [Guide de création Front-End](#guide-de-création-frond-end)
+[Notre utilisation de Git](#notre-utilisation-de-git)
+* [Branche dev](#branche-dev)
+* [Nommage](#nommage)
+* [Nommage des commits](#nommage-des-commits)
+* [Node.js](#nodejs)
+
+[Guide de style JavaScript](#guide-de-style-javascript)
+* [API](#api)
+* [-> Global](#global)
+* [-> Nommage](#nommage)
+* [-> Routes](#routes)
+* [-> Controllers](#controllers)
+* [-> Usecases](#usecases)
+
+[Guide de création Front-End](#guide-de-création-front-end)
+* [Accessibilité](#accessibilité)
+* [CSS](#css)
+* [-> Couleurs](#couleurs)
+* [-> Positionnement](#positionnement)
+* [-> Responsive design](#responsive-design)
+* [-> Structure de classes](#structure-des-classes)
+* [-> Unités](#unités)
+* [Javascript Ember.js](#javascript-emberjs)
+* [-> Components](#components)
+* [-> Routes](#routes)
 
 ## Notre utilisation de Git
 
@@ -143,7 +165,7 @@ Test unitaire : un test unitaire doit passer sans base de données.
 
 ##### Utilisation des balises <h*> </h*>
 
-Peut importe l'apparence des h*, les personnes qui voient les titres comprennent. En revanche les personnes qui naviguent avec le clavier au __voiceOver__ ont besoin que le html soit explicite le plus possible pour que leur outil sache les lire correctement.
+Peu importe l'apparence des h*, les personnes qui voient les titres comprennent. En revanche les personnes qui naviguent avec le clavier au __voiceOver__ ont besoin que le html soit explicite le plus possible pour que leur outil sache les lire correctement.
 
 ### CSS
 
@@ -158,8 +180,8 @@ Rassembler les couleurs dans un seul et même fichier scss (palette.scss ou colo
 ```scss
 // BAD
 .my-class {
- display: flex;
- margin-top: -9875654px;
+  display: flex;
+  margin-top: -9875654px;
 }
 
 // GOOD
@@ -212,7 +234,9 @@ Ces "_règles_" ne vont pas forcément s'appliquer sur des composants uniques.
 ###### Nommage des classes 
 Quand on reprend l'élément pour devenir un block, il n'est pas obligatoire de reprendre l'élément parent. 
 
-Par example, avec le parent `profilv2-header__hexagon-score`, l'enfant peut devenir `hexagon-score__content`. On est pas obligé de l'appeler `profilv2-header-hexagon-score__content`.
+Par exemple, avec le parent `profilv2-header__hexagon-score`, l'enfant doit devenir `hexagon-score__content`. On n'est pas obligé de l'appeler `profilv2-header-hexagon-score__content`. 
+
+Selon BEM, les classes ne doivent pas refléter la structure arborescente du DOM, et être le plus flat possible. Puisque par définition d'un block, tout ce qui est de la forme block__element-n est un tout indivisible.
 
 ###### Imbrication en poupées russes
 
@@ -263,28 +287,7 @@ Utilisation des __px__ pour le positionnement: padding, border, margin.
 
 ### Javascript Ember.js
 
-##### Routes
-
-###### Accéder à une ressource
-
-Privilégier l'utilisation de `this.store` plutôt que `this.get('store')`
-
-```javascript
-// BAD
-export default Route.extend({
-  model() {
-    const store = this.get('store');
-    return store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
-  },
-});
-
-// GOOD
-export default Route.extend({
-  model() {
-    return this.store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true});
-  },
-});
-```
+##### Components
 
 ###### Création de classes css
 Privilégier la création de classes CSS dans le `.hbs` plutôt que dans le `.js`
@@ -323,6 +326,29 @@ export default Component.extend({
 </div>
 ```
 
+##### Routes
+
+###### Accéder à une ressource
+
+Privilégier l'utilisation de `this.store` plutôt que `this.get('store')`
+
+```javascript
+// BAD
+export default Route.extend({
+  model() {
+    const store = this.get('store');
+    return store.findRecord('user', this.get('session.data.authenticated.userId'));
+  },
+});
+
+// GOOD
+export default Route.extend({
+  model() {
+    return this.store.findRecord('user', this.get('session.data.authenticated.userId'));
+  },
+});
+```
+
 ###### Utilisation de transitionTo
 
 Éviter les `transistionTo` dans le modèle. Privilégier leur utilisation dans l’`afterModel()`, une fois que le modèle est chargé.
@@ -332,7 +358,7 @@ export default Component.extend({
 export default Route.extend({
   model() {
     const store = this.get('store');
-    return store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
+    return store.findRecord('user', this.get('session.data.authenticated.userId'))
     .then((user) => {
       if (user.get('organizations.length') > 0) {
         return this.transitionTo('board');
@@ -345,7 +371,7 @@ export default Route.extend({
 // GOOD
 export default Route.extend({
    model() {
-      return this.store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true });
+      return this.store.findRecord('user', this.get('session.data.authenticated.userId'));
     },
   
     afterModel(model) {
