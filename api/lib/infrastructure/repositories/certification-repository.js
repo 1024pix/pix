@@ -35,6 +35,7 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
     assessmentResults: assessmentResults,
     certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
     birthdate: certificationCourseBookshelf.get('birthdate'),
+    birthplace: certificationCourseBookshelf.get('birthplace'),
     firstName: certificationCourseBookshelf.get('firstName'),
     lastName: certificationCourseBookshelf.get('lastName'),
     date: certificationCourseBookshelf.get('completedAt'),

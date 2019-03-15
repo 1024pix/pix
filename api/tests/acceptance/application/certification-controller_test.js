@@ -95,6 +95,7 @@ describe('Acceptance | API | Certifications', () => {
             attributes: {
               // TODO Bug birthdate UTC+1
               'birthdate': new Date('1993-12-08'),
+              'birthplace': 'Asnières IZI',
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
               'date': new Date('2018-02-15T15:15:52Z'),
@@ -426,6 +427,7 @@ describe('Acceptance | API | Certifications', () => {
           'attributes': {
             // TODO Bug birthdate UTC+1
             'birthdate': new Date('1989-10-24T00:00:00Z'),
+            'birthplace': 'Earth',
             'certification-center': 'Université du Pix',
             'comment-for-candidate': null,
             'date': new Date('2003-02-01T01:02:03Z'),
@@ -638,6 +640,7 @@ describe('Acceptance | API | Certifications', () => {
             attributes: {
               // TODO Bug birthdate UTC+1
               'birthdate': new Date('1991-10-24'),
+              'birthplace': 'Earth',
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
               'date': new Date('2003-01-02T01:02:03Z'),
