@@ -11,7 +11,8 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     campaignParticipation,
     targetProfile,
     targetProfileSkills,
-    skills;
+    skills,
+    competences;
 
   let server;
 
@@ -68,9 +69,46 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       createdAt: oldDate,
     });
 
+    competences = [
+      airtableBuilder.factory.buildCompetence({
+        id: 1,
+        titre: 'Agir collectivement',
+        sousDomaine: '1.2',
+        acquisViaTubes: [skills[0].id],
+      }),
+      airtableBuilder.factory.buildCompetence({
+        id: 2,
+        titre: 'Nécessité de la pensée radicale',
+        sousDomaine: '2.1',
+        acquisViaTubes: [skills[1].id, skills[2].id, skills[3].id],
+      }),
+      airtableBuilder.factory.buildCompetence({
+        id: 3,
+        titre: 'Changer efficacement le monde',
+        sousDomaine: '2.2',
+        acquisViaTubes: [skills[4].id, skills[5].id, skills[6].id, skills[7].id],
+      }),
+      airtableBuilder.factory.buildCompetence({
+        id: 4,
+        titre: 'Oser la paresse',
+        sousDomaine: '4.3',
+        acquisViaTubes: ['notIncludedSkillId'],
+      }),
+    ];
+
     airtableBuilder
       .mockList({ tableName: 'Acquis' })
       .returns(skills)
+      .activate();
+
+    airtableBuilder
+      .mockList({ tableName: 'Competences' })
+      .returns(competences)
+      .activate();
+
+    airtableBuilder
+      .mockList({ tableName: 'Domaines' })
+      .returns([])
       .activate();
 
     await databaseBuilder.commit();
@@ -104,8 +142,53 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'tested-skills-count': 5,
             'validated-skills-count': 3,
             'is-completed': true
-          }
-        }
+          },
+          relationships: {
+            'competence-results': {
+              data: [{
+                id: `${competences[0].id}`,
+                type: 'competenceResults',
+              }, {
+                id: `${competences[1].id}`,
+                type: 'competenceResults',
+              }, {
+                id: `${competences[2].id}`,
+                type: 'competenceResults',
+              }]
+            },
+          },
+        },
+        included: [{
+          type: 'competenceResults',
+          id: competences[0].id.toString(),
+          attributes: {
+            name: 'Agir collectivement',
+            index: '1.2',
+            'total-skills-count': 1,
+            'tested-skills-count': 0,
+            'validated-skills-count': 0,
+          },
+        }, {
+          type: 'competenceResults',
+          id: competences[1].id.toString(),
+          attributes: {
+            name: 'Nécessité de la pensée radicale',
+            index: '2.1',
+            'total-skills-count': 3,
+            'tested-skills-count': 2,
+            'validated-skills-count': 2,
+          },
+        }, {
+          type: 'competenceResults',
+          id: competences[2].id.toString(),
+          attributes: {
+            name: 'Changer efficacement le monde',
+            index: '2.2',
+            'total-skills-count': 4,
+            'tested-skills-count': 3,
+            'validated-skills-count': 1,
+          },
+        }],
       };
 
       // when
