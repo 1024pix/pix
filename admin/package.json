@@ -72,6 +72,7 @@
     "emberx-select": "^4.0.0-beta.2",
     "eslint-plugin-ember": "^6.2.0",
     "loader.js": "^4.7.0",
+    "lodash": "^4.17.11",
     "popper.js": "^1.14.7",
     "qunit-dom": "^0.8.4",
     "sass": "^1.17.2"
