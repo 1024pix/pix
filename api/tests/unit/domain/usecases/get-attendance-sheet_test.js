@@ -36,12 +36,11 @@ describe.only('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
   const CURRENT_WORKING_DIRECTORY = 'current/working/directory';
   usecase.PATH.ODS = CURRENT_WORKING_DIRECTORY + '/lib/domain/files/attendance_sheet_template.ods';
   const parsedXmlDom = { getElementsByTagName: _.noop };
-  const zipObject = { file: _.noop };
+  const zipObject = { file: _.noop, generateAsync: _.noop };
 
   const contentXmlBufferCompressed = { async: _.noop };
   const contentXmlBufferUncompressed = Buffer.from('some uncompressed xml');
-  const odsBuffer = Buffer.from('some ods file');
-  const expectedAttendanceSheet = Buffer.from('TODO');
+  const attendanceSheetBuffer = Buffer.from('some ods file');
 
   const stringifiedContentXmlTemplate =
     '<xml>' +
@@ -87,9 +86,10 @@ describe.only('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
       sinon.stub(zipObject, 'file')
         .withArgs(usecase.PATH.CONTENT_XML_IN_ODS).returns(contentXmlBufferCompressed)
         .withArgs(usecase.PATH.CONTENT_XML_IN_ODS, updatedStringifiedXml).resolves();
+      sinon.stub(zipObject, 'generateAsync').returns(attendanceSheetBuffer);
       sinon.stub(contentXmlBufferCompressed, 'async').resolves(contentXmlBufferUncompressed);
       sinon.stub(process, 'cwd').returns(CURRENT_WORKING_DIRECTORY);
-      sinon.stub(JSZip.prototype, 'generateAsync').resolves(odsBuffer);
+      // sinon.stub(JSZip.prototype, 'generateAsync').resolves(attendanceSheetBuffer);
       sinon.stub(xmldom.DOMParser.prototype, 'parseFromString').returns(parsedXmlDom);
       sinon.stub(xmldom.XMLSerializer.prototype, 'serializeToString').returns(updatedStringifiedXml);
       sinon.stub(sessionRepository, 'get').returns(session);
@@ -102,7 +102,7 @@ describe.only('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
 
     it('should return the attendance sheet', () => {
       // then
-      expect(result).to.deep.equal(expectedAttendanceSheet);
+      expect(result.toString()).to.deep.equal('some ods file');
     });
 
   });

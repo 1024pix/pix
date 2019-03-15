@@ -111,7 +111,7 @@ function _buildStringifiedXmlFromXmlDom(parsedXmlDom) {
 
 async function _buildUpdatedOdsFile(stringifiedXml) {
   const zip = await _loadOdsTemplate();
-  const res = await zip.file(PATH.CONTENT_XML_IN_ODS, stringifiedXml);
+  await zip.file(PATH.CONTENT_XML_IN_ODS, stringifiedXml);
   const odsBuffer = await zip.generateAsync({ type: 'nodebuffer' });
   
   return odsBuffer;
