@@ -64,6 +64,9 @@ describe('Unit | UseCase | get-user-scorecard', () => {
       // given
       const authenticatedUserId = 2;
       const requestedUserId = 2;
+      const earnedPix = 8;
+      const level = 1;
+      const percentageOnLevel = 0;
 
       const competenceList = [
         domainBuilder.buildCompetence({ id: 1, name: 'compétence 1' }),
@@ -78,8 +81,13 @@ describe('Unit | UseCase | get-user-scorecard', () => {
       ];
       smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
 
+      const expectedUserScorecard = [
+        domainBuilder.buildUserScorecard({ id: competenceList[0].id,  name: competenceList[0].name, earnedPix, level, percentageOnLevel }),
+        domainBuilder.buildUserScorecard({ id: competenceList[1].id,  name: competenceList[1].name, earnedPix, level, percentageOnLevel }),
+      ];
+
       // when
-      await getUserScorecard({
+      const userScorecard = await getUserScorecard({
         authenticatedUserId,
         requestedUserId,
         smartPlacementKnowledgeElementRepository,
@@ -87,7 +95,11 @@ describe('Unit | UseCase | get-user-scorecard', () => {
       });
 
       //then
-      //write a good test
+      expect(userScorecard[0].id).to.equal(expectedUserScorecard[0].id);
+      expect(userScorecard[0].name).to.equal(expectedUserScorecard[0].name);
+      expect(userScorecard[0].earnedPix).to.equal(expectedUserScorecard[0].earnedPix);
+      expect(userScorecard[0].level).to.equal(expectedUserScorecard[0].level);
+      expect(userScorecard[0].percentageOnLevel).to.equal(expectedUserScorecard[0].percentageOnLevel);
 
     });
   });
