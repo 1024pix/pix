@@ -4,7 +4,7 @@
 
 - [Notre utilisation de Git](#notre-utilisation-de-git)
 - [Guide de style JavaScript](#guide-de-style-javascript)
-
+- [Guide de création Front-End](#guide-de-création-frond-end)
 
 ## Notre utilisation de Git
 
@@ -133,18 +133,121 @@ module.exports = function myUseCase({ param1, param2, param3, repo1, repo2 }) {
 ...
 }
 ```
-
 #### Tests
 
 Test unitaire : un test unitaire doit passer sans base de données.
 
-### FRONT
+## Guide de création Front-End
 
-#### CSS
+### Accessibilité
+
+##### Utilisation des balises <h*> </h*>
+
+Peut importe l'apparence des h*, les personnes qui voient les titres comprennent. En revanche les personnes qui naviguent avec le clavier au __voiceOver__ ont besoin que le html soit explicite le plus possible pour que leur outil sache les lire correctement.
+
+### CSS
 
 ##### Couleurs
 
 Rassembler les couleurs dans un seul et même fichier scss (palette.scss ou colors.scss)
+
+##### Positionnement
+
+Éviter le plus possible les valeurs négatives de margin, padding, etc. et privilégier les positions absolutes
+
+```scss
+// BAD
+.my-class {
+ display: flex;
+ margin-top: -9875654px;
+}
+
+// GOOD
+.my-class {
+  position: absolute;
+  top: 20px;
+  left: 5px;
+  right: 24132px;
+  bottom: 12345px;
+}
+
+```
+
+##### Responsive design
+
+La largeur doit prendre soit __100%__ soit une __largeur maximale__ fixe définie en px.
+```scss
+// BAD
+.my-class {
+  width: 70%;
+}
+
+// GOOD 
+.my-class {
+  width: 100%;
+}
+
+// ALSO GOOD 
+.my-class {
+  max-width: 1200px;
+}
+```
+
+##### Structure de classes
+
+###### Convention Block__Element--Modifier (BEM)
+
+Privilégier le plus possible le [pattern BEM](http://getbem.com/).
+
+###### Définition de responsabilités 
+
+Dans une recherche de réutilisabilité des classes css, il faut dans __l'idéal__ que :
+* Le bloc comporte le __style__.
+* L’élément comporte le __positionnement__.
+* Le modifier modifie de façon **mineure** certaines descriptions de style du bloc.
+* Une modification majeure marque le __besoin de créer une nouvelle classe__ / un nouvel “objet” css
+
+Ces "_règles_" ne vont pas forcément s'appliquer sur des composants uniques.
+
+###### Nommage des classes 
+Quand on reprend l'élément pour devenir un block, il n'est pas obligatoire de reprendre l'élément parent. 
+
+Par example, avec le parent `profilv2-header__hexagon-score`, l'enfant peut devenir `hexagon-score__content`. On est pas obligé de l'appeler `profilv2-header-hexagon-score__content`.
+
+###### Imbrication en poupées russes
+
+Privilégier le plus possible la création de classes filles __visuellement plus petites__ que leur classe parente, à l'image des poupées russes.
+
+###### Séparation des responsabilités
+
+Séparer le style du positionnement. On peut par exemple utiliser `@mixin`
+
+```scss
+// BAD
+.hexagon-score-content__pix-score {
+  position: absolute;
+  width: 100%;
+  top: 40px;
+  color: $black;
+  font-family: $font-open-sans;
+  font-size: 4.6rem;
+}
+
+// GOOD
+@mixin hexagon-score-pix-score {
+  color: $black;
+  font-family: $font-open-sans;
+  font-size: 4.6rem;
+}
+
+.hexagon-score-content__pix-score {
+  @include hexagon-score-pix-score;
+  position: absolute;
+  width: 100%;
+  top: 40px;
+}
+
+```
 
 ##### Unités
 
@@ -156,4 +259,100 @@ Utilisation des __px__ pour le positionnement: padding, border, margin.
  size: 1.3em;
  padding: 10px 12px;
 }
+```
+
+### Javascript Ember.js
+
+##### Routes
+
+###### Accéder à une ressource
+
+Privilégier l'utilisation de `this.store` plutôt que `this.get('store')`
+
+```javascript
+// BAD
+export default Route.extend({
+  model() {
+    const store = this.get('store');
+    return store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
+  },
+});
+
+// GOOD
+export default Route.extend({
+  model() {
+    return this.store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true});
+  },
+});
+```
+
+###### Création de classes css
+Privilégier la création de classes CSS dans le `.hbs` plutôt que dans le `.js`
+
+```javascript
+// BAD 
+export default Component.extend({
+  classNames: ['hexagon-score'], // qui va rajouter cette class à la div créée par Ember pour injecter le component
+});
+```
+
+```html
+// BAD
+<div class="hexagon-score__content">
+  <div class="hexagon-score-content__title">PIX</div>
+  <div class="hexagon-score-content__pix-score">{{score}}</div>
+  <div class="hexagon-score-content__pix-total">1024</div>
+</div>
+```
+
+```javascript
+// GOOD
+export default Component.extend({
+  // component stuff
+});
+```
+
+```html
+// GOOD
+<div class="hexagon-score">
+  <div class="hexagon-score__content">
+    <div class="hexagon-score-content__title">PIX</div>
+    <div class="hexagon-score-content__pix-score">{{score}}</div>
+    <div class="hexagon-score-content__pix-total">1024</div>
+  </div>
+</div>
+```
+
+###### Utilisation de transitionTo
+
+Éviter les `transistionTo` dans le modèle. Privilégier leur utilisation dans l’`afterModel()`, une fois que le modèle est chargé.
+
+```javascript
+// BAD
+export default Route.extend({
+  model() {
+    const store = this.get('store');
+    return store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
+    .then((user) => {
+      if (user.get('organizations.length') > 0) {
+        return this.transitionTo('board');
+      }
+      return user;
+    });
+  },
+});
+
+// GOOD
+export default Route.extend({
+   model() {
+      return this.store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true });
+    },
+  
+    afterModel(model) {
+      if (model.get('organizations.length') > 0) {
+        return this.transitionTo('board');
+      }
+    }
+});
+```
 ```
