@@ -11,6 +11,7 @@ class Certification {
     // attributes
     assessmentState,
     birthdate,
+    birthplace,
     certificationCenter,
     date,
     firstName,
@@ -26,6 +27,7 @@ class Certification {
     // attributes
     this.assessmentState = assessmentState;
     this.birthdate = birthdate;
+    this.birthplace = birthplace;
     this.certificationCenter = certificationCenter;
     this.date = date;
     this.firstName = firstName;
