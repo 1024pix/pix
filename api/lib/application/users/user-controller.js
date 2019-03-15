@@ -137,7 +137,7 @@ module.exports = {
   },
 
   getScorecard(request) {
-    const authenticatedUserId = request.auth.credentials.userId;
+    const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
     return usecases.getUserScorecard({  authenticatedUserId, requestedUserId  });
   },
