@@ -6,7 +6,7 @@ const fs = require('fs');
 const util = require('util');
 const _ = require('lodash');
 
-describe.only('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
+describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
 
   let result;
   const sessionId = 'dummySessionId';
@@ -19,17 +19,6 @@ describe.only('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
     date: '2018-01-15',
     time: '14:00:00',
     certificationCenter: 'Tour Gamma',
-  };
-
-  const attendanceSheetData = {
-    id: 1,
-    date: '15/01/2018',
-    startTime: '14:00',
-    endTime: '16:00',
-    address: 'Rue de bercy',
-    room: 'Salle 2',
-    examiner: 'Benoit',
-    certificationCenterName: 'Tour Gamma',
   };
 
   const CURRENT_WORKING_DIRECTORY = 'current/working/directory';

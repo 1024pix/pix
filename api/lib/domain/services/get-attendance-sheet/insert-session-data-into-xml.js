@@ -42,10 +42,10 @@ module.exports = function insertSessionDataIntoXml({ stringifiedXml, session }) 
   const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
   const updatedXmlDom = _updatedXmlDomWithSessionData(attendanceSheetData, parsedXmlDom);
   return _buildStringifiedXmlFromXmlDom(updatedXmlDom);
-}
+};
 
 function buildAttendanceSheetData(session) {
-  const attendanceSheetData = {};
+  const attendanceSheetData = Object.assign({}, session);
   attendanceSheetData.certificationCenterName = session.certificationCenter;
   attendanceSheetData.date = moment(session.date).format('DD/MM/YYYY');
   const startTime = moment(session.time, 'HH:mm');
