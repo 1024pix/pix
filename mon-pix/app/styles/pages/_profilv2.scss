@@ -1,0 +1,26 @@
+.profilv2-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-rendering: optimizeLegibility;
+}
+
+.profilv2 {
+  &__banner {
+    height: 240px;
+    width: 100%;
+    background: $pix-yellow-to-orange-gradient-horizontal;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
+  }
+
+  &__panel {
+    display: flex;
+    width: 100%;
+    margin-top: -205px;
+    height: 480px;
+
+    @include device-is('desktop') {
+      max-width: 1200px;
+    }
+  }
+}
