@@ -4,8 +4,10 @@ const moment = require('moment');
 const JSZip = require('jszip');
 const { DOMParser, XMLSerializer } = require('xmldom');
 
-const CONTENT_XML_PATH_IN_ODS = 'content.xml';
-const ODS_PATH = process.cwd() + '/lib/domain/files/template.ods';
+const PATH = {
+  CONTENT_XML_IN_ODS: 'content.xml',
+  ODS: process.cwd() + '/lib/domain/files/attendance_sheet_template.ods'
+};
 
 const ATTENDANCE_SHEET_TEMPLATE_VALUE = [
   {
@@ -42,33 +44,32 @@ const ATTENDANCE_SHEET_TEMPLATE_VALUE = [
   },
 ];
 
-module.exports = getAttendanceSheet;
+module.exports = {
+  getAttendanceSheet,
+  buildAttendanceSheetData,
+  PATH
+};
 
 async function getAttendanceSheet({ sessionId, sessionRepository }) {
   const session = await sessionRepository.get(sessionId);
   const attendanceSheetData = buildAttendanceSheetData(session);
-
-  return _getUpdatedOdsBuffer(attendanceSheetData);
-}
-
-function buildAttendanceSheetData(session) {
-  const attendanceSheetData = {};
-  session.certificationCenterName = session.certificationCenter;
-  session.date = moment(session.date).format('DD/MM/YYYY');
-  const startTime = moment(session.time, 'HH:mm');
-  session.startTime = startTime.format('HH:mm');
-  session.endTime = startTime.add(moment.duration(2, 'hours')).format('HH:mm');
-  return attendanceSheetData;
-}
-
-async function _getUpdatedOdsBuffer(attendanceSheetData) {
   const stringifiedUpdatedXml = await _computeUpdatedContentXmlFile(attendanceSheetData);
   const updatedOdsBuffer = await _buildUpdatedOdsFile(stringifiedUpdatedXml);
   return updatedOdsBuffer;
 }
 
+function buildAttendanceSheetData(session) {
+  const attendanceSheetData = {};
+  attendanceSheetData.certificationCenterName = session.certificationCenter;
+  attendanceSheetData.date = moment(session.date).format('DD/MM/YYYY');
+  const startTime = moment(session.time, 'HH:mm');
+  attendanceSheetData.startTime = startTime.format('HH:mm');
+  attendanceSheetData.endTime = startTime.add(moment.duration(2, 'hours')).format('HH:mm');
+  return attendanceSheetData;
+}
+
 async function _computeUpdatedContentXmlFile(attendanceSheetData) {
-  const stringifiedXml = await _extractXmlFromOdsFile(CONTENT_XML_PATH_IN_ODS);
+  const stringifiedXml = await _extractXmlFromOdsFile(PATH.CONTENT_XML_IN_ODS);
   const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
   const updatedXmlDom = _updatedXmlDomWithSessionData(attendanceSheetData, parsedXmlDom);
   return _buildStringifiedXmlFromXmlDom(updatedXmlDom);
@@ -88,8 +89,10 @@ function _buildXmlDomFromXmlString(stringifiedXml) {
 function _updatedXmlDomWithSessionData(attendanceSheetData, parsedXmlDom) {
   for (const templateValue of ATTENDANCE_SHEET_TEMPLATE_VALUE) {
     const targetXmlDomElement = _getXmlDomElementByText(parsedXmlDom, templateValue.placeholder);
-    const newAttendanceSheetValue = attendanceSheetData[templateValue.propertyName];
-    targetXmlDomElement.textContent = newAttendanceSheetValue;
+    if (targetXmlDomElement) {
+      const newAttendanceSheetValue = attendanceSheetData[templateValue.propertyName];
+      targetXmlDomElement.textContent = newAttendanceSheetValue;
+    }
   }
   return parsedXmlDom;
 }
@@ -108,18 +111,18 @@ function _buildStringifiedXmlFromXmlDom(parsedXmlDom) {
 
 async function _buildUpdatedOdsFile(stringifiedXml) {
   const zip = await _loadOdsTemplate();
-  await zip.file(CONTENT_XML_PATH_IN_ODS, stringifiedXml);
+  const res = await zip.file(PATH.CONTENT_XML_IN_ODS, stringifiedXml);
   const odsBuffer = await zip.generateAsync({ type: 'nodebuffer' });
   
   return odsBuffer;
 }
 
 async function _loadOdsTemplate() {
-  const odsFileData = await _readOdsFile(ODS_PATH);
+  const odsFileData = await _readOdsFile();
   const zip = JSZip();
   return await zip.loadAsync(odsFileData);
 }
 
-async function _readOdsFile(odsFilePath) {
-  return await util.promisify(fs.readFile)(odsFilePath);
+async function _readOdsFile() {
+  return await util.promisify(fs.readFile)(PATH.ODS);
 }
