@@ -22,10 +22,11 @@ describe('Integration | Component | user certifications detail header', function
       // given
       certification = EmberObject.create({
         id: 1,
-        birthdate: new Date('2000-01-22T15:15:52.504Z'),
+        birthdate: new Date('2000-01-22T15:15:52Z'),
+        birthplace: 'Paris',
         firstName: 'Jean',
         lastName: 'Bon',
-        date: new Date('2018-02-15T15:15:52.504Z'),
+        date: new Date('2018-02-15T15:15:52Z'),
         certificationCenter: 'Université de Lyon',
         isPublished: true,
         pixScore: 654,
@@ -57,6 +58,10 @@ describe('Integration | Component | user certifications detail header', function
         ' janvier 2000');
     });
 
+    it('should show the certification user birthplace', function() {
+      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Lieu de naissance : Paris');
+    });
+
     it('should show the certification center', function() {
       expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Centre de' +
         ' certification : Université de Lyon');
@@ -70,6 +75,7 @@ describe('Integration | Component | user certifications detail header', function
       certification = EmberObject.create({
         id: 1,
         birthdate: null,
+        birthplace: null,
         firstName: null,
         lastName: null,
         date: null,
@@ -90,12 +96,16 @@ describe('Integration | Component | user certifications detail header', function
       expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('obtenue le');
     });
 
-    it('should not  show the certification user full name', function() {
+    it('should not show the certification user full name', function() {
       expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Nom :');
     });
 
-    it('should not  show the certification user birthdate', function() {
+    it('should not show the certification user birthdate', function() {
       expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Date de naissance :');
+    });
+
+    it('should not show the certification user birthplace', function() {
+      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Lieu de naissance :');
     });
 
     it('should not show the certification center', function() {

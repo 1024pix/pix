@@ -13,11 +13,12 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         id: 5,
         isShared: true,
         participantExternalId: 'mail pro',
-        sharedAt: '2018-02-06 14:12:44',
-        createdAt: '2018-02-05 14:12:44',
+        sharedAt: new Date('2018-02-06T14:12:44Z'),
+        createdAt: new Date('2018-02-05T14:12:44Z'),
         campaign: campaign,
         campaignId: campaign.id,
         assessmentId: 67890,
+        userId: 123,
       });
 
       const expectedSerializedCampaignParticipation = {
@@ -27,8 +28,8 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
           attributes: {
             'is-shared': true,
             'participant-external-id': 'mail pro',
-            'shared-at': '2018-02-06 14:12:44',
-            'created-at': '2018-02-05 14:12:44',
+            'shared-at': new Date('2018-02-06T14:12:44Z'),
+            'created-at': new Date('2018-02-05T14:12:44Z'),
           },
           relationships: {
             campaign: {
@@ -39,7 +40,12 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             },
             user: {
               data: null
-            }
+            },
+            'campaign-participation-result': {
+              links: {
+                'related': '/campaign-participations/5/campaign-participation-result'
+              }
+            },
           },
         },
         included: [

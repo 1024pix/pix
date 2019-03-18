@@ -153,7 +153,7 @@ class Assessment {
 
   getRemainingDaysBeforeNewAttempt() {
     const lastResult = this.getLastAssessmentResult();
-    const daysSinceLastCompletedAssessment = moment().diff(lastResult.createdAt, 'days', true);
+    const daysSinceLastCompletedAssessment = moment.utc().diff(lastResult.createdAt, 'days', true);
 
     const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS - daysSinceLastCompletedAssessment);
 

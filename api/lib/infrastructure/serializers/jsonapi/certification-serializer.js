@@ -19,6 +19,7 @@ module.exports = {
       attributes: [
         'certificationCenter',
         'birthdate',
+        'birthplace',
         'date',
         'firstName',
         'isPublished',
@@ -64,10 +65,10 @@ module.exports = {
       .deserialize(json)
       .then(((certifications) => {
         if (birthdate) {
-          if (!moment(birthdate, 'DD/MM/YYYY').isValid()) {
+          if (!moment.utc(birthdate, 'DD/MM/YYYY').isValid()) {
             return Promise.reject(new WrongDateFormatError());
           }
-          certifications.birthdate = moment(birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+          certifications.birthdate = moment.utc(birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
         }
         return certifications;
       }));

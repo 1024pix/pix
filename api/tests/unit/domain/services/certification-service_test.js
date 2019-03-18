@@ -181,7 +181,7 @@ describe('Unit | Service | Certification Service', function() {
 
   describe('#calculateCertificationResultByCertificationCourseId', () => {
 
-    const dateCreationCertif = '2018-01-01';
+    const dateCreationCertif = new Date('2018-01-01T01:02:03Z');
     const certificationAssessment = Assessment.fromAttributes({
       id: 'assessment_id',
       userId: 'user_id',
@@ -720,7 +720,7 @@ describe('Unit | Service | Certification Service', function() {
   describe('#calculateCertificationResultByAssessmentId', () => {
 
     const certificationCourse = { id: 'course1', status: 'completed' };
-    const dateCreationCertif = '2018-02-02';
+    const dateCreationCertif = new Date('2018-02-02T01:02:03Z');
 
     const certificationAssessment = Assessment.fromAttributes({
       id: 'assessment_id',
@@ -1187,8 +1187,8 @@ describe('Unit | Service | Certification Service', function() {
           ],
         }));
         sinon.stub(certificationCourseRepository, 'get').resolves({
-          createdAt: '2017-12-23 15:23:12',
-          completedAt: '2017-12-23T16:23:12.232Z',
+          createdAt: new Date('2017-12-23T15:23:12Z'),
+          completedAt: new Date('2017-12-23T16:23:12Z'),
           firstName: 'Pumba',
           lastName: 'De La Savane',
           birthplace: 'Savane',
@@ -1212,8 +1212,8 @@ describe('Unit | Service | Certification Service', function() {
         // then
         return promise.then((certification) => {
           expect(certification.pixScore).to.deep.equal(20);
-          expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
-          expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
+          expect(certification.createdAt).to.deep.equal(new Date('2017-12-23T15:23:12Z'));
+          expect(certification.completedAt).to.deep.equal(new Date('2017-12-23T16:23:12Z'));
           expect(certification.competencesWithMark).to.deep.equal([{
             area_code: '2',
             assessmentResultId: undefined,
@@ -1252,7 +1252,7 @@ describe('Unit | Service | Certification Service', function() {
           state: 'started',
         }));
         sinon.stub(certificationCourseRepository, 'get').resolves({
-          createdAt: '2017-12-23 15:23:12',
+          createdAt: new Date('2017-12-23T15:23:12Z'),
           firstName: 'Pumba',
           lastName: 'De La Savane',
           birthplace: 'Savane',
@@ -1276,7 +1276,7 @@ describe('Unit | Service | Certification Service', function() {
           expect(certification.competencesWithMark).to.deep.equal([]);
           expect(certification.pixScore).to.deep.equal(undefined);
           expect(certification.completedAt).to.deep.equal(undefined);
-          expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
+          expect(certification.createdAt).to.deep.equal(new Date('2017-12-23T15:23:12Z'));
           expect(certification.sessionId).to.deep.equal('MoufMufassa');
         });
       });

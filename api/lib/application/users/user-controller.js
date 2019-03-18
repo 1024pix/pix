@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
@@ -78,7 +76,7 @@ module.exports = {
 
   getProfileToCertify(request) {
     const userId = request.params.id;
-    const currentDate = moment().toISOString();
+    const currentDate = new Date();
 
     return userService.getProfileToCertify(userId, currentDate);
   },

@@ -9,27 +9,27 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
       id: 1,
       challengeId: 1,
       content: 'Winter is Coming',
-      createdAt: '2017-09-01 01:00:00',
+      createdAt: new Date('2017-09-01T01:00:00Z'),
     }, {
       id: 2,
       challengeId: 1,
       content: 'Fire and Blood',
-      createdAt: '2017-09-02 02:00:00'
+      createdAt: new Date('2017-09-04T02:00:00Z')
     }, {
       id: 3,
       challengeId: 1,
       content: 'Hear Me Roar!',
-      createdAt: '2017-09-03 03:00:00'
+      createdAt: new Date('2017-09-08T03:00:00Z')
     }, {
       id: 4,
       challengeId: 1,
       content: 'Winter is Coming',
-      createdAt: '2017-09-03 03:00:01'
+      createdAt: new Date('2017-09-08T04:00:01Z')
     }, {
       id: 5,
       challengeId: 1,
       content: 'Growing Strong',
-      createdAt: '2017-09-05 05:00:00'
+      createdAt: new Date('2017-09-08T05:00:00Z')
     }]);
   });
 
@@ -49,7 +49,7 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
 
   it('should return all feedbacks after start until now if only start date is set', () => {
     // when
-    const promise = feedbackRepository.find({ startDate: '2017-09-03' });
+    const promise = feedbackRepository.find({ startDate: '2017-09-05' });
 
     // then
     return promise.then((feedbacks) => {
@@ -60,7 +60,7 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
 
   it('should return all feedbacks before end date (not included) if only end date is set', () => {
     // when
-    const promise = feedbackRepository.find({ endDate: '2017-09-03' });
+    const promise = feedbackRepository.find({ endDate: '2017-09-06' });
 
     // then
     return promise.then((feedbacks) => {
@@ -71,7 +71,7 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
 
   it('should return feedbacks between start and end date if both are set', () => {
     // when
-    const promise = feedbackRepository.find({ startDate: '2017-09-02', endDate: '2017-09-03' });
+    const promise = feedbackRepository.find({ startDate: '2017-09-02', endDate: '2017-09-06' });
 
     // then
     return promise.then((feedbacks) => {
@@ -82,7 +82,7 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
 
   it('should accept ISO string as date format', () => {
     // when
-    const promise = feedbackRepository.find({ startDate: '2017-09-02', endDate: '2017-09-03T03:00:00.000' });
+    const promise = feedbackRepository.find({ startDate: '2017-09-02', endDate: '2017-09-08T03:00:00.000' });
 
     // then
     return promise.then((feedbacks) => {

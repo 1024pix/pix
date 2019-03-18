@@ -11,6 +11,7 @@ describe('Integration | Repository | Certification ', () => {
 
     const USER_ID = 1;
     const CERTIFICATION_ID = 123;
+    const CERTIFICATION_ID_WITHOUTDATE = 456;
 
     const session = {
       id: 321,
@@ -30,7 +31,19 @@ describe('Integration | Repository | Certification ', () => {
       lastName: 'Kalamity',
       birthplace: 'Earth',
       birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2000-02-12'),
+      completedAt: new Date('2000-02-12T01:02:03Z'),
+      sessionId: session.id,
+      isPublished: true,
+    };
+
+    const certificationCourseWithoutDate = {
+      id: CERTIFICATION_ID_WITHOUTDATE,
+      userId: USER_ID,
+      firstName: 'Jane',
+      lastName: 'Kalamity',
+      birthplace: 'Earth',
+      birthdate: null,
+      completedAt: null,
       sessionId: session.id,
       isPublished: true,
     };
@@ -55,6 +68,7 @@ describe('Integration | Repository | Certification ', () => {
     beforeEach(() => {
       return knex('sessions').insert(session)
         .then(() => knex('certification-courses').insert(certificationCourse))
+        .then(() => knex('certification-courses').insert(certificationCourseWithoutDate))
         .then(() => knex('assessments').insert(assessment))
         .then(() => knex('assessment-results').insert(assessmentResult));
     });
@@ -77,10 +91,11 @@ describe('Integration | Repository | Certification ', () => {
       const expectedCertification = domainBuilder.buildCertification({
         id: 123,
         certificationCenter: 'Université des chocolats',
-        date: new Date('2000-02-12'),
+        date: new Date('2000-02-12T01:02:03Z'),
         isPublished: true,
         assessmentState: 'completed',
         birthdate: new Date('1989-10-24'),
+        birthplace: 'Earth',
         firstName: 'Jane',
         lastName: 'Kalamity',
         pixScore: 23,
@@ -95,6 +110,17 @@ describe('Integration | Repository | Certification ', () => {
       // then
       return promise.then((certification) => {
         expect(certification).to.deep.equal(expectedCertification);
+      });
+    });
+
+    it('should not return a false birthdate or completedAt date if there are null in database', () => {
+      // when
+      const promise = certificationRepository.getCertification({ id: CERTIFICATION_ID_WITHOUTDATE });
+
+      // then
+      return promise.then((certification) => {
+        expect(certification.date).to.be.null;
+        expect(certification.birthdate).to.be.null;
       });
     });
 
@@ -121,7 +147,7 @@ describe('Integration | Repository | Certification ', () => {
       lastName: 'Kalamity',
       birthplace: 'Earth',
       birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2000-02-12'),
+      completedAt: new Date('2000-02-12T01:02:03Z'),
       sessionId: 321,
       isPublished: true,
     };
@@ -180,10 +206,11 @@ describe('Integration | Repository | Certification ', () => {
         domainBuilder.buildCertification({
           id: 123,
           certificationCenter: 'Université des chocolats',
-          date: new Date('2000-02-12'),
+          date: new Date('2000-02-12T01:02:03Z'),
           isPublished: true,
           assessmentState: 'completed',
           birthdate: new Date('1989-10-24'),
+          birthplace: 'Earth',
           firstName: 'Jane',
           lastName: 'Kalamity',
           pixScore: 23,
@@ -215,7 +242,7 @@ describe('Integration | Repository | Certification ', () => {
       lastName: 'Kalamity',
       birthplace: 'Earth',
       birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2000-02-12'),
+      completedAt: new Date('2000-02-12T01:02:03Z'),
       sessionId: 321,
       isPublished: true,
     };
@@ -307,7 +334,8 @@ describe('Integration | Repository | Certification ', () => {
           firstName: 'Jane',
           lastName: 'Kalamity',
           birthdate: new Date('1989-10-24'),
-          date: new Date('2000-02-12'),
+          birthplace: 'Earth',
+          date: new Date('2000-02-12T01:02:03Z'),
           id: 123,
           isPublished: true,
           pixScore: 23,

@@ -57,8 +57,8 @@ describe('Get Result Certifications Script OLD', () => {
       const object = {
         certificationId: '1337',
         totalScore: 7331,
-        createdAt: '2018-01-31 09:01',
-        completedAt: '2018-01-31T09:29:16.394Z',
+        createdAt: new Date('2018-01-31T09:01:00Z'),
+        completedAt: new Date('2018-01-31T09:29:16Z'),
         competencesWithMark: []
       };
       // when

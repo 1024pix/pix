@@ -81,4 +81,7 @@ export default function () {
     json.meta = { page: pageNumber, pageSize, rowCount, pageCount };
     return json;
   });
+
+  this.get('/campaign-participations/:id');
+
 }

@@ -4,10 +4,24 @@ const tokenService = require('../../../lib/domain/services/token-service');
 const smartPlacementAssessmentRepository = require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
 
-const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 
 module.exports = {
+
+  async getById(request) {
+    const campaignParticipationId = request.params.id;
+    const userId = request.auth.credentials.userId;
+    const options = queryParamsUtils.extractParameters(request.query);
+
+    const campaignParticipation = await usecases.getCampaignParticipation({
+      campaignParticipationId,
+      options,
+      userId
+    });
+
+    return serializer.serialize(campaignParticipation);
+  },
 
   save(request, h) {
     const userId = request.auth.credentials.userId;
@@ -22,7 +36,7 @@ module.exports = {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
 
-    const options = extractParameters(request.query);
+    const options = queryParamsUtils.extractParameters(request.query);
 
     let campaignParticipationsPromise;
 

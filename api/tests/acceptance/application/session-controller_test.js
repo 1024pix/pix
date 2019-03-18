@@ -100,7 +100,7 @@ describe('Acceptance | Controller | session-controller', () => {
         time: '14:30',
         accessCode: 'ABC123',
         description: '',
-        createdAt: '2017-12-08',
+        createdAt: new Date('2017-12-08T08:00:00Z'),
       });
 
       databaseBuilder.factory.buildSession({
@@ -113,7 +113,7 @@ describe('Acceptance | Controller | session-controller', () => {
         time: '14:30',
         accessCode: 'DEF456',
         description: '',
-        createdAt: '2017-12-07',
+        createdAt: new Date('2017-12-07T09:00:00Z'),
       });
 
       const pixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();

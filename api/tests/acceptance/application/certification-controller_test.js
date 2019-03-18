@@ -25,7 +25,7 @@ describe('Acceptance | API | Certifications', () => {
       address: '1 rue de l\'educ',
       room: 'Salle Benjamin Marteau',
       examiner: '',
-      date: new Date('2018-08-14T00:00:00.000Z'),
+      date: new Date('2018-08-14T00:00:00Z'),
       time: '11:00',
       description: '',
       accessCode: 'PIX123',
@@ -33,11 +33,11 @@ describe('Acceptance | API | Certifications', () => {
 
     const certificationCourse = {
       userId: authenticatedUserID,
-      completedAt: new Date('2018-02-15T15:15:52.504Z'),
+      completedAt: new Date('2018-02-15T15:15:52Z'),
       isPublished: true,
       firstName: 'Bro',
       lastName: 'Ther',
-      birthdate: new Date('1993-12-08T00:00:00.000Z'),
+      birthdate: new Date('1993-12-08T00:00:00Z'),
       birthplace: 'Asnières IZI',
     };
 
@@ -95,9 +95,10 @@ describe('Acceptance | API | Certifications', () => {
             attributes: {
               // TODO Bug birthdate UTC+1
               'birthdate': new Date('1993-12-08'),
+              'birthplace': 'Asnières IZI',
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
-              'date': new Date('2018-02-15T15:15:52.504Z'),
+              'date': new Date('2018-02-15T15:15:52Z'),
               'first-name': 'Bro',
               'is-published': true,
               'last-name': 'Ther',
@@ -155,7 +156,7 @@ describe('Acceptance | API | Certifications', () => {
       lastName: 'Doe',
       birthplace: 'Earth',
       birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2003-02-01'),
+      completedAt: new Date('2003-02-01T01:02:03Z'),
       sessionId: session.id,
       isPublished: false,
     };
@@ -425,10 +426,11 @@ describe('Acceptance | API | Certifications', () => {
         'data': {
           'attributes': {
             // TODO Bug birthdate UTC+1
-            'birthdate': new Date('1989-10-24T00:00:00.000Z'),
+            'birthdate': new Date('1989-10-24T00:00:00Z'),
+            'birthplace': 'Earth',
             'certification-center': 'Université du Pix',
             'comment-for-candidate': null,
-            'date': new Date('2003-02-01T00:00:00.000Z'),
+            'date': new Date('2003-02-01T01:02:03Z'),
             'first-name': 'John',
             'is-published': false,
             'last-name': 'Doe',
@@ -562,7 +564,7 @@ describe('Acceptance | API | Certifications', () => {
       lastName: 'Doe',
       birthplace: 'Earth',
       birthdate: new Date('1991-10-24'),
-      completedAt: new Date('2003-01-02'),
+      completedAt: new Date('2003-01-02T01:02:03Z'),
       sessionId: 1,
       isPublished: false,
     };
@@ -638,9 +640,10 @@ describe('Acceptance | API | Certifications', () => {
             attributes: {
               // TODO Bug birthdate UTC+1
               'birthdate': new Date('1991-10-24'),
+              'birthplace': 'Earth',
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
-              'date': new Date('2003-01-02'),
+              'date': new Date('2003-01-02T01:02:03Z'),
               'first-name': 'John',
               'is-published': true,
               'last-name': 'Doe',

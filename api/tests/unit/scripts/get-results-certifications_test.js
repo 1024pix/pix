@@ -65,8 +65,8 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
           attributes: {
             'certification-id': '1337',
             'pix-score': 7331,
-            'created-at': '2018-01-31 09:01',
-            'completed-at': '2018-01-31T09:29:16.394Z',
+            'created-at': new Date('2018-01-31T09:01:00Z'),
+            'completed-at': new Date('2018-01-31T09:29:16Z'),
             'competences-with-mark': [],
             'status': 'validated',
             'comment-for-candidate': 'GG',

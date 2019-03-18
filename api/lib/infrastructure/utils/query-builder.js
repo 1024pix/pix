@@ -4,7 +4,7 @@ const { NotFoundError } = require('../../domain/errors');
 
 module.exports = { get, find };
 
-async function get(BookShelfClass, id, options) {
+async function get(BookShelfClass, id, options, useDomainConverter = true) {
   const fetchOptions = {};
 
   if (options) {
@@ -19,7 +19,11 @@ async function get(BookShelfClass, id, options) {
     throw new NotFoundError(`Object with id : ${id} not found`);
   }
 
-  return bookshelfToDomainConverter.buildDomainObject(BookShelfClass, result);
+  if (useDomainConverter) {
+    return bookshelfToDomainConverter.buildDomainObject(BookShelfClass, result);
+  }
+
+  return result;
 }
 
 async function find(BookShelfClass, options) {

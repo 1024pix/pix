@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 const Session = require('../../../domain/models/Session');
 
-const moment = require('moment-timezone');
+const moment = require('moment');
 
 module.exports = {
 
@@ -38,7 +38,7 @@ module.exports = {
       address: attributes.address,
       room: attributes.room,
       examiner: attributes.examiner,
-      date: moment(attributes.date, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+      date: moment.utc(attributes.date, 'DD/MM/YYYY').format('YYYY-MM-DD'),
       time: attributes.time,
       description: attributes.description,
     });

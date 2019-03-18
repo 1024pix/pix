@@ -1,6 +1,7 @@
 const faker = require('faker');
 const createServer = require('../../../server');
 const { knex, expect, generateValidRequestAuhorizationHeader, databaseBuilder, airtableBuilder } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/caches/cache');
 
 describe('Acceptance | API | Campaigns', () => {
 
@@ -37,10 +38,11 @@ describe('Acceptance | API | Campaigns', () => {
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('campaigns').delete()
-        .then(() => databaseBuilder.clean())
-        .then(() => airtableBuilder.cleanAll());
+    afterEach(async () => {
+      await cache.flushAll();
+      await knex('campaigns').delete();
+      await databaseBuilder.clean();
+      await airtableBuilder.cleanAll();
     });
 
     it('should return 201 and the campaign when it has been successfully created', async function() {

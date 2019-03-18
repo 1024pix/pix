@@ -29,7 +29,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
       userId = user.id;
 
       campaign1 = databaseBuilder.factory.buildCampaign();
-      const oldDate = new Date('2018-02-03');
+      const oldDate = new Date('2018-02-03T01:02:03Z');
       campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId: campaign1.id,
@@ -37,7 +37,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
       });
 
       campaign2 = databaseBuilder.factory.buildCampaign();
-      const recentDate = new Date('2018-05-06');
+      const recentDate = new Date('2018-05-06T01:02:03Z');
       campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId: campaign2.id,
@@ -76,6 +76,11 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 user: {
                   data: null
                 },
+                'campaign-participation-result': {
+                  links: {
+                    'related': `/campaign-participations/${campaignParticipation2.id}/campaign-participation-result`
+                  }
+                },
               },
             },
             {
@@ -95,6 +100,11 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 user: {
                   data: null
                 },
+                'campaign-participation-result': {
+                  links: {
+                    'related': `/campaign-participations/${campaignParticipation1.id}/campaign-participation-result`
+                  }
+                }
               },
             },
           ],
