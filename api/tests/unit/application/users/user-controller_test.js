@@ -10,6 +10,7 @@ const validationErrorSerializer = require('../../../../lib/infrastructure/serial
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
+const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -504,13 +505,16 @@ describe('Unit | Controller | user-controller', () => {
   describe('#getScorecard', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserScorecard').resolves();
+      sinon.stub(usecases, 'getUserScorecard').resolves({
+        name:'Comp1',
+      });
+      sinon.stub(scorecardSerializer, 'serialize').resolves();
     });
 
     it('should return an scorecard object', async () => {
       // given
-      const authenticatedUserId= 12;
-      const requestedUserId= 12;
+      const authenticatedUserId= '12';
+      const requestedUserId= '12';
 
       const request = {
         auth: {
