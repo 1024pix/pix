@@ -365,4 +365,21 @@ describe('Acceptance | Controller | session-controller', () => {
     });
 
   });
+
+  describe('GET /api/sessions/{id}/attendance-sheet', () => {
+    beforeEach(async () => {
+      databaseBuilder.factory.buildSession({
+
+      });
+
+      await databaseBuilder.commit();
+    });
+    it('should respond with a 200 when session can be found', () => {
+
+    });
+    it('should respond with a 404 when the session can\'t be found ????', () => {
+
+    });
+  });
+
 });

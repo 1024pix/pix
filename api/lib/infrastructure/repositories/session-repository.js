@@ -91,5 +91,9 @@ module.exports = {
       })
       .fetchAll({})
       .then((sessions) => sessions.map(_toDomain));
+  },
+
+  ensureUserHasAccessToSession(userId, sessionId) {
+
   }
 };
