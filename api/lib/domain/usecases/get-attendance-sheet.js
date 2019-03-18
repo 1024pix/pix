@@ -6,10 +6,10 @@ const ATTENDANCE_TEMPLATE_PATH = process.cwd() + '/lib/domain/files/attendance_s
 module.exports = getAttendanceSheet;
 
 async function getAttendanceSheet({ sessionId, sessionRepository }) {
-  const stringifiedXml = await odsFileManager.readODSFile({ odsFilePath: ATTENDANCE_TEMPLATE_PATH });
+  const stringifiedXml = await odsFileManager.getContentXml({ odsFilePath: ATTENDANCE_TEMPLATE_PATH });
 
   const session = await sessionRepository.get(sessionId);
   const stringifiedUpdatedXml = insertSessionDataIntoXml({ stringifiedXml, session });
 
-  return await odsFileManager.writeODSFile({ stringifiedXml: stringifiedUpdatedXml, odsFilePath: ATTENDANCE_TEMPLATE_PATH });
+  return await odsFileManager.makeUpdatedOdsByContentXml({ stringifiedXml: stringifiedUpdatedXml, odsFilePath: ATTENDANCE_TEMPLATE_PATH });
 }

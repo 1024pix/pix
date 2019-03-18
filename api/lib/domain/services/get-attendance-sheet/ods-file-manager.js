@@ -5,22 +5,21 @@ const JSZip = require('jszip');
 const CONTENT_XML_IN_ODS = 'content.xml';
 
 module.exports = {
-  readODSFile,
-  writeODSFile,
+  getContentXml,
+  makeUpdatedOdsByContentXml,
 };
 
-async function readODSFile({ odsFilePath }) {
+async function getContentXml({ odsFilePath }) {
   const zip = await _loadOdsTemplate(odsFilePath);
   const contentXmlBufferCompressed = zip.file(CONTENT_XML_IN_ODS);
   const uncompressedBuffer = await contentXmlBufferCompressed.async('nodebuffer');
   return Buffer.from(uncompressedBuffer, 'utf8').toString();
 }
 
-async function writeODSFile({ stringifiedXml, odsFilePath }) {
+async function makeUpdatedOdsByContentXml({ stringifiedXml, odsFilePath }) {
   const zip = await _loadOdsTemplate(odsFilePath);
   await zip.file(CONTENT_XML_IN_ODS, stringifiedXml);
   const odsBuffer = await zip.generateAsync({ type: 'nodebuffer' });
-
   return odsBuffer;
 }
 
