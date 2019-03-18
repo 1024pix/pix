@@ -5,11 +5,11 @@
 
 <div class="skill-review__result__container">
   <div class="skill-review__result-text">
-    Vous maîtrisez <div class="skill-review__result-text__percentage">{{model.assessment.smartPlacementProgression.masteryPercentage}}</div><br> des compétences testées.
+    Vous maîtrisez
+    <div
+      class="skill-review__result-text__percentage">{{model.assessment.smartPlacementProgression.masteryPercentage}}</div>
+    <br> des compétences testées.
   </div>
-
-  <div class="skill-review__dash-line"></div>
-
 
   <div class="skill-review__share_container">
     {{#if showButtonToShareResult}}
@@ -17,17 +17,79 @@
         Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
       </p>
 
-      <button class="skill-review__share__button" {{action 'shareCampaignParticipation'}}>J'ENVOIE MES RÉSULTATS</button>
+      <button class="button button--extra-big skill-review__share__button" {{action 'shareCampaignParticipation'}}>
+        J'envoie mes résultats
+      </button>
     {{else}}
       <p class="skill-review__share__thanks">Merci, vos résultats ont bien été envoyés !</p>
     {{/if}}
   </div>
+
+  <div class="skill-review__dash-line"></div>
+
+  <div class="skill-review-results__header">
+    <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
+    <div class="skill-review-results-header__circle-chart">
+      <svg viewBox="0 0 36 36" class="circle-chart__container">
+        <path class="circle-chart"
+              d="M18 2.0845
+      a 15.9155 15.9155 0 0 1 0 31.831
+      a 15.9155 15.9155 0 0 1 0 -31.831"
+        ></path>
+        <path class="circle-chart circle-chart--slice"
+              stroke-dasharray="{{model.assessment.smartPlacementProgression.validationPercentage}}, 100"
+              d="M18 2.0845
+      a 15.9155 15.9155 0 0 1 0 31.831
+      a 15.9155 15.9155 0 0 1 0 -31.831"
+        ></path>
+      </svg>
+      <div class="circle-chart__percentage">
+        <span
+          class="circle-chart-percentage__value">{{model.assessment.smartPlacementProgression.masteryPercentage}}</span>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th class="table__column">Compétences testées</th>
+      <th class="table__column table__column--wide">Résultats</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{#each competences as |competence|}}
+      <tr>
+        <td>
+          <span class="skill-review-competence__bullet" style="color: {{competence.domainColor}}">&#8226;</span>
+          <span>{{competence.name}}</span>
+        </td>
+        <td>
+          <div class="skill-review-progress-bar" style="width: {{competence.total}}%">
+            <div class="skill-review-progress-bar__marker" style="width: {{competence.result}}%"></div>
+          </div>
+
+          <div class="skill-review-progress-bar__tooltip-wrapper" style="width: {{competence.result}}%">
+            <div class="skill-review-progress-bar__tooltip">
+              <p class="sr-only">Vous avez validé </p>{{competence.result}}%<p class="sr-only"> de la
+              compétence {{competence.name}}.</p>
+            </div>
+          </div>
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+
+  <div class="skill-review__information">
+    {{fa-icon 'info-circle' class='skill-review__information__info-icon'}}
+    <div class="skill-review__information__text">
+      Si vous avez déjà effectué des parcours, le test a été adapté. Ce résultat tient compte de ce test et des
+      précédents.
+    </div>
+  </div>
+
 </div>
 
-<div class="skill-review__information">
-  {{fa-icon 'info-circle' class='skill-review__information__info-icon'}}
-  <div class="skill-review__information__text">
-    Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.
-  </div>
-</div>
 {{outlet}}
