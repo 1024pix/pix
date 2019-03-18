@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 const {
-  airtableBuilder, expect, domainBuilder, databaseBuilder,
+  airtableBuilder, expect, domainBuilder, databaseBuilder, nock
 } = require('../../../test-helper');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -30,6 +30,8 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
     let thirdSkill;
 
     beforeEach(async () => {
+
+      nock.cleanAll();
 
       assessmentId = 987654321;
       notSmartPlacementAssessmentId = 32323;
@@ -155,6 +157,10 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         targetProfileId: targetProfile.id,
         skillId: thirdSkill.id,
       });
+
+      airtableBuilder.mockList({ tableName: 'Acquis' })
+        .returns()
+        .activate();
 
       await databaseBuilder.commit();
     });

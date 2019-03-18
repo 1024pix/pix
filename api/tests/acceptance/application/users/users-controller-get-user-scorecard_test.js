@@ -1,5 +1,5 @@
-const { airtableBuilder, databaseBuilder, expect, knex, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
-const faker = require('faker');
+const _ = require('lodash');
+const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 
 const createServer = require('../../../../server');
@@ -10,6 +10,10 @@ describe('Acceptance | Controller | users-controller-get-user-scorecard', () => 
   let server;
 
   beforeEach(async () => {
+
+    // TODO: find the other test that leaks and force us to flush the cache
+    cache.flushAll();
+
     options = {
       method: 'GET',
       url: '/api/users/1234/scorecard',
@@ -19,103 +23,57 @@ describe('Acceptance | Controller | users-controller-get-user-scorecard', () => 
     server = await createServer();
   });
 
-  let knowledgeElementsWanted;
-  let assessmentId;
-
-  const skillWeb1Id = 'recAcquisWeb1';
-  const skillWeb1Name = '@web1';
-  const skillWeb1 = airtableBuilder.factory.buildSkill({
-    id: skillWeb1Id,
-    nom: skillWeb1Name,
+  afterEach(() => {
+    airtableBuilder.cleanAll();
+    return databaseBuilder.clean();
   });
 
-  const skillWeb2Id = 'recAcquisWeb2';
-  const skillWeb2Name = '@web2';
-  const skillWeb2 = airtableBuilder.factory.buildSkill({
-    id: skillWeb2Id,
-    nom: skillWeb2Name,
+  after(() => {
+    cache.flushAll();
   });
 
-  const skillWeb3Id = 'recAcquisWeb3';
-  const skillWeb3Name = '@web3';
-  const skillWeb3 = airtableBuilder.factory.buildSkill({
-    id: skillWeb3Id,
-    nom: skillWeb3Name,
-  });
-
-  const competenceId = 'recCompetence';
-  const competenceReference = '1.1 Mener une recherche et une veille d’information';
-  const competence = airtableBuilder.factory.buildCompetence({
-    id: competenceId,
-    epreuves: [],
-    titre: 'Mener une recherche et une veille d’information',
-    tests: [],
-    acquisIdentifiants: [skillWeb1Id],
-    tubes: [],
-    acquisViaTubes: [skillWeb1Id],
-    reference: competenceReference,
-    testsRecordID: [],
-    acquis: [skillWeb1Name],
-  });
+  let area;
+  let knowledgeElement;
+  let competence;
 
   describe('GET /users/:id/scorecard', () => {
 
-    const userToInsert = {
-      id: 1234,
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      email: faker.internet.email(),
-      password: 'A124B2C3#!',
-      cgu: true,
-      pixOrgaTermsOfServiceAccepted: false,
-      pixCertifTermsOfServiceAccepted: false
-    };
+    const skillWeb1Id = 'recAcquisWeb1';
+    const skillWeb1Name = '@web1';
+
+    const competenceId = 'recCompetence';
+    const competenceReference = '1.1 Mener une recherche et une veille d’information';
 
     beforeEach(async () => {
-      airtableBuilder.mockGet({ tableName: 'Competences' })
-        .returns(competence)
+      competence = airtableBuilder.factory.buildCompetence({
+        id: competenceId,
+        epreuves: [],
+        titre: 'Mener une recherche et une veille d’information',
+        tests: [],
+        acquisIdentifiants: [skillWeb1Id],
+        tubes: [],
+        acquisViaTubes: [skillWeb1Id],
+        reference: competenceReference,
+        testsRecordID: [],
+        acquis: [skillWeb1Name],
+      });
+
+      area = airtableBuilder.factory.buildArea();
+
+      airtableBuilder.mockList({ tableName: 'Domaines' })
+        .returns([area])
         .activate();
 
-      airtableBuilder.mockList({ tableName: 'Acquis' })
-        .returns([skillWeb1, skillWeb2, skillWeb3])
+      airtableBuilder.mockList({ tableName: 'Competences' })
+        .returns([competence])
         .activate();
 
-      airtableBuilder.mockGet({ tableName: 'Acquis' })
-        .returns(skillWeb1)
-        .activate();
-
-      airtableBuilder.mockGet({ tableName: 'Acquis' })
-        .returns(skillWeb2)
-        .activate();
-
-      airtableBuilder.mockGet({ tableName: 'Acquis' })
-        .returns(skillWeb3)
-        .activate();
-
-      assessmentId = databaseBuilder.factory.buildAssessment().id;
-      const answer1Id = databaseBuilder.factory.buildAnswer({ assessmentId }).id;
-
-      knowledgeElementsWanted = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
-          userId: 1234,
-          competenceId: competence.id,
-          assessmentId,
-          answerId: answer1Id,
-          createdAt: ''
-        }),
-      ];
+      knowledgeElement = databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        userId: 1234,
+        competenceId: competence.id,
+      });
 
       await databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      airtableBuilder.cleanAll();
-
-      return knex('users').delete();
-    });
-
-    after(() => {
-      cache.flushAll();
     });
 
     it('should return 200', () => {
@@ -125,7 +83,50 @@ describe('Acceptance | Controller | users-controller-get-user-scorecard', () => 
       // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-        //expect(response.result).to.deep.equal(expectedUserJSONApi);
+      });
+
+    });
+
+    it('should return user\'s serialized scorecards', () => {
+      // when
+      const promise = server.inject(options);
+
+      const expectedScorecardJSONApi = {
+        data: [{
+          type: 'scorecards',
+          id: competence.id,
+          attributes: {
+            name: competence.fields.Titre,
+            index: competence.fields['Sous-domaine'],
+            'course-id': competence.fields.courseId,
+            skills: competence.fields['Acquis (identifiants)'],
+            'earned-pix': knowledgeElement.earnedPix
+          },
+          relationships: {
+            area: {
+              data: {
+                id: area.id,
+                type: 'areas'
+              }
+            },
+          },
+        }],
+        included: [
+          {
+            attributes: {
+              code: area.fields.Code,
+              title: area.fields.Titre,
+            },
+            id: area.id,
+            type: 'areas'
+          }
+        ]
+      };
+
+      // then
+      return promise.then((response) => {
+        expect(_.omit(response.result.data[0], ['attributes.level', 'attributes.percentage-on-level'])).to.deep.equal(expectedScorecardJSONApi.data[0]);
+        expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
       });
 
     });
