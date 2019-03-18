@@ -70,5 +70,5 @@ function _buildAttendanceSheetData(session) {
 }
 
 function _getAttendanceTemplatePath() {
-  return process.cwd() + '/lib/domain/files/attendance_sheet_template.ods';
+  return __dirname + '/../files/attendance_sheet_template.ods';
 }

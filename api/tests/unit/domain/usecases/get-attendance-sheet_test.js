@@ -11,6 +11,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
   const userId = 'dummyUserId';
   const sessionId = 'dummySessionId';
   const sessionRepository = { get: _.noop, ensureUserHasAccessToSession: _.noop };
+  const attendanceTemplatePath = '/Users/leo.jacquemin/octo/pix-project/pix/api/lib/domain/usecases/../files/attendance_sheet_template.ods';
 
   const ATTENDANCE_SHEET_TEMPLATE_VALUES = [
     {
@@ -71,13 +72,10 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
   const stringifiedXml = '<xml>Some xml</xml>';
   const stringifiedUpdatedXml = '<xml>Some updated xml</xml>';
   const odsBuffer = Buffer.from('some ods file');
-  const currentWorkingDirectory = 'current/working/directory';
-  const attendanceTemplatePath = currentWorkingDirectory + '/lib/domain/files/attendance_sheet_template.ods';
 
   describe('getAttendanceSheet', () => {
     beforeEach(async () => {
       // given
-      sinon.stub(process, 'cwd').returns(currentWorkingDirectory);
       sinon.stub(sessionRepository, 'get').returns(session);
       sinon.stub(odsService, 'getContentXml').resolves(stringifiedXml);
       sinon.stub(odsService, 'makeUpdatedOdsByContentXml').resolves(odsBuffer);

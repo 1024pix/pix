@@ -8,7 +8,7 @@ function getUpdatedXml({ stringifiedXml, templateValues, dataToInject }) {
   const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
   const updatedXmlDom = _updatedXmlDomWithSessionData(parsedXmlDom, dataToInject, templateValues);
   return _buildStringifiedXmlFromXmlDom(updatedXmlDom);
-};
+}
 
 function _buildXmlDomFromXmlString(stringifiedXml) {
   return new DOMParser().parseFromString(stringifiedXml);

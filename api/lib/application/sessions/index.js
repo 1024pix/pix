@@ -32,7 +32,6 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/sessions/{id}/attendance-sheet',
       config: {
-        auth: false,
         handler: sessionController.getAttendanceSheet,
         tags: ['api'],
         notes: [

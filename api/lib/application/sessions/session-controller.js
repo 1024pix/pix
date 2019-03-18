@@ -39,8 +39,10 @@ module.exports = {
 
   async getAttendanceSheet(request, h) {
     const sessionId = request.params.id;
+    const userId = request.auth.credentials.userId;
+    const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
 
-    return h.response(await usecases.getAttendanceSheet({ sessionId }))
+    return h.response(attendanceSheet)
       .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
       .header('Content-Disposition', 'attachment; filename=pv-session-' + sessionId + '.ods');
   }

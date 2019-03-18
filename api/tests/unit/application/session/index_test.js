@@ -4,7 +4,7 @@ const securityController = require('../../../../lib/interfaces/controllers/secur
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const route = require('../../../../lib/application/sessions');
 
-describe.only('Unit | Application | Sessions | Routes', () => {
+describe('Unit | Application | Sessions | Routes', () => {
   let server;
 
   beforeEach(() => {
