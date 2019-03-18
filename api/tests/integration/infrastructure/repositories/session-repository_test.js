@@ -8,6 +8,14 @@ const sessionRepository = require('../../../../lib/infrastructure/repositories/s
 
 describe('Integration | Repository | Session', function() {
 
+  beforeEach(async () => {
+    await databaseBuilder.clean();
+  });
+
+  afterEach(async () => {
+    await databaseBuilder.clean();
+  });
+
   describe('#save', () => {
     let session;
 
@@ -23,8 +31,6 @@ describe('Integration | Repository | Session', function() {
         description: 'Première certification EVER !!!'
       });
     });
-
-    afterEach(() => databaseBuilder.clean());
 
     it('should persist the session in db', () => {
       // when
@@ -66,8 +72,6 @@ describe('Integration | Repository | Session', function() {
       });
       return databaseBuilder.commit();
     });
-
-    afterEach(() => databaseBuilder.clean());
 
     it('should return true if the accessCode is not in database', () => {
       // given
@@ -114,8 +118,6 @@ describe('Integration | Repository | Session', function() {
       databaseBuilder.factory.buildSession(session);
       return databaseBuilder.commit();
     });
-
-    afterEach(() => databaseBuilder.clean());
 
     it('should return the object by accessCode', () => {
       // given
@@ -179,8 +181,6 @@ describe('Integration | Repository | Session', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(() => databaseBuilder.clean());
-
     it('should return session informations in a session Object', function() {
       // given
 
@@ -239,10 +239,6 @@ describe('Integration | Repository | Session', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     it('should return a Session domain object', async () => {
       // when
       const sessionSaved = await sessionRepository.update(session);
@@ -293,8 +289,6 @@ describe('Integration | Repository | Session', function() {
         });
         return databaseBuilder.commit();
       });
-
-      afterEach(() => databaseBuilder.clean());
 
       it('should return all sessions', function() {
         // when
@@ -381,8 +375,6 @@ describe('Integration | Repository | Session', function() {
         return databaseBuilder.commit();
       });
 
-      afterEach(() => databaseBuilder.clean());
-
       it('should return all sessions of the certification Center ordered by date', function() {
         // when
         const promise = sessionRepository.findByCertificationCenterId(certificationCenterId);
@@ -408,6 +400,42 @@ describe('Integration | Repository | Session', function() {
           expect(result).to.have.lengthOf(0);
         });
       });
+    });
+  });
+
+  describe('ensureUserHasAccessToSession', () => {
+    let requestErr, userId, userIdNotAllowed, sessionId, certificationCenterId, certificationCenterNotAllowedId;
+    beforeEach(async () => {
+      // given
+      userId = 1;
+      userIdNotAllowed = 2;
+      databaseBuilder.factory.buildUser({ id: userId });
+      databaseBuilder.factory.buildUser({ id: userIdNotAllowed });
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      certificationCenterNotAllowedId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId: userIdNotAllowed, certificationCenterId: certificationCenterNotAllowedId });
+
+      // when
+      sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+
+      await databaseBuilder.commit();
+    });
+    it('should not throw an error if the user has access to the session', async () => {
+      try {
+        await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
+      } catch (err) {
+        requestErr = err;
+      }
+      expect(requestErr).to.be.undefined;
+    });
+    it('should throw an error if the user does not have access to the session', async () => {
+      try {
+        await sessionRepository.ensureUserHasAccessToSession(userIdNotAllowed, sessionId);
+      } catch (err) {
+        requestErr = err;
+      }
+      expect(requestErr).to.be.instanceOf(Error);
     });
   });
 
