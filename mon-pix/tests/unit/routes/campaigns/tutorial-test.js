@@ -6,7 +6,7 @@ import sinon from 'sinon';
 describe('Unit | Route | campaigns/tutorial', function() {
 
   setupTest('route:campaigns/tutorial', {
-    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
+    needs: ['service:session', 'service:metrics']
   });
 
   let route;

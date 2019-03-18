@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | login page', function() {
   setupTest('route:login', {
-    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
+    needs: ['service:session', 'service:metrics']
   });
 
   context('when user is not authenticated', function() {

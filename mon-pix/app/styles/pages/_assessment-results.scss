@@ -21,13 +21,16 @@
 }
 
 .assessment-results__content {
-  padding: 0 20px;
-  max-width: 990px;
+  max-width: 800px;
   width: 100%;
-  margin-top: 30px;
+  padding: 30px;
+  margin: 30px 15px;
+  background: $white;
+  border-radius: 10px;
+  box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 
   @include device-is('desktop') {
-    padding: 0;
+    margin: 30px 0;
   }
 }
 
@@ -70,12 +73,10 @@
 /* Title
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .assessment-results__title {
-  min-width: 240px;
-  height: 48px;
-  font-size: 40px;
-  font-weight: $font-heavy;
-  color: $pix-blue;
-  margin-bottom: 26px;
+  font-weight: $font-medium;
+  font-family: $font-raleway;
+  margin: 0 0 30px;
+  text-transform: uppercase;
 }
 
 /* List of results
@@ -96,7 +97,6 @@
 .assessment-results__index-link-container {
   display: flex;
   flex-direction: row-reverse;
-  margin-bottom: 30px;
 }
 
 .assessment-results__index-link__element {

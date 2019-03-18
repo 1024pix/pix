@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Route | password reset', function() {
   setupTest('route:password-reset-demand', {
     // Specify the other units that are required for this test.
-    needs: ['service:current-routed-modal', 'service:metrics']
+    needs: ['service:metrics']
   });
 
   let route;

@@ -4,9 +4,9 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import {
   authenticateAsSimpleUser,
-  resumeCampaignByCode,
+  completeCampaignAndSeeResultsByCode,
   completeCampaignByCode,
-  completeCampaignAndSeeResultsByCode
+  resumeCampaignByCode
 } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 import { invalidateSession } from 'mon-pix/tests/helpers/ember-simple-auth';

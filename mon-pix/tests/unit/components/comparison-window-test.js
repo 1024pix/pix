@@ -13,9 +13,7 @@ function _assertResultItemTooltip(resultItem, expected) {
 
 describe('Unit | Component | comparison-window', function() {
 
-  setupTest('component:comparison-window', {
-    needs: ['service:current-routed-modal', 'service:keyboard', 'service:component-focus/focus-manager']
-  });
+  setupTest();
 
   let component;
   let answer;
@@ -27,7 +25,7 @@ describe('Unit | Component | comparison-window', function() {
   const challengeQrocmDep = { type: 'QROCM-dep' };
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:comparison-window');
     answer = EmberObject.create();
     component.set('answer', answer);
   });
@@ -36,7 +34,7 @@ describe('Unit | Component | comparison-window', function() {
 
     it('should be true when the challenge is QROC', function() {
       // given
-      component.set('challenge', challengeQroc);
+      answer.set('challenge', challengeQroc);
       // when
       const isAssessmentChallengeTypeQroc = component.get('isAssessmentChallengeTypeQroc');
       // then
@@ -45,7 +43,7 @@ describe('Unit | Component | comparison-window', function() {
 
     it('should be false when the challenge is not QROCM-ind', function() {
       // given
-      component.set('challenge', challengeQrocmInd);
+      answer.set('challenge', challengeQrocmInd);
       // when
       const isAssessmentChallengeTypeQroc = component.get('isAssessmentChallengeTypeQroc');
       // then
@@ -57,7 +55,7 @@ describe('Unit | Component | comparison-window', function() {
 
     it('should be true when the challenge is QCM', function() {
       // given
-      component.set('challenge', challengeQcm);
+      answer.set('challenge', challengeQcm);
       // when
       const isAssessmentChallengeTypeQcm = component.get('isAssessmentChallengeTypeQcm');
       // then
@@ -66,7 +64,7 @@ describe('Unit | Component | comparison-window', function() {
 
     it('should be false when the challenge is not QCM', function() {
       // given
-      component.set('challenge', challengeQroc);
+      answer.set('challenge', challengeQroc);
       // when
       const isAssessmentChallengeTypeQcm = component.get('isAssessmentChallengeTypeQcm');
       // then
@@ -78,7 +76,7 @@ describe('Unit | Component | comparison-window', function() {
 
     it('should be true when the challenge is QROCM-ind', function() {
       // given
-      component.set('challenge', challengeQrocmInd);
+      answer.set('challenge', challengeQrocmInd);
       // when
       const isAssessmentChallengeTypeQrocmInd = component.get('isAssessmentChallengeTypeQrocmInd');
       // then
@@ -87,7 +85,7 @@ describe('Unit | Component | comparison-window', function() {
 
     it('should be true when the challenge is not QROCM-ind', function() {
       // given
-      component.set('challenge', challengeQroc);
+      answer.set('challenge', challengeQroc);
       // when
       const isAssessmentChallengeTypeQrocmInd = component.get('isAssessmentChallengeTypeQrocmInd');
       // then
@@ -99,7 +97,7 @@ describe('Unit | Component | comparison-window', function() {
 
     it('should be true when the challenge is QROCM-dep', function() {
       // given
-      component.set('challenge', challengeQrocmDep);
+      answer.set('challenge', challengeQrocmDep);
       // when
       const isAssessmentChallengeTypeQrocmDep = component.get('isAssessmentChallengeTypeQrocmDep');
       // then
@@ -108,7 +106,7 @@ describe('Unit | Component | comparison-window', function() {
 
     it('should be true when the challenge is not QROCM-dep', function() {
       // given
-      component.set('challenge', challengeQroc);
+      answer.set('challenge', challengeQroc);
       // when
       const isAssessmentChallengeTypeQrocmDep = component.get('isAssessmentChallengeTypeQrocmDep');
       // then

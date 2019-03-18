@@ -1,8 +1,36 @@
 /* Wrapper */
+
 .share-profile__section {
-  @include device-is('tablet') {
-    padding: 30px 0;
+  width: 100%;
+
+  ul {
+    margin: 0 0 10px;
+    padding: 0;
+    text-align: left;
+
+    li {
+      margin-left: 40px;
+    }
   }
+
+  .share-profile__row {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+
+    &--student-code,
+    &--campaign-code {
+      padding-top: 0;
+    }
+
+    &--disclaimer {
+
+      ul {
+        margin-left: 200px;
+      }
+    }
+  }
+
 }
 
 .share-profile__share-button {
@@ -19,16 +47,6 @@
 .share-profile__share-button-image {
   vertical-align: text-top;
   padding-left: 5px;
-}
-
-.share-profile__row {
-  width: 100%;
-  margin-bottom: 10px;
-  text-align: center;
-
-  @include device-is('tablet') {
-    margin-bottom: 20px;
-  }
 }
 
 /* "Organization code entry" view */
@@ -70,12 +88,8 @@
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
-  justify-content: space-between;
+  justify-content: center;
   box-sizing: border-box;
-
-  @include device-is('tablet') {
-    width: 265px;
-  }
 }
 
 .share-profile__share-modal-button {
@@ -84,25 +98,14 @@
 
 /* "Sharing confirmation" view */
 
-.share-profile__informations-shared {
-  @include device-is('tablet') {
-    font-size: 18px;
-  }
-}
-
 p.share-profile__organization-name {
   font-weight: $font-bold;
+  color: $pix-blue;
   font-size: 20px;
   text-align: center;
 
   @include device-is('tablet') {
     font-size: 24px;
-  }
-}
-
-.share-profile__row--disclaimer {
-  @include device-is('tablet') {
-    font-size: 16px;
   }
 }
 

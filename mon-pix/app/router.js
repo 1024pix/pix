@@ -36,7 +36,6 @@ export default Router.map(function() {
     this.route('resume', { path: '/:assessment_id' });
     this.route('challenge', { path: '/:assessment_id/challenges/:challenge_id' });
     this.route('results', { path: '/:assessment_id/results' });
-    this.route('comparison', { path: '/:assessment_id/results/compare/:answer_id/:index' });
     this.route('rating', { path: '/:assessment_id/rating' });
     this.route('checkpoint', { path: '/:assessment_id/checkpoint' });
   });

@@ -7,7 +7,7 @@ import { keyUp } from 'ember-keyboard';
 
 describe('Unit | Component | pix-modal', function() {
 
-  setupTest('component:pix-modale', {
+  setupTest('component:pix-modal', {
     needs: ['service:keyboard', 'service:modal-dialog']
   });
 
@@ -30,16 +30,17 @@ describe('Unit | Component | pix-modal', function() {
   });
 
   describe('#closeOnEsc', () => {
+
     it('should use the "close" action', function() {
       // Given
       const sendActionStub = sinon.stub();
 
       const component = this.subject();
-      component.sendAction = sendActionStub;
+      component.onClose = sendActionStub;
       component.trigger(keyUp('Escape'));
 
       // then
-      sinon.assert.calledWith(sendActionStub, 'close');
+      sinon.assert.calledOnce(sendActionStub);
     });
   });
 });

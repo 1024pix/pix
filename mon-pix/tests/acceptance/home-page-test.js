@@ -1,12 +1,12 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
-import { authenticateAsSimpleUser, authenticateAsSimpleExternalUser } from '../helpers/testing';
+import { authenticateAsSimpleExternalUser, authenticateAsSimpleUser } from '../helpers/testing';
 
 describe('Acceptance | Home page', function() {
+
   let application;
 
   beforeEach(function() {
