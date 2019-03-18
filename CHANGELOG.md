@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.31.0 (18/03/2019)
+
+- [#409](https://github.com/1024pix/pix/pull/409) [FEATURE] Affichage du lieu de naissance sur le certificat (PF-230).
+- [#403](https://github.com/1024pix/pix/pull/403) [FEATURE] Nouvelle page profil V2 qui présente le score des parcours ciblés (PF-371).
+- [#402](https://github.com/1024pix/pix/pull/402) [FEATURE] Ajout d'une page de détails d'un participant à une campagne. (PO-190).
+- [#412](https://github.com/1024pix/pix/pull/412) [BUGFIX] Affiche correctement les résultats d'un participant d'une campagne (PO-201).
+- [#410](https://github.com/1024pix/pix/pull/410) [TECH] Forcer les seeds à générer des emails non-existants (PF-540).
+- [#406](https://github.com/1024pix/pix/pull/406) [TECH] Ne pas créer de date si celle-ci est null en base (PF-538).
+
 ## v2.30.0 (14/03/2019)
 
 - [#390](https://github.com/1024pix/pix/pull/390) [FEATURE] Changement de wording sur les pages et email du changement de mot de passe (PF-497)
