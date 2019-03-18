@@ -1,9 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it
-} from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 import startApp from '../helpers/start-app';
@@ -11,6 +6,7 @@ import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
 
 describe('Acceptance | Compte | Competence profile', function() {
+
   let application;
 
   beforeEach(function() {

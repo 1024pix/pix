@@ -6,6 +6,7 @@ import defaultScenario from '../../mirage/scenarios/default';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 
 describe('Acceptance | Error page', function() {
+
   let application;
 
   beforeEach(function() {

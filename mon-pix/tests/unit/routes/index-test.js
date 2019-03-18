@@ -8,7 +8,7 @@ import sinon from 'sinon';
 describe('Unit | Route | index', function() {
 
   setupTest('route:index', {
-    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
+    needs: ['service:session', 'service:metrics']
   });
 
   it('exists', function() {

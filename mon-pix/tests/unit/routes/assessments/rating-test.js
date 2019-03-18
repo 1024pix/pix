@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | Assessments | Rating', function() {
   setupTest('route:assessments.rating', {
-    needs: ['service:current-routed-modal', 'service:metrics'],
+    needs: ['service:metrics'],
   });
 
   it('exists', function() {

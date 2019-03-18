@@ -1,0 +1,153 @@
+$pix-modal-border-radius: 5px;
+
+/* Structure & layout
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.pix-modal-wrapper {
+  z-index: 50;
+
+  .pix-modal-dialog {
+    background: transparent;
+    padding: 10px;
+    box-shadow: none;
+    width: 100vw;
+
+    @include device-is('desktop') {
+      width: 800px;
+    }
+
+    .pix-modal__close-link {
+      color: $white;
+      text-align: right;
+      margin-bottom: 5px;
+
+      &> a {
+        color: inherit;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: inherit;
+        }
+      }
+    }
+
+    .pix-modal__container {
+      border-radius: $pix-modal-border-radius;
+      background-color: $porcelain-grey;
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+      font-size: 16px;
+      position: relative;
+      margin: auto;
+
+      .pix-modal-header {
+        background: $white;
+        border-top-left-radius: $pix-modal-border-radius;
+        border-top-right-radius: $pix-modal-border-radius;
+
+        .pix-modal-header__title {
+          margin: 0;
+          text-align: center;
+          padding: 15px;
+          font-family: $font-open-sans;
+          font-size: 2.8rem;
+        }
+      }
+
+      .pix-modal-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &--with-padding {
+          padding: 20px;
+        }
+      }
+
+      .pix-modal-footer {
+        border-bottom-left-radius: $pix-modal-border-radius;
+        border-bottom-right-radius: $pix-modal-border-radius;
+
+        &--with-centered--buttons {
+          padding: 15px 0;
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: center;
+          border-top: 1px solid $alto-grey;
+
+          >.button {
+            margin: 0 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Form & input
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.pix-modal__input {
+  padding: 15px;
+  border-radius: $pix-modal-border-radius;
+  background-color: $white;
+  border: 2px solid $alto-grey;
+  color: $slate-grey;
+  letter-spacing: 2px;
+  box-sizing: border-box;
+  margin-bottom: 5px;
+  outline: none;
+  text-align: center;
+
+  &:focus {
+    border-color: $pix-blue;
+  }
+
+  @include device-is('tablet') {
+    width: auto;
+    text-align: left;
+  }
+}
+
+/* Overlay
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.ember-modal-overlay.translucent {
+  background-color: rgba(red($charcoal-grey), green($charcoal-grey), blue($charcoal-grey), 0.95);
+}
+
+
+/* Scrolling
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+body.centered-modal-showing {
+  overflow: hidden;
+}
+
+.centered-scrolling-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+}
+
+.centered-scrolling-overlay {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.centered-scrolling-container {
+  position: relative;
+  min-height: 20em;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+}

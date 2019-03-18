@@ -8,7 +8,7 @@ import { setupTest } from 'ember-mocha';
 describe ('Unit | Route | user certifications/get', function() {
 
   setupTest('route:user-certifications/get', {
-    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
+    needs: ['service:session', 'service:metrics']
   });
 
   let route;
