@@ -3,12 +3,14 @@ const getAttendanceSheet = require('../../../../lib/domain/usecases/get-attendan
 const odsService = require('../../../../lib/domain/services/ods-service');
 const xmlService = require('../../../../lib/domain/services/xml-service');
 const _ = require('lodash');
+const { UserNotAuthorizedToAccessSession } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
 
   let result;
+  const userId = 'dummyUserId';
   const sessionId = 'dummySessionId';
-  const sessionRepository = { get: _.noop };
+  const sessionRepository = { get: _.noop, ensureUserHasAccessToSession: _.noop };
 
   const ATTENDANCE_SHEET_TEMPLATE_VALUES = [
     {
@@ -80,26 +82,50 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
       sinon.stub(odsService, 'getContentXml').resolves(stringifiedXml);
       sinon.stub(odsService, 'makeUpdatedOdsByContentXml').resolves(odsBuffer);
       sinon.stub(xmlService, 'getUpdatedXml').returns(stringifiedUpdatedXml);
+      result = await getAttendanceSheet({ userId, sessionId, sessionRepository });
+    });
 
-      // when
-      result = await getAttendanceSheet({ sessionId, sessionRepository });
+    context('user has access to the session', () => {
+      beforeEach(async () => {
+        sinon.stub(sessionRepository, 'ensureUserHasAccessToSession').resolves();
+        result = await getAttendanceSheet({ userId, sessionId, sessionRepository });
+      });
+      // then
+      it('should return the attendance sheet', () => {
+        expect(result).to.deep.equal(odsBuffer);
+      });
+      it('should have retrieved the content.xml file from ods zip', () => {
+        expect(odsService.getContentXml).to.have.been.calledWithExactly({ odsFilePath: attendanceTemplatePath });
+      });
+      it('should have fetched the session', () => {
+        expect(sessionRepository.get).to.have.been.calledWithExactly(sessionId);
+      });
+      it('should have build an updated content.xml file from attendance sheet data', () => {
+        expect(xmlService.getUpdatedXml).to.have.been.calledWithExactly({ stringifiedXml, dataToInject: attendanceSheetData, templateValues: ATTENDANCE_SHEET_TEMPLATE_VALUES });
+      });
+      it('should have rebuild the ods zip with new content.xml file', () => {
+        expect(odsService.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedUpdatedXml, odsFilePath: attendanceTemplatePath });
+      });
+      it('should return something when user has access', async () => {
+        expect(result).to.deep.equal(odsBuffer);
+      });
     });
-    // then
-    it('should return the attendance sheet', () => {
-      expect(result).to.deep.equal(odsBuffer);
+
+    context('user does not have access to the session', () => {
+      beforeEach(async () => {
+        sinon.stub(sessionRepository, 'ensureUserHasAccessToSession').rejects();
+        try {
+          result = await getAttendanceSheet({ userId, sessionId, sessionRepository });
+        } catch (err) {
+          result = err;
+        }
+      });
+
+      it('should return an error when user does not have access', () => {
+        expect(result).to.be.instanceOf(UserNotAuthorizedToAccessSession);
+      });
     });
-    it('should have retrieved the content.xml file from ods zip', () => {
-      expect(odsService.getContentXml).to.have.been.calledWithExactly({ odsFilePath: attendanceTemplatePath });
-    });
-    it('should have fetched the session', () => {
-      expect(sessionRepository.get).to.have.been.calledWithExactly(sessionId);
-    });
-    it('should have build an updated content.xml file from attendance sheet data', () => {
-      expect(xmlService.getUpdatedXml).to.have.been.calledWithExactly({ stringifiedXml, dataToInject: attendanceSheetData, templateValues: ATTENDANCE_SHEET_TEMPLATE_VALUES });
-    });
-    it('should have rebuild the ods zip with new content.xml file', () => {
-      expect(odsService.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedUpdatedXml, odsFilePath: attendanceTemplatePath });
-    });
+
   });
 
 });
