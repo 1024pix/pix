@@ -34,7 +34,11 @@ exports.register = async (server) => {
       config: {
         auth: false,
         handler: sessionController.getAttendanceSheet,
-        tags: ['api']
+        tags: ['api'],
+        notes: [
+          '- **Cette route n\'est pas restreinte aux utilisateurs authentifiés**\n' +
+          '- Elle permet de télécharger le pv de session pré-rempli au format ods'
+        ]
       }
     },
     {
