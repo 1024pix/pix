@@ -1,4 +1,5 @@
 const { NotFoundError } = require('../errors');
+const { MAX_REACHABLE_LEVEL } = require('../../../lib/domain/models/Profile');
 
 module.exports = async function getAssessment(
   {
@@ -14,7 +15,7 @@ module.exports = async function getAssessment(
   const assessmentResult = assessment.getLastAssessmentResult();
 
   if(assessmentResult) {
-    assessment.estimatedLevel = assessmentResult.level;
+    assessment.estimatedLevel = Math.min(assessmentResult.level, MAX_REACHABLE_LEVEL);
     assessment.pixScore = assessmentResult.pixScore;
   } else {
     assessment.estimatedLevel = null;
