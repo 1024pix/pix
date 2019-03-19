@@ -20,6 +20,8 @@ export default Controller.extend({
   details: alias('model'),
 
   // Observers
+  // FIXME remove this observer
+  // https://github.com/ember-cli/eslint-plugin-ember/blob/master/docs/rules/no-observers.md
   // eslint-disable-next-line ember/no-observers
   initJury: observer('details', function() {
     this.set('juryRate', false);
@@ -28,6 +30,7 @@ export default Controller.extend({
 
   // Actions
   actions: {
+
     onUpdateRate() {
       const competences = this.get('details.competences');
       let jury = false;
