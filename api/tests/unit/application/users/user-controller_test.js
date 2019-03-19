@@ -470,4 +470,34 @@ describe('Unit | Controller | user-controller', () => {
       expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
     });
   });
+
+  describe('#getPixScore', () => {
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getUserPixScore').resolves();
+    });
+
+    it('should return the user Pix score', async () => {
+      // given
+      const authenticatedUserId= '76';
+      const requestedUserId= '76';
+
+      const request = {
+        auth: {
+          credentials: {
+            userId: authenticatedUserId
+          }
+        },
+        params: {
+          id: requestedUserId
+        }
+      };
+
+      // when
+      await userController.getPixScore(request, hFake);
+
+      // then
+      expect(usecases.getUserPixScore).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
+    });
+  });
 });

@@ -131,7 +131,20 @@ exports.register = async function(server) {
           }
         }, tags: ['api']
       }
-    }
+    },
+    {
+      method: 'GET',
+      path: '/api/users/{id}/pixscore',
+      config: {
+        handler: userController.getPixScore,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération du nombre total de Pix de l\'utilisateur\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api']
+      }
+    },
   ]);
 };
 

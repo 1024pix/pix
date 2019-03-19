@@ -7,9 +7,6 @@ const moment = require('moment');
 
 describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', () => {
 
-  const SMART_PLACEMENT = 'SMART_PLACEMENT';
-  const PLACEMENT = 'PLACEMENT';
-
   afterEach(() => {
     return knex('knowledge-elements').delete()
       .then(() => (databaseBuilder.clean()));
@@ -124,7 +121,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       userId = databaseBuilder.factory.buildUser().id;
 
       knowledgeElementsWantedWithLimitDate = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, createdAt: yesterday, skillId: '1' , userId}),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, createdAt: yesterday, skillId: '1' , userId }),
         databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, createdAt: yesterday, skillId: '3', status: 'validated', userId })
       ];
 
