@@ -91,5 +91,18 @@ module.exports = {
       })
       .fetchAll({})
       .then((sessions) => sessions.map(_toDomain));
+  },
+
+  ensureUserHasAccessToSession(userId, sessionId) {
+    return BookshelfSession
+      .where({ 'sessions.id': sessionId, 'users.id': userId })
+      .query((qb) => {
+        qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
+        qb.innerJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
+        qb.innerJoin('users', 'users.id', 'certification-center-memberships.userId');
+      })
+      .fetch({
+        require: true
+      });
   }
 };

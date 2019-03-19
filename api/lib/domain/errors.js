@@ -212,6 +212,12 @@ class UserNotAuthorizedToAccessEntity extends DomainError {
   }
 }
 
+class UserNotAuthorizedToAccessSession extends DomainError {
+  constructor(id) {
+    super('User is not authorized to access the session ' + id);
+  }
+}
+
 class UserNotAuthorizedToCertifyError extends DomainError {
   constructor() {
     super();
@@ -302,6 +308,7 @@ module.exports = {
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToAccessEntity,
+  UserNotAuthorizedToAccessSession,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
   UserNotAuthorizedToUpdateResourceError,
