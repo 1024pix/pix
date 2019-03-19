@@ -23,6 +23,20 @@
   </div>
 </div>
 
+<div class="panel session-details__controls">
+  <nav class="navbar session-details-controls__navbar-tabs">
+    <a class="navbar-item active ember-view">
+      Paramètres
+    </a>
+  </nav>
+
+  <div class="session-details-controls__export-button">
+    <a class="button button--link button--with-icon" href="{{session.urlToResult}}" target="_blank" download>
+      Télécharger le PV (.ods){{fa-icon 'file-download'}}
+    </a>
+  </div>
+</div>
+
 <div class="panel panel--strong-shadow session-details-container">
   <div class="session-details-row">
     <div class="session-details-content session-details-content--multiple">
