@@ -4,8 +4,8 @@ const fs = require('fs');
 
 describe('Integration | Services | get-attendance-sheet | ods-service', () => {
 
-  const odsFilePath = `${process.cwd()}/api/tests/integration/domain/services/ods-service/testFile.ods`;
-  const updatedOdsFilePath = `${process.cwd()}/api/tests/integration/domain/services/ods-service/testFileUpdated.ods`;
+  const odsFilePath = `${__dirname}/testFile.ods`;
+  const updatedOdsFilePath = `${__dirname}/testFileUpdated.ods`;
 
   describe('getContentXml', () => {
 
