@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.31.1 (19/03/2019)
+
+- [#414](https://github.com/1024pix/pix/pull/414) [TECH] Correction du build CircleCI en forçant Chrome 72
+- [#401](https://github.com/1024pix/pix/pull/401) [TECH] Refonte du composant "pix-modal" (PF-547).
+
 ## v2.31.0 (18/03/2019)
 
 - [#409](https://github.com/1024pix/pix/pull/409) [FEATURE] Affichage du lieu de naissance sur le certificat (PF-230).
