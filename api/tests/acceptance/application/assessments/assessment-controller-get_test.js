@@ -354,7 +354,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
         };
         const assessment = response.result.data;
         expect(assessment.attributes).to.deep.equal(expectedAssessment.attributes);
-        expect(assessment.relationships.answers).to.deep.equal(expectedAssessment.relationships.answers);
+        expect(assessment.relationships.answers.data).to.have.deep.members(expectedAssessment.relationships.answers.data);
       });
     });
   });
