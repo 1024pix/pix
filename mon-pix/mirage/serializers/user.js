@@ -6,6 +6,9 @@ export default BaseSerializer.extend({
     return {
       pixScore: {
         related: `/users/${user.id}/pixscore`
+      },
+      scorecards: {
+        related: `/users/${user.id}/scorecards`
       }
     };
   }

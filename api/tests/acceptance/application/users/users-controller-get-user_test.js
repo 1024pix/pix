@@ -68,6 +68,11 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
                 related: '/users/1234/pixscore'
               }
             },
+            scorecards: {
+              links: {
+                related: '/users/1234/scorecards'
+              }
+            }
           }
         }
       };

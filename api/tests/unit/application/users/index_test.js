@@ -296,9 +296,9 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/{id}/scorecard', function() {
+  describe('GET /api/users/{id}/scorecards', function() {
     beforeEach(() => {
-      sinon.stub(userController, 'getScorecard').returns('ok');
+      sinon.stub(userController, 'getScorecards').returns('ok');
       startServer();
     });
 
@@ -306,13 +306,13 @@ describe('Unit | Router | user-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/users/42/scorecard',
+        url: '/api/users/42/scorecards',
       };
 
       // when
       return server.inject(options).then(() => {
         // then
-        sinon.assert.calledOnce(userController.getScorecard);
+        sinon.assert.calledOnce(userController.getScorecards);
       });
     });
   });

@@ -502,10 +502,10 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getScorecard', () => {
+  describe('#getScorecards', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserScorecard').resolves({
+      sinon.stub(usecases, 'getUserScorecards').resolves({
         name:'Comp1',
       });
       sinon.stub(scorecardSerializer, 'serialize').resolves();
@@ -528,10 +528,10 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getScorecard(request, hFake);
+      await userController.getScorecards(request, hFake);
 
       // then
-      expect(usecases.getUserScorecard).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
+      expect(usecases.getUserScorecards).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
 
     });
   });

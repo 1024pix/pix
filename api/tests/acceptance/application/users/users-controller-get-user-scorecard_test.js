@@ -4,7 +4,7 @@ const cache = require('../../../../lib/infrastructure/caches/cache');
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-user-scorecard', () => {
+describe('Acceptance | Controller | users-controller-get-user-scorecards', () => {
 
   let options;
   let server;
@@ -16,7 +16,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecard', () => 
 
     options = {
       method: 'GET',
-      url: '/api/users/1234/scorecard',
+      url: '/api/users/1234/scorecards',
       payload: {},
       headers: { authorization: generateValidRequestAuhorizationHeader() },
     };
@@ -36,7 +36,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecard', () => 
   let knowledgeElement;
   let competence;
 
-  describe('GET /users/:id/scorecard', () => {
+  describe('GET /users/:id/scorecards', () => {
 
     const skillWeb1Id = 'recAcquisWeb1';
     const skillWeb1Name = '@web1';

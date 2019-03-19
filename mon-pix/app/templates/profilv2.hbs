@@ -1,6 +1,7 @@
 {{navbar-header class="navbar-header--white"}}
 <div class="profilv2-page">
   <div class="profilv2__banner"></div>
+
   <div class="rounded-panel rounded-panel--strong profilv2__panel">
 
     <div class="rounded-panel-header-with-components">
@@ -18,6 +19,13 @@
         {{hexagon-score pixScore=model.pixScore.value}}
       </div>
     </div>
+
+    <div class="rounded-panel-body">
+      {{#each model.scorecards as |scorecard|}}
+        <div>{{scorecard.competenceName}}</div>
+      {{/each}}
+    </div>
+
 
   </div>
 </div>
