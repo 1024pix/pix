@@ -147,9 +147,9 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/scorecard',
+      path: '/api/users/{id}/scorecards',
       config: {
-        handler: userController.getScorecard,
+        handler: userController.getScorecards,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des niveaux par compétences de l\'utilisateur\n' +

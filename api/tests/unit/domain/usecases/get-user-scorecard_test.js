@@ -1,6 +1,6 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const getUserScorecard = require('../../../../lib/domain/usecases/get-user-scorecard');
+const getUserScorecard = require('../../../../lib/domain/usecases/get-user-scorecards');
 
 describe('Unit | UseCase | get-user-scorecard', () => {
 

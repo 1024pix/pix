@@ -137,10 +137,10 @@ module.exports = {
       .then(pixScoreSerializer.serialize);
   },
 
-  getScorecard(request) {
+  getScorecards(request) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
-    return usecases.getUserScorecard({ authenticatedUserId, requestedUserId })
+    return usecases.getUserScorecards({ authenticatedUserId, requestedUserId })
       .then(scorecardSerializer.serialize);
   },
 };
