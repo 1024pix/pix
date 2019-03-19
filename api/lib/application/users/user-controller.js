@@ -126,5 +126,11 @@ module.exports = {
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
       .then(campaignParticipationSerializer.serialize);
-  }
+  },
+
+  getPixScore(request) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+    return usecases.getUserPixScore({ authenticatedUserId, requestedUserId });
+  },
 };
