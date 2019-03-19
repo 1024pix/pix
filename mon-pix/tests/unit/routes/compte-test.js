@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | compte', function() {
   setupTest('route:compte', {
-    needs: ['service:session', 'service:current-routed-modal', 'service:metrics']
+    needs: ['service:session', 'service:metrics']
   });
 
   describe('model', function() {

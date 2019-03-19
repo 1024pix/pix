@@ -11,8 +11,9 @@ const SplashServiceStub = EmberObject.extend({
 });
 
 describe('Unit | Route | application splash', function() {
+
   setupTest('route:application', {
-    needs: ['service:splash', 'service:session', 'service:current-routed-modal', 'service:metrics']
+    needs: ['service:splash', 'service:session', 'service:metrics']
   });
 
   it('initializes correctly', function() {

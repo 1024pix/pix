@@ -115,33 +115,6 @@ describe('Unit | Component | result-item-campaign-component', function() {
     });
   });
 
-  describe('#isBackgroundColorGrey', function() {
-
-    it('should be true when index is 0', function() {
-      //when
-      component.set('index', 0);
-
-      //then
-      expect(component.get('isBackgroundColorGrey')).to.equal(true);
-    });
-
-    it('should be false when index is 1', function() {
-      //when
-      component.set('index', 1);
-
-      //then
-      expect(component.get('isBackgroundColorGrey')).to.equal(false);
-    });
-
-    it('should be true when index is 2', function() {
-      //when
-      component.set('index', 2);
-
-      //then
-      expect(component.get('isBackgroundColorGrey')).to.equal(true);
-    });
-  });
-
   describe('#textLength', function() {
 
     it('should be 60 when it is a mobile', function() {

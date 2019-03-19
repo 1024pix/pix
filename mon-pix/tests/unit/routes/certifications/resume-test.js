@@ -4,7 +4,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | Certification | Resume', function() {
   setupTest('route:certifications.resume', {
-    needs: ['service:current-routed-modal', 'service:metrics']
+    needs: ['service:metrics']
   });
 
   let route;

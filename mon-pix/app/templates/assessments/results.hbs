@@ -14,13 +14,13 @@
   {{/if}}
 
   <div class="assessment-results__content">
-    <h2 class="assessment-results__title">
-      Vos résultats
-    </h2>
+    <p class="assessment-results__title">
+      Vos réponses
+    </p>
 
     <div class="assessment-results__list">
-      {{#each model.answers as |answer index|}}
-        {{result-item answer=answer index=index openComparison=(action "openComparison") a11y-focus-id=(concat "open-comparison_" (add index 1))}}
+      {{#each model.answers as |answer|}}
+        {{result-item answer=answer openAnswerDetails=(action 'openComparisonWindow')}}
       {{/each}}
     </div>
 
@@ -36,5 +36,9 @@
       {{/if}}
     </div>
   </div>
+
+  {{#if isShowingModal}}
+    {{comparison-window answer=answer correction=correction closeComparisonWindow=(action 'closeComparisonWindow')}}
+  {{/if}}
 
 </div>

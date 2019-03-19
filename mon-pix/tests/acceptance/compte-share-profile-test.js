@@ -1,9 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it
-} from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -28,7 +23,7 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   function expectModalToBeOpened() {
-    findWithAssert('.pix-modal');
+    findWithAssert('.pix-modal-dialog');
   }
 
   function expectToBeOnOrganizationCodeEntryView() {

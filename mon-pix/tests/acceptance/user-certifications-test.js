@@ -1,9 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it
-} from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
@@ -11,6 +6,7 @@ import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
 
 describe('Acceptance | User certifications page', function() {
+
   let application;
 
   beforeEach(function() {

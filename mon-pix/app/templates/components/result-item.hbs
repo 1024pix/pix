@@ -1,9 +1,3 @@
-<div class="result-item__index">
-  {{add index 1}}
-</div>
-
-<div class="result-item__item-line"></div>
-
 <div class="result-item__icon">
   <div data-toggle="tooltip" data-placement="top" title="{{resultItem.tooltip}}">
     <img class="result-item__icon-img result-item__icon-img--{{resultItem.status}}" src={{resultItemIcon}} alt="">
@@ -16,6 +10,6 @@
 
 <div class="result-item__correction">
   {{#if validationImplementedForChallengeType}}
-    <button class="result-item__correction__button js-correct-answer" {{action "openComparisonPopin" a11y-focus-id }} id="{{a11y-focus-id}}"> RÉPONSE</button>
+    <button {{action openAnswerDetails answer}} class="result-item__correction__button link js-correct-answer">Réponses et tutos</button>
   {{/if}}
 </div>

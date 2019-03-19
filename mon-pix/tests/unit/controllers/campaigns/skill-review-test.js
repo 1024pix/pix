@@ -6,7 +6,7 @@ import sinon from 'sinon';
 describe('Unit | Controller | Campaigns | Skill Review', function() {
 
   setupTest('controller:campaigns/skill-review', {
-    needs: ['service:current-routed-modal', 'service:metrics']
+    needs: ['service:metrics']
   });
 
   let controller;
