@@ -29,6 +29,18 @@ exports.register = async (server) => {
       }
     },
     {
+      method: 'GET',
+      path: '/api/sessions/{id}/attendance-sheet',
+      config: {
+        handler: sessionController.getAttendanceSheet,
+        tags: ['api'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification ayant créé la session**\n' +
+          '- Cette route permet de télécharger le pv de session pré-rempli au format ods'
+        ]
+      }
+    },
+    {
       method: 'POST',
       path: '/api/sessions',
       config: {
