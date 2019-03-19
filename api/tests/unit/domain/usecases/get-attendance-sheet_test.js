@@ -32,6 +32,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
     },
     {
       placeholder: 'SESSION_ADDRESS',
+
       propertyName: 'address',
     },
     {
@@ -91,9 +92,6 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
       // then
       it('should return the attendance sheet', () => {
         expect(result).to.deep.equal(odsBuffer);
-      });
-      it('should have retrieved the content.xml file from ods zip', () => {
-        expect(odsService.getContentXml).to.have.been.calledWithExactly({ odsFilePath: attendanceTemplatePath });
       });
       it('should have fetched the session', () => {
         expect(sessionRepository.get).to.have.been.calledWithExactly(sessionId);
