@@ -11,7 +11,6 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
   const userId = 'dummyUserId';
   const sessionId = 'dummySessionId';
   const sessionRepository = { get: _.noop, ensureUserHasAccessToSession: _.noop };
-  const attendanceTemplatePath = '/Users/leo.jacquemin/octo/pix-project/pix/api/lib/domain/usecases/../files/attendance_sheet_template.ods';
 
   const ATTENDANCE_SHEET_TEMPLATE_VALUES = [
     {
@@ -100,7 +99,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
         expect(xmlService.getUpdatedXml).to.have.been.calledWithExactly({ stringifiedXml, dataToInject: attendanceSheetData, templateValues: ATTENDANCE_SHEET_TEMPLATE_VALUES });
       });
       it('should have rebuild the ods zip with new content.xml file', () => {
-        expect(odsService.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedUpdatedXml, odsFilePath: attendanceTemplatePath });
+        expect(odsService.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedUpdatedXml, odsFilePath: sinon.match('attendance_sheet_template.ods') });
       });
       it('should return something when user has access', async () => {
         expect(result).to.deep.equal(odsBuffer);
