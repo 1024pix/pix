@@ -40,6 +40,7 @@
     font-weight: 300;
     line-height: 38px;
     color: $tundora-grey;
+
     @include device-is('tablet') {
       font-size: 4.2rem;
       line-height: 48px;
@@ -52,8 +53,12 @@
   }
 
   &__share_container {
-    padding: 60px;
+    padding: 20px;
     text-align: center;
+
+    @include device-is('tablet') {
+      padding: 60px;
+    }
   }
 
   &__share__button {
@@ -115,84 +120,18 @@
 
 .skill-review-results__header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 140px;
+  text-align: center;
+  padding: 20px;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+  }
 }
 
 .skill-review-results-header__circle-chart {
   width: 100px;
   height: 100px;
-
-  .circle-chart__container {
-    margin: 2px;
-    max-height: 128px;
-
-    .circle-chart {
-      fill: none;
-      stroke-width: 1.2;
-      stroke: $alto-grey;
-      stroke-linecap: round;
-
-      &--slice {
-        stroke: #F1A141;
-        animation: progress 1s ease-out forwards;
-      }
-    }
-  }
-
-  .circle-chart__percentage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: -76px;
-
-    .circle-chart-percentage__value {
-      color: $nero;
-      font-family: $font-roboto;
-      font-size: 3.1rem;
-    }
-  }
-}
-
-.skill-review-progress-bar {
-  background-color: $alto-grey;
-  width: 100%;
-  height: 4px;
-  border-radius: 5px;
-}
-
-.skill-review-progress-bar__marker {
-  background: linear-gradient(to right, $pix-yellow-hover, $dark-orange);
-  height: 4px;
-  border-radius: 5px;
-  text-align: right;
-}
-
-.skill-review-progress-bar__tooltip-wrapper {
-  position: relative;
-  top: -27px;
-}
-
-.skill-review-progress-bar__tooltip {
-  position: absolute;
-  background: linear-gradient(180deg, $pix-yellow-hover 0%, $dark-orange 100%);
-  color: $white;
-  border-radius: 5px;
-  font-family: $font-roboto;
-  font-size: 1.3rem;
-  font-weight: $font-normal;
-  text-align: center;
-  right: -18px;
-  width: 36px;
-
-  &::after {
-    content: '';
-    position: absolute;
-    left: 40%;
-    border-top: 4px solid #FF9F00;
-    border-right: 3px solid transparent;
-    border-left: 3px solid transparent;
-    margin-top: 18px;
-  }
 }
