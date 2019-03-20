@@ -386,10 +386,11 @@ describe('Acceptance | Controller | session-controller', () => {
     afterEach(() => databaseBuilder.clean());
     it('should respond with a 200 when session can be found', async () => {
       // when
+      const authHeader = generateValidRequestAuhorizationHeader(user.id);
+      const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',
-        url: `/api/sessions/${sessionIdAllowed}/attendance-sheet`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        url: `/api/sessions/${sessionIdAllowed}/attendance-sheet?accessToken=${token}`,
         payload: {}
       };
       // when
@@ -402,10 +403,11 @@ describe('Acceptance | Controller | session-controller', () => {
     });
     it('should respond with a 403 when session cannot be found', async () => {
       // when
+      const authHeader = generateValidRequestAuhorizationHeader(user.id);
+      const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',
-        url: `/api/sessions/${sessionIdNotAllowed}/attendance-sheet`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        url: `/api/sessions/${sessionIdNotAllowed}/attendance-sheet?accessToken=${token}`,
         payload: {}
       };
       // when
