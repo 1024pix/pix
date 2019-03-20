@@ -1,0 +1,35 @@
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+
+.circle-chart__container {
+  margin: 2px;
+  max-height: 128px;
+
+  .circle-chart {
+    fill: none;
+    stroke-width: 1.1;
+    stroke: $alto-grey;
+    stroke-linecap: round;
+
+    &--slice {
+      stroke: $dark-orange;
+      animation: progress 1s ease-out forwards;
+    }
+  }
+}
+
+.circle-chart__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -76px;
+
+  .circle-chart-text__value {
+    color: $nero;
+    font-family: $font-roboto;
+    font-size: 3.1rem;
+  }
+}

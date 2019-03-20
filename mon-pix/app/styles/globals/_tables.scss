@@ -7,8 +7,13 @@ table {
 }
 
 thead {
+  display: none;
   width: 100%;
   color: $grayish-grey;
+
+  @include device-is('tablet') {
+    display: table-header-group;
+  }
 }
 
 tbody {
@@ -16,9 +21,16 @@ tbody {
 }
 
 tr {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 60px;
+  height: 70px;
   border-bottom: 1px solid $porcelain-grey;
+
+  @include device-is('tablet') {
+    display: table-row;
+    height: 60px;
+  }
 }
 
 th {
@@ -26,8 +38,16 @@ th {
 }
 
 td, th {
+  display: flex;
+  align-items: center;
+  height: 40px;
   text-align: left;
   padding-left: 30px;
+
+  @include device-is('tablet') {
+    display: table-cell;
+    height: auto;
+  }
 }
 
 .table__column {
