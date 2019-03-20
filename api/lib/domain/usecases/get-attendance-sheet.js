@@ -49,7 +49,7 @@ async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
   }
 
   const stringifiedXml = await odsService.getContentXml({ odsFilePath: _getAttendanceTemplatePath() });
-  const session = sessionRepository.get(sessionId);
+  const session = await sessionRepository.get(sessionId);
   const attendanceSheetData = _buildAttendanceSheetData(session);
   const stringifiedUpdatedXml = xmlService.getUpdatedXml({ stringifiedXml, dataToInject: attendanceSheetData, templateValues: ATTENDANCE_SHEET_TEMPLATE_VALUES });
 

@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const sessionService = require('../../domain/services/session-service');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
+const tokenService = require('../../../lib/domain/services/token-service');
 
 module.exports = {
 
@@ -12,7 +13,6 @@ module.exports = {
 
   async get(request) {
     const sessionId = request.params.id;
-
     const session = await sessionService.get(sessionId);
 
     return serializer.serialize(session);
@@ -39,7 +39,12 @@ module.exports = {
 
   async getAttendanceSheet(request, h) {
     const sessionId = request.params.id;
-    const userId = request.auth.credentials.userId;
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserId(token);
+
+
+    console.log(sessionId)
+    console.log(token)
     const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
 
     return h.response(attendanceSheet)
