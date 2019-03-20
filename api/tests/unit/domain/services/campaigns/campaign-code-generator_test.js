@@ -1,18 +1,19 @@
 const { expect, sinon } = require('../../../../test-helper');
 const randomString = require('randomstring');
 const campaignCodeGenerator = require('../../../../../lib/domain/services/campaigns/campaign-code-generator');
+const { NotFoundError } = require('../../../../../lib/domain/errors');
 
 describe('Unit | Domain | Services | campaign code generator', function() {
 
   describe('#createCampaignCode', () => {
 
-    const campaignRepository = {
-      isCodeAvailable: () => undefined
-    };
+    let campaignRepository;
 
     beforeEach(() => {
-      sinon.stub(campaignRepository, 'isCodeAvailable');
-      campaignRepository.isCodeAvailable.resolves(true);
+      campaignRepository = {
+        getByCode: sinon.stub()
+      };
+      campaignRepository.getByCode.rejects(new NotFoundError);
       sinon.spy(randomString, 'generate');
     });
 
@@ -48,19 +49,16 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       });
     });
 
-    it('should not be already assigned', () => {
+    it('should not be already assigned', async () => {
       // given
-      campaignRepository.isCodeAvailable.onCall(0).resolves(false);
-      campaignRepository.isCodeAvailable.onCall(1).resolves(true);
+      campaignRepository.getByCode.onCall(0).resolves();
 
       // when
       const promise = campaignCodeGenerator.generate(campaignRepository);
 
       // then
       return promise.then((generatedCode) => {
-        expect(campaignRepository.isCodeAvailable).to.have.been.called;
-
-        const existingCampaignCode = campaignRepository.isCodeAvailable.callsArg(0);
+        const existingCampaignCode = campaignRepository.getByCode.callsArg(0);
         expect(generatedCode).to.not.equal(existingCampaignCode);
       });
 
@@ -86,6 +84,17 @@ describe('Unit | Domain | Services | campaign code generator', function() {
         const secondCallArgumentsForNumbers = randomString.generate.getCall(1).args[0];
         expect(secondCallArgumentsForNumbers.hasOwnProperty('readable')).to.be.true;
       });
+    });
+
+    it('should throw an error', () => {
+      // given
+      campaignRepository.getByCode.rejects();
+
+      // when
+      const promise = campaignCodeGenerator.generate(campaignRepository);
+
+      // then
+      return expect(promise).to.be.rejected;
     });
 
   });

@@ -6,7 +6,6 @@ const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const fp = require('lodash/fp');
 
 function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
@@ -36,23 +35,6 @@ module.exports = {
     return new BookshelfCampaignParticipation(_adaptModelToDb(campaignParticipation))
       .save()
       .then(_toDomain);
-  },
-
-  findByCampaignId(campaignId) {
-    return BookshelfCampaignParticipation
-      .where({ campaignId })
-      .fetchAll({ withRelated: ['campaign'] })
-      .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
-      .then(fp.map(_toDomain));
-  },
-
-  findByUserId(userId) {
-    return BookshelfCampaignParticipation
-      .where({ userId })
-      .orderBy('createdAt', 'DESC')
-      .fetchAll({ withRelated: ['campaign'] })
-      .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
-      .then(fp.map(_toDomain));
   },
 
   find(options) {

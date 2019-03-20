@@ -1,44 +1,10 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Campaign', () => {
-
-  describe('#isCodeAvailable', () => {
-
-    beforeEach(async () => {
-      const campaign = domainBuilder.buildCampaign({ code: 'BADOIT710' });
-      databaseBuilder.factory.buildCampaign(campaign);
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should resolve true if the code is available', () => {
-      // when
-      const promise = campaignRepository.isCodeAvailable('FRANCE998');
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.be.true;
-      });
-    });
-
-    it('should resolve false if the code is available', () => {
-      // when
-      const promise = campaignRepository.isCodeAvailable('BADOIT710');
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.be.false;
-      });
-    });
-
-  });
 
   describe('#getByCode', () => {
 
@@ -72,14 +38,12 @@ describe('Integration | Repository | Campaign', () => {
       });
     });
 
-    it('should resolve null if the code do not correspond to any campaign ', () => {
+    it('should throw NotFoundError if the code do not correspond to any campaign ', async () => {
       // when
-      const promise = campaignRepository.getByCode('BIDULEFAUX');
+      const result = await catchErr(campaignRepository.getByCode)('BIDULEFAUX');
 
       // then
-      return promise.then((result) => {
-        expect(result).to.be.null;
-      });
+      expect(result).to.be.an.instanceof(NotFoundError);
     });
 
   });

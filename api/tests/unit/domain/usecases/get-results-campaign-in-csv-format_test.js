@@ -94,28 +94,28 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         }),
       },
     ];
-    const campaignRepository = { get: () => undefined };
-    const userRepository = { getWithMemberships: () => undefined, get: () => undefined };
-    const targetProfileRepository = { get: () => undefined };
-    const competenceRepository = { list: () => undefined };
-    const organizationRepository = { get: () => undefined };
-    const campaignParticipationRepository = { findByCampaignId: () => undefined };
-    const smartPlacementAssessmentRepository = { get: () => undefined };
-    const smartPlacementKnowledgeElementRepository = { findUniqByUserId: () => undefined };
+    const campaignRepository = { get: sinon.stub() };
+    const userRepository = { getWithMemberships: sinon.stub(), get: sinon.stub() };
+    const targetProfileRepository = { get: sinon.stub() };
+    const competenceRepository = { list: sinon.stub() };
+    const organizationRepository = { get: sinon.stub() };
+    const campaignParticipationRepository = { find: sinon.stub() };
+    const smartPlacementAssessmentRepository = { get: sinon.stub() };
+    const smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub() };
 
     let findCampaignParticipationStub;
 
     beforeEach(() => {
 
-      sinon.stub(campaignRepository, 'get').resolves(campaign);
-      sinon.stub(competenceRepository, 'list').resolves(competences);
-      sinon.stub(targetProfileRepository, 'get').resolves(targetProfile);
-      sinon.stub(userRepository, 'getWithMemberships').resolves(user);
-      sinon.stub(organizationRepository, 'get').resolves(organization);
-      sinon.stub(userRepository, 'get').resolves(user);
-      sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
-      sinon.stub(smartPlacementKnowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
-      findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findByCampaignId');
+      campaignRepository.get.resolves(campaign);
+      competenceRepository.list.resolves(competences);
+      targetProfileRepository.get.resolves(targetProfile);
+      userRepository.getWithMemberships.resolves(user);
+      organizationRepository.get.resolves(organization);
+      userRepository.get.resolves(user);
+      smartPlacementAssessmentRepository.get.resolves(assessment);
+      smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
+      findCampaignParticipationStub = campaignParticipationRepository.find;
     });
 
     it('should return the header in CSV styles with all competence, domain and skills', () => {

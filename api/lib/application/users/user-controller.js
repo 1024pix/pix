@@ -125,6 +125,6 @@ module.exports = {
     const requestedUserId = request.params.id;
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
-      .then(campaignParticipationSerializer.serialize);
+      .then((campaignParticipations) => campaignParticipationSerializer.serialize(campaignParticipations.models));
   }
 };

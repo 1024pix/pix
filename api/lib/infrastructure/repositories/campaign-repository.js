@@ -3,6 +3,7 @@ const _ = require('lodash');
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
 const queryBuilder = require('../utils/query-builder');
+const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfCampaign) {
   const dbCampaign = bookshelfCampaign.toJSON();
@@ -22,18 +23,6 @@ function _toDomain(bookshelfCampaign) {
 
 module.exports = {
 
-  isCodeAvailable(code) {
-    return BookshelfCampaign
-      .where({ code })
-      .fetch()
-      .then((campaign) => {
-        if (campaign) {
-          return false;
-        }
-        return true;
-      });
-  },
-
   getByCode(code) {
     return BookshelfCampaign
       .where({ code })
@@ -42,7 +31,7 @@ module.exports = {
         if (campaign) {
           return _toDomain(campaign);
         }
-        return Promise.resolve(null);
+        throw new NotFoundError(`Campaign with code ${code} does not exist.`);
       });
   },
 

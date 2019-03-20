@@ -1,4 +1,5 @@
 const randomString = require('randomstring');
+const { NotFoundError } = require('../../errors');
 
 function generate(campaignRepository) {
   const letters = randomString.generate({ length: 6, charset: 'alphabetic', capitalization: 'uppercase', readable: true });
@@ -6,12 +7,13 @@ function generate(campaignRepository) {
 
   const generatedCampaignCode = letters.concat(numbers);
 
-  return campaignRepository.isCodeAvailable(generatedCampaignCode)
-    .then((isCodeAvailable) => {
-      if (isCodeAvailable) {
-        return Promise.resolve(generatedCampaignCode);
+  return campaignRepository.getByCode(generatedCampaignCode)
+    .then(() =>  generate(campaignRepository))
+    .catch((err) => {
+      if (err instanceof NotFoundError) {
+        return generatedCampaignCode;
       }
-      return generate(campaignRepository);
+      throw err;
     });
 }
 
