@@ -41,10 +41,6 @@ module.exports = {
     const sessionId = request.params.id;
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
-
-
-    console.log(sessionId)
-    console.log(token)
     const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
 
     return h.response(attendanceSheet)

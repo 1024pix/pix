@@ -73,7 +73,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', () => {
   const stringifiedUpdatedXml = '<xml>Some updated xml</xml>';
   const odsBuffer = Buffer.from('some ods file');
 
-  describe.only('getAttendanceSheet', () => {
+  describe('getAttendanceSheet', () => {
     beforeEach(async () => {
       // given
       sinon.stub(sessionRepository, 'get').resolves(session);
