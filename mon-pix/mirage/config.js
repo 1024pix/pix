@@ -31,8 +31,7 @@ export default function() {
   this.post('https://fonts.googleapis.com/**', () => {
   });
 
-  this.urlPrefix = 'http://localhost:3000';
-  this.namespace = '/api';
+  this.urlPrefix = 'http://localhost:3000/api';
   this.timing = 0; // response delay
 
   this.get('/courses', getCourses);
