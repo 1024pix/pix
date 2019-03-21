@@ -7,7 +7,7 @@ import { resolve } from 'rsvp';
 
 module('Integration | Component | certification-details-answer', function(hooks) {
 
-  let xselect = new XSelectInteractor('.answer-result select');
+  const xselect = new XSelectInteractor('.answer-result select');
 
   setupRenderingTest(hooks);
 

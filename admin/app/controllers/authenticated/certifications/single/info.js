@@ -15,16 +15,10 @@ export default Controller.extend({
   displayConfirm: false,
   confirmMessage: '',
   confirmAction: 'onSave',
-  statuses: null,
 
   // private properties
   _competencesCopy: null,
   _markStore: service('mark-store'),
-
-  init() {
-    this._super(...arguments);
-    this.set('statuses', ['started', 'error', 'validated', 'rejected']);
-  },
 
   isValid: computed('certification.status', function() {
     return this.get('certification.status') !== 'missing-assessment'
