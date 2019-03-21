@@ -4,12 +4,12 @@ import { setupRenderingTest } from 'ember-mocha';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | progression-gauge', function () {
+describe('Integration | Component | progression-gauge', function() {
   setupRenderingTest();
 
-  describe('Component rendering', function () {
+  describe('Component rendering', function() {
 
-    it('should render component', async function () {
+    it('should render component', async function() {
       // when
       await render(hbs`{{progression-gauge}}`);
 
@@ -17,7 +17,7 @@ describe('Integration | Component | progression-gauge', function () {
       expect(this.element.querySelector('.progression-gauge')).to.exist;
     });
 
-    it('should display given total value in total', async function () {
+    it('should display given total value in total', async function() {
       // given
       const total = '70';
       this.set('total', total);
@@ -29,7 +29,7 @@ describe('Integration | Component | progression-gauge', function () {
       expect(this.element.querySelector('.progression-gauge').getAttribute('style')).to.equal(`width: ${total}%`);
     });
 
-    it('should display given value in progression', async function () {
+    it('should display given value in progression', async function() {
       // given
       const value = '60';
       this.set('value', value);

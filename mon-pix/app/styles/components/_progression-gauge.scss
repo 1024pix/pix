@@ -3,6 +3,48 @@
   width: 100%;
   height: 4px;
   border-radius: 5px;
+
+  &--white {
+    background-color: $jordy-blue;
+
+    & .progression-gauge__marker {
+      background: $white;
+    }
+
+    & .progression-gauge__tooltip {
+      background: $white;
+      color: $pix-blue;
+      font-family: $font-open-sans;
+      font-weight: $font-bold;
+
+      &::before {
+        color: $white;
+        border-top-color: $white;
+      }
+    }
+  }
+
+  &--tooltip-left {
+    & .progression-gauge__tooltip-wrapper {
+      top: -13px;
+    }
+
+    & .progression-gauge__tooltip {
+      padding: 2px;
+      margin-top: -24px;
+      right: -40px;
+      width: 40px;
+
+      &::before {
+        border-top: 12px solid;
+        border-right: 12px solid transparent;
+        border-left: none;
+        margin-top: 16px;
+        right: 28px;
+        left: 0;
+      }
+    }
+  }
 }
 
 .progression-gauge__marker {
@@ -29,10 +71,11 @@
   right: -18px;
   width: 36px;
 
-  &::after {
+  &::before {
     content: '';
     position: absolute;
     left: 40%;
+    color: $dark-orange;
     border-top: 4px solid $dark-orange;
     border-right: 3px solid transparent;
     border-left: 3px solid transparent;

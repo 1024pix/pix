@@ -7,11 +7,11 @@ export default Component.extend({
   total: null,
   value: null,
 
-  barStyle: computed('total', function() {
+  fullGaugeStyle: computed('total', function() {
     return htmlSafe(`width: ${this.get('total')}%`);
   }),
 
-  progressionStyle: computed('value', function() {
+  progressionGaugeStyle: computed('value', function() {
     return htmlSafe(`width: ${this.get('value')}%`);
   }),
 
