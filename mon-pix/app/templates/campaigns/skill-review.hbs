@@ -3,13 +3,12 @@
 </div>
 <div class="skill-review__gradient"></div>
 
-<div class="skill-review__result__container">
-  <div class="skill-review__result-text">
+<div class="skill-review__result__container rounded-panel rounded-panel--strong">
+  <h1 class="skill-review__result-text rounded-panel-title">
     Vous maîtrisez
-    <div
-      class="skill-review__result-text__percentage">{{model.campaignParticipation.campaignParticipationResult.totalValidatedSkillsPercentage}}%</div>
+    <span class="skill-review__result-text__percentage">{{model.campaignParticipation.campaignParticipationResult.totalValidatedSkillsPercentage}}%</span>
     <br> des compétences testées.
-  </div>
+  </h1>
 
   <div class="skill-review__share_container">
     {{#if showButtonToShareResult}}
