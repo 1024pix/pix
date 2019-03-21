@@ -1,7 +1,8 @@
 const odsService = require('../services/ods-service');
 const xmlService = require('../services/xml-service');
-const { UserNotAuthorizedToAccessSession } = require('../errors');
+const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const moment = require('moment');
+const _ = require('lodash');
 
 const ATTENDANCE_SHEET_TEMPLATE_VALUES = [
   {
@@ -45,28 +46,32 @@ async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
   try {
     await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
   } catch (err) {
-    throw new UserNotAuthorizedToAccessSession(sessionId);
+    throw new UserNotAuthorizedToAccessEntity(sessionId);
   }
 
   const stringifiedXml = await odsService.getContentXml({ odsFilePath: _getAttendanceTemplatePath() });
   const session = await sessionRepository.get(sessionId);
-  const attendanceSheetData = _buildAttendanceSheetData(session);
+  const attendanceSheetData = _.transform(session, transformSessionIntoAttendanceSheetData);
   const stringifiedUpdatedXml = xmlService.getUpdatedXml({ stringifiedXml, dataToInject: attendanceSheetData, templateValues: ATTENDANCE_SHEET_TEMPLATE_VALUES });
 
   return await odsService.makeUpdatedOdsByContentXml({ stringifiedXml: stringifiedUpdatedXml, odsFilePath: _getAttendanceTemplatePath() });
 }
 
-function _buildAttendanceSheetData(session) {
-  const attendanceSheetData = Object.assign({}, session);
-  attendanceSheetData.certificationCenterName = session.certificationCenter;
-  delete attendanceSheetData.certificationCenter;
-  attendanceSheetData.date = moment(session.date).format('DD/MM/YYYY');
-  const startTime = moment(session.time, 'HH:mm');
-  attendanceSheetData.startTime = startTime.format('HH:mm');
-  attendanceSheetData.endTime = startTime.add(moment.duration(2, 'hours')).format('HH:mm');
-  delete attendanceSheetData.time;
-
-  return attendanceSheetData;
+function transformSessionIntoAttendanceSheetData(attendanceSheetData, value, prop) {
+  switch (prop) {
+    case 'certificationCenter':
+      attendanceSheetData.certificationCenterName = value;
+      break;
+    case 'date':
+      attendanceSheetData.date = moment(value).format('DD/MM/YYYY');
+      break;
+    case 'time':
+      attendanceSheetData.startTime = moment(value, 'HH:mm').format('HH:mm');
+      attendanceSheetData.endTime = moment(value, 'HH:mm').add(moment.duration(2, 'hours')).format('HH:mm');
+      break;
+    default:
+      attendanceSheetData[prop] = value;
+  }
 }
 
 function _getAttendanceTemplatePath() {
