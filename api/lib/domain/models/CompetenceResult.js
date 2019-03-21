@@ -1,23 +1,21 @@
-class CampaignParticipationResult {
+class CompetenceResult {
   constructor({
     id,
     // attributes
-    isCompleted,
+    name,
+    index,
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
-    // relationships
-    competenceResults = [],
   } = {}) {
     this.id = id;
     // attributes
-    this.isCompleted = isCompleted;
+    this.name = name;
+    this.index = index;
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
-    // relationships
-    this.competenceResults = competenceResults;
   }
 }
 
-module.exports = CampaignParticipationResult;
+module.exports = CompetenceResult;

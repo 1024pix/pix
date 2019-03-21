@@ -1,14 +1,17 @@
 const CampaignParticipationResult = require('../models/CampaignParticipationResult');
+const CompetenceResult = require('../models/CompetenceResult');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const _ = require('lodash');
 
 module.exports = async function getCampaignParticipationResult(
   {
+    userId,
     campaignParticipationId,
     campaignParticipationRepository,
     targetProfileRepository,
     smartPlacementKnowledgeElementRepository,
     campaignRepository,
-    userId
+    competenceRepository,
   }
 ) {
   const campaignParticipation = await campaignParticipationRepository.get(
@@ -23,10 +26,12 @@ module.exports = async function getCampaignParticipationResult(
 
   if(userId === campaignParticipation.userId || userIsCampaignOrganizationMember) {
     return await _createCampaignParticipationResult({
+      userId,
       campaignParticipationId,
       targetProfileRepository,
       smartPlacementKnowledgeElementRepository,
-      campaignParticipation
+      campaignParticipation,
+      competenceRepository,
     });
   }
 
@@ -35,10 +40,12 @@ module.exports = async function getCampaignParticipationResult(
 
 async function _createCampaignParticipationResult(
   {
+    userId,
     campaignParticipationId,
     targetProfileRepository,
     smartPlacementKnowledgeElementRepository,
-    campaignParticipation
+    campaignParticipation,
+    competenceRepository
   }
 ) {
   const isCompleted = campaignParticipation.assessment.isCompleted();
@@ -58,9 +65,42 @@ async function _createCampaignParticipationResult(
 
   const testedSkillsCount = testedKnowledgeElements.length;
 
-  const validatedSkillsCount = campaignParticipation.isShared ? testedKnowledgeElements.filter(
-    (ke) => ke.isValidated
-  ).length : null;
+  const showValidatedSkills = campaignParticipation.userId === userId || campaignParticipation.isShared;
+
+  const validatedSkillsCount = showValidatedSkills
+    ? testedKnowledgeElements.filter((ke) => ke.isValidated).length
+    : null;
+
+  const competences = await competenceRepository.list();
+
+  const targetSkillIds = targetProfile.skills.map((skill) => skill.id);
+
+  const targetedCompetenceResults = competences.reduce(function(competenceResults, competence) {
+    const competenceTotalSkillIds = _.intersection(competence.skills, targetSkillIds);
+
+    if (competenceTotalSkillIds.length) {
+      const competenceTestedKnowledgeElements = testedKnowledgeElements.filter(
+        (ke) => competenceTotalSkillIds.includes(ke.skillId)
+      );
+
+      const competenceValidatedKnowledgeElementsCount = showValidatedSkills
+        ? competenceTestedKnowledgeElements.filter((ke) => ke.isValidated).length
+        : null;
+
+      const competenceResult = new CompetenceResult({
+        id: competence.id,
+        name: competence.name,
+        index: competence.index,
+        totalSkillsCount: competenceTotalSkillIds.length,
+        testedSkillsCount: competenceTestedKnowledgeElements.length,
+        validatedSkillsCount: competenceValidatedKnowledgeElementsCount,
+      });
+
+      competenceResults.push(competenceResult);
+    }
+
+    return competenceResults;
+  }, []);
 
   return new CampaignParticipationResult({
     id: campaignParticipationId,
@@ -68,5 +108,6 @@ async function _createCampaignParticipationResult(
     testedSkillsCount,
     validatedSkillsCount,
     isCompleted,
+    competenceResults: targetedCompetenceResults,
   });
 }
