@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import { mapBy, max } from '@ember/object/computed';
+import { computed } from '@ember/object';
 
 export default DS.Model.extend({
 
@@ -8,6 +8,10 @@ export default DS.Model.extend({
   validatedSkillsCount: DS.attr('number'),
   competenceResults: DS.hasMany('competenceResult'),
 
-  totalSkillsCounts: mapBy('competenceResults', 'totalSkillsCount'),
-  maxTotalSkillsCountInCompetences: max('totalSkillsCounts'),
+  totalSkillsCounts: computed.mapBy('competenceResults', 'totalSkillsCount'),
+  maxTotalSkillsCountInCompetences: computed.max('totalSkillsCounts'),
+
+  totalValidatedSkillsPercentage: computed('totalSkillsCount', 'validatedSkillsCount', function() {
+    return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+  }),
 });

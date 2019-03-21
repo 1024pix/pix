@@ -7,7 +7,7 @@
   <div class="skill-review__result-text">
     Vous maîtrisez
     <div
-      class="skill-review__result-text__percentage">{{model.assessment.smartPlacementProgression.masteryPercentage}}%</div>
+      class="skill-review__result-text__percentage">{{model.campaignParticipation.campaignParticipationResult.totalValidatedSkillsPercentage}}%</div>
     <br> des compétences testées.
   </div>
 
@@ -30,8 +30,8 @@
   <div class="skill-review-results__header">
     <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
     <div class="skill-review-results-header__circle-chart">
-      {{circle-chart value=model.assessment.smartPlacementProgression.masteryPercentage
-                     displayValue=(concat model.assessment.smartPlacementProgression.masteryPercentage '%')}}
+      {{circle-chart value=model.campaignParticipation.campaignParticipationResult.totalValidatedSkillsPercentage
+                     displayValue=(concat model.campaignParticipation.campaignParticipationResult.totalValidatedSkillsPercentage '%')}}
     </div>
   </div>
 
