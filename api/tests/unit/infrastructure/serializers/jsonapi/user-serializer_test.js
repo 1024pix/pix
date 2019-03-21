@@ -103,8 +103,12 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
                 'links': {
                   'related': '/users/234567/certification-center-memberships'
                 }
+              },
+              'pix-score': {
+                'links': {
+                  'related': '/users/234567/pixscore'
+                }
               }
-
             }
           }
         });

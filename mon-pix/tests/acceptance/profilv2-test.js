@@ -36,6 +36,13 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
         expect(currentURL()).to.equal('/profilv2');
       });
     });
+
+    it('should display pixscore', async function() {
+      await visit('/profilv2');
+
+      // then
+      expect(find('.hexagon-score-content__pix-score').text()).to.contains('196');
+    });
   });
 
   describe('Authenticated cases as user with organization', function() {
