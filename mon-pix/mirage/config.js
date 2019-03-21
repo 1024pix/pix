@@ -5,6 +5,7 @@ import findAssessments from './routes/find-assessments';
 import getAuthenticatedUser from './routes/get-user-me';
 import getCampaigns from './routes/get-campaigns';
 import getCampaignParticipation from './routes/get-campaign-participation';
+import getCampaignParticipationResult from './routes/get-campaign-participation-result';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCourse from './routes/get-course';
@@ -100,4 +101,5 @@ export default function() {
   this.post('/campaign-participations', postCampaignParticipation);
   this.get('/campaign-participations', getCampaignParticipation);
   this.patch('/campaign-participations/:id', patchCampaignParticipation);
+  this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
 }

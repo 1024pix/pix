@@ -13,25 +13,43 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
     expect(model).to.be.ok;
   });
 
-  it('should calculate max total skills', function() {
-    const store = this.store();
-    const competenceResult1 = store.createRecord('competence-result', {
-      totalSkillsCount: 2
-    });
-    const competenceResult2 = store.createRecord('competence-result', {
-      totalSkillsCount: 11
-    });
-    const competenceResult3 = store.createRecord('competence-result', {
-      totalSkillsCount: 10
-    });
+  describe('maxTotalSkillsCountInCompetences', function() {
 
-    const model = this.subject();
-    model.set('competenceResults', [competenceResult1, competenceResult2, competenceResult3]);
+    it('should calculate max total skills', function() {
+      const store = this.store();
+      const competenceResult1 = store.createRecord('competence-result', {
+        totalSkillsCount: 2
+      });
+      const competenceResult2 = store.createRecord('competence-result', {
+        totalSkillsCount: 11
+      });
+      const competenceResult3 = store.createRecord('competence-result', {
+        totalSkillsCount: 10
+      });
 
-    // when
-    const maxTotalSkillsCountInCompetences = model.get('maxTotalSkillsCountInCompetences');
+      const model = this.subject();
+      model.set('competenceResults', [competenceResult1, competenceResult2, competenceResult3]);
 
-    // then
-    expect(maxTotalSkillsCountInCompetences).to.equal(11);
+      // when
+      const maxTotalSkillsCountInCompetences = model.get('maxTotalSkillsCountInCompetences');
+
+      // then
+      expect(maxTotalSkillsCountInCompetences).to.equal(11);
+    });
+  });
+
+  describe('totalValidatedSkillsPercentage', function() {
+
+    it('should calculate total validated skills percentage', function() {
+      const model = this.subject();
+      model.set('totalSkillsCount', 45);
+      model.set('validatedSkillsCount', 40);
+
+      // when
+      const totalValidatedSkillsPercentage = model.get('totalValidatedSkillsPercentage');
+
+      // then
+      expect(totalValidatedSkillsPercentage).to.equal(89);
+    });
   });
 });
