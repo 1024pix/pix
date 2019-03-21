@@ -53,6 +53,13 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'pix-certif-terms-of-service-accepted': false
             },
             id: '234567',
+            'relationships': {
+              'pix-score': {
+                'links': {
+                  'related': '/users/234567/pixscore'
+                }
+              }
+            },
             type: 'users'
           },
           meta: {
