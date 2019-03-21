@@ -95,11 +95,10 @@ module.exports = {
 
   ensureUserHasAccessToSession(userId, sessionId) {
     return BookshelfSession
-      .where({ 'sessions.id': sessionId, 'users.id': userId })
+      .where({ 'sessions.id': sessionId, 'certification-center-memberships.userId': userId })
       .query((qb) => {
         qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
         qb.innerJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
-        qb.innerJoin('users', 'users.id', 'certification-center-memberships.userId');
       })
       .fetch({
         require: true
