@@ -74,9 +74,6 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToGetCampaignResultsError) {
     return new InfraErrors.ForbiddenError(error.message);
   }
-  if (error instanceof DomainErrors.UserNotAuthorizedToAccessSession) {
-    return new InfraErrors.ForbiddenError(error.message);
-  }
   if (error instanceof DomainErrors.UserNotFoundError) {
     return new InfraErrors.NotFoundError(error.message);
   }
