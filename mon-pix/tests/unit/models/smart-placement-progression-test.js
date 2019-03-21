@@ -21,7 +21,7 @@ describe('Unit | Model | Smart Placement Progression', function() {
         const masteryInPourcent = smartPlacementProgression.get('masteryPercentage');
 
         // then
-        expect(masteryInPourcent).to.equal('68%');
+        expect(masteryInPourcent).to.equal('68');
       });
     });
   });
@@ -38,7 +38,7 @@ describe('Unit | Model | Smart Placement Progression', function() {
         const masteryInPourcent = smartPlacementProgression.get('completionPercentage');
 
         // then
-        expect(masteryInPourcent).to.equal('7%');
+        expect(masteryInPourcent).to.equal('7');
       });
     });
   });

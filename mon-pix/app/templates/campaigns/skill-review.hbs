@@ -7,7 +7,7 @@
   <div class="skill-review__result-text">
     Vous maîtrisez
     <div
-      class="skill-review__result-text__percentage">{{model.assessment.smartPlacementProgression.masteryPercentage}}</div>
+      class="skill-review__result-text__percentage">{{model.assessment.smartPlacementProgression.masteryPercentage}}%</div>
     <br> des compétences testées.
   </div>
 
@@ -30,8 +30,8 @@
   <div class="skill-review-results__header">
     <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
     <div class="skill-review-results-header__circle-chart">
-      {{circle-chart value=model.assessment.smartPlacementProgression.validationPercentage
-                     displayValue=model.assessment.smartPlacementProgression.masteryPercentage}}
+      {{circle-chart value=model.assessment.smartPlacementProgression.masteryPercentage
+                     displayValue=(concat model.assessment.smartPlacementProgression.masteryPercentage '%')}}
     </div>
   </div>
 
@@ -44,15 +44,15 @@
     </thead>
 
     <tbody>
-    {{#each competences as |competence|}}
+    {{#each model.campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
       <tr>
         <td>
-          <span class="skill-review-competence__bullet" style="color: {{competence.domainColor}}">&#8226;</span>
+          <span class="skill-review-competence__bullet" style={{competence.domainColorStyle}}>&#8226;</span>
           <span>{{competence.name}}</span>
         </td>
         <td>
-          {{#progression-gauge total=competence.total value=competence.result}}
-            <p class="sr-only">Vous avez validé </p>{{competence.result}}%<p class="sr-only"> de la
+          {{#progression-gauge total=competence.totalSkillsCountPercentage value=competence.validatedSkillsPercentage}}
+            <p class="sr-only">Vous avez validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la
             compétence {{competence.name}}.</p>
           {{/progression-gauge}}
         </td>

@@ -1,7 +1,7 @@
-<div class="progression-gauge" style={{barStyle}}>
-  <div class="progression-gauge__marker" style={{progressionStyle}}></div>
+<div class={{concat "progression-gauge " progressionClass}} style={{fullGaugeStyle}}>
+  <div class="progression-gauge__marker" style={{progressionGaugeStyle}}></div>
 
-  <div class="progression-gauge__tooltip-wrapper" style={{progressionStyle}}>
+  <div class="progression-gauge__tooltip-wrapper" style={{progressionGaugeStyle}}>
     <div class="progression-gauge__tooltip">{{yield}}</div>
   </div>
 </div>
