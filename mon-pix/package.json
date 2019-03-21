@@ -25,7 +25,7 @@
     "coverage:rename": "mv coverage/lcov.info ../coverage/mon-pix_lcov.info",
     "dev": "ember server",
     "lint": "eslint app mirage tests",
-    "lint:fix": "npm run lint --fix",
+    "lint:fix": "eslint --fix app mirage tests",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "build": "ember build --environment $BUILD_ENVIRONMENT",

@@ -5,7 +5,7 @@ module.exports = {
 
   serialize(users, meta) {
     return new Serializer('user', {
-      attributes: ['firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'memberships', 'certificationCenterMemberships'],
+      attributes: ['firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'memberships', 'certificationCenterMemberships', 'pixScore'],
       memberships: {
         ref: 'id',
         ignoreRelationshipData: true,
@@ -24,9 +24,20 @@ module.exports = {
           }
         }
       },
+      pixScore: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function(record, current, parent) {
+            return `/users/${parent.id}/pixscore`;
+          }
+        }
+      },
       transform(model) {
         // FIXME: Used to make it work in both cases
-        return (model instanceof User) ? model : model.toJSON();
+        const userModel = (model instanceof User) ? model : model.toJSON();
+        userModel.pixScore = null;
+        return userModel;
       },
       meta
     }).serialize(users);

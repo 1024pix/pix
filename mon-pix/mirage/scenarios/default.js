@@ -17,6 +17,7 @@ export default function(server) {
     recaptchaToken: 'recaptcha-token-xxxxxx',
     totalPixScore: 456,
     competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    pixScore: 196,
   });
 
   server.create('user', {

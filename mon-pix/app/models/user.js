@@ -11,6 +11,7 @@ export default Model.extend({
   cgu: attr('boolean'),
   recaptchaToken: attr('string'),
   competences: hasMany('competence'),
+  pixScore: attr('number'),
   totalPixScore: attr('number'),
   organizations: hasMany('organization'),
   certifications: hasMany('certification'),
