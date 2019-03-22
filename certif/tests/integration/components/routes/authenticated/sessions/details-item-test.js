@@ -61,7 +61,7 @@ module('Integration | Component | routes/authenticated/session | details-item', 
     await render(hbs`{{routes/authenticated/sessions/details-item session=session}}`);
 
     // then
-    assert.dom('.session-details-controls__export-button').hasText('Télécharger le PV (.ods)');
+    assert.dom('.session-details-controls__download-button').hasText('Télécharger le PV (.ods)');
   });
 
 });
