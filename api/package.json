@@ -66,7 +66,6 @@
     "sqlite3": "^4.0.6",
     "vision": "^5.4.4",
     "xml-crypto": "~1.0.2",
-    "xml2js": "^0.4.19",
     "xmldom": "0.1.27",
     "xregexp": "^4.2.4",
     "yamljs": "^0.3.0"
