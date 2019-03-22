@@ -108,3 +108,19 @@
     margin-bottom: 6px;
   }
 }
+
+.session-details__controls {
+  display: flex;
+  justify-content: space-between;
+  margin: 1em 0;
+}
+
+.session-details-controls__navbar-tabs {
+  display: flex;
+}
+
+.session-details-controls__download-button {
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+}

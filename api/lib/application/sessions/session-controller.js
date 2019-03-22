@@ -1,6 +1,7 @@
 const usecases = require('../../domain/usecases');
 const sessionService = require('../../domain/services/session-service');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
+const tokenService = require('../../../lib/domain/services/token-service');
 
 module.exports = {
 
@@ -12,7 +13,6 @@ module.exports = {
 
   async get(request) {
     const sessionId = request.params.id;
-
     const session = await sessionService.get(sessionId);
 
     return serializer.serialize(session);
@@ -35,5 +35,16 @@ module.exports = {
     const updatedSession = await usecases.updateSession({ userId, session });
 
     return serializer.serialize(updatedSession);
+  },
+
+  async getAttendanceSheet(request, h) {
+    const sessionId = request.params.id;
+    const token = request.query.accessToken;
+    const userId = tokenService.extractUserId(token);
+    const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
+
+    return h.response(attendanceSheet)
+      .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
+      .header('Content-Disposition', 'attachment; filename=pv-session-' + sessionId + '.ods');
   }
 };
