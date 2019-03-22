@@ -13,10 +13,10 @@ export default Component.extend({
   actions: {
 
     authenticate() {
-      const email = this.get('email');
-      const password = this.get('password');
+      const email = this.email;
+      const password = this.password;
       const scope = 'pix-certif';
-      return this.get('session').authenticate('authenticator:oauth2', email, password, scope)
+      return this.session.authenticate('authenticator:oauth2', email, password, scope)
         .catch(() => {
           this.set('isErrorMessagePresent', true);
         });

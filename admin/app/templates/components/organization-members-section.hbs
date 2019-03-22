@@ -2,13 +2,15 @@
   <header class="page-section__header">
     <h2 class="page-section__title">Ajouter un membre</h2>
   </header>
-    <form class="add-membership-form form">
-      {{input class="add-membership-form__user-email-input form-field__text form-control" 
-              id="userEmail" 
-              value=userEmail
-              placeholder="E-mail de l'utilisateur à ajouter"}}
-      <button class="add-membership-form__validate-button btn btn-outline-default btn-thin" {{action addMembership}}>Valider</button>
-    </form>
+  <form class="add-membership-form form">
+    {{input class="add-membership-form__user-email-input form-field__text form-control"
+            id="userEmail"
+            value=userEmail
+            placeholder="E-mail de l'utilisateur à ajouter"}}
+    <button class="add-membership-form__validate-button btn btn-outline-default btn-thin" {{action addMembership}}>
+      Valider
+    </button>
+  </form>
 </section>
 
 <section class="page-section mb_10">

@@ -8,25 +8,25 @@ export default Component.extend({
 
   // Properties
   answer: null,
-  onUpdateRate:null,
+  onUpdateRate: null,
 
   // Private properties
-  _jury:false,
+  _jury: false,
 
   // Computed properties
   resultClass: computed('_jury', function() {
-    const jury = this.get('_jury');
-    return (jury)? 'answer-result jury' : 'answer-result';
+    const jury = this._jury;
+    return (jury) ? 'answer-result jury' : 'answer-result';
   }),
 
   // Actions
   actions: {
-    onSetResult(value){
-      let answer = this.get('answer');
+    onSetResult(value) {
+      let answer = this.answer;
       let jury = (value !== answer.result) ? value : false;
       answer.jury = jury;
       this.set('_jury', jury);
-      this.get('onUpdateRate')();
+      this.onUpdateRate();
     }
   }
 });

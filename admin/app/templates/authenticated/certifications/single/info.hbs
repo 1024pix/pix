@@ -4,11 +4,12 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">
-          {{certification-info-published record=certification float=true}}État
+            {{certification-info-published record=certification float=true}}État
           </h5>
           <div class="card-text">
-            {{certification-info-field value=certification.sessionId edition=false label="Session :" linkRoute='authenticated.certifications.sessions.info'}}
-            {{certification-info-select value=certification.status values=statuses edition=edition label="Statut :"}}
+            {{certification-info-field value=certification.sessionId edition=false label="Session :"
+                                       linkRoute='authenticated.certifications.sessions.info'}}
+            {{certification-status-select value=certification.status edition=edition}}
             {{certification-info-field value=certification.creationDate edition=false label="Créée le :"}}
             {{certification-info-field value=certification.completionDate edition=false label="Terminée le :"}}
             {{certification-info-field value=certification.publishedText edition=false label="Publiée :"}}
@@ -21,10 +22,14 @@
         <div class="card-body">
           <h5 class="card-title">Candidat</h5>
           <div class="card-text">
-            {{certification-info-field value=certification.firstName edition=edition label="Prénom :" fieldId="certification-firstName"}}
-            {{certification-info-field value=certification.lastName edition=edition label="Nom :" fieldId="certification-lastName"}}
-            {{certification-info-field value=certification.birthdate edition=edition label="Date de naissance :" fieldId="certification-birthDate"}}
-            {{certification-info-field value=certification.birthplace edition=edition label="Lieu de naissance :" fieldId="certification-birthPlace"}}
+            {{certification-info-field value=certification.firstName edition=edition label="Prénom :"
+                                       fieldId="certification-firstName"}}
+            {{certification-info-field value=certification.lastName edition=edition label="Nom :"
+                                       fieldId="certification-lastName"}}
+            {{certification-info-field value=certification.birthdate edition=edition label="Date de naissance :"
+                                       fieldId="certification-birthDate"}}
+            {{certification-info-field value=certification.birthplace edition=edition label="Lieu de naissance :"
+                                       fieldId="certification-birthPlace"}}
           </div>
         </div>
       </div>
@@ -36,9 +41,14 @@
         <div class="card-body">
           <h5 class="card-title">Commentaires jury</h5>
           <div class="card-text">
-            {{certification-info-field value=certification.commentForCandidate edition=edition label="Pour le candidat :" fieldId="certification-commentForCandidate" large=true}}
-            {{certification-info-field value=certification.commentForOrganization edition=edition label="Pour l'organisation :" fieldId="certification-commentForOrganization" large=true}}
-            {{certification-info-field value=certification.commentForJury edition=edition label="Pour le jury :" fieldId="certification-commentForJury" large=true}}
+            {{certification-info-field value=certification.commentForCandidate edition=edition
+                                       label="Pour le candidat :" fieldId="certification-commentForCandidate"
+                                       large=true}}
+            {{certification-info-field value=certification.commentForOrganization edition=edition
+                                       label="Pour l'organisation :" fieldId="certification-commentForOrganization"
+                                       large=true}}
+            {{certification-info-field value=certification.commentForJury edition=edition label="Pour le jury :"
+                                       fieldId="certification-commentForJury" large=true}}
             <p></p>
             {{certification-info-field value=certification.juryId edition=false label="Identifiant jury :" large=true}}
           </div>
@@ -52,9 +62,12 @@
         <div class="card-body">
           <h5 class="card-title">Résultats</h5>
           <div class="card-text">
-            {{certification-info-field value=certification.pixScore edition=edition label="Score :" fieldId="certification-pixScore" suffix=" Pix" large=true}}
+            {{certification-info-field value=certification.pixScore edition=edition label="Score :"
+                                       fieldId="certification-pixScore" suffix=" Pix" large=true}}
             <p></p>
-            {{certification-info-competences competences=certification.competences edition=edition onUpdateScore=(action 'onUpdateScore') onUpdateLevel=(action 'onUpdateLevel')}}
+            {{certification-info-competences competences=certification.competences edition=edition
+                                             onUpdateScore=(action 'onUpdateScore')
+                                             onUpdateLevel=(action 'onUpdateLevel')}}
           </div>
         </div>
       </div>
@@ -64,11 +77,15 @@
     <div class="row">
       <div class="col single-certification-info__actions">
         {{#if edition}}
-          {{#bs-button class='single-certification-edit__button' type='secondary' size='sm' onClick=(action "onCancel")}}Annuler{{/bs-button}}
-          {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onSaveConfirm")}}Enregistrer{{/bs-button}}
+          {{#bs-button class='single-certification-edit__button' type='secondary' size='sm'
+                       onClick=(action "onCancel")}}Annuler{{/bs-button}}
+          {{#bs-button class='single-certification-edit__button' type='primary' size='sm'
+                       onClick=(action "onSaveConfirm")}}Enregistrer{{/bs-button}}
         {{else}}
-          {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onEdit")}}Modifier{{/bs-button}}
-          {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onTogglePublishConfirm")}}
+          {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onEdit")}}
+            Modifier{{/bs-button}}
+          {{#bs-button class='single-certification-edit__button' type='primary' size='sm'
+                       onClick=(action "onTogglePublishConfirm")}}
             {{#if certification.isPublished}}
               Dépublier
             {{else}}
@@ -79,5 +96,6 @@
       </div>
     </div>
   {{/if}}
-{{confirm-popup message=confirmMessage confirm=(action confirmAction) cancel=(action "onCancelConfirm") show=displayConfirm}}
+  {{confirm-popup message=confirmMessage confirm=(action confirmAction) cancel=(action "onCancelConfirm")
+                  show=displayConfirm}}
 </div>

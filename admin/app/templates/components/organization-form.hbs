@@ -5,7 +5,9 @@
     <!-- Organization name -->
     <div class="form-field form-group">
       <label class="form-field__label" for="organizationName">Nom : </label>
-      {{input class=(if organization.errors.name 'form-field__text form-control is-invalid' 'form-field__text form-control') id="organizationName" value=organization.name}}
+      {{input
+        class=(if organization.errors.name 'form-field__text form-control is-invalid' 'form-field__text form-control')
+        id="organizationName" value=organization.name}}
       {{#if organization.errors.name}}
         <div class="form-field__error">
           {{organization.errors.name.[0].message}}

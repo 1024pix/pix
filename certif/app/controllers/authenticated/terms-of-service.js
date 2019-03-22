@@ -8,7 +8,7 @@ export default Controller.extend({
 
   actions: {
     submit() {
-      const store = this.get('store');
+      const store = this.store;
       const userId = this.get('session.data.authenticated.user_id');
       const loggedUser = store.peekRecord('user', userId);
       loggedUser.set('pixCertifTermsOfServiceAccepted', true);

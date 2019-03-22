@@ -1,1 +1,3 @@
-{{input type='checkbox' checked=(if (is-equal selectedItems.length data.length) true false) click=(action 'onToggleAllSelection')}}
+{{input type='checkbox'
+        checked=(if (is-equal selectedItems.length data.length) true false)
+        click=(action 'onToggleAllSelection')}}

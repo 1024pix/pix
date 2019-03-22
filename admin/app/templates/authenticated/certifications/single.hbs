@@ -10,9 +10,11 @@
 <main class="page-body">
   {{#if certificationId}}
     {{#bs-nav type="tabs" as |nav|}}
-      {{#nav.item}}{{#nav.link-to 'authenticated.certifications.single.info' certificationId}}Informations{{/nav.link-to}}{{/nav.item}}
+      {{#nav.item}}{{#nav.link-to 'authenticated.certifications.single.info' certificationId}}
+        Informations{{/nav.link-to}}{{/nav.item}}
       {{#if isValid}}
-        {{#nav.item}}{{#nav.link-to 'authenticated.certifications.single.details' certificationId}}Détails{{/nav.link-to}}{{/nav.item}}
+        {{#nav.item}}{{#nav.link-to 'authenticated.certifications.single.details' certificationId}}
+          Détails{{/nav.link-to}}{{/nav.item}}
       {{/if}}
     {{/bs-nav}}
   {{/if}}

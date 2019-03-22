@@ -4,11 +4,11 @@ import { inject as service } from '@ember/service';
 export default Controller.extend({
 
   //Propertiew
-  sessionId:null,
-  loading:false,
+  sessionId: null,
+  loading: false,
 
   // Private properties
-  router:service(),
+  router: service(),
 
   // Actions
   actions: {

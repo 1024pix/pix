@@ -15,7 +15,7 @@ export default DS.Model.extend({
 
   // Functions
   async hasMember(userEmail) {
-    const memberships = await this.get('memberships');
+    const memberships = await this.memberships;
     return !!memberships.findBy('user.email', userEmail);
   }
 

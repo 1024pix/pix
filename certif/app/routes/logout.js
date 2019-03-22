@@ -7,7 +7,7 @@ export default Route.extend({
   beforeModel() {
     this._super(...arguments);
     if (this.get('session.isAuthenticated')) {
-      this.get('session').invalidate();
+      this.session.invalidate();
     }
   }
 });

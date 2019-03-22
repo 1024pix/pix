@@ -6,7 +6,7 @@ export default Route.extend({
   currentUser: service(),
 
   beforeModel() {
-    this.get('currentUser').load()
+    this.currentUser.load()
       .then((user) => {
         if (user.pixOrgaTermsOfServiceAccepted) {
           return this.transitionTo('authenticated.campaigns.list');
@@ -15,7 +15,7 @@ export default Route.extend({
         }
       })
       .catch((error) => {
-        this.get('session').invalidate();
+        this.session.invalidate();
         throw error;
       });
   }

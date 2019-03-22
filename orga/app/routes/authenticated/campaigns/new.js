@@ -11,7 +11,7 @@ export default Route.extend({
     return this.currentOrganization.organization
       .then((organization) => {
         return RSVP.hash({
-          campaign: this.get('store').createRecord('campaign', { organizationId: organization.get('id') }),
+          campaign: this.store.createRecord('campaign', { organizationId: organization.get('id') }),
           targetProfiles: organization.get('targetProfiles')
         });
       });

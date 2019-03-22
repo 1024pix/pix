@@ -2,6 +2,8 @@
 @import 'ember-bootstrap/bootstrap';
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
+@import "ember-power-select";
+@import 'ember-power-select/themes/bootstrap';
 
 /* global */
 @import 'misc/palette';
@@ -12,7 +14,6 @@
 @import 'misc/power-select';
 @import 'misc/table';
 @import 'misc/utils';
-
 /* pages */
 @import 'login';
 @import 'authenticated';
@@ -24,7 +25,6 @@
 @import 'authenticated/certifications/info';
 @import 'authenticated/certifications/sessions';
 @import 'authenticated/certifications/sessions-list';
-
 /* components */
 @import 'components/menu-bar';
 @import 'components/organization-list';
