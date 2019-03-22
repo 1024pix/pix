@@ -119,36 +119,8 @@
   display: flex;
 }
 
-.navbar {
-  height: 60px;
-  border: none;
-  padding: 0 10px;
-}
-
-.session-details-controls__export-button {
+.session-details-controls__download-button {
   display: flex;
   align-items: center;
   padding-right: 10px;
-}
-
-.navbar-item.active {
-  border-bottom: 2px solid #388AFF;
-  color: #388AFF;
-}
-.navbar-item {
-  width: 150px;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  background-color: transparent;
-  border: none;
-  border-bottom: 2px solid transparent;
-  outline: none;
-  cursor: pointer;
-  color: #999999;
-  font-family: "Roboto";
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all ease-in-out .2s;
-  text-decoration: none;
 }
