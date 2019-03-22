@@ -51,4 +51,17 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(res.statusCode).to.equal(200);
     });
   });
+
+  describe('GET /api/sessions/{id}/attendance-sheet', () => {
+
+    beforeEach(() => {
+      sinon.stub(sessionController, 'getAttendanceSheet').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}/attendance-sheet' });
+      expect(res.statusCode).to.equal(200);
+    });
+  });
 });

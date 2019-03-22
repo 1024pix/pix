@@ -49,4 +49,19 @@ module('Integration | Component | routes/authenticated/session | details-item', 
     assert.dom('.session-details-header-datetime__time .content-text').hasText('14:00');
   });
 
+  test('it should display a button to download an attendance sheet', async function(assert) {
+    // given
+    const session = run(() => store.createRecord('session', {
+      id: 1,
+    }));
+
+    this.set('session', session);
+
+    // when
+    await render(hbs`{{routes/authenticated/sessions/details-item session=session}}`);
+
+    // then
+    assert.dom('.session-details-controls__download-button').hasText('Télécharger le PV (.ods)');
+  });
+
 });
