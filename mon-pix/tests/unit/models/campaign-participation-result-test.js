@@ -38,7 +38,7 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
     });
   });
 
-  describe('totalValidatedSkillsPercentage', function() {
+  describe('masteryPercentage', function() {
 
     it('should calculate total validated skills percentage', function() {
       const model = this.subject();
@@ -46,10 +46,10 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
       model.set('validatedSkillsCount', 40);
 
       // when
-      const totalValidatedSkillsPercentage = model.get('totalValidatedSkillsPercentage');
+      const masteryPercentage = model.get('masteryPercentage');
 
       // then
-      expect(totalValidatedSkillsPercentage).to.equal(89);
+      expect(masteryPercentage).to.equal(89);
     });
   });
 });
