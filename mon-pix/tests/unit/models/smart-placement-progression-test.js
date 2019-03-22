@@ -9,23 +9,6 @@ describe('Unit | Model | Smart Placement Progression', function() {
     needs: []
   });
 
-  describe('Computed property #masteryPercentage', function() {
-
-    it('should compute a property in %', function() {
-      run(() => {
-        // given
-        const store = this.store();
-        const smartPlacementProgression = store.createRecord('smart-placement-progression', { validationRate: 0.6815 });
-
-        // when
-        const masteryInPourcent = smartPlacementProgression.get('masteryPercentage');
-
-        // then
-        expect(masteryInPourcent).to.equal(68);
-      });
-    });
-  });
-
   describe('Computed property #completionPercentage', function() {
 
     it('should compute a completionRate property in %', function() {

@@ -11,7 +11,7 @@ export default DS.Model.extend({
   totalSkillsCounts: computed.mapBy('competenceResults', 'totalSkillsCount'),
   maxTotalSkillsCountInCompetences: computed.max('totalSkillsCounts'),
 
-  totalValidatedSkillsPercentage: computed('totalSkillsCount', 'validatedSkillsCount', function() {
+  masteryPercentage: computed('totalSkillsCount', 'validatedSkillsCount', function() {
     return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
   }),
 });

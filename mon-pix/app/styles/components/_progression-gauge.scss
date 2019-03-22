@@ -16,10 +16,12 @@
       color: $pix-blue;
       font-family: $font-open-sans;
       font-weight: $font-bold;
+      padding: 0;
 
       &::before {
         color: $white;
         border-top-color: $white;
+        margin-top: 18px;
       }
     }
   }
@@ -31,7 +33,7 @@
 
     & .progression-gauge__tooltip {
       padding: 2px;
-      margin-top: -24px;
+      margin-top: -22px;
       right: -40px;
       width: 40px;
 
@@ -39,7 +41,7 @@
         border-top: 12px solid;
         border-right: 12px solid transparent;
         border-left: none;
-        margin-top: 16px;
+        margin-top: 14px;
         right: 28px;
         left: 0;
       }
@@ -70,6 +72,8 @@
   text-align: center;
   right: -18px;
   width: 36px;
+  line-height: normal;
+  padding: 2px 0;
 
   &::before {
     content: '';
@@ -79,6 +83,6 @@
     border-top: 4px solid $dark-orange;
     border-right: 3px solid transparent;
     border-left: 3px solid transparent;
-    margin-top: 18px;
+    margin-top: 16px;
   }
 }

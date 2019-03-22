@@ -6,7 +6,9 @@
 <div class="skill-review__result__container rounded-panel rounded-panel--strong">
   <h1 class="skill-review__result-text rounded-panel-title">
     Vous maîtrisez
-    <span class="skill-review__result-text__percentage">{{model.campaignParticipation.campaignParticipationResult.totalValidatedSkillsPercentage}}%</span>
+    <span
+      class="skill-review__result-text__percentage">{{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
+      %</span>
     <br> des compétences testées.
   </h1>
 
@@ -29,16 +31,16 @@
   <div class="skill-review-results__header">
     <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
     <div class="skill-review-results-header__circle-chart">
-      {{circle-chart value=model.campaignParticipation.campaignParticipationResult.totalValidatedSkillsPercentage
-                     displayValue=(concat model.campaignParticipation.campaignParticipationResult.totalValidatedSkillsPercentage '%')}}
+      {{circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage
+                     displayValue=(concat model.campaignParticipation.campaignParticipationResult.masteryPercentage '%')}}
     </div>
   </div>
 
   <table>
     <thead>
     <tr>
-      <th class="table__column">Compétences testées</th>
-      <th class="table__column table__column--wide">Résultats</th>
+      <th>Compétences testées</th>
+      <th>Résultats</th>
     </tr>
     </thead>
 
