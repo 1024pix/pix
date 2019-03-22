@@ -13,13 +13,13 @@ describe('Acceptance | users-controller-get-pix-score', () => {
     const user = databaseBuilder.factory.buildUser();
 
     // Insert 2 more users
-    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({userId: user.id, earnedPix: 3 });
-    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({userId: user.id, earnedPix: 4 });
+    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: user.id, earnedPix: 3 });
+    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: user.id, earnedPix: 4 });
 
     options = {
       method: 'GET',
       url: `/api/users/${user.id}/pixscore`,
-      payload: { },
+      payload: {},
       headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
     };
 
@@ -52,6 +52,14 @@ describe('Acceptance | users-controller-get-pix-score', () => {
 
       it('should return a 200 status code response with JSON API serialized PixScore', () => {
         // given
+        const pixScoreExpected = {
+          data: {
+            type: 'pixscores',
+            attributes: {
+              'pix-score': 7
+            }
+          }
+        };
 
         // when
         const promise = server.inject(options);
@@ -59,7 +67,7 @@ describe('Acceptance | users-controller-get-pix-score', () => {
         // then
         return promise.then((response) => {
           expect(response.statusCode).to.equal(200);
-          expect(response.result).to.equal(7);
+          expect(response.result).to.deep.equal(pixScoreExpected);
         });
       });
     });

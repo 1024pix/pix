@@ -474,13 +474,13 @@ describe('Unit | Controller | user-controller', () => {
   describe('#getPixScore', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserPixScore').resolves();
+      sinon.stub(usecases, 'getUserPixScore').resolves({ pixScore: 10 });
     });
 
     it('should return the user Pix score', async () => {
       // given
-      const authenticatedUserId= '76';
-      const requestedUserId= '76';
+      const authenticatedUserId = '76';
+      const requestedUserId = '76';
 
       const request = {
         auth: {

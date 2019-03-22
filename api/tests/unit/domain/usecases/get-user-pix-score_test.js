@@ -60,6 +60,9 @@ describe('Unit | UseCase | get-user-pix-score', () => {
       const authenticatedUserId = 2;
       const requestedUserId = 2;
       const sumOfPixKnowledgeElement = 6;
+      const pixScoreExpected = {
+        pixScore: sumOfPixKnowledgeElement
+      };
 
       const knowledgeElementList = [
         domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1, earnedPix: 1 }),
@@ -76,7 +79,7 @@ describe('Unit | UseCase | get-user-pix-score', () => {
       });
 
       //then
-      expect(userPixScore).to.equal(sumOfPixKnowledgeElement);
+      expect(userPixScore).to.deep.equal(pixScoreExpected);
     });
   });
 });
