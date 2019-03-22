@@ -23,7 +23,7 @@ export default Model.extend({
 
   domainColorStyle: computed('index', function() {
     const domainIndex = this.index.charAt(0);
-    const foundDomain = domainColors.colors.find((colors) => colors.domain === domainIndex);
+    const foundDomain = domainColors.find((colors) => colors.domain === domainIndex);
     return htmlSafe(`color: ${foundDomain.color}`);
   }),
 });

@@ -5,7 +5,6 @@ import { setupModelTest } from 'ember-mocha';
 
 describe('Unit | Model | Smart Placement Progression', function() {
   setupModelTest('smart-placement-progression', {
-    // Specify the other units that are required for this test.
     needs: []
   });
 
@@ -18,12 +17,11 @@ describe('Unit | Model | Smart Placement Progression', function() {
         const smartPlacementProgression = store.createRecord('smart-placement-progression', { completionRate: 0.06815 });
 
         // when
-        const masteryInPourcent = smartPlacementProgression.get('completionPercentage');
+        const completionPercentage = smartPlacementProgression.get('completionPercentage');
 
         // then
-        expect(masteryInPourcent).to.equal(7);
+        expect(completionPercentage).to.equal(7);
       });
     });
   });
-
 });
