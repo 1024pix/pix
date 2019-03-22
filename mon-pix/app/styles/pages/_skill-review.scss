@@ -1,5 +1,5 @@
 .skill-review {
-  &__result__container {
+  &__result-container {
     max-width: 960px;
     margin: 55px 10px 10px 10px;
     padding: 40px 10px;
@@ -47,7 +47,7 @@
     }
   }
 
-  &__share_container {
+  &__share-container {
     padding: 20px;
     text-align: center;
 
@@ -56,12 +56,12 @@
     }
   }
 
-  &__share__button {
+  &__share-button {
     text-transform: uppercase;
     letter-spacing: 0.05rem;
   }
 
-  &__share__legal {
+  &__share-legal {
     text-align: center;
     font-size: 2.4rem;
     color: $dove-gray;
@@ -75,7 +75,7 @@
     }
   }
 
-  &__share__thanks {
+  &__share-thanks {
     font-family: $font-open-sans;
     font-weight: $font-light;
     font-size: 2.4rem;
@@ -90,6 +90,9 @@
     @include device-is('tablet') {
       margin: auto;
     }
+  }
+
+  &-information {
 
     &__info-icon {
       float: left;
@@ -126,7 +129,15 @@
   }
 }
 
-.skill-review-results-header__circle-chart {
+.skill-review__circle-chart {
+  position: relative;
   width: 100px;
   height: 100px;
+}
+
+.skill-review__circle-chart-value {
+  color: $nero;
+  font-family: $font-roboto;
+  font-size: 3.1rem;
+  margin: auto;
 }

@@ -23,13 +23,8 @@
 
 .circle-chart__text {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: -76px;
-
-  .circle-chart-text__value {
-    color: $nero;
-    font-family: $font-roboto;
-    font-size: 3.1rem;
-  }
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
 }

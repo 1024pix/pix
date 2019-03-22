@@ -3,7 +3,7 @@
 </div>
 <div class="skill-review__gradient"></div>
 
-<div class="skill-review__result__container rounded-panel rounded-panel--strong">
+<div class="skill-review__result-container rounded-panel rounded-panel--strong">
   <h1 class="skill-review__result-text rounded-panel-title">
     Vous maîtrisez
     <span
@@ -12,17 +12,17 @@
     <br> des compétences testées.
   </h1>
 
-  <div class="skill-review__share_container">
+  <div class="skill-review__share-container">
     {{#if showButtonToShareResult}}
-      <p class="skill-review__share__legal">
+      <p class="skill-review__share-legal">
         Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
       </p>
 
-      <button class="button button--extra-big skill-review__share__button" {{action 'shareCampaignParticipation'}}>
+      <button class="button button--extra-big skill-review__share-button" {{action 'shareCampaignParticipation'}}>
         J'envoie mes résultats
       </button>
     {{else}}
-      <p class="skill-review__share__thanks">Merci, vos résultats ont bien été envoyés !</p>
+      <p class="skill-review__share-thanks">Merci, vos résultats ont bien été envoyés !</p>
     {{/if}}
   </div>
 
@@ -30,9 +30,10 @@
 
   <div class="skill-review-results__header">
     <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
-    <div class="skill-review-results-header__circle-chart">
-      {{circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage
-                     displayValue=(concat model.campaignParticipation.campaignParticipationResult.masteryPercentage '%')}}
+    <div class="skill-review__circle-chart">
+      {{#circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
+        <span class="skill-review__circle-chart-value">{{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%</span>
+      {{/circle-chart}}
     </div>
   </div>
 
@@ -63,8 +64,8 @@
   </table>
 
   <div class="skill-review__information">
-    {{fa-icon 'info-circle' class='skill-review__information__info-icon'}}
-    <div class="skill-review__information__text">
+    {{fa-icon 'info-circle' class='skill-review-information__info-icon'}}
+    <div class="skill-review-information__text">
       Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été
       posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.
     </div>

@@ -17,18 +17,6 @@ describe('Integration | Component | circle-chart', function() {
       expect(this.element.querySelector('.circle-chart__container')).to.exist;
     });
 
-    it('should display provided value in the circle', async function() {
-      // given
-      const displayValue = '60%';
-      this.set('displayValue', displayValue);
-
-      // when
-      await render(hbs`{{circle-chart displayValue=displayValue}}`);
-
-      // then
-      expect(this.element.querySelector('.circle-chart-text__value').innerHTML).to.equal(displayValue);
-    });
-
     it('should display the progressing circle with given value', async function() {
       // given
       const value = '60';
