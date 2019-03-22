@@ -7,7 +7,7 @@ export default Component.extend({
 
   wantIdPix: false,
   notWantIdPix: computed('wantIdPix', function() {
-    return !this.get('wantIdPix');
+    return !this.wantIdPix;
   }),
 
   actions: {
@@ -24,7 +24,7 @@ export default Component.extend({
     setSelectedTargetProfile(selectedTargetProfileId) {
       const selectedTargetProfile = this.targetProfiles
         .find((targetProfile) => targetProfile.get('id') === selectedTargetProfileId);
-      this.get('campaign').set('targetProfile', selectedTargetProfile);
+      this.campaign.set('targetProfile', selectedTargetProfile);
     },
   }
 });

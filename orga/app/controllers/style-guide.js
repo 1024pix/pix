@@ -1,7 +1,5 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
 import FreestyleController from 'ember-freestyle/controllers/freestyle';
-
-const { inject } = Ember;
 
 const colorPalette = {
   'porcelain': { 'name': 'porcelain', 'base': '#f2f3f4' },
@@ -31,7 +29,7 @@ const campaignTest = {
   name: 'Campagne de test',
 };
 export default FreestyleController.extend({
-  emberFreestyle: inject.service(),
+  emberFreestyle: service(),
 
   colorPalette: colorPalette,
   textColorPalette: textColorPalette,

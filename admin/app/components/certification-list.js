@@ -2,10 +2,10 @@ import Component from '@ember/component';
 
 const columns = [
   {
-    component:'certification-list-checkbox',
-    useFilter:false,
-    mayBeHidden:false,
-    componentForSortCell:'certification-list-select-all'
+    component: 'certification-list-checkbox',
+    useFilter: false,
+    mayBeHidden: false,
+    componentForSortCell: 'certification-list-select-all'
   },
   {
     propertyName: 'id',
@@ -38,10 +38,10 @@ const columns = [
     title: 'Fin'
   },
   {
-    component:'certification-info-published',
-    useFilter:false,
-    mayBeHidden:false,
-    title:'Publiée'
+    component: 'certification-info-published',
+    useFilter: false,
+    mayBeHidden: false,
+    title: 'Publiée'
   },
 ];
 

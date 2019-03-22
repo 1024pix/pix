@@ -5,7 +5,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   model() {
     // ℹ️ We use `#query` instead of `#findAll` because only the first one handle metadata
-    return this.get('store').query('user', {});
+    return this.store.query('user', {});
   }
 
 });

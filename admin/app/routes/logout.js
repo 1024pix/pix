@@ -7,7 +7,7 @@ export default Route.extend(UnauthenticatedRouteMixin, {
 
   beforeModel() {
     this._super(...arguments);
-    this.get('session').invalidate();
+    this.session.invalidate();
     return this.transitionTo('login');
   }
 

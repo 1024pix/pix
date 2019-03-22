@@ -1,9 +1,9 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { settled } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import Service from '@ember/service';
-import wait from 'ember-test-helpers/wait';
 
 module('Unit | Controller | authenticated/certifications/sessions/info/list', function(hooks) {
   setupTest(hooks);
@@ -71,7 +71,7 @@ module('Unit | Controller | authenticated/certifications/sessions/info/list', fu
     controller.send('onExport');
 
     // then
-    return wait()
+    return settled()
     .then(() => {
       assert.equal(this.get('counter'),3);
       let service = this.owner.lookup('service:file-saver');

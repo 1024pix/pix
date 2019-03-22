@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
   notifications: service('notification-messages'),
 
-  redirect: function (model, transition) {
+  redirect: function(model, transition) {
     if (transition.intent.name === 'authenticated.certifications.single') {
       if (this.controller && this.controller.get('certificationId')) {
         this.transitionTo('authenticated.certifications.single.info', this.controller.get('certificationId'));
@@ -27,7 +27,7 @@ export default Route.extend({
       if (controller) {
         controller.set('certificationId', null);
       }
-      this.get('notifications').error(error);
+      this.notifications.error(error);
       this.replaceWith('authenticated.certifications.single');
     }
   }

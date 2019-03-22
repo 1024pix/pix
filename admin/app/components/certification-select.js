@@ -5,7 +5,7 @@ export default Component.extend({
   // Actions
   actions: {
     onChange() {
-      this.get('select')(this.get('id'));
+      this.select(this.id);
     }
   }
 });
