@@ -85,18 +85,18 @@ describe('Unit | Model | Competence-Result', function() {
     });
   });
 
-  describe('domainColorStyle', function() {
+  describe('domainColor', function() {
 
-    it('should retrieve domain color style', function() {
+    it('should retrieve domain color', function() {
       const model = this.subject();
 
       model.set('index', '5.1');
 
       // when
-      const domainColorStyle = model.get('domainColorStyle');
+      const domainColor = model.get('domainColor');
 
       // then
-      expect(domainColorStyle.string).to.equal('color: #574DA6');
+      expect(domainColor).to.equal('#574DA6');
     });
   });
 });

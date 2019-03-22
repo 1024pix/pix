@@ -38,13 +38,9 @@ th {
 
 td, th {
   text-align: left;
-  padding-bottom: 18px;
-  padding-left: 14px;
-  padding-top: 8px;
+  padding: 8px 12px 18px 12px;
 
   @include device-is('tablet') {
-    padding-top: 0;
-    padding-bottom: 0;
-    padding-left: 30px;
+    padding: 0 0 0 30px;
   }
 }
