@@ -6,7 +6,7 @@ module.exports = function campaignsBuilder({ databaseBuilder }) {
     code: 'AZERTY123',
     organizationId: 1,
     creatorId: 2,
-    targetProfileId: 1,
+    targetProfileId: 2,
     idPixLabel: 'identifiant entreprise',
   });
 

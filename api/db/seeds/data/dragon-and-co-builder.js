@@ -25,6 +25,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   });
 
   const privateTargetProfile = databaseBuilder.factory.buildTargetProfile({
+    id: 2,
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
     isPublic: false,
     organizationId: dragonAndCoCompany.id,
@@ -40,9 +41,9 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     'recVv1eoSLW7yFgXv', 'recvBiIG0dvHJOe7i', 'reca2TivtMI9QRWBY', 'recSF5OuzyBOfg97L', 'recUdMS2pRSF4sgnk',
     'recr9No0p5zGhq2bg', 'recWalmeLbapvhX3K', 'recKTybfk95zVWBDM', 'recKFUQ2CzcYHrxPR'
   ]
-    .forEach(skillId => {
-    databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: privateTargetProfile.id, skillId });
-  })
+    .forEach((skillId) => {
+      databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: privateTargetProfile.id, skillId });
+    });
 
   const proUserSub = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     id: 6,
@@ -67,7 +68,10 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     organizationRoleId: 1,
   });
 
-  databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: privateTargetProfile.id, organizationId: dragonAndCoSubsidiary.id });
+  databaseBuilder.factory.buildTargetProfileShare({
+    targetProfileId: privateTargetProfile.id,
+    organizationId: dragonAndCoSubsidiary.id
+  });
 
   const proUserSub2 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     id: 7,
