@@ -55,7 +55,6 @@ module('Integration | Component | routes/authenticated/campaign | participant-re
     assert.dom('.participant-results-content:nth-child(3)').hasText('Commencé le 7 janv' +
       '. 2019');
     assert.dom('.participant-results-content:nth-child(4)').hasText('Partagé le 4 févr. 2019');
-    assert.dom('.participant-results-content:nth-child(5)').hasText('Score (Acquis) 15 / 30');
   });
 
 
