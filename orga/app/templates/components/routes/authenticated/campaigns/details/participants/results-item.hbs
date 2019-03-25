@@ -52,21 +52,6 @@
 
       </div>
     </div>
-    <div class="participant-results-content participant-results-content--large">
-      <div class="label-text participant-results-content__label-text">Score (Acquis)</div>
-      <div class="content-text">
-        {{#if campaignParticipation.isShared}}
-          {{#if campaignParticipation.campaignParticipationResult}}
-            {{campaignParticipation.campaignParticipationResult.validatedSkillsCount}}
-            / {{campaignParticipation.campaignParticipationResult.totalSkillsCount}}
-          {{else}}
-            - / -
-          {{/if}}
-        {{else}}
-          Non disponible
-        {{/if}}
-      </div>
-    </div>
 
   </div>
 </div>
@@ -131,8 +116,7 @@
           <td>
             {{#progression-gauge total=competence.totalSkillsCountPercentage
                                  value=competence.validatedSkillsPercentage}}
-              <p class="sr-only">Vous avez validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la
-              compétence {{competence.name}}.</p>
+              <p class="sr-only">Ce participant a validé </p>{{competence.validatedSkillsCount}}<p class="sr-only"> acquis de la compétence {{competence.name}}.</p>
             {{/progression-gauge}}
           </td>
           <td>{{competence.testedSkillsCount}}</td>
