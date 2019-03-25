@@ -12,7 +12,8 @@
 <div class="panel panel--light-shadow participant-results__information">
   <div class="participant-results-row">
     {{#if campaignParticipation.participantExternalId}}
-      <div class="participant-results-content participant-results-content--large participant-results-content--first-part">
+      <div
+        class="participant-results-content participant-results-content--large participant-results-content--first-part">
         <div class="label-text participant-results-content__label-text">{{campaign.idPixLabel}}</div>
         <div class="content-text">{{campaignParticipation.participantExternalId}}</div>
       </div>
@@ -69,26 +70,28 @@
 
   </div>
 </div>
-
 <div class="panel panel--light-shadow participant-results__details content-text content-text--small">
   <div class="participant-results-row">
     <div class="participant-results-content--multiple">
       <div class="participant-results-content participant-results-content--large participant-results-content--wide">
         <div class="label-text participant-results-content__label-text">Compétences testées</div>
         <div class="content-text content-text--big">
-          8
+          {{if campaignParticipation.isCampaignParticipationResultShared
+               campaignParticipation.campaignParticipationResult.competenceResults.length '-' }}
         </div>
       </div>
       <div class="participant-results-content participant-results-content--large participant-results-content--wide">
         <div class="label-text participant-results-content__label-text">Acquis obtenus</div>
         <div class="content-text content-text--big">
-          {{campaignParticipation.campaignParticipationResult.validatedSkillsCount}}
+          {{if campaignParticipation.isCampaignParticipationResultShared
+               campaignParticipation.campaignParticipationResult.validatedSkillsCount '-' }}
         </div>
       </div>
       <div class="participant-results-content participant-results-content--large participant-results-content--wide">
         <div class="label-text participant-results-content__label-text">Acquis testés</div>
         <div class="content-text content-text--big">
-          {{campaignParticipation.campaignParticipationResult.testedSkillsCount}}
+          {{if campaignParticipation.isCampaignParticipationResultShared
+               campaignParticipation.campaignParticipationResult.testedSkillsCount '-' }}
         </div>
       </div>
     </div>
@@ -97,8 +100,11 @@
       <div class="participant-results-content__score">
         <div class="content-text content-text--big content-text--bold">Score</div>
         <div class="participant-results-content__circle-chart">
-          {{#circle-chart value=campaignParticipation.campaignParticipationResult.masteryPercentage}}
-            <span class="participant-results-content__circle-chart-value">{{campaignParticipation.campaignParticipationResult.masteryPercentage}}%</span>
+          {{#circle-chart value=campaignParticipation.campaignParticipationResult.masteryPercentage
+                          isDisabled=(not campaignParticipation.isCampaignParticipationResultShared) }}
+            <span class="participant-results-content__circle-chart-value">
+              {{campaignParticipation.campaignParticipationResult.masteryPercentage}}%
+            </span>
           {{/circle-chart}}
         </div>
       </div>
@@ -113,24 +119,29 @@
     </tr>
     </thead>
 
-    <tbody>
-    {{#each campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
-      <tr>
-        <td>
-          <span class="participant-results-details-competence__bullet"
-                style="color: {{competence.domainColor}}">&#8226;</span>
-          <span>{{competence.name}}</span>
-        </td>
-        <td>
-          {{#progression-gauge total=competence.totalSkillsCountPercentage
-                               value=competence.validatedSkillsPercentage}}
-            <p class="sr-only">Vous avez validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la
-            compétence {{competence.name}}.</p>
-          {{/progression-gauge}}
-        </td>
-        <td>{{competence.testedSkillsCount}}</td>
-      </tr>
-    {{/each}}
-    </tbody>
+    {{#if campaignParticipation.isCampaignParticipationResultShared }}
+      <tbody>
+      {{#each campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
+        <tr>
+          <td>
+            <span class="participant-results-details-competence__bullet"
+                  style="color: {{competence.domainColor}}">&#8226;</span>
+            <span>{{competence.name}}</span>
+          </td>
+          <td>
+            {{#progression-gauge total=competence.totalSkillsCountPercentage
+                                 value=competence.validatedSkillsPercentage}}
+              <p class="sr-only">Vous avez validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la
+              compétence {{competence.name}}.</p>
+            {{/progression-gauge}}
+          </td>
+          <td>{{competence.testedSkillsCount}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    {{/if}}
   </table>
+  {{#unless campaignParticipation.isCampaignParticipationResultShared }}
+    <div class="table__empty">En attente de résultats</div>
+  {{/unless}}
 </div>
