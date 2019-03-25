@@ -25,6 +25,8 @@ module.exports = Bookshelf.model('CampaignParticipation', {
       rawAttributes.sharedAt = new Date(rawAttributes.sharedAt);
     }
 
+    rawAttributes.isShared = Boolean(rawAttributes.isShared);
+
     return rawAttributes;
   },
 });

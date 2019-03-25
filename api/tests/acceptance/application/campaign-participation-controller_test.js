@@ -114,7 +114,7 @@ describe('Acceptance | API | Campaign Participations', () => {
           {
             'attributes': {
               'created-at': campaignParticipation.createdAt,
-              'is-shared': Number(campaignParticipation.isShared),
+              'is-shared': campaignParticipation.isShared,
               'participant-external-id': campaignParticipation.participantExternalId,
               'shared-at': campaignParticipation.sharedAt,
             },

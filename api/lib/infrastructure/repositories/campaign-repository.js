@@ -1,25 +1,8 @@
 const _ = require('lodash');
-
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfCampaign = require('../data/campaign');
-const Campaign = require('../../domain/models/Campaign');
 const queryBuilder = require('../utils/query-builder');
 const { NotFoundError } = require('../../domain/errors');
-
-function _toDomain(bookshelfCampaign) {
-  const dbCampaign = bookshelfCampaign.toJSON();
-  return new Campaign(_.pick(dbCampaign, [
-    'id',
-    'name',
-    'code',
-    'organizationId',
-    'creatorId',
-    'createdAt',
-    'targetProfileId',
-    'customLandingPageText',
-    'idPixLabel',
-    'title'
-  ]));
-}
 
 module.exports = {
 
@@ -29,7 +12,7 @@ module.exports = {
       .fetch()
       .then((campaign) => {
         if (campaign) {
-          return _toDomain(campaign);
+          return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, campaign);
         }
         throw new NotFoundError(`Campaign with code ${code} does not exist.`);
       });
@@ -43,7 +26,7 @@ module.exports = {
     const repositoryCampaign = _.omit(domainCampaign, ['createdAt', 'organizationLogoUrl', 'targetProfile', 'campaignReport']);
     return new BookshelfCampaign(repositoryCampaign)
       .save()
-      .then(_toDomain);
+      .then((campaign) => bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, campaign));
   },
 
   update(campaign) {
@@ -53,14 +36,14 @@ module.exports = {
     return new BookshelfCampaign({ id: campaign.id })
       .save(campaignRawData, { patch: true })
       .then((model) => model.refresh())
-      .then(_toDomain);
+      .then((campaign) => bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, campaign));
   },
 
   findByOrganizationId(organizationId) {
     return BookshelfCampaign
       .where({ organizationId })
       .fetchAll()
-      .then((campaigns) => campaigns.models.map(_toDomain));
+      .then((campaigns) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaign, campaigns.models));
   },
 
   checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
