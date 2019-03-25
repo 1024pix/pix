@@ -30,11 +30,11 @@
 
   <div class="skill-review-results__header">
     <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
-    <div class="skill-review__circle-chart">
-      {{#circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
-        <span class="skill-review__circle-chart-value">{{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%</span>
-      {{/circle-chart}}
-    </div>
+    {{#circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
+      <span class="skill-review__circle-chart-value">
+        {{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
+      </span>
+    {{/circle-chart}}
   </div>
 
   <table>
