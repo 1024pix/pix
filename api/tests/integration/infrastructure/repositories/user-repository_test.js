@@ -485,7 +485,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(userSaved.firstName).to.equal(user.firstName);
         expect(userSaved.lastName).to.equal(user.lastName);
         expect(userSaved.email).to.equal(user.email);
-        expect(userSaved.cgu).to.equal(user.cgu);
+        expect(userSaved.cgu).to.be.true;
       });
     });
   });

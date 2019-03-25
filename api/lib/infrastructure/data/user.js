@@ -1,6 +1,4 @@
 const Bookshelf = require('../bookshelf');
-const DomainUser = require('../../domain/models/User');
-const DomainPixRole = require('../../domain/models/PixRole');
 const BookshelfPixRole = require('./pix-role');
 const BookshelfUserPixRole = require('./user-pix-role');
 
@@ -35,15 +33,18 @@ module.exports = Bookshelf.model('User', {
     return this.hasMany('CertificationCenterMembership', 'userId');
   },
 
-  toDomainEntity() {
-    const model = this.toJSON();
-    if (model.pixRoles) {
-      model.pixRoles = model.pixRoles.map((pixRoleJson) => new DomainPixRole(pixRoleJson));
+  parse(rawAttributes) {
+    if('cgu' in rawAttributes) {
+      rawAttributes.cgu = Boolean(rawAttributes.cgu);
     }
-    model.cgu = Boolean(model.cgu);
-    model.pixOrgaTermsOfServiceAccepted = Boolean(model.pixOrgaTermsOfServiceAccepted);
-    model.pixCertifTermsOfServiceAccepted = Boolean(model.pixCertifTermsOfServiceAccepted);
-    return new DomainUser(model);
-  }
+    if('pixOrgaTermsOfServiceAccepted' in rawAttributes && rawAttributes.pixOrgaTermsOfServiceAccepted !== null) {
+      rawAttributes.pixOrgaTermsOfServiceAccepted = Boolean(rawAttributes.pixOrgaTermsOfServiceAccepted);
+    }
+    if('pixCertifTermsOfServiceAccepted' in rawAttributes && rawAttributes.pixCertifTermsOfServiceAccepted !== null) {
+      rawAttributes.pixCertifTermsOfServiceAccepted = Boolean(rawAttributes.pixCertifTermsOfServiceAccepted);
+    }
+
+    return rawAttributes;
+  },
 
 });

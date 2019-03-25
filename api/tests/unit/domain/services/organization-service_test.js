@@ -52,14 +52,14 @@ describe('Unit | Service | OrganizationService', () => {
     const userId = 1234;
 
     beforeEach(() => {
-      sinon.stub(userRepository, 'hasRolePixMaster');
+      sinon.stub(userRepository, 'get');
       sinon.stub(organizationRepository, 'findBy');
     });
 
     context('when user has role PIX_MASTER', () => {
 
       beforeEach(() => {
-        userRepository.hasRolePixMaster.resolves(true);
+        userRepository.get.withArgs(userId).resolves({ hasRolePixMaster: true });
       });
 
       it('should return all the existing organizations', () => {
@@ -87,7 +87,7 @@ describe('Unit | Service | OrganizationService', () => {
     context('when user does not have role PIX_MASTER', () => {
 
       beforeEach(() => {
-        userRepository.hasRolePixMaster.resolves(false);
+        userRepository.get.withArgs(userId).resolves({ hasRolePixMaster: false });
       });
 
       it('should return an empty list of organizations if no code given in filters', () => {

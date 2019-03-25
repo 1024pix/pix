@@ -52,10 +52,9 @@ module.exports = {
   },
 
   search(userId, filters = {}) {
-    return userRepository
-      .hasRolePixMaster(userId)
-      .then((isUserPixMaster) => {
-        if (!isUserPixMaster && _noCodeGivenIn(filters)) {
+    return userRepository.get(userId)
+      .then((user) => {
+        if (!user.hasRolePixMaster && _noCodeGivenIn(filters)) {
           return [];
         }
         return organizationRepository.findBy(filters);

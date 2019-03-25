@@ -21,7 +21,7 @@ function _toDomain(model) {
       birthdate: model.get('birthdate'),
       sessionId: model.get('sessionId'),
       externalId: model.get('externalId'),
-      isPublished: Boolean(model.get('isPublished')),
+      isPublished: model.get('isPublished'),
     });
   }
   return null;

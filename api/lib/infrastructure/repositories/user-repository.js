@@ -56,9 +56,9 @@ function _toDomain(userBookshelf) {
     lastName: userBookshelf.get('lastName'),
     email: userBookshelf.get('email'),
     password: userBookshelf.get('password'),
-    cgu: Boolean(userBookshelf.get('cgu')),
-    pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
-    pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
+    cgu: userBookshelf.get('cgu'),
+    pixOrgaTermsOfServiceAccepted: userBookshelf.get('pixOrgaTermsOfServiceAccepted'),
+    pixCertifTermsOfServiceAccepted: userBookshelf.get('pixCertifTermsOfServiceAccepted'),
     memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
@@ -86,9 +86,7 @@ module.exports = {
     return BookshelfUser
       .where({ email })
       .fetch({ require: true })
-      .then((bookshelfUser) => {
-        return bookshelfUser.toDomainEntity();
-      })
+      .then(_toDomain)
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for email ${email}`);
@@ -139,7 +137,7 @@ module.exports = {
         require: true,
         withRelated: ['pixRoles']
       })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .then(_toDomain)
       .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
@@ -206,7 +204,7 @@ module.exports = {
     const userToCreate = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships']);
     return new BookshelfUser(userToCreate)
       .save()
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity());
+      .then(_toDomain);
   },
 
   isEmailAvailable(email) {
@@ -228,7 +226,7 @@ module.exports = {
         patch: true,
         require: false
       })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity());
+      .then(_toDomain);
   },
 
   updateUser(domainUser) {
@@ -240,10 +238,5 @@ module.exports = {
       })
       .then(_toDomain);
   },
-
-  hasRolePixMaster(userId) {
-    return this.get(userId)
-      .then((user) => user.hasRolePixMaster);
-  }
 
 };
