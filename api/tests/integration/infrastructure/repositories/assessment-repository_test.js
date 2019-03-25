@@ -1,9 +1,10 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, sinon, knex, databaseBuilder } = require('../../../test-helper');
 const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
 
@@ -92,56 +93,163 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
   });
 
   describe('#findLastAssessmentsForEachCoursesByUser', () => {
-    beforeEach(() => {
+    const JOHN = 2;
+    const LAYLA = 3;
+    const assessmentsInDb = [{
+      id: 1,
+      userId: JOHN,
+      courseId: 'courseId1',
+      state: 'completed',
+      type: 'PLACEMENT',
+      createdAt: new Date('2018-10-27T08:44:25Z'),
+    }, {
+      id: 2,
+      userId: LAYLA,
+      courseId: 'courseId1',
+      state: 'completed',
+      type: 'PLACEMENT',
+      createdAt: new Date('2016-10-27T08:44:25Z'),
+    }, {
+      id: 3,
+      userId: JOHN,
+      courseId: 'courseId1',
+      state: 'completed',
+      type: 'PLACEMENT',
+      createdAt: new Date('2017-10-27T08:44:25Z'),
+    }, {
+      id: 4,
+      userId: JOHN,
+      courseId: 'courseId2',
+      state: 'completed',
+      type: 'PLACEMENT',
+      createdAt: new Date('2017-10-27T08:44:25Z'),
+    }, {
+      id: 5,
+      userId: JOHN,
+      courseId: 'courseId3',
+      state: 'completed',
+      type: Assessment.types.CERTIFICATION,
+      createdAt: new Date('2018-09-27T08:44:25Z'),
+    }, {
+      id: 6,
+      userId: LAYLA,
+      courseId: 'nullAssessmentPreview',
+      state: 'completed',
+      type: 'DEMO',
+      createdAt: new Date('2015-10-27T08:44:25Z'),
+    }];
 
-      return knex('assessments').insert([{
-        id: 1,
-        userId: 1,
-        courseId: 'course_A',
-        state: 'started',
-        createdAt: new Date('2016-10-27T08:44:25Z'),
-        type: 'PLACEMENT',
-      }, {
-        id: 2,
-        userId: 1,
-        courseId: 'course_A',
-        state: 'completed',
-        createdAt: new Date('2017-10-27T08:44:25Z'),
-        type: 'PLACEMENT',
-      }, {
-        id: 3,
-        userId: 1,
-        courseId: 'course_A',
-        state: 'started',
-        createdAt: new Date('2018-10-27T08:44:25Z'),
-        type: 'PLACEMENT',
-      }, {
-        id: 4,
-        userId: 1,
-        courseId: 'course_B',
-        state: 'completed',
-        createdAt: new Date('2017-10-27T08:44:25Z'),
-        type: 'PLACEMENT',
-      }, {
-        id: 5,
-        userId: 1,
-        courseId: 'course_B',
-        state: 'completed',
-        createdAt: new Date('2018-10-27T08:44:25Z'),
-        type: 'PLACEMENT',
-      }]);
+    beforeEach(() => {
+      return knex('assessments').insert(assessmentsInDb);
     });
 
     afterEach(() => {
       return knex('assessments').delete();
     });
 
-    it('should return the user\'s assessments unique by course (and only the last ones)', () => {
-      // given
-      const userId = 1;
+    it('should return only the last assessment (which are not Certifications) for each courses from JOHN', () => {
+      // when
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
+
+      // then
+      return promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(2);
+
+        const firstId = assessments[0].id;
+        expect(firstId).to.equal(1);
+
+        const secondId = assessments[1].id;
+        expect(secondId).to.equal(4);
+      });
+    });
+
+    it('should not return preview assessments', () => {
+      // when
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(LAYLA);
+
+      // then
+      return promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(1);
+      });
+    });
+
+    it('should throw an error if something went wrong', () => {
+      //Given
+      const error = new Error('Unable to fetch');
+      sinon.stub(BookshelfAssessment, 'where').returns({
+        fetchAll: () => {
+          return Promise.reject(error);
+        },
+      });
 
       // when
-      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(userId);
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
+
+      // then
+      return promise
+        .catch((err) => {
+          expect(err).to.equal(error);
+        });
+    });
+  });
+
+  describe('#findCompletedAssessmentsByUserId', () => {
+
+    const JOHN = 2;
+    const LAYLA = 3;
+    const COMPLETED_ASSESSMENT_A_ID = 1;
+    const COMPLETED_ASSESSMENT_B_ID = 2;
+    const UNCOMPLETE_ASSESSMENT_ID = 3;
+
+    const assessmentsInDb = [{
+      id: COMPLETED_ASSESSMENT_A_ID,
+      userId: JOHN,
+      courseId: 'courseId',
+      state: 'completed',
+      type: 'PLACEMENT',
+    }, {
+      id: COMPLETED_ASSESSMENT_B_ID,
+      userId: JOHN,
+      courseId: 'courseId',
+      state: 'completed',
+      type: 'PLACEMENT',
+    }, {
+      id: UNCOMPLETE_ASSESSMENT_ID,
+      userId: JOHN,
+      courseId: 'courseId',
+      state: 'started',
+      type: 'PLACEMENT',
+    }, {
+      id: 4,
+      userId: LAYLA,
+      courseId: 'courseId',
+      state: 'completed',
+      type: 'PLACEMENT',
+    }, {
+      id: 5,
+      userId: JOHN,
+      courseId: 'courseId',
+      state: 'completed',
+      type: Assessment.types.CERTIFICATION,
+    }, {
+      id: 6,
+      userId: LAYLA,
+      courseId: 'nullAssessmentPreview',
+      state: 'completed',
+      type: 'DEMO',
+    }];
+
+    before(() => {
+      return knex('assessments').insert(assessmentsInDb);
+    });
+
+    after(() => {
+      return knex('assessments').delete();
+    });
+
+    it('should return the list of assessments (which are not Certifications) from JOHN', () => {
+      // when
+      const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
 
       // then
       return promise.then((assessments) => {
@@ -150,8 +258,38 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessments[0]).to.be.an.instanceOf(Assessment);
         expect(assessments[1]).to.be.an.instanceOf(Assessment);
 
-        expect(assessments.map((assessment) => assessment.id)).to.deep.equal([3, 5]);
+        expect(assessments[0].id).to.equal(COMPLETED_ASSESSMENT_A_ID);
+        expect(assessments[1].id).to.equal(COMPLETED_ASSESSMENT_B_ID);
       });
+    });
+
+    it('should not return preview assessments from LAYLA', () => {
+      // when
+      const promise = assessmentRepository.findCompletedAssessmentsByUserId(LAYLA);
+
+      // then
+      return promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(1);
+      });
+    });
+
+    it('should throw an error if something went wrong', () => {
+      //Given
+      const error = new Error('Unable to fetch');
+      sinon.stub(BookshelfAssessment, 'where').returns({
+        fetchAll: () => {
+          return Promise.reject(error);
+        },
+      });
+
+      // when
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
+
+      // then
+      return promise
+        .catch((err) => {
+          expect(err).to.equal(error);
+        });
     });
   });
 
@@ -778,6 +916,5 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       // then
       return expect(foundAssessment.assessmentResults).to.have.length.of(2);
     });
-
   });
 });
