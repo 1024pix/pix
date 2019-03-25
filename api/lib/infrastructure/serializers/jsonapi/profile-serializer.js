@@ -30,6 +30,7 @@ class ProfileSerializer extends JSONAPISerializer {
     this._serializeRelationships(competencesEntity, 'competences', data);
     this._serializeRelationships(organizationsEntity, 'organizations', data);
     this._serializeCampaignParticipationsLink(data, entity);
+    this._serializePixScoreLink(data, entity);
     return data;
   }
 
@@ -37,6 +38,14 @@ class ProfileSerializer extends JSONAPISerializer {
     data.relationships['campaign-participations'] = {
       links: {
         related: `/users/${entity.id}/campaign-participations`
+      }
+    };
+  }
+
+  _serializePixScoreLink(data, entity) {
+    data.relationships['pix-score'] = {
+      links: {
+        related: `/api/users/${entity.id}/pixscore`
       }
     };
   }

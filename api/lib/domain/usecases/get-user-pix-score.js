@@ -8,5 +8,5 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
   }
 
   const userKnowledgeElements = await smartPlacementKnowledgeElementRepository.findUniqByUserId(requestedUserId);
-  return { pixScore: _.sumBy(userKnowledgeElements, 'earnedPix') };
+  return { id: requestedUserId, value: _.sumBy(userKnowledgeElements, 'earnedPix') };
 };
