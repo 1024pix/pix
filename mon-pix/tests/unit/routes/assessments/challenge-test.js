@@ -6,6 +6,7 @@ import EmberService from '@ember/service';
 import sinon from 'sinon';
 
 describe('Unit | Route | Assessments | Challenge', function() {
+
   setupTest('route:assessments.challenge', {
     needs: ['service:session', 'service:metrics']
   });
@@ -230,7 +231,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
     context('when saving fails', function() {
       it('should remove temporary answer and send error', async function() {
         // given
-        answerToChallengeOne.save.rejects();
+        answerToChallengeOne.save = sinon.stub().rejects();
         route.actions.error = sinon.stub();
 
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
