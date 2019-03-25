@@ -1,15 +1,17 @@
+require('dotenv').config();
 const PgClient = require('../PgClient');
 
-const client = new PgClient(process.env.DATABASE_URL);
+const url = new URL(process.env.DATABASE_URL);
 
-const DB_TO_DELETE_NAME = 'pix';
+const DB_TO_DELETE_NAME = url.pathname.slice(1);
+
+url.pathname = '/postgres';
+
+const client = new PgClient(url.href);
 
 client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME};`)
-  .then(function() {
+  .then(() => {
     console.log('Database dropped');
     client.end();
-  })
-  .then(() => {
-    console.log('END');
     process.exit(0);
-  });
+  })
