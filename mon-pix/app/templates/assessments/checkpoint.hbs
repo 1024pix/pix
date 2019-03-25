@@ -2,24 +2,20 @@
 
   <!-- Currently, there is checkpoints only during campaign participations -->
   <div class="assessment-challenge__course-banner">
-      {{campaign-banner title=model.campaign.title checkpoint='true'}}
+    {{campaign-banner title=model.campaign.title checkpoint='true'}}
   </div>
 
   <div class="checkpoint__container">
 
     <div class="checkpoint__header">
 
-      <div class="checkpoint-progress-bar-wrapper">
+      <div class="checkpoint-progression-gauge-wrapper">
 
-        <div class="checkpoint-progress-bar">
-          <div class="checkpoint-progress-bar__marker" style="width: {{model.smartPlacementProgression.completionPercentage}}"></div>
-        </div>
-
-        <div class="checkpoint-progress-bar__tooltip-wrapper" style="width: {{model.smartPlacementProgression.completionPercentage}}">
-          <div class="checkpoint-progress-bar__tooltip">
-            <p class="sr-only">Vous avez effectué</p>{{model.smartPlacementProgression.completionPercentage}}<p class="sr-only"> de votre parcours.</p>
-          </div>
-        </div>
+        {{#progression-gauge total=100 value=model.smartPlacementProgression.completionPercentage
+                             progressionClass="progression-gauge--white progression-gauge--tooltip-left"}}
+          <p class="sr-only">Vous avez effectué</p>{{model.smartPlacementProgression.completionPercentage}}%<p
+          class="sr-only"> de votre parcours.</p>
+        {{/progression-gauge}}
 
         <p class="checkpoint-legend">avancement du parcours</p>
 

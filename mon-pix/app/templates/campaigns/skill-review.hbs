@@ -3,31 +3,74 @@
 </div>
 <div class="skill-review__gradient"></div>
 
-<div class="skill-review__result__container">
-  <div class="skill-review__result-text">
-    Vous maîtrisez <div class="skill-review__result-text__percentage">{{model.assessment.smartPlacementProgression.masteryPercentage}}</div><br> des compétences testées.
+<div class="skill-review__result-container rounded-panel rounded-panel--strong">
+  <h1 class="skill-review__result-text rounded-panel-title">
+    Vous maîtrisez
+    <span
+      class="skill-review__result-text__percentage">{{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
+      %</span>
+    <br> des compétences testées.
+  </h1>
+
+  <div class="skill-review__share-container">
+    {{#if showButtonToShareResult}}
+      <p class="skill-review__share-legal">
+        Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
+      </p>
+
+      <button class="button button--extra-big skill-review__share-button" {{action 'shareCampaignParticipation'}}>
+        J'envoie mes résultats
+      </button>
+    {{else}}
+      <p class="skill-review__share-thanks">Merci, vos résultats ont bien été envoyés !</p>
+    {{/if}}
   </div>
 
   <div class="skill-review__dash-line"></div>
 
-
-  <div class="skill-review__share_container">
-    {{#if showButtonToShareResult}}
-      <p class="skill-review__share__legal">
-        Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
-      </p>
-
-      <button class="skill-review__share__button" {{action 'shareCampaignParticipation'}}>J'ENVOIE MES RÉSULTATS</button>
-    {{else}}
-      <p class="skill-review__share__thanks">Merci, vos résultats ont bien été envoyés !</p>
-    {{/if}}
+  <div class="skill-review-results__header">
+    <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
+    <div class="skill-review__circle-chart">
+      {{#circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
+        <span class="skill-review__circle-chart-value">{{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%</span>
+      {{/circle-chart}}
+    </div>
   </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Compétences testées</th>
+      <th>Résultats</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    {{#each model.campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
+      <tr>
+        <td>
+          <span class="skill-review-competence__bullet" style="color: {{competence.domainColor}}">&#8226;</span>
+          <span>{{competence.name}}</span>
+        </td>
+        <td>
+          {{#progression-gauge total=competence.totalSkillsCountPercentage value=competence.validatedSkillsPercentage}}
+            <p class="sr-only">Vous avez validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la
+            compétence {{competence.name}}.</p>
+          {{/progression-gauge}}
+        </td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+
+  <div class="skill-review__information">
+    {{fa-icon 'info-circle' class='skill-review-information__info-icon'}}
+    <div class="skill-review-information__text">
+      Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été
+      posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.
+    </div>
+  </div>
+
 </div>
 
-<div class="skill-review__information">
-  {{fa-icon 'info-circle' class='skill-review__information__info-icon'}}
-  <div class="skill-review__information__text">
-    Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été posées de nouveau. En revanche, le résultat affiché ici tient compte de l’ensemble de vos réponses.
-  </div>
-</div>
 {{outlet}}

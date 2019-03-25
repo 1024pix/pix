@@ -1,0 +1,30 @@
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}
+
+.circle-chart__container {
+  margin: 2px;
+  max-height: 128px;
+
+  .circle-chart {
+    fill: none;
+    stroke-width: 1.1;
+    stroke: $alto-grey;
+    stroke-linecap: round;
+
+    &--slice {
+      stroke: $dark-orange;
+      animation: progress 1s ease-out forwards;
+    }
+  }
+}
+
+.circle-chart__text {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+}

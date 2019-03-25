@@ -1,12 +1,8 @@
 .skill-review {
-  &__result__container {
-    max-width: 850px;
+  &__result-container {
+    max-width: 960px;
     margin: 55px 10px 10px 10px;
     padding: 40px 10px;
-
-    background-color: $white;
-    border-radius: 10px;
-    box-shadow: 0 0 20px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
 
     @include device-is('tablet') {
       margin: 35px auto;
@@ -30,19 +26,18 @@
     height: 320px;
     width: 100%;
     background: $pix-blue-to-purple-gradient;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
   }
 
   &__result-text {
     text-align: center;
     font-size: 2.8rem;
-    font-family: $font-open-sans;
-    font-weight: 200;
-    padding-bottom: 45px;
     line-height: 38px;
+    text-transform: none;
     color: $tundora-grey;
+
     @include device-is('tablet') {
-      font-size: 4.5rem;
+      font-size: 4.2rem;
       line-height: 48px;
     }
 
@@ -52,46 +47,38 @@
     }
   }
 
-  &__share_container {
+  &__share-container {
     padding: 20px;
     text-align: center;
 
-  }
-
-  &__share__button {
-    height: 60px;
-    width: 200px;
-    padding: 10px 30px;
-    border-radius: 5px;
-    border: 0;
-    color: $white;
-    font-weight: 600;
-    background-color: $pix-blue;
-
     @include device-is('tablet') {
-      width: 280px;
+      padding: 60px;
     }
-
   }
 
-  &__share__legal {
+  &__share-button {
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+  }
+
+  &__share-legal {
     text-align: center;
     font-size: 2.4rem;
     color: $dove-gray;
     line-height: 33px;
-    font-weight: 300;
-    margin: 0px 10px 30px 10px;
+    font-weight: $font-light;
+    margin: 0 10px 30px 10px;
 
     @include device-is('tablet') {
       font-size: 3rem;
-      margin: 30px 20px;
+      margin: 0 20px 60px 20px;
     }
   }
 
-  &__share__thanks {
+  &__share-thanks {
     font-family: $font-open-sans;
-    font-weight: 300;
-    font-size: 2.5rem;
+    font-weight: $font-light;
+    font-size: 2.4rem;
     padding-top: 20px;
   }
 
@@ -101,8 +88,11 @@
     max-width: 850px;
 
     @include device-is('tablet') {
-      margin:auto;
+      margin: auto;
     }
+  }
+
+  &-information {
 
     &__info-icon {
       float: left;
@@ -112,11 +102,42 @@
 
     &__text {
       padding-left: 30px;
+      margin-top: 24px;
       color: $dove-gray;
       font-family: $font-open-sans;
-      font-size: 1.6rem;
-      line-height: 22px;
+      font-size: 1.4rem;
     }
   }
 
+}
+
+.skill-review-competence__bullet {
+  font-size: 1.8rem;
+  margin-right: 12px;
+}
+
+.skill-review-results__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+  }
+}
+
+.skill-review__circle-chart {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.skill-review__circle-chart-value {
+  color: $nero;
+  font-family: $font-roboto;
+  font-size: 3.1rem;
+  margin: auto;
 }

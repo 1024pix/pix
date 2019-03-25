@@ -120,18 +120,18 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
             // then
             return andThen(() => {
-              findWithAssert('.skill-review__share__button');
+              findWithAssert('.skill-review__share-button');
             });
           });
 
           it('should thank the user when he clicks on the share button', async function() {
             // when
             await completeCampaignAndSeeResultsByCode('AZERTY1');
-            await click('.skill-review__share__button');
+            await click('.skill-review__share-button');
 
             // then
             return andThen(() => {
-              findWithAssert('.skill-review__share__thanks');
+              findWithAssert('.skill-review__share-thanks');
             });
           });
         });
@@ -141,14 +141,14 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
           it('should still display thank message when reloading the page', async function() {
             // given
             await completeCampaignAndSeeResultsByCode('AZERTY1');
-            await click('.skill-review__share__button');
+            await click('.skill-review__share-button');
 
             // when
             await visit('/campagnes/AZERTY1/resultats/1');
 
             // then
             return andThen(() => {
-              findWithAssert('.skill-review__share__thanks');
+              findWithAssert('.skill-review__share-thanks');
             });
           });
         });
@@ -199,7 +199,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         // then
         return andThen(() => {
-          findWithAssert('.skill-review__share__button');
+          findWithAssert('.skill-review__share-button');
         });
       });
 
@@ -209,7 +209,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         // then
         return andThen(() => {
-          findWithAssert('.skill-review__share__button');
+          findWithAssert('.skill-review__share-button');
         });
       });
     });
@@ -218,14 +218,14 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       beforeEach(async function() {
         await visit('/campagnes/AZERTY1');
-        await click('.skill-review__share__button');
+        await click('.skill-review__share-button');
       });
 
       it('should show thanks message for the first campaign', async function() {
 
         // then
         return andThen(() => {
-          findWithAssert('.skill-review__share__thanks');
+          findWithAssert('.skill-review__share-thanks');
         });
       });
 
@@ -235,7 +235,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         // then
         return andThen(() => {
-          findWithAssert('.skill-review__share__button');
+          findWithAssert('.skill-review__share-button');
         });
       });
     });
@@ -263,7 +263,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         // then
         return andThen(() => {
-          findWithAssert('.skill-review__share__thanks');
+          findWithAssert('.skill-review__share-thanks');
         });
       });
 
@@ -273,7 +273,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         // then
         return andThen(() => {
-          findWithAssert('.skill-review__share__thanks');
+          findWithAssert('.skill-review__share-thanks');
         });
       });
     });

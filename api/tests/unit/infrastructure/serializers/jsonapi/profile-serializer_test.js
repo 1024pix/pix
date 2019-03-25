@@ -163,7 +163,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             },
             'campaign-participations': {
               links: {
-                related: '/api/users/user_id/campaign-participations'
+                related: '/users/user_id/campaign-participations'
               },
             },
           },
@@ -305,7 +305,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             },
             'campaign-participations': {
               links: {
-                related: '/api/users/user_id/campaign-participations'
+                related: '/users/user_id/campaign-participations'
               },
             },
           },
@@ -322,7 +322,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             relationships: {
               snapshots: {
                 links: {
-                  related: '/api/organizations/organizationId1/snapshots',
+                  related: '/organizations/organizationId1/snapshots',
                 },
               },
             },
@@ -338,7 +338,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             relationships: {
               snapshots: {
                 links: {
-                  related: '/api/organizations/organizationId2/snapshots',
+                  related: '/organizations/organizationId2/snapshots',
                 },
               },
             },

@@ -36,7 +36,7 @@ class ProfileSerializer extends JSONAPISerializer {
   _serializeCampaignParticipationsLink(data, entity) {
     data.relationships['campaign-participations'] = {
       links: {
-        related: `/api/users/${entity.id}/campaign-participations`
+        related: `/users/${entity.id}/campaign-participations`
       }
     };
   }
@@ -144,7 +144,7 @@ class ProfileSerializer extends JSONAPISerializer {
         relationships: {
           snapshots: {
             links: {
-              related: `/api/organizations/${organizationJson.id}/snapshots`
+              related: `/organizations/${organizationJson.id}/snapshots`
             }
           }
         }

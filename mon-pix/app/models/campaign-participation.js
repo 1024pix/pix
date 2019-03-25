@@ -8,4 +8,5 @@ export default Model.extend({
   createdAt: attr('date'),
   assessment: belongsTo('assessment'),
   campaign: belongsTo('campaign'),
+  campaignParticipationResult: belongsTo('campaignParticipationResult'),
 });

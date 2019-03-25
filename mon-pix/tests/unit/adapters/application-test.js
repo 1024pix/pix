@@ -7,14 +7,6 @@ describe('Unit | Route | subscribers', function() {
     needs: ['service:session']
   });
 
-  it('should precise /api as the root url', function() {
-    // Given
-    const applicationAdapter = this.subject();
-
-    // Then
-    expect(applicationAdapter.namespace).to.equal('api');
-  });
-
   it('should add header with authentication token ', function() {
     // Given
     const expectedToken = '23456789';
