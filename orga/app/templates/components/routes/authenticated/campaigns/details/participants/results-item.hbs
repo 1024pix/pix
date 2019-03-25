@@ -18,38 +18,40 @@
         <div class="content-text">{{campaignParticipation.participantExternalId}}</div>
       </div>
     {{/if}}
-    <div class="participant-results-content participant-results-content--large">
-      <div class="label-text participant-results-content__label-text">Avancement</div>
-      <div class="content-text">
-        {{campaignParticipation.campaignParticipationResult.percentageProgression}}%
-        <div class="participant-results-content__progress-bar progress-bar">
-          {{#if campaignParticipation.campaignParticipationResult.isCompleted}}
-            <div class="participant-results-content__progress-bar progress-bar progress-bar--completed"></div>
-          {{else}}
-            <div class="progress-bar progress-bar--completion"
-                 style="width:{{campaignParticipation.campaignParticipationResult.percentageProgression}}px">
-            </div>
-          {{/if}}
+    <div class="participant-results-content--second-part">
+      <div class="participant-results-content participant-results-content--large">
+        <div class="label-text participant-results-content__label-text">Avancement</div>
+        <div class="content-text">
+          {{campaignParticipation.campaignParticipationResult.percentageProgression}}%
+          <div class="participant-results-content__progress-bar progress-bar">
+            {{#if campaignParticipation.campaignParticipationResult.isCompleted}}
+              <div class="participant-results-content__progress-bar progress-bar progress-bar--completed"></div>
+            {{else}}
+              <div class="progress-bar progress-bar--completion"
+                   style="width:{{campaignParticipation.campaignParticipationResult.percentageProgression}}px">
+              </div>
+            {{/if}}
+          </div>
         </div>
       </div>
-    </div>
-    <div class="participant-results-content participant-results-content--large">
-      <div class="label-text participant-results-content__label-text">Commencé le</div>
-      <div class="content-text">
-        {{moment-format campaignParticipation.createdAt 'll'}}
+      <div class="participant-results-content participant-results-content--large">
+        <div class="label-text participant-results-content__label-text">Commencé le</div>
+        <div class="content-text">
+          {{moment-format campaignParticipation.createdAt 'll'}}
+        </div>
       </div>
-    </div>
-    <div class="participant-results-content participant-results-content--large">
-      <div class="label-text participant-results-content__label-text">Partagé le</div>
-      <div class="content-text">
-        {{#if campaignParticipation.isShared}}
-          {{fa-icon 'check-circle'
-                    class="participant-results-content__check-shared participant-results-content__check-shared--green"}}
-          {{moment-format campaignParticipation.sharedAt 'll'}}
-        {{else}}
-          Non disponible
-        {{/if}}
+      <div class="participant-results-content participant-results-content--large">
+        <div class="label-text participant-results-content__label-text">Partagé le</div>
+        <div class="content-text">
+          {{#if campaignParticipation.isShared}}
+            {{fa-icon 'check-circle'
+                      class="participant-results-content__check-shared participant-results-content__check-shared--green"}}
+            {{moment-format campaignParticipation.sharedAt 'll'}}
+          {{else}}
+            Non disponible
+          {{/if}}
 
+        </div>
       </div>
     </div>
 
@@ -108,7 +110,7 @@
       <tbody>
       {{#each campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
         <tr>
-          <td>
+          <td class="participant-results-details__competence-wrapper">
             <span class="participant-results-details-competence__bullet"
                   style="color: {{competence.domainColor}}">&#8226;</span>
             <span>{{competence.name}}</span>

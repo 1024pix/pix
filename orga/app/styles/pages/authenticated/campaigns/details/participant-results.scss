@@ -25,7 +25,6 @@
   }
 }
 
-
 .participant-results-row {
   display: flex;
   justify-content: space-between;
@@ -49,6 +48,20 @@
     border-right: 1px solid $alto;
     width: 60%;
     margin: 0 0 0 3%;
+    flex-shrink: 1;
+  }
+
+  &--second-part {
+    display: flex;
+    align-items: flex-start;
+    padding: 0 30px;
+    justify-content: space-around;
+    flex-shrink: 0;
+    flex-grow: 1;
+
+    .participant-results-content--large {
+      flex-shrink: 0;
+    }
   }
 
   &--multiple {
@@ -122,4 +135,11 @@
     font-size: 1.8rem;
     margin-right: 12px;
   }
+
+  &__competence-wrapper {
+    display: flex;
+    align-items: center;
+    height: inherit;
+  }
 }
+
