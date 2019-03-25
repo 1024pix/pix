@@ -7,10 +7,12 @@
     align-items: center;
     margin: 16px 0;
   }
+
   &__information {
     margin-bottom: 10px;
 
   }
+
   &__result {
     padding: 10px;
   }
@@ -26,12 +28,22 @@
 
 .participant-results-row {
   display: flex;
+  justify-content: space-between;
 }
+
 .participant-results-content {
   display: flex;
   flex-direction: column;
-  padding: 30px 0px;
+  justify-content: center;
   margin: 0 2%;
+
+  &--large {
+    padding: 30px 0;
+  }
+
+  &--wide {
+    width: 100%;
+  }
 
   &--first-part {
     border-right: 1px solid $alto;
@@ -39,8 +51,37 @@
     margin: 0 0 0 3%;
   }
 
+  &--multiple {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 50%;
+    padding: 0 30px;
+  }
+
   &__progress-bar {
     position: relative;
+  }
+
+  &__score {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 240px;
+  }
+
+  &__circle-chart {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin-right: 40px;
+  }
+
+  &__circle-chart-value {
+    color: $nero;
+    font-family: $roboto;
+    font-size: 1.9375rem;
+    margin: auto;
   }
 
   &__label-text {
@@ -49,6 +90,7 @@
 
   &__check-shared {
     margin-right: 3px;
+
     &--green {
       color: $mountain-meadow;
     }
@@ -66,10 +108,18 @@
     position: absolute;
     text-align: center;
   }
+
   &__percent-text {
     color: $dove-gray;
     font-family: $roboto;
     font-size: 2rem;
     padding: 10px;
+  }
+}
+
+.participant-results-details {
+  &-competence__bullet {
+    font-size: 1.8rem;
+    margin-right: 12px;
   }
 }

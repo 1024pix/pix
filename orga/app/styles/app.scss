@@ -11,6 +11,14 @@
 @import "globals/texts";
 @import "globals/titles";
 
+@import "components/login-form";
+@import "components/campaign-list";
+@import "components/campaign-item";
+@import "components/circle-chart";
+@import "components/current-organization";
+@import "components/pagination-control";
+@import "components/progression-gauge";
+
 @import "pages/login";
 @import "pages/authenticated";
 @import "pages/authenticated/campaigns";
@@ -22,12 +30,6 @@
 @import "pages/authenticated/campaigns/details/participants";
 @import "pages/authenticated/campaigns/details/participant-results";
 @import "pages/authenticated/terms-of-service";
-
-@import "components/login-form";
-@import "components/campaign-list";
-@import "components/campaign-item";
-@import "components/current-organization";
-@import "components/pagination-control";
 
 body, html {
   margin: 0;

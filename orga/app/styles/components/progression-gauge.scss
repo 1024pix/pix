@@ -1,0 +1,44 @@
+.progression-gauge {
+  background-color: $alto;
+  width: 100%;
+  height: 4px;
+  border-radius: 5px;
+}
+
+.progression-gauge__marker {
+  background: linear-gradient(to right, $amber, $orange-peel);
+  height: 4px;
+  border-radius: 5px;
+  text-align: right;
+}
+
+.progression-gauge__tooltip-wrapper {
+  position: relative;
+  top: -27px;
+}
+
+.progression-gauge__tooltip {
+  position: absolute;
+  background: linear-gradient(180deg, $amber 0%, $orange-peel 100%);
+  color: white;
+  border-radius: 5px;
+  font-family: $roboto;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  text-align: center;
+  right: -18px;
+  width: 36px;
+  line-height: normal;
+  padding: 2px 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 40%;
+    color: $orange-peel;
+    border-top: 4px solid $orange-peel;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+    margin-top: 16px;
+  }
+}
