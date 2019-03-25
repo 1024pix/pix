@@ -51,10 +51,10 @@ module('Integration | Component | routes/authenticated/campaign | participant-re
     // then
     assert.dom('.page__title').hasText('Prénom Nom');
     assert.dom('.participant-results-content--first-part').hasText('MailPro mail@pro.net');
-    assert.dom('.participant-results-content:nth-child(2)').hasText('Avancement 100%');
-    assert.dom('.participant-results-content:nth-child(3)').hasText('Commencé le 7 janv' +
+    assert.dom('.participant-results-content--second-part .participant-results-content:nth-child(1)').hasText('Avancement 100%');
+    assert.dom('.participant-results-content--second-part .participant-results-content:nth-child(2)').hasText('Commencé le 7 janv' +
       '. 2019');
-    assert.dom('.participant-results-content:nth-child(4)').hasText('Partagé le 4 févr. 2019');
+    assert.dom('.participant-results-content--second-part .participant-results-content:nth-child(3)').hasText('Partagé le 4 févr. 2019');
   });
 
 
