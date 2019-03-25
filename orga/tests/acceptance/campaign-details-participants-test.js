@@ -33,7 +33,7 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
 
       // then
       assert.dom('.participant-list__header').hasText(`Liste des participants (${rowCount})`);
-      assert.dom('.table tbody tr').exists({ count: pageSize });
+      assert.dom('table tbody tr').exists({ count: pageSize });
       assert.dom('.page-navigation__current-page').hasText(defaultPage);
       assert.dom('.page-navigation__last-page').containsText('5');
       assert.dom('.page-size option:checked').hasText(pageSize.toString());
@@ -49,7 +49,7 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
 
       // then
       assert.dom('.participant-list__header').hasText(`Liste des participants (${rowCount})`);
-      assert.dom('.table tbody tr').exists({ count: changedPageSize });
+      assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.dom('.page-navigation__current-page').hasText(changedPageNumber.toString());
       assert.dom('.page-navigation__last-page').containsText('2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
@@ -68,7 +68,7 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
 
       // then
       assert.dom('.participant-list__header').hasText(`Liste des participants (${rowCount})`);
-      assert.dom('.table tbody tr').exists({ count: changedPageSize });
+      assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.dom('.page-navigation__current-page').hasText(defaultPage);
       assert.dom('.page-navigation__last-page').containsText('2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
@@ -77,14 +77,14 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
     test('it should change participant list page when user clicks on next page', async function (assert) {
       // given
       await visit('/campagnes/1/participants');
-      const someElementFromPage1 = this.element.querySelector('.table tbody tr:nth-child(5)').textContent;
+      const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
 
       // when
       await click('.page-navigation__arrow--next .icon-button');
 
       // then
       assert.dom('.page-navigation__current-page').hasText('2');
-      assert.dom('.table tbody').doesNotContainText(someElementFromPage1);
+      assert.dom('table tbody').doesNotContainText(someElementFromPage1);
     });
 
     test('it should go back to first page when user changes page size', async function (assert) {
@@ -98,7 +98,7 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
 
       // then
       assert.dom('.participant-list__header').hasText(`Liste des participants (${rowCount})`);
-      assert.dom('.table tbody tr').exists({ count: changedPageSize });
+      assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.dom('.page-navigation__current-page').hasText(defaultPage);
       assert.dom('.page-navigation__last-page').containsText('2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
