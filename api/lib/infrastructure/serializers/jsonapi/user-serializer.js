@@ -33,12 +33,6 @@ module.exports = {
           }
         }
       },
-      transform(model) {
-        // FIXME: Used to make it work in both cases
-        const userModel = (model instanceof User) ? model : model.toJSON();
-        userModel.pixScore = null;
-        return userModel;
-      },
       meta
     }).serialize(users);
   },
