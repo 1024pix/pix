@@ -58,6 +58,9 @@ describe('Acceptance | API | Campaign Participations', () => {
           campaign: {
             data: null
           },
+          assessment: {
+            data: null
+          },
           user: {
             data: {
               id: `${user.id}`,
@@ -126,6 +129,9 @@ describe('Acceptance | API | Campaign Participations', () => {
                   type: 'campaigns',
                   id: campaign.id.toString()
                 }
+              },
+              assessment: {
+                data: null
               },
               'user': {
                 'data': {

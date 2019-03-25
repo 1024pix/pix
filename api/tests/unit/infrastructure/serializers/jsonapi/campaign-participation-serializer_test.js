@@ -41,6 +41,9 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             user: {
               data: null
             },
+            assessment: {
+              data: null,
+            },
             'campaign-participation-result': {
               links: {
                 'related': '/campaign-participations/5/campaign-participation-result'

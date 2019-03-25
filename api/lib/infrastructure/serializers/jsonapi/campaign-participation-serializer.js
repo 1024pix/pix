@@ -7,7 +7,7 @@ module.exports = {
 
   serialize(campaignParticipation, meta) {
     return new Serializer('campaign-participation', {
-      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult'],
+      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult', 'assessment'],
       campaign: {
         ref: 'id',
         attributes: ['code', 'title']
@@ -15,6 +15,10 @@ module.exports = {
       user: {
         ref: 'id',
         attributes: ['firstName', 'lastName'],
+      },
+      assessment: {
+        ref: 'id',
+        included: false,
       },
       campaignParticipationResult: {
         ref: 'id',

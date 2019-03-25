@@ -73,6 +73,10 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                   data:
                     { type: 'campaigns', id: `${campaign2.id}` },
                 },
+                assessment: {
+                  data:
+                    { type: 'assessments', id: `${campaignParticipation2.assessmentId}` },
+                },
                 user: {
                   data: null
                 },
@@ -97,6 +101,11 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                   data:
                     { type: 'campaigns', id: `${campaign1.id}` },
                 },
+                assessment: {
+                  data:
+                    { type: 'assessments', id: `${campaignParticipation1.assessmentId}` },
+                },
+
                 user: {
                   data: null
                 },

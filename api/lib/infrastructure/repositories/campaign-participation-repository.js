@@ -50,7 +50,7 @@ module.exports = {
     return BookshelfCampaignParticipation
       .where({ userId })
       .orderBy('createdAt', 'DESC')
-      .fetchAll({ withRelated: ['campaign'] })
+      .fetchAll({ withRelated: ['campaign', 'assessment'] })
       .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
       .then(fp.map(_toDomain));
   },
