@@ -32,6 +32,8 @@ export default Component.extend({
   textfieldName: '',
   validationMessage: '',
 
+  onValidate: () => {},
+
   textfieldType: computed('textfieldName', function() {
     if (this.get('textfieldName') === 'password') {
       return 'password';
@@ -69,10 +71,4 @@ export default Component.extend({
     const inputValidationStatus = this.get('validationStatus');
     return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
   }),
-
-  actions: {
-    validate() {
-      this.sendAction('validate', this.get('textfieldName'));
-    }
-  }
 });

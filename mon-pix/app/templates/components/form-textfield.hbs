@@ -1,19 +1,16 @@
 <label for="{{textfieldName}}" class="form-textfield__label">{{label}}</label>
 {{#if hasIcon}}
-  <div class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}
-" role="alert">{{validationMessage}}</div>
+  <div class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{validationMessage}}</div>
 {{/if}}
 
 <div class="form-textfield__input-field-container {{inputContainerStatusClass}}">
   {{input type=textfieldType
           id=textfieldName
           value=inputBindingValue
-          focus-out=(action 'validate')
+          focus-out=(action onValidate textfieldName)
           class= 'form-textfield__input'
           classBinding="inputValidationStatus"
-          autocomplete=autocomplete
-  }}
-
+          autocomplete=autocomplete}}
 
   {{#if hasIcon}}
     {{#if (eq validationStatus 'error') }}

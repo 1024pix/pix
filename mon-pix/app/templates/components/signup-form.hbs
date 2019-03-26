@@ -25,7 +25,7 @@
         label="Prénom"
         textfieldName="firstName"
         inputBindingValue=user.firstName
-        validate="validateInput"
+        onValidate=(action "validateInput")
         validationStatus=validation.firstName.status
         validationMessage=validation.firstName.message
         autocomplete="given-name"}}
@@ -36,7 +36,7 @@
         label="Nom"
         textfieldName="lastName"
         inputBindingValue=user.lastName
-        validate="validateInput"
+        onValidate=(action "validateInput")
         validationStatus=validation.lastName.status
         validationMessage=validation.lastName.message
         autocomplete="family-name"}}
@@ -47,7 +47,7 @@
         label="Adresse Email"
         textfieldName="email"
         validationStatus=validation.email.status
-        validate="validateInputEmail"
+        onValidate=(action "validateInputEmail")
         inputBindingValue=user.email
         validationMessage=validation.email.message
         autocomplete="email"}}
@@ -59,7 +59,7 @@
         textfieldName="password"
         textfieldType="password"
         validationStatus=validation.password.status
-        validate="validateInputPassword"
+        onValidate=(action "validateInputPassword")
         inputBindingValue=user.password
         validationMessage=validation.password.message
         autocomplete="new-password"}}
