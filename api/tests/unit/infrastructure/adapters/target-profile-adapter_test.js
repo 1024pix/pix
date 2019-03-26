@@ -6,10 +6,6 @@ const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/ta
 
 describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
 
-  afterEach(async () => {
-    await databaseBuilder.clean();
-  });
-
   it('should adapt TargetProfile object to domain', () => {
     // given
     const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());
