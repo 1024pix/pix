@@ -159,6 +159,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       answerToChallengeOne = EmberObject.create({ challenge: challengeOne });
       answerToChallengeOne.save = sinon.stub().resolves();
       answerToChallengeOne.setProperties = sinon.stub();
+      answerToChallengeOne.rollbackAttributes = sinon.stub();
     });
 
     context('when the answer is already known', function() {
@@ -227,7 +228,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
     });
 
     context('when saving fails', function() {
-      it('should send error', async function() {
+      it('should remove temporary answer and send error', async function() {
         // given
         answerToChallengeOne.save.rejects();
         route.actions.error = sinon.stub();
@@ -240,6 +241,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         // then
         await expect(promise).to.be.rejected;
         sinon.assert.called(route.actions.error);
+        sinon.assert.called(answerToChallengeOne.rollbackAttributes);
       });
     });
   });
