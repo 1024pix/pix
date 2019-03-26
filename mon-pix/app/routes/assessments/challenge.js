@@ -96,7 +96,10 @@ export default BaseRoute.extend({
       return answer.save()
         .then(
           () => this.transitionTo('assessments.resume', assessment.get('id')),
-          () => this.send('error')
+          () => {
+            answer.rollbackAttributes();
+            return this.send('error');
+          }
         );
     },
     error() {
