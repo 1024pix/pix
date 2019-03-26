@@ -27,5 +27,18 @@ module('Integration | Component | circle-chart', function(hooks) {
       // then
       assert.dom('.circle-chart--slice').hasAttribute('stroke-dasharray',`${value}, 100`)
     });
+
+    test('should not display the progressing circle when circle is disabled', async function(assert) {
+      // given
+      const value = '60';
+      this.set('value', value);
+
+      // when
+      await render(hbs`{{circle-chart value=value isDisabled=true}}`);
+
+      // then
+      assert.dom('.circle-chart--slice').doesNotExist();
+      assert.dom('.circle-chart__text').doesNotExist();
+    });
   });
 });
