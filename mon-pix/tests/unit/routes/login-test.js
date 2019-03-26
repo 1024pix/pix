@@ -5,6 +5,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | login page', function() {
+
   setupTest('route:login', {
     needs: ['service:session', 'service:metrics']
   });
@@ -39,11 +40,14 @@ describe('Unit | Route | login page', function() {
       sinon.stub(route, 'transitionTo').throws('Must not be called');
 
       // When
-      await route.beforeModel({});
+      await route.beforeModel({ to: {} });
       await route.actions.signin.call(route, expectedEmail, expectedPassword);
 
       // Then
-      sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { email: expectedEmail, password: expectedPassword });
+      sinon.assert.calledWith(authenticateStub, 'authenticator:simple', {
+        email: expectedEmail,
+        password: expectedPassword
+      });
     });
 
     it('should authenticate the user given token in URL', async function() {
@@ -54,7 +58,7 @@ describe('Unit | Route | login page', function() {
       sinon.stub(route, 'transitionTo');
 
       // When
-      await route.beforeModel({ queryParams: { token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb' } });
+      await route.beforeModel({ to: { queryParams: { token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb' } } });
 
       // Then
       sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb' });
@@ -76,7 +80,7 @@ describe('Unit | Route | login page', function() {
       sinon.stub(route, 'transitionTo');
 
       // When
-      await route.beforeModel({});
+      await route.beforeModel({ to: {} });
 
       // Then
       sinon.assert.calledWith(route.transitionTo, 'compte');
