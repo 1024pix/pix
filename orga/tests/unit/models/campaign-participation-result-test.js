@@ -5,7 +5,7 @@ import { run } from '@ember/runloop';
 module('Unit | Model | campaign-participation-result', function(hooks) {
   setupTest(hooks);
 
-  test('it should have a 100% progression when completed', function(assert) {
+  test('should have a 100% progression when completed', function(assert) {
     let store = this.owner.lookup('service:store');
     let model = run(() => store.createRecord('campaign-participation-result', {
       isCompleted: true,
@@ -13,7 +13,7 @@ module('Unit | Model | campaign-participation-result', function(hooks) {
     assert.equal(model.percentageProgression, 100);
   });
 
-  test('it should have a rounded progression', function(assert) {
+  test('should have a rounded progression', function(assert) {
     let store = this.owner.lookup('service:store');
     let model = run(() => store.createRecord('campaign-participation-result', {
       isCompleted: false,
@@ -21,5 +21,46 @@ module('Unit | Model | campaign-participation-result', function(hooks) {
       testedSkillsCount: 3
     }));
     assert.equal(model.percentageProgression, 27);
+  });
+
+  module('maxTotalSkillsCountInCompetences', function() {
+
+    test('should calculate max total skills', function(assert) {
+      let store = this.owner.lookup('service:store');
+      const competenceResult1 = store.createRecord('competence-result', {
+        totalSkillsCount: 2
+      });
+      const competenceResult2 = store.createRecord('competence-result', {
+        totalSkillsCount: 11
+      });
+      const competenceResult3 = store.createRecord('competence-result', {
+        totalSkillsCount: 10
+      });
+
+      let model = run(() => store.createRecord('campaign-participation-result', {}));
+      model.set('competenceResults', [competenceResult1, competenceResult2, competenceResult3]);
+
+      // when
+      const maxTotalSkillsCountInCompetences = model.get('maxTotalSkillsCountInCompetences');
+
+      // then
+      assert.equal(maxTotalSkillsCountInCompetences, 11);
+    });
+  });
+
+  module('masteryPercentage', function() {
+
+    test('should calculate total validated skills percentage', function(assert) {
+      let store = this.owner.lookup('service:store');
+      let model = run(() => store.createRecord('campaign-participation-result', {}));
+      model.set('totalSkillsCount', 45);
+      model.set('validatedSkillsCount', 40);
+
+      // when
+      const masteryPercentage = model.get('masteryPercentage');
+
+      // then
+      assert.equal(masteryPercentage, 89);
+    });
   });
 });
