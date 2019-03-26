@@ -87,7 +87,7 @@ describe('Unit | Repository | SnapshotRepository', function() {
 
   describe('#save', () => {
     beforeEach(() => {
-      sinon.spy(Snapshot.prototype, 'save');
+      sinon.stub(Snapshot.prototype, 'save').resolves();
     });
 
     it('should save a snapshot', () => {

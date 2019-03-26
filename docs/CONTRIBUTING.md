@@ -134,6 +134,10 @@ module.exports = function myUseCase({ param1, param2, param3, repo1, repo2 }) {
 }
 ```
 
+#### Tests
+
+Test unitaire : un test unitaire doit passer sans base de données.
+
 ### FRONT
 
 #### CSS

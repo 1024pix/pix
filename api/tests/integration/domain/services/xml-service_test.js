@@ -1,7 +1,7 @@
 const { expect } = require('../../../test-helper');
 const xmlService = require('../../../../lib/domain/services/xml-service');
 
-describe('Unit | Services | get-attendance-sheet | xml-service', () => {
+describe('Integration | Services | get-attendance-sheet | xml-service', () => {
 
   const templateValues = [
     {
