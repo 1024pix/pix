@@ -6,10 +6,9 @@ export default BaseRoute.extend({
   hasSeenCheckpoint: false,
   campaignCode: null,
 
-  beforeModel({ queryParams }) {
-    this.set('hasSeenCheckpoint', queryParams.hasSeenCheckpoint);
-    this.set('campaignCode', queryParams.campaignCode);
-    return this._super(...arguments);
+  beforeModel(transition) {
+    this.set('hasSeenCheckpoint', transition.to.queryParams.hasSeenCheckpoint);
+    this.set('campaignCode', transition.to.queryParams.campaignCode);
   },
 
   afterModel(assessment) {

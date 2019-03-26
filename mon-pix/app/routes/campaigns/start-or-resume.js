@@ -14,9 +14,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   authenticationRoute: 'inscription',
 
   beforeModel(transition) {
-    this.set('campaignCode', transition.params['campaigns.start-or-resume'].campaign_code);
-    this.set('userHasSeenLanding', transition.queryParams.hasSeenLanding);
-    this.set('userHasJustConsultedTutorial', transition.queryParams.hasJustConsultedTutorial);
+    this.set('campaignCode', transition.to.params.campaign_code);
+    this.set('userHasSeenLanding', transition.to.queryParams.hasSeenLanding);
+    this.set('userHasJustConsultedTutorial', transition.to.queryParams.hasJustConsultedTutorial);
 
     if (this._userIsUnauthenticated() && !this.get('userHasSeenLanding')) {
       return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));

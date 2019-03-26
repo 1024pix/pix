@@ -9,7 +9,7 @@ export default BaseRoute.extend({
   session: service(),
 
   beforeModel(transition) {
-    this.set('campaignCode',transition.params['campaigns.fill-in-id-pix'].campaign_code);
+    this.set('campaignCode',transition.to.params.campaign_code);
     const store = this.get('store');
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.get('campaignCode') } })
       .then((smartPlacementAssessments) => {
