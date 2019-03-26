@@ -1,7 +1,14 @@
 import DS from 'ember-data';
 
-export default DS.Model.extend({
-  user: DS.belongsTo('user'),
-  competenceName: DS.attr('string'),
+const { Model, attr, belongsTo } = DS;
 
+export default Model.extend({
+  name: attr('string'),
+  index: attr('number'),
+  courseId: attr('string'),
+  skills: attr('string'),
+  area: belongsTo('area'),
+  earnedPix: attr('number'),
+  level: attr('number'),
+  percentageOnLevel: attr('number'),
 });
