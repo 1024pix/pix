@@ -4,7 +4,7 @@ const DomainErrors = require('../../../../lib/domain/errors');
 const InfraErrors = require('../../../../lib/infrastructure/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 
-describe('Unit | Utils | Error Manager', function() {
+describe('Integration | Utils | Error Manager', function() {
 
   let loggerStub;
 
