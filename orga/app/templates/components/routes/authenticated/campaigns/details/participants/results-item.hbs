@@ -27,8 +27,7 @@
             {{#if campaignParticipation.campaignParticipationResult.isCompleted}}
               <div class="participant-results-content__progress-bar progress-bar progress-bar--completed"></div>
             {{else}}
-              <div class="progress-bar progress-bar--completion"
-                   style="width:{{campaignParticipation.campaignParticipationResult.percentageProgression}}px">
+              <div class="progress-bar progress-bar--completion" style={{progressBarStyle}}>
               </div>
             {{/if}}
           </div>
@@ -63,21 +62,21 @@
       <div class="participant-results-content participant-results-content--large participant-results-content--wide">
         <div class="label-text participant-results-content__label-text">Compétences testées</div>
         <div class="content-text content-text--big">
-          {{if campaignParticipation.isCampaignParticipationResultShared
+          {{if campaignParticipation.isShared
                campaignParticipation.campaignParticipationResult.competenceResults.length '-' }}
         </div>
       </div>
       <div class="participant-results-content participant-results-content--large participant-results-content--wide">
         <div class="label-text participant-results-content__label-text">Acquis obtenus</div>
         <div class="content-text content-text--big">
-          {{if campaignParticipation.isCampaignParticipationResultShared
+          {{if campaignParticipation.isShared
                campaignParticipation.campaignParticipationResult.validatedSkillsCount '-' }}
         </div>
       </div>
       <div class="participant-results-content participant-results-content--large participant-results-content--wide">
         <div class="label-text participant-results-content__label-text">Acquis évalués</div>
         <div class="content-text content-text--big">
-          {{if campaignParticipation.isCampaignParticipationResultShared
+          {{if campaignParticipation.isShared
                campaignParticipation.campaignParticipationResult.totalSkillsCount '-' }}
         </div>
       </div>
@@ -87,7 +86,7 @@
       <div class="participant-results-content__score">
         <div class="content-text content-text--big content-text--bold">Score</div>
         {{#circle-chart value=campaignParticipation.campaignParticipationResult.masteryPercentage
-                        isDisabled=(not campaignParticipation.isCampaignParticipationResultShared) }}
+                        isDisabled=(not campaignParticipation.isShared) }}
           <span class="participant-results-content__circle-chart-value">
               {{campaignParticipation.campaignParticipationResult.masteryPercentage}}%
             </span>
@@ -104,13 +103,13 @@
     </tr>
     </thead>
 
-    {{#if campaignParticipation.isCampaignParticipationResultShared }}
+    {{#if campaignParticipation.isShared }}
       <tbody>
       {{#each campaignParticipation.campaignParticipationResult.competenceResults as |competence|}}
         <tr>
           <td class="participant-results-details__competence-wrapper">
             <span class="participant-results-details-competence__bullet"
-                  style="color: {{competence.domainColor}}">&#8226;</span>
+                  style={{competence.domainColorStyle}}>&#8226;</span>
             <span>{{competence.name}}</span>
           </td>
           <td>
@@ -126,7 +125,7 @@
       </tbody>
     {{/if}}
   </table>
-  {{#unless campaignParticipation.isCampaignParticipationResultShared }}
+  {{#unless campaignParticipation.isShared }}
     <div class="table__empty">En attente de résultats</div>
   {{/unless}}
 </div>

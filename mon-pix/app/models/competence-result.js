@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
+import { htmlSafe } from '@ember/string';
 import domainColors from 'mon-pix/static-data/domain-colors';
 
 const { Model, attr, belongsTo } = DS;
@@ -20,9 +21,9 @@ export default Model.extend({
     return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
   }),
 
-  domainColor: computed('index', function() {
+  domainColorStyle: computed('index', function() {
     const domainIndex = this.index.charAt(0);
     const foundDomain = domainColors.find((colors) => colors.domain === domainIndex);
-    return foundDomain.color;
+    return htmlSafe(`color: ${foundDomain.color}`);
   }),
 });

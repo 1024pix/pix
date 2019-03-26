@@ -1,5 +1,4 @@
 import DS from 'ember-data';
-import { computed } from '@ember/object';
 
 const { Model, attr, belongsTo } = DS;
 
@@ -11,9 +10,4 @@ export default Model.extend({
   campaign: belongsTo('campaign'),
   user: belongsTo('user'),
   campaignParticipationResult: belongsTo('campaignParticipationResult'),
-
-  isCampaignParticipationResultShared: computed('isShared', 'campaignParticipationResult', 'campaignParticipationResult.competenceResults.[]', function () {
-    return this.isShared && this.campaignParticipationResult && this.campaignParticipationResult.get('competenceResults.length');
-  }),
-
 });
