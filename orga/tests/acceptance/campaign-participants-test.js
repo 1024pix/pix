@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
-import { visit, click, fillIn } from '@ember/test-helpers';
+import { visit, click, currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Details Participants', function (hooks) {
+module('Acceptance | Campaign Participants', function (hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -53,6 +53,18 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
       assert.dom('.page-navigation__current-page').hasText(changedPageNumber.toString());
       assert.dom('.page-navigation__last-page').containsText('2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
+    });
+
+
+    test('it should redirect to participant details when user clicks on row', async function (assert) {
+      // given
+      await visit(`/campagnes/1/participants`);
+
+      // when
+      await click('table tbody .tr--clickable');
+
+      // then
+      assert.equal(currentURL(), '/campagnes/1/participants/1');
     });
   });
 

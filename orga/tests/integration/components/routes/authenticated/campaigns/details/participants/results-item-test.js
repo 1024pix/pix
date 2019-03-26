@@ -91,8 +91,12 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('.participant-results-content--multiple .participant-results-content .content-text--big').hasText('1');
     assert.dom('.participant-results-content--multiple .participant-results-content:nth-child(2) .content-text--big').hasText('15');
     assert.dom('.participant-results-content--multiple .participant-results-content:nth-child(3) .content-text--big').hasText('30');
-    assert.dom('table tbody tr td span:nth-child(2)').hasText('Compétence 1');
     assert.dom('.participant-results-content__circle-chart-value').hasText('50%');
+
+    assert.dom('table tbody tr').exists({ count: 1 });
+    assert.dom('table tbody tr td span:nth-child(2)').hasText('Compétence 1');
+    assert.dom('table tbody tr td:nth-child(2)').containsText('5 acquis');
+    assert.dom('table tbody tr td:nth-child(3)').hasText('10');
   });
 
   test('it should display participant details', async function(assert) {
