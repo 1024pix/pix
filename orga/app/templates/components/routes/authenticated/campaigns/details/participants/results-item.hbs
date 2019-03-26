@@ -75,10 +75,10 @@
         </div>
       </div>
       <div class="participant-results-content participant-results-content--large participant-results-content--wide">
-        <div class="label-text participant-results-content__label-text">Acquis testés</div>
+        <div class="label-text participant-results-content__label-text">Acquis évalués</div>
         <div class="content-text content-text--big">
           {{if campaignParticipation.isCampaignParticipationResultShared
-               campaignParticipation.campaignParticipationResult.testedSkillsCount '-' }}
+               campaignParticipation.campaignParticipationResult.totalSkillsCount '-' }}
         </div>
       </div>
     </div>
@@ -100,7 +100,7 @@
     <tr>
       <th class="table__column">Compétences</th>
       <th class="table__column--wide">Acquis obtenus</th>
-      <th class="table__column--small">Acquis testés</th>
+      <th class="table__column--small">Acquis évalués</th>
     </tr>
     </thead>
 
@@ -120,7 +120,7 @@
               acquis de la compétence {{competence.name}}.</p>
             {{/progression-gauge}}
           </td>
-          <td>{{competence.testedSkillsCount}}</td>
+          <td>{{competence.totalSkillsCount}}</td>
         </tr>
       {{/each}}
       </tbody>
