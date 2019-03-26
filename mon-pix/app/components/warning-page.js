@@ -58,9 +58,11 @@ export default Component.extend({
     return _formatTimeForButton(this.get('time'));
   }),
 
+/*
   actions: {
     confirmWarning() {
-      this.sendAction('hasUserConfirmWarning');
+      this.hasUserConfirmWarning();
     }
   }
+*/
 });
