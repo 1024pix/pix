@@ -14,72 +14,65 @@ describe('Unit | UseCase | get-user-pix-score', () => {
     sinon.restore();
   });
 
-  context('Access management', () => {
+  it('should resolve when authenticated user is the same as asked', () => {
+    // given
+    const authenticatedUserId = 2;
+    const requestedUserId = 2;
+    smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
 
-    beforeEach(() => {
-      smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
+    // when
+    const promise = getUserPixScore({
+      authenticatedUserId,
+      requestedUserId,
+      smartPlacementKnowledgeElementRepository,
     });
 
-    it('should resolve when authenticated user is the same as asked', () => {
-      // given
-      const authenticatedUserId = 2;
-      const requestedUserId = 2;
-
-      // when
-      const promise = getUserPixScore({
-        authenticatedUserId,
-        requestedUserId,
-        smartPlacementKnowledgeElementRepository,
-      });
-
-      // then
-      return expect(promise).to.be.fulfilled;
-    });
-
-    it('should reject a "UserNotAuthorizedToAccessEntity" domain error when authenticated user is not the one asked', () => {
-      // given
-      const authenticatedUserId = 34;
-      const requestedUserId = 2;
-
-      // when
-      const promise = getUserPixScore({
-        authenticatedUserId,
-        requestedUserId,
-        smartPlacementKnowledgeElementRepository,
-      });
-
-      // then
-      return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
-    });
+    // then
+    return expect(promise).to.be.fulfilled;
   });
 
-  context('Output checking', () => {
+  it('should reject a "UserNotAuthorizedToAccessEntity" domain error when authenticated user is not the one asked', () => {
+    // given
+    const authenticatedUserId = 34;
+    const requestedUserId = 2;
+    smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
 
-    it('should return the user Pix score', async () => {
-      // given
-      const authenticatedUserId = 2;
-      const requestedUserId = 2;
-      const sumOfPixKnowledgeElement = 6;
-      const pixScoreExpected = {
-        pixScore: sumOfPixKnowledgeElement
-      };
-
-      const knowledgeElementList = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1, earnedPix: 1 }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 2, earnedPix: 2 }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 3, earnedPix: 3 }),
-      ];
-      smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
-
-      // when
-      const userPixScore = await getUserPixScore({
-        authenticatedUserId,
-        requestedUserId,
-        smartPlacementKnowledgeElementRepository,
-      });
-
-      //then
-      expect(userPixScore).to.deep.equal(pixScoreExpected);
+    // when
+    const promise = getUserPixScore({
+      authenticatedUserId,
+      requestedUserId,
+      smartPlacementKnowledgeElementRepository,
     });
+
+    // then
+    return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
+  });
+
+  it('should return the user Pix score', async () => {
+    // given
+    const authenticatedUserId = 2;
+    const requestedUserId = 2;
+    const sumOfPixKnowledgeElement = 6;
+    const pixScoreExpected = {
+      id: requestedUserId,
+      value: sumOfPixKnowledgeElement
+    };
+
+    const knowledgeElementList = [
+      domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1, earnedPix: 1 }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 2, earnedPix: 2 }),
+      domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 3, earnedPix: 3 }),
+    ];
+    smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
+
+    // when
+    const userPixScore = await getUserPixScore({
+      authenticatedUserId,
+      requestedUserId,
+      smartPlacementKnowledgeElementRepository,
+    });
+
+    //then
+    expect(userPixScore).to.deep.equal(pixScoreExpected);
   });
 });

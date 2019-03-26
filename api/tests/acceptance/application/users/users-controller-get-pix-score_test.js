@@ -12,7 +12,6 @@ describe('Acceptance | users-controller-get-pix-score', () => {
 
     const user = databaseBuilder.factory.buildUser();
 
-    // Insert 2 more users
     databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: user.id, earnedPix: 3 });
     databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: user.id, earnedPix: 4 });
 
