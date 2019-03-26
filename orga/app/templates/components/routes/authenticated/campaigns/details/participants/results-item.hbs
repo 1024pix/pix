@@ -86,14 +86,12 @@
     <div class="participant-results-content">
       <div class="participant-results-content__score">
         <div class="content-text content-text--big content-text--bold">Score</div>
-        <div class="participant-results-content__circle-chart">
-          {{#circle-chart value=campaignParticipation.campaignParticipationResult.masteryPercentage
-                          isDisabled=(not campaignParticipation.isCampaignParticipationResultShared) }}
-            <span class="participant-results-content__circle-chart-value">
+        {{#circle-chart value=campaignParticipation.campaignParticipationResult.masteryPercentage
+                        isDisabled=(not campaignParticipation.isCampaignParticipationResultShared) }}
+          <span class="participant-results-content__circle-chart-value">
               {{campaignParticipation.campaignParticipationResult.masteryPercentage}}%
             </span>
-          {{/circle-chart}}
-        </div>
+        {{/circle-chart}}
       </div>
     </div>
   </div>
@@ -118,7 +116,8 @@
           <td>
             {{#progression-gauge total=competence.totalSkillsCountPercentage
                                  value=competence.validatedSkillsPercentage}}
-              <p class="sr-only">Ce participant a validé </p>{{competence.validatedSkillsCount}}<p class="sr-only"> acquis de la compétence {{competence.name}}.</p>
+              <p class="sr-only">Ce participant a validé </p>{{competence.validatedSkillsCount}}<p class="sr-only">
+              acquis de la compétence {{competence.name}}.</p>
             {{/progression-gauge}}
           </td>
           <td>{{competence.testedSkillsCount}}</td>
