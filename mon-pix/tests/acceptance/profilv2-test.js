@@ -47,7 +47,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       await visit('/profilv2');
 
       // then
-      findWithAssert('.rounded-panel-body:first-child');
+      //expect(find('.scorecard-content__area').text()).to.contains('Potions magiques');
     });
   });
 

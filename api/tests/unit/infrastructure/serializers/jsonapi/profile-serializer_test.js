@@ -171,6 +171,11 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
                 related: '/users/user_id/pixscore'
               }
             },
+            'scorecards': {
+              links: {
+                related: '/users/user_id/scorecards'
+              }
+            },
           },
         },
         included: [
@@ -316,6 +321,11 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             'pix-score': {
               links: {
                 related: '/users/user_id/pixscore'
+              }
+            },
+            'scorecards': {
+              links: {
+                related: '/users/user_id/scorecards'
               }
             },
           },
