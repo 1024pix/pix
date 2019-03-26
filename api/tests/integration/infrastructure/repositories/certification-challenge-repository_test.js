@@ -1,6 +1,7 @@
 const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
 
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
+const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 
 describe('Integration | Repository | Certification Challenge', function() {
@@ -163,6 +164,106 @@ describe('Integration | Repository | Certification Challenge', function() {
       return promise.then((result) => {
         expect(result.length).to.equal(0);
       });
+    });
+  });
+
+  describe('#getNonAnsweredChallengeByCourseId', () => {
+
+    const courseId = 'courseId';
+    const assessmentId = 'assessmentId';
+
+    const challenge1 = {
+      id: 1,
+      challengeId: 'recChallenge1',
+      courseId,
+      associatedSkill: '@brm7',
+      competenceId: 'recCompetenceId1',
+    };
+    const challenge2 = {
+      id: 2,
+      challengeId: 'recChallenge2',
+      courseId,
+      associatedSkill: '@twi8',
+      competenceId: 'recCompetenceId2',
+    };
+    const challenge3 = {
+      id: 3,
+      challengeId: 'recChallenge3',
+      courseId,
+      associatedSkill: '@twi8',
+      competenceId: 'recCompetenceId2',
+    };
+    const challenge4 = {
+      id: 4,
+      challengeId: 'recChallenge4',
+      courseId: 'otherCourseId',
+      associatedSkill: '@twi8',
+      competenceId: 'recCompetenceId2',
+    };
+    const challenges = [
+      challenge1,
+      challenge2,
+      challenge3,
+      challenge4,
+    ];
+
+    const answer1 = {
+      id: 1,
+      challengeId: 'recChallenge1',
+      value: 'Un Pancake',
+      assessmentId,
+    };
+    const answers = [answer1];
+
+    beforeEach(() => {
+      return knex
+        .insert(challenges)
+        .into('certification-challenges')
+        .then(() => knex('answers').insert(answers));
+    });
+
+    afterEach(() => {
+      return knex
+        .delete()
+        .from('certification-challenges')
+        .then(() => knex('answers').delete());
+    });
+
+    context('no certification challenge', () => {
+
+      it('should reject the promise if no challenge is found', function() {
+        // given
+        const assessmentId = -1;
+        const courseId = -1;
+
+        // when
+        const promise = certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
+          assessmentId, courseId,
+        );
+
+        // then
+        return expect(promise).to.be.rejectedWith(AssessmentEndedError);
+      });
+
+    });
+
+    context('there is some certification challenge(s)', () => {
+
+      it('should return one challenge which has no answer associated', function() {
+        // given
+
+        // when
+        const promise = certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
+          assessmentId, courseId,
+        );
+
+        // then
+        return expect(promise).to.be.fulfilled
+          .then((result) => {
+            expect(result).to.be.instanceOf(CertificationChallenge);
+          });
+      });
+
     });
   });
 });
