@@ -15,7 +15,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     });
   });
 
-  test('it should display a sentence when there is no result yet', async function (assert) {
+  test('it should display a sentence when there is no participant result yet', async function (assert) {
     // given
     const campaignParticipation = run(() => store.createRecord('campaignParticipation', {
       isShared: false,
@@ -32,7 +32,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('.table__empty').hasText('En attente de résultats');
   });
 
-  test('it should display a sentence when the results have not been shared yet', async function (assert) {
+  test('it should display a sentence when participant results have not been shared yet', async function (assert) {
     // given
     const campaignParticipation = run(() => store.createRecord('campaignParticipation', {
       isShared: false,
@@ -60,7 +60,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('.table__empty').hasText('En attente de résultats');
   });
 
-  test('it should display the results', async function (assert) {
+  test('it should display participant results', async function (assert) {
     // given
     const competenceResult = run(() => store.createRecord('competenceResult', {
       name: 'Compétence 1',
@@ -93,6 +93,49 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('.participant-results-content--multiple .participant-results-content:nth-child(3) .content-text--big').hasText('30');
     assert.dom('table tbody tr td span:nth-child(2)').hasText('Compétence 1');
     assert.dom('.participant-results-content__circle-chart-value').hasText('50%');
+  });
+
+  test('it should display participant details', async function(assert) {
+    // given
+    const user = run(() => store.createRecord('user', {
+      firstName: 'Prénom',
+      lastName: 'Nom',
+    }));
+
+    const campaignParticipationResult  = run(() => store.createRecord('campaign-participation-result', {
+      totalSkillsCount: 30,
+      testedSkillsCount: 29,
+      validatedSkillsCount: 15,
+      isCompleted: true,
+    }));
+
+    const campaignParticipation  = run(() => store.createRecord('campaign-participation', {
+      createdAt: '2019-01-07T10:57:31.567Z',
+      sharedAt: '2019-02-04T10:57:31.567Z',
+      isShared: true,
+      participantExternalId: 'mail@pro.net',
+      user: user,
+      campaignParticipationResult: campaignParticipationResult
+    }));
+
+    const campaign  = run(() => store.createRecord('campaign', {
+      idPixLabel: 'MailPro',
+    }));
+
+
+    this.set('campaignParticipation', campaignParticipation);
+    this.set('campaign', campaign);
+
+    // when
+    await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation campaign=campaign}}`);
+
+    // then
+    assert.dom('.page__title').hasText('Prénom Nom');
+    assert.dom('.participant-results-content--first-part').hasText('MailPro mail@pro.net');
+    assert.dom('.participant-results-content--second-part .participant-results-content:nth-child(1)').hasText('Avancement 100%');
+    assert.dom('.participant-results-content--second-part .participant-results-content:nth-child(2)').hasText('Commencé le 7 janv' +
+      '. 2019');
+    assert.dom('.participant-results-content--second-part .participant-results-content:nth-child(3)').hasText('Partagé le 4 févr. 2019');
   });
 });
 
