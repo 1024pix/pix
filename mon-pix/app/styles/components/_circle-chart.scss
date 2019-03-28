@@ -4,18 +4,17 @@
   }
 }
 
-
 .circle-chart {
   position: relative;
   width: 100px;
   height: 100px;
 }
 
-.circle-chart__container {
+.circle-chart__content {
   margin: 2px;
   max-height: 128px;
 
-  .circle-chart {
+  .circle {
     fill: none;
     stroke-width: 1.1;
     stroke: $alto-grey;

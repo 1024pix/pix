@@ -13,7 +13,7 @@ module('Integration | Component | circle-chart', function(hooks) {
       await render(hbs`{{circle-chart}}`);
 
       // then
-      assert.dom('.circle-chart__container').exists();
+      assert.dom('.circle-chart').exists();
     });
 
     test('should display the progressing circle with given value', async function(assert) {
@@ -25,7 +25,7 @@ module('Integration | Component | circle-chart', function(hooks) {
       await render(hbs`{{circle-chart value=value}}`);
 
       // then
-      assert.dom('.circle-chart--slice').hasAttribute('stroke-dasharray',`${value}, 100`)
+      assert.dom('.circle--slice').hasAttribute('stroke-dasharray',`${value}, 100`)
     });
 
     test('should not display the progressing circle when circle is disabled', async function(assert) {
@@ -37,7 +37,7 @@ module('Integration | Component | circle-chart', function(hooks) {
       await render(hbs`{{circle-chart value=value isDisabled=true}}`);
 
       // then
-      assert.dom('.circle-chart--slice').doesNotExist();
+      assert.dom('.circle--slice').doesNotExist();
       assert.dom('.circle-chart__text').doesNotExist();
     });
   });
