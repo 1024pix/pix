@@ -45,7 +45,7 @@ class ProfileSerializer extends JSONAPISerializer {
   _serializePixScoreLink(data, entity) {
     data.relationships['pix-score'] = {
       links: {
-        related: `/api/users/${entity.id}/pixscore`
+        related: `/users/${entity.id}/pixscore`
       }
     };
   }
