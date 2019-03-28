@@ -27,6 +27,7 @@ export default function() {
 
     http://www.ember-cli-mirage.com/docs/v0.4.x/shorthands/
   */
+  this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';
 
   this.post('/memberships', createMembership);

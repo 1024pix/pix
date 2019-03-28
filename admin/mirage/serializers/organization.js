@@ -5,7 +5,7 @@ export default ApplicationSerializer.extend({
   links(organization) {
     return {
       'memberships': {
-        related: `/api/organizations/${organization.id}/memberships`
+        related: `/organizations/${organization.id}/memberships`
       }
     };
   }
