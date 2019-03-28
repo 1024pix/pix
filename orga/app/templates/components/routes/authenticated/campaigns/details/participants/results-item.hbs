@@ -13,12 +13,12 @@
   <div class="participant-results-row">
     {{#if campaignParticipation.participantExternalId}}
       <div
-        class="participant-results-content participant-results-content--large participant-results-content--first-part">
+        class="participant-results-content participant-results-content--large participant-results-content--left-wrapper">
         <div class="label-text participant-results-content__label-text">{{campaign.idPixLabel}}</div>
         <div class="content-text">{{campaignParticipation.participantExternalId}}</div>
       </div>
     {{/if}}
-    <div class="participant-results-content--second-part">
+    <div class="participant-results-content--right-wrapper">
       <div class="participant-results-content participant-results-content--large">
         <div class="label-text participant-results-content__label-text">Avancement</div>
         <div class="content-text">
@@ -128,6 +128,6 @@
     {{/if}}
   </table>
   {{#unless campaignParticipation.isShared }}
-    <div class="table__empty">En attente de résultats</div>
+    <div class="table__empty content-text">En attente de résultats</div>
   {{/unless}}
 </div>

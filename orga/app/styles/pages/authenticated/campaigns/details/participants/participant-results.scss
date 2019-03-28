@@ -44,14 +44,14 @@
     width: 100%;
   }
 
-  &--first-part {
+  &--left-wrapper {
     border-right: 1px solid $alto;
     width: 60%;
     margin: 0 0 0 3%;
     flex-shrink: 1;
   }
 
-  &--second-part {
+  &--right-wrapper {
     display: flex;
     align-items: flex-start;
     padding: 0 30px;
