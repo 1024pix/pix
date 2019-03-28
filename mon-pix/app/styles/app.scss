@@ -14,7 +14,7 @@
 @import 'globals/pix-modal';
 @import 'globals/pix-page';
 @import 'globals/buttons';
-@import 'globals/checkpoint-progress-bar';
+@import 'globals/tables';
 /* components */
 @import 'components/_blue-ribbon';
 @import 'components/_campaign-banner';
@@ -28,7 +28,7 @@
 @import 'components/challenge-response';
 @import 'components/challenge-statement';
 @import 'components/checkpoint';
-@import 'components/comparison-window';
+@import 'components/circle-chart';
 @import 'components/comparison-window';
 @import 'components/competence-by-area-item';
 @import 'components/competence-level-progress-bar';
@@ -53,6 +53,7 @@
 @import 'components/pix-logo';
 @import 'components/placement-banner';
 @import 'components/profile-panel';
+@import 'components/progression-gauge';
 @import 'components/qcm-solution-panel';
 @import 'components/qcu-solution-panel';
 @import 'components/qroc-solution-panel';

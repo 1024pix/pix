@@ -205,7 +205,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'type': 'assessment',
           'id': inserted_assessment_id,
           'attributes': {
-            'estimated-level': 0,
+            'estimated-level': null,
             'pix-score': null,
             'state': null,
             'type': 'PLACEMENT',
@@ -258,84 +258,59 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   describe('(answers provided, assessment completed) GET /api/assessments/:id', () => {
 
-    let inserted_assessment_id;
-    let inserted_good_answer_id;
-    let inserted_bad_answer_id;
+    let inserted_assessment_id, answer1, answer2;
 
     beforeEach(() => {
-      return knex('assessments').insert([{ ...inserted_assessment, state: 'completed' }]).returning('id').then(([id]) => {
-        inserted_assessment_id = id;
+      inserted_assessment_id = databaseBuilder.factory.buildAssessment({
+        ...inserted_assessment, state: 'completed' }).id;
 
-        const inserted_good_answer = {
-          value: 'any good answer',
-          result: 'ok',
-          challengeId: firstChallenge.id,
-          assessmentId: inserted_assessment_id,
-        };
-        const inserted_bad_answer = {
-          value: 'any bad answer',
-          result: 'ko',
-          challengeId: secondChallenge.id,
-          assessmentId: inserted_assessment_id,
-        };
-
-        return knex('answers').delete()
-          .then(() => knex('answers').insert(inserted_good_answer).returning('id'))
-          .then(([id]) => inserted_good_answer_id = id)
-          .then(() => knex('answers').insert(inserted_bad_answer).returning('id'))
-          .then(([id]) => inserted_bad_answer_id = id);
+      databaseBuilder.factory.buildAssessmentResult({
+        level: 1,
+        pixScore: 12,
+        assessmentId: inserted_assessment_id
       });
+
+      answer1 = databaseBuilder.factory.buildAnswer({ assessmentId: inserted_assessment_id });
+      answer2 = databaseBuilder.factory.buildAnswer({ assessmentId: inserted_assessment_id });
+
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
-      return knex('answers').delete()
-        .then(() => knex('assessments').delete());
+      return databaseBuilder.clean();
     });
 
     it('should return 200 HTTP status code', () => {
-      return knex.select('id')
-        .from('assessments')
-        .limit(1)
-        .then(() => {
-          // given
-          const options = {
-            method: 'GET',
-            url: `/api/assessments/${inserted_assessment_id}`,
-            headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
-          };
+      const options = {
+        method: 'GET',
+        url: `/api/assessments/${inserted_assessment_id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+      };
 
-          // when
-          const promise = server.inject(options);
+      // when
+      const promise = server.inject(options);
 
-          // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(200);
-          });
-        });
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
     });
 
     it('should return application/json', () => {
-      return knex.select('id')
-        .from('assessments')
-        .limit(1)
-        .then(() => {
-          // given
-          const options = {
-            method: 'GET',
-            url: `/api/assessments/${inserted_assessment_id}`,
-            headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
-          };
+      const options = {
+        method: 'GET',
+        url: `/api/assessments/${inserted_assessment_id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+      };
 
-          // when
-          const promise = server.inject(options);
+      // when
+      const promise = server.inject(options);
 
-          // then
-          return promise.then((response) => {
-            const contentType = response.headers['content-type'];
-            expect(contentType).to.contain('application/json');
-          });
-        });
-
+      // then
+      return promise.then((response) => {
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
+      });
     });
 
     it('should return the expected assessment', () => {
@@ -367,11 +342,11 @@ describe('Acceptance | API | assessment-controller-get', () => {
               'data': [
                 {
                   type: 'answers',
-                  id: inserted_good_answer_id,
+                  id: answer1.id,
                 },
                 {
                   type: 'answers',
-                  id: inserted_bad_answer_id,
+                  id: answer2.id,
                 },
               ],
             },
@@ -379,7 +354,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
         };
         const assessment = response.result.data;
         expect(assessment.attributes).to.deep.equal(expectedAssessment.attributes);
-        expect(assessment.relationships.answers).to.deep.equal(expectedAssessment.relationships.answers);
+        expect(assessment.relationships.answers.data).to.have.deep.members(expectedAssessment.relationships.answers.data);
       });
     });
   });

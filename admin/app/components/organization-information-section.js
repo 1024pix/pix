@@ -9,7 +9,7 @@ export default Component.extend({
     updateLogo(file) {
       return file.readAsDataURL().then((b64) => {
         this.set('organization.logoUrl', b64);
-        return this.get('onLogoUpdated')();
+        return this.onLogoUpdated();
       });
     }
   }

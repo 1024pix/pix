@@ -6,6 +6,8 @@ class CampaignParticipationResult {
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
+    // relationships
+    competenceResults = [],
   } = {}) {
     this.id = id;
     // attributes
@@ -13,6 +15,8 @@ class CampaignParticipationResult {
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
+    // relationships
+    this.competenceResults = competenceResults;
   }
 }
 

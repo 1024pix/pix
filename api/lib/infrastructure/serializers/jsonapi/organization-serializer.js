@@ -14,7 +14,7 @@ module.exports = {
         ignoreRelationshipData: true,
         relationshipLinks: {
           related(record, current, parent) {
-            return `/api/organizations/${parent.id}/memberships`;
+            return `/organizations/${parent.id}/memberships`;
           }
         }
       },

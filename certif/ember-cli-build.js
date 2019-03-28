@@ -16,6 +16,10 @@ module.exports = function(defaults) {
 
     flatpickr: {
       locales: ['fr']
+    },
+
+    'ember-cli-template-lint': {
+      testGenerator: 'qunit' // or 'mocha', etc.
     }
   });
 

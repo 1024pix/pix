@@ -42,7 +42,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         },
         'campaign-participations': {
           links: {
-            related: '/api/users/1234/campaign-participations'
+            related: '/users/1234/campaign-participations'
           },
         },
 

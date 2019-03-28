@@ -10,9 +10,9 @@ export default DS.Model.extend({
   status: DS.attr(),
   completedAt: DS.attr(),
   listChallengesAndAnswers: DS.attr(),
-  competences:computed('competencesWithMark', 'listChallengesAndAnswers', function() {
-    const competenceData = this.get('competencesWithMark');
-    const answers = this.get('listChallengesAndAnswers');
+  competences: computed('competencesWithMark', 'listChallengesAndAnswers', function() {
+    const competenceData = this.competencesWithMark;
+    const answers = this.listChallengesAndAnswers;
     let count = 1;
     answers.forEach(answer => {
       answer.order = count;
@@ -37,10 +37,10 @@ export default DS.Model.extend({
     });
     return sortedCompetences;
   }),
-  creationDate:computed('createdAt', function() {
-    return (new Date(this.get('createdAt'))).toLocaleString('fr-FR');
+  creationDate: computed('createdAt', function() {
+    return (new Date(this.createdAt)).toLocaleString('fr-FR');
   }),
-  completionDate:computed('completedAt', function() {
-    return (new Date(this.get('completedAt'))).toLocaleString('fr-FR');
+  completionDate: computed('completedAt', function() {
+    return (new Date(this.completedAt)).toLocaleString('fr-FR');
   })
 });

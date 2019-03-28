@@ -5,14 +5,14 @@ import { computed } from '@ember/object';
 export default Controller.extend({
 
   //Properties
-  certificationId:null,
-  loading:false,
+  certificationId: null,
+  loading: false,
 
   // Private properties
-  router:service(),
+  router: service(),
 
   isValid: computed('certificationStatus', function() {
-    return this.get('certificationStatus') !== 'missing-assessment';
+    return this.certificationStatus !== 'missing-assessment';
   }),
 
   // Actions

@@ -21,11 +21,12 @@ module.exports = class DatabaseBuilder {
 
   clean() {
     const initialPromise = Promise.resolve();
+    const objectsToDelete = this.databaseBuffer.objectsToInsert.slice().reverse();
 
-    return this.databaseBuffer.objectsToInsert.reduce((promise, objectToInsert) => {
+    return objectsToDelete.reduce((promise, objectToDelete) => {
 
       return promise
-        .then(() => this.knex(objectToInsert.tableName).delete());
+        .then(() => this.knex(objectToDelete.tableName).delete());
 
     }, initialPromise)
       .then(() => {

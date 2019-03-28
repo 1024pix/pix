@@ -27,7 +27,7 @@ export default DS.JSONAPISerializer.extend({
       if (options.includeId) {
         data.id = parseInt(snapshot.id);
       }
-      return {data:data};
+      return { data: data };
     } else {
       return this._super(...arguments);
     }

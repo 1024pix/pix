@@ -213,6 +213,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
             attributes: {
               'estimated-level': 4,
               'pix-score': 4,
+              type: 'PLACEMENT'
             },
             relationships: {
               user: {
@@ -230,40 +231,13 @@ describe('Unit | Controller | assessment-controller-save', () => {
         },
       };
 
-      const deserializedAssessment = Assessment.fromAttributes({ id: 42, courseId: 'recCourseId', type: 'PLACEMENT' });
-      const assessment = Assessment.fromAttributes({
-        id: 42,
-        courseId: 'recCourseId',
-        createdAt: undefined,
-        userId: 'userId',
-        state: 'started',
-        type: 'PLACEMENT',
-        answers: [],
-        assessmentResults: [],
-        course: undefined,
-        targetProfile: undefined,
-        campaignParticipation: undefined,
-      });
-      const serializedAssessment = {
-        id: 42,
-        attributes: {
-          'estimated-level': 4,
-        },
-      };
+      const aStartedPlacement = Symbol('a started placement');
+      const aSerializedAssessment = Symbol('a serialized assessment');
 
       beforeEach(() => {
-        sinon.stub(assessmentSerializer, 'deserialize').returns(deserializedAssessment);
         sinon.stub(tokenService, 'extractUserId').returns('userId');
-        sinon.stub(assessmentRepository, 'save').resolves(deserializedAssessment);
-        sinon.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
-      });
-
-      it('should de-serialize the payload', async () => {
-        // when
-        await controller.save(request, hFake);
-
-        // then
-        sinon.assert.calledWith(assessmentSerializer.deserialize, request.payload);
+        sinon.stub(usecases, 'startPlacementAssessment').returns(aStartedPlacement);
+        sinon.stub(assessmentSerializer, 'serialize').returns(aSerializedAssessment);
       });
 
       it('should call a service that extract the id of user', async () => {
@@ -274,20 +248,12 @@ describe('Unit | Controller | assessment-controller-save', () => {
         expect(tokenService.extractUserId).to.have.been.calledWith('my-token');
       });
 
-      it('should persist the deserializedAssessment', async () => {
-        // when
-        await controller.save(request, hFake);
-
-        // then
-        expect(assessmentRepository.save).to.have.been.calledWith(assessment);
-      });
-
       it('should serialize the deserializedAssessment after its creation', async () => {
         // when
         await controller.save(request, hFake);
 
         // then
-        expect(assessmentSerializer.serialize).to.have.been.calledWith(deserializedAssessment);
+        expect(assessmentSerializer.serialize).to.have.been.calledWith(aStartedPlacement);
       });
 
       it('should reply the serialized deserializedAssessment with code 201', async () => {
@@ -295,7 +261,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         const response = await controller.save(request, hFake);
 
         // then
-        expect(response.source).to.deep.equal(serializedAssessment);
+        expect(response.source).to.deep.equal(aSerializedAssessment);
         expect(response.statusCode).to.equal(201);
       });
     });

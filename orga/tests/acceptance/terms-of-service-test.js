@@ -1,8 +1,14 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { authenticateSession, currentSession } from 'ember-simple-auth/test-support';
-import { createUserWithMembership, createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
+import {
+  authenticateSession,
+  currentSession
+} from 'ember-simple-auth/test-support';
+import {
+  createUserWithMembership,
+  createUserWithMembershipAndTermsOfServiceAccepted
+} from '../helpers/test-init';
 import { Response } from 'ember-cli-mirage';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';

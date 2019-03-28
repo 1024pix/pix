@@ -28,14 +28,14 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   _loadCurrentUser() {
-    return this.get('currentUser').load()
+    return this.currentUser.load()
       .catch((error) => {
-        this.get('session').invalidate();
+        this.session.invalidate();
         throw error;
       });
   },
 
   _loadCurrentOrganization(user) {
-    return this.get('currentOrganization').load(user);
+    return this.currentOrganization.load(user);
   }
 });

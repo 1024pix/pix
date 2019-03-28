@@ -30,7 +30,7 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
   test('it should send campaign creation action when submitted', async function(assert) {
     // given
-    this.set('model', new EmberObject({}));
+    this.set('model', EmberObject.create({}));
 
     // when
     await render(hbs`{{routes/authenticated/campaigns/new-item campaign=model createCampaign=(action createCampaignSpy) cancel=(action cancelSpy)}}`);
@@ -44,7 +44,7 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
 
   test('it should display error message when error occured on registration of one field', async function(assert) {
     // given
-    this.set('model', new EmberObject({
+    this.set('model', EmberObject.create({
       errors: {
         name: [
           {
