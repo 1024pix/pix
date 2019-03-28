@@ -69,6 +69,7 @@ module.exports = function(environment) {
   if (environment === 'test') {
     // Testem prefers this...
     ENV.locationType = 'none';
+    ENV.APP.API_HOST = 'http://localhost:3000';
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
