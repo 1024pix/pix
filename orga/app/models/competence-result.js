@@ -1,7 +1,7 @@
 import DS from 'ember-data';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
-import domainColors from 'mon-pix/static-data/domain-colors';
+import domainColors from 'pix-orga/static-data/domain-colors';
 
 const { Model, attr, belongsTo } = DS;
 
@@ -13,7 +13,7 @@ export default Model.extend({
   validatedSkillsCount: attr('number'),
   campaignParticipationResult: belongsTo('campaignParticipationResult'),
 
-  totalSkillsCountPercentage: computed('totalSkillsCount', 'campaignParticipationResult', function() {
+  totalSkillsCountPercentage: computed('totalSkillsCount', 'campaignParticipationResult.maxTotalSkillsCountInCompetences', function() {
     return Math.round(this.totalSkillsCount * 100 / this.campaignParticipationResult.get('maxTotalSkillsCountInCompetences'));
   }),
 
