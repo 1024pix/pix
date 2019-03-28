@@ -64,7 +64,7 @@ On ne commit le `package-lock.json` qu'en cas de modification du `package.json`
 
 #### Global
 Sauf exception, privilégier l'ordre alphabétique pour trier une suite de déclarations, require, ...
-```
+```javascript
 // BAD
 const sessionRepository = require(...);
 const assessmentRepository = require(...);
@@ -83,7 +83,7 @@ const sessionRepository = require(...);
 
 ###### Domaine
 Une entité du domaine ne contient pas de préfix.
-```
+```javascript
 const User = require(../../User);
 
 const myUser = new User({});
@@ -91,7 +91,7 @@ const myUser = new User({});
 
 ###### Bookshelf
 Une entité bookshelf doit être préfixée par "Bookshelf".
-```
+```javascript
 const BookshelfUser = require(../../User);
 
 const myBookshelfUser = new BookshelfUser({});
@@ -103,7 +103,7 @@ const myBookshelfUser = new BookshelfUser({});
 
 Exemples :
 
-```
+```javascript
 const User = require(...)
 
 const userRepository = ...
@@ -115,7 +115,7 @@ const userName = ...
 
 Ajouter de tags et de notes au moment de la déclaration des routes de l'API.
 
-```
+```javascript
 server.route([
     {
       method: 'GET',
@@ -144,7 +144,7 @@ Un usecase:
  - require seulement des éléments venant du domaine
  - récupèrent leurs dépendances vers l'extérieur en tant que paramètres donnée à la fonction
 
-```
+```javascript
 // BAD
 const myRepository = require(../../../infrastructure/repositories/myRepository);
 
@@ -278,10 +278,10 @@ Séparer le style du positionnement. On peut par exemple utiliser `@mixin`
 Utilisation des __rem__ pour les fonts: size, lettering, letter-spaces.  
 Utilisation des __px__ pour le positionnement: padding, border, margin.
 
-```
+```scss
 .my-class {
- size: 1.3em;
- padding: 10px 12px;
+  size: 1.3em;
+  padding: 10px 12px;
 }
 ```
 
