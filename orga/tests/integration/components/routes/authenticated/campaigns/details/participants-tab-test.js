@@ -37,10 +37,10 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
 
     // then
     assert.dom('.participant-list__header').hasText(`Liste des participants (${participants.meta.rowCount})`);
-    assert.dom('.participant-list__no-participants').doesNotExist();
-    assert.dom('.table tbody tr td:first-child').hasText('Doe');
-    assert.dom('.table tbody tr td:nth-child(2)').hasText('John');
-    assert.dom('.table tbody tr td:nth-child(3)').doesNotExist();
+    assert.dom('.table__empty').doesNotExist();
+    assert.dom('table tbody tr td:first-child').hasText('Doe');
+    assert.dom('table tbody tr td:nth-child(2)').hasText('John');
+    assert.dom('table tbody tr td:nth-child(3)').doesNotExist();
   });
 
   test('it should display the participant list of the campaign with external id', async function (assert) {
@@ -67,9 +67,9 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
 
     // then
     assert.dom('.participant-list__header').hasText(`Liste des participants (${participants.meta.rowCount})`);
-    assert.dom('.table tbody tr td:first-child').hasText('Doe');
-    assert.dom('.table tbody tr td:nth-child(2)').hasText('John');
-    assert.dom('.table tbody tr td:nth-child(3)').hasText('123');
+    assert.dom('table tbody tr td:first-child').hasText('Doe');
+    assert.dom('table tbody tr td:nth-child(2)').hasText('John');
+    assert.dom('table tbody tr td:nth-child(3)').hasText('123');
   });
 
   test('it should display a sentence when there is no participant yet', async function (assert) {
@@ -92,7 +92,7 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
 
     // then
     assert.dom('.participant-list__header').hasText(`Liste des participants (${participants.meta.rowCount})`);
-    assert.dom('.table tbody').doesNotExist();
-    assert.dom('.participant-list__no-participants').hasText('En attente de participants');
+    assert.dom('table tbody').doesNotExist();
+    assert.dom('.table__empty').hasText('En attente de participants');
   });
 });

@@ -2,7 +2,7 @@
   <div class="participant-list__header">
     Liste des participants ({{participants.meta.rowCount}})
   </div>
-  <div class="table content-text content-text--small">
+  <div class="content-text content-text--small">
     <table>
       <thead>
         <tr>
@@ -30,7 +30,7 @@
     </table>
 
     {{#unless participants}}
-      <div class="participant-list__no-participants">En attente de participants</div>
+      <div class="table__empty content-text">En attente de participants</div>
     {{/unless}}
   </div>
 </div>

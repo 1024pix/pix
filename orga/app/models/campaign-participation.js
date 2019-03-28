@@ -9,5 +9,5 @@ export default Model.extend({
   sharedAt: attr('date'),
   campaign: belongsTo('campaign'),
   user: belongsTo('user'),
-  campaignParticipationResult: belongsTo('campaignParticipationResult')
+  campaignParticipationResult: belongsTo('campaignParticipationResult'),
 });
