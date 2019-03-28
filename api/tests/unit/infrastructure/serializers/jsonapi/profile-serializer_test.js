@@ -166,6 +166,11 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
                 related: '/users/user_id/campaign-participations'
               },
             },
+            'pix-score': {
+              links: {
+                related: '/users/user_id/pixscore'
+              }
+            },
           },
         },
         included: [
@@ -307,6 +312,11 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               links: {
                 related: '/users/user_id/campaign-participations'
               },
+            },
+            'pix-score': {
+              links: {
+                related: '/users/user_id/pixscore'
+              }
             },
           },
         },
