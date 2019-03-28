@@ -28,7 +28,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation}}`);
 
     // then
-    assert.dom('.participant-results-content--multiple .content-text--big').hasText('-');
+    assert.dom('.participant-results-content__summary .content-text--big').hasText('-');
     assert.dom('.table__empty').hasText('En attente de résultats');
   });
 
@@ -56,7 +56,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation}}`);
 
     // then
-    assert.dom('.participant-results-content--multiple .content-text--big').hasText('-');
+    assert.dom('.participant-results-content__summary .content-text--big').hasText('-');
     assert.dom('.table__empty').hasText('En attente de résultats');
   });
 
@@ -88,9 +88,9 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     await render(hbs`{{routes/authenticated/campaigns/details/participants/results-item campaignParticipation=campaignParticipation}}`);
 
     // then
-    assert.dom('.participant-results-content--multiple .participant-results-content .content-text--big').hasText('1');
-    assert.dom('.participant-results-content--multiple .participant-results-content:nth-child(2) .content-text--big').hasText('15');
-    assert.dom('.participant-results-content--multiple .participant-results-content:nth-child(3) .content-text--big').hasText('30');
+    assert.dom('.participant-results-content__summary .participant-results-content .content-text--big').hasText('1');
+    assert.dom('.participant-results-content__summary .participant-results-content:nth-child(2) .content-text--big').hasText('15');
+    assert.dom('.participant-results-content__summary .participant-results-content:nth-child(3) .content-text--big').hasText('30');
     assert.dom('.participant-results-content__circle-chart-value').hasText('50%');
 
     assert.dom('table tbody tr').exists({ count: 1 });
