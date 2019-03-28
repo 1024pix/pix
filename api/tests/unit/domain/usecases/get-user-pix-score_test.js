@@ -1,4 +1,4 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getUserPixScore = require('../../../../lib/domain/usecases/get-user-pix-score');
 
@@ -7,7 +7,7 @@ describe('Unit | UseCase | get-user-pix-score', () => {
   let smartPlacementKnowledgeElementRepository;
 
   beforeEach(() => {
-    smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    smartPlacementKnowledgeElementRepository = { getSumOfPixFromUserKnowledgeElements: sinon.stub() };
   });
 
   afterEach(() => {
@@ -18,7 +18,7 @@ describe('Unit | UseCase | get-user-pix-score', () => {
     // given
     const authenticatedUserId = 2;
     const requestedUserId = 2;
-    smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
+    smartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves([]);
 
     // when
     const promise = getUserPixScore({
@@ -35,7 +35,7 @@ describe('Unit | UseCase | get-user-pix-score', () => {
     // given
     const authenticatedUserId = 34;
     const requestedUserId = 2;
-    smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
+    smartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves([]);
 
     // when
     const promise = getUserPixScore({
@@ -58,12 +58,7 @@ describe('Unit | UseCase | get-user-pix-score', () => {
       value: sumOfPixKnowledgeElement
     };
 
-    const knowledgeElementList = [
-      domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1, earnedPix: 1 }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 2, earnedPix: 2 }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 3, earnedPix: 3 }),
-    ];
-    smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
+    smartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves(sumOfPixKnowledgeElement);
 
     // when
     const userPixScore = await getUserPixScore({

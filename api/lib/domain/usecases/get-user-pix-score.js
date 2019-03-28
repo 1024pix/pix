@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository }) => {
@@ -7,6 +6,6 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const userKnowledgeElements = await smartPlacementKnowledgeElementRepository.findUniqByUserId(requestedUserId);
-  return { id: requestedUserId, value: _.sumBy(userKnowledgeElements, 'earnedPix') };
+  const userPixScore = await smartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(requestedUserId);
+  return { id: requestedUserId, value: userPixScore };
 };

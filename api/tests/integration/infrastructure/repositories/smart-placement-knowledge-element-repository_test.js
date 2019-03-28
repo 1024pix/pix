@@ -82,10 +82,21 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       const answer3Id = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentIdOther }).id;
 
       knowledgeElementsWanted = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer1Id, createdAt: '' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer2Id, createdAt: '' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          assessmentId,
+          answerId: answer1Id,
+          createdAt: ''
+        }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          assessmentId,
+          answerId: answer2Id,
+          createdAt: ''
+        })
       ];
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessmentIdOther, answerId: answer3Id });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        assessmentId: assessmentIdOther,
+        answerId: answer3Id
+      });
       await databaseBuilder.commit();
     });
 
@@ -121,15 +132,36 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       userId = databaseBuilder.factory.buildUser().id;
 
       knowledgeElementsWantedWithLimitDate = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, createdAt: yesterday, skillId: '1' , userId }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, createdAt: yesterday, skillId: '3', status: 'validated', userId })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          id: 1,
+          createdAt: yesterday,
+          skillId: '1',
+          userId
+        }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          id: 2,
+          createdAt: yesterday,
+          skillId: '3',
+          status: 'validated',
+          userId
+        })
       ];
 
       knowledgeElementsWanted = knowledgeElementsWantedWithLimitDate.concat([
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 3, createdAt: tomorrow, skillId: '2', userId })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          id: 3,
+          createdAt: tomorrow,
+          skillId: '2',
+          userId
+        })
       ]);
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 4, createdAt: dayBeforeYesterday, skillId: '3', status: 'invalidated' }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 4,
+        createdAt: dayBeforeYesterday,
+        skillId: '3',
+        status: 'invalidated'
+      }),
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, createdAt: yesterday }),
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, createdAt: yesterday }),
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 7, createdAt: today });
@@ -167,5 +199,73 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       });
     });
 
+  });
+
+  describe('#getSumOfPixFromUserKnowledgeElements', () => {
+
+    let userId;
+    const today = new Date('2018-08-01T12:34:56Z');
+    const yesterday = moment(today).subtract(1, 'days').toDate();
+
+    beforeEach(async () => {
+      // given
+      userId = databaseBuilder.factory.buildUser().id;
+
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 1,
+        skillId: '1',
+        userId,
+        earnedPix: 1,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 2,
+        skillId: '2',
+        status: 'validated',
+        userId,
+        earnedPix: 1,
+        createdAt: today,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 3,
+        skillId: '2',
+        userId,
+        earnedPix: 1,
+        createdAt: yesterday,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 4,
+        skillId: '2',
+        status: 'validated',
+        userId,
+        earnedPix: 1,
+        createdAt: yesterday,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 5,
+        skillId: '3',
+        userId,
+        earnedPix: 1,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 6,
+        skillId: '1',
+        status: 'invalidated',
+        userId: userId + 1,
+        earnedPix: 1,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the right sum of Pix from user knowledge elements', async () => {
+      // when
+      const result = await SmartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(userId);
+
+      expect(result).to.be.equal(3);
+    });
   });
 });
