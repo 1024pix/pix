@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.32.0 (28/03/2019)
+
+- [#416](https://github.com/1024pix/pix/pull/416) [FEATURE] Ajout des résultats par compétences au résultat d'un participant (PF-543).
+- [#417](https://github.com/1024pix/pix/pull/417) [FEATURE] Téléchargement du PV de session (PC-9).
+- [#434](https://github.com/1024pix/pix/pull/434) [BUGFIX] Suppression du namespace /api dans Pix Admin (PA-81).
+- [#429](https://github.com/1024pix/pix/pull/429) [BUGFIX] Afficher le bon message coté front quand l'utilisateur n'a pas partagé sa campagne (PF-541).
+- [#426](https://github.com/1024pix/pix/pull/426) [BUGFIX] Correction de l'affichage du pourcentage dans le cercle de progression sous IE (PF-552).
+- [#431](https://github.com/1024pix/pix/pull/431) [TECH] Faire que les tests unitaires de l'API passent sans base de données.
+- [#428](https://github.com/1024pix/pix/pull/428) [TECH] DatabaseBuilder: reverse the deletion order.
+- [#408](https://github.com/1024pix/pix/pull/408) [TECH] Montée de version d'Ember et des dépendances pour Pix Admin/Certif/Orga (PF-524).
+- [#415](https://github.com/1024pix/pix/pull/415) [TECH] Ne plus recalculer le résultat de l'assessment à chaque appel (PF-549).
+- [#424](https://github.com/1024pix/pix/pull/424) [TECH] Ajoute un script Docker-compose.
+- [#422](https://github.com/1024pix/pix/pull/422) [TECH] Affichage des résultats détaillés sur la page de fin de parcours (PF-543-2).
+- [#420](https://github.com/1024pix/pix/pull/420) [TECH] Faire que les tests unitaires de l'API passent sans base de données.
+
 ## v2.31.1 (19/03/2019)
 
 - [#414](https://github.com/1024pix/pix/pull/414) [TECH] Correction du build CircleCI en forçant Chrome 72
