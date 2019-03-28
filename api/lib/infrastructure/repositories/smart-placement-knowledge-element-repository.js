@@ -27,7 +27,7 @@ module.exports = {
     return BookshelfKnowledgeElement
       .query((qb) => {
         qb.where({ userId });
-        if(limitDate) {
+        if (limitDate) {
           qb.where('knowledge-elements.createdAt', '<', limitDate);
         }
       })
@@ -38,6 +38,17 @@ module.exports = {
           .orderBy('createdAt', 'desc')
           .uniqBy('skillId')
           .value();
+      });
+  },
+
+  getSumOfPixFromUserKnowledgeElements(userId) {
+    return BookshelfKnowledgeElement
+      .query((qb) => {
+        qb.select('earnedPix').where({ userId }).orderBy('createdAt', 'desc').distinct('skillId');
+      })
+      .fetchAll()
+      .then((pixValues) => {
+        return _.sumBy(pixValues.toJSON(), 'earnedPix');
       });
   }
 };
