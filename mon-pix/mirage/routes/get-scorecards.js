@@ -1,56 +1,35 @@
 export default function(schema, request) {
   const userId = request.params.id;
 
-  return {
-    data: {
-      type: 'scorecards',
-      id: userId,
-      'attributes': {
-        'name': 'Keyboard',
-        'index': '61',
-        'course-id': '1',
-        'skills': [
-          {
-            'id': '1',
-            'name': 'Skill 1',
-            'pixValue': 1,
-            'competenceId': '5'
-          },
-          {
-            'id': '2',
-            'name': 'Skill 2',
-            'pixValue': 3,
-            'competenceId': '4'
-          },
-          {
-            'id': '3',
-            'name': 'Skill 3',
-            'pixValue': 0,
-            'competenceId': '1'
-          }
-        ],
-        'earned-pix': '7',
-        'level': '2',
-        'percentage-on-level': '0.67'
-      },
-      'relationships': {
-        'area': {
-          'data': {
-            'id': '1',
-            'type': 'areas'
-          }
-        }
-      }
-    },
-    'included': [
-      {
-        'attributes': {
-          'code': 1,
-          'title': 'Potions magiques'
-        },
-        'id': '1',
-        'type': 'areas'
-      }
-    ]
-  };
+  const area1 = schema.areas.find(1);
+  const area2 = schema.areas.find(2);
+  const area3 = schema.areas.find(3);
+
+  const scorecardN1 = schema.scorecards.create({
+    name: 'Compétence C1',
+    earnedPix: 3,
+    level: 2,
+    percentageOnLevel: 0.40,
+    area: area1
+  });
+  const scorecardN2 = schema.scorecards.create({
+    name: 'Compétence C2',
+    earnedPix: 7,
+    level: 2,
+    percentageOnLevel: 0.90,
+    area: area2
+  });
+  const scorecardN3 = schema.scorecards.create({
+    name: 'Compétence C3',
+    earnedPix: 10,
+    level: 3,
+    percentageOnLevel: 0.67,
+    area: area3
+  });
+
+  const user = schema.users.find(userId);
+  user.update('scorecards', [scorecardN1, scorecardN2, scorecardN3]);
+
+  return user.scorecards;
+
 }
