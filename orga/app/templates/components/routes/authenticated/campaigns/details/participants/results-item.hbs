@@ -67,7 +67,7 @@
         </div>
       </div>
       <div class="participant-results-content participant-results-content--large participant-results-content--wide">
-        <div class="label-text participant-results-content__label-text">Acquis obtenus</div>
+        <div class="label-text participant-results-content__label-text">Acquis validés</div>
         <div class="content-text content-text--big">
           {{if campaignParticipation.isShared
                campaignParticipation.campaignParticipationResult.validatedSkillsCount '-' }}
@@ -99,8 +99,9 @@
   <table>
     <thead>
     <tr>
-      <th class="table__column">Compétences</th>
-      <th class="table__column--wide">Acquis obtenus</th>
+      <th class="table__column--wide">Compétences testées</th>
+      <th class="table__column--wide">Résultats</th>
+      <th class="table__column--small">Acquis validés</th>
       <th class="table__column--small">Acquis évalués</th>
     </tr>
     </thead>
@@ -117,10 +118,10 @@
           <td>
             {{#progression-gauge total=competence.totalSkillsCountPercentage
                                  value=competence.validatedSkillsPercentage}}
-              <p class="sr-only">Ce participant a validé </p>{{competence.validatedSkillsCount}}<p class="sr-only">
-              acquis de la compétence {{competence.name}}.</p>
+              <p class="sr-only">Ce participant a validé </p>{{competence.validatedSkillsPercentage}}%<p class="sr-only"> de la compétence {{competence.name}}.</p>
             {{/progression-gauge}}
           </td>
+          <td>{{competence.validatedSkillsCount}}</td>
           <td>{{competence.totalSkillsCount}}</td>
         </tr>
       {{/each}}
