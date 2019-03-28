@@ -95,8 +95,9 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
 
     assert.dom('table tbody tr').exists({ count: 1 });
     assert.dom('table tbody tr td span:nth-child(2)').hasText('Compétence 1');
-    assert.dom('table tbody tr td:nth-child(2)').containsText('5 acquis');
-    assert.dom('table tbody tr td:nth-child(3)').hasText('10');
+    assert.dom('table tbody tr td:nth-child(2)').containsText('50%');
+    assert.dom('table tbody tr td:nth-child(3)').hasText('5');
+    assert.dom('table tbody tr td:nth-child(4)').hasText('10');
   });
 
   test('it should display participant details', async function(assert) {
