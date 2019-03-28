@@ -16,6 +16,10 @@
   &__result {
     padding: 10px;
   }
+
+  &__details {
+    margin-bottom: 30px;
+  }
 }
 
 .participant-results-header {
@@ -44,20 +48,21 @@
     width: 100%;
   }
 
-  &--left-wrapper {
+  &__left-wrapper {
     border-right: 1px solid $alto;
     width: 60%;
     margin: 0 0 0 3%;
     flex-shrink: 1;
   }
 
-  &--right-wrapper {
+  &__right-wrapper {
     display: flex;
     align-items: flex-start;
-    padding: 0 30px;
     justify-content: space-around;
     flex-shrink: 0;
     flex-grow: 1;
+    min-width: 370px;
+    max-width: 600px;
 
     .participant-results-content--large {
       flex-shrink: 0;

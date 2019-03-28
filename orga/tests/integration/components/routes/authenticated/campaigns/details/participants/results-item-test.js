@@ -135,11 +135,11 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
 
     // then
     assert.dom('.page__title').hasText('Prénom Nom');
-    assert.dom('.participant-results-content--left-wrapper').hasText('MailPro mail@pro.net');
-    assert.dom('.participant-results-content--right-wrapper .participant-results-content:nth-child(1)').hasText('Avancement 100%');
-    assert.dom('.participant-results-content--right-wrapper .participant-results-content:nth-child(2)').hasText('Commencé le 7 janv' +
+    assert.dom('.participant-results-content__left-wrapper').hasText('MailPro mail@pro.net');
+    assert.dom('.participant-results-content__right-wrapper .participant-results-content:nth-child(1)').hasText('Avancement 100%');
+    assert.dom('.participant-results-content__right-wrapper .participant-results-content:nth-child(2)').hasText('Commencé le 7 janv' +
       '. 2019');
-    assert.dom('.participant-results-content--right-wrapper .participant-results-content:nth-child(3)').hasText('Partagé le 4 févr. 2019');
+    assert.dom('.participant-results-content__right-wrapper .participant-results-content:nth-child(3)').hasText('Partagé le 4 févr. 2019');
   });
 });
 
