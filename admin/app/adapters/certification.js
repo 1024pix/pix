@@ -2,15 +2,15 @@ import ApplicationAdapter from './application';
 
 export default ApplicationAdapter.extend({
   urlForFindRecord(id) {
-    return `${this.host}/api/admin/certifications/${id}`;
+    return `${this.host}/admin/certifications/${id}`;
   },
 
   urlForUpdateMarks() {
-    return `${this.host}/api/admin/assessment-results/`;
+    return `${this.host}/admin/assessment-results/`;
   },
 
   urlForUpdateRecord(id) {
-    return `${this.host}/api/certification-courses/${id}`;
+    return `${this.host}/certification-courses/${id}`;
   },
 
   updateRecord(store, type, snapshot) {
