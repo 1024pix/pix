@@ -3,8 +3,7 @@ import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import ENV from 'pix-admin/config/environment';
 
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-  host: ENV.APP.API_HOST,
-  namespace: 'api',
+  host: `${ENV.APP.API_HOST}/api`,
 
   authorize(xhr) {
     let { access_token } = this.get('session.data.authenticated');
