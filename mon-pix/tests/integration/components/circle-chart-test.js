@@ -14,7 +14,7 @@ describe('Integration | Component | circle-chart', function() {
       await render(hbs`{{circle-chart}}`);
 
       // then
-      expect(this.element.querySelector('.circle-chart__container')).to.exist;
+      expect(this.element.querySelector('.circle-chart')).to.exist;
     });
 
     it('should display the progressing circle with given value', async function() {
@@ -26,7 +26,7 @@ describe('Integration | Component | circle-chart', function() {
       await render(hbs`{{circle-chart value=value}}`);
 
       // then
-      expect(this.element.querySelector('.circle-chart--slice').getAttribute('stroke-dasharray')).to.equal(`${value}, 100`);
+      expect(this.element.querySelector('.circle--slice').getAttribute('stroke-dasharray')).to.equal(`${value}, 100`);
     });
   });
 });
