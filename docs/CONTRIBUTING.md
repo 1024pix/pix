@@ -167,6 +167,8 @@ Test unitaire : un test unitaire doit passer sans base de données.
 
 Peu importe l'apparence des h*, les personnes qui voient les titres comprennent. En revanche les personnes qui naviguent avec le clavier au __voiceOver__ ont besoin que le html soit explicite le plus possible pour que leur outil sache les lire correctement.
 
+Concrètement, ce n'est pas une mauvaise pratique d'avoir un h1 visuellement plus petit/moins contrasté/etc. qu'un h2. L'important est de conserver une __structure html en cascade__ pour le voiceOver (et le référencement web).
+
 ### CSS
 
 ##### Couleurs
@@ -192,8 +194,14 @@ Rassembler les couleurs dans un seul et même fichier scss (palette.scss ou colo
   right: 24132px;
   bottom: 12345px;
 }
-
 ```
+
+###### Pros
+> CSS plus robuste c'est à dire à quel point mon CSS fait le design attendu lorsque le CSS autour de lui bouge.
+
+###### Cons
+> Lisibilité plus faible puisqu'en position absolute, le parent doit être en position relative, etc.
+> On modifie plus de classes que besoin.
 
 ##### Responsive design
 
@@ -244,7 +252,8 @@ Privilégier le plus possible la création de classes filles __visuellement plus
 
 ###### Séparation des responsabilités
 
-Séparer le style du positionnement. On peut par exemple utiliser `@mixin`
+Séparer le style du positionnement. On peut par exemple utiliser `@mixin`.
+L'idée est de dissocier facilement et _a minima_ le style du positionnement pour pouvoir éventuellement réutiliser le style ailleurs. Même si c'est préférable, il ne s'agit pas forcément de séparer les classes au moment du processing.
 
 ```scss
 // BAD
@@ -280,7 +289,7 @@ Utilisation des __px__ pour le positionnement: padding, border, margin.
 
 ```scss
 .my-class {
-  size: 1.3em;
+  size: 1.3rem;
   padding: 10px 12px;
 }
 ```
@@ -290,33 +299,43 @@ Utilisation des __px__ pour le positionnement: padding, border, margin.
 ##### Components
 
 ###### Création de classes css
-Privilégier la création de classes CSS dans le `.hbs` plutôt que dans le `.js`
+Privilégier la création de classes CSS dans le `.hbs` ou dans le `.js` en fonction du besoin.
+
+###### Dans le `.js`
+> Lorsque la classe css n'a pas de besoin de propriétés particulières, il suffit de la déclarer dans le `.js`.
 
 ```javascript
-// BAD 
 export default Component.extend({
   classNames: ['hexagon-score'], // qui va rajouter cette class à la div créée par Ember pour injecter le component
 });
 ```
 
 ```html
-// BAD
 <div class="hexagon-score__content">
   <div class="hexagon-score-content__title">PIX</div>
   <div class="hexagon-score-content__pix-score">{{score}}</div>
   <div class="hexagon-score-content__pix-total">1024</div>
 </div>
 ```
+Au niveau de la structure `html`, la div apparaitra sous la forme suivante :
+```html
+<div class="ember-view" id="ember123">
+  <div class="hexagon-score__content">
+    <div class="hexagon-score-content__title">PIX</div>
+    <div class="hexagon-score-content__pix-score">{{score}}</div>
+    <div class="hexagon-score-content__pix-total">1024</div>
+  </div>
+</div>
+```
+###### Dans le `.hbs`
+> Lorsque la classe css a besoin de propriétés particulières, il suffit de la déclarer dans le `.hbs`. Au niveau de la structure `html`, le structure sera identique au `.hbs`.
 
 ```javascript
-// GOOD
 export default Component.extend({
   // component stuff
 });
 ```
-
 ```html
-// GOOD
 <div class="hexagon-score">
   <div class="hexagon-score__content">
     <div class="hexagon-score-content__title">PIX</div>
@@ -327,27 +346,6 @@ export default Component.extend({
 ```
 
 ##### Routes
-
-###### Accéder à une ressource
-
-Privilégier l'utilisation de `this.store` plutôt que `this.get('store')`
-
-```javascript
-// BAD
-export default Route.extend({
-  model() {
-    const store = this.get('store');
-    return store.findRecord('user', this.get('session.data.authenticated.userId'));
-  },
-});
-
-// GOOD
-export default Route.extend({
-  model() {
-    return this.store.findRecord('user', this.get('session.data.authenticated.userId'));
-  },
-});
-```
 
 ###### Utilisation de transitionTo
 
@@ -380,5 +378,4 @@ export default Route.extend({
       }
     }
 });
-```
 ```
