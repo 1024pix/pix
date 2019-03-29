@@ -41,6 +41,7 @@ module.exports = {
       });
   },
 
+  // TODO improve sum with pg request
   getSumOfPixFromUserKnowledgeElements(userId) {
     return BookshelfKnowledgeElement
       .query((qb) => {
