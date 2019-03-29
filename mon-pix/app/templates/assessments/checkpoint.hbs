@@ -11,9 +11,9 @@
 
       <div class="checkpoint-progression-gauge-wrapper">
 
-        {{#progression-gauge total=100 value=model.smartPlacementProgression.completionPercentage
+        {{#progression-gauge total=100 value=completionPercentage
                              progressionClass="progression-gauge--white progression-gauge--tooltip-left"}}
-          <p class="sr-only">Vous avez effectué</p>{{model.smartPlacementProgression.completionPercentage}}%<p
+          <p class="sr-only">Vous avez effectué</p>{{completionPercentage}}%<p
           class="sr-only"> de votre parcours.</p>
         {{/progression-gauge}}
 
