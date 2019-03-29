@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.33.0 (29/03/2019)
+
+- [#433](https://github.com/1024pix/pix/pull/433) [FEATURE] Ajout des CGUs sur Pix Certif (PC-11).
+- [#430](https://github.com/1024pix/pix/pull/430) [FEATURE] Affichage des résultats de campagne par participant dans Pix Orga (PO-193).
+- [#432](https://github.com/1024pix/pix/pull/432) [BUGFIX] Ne pas garder en mémoire les réponses dont l'enregistrement a échoué (PF-555).
+
 ## v2.32.0 (28/03/2019)
 
 - [#416](https://github.com/1024pix/pix/pull/416) [FEATURE] Ajout des résultats par compétences au résultat d'un participant (PF-543).
