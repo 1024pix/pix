@@ -25,7 +25,7 @@ export default Component.extend(EmberKeyboardMixin, {
 
   init() {
     this._super(...arguments);
-    this.get('store').findRecord('user', this.get('session.data.authenticated.userId'))
+    this.store.findRecord('user', this.get('session.data.authenticated.userId'))
       .then((user) => this.set('_user', user));
   },
 

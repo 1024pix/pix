@@ -11,18 +11,18 @@ export default Component.extend({
   answerChanged: null, // action
 
   _blocks: computed('proposals', function() {
-    return proposalsAsBlocks(this.get('proposals'));
+    return proposalsAsBlocks(this.proposals);
   }),
 
   userAnswer : computed('answerValue', function() {
-    const answer = this.get('answerValue') || '';
+    const answer = this.answerValue || '';
     return answer.indexOf('#ABAND#') > -1? '' : answer;
   }),
 
   didInsertElement: function() {
 
     this.$('input').keydown(() => {
-      this.get('answerChanged')();
+      this.answerChanged();
     });
   }
 });

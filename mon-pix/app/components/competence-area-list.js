@@ -10,14 +10,14 @@ export default Component.extend({
   competences: null,
 
   _sanitizedCompetences: computed('competences', function() {
-    const _competences = this.get('competences');
+    const _competences = this.competences;
     return _competences ? _competences : [];
   }),
 
   _competencesGroupedByArea: groupBy('_sanitizedCompetences', 'areaName'),
 
   _competencesByAreaSorted: computed('_competencesGroupedByArea', function() {
-    const competencesByArea = this.get('_competencesGroupedByArea');
+    const competencesByArea = this._competencesGroupedByArea;
     return _sortBy(competencesByArea, (competence) => competence.value);
   }),
 });

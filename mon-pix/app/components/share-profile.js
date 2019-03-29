@@ -86,8 +86,7 @@ export default Component.extend({
     },
 
     findOrganizationAndGoToSharingConfirmationView() {
-      this
-        .get('searchForOrganization')(this.get('_code'))
+      this.searchForOrganization(this._code)
         .then((organization) => {
           if (organization) {
             this.set('_view', STEP_2_SHARING_CONFIRMATION);
@@ -100,8 +99,7 @@ export default Component.extend({
     },
 
     shareSnapshotAndGoToSuccessNotificationView() {
-      this
-        .get('shareProfileSnapshot')(this.get('_organization'), this.get('_studentCode'), this.get('_campaignCode'))
+      this.shareProfileSnapshot(this._organization, this._studentCode, this._campaignCode)
         .then(() => {
           this.set('_view', STEP_3_SUCCESS_NOTIFICATION);
         });

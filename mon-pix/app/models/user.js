@@ -17,7 +17,7 @@ export default Model.extend({
   campaignParticipations: hasMany('campaign-participation'),
 
   competenceAreas: computed('competences', function() {
-    return this.get('competences').then((competences) => {
+    return this.competences.then((competences) => {
       return competences.reduce((areas, competence) => {
         competence.get('area').then((competenceArea) => {
           if (!areas[competenceArea.get('id')]) {
@@ -34,6 +34,6 @@ export default Model.extend({
   }),
 
   fullName: computed('firstName', 'lastName', function() {
-    return `${this.get('firstName')} ${ this.get('lastName')}`;
+    return `${this.firstName} ${ this.lastName}`;
   })
 });

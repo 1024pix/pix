@@ -7,7 +7,7 @@ export default Component.extend({
   campaignParticipations: [],
 
   hasCampaignParticipations: computed('campaignParticipations', function() {
-    return this.get('campaignParticipations').length > 0;
+    return this.campaignParticipations.length > 0;
   }),
 
 });

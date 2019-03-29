@@ -12,7 +12,7 @@ export default Component.extend({
   actions: {
     signin() {
       this.set('displayErrorMessage', false);
-      this.get('authenticateUser')(this.get('email'), this.get('password'))
+      this.authenticateUser(this.email, this.password)
         .catch(() => {
           this.set('displayErrorMessage', true);
         });

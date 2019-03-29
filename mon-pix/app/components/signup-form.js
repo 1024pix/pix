@@ -50,7 +50,7 @@ export default Component.extend({
   },
 
   _getModelAttributeValueFromKey(key) {
-    const userModel = this.get('user');
+    const userModel = this.user;
     return userModel.get(key);
   },
 
@@ -128,9 +128,9 @@ export default Component.extend({
 
     signup() {
       this.set('_notificationMessage', null);
-      this.get('user').save().then(() => {
+      this.user.save().then(() => {
         const credentials = { email: this.get('user.email'), password: this.get('user.password') };
-        this.get('authenticateUser')(credentials);
+        this.authenticateUser(credentials);
         this.set('_tokenHasBeenUsed', true);
       }).catch(() => {
         this._updateInputsStatus();

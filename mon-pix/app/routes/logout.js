@@ -8,7 +8,7 @@ export default BaseRoute.extend({
   session: service(),
 
   beforeModel() {
-    const session = this.get('session');
+    const session = this.session;
     this.source = session.data.authenticated.source;
     if (session.get('isAuthenticated')) {
       session.invalidate();
