@@ -7,7 +7,7 @@ export default Component.extend({
   pixScore: null,
 
   score: computed('pixScore', function() {
-    const pixScore = this.get('pixScore');
+    const pixScore = this.pixScore;
     return isNone(pixScore) ? '--' : pixScore;
   })
 });

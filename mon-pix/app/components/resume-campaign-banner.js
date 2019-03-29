@@ -9,7 +9,7 @@ export default Component.extend({
   campaignParticipations: [],
 
   campaignToResumeOrShare: computed('campaignParticipations', function() {
-    const campaignParticipations = this.get('campaignParticipations').toArray();
+    const campaignParticipations = this.campaignParticipations.toArray();
 
     const campaignParticipationsNotShared = _filter(campaignParticipations,
       (campaignParticipation) => campaignParticipation.isShared === false);

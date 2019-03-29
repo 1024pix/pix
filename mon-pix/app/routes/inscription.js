@@ -23,10 +23,10 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
     },
 
     authenticateUser(credentials) {
-      return this.get('session')
+      return this.session
         .authenticate('authenticator:simple', credentials)
         .then(() => {
-          return this.get('store').queryRecord('user', {});
+          return this.store.queryRecord('user', {});
         });
     },
 

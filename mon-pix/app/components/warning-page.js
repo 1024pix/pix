@@ -51,11 +51,11 @@ function _formatTimeForButton(time) {
 export default Component.extend({
 
   allocatedHumanTime: computed('time', function() {
-    return _formatTimeForText(this.get('time'));
+    return _formatTimeForText(this.time);
   }),
 
   allocatedTime: computed('time', function() {
-    return _formatTimeForButton(this.get('time'));
+    return _formatTimeForButton(this.time);
   }),
 
 /*

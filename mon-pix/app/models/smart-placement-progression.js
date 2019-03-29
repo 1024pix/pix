@@ -5,6 +5,6 @@ export default DS.Model.extend({
   completionRate: DS.attr('number'),
 
   completionPercentage: computed('completionRate', function() {
-    return Math.round(this.get('completionRate') * 100);
+    return Math.round(this.completionRate * 100);
   }),
 });

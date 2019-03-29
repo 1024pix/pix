@@ -11,7 +11,7 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
   beforeModel(transition) {
     if (transition.to.queryParams && transition.to.queryParams.token) {
-      return this.get('session')
+      return this.session
         .authenticate('authenticator:simple', { token: transition.to.queryParams.token })
         .then((_) => {
           this.transitionTo('compte');
@@ -23,10 +23,10 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
   actions: {
     signin(email, password) {
-      return this.get('session')
+      return this.session
         .authenticate('authenticator:simple', { email, password })
         .then((_) => {
-          return this.get('store').queryRecord('user', {});
+          return this.store.queryRecord('user', {});
         });
     }
   }

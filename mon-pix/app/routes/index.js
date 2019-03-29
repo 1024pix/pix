@@ -9,7 +9,7 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
   beforeModel() {
     if(this.get('session.isAuthenticated')) {
-      return this.get('store')
+      return this.store
         .findRecord('user', this.get('session.data.authenticated.userId'))
         .then((connectedUser) => {
 
@@ -25,12 +25,12 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
   },
 
   model() {
-    return this.get('store').query('course', { isCourseOfTheWeek: false, isAdaptive: false });
+    return this.store.query('course', { isCourseOfTheWeek: false, isAdaptive: false });
   },
 
   setupController(controller, model) {
     this._super(controller, model);
-    this.controllerFor('index').set('session', this.get('session'));
+    this.controllerFor('index').set('session', this.session);
   },
 
   actions: {

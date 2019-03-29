@@ -29,7 +29,7 @@ const QrocmIndSolutionPanel = Component.extend({
 
     const labels = labelsAsObject(this.get('challenge.proposals'));
     const answers = answersAsObject(this.get('answer.value'), _.keys(labels));
-    const solutions = solutionsAsObject(this.get('solution'));
+    const solutions = solutionsAsObject(this.solution);
     const resultDetails = resultDetailsAsObject(this.get('answer.resultDetails'));
 
     const inputFields = [];

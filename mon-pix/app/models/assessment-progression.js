@@ -16,28 +16,28 @@ export default EmberObject.extend({
 
   // CPs
   _currentStep: computed('assessmentType', 'nbAnswers', 'nbChallenges', function() {
-    const assessmentType = this.get('assessmentType');
-    const nbAnswers = this.get('nbAnswers');
+    const assessmentType = this.assessmentType;
+    const nbAnswers = this.nbAnswers;
     if (assessmentType === 'SMART_PLACEMENT') {
       return FIRST_STEP_VALUE + nbAnswers % CHECKPOINTS_MAX_STEPS;
     }
-    return Math.min(FIRST_STEP_VALUE + nbAnswers, this.get('nbChallenges'));
+    return Math.min(FIRST_STEP_VALUE + nbAnswers, this.nbChallenges);
   }),
 
   _maxSteps: computed('assessmentType', 'nbChallenges', function() {
-    const assessmentType = this.get('assessmentType');
+    const assessmentType = this.assessmentType;
     if (assessmentType === 'SMART_PLACEMENT') {
       return CHECKPOINTS_MAX_STEPS;
     }
-    return this.get('nbChallenges');
+    return this.nbChallenges;
   }),
 
   valueNow: computed('_currentStep', '_maxSteps', function() {
-    return this.get('_currentStep') / this.get('_maxSteps') * ONE_HUNDRED_PERCENT;
+    return this._currentStep / this._maxSteps * ONE_HUNDRED_PERCENT;
   }),
 
   text: computed('_currentStep', '_maxSteps', function() {
-    return `${this.get('_currentStep')}/${this.get('_maxSteps')}`;
+    return `${this._currentStep}/${this._maxSteps}`;
   })
 
 });

@@ -29,7 +29,7 @@ export default Component.extend({
   }),
 
   solutionToDisplay: computed('solution', function() {
-    const solutionVariants = this.get('solution');
+    const solutionVariants = this.solution;
     if (!solutionVariants) {
       return '';
     }

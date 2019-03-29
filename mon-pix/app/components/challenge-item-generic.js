@@ -27,7 +27,7 @@ const ChallengeItemGeneric = Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    if (!this.get('_isUserAwareThatChallengeIsTimed')) {
+    if (!this._isUserAwareThatChallengeIsTimed) {
       this.set('hasUserConfirmWarning', false);
       this.set('hasChallengeTimer', this.hasTimerDefined());
     }
@@ -35,7 +35,7 @@ const ChallengeItemGeneric = Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
-    const timer = this.get('_timer');
+    const timer = this._timer;
     cancel(timer);
   },
 
@@ -48,7 +48,7 @@ const ChallengeItemGeneric = Component.extend({
   }),
 
   canDisplayFeedbackPanel: computed('_isUserAwareThatChallengeIsTimed', function() {
-    return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_isUserAwareThatChallengeIsTimed'));
+    return !this.hasTimerDefined() || (this.hasTimerDefined() && this._isUserAwareThatChallengeIsTimed);
   }),
 
   hasTimerDefined() {
@@ -60,7 +60,7 @@ const ChallengeItemGeneric = Component.extend({
   },
 
   _getElapsedTime() {
-    return this.get('_elapsedTime');
+    return this._elapsedTime;
   },
 
   _start() {
@@ -71,7 +71,7 @@ const ChallengeItemGeneric = Component.extend({
   _tick() {
     if (ENV.APP.isChallengeTimerEnable) {
       const timer = later(this, function() {
-        const elapsedTime = this.get('_elapsedTime');
+        const elapsedTime = this._elapsedTime;
         this.set('_elapsedTime', elapsedTime + 1);
         this.notifyPropertyChange('_elapsedTime');
         this._tick();
@@ -92,13 +92,13 @@ const ChallengeItemGeneric = Component.extend({
       const answerValue = this._getAnswerValue();
       this.set('errorMessage', null);
       this.set('_isUserAwareThatChallengeIsTimed', false);
-      return this.get('answerValidated')(this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
+      return this.answerValidated(this.challenge, this.assessment, answerValue, this._getTimeout(), this._getElapsedTime());
     },
 
     skipChallenge: callOnlyOnce(function() {
       this.set('errorMessage', null);
       this.set('_isUserAwareThatChallengeIsTimed', false);
-      this.get('answerValidated')(this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
+      this.answerValidated(this.challenge, this.assessment, '#ABAND#', this._getTimeout(), this._getElapsedTime());
     }),
 
     setUserConfirmation() {

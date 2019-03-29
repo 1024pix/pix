@@ -1,7 +1,7 @@
 import { htmlSafe } from '@ember/string';
 import Component from '@ember/component';
 import { run } from '@ember/runloop';
-import { get, set, computed } from '@ember/object';
+import { set, computed } from '@ember/object';
 import _ from 'mon-pix/utils/lodash-custom';
 import ENV from 'mon-pix/config/environment';
 
@@ -13,7 +13,7 @@ export default Component.extend({
   allotedTime: null,
 
   _totalTime: computed('allotedTime', function() {
-    const actualAllotedTime = get(this, 'allotedTime');
+    const actualAllotedTime = this.allotedTime;
     if (!_.isNumeric(actualAllotedTime)) {
       return 0;
     }
@@ -25,30 +25,30 @@ export default Component.extend({
   _currentTime: Date.now(),
 
   remainingSeconds: computed('_elapsedTime', function() {
-    return _.round((get(this, '_totalTime') - get(this, '_elapsedTime')) / 1000);
+    return _.round((this._totalTime - this._elapsedTime) / 1000);
   }),
 
   remainingTime: computed('remainingSeconds', function() {
-    if (get(this, 'remainingSeconds') < 0) {
+    if (this.remainingSeconds < 0) {
       return '0:00';
     }
-    return fmtMSS(get(this, 'remainingSeconds'));
+    return fmtMSS(this.remainingSeconds);
   }),
 
   percentageOfTimeout: computed('_elapsedTime', function() {
-    const actualAllotedTime = get(this, 'allotedTime');
+    const actualAllotedTime = this.allotedTime;
     if (!_.isNumeric(actualAllotedTime) || !_.isStrictlyPositiveInteger(actualAllotedTime.toString())) {
       return 0;
     }
-    return 100 - (get(this, 'remainingSeconds') / actualAllotedTime) * 100;
+    return 100 - (this.remainingSeconds / actualAllotedTime) * 100;
   }),
 
   jaugeWidthStyle: computed('percentageOfTimeout', function() {
-    return htmlSafe(`width: ${this.get('percentageOfTimeout')}%`);
+    return htmlSafe(`width: ${this.percentageOfTimeout}%`);
   }),
 
   hasFinished: computed('remainingSeconds', function() {
-    return get(this, 'remainingSeconds') <= 0;
+    return this.remainingSeconds <= 0;
   }),
 
   _start: function() {
@@ -58,7 +58,7 @@ export default Component.extend({
   },
 
   _stop: function() {
-    const _timer = get(this, '_timer');
+    const _timer = this._timer;
 
     if (_timer) {
       run.cancel(_timer);
@@ -69,9 +69,9 @@ export default Component.extend({
   _tick: function() {
     if (ENV.APP.isTimerCountdownEnabled) {
 
-      const _tickInterval = get(this, '_tickInterval');
-      const _currentTime = get(this, '_currentTime');
-      const _elapsedTime = get(this, '_elapsedTime');
+      const _tickInterval = this._tickInterval;
+      const _currentTime = this._currentTime;
+      const _elapsedTime = this._elapsedTime;
       const now = Date.now();
 
       set(this, '_elapsedTime', _elapsedTime + (now - _currentTime));

@@ -17,7 +17,7 @@ export default Base.extend({
       return RSVP.resolve({ token, userId, source });
     }
 
-    return this.get('ajax').request('/api/authentications', {
+    return this.ajax.request('/api/authentications', {
       method: 'POST',
       data: JSON.stringify({
         data: {
