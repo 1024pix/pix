@@ -17,5 +17,5 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     if (model.get('organizations.length') > 0) {
       return this.transitionTo('board');
     }
-  }
+  },
 });

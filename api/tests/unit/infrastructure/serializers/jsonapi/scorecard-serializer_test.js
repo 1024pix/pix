@@ -18,7 +18,7 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
           skills: scorecardObject.skills,
           'earned-pix': scorecardObject.earnedPix,
           level: scorecardObject.level,
-          'percentage-on-level': scorecardObject.percentageOnLevel
+          'pix-score-ahead-of-next-level': scorecardObject.pixScoreAheadOfNextLevel
         },
         relationships: {
           area: {

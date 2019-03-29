@@ -11,7 +11,7 @@ module.exports = function buildUserScorecard(
     courseId = faker.random.uuid(),
     earnedPix = `${faker.random.number()}`,
     level = `${faker.random.number()}`,
-    percentageOnLevel = `${faker.random.number()}`,
+    pixScoreAheadOfNextLevel = `${faker.random.number()}`,
     // relationships
     area = buildArea(),
     skills = buildSkillCollection(),
@@ -25,7 +25,7 @@ module.exports = function buildUserScorecard(
     courseId,
     earnedPix,
     level,
-    percentageOnLevel,
+    pixScoreAheadOfNextLevel,
     // relationships
     area,
     skills,
