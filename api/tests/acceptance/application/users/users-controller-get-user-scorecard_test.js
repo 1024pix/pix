@@ -123,10 +123,11 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
         ]
       };
 
-      // then
-      return promise.then((response) => {
-        expect(_.omit(response.result.data[0], ['attributes.level', 'attributes.percentage-on-level'])).to.deep.equal(expectedScorecardJSONApi.data[0]);
-        expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
+        // then
+        return promise.then((response) => {
+          expect(_.omit(response.result.data[0], ['attributes.level', 'attributes.pix-score-ahead-of-next-level'])).to.deep.equal(expectedScorecardJSONApi.data[0]);
+          expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
+        });
       });
 
     });

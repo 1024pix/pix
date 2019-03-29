@@ -10,5 +10,5 @@ export default Model.extend({
   area: belongsTo('area'),
   earnedPix: attr('number'),
   level: attr('number'),
-  percentageOnLevel: attr('number'),
+  pixScoreAheadOfNextLevel: attr('number'),
 });

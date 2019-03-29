@@ -50,6 +50,15 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       findWithAssert('.rounded-panel-body :first-child');
       expect(find('.scorecard:first-child .scorecard-content__area').text()).to.contains('Information et données');
     });
+
+    it('should display the related percentage of the first competence card', async function() {
+      // when
+      await visit('/profilv2');
+
+      // then
+      findWithAssert('.rounded-panel-body :first-child');
+      expect(find('.scorecard:first-child .scorecard-content__percentage-ahead-of-next-level').text()).to.contains('3.2');
+    });
   });
 
   describe('Authenticated cases as user with organization', function() {

@@ -9,21 +9,21 @@ export default function(schema, request) {
     name: 'Compétence C1',
     earnedPix: 3,
     level: 2,
-    percentageOnLevel: 0.40,
+    pixScoreAheadOfNextLevel: 3.2,
     area: area1
   });
   const scorecardN2 = schema.scorecards.create({
     name: 'Compétence C2',
     earnedPix: 7,
     level: 2,
-    percentageOnLevel: 0.90,
+    pixScoreAheadOfNextLevel: 7.2,
     area: area2
   });
   const scorecardN3 = schema.scorecards.create({
     name: 'Compétence C3',
     earnedPix: 10,
     level: 3,
-    percentageOnLevel: 0.67,
+    pixScoreAheadOfNextLevel: 5.36,
     area: area3
   });
 
