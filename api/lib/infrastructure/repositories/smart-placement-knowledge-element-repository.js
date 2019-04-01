@@ -42,15 +42,16 @@ module.exports = {
       });
   },
 
-  // TODO improve sum with pg request
   getSumOfPixFromUserKnowledgeElements(userId) {
-    return Bookshelf.knex.raw(`
-      WITH temp AS (SELECT "skillId", "earnedPix", ROW_NUMBER() OVER (PARTITION BY "skillId" ORDER BY "createdAt" DESC) AS rnum
-      FROM "knowledge-elements"
-      WHERE "userId" = ?) 
-      
-      SELECT SUM("earnedPix") AS "earnedPix" FROM temp
-      WHERE temp.rnum = 1`, userId)
+    return Bookshelf.knex.with('temp',
+      (qb) => {
+        qb.select('earnedPix', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rnum', ['skillId', 'createdAt']))
+          .from('knowledge-elements')
+          .where({ userId })
+      })
+      .sum('earnedPix AS earnedPix')
+      .from('temp')
+      .where({ rnum: 1 })
       .then((result) => result.rows ? result.rows : result)
       .then(([{earnedPix}]) => earnedPix);
   }
