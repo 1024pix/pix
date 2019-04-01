@@ -36,7 +36,19 @@
       }
 
       &--green::after {
-        background: radial-gradient(#1A8C89 0%, #52D987 100%)
+        background: radial-gradient(#1A8C89 0%, #52D987 100%);
+      }
+
+      &--blue::after {
+        background: radial-gradient(#3D68FF 0%, #12A3FF 100%);
+      }
+
+      &--magenta::after {
+        background: radial-gradient(#AC008D 0%, #FF3F93 100%);
+      }
+
+      &--purple::after {
+        background: radial-gradient(#5E2563 0%, #564DA6 100%);
       }
     }
 
