@@ -17,6 +17,7 @@
     "test": "tests"
   },
   "scripts": {
+    "analyze": "npx source-map-explorer './dist/assets/*.js'",
     "ci:test": "COVERAGE=true ember test --reporter dot",
     "clean": "rm -rf tmp dist node_modules",
     "coverage": "npm run coverage:check && npm run coverage:convert && npm run coverage:rename",
