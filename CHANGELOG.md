@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.33.1 (01/04/2019)
+
+- [#435](https://github.com/1024pix/pix/pull/435) [BUGFIX] Affiche 100% d'avancement quoiqu il arrive sur le dernier checkpoint (PF-542).
+
 ## v2.33.0 (29/03/2019)
 
 - [#433](https://github.com/1024pix/pix/pull/433) [FEATURE] Ajout des CGUs sur Pix Certif (PC-11).
