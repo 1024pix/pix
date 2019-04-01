@@ -208,50 +208,52 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     const yesterday = moment(today).subtract(1, 'days').toDate();
 
     beforeEach(async () => {
+
       // given
       userId = databaseBuilder.factory.buildUser().id;
+      const userId_tmp = databaseBuilder.factory.buildUser().id;
 
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
         id: 1,
-        skillId: '1',
+        skillId: 'rec1',
         userId,
-        earnedPix: 1,
+        earnedPix: 5,
       });
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
         id: 2,
-        skillId: '2',
+        skillId: 'rec2',
         status: 'validated',
         userId,
-        earnedPix: 1,
+        earnedPix: 10,
         createdAt: today,
       });
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
         id: 3,
-        skillId: '2',
+        skillId: 'rec2',
         userId,
-        earnedPix: 1,
+        earnedPix: 1000,
         createdAt: yesterday,
       });
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
         id: 4,
-        skillId: '2',
+        skillId: 'rec2',
         status: 'validated',
         userId,
-        earnedPix: 1,
+        earnedPix: 1000,
         createdAt: yesterday,
       });
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
         id: 5,
-        skillId: '3',
+        skillId: 'rec3',
         userId,
-        earnedPix: 1,
+        earnedPix: 3,
       });
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
         id: 6,
-        skillId: '1',
+        skillId: 'rec1',
         status: 'invalidated',
-        userId: userId + 1,
-        earnedPix: 1,
+        userId: userId_tmp,
+        earnedPix: 500,
       });
 
       await databaseBuilder.commit();
@@ -263,9 +265,10 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
     it('should return the right sum of Pix from user knowledge elements', async () => {
       // when
-      const result = await SmartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(userId);
+      const earnedPix = await SmartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(userId);
 
-      expect(result).to.be.equal(3);
+      expect(earnedPix).to.equal(18);
     });
+
   });
 });
