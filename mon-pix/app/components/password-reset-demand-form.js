@@ -16,7 +16,7 @@ export default Component.extend({
     savePasswordResetDemand() {
       this.set('_displayErrorMessage', false);
       this.set('_displaySuccessMessage', false);
-      this.get('store').createRecord('password-reset-demand', { email: this.get('email') })
+      this.store.createRecord('password-reset-demand', { email: this.email })
         .save()
         .then(() => {
           this.set('_displaySuccessMessage', true);

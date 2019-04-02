@@ -11,15 +11,15 @@ export default Component.extend({
   answerChanged: null,
 
   labeledCheckboxes: computed('proposals', 'answersValue', function() {
-    const arrayOfProposals = proposalsAsArray(this.get('proposals'));
-    const arrayOfBoolean = valueAsArrayOfBoolean(this.get('answersValue'));
+    const arrayOfProposals = proposalsAsArray(this.proposals);
+    const arrayOfBoolean = valueAsArrayOfBoolean(this.answersValue);
 
     return createProposalAnswerTuples(arrayOfProposals, arrayOfBoolean);
   }),
 
   actions: {
     checkboxCliked() {
-      this.get('answerChanged')();
+      this.answerChanged();
     }
   }
 });

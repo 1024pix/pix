@@ -10,7 +10,7 @@ describe('Unit | Model | assessment progress', function() {
 
       it('should return the number of current challenges', () => {
         // given
-        const model = new AssessmentProgression({
+        const model = AssessmentProgression.create({
           assessmentType: 'DEMO',
           nbAnswers: 8,
           nbChallenges: 10,
@@ -25,7 +25,7 @@ describe('Unit | Model | assessment progress', function() {
 
       it('should return the number of current challenges and not exceed the number of challenge', () => {
         // given
-        const model = new AssessmentProgression({
+        const model = AssessmentProgression.create({
           assessmentType: 'DEMO',
           nbAnswers: 10,
           nbChallenges: 10,
@@ -44,7 +44,7 @@ describe('Unit | Model | assessment progress', function() {
 
       beforeEach(function() {
         // given
-        model = new AssessmentProgression({
+        model = AssessmentProgression.create({
           assessmentType: 'SMART_PLACEMENT',
         });
       });
@@ -79,7 +79,7 @@ describe('Unit | Model | assessment progress', function() {
 
       it('should return the number of answers linked to an assessment', () => {
         // given
-        const model = new AssessmentProgression({
+        const model = AssessmentProgression.create({
           assessmentType: 'DEMO',
           nbChallenges: 10
         });
@@ -96,7 +96,7 @@ describe('Unit | Model | assessment progress', function() {
 
       it('should return 5', () => {
         // given
-        const model = new AssessmentProgression({
+        const model = AssessmentProgression.create({
           assessmentType: 'SMART_PLACEMENT'
         });
 
@@ -113,7 +113,7 @@ describe('Unit | Model | assessment progress', function() {
 
     it('should return the percentage of completion', () => {
       // given
-      const model = new AssessmentProgression({
+      const model = AssessmentProgression.create({
         _currentStep: 2,
         _maxSteps: 10
       });
@@ -130,7 +130,7 @@ describe('Unit | Model | assessment progress', function() {
 
     it('should return the text display in progression bar', () => {
       // given
-      const model = new AssessmentProgression({
+      const model = AssessmentProgression.create({
         _currentStep: 2,
         _maxSteps: 10
       });

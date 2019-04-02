@@ -8,24 +8,24 @@ export default Component.extend({
   tutorials: null,
 
   shouldDisplayHintOrTuto: computed('tutorials', 'hint', function() {
-    const tutorials = this.get('tutorials') || [];
-    const hint = this.get('hint') || [];
+    const tutorials = this.tutorials || [];
+    const hint = this.hint || [];
 
     return (hint.length > 0) || (tutorials.length > 0);
   }),
 
   shouldDisplayHint: computed('hint', function() {
-    const hint = this.get('hint') || [];
+    const hint = this.hint || [];
     return hint.length > 0;
   }),
 
   shouldDisplayTutorial: computed('tutorials', function() {
-    const tutorials = this.get('tutorials') || [];
+    const tutorials = this.tutorials || [];
     return tutorials.length > 0;
   }),
 
   limitedTutorials: computed('tutorials', function() {
-    return this.get('tutorials').slice(0, 3);
+    return this.tutorials.slice(0, 3);
   }),
 
 });

@@ -1,3 +1,3 @@
 <div class="sign-form-page">
-  {{signup-form user=model refresh="refresh" authenticateUser="authenticateUser"}}
+  {{signup-form user=model refresh="refresh" authenticateUser=(route-action "authenticateUser")}}
 </div>

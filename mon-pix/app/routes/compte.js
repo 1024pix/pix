@@ -8,7 +8,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   session: service(),
 
   model() {
-    const store = this.get('store');
+    const store = this.store;
     return store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
       .then((user) => {
         if (user.get('organizations.length') > 0) {
@@ -25,7 +25,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   actions: {
 
     searchForOrganization(code) {
-      return this.get('store').query('organization', { code })
+      return this.store.query('organization', { code })
         .then((organisations) => {
           const isOrganizationFound = organisations.content.length === 1;
           return isOrganizationFound ? organisations.get('firstObject') : null;
@@ -33,7 +33,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     },
 
     shareProfileSnapshot(organization, studentCode, campaignCode) {
-      return this.get('store').createRecord('snapshot', { organization, studentCode, campaignCode }).save();
+      return this.store.createRecord('snapshot', { organization, studentCode, campaignCode }).save();
     }
   }
 });

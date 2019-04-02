@@ -22,11 +22,11 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
       this.refresh();
     },
 
-    authenticateUser({ email, password }) {
-      return this.get('session')
-        .authenticate('authenticator:simple', { email, password })
+    authenticateUser(credentials) {
+      return this.session
+        .authenticate('authenticator:simple', credentials)
         .then(() => {
-          return this.get('store').queryRecord('user', {});
+          return this.store.queryRecord('user', {});
         });
     },
 

@@ -15,7 +15,7 @@ export default Component.extend({
 
   isUserLogged: alias('session.isAuthenticated'),
   menu: computed('isUserLogged', function() {
-    const menuItems = this.get('_menuItems');
-    return this.get('isUserLogged') ? menuItems.filterBy('permanent', true) : menuItems;
+    const menuItems = this._menuItems;
+    return this.isUserLogged ? menuItems.filterBy('permanent', true) : menuItems;
   })
 });

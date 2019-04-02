@@ -32,18 +32,20 @@ export default Component.extend({
   textfieldName: '',
   validationMessage: '',
 
+  onValidate: () => {},
+
   textfieldType: computed('textfieldName', function() {
-    if (this.get('textfieldName') === 'password') {
+    if (this.textfieldName === 'password') {
       return 'password';
     }
-    if (this.get('textfieldName') === 'email') {
+    if (this.textfieldName === 'email') {
       return 'email';
     }
     return 'text';
   }),
 
   _isValidationStatusNotDefault() {
-    return this.get('validationStatus') !== 'default';
+    return this.validationStatus !== 'default';
   },
 
   hasIcon: computed('validationStatus', 'user.errors.content', function() {
@@ -51,28 +53,22 @@ export default Component.extend({
   }),
 
   inputContainerStatusClass: computed('validationStatus', function() {
-    const inputValidationStatus = this.get('validationStatus');
+    const inputValidationStatus = this.validationStatus;
     return INPUT_CONTAINER_VALIDATION_STATUS_MAP[inputValidationStatus] || null;
   }),
 
   iconType: computed('validationStatus', function() {
-    const inputValidationStatus = this.get('validationStatus');
+    const inputValidationStatus = this.validationStatus;
     return ICON_TYPE_STATUS_MAP[inputValidationStatus] || '';
   }),
 
   inputValidationStatus: computed('validationStatus', function() {
-    const inputValidationStatus = this.get('validationStatus');
+    const inputValidationStatus = this.validationStatus;
     return INPUT_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
   }),
 
   validationMessageClass: computed('validationStatus', function() {
-    const inputValidationStatus = this.get('validationStatus');
+    const inputValidationStatus = this.validationStatus;
     return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
   }),
-
-  actions: {
-    validate() {
-      this.sendAction('validate', this.get('textfieldName'));
-    }
-  }
 });

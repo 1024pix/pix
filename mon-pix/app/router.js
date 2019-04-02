@@ -9,18 +9,21 @@ const Router = EmberRouter.extend({
 
   metrics: service(),
 
-  didTransition() {
+  init() {
     this._super(...arguments);
-    this._trackPage();
+    this.on('routeDidChange', () => {
+      this._trackPage();
+    });
   },
 
   _trackPage() {
     scheduleOnce('afterRender', this, () => {
-      const page = this.get('url');
+      const page = this.url;
       const title = this.getWithDefault('currentRouteName', 'unknown');
-      this.get('metrics').trackPage({ page, title });
+      this.metrics.trackPage({ page, title });
     });
   }
+
 });
 
 /* eslint-disable max-statements */

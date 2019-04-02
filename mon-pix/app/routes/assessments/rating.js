@@ -3,7 +3,7 @@ import Route from '@ember/routing/route';
 export default Route.extend({
 
   afterModel(assessment) {
-    return this.get('store')
+    return this.store
       .createRecord('assessment-result', { assessment })
       .save()
       .finally(() => {

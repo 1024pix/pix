@@ -4,7 +4,7 @@ import { isEmpty } from '@ember/utils';
 export default BaseRoute.extend({
 
   afterModel(course) {
-    const store = this.get('store');
+    const store = this.store;
 
     return store.query('assessment', { filter: { type: course.get('type'), courseId: course.id, resumable: true } })
       .then((assessments) => {

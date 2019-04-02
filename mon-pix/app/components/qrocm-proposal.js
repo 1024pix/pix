@@ -11,12 +11,12 @@ export default Component.extend({
   answerChanged: null, // action
 
   _blocks: computed('proposals', function() {
-    return proposalsAsBlocks(this.get('proposals'));
+    return proposalsAsBlocks(this.proposals);
   }),
 
   didInsertElement: function() {
     this.$('input').keydown(() => {
-      this.get('answerChanged')();
+      this.answerChanged();
     });
   }
 

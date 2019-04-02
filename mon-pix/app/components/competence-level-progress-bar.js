@@ -14,7 +14,7 @@ export default Component.extend({
   widthOfProgressBar: computed('competence.level', function() {
 
     const level = this.get('competence.level');
-    const maxLevel = this.get('_MAX_LEVEL');
+    const maxLevel = this._MAX_LEVEL;
     let progressBarWidth;
 
     if (level === 0) {

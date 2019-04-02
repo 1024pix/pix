@@ -1,8 +1,8 @@
 import EmberObject from '@ember/object';
 import EmberService from '@ember/service';
-import { A } from '@ember/array';
 import Service from '@ember/service';
-import { describe, it, beforeEach } from 'mocha';
+import { A } from '@ember/array';
+import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
@@ -29,7 +29,8 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     queryChallengeStub = sinon.stub();
     queryStub = sinon.stub();
     storeStub = Service.extend({
-      queryRecord: queryChallengeStub, query: queryStub, createRecord: createCampaignParticipationStub });
+      queryRecord: queryChallengeStub, query: queryStub, createRecord: createCampaignParticipationStub
+    });
     this.register('service:store', storeStub);
     this.inject.service('store', { as: 'store' });
     this.register('service:session', EmberService.extend({
@@ -48,8 +49,8 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
     beforeEach(function() {
       transition = {
-        params: {
-          'campaigns.fill-in-id-pix': {
+        to: {
+          params: {
             campaign_code: campaignCode
           }
         }
@@ -167,7 +168,10 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(createCampaignParticipationStub, 'campaign-participation', { campaign, participantExternalId });
+        sinon.assert.calledWith(createCampaignParticipationStub, 'campaign-participation', {
+          campaign,
+          participantExternalId
+        });
       });
     });
 

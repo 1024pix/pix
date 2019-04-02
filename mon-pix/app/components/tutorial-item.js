@@ -12,7 +12,7 @@ export default Component.extend({
   tutorial: null,
 
   displayedDuration: computed('tutorial', function() {
-    const durationByTime = this.get('tutorial').duration
+    const durationByTime = this.tutorial.duration
       .split(':')
       .map((duration) => parseInt(duration));
 
@@ -29,9 +29,9 @@ export default Component.extend({
   }),
 
   formatImageName: computed('tutorial', function() {
-    const format = this.get('tutorial').format;
-    if (this.get('imageForFormat')[format]) {
-      return this.get('imageForFormat')[format];
+    const format = this.tutorial.format;
+    if (this.imageForFormat[format]) {
+      return this.imageForFormat[format];
     }
     return 'page';
   })
