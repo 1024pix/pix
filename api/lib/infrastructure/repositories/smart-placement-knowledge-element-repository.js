@@ -47,12 +47,12 @@ module.exports = {
       (qb) => {
         qb.select('earnedPix', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rnum', ['skillId', 'createdAt']))
           .from('knowledge-elements')
-          .where({ userId })
+          .where({ userId });
       })
       .sum('earnedPix AS earnedPix')
       .from('temp')
       .where({ rnum: 1 })
       .then((result) => result.rows ? result.rows : result)
-      .then(([{earnedPix}]) => earnedPix);
+      .then(([{ earnedPix }]) => earnedPix);
   }
 };

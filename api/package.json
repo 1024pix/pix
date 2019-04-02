@@ -95,7 +95,7 @@
     "db:migrate": "knex --knexfile db/knexfile.js migrate:latest",
     "db:pg:create": "node scripts/database/create-database",
     "db:pg:delete": "node scripts/database/drop-database",
-    "db:pg:reset": "npm run db:pg:delete && npm run db:pg:create && npm run db:migrate",
+    "db:pg:reset": "npm run db:pg:delete && npm run db:pg:create && npm run db:migrate && npm run db:seed",
     "db:reset": "npm run db:delete && npm run db:migrate && npm run db:seed",
     "db:rollback": "npx knex --knexfile db/knexfile.js migrate:rollback",
     "db:seed": "knex --knexfile db/knexfile.js seed:run",
