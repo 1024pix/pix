@@ -11,7 +11,7 @@ export default Controller.extend({
   challenge: null,
 
   nextPageButtonText: computed('finalCheckpoint', function() {
-    return this.get('finalCheckpoint') ? 'Voir mes résultats' : 'Continuer mon parcours';
+    return this.finalCheckpoint ? 'Voir mes résultats' : 'Continuer mon parcours';
   }),
 
   completionPercentage: computed('finalCheckpoint', 'model.smartPlacementProgression.completionPercentage', function() {
@@ -20,7 +20,7 @@ export default Controller.extend({
 
   actions: {
     async openComparisonWindow(answer) {
-      const store = this.get('store');
+      const store = this.store;
 
       const correction = await store.query('correction', { answerId: answer.id }).then((corrections) => corrections.get('firstObject'));
 

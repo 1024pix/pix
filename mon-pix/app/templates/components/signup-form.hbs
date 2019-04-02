@@ -25,9 +25,10 @@
         label="Prénom"
         textfieldName="firstName"
         inputBindingValue=user.firstName
-        validate="validateInput"
+        onValidate=(action "validateInput")
         validationStatus=validation.firstName.status
-        validationMessage=validation.firstName.message}}
+        validationMessage=validation.firstName.message
+        autocomplete="given-name"}}
     </div>
 
     <div class="sign-form-body__input">
@@ -35,9 +36,10 @@
         label="Nom"
         textfieldName="lastName"
         inputBindingValue=user.lastName
-        validate="validateInput"
+        onValidate=(action "validateInput")
         validationStatus=validation.lastName.status
-        validationMessage=validation.lastName.message}}
+        validationMessage=validation.lastName.message
+        autocomplete="family-name"}}
     </div>
 
     <div class="sign-form-body__input">
@@ -45,9 +47,10 @@
         label="Adresse Email"
         textfieldName="email"
         validationStatus=validation.email.status
-        validate="validateInputEmail"
+        onValidate=(action "validateInputEmail")
         inputBindingValue=user.email
-        validationMessage=validation.email.message}}
+        validationMessage=validation.email.message
+        autocomplete="email"}}
     </div>
 
     <div class="sign-form-body__input">
@@ -56,9 +59,10 @@
         textfieldName="password"
         textfieldType="password"
         validationStatus=validation.password.status
-        validate="validateInputPassword"
+        onValidate=(action "validateInputPassword")
         inputBindingValue=user.password
-        validationMessage=validation.password.message}}
+        validationMessage=validation.password.message
+        autocomplete="new-password"}}
     </div>
 
     <div class="signup-form__cgu-container">

@@ -15,7 +15,7 @@ export default Route.extend({
     this._super(...arguments);
 
     if (this.hasUnauthorizedError(error)) {
-      return this.get('session').invalidate()
+      return this.session.invalidate()
         .then(() => this.transitionTo('login'));
     }
   }

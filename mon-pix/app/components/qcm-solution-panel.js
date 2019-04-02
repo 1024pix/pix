@@ -12,7 +12,7 @@ export default Component.extend({
   challenge: null,
 
   solutionArray: computed('solution', function() {
-    const solution = this.get('solution');
+    const solution = this.solution;
     return _.isNonEmptyString(solution) ? valueAsArrayOfBoolean(solution) : [];
   }),
 

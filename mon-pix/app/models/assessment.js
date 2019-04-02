@@ -27,7 +27,7 @@ export default Model.extend({
   participantExternalId: attr('string'),
 
   answersSinceLastCheckpoints: computed('answers.[]', function() {
-    const answers = this.get('answers').toArray();
+    const answers = this.answers.toArray();
     const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT;
     const sliceAnswersFrom = (howManyAnswersSinceTheLastCheckpoint === 0)
       ? -ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT

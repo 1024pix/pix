@@ -7,7 +7,7 @@ export default Route.extend({
 
   activate() {
     this._super();
-    if (this.get('scrollsToTop')) {
+    if (this.scrollsToTop) {
       window.scrollTo(0, 0);
     }
   }

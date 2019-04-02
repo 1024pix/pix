@@ -64,7 +64,7 @@ export default Component.extend({
   },
 
   _formattedEmailForInstruction: function() {
-    return this.get('mailGenerator')
+    return this.mailGenerator
       .generateEmail(this.get('challenge.id'), this.get('assessment.id'), window.location.hostname, config.environment);
   },
 });

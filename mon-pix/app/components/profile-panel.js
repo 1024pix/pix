@@ -8,7 +8,7 @@ export default Component.extend({
   totalPixScore: null,
   session: service(),
   showSharedButton: computed('session', function() {
-    const session = this.get('session');
+    const session = this.session;
     return session.data.authenticated.source === 'pix';
   }),
 });

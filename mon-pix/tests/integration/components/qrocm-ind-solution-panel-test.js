@@ -40,25 +40,20 @@ describe('Integration | Component | qrocm solution panel', function() {
     this.set('challenge', challenge);
   });
 
-  it('renders', function() {
-    this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
-    expect(this.$()).to.have.lengthOf(1);
-  });
-
   it('should disabled all inputs', function() {
-    // given
+    // when
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
-    const input = this.$('input');
+
     // then
-    expect(input).to.be.disabled;
+    expect(document.querySelector('input')).to.have.attr('disabled');
   });
 
   it('should contains three labels', function() {
-    // given
+    // when
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
-    const labels = this.$(LABEL);
+
     // then
-    expect(labels).to.have.lengthOf(3);
+    expect(document.querySelectorAll(LABEL)).to.have.lengthOf(3);
   });
 
   describe('comparison of a qrocm-ind with a right answer, a wrong answer and one empty answer', function() {
@@ -66,89 +61,98 @@ describe('Integration | Component | qrocm solution panel', function() {
     describe('right answer display', function() {
 
       it('should display the right answer in green bold', function() {
-        // given
+        // when
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-        const answerBlock = this.$(FIRST_CORRECTION_BLOCK);
-        const answerLabel = this.$(FIRST_CORRECTION_BLOCK + ' ' + LABEL);
-        const answerInput = this.$(FIRST_CORRECTION_BLOCK + ' ' + INPUT);
 
         // then
-        expect(answerBlock).to.have.lengthOf(1);
-        expect(answerLabel).to.have.lengthOf(1);
-        expect(answerInput).to.have.lengthOf(1);
+        const answerBlock = document.querySelector(FIRST_CORRECTION_BLOCK);
+        const answerLabel = document.querySelector(FIRST_CORRECTION_BLOCK + ' ' + LABEL);
+        const answerInput = document.querySelector(FIRST_CORRECTION_BLOCK + ' ' + INPUT);
 
-        expect(answerInput.css('text-decoration')).to.contain('none');
+        expect(answerBlock).to.exist;
+        expect(answerLabel).to.exist;
+        expect(answerInput).to.exist;
+
+        const answerInputStyles = window.getComputedStyle(answerInput);
+        expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('none');
       });
 
       it('should not display the solution', function() {
-        // given
+        // when
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-        const solutionBlock = this.$(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
 
         // then
-        expect(solutionBlock).to.have.lengthOf(0);
+        expect(document.querySelector(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK)).to.not.exist;
       });
     });
 
     describe('wrong answer display', function() {
 
       it('should display the wrong answer in the second div line-throughed bold', function() {
-        // given
+        // when
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-        const answerBlock = this.$(SECOND_CORRECTION_BLOCK);
-        const answerLabel = this.$(SECOND_CORRECTION_BLOCK + ' ' + LABEL);
-        const answerInput = this.$(SECOND_CORRECTION_BLOCK + ' ' + INPUT);
 
         // then
-        expect(answerBlock).to.have.lengthOf(1);
-        expect(answerLabel).to.have.lengthOf(1);
-        expect(answerInput).to.have.lengthOf(1);
+        const answerBlock = document.querySelector(SECOND_CORRECTION_BLOCK);
+        const answerLabel = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + LABEL);
+        const answerInput = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + INPUT);
 
-        expect(answerInput.css('text-decoration')).to.contain('line-through');
+        expect(answerBlock).to.exist;
+        expect(answerLabel).to.exist;
+        expect(answerInput).to.exist;
+
+        const answerInputStyles = window.getComputedStyle(answerInput);
+        expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('line-through');
       });
 
       it('should display one solution in bold green below the input', function() {
-        // given
+        // when
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-        const solutionBlock = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
-        const solutionText = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
         // then
-        expect(solutionBlock).to.have.lengthOf(1);
-        expect(solutionText).to.have.lengthOf(1);
+        const solutionBlock = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
+        const solutionText = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
-        expect(solutionText.css('text-decoration')).to.contain('none');
+        expect(solutionBlock).to.exist;
+        expect(solutionText).to.exist;
+
+        const solutionTextStyles = window.getComputedStyle(solutionText);
+        expect(solutionTextStyles.getPropertyValue('text-decoration')).to.include('none');
       });
     });
 
     describe('no answer display', function() {
 
       it('should display the empty answer in the third div with "pas de réponse" in italic', function() {
-        // given
+        // when
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-        const answerBlock = this.$(THIRD_CORRECTION_BLOCK);
-        const answerLabel = this.$(THIRD_CORRECTION_BLOCK + ' ' + LABEL);
-        const answerInput = this.$(THIRD_CORRECTION_BLOCK + ' ' + INPUT);
 
         // then
-        expect(answerBlock).to.have.lengthOf(1);
-        expect(answerLabel).to.have.lengthOf(1);
-        expect(answerInput).to.have.lengthOf(1);
+        const answerBlock = document.querySelector(THIRD_CORRECTION_BLOCK);
+        const answerLabel = document.querySelector(THIRD_CORRECTION_BLOCK + ' ' + LABEL);
+        const answerInput = document.querySelector(THIRD_CORRECTION_BLOCK + ' ' + INPUT);
 
-        expect(answerInput.css('text-decoration')).to.contain('none');
+        expect(answerBlock).to.exist;
+        expect(answerLabel).to.exist;
+        expect(answerInput).to.exist;
+
+        const answerInputStyles = window.getComputedStyle(answerInput);
+        expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('none');
       });
 
       it('should display one solution in bold green below the input', function() {
         // given
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
-        const solutionBlock = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
-        const solutionText = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
         // then
-        expect(solutionBlock).to.have.lengthOf(1);
-        expect(solutionText).to.have.lengthOf(1);
+        const solutionBlock = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
+        const solutionText = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
-        expect(solutionText.css('text-decoration')).to.contain('none');
+        expect(solutionBlock).to.exist;
+        expect(solutionText).to.exist;
+
+        const solutionTextStyles = window.getComputedStyle(solutionText);
+        expect(solutionTextStyles.getPropertyValue('text-decoration')).to.include('none');
       });
     });
   });

@@ -11,8 +11,8 @@ export default Component.extend({
   answerChanged: null, // action
 
   labeledRadios: computed('proposals', 'answersValue', function() {
-    const arrayOfProposals = proposalsAsArray(this.get('proposals'));
-    return labeledCheckboxes(arrayOfProposals, valueAsArrayOfBoolean(this.get('answersValue')));
+    const arrayOfProposals = proposalsAsArray(this.proposals);
+    return labeledCheckboxes(arrayOfProposals, valueAsArrayOfBoolean(this.answersValue));
   }),
 
   _uncheckAllRadioButtons() {
@@ -27,7 +27,7 @@ export default Component.extend({
     radioClicked(index) {
       this._uncheckAllRadioButtons();
       this._checkAgainTheSelectedOption(index);
-      this.get('answerChanged')();
+      this.answerChanged();
     }
   }
 

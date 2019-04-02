@@ -133,9 +133,10 @@ describe('Integration | Component | signup form', function() {
             return resolve();
           }
         });
+        this.set('authenticateUser', () => {});
 
         this.set('user', user);
-        this.render(hbs`{{signup-form user=user signup="signup"}}`);
+        this.render(hbs`{{signup-form user=user signup="signup" authenticateUser=(action authenticateUser)}}`);
 
         // when
         $(SUBMIT_BUTTON).click();
@@ -437,9 +438,9 @@ describe('Integration | Component | signup form', function() {
             return new resolve();
           }
         });
-
         this.set('user', userWithCguAccepted);
-        this.render(hbs`{{signup-form user=user}}`);
+        this.set('authenticateUser', () => {});
+        this.render(hbs`{{signup-form user=user authenticateUser=(action authenticateUser)}}`);
 
         // when
         this.$('.button').click();
@@ -465,7 +466,8 @@ describe('Integration | Component | signup form', function() {
         });
 
         this.set('user', validUser);
-        this.render(hbs`{{signup-form user=user}}`);
+        this.set('authenticateUser', () => {});
+        this.render(hbs`{{signup-form user=user authenticateUser=(action authenticateUser)}}`);
 
         // when
         this.$('.button').click();

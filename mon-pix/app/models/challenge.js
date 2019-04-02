@@ -19,10 +19,10 @@ export default Model.extend({
   answer: belongsTo('answer'),
 
   hasValidEmbedDocument: computed('embedUrl', 'embedTitle', 'embedHeight', function() {
-    const embedUrl = this.get('embedUrl');
+    const embedUrl = this.embedUrl;
     return !!embedUrl
-      && !!this.get('embedTitle')
-      && !!this.get('embedHeight')
+      && !!this.embedTitle
+      && !!this.embedHeight
       && embedUrl.toLowerCase().indexOf('https://') === 0; // fixes bug on IE: startsWith in not supported (PR #242) 
   }),
   hasAttachment: notEmpty('attachments'),

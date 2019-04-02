@@ -25,7 +25,8 @@
         label="Adresse email"
         textfieldName="email"
         validationStatus="default"
-        inputBindingValue=email}}
+        inputBindingValue=email
+        autocomplete="username"}}
     </div>
 
     <div class="sign-form-body__input">
@@ -34,7 +35,8 @@
         textfieldName="password"
         textfieldType="password"
         validationStatus="default"
-        inputBindingValue=password}}
+        inputBindingValue=password
+        autocomplete="current-password"}}
     </div>
 
     {{#link-to 'password-reset-demand' class="link link--grey sign-form-link sign-form-body__forgotten-password-link"}}
