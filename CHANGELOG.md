@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.33.2 (02/04/2019)
+
+- [#436](https://github.com/1024pix/pix/pull/436) [BUGFIX] Les tableaux dans les épreuves s'affichent correctement
+
 ## v2.33.1 (01/04/2019)
 
 - [#435](https://github.com/1024pix/pix/pull/435) [BUGFIX] Affiche 100% d'avancement quoiqu il arrive sur le dernier checkpoint (PF-542).
