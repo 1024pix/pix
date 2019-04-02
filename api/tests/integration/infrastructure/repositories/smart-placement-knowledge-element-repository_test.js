@@ -85,12 +85,10 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
           assessmentId,
           answerId: answer1Id,
-          createdAt: ''
         }),
         databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
           assessmentId,
           answerId: answer2Id,
-          createdAt: ''
         })
       ];
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({

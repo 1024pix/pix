@@ -5,7 +5,7 @@ export default BaseSerializer.extend({
   links(user) {
     return {
       pixScore: {
-        related: `/api/users/${user.id}/pixscore`
+        related: `/users/${user.id}/pixscore`
       }
     };
   }

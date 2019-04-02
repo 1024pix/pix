@@ -5,12 +5,13 @@ describe('Acceptance | users-controller-get-pix-score', () => {
 
   let server;
   let options;
+  let user;
 
   beforeEach(async () => {
     // create server
     server = await createServer();
 
-    const user = databaseBuilder.factory.buildUser();
+    user = databaseBuilder.factory.buildUser();
 
     databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: user.id, earnedPix: 3 });
     databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: user.id, earnedPix: 4 });
@@ -53,10 +54,11 @@ describe('Acceptance | users-controller-get-pix-score', () => {
         // given
         const pixScoreExpected = {
           data: {
-            type: 'pixscores',
             attributes: {
-              'pix-score': 7
-            }
+              value: 7
+            },
+            id: `${user.id}`,
+            type: 'pix-scores'
           }
         };
 
