@@ -16,4 +16,13 @@ export default Component.extend({
     return this.pixScoreAheadOfNextLevel / NUMBER_OF_PIX_BY_LEVEL * 100;
   }),
 
+  displayedLevel: computed('level,percentageAheadOfNextLevel', function() {
+    if (!this.level && !this.percentageAheadOfNextLevel) {
+      return htmlSafe('&nbsp;');
+    } else if (!this.level && this.percentageAheadOfNextLevel) {
+      return '--';
+    }
+    return this.level;
+  }),
+
 });

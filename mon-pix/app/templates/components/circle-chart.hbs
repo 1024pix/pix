@@ -1,18 +1,19 @@
-<svg viewBox="0 0 36 36" class="circle-chart__content">
+<svg viewBox="0 0 36 36" class="circle-chart__content" style={{chartWidthStyle}}>
   <path class="circle"
         style={{strokeWidthStyle}}
         d="M18 2.0845
       a 15.9155 15.9155 0 0 1 0 31.831
-      a 15.9155 15.9155 0 0 1 0 -31.831"
-  ></path>
+      a 15.9155 15.9155 0 0 1 0 -31.831">
+  </path>
+  <!-- wait for value to be ready in order to animate circle under safari -->
   {{#if value}}
-  <path class={{ concat "circle circle--slice circle--" sliceColor}}
-        style={{strokeWidthStyle}}
-        stroke-dasharray="{{value}}, 100"
-        d="M18 2.0845
+    <path class={{concat "circle circle--slice circle--" sliceColor}}
+          style={{strokeWidthStyle}}
+          stroke-dasharray="{{value}}, 100"
+          d="M18 2.0845
       a 15.9155 15.9155 0 0 1 0 31.831
-      a 15.9155 15.9155 0 0 1 0 -31.831"
-  ></path>
+      a 15.9155 15.9155 0 0 1 0 -31.831">
+    </path>
   {{/if}}
 </svg>
 <div class="circle-chart__text">

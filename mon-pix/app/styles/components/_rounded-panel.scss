@@ -7,7 +7,7 @@
 
   &--strong {
     border-radius: 10px;
-    box-shadow: 0 7px 14px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
   }
 
   &__row {
@@ -32,10 +32,15 @@
 
 .rounded-panel-header-with-components {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
   padding-bottom: 32px;
   border-bottom: 1px dashed $silver-grey;
+
+  @include device-is('tablet') {
+    flex-direction: row;
+  }
 }
 
 .rounded-panel-header {
@@ -45,8 +50,33 @@
   }
 
   &__right-wrapper {
+    display: flex;
+    justify-content: center;
     margin-top: 24px;
-    margin-right: 50px;
+
+    @include device-is('tablet') {
+      margin-right: 50px;
+    }
+  }
+}
+
+.rounded-panel-body {
+  display: flex;
+  flex-direction: column;
+  margin: 30px 0;
+
+  &__areas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include device-is('tablet') {
+      flex-direction: row;
+    }
+  }
+
+  &__competence-card {
+    margin: 16px 10px;
   }
 }
 
