@@ -35,7 +35,10 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
           password: '',
           cgu: true,
           pixOrgaTermsOfServiceAccepted: false,
-          pixCertifTermsOfServiceAccepted: false
+          pixCertifTermsOfServiceAccepted: false,
+          memberships: undefined,
+          certificationCenterMemberships: undefined,
+          pixScore: undefined,
         });
         const meta = { some: 'meta' };
         // when
@@ -54,6 +57,16 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             },
             id: '234567',
             'relationships': {
+              'memberships': {
+                'links': {
+                  'related': '/users/234567/memberships'
+                }
+              },
+              'certification-center-memberships': {
+                'links': {
+                  'related': '/users/234567/certification-center-memberships'
+                }
+              },
               'pix-score': {
                 'links': {
                   'related': '/users/234567/pixscore'
@@ -110,7 +123,12 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
                 'links': {
                   'related': '/users/234567/certification-center-memberships'
                 }
-              }
+              },
+              'pix-score': {
+                'links': {
+                  'related': '/users/234567/pixscore'
+                }
+              },
             }
           }
         });
