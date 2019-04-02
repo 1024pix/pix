@@ -6,11 +6,11 @@
 
 .circle-chart {
   position: relative;
-  width: 100px;
-  height: 100px;
 }
 
 .circle-chart__content {
+  width: 100px;
+  height: 100px;
   margin: 2px;
   max-height: 128px;
 
@@ -31,6 +31,18 @@
 
     &--green {
       stroke: $caribbean-green;
+    }
+
+    &--blue {
+      stroke: $dogder-blue;
+    }
+
+    &--magenta {
+      stroke: $mandy-red;
+    }
+
+    &--purple {
+      stroke: $purple;
     }
   }
 }
