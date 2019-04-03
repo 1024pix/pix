@@ -1,20 +1,36 @@
-set $maintenance_mode <%= ENV['MAINTENANCE'] %>;
+root /app/dist/;
 
 # in case of 503, serve this URI
 error_page 503 /maintenance_page.html;
 location = /maintenance_page.html {
-    # maintenance page is at the root of the project
-    root /app/;
+  # maintenance page is at the root of the project
+  root /app/;
+}
+
+<% if ENV['MAINTENANCE'] == 'enabled' %>
+
+location / {
+  return 503;
+}
+
+<% else %>
+
+location = /index.html {
+  # index.html should never be cached
+  expires -1;
+}
+
+location /assets/ {
+  # Files in /assets/ are hash-suffixed, so it's safe to cache them indefinitely
+  expires max;
 }
 
 location / {
-  if ($maintenance_mode = enabled) {
-        return 503;
-  }
+  # Fall back to index.html for routes that don't match an existing file
+  try_files $uri /index.html;
 
-  root /app/dist/;
-
-  try_files $uri /index.html =404;
+  # Let clients cache these files for a bit
+  expires 24h;
 }
 
 location /api/ {
@@ -28,3 +44,4 @@ location /api/ {
   proxy_redirect default;
 }
 
+<% end %>

@@ -75,6 +75,11 @@ describe('Acceptance | Controller | users-controller', () => {
                 '"links":{'+
                   '"related":"/users/(\\d+)/certification-center-memberships"'+
                 '}'+
+              '},'+
+              '"pix-score":{'+
+                '"links":{'+
+                  '"related":"/users/(\\d+)/pixscore"'+
+                '}'+
               '}'+
             '}'+
             '}' +
