@@ -16,7 +16,7 @@ export default function(schema, request) {
   ];
   let assessment;
   let courseId;
-  if(requestedAssessment.data.relationships) {
+  if (requestedAssessment.data.relationships) {
     courseId = requestedAssessment.data.relationships.course.data.id;
     assessment = _.find(allAssessments,
       (assessment) => assessment.data.relationships.course.data.id === courseId);

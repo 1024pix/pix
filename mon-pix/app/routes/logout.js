@@ -16,7 +16,7 @@ export default BaseRoute.extend({
   },
 
   afterModel() {
-    if(this.source === 'external') {
+    if (this.source === 'external') {
       return this._redirectToDisconnectedPage();
     } else {
       return this._redirectToHome();
