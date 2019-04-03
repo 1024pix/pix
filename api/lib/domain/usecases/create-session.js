@@ -4,7 +4,7 @@ const sessionValidator = require('../validators/session-validator');
 const sessionCodeService = require('../services/session-code-service');
 
 function _createSessionAsPixMaster(certificationCenterId, session, certificationCenterRepository, sessionRepository) {
-  if(certificationCenterId) {
+  if (certificationCenterId) {
     return _setCertifCenterNameInSessionAndSave(session, certificationCenterId, certificationCenterRepository, sessionRepository);
   }
   return sessionRepository.save(session);
@@ -13,7 +13,7 @@ function _createSessionAsPixMaster(certificationCenterId, session, certification
 async function _createSessionAsNormalUser(userId, certificationCenterId, session, certificationCenterRepository, sessionRepository, userRepository) {
   const userWithCertifCenters = await userRepository.getWithCertificationCenterMemberships(userId);
 
-  if(userWithCertifCenters.hasAccessToCertificationCenter(certificationCenterId)) {
+  if (userWithCertifCenters.hasAccessToCertificationCenter(certificationCenterId)) {
     return _setCertifCenterNameInSessionAndSave(session, certificationCenterId, certificationCenterRepository, sessionRepository);
   }
   throw new ForbiddenAccess('User is not a member of the certification center');
@@ -36,7 +36,7 @@ module.exports = async function createSession({ userId, session, certificationCe
 
   // We keep this code here so that PIX-MASTER can still create the sessions the old way through Postman, for now :)
   // To remove when we will not create sessions with no certifCenterId through Postman anymore
-  if(user.hasRolePixMaster) {
+  if (user.hasRolePixMaster) {
     return _createSessionAsPixMaster(certificationCenterId, session, certificationCenterRepository, sessionRepository);
   }
 

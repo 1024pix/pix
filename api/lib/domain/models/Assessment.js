@@ -146,7 +146,7 @@ class Assessment {
   }
 
   canStartNewAttemptOnCourse() {
-    if(!this.isPlacement()) throw new Error('Only available for a placement assessment');
+    if (!this.isPlacement()) throw new Error('Only available for a placement assessment');
 
     return this.isCompleted() && this.getRemainingDaysBeforeNewAttempt() <= 0;
   }

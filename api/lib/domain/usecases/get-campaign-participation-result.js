@@ -24,7 +24,7 @@ module.exports = async function getCampaignParticipationResult(
     userId
   );
 
-  if(userId === campaignParticipation.userId || userIsCampaignOrganizationMember) {
+  if (userId === campaignParticipation.userId || userIsCampaignOrganizationMember) {
     return await _createCampaignParticipationResult({
       userId,
       campaignParticipationId,

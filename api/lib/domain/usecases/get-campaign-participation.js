@@ -11,7 +11,7 @@ module.exports = async function getCampaignParticipation({
 
   const userIsCampaignOrganizationMember = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignParticipation.campaignId, userId);
 
-  if(userId === campaignParticipation.userId || userIsCampaignOrganizationMember) {
+  if (userId === campaignParticipation.userId || userIsCampaignOrganizationMember) {
     return campaignParticipation;
   }
 

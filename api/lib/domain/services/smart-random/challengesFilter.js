@@ -63,7 +63,7 @@ function _removeChallengesFromLowPriorityTubes(courseTubes, knowledgeElements, c
   const prioritySkills = _getPrioritySkills(courseTubes, knowledgeElements);
   if (prioritySkills.length > 0) {
     const challengesFromEasyTubes = _removeChallengesThatDontTestRequiredSkills(challenges, prioritySkills);
-    if(challengesFromEasyTubes.length > 0) {
+    if (challengesFromEasyTubes.length > 0) {
       return challengesFromEasyTubes;
     }
   }

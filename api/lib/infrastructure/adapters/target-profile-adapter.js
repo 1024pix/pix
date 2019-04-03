@@ -8,7 +8,7 @@ module.exports = {
     const skills = associatedSkillAirtableDataObjects.map(skillAdapter.fromAirtableDataObject);
     let sharedWithOrganizationIds = [];
 
-    if(bookshelfTargetProfile.related('sharedWithOrganizations')) {
+    if (bookshelfTargetProfile.related('sharedWithOrganizations')) {
       sharedWithOrganizationIds = bookshelfTargetProfile.related('sharedWithOrganizations')
         .map((organization) => organization.get('organizationId'));
     }
