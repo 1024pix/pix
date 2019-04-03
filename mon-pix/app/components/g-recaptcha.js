@@ -23,7 +23,7 @@ export default Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    if(this.tokenHasBeenUsed) {
+    if (this.tokenHasBeenUsed) {
       this.googleRecaptcha.reset();
     }
   },
