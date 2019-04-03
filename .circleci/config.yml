@@ -210,29 +210,35 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/pix
-      - run: cat package*.json > cachekey
+      - run: cat package*.json > cachekey-e2e
       - restore_cache:
           keys:
-            - v7-e2e-npm-{{ checksum "cachekey" }}
+            - v7-e2e-npm-{{ checksum "cachekey-e2e" }}
       - run: npm ci
       - save_cache:
-          key: v7-e2e-npm-{{ checksum "cachekey" }}
+          key: v7-e2e-npm-{{ checksum "cachekey-e2e" }}
           paths:
             - ~/.npm
+      - run:
+          working_directory: ~/pix/api
+          command: cat package*.json > cachekey-api
       - restore_cache:
           working_directory: ~/pix/api
           keys:
-            - v7-api-npm-{{ checksum "cachekey" }}
+            - v7-api-npm-{{ checksum "cachekey-api" }}
       - run:
           working_directory: ~/pix/api
           background: true
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
           command: npm start
+      - run:
+          working_directory: ~/pix/mon-pix
+          command: cat package*.json > cachekey-mon-pix
       - restore_cache:
           working_directory: ~/pix/mon-pix
           keys:
-            - v7-mon-pix-npm-{{ checksum "cachekey" }}
+            - v7-mon-pix-npm-{{ checksum "cachekey-mon-pix" }}
       - run:
           working_directory: ~/pix/mon-pix
           background: true
