@@ -9,3 +9,19 @@ then(`je suis redirigé vers une page d'épreuve`, () => {
 then(`le titre sur l'épreuve est {string}`, (titre) => {
   cy.get('.course-banner__name').should('contain', titre);
 });
+
+when(`l'épreuve contient le texte {string}`, (texte) => {
+  cy.get('.challenge-statement__instruction').should('contain', texte);
+});
+
+then(`je choisis la réponse {string}`, (number) => {
+  cy.get('#'+number).click();
+});
+
+then(`je passe l'épreuve`, () => {
+  cy.get('.challenge-actions__action-skip-text').click();
+});
+
+then(`je valide l'épreuve`, () => {
+  cy.get('.challenge-actions__action-validate').click();
+});
