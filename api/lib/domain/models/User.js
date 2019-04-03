@@ -17,6 +17,7 @@ class User {
     memberships = [],
     certificationCenterMemberships = [],
     pixRoles = [],
+    pixScore,
     // references
   } = {}) {
     this.id = id;
@@ -31,6 +32,7 @@ class User {
     this.samlId = samlId;
     // includes
     this.pixRoles = pixRoles;
+    this.pixScore = pixScore;
     this.memberships = memberships;
     this.certificationCenterMemberships = certificationCenterMemberships;
     // references
