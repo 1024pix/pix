@@ -1,9 +1,9 @@
 import Controller from '@ember/controller';
-import ENV from 'mon-pix/config/environment';
+import { getHomeHost } from '../../helpers/get-home-host';
 
 export default Controller.extend({
 
-  urlHome: ENV.APP.HOME_HOST,
+  urlHome: getHomeHost(),
 
   isShowingModal: false,
   answer: null,
