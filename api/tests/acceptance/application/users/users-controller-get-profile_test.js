@@ -45,7 +45,11 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
             related: '/users/1234/campaign-participations'
           },
         },
-
+        'pix-score': {
+          'links': {
+            'related': '/users/1234/pixscore'
+          }
+        }
       }
     },
     included: [

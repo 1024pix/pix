@@ -1,27 +1,47 @@
-# exactly match the / URI
-location = / {
+root /app/dist/;
 
-  root /app/dist/;
+# in case of 503, serve this URI
+error_page 503 /maintenance_page.html;
+location = /maintenance_page.html {
+  # maintenance page is at the root of the project
+  root /app/;
 }
 
-# all the other URIs
-location / {
+<% if ENV['MAINTENANCE'] == 'enabled' %>
 
-  root /app/dist/;
-  # try_files try to load the file of the URI, and if it fails, it serve the / URI
-  # => in our case, if the uri is not found, it means that's an Ember URL and just return the index
-  # => BECAUSE / is not a file, this would make a infinite redirection loop. So we need the first block without try_files
-  try_files $uri /;
+location / {
+  return 503;
+}
+
+<% else %>
+
+location = /index.html {
+  # index.html should never be cached
+  expires -1;
+}
+
+location /assets/ {
+  # Files in /assets/ are hash-suffixed, so it's safe to cache them indefinitely
+  expires max;
+}
+
+location / {
+  # Fall back to index.html for routes that don't match an existing file
+  try_files $uri /index.html;
+
+  # Let clients cache these files for a bit
+  expires 24h;
 }
 
 location /api/ {
   <%
   # We compute the API host from the front app name, examples:
-  #   pix-app-integration       -> pix-api-integration.scalingo.io
-  #   pix-app-integration-pr123 -> pix-api-integration-pr123.scalingo.io
-  #   pix-app-production        -> pix-api-production.scalingo.io
+  #   pix-orga-integration       -> pix-api-integration.scalingo.io
+  #   pix-orga-integration-pr123 -> pix-api-integration-pr123.scalingo.io
+  #   pix-orga-production        -> pix-api-production.scalingo.io
   %>
-  proxy_pass https://<%= ENV['APP'].gsub(/-admin-/, "-api-") %>.scalingo.io;
+  proxy_pass https://<%= ENV['APP'].gsub(/^pix-[^-]+-/, "pix-api-") %>.scalingo.io;
   proxy_redirect default;
 }
 
+<% end %>

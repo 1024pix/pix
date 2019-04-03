@@ -32,9 +32,14 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       await visit('/profilv2');
 
       // then
-      return andThen(() => {
-        expect(currentURL()).to.equal('/profilv2');
-      });
+      expect(currentURL()).to.equal('/profilv2');
+    });
+
+    it('should display pixscore', async function() {
+      await visit('/profilv2');
+
+      // then
+      expect(find('.hexagon-score-content__pix-score').text()).to.contains('196');
     });
   });
 
@@ -48,9 +53,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       await visit('/profilv2');
 
       // then
-      return andThen(() => {
-        expect(currentURL()).to.equal('/board');
-      });
+      expect(currentURL()).to.equal('/board');
     });
   });
 
@@ -58,24 +61,20 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
     it('should redirect to home, when user is not authenticated', async function() {
       // when
       await visit('/profilv2');
-      return andThen(() => {
-        expect(currentURL()).to.equal('/connexion');
-      });
+      expect(currentURL()).to.equal('/connexion');
     });
 
     it('should stay in /connexion, when authentication failed', async function() {
       // given
       await visit('/connexion');
-      fillIn('#email', 'anyone@pix.world');
-      fillIn('#password', 'Pix20!!');
+      await fillIn('#email', 'anyone@pix.world');
+      await fillIn('#password', 'Pix20!!');
 
       // when
-      click('.button');
+      await click('.button');
 
       // then
-      return andThen(function() {
-        expect(currentURL()).to.equal('/connexion');
-      });
+      expect(currentURL()).to.equal('/connexion');
     });
   });
 });
