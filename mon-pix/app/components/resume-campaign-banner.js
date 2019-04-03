@@ -18,7 +18,7 @@ export default Component.extend({
 
     const lastCampaignParticipationStarted = campaignParticipationOrdered[0];
 
-    if(lastCampaignParticipationStarted) {
+    if (lastCampaignParticipationStarted) {
       return {
         title: lastCampaignParticipationStarted.campaign.get('title'),
         code: lastCampaignParticipationStarted.campaign.get('code'),

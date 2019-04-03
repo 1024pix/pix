@@ -26,7 +26,7 @@ function serialize(validationErrors) {
 
     validationErrors.data[field].forEach((message) => {
 
-      if(_.isEmpty(field)) {
+      if (_.isEmpty(field)) {
         errors.push(_buildEntirePayloadError(message));
       } else {
         errors.push(_buildError(field, message));

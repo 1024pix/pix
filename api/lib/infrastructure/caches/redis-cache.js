@@ -37,7 +37,7 @@ class RedisCache {
       const locker = this._client.lockDisposer(keyToLock, settings.redisCacheKeyLockTTL, unlockErrorHandler);
       const value = await using(locker, retrieveAndSetValue);
       return value;
-    } catch(err) {
+    } catch (err) {
       if (err instanceof Redlock.LockError) {
         logger.trace({ keyToLock }, 'Could not lock Redis key, waiting');
         await new Promise((resolve) => setTimeout(resolve, settings.redisCacheLockedWaitBeforeRetry));

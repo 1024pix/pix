@@ -8,7 +8,7 @@ export default Component.extend({
 
   actions: {
     validateBySupervisor: function() {
-      if(this.validSupervisor) {
+      if (this.validSupervisor) {
         this.set('notFinishedYet', false);
       }
     }

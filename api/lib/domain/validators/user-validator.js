@@ -58,7 +58,7 @@ module.exports = {
   validate(user) {
 
     const joiValidationResults = Joi.validate(user, userValidationJoiSchema, validationConfiguration);
-    if(joiValidationResults.error === null) {
+    if (joiValidationResults.error === null) {
       return Promise.resolve();
     } else {
       return Promise.reject(EntityValidationError.fromJoiErrors(joiValidationResults.error.details));

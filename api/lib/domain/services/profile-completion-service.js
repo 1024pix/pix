@@ -14,7 +14,7 @@ module.exports = {
 
 function _getEvalutedCompetences(competences) {
   return competences.reduce((assessed, competence) => {
-    if(competence.level != -1) {
+    if (competence.level != -1) {
       ++assessed;
     }
 

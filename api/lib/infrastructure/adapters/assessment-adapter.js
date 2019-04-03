@@ -10,7 +10,7 @@ function getAdaptedAssessment(assessmentId, answersPix, challengesPix, skills) {
   const challenges = [];
 
   challengesPix.forEach((challengePix) => {
-    if(challengePix.skills) {
+    if (challengePix.skills) {
       const challengeCatSkills = challengePix.skills.map((skill) => new CatSkill(skill.name));
       const challenge = new CatChallenge(challengePix.id, challengePix.status, challengeCatSkills, challengePix.timer);
       challenges.push(challenge);

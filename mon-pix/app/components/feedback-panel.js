@@ -66,7 +66,7 @@ export default Component.extend({
 
     sendFeedback() {
       const content = this._content;
-      if(isEmpty(content) || isEmpty(content.trim())) {
+      if (isEmpty(content) || isEmpty(content.trim())) {
         this.set('_error', 'Vous devez saisir un message.');
         return;
       }
