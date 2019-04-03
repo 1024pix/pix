@@ -178,6 +178,70 @@ describe('Integration | Repository | Campaign', () => {
 
   });
 
+  describe('#findByOrganizationIdWithCampaignReports', () => {
+
+    const organizationId = 1;
+
+    const campaign1Organization1 = domainBuilder.buildCampaign({
+      id: 1,
+      name: 'campaign1',
+      code: 'AZERTY123',
+      organizationId: organizationId,
+      creatorId: 1
+    });
+
+    const campaignParticipation1 = domainBuilder.buildCampaignParticipation({
+      id: 1,
+      campaign: campaign1Organization1,
+      isShared: true
+    });
+    const campaignParticipation2 = domainBuilder.buildCampaignParticipation({
+      id: 2,
+      campaign: campaign1Organization1,
+      isShared: false
+    });
+    const campaignParticipation3 = domainBuilder.buildCampaignParticipation({
+      id: 3,
+      campaign: campaign1Organization1,
+      isShared: false
+    });
+    const campaignParticipations = [campaignParticipation1, campaignParticipation2, campaignParticipation3];
+
+    beforeEach(async () => {
+      databaseBuilder.factory.buildCampaign(campaign1Organization1);
+      campaignParticipations.forEach((campaignParticipation) => {
+        databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
+      });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it.only('should return the campaigns of the given organization id with campaignReports', () => {
+      // when
+      const promise = campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
+
+      // then
+      return promise.then((campaigns) => {
+        expect(campaigns).to.have.lengthOf(1);
+
+        expect(campaigns[0]).to.be.instanceof(Campaign);
+        expect(campaigns[0].id).to.equal(campaign1Organization1.id);
+        expect(campaigns[0].name).to.equal(campaign1Organization1.name);
+        expect(campaigns[0].code).to.equal(campaign1Organization1.code);
+        expect(campaigns[0].createdAt).to.exist;
+        expect(campaigns[0].creatorId).to.equal(campaign1Organization1.creatorId);
+        expect(campaigns[0].organizationId).to.equal(campaign1Organization1.organizationId);
+
+        expect(campaigns[0].campaignReport.participationsCount).to.equal(3);
+        expect(campaigns[0].campaignReport.sharedParticipationsCount).to.equal(1);
+      });
+    });
+
+  });
+
   describe('#get', () => {
     let campaign;
 

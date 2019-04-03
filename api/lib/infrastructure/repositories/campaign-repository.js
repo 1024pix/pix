@@ -74,6 +74,13 @@ module.exports = {
       .then((campaigns) => campaigns.models.map(_toDomain));
   },
 
+  findByOrganizationIdWithCampaignReports(organizationId) {
+    return BookshelfCampaign
+      .where({ organizationId })
+      .fetchAll()
+      .then((campaigns) => campaigns.models.map(_toDomain));
+  },
+
   checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
     return BookshelfCampaign
       .query((qb) => {
