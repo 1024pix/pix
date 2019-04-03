@@ -1,13 +1,13 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import ENV from 'mon-pix/config/environment';
+import { getHomeHost } from '../helpers/get-home-host';
 
 export default Component.extend({
   session: service(),
   displayErrorMessage: false,
   email: '',
   password: '',
-  urlHome: ENV.APP.HOME_HOST,
+  urlHome: getHomeHost(),
 
   actions: {
     signin() {
