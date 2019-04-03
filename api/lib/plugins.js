@@ -63,11 +63,17 @@ const plugins = [
   },
   ...(isProduction ? [
     {
-      plugin: require('hapi-raven'),
+      plugin: require('hapi-sentry'),
       options: {
-        dsn: process.env.SENTRY_DSN,
-        tags: {
-          source: 'api'
+        client: {
+          dsn: process.env.SENTRY_DSN,
+          environment: process.env.NODE_ENV,
+          debug: true,
+        },
+        scope: {
+          tags: [
+            { name: 'source', value: 'api' }
+          ]
         }
       }
     }
