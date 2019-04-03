@@ -92,7 +92,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
 
   describe('#afterModel', function() {
 
-    it('should call findRecord for user if assessment is certification', function() {
+    it('should call queryRecord for user if assessment is certification', function() {
       // given
       model.assessment.get.withArgs('isPlacement').returns(false);
       model.assessment.get.withArgs('isPreview').returns(false);
@@ -105,8 +105,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(findRecordStub);
-        sinon.assert.calledWith(findRecordStub, 'user', userId);
+        sinon.assert.calledOnce(queryRecordStub);
       });
     });
 

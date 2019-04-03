@@ -7,8 +7,9 @@ module.exports = {
     return new Serializer('user', {
       attributes: [
         'firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted',
-        'pixCertifTermsOfServiceAccepted', 'memberships', 'certificationCenterMemberships',
-        'pixScore', 'scorecards', 'campaignParticipations', 'organizations'
+        'pixCertifTermsOfServiceAccepted', 'usesProfileV2', 'memberships',
+        'certificationCenterMemberships', 'pixScore', 'scorecards',
+        'campaignParticipations', 'organizations',
       ],
       memberships: {
         ref: 'id',

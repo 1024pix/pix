@@ -13,12 +13,12 @@ describe('Unit | Route | compte', function() {
   describe('model', function() {
 
     let storyStub;
-    let findRecordStub;
+    let queryRecordStub;
 
     before(function() {
-      findRecordStub = sinon.stub();
+      queryRecordStub = sinon.stub();
       storyStub = Service.extend({
-        findRecord: findRecordStub
+        queryRecord: queryRecordStub
       });
     });
 
@@ -30,7 +30,7 @@ describe('Unit | Route | compte', function() {
       this.register('service:store', storyStub);
       this.inject.service('store', { as: 'store' });
 
-      findRecordStub.resolves(foundUser);
+      queryRecordStub.resolves(foundUser);
       const route = this.subject();
       route.transitionTo = sinon.stub();
 
@@ -45,12 +45,12 @@ describe('Unit | Route | compte', function() {
 
     it('should remain on /compte when the user as no organization linked (with a forced data reload)', function() {
       // Given
-      const foundUser = EmberObject.create({});
+      const foundUser = EmberObject.create({ organizations: [] });
 
       this.register('service:store', storyStub);
       this.inject.service('store', { as: 'store' });
 
-      findRecordStub.resolves(foundUser);
+      queryRecordStub.resolves(foundUser);
       const route = this.subject();
       route.transitionTo = sinon.stub();
 
@@ -60,7 +60,7 @@ describe('Unit | Route | compte', function() {
       // Then
       return promise.then(function() {
         sinon.assert.notCalled(route.transitionTo);
-        sinon.assert.calledWith(findRecordStub, 'user', undefined, { reload: true });
+        sinon.assert.calledTwice(queryRecordStub);
       });
     });
 

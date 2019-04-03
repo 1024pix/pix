@@ -9,7 +9,6 @@ import {
 
 export default Component.extend(EmberKeyboardMixin, {
 
-  session: service(),
   store: service(),
   routing: service('-routing'),
 
@@ -29,9 +28,10 @@ export default Component.extend(EmberKeyboardMixin, {
     return currentRouteName !== 'compte' && currentRouteName !== 'board';
   }),
 
-  init() {
+  async init() {
     this._super(...arguments);
-    this.store.findRecord('user', this.get('session.data.authenticated.userId'))
+
+    this.store.queryRecord('user', { me: true })
       .then((user) => this.set('_user', user));
   },
 

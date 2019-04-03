@@ -11,16 +11,13 @@ describe('Unit | Route | board', function() {
     needs: ['service:session', 'service:metrics']
   });
 
-  const findRecord = sinon.stub();
+  const queryRecord = sinon.stub();
   const query = sinon.stub();
   let route;
 
   beforeEach(function() {
 
-    this.register('service:store', Service.extend({
-      findRecord: findRecord,
-      query: query,
-    }));
+    this.register('service:store', Service.extend({ queryRecord, query }));
     this.inject.service('store', { as: 'store' });
     this.register('service:session', Service.extend({
       data: { authenticated: { userId: 12, token: 'VALID-TOKEN' } }
@@ -38,20 +35,19 @@ describe('Unit | Route | board', function() {
 
   it('should correctly call the store', function() {
     // given
-    findRecord.resolves();
+    queryRecord.resolves();
 
     // when
     route.model();
 
     // then
-    sinon.assert.calledOnce(findRecord);
-    sinon.assert.calledWith(findRecord, 'user', 12);
+    sinon.assert.calledOnce(queryRecord);
   });
 
   it('should return user first organization and snapshots', function() {
     // given
     const user = EmberObject.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
-    findRecord.resolves(user);
+    queryRecord.resolves(user);
     query.resolves([{ id: 1 }, { id: 2 }]);
 
     // when
@@ -67,7 +63,7 @@ describe('Unit | Route | board', function() {
   it('should return to index when the user has no organization', function() {
     // given
     const user = EmberObject.create({ id: 1, organizations: [] });
-    findRecord.resolves(user);
+    queryRecord.resolves(user);
 
     // when
     const result = route.model();

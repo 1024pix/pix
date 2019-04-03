@@ -1,10 +1,7 @@
-import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-
-  session: service(),
 
   model(params) {
     const store = this.store;
@@ -27,7 +24,6 @@ export default Route.extend({
   afterModel(modelResult) {
     const requiredDatas = {};
 
-    const userId = this.get('session.data.authenticated.userId');
     const campaignCode = modelResult.assessment.codeCampaign;
 
     if (modelResult.assessment.get('isPlacement')
@@ -39,7 +35,7 @@ export default Route.extend({
     }
 
     if (modelResult.assessment.get('isCertification')) {
-      requiredDatas.user = this._getUser(userId);
+      requiredDatas.user = this._getUser();
       return RSVP.hash(requiredDatas)
         .then((hash) => {
           modelResult.user = hash.user;
@@ -68,8 +64,8 @@ export default Route.extend({
     };
   },
 
-  _getUser(userId) {
-    return this.store.findRecord('user', userId);
+  _getUser() {
+    return this.store.queryRecord('user', { profile: true });
   },
 
   _findCampaigns({ campaignCode }) {

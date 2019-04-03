@@ -1,5 +1,5 @@
-import { expect } from 'chai';
 import { describe, it } from 'mocha';
+import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
@@ -17,67 +17,28 @@ describe('Unit | Route | subscribers', function() {
       adapter.ajax = sinon.stub().resolves();
     });
 
-    it('should exist', function() {
+    it('should build /me url', async function() {
       // when
-      const adapter = this.subject();
-      // then
-      return expect(adapter.queryRecord()).to.be.ok;
-    });
-
-    it('should return a resolved promise', function(done) {
-      // when
-      const promise = adapter.queryRecord();
-      // then
-      promise.then(done);
-    });
-
-    it('should called GET /api/users/me', function() {
-      // when
-      adapter.queryRecord();
+      const url = await adapter.urlForQueryRecord({ me: true }, 'user');
 
       // then
-      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
+      expect(url).to.equal('http://localhost:3000/api/users/me');
     });
 
-  });
-
-  describe('#findRecord', () => {
-
-    let adapter;
-
-    beforeEach(function() {
-      adapter = this.subject();
-      adapter.ajax = sinon.stub().resolves();
-    });
-
-    it('should exist', function() {
+    it('should build /me/profile url', async function() {
       // when
-      const adapter = this.subject();
-      // then
-      return expect(adapter.findRecord()).to.be.ok;
-    });
-
-    it('should not reload data from API when already in store', function() {
-      // when
-      const adapter = this.subject();
+      const url = await adapter.urlForQueryRecord({ profile: true }, 'user');
 
       // then
-      expect(adapter.shouldBackgroundReloadRecord()).to.equal(false);
+      expect(url).to.equal('http://localhost:3000/api/users/me/profile');
     });
 
-    it('should return a resolved promise', function(done) {
+    it('should build classic url', async function() {
       // when
-      const promise = adapter.findRecord();
-      // then
-      promise.then(done);
-    });
-
-    it('should called GET /api/users/me', function() {
-      // when
-      adapter.findRecord();
+      const url = await adapter.urlForQueryRecord({}, 'user');
 
       // then
-      sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
+      expect(url).to.equal('http://localhost:3000/api/users');
     });
 
   });
