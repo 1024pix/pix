@@ -231,7 +231,7 @@ jobs:
           background: true
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
-          command: npm start
+          command: npm ci && npm start
 
       - run:
           working_directory: ~/pix/mon-pix
@@ -242,7 +242,7 @@ jobs:
       - run:
           working_directory: ~/pix/mon-pix
           background: true
-          command: npm start
+          command: npm ci && npm start
 
       - run:
           environment:
