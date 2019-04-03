@@ -18,11 +18,11 @@ describe('Integration | Component | competence-card', function() {
     });
 
     [
-      { index: 1, expectedColor: 'orange' },
-      { index: 2, expectedColor: 'green' },
-      { index: 3, expectedColor: 'blue' },
-      { index: 4, expectedColor: 'magenta' },
-      { index: 5, expectedColor: 'purple' }
+      { index: 1, expectedColor: 'jaffa' },
+      { index: 2, expectedColor: 'emerald' },
+      { index: 3, expectedColor: 'cerulean' },
+      { index: 4, expectedColor: 'wild-strawberry' },
+      { index: 5, expectedColor: 'butterfly-bush' }
     ].forEach((data) => {
 
       it(`should display the competence card header in ${data.expectedColor} when index is ${data.index}`, async function() {

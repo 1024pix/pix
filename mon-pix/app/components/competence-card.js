@@ -1,15 +1,15 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
-import domainColors from 'mon-pix/static-data/domain-colors';
+import areaColors from 'mon-pix/static-data/area-colors';
 
 const NUMBER_OF_PIX_BY_LEVEL = 8;
 
 export default Component.extend({
 
-  domainColorStyle: computed('index', function() {
-    const foundDomain = domainColors.find((color) => color.domain === this.index.toString());
-    return foundDomain.colorName;
+  areaColor: computed('index', function() {
+    const foundArea = areaColors.find((color) => color.area === this.index.toString());
+    return foundArea.color;
   }),
 
   percentageAheadOfNextLevel: computed('pixScoreAheadOfNextLevel', function() {
