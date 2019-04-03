@@ -25,7 +25,7 @@ module.exports = {
         qb.innerJoin('assessments', 'knowledge-elements.assessmentId', 'assessments.id');
         qb.where('assessments.userId', '=', userId);
         qb.where('assessments.type', '=', 'SMART_PLACEMENT');
-        if(limitDate) {
+        if (limitDate) {
           qb.where('knowledge-elements.createdAt', '<', limitDate);
         }
       })
