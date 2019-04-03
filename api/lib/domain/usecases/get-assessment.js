@@ -14,7 +14,7 @@ module.exports = async function getAssessment(
   }
   const assessmentResult = assessment.getLastAssessmentResult();
 
-  if(assessmentResult) {
+  if (assessmentResult) {
     assessment.estimatedLevel = Math.min(assessmentResult.level, MAX_REACHABLE_LEVEL);
     assessment.pixScore = assessmentResult.pixScore;
   } else {

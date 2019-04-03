@@ -8,12 +8,12 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
   store: service(),
 
   beforeModel() {
-    if(this.get('session.isAuthenticated')) {
+    if (this.get('session.isAuthenticated')) {
       return this.store
         .findRecord('user', this.get('session.data.authenticated.userId'))
         .then((connectedUser) => {
 
-          if(connectedUser.get('organizations.length')) {
+          if (connectedUser.get('organizations.length')) {
             this.transitionTo('board');
           } else {
             this.transitionTo('compte');

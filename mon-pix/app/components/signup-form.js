@@ -56,7 +56,7 @@ export default Component.extend({
 
   _toggleConfirmation(status, message) {
     this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message });
-    if(ENV.APP.isMessageStatusTogglingEnabled) {
+    if (ENV.APP.isMessageStatusTogglingEnabled) {
       later(() => {
         this.set('temporaryAlert', { status: 'default', message: '' });
       }, ENV.APP.MESSAGE_DISPLAY_DURATION);

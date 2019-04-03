@@ -17,7 +17,7 @@ class Tube {
   }
 
   addSkill(skillToAdd) {
-    if(!this.skills.find((skill) => skill.name === skillToAdd.name)) {
+    if (!this.skills.find((skill) => skill.name === skillToAdd.name)) {
       this.skills.push(skillToAdd);
     }
   }

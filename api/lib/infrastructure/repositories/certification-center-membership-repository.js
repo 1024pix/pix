@@ -36,7 +36,7 @@ module.exports = {
         if (bookshelfUtils.isUniqConstraintViolated(err)) {
           throw new AlreadyExistingMembershipError();
         }
-        if(bookshelfUtils.foreignKeyConstraintViolated(err)) {
+        if (bookshelfUtils.foreignKeyConstraintViolated(err)) {
           throw new CertificationCenterMembershipCreationError();
         }
         throw new InfrastructureError(err);

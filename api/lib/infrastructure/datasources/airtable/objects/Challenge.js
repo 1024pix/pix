@@ -49,17 +49,17 @@ class Challenge {
     }
 
     let attachments;
-    if(airtableEpreuveObject.get('Pièce jointe')) {
+    if (airtableEpreuveObject.get('Pièce jointe')) {
       attachments = airtableEpreuveObject.get('Pièce jointe').map((attachment) => attachment.url).reverse();
     }
 
     let competenceId;
-    if(airtableEpreuveObject.get('Compétences (via tube)')) {
+    if (airtableEpreuveObject.get('Compétences (via tube)')) {
       competenceId = airtableEpreuveObject.get('Compétences (via tube)')[0];
     }
 
     let timer;
-    if(airtableEpreuveObject.get('Timer')) {
+    if (airtableEpreuveObject.get('Timer')) {
       timer = parseInt(airtableEpreuveObject.get('Timer'));
     }
 

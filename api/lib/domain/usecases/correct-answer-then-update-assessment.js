@@ -34,7 +34,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     })
     .then(() => answerSaved)
     .catch((error) => {
-      if(error instanceof NotFoundError) {
+      if (error instanceof NotFoundError) {
         return answerSaved;
       }
       throw error;
