@@ -23,11 +23,7 @@ export default Route.extend(UnauthenticatedRouteMixin, {
 
   actions: {
     signin(email, password) {
-      return this.session
-        .authenticate('authenticator:simple', { email, password })
-        .then((_) => {
-          return this.store.queryRecord('user', {});
-        });
+      return this.session.authenticate('authenticator:simple', { email, password });
     }
   }
 });

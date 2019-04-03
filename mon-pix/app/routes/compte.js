@@ -1,21 +1,21 @@
-import { inject as service } from '@ember/service';
-
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
 
-  model() {
-    const store = this.store;
-    return store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
-      .then((user) => {
-        if (user.get('organizations.length') > 0) {
-          return this.transitionTo('board');
-        }
-        return user;
-      });
+  async model() {
+    const user = await this.store.queryRecord('user', { profile: true });
+
+    const organizations = await user.organizations;
+
+    if (organizations.length) {
+      return this.transitionTo('board');
+    }
+
+    return user;
   },
 
   afterModel(model) {

@@ -18,7 +18,7 @@ describe('Integration | Component | user logged menu', function() {
     beforeEach(function() {
       // given
       this.register('service:store', Service.extend({
-        findRecord() {
+        queryRecord() {
           return resolve({
             firstName: 'FHI',
             lastName: '4EVER',
@@ -27,12 +27,7 @@ describe('Integration | Component | user logged menu', function() {
         }
       }));
 
-      this.register('service:session', Service.extend({
-        data: { authenticated: { userId: 123 } }
-      }));
-
       this.inject.service('store', { as: 'store' });
-      this.inject.service('session', { as: 'session' });
 
       // when
       this.render(hbs`{{user-logged-menu}}`);
@@ -188,7 +183,7 @@ describe('Integration | Component | user logged menu', function() {
   describe('when user is unlogged or not found', function() {
     beforeEach(function() {
       this.register('service:store', Service.extend({
-        findRecord() {
+        queryRecord() {
           return reject();
         }
       }));

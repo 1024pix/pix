@@ -14,7 +14,7 @@ describe('Unit | Component | User logged Menu', function() {
 
     beforeEach(function() {
       this.register('service:store', Service.extend({
-        findRecord() {
+        queryRecord() {
           return resolve({});
         }
       }));
@@ -60,29 +60,15 @@ describe('Unit | Component | User logged Menu', function() {
   });
 
   describe('Display user details', function() {
-    let findRecordArgs;
+    let queryRecordArgs;
 
     describe('When user is logged', function() {
 
       beforeEach(function() {
-        this.register('service:session', Service.extend({
-          isAuthenticated: true,
-          data: {
-            authenticated: {
-              userId: 1435
-            }
-          }
-        }));
-        this.inject.service('session', { as: 'session' });
-
         this.register('service:store', Service.extend({
-          findRecord() {
-            findRecordArgs = Array.from(arguments);
-            return resolve({
-              firstName: 'FHI',
-              lastName: '4EVER',
-              email: 'FHI@4EVER.fr'
-            });
+          queryRecord() {
+            queryRecordArgs = Array.from(arguments);
+            return resolve();
           }
         }));
         this.inject.service('store', { as: 'store' });
@@ -93,7 +79,7 @@ describe('Unit | Component | User logged Menu', function() {
         this.subject();
 
         // then
-        expect(findRecordArgs).to.deep.equal(['user', 1435]);
+        expect(queryRecordArgs).to.deep.equal(['user', { me: true }]);
       });
 
     });
@@ -114,7 +100,7 @@ describe('Unit | Component | User logged Menu', function() {
       this.inject.service('metrics', { as: 'metrics' });
 
       this.register('service:store', Service.extend({
-        findRecord() { return resolve({}); }
+        queryRecord() { return resolve({}); }
       }));
       this.inject.service('store', { as: 'store' });
     });

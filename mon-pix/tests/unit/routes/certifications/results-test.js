@@ -22,12 +22,12 @@ describe('Unit | Route | Certifications | Results', function() {
 
     let route;
     let storeStub;
-    let findRecordStub;
+    let queryRecordStub;
 
     beforeEach(function() {
-      findRecordStub = sinon.stub();
+      queryRecordStub = sinon.stub();
       storeStub = Service.extend({
-        findRecord: findRecordStub
+        queryRecord: queryRecordStub
       });
       this.register('service:store', storeStub);
       this.inject.service('store', { as: 'store' });
@@ -53,14 +53,14 @@ describe('Unit | Route | Certifications | Results', function() {
       it('should find logged user details', function() {
         // Given
         const expectedUser = {};
-        findRecordStub.resolves(expectedUser);
+        queryRecordStub.resolves(expectedUser);
 
         // When
         const promise = route.model(params);
 
         // Then
         return promise.then(function(model) {
-          sinon.assert.calledWith(findRecordStub, 'user', 1435, { reload: true });
+          sinon.assert.calledOnce(queryRecordStub);
           expect(model.user).to.equal(expectedUser);
         });
       });

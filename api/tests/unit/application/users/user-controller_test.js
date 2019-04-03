@@ -280,7 +280,7 @@ describe('Unit | Controller | user-controller', () => {
         }
       };
 
-      sinon.stub(usecases, 'getUserWithMemberships').resolves();
+      sinon.stub(usecases, 'getUser').resolves();
       sinon.stub(userSerializer, 'serialize');
     });
 
@@ -289,8 +289,8 @@ describe('Unit | Controller | user-controller', () => {
       await userController.getUser(request, hFake);
 
       // then
-      expect(usecases.getUserWithMemberships).to.have.been.calledWith({
-        authenticatedUserId,
+      expect(usecases.getUser).to.have.been.calledWith({
+        authenticatedUserId: authenticatedUserId.toString(),
         requestedUserId,
       });
     });
@@ -298,7 +298,7 @@ describe('Unit | Controller | user-controller', () => {
     it('should serialize the authenticated user', async () => {
       // given
       const foundUser = domainBuilder.buildUser();
-      usecases.getUserWithMemberships.resolves(foundUser);
+      usecases.getUser.resolves(foundUser);
 
       // when
       await userController.getUser(request, hFake);
@@ -322,7 +322,7 @@ describe('Unit | Controller | user-controller', () => {
           }
         }
       };
-      usecases.getUserWithMemberships.resolves(foundUser);
+      usecases.getUser.resolves(foundUser);
       userSerializer.serialize.returns(serializedUser);
 
       // when
@@ -331,6 +331,30 @@ describe('Unit | Controller | user-controller', () => {
       // then
       expect(response).to.deep.equal(serializedUser);
     });
+  });
+
+  describe('#getCurrentUser', () => {
+    let request;
+
+    beforeEach(() => {
+      request = { auth: { credentials: { userId: 1 } } };
+
+      sinon.stub(usecases, 'getCurrentUser');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    it('should get the current user', async () => {
+      // given
+      usecases.getCurrentUser.withArgs({ authenticatedUserId: 1 }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.getCurrentUser(request);
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+
   });
 
   describe('#getMemberships', () => {

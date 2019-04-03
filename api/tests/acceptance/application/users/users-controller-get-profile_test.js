@@ -17,7 +17,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
   beforeEach(async () => {
     options = {
       method: 'GET',
-      url: '/api/users/me',
+      url: '/api/users/me/profile',
       payload: {},
       headers: { authorization: generateValidRequestAuhorizationHeader() },
     };
@@ -32,7 +32,6 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         'first-name': firstName,
         'last-name': lastName,
         'email': email,
-        'uses-profile-v2': false,
       },
       relationships: {
         competences: {
@@ -162,7 +161,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
     organizations: []
   };
 
-  describe('GET /api/users/me', () => {
+  describe('GET /api/users/profile', () => {
 
     describe('Success cases:', () => {
 
