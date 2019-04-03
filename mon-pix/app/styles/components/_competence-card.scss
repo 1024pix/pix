@@ -31,24 +31,24 @@
         bottom: 0;
       }
 
-      &--orange::after {
-        background: radial-gradient(#F24645 0%, #F1A141 100%);
+      &--jaffa::after {
+        background: radial-gradient(#F24645 0%, $jaffa 100%);
       }
 
-      &--green::after {
-        background: radial-gradient(#1A8C89 0%, #52D987 100%);
+      &--emerald::after {
+        background: radial-gradient(#1A8C89 0%, $emerald 100%);
       }
 
-      &--blue::after {
-        background: radial-gradient(#3D68FF 0%, #12A3FF 100%);
+      &--cerulean::after {
+        background: radial-gradient(#3D68FF 0%, $cerulean 100%);
       }
 
-      &--magenta::after {
-        background: radial-gradient(#AC008D 0%, #FF3F93 100%);
+      &--wild-strawberry::after {
+        background: radial-gradient(#AC008D 0%, $wild-strawberry 100%);
       }
 
-      &--purple::after {
-        background: radial-gradient(#5E2563 0%, #564DA6 100%);
+      &--butterfly-bush::after {
+        background: radial-gradient(#5E2563 0%, $butterfly-bush 100%);
       }
     }
 
