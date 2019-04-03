@@ -57,14 +57,15 @@ workflows:
 
       - e2e_test:
           requires:
+            - checkout
+
+      - signal_ci_ok:
+          requires:
             - api_build_and_test
             - mon_pix_build_and_test
             - orga_build_and_test
             - certif_build_and_test
             - admin_build_and_test
-
-      - signal_ci_ok:
-          requires:
             - e2e_test
           filters:
             branches:
