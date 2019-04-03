@@ -7,9 +7,6 @@ const moment = require('moment');
 
 describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', () => {
 
-  const SMART_PLACEMENT = 'SMART_PLACEMENT';
-  const PLACEMENT = 'PLACEMENT';
-
   afterEach(() => {
     return knex('knowledge-elements').delete()
       .then(() => (databaseBuilder.clean()));
@@ -85,10 +82,19 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       const answer3Id = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentIdOther }).id;
 
       knowledgeElementsWanted = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer1Id, createdAt: '' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId, answerId: answer2Id, createdAt: '' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          assessmentId,
+          answerId: answer1Id,
+        }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          assessmentId,
+          answerId: answer2Id,
+        })
       ];
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ assessmentId: assessmentIdOther, answerId: answer3Id });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        assessmentId: assessmentIdOther,
+        answerId: answer3Id
+      });
       await databaseBuilder.commit();
     });
 
@@ -122,22 +128,40 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     beforeEach(async () => {
       // given
       userId = databaseBuilder.factory.buildUser().id;
-      const assessment1Id = databaseBuilder.factory.buildAssessment({ userId, type: SMART_PLACEMENT }).id;
-      const assessment2Id = databaseBuilder.factory.buildAssessment({ userId, type: SMART_PLACEMENT }).id;
-      const assessment3Id = databaseBuilder.factory.buildAssessment({ userId, type: PLACEMENT }).id;
 
       knowledgeElementsWantedWithLimitDate = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, assessmentId: assessment1Id, createdAt: yesterday, skillId: '1' }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, assessmentId: assessment2Id, createdAt: yesterday, skillId: '3', status: 'validated' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          id: 1,
+          createdAt: yesterday,
+          skillId: '1',
+          userId
+        }),
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          id: 2,
+          createdAt: yesterday,
+          skillId: '3',
+          status: 'validated',
+          userId
+        })
       ];
 
       knowledgeElementsWanted = knowledgeElementsWantedWithLimitDate.concat([
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 3, assessmentId: assessment1Id, createdAt: tomorrow, skillId: '2' })
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          id: 3,
+          createdAt: tomorrow,
+          skillId: '2',
+          userId
+        })
       ]);
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 4, assessmentId: assessment2Id, createdAt: dayBeforeYesterday, skillId: '3', status: 'invalidated' }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, assessmentId: assessment3Id, createdAt: yesterday }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, assessmentId: assessment3Id, createdAt: yesterday }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 4,
+        createdAt: dayBeforeYesterday,
+        skillId: '3',
+        status: 'invalidated'
+      }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, createdAt: yesterday }),
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, createdAt: yesterday }),
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 7, createdAt: today });
 
       await databaseBuilder.commit();
@@ -171,6 +195,77 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
             expect(knowledgeElementsFound).have.lengthOf(2);
           });
       });
+    });
+
+  });
+
+  describe('#getSumOfPixFromUserKnowledgeElements', () => {
+
+    let userId;
+    const today = new Date('2018-08-01T12:34:56Z');
+    const yesterday = moment(today).subtract(1, 'days').toDate();
+
+    beforeEach(async () => {
+
+      // given
+      userId = databaseBuilder.factory.buildUser().id;
+      const userId_tmp = databaseBuilder.factory.buildUser().id;
+
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 1,
+        skillId: 'rec1',
+        userId,
+        earnedPix: 5,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 2,
+        skillId: 'rec2',
+        status: 'validated',
+        userId,
+        earnedPix: 10,
+        createdAt: today,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 3,
+        skillId: 'rec2',
+        userId,
+        earnedPix: 1000,
+        createdAt: yesterday,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 4,
+        skillId: 'rec2',
+        status: 'validated',
+        userId,
+        earnedPix: 1000,
+        createdAt: yesterday,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 5,
+        skillId: 'rec3',
+        userId,
+        earnedPix: 3,
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        id: 6,
+        skillId: 'rec1',
+        status: 'invalidated',
+        userId: userId_tmp,
+        earnedPix: 500,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the right sum of Pix from user knowledge elements', async () => {
+      // when
+      const earnedPix = await SmartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(userId);
+
+      expect(earnedPix).to.equal(18);
     });
 
   });
