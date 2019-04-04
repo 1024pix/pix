@@ -3,7 +3,6 @@ export default function(schema, request) {
 
   const area1 = schema.areas.find(1);
   const area2 = schema.areas.find(2);
-  const area3 = schema.areas.find(3);
 
   const scorecardN1 = schema.scorecards.create({
     name: 'Compétence C1',
@@ -15,16 +14,16 @@ export default function(schema, request) {
   const scorecardN2 = schema.scorecards.create({
     name: 'Compétence C2',
     earnedPix: 7,
-    level: 2,
+    level: 4,
     pixScoreAheadOfNextLevel: 7.2,
-    area: area2
+    area: area1
   });
   const scorecardN3 = schema.scorecards.create({
     name: 'Compétence C3',
     earnedPix: 10,
     level: 3,
     pixScoreAheadOfNextLevel: 5.36,
-    area: area3
+    area: area2
   });
 
   const user = schema.users.find(userId);

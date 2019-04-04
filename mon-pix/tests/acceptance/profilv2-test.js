@@ -42,22 +42,34 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       expect(find('.hexagon-score-content__pix-score').text()).to.contains('196');
     });
 
-    it('should display first competence card', async function() {
+    it('should display first competence card of first area', async function() {
       // when
       await visit('/profilv2');
 
       // then
-      findWithAssert('.rounded-panel-body :first-child');
-      expect(find('.scorecard:first-child .scorecard-content__area').text()).to.contains('Information et données');
+      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__area-name').text()).to.equal('Information et données');
+      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__competence-name').text()).to.equal('Compétence C1');
+      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card-level__value').text()).to.equal('2');
     });
 
-    it('should display the related percentage of the first competence card', async function() {
+    it('should display second competence card of first area', async function() {
       // when
       await visit('/profilv2');
 
       // then
-      findWithAssert('.rounded-panel-body :first-child');
-      expect(find('.scorecard:first-child .scorecard-content__percentage-ahead-of-next-level').text()).to.contains('3.2');
+      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__area-name').text()).to.equal('Information et données');
+      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__competence-name').text()).to.equal('Compétence C2');
+      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card-level__value').text()).to.equal('4');
+    });
+
+    it('should display first competence card of second area', async function() {
+      // when
+      await visit('/profilv2');
+
+      // then
+      expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card__area-name').text()).to.equal('Communication et collaboration');
+      expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card__competence-name').text()).to.equal('Compétence C3');
+      expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card-level__value').text()).to.equal('3');
     });
   });
 
