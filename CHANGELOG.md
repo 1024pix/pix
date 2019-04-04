@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.34.0 (04/04/2019)
+
+- [#445](https://github.com/1024pix/pix/pull/445) [FEATURE] Renommage de surveillant en surveillant(s) (PC-44).
+- [#418](https://github.com/1024pix/pix/pull/418) [FEATURE] Calculer le Pix Score global de l'utilisateur à afficher dans le profil v2 (PF-537).
+- [#441](https://github.com/1024pix/pix/pull/441) [TECH] Ajout d'une règle de linting forçant l'emploi d'espace entre les mots-clé
+- [#440](https://github.com/1024pix/pix/pull/440) [TECH] Spécification de la politique de cache des ressources statiques
+- [#442](https://github.com/1024pix/pix/pull/442) [TECH] Mise à jour du client Sentry côté API.
+- [#427](https://github.com/1024pix/pix/pull/427) [TECH] Montée de version de Pix App.
+
 ## v2.33.2 (02/04/2019)
 
 - [#436](https://github.com/1024pix/pix/pull/436) [BUGFIX] Les tableaux dans les épreuves s'affichent correctement
