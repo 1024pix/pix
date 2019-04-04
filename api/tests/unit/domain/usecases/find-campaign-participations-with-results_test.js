@@ -74,7 +74,7 @@ describe.only('Unit | UseCase | get-campaign-participations-with-results', () =>
       expect(campaignParticipationsResult).to.equal(campaignParticipations);
     });
   });
-  context('the assessment does not belong to the user', () => {
+  xcontext('the assessment does not belong to the user', () => {
     beforeEach(async () => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
 
