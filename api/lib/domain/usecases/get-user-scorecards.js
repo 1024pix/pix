@@ -1,34 +1,44 @@
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
-const CURRENT_USER_MAX_LEVEL  = 5;
-const NB_PIX_BY_LEVEL         = 8;
+const MAX_REACHABLE_LEVEL = 5;
+const NB_PIX_BY_LEVEL = 8;
 
 module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository }) => {
 
   if (authenticatedUserId !== requestedUserId) {
-    return Promise.reject(new UserNotAuthorizedToAccessEntity());
+    throw new UserNotAuthorizedToAccessEntity();
   }
-  const userKE = await smartPlacementKnowledgeElementRepository.findUniqByUserId(requestedUserId);
-  const sortedKEGroupedByCompetence = _.groupBy(userKE, 'competenceId');
 
-  const competenceTree = await competenceRepository.list();
+  const [userKEList, competenceTree] = await Promise.all([
+    smartPlacementKnowledgeElementRepository.findUniqByUserId(requestedUserId),
+    competenceRepository.list(),
+  ]);
+
+  const sortedKEGroupedByCompetence = _.groupBy(userKEList, 'competenceId');
+
   return _.map(competenceTree, (competence) => {
     const KEgroup = sortedKEGroupedByCompetence[competence.id];
+    const totalEarnedPixByCompetence = _.sumBy(KEgroup, 'earnedPix');
 
-    competence.earnedPix = _.sumBy(KEgroup, 'earnedPix');
-    competence.level = _getUserLevel(competence.earnedPix);
-    competence.pixScoreAheadOfNextLevel = _getPixScoreAheadOfNextLevel(competence.earnedPix);
-
-    return competence;
+    return {
+      id: `${requestedUserId}_${competence.index}`,
+      name: competence.name,
+      index: competence.index,
+      area: competence.area,
+      courseId: competence.courseId,
+      earnedPix: totalEarnedPixByCompetence,
+      level: _getCompetenceLevel(totalEarnedPixByCompetence),
+      pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPixByCompetence)
+    };
   });
 };
 
-function _getUserLevel(pix) {
-  const userLevel = Math.floor(pix / NB_PIX_BY_LEVEL);
-  return (userLevel >= CURRENT_USER_MAX_LEVEL) ? CURRENT_USER_MAX_LEVEL : userLevel;
+function _getCompetenceLevel(earnedPix) {
+  const userLevel = Math.floor(earnedPix / NB_PIX_BY_LEVEL);
+  return (userLevel >= MAX_REACHABLE_LEVEL) ? MAX_REACHABLE_LEVEL : userLevel;
 }
 
-function _getPixScoreAheadOfNextLevel(pix) {
-  return pix % NB_PIX_BY_LEVEL;
+function _getPixScoreAheadOfNextLevel(earnedPix) {
+  return earnedPix % NB_PIX_BY_LEVEL;
 }

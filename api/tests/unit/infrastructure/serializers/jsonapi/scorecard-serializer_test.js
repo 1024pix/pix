@@ -10,12 +10,11 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
     const jsonScorecardExpected = {
       data: {
         type: 'scorecards',
-        id:scorecardObject.id,
+        id: scorecardObject.id,
         attributes: {
           name: scorecardObject.name,
           index: scorecardObject.index,
           'course-id': scorecardObject.courseId,
-          skills: scorecardObject.skills,
           'earned-pix': scorecardObject.earnedPix,
           level: scorecardObject.level,
           'pix-score-ahead-of-next-level': scorecardObject.pixScoreAheadOfNextLevel

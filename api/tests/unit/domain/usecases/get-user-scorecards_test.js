@@ -3,8 +3,6 @@ const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/erro
 const getUserScorecard = require('../../../../lib/domain/usecases/get-user-scorecards');
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
-  expect(userScorecard.id).to.equal(expectedUserScorecard.id);
-  expect(userScorecard.name).to.equal(expectedUserScorecard.name);
   expect(userScorecard.earnedPix).to.equal(expectedUserScorecard.earnedPix);
   expect(userScorecard.level).to.equal(expectedUserScorecard.level);
   expect(userScorecard.pixScoreAheadOfNextLevel).to.equal(expectedUserScorecard.pixScoreAheadOfNextLevel);
@@ -59,8 +57,8 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         const pixScoreAheadOfNextLevelForCompetenceId2 = 4;
 
         const competenceList = [
-          domainBuilder.buildCompetence({ id: 1, name: 'compétence 1' }),
-          domainBuilder.buildCompetence({ id: 2, name: 'compétence 2' })
+          domainBuilder.buildCompetence({ id: 1 }),
+          domainBuilder.buildCompetence({ id: 2 })
         ];
         competenceRepository.list.resolves(competenceList);
 
@@ -73,7 +71,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
 
         const expectedUserScorecard = [
           domainBuilder.buildUserScorecard({
-            id: competenceList[0].id,
+            courseId: competenceList[0].courseId,
             name: competenceList[0].name,
             earnedPix: earnedPixForCompetenceId1,
             level: levelForCompetenceId1,
@@ -81,7 +79,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           }),
 
           domainBuilder.buildUserScorecard({
-            id: competenceList[1].id,
+            courseId: competenceList[1].courseId,
             name: competenceList[1].name,
             earnedPix: earnedPixDefaultValue,
             level: levelForCompetenceId2,
@@ -108,7 +106,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         const pixScoreAheadOfNextLevel = 2;
 
         const competenceList = [
-          domainBuilder.buildCompetence({ id: 1, name: 'compétence 1' }),
+          domainBuilder.buildCompetence({ id: 1 }),
         ];
         competenceRepository.list.resolves(competenceList);
 
@@ -119,7 +117,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
 
         const expectedUserScorecard = [
           domainBuilder.buildUserScorecard({
-            id: competenceList[0].id,
+            courseId: competenceList[0].courseId,
             name: competenceList[0].name,
             earnedPix: earnedPixNeededForLevelSixLimitedToFive,
             level: maxLevel,
