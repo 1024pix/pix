@@ -203,7 +203,7 @@ module.exports = {
   },
 
   create(domainUser) {
-    const userToCreate = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships', 'pixScore', 'scorecards']);
+    const userToCreate = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships', 'pixScore', 'knowledgeElements']);
     return new BookshelfUser(userToCreate)
       .save()
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
@@ -232,7 +232,7 @@ module.exports = {
   },
 
   updateUser(domainUser) {
-    const userToUpdate = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships', 'pixScore', 'scorecards']);
+    const userToUpdate = _.omit(domainUser, ['pixRoles', 'memberships', 'certificationCenterMemberships', 'pixScore', 'knowledgeElements']);
     return BookshelfUser.where({ id: domainUser.id })
       .save(userToUpdate, {
         patch: true,
