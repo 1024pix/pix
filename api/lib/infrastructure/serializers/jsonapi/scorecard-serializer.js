@@ -8,7 +8,6 @@ module.exports = {
         'name',
         'index',
         'courseId',
-        'skills',
         'area',
         'earnedPix',
         'level',

@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 
@@ -114,13 +113,14 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
         const expectedScorecardJSONApi = {
           data: [{
             type: 'scorecards',
-            id: competence.id,
+            id: `1234_${competence.fields['Sous-domaine']}`,
             attributes: {
               name: competence.fields.Titre,
               index: competence.fields['Sous-domaine'],
               'course-id': competence.fields.courseId,
-              skills: competence.fields['Acquis (identifiants)'],
-              'earned-pix': knowledgeElement.earnedPix
+              'earned-pix': knowledgeElement.earnedPix,
+              level: Math.round(knowledgeElement.earnedPix/8),
+              'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
             },
             relationships: {
               area: {
@@ -145,7 +145,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
 
         // then
         return promise.then((response) => {
-          expect(_.omit(response.result.data[0], ['attributes.level', 'attributes.pix-score-ahead-of-next-level'])).to.deep.equal(expectedScorecardJSONApi.data[0]);
+          expect(response.result.data[0]).to.deep.equal(expectedScorecardJSONApi.data[0]);
           expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
         });
       });

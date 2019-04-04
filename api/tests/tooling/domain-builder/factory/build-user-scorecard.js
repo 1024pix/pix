@@ -1,6 +1,5 @@
 const faker = require('faker');
 const buildArea = require('./build-area');
-const buildSkillCollection = require('./build-skill-collection');
 
 module.exports = function buildUserScorecard(
   {
@@ -14,7 +13,6 @@ module.exports = function buildUserScorecard(
     pixScoreAheadOfNextLevel = `${faker.random.number()}`,
     // relationships
     area = buildArea(),
-    skills = buildSkillCollection(),
   } = {}) {
 
   return {
@@ -28,6 +26,5 @@ module.exports = function buildUserScorecard(
     pixScoreAheadOfNextLevel,
     // relationships
     area,
-    skills,
   };
 };

@@ -18,7 +18,7 @@ class User {
     certificationCenterMemberships = [],
     pixRoles = [],
     pixScore,
-    scorecards,
+    scorecards = [],
     // references
   } = {}) {
     this.id = id;
