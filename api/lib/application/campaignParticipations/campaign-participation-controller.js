@@ -1,3 +1,4 @@
+const { BadRequestError } = require('../../infrastructure/errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
@@ -35,17 +36,21 @@ module.exports = {
   find(request) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
-
     const options = queryParamsUtils.extractParameters(request.query);
 
     let campaignParticipationsPromise;
 
-    if (options.filter.assessmentId) {
+    if (!options.filter.assessmentId && !options.filter.campaignId) {
+      throw new BadRequestError('Campaign participations must be fetched by assessmentId and/or campaignId');
+    }
+
+    if (options.filter.campaignId && options.include.includes('campaign-participation-result')) {
+      campaignParticipationsPromise = usecases.findCampaignParticipationsWithResults({ userId, options });
+
+    } else {
       campaignParticipationsPromise = usecases.getUserCampaignParticipation({ userId, options });
     }
-    if (options.filter.campaignId) {
-      campaignParticipationsPromise = usecases.getCampaignParticipations({ userId, options });
-    }
+
     return campaignParticipationsPromise
       .then((campaignParticipation) => {
         return serializer.serialize(campaignParticipation.models, campaignParticipation.pagination);
