@@ -24,7 +24,8 @@ export default Component.extend({
     },
 
     validateAnswer() {
-      this.answerValidated();
+      this.answerValidated()
+        .catch(() => null); // No uncaught errors
     },
   },
 });

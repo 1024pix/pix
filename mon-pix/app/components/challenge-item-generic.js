@@ -94,8 +94,9 @@ const ChallengeItemGeneric = Component.extend({
     validateAnswer() {
       if (this.validateButtonStatus === buttonStatuses.enabled && this.skipButtonStatus === buttonStatuses.enabled) {
         if (this._hasError()) {
-          const errorMessage = this._getErrorMessage();
 
+          const errorMessage = this._getErrorMessage();
+          
           this.set('errorMessage', errorMessage);
           
           return RSVP.reject(errorMessage);
@@ -109,6 +110,8 @@ const ChallengeItemGeneric = Component.extend({
           .then(() => this.set('validateButtonStatus', buttonStatuses.enabled))
           .catch(() => this.set('validateButtonStatus', buttonStatuses.enabled));
       }
+
+      return Promise.resolve();
     },
 
     skipChallenge: callOnlyOnce(function() {
@@ -121,6 +124,8 @@ const ChallengeItemGeneric = Component.extend({
           .then(() => this.set('skipButtonStatus', buttonStatuses.enabled))
           .catch(() => this.set('skipButtonStatus', buttonStatuses.enabled));
       }
+      
+      return Promise.resolve();
     }),
 
     setUserConfirmation() {
