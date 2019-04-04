@@ -55,6 +55,10 @@ workflows:
           requires:
             - checkout
 
+      - e2e_test:
+          requires:
+            - checkout
+
       - signal_ci_ok:
           requires:
             - api_build_and_test
@@ -62,6 +66,7 @@ workflows:
             - orga_build_and_test
             - certif_build_and_test
             - admin_build_and_test
+            - e2e_test
           filters:
             branches:
               ignore:
@@ -195,6 +200,58 @@ jobs:
           paths:
             - ~/.npm
       - run: npm test
+
+  e2e_test:
+    docker:
+      - image: cypress/browsers:chrome69
+      - image: postgres:10-alpine
+        environment:
+          POSTGRES_USER: circleci
+    working_directory: ~/pix/high-level-tests/e2e
+    steps:
+      - attach_workspace:
+          at: ~/pix
+      - run: cat package*.json > cachekey-e2e
+      - restore_cache:
+          keys:
+            - v7-e2e-npm-{{ checksum "cachekey-e2e" }}
+      - run: npm ci
+      - save_cache:
+          key: v7-e2e-npm-{{ checksum "cachekey-e2e" }}
+          paths:
+            - ~/.npm
+
+      - run:
+          working_directory: ~/pix/api
+          command: cat package*.json > cachekey-api
+      - restore_cache:
+          keys:
+            - v7-api-npm-{{ checksum "~/pix/api/cachekey-api" }}
+      - run:
+          working_directory: ~/pix/api
+          background: true
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+          command: npm ci && npm start
+
+      - run:
+          working_directory: ~/pix/mon-pix
+          command: cat package*.json > cachekey-mon-pix
+      - restore_cache:
+          keys:
+            - v7-mon-pix-npm-{{ checksum "~/pix/mon-pix/cachekey-mon-pix" }}
+      - run:
+          working_directory: ~/pix/mon-pix
+          background: true
+          command: npm ci && npm start
+
+      - run:
+          environment:
+            DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
+          command: |
+            wget --retry-connrefused -T 60 -qO- http://localhost:4200
+            wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
+            npm run cy:run
 
   signal_ci_ok:
     docker:
