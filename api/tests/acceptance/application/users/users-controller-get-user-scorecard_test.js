@@ -18,7 +18,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
       method: 'GET',
       url: '/api/users/1234/scorecards',
       payload: {},
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
+      headers: {},
     };
     server = await createServer();
   });
@@ -38,90 +38,110 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
 
   describe('GET /users/:id/scorecards', () => {
 
-    const skillWeb1Id = 'recAcquisWeb1';
-    const skillWeb1Name = '@web1';
+    describe('Resource access management', () => {
 
-    const competenceId = 'recCompetence';
-    const competenceReference = '1.1 Mener une recherche et une veille d’information';
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
 
-    beforeEach(async () => {
-      competence = airtableBuilder.factory.buildCompetence({
-        id: competenceId,
-        epreuves: [],
-        titre: 'Mener une recherche et une veille d’information',
-        tests: [],
-        acquisIdentifiants: [skillWeb1Id],
-        tubes: [],
-        acquisViaTubes: [skillWeb1Id],
-        reference: competenceReference,
-        testsRecordID: [],
-        acquis: [skillWeb1Name],
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
       });
-
-      area = airtableBuilder.factory.buildArea();
-
-      airtableBuilder.mockList({ tableName: 'Domaines' })
-        .returns([area])
-        .activate();
-
-      airtableBuilder.mockList({ tableName: 'Competences' })
-        .returns([competence])
-        .activate();
-
-      knowledgeElement = databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
-        userId: 1234,
-        competenceId: competence.id,
-      });
-
-      await databaseBuilder.commit();
     });
 
-    it('should return 200', () => {
-      // when
-      const promise = server.inject(options);
+    describe('Success case', () => {
 
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
+      const skillWeb1Id = 'recAcquisWeb1';
+      const skillWeb1Name = '@web1';
+
+      const competenceId = 'recCompetence';
+      const competenceReference = '1.1 Mener une recherche et une veille d’information';
+
+      beforeEach(async () => {
+        options.headers.authorization = generateValidRequestAuhorizationHeader();
+
+        competence = airtableBuilder.factory.buildCompetence({
+          id: competenceId,
+          epreuves: [],
+          titre: 'Mener une recherche et une veille d’information',
+          tests: [],
+          acquisIdentifiants: [skillWeb1Id],
+          tubes: [],
+          acquisViaTubes: [skillWeb1Id],
+          reference: competenceReference,
+          testsRecordID: [],
+          acquis: [skillWeb1Name],
+        });
+
+        area = airtableBuilder.factory.buildArea();
+
+        airtableBuilder.mockList({ tableName: 'Domaines' })
+          .returns([area])
+          .activate();
+
+        airtableBuilder.mockList({ tableName: 'Competences' })
+          .returns([competence])
+          .activate();
+
+        knowledgeElement = databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          userId: 1234,
+          competenceId: competence.id,
+        });
+
+        await databaseBuilder.commit();
       });
 
-    });
+      it('should return 200', () => {
+        // when
+        const promise = server.inject(options);
 
-    it('should return user\'s serialized scorecards', () => {
-      // when
-      const promise = server.inject(options);
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
 
-      const expectedScorecardJSONApi = {
-        data: [{
-          type: 'scorecards',
-          id: competence.id,
-          attributes: {
-            name: competence.fields.Titre,
-            index: competence.fields['Sous-domaine'],
-            'course-id': competence.fields.courseId,
-            skills: competence.fields['Acquis (identifiants)'],
-            'earned-pix': knowledgeElement.earnedPix
-          },
-          relationships: {
-            area: {
-              data: {
-                id: area.id,
-                type: 'areas'
-              }
-            },
-          },
-        }],
-        included: [
-          {
+      });
+
+      it('should return user\'s serialized scorecards', () => {
+        // when
+        const promise = server.inject(options);
+
+        const expectedScorecardJSONApi = {
+          data: [{
+            type: 'scorecards',
+            id: competence.id,
             attributes: {
-              code: area.fields.Code,
-              title: area.fields.Titre,
+              name: competence.fields.Titre,
+              index: competence.fields['Sous-domaine'],
+              'course-id': competence.fields.courseId,
+              skills: competence.fields['Acquis (identifiants)'],
+              'earned-pix': knowledgeElement.earnedPix
             },
-            id: area.id,
-            type: 'areas'
-          }
-        ]
-      };
+            relationships: {
+              area: {
+                data: {
+                  id: area.id,
+                  type: 'areas'
+                }
+              },
+            },
+          }],
+          included: [
+            {
+              attributes: {
+                code: area.fields.Code,
+                title: area.fields.Titre,
+              },
+              id: area.id,
+              type: 'areas'
+            }
+          ]
+        };
 
         // then
         return promise.then((response) => {
@@ -129,9 +149,6 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
           expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
         });
       });
-
     });
-
   });
-
 });
