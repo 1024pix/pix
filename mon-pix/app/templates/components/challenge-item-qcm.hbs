@@ -5,35 +5,41 @@
 {{/if}}
 
 {{#unless hasChallengeTimer}}
+  <form {{action "validateAnswer" on="submit"}}>
+    {{challenge-statement challenge=challenge assessment=assessment}}
 
-  {{challenge-statement challenge=challenge assessment=assessment}}
-
-  <div class="rounded-panel challenge-response">
-    <div class="rounded-panel__row challenge-proposals">
-      {{qcm-proposals
-        answersValue=answers.value
-        proposals=challenge.proposals
-        answerChanged=(action 'answerChanged')}}
-    </div>
-    {{#if challenge.timer}}
-      {{#if hasUserConfirmWarning}}
-      <div class="rounded-panel__row timeout-jauge-wrapper">
-        {{timeout-jauge allotedTime=challenge.timer}}
+    <div class="rounded-panel challenge-response">
+      <div class="rounded-panel__row challenge-proposals">
+        {{qcm-proposals
+          answersValue=answers.value
+          proposals=challenge.proposals
+          answerChanged=(action 'answerChanged')}}
       </div>
+      {{#if challenge.timer}}
+        {{#if hasUserConfirmWarning}}
+          <div class="rounded-panel__row timeout-jauge-wrapper">
+            {{timeout-jauge allotedTime=challenge.timer}}
+          </div>
+        {{/if}}
       {{/if}}
-    {{/if}}
-  </div>
-
-  {{#if errorMessage}}
-    <div class="alert alert-danger" role="alert">
-      {{errorMessage}}
     </div>
-  {{/if}}
 
-  {{#if assessment}}
-    {{challenge-actions challenge=challenge challengeSkipped=(action "skipChallenge") answerValidated=(action "validateAnswer")}}
-  {{/if}}
+    {{#if errorMessage}}
+      <div class="alert alert-danger" role="alert">
+        {{errorMessage}}
+      </div>
+    {{/if}}
 
+    {{#if assessment}}
+      {{challenge-actions 
+        challenge=challenge 
+        challengeSkipped=(action "skipChallenge") 
+        answerValidated=(action "validateAnswer") 
+        skipButtonStatus=skipButtonStatus 
+        validateButtonStatus=validateButtonStatus
+      }}
+    {{/if}}
+  </form>
 {{/unless}}
 
 {{#if canDisplayFeedbackPanel}}
