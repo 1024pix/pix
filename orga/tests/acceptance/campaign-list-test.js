@@ -1,4 +1,4 @@
-import { module, test, only } from 'qunit';
+import { module, test } from 'qunit';
 import { currentURL, visit, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
@@ -84,36 +84,6 @@ module('Acceptance | Campaign List', function (hooks) {
 
       // then
       assert.equal(currentURL(), '/campagnes/1');
-    });
-
-    test('PERFORMANCE TEST it should handle 20 campaigns with 100 participants each', async function (assert) {
-      // given
-      await authenticateSession({
-        user_id: user.id,
-      });
-
-      const participationsCount = 100;
-
-      const campaignReports = server.createList('campaign-report', 10, { participationsCount });
-      console.log("====> campaignReports OK");
-
-      const campaigns = campaignReports.map(campaignReport => {
-        return server.create('campaign', { campaignReport });
-      });
-
-      campaigns.map(campaign => {
-        const users = server.createList('user', participationsCount);
-
-        users.map(user => {
-          server.create('campaign-participation', { user, campaign });
-        })
-      });
-
-      // when
-      await visit('/campagnes/liste');
-
-      // then
-      assert.dom('.campaign-item').exists({ count: 10 });
     });
   });
 });
