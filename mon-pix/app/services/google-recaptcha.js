@@ -20,7 +20,7 @@ export default Service.extend({
   render(containerId, callback, expiredCallback) {
     const grecaptcha = window.grecaptcha;
     assert('window.grecaptcha must be available', grecaptcha);
-    if (!this.get('isDestroyed')) {
+    if (!this.isDestroyed) {
       const parameters = {
         'callback': callback,
         'expired-callback': expiredCallback,

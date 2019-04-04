@@ -3,12 +3,12 @@ import BaseRoute from 'mon-pix/routes/base-route';
 export default BaseRoute.extend({
 
   model(params) {
-    const store = this.get('store');
+    const store = this.store;
     return store.findRecord('challenge', params.challenge_id);
   },
 
   afterModel(challenge) {
-    const store = this.get('store');
+    const store = this.store;
     const that = this;
 
     const assessment = store.createRecord('assessment', { type: 'PREVIEW' });

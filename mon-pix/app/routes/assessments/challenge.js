@@ -7,7 +7,7 @@ export default BaseRoute.extend({
   session: service(),
 
   model(params) {
-    const store = this.get('store');
+    const store = this.store;
 
     const assessmentId = params.assessment_id;
     const challengeId = params.challenge_id;
@@ -68,17 +68,17 @@ export default BaseRoute.extend({
   },
 
   _getUser(userId) {
-    return this.get('store').findRecord('user', userId);
+    return this.store.findRecord('user', userId);
   },
 
   _findCampaigns({ campaignCode }) {
-    return this.get('store').query('campaign', { filter: { code: campaignCode } });
+    return this.store.query('campaign', { filter: { code: campaignCode } });
   },
 
   _findOrCreateAnswer(challenge, assessment) {
     let answer = assessment.get('answers').findBy('challenge.id', challenge.get('id'));
     if (!answer) {
-      answer = this.get('store').createRecord('answer', { assessment, challenge });
+      answer = this.store.createRecord('answer', { assessment, challenge });
     }
     return answer;
   },

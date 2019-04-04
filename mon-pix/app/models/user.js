@@ -1,7 +1,7 @@
 import { computed } from '@ember/object';
 import DS from 'ember-data';
 
-const { Model, attr, hasMany } = DS;
+const { Model, attr, hasMany, belongsTo } = DS;
 
 export default Model.extend({
   firstName: attr('string'),
@@ -10,14 +10,15 @@ export default Model.extend({
   password: attr('string'),
   cgu: attr('boolean'),
   recaptchaToken: attr('string'),
-  competences: hasMany('competence'),
   totalPixScore: attr('number'),
+  pixScore: belongsTo('pix-score'),
+  competences: hasMany('competence'),
   organizations: hasMany('organization'),
   certifications: hasMany('certification'),
   campaignParticipations: hasMany('campaign-participation'),
 
   competenceAreas: computed('competences', function() {
-    return this.get('competences').then((competences) => {
+    return this.competences.then((competences) => {
       return competences.reduce((areas, competence) => {
         competence.get('area').then((competenceArea) => {
           if (!areas[competenceArea.get('id')]) {
@@ -34,6 +35,6 @@ export default Model.extend({
   }),
 
   fullName: computed('firstName', 'lastName', function() {
-    return `${this.get('firstName')} ${ this.get('lastName')}`;
+    return `${this.firstName} ${ this.lastName}`;
   })
 });

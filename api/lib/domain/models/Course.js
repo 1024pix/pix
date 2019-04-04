@@ -53,7 +53,7 @@ class Course {
     listSkills.forEach((skill) => {
       const tubeNameOfSkill = skill.tubeName;
 
-      if(!tubes.find((tube) => tube.name === tubeNameOfSkill)) {
+      if (!tubes.find((tube) => tube.name === tubeNameOfSkill)) {
         tubes.push(new Tube({ skills: [skill] }));
       } else {
         const tube = this.findTube(tubeNameOfSkill);

@@ -12,7 +12,7 @@ function  _manageReCaptchaTokenError(error) {
 }
 
 function _manageError(error, errorType, attribute, message) {
-  if(error instanceof errorType) {
+  if (error instanceof errorType) {
     return new EntityValidationError({
       invalidAttributes: [{ attribute, message }]
     });
@@ -37,7 +37,7 @@ function _validateData(user, reCaptchaToken, userRepository, userValidator, reCa
 }
 
 function _checkEncryptedPassword(userPassword, encryptedPassword) {
-  if(encryptedPassword === userPassword) {
+  if (encryptedPassword === userPassword) {
     throw new Error('Erreur lors de l‘encryption du mot passe de l‘utilisateur');
   }
 

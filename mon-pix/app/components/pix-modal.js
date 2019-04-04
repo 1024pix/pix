@@ -31,7 +31,7 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
   },
 
   closeOnEsc: on(keyUp('Escape'), function() {
-    this.get('onClose')();
+    this.onClose();
   }),
 
   // The block below fix a warning when closing a modal by clicking on the overlay.
@@ -44,10 +44,10 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
   actions: {
     onClickOverlay(e) {
       e.preventDefault();
-      if (this.get('onClickOverlay')) {
-        this.get('onClickOverlay')();
+      if (this.onClickOverlay) {
+        this.onClickOverlay();
       } else {
-        this.get('onClose')();
+        this.onClose();
       }
     }
   }

@@ -22,22 +22,22 @@ export default Component.extend({
 
     submit() {
       this.set('_errorMessage', null);
-      const accessCode = this.get('_accessCode');
+      const accessCode = this._accessCode;
       if (accessCode) {
         this.set('_loadingCertification', true);
-        return this.get('store')
+        return this.store
           .createRecord('course', { accessCode })
           .save()
           .then((certificationCourse) => {
             this.set('_loadingCertification', false);
-            this.get('onSubmit')(certificationCourse);
+            this.onSubmit(certificationCourse);
           })
           .catch((error) => {
             this.set('_loadingCertification', false);
             if (error.errors[0].status === '404') {
               this.set('_errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
             } else {
-              this.get('onError')(error);
+              this.onError(error);
             }
           });
       } else {

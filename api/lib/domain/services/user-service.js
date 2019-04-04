@@ -153,7 +153,7 @@ module.exports = {
         userCompetences.forEach((userCompetence) => {
           const testedSkills = [];
           userCompetence.skills.forEach((skill) => {
-            if(userCompetence.challenges.length < 3) {
+            if (userCompetence.challenges.length < 3) {
               const challengesToValidateCurrentSkill = _findChallengeBySkill(challenges, skill);
               const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 

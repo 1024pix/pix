@@ -77,7 +77,7 @@ describe('Integration | Component | form textfield', function() {
       this.set('validationStatus', '');
       this.set('textfieldName', 'firstname');
 
-      this.render(hbs`{{form-textfield label=label validationStatus=validationStatus textfieldName=textfieldName validate="validate"}}`);
+      this.render(hbs`{{form-textfield label=label validationStatus=validationStatus textfieldName=textfieldName onValidate=(action "validate")}}`);
       // when
       this.$(INPUT).val('pix');
       this.$(INPUT).trigger('focusout');

@@ -5,7 +5,7 @@ import BaseRoute from 'mon-pix/routes/base-route';
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   model(params) {
-    const store = this.get('store');
+    const store = this.store;
     const assessmentId = params.assessment_id;
     return RSVP.hash({
       campaignParticipation: store.query('campaignParticipation', { filter: { assessmentId } })
@@ -15,14 +15,14 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   },
 
   afterModel(model) {
-    if(model.campaignParticipation.isShared) {
+    if (model.campaignParticipation.isShared) {
       this.controllerFor('campaigns.skill-review').send('hideShareButton');
     }
   },
 
   setupController(controller, model) {
     this._super(...arguments);
-    if(!model.campaignParticipation.isShared) {
+    if (!model.campaignParticipation.isShared) {
       controller.set('showButtonToShareResult', true);
     }
   },

@@ -16,22 +16,22 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
     const component = this;
-    this.get('googleRecaptcha').loadScript().then(function() {
+    this.googleRecaptcha.loadScript().then(function() {
       component.renderRecaptcha();
     });
   },
 
   didUpdateAttrs() {
     this._super(...arguments);
-    if(this.get('tokenHasBeenUsed')) {
-      this.get('googleRecaptcha').reset();
+    if (this.tokenHasBeenUsed) {
+      this.googleRecaptcha.reset();
     }
   },
 
   renderRecaptcha() {
-    const callback = this.get('validateCallback').bind(this);
-    const expiredCallback = this.get('expiredCallback').bind(this);
-    this.get('googleRecaptcha').render('g-recaptcha-container', callback, expiredCallback);
+    const callback = this.validateCallback.bind(this);
+    const expiredCallback = this.expiredCallback.bind(this);
+    this.googleRecaptcha.render('g-recaptcha-container', callback, expiredCallback);
   },
 
   validateCallback(recaptchaResponse) {

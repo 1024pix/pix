@@ -8,12 +8,12 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
   store: service(),
 
   beforeModel() {
-    if(this.get('session.isAuthenticated')) {
-      return this.get('store')
+    if (this.get('session.isAuthenticated')) {
+      return this.store
         .findRecord('user', this.get('session.data.authenticated.userId'))
         .then((connectedUser) => {
 
-          if(connectedUser.get('organizations.length')) {
+          if (connectedUser.get('organizations.length')) {
             this.transitionTo('board');
           } else {
             this.transitionTo('compte');
@@ -25,12 +25,12 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
   },
 
   model() {
-    return this.get('store').query('course', { isCourseOfTheWeek: false, isAdaptive: false });
+    return this.store.query('course', { isCourseOfTheWeek: false, isAdaptive: false });
   },
 
   setupController(controller, model) {
     this._super(controller, model);
-    this.controllerFor('index').set('session', this.get('session'));
+    this.controllerFor('index').set('session', this.session);
   },
 
   actions: {

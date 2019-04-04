@@ -9,7 +9,7 @@ export default Component.extend({
   campaignParticipations: [],
 
   campaignToResumeOrShare: computed('campaignParticipations', function() {
-    const campaignParticipations = this.get('campaignParticipations').toArray();
+    const campaignParticipations = this.campaignParticipations.toArray();
 
     const campaignParticipationsNotShared = _filter(campaignParticipations,
       (campaignParticipation) => campaignParticipation.isShared === false);
@@ -18,7 +18,7 @@ export default Component.extend({
 
     const lastCampaignParticipationStarted = campaignParticipationOrdered[0];
 
-    if(lastCampaignParticipationStarted) {
+    if (lastCampaignParticipationStarted) {
       return {
         title: lastCampaignParticipationStarted.campaign.get('title'),
         code: lastCampaignParticipationStarted.campaign.get('code'),

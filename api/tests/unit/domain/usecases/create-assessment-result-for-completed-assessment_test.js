@@ -265,7 +265,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
   it('should resolves the computing of assessment Score when assessment is completed', () => {
     // given
     scoringService.calculateAssessmentScore = (dependencies, assessment) => {
-      if(assessment.state === 'completed') {
+      if (assessment.state === 'completed') {
         return Promise.resolve(assessmentScore);
       }
       return Promise.reject();

@@ -13,11 +13,11 @@ class Course {
       challenge.skills.forEach((skill) => {
         const tubeName = skill.tubeName;
 
-        if(!tubes[tubeName]) {
+        if (!tubes[tubeName]) {
           tubes[tubeName] = [];
         }
 
-        if(!_.find(tubes[tubeName], skill)) {
+        if (!_.find(tubes[tubeName], skill)) {
           tubes[tubeName].push(skill);
         }
       });

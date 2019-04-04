@@ -5,7 +5,7 @@ module.exports = function getCampaignByCode({ code, campaignRepository, organiza
   let organizationId;
   return campaignRepository.getByCode(code)
     .then((foundCampaign) => {
-      if(foundCampaign === null) {
+      if (foundCampaign === null) {
         return Promise.reject(new NotFoundError(`Campaign with code ${code} not found`));
       }
       campaign = foundCampaign;

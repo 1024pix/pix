@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "2.33.2",
+  "version": "2.34.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "license": "AGPL-3.0",
@@ -38,7 +38,7 @@
     "good-console": "^8.0.0",
     "good-squeeze": "^5.1.0",
     "hapi": "^17.8.4",
-    "hapi-raven": "^7.0.1",
+    "hapi-sentry": "^1.1.0",
     "hapi-swagger": "^9.3.1",
     "inert": "^5.1.2",
     "joi": "^14.3.1",

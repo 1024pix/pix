@@ -6,7 +6,7 @@ export default Mixin.create({
 
   _valuesAsMap: computed('value', function() {
     try {
-      return jsyaml.load(this.get('value'));
+      return jsyaml.load(this.value);
     } catch (e) {
       return undefined;
     }

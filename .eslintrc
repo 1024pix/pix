@@ -16,6 +16,8 @@ rules:
     - 2
     - 2
     - SwitchCase: 1
+  keyword-spacing:
+    - 2
   linebreak-style:
     - 2
     - unix

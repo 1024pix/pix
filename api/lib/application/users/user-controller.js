@@ -2,6 +2,7 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix-score-serializer');
 const userService = require('../../domain/services/user-service');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
@@ -126,5 +127,12 @@ module.exports = {
 
     return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
       .then(campaignParticipationSerializer.serialize);
-  }
+  },
+
+  getPixScore(request) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+    return usecases.getUserPixScore({ authenticatedUserId, requestedUserId })
+      .then(pixScoreSerializer.serialize);
+  },
 };

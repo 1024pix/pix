@@ -14,17 +14,12 @@ describe('Integration | Component | qroc solution panel', function() {
     integration: true
   });
 
-  it('renders', function() {
-    this.render(hbs`{{qroc-solution-panel}}`);
-    expect(this.$()).to.have.lengthOf(1);
-  });
-
   it('should disabled all inputs', function() {
     // given
     this.render(hbs`{{qroc-solution-panel}}`);
-    const input = this.$('input');
+
     // then
-    expect(input).to.be.disabled;
+    expect(document.querySelector('input')).to.have.attr('disabled');
   });
 
   describe('comparison when the answer is right', function() {
@@ -37,15 +32,19 @@ describe('Integration | Component | qroc solution panel', function() {
       // given
       this.set('answer', answer);
       this.render(hbs`{{qroc-solution-panel answer=answer}}`);
+
       // when
-      const answerInput = this.$(ANSWER_INPUT);
-      const answerBlock = this.$(ANSWER_BLOCK);
-      const solutionBlock = this.$(SOLUTION_BLOCK);
+      const answerInput = document.querySelector(ANSWER_INPUT);
+      const answerBlock = document.querySelector(ANSWER_BLOCK);
+      const solutionBlock = document.querySelector(SOLUTION_BLOCK);
+
       // then
-      expect(answerInput).to.have.lengthOf(1);
-      expect(answerBlock).to.have.lengthOf(1);
-      expect(answerInput.css('text-decoration')).to.be.contains('none');
-      expect(solutionBlock).to.have.lengthOf(0);
+      expect(answerInput).to.exist;
+      expect(answerBlock).to.exist;
+      expect(solutionBlock).to.not.exist;
+
+      const answerInputStyles = window.getComputedStyle(answerInput);
+      expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('none');
     });
   });
 
@@ -62,21 +61,23 @@ describe('Integration | Component | qroc solution panel', function() {
 
     it('should display the false answer line-through', function() {
       // given
-      const answerBlock = this.$(ANSWER_BLOCK);
-      const answerInput = this.$(ANSWER_INPUT);
-      // then
-      expect(answerBlock).to.have.lengthOf(1);
-      expect(answerInput.css('text-decoration')).to.be.contains('line-through');
+      const answerBlock = document.querySelector(ANSWER_BLOCK);
+      const answerInput = document.querySelector(ANSWER_INPUT);
 
+      // then
+      expect(answerBlock).to.exist;
+      const answerInputStyles = window.getComputedStyle(answerInput);
+      expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('line-through');
     });
 
     it('should display the solution with an arrow and the solution in bold green', function() {
       // given
-      const blockSolution = this.$(SOLUTION_BLOCK);
+      const blockSolution = document.querySelector(SOLUTION_BLOCK);
 
       // then
-      expect(blockSolution).to.have.lengthOf(1);
-      expect(blockSolution.css('align-items')).to.be.equal('stretch');
+      expect(blockSolution).to.exist;
+      const blockSolutionStyles = window.getComputedStyle(blockSolution);
+      expect(blockSolutionStyles.getPropertyValue('align-items')).to.equal('stretch');
     });
 
     describe('comparison when the answer was not given', function() {
@@ -93,9 +94,10 @@ describe('Integration | Component | qroc solution panel', function() {
 
       it('should display PAS DE REPONSE in italic', function() {
         // given
-        const answerBlock = this.$(ANSWER_BLOCK);
+        const answerBlock = document.querySelector(ANSWER_BLOCK);
+
         // then
-        expect(answerBlock).to.have.lengthOf(1);
+        expect(answerBlock).to.exist;
       });
     });
   });

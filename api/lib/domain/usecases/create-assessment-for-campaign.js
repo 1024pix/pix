@@ -6,7 +6,7 @@ const Assessment = require('../models/Assessment');
 function _getCampaignFromCode(codeCampaign, campaignRepository) {
   return campaignRepository.getByCode(codeCampaign)
     .then((campaign) => {
-      if(campaign) {
+      if (campaign) {
         return Promise.resolve(campaign);
       }
 

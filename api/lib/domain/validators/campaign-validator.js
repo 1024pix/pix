@@ -32,7 +32,7 @@ module.exports = {
   validate(campaign) {
 
     const joiValidationResults = Joi.validate(campaign, campaignValidationJoiSchema, validationConfiguration);
-    if(joiValidationResults.error === null) {
+    if (joiValidationResults.error === null) {
       return Promise.resolve();
     } else {
       return Promise.reject(EntityValidationError.fromJoiErrors(joiValidationResults.error.details));

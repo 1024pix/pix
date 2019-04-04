@@ -7,10 +7,10 @@ export default Component.extend({
 
   classNames: ['progress'],
 
-  progression: new AssessmentProgression(),
+  progression: AssessmentProgression.create(),
 
   setProgression() {
-    this.set('progression', new AssessmentProgression({
+    this.set('progression', AssessmentProgression.create({
       assessmentType: this.get('assessment.type'),
       nbAnswers: this.get('assessment.answers.length'),
       nbChallenges: this.get('assessment.course.nbChallenges')

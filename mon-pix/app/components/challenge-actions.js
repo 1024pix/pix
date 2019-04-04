@@ -27,16 +27,16 @@ export default Component.extend({
 
   actions: {
     skipChallenge() {
-      if(this.get('_validateButtonStatus') === enableValue) {
+      if (this._validateButtonStatus === enableValue) {
         this.set('_skipButtonStatus', pendingValue);
-        this.get('challengeSkipped')();
+        this.challengeSkipped();
       }
     },
 
     validateAnswer() {
-      if(this.get('_skipButtonStatus') === enableValue) {
+      if (this._skipButtonStatus === enableValue) {
         this.set('_validateButtonStatus', pendingValue);
-        this.get('answerValidated')()
+        this.answerValidated()
           .catch(() => this.set('_validateButtonStatus', enableValue));
       }
     }

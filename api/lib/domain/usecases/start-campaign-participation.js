@@ -11,7 +11,7 @@ module.exports = function startCampaignParticipation({ campaignParticipation, us
 function _checkCampaignExists(campaignId, campaignRepository) {
   return campaignRepository.get(campaignId)
     .then((campaign) => {
-      if(campaign === null) {
+      if (campaign === null) {
         return Promise.reject(new NotFoundError('La campagne demandée n\'existe pas'));
       }
       return Promise.resolve();

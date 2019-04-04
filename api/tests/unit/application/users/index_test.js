@@ -274,4 +274,25 @@ describe('Unit | Router | user-router', () => {
       });
     });
   });
+
+  describe('GET /api/users/{id}/pixscore', function() {
+    beforeEach(() => {
+      sinon.stub(userController, 'getPixScore').returns('ok');
+      startServer();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/users/42/pixscore',
+      };
+
+      // when
+      return server.inject(options).then(() => {
+        // then
+        sinon.assert.calledOnce(userController.getPixScore);
+      });
+    });
+  });
 });

@@ -44,7 +44,7 @@ export default Component.extend({
   },
 
   _getDefaultStatus() {
-    return this.get('collapsible') ? FORM_CLOSED : FORM_OPENED;
+    return this.collapsible ? FORM_CLOSED : FORM_OPENED;
   },
 
   _scrollToPanel: function() {
@@ -65,18 +65,18 @@ export default Component.extend({
     },
 
     sendFeedback() {
-      const content = this.get('_content');
-      if(isEmpty(content) || isEmpty(content.trim())) {
+      const content = this._content;
+      if (isEmpty(content) || isEmpty(content.trim())) {
         this.set('_error', 'Vous devez saisir un message.');
         return;
       }
 
-      const store = this.get('store');
-      const assessment = this.get('assessment');
-      const challenge = this.get('challenge');
+      const store = this.store;
+      const assessment = this.assessment;
+      const challenge = this.challenge;
 
       const feedback = store.createRecord('feedback', {
-        content: this.get('_content'),
+        content: this._content,
         assessment,
         challenge
       });

@@ -12,6 +12,6 @@ export default Model.extend({
   studentCode: attr('string'),
   campaignCode: attr('string'),
   numberOfTestsFinished: computed('testsFinished', function() {
-    return this.get('testsFinished') || 0;
+    return this.testsFinished || 0;
   })
 });

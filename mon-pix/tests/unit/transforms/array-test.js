@@ -7,8 +7,8 @@ describe('Unit | Transformer | Array', function() {
   describe('#deserialize', function() {
 
     it('should return an Array when Array given', function() {
-      const transform = new ArrayTransform();
       // given
+      const transform = ArrayTransform.create();
       const array = ['foo', 'bar', 'yeah'];
 
       // when

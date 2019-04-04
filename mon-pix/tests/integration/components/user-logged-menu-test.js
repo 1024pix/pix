@@ -8,6 +8,7 @@ import wait from 'ember-test-helpers/wait';
 import $ from 'jquery';
 
 describe('Integration | Component | user logged menu', function() {
+
   setupComponentTest('user-logged-menu', {
     integration: true
   });

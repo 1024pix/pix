@@ -15,7 +15,7 @@ module.exports = {
   sessionExists(accessCode) {
     return sessionCodeService.getSessionByAccessCode(accessCode)
       .then((session) => {
-        if(session) {
+        if (session) {
           return session.id;
         } else {
           throw new NotFoundError();

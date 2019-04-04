@@ -4,7 +4,7 @@ module.exports = function findSmartPlacementAssessments({ userId, filters, asses
   return assessmentRepository.findSmartPlacementAssessmentsByUserId(userId)
     .then((assessments)=> {
       return assessments.filter((assessment) => {
-        if(assessment.campaignParticipation) {
+        if (assessment.campaignParticipation) {
           return assessment.campaignParticipation.isAboutCampaignCode(campaignCode);
         }
         return false;

@@ -29,7 +29,9 @@ function isValuePresent(value) {
 }
 
 export default Component.extend({
+
   session: service(),
+
   _notificationMessage: null,
   validation: null,
   _tokenHasBeenUsed: null,
@@ -48,13 +50,13 @@ export default Component.extend({
   },
 
   _getModelAttributeValueFromKey(key) {
-    const userModel = this.get('user');
+    const userModel = this.user;
     return userModel.get(key);
   },
 
   _toggleConfirmation(status, message) {
     this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message });
-    if(ENV.APP.isMessageStatusTogglingEnabled) {
+    if (ENV.APP.isMessageStatusTogglingEnabled) {
       later(() => {
         this.set('temporaryAlert', { status: 'default', message: '' });
       }, ENV.APP.MESSAGE_DISPLAY_DURATION);
@@ -126,9 +128,9 @@ export default Component.extend({
 
     signup() {
       this.set('_notificationMessage', null);
-      this.get('user').save().then(() => {
+      this.user.save().then(() => {
         const credentials = { email: this.get('user.email'), password: this.get('user.password') };
-        this.sendAction('authenticateUser', credentials);
+        this.authenticateUser(credentials);
         this.set('_tokenHasBeenUsed', true);
       }).catch(() => {
         this._updateInputsStatus();

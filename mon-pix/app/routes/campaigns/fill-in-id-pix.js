@@ -9,12 +9,12 @@ export default BaseRoute.extend({
   session: service(),
 
   beforeModel(transition) {
-    this.set('campaignCode',transition.params['campaigns.fill-in-id-pix'].campaign_code);
-    const store = this.get('store');
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.get('campaignCode') } })
+    this.set('campaignCode',transition.to.params.campaign_code);
+    const store = this.store;
+    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.campaignCode } })
       .then((smartPlacementAssessments) => {
         if (!isEmpty(smartPlacementAssessments)) {
-          return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
+          return this.transitionTo('campaigns.start-or-resume', this.campaignCode);
         }
       });
   },
@@ -22,14 +22,14 @@ export default BaseRoute.extend({
   model(params) {
     this.set('campaignCode', params.campaign_code);
 
-    const store = this.get('store');
-    return store.query('campaign', { filter: { code: this.get('campaignCode') } })
+    const store = this.store;
+    return store.query('campaign', { filter: { code: this.campaignCode } })
       .then((campaigns) => campaigns.get('firstObject'))
       .then((campaign) => {
         if (!campaign.get('idPixLabel')) {
           return this.start(campaign);
         }
-        return { campaign , idPixLabel: campaign.get('idPixLabel'), campaignCode: this.get('campaignCode') };
+        return { campaign , idPixLabel: campaign.get('idPixLabel'), campaignCode: this.campaignCode };
       });
   },
 
@@ -39,17 +39,17 @@ export default BaseRoute.extend({
   },
 
   start(campaign, participantExternalId = null) {
-    const store = this.get('store');
+    const store = this.store;
     return store.createRecord('campaign-participation', { campaign, participantExternalId })
       .save()
       .catch((err) => {
-        if(_.get(err, 'errors[0].status') === 403) {
-          return this.get('session').invalidate();
+        if (_.get(err, 'errors[0].status') === 403) {
+          return this.session.invalidate();
         }
         return this.send('error');
       })
       .then(() => {
-        return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
+        return this.transitionTo('campaigns.start-or-resume', this.campaignCode);
       });
   },
 }, AuthenticatedRouteMixin);

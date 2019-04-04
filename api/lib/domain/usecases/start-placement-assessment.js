@@ -4,7 +4,7 @@ module.exports = async function startAssessmentForPlacement({ assessment, assess
 
   const lastPlacement = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(assessment.userId, assessment.courseId);
 
-  if(lastPlacement && !lastPlacement.canStartNewAttemptOnCourse()) {
+  if (lastPlacement && !lastPlacement.canStartNewAttemptOnCourse()) {
     throw new AssessmentStartError('Impossible de démarrer un nouveau positionnement');
   }
 

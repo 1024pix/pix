@@ -12,7 +12,7 @@ module.exports = async function getSmartPlacementProgression(
   const assessmentId = SmartPlacementProgression.getAssessmentIdFromId(smartPlacementProgressionId);
 
   const assessment = await smartPlacementAssessmentRepository.get(assessmentId);
-  if(assessment.userId != userId) {
+  if (assessment.userId != userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 

@@ -50,7 +50,7 @@ export default Component.extend({
   }),
 
   resultTooltip: computed('resultItem', function() {
-    return this.get('resultItem') ? this.get('resultItem').tooltip : null;
+    return this.resultItem ? this.resultItem.tooltip : null;
   }),
 
   resultItemIcon: computed('resultItem', function() {
@@ -67,7 +67,7 @@ export default Component.extend({
     this._super(...arguments);
 
     const tooltipElement = this.$('[data-toggle="tooltip"]');
-    const tooltipValue = this.get('resultTooltip');
+    const tooltipValue = this.resultTooltip;
 
     if (tooltipValue) {
       tooltipElement.tooltip({ title: tooltipValue });

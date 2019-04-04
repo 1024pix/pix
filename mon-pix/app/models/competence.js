@@ -22,6 +22,6 @@ export default Model.extend({
   isBeingAssessed: equal('status', 'assessmentNotCompleted'),
 
   isAssessableForTheFirstTime: computed('{isNotAssessed,courseId}', function() {
-    return Boolean(this.get('isNotAssessed') && this.get('courseId'));
+    return Boolean(this.isNotAssessed && this.courseId);
   }),
 });
