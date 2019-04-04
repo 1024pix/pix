@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { knex } = require('../../../db/knex-database-connection');
 
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
@@ -17,6 +18,27 @@ function _toDomain(bookshelfCampaign) {
     'customLandingPageText',
     'idPixLabel',
     'title'
+  ]));
+}
+
+function _fromRawDataToDomain(rawQueryresponse) {
+  rawQueryresponse.campaignReport = {
+    id: rawQueryresponse.id,
+    participationsCount: rawQueryresponse.participationsCount,
+    sharedParticipationsCount: rawQueryresponse.sharedParticipationsCount
+  };
+  return new Campaign(_.pick(rawQueryresponse, [
+    'id',
+    'name',
+    'code',
+    'organizationId',
+    'creatorId',
+    'createdAt',
+    'targetProfileId',
+    'customLandingPageText',
+    'idPixLabel',
+    'title',
+    'campaignReport'
   ]));
 }
 
@@ -75,10 +97,31 @@ module.exports = {
   },
 
   findByOrganizationIdWithCampaignReports(organizationId) {
-    return BookshelfCampaign
-      .where({ organizationId })
-      .fetchAll()
-      .then((campaigns) => campaigns.models.map(_toDomain));
+    const queryToGetCampaignsWithCampaignReports = `
+      SELECT *, participations.participationsCount,
+             isShared.sharedParticipationsCount
+      FROM campaigns
+      
+      INNER JOIN (
+          SELECT "campaignId", COUNT(*) AS participationsCount
+         FROM "campaign-participations"
+         GROUP BY "campaignId"
+      ) AS participations
+      ON campaigns.id = participations."campaignId"
+      
+      INNER JOIN (
+         SELECT "campaignId", COUNT(*) AS sharedParticipationsCount
+          FROM "campaign-participations"
+          GROUP BY "campaignId", "isShared"
+          HAVING "isShared" = true
+      ) AS isShared
+      ON campaigns.id = isShared."campaignId"
+      
+      WHERE "organizationId" = ?
+      `;
+
+    return knex.raw(queryToGetCampaignsWithCampaignReports, organizationId)
+      .then((campaignsWithCampaignReports) => campaignsWithCampaignReports.map(_fromRawDataToDomain));
   },
 
   checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {

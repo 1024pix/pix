@@ -219,7 +219,7 @@ describe('Integration | Repository | Campaign', () => {
       await databaseBuilder.clean();
     });
 
-    it.only('should return the campaigns of the given organization id with campaignReports', () => {
+    it('should return the campaigns of the given organization id with campaignReports', () => {
       // when
       const promise = campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
 
