@@ -6,7 +6,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
-describe('Unit | Application | Controller | Campaign-Participation', () => {
+describe.only('Unit | Application | Controller | Campaign-Participation', () => {
 
   describe('#find', () => {
 
@@ -16,7 +16,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     beforeEach(() => {
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(serializer, 'serialize');
-      sinon.stub(usecases, 'getCampaignParticipations');
+      sinon.stub(usecases, 'findCampaignParticipationsWithResults');
       sinon.stub(usecases, 'getUserCampaignParticipation');
       sinon.stub(tokenService, 'extractTokenFromAuthChain').resolves();
       sinon.stub(tokenService, 'extractUserId').returns(userId);
@@ -47,7 +47,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
         // given
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getCampaignParticipations.withArgs({ userId, options }).resolves(result);
+        usecases.findCampaignParticipationsWithResults.withArgs({ userId, options }).resolves(result);
         serializer.serialize.withArgs(result.models, result.pagination).returns(serialized);
 
         // when
