@@ -2,12 +2,10 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const getCampaignParticipationsWithResults = require('../../../../lib/domain/usecases/find-campaign-participations-with-results');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
-describe.only('Unit | UseCase | get-campaign-participations-with-results', () => {
+describe('Unit | UseCase | get-campaign-participations-with-results', () => {
 
   let campaignParticipationsResult;
   let requestErr;
-
-  let options;
 
   const userId = Symbol('user id');
   const sharedAt = Symbol('shared at');
@@ -20,6 +18,7 @@ describe.only('Unit | UseCase | get-campaign-participations-with-results', () =>
     assessment, user: { knowledgeElements }, sharedAt, campaignId,
     addCampaignParticipationResult: sinon.stub()
   };
+  const options = { filter: { campaignId } };
   const campaignParticipations = { models: [ campaignParticipation ] };
 
   const campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
@@ -30,13 +29,11 @@ describe.only('Unit | UseCase | get-campaign-participations-with-results', () =>
   const smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub() };
 
   beforeEach(() => {
-    options = null;
     requestErr = null;
   });
 
   context('the assessment belongs to the user', () => {
     beforeEach(async () => {
-      options = { filter: { campaignId } };
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
       campaignParticipationRepository.findWithCampaignParticipationResultsData.resolves(campaignParticipations);
       targetProfileRepository.getByCampaignId.resolves(targetProfile);
@@ -74,15 +71,17 @@ describe.only('Unit | UseCase | get-campaign-participations-with-results', () =>
       expect(campaignParticipationsResult).to.equal(campaignParticipations);
     });
   });
-  xcontext('the assessment does not belong to the user', () => {
+  context('the assessment does not belong to the user', () => {
     beforeEach(async () => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
 
       requestErr = await catchErr(getCampaignParticipationsWithResults)({
         userId,
         options,
+        campaignRepository,
+        competenceRepository,
+        targetProfileRepository,
         campaignParticipationRepository,
-        campaignRepository
       });
     });
     it('should throw a UserNotAuthorizedToAccessEntity error', () => {
