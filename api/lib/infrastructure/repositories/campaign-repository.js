@@ -24,8 +24,8 @@ function _toDomain(bookshelfCampaign) {
 function _fromRawDataToDomain(rawQueryresponse) {
   rawQueryresponse.campaignReport = {
     id: rawQueryresponse.id,
-    participationsCount: rawQueryresponse.participationsCount,
-    sharedParticipationsCount: rawQueryresponse.sharedParticipationsCount
+    participationsCount: rawQueryresponse.participationsCount ? rawQueryresponse.participationsCount : 0,
+    sharedParticipationsCount: rawQueryresponse.sharedParticipationsCount ? rawQueryresponse.sharedParticipationsCount : 0,
   };
   return new Campaign(_.pick(rawQueryresponse, [
     'id',
@@ -98,18 +98,18 @@ module.exports = {
 
   findByOrganizationIdWithCampaignReports(organizationId) {
     const queryToGetCampaignsWithCampaignReports = `
-      SELECT *, participations.participationsCount,
+      SELECT campaigns.*, participations.participationsCount,
              isShared.sharedParticipationsCount
       FROM campaigns
       
-      INNER JOIN (
+      LEFT JOIN (
           SELECT "campaignId", COUNT(*) AS participationsCount
          FROM "campaign-participations"
          GROUP BY "campaignId"
       ) AS participations
       ON campaigns.id = participations."campaignId"
       
-      INNER JOIN (
+      LEFT JOIN (
          SELECT "campaignId", COUNT(*) AS sharedParticipationsCount
           FROM "campaign-participations"
           GROUP BY "campaignId", "isShared"
@@ -117,7 +117,7 @@ module.exports = {
       ) AS isShared
       ON campaigns.id = isShared."campaignId"
       
-      WHERE "organizationId" = ?
+      WHERE campaigns."organizationId" = ?
       `;
 
     return knex.raw(queryToGetCampaignsWithCampaignReports, organizationId)
