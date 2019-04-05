@@ -97,30 +97,34 @@ module.exports = {
   },
 
   findByOrganizationIdWithCampaignReports(organizationId) {
-    const queryToGetCampaignsWithCampaignReports = `
-      SELECT campaigns.*, participations.participationsCount,
-             isShared.sharedParticipationsCount
-      FROM campaigns
-      
-      LEFT JOIN (
-          SELECT "campaignId", COUNT(*) AS participationsCount
-         FROM "campaign-participations"
-         GROUP BY "campaignId"
-      ) AS participations
-      ON campaigns.id = participations."campaignId"
-      
-      LEFT JOIN (
-         SELECT "campaignId", COUNT(*) AS sharedParticipationsCount
-          FROM "campaign-participations"
-          GROUP BY "campaignId", "isShared"
-          HAVING "isShared" = true
-      ) AS isShared
-      ON campaigns.id = isShared."campaignId"
-      
-      WHERE campaigns."organizationId" = ?
-      `;
-
-    return knex.raw(queryToGetCampaignsWithCampaignReports, organizationId)
+    return knex('campaigns')
+      .select(
+        'campaigns.*',
+        'participations.participationsCount',
+        'isShared.sharedParticipationsCount'
+      )
+      .leftJoin(
+        knex('campaign-participations')
+          .select(
+            'campaignId',
+            knex.raw('COUNT(*) AS participationsCount')
+          )
+          .groupBy('campaignId')
+          .as('participations'),
+        'campaigns.id', 'participations.campaignId'
+      )
+      .leftJoin(
+        knex('campaign-participations')
+          .select(
+            'campaignId',
+            knex.raw('COUNT(*) AS sharedParticipationsCount')
+          )
+          .groupBy('campaignId', 'isShared')
+          .having('isShared', '=', true)
+          .as('isShared'),
+        'campaigns.id', 'isShared.campaignId'
+      )
+      .where('campaigns.organizationId', organizationId)
       .then((campaignsWithCampaignReports) => campaignsWithCampaignReports.map(_fromRawDataToDomain));
   },
 
