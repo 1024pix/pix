@@ -1,8 +1,8 @@
 <article class="competence-card">
   <header class="competence-card__header">
     <span class="competence-card__color competence-card__color--{{areaColor}}"></span>
-    <span class="competence-card__area-name">{{area}}</span>
-    <span class="competence-card__competence-name">{{competence}}</span>
+    <span class="competence-card__area-name">{{scorecard.area.title}}</span>
+    <span class="competence-card__competence-name">{{scorecard.name}}</span>
   </header>
   <div class="competence-card__body">
     {{#circle-chart value=percentageAheadOfNextLevel sliceColor=areaColor chartWidth='120' strokeWidth='1.5'}}

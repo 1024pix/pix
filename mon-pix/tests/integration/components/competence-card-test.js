@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
+import EmberObject from '@ember/object';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -9,70 +10,80 @@ describe('Integration | Component | competence-card', function() {
 
   describe('Component rendering', function() {
 
+    let area;
+
+    beforeEach(function() {
+      area = EmberObject.create({ code: 1 });
+    });
+
     it('should render component', async function() {
+      // given
+      const scorecard = { area };
+      this.set('scorecard', scorecard);
+
       // when
-      await render(hbs`{{competence-card index=1}}`);
+      await render(hbs`{{competence-card scorecard=scorecard}}`);
 
       // then
       expect(this.element.querySelector('.competence-card')).to.exist;
     });
 
     [
-      { index: 1, expectedColor: 'jaffa' },
-      { index: 2, expectedColor: 'emerald' },
-      { index: 3, expectedColor: 'cerulean' },
-      { index: 4, expectedColor: 'wild-strawberry' },
-      { index: 5, expectedColor: 'butterfly-bush' }
+      { code: 1, expectedColor: 'jaffa' },
+      { code: 2, expectedColor: 'emerald' },
+      { code: 3, expectedColor: 'cerulean' },
+      { code: 4, expectedColor: 'wild-strawberry' },
+      { code: 5, expectedColor: 'butterfly-bush' }
     ].forEach((data) => {
 
-      it(`should display the competence card header in ${data.expectedColor} when index is ${data.index}`, async function() {
+      it(`should display the competence card header in ${data.expectedColor} when code is ${data.code}`, async function() {
         // given
-        const index = data.index;
-        this.set('index', index);
+        const scorecard = { area: EmberObject.create({ code: data.code }) };
+        this.set('scorecard', scorecard);
 
         // when
-        await render(hbs`{{competence-card index=index}}`);
+        await render(hbs`{{competence-card scorecard=scorecard}}`);
 
         // then
-        expect(this.element.querySelector('.competence-card__color').getAttribute('class')).to.contain(`competence-card__color--${data.expectedColor}`);
+        expect(this.element.querySelector('.competence-card__color').getAttribute('class')).to.contains(`competence-card__color--${data.expectedColor}`);
       });
     });
 
     it('should display the area name', async function() {
       // given
-      const area = 'First Area';
-      this.set('area', area);
+      const scorecard = { area: EmberObject.create({ code: 1, title: 'First Area' }) };
+      this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card index=1 area=area}}`);
+      await render(hbs`{{competence-card scorecard=scorecard}}`);
 
       // then
-      expect(this.element.querySelector('.competence-card__area-name').textContent).to.equal(area);
+      expect(this.element.querySelector('.competence-card__area-name').textContent).to.equal(scorecard.area.title);
     });
 
     it('should display the competence name', async function() {
       // given
-      const competence = 'First Competence';
-      this.set('competence', competence);
+      const scorecard = { area, name: 'First Competence' };
+      this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card index=1 competence=competence}}`);
+      await render(hbs`{{competence-card scorecard=scorecard}}`);
 
       // then
-      expect(this.element.querySelector('.competence-card__competence-name').textContent).to.equal(competence);
+      expect(this.element.querySelector('.competence-card__competence-name').textContent).to.equal(scorecard.name);
     });
 
     it('should display the level', async function() {
       // given
-      const level = '3';
-      this.set('level', 3);
+      const scorecard = { area, level: 3 };
+      this.set('scorecard', scorecard);
 
       // when
-      await render(hbs`{{competence-card index=1 level=level}}`);
+      await render(hbs`{{competence-card scorecard=scorecard}}`);
 
       // then
       expect(this.element.querySelector('.competence-card-level__label').textContent).to.equal('Niveau');
-      expect(this.element.querySelector('.competence-card-level__value').textContent).to.equal(level);
+      expect(this.element.querySelector('.competence-card-level__value').textContent).to.equal(scorecard.level.toString());
     });
   });
 });
