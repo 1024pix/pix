@@ -21,10 +21,10 @@
     </div>
 
     <div class="rounded-panel-body">
-      {{#each model.areas as |area|}}
+      {{#each model.areasCode as |areaCode|}}
         <div class="rounded-panel-body__areas">
           {{#each model.scorecards as |scorecard|}}
-            {{#if (eq area scorecard.area.code)}}
+            {{#if (eq areaCode scorecard.area.code)}}
               <div class="rounded-panel-body__competence-card">
                 {{competence-card scorecard=scorecard}}
               </div>

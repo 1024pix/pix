@@ -39,6 +39,7 @@ export default Model.extend({
     return `${this.firstName} ${ this.lastName}`;
   }),
 
-  allAreas: computed.mapBy('scorecards', 'area.code'),
-  areas: computed.uniq('allAreas'),
+  areasCode: computed('scorecards.@each.area', function() {
+    return this.scorecards.mapBy('area.code').uniq();
+  }),
 });
