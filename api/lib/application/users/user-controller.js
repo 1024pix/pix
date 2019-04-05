@@ -1,13 +1,16 @@
-const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const campaignParticipationSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
-const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
+const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix-score-serializer');
-const userService = require('../../domain/services/user-service');
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
+const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
+const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+
+const profileService = require('../../domain/services/profile-service');
 const tokenService = require('../../domain/services/token-service');
+const userService = require('../../domain/services/user-service');
+
+const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
 const usecases = require('../../domain/usecases');
 
@@ -134,5 +137,12 @@ module.exports = {
     const requestedUserId = request.params.id;
     return usecases.getUserPixScore({ authenticatedUserId, requestedUserId })
       .then(pixScoreSerializer.serialize);
+  },
+
+  getScorecards(request) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+    return usecases.getUserScorecards({ authenticatedUserId, requestedUserId })
+      .then(scorecardSerializer.serialize);
   },
 };

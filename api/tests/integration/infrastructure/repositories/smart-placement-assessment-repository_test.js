@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 const {
-  airtableBuilder, expect, domainBuilder, databaseBuilder,
+  airtableBuilder, expect, domainBuilder, databaseBuilder
 } = require('../../../test-helper');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -155,6 +155,10 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         targetProfileId: targetProfile.id,
         skillId: thirdSkill.id,
       });
+
+      airtableBuilder.mockList({ tableName: 'Acquis' })
+        .returns()
+        .activate();
 
       await databaseBuilder.commit();
     });

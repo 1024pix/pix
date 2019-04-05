@@ -145,6 +145,19 @@ exports.register = async function(server) {
         tags: ['api']
       }
     },
+    {
+      method: 'GET',
+      path: '/api/users/{id}/scorecards',
+      config: {
+        handler: userController.getScorecards,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des niveaux par compétences de l\'utilisateur\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api']
+      }
+    },
   ]);
 };
 
