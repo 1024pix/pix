@@ -12,6 +12,27 @@ describe('Unit | Component | competence-card-component', function() {
     component = this.subject();
   });
 
+  describe('#percentageAheadOfNextLevel', function() {
+    [
+      { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
+      { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
+      { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
+      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 }
+    ].forEach((data) => {
+
+      it(`should return "${data.expectedPercentageAheadOfNextLevel}" when pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function() {
+        // given
+        component.set('pixScoreAheadOfNextLevel', data.pixScoreAheadOfNextLevel);
+
+        // when
+        const percentageAheadOfNextLevel = component.get('percentageAheadOfNextLevel');
+
+        // then
+        expect(percentageAheadOfNextLevel).to.equal(data.expectedPercentageAheadOfNextLevel);
+      });
+    });
+  });
+
   describe('#displayedLevel', function() {
     [
       { level: undefined, pixScoreAheadOfNextLevel: undefined, expectedLevel: '&nbsp;' },
