@@ -36,6 +36,8 @@ export default function () {
 
   this.get('/users/:id');
 
+  this.patch('/users/:id');
+
   this.get('/users/:id/memberships', (schema, request) => {
     const userId = request.params.id;
     return schema.memberships.where({ userId });
@@ -84,4 +86,5 @@ export default function () {
 
   this.get('/campaign-participations/:id');
 
+  this.get('/campaign-participation-results/:id');
 }

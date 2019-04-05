@@ -75,7 +75,6 @@ module('Acceptance | Campaign Details', function (hooks) {
       await visit('/campagnes/1/participants');
 
       // then
-      assert.dom('.participant-list__header').exists();
       assert.dom('.navbar-item.active').hasText('Participants (2)');
     });
 
