@@ -28,19 +28,15 @@
                 </span>
               {{else}}
                 {{#if participant.campaignParticipationResult.isCompleted}}
-                  <span class="participant-list__waiting">
-                    <span class="participant-list__icon">
-                      {{fa-icon 'share-square'}}
-                    </span>
-                    En attente
+                  <span class="participant-list__icon">
+                    {{fa-icon 'share-square'}}
                   </span>
+                  En attente
                 {{else}}
-                  <span class="participant-list__ongoing">
-                    <span class="participant-list__icon">
-                      {{fa-icon 'hourglass-half'}}
-                    </span>
-                    En cours de test
+                  <span class="participant-list__icon">
+                    {{fa-icon 'hourglass-half'}}
                   </span>
+                  En cours de test
                 {{/if}}
               {{/if}}
             </td>
