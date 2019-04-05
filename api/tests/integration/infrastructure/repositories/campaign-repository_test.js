@@ -266,12 +266,13 @@ describe('Integration | Repository | Campaign', () => {
   });
 
   describe('checkIfUserOrganizationHasAccessToCampaign', () => {
-    let userId, organizationId, forbiddenUserId, forbiddenOrganizationId, campaignId;
+    let userId, ownerId, organizationId, forbiddenUserId, forbiddenOrganizationId, campaignId;
     beforeEach(async () => {
 
       // given
       userId = databaseBuilder.factory.buildUser().id;
-      organizationId = databaseBuilder.factory.buildOrganization().id;
+      ownerId = databaseBuilder.factory.buildUser().id;
+      organizationId = databaseBuilder.factory.buildOrganization({ userId: ownerId }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId });
 
       forbiddenUserId = databaseBuilder.factory.buildUser().id;
@@ -291,6 +292,14 @@ describe('Integration | Repository | Campaign', () => {
     it('should return true when the user is a member of an organization that owns the campaign', async () => {
       //when
       const access = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
+
+      //then
+      expect(access).to.be.true;
+    });
+
+    it('should return true when the user is the owner of the organization', async () => {
+      //when
+      const access = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, ownerId);
 
       //then
       expect(access).to.be.true;
