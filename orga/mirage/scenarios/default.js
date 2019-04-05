@@ -23,14 +23,16 @@ function _createSignedUpUser(server) {
 
 function _createCampaigns(server) {
   const participationsCount = 100;
-  let campaignReports = server.createList('campaign-report', 6, { participationsCount });
-  let campaigns = campaignReports.map(campaignReport => {
+  const campaignReports = server.createList('campaign-report', 6, { participationsCount });
+  const campaigns = campaignReports.map(campaignReport => {
     return server.create('campaign', { campaignReport });
   });
   campaigns.map(campaign => {
-    let users = server.createList('user', participationsCount);
-    users.map(user => {
-      server.create('campaign-participation', { user, campaign });
+    const users = server.createList('user', participationsCount);
+    users.forEach(user => {
+      const campaignParticipationResult = server.create('campaign-participation-result');
+
+      server.create('campaign-participation', { user, campaign, campaignParticipationResult });
     })
   })
 }

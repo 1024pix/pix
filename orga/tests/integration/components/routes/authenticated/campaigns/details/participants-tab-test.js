@@ -22,9 +22,28 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
       name: 'campagne 1',
     }));
 
-    const participants = [{ user: { firstName: 'John', lastName: 'Doe' }, participantExternalId: '123' }];
+    const participants = [
+      { 
+        user: { firstName: 'John', lastName: 'Doe' }, 
+        campaignParticipationResult: { masteryPercentage: 80 },
+        participantExternalId: '123',  
+        isShared: true,
+      },
+      { 
+        user: { firstName: 'John', lastName: 'Doe2' }, 
+        campaignParticipationResult: { isCompleted: true },
+        participantExternalId: '1234',  
+        isShared: false,
+      },
+      { 
+        user: { firstName: 'John', lastName: 'Doe3' }, 
+        campaignParticipationResult: { isCompleted: false },
+        participantExternalId: '12345',  
+        isShared: false,
+      },
+    ];
     participants.meta = {
-      rowCount: 1
+      rowCount: 3
     };
     const goTo = function() {};
 
@@ -36,11 +55,12 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
     await render(hbs`{{routes/authenticated/campaigns/details/participants-tab campaign=campaign participants=participants goToParticipantPage=goToParticipantPage}}`);
 
     // then
-    assert.dom('.participant-list__header').hasText(`Liste des participants (${participants.meta.rowCount})`);
-    assert.dom('.table__empty').doesNotExist();
-    assert.dom('table tbody tr td:first-child').hasText('Doe');
-    assert.dom('table tbody tr td:nth-child(2)').hasText('John');
-    assert.dom('table tbody tr td:nth-child(3)').doesNotExist();
+    assert.dom('.participant-list__no-participants').doesNotExist();
+    assert.dom('table tbody tr:first-child td:first-child').hasText('Doe');
+    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('John');
+    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('80%');
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('En attente');
+    assert.dom('table tbody tr:nth-child(3) td:nth-child(3)').hasText('En cours de test');
   });
 
   test('it should display the participant list of the campaign with external id', async function (assert) {
@@ -66,7 +86,6 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
     await render(hbs`{{routes/authenticated/campaigns/details/participants-tab campaign=campaign participants=participants goToParticipantPage=goToParticipantPage}}`);
 
     // then
-    assert.dom('.participant-list__header').hasText(`Liste des participants (${participants.meta.rowCount})`);
     assert.dom('table tbody tr td:first-child').hasText('Doe');
     assert.dom('table tbody tr td:nth-child(2)').hasText('John');
     assert.dom('table tbody tr td:nth-child(3)').hasText('123');
@@ -91,7 +110,6 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
     await render(hbs`{{routes/authenticated/campaigns/details/participants-tab campaign=campaign participants=participants}}`);
 
     // then
-    assert.dom('.participant-list__header').hasText(`Liste des participants (${participants.meta.rowCount})`);
     assert.dom('table tbody').doesNotExist();
     assert.dom('.table__empty').hasText('En attente de participants');
   });
