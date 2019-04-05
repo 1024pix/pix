@@ -1,231 +1,440 @@
-const faker = require('faker');
+const _ = require('lodash');
 const createServer = require('../../../server');
-const { knex, expect, generateValidRequestAuhorizationHeader, databaseBuilder, airtableBuilder } = require('../../test-helper');
+const Assessment = require('../../../lib/domain/models/Assessment');
 const cache = require('../../../lib/infrastructure/caches/cache');
+const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 
-describe('Acceptance | API | Campaigns', () => {
+describe('Acceptance | API | Campaign Participations', () => {
 
-  let server;
+  let server,
+    options,
+    user,
+    campaign,
+    assessment,
+    organization,
+    campaignParticipation,
+    targetProfile,
+    targetProfileSkills,
+    skills,
+    competences;
 
   beforeEach(async () => {
     server = await createServer();
   });
 
-  describe('POST /api/campaigns', () => {
+  beforeEach(() => {
+    user = databaseBuilder.factory.buildUser();
+    assessment = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.SMARTPLACEMENT });
+  });
 
-    let organization;
-    let user;
-    let otherUser;
-    let targetProfile;
-    let targetProfileNotAccessibleToUser;
+  describe('GET /api/campaign-participations/{id}', () => {
 
-    beforeEach(() => {
-      user = databaseBuilder.factory.buildUser({});
-      otherUser = databaseBuilder.factory.buildUser({});
-      organization = databaseBuilder.factory.buildOrganization({ userId: user.id });
-      databaseBuilder.factory.buildMembership({
-        userId: user.id,
-        organizationId: organization.id
+    beforeEach(async () => {
+      campaign = databaseBuilder.factory.buildCampaign();
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        assessmentId: assessment.id,
+        campaign,
+        campaignId: campaign.id,
+        userId: user.id
       });
-      targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id, isPublic: false });
-      targetProfileNotAccessibleToUser = databaseBuilder.factory.buildTargetProfile({ organizationId: 0, isPublic: false });
-
-      airtableBuilder
-        .mockList({ tableName: 'Acquis' })
-        .returns(airtableBuilder.factory.buildSkill())
-        .activate();
-
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     afterEach(async () => {
-      await cache.flushAll();
-      await knex('campaigns').delete();
       await databaseBuilder.clean();
-      await airtableBuilder.cleanAll();
     });
 
-    it('should return 201 and the campaign when it has been successfully created', async function() {
-      const options = {
-        method: 'POST',
-        url: '/api/campaigns',
+    it('should return the campaign-participation', async () => {
+      // given
+      options = {
+        method: 'GET',
+        url: `/api/campaign-participations/${campaignParticipation.id}?include=user`,
         headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
-        payload: {
-          data: {
-            type: 'campaigns',
-            attributes: {
-              name: 'L‘hymne de nos campagnes',
-              'organization-id': organization.id,
+      };
+      const expectedCampaignParticipation = {
+        id: campaignParticipation.id.toString(),
+        type: 'campaign-participations',
+        'attributes': {
+          'created-at': campaignParticipation.createdAt,
+          'is-shared': campaignParticipation.isShared,
+          'participant-external-id': campaignParticipation.participantExternalId,
+          'shared-at': campaignParticipation.sharedAt,
+        },
+        relationships: {
+          campaign: {
+            data: null
+          },
+          user: {
+            data: {
+              id: `${user.id}`,
+              type: 'users',
+            }
+          },
+          assessment: {
+            links: {
+              related: `/assessments/${assessment.id}`
+            }
+          },
+          'campaign-participation-result': {
+            data: null,
+            links: {
+              related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+            }
+          },
+        }
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal(expectedCampaignParticipation);
+    });
+  });
+
+  describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
+
+    beforeEach(async () => {
+      campaign = databaseBuilder.factory.buildCampaign();
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        isShared: true,
+        assessmentId: assessment.id,
+        campaignId: campaign.id,
+        userId: user.id
+      });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    context('when the user own the campaign participation', () => {
+
+      beforeEach(() => {
+        options = {
+          method: 'GET',
+          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=campaign,user`,
+          headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        };
+      });
+
+      it('should return the campaign-participation of the given assessmentId', () => {
+        // given
+        const expectedCampaignParticipation = [
+          {
+            'attributes': {
+              'created-at': campaignParticipation.createdAt,
+              'is-shared': Number(campaignParticipation.isShared),
+              'participant-external-id': campaignParticipation.participantExternalId,
+              'shared-at': campaignParticipation.sharedAt,
             },
+            'id': campaignParticipation.id.toString(),
+            'type': 'campaign-participations',
             relationships: {
-              'target-profile': {
+              campaign: {
                 data: {
-                  id: targetProfile.id
+                  type: 'campaigns',
+                  id: campaign.id.toString()
+                }
+              },
+              'user': {
+                'data': {
+                  'id': user.id.toString(),
+                  'type': 'users'
+                }
+              },
+              assessment: {
+                links: {
+                  related: `/assessments/${assessment.id}`
+                }
+              },
+              'campaign-participation-result': {
+                data: null,
+                links: {
+                  related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
                 }
               }
             }
           }
-        }
-      };
+        ];
 
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
+        });
+      });
+
+    });
+
+    context('when the user doesnt own the campaign participation', () => {
+
+      beforeEach(() => {
+        options = {
+          method: 'GET',
+          url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}`,
+          headers: { authorization: 'USER_UNATHORIZED' },
+        };
+      });
+
+      it('it should reply an unauthorized error', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((error) => {
+          expect(error.statusCode).to.equal(401);
+        });
+      });
+    });
+  });
+
+  describe('GET /api/campaign-participations?filter[campaignId]={id}', () => {
+
+    beforeEach(async () => {
+      organization = databaseBuilder.factory.buildOrganization({
+        userId: user.id,
+      });
+      databaseBuilder.factory.buildMembership({
+        userId: user.id,
+        organizationId: organization.id
+      });
+      targetProfile = databaseBuilder.factory.buildTargetProfile();
+      campaign = databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        creatorId: user.id,
+        targetProfileId: targetProfile.id,
+      });
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        isShared: true,
+        assessmentId: assessment.id,
+        campaignId: campaign.id,
+        userId: user.id,
+      });
+      targetProfileSkills = _.times(8, () => {
+        return databaseBuilder.factory.buildTargetProfilesSkills({
+          targetProfileId: targetProfile.id,
+        });
+      });
+      skills = _.map(targetProfileSkills, (targetProfileSkill) => {
+        return airtableBuilder.factory.buildSkill({
+          id: targetProfileSkill.skillId
+        });
+      });
+
+      targetProfileSkills.slice(2).forEach((targetProfileSkill) => {
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+          userId: user.id,
+          assessmentId: assessment.id,
+          skillId: targetProfileSkill.skillId,
+          status: 'validated',
+        });
+      });
+
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        userId: user.id,
+        assessmentId: assessment.id,
+        skillId: 'otherSkillId',
+      });
+
+      competences = [
+        airtableBuilder.factory.buildCompetence({
+          id: 1,
+          titre: 'Agir collectivement',
+          sousDomaine: '1.2',
+          acquisViaTubes: [skills[0].id],
+        }),
+        airtableBuilder.factory.buildCompetence({
+          id: 2,
+          titre: 'Nécessité de la pensée radicale',
+          sousDomaine: '2.1',
+          acquisViaTubes: [skills[1].id, skills[2].id, skills[3].id],
+        }),
+        airtableBuilder.factory.buildCompetence({
+          id: 3,
+          titre: 'Changer efficacement le monde',
+          sousDomaine: '2.2',
+          acquisViaTubes: [skills[4].id, skills[5].id, skills[6].id, skills[7].id],
+        }),
+        airtableBuilder.factory.buildCompetence({
+          id: 4,
+          titre: 'Oser la paresse',
+          sousDomaine: '4.3',
+          acquisViaTubes: ['notIncludedSkillId'],
+        }),
+      ];
+
+      airtableBuilder
+        .mockList({ tableName: 'Acquis' })
+        .returns(skills)
+        .activate();
+
+      airtableBuilder
+        .mockList({ tableName: 'Competences' })
+        .returns(competences)
+        .activate();
+
+      airtableBuilder
+        .mockList({ tableName: 'Domaines' })
+        .returns([])
+        .activate();
+
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'GET',
+        url: `/api/campaign-participations?filter[campaignId]=${campaign.id}&include=user,campaign-participation-result&page[number]=1&page[size]=10`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+      };
+    });
+
+    afterEach(async () => {
+      await cache.flushAll();
+      await databaseBuilder.clean();
+      await airtableBuilder.cleanAll();
+    });
+
+    it('should return the campaign-participation of the given campaignId', () => {
+      // given
+      const expectedCampaignParticipation = [
+        {
+          attributes: {
+            'created-at': campaignParticipation.createdAt,
+            'is-shared': Number(campaignParticipation.isShared),
+            'participant-external-id': campaignParticipation.participantExternalId,
+            'shared-at': campaignParticipation.sharedAt,
+          },
+          id: campaignParticipation.id.toString(),
+          type: 'campaign-participations',
+          relationships: {
+            assessment: {
+              links: {
+                related: `/assessments/${assessment.id}`,
+              },
+            },
+            campaign: {
+              data: null,
+            },
+            user: {
+              data: {
+                id: user.id.toString(),
+                type: 'users'
+              }
+            },
+            'campaign-participation-result': {
+              data: {
+                id: campaignParticipation.id.toString(),
+                type: 'campaignParticipationResults',
+              },
+              links: {
+                related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+              }
+            },
+          },
+        },
+      ];
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
+      });
+    });
+  });
+
+  describe('PATCH /api/campaign-participations/{id}', () => {
+
+    beforeEach(async () => {
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        isShared: false,
+        sharedAt: null,
+        assessmentId: assessment.id,
+      });
+
+      options = {
+        method: 'PATCH',
+        url: `/api/campaign-participations/${campaignParticipation.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        payload: {
+          data: {
+            isShared: true
+          }
+        },
+      };
+      await databaseBuilder.commit();
+
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should allow user to share his campaign participation', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(204);
+        expect(response.result).to.be.null;
+      });
+    });
+  });
+
+  describe('POST /api/campaign-participations', () => {
+
+    const campaignId = 132435;
+    const options = {
+      method: 'POST',
+      url: '/api/campaign-participations',
+      headers: { authorization: generateValidRequestAuhorizationHeader() },
+      payload: {
+        data: {
+          type: 'campaign-participations',
+          attributes: {
+            'participant-external-id': 'iuqezfh13736',
+          },
+          relationships: {
+            'campaign': {
+              data: {
+                id: campaignId,
+                type: 'campaigns',
+              }
+            }
+          }
+        }
+      }
+    };
+
+    beforeEach(async () => {
+      databaseBuilder.factory.buildCampaign({ id: campaignId });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return 201 and the campaign participation when it has been successfully created', async () => {
       // when
       const response = await server.inject(options);
 
       // then
       expect(response.statusCode).to.equal(201);
-      expect(response.result.data.type).to.equal('campaigns');
-      expect(response.result.data.attributes.name).to.equal('L‘hymne de nos campagnes');
-      expect(response.result.data.attributes.code).to.exist;
+      expect(response.result.data.id).to.exist;
     });
 
-    it('should return 403 when a user try to create a campaign for an organization that he does not access', async function() {
-      const organizationIdThatNobodyHasAccess = 0;
-      const options = {
-        method: 'POST',
-        url: '/api/campaigns',
-        headers: { authorization: generateValidRequestAuhorizationHeader(otherUser.id) },
-        payload: {
-          data: {
-            type: 'campaigns',
-            attributes: {
-              name: 'L‘hymne de nos campagnes',
-              'organization-id': organizationIdThatNobodyHasAccess,
-            },
-            relationships: {
-              'target-profile': {
-                data: {
-                  id: faker.random.number()
-                }
-              }
-            }
-          }
-        }
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-
-    it('should return 403 when a user try to create a campaign with a profile not shared with his organization', async function() {
-      const options = {
-        method: 'POST',
-        url: '/api/campaigns',
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
-        payload: {
-          data: {
-            type: 'campaigns',
-            attributes: {
-              name: 'L‘hymne de nos campagnes',
-              'organization-id': organization.id,
-            },
-            relationships: {
-              'target-profile': {
-                data: {
-                  id: targetProfileNotAccessibleToUser.id
-                }
-              }
-            }
-          }
-        }
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
-    });
-
-  });
-
-  describe('GET /api/campaigns', () => {
-
-    const options = {
-      method: 'GET',
-      url: '/api/campaigns?filter[code]=AZERTY123',
-    };
-    let insertedCampaign;
-    let insertedOrganization;
-
-    beforeEach(async () => {
-      insertedOrganization = databaseBuilder.factory.buildOrganization({ logoUrl: 'A côté de Mala 0.9' });
-      insertedCampaign = databaseBuilder.factory.buildCampaign({
-        name: 'Ou est Brandone 1.0', code: 'AZERTY123', organizationId: insertedOrganization.id
-      });
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should return the campaign found for the given code', async () => {
+    it('should return 404 error if the campaign related to the participation does not exist', () => {
       // given
-      options.headers = { authorization: generateValidRequestAuhorizationHeader() };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      const campaign = response.result.data[0];
-      expect(response.statusCode).to.equal(200);
-      expect(campaign).to.exist;
-      expect(campaign.type).to.equal('campaigns');
-      expect(campaign.attributes.name).to.equal(insertedCampaign.name);
-      expect(campaign.attributes.code).to.equal(insertedCampaign.code);
-      expect(campaign.attributes['organization-logo-url']).to.equal(insertedOrganization.logoUrl);
-    });
-
-  });
-
-  describe('GET /api/campaigns/{id}', () => {
-
-    let campaign;
-
-    beforeEach(async () => {
-      campaign = databaseBuilder.factory.buildCampaign({
-        name: 'My campaign',
-      });
-
-      await databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
-
-    it('should retrieve a campaign', function() {
-      const options = {
-        method: 'GET',
-        url: `/api/campaigns/${campaign.id}`,
-        headers: {
-          authorization: generateValidRequestAuhorizationHeader()
-        },
-      };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('campaigns');
-        expect(response.result.data.attributes.name).to.equal(campaign.name);
-        expect(response.result.data.attributes['token-for-campaign-results']).to.be.a('string');
-      });
-    });
-
-    it('should returns a 404 when the campaign can not be found', function() {
-      const options = {
-        method: 'GET',
-        url: '/api/campaigns/666',
-        headers: {
-          authorization: generateValidRequestAuhorizationHeader()
-        },
-      };
+      options.payload.data.relationships.campaign.data.id = null;
 
       // when
       const promise = server.inject(options);
@@ -236,117 +445,4 @@ describe('Acceptance | API | Campaigns', () => {
       });
     });
   });
-
-  describe('PATCH /api/campaigns/{id}', () => {
-
-    let user, otherUser, organization, campaign;
-
-    beforeEach(async () => {
-      user = databaseBuilder.factory.buildUser({});
-      otherUser = databaseBuilder.factory.buildUser({});
-      organization = databaseBuilder.factory.buildOrganization({ userId: user.id });
-      databaseBuilder.factory.buildMembership({
-        userId: user.id,
-        organizationId: organization.id
-      });
-      campaign = databaseBuilder.factory.buildCampaign({
-        name: 'Name',
-        title: 'Title',
-        customLandingPageText: 'Text',
-        organizationId: organization.id,
-      });
-
-      await databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
-
-    it('should update a campaign title and landing page text only', function() {
-      const options = {
-        method: 'PATCH',
-        url: `/api/campaigns/${campaign.id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
-        payload: {
-          data: {
-            id: campaign.id,
-            type: 'campaigns',
-            attributes: {
-              name: 'New name',
-              title: 'New title',
-              'custom-landing-page-text': 'New text',
-            },
-          }
-        }
-      };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.type).to.equal('campaigns');
-        expect(response.result.data.id).to.equal(campaign.id.toString());
-        expect(response.result.data.attributes.name).to.equal(campaign.name);
-        expect(response.result.data.attributes.title).to.equal('New title');
-        expect(response.result.data.attributes['custom-landing-page-text']).to.equal('New text');
-      });
-    });
-
-    it('should returns a 403 when user is not authorized to update the campaign', function() {
-      const options = {
-        method: 'PATCH',
-        url: `/api/campaigns/${campaign.id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(otherUser.id) },
-        payload: {
-          data: {
-            id: campaign.id,
-            type: 'campaigns',
-            attributes: {
-              title: 'New title',
-              'custom-landing-page-text': 'New text',
-            },
-          }
-        }
-      };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-
-    it('should returns a 404 when the campaign can not be found', function() {
-      const options = {
-        method: 'PATCH',
-        url: '/api/campaigns/666',
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
-        payload: {
-          data: {
-            id: campaign.id,
-            type: 'campaigns',
-            attributes: {
-              title: 'New title',
-              'custom-landing-page-text': 'New text',
-            },
-          }
-        }
-      };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(404);
-      });
-    });
-
-  });
-
 });
