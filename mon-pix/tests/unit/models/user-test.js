@@ -5,13 +5,11 @@ import { setupModelTest } from 'ember-mocha';
 
 describe('Unit | Model | user model', function() {
   setupModelTest('user', {
-    // Specify the other units that are required for this test.
-    needs: ['model:competence', 'model:organization']
+    needs: ['model:competence', 'model:organization', 'model:scorecard', 'model:area']
   });
-  // Replace this with your real tests.
+
   it('exists', function() {
     const model = this.subject();
-    // var store = this.store();
     expect(model).to.be.ok;
   });
 
@@ -28,6 +26,31 @@ describe('Unit | Model | user model', function() {
 
         // then
         expect(fullName).to.equal('Manu Phillip');
+      });
+    });
+  });
+
+  describe('@areasCode', () => {
+
+    it('should return an array of unique areas code', function() {
+      return run(() => {
+        // given
+        const store = this.store();
+        const area1 = store.createRecord('area', { code: 1 });
+        const area2 = store.createRecord('area', { code: 2 });
+
+        const scorecard1 = store.createRecord('scorecard', { area: area1 });
+        const scorecard2 = store.createRecord('scorecard', { area: area1 });
+        const scorecard3 = store.createRecord('scorecard', { area: area2 });
+
+        const model = this.subject();
+        model.set('scorecards', [scorecard1, scorecard2, scorecard3]);
+
+        // when
+        const areasCode = model.get('areasCode');
+
+        // then
+        expect(areasCode).to.deep.equal([1, 2]);
       });
     });
   });

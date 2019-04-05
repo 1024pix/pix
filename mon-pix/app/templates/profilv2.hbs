@@ -21,15 +21,16 @@
     </div>
 
     <div class="rounded-panel-body">
-      {{#each model.scorecards as |scorecard|}}
-        <div class="scorecard">
-          <div class="scorecard-content__area">Area: {{scorecard.area.title}}</div>
-          <div class="scorecard-content__competence">Compétence: {{scorecard.name}}</div>
-          <div>Niveau: {{scorecard.level}}</div>
-          <div class="scorecard-content__percentage-ahead-of-next-level">Points restants sur niveau: {{scorecard.pixScoreAheadOfNextLevel}}</div>
-          <div>Pix par compétence: {{scorecard.earnedPix}}</div>
+      {{#each model.areasCode as |areaCode|}}
+        <div class="rounded-panel-body__areas">
+          {{#each model.scorecards as |scorecard|}}
+            {{#if (eq areaCode scorecard.area.code)}}
+              <div class="rounded-panel-body__competence-card">
+                {{competence-card scorecard=scorecard}}
+              </div>
+            {{/if}}
+          {{/each}}
         </div>
-        <br>
       {{/each}}
     </div>
 
