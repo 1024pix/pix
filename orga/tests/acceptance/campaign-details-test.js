@@ -59,7 +59,7 @@ module('Acceptance | Campaign Details', function (hooks) {
 
       // then
       assert.dom('.campaign-details-content__update-button').exists();
-      assert.dom('.navbar-item.active').hasText('Paramètres');
+      assert.dom('.navbar-item.active').hasText('Détails');
     });
 
     test('it should display participants tab', async function (assert) {
