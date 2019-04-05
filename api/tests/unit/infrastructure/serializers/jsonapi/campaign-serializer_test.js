@@ -63,7 +63,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
       };
 
       // when
-      const json = serializer.serialize(campaign, tokenToAccessToCampaign);
+      const json = serializer.serialize(campaign, { tokenForCampaignResults : tokenToAccessToCampaign });
 
       // then
       expect(json).to.deep.equal(expectedSerializedCampaign);
