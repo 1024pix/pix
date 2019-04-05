@@ -14,36 +14,45 @@
   margin: 2px;
   max-height: 128px;
 
-  .circle {
-    fill: none;
-    stroke-width: 1.1;
-    stroke: $alto-grey;
-    stroke-linecap: round;
+  &--big {
+    width: 120px;
+    height: 120px;
+  }
+}
 
-    &--slice {
-      stroke: $dark-orange;
-      animation: progress 1s ease-out forwards;
-    }
+.circle {
+  fill: none;
+  stroke-width: 1.1;
+  stroke: $alto-grey;
+  stroke-linecap: round;
 
-    &--jaffa {
-      stroke: $jaffa;
-    }
+  &--thick {
+    stroke-width: 1.5;
+  }
 
-    &--emerald {
-      stroke: $emerald;
-    }
+  &--slice {
+    stroke: $dark-orange;
+    animation: progress 1s ease-out forwards;
+  }
 
-    &--cerulean {
-      stroke: $cerulean;
-    }
+  &--jaffa {
+    stroke: $jaffa;
+  }
 
-    &--wild-strawberry {
-      stroke: $wild-strawberry;
-    }
+  &--emerald {
+    stroke: $emerald;
+  }
 
-    &--butterfly-bush {
-      stroke: $butterfly-bush;
-    }
+  &--cerulean {
+    stroke: $cerulean;
+  }
+
+  &--wild-strawberry {
+    stroke: $wild-strawberry;
+  }
+
+  &--butterfly-bush {
+    stroke: $butterfly-bush;
   }
 }
 

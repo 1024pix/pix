@@ -38,7 +38,7 @@ describe('Integration | Component | circle-chart', function() {
       await render(hbs`{{circle-chart value=value sliceColor='green'}}`);
 
       // then
-      expect(this.element.querySelector('.circle--slice').getAttribute('class')).to.contain('circle--green');
+      expect(this.element.querySelector('.circle--slice').getAttribute('class')).to.contains('circle--green');
     });
 
     it('should display the circle with given stroke width', async function() {
@@ -47,19 +47,19 @@ describe('Integration | Component | circle-chart', function() {
       this.set('value', value);
 
       // when
-      await render(hbs`{{circle-chart value=value strokeWidth='2'}}`);
+      await render(hbs`{{circle-chart value=value thicknessClass='circle--thick'}}`);
 
       // then
-      expect(this.element.querySelector('.circle').getAttribute('style')).to.equal('stroke-width: 2');
-      expect(this.element.querySelector('.circle--slice').getAttribute('style')).to.equal('stroke-width: 2');
+      expect(this.element.querySelector('.circle').getAttribute('class')).to.contains('circle--thick');
+      expect(this.element.querySelector('.circle--slice').getAttribute('class')).to.contains('circle--thick');
     });
 
     it('should display the chart with given width and height', async function() {
       // when
-      await render(hbs`{{circle-chart chartWidth='150'}}`);
+      await render(hbs`{{circle-chart chartClass='circle-chart__content--big'}}`);
 
       // then
-      expect(this.element.querySelector('.circle-chart__content').getAttribute('style')).to.equal('width: 150px; height: 150px');
+      expect(this.element.querySelector('.circle-chart__content').getAttribute('class')).to.contains('circle-chart__content--big');
     });
   });
 });
