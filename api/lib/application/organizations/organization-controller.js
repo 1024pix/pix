@@ -58,8 +58,9 @@ module.exports = {
 
   getCampaigns(request) {
     const organizationId = request.params.id;
+    const retrieveCampaignReport = (request.query) ? request.query.campaignReport : false;
 
-    return usecases.getOrganizationCampaigns({ organizationId })
+    return usecases.getOrganizationCampaigns({ organizationId, retrieveCampaignReport })
       .then((campaigns) => campaignSerializer.serialize(campaigns));
   },
 
