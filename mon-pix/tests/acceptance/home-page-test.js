@@ -42,7 +42,19 @@ describe('Acceptance | Home page', function() {
 
   it('should redirect to profilv2 when user clicks on profilv2 link', async function() {
     // given
-    await authenticateAsSimpleExternalUser();
+    server.create('assessment', {
+      id: 2,
+      type: 'SMART_PLACEMENT',
+      state: 'completed',
+    });
+    server.create('campaign-participation', {
+      id: 1,
+      isShared: false,
+      campaignId: 1,
+      assessmentId: 2,
+      userId: 1,
+    });
+    await authenticateAsSimpleUser();
     await visit('/compte');
 
     // when
