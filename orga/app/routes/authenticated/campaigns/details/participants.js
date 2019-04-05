@@ -23,8 +23,8 @@ export default Route.extend({
           number: params.pageNumber,
           size: params.pageSize,
         },
-        include: 'user'
-      })
+        include: 'user,campaign-participation-result',
+      }),
     });
   },
 

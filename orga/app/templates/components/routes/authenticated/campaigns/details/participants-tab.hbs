@@ -1,8 +1,5 @@
 <div class="panel">
-  <div class="participant-list__header">
-    Liste des participants ({{participants.meta.rowCount}})
-  </div>
-  <div class="content-text content-text--small">
+  <div class="table content-text content-text--small">
     <table>
       <thead>
         <tr>
@@ -11,6 +8,7 @@
           {{#if campaign.idPixLabel}}
             <th>{{idPixLabelDisplay}}</th>
           {{/if}}
+          <th>Résultats</th>
         </tr>
       </thead>
 
@@ -23,6 +21,29 @@
             {{#if campaign.idPixLabel}}
               <td>{{participant.participantExternalId}}</td>
             {{/if}}
+            <td>
+              {{#if participant.isShared}}
+                <span class="participant-list__mastery-percentage">
+                  {{participant.campaignParticipationResult.masteryPercentage}}%
+                </span>
+              {{else}}
+                {{#if participant.campaignParticipationResult.isCompleted}}
+                  <span class="participant-list__waiting">
+                    <span class="participant-list__icon">
+                      {{fa-icon 'share-square'}}
+                    </span>
+                    En attente
+                  </span>
+                {{else}}
+                  <span class="participant-list__ongoing">
+                    <span class="participant-list__icon">
+                      {{fa-icon 'hourglass-half'}}
+                    </span>
+                    En cours de test
+                  </span>
+                {{/if}}
+              {{/if}}
+            </td>
           </tr>
         {{/each}}
         </tbody>

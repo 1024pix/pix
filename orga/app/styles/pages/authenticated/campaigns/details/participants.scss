@@ -1,3 +1,18 @@
+.participant-list__mastery-percentage {
+  color: $aqua;
+  font-size: 1.25rem;
+  margin-left: 26px;
+}
+
+.participant-list__ongoing {
+  color: $dusty-gray;
+}
+
+.participant-list__icon {
+  margin-right: 8px;
+  min-width: 15px;
+  display: inline-block;
+}
 
 .participant-list__header {
   display: flex;
