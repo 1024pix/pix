@@ -40,5 +40,17 @@ describe('Acceptance | Home page', function() {
     expect(find('.share-profile__share-button')).to.have.lengthOf(0);
   });
 
+  it('should redirect to profilv2 when user clicks on profilv2 link', async function() {
+    // given
+    await authenticateAsSimpleExternalUser();
+    await visit('/compte');
+
+    // when
+    await click('.results-warning__link');
+
+    // then
+    expect(currentURL()).to.equal('/profilv2');
+  });
+
 });
 

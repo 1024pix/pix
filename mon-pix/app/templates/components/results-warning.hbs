@@ -1,6 +1,7 @@
 {{#if hasCampaignParticipations}}
+  {{fa-icon 'exclamation-circle' class="results-warning__icon"}}
   <div class="results-warning__warning-message">
-    <img src="/images/icons/icon-warning.svg" alt="attention">
-    Les résultats de vos parcours ne sont pas encore visibles dans votre profil mais le seront prochainement.
+    Les résultats de vos parcours ne sont pas encore affichés ici. Vous pouvez les retrouver sur&nbsp;
+    {{#link-to "profilv2" class="link results-warning__link"}}le nouveau profil que nous sommes en train de vous construire{{/link-to}}.
   </div>
 {{/if}}
