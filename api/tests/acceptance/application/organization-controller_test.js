@@ -385,6 +385,7 @@ describe('Acceptance | Application | organization-controller', () => {
   describe('GET /api/organizations/{id}/campaigns', () => {
 
     const orga1Campaign1 = {
+      id: 1,
       name: 'Quand Peigne numba one',
       code: 'ATDGRK343',
       organizationId: 1,
@@ -392,6 +393,7 @@ describe('Acceptance | Application | organization-controller', () => {
     };
 
     const orga1Campaign2 = {
+      id: 2,
       name: 'Quand Peigne numba two',
       code: 'KFCTSU984',
       organizationId: 1,
@@ -399,42 +401,82 @@ describe('Acceptance | Application | organization-controller', () => {
     };
 
     const orga2Campaign1 = {
+      id: 3,
       name: 'Quand Peigne otha orga',
       code: 'CPFTQX735',
       organizationId: 2,
       creatorId: 3,
     };
+    const campaigns = [orga1Campaign1, orga1Campaign2, orga2Campaign1];
 
-    beforeEach(() => {
-      return knex('campaigns').insert([orga1Campaign1, orga1Campaign2, orga2Campaign1]).returning('id');
+    const campaignParticipation = {
+      campaignId: orga2Campaign1.id,
+      isShared: true
+    };
+
+    beforeEach(async () => {
+      campaigns.forEach((campaign) => {
+        databaseBuilder.factory.buildCampaign(campaign);
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('campaigns').delete();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
-    it('should return the organization campaigns', () => {
-      // given
-      const organizationId = 1;
-      const options = {
-        method: 'GET',
-        url: '/api/organizations/' + organizationId + '/campaigns',
-        headers: {
-          authorization: generateValidRequestAuhorizationHeader()
-        },
-      };
+    context('Retrieve campaigns without campaignReports', () => {
+      it('should return the organization campaigns', () => {
+        // given
+        const organizationId = 1;
+        const options = {
+          method: 'GET',
+          url: '/api/organizations/' + organizationId + '/campaigns',
+          headers: {
+            authorization: generateValidRequestAuhorizationHeader()
+          },
+        };
 
-      // when
-      const promise = server.inject(options);
+        // when
+        const promise = server.inject(options);
 
-      // then
-      return promise.then((response) => {
-        const campaigns = response.result.data;
-        expect(campaigns).to.have.lengthOf(2);
-        expect(campaigns[0].attributes.name).to.equal(orga1Campaign1.name);
-        expect(campaigns[0].attributes.code).to.equal(orga1Campaign1.code);
-        expect(campaigns[1].attributes.name).to.equal(orga1Campaign2.name);
-        expect(campaigns[1].attributes.code).to.equal(orga1Campaign2.code);
+        // then
+        return promise.then((response) => {
+          const campaigns = response.result.data;
+          expect(campaigns).to.have.lengthOf(2);
+          expect(campaigns[0].attributes.name).to.equal(orga1Campaign1.name);
+          expect(campaigns[0].attributes.code).to.equal(orga1Campaign1.code);
+          expect(campaigns[1].attributes.name).to.equal(orga1Campaign2.name);
+          expect(campaigns[1].attributes.code).to.equal(orga1Campaign2.code);
+        });
+      });
+    });
+
+    context('Retrieve campaigns with campaignReports', () => {
+      it('should return the organization 2 campaigns and campaignReport', async () => {
+        // given
+        const organizationId = 2;
+        const options = {
+          method: 'GET',
+          url: '/api/organizations/' + organizationId + '/campaigns?campaignReport=true',
+          headers: {
+            authorization: generateValidRequestAuhorizationHeader()
+          },
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          const campaigns = response.result.data;
+          expect(campaigns).to.have.lengthOf(1);
+          const campaignReport = response.result.included[0].attributes;
+          expect(campaignReport['participations-count']).to.equal(1);
+          expect(campaignReport['shared-participations-count']).to.equal(1);
+        });
       });
     });
   });

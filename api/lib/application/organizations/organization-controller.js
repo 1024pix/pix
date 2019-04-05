@@ -61,7 +61,7 @@ module.exports = {
     const retrieveCampaignReport = (request.query) ? request.query.campaignReport : false;
 
     return usecases.getOrganizationCampaigns({ organizationId, retrieveCampaignReport })
-      .then((campaigns) => campaignSerializer.serialize(campaigns));
+      .then((campaigns) => campaignSerializer.serialize(campaigns, null, retrieveCampaignReport));
   },
 
   getMemberships(request) {

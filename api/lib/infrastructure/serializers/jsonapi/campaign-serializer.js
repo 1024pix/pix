@@ -5,7 +5,7 @@ const Campaign = require('../../../domain/models/Campaign');
 
 module.exports = {
 
-  serialize(campaigns, tokenForCampaignResults) {
+  serialize(campaigns, tokenForCampaignResults, retrieveCampaignReport) {
     return new Serializer('campaign', {
       attributes: ['name', 'code', 'title', 'createdAt', 'customLandingPageText', 'tokenForCampaignResults', 'idPixLabel', 'organizationLogoUrl', 'targetProfile', 'campaignReport'],
       transform: (record) => {
@@ -20,6 +20,8 @@ module.exports = {
       },
       campaignReport: {
         ref: 'id',
+        included: retrieveCampaignReport,
+        attributes: ['participationsCount', 'sharedParticipationsCount'],
         ignoreRelationshipData: true,
         relationshipLinks: {
           related(record, current, parent) {
