@@ -3,7 +3,7 @@ const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper')
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 
-describe.only('Integration | Repository | Campaign Participation', () => {
+describe('Integration | Repository | Campaign Participation', () => {
 
   describe('#get', () => {
 
