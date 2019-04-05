@@ -10,6 +10,7 @@ class User {
     pixCertifTermsOfServiceAccepted,
     email,
     firstName,
+    knowledgeElements,
     lastName,
     password,
     samlId,
@@ -31,6 +32,7 @@ class User {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.samlId = samlId;
+    this.knowledgeElements = knowledgeElements;
     // includes
     this.pixRoles = pixRoles;
     this.pixScore = pixScore;
