@@ -80,6 +80,11 @@ describe('Acceptance | Controller | users-controller', () => {
                 '"links":{'+
                   '"related":"/users/(\\d+)/pixscore"'+
                 '}'+
+              '},'+
+              '"scorecards":{'+
+                '"links":{'+
+                  '"related":"/users/(\\d+)/scorecards"'+
+                '}'+
               '}'+
             '}'+
             '}' +

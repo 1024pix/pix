@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.35.0 (05/04/2019)
+
+- [#439](https://github.com/1024pix/pix/pull/439) [FEATURE] Affichage du profilV2 avec les cartes de couleur (PF-522).
+- [#419](https://github.com/1024pix/pix/pull/419) [FEATURE] Afficher les niveaux par compétence sur le Profil V2 de l'utilisateur (scorecard) (PF-537).
+- [#413](https://github.com/1024pix/pix/pull/413) [TECH] Enrichissement du CONTRIBUTING.md.
+- [#253](https://github.com/1024pix/pix/pull/253) [TECH] Ajouter Cypress en CI.
+
 ## v2.34.0 (04/04/2019)
 
 - [#445](https://github.com/1024pix/pix/pull/445) [FEATURE] Renommage de surveillant en surveillant(s) (PC-44).

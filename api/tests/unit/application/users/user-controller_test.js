@@ -5,16 +5,20 @@ const User = require('../../../../lib/domain/models/User');
 const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 
 const userController = require('../../../../lib/application/users/user-controller');
-const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
-const mailService = require('../../../../lib/domain/services/mail-service');
-const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
-const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+
+const encryptionService = require('../../../../lib/domain/services/encryption-service');
+const mailService = require('../../../../lib/domain/services/mail-service');
+const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const userService = require('../../../../lib/domain/services/user-service');
+
 const usecases = require('../../../../lib/domain/usecases');
+
+const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
+const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
+const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -498,6 +502,40 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       expect(usecases.getUserPixScore).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
+    });
+  });
+
+  describe('#getScorecards', () => {
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getUserScorecards').resolves({
+        name:'Comp1',
+      });
+      sinon.stub(scorecardSerializer, 'serialize').resolves();
+    });
+
+    it('should call the expected usecase', async () => {
+      // given
+      const authenticatedUserId= '12';
+      const requestedUserId= '12';
+
+      const request = {
+        auth: {
+          credentials: {
+            userId: authenticatedUserId
+          }
+        },
+        params: {
+          id: requestedUserId
+        }
+      };
+
+      // when
+      await userController.getScorecards(request, hFake);
+
+      // then
+      expect(usecases.getUserScorecards).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
+
     });
   });
 });

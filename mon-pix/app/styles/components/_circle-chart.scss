@@ -1,29 +1,58 @@
 @keyframes progress {
-  to {
+  from {
     stroke-dasharray: 0 100;
   }
 }
 
 .circle-chart {
   position: relative;
-  width: 100px;
-  height: 100px;
 }
 
 .circle-chart__content {
+  width: 100px;
+  height: 100px;
   margin: 2px;
   max-height: 128px;
 
-  .circle {
-    fill: none;
-    stroke-width: 1.1;
-    stroke: $alto-grey;
-    stroke-linecap: round;
+  &--big {
+    width: 120px;
+    height: 120px;
+  }
+}
 
-    &--slice {
-      stroke: $dark-orange;
-      animation: progress 1s ease-out reverse;
-    }
+.circle {
+  fill: none;
+  stroke-width: 1.1;
+  stroke: $alto-grey;
+  stroke-linecap: round;
+
+  &--thick {
+    stroke-width: 1.5;
+  }
+
+  &--slice {
+    stroke: $dark-orange;
+    animation: progress 1s ease-out forwards;
+  }
+
+  &--jaffa {
+    stroke: $jaffa;
+  }
+
+  &--emerald {
+    stroke: $emerald;
+  }
+
+  &--cerulean {
+    stroke: $cerulean;
+  }
+
+  &--wild-strawberry {
+    stroke: $wild-strawberry;
+  }
+
+  &--butterfly-bush {
+    stroke: $butterfly-bush;
   }
 }
 

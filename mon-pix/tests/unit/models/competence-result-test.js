@@ -85,7 +85,7 @@ describe('Unit | Model | Competence-Result', function() {
     });
   });
 
-  describe('domainColorStyle', function() {
+  describe('areaColor', function() {
 
     it('should retrieve domain color style', function() {
       const model = this.subject();
@@ -93,10 +93,10 @@ describe('Unit | Model | Competence-Result', function() {
       model.set('index', '5.1');
 
       // when
-      const domainColorStyle = model.get('domainColorStyle');
+      const areaColor = model.get('areaColor');
 
       // then
-      expect(domainColorStyle.string).to.equal('color: #574DA6');
+      expect(areaColor).to.equal('butterfly-bush');
     });
   });
 });

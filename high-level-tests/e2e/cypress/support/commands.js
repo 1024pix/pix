@@ -24,29 +24,25 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-
-Cypress.Commands.add("login", (email, password) => {
+Cypress.Commands.add('login', (username, password) => {
   cy.server();
   cy.route('/api/users/me').as('getCurrentUser');
   cy.request({
-    url: `${Cypress.env('API_URL')}/api/authentications`,
+    url: `${Cypress.env('API_URL')}/api/token`,
     method: 'POST',
+    form: true,
     body: {
-      data: {
-        attributes: {
-          email,
-          password,
-        }
-      }
+      username,
+      password,
     }
   }).then((response) => {
     window.localStorage.setItem('ember_simple_auth-session', JSON.stringify({
       authenticated: {
-        authenticator: "authenticator:simple",
-        token: response.body.data.attributes.token,
-        userId: "1"
+        authenticator: 'authenticator:simple',
+        token: response.body.access_token,
+        userId: '1'
       }
-    }))
+    }));
   });
   cy.wait(['@getCurrentUser']);
 });
