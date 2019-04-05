@@ -26,8 +26,7 @@
           {{#each model.scorecards as |scorecard|}}
             {{#if (eq area scorecard.area.code)}}
               <div class="rounded-panel-body__competence-card">
-                {{competence-card area=scorecard.area.title index=scorecard.area.code competence=scorecard.name
-                                  level=scorecard.level pixScoreAheadOfNextLevel=scorecard.pixScoreAheadOfNextLevel}}
+                {{competence-card scorecard=scorecard}}
               </div>
             {{/if}}
           {{/each}}
