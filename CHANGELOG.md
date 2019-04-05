@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.35.1 (05/04/2019)
+
+- [#447](https://github.com/1024pix/pix/pull/447) [FEATURE] Renommer les onglets "Paramètres" en "Détails" dans Pix Orga et Pix Certif (PO-202).
+
 ## v2.35.0 (05/04/2019)
 
 - [#439](https://github.com/1024pix/pix/pull/439) [FEATURE] Affichage du profilV2 avec les cartes de couleur (PF-522).
