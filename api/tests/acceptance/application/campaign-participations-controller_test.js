@@ -4,7 +4,7 @@ const Assessment = require('../../../lib/domain/models/Assessment');
 const cache = require('../../../lib/infrastructure/caches/cache');
 const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 
-describe('Acceptance | API | Campaign Participations', () => {
+describe.only('Acceptance | API | Campaign Participations', () => {
 
   let server,
     options,
