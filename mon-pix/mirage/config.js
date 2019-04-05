@@ -13,6 +13,7 @@ import getCourses from './routes/get-courses';
 import getNextChallenge from './routes/get-next-challenge';
 import getOrganizations from './routes/get-organizations';
 import getPixScore from './routes/get-pix-score';
+import getScorecards from './routes/get-scorecards';
 import getSnapshots from './routes/get-snapshots';
 import getCorrections from './routes/get-corrections';
 import patchAnswer from './routes/patch-answer';
@@ -64,6 +65,7 @@ export default function() {
   this.post('/authentications', postAuthentications);
   this.get('/users/me', getAuthenticatedUser);
   this.get('/users/:id/pixscore', getPixScore);
+  this.get('/users/:id/scorecards', getScorecards);
   this.get('/competences/:id');
   this.get('/areas/:id');
   this.get('/organizations/:id');

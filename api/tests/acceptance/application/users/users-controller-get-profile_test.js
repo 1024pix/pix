@@ -49,7 +49,12 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
           'links': {
             'related': '/users/1234/pixscore'
           }
-        }
+        },
+        'scorecards': {
+          'links': {
+            'related': '/users/1234/scorecards'
+          }
+        },
       }
     },
     included: [

@@ -129,6 +129,11 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
                   'related': '/users/234567/pixscore'
                 }
               },
+              scorecards: {
+                links: {
+                  related: '/users/234567/scorecards'
+                }
+              }
             }
           }
         });

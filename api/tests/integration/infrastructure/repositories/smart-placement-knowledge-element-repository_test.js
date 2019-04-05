@@ -159,9 +159,9 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         createdAt: dayBeforeYesterday,
         skillId: '3',
         status: 'invalidated'
-      }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, createdAt: yesterday }),
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, createdAt: yesterday }),
+      });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, createdAt: yesterday });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, createdAt: yesterday });
       databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 7, createdAt: today });
 
       await databaseBuilder.commit();

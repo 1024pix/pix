@@ -8,12 +8,14 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   session: service(),
 
   model() {
-    return this.store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true });
+    return this.store.findRecord('user', this.get('session.data.authenticated.userId'), {
+      reload: true
+    });
   },
 
   afterModel(model) {
     if (model.get('organizations.length') > 0) {
       return this.transitionTo('board');
     }
-  }
+  },
 });
