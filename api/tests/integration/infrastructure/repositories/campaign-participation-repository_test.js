@@ -3,7 +3,7 @@ const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper')
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 
-describe('Integration | Repository | Campaign Participation', () => {
+describe.only('Integration | Repository | Campaign Participation', () => {
 
   describe('#get', () => {
 
@@ -329,6 +329,54 @@ describe('Integration | Repository | Campaign Participation', () => {
       const foundUserLastNames = _.map(foundUsers, 'lastName');
       // then
       expect(foundUserLastNames).to.deep.equal(['Attend', 'Bugietta', 'Darboo', 'Donckele']);});
+  });
+
+  describe('#findWithCampaignParticipationResultsData', () => {
+
+    const assessmentId1 = 1;
+    const assessmentId2 = 2;
+    const campaignId = 'my campaign id';
+
+    beforeEach(async () => {
+
+      const pixMembers = [
+        { firstName: 'Mélanie', lastName: 'Darboo', assessmentId: assessmentId2, knowledgeElements: [{ skillId: '@web3' }, { skillId: '@web4' }] },
+        { firstName: 'Matteo', lastName: 'Lorenzio', knowledgeElements: [] },
+        { firstName: 'Jérémy', lastName: 'Bugietta', assessmentId: assessmentId1, knowledgeElements: [{ skillId: '@web2' }, { skillId: '@web1' }] },
+        { firstName: 'Léo', lastName: 'Subzéro', knowledgeElements: [] },
+      ];
+
+      const insertPixMember = (member) => {
+        const { id: userId } = databaseBuilder.factory.buildUser(member);
+        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId, id: member.assessmentId });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId });
+        for (const ke of member.knowledgeElements) {
+          databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId, ...ke });
+        }
+      };
+
+      pixMembers.forEach(insertPixMember);
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return paginated campaign participations including users sorted by name, lastname', async () => {
+      // given
+      const options = { filter: { campaignId }, sort: [], include: ['user'], page: { number: 1, size: 2 } };
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.findWithCampaignParticipationResultsData(options);
+      const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
+      const foundAssessmentIds = _(foundCampaignParticipation.models).map('assessment').map('id').value();
+      const foundKnowledgeElementsSkillsIds = _(foundCampaignParticipation.models).map('user').map('knowledgeElements').flatten().map('skillId').value();
+      // then
+      expect(foundUserLastNames).to.deep.equal(['Bugietta', 'Darboo']);
+      expect(foundAssessmentIds).to.deep.equal([assessmentId1, assessmentId2]);
+      expect(foundKnowledgeElementsSkillsIds).to.have.members(['@web1', '@web2', '@web3', '@web4']);
+    });
   });
 
   describe('#updateCampaignParticipation', () => {
