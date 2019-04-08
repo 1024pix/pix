@@ -378,6 +378,33 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
+  describe('#isCompetenceEvaluation', () => {
+
+    it('should return true when the assessment is a CompetenceEvaluation', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
+
+      // when/then
+      expect(assessment.isCompetenceEvaluation()).to.be.true;
+    });
+
+    it('should return false when the assessment is not a CompetenceEvaluation', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+
+      // when/then
+      expect(assessment.isCompetenceEvaluation()).to.be.false;
+    });
+
+    it('should return false when the assessment has no type', () => {
+      // given
+      const assessment = domainBuilder.buildAssessment({ type: null });
+
+      // when/then
+      expect(assessment.isCompetenceEvaluation()).to.be.false;
+    });
+  });
+
   describe('#canBeScored', () => {
 
     [

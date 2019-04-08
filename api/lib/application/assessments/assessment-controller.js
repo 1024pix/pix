@@ -118,6 +118,14 @@ module.exports = {
           });
         }
 
+        if (assessment.isCompetenceEvaluation()) {
+          const userId = request.auth.credentials.userId;
+          return useCases.getNextChallengeForCompetenceEvaluation({
+            assessment,
+            userId
+          });
+        }
+
       })
       .then((challenge) => {
         logContext.challenge = challenge;
