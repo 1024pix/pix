@@ -2,7 +2,6 @@ import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 import { cancel, later } from '@ember/runloop';
 import Component from '@ember/component';
-import callOnlyOnce from '../utils/call-only-once';
 import _ from 'mon-pix/utils/lodash-custom';
 import ENV from 'mon-pix/config/environment';
 
@@ -112,7 +111,7 @@ const ChallengeItemGeneric = Component.extend({
       }
     },
 
-    skipChallenge: callOnlyOnce(function() {
+    skipChallenge() {
       if (this.validateButtonStatus === buttonStatuses.enabled && this.skipButtonStatus === buttonStatuses.enabled) {
         this.set('errorMessage', null);
         this.set('_isUserAwareThatChallengeIsTimed', false);
@@ -121,7 +120,7 @@ const ChallengeItemGeneric = Component.extend({
         return this.answerValidated(this.challenge, this.assessment, '#ABAND#', this._getTimeout(), this._getElapsedTime())
           .finally(() => this.set('skipButtonStatus', buttonStatuses.enabled));
       }
-    }),
+    },
 
     setUserConfirmation() {
       this._start();
