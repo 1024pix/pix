@@ -22,7 +22,7 @@ describe('Unit | UseCase | start-competence-evaluation', () => {
 
   it('should throw an error if the competence does not exists', () => {
     // given
-    competenceRepository.get.resolves(null);
+    competenceRepository.get.rejects();
 
     // when
     const promise = usecases.startCompetenceEvaluation({
