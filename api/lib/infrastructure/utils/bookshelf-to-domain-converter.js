@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const Models = require('../../domain/models');
+const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
 
 const attributesForBelongsToRelationships = _.keys(Models).map((key) => _.lowerFirst(key));
 const attributesForHasManyRelationships = _.keys(Models).map((key) => _.lowerFirst(key) + 's');
@@ -19,12 +20,24 @@ function buildDomainObject(BookshelfClass, bookshelfObject) {
   return _buildDomainObject(BookshelfClass.prototype, bookshelfObject.toJSON());
 }
 
-function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson) {
-  const domainObject = new Models[bookshelfPrototype.constructor.bookshelfName];
+function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson, domainObject) {
+
+  domainObject = domainObject || new Models[bookshelfPrototype.constructor.bookshelfName];
 
   const bookshelfClassKeys = Object.keys(bookshelfPrototype);
 
   const mappedObject = _.mapValues(domainObject, (value, key) => {
+
+    // TODO: Remove this after refactoring SmartPlacementKnowledgeElements into KnowledgeElements
+    if (bookshelfPrototype.constructor.bookshelfName === 'User' && key === 'knowledgeElements') {
+      const relationshipPrototype = _getRelationshipPrototype(bookshelfPrototype, key);
+
+      return bookshelfObjectJson[key] && bookshelfObjectJson[key].map((bookshelfObject) => {
+        const smartPlacementKnowledgeElement = new SmartPlacementKnowledgeElement();
+        return _buildDomainObject(relationshipPrototype, bookshelfObject, smartPlacementKnowledgeElement);
+      });
+    }
+
     if (_isABelongsToRelationship(bookshelfClassKeys, bookshelfObjectJson, key)) {
       return _buildDomainObject(
         _getRelationshipPrototype(bookshelfPrototype, key),
