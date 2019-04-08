@@ -1,7 +1,7 @@
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 import ENV from 'mon-pix/config/environment';
 
-export default BaseRoute.extend({
+export default Route.extend({
 
   hasSeenCheckpoint: false,
   campaignCode: null,

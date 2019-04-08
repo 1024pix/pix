@@ -1,7 +1,7 @@
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 
-export default BaseRoute.extend({
+export default Route.extend({
 
   afterModel(course) {
     const store = this.store;

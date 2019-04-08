@@ -1,7 +1,7 @@
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
 
-export default BaseRoute.extend({
+export default Route.extend({
 
   afterModel(assessment) {
     if (assessment.get('isCertification')) {

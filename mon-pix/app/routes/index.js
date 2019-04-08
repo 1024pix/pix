@@ -1,8 +1,8 @@
 import { inject as service } from '@ember/service';
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default BaseRoute.extend(UnauthenticatedRouteMixin, {
+export default Route.extend(UnauthenticatedRouteMixin, {
 
   session: service(),
   store: service(),
