@@ -1,15 +1,8 @@
 import { computed } from '@ember/object';
-import { equal } from '@ember/object/computed';
 import { cancel, later } from '@ember/runloop';
 import Component from '@ember/component';
 import _ from 'mon-pix/utils/lodash-custom';
 import ENV from 'mon-pix/config/environment';
-
-const buttonStatuses = {
-  enabled: 'ENABLED',
-  pending: 'PENDING',
-  offline: 'OFFLINE',
-};
 
 const ChallengeItemGeneric = Component.extend({
 
@@ -17,11 +10,8 @@ const ChallengeItemGeneric = Component.extend({
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  validateButtonStatus: buttonStatuses.enabled,
-  skipButtonStatus: buttonStatuses.enabled,
-
-  isValidateButtonEnabled: equal('validateButtonStatus', buttonStatuses.enabled),
-  isSkipButtonEnabled: equal('skipButtonStatus', buttonStatuses.enabled),
+  isValidateButtonEnabled: true,
+  isSkipButtonEnabled: true,
 
   _elapsedTime: null,
   _timer: null,
@@ -92,7 +82,7 @@ const ChallengeItemGeneric = Component.extend({
 
   actions: {
     validateAnswer() {
-      if (this.validateButtonStatus === buttonStatuses.enabled && this.skipButtonStatus === buttonStatuses.enabled) {
+      if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
         if (this._hasError()) {
 
           const errorMessage = this._getErrorMessage();
@@ -104,21 +94,21 @@ const ChallengeItemGeneric = Component.extend({
         
         this.set('errorMessage', null);
         this.set('_isUserAwareThatChallengeIsTimed', false);
-        this.set('validateButtonStatus', buttonStatuses.pending);
+        this.set('isValidateButtonEnabled', false);
         
         return this.answerValidated(this.challenge, this.assessment, this._getAnswerValue(), this._getTimeout(), this._getElapsedTime())
-          .finally(() => this.set('validateButtonStatus', buttonStatuses.enabled));
+          .finally(() => this.set('isValidateButtonEnabled', true));
       }
     },
 
     skipChallenge() {
-      if (this.validateButtonStatus === buttonStatuses.enabled && this.skipButtonStatus === buttonStatuses.enabled) {
+      if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
         this.set('errorMessage', null);
         this.set('_isUserAwareThatChallengeIsTimed', false);
-        this.set('skipButtonStatus', buttonStatuses.pending);
+        this.set('isSkipButtonEnabled', false);
 
         return this.answerValidated(this.challenge, this.assessment, '#ABAND#', this._getTimeout(), this._getElapsedTime())
-          .finally(() => this.set('skipButtonStatus', buttonStatuses.enabled));
+          .finally(() => this.set('isSkipButtonEnabled', true));
       }
     },
 
