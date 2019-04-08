@@ -23,16 +23,17 @@ module.exports = {
           related(record) {
             return `/assessments/${record.assessmentId}`;
           }
-        }
+        },
       },
       campaignParticipationResult: {
         ref: 'id',
-        ignoreRelationshipData: false,
+        ignoreRelationshipData: true,
         relationshipLinks: {
           related(record, current, parent) {
             return `/campaign-participations/${parent.id}/campaign-participation-result`;
           }
-        }
+        },
+        attributes: ['id', 'isCompleted', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'competenceResults'],
       },
       meta
     }).serialize(campaignParticipation);
