@@ -1,7 +1,7 @@
 
 const OK = 'ok';
 const KO = 'ko';
-const SKIPPED = '#ABAND#';
+const SKIPPED = 'aband';
 const TIMEDOUT = 'timedout';
 const PARTIALLY = 'partially';
 const UNIMPLEMENTED = 'unimplemented';

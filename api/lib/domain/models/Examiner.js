@@ -22,7 +22,7 @@ class Examiner {
 
     const correctedAnswer = new Answer(answer);
 
-    if (AnswerStatus.isSKIPPED(answer.value)) {
+    if (answer.value === Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
       correctedAnswer.result = AnswerStatus.SKIPPED;
       correctedAnswer.resultDetails = null;
 
