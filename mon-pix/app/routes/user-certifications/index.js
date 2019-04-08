@@ -1,7 +1,7 @@
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default BaseRoute.extend(AuthenticatedRouteMixin, {
+export default Route.extend(AuthenticatedRouteMixin, {
 
   model() {
     return this.store.findAll('certification');

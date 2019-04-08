@@ -1,8 +1,8 @@
 import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 
-export default BaseRoute.extend({
+export default Route.extend({
 
   session: service(),
 
