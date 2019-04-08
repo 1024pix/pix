@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import { getHomeHost } from '../helpers/get-home-host';
+import ENV from 'mon-pix/config/environment';
 
 export default Component.extend({
 
@@ -10,7 +10,7 @@ export default Component.extend({
   // Data props
   course: null,
   withHomeLink: false,
-  urlHome: getHomeHost(),
+  urlHome: ENV.APP.HOME_HOST,
 
   // CPs
   courseName: computed('course.name', function() {

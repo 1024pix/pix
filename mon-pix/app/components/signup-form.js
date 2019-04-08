@@ -4,7 +4,6 @@ import Component from '@ember/component';
 import isEmailValid from 'mon-pix/utils/email-validator';
 import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
-import { getHomeHost } from '../helpers/get-home-host';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
@@ -36,7 +35,7 @@ export default Component.extend({
   _notificationMessage: null,
   validation: null,
   _tokenHasBeenUsed: null,
-  urlHome: getHomeHost(),
+  urlHome: ENV.APP.HOME_HOST,
 
   init() {
     this._super(...arguments);

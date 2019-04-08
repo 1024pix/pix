@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
+import ENV from 'mon-pix/config/environment';
+
 import BaseRoute from 'mon-pix/routes/base-route';
-import { getHomeHost } from '../helpers/get-home-host';
 
 export default BaseRoute.extend({
 
@@ -27,7 +28,7 @@ export default BaseRoute.extend({
   },
 
   _redirectToHome() {
-    return window.location.replace(getHomeHost());
+    return window.location.replace(ENV.APP.HOME_HOST);
   },
   
 });
