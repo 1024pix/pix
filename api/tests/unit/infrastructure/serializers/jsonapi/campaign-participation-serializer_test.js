@@ -47,6 +47,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
               }
             },
             'campaign-participation-result': {
+              data: null,
               links: {
                 'related': '/campaign-participations/5/campaign-participation-result'
               }

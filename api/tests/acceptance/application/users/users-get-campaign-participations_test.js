@@ -82,6 +82,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                   }
                 },
                 'campaign-participation-result': {
+                  data: null,
                   links: {
                     'related': `/campaign-participations/${campaignParticipation2.id}/campaign-participation-result`
                   }
@@ -111,6 +112,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                   }
                 },
                 'campaign-participation-result': {
+                  data: null,
                   links: {
                     'related': `/campaign-participations/${campaignParticipation1.id}/campaign-participation-result`
                   }

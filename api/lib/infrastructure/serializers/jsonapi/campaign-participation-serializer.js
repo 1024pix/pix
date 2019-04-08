@@ -27,7 +27,7 @@ module.exports = {
       },
       campaignParticipationResult: {
         ref: 'id',
-        ignoreRelationshipData: true,
+        ignoreRelationshipData: false,
         relationshipLinks: {
           related(record, current, parent) {
             return `/campaign-participations/${parent.id}/campaign-participation-result`;

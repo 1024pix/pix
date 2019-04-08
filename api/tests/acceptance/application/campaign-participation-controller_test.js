@@ -70,6 +70,7 @@ describe('Acceptance | API | Campaign Participations', () => {
             }
           },
           'campaign-participation-result': {
+            data: null,
             links: {
               related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
             }
@@ -144,6 +145,7 @@ describe('Acceptance | API | Campaign Participations', () => {
                 }
               },
               'campaign-participation-result': {
+                data: null,
                 links: {
                   'related': `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
                 }
