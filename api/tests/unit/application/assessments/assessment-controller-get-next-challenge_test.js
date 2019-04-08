@@ -1,4 +1,4 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 
@@ -55,6 +55,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sinon.stub(usecases, 'getNextChallengeForCertification').resolves();
       sinon.stub(usecases, 'getNextChallengeForDemo').resolves();
       sinon.stub(usecases, 'getNextChallengeForSmartPlacement').resolves();
+      sinon.stub(usecases, 'getNextChallengeForCompetenceEvaluation').resolves();
       sinon.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId').resolves();
     });
 
@@ -177,6 +178,36 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         // then
         expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
           assessment,
+        });
+      });
+    });
+
+    describe('when the assessment is a competence evaluation assessment', () => {
+      const userId = 1;
+
+      const assessment = domainBuilder.buildAssessment({
+        id: 1,
+        courseId: 'courseId',
+        userId: 5,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
+
+      beforeEach(() => {
+        assessmentRepository.get.resolves(assessment);
+      });
+
+      it('should call the usecase getNextChallengeForCompetenceEvaluation', async () => {
+        const request = {
+          params: { id: 1 },
+          auth: { credentials: { userId } }
+        };
+        // when
+        await assessmentController.getNextChallenge(request, hFake);
+
+        // then
+        expect(usecases.getNextChallengeForCompetenceEvaluation).to.have.been.calledWith({
+          assessment,
+          userId,
         });
       });
     });
