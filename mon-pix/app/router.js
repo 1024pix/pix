@@ -13,6 +13,7 @@ const Router = EmberRouter.extend({
     this._super(...arguments);
     this.on('routeDidChange', () => {
       this._trackPage();
+      window.scrollTo(0, 0);
     });
   },
 
