@@ -14,6 +14,7 @@ const dependencies = {
   certificationCourseRepository: require('../../infrastructure/repositories/certification-course-repository'),
   certificationRepository: require('../../infrastructure/repositories/certification-repository'),
   challengeRepository: require('../../infrastructure/repositories/challenge-repository'),
+  competenceEvaluationRepository: require('../../infrastructure/repositories/competence-evaluation-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   competenceTreeRepository: require('../../infrastructure/repositories/competence-tree-repository'),
