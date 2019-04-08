@@ -3,7 +3,7 @@ const SmartRandom = require('../services/smart-random/SmartRandom');
 
 function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository }) {
   return getSmartRandomInputValues({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository })
-    .then(([answers, [targetProfile, challenges], knowledgeElements]) => SmartRandom.getNextChallenge({ answers, challenges, targetProfile, knowledgeElements }))
+    .then(([answers, [targetProfile, challenges], knowledgeElements]) => SmartRandom.getNextChallenge({ answers, challenges, targetSkills: targetProfile.skills, knowledgeElements }))
     .then((nextChallenge) => nextChallenge || Promise.reject(new AssessmentEndedError()));
 }
 

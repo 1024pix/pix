@@ -8,10 +8,9 @@ const UNEXISTING_ITEM = null;
 
 module.exports = { getNextChallenge };
 
-function getNextChallenge({ knowledgeElements, challenges, targetProfile, answers } = {}) {
+function getNextChallenge({ knowledgeElements, challenges, targetSkills, answers } = {}) {
 
   const lastChallenge = _findLastChallengeIfAny(answers, challenges);
-  const targetSkills = targetProfile.skills;
   const isUserStartingTheTest = !lastChallenge;
   const courseTubes = _findCourseTubes(targetSkills, challenges);
   const kowledgeElementsOfTargetProfile = knowledgeElements.filter((ke)=> targetSkills.find((skill) => skill.id === ke.skillId));
