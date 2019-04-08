@@ -33,10 +33,10 @@
     {{#if assessment}}
       {{challenge-actions 
         challenge=challenge 
-        challengeSkipped=(action "skipChallenge") 
-        answerValidated=(action "validateAnswer") 
-        skipButtonStatus=skipButtonStatus 
-        validateButtonStatus=validateButtonStatus
+        validateAnswer=(action "validateAnswer") 
+        skipChallenge=(action "skipChallenge") 
+        isValidateButtonEnabled=isValidateButtonEnabled
+        isSkipButtonEnabled=isSkipButtonEnabled 
       }}
     {{/if}}
   </form>
