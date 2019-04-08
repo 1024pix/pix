@@ -1,4 +1,5 @@
 import { computed } from '@ember/object';
+import { equal } from '@ember/object/computed';
 import { cancel, later } from '@ember/runloop';
 import Component from '@ember/component';
 import RSVP from 'rsvp';
@@ -21,7 +22,8 @@ const ChallengeItemGeneric = Component.extend({
   validateButtonStatus: buttonStatuses.enabled,
   skipButtonStatus: buttonStatuses.enabled,
 
-  answerValidated: null, // action
+  isValidateButtonEnabled: equal('validateButtonStatus', buttonStatuses.enabled),
+  isSkipButtonEnabled: equal('skipButtonStatus', buttonStatuses.enabled),
 
   _elapsedTime: null,
   _timer: null,
@@ -99,7 +101,7 @@ const ChallengeItemGeneric = Component.extend({
           
           this.set('errorMessage', errorMessage);
           
-          return RSVP.reject(errorMessage);
+          return RSVP.reject(errorMessage).catch(() => null);
         }
         
         this.set('errorMessage', null);
