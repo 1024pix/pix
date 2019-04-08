@@ -19,6 +19,10 @@ export default Component.extend({
   // Actions
   actions: {
     launchSimulator() {
+      const event = new CustomEvent('launch-embed');
+
+      document.dispatchEvent(event);
+
       this.toggleProperty('_isSimulatorNotYetLaunched');
       this._unblurSimulator();
     },
