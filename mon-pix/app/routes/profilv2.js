@@ -17,5 +17,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     if (model.get('organizations.length') > 0) {
       return this.transitionTo('board');
     }
+
+    model.hasMany('campaignParticipations').reload();
   },
 });
