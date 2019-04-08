@@ -2,7 +2,6 @@ import { computed } from '@ember/object';
 import { equal } from '@ember/object/computed';
 import { cancel, later } from '@ember/runloop';
 import Component from '@ember/component';
-import RSVP from 'rsvp';
 import callOnlyOnce from '../utils/call-only-once';
 import _ from 'mon-pix/utils/lodash-custom';
 import ENV from 'mon-pix/config/environment';
@@ -100,8 +99,8 @@ const ChallengeItemGeneric = Component.extend({
           const errorMessage = this._getErrorMessage();
           
           this.set('errorMessage', errorMessage);
-          
-          return RSVP.reject(errorMessage).catch(() => null);
+
+          return;
         }
         
         this.set('errorMessage', null);
@@ -109,11 +108,8 @@ const ChallengeItemGeneric = Component.extend({
         this.set('validateButtonStatus', buttonStatuses.pending);
         
         return this.answerValidated(this.challenge, this.assessment, this._getAnswerValue(), this._getTimeout(), this._getElapsedTime())
-          .then(() => this.set('validateButtonStatus', buttonStatuses.enabled))
-          .catch(() => this.set('validateButtonStatus', buttonStatuses.enabled));
+          .finally(() => this.set('validateButtonStatus', buttonStatuses.enabled));
       }
-
-      return RSVP.resolve();
     },
 
     skipChallenge: callOnlyOnce(function() {
@@ -123,11 +119,8 @@ const ChallengeItemGeneric = Component.extend({
         this.set('skipButtonStatus', buttonStatuses.pending);
 
         return this.answerValidated(this.challenge, this.assessment, '#ABAND#', this._getTimeout(), this._getElapsedTime())
-          .then(() => this.set('skipButtonStatus', buttonStatuses.enabled))
-          .catch(() => this.set('skipButtonStatus', buttonStatuses.enabled));
+          .finally(() => this.set('skipButtonStatus', buttonStatuses.enabled));
       }
-      
-      return RSVP.resolve();
     }),
 
     setUserConfirmation() {
@@ -138,7 +131,5 @@ const ChallengeItemGeneric = Component.extend({
     },
   },
 });
-
-ChallengeItemGeneric.buttonStatuses = buttonStatuses;
 
 export default ChallengeItemGeneric;
