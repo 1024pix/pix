@@ -185,7 +185,7 @@ describe('Integration | Repository | Target-profile', () => {
     });
   });
 
-  describe.only('#getByCampaignId', () => {
+  describe('#getByCampaignId', () => {
     let campaignId, targetProfileId;
 
     beforeEach(async () => {

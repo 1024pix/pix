@@ -37,7 +37,7 @@ class SmartPlacementKnowledgeElement {
     skillId,
     userId,
     competenceId
-  }) {
+  } = {}) {
     this.id = id;
     // attributes
     this.createdAt = createdAt;

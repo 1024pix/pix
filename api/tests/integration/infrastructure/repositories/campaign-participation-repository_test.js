@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 
 describe('Integration | Repository | Campaign Participation', () => {
@@ -376,6 +378,8 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(foundUserLastNames).to.deep.equal(['Bugietta', 'Darboo']);
       expect(foundAssessmentIds).to.deep.equal([assessmentId1, assessmentId2]);
       expect(foundKnowledgeElementsSkillsIds).to.have.members(['@web1', '@web2', '@web3', '@web4']);
+      expect(foundCampaignParticipation.models[0].assessment).to.be.instanceOf(Assessment);
+      expect(foundCampaignParticipation.models[0].user.knowledgeElements[0]).to.be.instanceOf(SmartPlacementKnowledgeElement);
     });
   });
 
