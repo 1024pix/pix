@@ -10,11 +10,8 @@ module.exports = function startCompetenceEvaluation({ competenceId, userId, comp
 
 function _checkCompetenceExists(competenceId, competenceRepository) {
   return competenceRepository.get(competenceId)
-    .then((competence) => {
-      if (competence === null) {
-        throw new NotFoundError('La compétence demandée n\'existe pas');
-      }
-      return Promise.resolve();
+    .catch(() => {
+      throw new NotFoundError('La compétence demandée n\'existe pas');
     });
 }
 
