@@ -1,10 +1,10 @@
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import _ from 'lodash';
 
-export default BaseRoute.extend({
+export default Route.extend({
   campaignCode: null,
   session: service(),
 

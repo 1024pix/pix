@@ -1,8 +1,8 @@
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import campaignTutorial from 'mon-pix/static-data/campaign-tutorial';
 
-export default BaseRoute.extend(AuthenticatedRouteMixin, {
+export default Route.extend(AuthenticatedRouteMixin, {
 
   campaignCode: null,
   tutorialPageId: 0,
