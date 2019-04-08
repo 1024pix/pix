@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import isPasswordValid from '../utils/password-validator';
-import { getHomeHost } from '../helpers/get-home-host';
+import ENV from 'mon-pix/config/environment';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
 const VALIDATION_MAP = {
@@ -24,7 +24,7 @@ const SUBMISSION_MAP = {
 export default Component.extend({
   _displaySuccessMessage: null,
   validation: VALIDATION_MAP['default'],
-  urlHome: getHomeHost(),
+  urlHome: ENV.APP.HOME_HOST,
 
   actions: {
     validatePassword() {
