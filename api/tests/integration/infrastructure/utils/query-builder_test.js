@@ -87,7 +87,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
           number: 2,
           size: 3,
         },
-        sort: [],
+        sort: ['id'],
         include: [],
       });
 
@@ -107,7 +107,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
           number: 3,
           size: 2,
         },
-        sort: [],
+        sort: ['id'],
         include: ['user', 'organization'],
       });
 
@@ -159,7 +159,7 @@ describe('Integration | Infrastructure | Utils | Query Builder', function() {
 
     it('should throw a NotFoundError if snapshot can not be found', function() {
       // when
-      const promise = queryBuilder.get(BookshelfSnapshot, 'errorId');
+      const promise = queryBuilder.get(BookshelfSnapshot, -1);
 
       // then
       return expect(promise).to.have.been.rejectedWith(NotFoundError);
