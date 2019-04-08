@@ -84,6 +84,7 @@ module.exports = injectDependencies({
   getNextChallengeForPlacement: require('./get-next-challenge-for-placement'),
   getNextChallengeForPreview: require('./get-next-challenge-for-preview'),
   getNextChallengeForSmartPlacement: require('./get-next-challenge-for-smart-placement'),
+  getNextChallengeForCompetenceEvaluation: require('./get-next-challenge-for-competence-evaluation'),
   getOrCreateSamlUser: require('./get-or-create-saml-user'),
   getOrganizationCampaigns: require('./get-organization-campaigns'),
   getOrganizationDetails: require('./get-organization-details.js'),
