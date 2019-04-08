@@ -1,5 +1,6 @@
 const BookshelfCompetenceEvaluation = require('../data/competence-evaluation');
 const CompetenceEvaluation = require('../../domain/models/CompetenceEvaluation');
+const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfCompetenceEvaluation) {
   return new CompetenceEvaluation({
@@ -19,4 +20,17 @@ module.exports = {
       .save()
       .then(_toDomain);
   },
+
+  getByAssessmentId(assessmentId) {
+    return BookshelfCompetenceEvaluation
+      .where({ assessmentId })
+      .fetch({ require: true })
+      .then(_toDomain)
+      .catch((bookshelfError) => {
+        if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
+          throw new NotFoundError();
+        }
+        throw bookshelfError;
+      });
+  }
 };

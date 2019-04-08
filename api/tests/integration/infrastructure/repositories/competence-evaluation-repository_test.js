@@ -1,6 +1,8 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Competence Evaluation', () => {
   describe('#save', () => {
@@ -53,6 +55,56 @@ describe('Integration | Repository | Competence Evaluation', () => {
             expect(competenceEvaluationInDb.competenceId).to.equal(competenceEvaluationToSave.competenceId);
             expect(competenceEvaluationInDb.userId).to.equal(competenceEvaluationToSave.userId);
           });
+      });
+    });
+
+  });
+
+  describe('#getByAssessmentId', () => {
+    let user;
+    let assessmentForExpectedCompetenceEvaluation;
+    let assessmentNotExpected;
+    let competenceEvaluationExpected;
+
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser({});
+
+      assessmentForExpectedCompetenceEvaluation = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.COMPETENCE_EVALUATION });
+      assessmentNotExpected = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.COMPETENCE_EVALUATION });
+
+      competenceEvaluationExpected = databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        assessmentId: assessmentForExpectedCompetenceEvaluation.id
+      });
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        assessmentId: assessmentNotExpected.id
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the competence evaluation linked to the assessment', () => {
+      // when
+      const promise = competenceEvaluationRepository.getByAssessmentId(assessmentForExpectedCompetenceEvaluation.id);
+
+      // then
+      return promise.then((competenceEvaluation) => {
+        expect(competenceEvaluation).to.deep.equal(competenceEvaluationExpected);
+      });
+    });
+
+    it('should return an error when there is no competence evaluation', () => {
+      // when
+      const promise = catchErr(competenceEvaluationRepository.getByAssessmentId)('fakeId');
+
+      // then
+      return promise.then((error) => {
+        expect(error).to.be.instanceof(NotFoundError);
       });
     });
 
