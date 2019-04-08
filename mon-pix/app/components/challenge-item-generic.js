@@ -113,7 +113,7 @@ const ChallengeItemGeneric = Component.extend({
           .catch(() => this.set('validateButtonStatus', buttonStatuses.enabled));
       }
 
-      return Promise.resolve();
+      return RSVP.resolve();
     },
 
     skipChallenge: callOnlyOnce(function() {
@@ -127,7 +127,7 @@ const ChallengeItemGeneric = Component.extend({
           .catch(() => this.set('skipButtonStatus', buttonStatuses.enabled));
       }
       
-      return Promise.resolve();
+      return RSVP.resolve();
     }),
 
     setUserConfirmation() {
