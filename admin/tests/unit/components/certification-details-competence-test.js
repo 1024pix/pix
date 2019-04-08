@@ -103,7 +103,7 @@ module('Unit | Component | certification-details-competence', function(hooks) {
   test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 aband', async function(assert) {
     // given
     let component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'aband', 25, 17, 3, 2));
+    component.set('competence', competence('ok', 'ok', '#ABAND#', 25, 17, 3, 2));
     component.set('rate', 60);
     assert.expect(2);
 
@@ -163,7 +163,7 @@ module('Unit | Component | certification-details-competence', function(hooks) {
   test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 aband', async function(assert) {
     // given
     let component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ok', 'aband', 25, 25, 3, 3));
+    component.set('competence', competence('ok', 'ok', '#ABAND#', 25, 25, 3, 3));
     component.set('rate', 81);
     assert.expect(2);
 
@@ -208,7 +208,7 @@ module('Unit | Component | certification-details-competence', function(hooks) {
   test('it should give level -1 and score 0 when jury rate is set and 1 ok', async function(assert) {
     // given
     let component = this.owner.factoryFor('component:certification-details-competence').create();
-    component.set('competence', competence('ok', 'ko', 'aband', 25, 25, 3, 3));
+    component.set('competence', competence('ok', 'ko', '#ABAND#', 25, 25, 3, 3));
     component.set('rate', 81);
     assert.expect(2);
 

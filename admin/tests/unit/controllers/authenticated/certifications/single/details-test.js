@@ -33,7 +33,7 @@ module('Unit | Controller | authenticated/certifications/single/details', functi
     // given
     let controller = this.owner.lookup('controller:authenticated/certifications/single/details');
     controller.set('model', EmberObject.create( {
-      competences:[competence(false,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(false,'ok', 'aband', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(false,'ok', 'ok', 'ok')]
+      competences:[competence(false,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(false,'ok', '#ABAND#', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(false,'ok', 'ok', 'ok')]
     }));
 
     // when
@@ -49,7 +49,7 @@ module('Unit | Controller | authenticated/certifications/single/details', functi
     // given
     let controller = this.owner.lookup('controller:authenticated/certifications/single/details');
     controller.set('model', EmberObject.create( {
-      competences:[competence(true,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(true,'ok', 'aband', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(true,'ok', 'ok', 'ok')]
+      competences:[competence(true,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(true,'ok', '#ABAND#', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(true,'ok', 'ok', 'ok')]
     }));
 
     // when
