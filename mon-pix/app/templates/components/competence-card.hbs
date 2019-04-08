@@ -12,5 +12,13 @@
       </div>
     {{/circle-chart}}
   </div>
-  <footer></footer>
+  <footer class="competence-card__footer">
+    <button class="button button--thin button--green competence-card__button">
+      {{#if displayedLevel}}
+        Continuer
+      {{else}}
+        Commencer
+      {{/if}}
+    </button>
+  </footer>
 </article>
