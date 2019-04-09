@@ -8,7 +8,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
   describe('#getNextChallengeForCompetenceEvaluation', () => {
 
     let userId, assessmentId, competenceId,
-      assessment, answers, challenges, skills, competenceEvaluation,
+      assessment, answers, challenges, targetSkills, competenceEvaluation,
       answerRepository, challengeRepository, competenceEvaluationRepository, skillRepository,
       smartPlacementKnowledgeElementRepository,
       recentKnowledgeElements, expectedComputedChallenge, actualComputedChallenge;
@@ -23,12 +23,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       assessment = { id: assessmentId, userId };
       challenges = [];
       competenceEvaluation = domainBuilder.buildCompetenceEvaluation({ competenceId, assessmentId, userId });
-      skills = [];
+      targetSkills = [];
 
       answerRepository = { findByAssessment: sinon.stub().resolves(answers) };
       challengeRepository = { findByCompetenceId: sinon.stub().resolves(challenges) };
       competenceEvaluationRepository = { getByAssessmentId: sinon.stub().resolves(competenceEvaluation) };
-      skillRepository = { findByCompetenceId: sinon.stub().resolves(skills) };
+      skillRepository = { findByCompetenceId: sinon.stub().resolves(targetSkills) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
       smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
@@ -84,7 +84,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
 
       it('should have fetched the next challenge with only most recent knowledge elements', () => {
         expect(SmartRandom.getNextChallenge).to.have.been.calledWithExactly({
-          answers, challenges, skills, knowledgeElements: recentKnowledgeElements
+          answers, challenges, targetSkills, knowledgeElements: recentKnowledgeElements
         });
       });
 
