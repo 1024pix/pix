@@ -5,7 +5,7 @@ const CampaignParticipation = require('../../../domain/models/CampaignParticipat
 
 module.exports = {
 
-  serialize(campaignParticipation, meta) {
+  serialize(campaignParticipation, meta, { singleResult } = {}) {
     return new Serializer('campaign-participation', {
       attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult', 'assessment'],
       campaign: {
@@ -27,7 +27,7 @@ module.exports = {
       },
       campaignParticipationResult: {
         ref: 'id',
-        ignoreRelationshipData: false,
+        ignoreRelationshipData: singleResult ? true : false,
         relationshipLinks: {
           related(record, current, parent) {
             return `/campaign-participations/${parent.id}/campaign-participation-result`;
