@@ -1,3 +1,4 @@
+const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async function findCampaignParticipationsWithResults({
@@ -23,7 +24,11 @@ module.exports = async function findCampaignParticipationsWithResults({
     const { assessment } = campaignParticipation;
     const { user: { knowledgeElements } } = campaignParticipation;
 
-    campaignParticipation.addCampaignParticipationResult({ competences, targetProfile, assessment, knowledgeElements });
+    const campaignParticipationResult = CampaignParticipationResult.buildFrom({
+      campaignParticipationId: campaignParticipation.id, competences, targetProfile, assessment, knowledgeElements
+    });
+
+    campaignParticipation.campaignParticipationResult = campaignParticipationResult;
   }
 
   return campaignParticipations;
