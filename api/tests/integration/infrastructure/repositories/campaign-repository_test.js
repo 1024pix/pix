@@ -297,14 +297,6 @@ describe('Integration | Repository | Campaign', () => {
       expect(access).to.be.true;
     });
 
-    it('should return true when the user is the owner of the organization', async () => {
-      //when
-      const access = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, ownerId);
-
-      //then
-      expect(access).to.be.true;
-    });
-
     it('should return false when the user is not a member of an organization that owns campaign', async () => {
       //when
       const access = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, forbiddenUserId);
