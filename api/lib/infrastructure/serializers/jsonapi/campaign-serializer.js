@@ -26,9 +26,8 @@ module.exports = {
       },
       campaignReport: {
         ref: 'id',
-        included: true,
         attributes: ['participationsCount', 'sharedParticipationsCount'],
-        ignoreRelationshipData: true,
+        ignoreRelationshipData: _haveNoCampaignReport(campaigns),
         relationshipLinks: {
           related(record, current, parent) {
             return `/campaigns/${parent.id}/campaign-report`;
@@ -49,3 +48,12 @@ module.exports = {
   }
 
 };
+
+function _haveNoCampaignReport(campaigns) {
+  if (_.isArray(campaigns)) {
+    return !(campaigns.length && campaigns[0].campaignReport);
+  }
+  else {
+    return !(campaigns.campaignReport);
+  }
+}

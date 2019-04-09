@@ -6,69 +6,150 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
   describe('#serialize', function() {
 
-    it('should convert a Campaign model object into JSON API data', function() {
-      // given
-      const tokenToAccessToCampaign = 'token';
-      const campaign = new Campaign({
-        id: 5,
-        name: 'My zuper campaign',
-        code: 'ATDGER342',
-        title: 'Parcours recherche internet',
-        customLandingPageText: 'Parcours concernant la recherche internet',
-        createdAt: new Date('2018-02-06T14:12:44Z'),
-        creatorId: 3453,
-        organizationId: 10293,
-        organizationLogoUrl: 'some logo',
-        idPixLabel: 'company id',
-        targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' })
-      });
+    context('when the campaign does not have a campagnReport', function() {
+      it('should convert a Campaign model object into JSON API data', function() {
+        // given
+        const tokenToAccessToCampaign = 'token';
+        const campaign = new Campaign({
+          id: 5,
+          name: 'My zuper campaign',
+          code: 'ATDGER342',
+          title: 'Parcours recherche internet',
+          customLandingPageText: 'Parcours concernant la recherche internet',
+          createdAt: new Date('2018-02-06T14:12:44Z'),
+          creatorId: 3453,
+          organizationId: 10293,
+          organizationLogoUrl: 'some logo',
+          idPixLabel: 'company id',
+          targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' }),
+          //campaignReport: { id: 5, participationCount: 5, sharedParticipationCount: 3 }
+        });
 
-      const expectedSerializedCampaign = {
-        data: {
-          type: 'campaigns',
-          id: '5',
-          attributes: {
-            name: 'My zuper campaign',
-            code: 'ATDGER342',
-            title: 'Parcours recherche internet',
-            'custom-landing-page-text': 'Parcours concernant la recherche internet',
-            'created-at': new Date('2018-02-06T14:12:44Z'),
-            'id-pix-label': 'company id',
-            'token-for-campaign-results': tokenToAccessToCampaign,
-            'organization-logo-url': 'some logo',
-          },
-          relationships: {
-            'target-profile': {
-              data: {
-                id: '123',
-                type: 'targetProfiles'
-              }
+        const expectedSerializedCampaign = {
+          data: {
+            type: 'campaigns',
+            id: '5',
+            attributes: {
+              name: 'My zuper campaign',
+              code: 'ATDGER342',
+              title: 'Parcours recherche internet',
+              'custom-landing-page-text': 'Parcours concernant la recherche internet',
+              'created-at': new Date('2018-02-06T14:12:44Z'),
+              'id-pix-label': 'company id',
+              'token-for-campaign-results': tokenToAccessToCampaign,
+              'organization-logo-url': 'some logo',
             },
-            'campaign-report': {
-              'links': {
-                'related': '/campaigns/5/campaign-report'
+            relationships: {
+              'target-profile': {
+                data: {
+                  id: '123',
+                  type: 'targetProfiles'
+                }
+              },
+              'campaign-report': {
+                'links': {
+                  'related': '/campaigns/5/campaign-report'
+                }
               }
             }
-          }
-        },
-        included: [
-          {
-            attributes: {
-              name: 'TargetProfile1'
-            },
-            id: '123',
-            type: 'targetProfiles'
-          }
-        ]
-      };
+          },
+          included: [
+            {
+              attributes: {
+                name: 'TargetProfile1'
+              },
+              id: '123',
+              type: 'targetProfiles'
+            }
+          ]
+        };
 
-      // when
-      const json = serializer.serialize(campaign, { tokenForCampaignResults : tokenToAccessToCampaign });
+        // when
+        const json = serializer.serialize(campaign, { tokenForCampaignResults: tokenToAccessToCampaign });
 
-      // then
-      expect(json).to.deep.equal(expectedSerializedCampaign);
+        // then
+        expect(json).to.deep.equal(expectedSerializedCampaign);
+      });
     });
 
+    context('when the campaign has a campagnReport', function() {
+
+      it('should convert a Campaign model object into JSON API data and include campaignReport', function() {
+        // given
+        const tokenToAccessToCampaign = 'token';
+        const campaign = new Campaign({
+          id: 5,
+          name: 'My zuper campaign',
+          code: 'ATDGER342',
+          title: 'Parcours recherche internet',
+          customLandingPageText: 'Parcours concernant la recherche internet',
+          createdAt: new Date('2018-02-06T14:12:44Z'),
+          creatorId: 3453,
+          organizationId: 10293,
+          organizationLogoUrl: 'some logo',
+          idPixLabel: 'company id',
+          targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' }),
+          campaignReport: { id: '5', participationsCount: '5', sharedParticipationsCount: '3' }
+        });
+
+        const expectedSerializedCampaign = {
+          data: {
+            type: 'campaigns',
+            id: '5',
+            attributes: {
+              name: 'My zuper campaign',
+              code: 'ATDGER342',
+              title: 'Parcours recherche internet',
+              'custom-landing-page-text': 'Parcours concernant la recherche internet',
+              'created-at': new Date('2018-02-06T14:12:44Z'),
+              'id-pix-label': 'company id',
+              'token-for-campaign-results': tokenToAccessToCampaign,
+              'organization-logo-url': 'some logo',
+            },
+            relationships: {
+              'target-profile': {
+                data: {
+                  id: '123',
+                  type: 'targetProfiles'
+                }
+              },
+              'campaign-report': {
+                data: {
+                  id: '5',
+                  type: 'campaignReports'
+                },
+                'links': {
+                  'related': '/campaigns/5/campaign-report'
+                }
+              }
+            }
+          },
+          included: [
+            {
+              attributes: {
+                name: 'TargetProfile1'
+              },
+              id: '123',
+              type: 'targetProfiles'
+            },
+            {
+              attributes: {
+                'participations-count': '5',
+                'shared-participations-count': '3'
+              },
+              id: '5',
+              type: 'campaignReports'
+            }
+          ]
+        };
+
+        // when
+        const json = serializer.serialize(campaign, { tokenForCampaignResults: tokenToAccessToCampaign });
+
+        // then
+        expect(json).to.deep.equal(expectedSerializedCampaign);
+      });
+    });
   });
 
   describe('#deserialize', function() {
