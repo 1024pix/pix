@@ -12,10 +12,7 @@ module.exports = async function getCampaignParticipationResult(
     smartPlacementKnowledgeElementRepository,
   }
 ) {
-  const campaignParticipation = await campaignParticipationRepository.get(
-    campaignParticipationId,
-    { include: ['assessment', 'campaign'] },
-  );
+  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
 
   const userIsNotRequestingHisCampaignParticipation = !(userId === campaignParticipation.userId);
   const userIsNotCampaignOrganizationMember = !(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(

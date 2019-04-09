@@ -37,9 +37,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
 
     it('should get the campaignParticipationResult', async () => {
       // given
-      campaignParticipationRepository.get.withArgs(
-        campaignParticipationId, { include: ['assessment', 'campaign'] }
-      ).resolves(campaignParticipation);
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
 
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(true);
 
@@ -64,9 +62,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
 
     it('should get the campaignParticipationResult', async () => {
       // given
-      campaignParticipationRepository.get.withArgs(
-        campaignParticipationId, { include: ['assessment', 'campaign'] }
-      ).resolves(campaignParticipation);
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
 
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(false);
 
@@ -90,9 +86,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
   context('when user not belongs to the organization of the campaign or not own this campaignParticipation', () => {
     it('should throw an error', async () => {
       // given
-      campaignParticipationRepository.get.withArgs(
-        campaignParticipationId, { include: ['assessment', 'campaign'] }
-      ).resolves({ userId });
+      campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves({ userId });
 
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
 
