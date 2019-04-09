@@ -1,5 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const getCampaignParticipationsWithResults = require('../../../../lib/domain/usecases/find-campaign-participations-with-results');
+const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-campaign-participations-with-results', () => {
@@ -10,13 +11,14 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
   const userId = Symbol('user id');
   const sharedAt = Symbol('shared at');
   const campaignId = Symbol('campaign id');
+  const campaignParticipationId = Symbol('campaign participation id');
   const targetProfile = Symbol('target profile');
   const competences = Symbol('competences');
   const assessment = Symbol('assessment');
   const knowledgeElements = Symbol('knowledge elements');
+  const campaignParticipationResult = Symbol('participation result');
   const campaignParticipation = {
-    assessment, user: { knowledgeElements }, sharedAt, campaignId,
-    addCampaignParticipationResult: sinon.stub()
+    id: campaignParticipationId, assessment, user: { knowledgeElements }, sharedAt, campaignId,
   };
   const options = { filter: { campaignId } };
   const campaignParticipations = { models: [ campaignParticipation ] };
@@ -40,6 +42,7 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
       competenceRepository.list.resolves(competences);
       assessmentRepository.get.resolves(assessment);
       smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
+      sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
 
       campaignParticipationsResult = await getCampaignParticipationsWithResults({
         userId,
@@ -62,9 +65,9 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
     it('should retrieve the target profile by campaign id', () => {
       expect(targetProfileRepository.getByCampaignId).to.have.been.calledWithExactly(campaignId);
     });
-    it('should add the campaign participation results to each campaign participation', function() {
-      expect(campaignParticipation.addCampaignParticipationResult).to.have.been.calledWithExactly({
-        competences, targetProfile, assessment, knowledgeElements
+    it('should compute the campaign participation result', () => {
+      expect(CampaignParticipationResult.buildFrom).to.have.been.calledWithExactly({
+        campaignParticipationId, targetProfile, assessment, competences, knowledgeElements
       });
     });
     it('should return the campaign participations with results', () => {

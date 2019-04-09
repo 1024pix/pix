@@ -1,3 +1,4 @@
+const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = async function getCampaignParticipationResult(
@@ -31,6 +32,5 @@ module.exports = async function getCampaignParticipationResult(
     smartPlacementKnowledgeElementRepository.findUniqByUserId(campaignParticipation.userId, campaignParticipation.sharedAt),
   ]);
 
-  return await campaignParticipation.addCampaignParticipationResult({ assessment, competences, targetProfile, knowledgeElements });
-
+  return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements });
 };

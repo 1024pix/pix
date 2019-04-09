@@ -1,5 +1,6 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const getCampaignParticipationResult = require('../../../../lib/domain/usecases/get-campaign-participation-result');
+const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-campaign-participation-result', () => {
@@ -12,9 +13,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
   const campaignParticipation = {
     campaignId,
     userId,
-    addCampaignParticipationResult() {
-      return campaignParticipationResult;
-    },
   };
 
   let campaignParticipationRepository,
@@ -31,6 +29,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     competenceRepository = { list: sinon.stub() };
     assessmentRepository = { get: sinon.stub() };
     smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
   });
 
   context('when user belongs to the organization of the campaign', () => {
@@ -38,7 +37,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     it('should get the campaignParticipationResult', async () => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
-
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(true);
 
       // when
