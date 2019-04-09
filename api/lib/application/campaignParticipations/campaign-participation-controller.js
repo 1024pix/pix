@@ -33,28 +33,24 @@ module.exports = {
       });
   },
 
-  find(request) {
+  async find(request) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
     const options = queryParamsUtils.extractParameters(request.query);
-
-    let campaignParticipationsPromise;
 
     if (!options.filter.assessmentId && !options.filter.campaignId) {
       throw new BadRequestError('Campaign participations must be fetched by assessmentId and/or campaignId');
     }
 
     if (options.filter.campaignId && options.include.includes('campaign-participation-result')) {
-      campaignParticipationsPromise = usecases.findCampaignParticipationsWithResults({ userId, options });
+      const { models: campaignParticipations, pagination } = await usecases.findCampaignParticipationsWithResults({ userId, options });
+      return serializer.serialize(campaignParticipations, pagination);
 
     } else {
-      campaignParticipationsPromise = usecases.getUserCampaignParticipation({ userId, options });
+      const { models: campaignParticipation, pagination } = await usecases.getUserCampaignParticipation({ userId, options });
+      return serializer.serialize(campaignParticipation, pagination, { singleResult: true });
     }
 
-    return campaignParticipationsPromise
-      .then((campaignParticipation) => {
-        return serializer.serialize(campaignParticipation.models, campaignParticipation.pagination);
-      });
   },
 
   shareCampaignResult(request) {

@@ -118,14 +118,14 @@ describe('Acceptance | API | Campaign Participations', () => {
         // given
         const expectedCampaignParticipation = [
           {
-            'attributes': {
+            attributes: {
               'created-at': campaignParticipation.createdAt,
               'is-shared': Number(campaignParticipation.isShared),
               'participant-external-id': campaignParticipation.participantExternalId,
               'shared-at': campaignParticipation.sharedAt,
             },
-            'id': campaignParticipation.id.toString(),
-            'type': 'campaign-participations',
+            id: campaignParticipation.id.toString(),
+            type: 'campaign-participations',
             relationships: {
               campaign: {
                 data: {
@@ -133,10 +133,10 @@ describe('Acceptance | API | Campaign Participations', () => {
                   id: campaign.id.toString()
                 }
               },
-              'user': {
-                'data': {
-                  'id': user.id.toString(),
-                  'type': 'users'
+              user: {
+                data: {
+                  id: user.id.toString(),
+                  type: 'users'
                 }
               },
               assessment: {
@@ -145,7 +145,6 @@ describe('Acceptance | API | Campaign Participations', () => {
                 }
               },
               'campaign-participation-result': {
-                data: null,
                 links: {
                   'related': `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
                 }

@@ -133,8 +133,8 @@ describe('Acceptance | API | Campaign Participations', () => {
                   id: campaign.id.toString()
                 }
               },
-              'user': {
-                'data': {
+              user: {
+                data: {
                   'id': user.id.toString(),
                   'type': 'users'
                 }
@@ -145,7 +145,6 @@ describe('Acceptance | API | Campaign Participations', () => {
                 }
               },
               'campaign-participation-result': {
-                data: null,
                 links: {
                   related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
                 }
