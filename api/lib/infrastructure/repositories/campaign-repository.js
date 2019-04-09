@@ -77,8 +77,7 @@ module.exports = {
   checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
     return BookshelfCampaign
       .query((qb) => {
-        qb.where({ 'campaigns.id': campaignId, 'memberships.userId': userId })
-          .orWhere({ 'campaigns.id': campaignId, 'organizations.userId': userId });
+        qb.where({ 'campaigns.id': campaignId, 'memberships.userId': userId });
         qb.innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId');
         qb.innerJoin('organizations', 'organizations.id', 'campaigns.organizationId');
       })
