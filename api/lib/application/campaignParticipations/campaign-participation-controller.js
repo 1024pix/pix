@@ -16,21 +16,18 @@ module.exports = {
     const options = queryParamsUtils.extractParameters(request.query);
 
     const campaignParticipation = await usecases.getCampaignParticipation({
-      campaignParticipationId,
-      options,
-      userId
+      campaignParticipationId, options, userId
     });
 
     return serializer.serialize(campaignParticipation);
   },
 
-  save(request, h) {
+  async save(request, h) {
     const userId = request.auth.credentials.userId;
-    return serializer.deserialize(request.payload)
-      .then((campaignParticipation) => usecases.startCampaignParticipation({ campaignParticipation, userId }))
-      .then((campaignParticipation) => {
-        return h.response(serializer.serialize(campaignParticipation)).created();
-      });
+    const campaignParticipation = await serializer.deserialize(request.payload);
+    const campaignParticipationDomain = await usecases.startCampaignParticipation({ campaignParticipation, userId });
+
+    return h.response(serializer.serialize(campaignParticipationDomain)).created();
   },
 
   async find(request) {
@@ -44,11 +41,11 @@ module.exports = {
 
     if (options.filter.campaignId && options.include.includes('campaign-participation-result')) {
       const { models: campaignParticipations, pagination } = await usecases.findCampaignParticipationsWithResults({ userId, options });
-      return serializer.serialize(campaignParticipations, pagination);
+      return serializer.serialize(campaignParticipations, pagination, { ignoreCampaignParticipationResultsRelationshipData: false });
 
     } else {
       const { models: campaignParticipation, pagination } = await usecases.getUserCampaignParticipation({ userId, options });
-      return serializer.serialize(campaignParticipation, pagination, { singleResult: true });
+      return serializer.serialize(campaignParticipation, pagination);
     }
 
   },
