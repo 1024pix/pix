@@ -15,6 +15,7 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
           name: scorecardObject.name,
           description: scorecardObject.description,
           index: scorecardObject.index,
+          'competence-id': scorecardObject.competenceId,
           'earned-pix': scorecardObject.earnedPix,
           level: scorecardObject.level,
           'pix-score-ahead-of-next-level': scorecardObject.pixScoreAheadOfNextLevel

@@ -117,7 +117,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
 
         const expectedUserScorecard = [
           domainBuilder.buildUserScorecard({
-            courseId: competenceList[0].courseId,
+            competenceId: competenceList[0].id,
             name: competenceList[0].name,
             earnedPix: earnedPixNeededForLevelSixLimitedToFive,
             level: maxLevel,
