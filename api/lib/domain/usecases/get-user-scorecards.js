@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
-const Scorecard = require('../models/Scorecard');
+
+const MAX_REACHABLE_LEVEL = 5;
+const NB_PIX_BY_LEVEL = 8;
 
 module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository }) => {
 
@@ -25,6 +27,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
       description: competence.description,
       index: competence.index,
       area: competence.area,
+      competenceId: competence.id,
       earnedPix: totalEarnedPixByCompetence,
     });
   });

@@ -6,6 +6,7 @@ export default Model.extend({
   name: attr('string'),
   description: attr('string'),
   index: attr('number'),
+  competenceId: attr('string'),
   area: belongsTo('area'),
   earnedPix: attr('number'),
   level: attr('number'),
