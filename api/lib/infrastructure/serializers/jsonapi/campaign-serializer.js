@@ -7,11 +7,9 @@ module.exports = {
 
   serialize(campaigns, options) {
     let tokenForCampaignResults = null;
-    let retrieveCampaignReport = false;
 
     if (options) {
       tokenForCampaignResults = options.tokenForCampaignResults ? options.tokenForCampaignResults : null;
-      retrieveCampaignReport = options.retrieveCampaignReport ? options.retrieveCampaignReport : false;
     }
 
     return new Serializer('campaign', {
@@ -28,7 +26,7 @@ module.exports = {
       },
       campaignReport: {
         ref: 'id',
-        included: retrieveCampaignReport,
+        included: true,
         attributes: ['participationsCount', 'sharedParticipationsCount'],
         ignoreRelationshipData: true,
         relationshipLinks: {

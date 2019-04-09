@@ -89,13 +89,6 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByOrganizationId(organizationId) {
-    return BookshelfCampaign
-      .where({ organizationId })
-      .fetchAll()
-      .then((campaigns) => campaigns.models.map(_toDomain));
-  },
-
   findByOrganizationIdWithCampaignReports(organizationId) {
     return knex('campaigns')
       .select(

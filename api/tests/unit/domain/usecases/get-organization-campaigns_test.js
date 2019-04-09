@@ -4,10 +4,10 @@ const getOrganizationCampaigns = require('../../../../lib/domain/usecases/get-or
 
 describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
 
-  const campaignRepository = { findByOrganizationId: () => undefined };
+  const campaignRepository = { findByOrganizationIdWithCampaignReports: () => undefined };
 
   beforeEach(() => {
-    campaignRepository.findByOrganizationId = sinon.stub();
+    campaignRepository.findByOrganizationIdWithCampaignReports = sinon.stub();
   });
 
   describe('#getOrganizationCampaigns', () => {
@@ -17,7 +17,7 @@ describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
       const organizationId = 251;
       const foundCampaign = domainBuilder.buildCampaign({ organizationId });
       const foundCampaigns = [foundCampaign];
-      campaignRepository.findByOrganizationId.resolves(foundCampaigns);
+      campaignRepository.findByOrganizationIdWithCampaignReports.resolves(foundCampaigns);
 
       // when
       const promise = getOrganizationCampaigns({ organizationId, campaignRepository });
