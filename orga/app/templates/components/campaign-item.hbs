@@ -3,10 +3,14 @@
   <div class="campaign-name">
     {{campaign.name}}
   </div>
-  <div class="campaign-participationsCount">
-      {{participationsCount}}
-  </div>
-  <div class="campaign-sharedParticipationsCount">
-      {{sharedParticipationsCount}}
+  <div class="participations-counts">
+    <div class="participations-counts__total">
+      <p class="count-title">Participants</p>
+      <p class="count-value">{{participationsCount}}</p>
+    </div>
+    <div class="participations-counts__shared">
+      <p class="count-title">Profils reçus</p>
+      <p class="count-value">{{sharedParticipationsCount}}</p>
+    </div>
   </div>
 {{/link-to}}
