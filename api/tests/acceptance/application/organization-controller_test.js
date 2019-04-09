@@ -427,7 +427,7 @@ describe('Acceptance | Application | organization-controller', () => {
       await databaseBuilder.clean();
     });
 
-    context('Retrieve campaigns without campaignReports', () => {
+    context('Retrieve campaigns with campaignReports', () => {
       it('should return the organization campaigns', () => {
         // given
         const organizationId = 1;
@@ -452,15 +452,13 @@ describe('Acceptance | Application | organization-controller', () => {
           expect(campaigns[1].attributes.code).to.equal(orga1Campaign2.code);
         });
       });
-    });
 
-    context('Retrieve campaigns with campaignReports', () => {
-      it('should return the organization 2 campaigns and campaignReport', async () => {
+      it('should return the campaignReports with the campaigns', async () => {
         // given
         const organizationId = 2;
         const options = {
           method: 'GET',
-          url: '/api/organizations/' + organizationId + '/campaigns?campaignReport=true',
+          url: '/api/organizations/' + organizationId + '/campaigns',
           headers: {
             authorization: generateValidRequestAuhorizationHeader()
           },

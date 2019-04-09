@@ -259,19 +259,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(campaignSerializer, 'serialize');
     });
 
-    it('should call the usecase to get the campaigns without campaignReport', async () => {
-      // given
-      usecases.getOrganizationCampaigns.resolves([campaign]);
-      campaignSerializer.serialize.returns(serializedCampaigns);
-
-      // when
-      await organizationController.getCampaigns(request, hFake);
-
-      // then
-      expect(usecases.getOrganizationCampaigns).to.have.been.calledWith({ organizationId, retrieveCampaignReport: false });
-    });
-
-    it('should call the usecase to get the campaigns and associated campaignReport', async () => {
+    it('should call the usecase to get the campaigns and associated campaignReports', async () => {
 
       request.query = {
         campaignReport: true
@@ -285,7 +273,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       await organizationController.getCampaigns(request, hFake);
 
       // then
-      expect(usecases.getOrganizationCampaigns).to.have.been.calledWith({ organizationId, retrieveCampaignReport: true });
+      expect(usecases.getOrganizationCampaigns).to.have.been.calledWith({ organizationId });
     });
 
     it('should return the serialized campaigns belonging to the organization', async () => {
