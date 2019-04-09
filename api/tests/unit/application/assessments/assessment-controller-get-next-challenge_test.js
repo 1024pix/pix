@@ -1,16 +1,10 @@
-const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
-
+const { sinon, expect, hFake, domainBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
-
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
-
 const usecases = require('../../../../lib/domain/usecases');
-
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
-
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Skill = require('../../../../lib/cat/skill');
 
@@ -199,7 +193,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       it('should call the usecase getNextChallengeForCompetenceEvaluation', async () => {
         const request = {
           params: { id: 1 },
-          auth: { credentials: { userId } }
+          headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
         };
         // when
         await assessmentController.getNextChallenge(request, hFake);

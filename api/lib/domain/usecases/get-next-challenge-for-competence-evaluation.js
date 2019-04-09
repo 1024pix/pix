@@ -1,10 +1,10 @@
 const { AssessmentEndedError, UserNotAuthorizedToAccessEntity } = require('../errors');
 const SmartRandom = require('../services/smart-random/SmartRandom');
 
-async function getNextChallengeForSmartPlacement({ assessment, userId, answerRepository, competenceEvaluationRepository, challengeRepository, smartPlacementKnowledgeElementRepository, skillRepository }) {
+async function getNextChallengeForCompetenceEvaluation({ assessment, userId, answerRepository, competenceEvaluationRepository, challengeRepository, smartPlacementKnowledgeElementRepository, skillRepository }) {
   _checkIfUserIsAssessmentsUser(assessment, userId);
   const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
-  const [answers, skills, challenges, knowledgeElements] = await getSmartRandomInputValues({
+  const [answers, targetSkills, challenges, knowledgeElements] = await getSmartRandomInputValues({
     assessment,
     competenceEvaluation,
     answerRepository,
@@ -12,7 +12,7 @@ async function getNextChallengeForSmartPlacement({ assessment, userId, answerRep
     smartPlacementKnowledgeElementRepository,
     skillRepository
   });
-  const nextChallenge = await SmartRandom.getNextChallenge({ answers, challenges, skills, knowledgeElements });
+  const nextChallenge = await SmartRandom.getNextChallenge({ answers, challenges, targetSkills, knowledgeElements });
   if (nextChallenge === null) {
     throw new AssessmentEndedError();
   }
@@ -33,4 +33,4 @@ function getSmartRandomInputValues({ assessment, competenceEvaluation, answerRep
   );
 }
 
-module.exports = getNextChallengeForSmartPlacement;
+module.exports = getNextChallengeForCompetenceEvaluation;

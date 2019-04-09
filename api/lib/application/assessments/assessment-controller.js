@@ -119,13 +119,12 @@ module.exports = {
         }
 
         if (assessment.isCompetenceEvaluation()) {
-          const userId = request.auth.credentials.userId;
+          const userId = _extractUserIdFromRequest(request);
           return useCases.getNextChallengeForCompetenceEvaluation({
             assessment,
             userId
           });
         }
-
       })
       .then((challenge) => {
         logContext.challenge = challenge;
