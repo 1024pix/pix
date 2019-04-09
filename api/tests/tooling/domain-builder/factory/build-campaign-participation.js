@@ -1,5 +1,6 @@
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const buildCampaign = require('./build-campaign');
+const buildCampaignParticipationResult = require('./build-campaign-participation-result');
 
 const faker = require('faker');
 
@@ -14,6 +15,18 @@ module.exports = function buildCampaignParticipation(
     participantExternalId = 'Mon mail pro',
     campaignId = faker.random.number(2),
     userId = faker.random.number(2),
+    campaignParticipationResult = buildCampaignParticipationResult()
   } = {}) {
-  return new CampaignParticipation({ id, assessmentId, campaign, isShared, sharedAt, createdAt, participantExternalId, campaignId, userId });
+  return new CampaignParticipation({
+    id,
+    assessmentId,
+    campaign,
+    isShared,
+    sharedAt,
+    createdAt,
+    participantExternalId,
+    campaignId,
+    userId,
+    campaignParticipationResult
+  });
 };
