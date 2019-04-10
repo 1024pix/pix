@@ -80,6 +80,26 @@ module.exports = {
       });
   },
 
+  findWithCampaignParticipationResultsData(options) {
+    return BookshelfCampaignParticipation
+      .where(options.filter)
+      .query((qb) => {
+        qb.innerJoin('users', 'campaign-participations.userId', 'users.id');
+        qb.orderBy('users.lastName', 'asc');
+      })
+      .fetchPage({
+        page: options.page.number,
+        pageSize: options.page.size,
+        withRelated: ['user', 'assessment', 'user.knowledgeElements']
+      })
+      .then((results) => {
+        return {
+          pagination: results.pagination,
+          models: bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, results.models)
+        };
+      });
+  },
+
   updateCampaignParticipation(campaignParticipation) {
     return new BookshelfCampaignParticipation(campaignParticipation)
       .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true })

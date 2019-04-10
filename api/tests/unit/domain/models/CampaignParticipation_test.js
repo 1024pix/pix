@@ -37,4 +37,5 @@ describe('Unit | Domain | Models | CampaignParticipation', () => {
     });
 
   });
+
 });

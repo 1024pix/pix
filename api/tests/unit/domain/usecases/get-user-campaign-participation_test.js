@@ -4,7 +4,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/erro
 
 describe('Unit | UseCase | get-user-campaign-participation', () => {
 
-  let campaignParticipationsResult;
+  let userCampaignParticipation;
   let requestErr;
 
   let options;
@@ -32,7 +32,7 @@ describe('Unit | UseCase | get-user-campaign-participation', () => {
         smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(true);
         campaignParticipationRepository.find.resolves(campaignParticipations);
 
-        campaignParticipationsResult = await findCampaignParticipations({ userId, options, campaignParticipationRepository, smartPlacementAssessmentRepository });
+        userCampaignParticipation = await findCampaignParticipations({ userId, options, campaignParticipationRepository, smartPlacementAssessmentRepository });
       });
       it('should check if the assessment belongs to the user', () => {
         expect(smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser).to.have.been.calledWithExactly(assessmentId, userId);
@@ -41,7 +41,7 @@ describe('Unit | UseCase | get-user-campaign-participation', () => {
         expect(campaignParticipationRepository.find).to.have.been.calledWithExactly(options);
       });
       it('should return the campaign participations', () => {
-        expect(campaignParticipationsResult).to.deep.equal(campaignParticipations);
+        expect(userCampaignParticipation).to.deep.equal(campaignParticipations);
       });
     });
     context('the assessment does not belong to the user', () => {

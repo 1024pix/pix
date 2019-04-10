@@ -2,10 +2,12 @@ const { expect } = require('../../../test-helper');
 const bookshelfToDomainConverter = require('../../../../lib/infrastructure/utils/bookshelf-to-domain-converter');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
+const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function() {
   let assessmentWithRelated, assessmentWithoutRelated, assessments;
@@ -96,6 +98,19 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       // then
       expect(domainAssessment.campaignParticipation).to.equal('Manu');
       expect(domainAssessment.assessmentResults).to.equal('EvilCorp');
+    });
+
+    // TODO: Remove this after refactoring SmartPlacementKnowledgeElements into KnowledgeElements
+    it('should deal with the specific case of knowledge elements whose called differently as a model or as a property', () => {
+      // given
+      const userWithKnowledgeElements = new BookshelfUser({
+        id: 1,
+        knowledgeElements: [{ id: 1, status: 'validated' }],
+      });
+      // when
+      const domainUser = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, userWithKnowledgeElements);
+      // then
+      expect(domainUser.knowledgeElements[0]).to.be.instanceOf(SmartPlacementKnowledgeElement);
     });
   });
 });

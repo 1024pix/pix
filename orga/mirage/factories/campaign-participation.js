@@ -5,8 +5,14 @@ export default Factory.extend({
 
   user: association(),
 
+  campaignParticipationResult: association(),
+
   participantExternalId() {
     return faker.random.number();
   },
+
+  isShared() {
+    return faker.random.boolean();
+  }
 
 });
