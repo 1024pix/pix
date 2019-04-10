@@ -22,7 +22,7 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       API_HOST: process.env.API_HOST || '',
-      HOME_HOST: 'https://pix.fr',
+      HOME_HOST: process.env.HOME_HOST || 'https://pix.fr',
       isChallengeTimerEnable: true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
@@ -93,6 +93,7 @@ module.exports = function(environment) {
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.API_HOST = 'http://localhost:3000';
+    ENV.APP.HOME_HOST = '/';
   }
 
   if (environment === 'test') {
@@ -108,6 +109,7 @@ module.exports = function(environment) {
 
     ENV.googleFonts = null;
     ENV.APP.API_HOST = 'http://localhost:3000';
+    ENV.APP.HOME_HOST = '/';
     ENV.APP.isChallengeTimerEnable = false;
     ENV.APP.MESSAGE_DISPLAY_DURATION = 0;
     ENV.APP.isMobileSimulationEnabled = true;
