@@ -27,12 +27,12 @@ describe('when serializing a complex object', () => {
       car: { id: 1, name: 'Ferrari', type: 'propulsion' },
       job: { id: 1, title: 'dev', salary: 1337 },
       books: [{ id: 1, title: 'Alice in Wonderland', cost: 20 }, { id: 2, title: 'From Russia with love', cost: 13 }],
-      wife: { id: 1, firstName: 'Jane' },
+      friend: { id: 1, firstName: 'Jane' },
       address: { id: 1, streetName: 'Baker street' },
     };
 
     const serialized = new Serializer(resourceType, {
-      attributes: [ 'firstName', 'car', 'job', 'books', 'wife', 'address'],
+      attributes: [ 'firstName', 'car', 'job', 'books', 'friend', 'address'],
       job: {
         ref: 'id', // Declaring a 'ref' property will populate the 'relationship' object, with the 'data' object containing only 'id' and 'type'
       },
@@ -44,7 +44,7 @@ describe('when serializing a complex object', () => {
         ref: 'id',
         attributes: ['title', 'cost'], // Declaring the attributes of a relationship will automatically add it as a top level 'include'
       },
-      wife: {
+      friend: {
         ref: 'id',
         // When both these are present, the lib will still include the relationship objects, but wont populate the 'relationship' property
         attributes: ['firstName'],
@@ -76,7 +76,7 @@ describe('when serializing a complex object', () => {
           },
           // ignoreRelationshipData: true, is set for both
           address: {},
-          wife: {}
+          friend: {}
         },
       },
       included: [
@@ -98,7 +98,7 @@ describe('when serializing a complex object', () => {
         },
         {
           id: '1',
-          type: 'wives', // Powerful inflector capabilities, transforming 'wife' into 'wives'
+          type: 'friends',
           attributes: {
             'first-name': 'Jane',
           },
