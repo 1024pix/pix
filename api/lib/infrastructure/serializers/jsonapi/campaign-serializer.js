@@ -5,12 +5,8 @@ const Campaign = require('../../../domain/models/Campaign');
 
 module.exports = {
 
-  serialize(campaigns, options) {
-    let tokenForCampaignResults = null;
-
-    if (options) {
-      tokenForCampaignResults = options.tokenForCampaignResults ? options.tokenForCampaignResults : null;
-    }
+  serialize(campaigns, options = {}) {
+    const { tokenForCampaignResults } = options;
 
     return new Serializer('campaign', {
       attributes: ['name', 'code', 'title', 'createdAt', 'customLandingPageText', 'tokenForCampaignResults', 'idPixLabel', 'organizationLogoUrl', 'targetProfile', 'campaignReport'],
