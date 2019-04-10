@@ -150,6 +150,26 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         expect(json).to.deep.equal(expectedSerializedCampaign);
       });
     });
+
+    context('When there is no campaign', function() {
+
+      it('should return an empty JSON API data', function() {
+        // given
+        const tokenToAccessToCampaign = 'token';
+
+        const campaigns = [];
+
+        const expectedSerializedCampaigns = {
+          data: []
+        };
+
+        // when
+        const json = serializer.serialize(campaigns, { tokenForCampaignResults: tokenToAccessToCampaign });
+
+        // then
+        expect(json).to.deep.equal(expectedSerializedCampaigns);
+      });
+    });
   });
 
   describe('#deserialize', function() {
