@@ -24,32 +24,24 @@
 .participations-counts {
   display: flex;
   margin-left: auto;
-  padding-right: 18px;
 
-  &__total {
-    border-right: 1px solid $dusty-gray;
-  }
-
-  &__total,
-  &__shared {
+  &__item {
     display: flex;
     flex-direction: column;
     padding: 0 20px;
 
-    .count-title {
-      color: $dusty-gray;
-      font-size: 13px;
-      margin: 0;
+    &--border {
+      border-right: 1px solid $dusty-gray;
     }
+  }
 
-    .count-value {
-      color: $dove-gray;
-      font-family: $roboto;
-      font-size: 22px;
-      font-weight: 300;
-      margin: 0;
-      margin-top: 8px;
-    }
+  &__label {
+    margin: 0;
+  }
+
+  &__value {
+    margin: 0;
+    margin-top: 8px;
   }
 }
 
