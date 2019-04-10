@@ -22,12 +22,7 @@ function _toDomain(bookshelfCampaign) {
 }
 
 function _fromRawDataToDomain(rawQueryresponse) {
-  rawQueryresponse.campaignReport = {
-    id: rawQueryresponse.id,
-    participationsCount: rawQueryresponse.participationsCount ? rawQueryresponse.participationsCount : 0,
-    sharedParticipationsCount: rawQueryresponse.sharedParticipationsCount ? rawQueryresponse.sharedParticipationsCount : 0,
-  };
-  return new Campaign(_.pick(rawQueryresponse, [
+  const parameters = _.pick(rawQueryresponse, [
     'id',
     'name',
     'code',
@@ -37,9 +32,16 @@ function _fromRawDataToDomain(rawQueryresponse) {
     'targetProfileId',
     'customLandingPageText',
     'idPixLabel',
-    'title',
-    'campaignReport'
-  ]));
+    'title'
+  ]);
+
+  parameters.campaignReport = {
+    id: parameters.id,
+    participationsCount: rawQueryresponse.participationsCount || 0,
+    sharedParticipationsCount: rawQueryresponse.sharedParticipationsCount || 0
+  };
+
+  return new Campaign(parameters);
 }
 
 module.exports = {
