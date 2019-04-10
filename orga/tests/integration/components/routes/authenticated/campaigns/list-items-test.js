@@ -72,7 +72,7 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
 
     // then
-    assert.dom('.participations-counts__total .count-value').hasText('10');
+    assert.dom('.participations-counts__item .participations-counts__value').hasText('10');
   });
 
   test('it should display the shared participations count', async function(assert) {
@@ -99,6 +99,6 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
 
     // then
-    assert.dom('.participations-counts__shared .count-value').hasText('4');
+    assert.dom('.participations-counts__item:nth-child(2) .participations-counts__value').hasText('4');
   });
 });
