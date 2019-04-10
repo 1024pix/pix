@@ -1,22 +1,22 @@
+const _ = require('lodash');
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
-const { expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/caches/cache');
+const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 
 describe('Acceptance | API | Campaign Participations', () => {
 
-  let user;
-  let options;
-  let assessment;
-  let campaign;
-  let campaignParticipation;
-
-  let server;
+  let server,
+    options,
+    user,
+    participant,
+    campaign,
+    assessment,
+    participantExternalId,
+    campaignParticipation;
 
   beforeEach(async () => {
     server = await createServer();
-  });
-
-  beforeEach(() => {
     user = databaseBuilder.factory.buildUser();
     assessment = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.SMARTPLACEMENT });
   });
@@ -94,7 +94,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         isShared: true,
         assessmentId: assessment.id,
         campaignId: campaign.id,
-        userId: user.id
+        userId: user.id,
       });
       await databaseBuilder.commit();
     });
@@ -117,14 +117,14 @@ describe('Acceptance | API | Campaign Participations', () => {
         // given
         const expectedCampaignParticipation = [
           {
-            attributes: {
+            'attributes': {
               'created-at': campaignParticipation.createdAt,
               'is-shared': Number(campaignParticipation.isShared),
               'participant-external-id': campaignParticipation.participantExternalId,
               'shared-at': campaignParticipation.sharedAt,
             },
-            id: campaignParticipation.id.toString(),
-            type: 'campaign-participations',
+            'id': campaignParticipation.id.toString(),
+            'type': 'campaign-participations',
             relationships: {
               campaign: {
                 data: {
@@ -134,8 +134,8 @@ describe('Acceptance | API | Campaign Participations', () => {
               },
               user: {
                 data: {
-                  id: user.id.toString(),
-                  type: 'users'
+                  'id': user.id.toString(),
+                  'type': 'users'
                 }
               },
               assessment: {
@@ -145,7 +145,7 @@ describe('Acceptance | API | Campaign Participations', () => {
               },
               'campaign-participation-result': {
                 links: {
-                  'related': `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+                  related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
                 }
               }
             }
@@ -182,6 +182,173 @@ describe('Acceptance | API | Campaign Participations', () => {
         return promise.then((error) => {
           expect(error.statusCode).to.equal(401);
         });
+      });
+    });
+  });
+
+  describe('GET /api/campaign-participations?filter[campaignId]={id}&include=user,campaign-participation-result&page[number]=1&page[size]=10', () => {
+
+    beforeEach(async () => {
+
+      // First, setup the referential
+      const dataSourceSkills = _.times(10, (i) => airtableBuilder.factory.buildSkill({ id: `recTIddrkopID28Ep_${i}` }));
+      const skillIds = _.map(dataSourceSkills, 'id');
+      const [ skillIds1, skillIds2, skillIds3 ] = _.chunk(skillIds, 4);
+      const competence1 = airtableBuilder.factory.buildCompetence({ id: 1, titre: 'Liberticide', acquisViaTubes: skillIds1 });
+      const competence2 = airtableBuilder.factory.buildCompetence({ id: 2, titre: 'Inéquités, inégalités', acquisViaTubes: skillIds2, });
+      const competence3 = airtableBuilder.factory.buildCompetence({ id: 3, titre: 'Le capital au XXIème siècle', acquisViaTubes: skillIds3, });
+      const competences = [ competence1, competence2, competence3 ];
+
+      // Build a target profile targeting the full competence 1, partly competence 2, and nothing in competence 3
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({ id: 1 });
+      _([ skillIds1, _.dropRight(skillIds2) ]).flatten().each((skillId) =>
+        databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId, skillId })
+      );
+
+      // Create an organization with his owner
+      user = databaseBuilder.factory.buildUser({ id: 1 });
+      const userId = user.id;
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ id: 1, userId });
+      databaseBuilder.factory.buildMembership({ userId, organizationId });
+
+      // Organization decides to start a campaign based on previous target profile
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ id: 1, name: 'Super camp', creatorId: userId, targetProfileId, organizationId });
+
+      // Another user starts a campaign
+      assessment = databaseBuilder.factory.buildAssessment({ id: 1 });
+      const { id: assessmentId } = assessment;
+
+      participant = databaseBuilder.factory.buildUser({ id: 2, firstName: 'Michel', lastName: 'Essentiel' });
+      participantExternalId = '1337';
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ id: 1, assessmentId, userId: participant.id, participantExternalId, campaignId, isShared: true });
+
+      // And starts answering questions
+      _([
+        { skillId: skillIds1[0], status: 'validated' },
+        { skillId: skillIds1[1], status: 'validated' },
+        { skillId: skillIds1[2], status: 'validated' },
+        { skillId: skillIds1[3], status: 'invalidated' },
+        { skillId: skillIds2[0], status: 'validated' },
+        { skillId: skillIds2[1], status: 'validated' },
+        { skillId: skillIds2[2], status: 'invalidated' },
+
+      ]).each((ke, id) => {
+        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id, userId: participant.id, assessmentId, ...ke });
+      });
+
+      airtableBuilder.mockList({ tableName: 'Acquis' }).returns(dataSourceSkills).activate();
+      airtableBuilder.mockList({ tableName: 'Competences' }).returns(competences).activate();
+      airtableBuilder.mockList({ tableName: 'Domaines' }).returns([]).activate();
+
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'GET',
+        url: `/api/campaign-participations?filter[campaignId]=${campaignId}&include=user,campaign-participation-result&page[number]=1&page[size]=10`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+      };
+    });
+
+    afterEach(async () => {
+      await cache.flushAll();
+      await databaseBuilder.clean();
+      await airtableBuilder.cleanAll();
+    });
+
+    it('should return the campaign participation of a given campaign with each campaign participation result', () => {
+      // given
+      const expectedCampaignParticipation = {
+        data: [
+          {
+            attributes: {
+              'created-at': campaignParticipation.createdAt,
+              'is-shared': 1,
+              'participant-external-id': participantExternalId,
+              'shared-at': campaignParticipation.sharedAt,
+            },
+            id: '1',
+            relationships: {
+              assessment: {
+                links: {
+                  related: '/assessments/1',
+                }
+              },
+              campaign: {
+                data: null
+              },
+              'campaign-participation-result': {
+                data: {
+                  id: campaignParticipation.id.toString(),
+                  type: 'campaignParticipationResults',
+                },
+                links: {
+                  'related': '/campaign-participations/1/campaign-participation-result'
+                },
+              },
+              user: {
+                data: {
+                  id: '2',
+                  type: 'users',
+                }
+              }
+            },
+            type: 'campaign-participations'
+          }
+        ],
+        included: [
+          {
+            attributes: {
+              'first-name': 'Michel',
+              'last-name': 'Essentiel',
+            },
+            id: '2',
+            type: 'users'
+          },
+          {
+            attributes: {
+              'competence-results': [
+                {
+                  id: 1,
+                  index: '1.1',
+                  name: 'Liberticide',
+                  testedSkillsCount: 4,
+                  totalSkillsCount: 4,
+                  validatedSkillsCount: 3,
+                },
+                {
+                  id: 2,
+                  index: '1.1',
+                  name: 'Inéquités, inégalités',
+                  testedSkillsCount: 3,
+                  totalSkillsCount: 3,
+                  validatedSkillsCount: 2,
+                },
+              ],
+              id: 1,
+              'is-completed': true,
+              'tested-skills-count': 7,
+              'total-skills-count': 7,
+              'validated-skills-count': 5,
+            },
+            id: '1',
+            type: 'campaignParticipationResults',
+          }
+        ],
+        meta: {
+          'page': 1,
+          'pageCount': 1,
+          'pageSize': 10,
+          'rowCount': 1,
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.be.deep.equal(expectedCampaignParticipation);
       });
     });
   });

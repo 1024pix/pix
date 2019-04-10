@@ -5,73 +5,44 @@ const targetProfileAdapter = require('../adapters/target-profile-adapter');
 module.exports = {
 
   get(id) {
-
     return BookshelfTargetProfile
       .where({ id })
       .fetch({ withRelated: ['skillIds', 'sharedWithOrganizations'] })
-      .then(_getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects)
-      .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
+      .then(_getWithAirtableSkills);
+  },
 
-        return targetProfileAdapter.fromDatasourceObjects({
-          bookshelfTargetProfile,
-          associatedSkillAirtableDataObjects,
-        });
-      });
+  getByCampaignId(campaignId) {
+    return BookshelfTargetProfile
+      .query((qb) => qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id'))
+      .query((qb) => qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id'))
+      .where({ 'campaigns.id': campaignId })
+      .fetch({ require: true, withRelated: ['skillIds'] })
+      .then(_getWithAirtableSkills);
   },
 
   findPublicTargetProfiles() {
-
     return BookshelfTargetProfile
       .where({ isPublic: true })
       .fetchAll({ withRelated: ['skillIds'] })
-      .then((bookshelfTargetProfiles) => {
-        const promises = bookshelfTargetProfiles.map((bookshelfTargetProfile) => {
-
-          return _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile)
-            .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
-
-              return targetProfileAdapter.fromDatasourceObjects({
-                bookshelfTargetProfile,
-                associatedSkillAirtableDataObjects,
-              });
-            });
-        });
-
-        return Promise.all(promises);
-      });
+      .then((bookshelfTargetProfiles) => Promise.all(bookshelfTargetProfiles.map(_getWithAirtableSkills)));
   },
 
   findTargetProfilesOwnedByOrganizationId(organizationId) {
-
     return BookshelfTargetProfile
       .where({ organizationId })
       .fetchAll({ withRelated: ['skillIds'] })
-      .then((bookshelfTargetProfiles) => {
-        const promises = bookshelfTargetProfiles.map((bookshelfTargetProfile) => {
-
-          return _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile)
-            .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
-
-              return targetProfileAdapter.fromDatasourceObjects({
-                bookshelfTargetProfile,
-                associatedSkillAirtableDataObjects,
-              });
-            });
-        });
-
-        return Promise.all(promises);
-      });
+      .then((bookshelfTargetProfiles) => Promise.all(bookshelfTargetProfiles.map(_getWithAirtableSkills)));
   },
 };
 
-function _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile) {
+function _getWithAirtableSkills(targetProfile) {
+  return _getAirtableDataObjectsSkills(targetProfile)
+    .then((associatedSkillAirtableDataObjects) => targetProfileAdapter.fromDatasourceObjects({
+      bookshelfTargetProfile: targetProfile, associatedSkillAirtableDataObjects
+    }));
+}
 
-  const skillRecordIds = bookshelfTargetProfile
-    .related('skillIds')
-    .map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
-
-  return Promise.all([
-    bookshelfTargetProfile,
-    skillDatasource.findByRecordIds(skillRecordIds),
-  ]);
+function _getAirtableDataObjectsSkills(bookshelfTargetProfile) {
+  const skillRecordIds = bookshelfTargetProfile.related('skillIds').map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
+  return skillDatasource.findByRecordIds(skillRecordIds);
 }

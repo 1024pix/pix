@@ -5,7 +5,7 @@ const CampaignParticipation = require('../../../domain/models/CampaignParticipat
 
 module.exports = {
 
-  serialize(campaignParticipation, meta) {
+  serialize(campaignParticipation, meta, { ignoreCampaignParticipationResultsRelationshipData = true } = {}) {
     return new Serializer('campaign-participation', {
       attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult', 'assessment'],
       campaign: {
@@ -23,16 +23,17 @@ module.exports = {
           related(record) {
             return `/assessments/${record.assessmentId}`;
           }
-        }
+        },
       },
       campaignParticipationResult: {
         ref: 'id',
-        ignoreRelationshipData: true,
+        ignoreRelationshipData: ignoreCampaignParticipationResultsRelationshipData,
         relationshipLinks: {
           related(record, current, parent) {
             return `/campaign-participations/${parent.id}/campaign-participation-result`;
           }
-        }
+        },
+        attributes: ['id', 'isCompleted', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'competenceResults'],
       },
       meta
     }).serialize(campaignParticipation);
@@ -43,6 +44,7 @@ module.exports = {
       .deserialize(json)
       .then((campaignParticipation) => {
         campaignParticipation.campaignId = _.get(json.data, ['relationships', 'campaign', 'data', 'id']);
+
         return new CampaignParticipation(campaignParticipation);
       });
   },

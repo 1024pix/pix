@@ -32,7 +32,6 @@ module('Acceptance | Campaign Participants', function (hooks) {
       await visit('/campagnes/1/participants');
 
       // then
-      assert.dom('.participant-list__header').hasText(`Liste des participants (${rowCount})`);
       assert.dom('table tbody tr').exists({ count: pageSize });
       assert.dom('.page-navigation__current-page').hasText(defaultPage);
       assert.dom('.page-navigation__last-page').containsText('5');
@@ -48,7 +47,6 @@ module('Acceptance | Campaign Participants', function (hooks) {
       await visit(`/campagnes/1/participants?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`);
 
       // then
-      assert.dom('.participant-list__header').hasText(`Liste des participants (${rowCount})`);
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.dom('.page-navigation__current-page').hasText(changedPageNumber.toString());
       assert.dom('.page-navigation__last-page').containsText('2');
@@ -79,7 +77,6 @@ module('Acceptance | Campaign Participants', function (hooks) {
       await fillIn('.page-size .select', changedPageSize);
 
       // then
-      assert.dom('.participant-list__header').hasText(`Liste des participants (${rowCount})`);
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.dom('.page-navigation__current-page').hasText(defaultPage);
       assert.dom('.page-navigation__last-page').containsText('2');
@@ -109,7 +106,6 @@ module('Acceptance | Campaign Participants', function (hooks) {
       await fillIn('.page-size .select', changedPageSize);
 
       // then
-      assert.dom('.participant-list__header').hasText(`Liste des participants (${rowCount})`);
       assert.dom('table tbody tr').exists({ count: changedPageSize });
       assert.dom('.page-navigation__current-page').hasText(defaultPage);
       assert.dom('.page-navigation__last-page').containsText('2');
