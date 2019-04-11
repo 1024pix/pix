@@ -71,6 +71,108 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card__competence-name').text()).to.equal('Compétence C3');
       expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card-level__value').text()).to.equal('3');
     });
+
+    context('when user has not completed the campaign', () => {
+
+      it('should display a resume campagin banner for a campaign with no title', async function() {
+        // given
+        server.create('assessment', {
+          id: 2,
+          type: 'SMART_PLACEMENT',
+          state: 'started',
+        });
+        server.create('campaign-participation', {
+          id: 1,
+          isShared: false,
+          campaignId: 1,
+          assessmentId: 2,
+          userId: 1,
+        });
+
+        // when
+        await visit('/profilv2');
+
+        // then
+        findWithAssert('.resume-campaign-banner__container');
+        expect(find('.resume-campaign-banner__container').text()).to.contain('Vous n\'avez pas terminé votre parcours');
+        expect(find('.resume-campaign-banner__button').text()).to.equal('Reprendre');
+      });
+
+      it('should display a resume campaign banner for a campaign with a campaign with a title', async function() {
+        // given
+        server.create('assessment', {
+          id: 2,
+          type: 'SMART_PLACEMENT',
+          state: 'started',
+        });
+        server.create('campaign-participation', {
+          id: 1,
+          isShared: false,
+          campaignId: 3,
+          assessmentId: 2,
+          userId: 1,
+        });
+
+        // when
+        await visit('/profilv2');
+
+        // then
+        findWithAssert('.resume-campaign-banner__container');
+        expect(find('.resume-campaign-banner__container').text()).to.contain('Vous n\'avez pas terminé le parcours "Le Titre de la campagne"');
+        expect(find('.resume-campaign-banner__button').text()).to.equal('Reprendre');
+      });
+    });
+
+    context('when user has completed the campaign but not shared', () => {
+
+      it('should display a resume campagin banner for a campaign with no title', async function() {
+        // given
+        server.create('assessment', {
+          id: 2,
+          type: 'SMART_PLACEMENT',
+          state: 'completed',
+        });
+        server.create('campaign-participation', {
+          id: 1,
+          isShared: false,
+          campaignId: 1,
+          assessmentId: 2,
+          userId: 1,
+        });
+
+        // when
+        await visit('/profilv2');
+
+        // then
+        findWithAssert('.resume-campaign-banner__container');
+        expect(find('.resume-campaign-banner__container').text()).to.contain('Parcours terminé ! Envoyez vos résultats.');
+        expect(find('.resume-campaign-banner__button').text()).to.equal('Continuer');
+      });
+
+      it('should display a resume campagin banner for a campaign with a campaign with a title', async function() {
+        // given
+        server.create('assessment', {
+          id: 2,
+          type: 'SMART_PLACEMENT',
+          state: 'completed',
+        });
+        server.create('campaign-participation', {
+          id: 1,
+          isShared: false,
+          campaignId: 3,
+          assessmentId: 2,
+          userId: 1,
+        });
+
+        // when
+        await visit('/profilv2');
+
+        // then
+        findWithAssert('.resume-campaign-banner__container');
+        expect(find('.resume-campaign-banner__container').text()).to.contain('Parcours "Le Titre de la campagne" terminé ! Envoyez vos résultats.');
+        expect(find('.resume-campaign-banner__button').text()).to.equal('Continuer');
+      });
+    });
   });
 
   describe('Authenticated cases as user with organization', function() {

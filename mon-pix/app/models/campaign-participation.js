@@ -9,4 +9,5 @@ export default Model.extend({
   assessment: belongsTo('assessment'),
   campaign: belongsTo('campaign'),
   campaignParticipationResult: belongsTo('campaignParticipationResult'),
+  user: belongsTo('user'),
 });

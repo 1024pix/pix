@@ -1,7 +1,7 @@
 import { JSONAPISerializer } from 'ember-cli-mirage';
 
 export default JSONAPISerializer.extend({
-  include: ['assessment'],
+  include: ['assessment', 'campaign'],
   links(campaignParticipation) {
     return {
       'campaignParticipationResult': {
