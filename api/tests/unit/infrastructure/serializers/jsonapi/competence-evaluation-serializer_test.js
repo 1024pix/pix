@@ -17,9 +17,16 @@ describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', funct
             'updated-at': new Date(competenceEvaluation.updatedAt),
             'created-at': new Date(competenceEvaluation.createdAt),
             'user-id': competenceEvaluation.userId,
-            'assessment-id': competenceEvaluation.assessmentId,
             'competence-id': competenceEvaluation.competenceId,
           },
+          relationships: {
+            'assessment': {
+              data: {
+                'id': competenceEvaluation.assessmentId.toString(),
+                'type': 'assessments',
+              }
+            }
+          }
         },
       };
 
