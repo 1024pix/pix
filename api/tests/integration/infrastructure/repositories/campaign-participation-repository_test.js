@@ -342,7 +342,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     beforeEach(async () => {
 
       const pixMembers = [
-        { firstName: 'Mélanie', lastName: 'Darboo', assessmentId: assessmentId2, knowledgeElements: [{ skillId: '@web3' }, { skillId: '@web4' }] },
+        { firstName: 'Mélanie', lastName: 'Darboo', assessmentId: assessmentId2, knowledgeElements: [{ skillId: '@web3' }, { skillId: '@web3' }, { skillId: '@web4' }] },
         { firstName: 'Matteo', lastName: 'Lorenzio', knowledgeElements: [] },
         { firstName: 'Jérémy', lastName: 'Bugietta', assessmentId: assessmentId1, knowledgeElements: [{ skillId: '@web2' }, { skillId: '@web1' }] },
         { firstName: 'Léo', lastName: 'Subzéro', knowledgeElements: [] },
@@ -366,7 +366,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.clean();
     });
 
-    it('should return paginated campaign participations including users sorted by name, lastname', async () => {
+    it('should return paginated campaign participations including users sorted by name, lastname, their assessment and uniq knowledge elements', async () => {
       // given
       const options = { filter: { campaignId }, sort: [], include: ['user'], page: { number: 1, size: 2 } };
       // when
