@@ -7,6 +7,7 @@ module.exports = {
   buildAssessmentResult: require('./build-assessment-result'),
   buildCampaign: require('./build-campaign'),
   buildCampaignParticipation: require('./build-campaign-participation'),
+  buildCampaignReport: require('./build-campaign-report'),
   buildCatAnswer: require('./build-cat-answer'),
   buildCatAssessment: require('./build-cat-assessment'),
   buildCatChallenge: require('./build-cat-challenge'),

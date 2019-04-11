@@ -6,10 +6,12 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
   describe('#serialize', function() {
 
-    context('when the campaign does not have a campagnReport', function() {
+    const tokenToAccessToCampaign = 'token';
+
+    context('when the campaign does not have a campaignReport', function() {
+
       it('should convert a Campaign model object into JSON API data', function() {
         // given
-        const tokenToAccessToCampaign = 'token';
         const campaign = new Campaign({
           id: 5,
           name: 'My zuper campaign',
@@ -22,7 +24,6 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           organizationLogoUrl: 'some logo',
           idPixLabel: 'company id',
           targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' }),
-          //campaignReport: { id: 5, participationCount: 5, sharedParticipationCount: 3 }
         });
 
         const expectedSerializedCampaign = {
@@ -72,11 +73,12 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
       });
     });
 
-    context('when the campaign has a campagnReport', function() {
+    context('when the campaign has already a campaignReport', function() {
 
       it('should convert a Campaign model object into JSON API data and include campaignReport', function() {
         // given
-        const tokenToAccessToCampaign = 'token';
+        const campaignReport = domainBuilder.buildCampaignReport({ id: '5', participationsCount: '5', sharedParticipationsCount: '3' });
+
         const campaign = new Campaign({
           id: 5,
           name: 'My zuper campaign',
@@ -89,7 +91,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           organizationLogoUrl: 'some logo',
           idPixLabel: 'company id',
           targetProfile: domainBuilder.buildTargetProfile({ id: '123', name: 'TargetProfile1' }),
-          campaignReport: { id: '5', participationsCount: '5', sharedParticipationsCount: '3' }
+          campaignReport
         });
 
         const expectedSerializedCampaign = {
@@ -144,7 +146,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         };
 
         // when
-        const json = serializer.serialize(campaign, { tokenForCampaignResults: tokenToAccessToCampaign });
+        const json = serializer.serialize(campaign, { tokenForCampaignResults: tokenToAccessToCampaign, ignoreCampaignReportRelationshipData: false });
 
         // then
         expect(json).to.deep.equal(expectedSerializedCampaign);
@@ -170,6 +172,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         expect(json).to.deep.equal(expectedSerializedCampaigns);
       });
     });
+
   });
 
   describe('#deserialize', function() {
