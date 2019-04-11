@@ -7,14 +7,19 @@ const _ = require('lodash');
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | AnswerRepository', () => {
+  const assessmentId = 1234;
+  const otherAssessmentId = 5678;
+
+  beforeEach(() => {
+    databaseBuilder.factory.buildAssessment({ id: assessmentId });
+    databaseBuilder.factory.buildAssessment({ id: otherAssessmentId });
+  });
 
   afterEach(() => {
-    return knex('answers').delete()
-      .then(() => (databaseBuilder.clean()));
+    return databaseBuilder.clean();
   });
 
   describe('#get', () => {
-    let answerId;
 
     context('when there are no answers', () => {
 
@@ -28,18 +33,16 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
 
     context('when there is an answer', () => {
+      let answerId;
 
       beforeEach(() => {
-        return knex('answers')
-          .insert({
-            value: '1,2',
-            result: 'ko',
-            challengeId: 'challenge_1234',
-            assessmentId: 353,
-          })
-          .then((createdAnswer) => {
-            answerId = createdAnswer[0];
-          });
+        answerId = databaseBuilder.factory.buildAnswer({
+          value: '1,2',
+          result: 'ko',
+          challengeId: 'challenge_1234',
+          assessmentId: assessmentId,
+        }).id;
+        return databaseBuilder.commit();
       });
 
       it('should retrieve an answer from its id', () => {
@@ -62,7 +65,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2',
       result: 'ko',
       challengeId: 'challenge_1234',
-      assessmentId: 1234,
+      assessmentId: assessmentId,
     };
 
     // same assessmentId, different challengeId
@@ -70,7 +73,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2,4',
       result: 'ok',
       challengeId: 'challenge_000',
-      assessmentId: 1234,
+      assessmentId: assessmentId,
     };
 
     // different assessmentId, same challengeId
@@ -78,16 +81,19 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '3',
       result: 'partially',
       challengeId: 'challenge_1234',
-      assessmentId: 1,
+      assessmentId: otherAssessmentId,
     };
 
     beforeEach(() => {
-      return knex('answers').insert([wrongAnswer, correctAnswer, partiallyCorrectAnswer]);
+      databaseBuilder.factory.buildAnswer(wrongAnswer);
+      databaseBuilder.factory.buildAnswer(correctAnswer);
+      databaseBuilder.factory.buildAnswer(partiallyCorrectAnswer);
+      return databaseBuilder.commit();
     });
 
     it('should find the answer by challenge and assessment and return its in an object', () => {
       // when
-      const promise = AnswerRepository.findByChallengeAndAssessment({ challengeId: 'challenge_1234', assessmentId: 1234 });
+      const promise = AnswerRepository.findByChallengeAndAssessment({ challengeId: 'challenge_1234', assessmentId: assessmentId });
 
       // then
       return promise.then((foundAnswers) => {
@@ -104,7 +110,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1',
       result: 'ko',
       challengeId: 'challenge_1234',
-      assessmentId: 1234,
+      assessmentId: assessmentId,
     };
 
     // same challenge different assessment
@@ -112,7 +118,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2',
       result: 'ko',
       challengeId: 'challenge_1234',
-      assessmentId: 1,
+      assessmentId: otherAssessmentId,
     };
 
     //different challenge different assessment
@@ -120,11 +126,14 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2,3',
       result: 'timedout',
       challengeId: 'challenge_000',
-      assessmentId: 1,
+      assessmentId: otherAssessmentId,
     };
 
     beforeEach(() => {
-      return knex('answers').insert([wrongAnswerForAssessment1234, wrongAnswerForAssessment1, timedOutAnswerForAssessment1]);
+      databaseBuilder.factory.buildAnswer(wrongAnswerForAssessment1234);
+      databaseBuilder.factory.buildAnswer(wrongAnswerForAssessment1);
+      databaseBuilder.factory.buildAnswer(timedOutAnswerForAssessment1);
+      return databaseBuilder.commit();
     });
 
     it('should find all answers by challenge id', () => {
@@ -138,10 +147,12 @@ describe('Integration | Repository | AnswerRepository', () => {
 
         expect(foundAnswers).to.have.length.of(2);
 
-        expect(foundAnswers[0].value).to.equal(wrongAnswerForAssessment1234.value);
-        expect(foundAnswers[0].challengeId).to.equal(wrongAnswerForAssessment1234.challengeId);
-        expect(foundAnswers[1].value).to.equal(wrongAnswerForAssessment1.value);
-        expect(foundAnswers[1].challengeId).to.equal(wrongAnswerForAssessment1.challengeId);
+        const values = _.map(foundAnswers, 'value');
+        expect(values).to.include.members(['1','1,2']);
+
+        const challengeIds = _.map(foundAnswers, 'challengeId');
+        expect(challengeIds).to.include('challenge_1234');
+        expect(challengeIds).to.not.include('challenge_000');
       });
     });
   });
@@ -152,46 +163,43 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: 'Un pancake Tabernacle',
       result: 'ko',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 1,
+      assessmentId: otherAssessmentId,
     };
 
     const answer2 = {
       value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
       result: 'ko',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 2,
+      assessmentId: assessmentId,
     };
 
     const answer3 = {
       value: 'la réponse D',
       result: 'timedout',
       challengeId: 'challenge_D',
-      assessmentId: 2,
+      assessmentId: assessmentId,
     };
 
     beforeEach(() => {
-      return knex('answers').delete().then(() => knex('answers').insert([answer1, answer2, answer3]));
+      databaseBuilder.factory.buildAnswer(answer1);
+      databaseBuilder.factory.buildAnswer(answer2);
+      databaseBuilder.factory.buildAnswer(answer3);
+      return databaseBuilder.commit();
     });
 
     it('should resolves answers with assessment id provided', () => {
-      // given
-      const assessmentId = 2;
-
       // when
       const promise = AnswerRepository.findByAssessment(assessmentId);
 
       // then
       return promise.then((answers) => {
         expect(answers.length).to.be.equal(2);
-        expect(answers[0].assessmentId).to.be.equal(2);
-        expect(answers[1].assessmentId).to.be.equal(2);
+        expect(answers[0].assessmentId).to.be.equal(assessmentId);
+        expect(answers[1].assessmentId).to.be.equal(assessmentId);
       });
     });
 
     it('should returns answers as domain objects', () => {
-      // given
-      const assessmentId = 2;
-
       // when
       const promise = AnswerRepository.findByAssessment(assessmentId);
 
@@ -209,30 +217,32 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: 'Un pancake Tabernacle',
       result: 'ok',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 2,
+      assessmentId: otherAssessmentId,
     };
 
     const answer2 = {
       value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
       result: 'ok',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 1,
+      assessmentId: assessmentId,
     };
 
     const answer3 = {
       value: 'la réponse D',
       result: 'ko',
       challengeId: 'challenge_D',
-      assessmentId: 1,
+      assessmentId: assessmentId,
     };
 
     beforeEach(() => {
-      return knex('answers').delete().then(() => knex('answers').insert([answer1, answer2, answer3]));
+      databaseBuilder.factory.buildAnswer(answer1);
+      databaseBuilder.factory.buildAnswer(answer2);
+      databaseBuilder.factory.buildAnswer(answer3);
+      return databaseBuilder.commit();
     });
 
     it('should retrieve answers with ok status from assessment id provided', () => {
       // given
-      const assessmentId = 1;
       const expectedStatus = {
         status: 'ok'
       };
@@ -247,7 +257,7 @@ describe('Integration | Repository | AnswerRepository', () => {
 
         const foundAnswer = answers[0];
 
-        expect(foundAnswer.assessmentId).to.be.equal(1);
+        expect(foundAnswer.assessmentId).to.be.equal(assessmentId);
         expect(foundAnswer.result).to.deep.equal(expectedStatus);
       });
     });
@@ -256,23 +266,24 @@ describe('Integration | Repository | AnswerRepository', () => {
   describe('#save', () => {
 
     let answer;
-    let promise;
+    let savedAnswer;
 
     beforeEach(async () => {
-      // given
-      const assessmentId = databaseBuilder.factory.buildAssessment().id;
-      await databaseBuilder.commit();
-
       // XXX resultDetails is by default null which is saved as "null\n" in db.
       // To avoid problems in test it is fixed to another string.
       answer = domainBuilder.buildAnswer({ assessmentId, resultDetails: 'some random detail' });
       answer.id = undefined;
 
       // when
-      promise = AnswerRepository.save(answer);
+      await databaseBuilder.commit();
+      savedAnswer = await AnswerRepository.save(answer);
     });
 
-    it('should save the answer in db', async () => {
+    afterEach(() => {
+      return knex('answers').delete();
+    });
+
+    it('should save the answer in db', () => {
       // then
       // id, createdAt, and updatedAt are not present
       const expectedRawAnswerWithoutIdNorDates = {
@@ -284,23 +295,18 @@ describe('Integration | Repository | AnswerRepository', () => {
         elapsedTime: answer.elapsedTime,
         resultDetails: `${answer.resultDetails}\n`, // XXX text fields are saved with a \n at the end
       };
-      return promise
-        .then(() => knex('answers').first())
+      return knex('answers').first()
         .then((answer) => _.omit(answer, ['id', 'createdAt', 'updatedAt']))
         .then((answerWithoutIdNorDates) => {
           return expect(answerWithoutIdNorDates).to.deep.equal(expectedRawAnswerWithoutIdNorDates);
         });
     });
 
-    it('should return a domain object with the id', async () => {
-      // then
-      return promise
-        .then((savedAnswer) => {
-          expect(savedAnswer.id).to.not.equal(undefined);
-          expect(savedAnswer).to.be.an.instanceOf(Answer);
-          // XXX text fields are saved with a \n at the end, so the test fails for that reason
-          expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
-        });
+    it('should return a domain object with the id', () => {
+      expect(savedAnswer.id).to.not.equal(undefined);
+      expect(savedAnswer).to.be.an.instanceOf(Answer);
+      // XXX text fields are saved with a \n at the end, so the test fails for that reason
+      expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
     });
   });
 })
