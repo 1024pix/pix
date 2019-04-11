@@ -3,6 +3,7 @@ const { knex } = require('../../../db/knex-database-connection');
 
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
+const CampaignReport = require('../../domain/models/CampaignReport');
 const queryBuilder = require('../utils/query-builder');
 
 function _toDomain(bookshelfCampaign) {
@@ -21,8 +22,8 @@ function _toDomain(bookshelfCampaign) {
   ]));
 }
 
-function _fromRawDataToDomain(rawQueryresponse) {
-  const parameters = _.pick(rawQueryresponse, [
+function _fromJsonWithReportDataToDomain(jsonCampaignWithReportData) {
+  const campaignWithReport = _.pick(jsonCampaignWithReportData, [
     'id',
     'name',
     'code',
@@ -35,13 +36,13 @@ function _fromRawDataToDomain(rawQueryresponse) {
     'title'
   ]);
 
-  parameters.campaignReport = {
-    id: parameters.id,
-    participationsCount: rawQueryresponse.participationsCount || 0,
-    sharedParticipationsCount: rawQueryresponse.sharedParticipationsCount || 0
-  };
+  campaignWithReport.campaignReport = new CampaignReport({
+    id: jsonCampaignWithReportData.id,
+    participationsCount: jsonCampaignWithReportData.participationsCount || 0,
+    sharedParticipationsCount: jsonCampaignWithReportData.sharedParticipationsCount || 0
+  });
 
-  return new Campaign(parameters);
+  return new Campaign(campaignWithReport);
 }
 
 module.exports = {
@@ -100,27 +101,23 @@ module.exports = {
       )
       .leftJoin(
         knex('campaign-participations')
-          .select(
-            'campaignId',
-            knex.raw('COUNT(*) AS "participationsCount"')
-          )
+          .select('campaignId')
+          .count('* as participationsCount')
           .groupBy('campaignId')
           .as('participations'),
         'campaigns.id', 'participations.campaignId'
       )
       .leftJoin(
         knex('campaign-participations')
-          .select(
-            'campaignId',
-            knex.raw('COUNT(*) AS "sharedParticipationsCount"')
-          )
+          .select('campaignId')
+          .count('* as sharedParticipationsCount')
           .groupBy('campaignId', 'isShared')
           .having('isShared', '=', true)
           .as('isShared'),
         'campaigns.id', 'isShared.campaignId'
       )
       .where('campaigns.organizationId', organizationId)
-      .then((campaignsWithCampaignReports) => campaignsWithCampaignReports.map(_fromRawDataToDomain));
+      .then((campaignsWithCampaignReports) => campaignsWithCampaignReports.map(_fromJsonWithReportDataToDomain));
   },
 
   checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {

@@ -1,10 +1,16 @@
-const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, domainBuilder, databaseBuilder } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignReport = require('../../../../lib/domain/models/CampaignReport');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const _ = require('lodash');
 
 describe('Integration | Repository | Campaign', () => {
+
+  afterEach(async () => {
+    await databaseBuilder.clean();
+  });
 
   describe('#isCodeAvailable', () => {
 
@@ -14,9 +20,6 @@ describe('Integration | Repository | Campaign', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
 
     it('should resolve true if the code is available', () => {
       // when
@@ -47,10 +50,6 @@ describe('Integration | Repository | Campaign', () => {
       campaignToInsert = domainBuilder.buildCampaign({ code: 'BADOIT710', createdAt: new Date('2018-02-06T14:12:45Z') });
       databaseBuilder.factory.buildCampaign(campaignToInsert);
       await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should resolve the campaign relies to the code', () => {
@@ -86,10 +85,6 @@ describe('Integration | Repository | Campaign', () => {
 
   describe('#save', () => {
 
-    afterEach(() => {
-      return knex('campaigns').delete();
-    });
-
     it('should save the given campaign', () => {
       // given
       const campaignToSave = new Campaign({
@@ -121,114 +116,91 @@ describe('Integration | Repository | Campaign', () => {
 
   describe('#findByOrganizationIdWithCampaignReports', () => {
 
-    const organizationId = 1;
+    context('when campaigns have campaignReports', async () => {
 
-    const campaign1Organization1 = domainBuilder.buildCampaign({
-      id: 1,
-      name: 'campaign1',
-      code: 'AZERTY123',
-      organizationId: organizationId,
-      creatorId: 1
-    });
-    const campaign2Organization1 = domainBuilder.buildCampaign({
-      id: 2,
-      name: 'campaign2',
-      code: 'AZERTY456',
-      organizationId: organizationId,
-      creatorId: 2
+      it('should return the campaigns of the given organization id with campaignReports', async () => {
+        // given
+        const organizationId = 1;
+
+        _.each([
+          { id: 1, name: 'campaign1', code: 'AZERTY123', organizationId, creatorId: 1 },
+          { id: 2, name: 'campaign2', code: 'AZERTY456', organizationId, creatorId: 2 },
+
+        ], (campaign) => {
+          databaseBuilder.factory.buildCampaign(campaign);
+        });
+
+        _.each([
+          { id: 1, campaignId: 1, isShared: true },
+          { id: 2, campaignId: 1, isShared: false },
+          { id: 3, campaignId: 1, isShared: false },
+          { id: 4, campaignId: 2, isShared: true },
+          { id: 5, campaignId: 2, isShared: true },
+
+        ], (campaignParticipation) => {
+          databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const campaignsWithReports = await campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
+
+        // then
+        expect(_.map(campaignsWithReports, 'id')).to.have.members([1, 2]);
+        expect(campaignsWithReports[0]).to.be.instanceOf(Campaign);
+        expect(campaignsWithReports[0].campaignReport).to.be.instanceOf(CampaignReport);
+        expect(campaignsWithReports[0].campaignReport).to.deep.equal({ id: 1, participationsCount: 3, sharedParticipationsCount: 1 });
+        expect(campaignsWithReports[1].campaignReport).to.deep.equal({ id: 2, participationsCount: 2, sharedParticipationsCount: 2 });
+      });
     });
 
-    const campaignOrganization1WithoutParticipant = domainBuilder.buildCampaign({
-      id: 3,
-      name: 'campaign3',
-      code: 'AZERTY789',
-      organizationId: organizationId,
-      creatorId: 3
-    });
-    const campaigns = [campaign1Organization1, campaign2Organization1, campaignOrganization1WithoutParticipant];
+    context('when campaigns do not have campaignReports', async () => {
 
-    const campaignParticipation1 = domainBuilder.buildCampaignParticipation({
-      id: 1,
-      campaign: campaign1Organization1,
-      isShared: true
-    });
-    const campaignParticipation2 = domainBuilder.buildCampaignParticipation({
-      id: 2,
-      campaign: campaign1Organization1,
-      isShared: false
-    });
-    const campaignParticipation3 = domainBuilder.buildCampaignParticipation({
-      id: 3,
-      campaign: campaign1Organization1,
-      isShared: false
-    });
-    const campaignParticipation4 = domainBuilder.buildCampaignParticipation({
-      id: 4,
-      campaign: campaign2Organization1,
-      isShared: true
-    });
-    const campaignParticipation5 = domainBuilder.buildCampaignParticipation({
-      id: 5,
-      campaign: campaign2Organization1,
-      isShared: true
-    });
-    const campaignParticipations = [campaignParticipation1, campaignParticipation2, campaignParticipation3, campaignParticipation4, campaignParticipation5];
-
-    beforeEach(async () => {
-      campaigns.forEach((campaign) => {
+      it('should return the campaigns of the given organization id with campaignReports', async () => {
+        // given
+        const organizationId = 1;
+        const campaign = { id: 3, name: 'campaign without participation', code: 'AZERTY789', organizationId, creatorId: 3 };
         databaseBuilder.factory.buildCampaign(campaign);
-      });
+        await databaseBuilder.commit();
 
-      campaignParticipations.forEach((campaignParticipation) => {
-        databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
+        // when
+        const campaignsWithReports = await campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
+        // then
+        expect(campaignsWithReports[0].campaignReport).to.deep.equal({ id: 3, participationsCount: 0, sharedParticipationsCount: 0 });
+
       });
+    });
+
+    it('should return the campaigns of the given organization id', async () => {
+      // given
+      const organizationId = 1;
+      const campaign = {
+        id: 3,
+        name: 'campaign without participation',
+        code: 'AZERTY789',
+        organizationId,
+        creatorId: 3
+      };
+      databaseBuilder.factory.buildCampaign(campaign);
       await databaseBuilder.commit();
-    });
 
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should return the campaigns of the given organization id with campaignReports', () => {
       // when
-      const promise = campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
+      const campaignsWithReports = await campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
 
       // then
-      return promise.then((campaigns) => {
-        expect(campaigns).to.have.lengthOf(3);
+      expect(campaignsWithReports[0]).to.be.instanceof(Campaign);
+      expect(campaignsWithReports[0].id).to.equal(campaign.id);
+      expect(campaignsWithReports[0].name).to.equal(campaign.name);
+      expect(campaignsWithReports[0].code).to.equal(campaign.code);
+      expect(campaignsWithReports[0].createdAt).to.exist;
+      expect(campaignsWithReports[0].targetProfileId).to.exist;
+      expect(campaignsWithReports[0].customLandingPageText).to.exist;
+      expect(campaignsWithReports[0].idPixLabel).to.exist;
+      expect(campaignsWithReports[0].title).to.exist;
+      expect(campaignsWithReports[0].creatorId).to.equal(campaign.creatorId);
+      expect(campaignsWithReports[0].organizationId).to.equal(campaign.organizationId);
 
-        expect(campaigns[0]).to.be.instanceof(Campaign);
-        expect(campaigns[0].id).to.equal(campaign1Organization1.id);
-        expect(campaigns[0].name).to.equal(campaign1Organization1.name);
-        expect(campaigns[0].code).to.equal(campaign1Organization1.code);
-        expect(campaigns[0].createdAt).to.exist;
-        expect(campaigns[0].creatorId).to.equal(campaign1Organization1.creatorId);
-        expect(campaigns[0].organizationId).to.equal(campaign1Organization1.organizationId);
-
-        expect(campaigns[0].campaignReport).to.exist;
-        expect(campaigns[1].campaignReport).to.exist;
-      });
-    });
-
-    it('should return the campaigns with campaignReports containing participationsCount and sharedParticipationsCount', () => {
-      // when
-      const promise = campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
-      return promise.then((campaigns) => {
-        expect(campaigns[0].campaignReport.participationsCount).to.equal(3);
-        expect(campaigns[0].campaignReport.sharedParticipationsCount).to.equal(1);
-
-        expect(campaigns[1].campaignReport.participationsCount).to.equal(2);
-        expect(campaigns[1].campaignReport.sharedParticipationsCount).to.equal(2);
-      });
-    });
-
-    it('should return the campaigns with campaignReports containing zero participationsCount and zero sharedParticipationsCount', () => {
-      // when
-      const promise = campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
-      return promise.then((campaigns) => {
-        expect(campaigns[2].campaignReport.participationsCount).to.equal(0);
-        expect(campaigns[2].campaignReport.sharedParticipationsCount).to.equal(0);
-      });
     });
 
   });
@@ -243,10 +215,6 @@ describe('Integration | Repository | Campaign', () => {
       });
       campaign = domainBuilder.buildCampaign(bookshelfCampaign);
       return databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return a Campaign by her id', async () => {
@@ -279,10 +247,6 @@ describe('Integration | Repository | Campaign', () => {
       });
       campaign = domainBuilder.buildCampaign(bookshelfCampaign);
       return databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return a Campaign domain object', async () => {
@@ -337,11 +301,6 @@ describe('Integration | Repository | Campaign', () => {
       campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
 
       await databaseBuilder.commit();
-
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
     });
 
     it('should return true when the user is a member of an organization that owns the campaign', async () => {
