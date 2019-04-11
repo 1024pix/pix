@@ -16,7 +16,7 @@ const userService = require('../../../../lib/domain/services/user-service');
 const usecases = require('../../../../lib/domain/usecases');
 
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
-const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
+const competenceEvaluationResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-result-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
@@ -505,13 +505,13 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getScorecards', () => {
+  describe('#getCompetenceEvaluationResults', () => {
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserScorecards').resolves({
+      sinon.stub(usecases, 'getUserCompetenceEvaluationResults').resolves({
         name:'Comp1',
       });
-      sinon.stub(scorecardSerializer, 'serialize').resolves();
+      sinon.stub(competenceEvaluationResultSerializer, 'serialize').resolves();
     });
 
     it('should call the expected usecase', async () => {
@@ -531,10 +531,10 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getScorecards(request, hFake);
+      await userController.getCompetenceEvaluationResults(request, hFake);
 
       // then
-      expect(usecases.getUserScorecards).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
+      expect(usecases.getUserCompetenceEvaluationResults).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
 
     });
   });

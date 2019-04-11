@@ -3,7 +3,7 @@ const cache = require('../../../../lib/infrastructure/caches/cache');
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-user-scorecards', () => {
+describe('Acceptance | Controller | users-controller-get-user-competence-evaluation-results', () => {
 
   let options;
   let server;
@@ -15,7 +15,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
 
     options = {
       method: 'GET',
-      url: '/api/users/1234/scorecards',
+      url: '/api/users/1234/competence-evaluation-results',
       payload: {},
       headers: {},
     };
@@ -35,7 +35,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
   let knowledgeElement;
   let competence;
 
-  describe('GET /users/:id/scorecards', () => {
+  describe('GET /users/:id/competence-evaluation-results', () => {
 
     describe('Resource access management', () => {
 
@@ -106,13 +106,13 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
 
       });
 
-      it('should return user\'s serialized scorecards', () => {
+      it('should return user\'s serialized competence-evaluation-results', () => {
         // when
         const promise = server.inject(options);
 
-        const expectedScorecardJSONApi = {
+        const expectedCompetenceEvaluationResultJSONApi = {
           data: [{
-            type: 'scorecards',
+            type: 'competence-evaluation-results',
             id: `1234_${competence.fields['Sous-domaine']}`,
             attributes: {
               name: competence.fields.Titre,
@@ -145,8 +145,8 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
 
         // then
         return promise.then((response) => {
-          expect(response.result.data[0]).to.deep.equal(expectedScorecardJSONApi.data[0]);
-          expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
+          expect(response.result.data[0]).to.deep.equal(expectedCompetenceEvaluationResultJSONApi.data[0]);
+          expect(response.result.included).to.deep.equal(expectedCompetenceEvaluationResultJSONApi.included);
         });
       });
     });

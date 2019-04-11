@@ -129,9 +129,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
                   'related': '/users/234567/pixscore'
                 }
               },
-              scorecards: {
+              'competence-evaluation-results': {
                 links: {
-                  related: '/users/234567/scorecards'
+                  related: '/users/234567/competence-evaluation-results'
                 }
               }
             }

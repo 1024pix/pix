@@ -171,9 +171,9 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
                 related: '/users/user_id/pixscore'
               }
             },
-            'scorecards': {
+            'competence-evaluation-results': {
               links: {
-                related: '/users/user_id/scorecards'
+                related: '/users/user_id/competence-evaluation-results'
               }
             },
           },
@@ -323,9 +323,9 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
                 related: '/users/user_id/pixscore'
               }
             },
-            'scorecards': {
+            'competence-evaluation-results': {
               links: {
-                related: '/users/user_id/scorecards'
+                related: '/users/user_id/competence-evaluation-results'
               }
             },
           },

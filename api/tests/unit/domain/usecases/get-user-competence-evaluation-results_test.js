@@ -1,14 +1,14 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const getUserScorecard = require('../../../../lib/domain/usecases/get-user-scorecards');
+const getUserCompetenceEvaluationResult = require('../../../../lib/domain/usecases/get-user-competence-evaluation-results');
 
-function assertScorecard(userScorecard, expectedUserScorecard) {
-  expect(userScorecard.earnedPix).to.equal(expectedUserScorecard.earnedPix);
-  expect(userScorecard.level).to.equal(expectedUserScorecard.level);
-  expect(userScorecard.pixScoreAheadOfNextLevel).to.equal(expectedUserScorecard.pixScoreAheadOfNextLevel);
+function assertCompetenceEvaluationResult(userCompetenceEvaluationResult, expectedUserCompetenceEvaluationResult) {
+  expect(userCompetenceEvaluationResult.earnedPix).to.equal(expectedUserCompetenceEvaluationResult.earnedPix);
+  expect(userCompetenceEvaluationResult.level).to.equal(expectedUserCompetenceEvaluationResult.level);
+  expect(userCompetenceEvaluationResult.pixScoreAheadOfNextLevel).to.equal(expectedUserCompetenceEvaluationResult.pixScoreAheadOfNextLevel);
 }
 
-describe('Unit | UseCase | get-user-scorecard', () => {
+describe('Unit | UseCase | get-user-competence-evaluation-results', () => {
 
   let competenceRepository;
   let smartPlacementKnowledgeElementRepository;
@@ -27,7 +27,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
     const earnedPixDefaultValue = 4;
     const maxLevel = 5;
 
-    context('And user asks for his own scorecards', () => {
+    context('And user asks for his own competence-evaluation-results', () => {
       const requestedUserId = 2;
 
       it('should resolve', () => {
@@ -36,7 +36,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
 
         // when
-        const promise = getUserScorecard({
+        const promise = getUserCompetenceEvaluationResult({
           authenticatedUserId,
           requestedUserId,
           smartPlacementKnowledgeElementRepository,
@@ -47,7 +47,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         return expect(promise).to.be.fulfilled;
       });
 
-      it('should return related user scorecards', async () => {
+      it('should return related user competence-evaluation-results', async () => {
         // given
         const earnedPixForCompetenceId1 = 8;
         const levelForCompetenceId1 = 1;
@@ -69,8 +69,8 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         ];
         smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
 
-        const expectedUserScorecard = [
-          domainBuilder.buildUserScorecard({
+        const expectedUserCompetenceEvaluationResult = [
+          domainBuilder.buildUserCompetenceEvaluationResult({
             courseId: competenceList[0].courseId,
             name: competenceList[0].name,
             earnedPix: earnedPixForCompetenceId1,
@@ -78,7 +78,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
             pixScoreAheadOfNextLevel: pixScoreAheadOfNextLevelForCompetenceId1
           }),
 
-          domainBuilder.buildUserScorecard({
+          domainBuilder.buildUserCompetenceEvaluationResult({
             courseId: competenceList[1].courseId,
             name: competenceList[1].name,
             earnedPix: earnedPixDefaultValue,
@@ -88,7 +88,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         ];
 
         // when
-        const userScorecard = await getUserScorecard({
+        const userCompetenceEvaluationResult = await getUserCompetenceEvaluationResult({
           authenticatedUserId,
           requestedUserId,
           smartPlacementKnowledgeElementRepository,
@@ -96,11 +96,11 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         });
 
         //then
-        assertScorecard(userScorecard[0], expectedUserScorecard[0]);
-        assertScorecard(userScorecard[1], expectedUserScorecard[1]);
+        assertCompetenceEvaluationResult(userCompetenceEvaluationResult[0], expectedUserCompetenceEvaluationResult[0]);
+        assertCompetenceEvaluationResult(userCompetenceEvaluationResult[1], expectedUserCompetenceEvaluationResult[1]);
       });
 
-      it('should return the user scorecard with level limited to 5', async () => {
+      it('should return the user competence-evaluation-results with level limited to 5', async () => {
       // given
         const earnedPixNeededForLevelSixLimitedToFive = 50;
         const pixScoreAheadOfNextLevel = 2;
@@ -115,8 +115,8 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         ];
         smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
 
-        const expectedUserScorecard = [
-          domainBuilder.buildUserScorecard({
+        const expectedUserCompetenceEvaluationResult = [
+          domainBuilder.buildUserCompetenceEvaluationResult({
             courseId: competenceList[0].courseId,
             name: competenceList[0].name,
             earnedPix: earnedPixNeededForLevelSixLimitedToFive,
@@ -126,7 +126,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         ];
 
         // when
-        const userScorecard = await getUserScorecard({
+        const userCompetenceEvaluationResult = await getUserCompetenceEvaluationResult({
           authenticatedUserId,
           requestedUserId,
           smartPlacementKnowledgeElementRepository,
@@ -134,11 +134,11 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         });
 
         //then
-        assertScorecard(userScorecard[0], expectedUserScorecard[0]);
+        assertCompetenceEvaluationResult(userCompetenceEvaluationResult[0], expectedUserCompetenceEvaluationResult[0]);
       });
     });
 
-    context('And user asks for scorecards that do not belongs to him', () => {
+    context('And user asks for competence-evaluation-results that do not belongs to him', () => {
       it('should reject a "UserNotAuthorizedToAccessEntity" domain error', () => {
         // given
         const requestedUserId = 34;
@@ -147,7 +147,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
 
         // when
-        const promise = getUserScorecard({
+        const promise = getUserCompetenceEvaluationResult({
           authenticatedUserId,
           requestedUserId,
           smartPlacementKnowledgeElementRepository,

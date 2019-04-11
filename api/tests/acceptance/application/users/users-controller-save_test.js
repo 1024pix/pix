@@ -81,9 +81,9 @@ describe('Acceptance | Controller | users-controller', () => {
                   '"related":"/users/(\\d+)/pixscore"'+
                 '}'+
               '},'+
-              '"scorecards":{'+
+              '"competence-evaluation-results":{'+
                 '"links":{'+
-                  '"related":"/users/(\\d+)/scorecards"'+
+                  '"related":"/users/(\\d+)/competence-evaluation-results"'+
                 '}'+
               '}'+
             '}'+

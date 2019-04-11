@@ -50,9 +50,9 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
             'related': '/users/1234/pixscore'
           }
         },
-        'scorecards': {
+        'competence-evaluation-results': {
           'links': {
-            'related': '/users/1234/scorecards'
+            'related': '/users/1234/competence-evaluation-results'
           }
         },
       }

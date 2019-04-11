@@ -2,8 +2,8 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
-  serialize(scorecard) {
-    return new Serializer('scorecard', {
+  serialize(competenceEvaluationResult) {
+    return new Serializer('competence-evaluation-result', {
       attributes: [
         'name',
         'index',
@@ -18,7 +18,7 @@ module.exports = {
         ref: ['id'],
         attributes: ['code', 'title']
       }
-    }).serialize(scorecard);
+    }).serialize(competenceEvaluationResult);
   },
 
 };

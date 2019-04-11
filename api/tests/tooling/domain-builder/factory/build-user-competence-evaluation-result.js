@@ -1,7 +1,7 @@
 const faker = require('faker');
 const buildArea = require('./build-area');
 
-module.exports = function buildUserScorecard(
+module.exports = function buildUserCompetenceEvaluationResult(
   {
     id = faker.random.uuid(),
     // attributes
