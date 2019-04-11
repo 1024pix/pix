@@ -102,7 +102,7 @@ module.exports = {
         knex('campaign-participations')
           .select(
             'campaignId',
-            knex.raw('COUNT(*) AS participationsCount')
+            knex.raw('COUNT(*) AS "participationsCount"')
           )
           .groupBy('campaignId')
           .as('participations'),
@@ -112,7 +112,7 @@ module.exports = {
         knex('campaign-participations')
           .select(
             'campaignId',
-            knex.raw('COUNT(*) AS sharedParticipationsCount')
+            knex.raw('COUNT(*) AS "sharedParticipationsCount"')
           )
           .groupBy('campaignId', 'isShared')
           .having('isShared', '=', true)
