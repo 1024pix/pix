@@ -7,6 +7,7 @@ const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const fp = require('lodash/fp');
+const _ = require('lodash');
 
 function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
@@ -92,10 +93,21 @@ module.exports = {
         pageSize: options.page.size,
         withRelated: ['user', 'assessment', 'user.knowledgeElements']
       })
-      .then((results) => {
+      .then(({ models, pagination }) => {
+        const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
+
+        _.each(campaignParticipations, (campaignParticipation) => {
+          const sortedUniqKnowlegeElements = _(campaignParticipation.user.knowledgeElements)
+            .orderBy('createdAt', 'desc')
+            .uniqBy('skillId')
+            .value();
+
+          campaignParticipation.user.knowledgeElements = sortedUniqKnowlegeElements;
+        });
+        
         return {
-          pagination: results.pagination,
-          models: bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, results.models)
+          pagination: pagination,
+          models: campaignParticipations
         };
       });
   },
