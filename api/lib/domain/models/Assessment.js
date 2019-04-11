@@ -121,12 +121,12 @@ class Assessment {
     return this.type === types.CERTIFICATION;
   }
 
-  isPlacement() {
-    return this.type === types.PLACEMENT;
+  isCompetenceEvaluation() {
+    return this.type === types.COMPETENCE_EVALUATION;
   }
 
-  isCompetenceEvaluation() {
-    return this.type === type.COMPETENCE_EVALUATION;
+  isPlacement() {
+    return this.type === types.PLACEMENT;
   }
 
   canBeScored() {

@@ -19,7 +19,7 @@ export default Route.extend({
         if (assessment.isPlacement || assessment.isDemo || assessment.isCertification || assessment.isPreview) {
           return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
         }
-        if (assessment.isSmartPlacement) {
+        if (assessment.isCompetenceEvaluation || assessment.isSmartPlacement) {
           return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
         }
 
