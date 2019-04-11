@@ -70,7 +70,7 @@ export default Router.map(function() {
   });
 
   this.route('competences', { path: '/competences' }, function() {
-    this.route('resume', { path: '/:competence_id' });
+    this.route('resume', { path: '/:competence_id/evaluer' });
   });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
