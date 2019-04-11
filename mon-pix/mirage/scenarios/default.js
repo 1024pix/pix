@@ -115,6 +115,7 @@ export default function(server) {
   });
 
   server.create('campaign', {
+    id: 3,
     code: 'codecampagnepix',
     title: 'Le Titre de la campagne'
   });
