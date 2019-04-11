@@ -225,6 +225,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       // And starts answering questions
       _([
         { skillId: skillIds1[0], status: 'validated' },
+        { skillId: skillIds1[0], status: 'validated' },
         { skillId: skillIds1[1], status: 'validated' },
         { skillId: skillIds1[2], status: 'validated' },
         { skillId: skillIds1[3], status: 'invalidated' },
