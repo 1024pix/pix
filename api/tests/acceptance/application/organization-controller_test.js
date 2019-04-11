@@ -3,6 +3,7 @@ const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHea
 const createServer = require('../../../server');
 const settings = require('../../../lib/settings');
 const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
+const _ = require('lodash');
 
 function _insertOrganization(userId) {
   const organizationRaw = {
@@ -446,10 +447,8 @@ describe('Acceptance | Application | organization-controller', () => {
         return promise.then((response) => {
           const campaigns = response.result.data;
           expect(campaigns).to.have.lengthOf(2);
-          expect(campaigns[0].attributes.name).to.equal(orga1Campaign1.name);
-          expect(campaigns[0].attributes.code).to.equal(orga1Campaign1.code);
-          expect(campaigns[1].attributes.name).to.equal(orga1Campaign2.name);
-          expect(campaigns[1].attributes.code).to.equal(orga1Campaign2.code);
+          expect(_.map(campaigns, 'attributes.name')).to.have.members([ orga1Campaign1.name, orga1Campaign2.name ]);
+          expect(_.map(campaigns, 'attributes.code')).to.have.members([ orga1Campaign1.code, orga1Campaign2.code ]);
         });
       });
 

@@ -19,8 +19,7 @@ describe('Integration | Repository | Campaign', () => {
       databaseBuilder.factory.buildCampaign(campaign);
       await databaseBuilder.commit();
     });
-
-
+    
     it('should resolve true if the code is available', () => {
       // when
       const promise = campaignRepository.isCodeAvailable('FRANCE998');

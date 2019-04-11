@@ -60,7 +60,7 @@ module.exports = {
     const organizationId = request.params.id;
 
     return usecases.getOrganizationCampaigns({ organizationId })
-      .then((campaigns) => campaignSerializer.serialize(campaigns));
+      .then((campaigns) => campaignSerializer.serialize(campaigns, { ignoreCampaignReportRelationshipData : false }));
   },
 
   getMemberships(request) {
