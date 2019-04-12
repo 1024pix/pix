@@ -1,9 +1,9 @@
 import { inject as service } from '@ember/service';
 
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 
-export default BaseRoute.extend(AuthenticatedRouteMixin, {
+export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
 
@@ -17,5 +17,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     if (model.get('organizations.length') > 0) {
       return this.transitionTo('board');
     }
+
+    model.hasMany('campaignParticipations').reload();
   },
 });

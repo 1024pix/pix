@@ -6,6 +6,7 @@ const BookshelfUserPixRole = require('./user-pix-role');
 
 require('./assessment');
 require('./organization');
+require('./knowledge-element');
 require('./membership');
 
 module.exports = Bookshelf.model('User', {
@@ -14,6 +15,10 @@ module.exports = Bookshelf.model('User', {
 
   assessments() {
     return this.hasMany('Assessment');
+  },
+
+  knowledgeElements() {
+    return this.hasMany('KnowledgeElement', 'userId');
   },
 
   /**

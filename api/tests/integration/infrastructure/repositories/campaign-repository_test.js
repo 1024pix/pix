@@ -266,12 +266,13 @@ describe('Integration | Repository | Campaign', () => {
   });
 
   describe('checkIfUserOrganizationHasAccessToCampaign', () => {
-    let userId, organizationId, forbiddenUserId, forbiddenOrganizationId, campaignId;
+    let userId, ownerId, organizationId, forbiddenUserId, forbiddenOrganizationId, campaignId;
     beforeEach(async () => {
 
       // given
       userId = databaseBuilder.factory.buildUser().id;
-      organizationId = databaseBuilder.factory.buildOrganization().id;
+      ownerId = databaseBuilder.factory.buildUser().id;
+      organizationId = databaseBuilder.factory.buildOrganization({ userId: ownerId }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId });
 
       forbiddenUserId = databaseBuilder.factory.buildUser().id;

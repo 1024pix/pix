@@ -19,6 +19,12 @@ export default Component.extend({
   // Actions
   actions: {
     launchSimulator() {
+      const iframe = this._getIframe();
+
+      // TODO: use correct targetOrigin once the embeds are hosted behind our domain
+      iframe.contentWindow.postMessage('launch', '*');
+      iframe.focus();
+
       this.toggleProperty('_isSimulatorNotYetLaunched');
       this._unblurSimulator();
     },
@@ -31,12 +37,22 @@ export default Component.extend({
   // Internals
   _isSimulatorNotYetLaunched: true,
 
+  _getIframe() {
+    return this.element.querySelector('.challenge-embed-simulator__iframe');
+  },
+
   /* This method is not tested because it would be too difficult (add an observer on a complicated stubbed DOM API element!) */
   _reloadSimulator() {
-    const iframe = this.element.getElementsByClassName('challenge-embed-simulator__iframe').item(0);
+    const iframe = this._getIframe();
     const tmpSrc = iframe.src;
-    iframe.onload = function() {
-      iframe.onload = '';
+
+    // First onload: when we reset the iframe
+    iframe.onload = () => {
+      // Second onload: when we re-assign the iframe's src to its original value
+      iframe.onload = () => {
+        iframe.contentWindow.postMessage('reload', '*');
+        iframe.focus();
+      };
       iframe.src = tmpSrc;
     };
     iframe.src = '';

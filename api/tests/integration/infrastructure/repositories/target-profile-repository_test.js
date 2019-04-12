@@ -184,4 +184,33 @@ describe('Integration | Repository | Target-profile', () => {
       });
     });
   });
+
+  describe('#getByCampaignId', () => {
+    let campaignId, targetProfileId;
+
+    beforeEach(async () => {
+      targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
+      campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
+      const { skillId } = databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId });
+      const skillAssociatedToTargetProfile = new SkillDataObject({ id: skillId, name: '@Acquis2' });
+      databaseBuilder.factory.buildTargetProfile();
+      databaseBuilder.factory.buildCampaign();
+      sinon.stub(skillDatasource, 'findByRecordIds').resolves([skillAssociatedToTargetProfile]);
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the target profile matching the campaign id', async () => {
+      // when
+      const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
+      // then
+      expect(targetProfile.id).to.equal(targetProfileId);
+    });
+
+  });
+
 });

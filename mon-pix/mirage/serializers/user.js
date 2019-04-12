@@ -9,6 +9,9 @@ export default BaseSerializer.extend({
       },
       scorecards: {
         related: `/users/${user.id}/scorecards`
+      },
+      campaignParticipations: {
+        related: `/users/${user.id}/campaign-participations`
       }
     };
   }

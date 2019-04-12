@@ -1,8 +1,8 @@
 import { inject as service } from '@ember/service';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
-import BaseRoute from 'mon-pix/routes/base-route';
+import Route from '@ember/routing/route';
 
-export default BaseRoute.extend(ApplicationRouteMixin, {
+export default Route.extend(ApplicationRouteMixin, {
 
   splash: service(),
 

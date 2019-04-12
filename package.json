@@ -1,12 +1,12 @@
 {
   "name": "pix",
-  "version": "2.35.1",
+  "version": "2.36.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "10.15.1"
+    "node": "10.15.3"
   },
   "repository": {
     "type": "git",

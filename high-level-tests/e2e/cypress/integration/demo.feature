@@ -29,7 +29,7 @@ Feature: Demo
     When je lance le course "recq1wh5cKtibXDZu"
     Then je suis redirigé vers une page d'épreuve
     When l'épreuve contient le texte "émoticônes"
-    Then je passe l'épreuve
+    Then je clique sur "Je passe"
     When l'épreuve contient le texte "Parmi ces démarches administratives"
     Then je choisis la réponse "radio_3"
-    Then je valide l'épreuve
+    Then je clique sur "Je valide"

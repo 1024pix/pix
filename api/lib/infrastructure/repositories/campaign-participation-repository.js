@@ -7,6 +7,7 @@ const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const fp = require('lodash/fp');
+const _ = require('lodash');
 
 function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
@@ -76,6 +77,38 @@ module.exports = {
         return {
           pagination: results.pagination,
           models: bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, results.models)
+        };
+      });
+  },
+
+  findWithCampaignParticipationResultsData(options) {
+    return BookshelfCampaignParticipation
+      .where(options.filter)
+      .query((qb) => {
+        qb.innerJoin('users', 'campaign-participations.userId', 'users.id');
+        qb.orderBy('users.lastName', 'asc');
+      })
+      .fetchPage({
+        page: options.page.number,
+        pageSize: options.page.size,
+        withRelated: ['user', 'assessment', 'user.knowledgeElements']
+      })
+      .then(({ models, pagination }) => {
+        const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
+
+        _.each(campaignParticipations, (campaignParticipation) => {
+          const sortedUniqKnowlegeElements = _(campaignParticipation.user.knowledgeElements)
+            .filter((ke) => ke.createdAt < campaignParticipation.sharedAt)
+            .orderBy('createdAt', 'desc')
+            .uniqBy('skillId')
+            .value();
+
+          campaignParticipation.user.knowledgeElements = sortedUniqKnowlegeElements;
+        });
+
+        return {
+          pagination: pagination,
+          models: campaignParticipations
         };
       });
   },

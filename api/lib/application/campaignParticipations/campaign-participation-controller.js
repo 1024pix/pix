@@ -1,3 +1,4 @@
+const { BadRequestError } = require('../../infrastructure/errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
@@ -15,41 +16,38 @@ module.exports = {
     const options = queryParamsUtils.extractParameters(request.query);
 
     const campaignParticipation = await usecases.getCampaignParticipation({
-      campaignParticipationId,
-      options,
-      userId
+      campaignParticipationId, options, userId
     });
 
     return serializer.serialize(campaignParticipation);
   },
 
-  save(request, h) {
+  async save(request, h) {
     const userId = request.auth.credentials.userId;
-    return serializer.deserialize(request.payload)
-      .then((campaignParticipation) => usecases.startCampaignParticipation({ campaignParticipation, userId }))
-      .then((campaignParticipation) => {
-        return h.response(serializer.serialize(campaignParticipation)).created();
-      });
+    const campaignParticipation = await serializer.deserialize(request.payload);
+    const campaignParticipationDomain = await usecases.startCampaignParticipation({ campaignParticipation, userId });
+
+    return h.response(serializer.serialize(campaignParticipationDomain)).created();
   },
 
-  find(request) {
+  async find(request) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
-
     const options = queryParamsUtils.extractParameters(request.query);
 
-    let campaignParticipationsPromise;
+    if (!options.filter.assessmentId && !options.filter.campaignId) {
+      throw new BadRequestError('Campaign participations must be fetched by assessmentId and/or campaignId');
+    }
 
-    if (options.filter.assessmentId) {
-      campaignParticipationsPromise = usecases.getUserCampaignParticipation({ userId, options });
+    if (options.filter.campaignId && options.include.includes('campaign-participation-result')) {
+      const { models: campaignParticipations, pagination } = await usecases.findCampaignParticipationsWithResults({ userId, options });
+      return serializer.serialize(campaignParticipations, pagination, { ignoreCampaignParticipationResultsRelationshipData: false });
+
+    } else {
+      const { models: campaignParticipation, pagination } = await usecases.getUserCampaignParticipation({ userId, options });
+      return serializer.serialize(campaignParticipation, pagination);
     }
-    if (options.filter.campaignId) {
-      campaignParticipationsPromise = usecases.getCampaignParticipations({ userId, options });
-    }
-    return campaignParticipationsPromise
-      .then((campaignParticipation) => {
-        return serializer.serialize(campaignParticipation.models, campaignParticipation.pagination);
-      });
+
   },
 
   shareCampaignResult(request) {

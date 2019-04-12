@@ -1,12 +1,12 @@
 {
   "name": "pix-admin",
-  "version": "2.35.1",
+  "version": "2.36.0",
   "private": false,
   "description": "Interface d'administration pour les Pix Masters.",
   "license": "AGPL-3.0",
   "author": "GIP Pix",
   "engines": {
-    "node": "10.15.1"
+    "node": "10.15.3"
   },
   "repository": {
     "type": "git",
