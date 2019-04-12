@@ -69,6 +69,7 @@
           flex-direction: row;
           justify-content: center;
           align-items: center;
+          margin-bottom: 20px;
   
           &__pix-earned {
             display: flex;
@@ -97,7 +98,7 @@
         &__level-info {
           color: $grayish-grey;
           text-transform: uppercase;
-          margin: 20px 0px;
+          margin-bottom: 20px;
           letter-spacing: 0.3px;
         }
       }
