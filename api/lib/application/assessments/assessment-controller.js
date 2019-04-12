@@ -71,7 +71,8 @@ module.exports = {
       }
     }
 
-    return assessmentsPromise.then(assessmentSerializer.serialize);
+    return assessmentsPromise
+      .then((assessments) => assessmentSerializer.serializeArray(assessments));
   },
 
   getNextChallenge(request) {
