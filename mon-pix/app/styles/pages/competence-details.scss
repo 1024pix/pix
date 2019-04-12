@@ -1,0 +1,106 @@
+.competence-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  &__panel {
+    position: absolute;
+    top: 34px;
+    width: 100%;
+
+    @include device-is('desktop') {
+      max-width: 980px;
+    }
+
+    &__shadow {
+      min-height: 1px;
+      position: absolute;
+      z-index: -100;
+      bottom: 30px;
+      width: 85%;
+      left: 7.5%;
+      box-shadow: 0px 0px 40px 1px rgba(0,0,0,0.33);
+    }
+
+    &__inner {
+      display: flex;
+      flex-direction: row;
+      border-radius: 6.75px;
+      font-family: "Roboto";
+      background-color: $mercury-grey;
+      padding: 30px 0px;
+      margin: 14px;
+  
+      &__left {
+        flex-grow: 1;
+        padding: 0px 30px;
+        border-right: 4px dotted $silver-grey;
+  
+        &__area {
+          text-transform: uppercase;
+          color: $wild-strawberry;
+          font-size: 1.4rem;
+          letter-spacing: 2px;
+        }
+  
+        &__name {
+          margin: 15px 0px;
+          font-size: 3.6rem;
+        }
+  
+        &__description {
+          font-family: "Open Sans";
+          font-size: 1.6rem;
+          line-height: 2.6rem;
+          color: $dove-gray;
+        }
+      }
+  
+      &__right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0px 30px;
+  
+        &__score-container {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+  
+          &__pix-earned {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-left: 30px;
+            text-transform: uppercase;
+            color: $grayish-grey;
+            
+            > div:first-child {
+              font-family: "Open Sans";
+              margin-right: 5px;
+              font-size: 3.2rem;
+              line-height: 3.2rem;
+              margin-bottom: 1px;
+              font-weight: 600;
+            }
+  
+            > div:last-child {
+              letter-spacing: 1.2px;
+              line-height: 1.4rem;
+            }
+          }
+        }
+  
+        &__level-info {
+          color: $grayish-grey;
+          text-transform: uppercase;
+          margin: 20px 0px;
+          letter-spacing: 0.3px;
+        }
+      }
+    }
+  }
+}
