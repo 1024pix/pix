@@ -1,4 +1,4 @@
-const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../errors');
+const { ChallengeAlreadyAnsweredError } = require('../errors');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/SmartPlacementKnowledgeElement');
 
@@ -6,7 +6,10 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   {
     answer,
     answerRepository,
+    assessmentRepository,
     challengeRepository,
+    competenceEvaluationRepository,
+    skillRepository,
     smartPlacementAssessmentRepository,
     smartPlacementKnowledgeElementRepository,
   } = {}) {
@@ -23,22 +26,29 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   const correctedAnswer = evaluateAnswer(challenge, answer);
 
   const answerSaved = await answerRepository.save(correctedAnswer);
-  return smartPlacementAssessmentRepository.get(answer.assessmentId)
-    .then((smartPlacementAssessment) => {
-      return saveKnowledgeElements({
-        assessment: smartPlacementAssessment,
-        answer: answerSaved,
-        challenge,
-        smartPlacementKnowledgeElementRepository,
-      });
-    })
-    .then(() => answerSaved)
-    .catch((error) => {
-      if (error instanceof NotFoundError) {
-        return answerSaved;
-      }
-      throw error;
+
+  const assessment = await assessmentRepository.get(answer.assessmentId);
+  if (assessment.isCompetenceEvaluation()) {
+    await saveKnowledgeElementsForCompetenceEvaluation({
+      assessment,
+      answer: answerSaved,
+      challenge,
+      competenceEvaluationRepository,
+      skillRepository,
+      smartPlacementKnowledgeElementRepository
     });
+  }
+
+  if (assessment.isSmartPlacement()) {
+    await saveKnowledgeElementsForSmartPlacement({
+      answer: answerSaved,
+      challenge,
+      smartPlacementAssessmentRepository,
+      smartPlacementKnowledgeElementRepository,
+    });
+  }
+
+  return answerSaved;
 };
 
 function evaluateAnswer(challenge, answer) {
@@ -46,21 +56,56 @@ function evaluateAnswer(challenge, answer) {
   return examiner.evaluate(answer);
 }
 
-function saveKnowledgeElements({ assessment, answer, challenge, smartPlacementKnowledgeElementRepository }) {
+async function saveKnowledgeElementsForSmartPlacement({ answer, challenge, smartPlacementAssessmentRepository, smartPlacementKnowledgeElementRepository }) {
 
-  const knowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
+  const smartPlacementAssessment = await smartPlacementAssessmentRepository.get(answer.assessmentId);
+
+  return saveKnowledgeElements({
+    userId: smartPlacementAssessment.userId,
+    targetSkills: smartPlacementAssessment.targetProfile.skills,
+    knowledgeElements: smartPlacementAssessment.knowledgeElements,
     answer,
     challenge,
-    previouslyFailedSkills: assessment.getFailedSkills(),
-    previouslyValidatedSkills: assessment.getValidatedSkills(),
-    targetSkills: assessment.targetProfile.skills,
-    userId: assessment.userId
+    smartPlacementKnowledgeElementRepository,
+  });
+}
+
+async function saveKnowledgeElementsForCompetenceEvaluation({ assessment, answer, challenge, competenceEvaluationRepository, skillRepository, smartPlacementKnowledgeElementRepository }) {
+
+  const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
+  const [targetSkills, knowledgeElements] = await Promise.all([
+    skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
+    smartPlacementKnowledgeElementRepository.findUniqByUserId(assessment.userId)]
+  );
+
+  return saveKnowledgeElements({
+    userId: assessment.userId,
+    targetSkills,
+    knowledgeElements,
+    answer,
+    challenge,
+    smartPlacementKnowledgeElementRepository,
+  });
+}
+
+function saveKnowledgeElements({ userId, targetSkills, knowledgeElements, answer, challenge, smartPlacementKnowledgeElementRepository }) {
+
+  const knowledgeElementsToCreate = KnowledgeElement.createKnowledgeElementsForAnswer({
+    answer,
+    challenge,
+    previouslyFailedSkills: _getSkillsFilteredByStatus(knowledgeElements, targetSkills, KnowledgeElement.StatusType.INVALIDATED),
+    previouslyValidatedSkills: _getSkillsFilteredByStatus(knowledgeElements, targetSkills, KnowledgeElement.StatusType.VALIDATED),
+    targetSkills,
+    userId
   });
 
-  const saveKnowledgeElementPromises = knowledgeElements.map((knowledgeElement) => {
-    return smartPlacementKnowledgeElementRepository.save(knowledgeElement);
-  });
+  return knowledgeElementsToCreate.map((knowledgeElement) =>
+    smartPlacementKnowledgeElementRepository.save(knowledgeElement));
+}
 
-  return Promise.all(saveKnowledgeElementPromises);
-
+function _getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
+  return knowledgeElements
+    .filter((knowledgeElement) => knowledgeElement.status === status)
+    .map((knowledgeElement) => knowledgeElement.skillId)
+    .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
 }
