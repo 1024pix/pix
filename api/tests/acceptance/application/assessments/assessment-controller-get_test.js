@@ -202,8 +202,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
       // then
       return promise.then((response) => {
         const expectedAssessment = {
-          'type': 'assessments',
-          'id': inserted_assessment_id.toString(),
+          'type': 'assessment',
+          'id': inserted_assessment_id,
           'attributes': {
             'estimated-level': null,
             'pix-score': null,
@@ -212,12 +212,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'certification-number': null,
           },
           'relationships': {
-            'course': {
-              data: {
-                id: 'adaptativeCourseId',
-                type: 'courses'
-              }
-            },
+            'course': { 'data': { 'type': 'courses', 'id': courseId } },
             'answers': { 'data': [] },
           },
         };
@@ -332,8 +327,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
       // then
       return promise.then((response) => {
         const expectedAssessment = {
-          'type': 'assessments',
-          'id': inserted_assessment_id.toString(),
+          'type': 'assessment',
+          'id': inserted_assessment_id,
           'attributes': {
             'estimated-level': 1,
             'pix-score': 12,
@@ -347,11 +342,11 @@ describe('Acceptance | API | assessment-controller-get', () => {
               'data': [
                 {
                   type: 'answers',
-                  id: answer1.id.toString(),
+                  id: answer1.id,
                 },
                 {
                   type: 'answers',
-                  id: answer2.id.toString(),
+                  id: answer2.id,
                 },
               ],
             },
@@ -436,6 +431,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
         'type': 'assessment',
         'id': assessmentId,
         'attributes': {
+          'estimated-level': undefined,
+          'pix-score': undefined,
           'state': 'completed',
           'type': 'SMART_PLACEMENT',
           'certification-number': null,

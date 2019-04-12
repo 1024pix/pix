@@ -12,7 +12,7 @@ const states = {
   STARTED: 'started',
 };
 
-const types = {
+const type = {
   PLACEMENT: 'PLACEMENT',
   SMARTPLACEMENT: 'SMART_PLACEMENT',
   CERTIFICATION: 'CERTIFICATION',
@@ -118,23 +118,23 @@ class Assessment {
   }
 
   isPreview() {
-    return this.type === types.PREVIEW;
+    return this.type === type.PREVIEW;
   }
 
   isDemo() {
-    return this.type === types.DEMO;
+    return this.type === type.DEMO;
   }
 
   isSmartPlacement() {
-    return this.type === types.SMARTPLACEMENT;
+    return this.type === type.SMARTPLACEMENT;
   }
 
   isCertification() {
-    return this.type === types.CERTIFICATION;
+    return this.type === type.CERTIFICATION;
   }
 
   isPlacement() {
-    return this.type === types.PLACEMENT;
+    return this.type === type.PLACEMENT;
   }
 
   canBeScored() {
@@ -163,7 +163,7 @@ class Assessment {
 }
 
 Assessment.states = states;
-Assessment.types = types;
+Assessment.types = type;
 Assessment.MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS;
 
 module.exports = Assessment;
