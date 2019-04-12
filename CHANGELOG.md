@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.36.1 (12/04/2019)
+
+- [#468](https://github.com/1024pix/pix/pull/468) [HOTFIX] Correction de la régression de la barre de progression introduite par la PR #438.
+
 ## v2.36.0 (12/04/2019)
 
 - [#423](https://github.com/1024pix/pix/pull/423) [FEATURE] Affichage de la progression des participants à une campagne. (PO-196)
