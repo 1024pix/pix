@@ -9,7 +9,7 @@ export default Model.extend({
 
   answers: hasMany('answer'),
   course: belongsTo('course', { inverse: null }),
-  smartPlacementProgression: belongsTo('smart-placement-progression', { inverse: null }),
+  progression: belongsTo('progression', { inverse: null }),
   certificationNumber: attr('string'),
   estimatedLevel: attr('number'),
   pixScore: attr('number'),

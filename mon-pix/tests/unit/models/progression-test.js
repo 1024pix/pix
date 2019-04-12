@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 
-describe('Unit | Model | Smart Placement Progression', function() {
-  setupModelTest('smart-placement-progression', {
+describe('Unit | Model | Progression', function() {
+  setupModelTest('progression', {
     needs: []
   });
 
@@ -14,10 +14,10 @@ describe('Unit | Model | Smart Placement Progression', function() {
       run(() => {
         // given
         const store = this.store();
-        const smartPlacementProgression = store.createRecord('smart-placement-progression', { completionRate: 0.06815 });
+        const progression = store.createRecord('progression', { completionRate: 0.06815 });
 
         // when
-        const completionPercentage = smartPlacementProgression.get('completionPercentage');
+        const completionPercentage = progression.get('completionPercentage');
 
         // then
         expect(completionPercentage).to.equal(7);

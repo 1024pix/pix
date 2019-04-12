@@ -1,7 +1,7 @@
 const { expect, knex, generateValidRequestAuhorizationHeader, nock, databaseBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Smart Placement Progressions', () => {
+describe('Acceptance | API | Progressions', () => {
 
   let server;
 
@@ -13,7 +13,7 @@ describe('Acceptance | API | Smart Placement Progressions', () => {
     return knex('target-profiles').delete();
   });
 
-  describe('GET /api/smart-placement-progressions/:id', () => {
+  describe('GET /api/progressions/:id', () => {
 
     const userIdOfUserWithAssessment = 9999;
     const insertedAssessment = {
@@ -72,10 +72,10 @@ describe('Acceptance | API | Smart Placement Progressions', () => {
 
       it('should return 401 HTTP status code', () => {
         // given
-        const smartPlacementProgressionId = assessmentId;
+        const progressionId = assessmentId;
         const options = {
           method: 'GET',
-          url: `/api/smart-placement-progressions/${smartPlacementProgressionId}`,
+          url: `/api/progressions/${progressionId}`,
           headers: {
             authorization: 'invalid.access.token'
           }
@@ -97,10 +97,10 @@ describe('Acceptance | API | Smart Placement Progressions', () => {
         it('should respond with a 404', () => {
           // given
           const userIdOfUserWithoutAssessment = 8888;
-          const smartPlacementProgressionId = -1;
+          const progressionId = -1;
           const options = {
             method: 'GET',
-            url: `/api/smart-placement-progressions/${smartPlacementProgressionId}`,
+            url: `/api/progressions/${progressionId}`,
             headers: {
               authorization: generateValidRequestAuhorizationHeader(userIdOfUserWithoutAssessment)
             }
@@ -116,38 +116,14 @@ describe('Acceptance | API | Smart Placement Progressions', () => {
         });
       });
 
-      context('unallowed to access the smartPlacementProgression', () => {
-
-        it('should respond with a 403 - forbidden access', () => {
-          // given
-          const userIdOfUserWithoutAssessment = 8888;
-          const smartPlacementProgressionId = assessmentId;
-          const options = {
-            method: 'GET',
-            url: `/api/smart-placement-progressions/${smartPlacementProgressionId}`,
-            headers: {
-              authorization: generateValidRequestAuhorizationHeader(userIdOfUserWithoutAssessment)
-            }
-          };
-
-          // when
-          const promise = server.inject(options);
-
-          // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(403);
-          });
-        });
-      });
-
-      context('allowed to access the smartPlacementProgression', () => {
+      context('allowed to access the progression', () => {
 
         it('should respond with a 200', () => {
           // given
-          const smartPlacementProgressionId = assessmentId;
+          const progressionId = assessmentId;
           const options = {
             method: 'GET',
-            url: `/api/smart-placement-progressions/${smartPlacementProgressionId}`,
+            url: `/api/progressions/${progressionId}`,
             headers: {
               authorization: generateValidRequestAuhorizationHeader(userIdOfUserWithAssessment)
             }
