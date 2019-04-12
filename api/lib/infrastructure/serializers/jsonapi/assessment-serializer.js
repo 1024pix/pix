@@ -1,78 +1,121 @@
+const JSONAPISerializer = require('./jsonapi-serializer');
+const Bookshelf = require('../../../infrastructure/bookshelf');
 const Assessment = require('../../../domain/models/Assessment');
 const SmartPlacementProgression = require('../../../domain/models/SmartPlacementProgression');
-const { Serializer } = require('jsonapi-serializer');
 
-module.exports = {
+class AssessmentSerializer extends JSONAPISerializer {
 
-  serialize(assessments) {
-    return new Serializer('assessment', {
-      transform(currentAssessment) {
-        const assessment = Object.assign({}, currentAssessment);
+  constructor() {
+    super('assessment');
+  }
 
-        // TODO: We can't use currentAssessment.isCertification() because
-        // this serializer is also used by model SmartPlacementAssessment
-        assessment.certificationNumber = null;
-        if (currentAssessment.type === Assessment.types.CERTIFICATION) {
-          assessment.certificationNumber = currentAssessment.courseId;
-        }
+  serialize(modelObject) {
+    const response = {};
+    response.included = [];
 
-        // Same here for isSmartPlacement()
-        if (currentAssessment.type === Assessment.types.SMARTPLACEMENT) {
-          assessment.smartPlacementProgression = {
-            id: SmartPlacementProgression.generateIdFromAssessmentId(currentAssessment.id),
-          };
-        }
-
-        if (currentAssessment.campaignParticipation && currentAssessment.campaignParticipation.campaign) {
-          assessment.codeCampaign = currentAssessment.campaignParticipation.campaign.code;
-        }
-
-        if (!currentAssessment.course) {
-          assessment.course = { id: currentAssessment.courseId };
-        }
-
-        return assessment;
-      },
-      attributes: ['estimatedLevel', 'pixScore', 'type', 'state', 'answers', 'codeCampaign', 'certificationNumber', 'course', 'smartPlacementProgression'],
-      answers: {
-        ref: 'id',
-      },
-      course: {
-        ref: 'id',
-        included: _includeCourse(assessments),
-        attributes: ['name', 'description', 'nbChallenges'],
-      },
-      smartPlacementProgression: {
-        ref: 'id',
-        relationshipLinks: {
-          related(record, current) {
-            return `/smart-placement-progressions/${current.id}`;
-          }
-        }
-      }
-    }).serialize(assessments);
-  },
-
-  deserialize(json) {
-    const type = json.data.attributes.type;
-
-    let courseId = null;
-    if (type !== Assessment.types.SMARTPLACEMENT && type !== Assessment.types.PREVIEW) {
-      courseId = json.data.relationships.course.data.id;
+    response.data = this.serializeModelObject(modelObject);
+    const includedData = this.serializeIncluded(modelObject);
+    if (includedData) {
+      response.included.push(includedData);
     }
 
+    return response;
+  }
+
+  serializeArray(modelObjects) {
+    const response = {};
+    response.data = [];
+    response.included = [];
+    for (const modelObject of modelObjects) {
+      response.data.push(this.serializeModelObject(modelObject));
+      const includedData = this.serializeIncluded(modelObject);
+      if (includedData) {
+        response.included.push(includedData);
+      }
+    }
+    return response;
+  }
+
+  serializeAttributes(model, data) {
+    data.attributes['estimated-level'] = model.estimatedLevel;
+    data.attributes['pix-score'] = model.pixScore;
+    data.attributes['type'] = model.type;
+    data.attributes['state'] = model.state;
+    if (model.type === 'CERTIFICATION') {
+      data.attributes['certification-number'] = model.courseId;
+    } else {
+      data.attributes['certification-number'] = null;
+    }
+    if (model.campaignParticipation) {
+      data.attributes['code-campaign'] = model.campaignParticipation.campaign.code;
+    }
+  }
+
+  serializeRelationships(model, data) {
+    data.relationships = {};
+
+    if (model.courseId) {
+      data.relationships.course = {
+        data: {
+          type: 'courses',
+          id: model.courseId,
+        },
+      };
+    }
+
+    if (model.answers) {
+      data.relationships.answers = {
+        data: [],
+      };
+      for (const answer of model.answers) {
+        data.relationships.answers.data.push({
+          'type': 'answers',
+          'id': answer.id,
+        });
+      }
+    }
+
+    // XXX - to link smart placement assessment to the associated smart-placement-progression
+    // which exists only on smartPlacementAssessment
+    if (model.type === Assessment.types.SMARTPLACEMENT) {
+      data.relationships['smart-placement-progression'] = {
+        data: {
+          type: 'smart-placement-progressions',
+          id: SmartPlacementProgression.generateIdFromAssessmentId(model.id),
+        }
+      };
+    }
+  }
+
+  serializeIncluded(modelObject) {
+    const course = (modelObject instanceof Bookshelf.Model) ? modelObject.toJSON().course : modelObject.course;
+    if (course) {
+      return {
+        'type': 'courses',
+        'id': course.id,
+        attributes: {
+          'name': course.name,
+          'description': course.description,
+          'nb-challenges': course.nbChallenges.toString(),
+        },
+      };
+    }
+  }
+
+  deserialize(json) {
+    let courseId;
+    if (json.data.attributes.type === 'SMART_PLACEMENT' ||
+      json.data.attributes.type === 'PREVIEW') {
+      courseId = null;
+    } else {
+      courseId = json.data.relationships.course.data.id;
+    }
     return Assessment.fromAttributes({
       id: json.data.id,
-      type,
+      type: json.data.attributes.type,
       courseId,
     });
   }
-};
-
-function _includeCourse(assessments) {
-  if (Array.isArray(assessments)) {
-    return (assessments.length && assessments[0].course);
-  }
-
-  return assessments.course;
 }
+
+module.exports = new AssessmentSerializer();
