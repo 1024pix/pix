@@ -98,13 +98,14 @@ module.exports = {
 
         _.each(campaignParticipations, (campaignParticipation) => {
           const sortedUniqKnowlegeElements = _(campaignParticipation.user.knowledgeElements)
+            .filter((ke) => ke.createdAt < campaignParticipation.sharedAt)
             .orderBy('createdAt', 'desc')
             .uniqBy('skillId')
             .value();
 
           campaignParticipation.user.knowledgeElements = sortedUniqKnowlegeElements;
         });
-        
+
         return {
           pagination: pagination,
           models: campaignParticipations
