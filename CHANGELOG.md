@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v2.36.0 (12/04/2019)
+
+- [#423](https://github.com/1024pix/pix/pull/423) [FEATURE] Affichage de la progression des participants à une campagne. (PO-196)
+- [#456](https://github.com/1024pix/pix/pull/456) [FEATURE] Ajout de la bannière "Reprendre la campagne" sur profilv2 (PF-544)
+- [#455](https://github.com/1024pix/pix/pull/455) [FEATURE] Scroll automatiquement en haut de page après une transition. (PF-550)
+- [#466](https://github.com/1024pix/pix/pull/466) [BUGFIX] Filtrage des campaign-participation-results par le sharedAt de la campaign-participation.
+- [#462](https://github.com/1024pix/pix/pull/462) [BUGFIX] Ajout d'un filtre sur l'accès aux knowledge-elements
+- [#446](https://github.com/1024pix/pix/pull/446) [BUGFIX] En tant que user, je veux pouvoir appuyer sur "Entrée" pour valider une réponse d'un parcours (PF-566)
+- [#459](https://github.com/1024pix/pix/pull/459) [TECH] Ajout d'un mécanisme pour les épreuves intégrant un simulateur (embed) permettant d'indiquer à l'iframe quand l'utilisateur lance le simulateur.
+- [#464](https://github.com/1024pix/pix/pull/464) [TECH] Montée de version de Node 10.15.1 à 10.15.3 (pour correction de la fuite mémoire).
+- [#444](https://github.com/1024pix/pix/pull/444) [TECH] Empêcher la redirection vers pix.fr quand on n'est pas en production
+- [#452](https://github.com/1024pix/pix/pull/452) [TECH] Ajout d'un fichier de documentation d'une lib sous forme de tests unitaires
+- [#450](https://github.com/1024pix/pix/pull/450) [TECH] Envoi d'un CustomEvent au lancement d'un Embed (PF-567)
+- [#460](https://github.com/1024pix/pix/pull/460) [TECH] Suppression de delay service et de call-only-once
+- [#458](https://github.com/1024pix/pix/pull/458) [BSR] Correction de tests d'intégration sous PG
+- [#438](https://github.com/1024pix/pix/pull/438) [BSR] Réécriture du serializer d'assessment.
+
 ## v2.35.1 (05/04/2019)
 
 - [#447](https://github.com/1024pix/pix/pull/447) [FEATURE] Renommer les onglets "Paramètres" en "Détails" dans Pix Orga et Pix Certif (PO-202).
