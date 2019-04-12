@@ -14,8 +14,8 @@ export default Controller.extend({
     return this.finalCheckpoint ? 'Voir mes résultats' : 'Continuer mon parcours';
   }),
 
-  completionPercentage: computed('finalCheckpoint', 'model.smartPlacementProgression.completionPercentage', function() {
-    return this.finalCheckpoint ? 100 : this.get('model.smartPlacementProgression.completionPercentage');
+  completionPercentage: computed('finalCheckpoint', 'model.progression.completionPercentage', function() {
+    return this.finalCheckpoint ? 100 : this.get('model.progression.completionPercentage');
   }),
 
   actions: {
