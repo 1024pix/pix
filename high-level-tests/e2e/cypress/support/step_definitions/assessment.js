@@ -17,11 +17,3 @@ when(`l'épreuve contient le texte {string}`, (texte) => {
 then(`je choisis la réponse {string}`, (number) => {
   cy.get('#'+number).click();
 });
-
-then(`je passe l'épreuve`, () => {
-  cy.get('.challenge-actions__action-skip-text').click();
-});
-
-then(`je valide l'épreuve`, () => {
-  cy.get('.challenge-actions__action-validate').click();
-});
