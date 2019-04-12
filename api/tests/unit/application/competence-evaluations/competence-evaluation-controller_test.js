@@ -12,7 +12,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
     const userId = 6;
 
     beforeEach(() => {
-      sinon.stub(usecases, 'startCompetenceEvaluation');
+      sinon.stub(usecases, 'startOrResumeCompetenceEvaluation');
       sinon.stub(serializer, 'serialize');
       request = {
         headers: { authorization: 'token' },
@@ -30,15 +30,15 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
 
     it('should call the usecases to start the competence evaluation', async () => {
       // given
-      usecases.startCompetenceEvaluation.resolves();
+      usecases.startOrResumeCompetenceEvaluation.resolves();
 
       // when
       await competenceEvaluationController.start(request, hFake);
 
       // then
-      expect(usecases.startCompetenceEvaluation).to.have.been.calledOnce;
+      expect(usecases.startOrResumeCompetenceEvaluation).to.have.been.calledOnce;
 
-      const args = usecases.startCompetenceEvaluation.firstCall.args[0];
+      const args = usecases.startOrResumeCompetenceEvaluation.firstCall.args[0];
 
       expect(args.userId).to.equal(userId);
       expect(args.competenceId).to.equal(competenceId);
@@ -47,7 +47,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
     it('should return the serialized competence evaluation when it has been successfully created', async () => {
       // given
       const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({ competenceId });
-      usecases.startCompetenceEvaluation.resolves(competenceEvaluation);
+      usecases.startOrResumeCompetenceEvaluation.resolves(competenceEvaluation);
 
       const serializedCompetenceEvaluation = {
         id: 1,

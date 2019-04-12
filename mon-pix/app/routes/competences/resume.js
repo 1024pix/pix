@@ -1,7 +1,6 @@
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 import { inject as service } from '@ember/service';
-import { isEmpty } from '@ember/utils';
 import Route from '@ember/routing/route';
 
 export default Route.extend(AuthenticatedRouteMixin, {
@@ -22,13 +21,5 @@ export default Route.extend(AuthenticatedRouteMixin, {
   afterModel(competenceEvaluation) {
     return this.transitionTo('assessments.resume', competenceEvaluation.get('assessment.id'));
   },
-
-  _userIsUnauthenticated() {
-    return this.get('session.isAuthenticated') === false;
-  },
-
-  _thereIsNoAssessment(assessments) {
-    return isEmpty(assessments);
-  }
 
 });

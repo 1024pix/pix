@@ -32,5 +32,20 @@ module.exports = {
         }
         throw bookshelfError;
       });
-  }
+  },
+
+  getLastByCompetenceId(competenceId) {
+    return BookshelfCompetenceEvaluation
+      .where({ competenceId })
+      .orderBy('createdAt', 'desc')
+      .query((qb) => qb.limit(1))
+      .fetch({ require: true })
+      .then(_toDomain)
+      .catch((bookshelfError) => {
+        if (bookshelfError instanceof BookshelfCompetenceEvaluation.NotFoundError) {
+          throw new NotFoundError();
+        }
+        throw bookshelfError;
+      });
+  },
 };
