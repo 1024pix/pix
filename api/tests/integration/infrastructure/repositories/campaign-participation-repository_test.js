@@ -339,19 +339,41 @@ describe('Integration | Repository | Campaign Participation', () => {
     const assessmentId2 = 2;
     const campaignId = 'my campaign id';
 
+    const oldDate = new Date('2018-02-03');
+    const recentDate = new Date('2018-05-06');
+    const futurDate = new Date('2018-07-10');
+
     beforeEach(async () => {
 
       const pixMembers = [
-        { firstName: 'Mélanie', lastName: 'Darboo', assessmentId: assessmentId2, knowledgeElements: [{ skillId: '@web3' }, { skillId: '@web3' }, { skillId: '@web4' }] },
+        {
+          firstName: 'Mélanie',
+          lastName: 'Darboo',
+          assessmentId: assessmentId2,
+          knowledgeElements: [
+            { skillId: '@web3', createdAt: oldDate },
+            { skillId: '@web3', createdAt: oldDate },
+            { skillId: '@web4', createdAt: oldDate },
+            { skillId: '@web5', createdAt: futurDate },
+          ]
+        },
         { firstName: 'Matteo', lastName: 'Lorenzio', knowledgeElements: [] },
-        { firstName: 'Jérémy', lastName: 'Bugietta', assessmentId: assessmentId1, knowledgeElements: [{ skillId: '@web2' }, { skillId: '@web1' }] },
+        {
+          firstName: 'Jérémy',
+          lastName: 'Bugietta',
+          assessmentId: assessmentId1,
+          knowledgeElements: [
+            { skillId: '@web2', createdAt: oldDate },
+            { skillId: '@web1', createdAt: oldDate },
+          ]
+        },
         { firstName: 'Léo', lastName: 'Subzéro', knowledgeElements: [] },
       ];
 
       const insertPixMember = (member) => {
         const { id: userId } = databaseBuilder.factory.buildUser(member);
         const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId, id: member.assessmentId });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate });
         for (const ke of member.knowledgeElements) {
           databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId, ...ke });
         }
