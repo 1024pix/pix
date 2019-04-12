@@ -42,7 +42,7 @@ describe('Integration | Application | Assessments | assessment-controller', () =
         const response = await httpTestServer.request('GET', '/api/assessments/1234');
 
         // then
-        expect(response.result.data.type).to.equal('assessments');
+        expect(response.result.data.type).to.equal('assessment');
       });
     });
 

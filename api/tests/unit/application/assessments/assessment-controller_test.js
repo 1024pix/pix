@@ -26,7 +26,7 @@ describe('Unit | Controller | assessment-controller', function() {
       sinon.stub(useCases, 'findCertificationAssessments');
       sinon.stub(useCases, 'findPlacementAssessments');
       sinon.stub(useCases, 'findSmartPlacementAssessments');
-      sinon.stub(assessmentSerializer, 'serialize');
+      sinon.stub(assessmentSerializer, 'serializeArray');
     });
 
     it('should serialize assessment to JSON API', async function() {
@@ -41,7 +41,7 @@ describe('Unit | Controller | assessment-controller', function() {
       await assessmentController.findByFilters(request, hFake);
 
       // then
-      expect(assessmentSerializer.serialize).to.have.been.calledWithExactly(assessments);
+      expect(assessmentSerializer.serializeArray).to.have.been.calledWithExactly(assessments);
     });
 
     it('should reply the serialized assessments', async function() {
@@ -51,7 +51,7 @@ describe('Unit | Controller | assessment-controller', function() {
         headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
       };
       useCases.findPlacementAssessments.resolves(assessments);
-      assessmentSerializer.serialize.returns(assessmentsInJSONAPI);
+      assessmentSerializer.serializeArray.returns(assessmentsInJSONAPI);
 
       // when
       const response = await assessmentController.findByFilters(request, hFake);
@@ -136,7 +136,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       it('should resolve []', async () => {
         // given
-        assessmentSerializer.serialize.withArgs([]).returns({ data: [] });
+        assessmentSerializer.serializeArray.withArgs([]).returns({ data: [] });
 
         // when
         const response = await assessmentController.findByFilters(request, hFake);
@@ -158,7 +158,7 @@ describe('Unit | Controller | assessment-controller', function() {
         await assessmentController.findByFilters(request, hFake);
 
         // then
-        expect(assessmentSerializer.serialize).to.have.been.calledWithExactly([]);
+        expect(assessmentSerializer.serializeArray).to.have.been.calledWithExactly([]);
       });
     });
   });
