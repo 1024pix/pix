@@ -9,16 +9,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   session: service(),
   competenceId: null,
   campaign: null,
-  //userHasJustConsultedTutorial: false,
-  authenticationRoute: 'inscription',
 
   beforeModel(transition) {
     this.set('competenceId', transition.to.params.competence_id);
-    //this.set('userHasJustConsultedTutorial', transition.to.queryParams.hasJustConsultedTutorial);
-
-    //if (this._userIsUnauthenticated() && !this.userHasSeenLanding) {
-    //  return this.transitionTo('campaigns.campaign-landing-page', this.competenceId);
-    //}
     this._super(...arguments);
   },
 
