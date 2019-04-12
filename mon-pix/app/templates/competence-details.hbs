@@ -6,10 +6,10 @@
       <div class="competence-details__panel__inner">
         <div class="competence-details__panel__inner__left">
           <div class="competence-details__panel__inner__left__area">
-            {{model.area.title}}
+            {{model.scorecard.area.title}}
           </div>
           <div class="competence-details__panel__inner__left__name">
-            {{model.name}}
+            {{model.scorecard.name}}
           </div>
           <div class="competence-details__panel__inner__left__description">
             Appliquer des traitements à des données pour les analyser et les interpréter (avec un tableur, un programme, un logiciel de traitement d’enquête, une requête calcul dans une base de données, etc.).
@@ -17,20 +17,21 @@
         </div>
         <div class="competence-details__panel__inner__right">
           <div class="competence-details__panel__inner__right__score-container">
+            Todo: sliceColor
             {{#circle-chart value=75 sliceColor="wild-strawberry" chartClass='circle-chart__content--big' thicknessClass='circle--thick'}}
               <div class="competence-card__level">
                 <span class="competence-card-level__label">Niveau</span>
-                <span class="competence-card-level__value">{{model.level}}</span>
+                <span class="competence-card-level__value">{{model.scorecard.level}}</span>
               </div>
             {{/circle-chart}}
             <div class="competence-details__panel__inner__right__score-container__pix-earned">
-              <div>{{model.earnedPix}}</div>
+              <div>{{model.scorecard.earnedPix}}</div>
               <div>pix gagnés</div>
             </div>
           </div>
-          {{#if (lt model.level maxLevel)}}
+          {{#if (lt model.scorecard.level maxLevel)}}
             <div class="competence-details__panel__inner__right__level-info">
-              {{model.pixScoreAheadOfNextLevel}} pix avant niveau {{inc model.level}}
+              {{model.scorecard.pixScoreAheadOfNextLevel}} pix avant niveau {{inc model.scorecard.level}}
             </div>
           {{/if}}
           <div>
