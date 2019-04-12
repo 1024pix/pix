@@ -7,9 +7,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
 
-  model() {
-    return this.store.findRecord('user', this.get('session.data.authenticated.userId'), {
-      reload: true
-    });
+  model(params) {
+    return this.store.findRecord('scorecard', params.competence_evaluation_result_id);
   },
 });
