@@ -25,6 +25,7 @@ import postAssessments from './routes/post-assessments';
 import postAuthentications from './routes/post-authentications';
 import postCampaignParticipation from './routes/post-campaign-participation';
 import postCertificationCourse from './routes/post-certification-course';
+import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postFeedbacks from './routes/post-feedbacks';
 
 import { Response } from 'ember-cli-mirage';
@@ -110,4 +111,6 @@ export default function() {
   this.get('/campaign-participations', getCampaignParticipation);
   this.patch('/campaign-participations/:id', patchCampaignParticipation);
   this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
+
+  this.post('/competence-evaluations', postCompetenceEvaluation);
 }
