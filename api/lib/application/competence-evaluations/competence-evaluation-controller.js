@@ -6,9 +6,10 @@ module.exports = {
   start(request, h) {
     const userId = request.auth.credentials.userId;
     const competenceId = request.payload.data.attributes['competence-id'];
-    return usecases.startCompetenceEvaluation({ competenceId, userId })
-      .then((competenceEvaluation) => {
-        return h.response(serializer.serialize(competenceEvaluation)).created();
+    return usecases.startOrResumeCompetenceEvaluation({ competenceId, userId })
+      .then(({ created, competenceEvaluation }) => {
+        const serialized = serializer.serialize(competenceEvaluation);
+        return created ? h.response(serialized).created() : serialized;
       });
   },
 };

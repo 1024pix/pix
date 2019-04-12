@@ -4,17 +4,21 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | start-competence-evaluation', () => {
+describe.only('Unit | UseCase | start-or-resume-competence-evaluation', () => {
 
   const userId = 19837482;
   const competenceId = 'recABC123';
   const competenceRepository = { get: () => undefined };
-  const competenceEvaluationRepository = { save: () => undefined };
+  const competenceEvaluationRepository = {
+    save: () => undefined,
+    getLastByCompetenceId: () => undefined,
+  };
   const assessmentRepository = { save: () => undefined };
 
   beforeEach(() => {
     sinon.stub(competenceRepository, 'get');
     sinon.stub(competenceEvaluationRepository, 'save');
+    sinon.stub(competenceEvaluationRepository, 'getLastByCompetenceId');
     sinon.stub(assessmentRepository, 'save');
 
     competenceRepository.get.resolves(domainBuilder.buildCompetence());
@@ -25,7 +29,7 @@ describe('Unit | UseCase | start-competence-evaluation', () => {
     competenceRepository.get.rejects();
 
     // when
-    const promise = usecases.startCompetenceEvaluation({
+    const promise = usecases.startOrResumeCompetenceEvaluation({
       competenceId,
       userId,
       competenceEvaluationRepository,
@@ -42,7 +46,7 @@ describe('Unit | UseCase | start-competence-evaluation', () => {
     assessmentRepository.save.resolves({});
 
     // when
-    const promise = usecases.startCompetenceEvaluation({
+    const promise = usecases.startOrResumeCompetenceEvaluation({
       competenceId,
       userId,
       competenceEvaluationRepository,
@@ -69,7 +73,7 @@ describe('Unit | UseCase | start-competence-evaluation', () => {
     competenceEvaluationRepository.save.resolves({});
 
     // when
-    const promise = usecases.startCompetenceEvaluation({
+    const promise = usecases.startOrResumeCompetenceEvaluation({
       competenceId,
       userId,
       competenceEvaluationRepository,
@@ -94,9 +98,10 @@ describe('Unit | UseCase | start-competence-evaluation', () => {
     const createdCompetenceEvaluation = domainBuilder.buildCompetenceEvaluation();
     assessmentRepository.save.resolves({ id: assessmentId });
     competenceEvaluationRepository.save.resolves(createdCompetenceEvaluation);
+    competenceEvaluationRepository.getLastByCompetenceId.resolves(null);
 
     // when
-    const promise = usecases.startCompetenceEvaluation({
+    const promise = usecases.startOrResumeCompetenceEvaluation({
       competenceId,
       userId,
       competenceEvaluationRepository,
@@ -105,8 +110,30 @@ describe('Unit | UseCase | start-competence-evaluation', () => {
     });
 
     // then
-    return promise.then((competenceId) => {
-      expect(competenceId).to.deep.equal(createdCompetenceEvaluation);
+    return promise.then((result) => {
+      expect(result).to.deep.equal({ created: true, competenceEvaluation: createdCompetenceEvaluation });
+    });
+  });
+
+  it('should return the existing competence evaluation', () => {
+    // given
+    const assessmentId = 987654321;
+    const createdCompetenceEvaluation = domainBuilder.buildCompetenceEvaluation();
+    assessmentRepository.save.resolves({ id: assessmentId });
+    competenceEvaluationRepository.getLastByCompetenceId.resolves(createdCompetenceEvaluation);
+
+    // when
+    const promise = usecases.startOrResumeCompetenceEvaluation({
+      competenceId,
+      userId,
+      competenceEvaluationRepository,
+      assessmentRepository,
+      competenceRepository
+    });
+
+    // then
+    return promise.then((result) => {
+      expect(result).to.deep.equal({ created: false, competenceEvaluation: createdCompetenceEvaluation });
     });
   });
 

@@ -109,4 +109,49 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
 
   });
+
+  describe('#getLastByCompetenceId', () => {
+    let user;
+    let competenceEvaluationExpected;
+
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser({});
+
+      competenceEvaluationExpected = databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        competenceId: '1'
+      });
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        competenceId: '2'
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the competence evaluation linked to the competence id', () => {
+      // when
+      const promise = competenceEvaluationRepository.getLastByCompetenceId(1);
+
+      // then
+      return promise.then((competenceEvaluation) => {
+        expect(competenceEvaluation).to.deep.equal(competenceEvaluationExpected);
+      });
+    });
+
+    it('should return an error when there is no competence evaluation', () => {
+      // when
+      const promise = catchErr(competenceEvaluationRepository.getLastByCompetenceId)('fakeId');
+
+      // then
+      return promise.then((error) => {
+        expect(error).to.be.instanceof(NotFoundError);
+      });
+    });
+
+  });
 });
