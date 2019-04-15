@@ -7,7 +7,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
   competenceId: null,
-  campaign: null,
 
   beforeModel(transition) {
     this.set('competenceId', transition.to.params.competence_id);
