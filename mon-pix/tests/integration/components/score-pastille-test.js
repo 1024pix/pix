@@ -24,7 +24,7 @@ describe('Integration | Component | score pastille', function() {
         // when
         this.render(hbs`{{score-pastille}}`);
         // then
-        expect(this.$('.score-pastille__pix-score').text().trim()).to.equal('--');
+        expect(this.$('.score-pastille__pix-score').text().trim()).to.equal('–');
       });
 
     });

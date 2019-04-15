@@ -40,7 +40,7 @@ describe('Unit | Component | competence-card-component', function() {
       { level: null, pixScoreAheadOfNextLevel: null, expectedLevel: null },
       { level: 0, pixScoreAheadOfNextLevel: 0, expectedLevel: null },
       { level: 1, pixScoreAheadOfNextLevel: 0, expectedLevel: 1 },
-      { level: 0, pixScoreAheadOfNextLevel: 4, expectedLevel: '--' },
+      { level: 0, pixScoreAheadOfNextLevel: 4, expectedLevel: '–' },
       { level: 3, pixScoreAheadOfNextLevel: 5, expectedLevel: 3 }
     ].forEach((data) => {
 

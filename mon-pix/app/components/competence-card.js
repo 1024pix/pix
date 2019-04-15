@@ -21,7 +21,7 @@ export default Component.extend({
     if (!this.scorecard.level && !this.percentageAheadOfNextLevel) {
       return null;
     } else if (!this.scorecard.level && this.percentageAheadOfNextLevel) {
-      return '--';
+      return '–';
     }
     return this.scorecard.level;
   }),
