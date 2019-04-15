@@ -30,7 +30,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
 
     it('should call the usecases to start the competence evaluation', async () => {
       // given
-      usecases.startOrResumeCompetenceEvaluation.resolves();
+      usecases.startOrResumeCompetenceEvaluation.resolves({});
 
       // when
       await competenceEvaluationController.start(request, hFake);
@@ -47,7 +47,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
     it('should return the serialized competence evaluation when it has been successfully created', async () => {
       // given
       const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({ competenceId });
-      usecases.startOrResumeCompetenceEvaluation.resolves(competenceEvaluation);
+      usecases.startOrResumeCompetenceEvaluation.resolves({ created: true, competenceEvaluation });
 
       const serializedCompetenceEvaluation = {
         id: 1,
@@ -66,5 +66,4 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
       expect(response.source).to.deep.equal(serializedCompetenceEvaluation);
     });
   });
-  
 });
