@@ -1,21 +1,22 @@
-const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/cache');
+const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/caches/cache');
 
-const createServer = require('../../../../server');
+const createServer = require('../../../server');
 
-describe('Acceptance | Controller | users-controller-get-user-scorecards', () => {
+describe('Acceptance | Controller | scorecard-controller', () => {
 
   let options;
   let server;
+  const userId = 1234;
+  const competenceId = 'recCompetence';
+  const scorecardId = `${userId}_${competenceId}`;
 
   beforeEach(async () => {
-
-    // TODO: find the other test that leaks and force us to flush the cache
     cache.flushAll();
 
     options = {
       method: 'GET',
-      url: '/api/users/1234/scorecards',
+      url: `/api/scorecards/${scorecardId}`,
       payload: {},
       headers: {},
     };
@@ -35,7 +36,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
   let knowledgeElement;
   let competence;
 
-  describe('GET /users/:id/scorecards', () => {
+  describe('GET /scorecards/{id}', () => {
 
     describe('Resource access management', () => {
 
@@ -51,18 +52,29 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
           expect(response.statusCode).to.equal(401);
         });
       });
+
+      it('should respond with a 401 - forbidden - if the authenticated user does not own the scorecard', () => {
+        // given
+        options.headers.authorization = generateValidRequestAuhorizationHeader(4321);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
     });
 
     describe('Success case', () => {
 
       const skillWeb1Id = 'recAcquisWeb1';
       const skillWeb1Name = '@web1';
-
-      const competenceId = 'recCompetence';
       const competenceReference = '1.1 Mener une recherche et une veille d’information';
 
       beforeEach(async () => {
-        options.headers.authorization = generateValidRequestAuhorizationHeader();
+        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
 
         competence = airtableBuilder.factory.buildCompetence({
           id: competenceId,
@@ -83,12 +95,12 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
           .returns([area])
           .activate();
 
-        airtableBuilder.mockList({ tableName: 'Competences' })
-          .returns([competence])
+        airtableBuilder.mockGet({ tableName: 'Competences' })
+          .returns(competence)
           .activate();
 
         knowledgeElement = databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
-          userId: 1234,
+          userId,
           competenceId: competence.id,
         });
 
@@ -111,15 +123,15 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
         const promise = server.inject(options);
 
         const expectedScorecardJSONApi = {
-          data: [{
+          data: {
             type: 'scorecards',
-            id: `1234_${competenceId}`,
+            id: scorecardId,
             attributes: {
               name: competence.fields.Titre,
               index: competence.fields['Sous-domaine'],
               'course-id': competence.fields.courseId,
-              'earned-pix': knowledgeElement.earnedPix,
-              level: Math.round(knowledgeElement.earnedPix/8),
+              'earned-pix': knowledgeElement.earnedPix ,
+              level: Math.round(knowledgeElement.earnedPix / 8),
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
             },
             relationships: {
@@ -130,7 +142,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
                 }
               },
             },
-          }],
+          },
           included: [
             {
               attributes: {
@@ -145,7 +157,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
 
         // then
         return promise.then((response) => {
-          expect(response.result.data[0]).to.deep.equal(expectedScorecardJSONApi.data[0]);
+          expect(response.result.data).to.deep.equal(expectedScorecardJSONApi.data);
           expect(response.result.included).to.deep.equal(expectedScorecardJSONApi.included);
         });
       });
