@@ -22,6 +22,7 @@ module.exports = [
   require('./application/organizations'),
   require('./application/passwords'),
   require('./application/saml'),
+  require('./application/scorecards'),
   require('./application/sessions'),
   require('./application/simulateErrors'),
   require('./application/smartPlacementProgressions'),

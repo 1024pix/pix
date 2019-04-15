@@ -88,6 +88,7 @@ module.exports = injectDependencies({
   getOrganizationDetails: require('./get-organization-details.js'),
   getOrganizationMemberships: require('./get-organization-memberships'),
   getResultsCampaignInCSVFormat: require('./get-results-campaign-in-csv-format'),
+  getScorecard: require('./get-scorecard'),
   getSmartPlacementProgression: require('./get-smart-placement-progression'),
   getUserCampaignParticipation: require('./get-user-campaign-participation'),
   getUserCampaignParticipations: require('./get-user-campaign-participations'),
