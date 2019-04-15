@@ -5,13 +5,17 @@ const { NotFoundError } = require('../../domain/errors');
 module.exports = async function startOrResumeCompetenceEvaluation({ competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository }) {
   await _checkCompetenceExists(competenceId, competenceRepository);
 
-  const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceId(competenceId);
-  if (competenceEvaluation) {
+  try {
+    const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceId(competenceId);
     return { created: false, competenceEvaluation };
-  } else {
-    const assessment = await _createAssessmentForCompetenceEvaluation(userId, assessmentRepository);
-    const freshCompetenceEvaluation = await _saveCompetenceEvaluation(competenceId, assessment, userId, competenceEvaluationRepository);
-    return { created: true, competenceEvaluation: freshCompetenceEvaluation };
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      const assessment = await _createAssessmentForCompetenceEvaluation(userId, assessmentRepository);
+      const freshCompetenceEvaluation = await _saveCompetenceEvaluation(competenceId, assessment, userId, competenceEvaluationRepository);
+      return { created: true, competenceEvaluation: freshCompetenceEvaluation };
+    } else {
+      throw error;
+    }
   }
 };
 

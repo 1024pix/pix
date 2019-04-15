@@ -1,5 +1,5 @@
 const createServer = require('../../../server');
-const { expect, generateValidRequestAuhorizationHeader, airtableBuilder } = require('../../test-helper');
+const { expect, generateValidRequestAuhorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/caches/cache');
 
 describe('Acceptance | API | Competence Evaluations', () => {
@@ -48,6 +48,8 @@ describe('Acceptance | API | Competence Evaluations', () => {
         afterEach(async () => {
           airtableBuilder.cleanAll();
           await cache.flushAll();
+          await knex('competence-evaluations').delete();
+          await databaseBuilder.clean();
         });
 
         it('should return 201 and the competence evaluation when it has been successfully created', async () => {
@@ -56,6 +58,19 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
           // then
           expect(response.statusCode).to.equal(201);
+          expect(response.result.data.id).to.exist;
+          expect(response.result.data.attributes['assessment-id']).to.be.not.null;
+        });
+
+        it('should return 200 and the competence evaluation when it has been successfully found', async () => {
+          // given
+          databaseBuilder.factory.buildCompetenceEvaluation({ competenceId });
+          await databaseBuilder.commit();
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(200);
           expect(response.result.data.id).to.exist;
           expect(response.result.data.attributes['assessment-id']).to.be.not.null;
         });
