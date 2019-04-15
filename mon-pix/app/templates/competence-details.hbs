@@ -5,7 +5,7 @@
     <div class="rounded-panel rounded-panel--strong">
       <div class="competence-details__panel__inner">
         <div class="competence-details__panel__inner__left">
-          <div class="competence-details__panel__inner__left__area">
+          <div class={{concat "competence-details__panel__inner__left__area competence-details--" areaColor}}>
             {{model.scorecard.area.title}}
           </div>
           <div class="competence-details__panel__inner__left__name">
@@ -17,8 +17,7 @@
         </div>
         <div class="competence-details__panel__inner__right">
           <div class="competence-details__panel__inner__right__score-container">
-            Todo: sliceColor
-            {{#circle-chart value=75 sliceColor="wild-strawberry" chartClass='circle-chart__content--big' thicknessClass='circle--thick'}}
+            {{#circle-chart value=75 sliceColor=areaColor chartClass='circle-chart__content--big' thicknessClass='circle--thick'}}
               <div class="competence-card__level">
                 <span class="competence-card-level__label">Niveau</span>
                 <span class="competence-card-level__value">{{model.scorecard.level}}</span>
