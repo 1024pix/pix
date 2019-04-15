@@ -39,7 +39,6 @@
   
         &__area {
           text-transform: uppercase;
-          color: $wild-strawberry;
           font-size: 1.4rem;
           letter-spacing: 2px;
         }
@@ -104,4 +103,20 @@
       }
     }
   }
+}
+
+.competence-details--jaffa {
+  color: $jaffa;
+}
+.competence-details--emerald {
+  color: $emerald;
+}
+.competence-details--cerulean {
+  color: $cerulean;
+}
+.competence-details--wild-strawberry {
+  color: $wild-strawberry;
+}
+.competence-details--butterfly-bush {
+  color: $butterfly-bush;
 }

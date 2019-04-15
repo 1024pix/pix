@@ -57,6 +57,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
 
       // then
       expect(find('.competence-details__panel__inner__left__area').text()).to.contain(area.title);
+      expect(find('.competence-details__panel__inner__left__area').attr('class')).to.contain('competence-details--jaffa');
       expect(find('.competence-details__panel__inner__left__name').text()).to.contain(name);
       expect(find('.competence-card-level__value').text()).to.contain(level);
       expect(find('.competence-details__panel__inner__right__score-container__pix-earned>div:first-child').text()).to.contain(earnedPix);
