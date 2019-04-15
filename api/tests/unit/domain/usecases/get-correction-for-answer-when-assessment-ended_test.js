@@ -74,6 +74,36 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         });
       });
     });
+
+    context('and when the assessment is COMPETENCE_EVALUATION', () => {
+      it('should return the content', () => {
+        // given
+        const assessmentId = 1;
+        const challengeId = 12;
+        const assessment = Assessment.fromAttributes({ state: 'started', type: Assessment.types.COMPETENCE_EVALUATION });
+        const answer = new Answer({ assessmentId, challengeId });
+        const correction = new Correction({ id: 123 });
+        assessmentRepository.get.resolves(assessment);
+        answerRepository.get.resolves(answer);
+        correctionRepository.getByChallengeId.resolves(correction);
+
+        // when
+        const promise = getCorrectionForAnswerWhenAssessmentEnded({
+          assessmentRepository,
+          answerRepository,
+          correctionRepository,
+          answerId: 2,
+        });
+
+        // then
+        return promise.then((responseSolution) => {
+          expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
+          expect(answerRepository.get).to.have.been.calledWith(2);
+          expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
+          expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
+        });
+      });
+    });
   });
 
   context('when assessment is completed', () => {

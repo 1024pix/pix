@@ -1,8 +1,12 @@
 <div class="assessment-challenge">
 
-  <!-- Currently, there is checkpoints only during campaign participations -->
   <div class="assessment-challenge__course-banner">
-    {{campaign-banner title=model.campaign.title checkpoint='true'}}
+    {{#if model.isSmartPlacement}}
+      {{campaign-banner title=model.campaign.title checkpoint='true' returnToProfileV2=false}}
+    {{/if}}
+    {{#if model.isCompetenceEvaluation}}
+      {{campaign-banner title="" checkpoint='true' returnToProfileV2=true}}
+    {{/if}}
   </div>
 
   <div class="checkpoint__container">

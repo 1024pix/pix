@@ -14,6 +14,9 @@ export default Route.extend({
           case 'SMART_PLACEMENT':
             return this.replaceWith('campaigns.skill-review', assessment.get('codeCampaign'), assessment.get('id'));
 
+          case 'COMPETENCE_EVALUATION':
+            return this.replaceWith('profilv2');
+
           default:
             return this.replaceWith('assessments.results', assessment.get('id'));
         }
