@@ -1,110 +1,92 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
-const Campaign = require('../../../../../lib/domain/models/Campaign');
-const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
 
 describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
-  let modelObject;
-  let jsonAssessment;
-  let jsonAssessmentSmartPlacement;
-  let jsonPreviewAssessment;
-
-  beforeEach(() => {
-    const associatedCourse = {
-      id: 'course_id',
-      nbChallenges: 8,
-      description: 'coucou',
-      name: 'PIX EST FORMIDABLE',
-    };
-
-    modelObject = new Assessment({
-      id: 'assessment_id',
-      courseId: 'course_id',
-      type: 'charade',
-      course: associatedCourse,
-    });
-
-    jsonAssessment = {
-      data: {
-        type: 'assessment',
-        id: 'assessment_id',
-        attributes: {
-          'estimated-level': undefined,
-          'pix-score': undefined,
-          'state': undefined,
-          'type': 'charade',
-          'certification-number': null,
-        },
-        relationships: {
-          course: {
-            data: {
-              type: 'courses',
-              id: 'course_id',
-            },
-          },
-          answers: {
-            data: []
-          }
-        },
-      },
-      included: [{
-        type: 'courses',
-        id: 'course_id',
-        attributes: {
-          'nb-challenges': '8',
-          description: 'coucou',
-          name: 'PIX EST FORMIDABLE',
-        },
-      }],
-    };
-
-    jsonAssessmentSmartPlacement = {
-      data: {
-        type: 'assessment',
-        id: 'assessment_id',
-        attributes: {
-          'estimated-level': undefined,
-          'pix-score': undefined,
-          'type': 'SMART_PLACEMENT',
-          'certification-number': null,
-        },
-      },
-    };
-
-    jsonPreviewAssessment = {
-      data: {
-        type: 'assessment',
-        id: 'preview_assessment_id',
-        attributes: {
-          'estimated-level': undefined,
-          'pix-score': undefined,
-          'type': 'PREVIEW',
-          'certification-number': null,
-        },
-      },
-    };
-  });
-
   describe('#serialize()', function() {
 
-    it('should convert an Assessment model object into JSON API data', function() {
+    it('should convert an Assessment model object (of type CERTIFICATION) into JSON API data', function() {
+      //given
+      const assessment = domainBuilder.buildAssessment();
+      const expectedJson = {
+        data: {
+          id: assessment.id.toString(),
+          type: 'assessments',
+          attributes: {
+            'certification-number': assessment.courseId.toString(),
+            state: assessment.state,
+            type: assessment.type,
+          },
+          relationships: {
+            answers: {
+              data: [
+                {
+                  id: assessment.answers[0].id.toString(),
+                  type: 'answers',
+                }
+              ]
+            },
+            course: {
+              data: {
+                id: assessment.courseId.toString(),
+                type: 'courses'
+              }
+            }
+          },
+        },
+        included: [{
+          id: assessment.course.id.toString(),
+          type: 'courses',
+          attributes: {
+            description: assessment.course.description,
+            name: assessment.course.name,
+            'nb-challenges': assessment.course.nbChallenges,
+          },
+        }]
+      };
+
       // when
-      const json = serializer.serialize(modelObject);
+      const json = serializer.serialize(assessment);
 
       // then
-      expect(json).to.deep.equal(jsonAssessment);
+      expect(json).to.deep.equal(expectedJson);
     });
 
-    it('should add a relationship for assessments of type SMART_PLACEMENT', function() {
-      // given
-      const assessmentId = 15615386;
-      const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({ id: assessmentId });
-      const expectedSmartPlacementProgressionRelationship = {
+    it('should convert an Assessment model object with type SMARTPLACEMENT into JSON API data', function() {
+      //given
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.SMARTPLACEMENT,
+        campaignParticipation: { campaign: { code: 'Konami' } },
+      });
+      const expectedSmartPlacementProgressionJson = {
         data: {
-          id: 'smart-placement-progression-15615386',
-          type: 'smart-placement-progressions',
+          id: `smart-placement-progression-${assessment.id}`,
+          type: 'smartPlacementProgressions',
+        },
+        links: {
+          related: `/smart-placement-progressions/smart-placement-progression-${assessment.id}`,
+        }
+      };
+
+      // when
+      const json = serializer.serialize(assessment);
+
+      // then
+      expect(json.data.relationships['smart-placement-progression']).to.deep.equal(expectedSmartPlacementProgressionJson);
+      expect(json.data.attributes['certification-number']).to.be.null;
+      expect(json.data.attributes['code-campaign']).to.equal('Konami');
+    });
+
+    it('should convert an Assessment model object without course into JSON API data', function() {
+      //given
+      const assessment = domainBuilder.buildAssessment({
+        course: null
+      });
+      const expectedCourseJson = {
+        data: {
+          id: assessment.courseId.toString(),
+          type: 'courses',
         },
       };
 
@@ -112,46 +94,31 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       const json = serializer.serialize(assessment);
 
       // then
-
-      expect(json.data).to.have.property('relationships')
-        .and.to.contain.key('smart-placement-progression');
-
-      expect(json.data.relationships['smart-placement-progression']).to.deep.equal(expectedSmartPlacementProgressionRelationship);
-    });
-
-    it('should add campaign-code when the model has a campaign', function() {
-      // given
-      const codeCampaign = 'CODECAMP';
-      modelObject.campaignParticipation = new CampaignParticipation({
-        campaign: new Campaign({ code: codeCampaign })
-      });
-      jsonAssessment.data.attributes['code-campaign'] = codeCampaign;
-
-      // when
-      const json = serializer.serialize(modelObject);
-
-      // then
-      expect(json).to.deep.equal(jsonAssessment);
-    });
-
-    describe('field "state"', () => {
-
-      it('should set "state" attribute value when it is present', () => {
-        // given
-        const state = 'started';
-        modelObject.state = state;
-
-        // when
-        const json = serializer.serialize(modelObject);
-
-        // then
-        expect(json.data.attributes.state).to.equal(state);
-      });
+      expect(json.data.relationships['course']).to.deep.equal(expectedCourseJson);
+      expect(json.included).to.be.undefined;
     });
 
   });
 
   describe('#deserialize()', () => {
+
+    const jsonAssessment = {
+      data: {
+        type: 'assessments',
+        id: 'assessmentId',
+        attributes: {
+          type: Assessment.types.CERTIFICATION,
+        },
+        relationships: {
+          course: {
+            data: {
+              type: 'courses',
+              id: 'courseId',
+            },
+          },
+        },
+      },
+    };
 
     it('should convert JSON API data into an Assessment object', () => {
       // when
@@ -160,48 +127,32 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       // then
       expect(assessment).to.be.instanceOf(Assessment);
       expect(assessment.id).to.equal(jsonAssessment.data.id);
+      expect(assessment.type).to.equal(jsonAssessment.data.attributes.type);
       expect(assessment.courseId).to.equal(jsonAssessment.data.relationships.course.data.id);
     });
 
-    context('when the assessment is a SMART_PLACEMENT assessment', () => {
-      it('should convert JSON API data into an Assessment object with courseId null', () => {
-        // when
-        const assessment = serializer.deserialize(jsonAssessmentSmartPlacement);
+    it('should have a null courseId for type SMARTPLACEMENT', () => {
+      //given
+      jsonAssessment.data.attributes.type = Assessment.types.SMARTPLACEMENT;
 
-        // then
-        expect(assessment).to.be.instanceOf(Assessment);
-        expect(assessment.id).to.equal(jsonAssessment.data.id);
-        expect(assessment.type).to.equal('SMART_PLACEMENT');
-        expect(assessment.courseId).to.equal(null);
-      });
+      // when
+      const assessment = serializer.deserialize(jsonAssessment);
+
+      // then
+      expect(assessment.courseId).to.be.null;
     });
 
-    context('when the assessment is a PREVIEW assessment', () => {
-      it('should convert JSON API data into an Assessment object with a phony courseId', () => {
-        // when
-        const assessment = serializer.deserialize(jsonPreviewAssessment);
+    it('should have a null courseId for type PREVIEW', () => {
+      //given
+      jsonAssessment.data.attributes.type = Assessment.types.PREVIEW;
 
-        // then
-        expect(assessment).to.be.instanceOf(Assessment);
-        expect(assessment.id).to.equal(jsonPreviewAssessment.data.id);
-        expect(assessment.type).to.equal('PREVIEW');
-        expect(assessment.courseId).to.be.null;
-      });
+      // when
+      const assessment = serializer.deserialize(jsonAssessment);
+
+      // then
+      expect(assessment.courseId).to.be.null;
     });
 
-    describe('field "type"', () => {
-
-      it('should set "type" attribute value when it is present', () => {
-        // given
-        jsonAssessment.data.attributes.type = 'PLACEMENT';
-
-        // when
-        const assessment = serializer.deserialize(jsonAssessment);
-
-        // then
-        expect(assessment.type).to.equal('PLACEMENT');
-      });
-    });
   });
 
 });
