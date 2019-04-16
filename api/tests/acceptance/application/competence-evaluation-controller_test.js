@@ -6,6 +6,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
   let server;
   const competenceId = 'recABCD123';
+  const userId = 24504875;
 
   beforeEach(async () => {
     server = await createServer();
@@ -17,7 +18,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
       method: 'POST',
       url: '/api/competence-evaluations',
       headers: {
-        authorization: generateValidRequestAuhorizationHeader()
+        authorization: generateValidRequestAuhorizationHeader(userId)
       },
       payload: {
         data: {
@@ -64,7 +65,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
         it('should return 200 and the competence evaluation when it has been successfully found', async () => {
           // given
-          databaseBuilder.factory.buildCompetenceEvaluation({ competenceId });
+          databaseBuilder.factory.buildCompetenceEvaluation({ competenceId, userId });
           await databaseBuilder.commit();
           // when
           const response = await server.inject(options);

@@ -6,7 +6,7 @@ module.exports = async function startOrResumeCompetenceEvaluation({ competenceId
   await _checkCompetenceExists(competenceId, competenceRepository);
 
   try {
-    const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceId(competenceId);
+    const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceIdAndUserId(competenceId, userId);
     return { created: false, competenceEvaluation };
   } catch (error) {
     if (error instanceof NotFoundError) {

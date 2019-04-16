@@ -34,9 +34,9 @@ module.exports = {
       });
   },
 
-  getLastByCompetenceId(competenceId) {
+  getLastByCompetenceIdAndUserId(competenceId, userId) {
     return BookshelfCompetenceEvaluation
-      .where({ competenceId })
+      .where({ competenceId, userId })
       .orderBy('createdAt', 'desc')
       .query((qb) => qb.limit(1))
       .fetch({ require: true })
