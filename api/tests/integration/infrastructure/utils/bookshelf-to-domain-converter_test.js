@@ -44,7 +44,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       expect(domainAssessmentWithRelated.campaignParticipation.id).to.equal(1);
 
       expect(domainAssessmentWithoutRelated.id).to.equal(2);
-      expect(domainAssessmentWithoutRelated.assessmentResults).to.be.undefined;
+      expect(domainAssessmentWithoutRelated.assessmentResults).to.be.empty;
       expect(domainAssessmentWithoutRelated.campaignParticipation).to.be.undefined;
     });
 
@@ -80,7 +80,7 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
 
       // then
       expect(domainAssessment.id).to.equal(2);
-      expect(domainAssessment.assessmentResults).to.be.undefined;
+      expect(domainAssessment.assessmentResults).to.be.empty;
       expect(domainAssessment.campaignParticipation).to.be.undefined;
     });
 
