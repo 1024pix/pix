@@ -1,9 +1,6 @@
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
-const MAX_REACHABLE_LEVEL = 5;
-const NB_PIX_BY_LEVEL = 8;
-
 module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository }) => {
 
   if (authenticatedUserId !== requestedUserId) {
@@ -11,7 +8,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
   }
 
   const [userKEList, competenceTree] = await Promise.all([
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId, includeAssessments: true }),
     competenceRepository.list(),
   ]);
 
@@ -29,6 +26,22 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
       area: competence.area,
       competenceId: competence.id,
       earnedPix: totalEarnedPixByCompetence,
+      status: _getStatus(KEgroup)
+
     });
   });
 };
+
+function _getStatus(knowledgeElements) {
+  if (_.isEmpty(knowledgeElements)) {
+    return 'NOT_STARTED';
+  }
+
+  const someCompetenceEvaluationsStarted = _.some(knowledgeElements, { 'type': 'COMPETENCE_EVALUATION', 'state': 'started' });
+
+  if (someCompetenceEvaluationsStarted) {
+    return 'STARTED';
+  }
+
+  return 'COMPLETED';
+}

@@ -9,7 +9,7 @@ module.exports = Bookshelf.model('KnowledgeElement', {
   hasTimestamps: ['createdAt', null],
 
   assessment() {
-    return this.belongsTo('Assessment');
+    return this.belongsTo('Assessment', 'assessmentId');
   },
 
   user() {

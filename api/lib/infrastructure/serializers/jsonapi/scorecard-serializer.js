@@ -12,7 +12,8 @@ module.exports = {
         'area',
         'earnedPix',
         'level',
-        'pixScoreAheadOfNextLevel'
+        'pixScoreAheadOfNextLevel',
+        'status'
       ],
 
       area: {

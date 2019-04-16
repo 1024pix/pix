@@ -11,4 +11,9 @@ export default Model.extend({
   earnedPix: attr('number'),
   level: attr('number'),
   pixScoreAheadOfNextLevel: attr('number'),
+  status: attr('string'),
+
+  isStarted: equal('status', 'STARTED'),
+  isCompleted: equal('status', 'COMPLETED'),
+  isNotStarted: equal('status', 'NOT_STARTED'),
 });
