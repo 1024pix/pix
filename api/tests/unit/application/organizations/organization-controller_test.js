@@ -259,7 +259,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(campaignSerializer, 'serialize');
     });
 
-    it('should call the usecase to get the campaigns', async () => {
+    it('should call the usecase to get the campaigns and associated campaignReports', async () => {
+
+      request.query = {
+        campaignReport: true
+      };
+
       // given
       usecases.getOrganizationCampaigns.resolves([campaign]);
       campaignSerializer.serialize.returns(serializedCampaigns);

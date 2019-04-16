@@ -47,4 +47,58 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
     // then
     assert.dom('.campaign-list__item:first-child .campaign-name').hasText('campagne 1');
   });
+
+  test('it should display the participations count', async function(assert) {
+    // given
+    let store = this.owner.lookup('service:store');
+    const campaignReport = run(() => store.createRecord('campaignReport', {
+      id: 1,
+      participationsCount: 10,
+      sharedParticipationsCount: 4,
+    }));
+
+    let campaign1 = run(() => store.createRecord('campaign', {
+      id: 1,
+      name: 'campagne 1',
+      code: 'AAAAAA111',
+      campaignReport
+    }));
+
+    const campaigns = [campaign1];
+
+    this.set('campaigns', campaigns);
+
+    // when
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
+
+    // then
+    assert.dom('.participations-counts__item .participations-counts__value').hasText('10');
+  });
+
+  test('it should display the shared participations count', async function(assert) {
+    // given
+    let store = this.owner.lookup('service:store');
+    const campaignReport = run(() => store.createRecord('campaignReport', {
+      id: 1,
+      participationsCount: 10,
+      sharedParticipationsCount: 4,
+    }));
+
+    let campaign1 = run(() => store.createRecord('campaign', {
+      id: 1,
+      name: 'campagne 1',
+      code: 'AAAAAA111',
+      campaignReport
+    }));
+
+    const campaigns = [campaign1];
+
+    this.set('campaigns', campaigns);
+
+    // when
+    await render(hbs`{{routes/authenticated/campaigns/list-items campaigns=campaigns}}`);
+
+    // then
+    assert.dom('.participations-counts__item:nth-child(2) .participations-counts__value').hasText('4');
+  });
 });
