@@ -29,7 +29,7 @@ function getSmartRandomInputValues({ assessment, competenceEvaluation, answerRep
     answerRepository.findByAssessment(assessment.id),
     skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
     challengeRepository.findByCompetenceId(competenceEvaluation.competenceId),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId(assessment.userId)]
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
   );
 }
 
