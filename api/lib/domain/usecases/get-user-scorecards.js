@@ -11,7 +11,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
   }
 
   const [userKEList, competenceTree] = await Promise.all([
-    smartPlacementKnowledgeElementRepository.findUniqByUserId(requestedUserId),
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
     competenceRepository.list(),
   ]);
 

@@ -29,7 +29,7 @@ module.exports = async function getCampaignParticipationResult(
     targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
     competenceRepository.list(),
     assessmentRepository.get(campaignParticipation.assessmentId),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId(campaignParticipation.userId, campaignParticipation.sharedAt),
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   ]);
 
   return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements });

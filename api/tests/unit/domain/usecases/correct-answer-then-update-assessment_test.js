@@ -185,7 +185,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // then
         expect(competenceEvaluationRepository.getByAssessmentId).to.have.been.calledWith(assessment.id);
         expect(skillRepository.findByCompetenceId).to.have.been.calledWith(competenceEvaluation.competenceId);
-        expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWith(assessment.userId);
+        expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWith({ userId: assessment.userId });
       });
 
       it('should return the saved answer - with the id', async () => {

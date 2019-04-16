@@ -12,7 +12,7 @@ function getSmartRandomInputValues({ assessment, answerRepository, challengeRepo
     answerRepository.findByAssessment(assessment.id),
     targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId())
       .then((targetProfile) => Promise.all([targetProfile, challengeRepository.findBySkills(targetProfile.skills)])),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId(assessment.userId)]
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
   );
 }
 

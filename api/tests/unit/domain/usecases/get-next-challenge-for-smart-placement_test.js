@@ -51,7 +51,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     });
 
     it('should have fetched the most recent knowledge elements', () => {
-      expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly(userId);
+      expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
     });
 
     it('should have fetched the challenges', () => {

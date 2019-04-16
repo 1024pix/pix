@@ -75,7 +75,7 @@ async function saveKnowledgeElementsForCompetenceEvaluation({ assessment, answer
   const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
   const [targetSkills, knowledgeElements] = await Promise.all([
     skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId(assessment.userId)]
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
   );
 
   return saveKnowledgeElements({
