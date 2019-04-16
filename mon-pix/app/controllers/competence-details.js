@@ -18,4 +18,10 @@ export default Controller.extend({
   percentageAheadOfNextLevel: computed('model.scorecard', function() {
     return Math.min(MAX_DISPLAYED_PERCENTAGE, this.get('model.scorecard.pixScoreAheadOfNextLevel') / NUMBER_OF_PIX_BY_LEVEL * 100);
   }),
+
+  earnedPixText: computed('model.scorecard', function() {
+    const earnedPix = this.get('model.scorecard.earnedPix');
+
+    return `pix gagné${earnedPix > 1 ? 's' : ''}`;
+  })
 });

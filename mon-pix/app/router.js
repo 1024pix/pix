@@ -33,7 +33,7 @@ export default Router.map(function() {
   this.route('inscription');
   this.route('compte');
   this.route('profilv2');
-  this.route('competence-details', { path: '/competence/:scorecard_id' });
+  this.route('competence-details', { path: '/competence/:competence_id' });
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
 

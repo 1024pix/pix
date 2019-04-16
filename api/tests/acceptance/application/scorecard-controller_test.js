@@ -9,14 +9,13 @@ describe('Acceptance | Controller | scorecard-controller', () => {
   let server;
   const userId = 1234;
   const competenceId = 'recCompetence';
-  const scorecardId = `${userId}_${competenceId}`;
 
   beforeEach(async () => {
     cache.flushAll();
 
     options = {
       method: 'GET',
-      url: `/api/scorecards/${scorecardId}`,
+      url: `/api/scorecards/${competenceId}`,
       payload: {},
       headers: {},
     };
@@ -50,19 +49,6 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         // then
         return promise.then((response) => {
           expect(response.statusCode).to.equal(401);
-        });
-      });
-
-      it('should respond with a 401 - forbidden - if the authenticated user does not own the scorecard', () => {
-        // given
-        options.headers.authorization = generateValidRequestAuhorizationHeader(4321);
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
         });
       });
     });
@@ -125,7 +111,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         const expectedScorecardJSONApi = {
           data: {
             type: 'scorecards',
-            id: scorecardId,
+            id: competenceId,
             attributes: {
               name: competence.fields.Titre,
               index: competence.fields['Sous-domaine'],

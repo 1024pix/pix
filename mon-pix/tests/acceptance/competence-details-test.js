@@ -28,12 +28,12 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await authenticateAsSimpleUser();
     });
 
-    it('can visit /competence/1_1', async () => {
+    it('can visit /competence/1', async () => {
       // when
-      await visit('/competence/1_1');
+      await visit('/competence/1');
 
       // then
-      expect(currentURL()).to.equal('/competence/1_1');
+      expect(currentURL()).to.equal('/competence/1');
     });
 
     it('displays the competence details', async () => {
@@ -45,7 +45,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       const area = server.schema.areas.find(1);
 
       const scorecard = server.create('scorecard', {
-        id: '1_1',
+        id: 1,
         name,
         earnedPix,
         level,
@@ -57,20 +57,19 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await visit(`/competence/${scorecard.id}`);
 
       // then
-      expect(find('.competence-details__panel__inner__left__area').text()).to.contain(area.title);
-      expect(find('.competence-details__panel__inner__left__area').attr('class')).to.contain('competence-details--jaffa');
-      expect(find('.competence-details__panel__inner__left__name').text()).to.contain(name);
-      expect(find('.competence-details__panel__inner__left__description').text()).to.contain('Description');
+      expect(find('.competence-details-panel-inner-left-area').text()).to.contain(area.title);
+      expect(find('.competence-details-panel-inner-left-area').attr('class')).to.contain('competence-details--jaffa');
+      expect(find('.competence-details-panel-inner-left-name').text()).to.contain(name);
+      expect(find('.competence-details-panel-inner-left-description').text()).to.contain('Description');
       expect(find('.competence-card-level__value').text()).to.contain(level);
-      expect(find('.competence-details__panel__inner__right__score-container__pix-earned>div:first-child').text()).to.contain(earnedPix);
-      expect(find('.competence-details__panel__inner__right__level-info').text()).to.contain(`${pixScoreAheadOfNextLevel} pix avant niveau ${level + 1}`);
-      expect(find('.competence-details__button').text()).to.contain('Démarrer le test');
+      expect(find('.competence-details-panel-inner-right-score-container-pix-earned-number').text()).to.contain(earnedPix);
+      expect(find('.competence-details-panel-inner-right-level-info').text()).to.contain(`${pixScoreAheadOfNextLevel} pix avant niveau ${level + 1}`);
     });
 
     it('Does not display pixScoreAheadOfNextLevel when next level is over the max level', async () => {
       // given
       const scorecard = server.create('scorecard', {
-        id: '1_1',
+        id: 1,
         name: 'Super compétence',
         earnedPix: 7,
         level: 999,
@@ -82,7 +81,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await visit(`/competence/${scorecard.id}`);
 
       // then
-      expect(find('.competence-details__panel__inner__right__level-info')).to.have.lengthOf(0);
+      expect(find('.competence-details-panel-inner-right-level-info')).to.have.lengthOf(0);
     });
   });
 
@@ -91,9 +90,9 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await authenticateAsPrescriber();
     });
 
-    it('can visit /competence/1_1', async () => {
+    it('can visit /competence/1', async () => {
       // when
-      await visit('/competence/1_1');
+      await visit('/competence/1');
 
       // then
       expect(currentURL()).to.equal('/board');
@@ -103,7 +102,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
   describe('Not authenticated cases', () => {
     it('should redirect to home, when user is not authenticated', async () => {
       // when
-      await visit('/competence/1_1');
+      await visit('/competence/1');
       expect(currentURL()).to.equal('/connexion');
     });
   });

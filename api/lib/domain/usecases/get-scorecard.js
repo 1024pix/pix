@@ -1,21 +1,11 @@
 const _ = require('lodash');
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const Scorecard = require('../models/Scorecard');
 
 module.exports = async ({ authenticatedUserId, scorecardId, smartPlacementKnowledgeElementRepository, competenceRepository }) => {
 
-  const scorecardIdArray = scorecardId.split('_');
-  const requestedUserId = parseInt(scorecardIdArray[0]);
-  const competenceId = scorecardIdArray[1];
-  const authenticatedUserIdInt = parseInt(authenticatedUserId);
-  
-  if (authenticatedUserIdInt !== requestedUserId) {
-    throw new UserNotAuthorizedToAccessEntity();
-  }
-
   const [userKEList, competence] = await Promise.all([
-    smartPlacementKnowledgeElementRepository.findUniqByUserId(requestedUserId),
-    competenceRepository.get(competenceId),
+    smartPlacementKnowledgeElementRepository.findUniqByUserId(authenticatedUserId),
+    competenceRepository.get(scorecardId),
   ]);
 
   const sortedKEGroupedByCompetence = _.groupBy(userKEList, 'competenceId');
