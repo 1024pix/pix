@@ -1,9 +1,5 @@
 const _ = require('lodash');
 const Models = require('../../domain/models');
-const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
-
-const attributesForBelongsToRelationships = _.keys(Models).map((key) => _.lowerFirst(key));
-const attributesForHasManyRelationships = _.keys(Models).map((key) => _.lowerFirst(key) + 's');
 
 module.exports = {
   buildDomainObjects,
@@ -20,34 +16,23 @@ function buildDomainObject(BookshelfClass, bookshelfObject) {
   return _buildDomainObject(BookshelfClass.prototype, bookshelfObject.toJSON());
 }
 
-function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson, domainObject) {
+function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson) {
 
-  domainObject = domainObject || new Models[bookshelfPrototype.constructor.bookshelfName];
-
-  const bookshelfClassKeys = Object.keys(bookshelfPrototype);
+  const Model = Models[bookshelfPrototype.domainModelName || bookshelfPrototype.constructor.bookshelfName];
+  const domainObject = new Model();
 
   const mappedObject = _.mapValues(domainObject, (value, key) => {
+    const { relationshipType, relationshipPrototype } =
+      _getBookshelfRelationshipInfo(bookshelfPrototype, key);
 
-    // TODO: Remove this after refactoring SmartPlacementKnowledgeElements into KnowledgeElements
-    if (bookshelfPrototype.constructor.bookshelfName === 'User' && key === 'knowledgeElements') {
-      const relationshipPrototype = _getRelationshipPrototype(bookshelfPrototype, key);
-
-      return bookshelfObjectJson[key] && bookshelfObjectJson[key].map((bookshelfObject) => {
-        const smartPlacementKnowledgeElement = new SmartPlacementKnowledgeElement();
-        return _buildDomainObject(relationshipPrototype, bookshelfObject, smartPlacementKnowledgeElement);
-      });
-    }
-
-    if (_isABelongsToRelationship(bookshelfClassKeys, bookshelfObjectJson, key)) {
+    if ((relationshipType === 'belongsTo' || relationshipType === 'hasOne') && _.isObject(bookshelfObjectJson[key])) {
       return _buildDomainObject(
-        _getRelationshipPrototype(bookshelfPrototype, key),
+        relationshipPrototype,
         bookshelfObjectJson[key]
       );
     }
 
-    if (_isAHasManyRelationship(bookshelfClassKeys, bookshelfObjectJson, key)) {
-      const relationshipPrototype = _getRelationshipPrototype(bookshelfPrototype, key);
-
+    if ((relationshipType === 'hasMany') && _.isArray(bookshelfObjectJson[key])) {
       return bookshelfObjectJson[key].map(
         (bookshelfObject) => _buildDomainObject(relationshipPrototype, bookshelfObject)
       );
@@ -56,23 +41,16 @@ function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson, domainObjec
     return bookshelfObjectJson[key];
   });
 
-  Object.assign(domainObject, mappedObject);
-
-  return domainObject;
+  return new Model(mappedObject);
 }
 
-function _isABelongsToRelationship(bookshelfClassKeys, bookshelfObjectJson, key) {
-  return attributesForBelongsToRelationships.includes(key)
-    && bookshelfClassKeys.includes(key)
-    && _.isObject(bookshelfObjectJson[key]);
-}
+function _getBookshelfRelationshipInfo(bookshelfPrototype, key) {
+  const relatedData = (typeof bookshelfPrototype[key] === 'function') &&
+    bookshelfPrototype[key]().relatedData;
 
-function _isAHasManyRelationship(bookshelfClassKeys, bookshelfObjectJson, key) {
-  return attributesForHasManyRelationships.includes(key)
-    && bookshelfClassKeys.includes(key)
-    && Array.isArray(bookshelfObjectJson[key]);
-}
-
-function _getRelationshipPrototype(bookshelfPrototype, key) {
-  return bookshelfPrototype[key]().relatedData.target.prototype;
+  if (relatedData) {
+    return { relationshipType: relatedData.type, relationshipPrototype: relatedData.target.prototype };
+  } else {
+    return {};
+  }
 }
