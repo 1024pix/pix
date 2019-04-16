@@ -31,6 +31,7 @@ class SmartPlacementKnowledgeElement {
     status,
     earnedPix,
     // includes
+    assessment,
     // references
     answerId,
     assessmentId,
@@ -45,6 +46,7 @@ class SmartPlacementKnowledgeElement {
     this.status = status;
     this.earnedPix = earnedPix;
     // includes
+    this.assessment = assessment;
     // references
     this.answerId = answerId;
     this.assessmentId = assessmentId;
