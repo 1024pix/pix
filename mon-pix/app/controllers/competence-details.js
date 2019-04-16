@@ -18,10 +18,4 @@ export default Controller.extend({
   percentageAheadOfNextLevel: computed('model.scorecard', function() {
     return Math.min(MAX_DISPLAYED_PERCENTAGE, this.get('model.scorecard.pixScoreAheadOfNextLevel') / NUMBER_OF_PIX_BY_LEVEL * 100);
   }),
-
-  remainingDaysText: computed('model.competence', function() {
-    const daysBeforeNewAttempt = this.get('model.competence.daysBeforeNewAttempt');
-
-    return `Disponible dans ${daysBeforeNewAttempt} ${daysBeforeNewAttempt <= 1 ? 'jour' : 'jours'}`;
-  }),
 });
