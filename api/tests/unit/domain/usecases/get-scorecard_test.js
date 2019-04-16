@@ -1,5 +1,4 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
@@ -116,27 +115,6 @@ describe('Unit | UseCase | get-scorecard', () => {
 
         //then
         assertScorecard(userScorecard, expectedUserScorecard);
-      });
-    });
-
-    context('And user asks for scorecards that do not belongs to him', () => {
-      it('should reject a "UserNotAuthorizedToAccessEntity" domain error', () => {
-        // given
-        const scorecardId = '34_foo';
-
-        competenceRepository.get.resolves([]);
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
-
-        // when
-        const promise = getScorecard({
-          authenticatedUserId,
-          scorecardId,
-          smartPlacementKnowledgeElementRepository,
-          competenceRepository
-        });
-
-        // then
-        return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
       });
     });
   });
