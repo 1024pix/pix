@@ -17,13 +17,13 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
     application = startApp();
     defaultScenario(server);
   });
-  
+
   afterEach(() => {
     destroyApp(application);
   });
-  
+
   describe('Authenticated cases as simple user', () => {
-    
+
     beforeEach(async () => {
       await authenticateAsSimpleUser();
     });
@@ -60,11 +60,11 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       expect(find('.competence-details__panel__inner__left__area').text()).to.contain(area.title);
       expect(find('.competence-details__panel__inner__left__area').attr('class')).to.contain('competence-details--jaffa');
       expect(find('.competence-details__panel__inner__left__name').text()).to.contain(name);
+      expect(find('.competence-details__panel__inner__left__description').text()).to.contain('Description');
       expect(find('.competence-card-level__value').text()).to.contain(level);
       expect(find('.competence-details__panel__inner__right__score-container__pix-earned>div:first-child').text()).to.contain(earnedPix);
       expect(find('.competence-details__panel__inner__right__level-info').text()).to.contain(`${pixScoreAheadOfNextLevel} pix avant niveau ${level + 1}`);
       expect(find('.competence-details__button').text()).to.contain('Démarrer le test');
-      // TODO: description
     });
 
     it('Does not display pixScoreAheadOfNextLevel when next level is over the max level', async () => {

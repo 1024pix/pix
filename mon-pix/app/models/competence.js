@@ -10,6 +10,7 @@ export default Model.extend({
   user: belongsTo('user'),
   index: attr('number'),
   level: attr('number'),
+  description: attr('string'),
   areaName: alias('area.name'),
   courseId: attr('string'),
   assessmentId: attr('string'),
