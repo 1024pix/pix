@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.38.0 (16/04/2019)
+
+- [#461](https://github.com/1024pix/pix/pull/461) [FEATURE] Afficher le nombre de participants et de profils reçus dans la liste des campagnes (PO-86)
+- [#469](https://github.com/1024pix/pix/pull/469) [BSR] Réécriture du serializer d'assessment.
+
 ## v2.37.0 (15/04/2019)
 
 - [#463](https://github.com/1024pix/pix/pull/463) [FEATURE] Ameliorer le style du PV de session (PC-41).
