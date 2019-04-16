@@ -3,52 +3,52 @@
   <div class="background-banner"></div>
 
   {{#if (and model.scorecard model.competence)}}
-    <div class="competence-details__panel">
+    <div class="competence-details-panel">
       <div class="rounded-panel rounded-panel--strong">
-        <div class="competence-details__panel__inner">
-          <div class="competence-details__panel__inner__left">
-            <div class={{concat "competence-details__panel__inner__left__area competence-details--" areaColor}}>
+        <div class="competence-details-panel-inner">
+          <div class="competence-details-panel-inner-left">
+            <div class={{concat "competence-details-panel-inner-left-area competence-details--" areaColor}}>
               {{model.scorecard.area.title}}
             </div>
-            <div class="competence-details__panel__inner__left__name">
+            <div class="competence-details-panel-inner-left-name">
               {{model.scorecard.name}}
             </div>
-            <div class="competence-details__panel__inner__left__description">
+            <div class="competence-details-panel-inner-left-description">
               {{model.competence.description}}
             </div>
           </div>
-          <div class="competence-details__panel__inner__right">
-            <div class="competence-details__panel__inner__right__score-container">
+          <div class="competence-details-panel-inner-right">
+            <div class="competence-details-panel-inner-right-score-container">
               {{#circle-chart value=percentageAheadOfNextLevel sliceColor=areaColor chartClass='circle-chart__content--big' thicknessClass='circle--thick'}}
                 <div class="competence-card__level">
                   <span class="competence-card-level__label">Niveau</span>
                   <span class="competence-card-level__value">{{model.scorecard.level}}</span>
                 </div>
               {{/circle-chart}}
-              <div class="competence-details__panel__inner__right__score-container__pix-earned">
+              <div class="competence-details-panel-inner-right-score-container-pix-earned">
                 <div>{{model.scorecard.earnedPix}}</div>
                 <div>pix gagnés</div>
               </div>
             </div>
             {{#if (lt model.scorecard.level maxLevel)}}
-              <div class="competence-details__panel__inner__right__level-info">
+              <div class="competence-details-panel-inner-right-level-info">
                 {{model.scorecard.pixScoreAheadOfNextLevel}} pix avant niveau {{inc model.scorecard.level}}
               </div>
             {{/if}}
-            <button role="button" class="competence-details__button">
+            <button role="button" class="competence-details-button">
               Démarrer le test
             </button>
             {{!--
             TODO: implementer les etats du bouton vert (Démarrer le test, Continuer, Progresser)
-            competence-details__panel__inner__right__disponibility sert à afficher remainingDaysText lorsque l'état est Progresser
-            <div class="competence-details__panel__inner__right__disponibility">
+            competence-details-panel-inner-right-disponibility sert à afficher remainingDaysText lorsque l'état est Progresser
+            <div class="competence-details-panel-inner-right-disponibility">
               {{remainingDaysText}}
             </div>
             --}}
           </div>
         </div>
       </div>
-      <div class="competence-details__panel__shadow" aria-hidden="true">.</div>
+      <div class="competence-details-panel-shadow" aria-hidden="true">.</div>
     </div>
   {{/if}}
 </div>
