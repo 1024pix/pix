@@ -18,15 +18,16 @@ class Scorecard {
     this.courseId = courseId;
     this.earnedPix = earnedPix;
     this.level = this._getCompetenceLevel(earnedPix);
-    this.pixScoreAheadOfNextLevel = this._getPixScoreAheadOfNextLevel(earnedPix);
+    this.pixScoreAheadOfNextLevel = this._getRemainingPixToTheNextLevel(earnedPix);
   }
 
   _getCompetenceLevel(earnedPix) {
     const userLevel = Math.floor(earnedPix / NB_PIX_BY_LEVEL);
-    return (userLevel >= MAX_REACHABLE_LEVEL) ? MAX_REACHABLE_LEVEL : userLevel;
+
+    return Math.min(MAX_REACHABLE_LEVEL, userLevel);
   }
 
-  _getPixScoreAheadOfNextLevel(earnedPix) {
+  _getRemainingPixToTheNextLevel(earnedPix) {
     return earnedPix % NB_PIX_BY_LEVEL;
   }
 }
