@@ -110,7 +110,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
   });
 
-  describe('#getLastByCompetenceId', () => {
+  describe('#getLastByCompetenceIdAndUserId', () => {
     let user;
     let competenceEvaluationExpected;
 
@@ -135,7 +135,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
     it('should return the competence evaluation linked to the competence id', () => {
       // when
-      const promise = competenceEvaluationRepository.getLastByCompetenceId(1);
+      const promise = competenceEvaluationRepository.getLastByCompetenceIdAndUserId(1, user.id);
 
       // then
       return promise.then((competenceEvaluation) => {
@@ -145,7 +145,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
     it('should return an error when there is no competence evaluation', () => {
       // when
-      const promise = catchErr(competenceEvaluationRepository.getLastByCompetenceId)('fakeId');
+      const promise = catchErr(competenceEvaluationRepository.getLastByCompetenceIdAndUserId)('fakeId', user.id);
 
       // then
       return promise.then((error) => {
