@@ -1,7 +1,7 @@
 {{navbar-header class="navbar-header--white"}}
 <div class="competence-details">
   <div class="profilv2__banner"></div>
-  {{#if (and model.scorecard competence)}}
+  {{#if (and model.scorecard model.competence)}}
     <div class="competence-details__panel">
       <div class="rounded-panel rounded-panel--strong">
         <div class="competence-details__panel__inner">
@@ -34,37 +34,13 @@
                 {{model.scorecard.pixScoreAheadOfNextLevel}} pix avant niveau {{inc model.scorecard.level}}
               </div>
             {{/if}}
-            {{#if competence.isAssessed}}
-              {{#if competence.isRetryable}}
-                {{#link-to "courses.create-assessment" competence.courseId class="competence-details__link"}}
-                  <button role="button" class="competence-details__button">
-                    Progresser
-                  </button>
-                {{/link-to}}
-              {{else}}
-                <button role="button" class="competence-details__button" disabled="true">
-                  Progresser
-                </button>
-                <div class="competence-details__panel__inner__right__disponibility">
-                  {{remainingDaysText}}
-                </div>
-              {{/if}}
-            {{else}}
-              {{#if competence.isAssessableForTheFirstTime}}
-                {{#link-to "courses.create-assessment" competence.courseId class="competence-details__link"}}
-                  <button role="button" class="competence-details__button">
-                    Démarrer le test
-                  </button>
-                {{/link-to}}
-              {{/if}}
-              {{#if competence.isBeingAssessed}}
-                {{#link-to "assessments.resume" competence.assessmentId class="competence-details__link"}}
-                  <button role="button" class="competence-details__button">
-                    Continuer
-                  </button>
-                {{/link-to}}
-              {{/if}}
-            {{/if}}
+            <button role="button" class="competence-details__button">
+              Démarrer le test
+            </button>
+            <div class="competence-details__panel__inner__right__disponibility">
+              {{!-- TODO: implementer les etats du bouton vert (Démarrer le test, Continuer, Progresser) --}}
+              {{!-- competence-details__panel__inner__right__disponibility sert à afficher remainingDaysText lorsque l'état est Progresser --}}
+            </div>
           </div>
         </div>
       </div>
