@@ -26,8 +26,8 @@
                 </div>
               {{/circle-chart}}
               <div class="competence-details-panel-inner-right-score-container-pix-earned">
-                <div>{{model.scorecard.earnedPix}}</div>
-                <div>pix gagnés</div>
+                <div class="competence-details-panel-inner-right-score-container-pix-earned-number">{{model.scorecard.earnedPix}}</div>
+                <div class="competence-details-panel-inner-right-score-container-pix-earned-info">pix gagnés</div>
               </div>
             </div>
             {{#if (lt model.scorecard.level maxLevel)}}
@@ -35,16 +35,6 @@
                 {{model.scorecard.pixScoreAheadOfNextLevel}} pix avant niveau {{inc model.scorecard.level}}
               </div>
             {{/if}}
-            <button role="button" class="competence-details-button">
-              Démarrer le test
-            </button>
-            {{!--
-            TODO: implementer les etats du bouton vert (Démarrer le test, Continuer, Progresser)
-            competence-details-panel-inner-right-disponibility sert à afficher remainingDaysText lorsque l'état est Progresser
-            <div class="competence-details-panel-inner-right-disponibility">
-              {{remainingDaysText}}
-            </div>
-            --}}
           </div>
         </div>
       </div>
