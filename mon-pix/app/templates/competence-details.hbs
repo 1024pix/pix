@@ -27,7 +27,7 @@
               {{/circle-chart}}
               <div class="competence-details-panel-inner-right-score-container-pix-earned">
                 <div class="competence-details-panel-inner-right-score-container-pix-earned-number">{{model.scorecard.earnedPix}}</div>
-                <div class="competence-details-panel-inner-right-score-container-pix-earned-info">pix gagnés</div>
+                <div class="competence-details-panel-inner-right-score-container-pix-earned-info">{{earnedPixText}}</div>
               </div>
             </div>
             {{#if (lt model.scorecard.level maxLevel)}}
