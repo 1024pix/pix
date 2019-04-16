@@ -4,7 +4,7 @@
   align-items: center;
   position: relative;
 
-  &__panel {
+  &-panel {
     position: absolute;
     top: 34px;
     width: 100%;
@@ -13,7 +13,7 @@
       max-width: 980px;
     }
 
-    &__shadow {
+    &-shadow {
       min-height: 1px;
       position: absolute;
       z-index: -100;
@@ -23,61 +23,61 @@
       box-shadow: 0px 0px 40px 1px rgba(0,0,0,0.33);
     }
 
-    &__inner {
+    &-inner {
       display: flex;
       flex-direction: row;
       border-radius: 6.75px;
       font-family: "Roboto";
-      background-color: $mercury-grey;
+      background-color: $porcelain-grey;
       padding: 30px 0px;
       margin: 14px;
-  
-      &__left {
+
+      &-left {
         flex-grow: 1;
         padding: 0px 30px;
         border-right: 4px dotted $silver-grey;
-  
-        &__area {
+
+        &-area {
           text-transform: uppercase;
           font-size: 1.4rem;
           letter-spacing: 2px;
         }
-  
-        &__name {
+
+        &-name {
           margin: 15px 0px;
           font-size: 3.6rem;
         }
-  
-        &__description {
+
+        &-description {
           font-family: "Open Sans";
           font-size: 1.6rem;
           line-height: 2.6rem;
           color: $dove-gray;
         }
       }
-  
-      &__right {
+
+      &-right {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         padding: 0px 30px;
-  
-        &__score-container {
+
+        &-score-container {
           display: flex;
           flex-direction: row;
           justify-content: center;
           align-items: center;
           margin-bottom: 20px;
-  
-          &__pix-earned {
+
+          &-pix-earned {
             display: flex;
             flex-direction: row;
             align-items: center;
             margin-left: 30px;
             text-transform: uppercase;
             color: $grayish-grey;
-            
+
             > div:first-child {
               font-family: "Open Sans";
               margin-right: 5px;
@@ -86,22 +86,22 @@
               margin-bottom: 1px;
               font-weight: 600;
             }
-  
+
             > div:last-child {
               letter-spacing: 1.2px;
               line-height: 1.4rem;
             }
           }
         }
-  
-        &__level-info {
+
+        &-level-info {
           color: $grayish-grey;
           text-transform: uppercase;
           margin-bottom: 20px;
           letter-spacing: 0.3px;
         }
 
-        &__disponibility {
+        &-disponibility {
           margin-top: 10px;
           color: $dove-gray;
           font-size: 1.4rem;
@@ -126,11 +126,7 @@
     color: $butterfly-bush;
   }
 
-  &__link {
-    width: 100%;
-  }
-
-  &__button {
+  &-button {
     width: 100%;
     height: 44px;
     border: none;
@@ -144,11 +140,11 @@
     cursor: pointer;
   }
 
-  &__button:hover {
+  &-button:hover {
     background-color: darken($mountain-meadow, 10%);
   }
 
-  &__button:disabled {
+  &-button:disabled {
     background-color: lighten($mountain-meadow, 35%);
     cursor: not-allowed;
   }
