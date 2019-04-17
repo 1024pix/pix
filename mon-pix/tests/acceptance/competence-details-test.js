@@ -65,7 +65,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       expect(find('.competence-details-panel-inner-left-description').text()).to.contain(description);
       expect(find('.competence-card-level__value').text()).to.contain(level);
       expect(find('.competence-details-panel-inner-right-score-container-pix-earned-number').text()).to.contain(earnedPix);
-      expect(find('.competence-details-panel-inner-right-level-info').text()).to.contain(`${pixScoreAheadOfNextLevel} pix avant niveau ${level + 1}`);
+      expect(find('.competence-details-panel-inner-right-level-info').text()).to.contain(`${8 - pixScoreAheadOfNextLevel} pix avant niveau ${level + 1}`);
     });
 
     it('Does not display pixScoreAheadOfNextLevelwhen next level is over the max level', async () => {
