@@ -20,7 +20,7 @@ async function getNextChallengeForCompetenceEvaluation({ assessment, userId, ans
 }
 
 function _checkIfUserIsAssessmentsUser(assessment, userId) {
-  if (assessment.userId !== userId) {
+  if (assessment.userId != userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 }
