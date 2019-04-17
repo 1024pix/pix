@@ -8,12 +8,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
   session: service(),
   competenceId: null,
 
-  beforeModel(transition) {
-    this.set('competenceId', transition.to.params.competence_id);
-    this._super(...arguments);
-  },
-
-  model() {
+  model(params) {
+    this.set('competenceId', params.competence_id);
     return this.store.createRecord('competenceEvaluation', { competenceId: this.competenceId }).save();
   },
 
