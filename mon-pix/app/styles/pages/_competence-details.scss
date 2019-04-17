@@ -2,12 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 
   &-panel {
-    position: absolute;
-    top: 34px;
+    margin-top: -205px;
     width: 100%;
+    position: relative;
 
     @include device-is('desktop') {
       max-width: 980px;
@@ -68,7 +67,6 @@
           flex-direction: row;
           justify-content: center;
           align-items: center;
-          margin-bottom: 20px;
 
           &-pix-earned {
             display: flex;
@@ -83,7 +81,7 @@
               margin-right: 5px;
               font-size: 3.2rem;
               line-height: 3.2rem;
-              margin-bottom: 3px;
+              margin-bottom: 4px;
               font-weight: 600;
             }
 
@@ -97,7 +95,7 @@
         &-level-info {
           color: $grayish-grey;
           text-transform: uppercase;
-          margin-bottom: 20px;
+          margin-top: 20px;
           letter-spacing: 0.3px;
         }
       }
