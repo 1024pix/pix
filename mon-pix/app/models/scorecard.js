@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-
+import { equal } from '@ember/object/computed';
 const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
