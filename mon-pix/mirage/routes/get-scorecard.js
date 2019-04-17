@@ -1,8 +1,8 @@
 export default function(schema, request) {
   const { id } = request.params;
-  
+
   let scorecard = schema.scorecards.find(id);
-  
+
   if (!scorecard) {
     const area = schema.areas.find(4);
 
@@ -12,7 +12,7 @@ export default function(schema, request) {
       area: area,
       earnedPix: 26,
       level: 3,
-      pixScoreAheadOfNextLevel: 2,
+      remainingPixToNextLevel: 2,
     });
   }
 

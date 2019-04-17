@@ -12,7 +12,6 @@ describe('Unit | Domain | Models | Scorecard', () => {
         name: 'Competence name',
         index: 'Competence index',
         area: 'Competence area',
-        courseId: 1,
         earnedPix: 10,
       };
 
@@ -24,10 +23,9 @@ describe('Unit | Domain | Models | Scorecard', () => {
       expect(scorecard.name).to.equal('Competence name');
       expect(scorecard.index).to.equal('Competence index');
       expect(scorecard.area).to.equal('Competence area');
-      expect(scorecard.courseId).to.equal(1);
       expect(scorecard.earnedPix).to.equal(10);
       expect(scorecard.level).to.equal(1);
-      expect(scorecard.pixScoreAheadOfNextLevel).to.equal(2);
+      expect(scorecard.remainingPixToNextLevel).to.equal(2);
     });
   });
 

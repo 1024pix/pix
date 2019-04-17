@@ -7,7 +7,6 @@ class Scorecard {
     name,
     index,
     area,
-    courseId,
     earnedPix,
   } = {}) {
     this.id = id;
@@ -15,10 +14,9 @@ class Scorecard {
     this.name = name;
     this.index = index;
     this.area = area;
-    this.courseId = courseId;
     this.earnedPix = earnedPix;
     this.level = this._getCompetenceLevel(earnedPix);
-    this.pixScoreAheadOfNextLevel = this._getRemainingPixToTheNextLevel(earnedPix);
+    this.remainingPixToNextLevel= this._getRemainingPixToNextLevel(earnedPix);
   }
 
   _getCompetenceLevel(earnedPix) {
@@ -27,7 +25,7 @@ class Scorecard {
     return Math.min(MAX_REACHABLE_LEVEL, userLevel);
   }
 
-  _getRemainingPixToTheNextLevel(earnedPix) {
+  _getRemainingPixToNextLevel(earnedPix) {
     return earnedPix % NB_PIX_BY_LEVEL;
   }
 }

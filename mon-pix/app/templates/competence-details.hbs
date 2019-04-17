@@ -32,7 +32,7 @@
             </div>
             {{#if (lt model.scorecard.level maxLevel)}}
               <div class="competence-details-panel-inner-right-level-info">
-                {{model.scorecard.pixScoreAheadOfNextLevel}} pix avant niveau {{inc model.scorecard.level}}
+                {{model.scorecard.remainingPixToNextLevel}} pix avant niveau {{inc model.scorecard.level}}
               </div>
             {{/if}}
           </div>
