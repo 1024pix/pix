@@ -10,7 +10,7 @@ function _computeAnswerOutcome(inputFieldValue, resultDetail) {
   if (inputFieldValue === '') {
     return 'empty';
   }
-  return resultDetail === true ? 'ok': 'ko';
+  return resultDetail === true ? 'ok' : 'ko';
 }
 
 function _computeInputClass(answerOutcome) {

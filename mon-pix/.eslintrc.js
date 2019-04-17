@@ -1,4 +1,5 @@
 const fs = require('fs');
+
 module.exports = {
   root: true,
   parserOptions: {
@@ -17,11 +18,8 @@ module.exports = {
     browser: true,
   },
   rules: {
-    // FIXME reactivate the rules below
-    'ember/no-on-calls-in-components': 0,
-    'ember/closure-actions': 0,
-    'ember/routes-segments-snake-case': 0,
-    'ember/avoid-leaking-state-in-ember-objects': 0
+    'ember/avoid-leaking-state-in-ember-objects': 0,
+    'ember/no-restricted-resolver-tests': 0,
   },
   overrides: [
     // node files

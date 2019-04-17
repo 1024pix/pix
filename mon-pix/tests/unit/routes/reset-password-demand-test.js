@@ -15,7 +15,7 @@ describe('Unit | Route | changer mot de passe', function() {
     let storeStub;
     let findRecordStub;
     const params = {
-      temporaryKey: 'pwd-reset-demand-token'
+      temporary_key: 'pwd-reset-demand-token'
     };
 
     beforeEach(function() {
