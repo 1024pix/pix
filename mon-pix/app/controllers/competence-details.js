@@ -16,7 +16,9 @@ export default Controller.extend({
   }),
 
   percentageAheadOfNextLevel: computed('model.scorecard', function() {
-    return Math.min(MAX_DISPLAYED_PERCENTAGE, this.get('model.scorecard.pixScoreAheadOfNextLevel') / NUMBER_OF_PIX_BY_LEVEL * 100);
+    const percentage = this.get('model.scorecard.remainingPixToNextLevel') / NUMBER_OF_PIX_BY_LEVEL * 100;
+
+    return Math.min(MAX_DISPLAYED_PERCENTAGE, percentage);
   }),
 
   earnedPixText: computed('model.scorecard', function() {

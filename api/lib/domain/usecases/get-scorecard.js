@@ -9,15 +9,14 @@ module.exports = async ({ authenticatedUserId, scorecardId, smartPlacementKnowle
   ]);
 
   const sortedKEGroupedByCompetence = _.groupBy(userKEList, 'competenceId');
-  const KEgroup = sortedKEGroupedByCompetence[competence.id];
-  const totalEarnedPixByCompetence = _.sumBy(KEgroup, 'earnedPix');
+  const knowledgeElementsOfCompetence = sortedKEGroupedByCompetence[competence.id];
+  const totalEarnedPixByCompetence = _.sumBy(knowledgeElementsOfCompetence, 'earnedPix');
 
   return new Scorecard({
     id: scorecardId,
     name: competence.name,
     index: competence.index,
     area: competence.area,
-    courseId: competence.courseId,
     earnedPix: totalEarnedPixByCompetence,
   });
 };

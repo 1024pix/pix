@@ -41,7 +41,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       const name = 'Super compétence';
       const earnedPix = 7;
       const level = 4;
-      const pixScoreAheadOfNextLevel = 5;
+      const remainingPixToNextLevel= 5;
       const area = server.schema.areas.find(1);
 
       const scorecard = server.create('scorecard', {
@@ -49,7 +49,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
         name,
         earnedPix,
         level,
-        pixScoreAheadOfNextLevel,
+        remainingPixToNextLevel,
         area,
       });
 
@@ -63,17 +63,17 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       expect(find('.competence-details-panel-inner-left-description').text()).to.contain('Description');
       expect(find('.competence-card-level__value').text()).to.contain(level);
       expect(find('.competence-details-panel-inner-right-score-container-pix-earned-number').text()).to.contain(earnedPix);
-      expect(find('.competence-details-panel-inner-right-level-info').text()).to.contain(`${pixScoreAheadOfNextLevel} pix avant niveau ${level + 1}`);
+      expect(find('.competence-details-panel-inner-right-level-info').text()).to.contain(`${remainingPixToNextLevel} pix avant niveau ${level + 1}`);
     });
 
-    it('Does not display pixScoreAheadOfNextLevel when next level is over the max level', async () => {
+    it('Does not display remainingPixToNextLevelwhen next level is over the max level', async () => {
       // given
       const scorecard = server.create('scorecard', {
         id: 1,
         name: 'Super compétence',
         earnedPix: 7,
         level: 999,
-        pixScoreAheadOfNextLevel: 5,
+        remainingPixToNextLevel: 5,
         area: server.schema.areas.find(1),
       });
 

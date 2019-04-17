@@ -10,17 +10,17 @@ describe('Unit | Controller | user-controller', () => {
 
   describe('#getScorecard', () => {
 
+    const scorecard = { name: 'Competence1' };
+
     beforeEach(() => {
-      sinon.stub(usecases, 'getScorecard').resolves({
-        name:'Competence1',
-      });
-      sinon.stub(scorecardSerializer, 'serialize').resolves();
+      sinon.stub(usecases, 'getScorecard').resolves(scorecard);
+      sinon.stub(scorecardSerializer, 'serialize').resolvesArg(0);
     });
 
     it('should call the expected usecase', async () => {
       // given
-      const authenticatedUserId= '12';
-      const scorecardId= '12_foo';
+      const authenticatedUserId = '12';
+      const scorecardId = 'foo';
 
       const request = {
         auth: {
@@ -34,10 +34,11 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await scorecardController.getScorecard(request, hFake);
+      const result = await scorecardController.getScorecard(request, hFake);
 
       // then
       expect(usecases.getScorecard).to.have.been.calledWith({ authenticatedUserId, scorecardId });
+      expect(result).to.be.equal(scorecard);
     });
   });
 });

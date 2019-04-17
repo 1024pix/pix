@@ -4,7 +4,7 @@ const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
 function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.earnedPix).to.equal(expectedUserScorecard.earnedPix);
   expect(userScorecard.level).to.equal(expectedUserScorecard.level);
-  expect(userScorecard.pixScoreAheadOfNextLevel).to.equal(expectedUserScorecard.pixScoreAheadOfNextLevel);
+  expect(userScorecard.remainingPixToNextLevel).to.equal(expectedUserScorecard.remainingPixToNextLevel);
 }
 
 describe('Unit | UseCase | get-scorecard', () => {
@@ -38,7 +38,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           authenticatedUserId,
           scorecardId,
           smartPlacementKnowledgeElementRepository,
-          competenceRepository
+          competenceRepository,
         });
 
         // then
@@ -49,7 +49,7 @@ describe('Unit | UseCase | get-scorecard', () => {
         // given
         const earnedPixForCompetenceId1 = 8;
         const levelForCompetenceId1 = 1;
-        const pixScoreAheadOfNextLevelForCompetenceId1 = 0;
+        const remainingPixToNextLevelForCompetenceId1 = 0;
 
         const competence = domainBuilder.buildCompetence({ id: 1 });
 
@@ -67,7 +67,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           name: competence.name,
           earnedPix: earnedPixForCompetenceId1,
           level: levelForCompetenceId1,
-          pixScoreAheadOfNextLevel: pixScoreAheadOfNextLevelForCompetenceId1
+          remainingPixToNextLevel: remainingPixToNextLevelForCompetenceId1
         });
 
         // when
@@ -75,7 +75,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           authenticatedUserId,
           scorecardId,
           smartPlacementKnowledgeElementRepository,
-          competenceRepository
+          competenceRepository,
         });
 
         //then
@@ -85,7 +85,7 @@ describe('Unit | UseCase | get-scorecard', () => {
       it('should return the user scorecard with level limited to 5', async () => {
       // given
         const earnedPixNeededForLevelSixLimitedToFive = 50;
-        const pixScoreAheadOfNextLevel = 2;
+        const remainingPixToNextLevel = 2;
 
         const competence = domainBuilder.buildCompetence({ id: 1 });
 
@@ -102,7 +102,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           name: competence.name,
           earnedPix: earnedPixNeededForLevelSixLimitedToFive,
           level: maxLevel,
-          pixScoreAheadOfNextLevel
+          remainingPixToNextLevel,
         });
 
         // when
@@ -110,7 +110,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           authenticatedUserId,
           scorecardId,
           smartPlacementKnowledgeElementRepository,
-          competenceRepository
+          competenceRepository,
         });
 
         //then

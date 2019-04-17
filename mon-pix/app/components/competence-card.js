@@ -12,8 +12,8 @@ export default Component.extend({
     return foundArea.color;
   }),
 
-  percentageAheadOfNextLevel: computed('scorecard.pixScoreAheadOfNextLevel', function() {
-    const percentage = this.scorecard.pixScoreAheadOfNextLevel / NUMBER_OF_PIX_BY_LEVEL * 100;
+  percentageAheadOfNextLevel: computed('scorecard.remainingPixToNextLevel', function() {
+    const percentage = this.scorecard.remainingPixToNextLevel/ NUMBER_OF_PIX_BY_LEVEL * 100;
     return percentage >= MAX_DISPLAYED_PERCENTAGE ? MAX_DISPLAYED_PERCENTAGE : percentage;
   }),
 
