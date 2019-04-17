@@ -7,7 +7,7 @@ export default Factory.extend({
   },
 
   code() {
-    return 'ABCDEF' + faker.random.number({min: 100, max: 999});
+    return 'ABCDEF' + faker.random.number({ min: 100, max: 999 });
   },
 
   createdAt() {

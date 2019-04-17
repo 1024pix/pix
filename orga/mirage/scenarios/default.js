@@ -1,17 +1,13 @@
 function _createSignedUpUser(server) {
-  let user;
-  let userOrganization;
-  let userMembership;
-
-  user = server.create('user', {
+  const user = server.create('user', {
     email: 'pro@example.net',
   });
 
-  userOrganization = server.create('organization', {
+  const userOrganization = server.create('organization', {
     name: 'BRO & MALA Corp & Associates'
   });
 
-  userMembership = server.create('membership', {
+  const userMembership = server.create('membership', {
     organizationId: userOrganization.id,
     userId: user.id
   });
@@ -24,17 +20,17 @@ function _createSignedUpUser(server) {
 function _createCampaigns(server) {
   const participationsCount = 100;
   const campaignReports = server.createList('campaign-report', 6, { participationsCount });
-  const campaigns = campaignReports.map(campaignReport => {
+  const campaigns = campaignReports.map((campaignReport) => {
     return server.create('campaign', { campaignReport });
   });
-  campaigns.map(campaign => {
+  campaigns.map((campaign) => {
     const users = server.createList('user', participationsCount);
-    users.forEach(user => {
+    users.forEach((user) => {
       const campaignParticipationResult = server.create('campaign-participation-result');
 
       server.create('campaign-participation', { user, campaign, campaignParticipationResult });
-    })
-  })
+    });
+  });
 }
 
 export default function(server) {

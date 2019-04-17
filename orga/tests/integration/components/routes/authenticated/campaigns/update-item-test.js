@@ -24,8 +24,8 @@ module('Integration | Component | routes/authenticated/campaign | update-item', 
     assert.dom('#campaign-title').exists();
     assert.dom('#campaign-custom-landing-page-text').exists();
     assert.dom('button[type="submit"]').exists();
-    assert.dom('#campaign-title').hasAttribute('maxLength', "50");
-    assert.dom('#campaign-custom-landing-page-text').hasAttribute('maxLength', "350");
+    assert.dom('#campaign-title').hasAttribute('maxLength', '50');
+    assert.dom('#campaign-custom-landing-page-text').hasAttribute('maxLength', '350');
   });
 
   test('it should send campaign update action when submitted', async function(assert) {

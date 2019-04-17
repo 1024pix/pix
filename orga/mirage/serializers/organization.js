@@ -9,6 +9,6 @@ export default JSONAPISerializer.extend({
       'targetProfiles': {
         related: `/organizations/${organization.id}/target-profiles`
       }
-    }
+    };
   }
 });

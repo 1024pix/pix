@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = {
   globals: {
     server: true,
@@ -11,7 +13,7 @@ module.exports = {
     'ember'
   ],
   extends: [
-    'eslint:recommended',
+    ...(fs.existsSync('../.eslintrc') ? ['../.eslintrc'] : []),
     'plugin:ember/recommended'
   ],
   env: {

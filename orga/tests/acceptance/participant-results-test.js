@@ -6,7 +6,7 @@ import { createUserWithMembership } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Details Participants', function (hooks) {
+module('Acceptance | Campaign Details Participants', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -22,9 +22,9 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
     server.createList('campaign-participation', 2, { campaignId: 1 });
   });
 
-  module('When user arrives on participants page', function () {
+  module('When user arrives on participants page', function() {
 
-    test('it could click on user to go to details', async function (assert) {
+    test('it could click on user to go to details', async function(assert) {
       // when
       await visit('/campagnes/1/participants');
       await click('.tr--clickable:first-child');
@@ -32,7 +32,7 @@ module('Acceptance | Campaign Details Participants', function (hooks) {
       // then
       assert.equal(currentURL(), '/campagnes/1/participants/1');
     });
-    test('it could return on list of participants', async function (assert) {
+    test('it could return on list of participants', async function(assert) {
       // when
       await visit('/campagnes/1/participants/1');
       await click('.campaign-details-content__return-button');

@@ -6,7 +6,7 @@ import { createUserWithMembership } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Participants Details', function (hooks) {
+module('Acceptance | Campaign Participants Details', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -23,9 +23,9 @@ module('Acceptance | Campaign Participants Details', function (hooks) {
     server.create('campaign-participation', { campaignId: 1, userId: 1 });
   });
 
-  test('it should display user details', async function (assert) {
+  test('it should display user details', async function(assert) {
     // when
-    await visit(`/campagnes/1/participants/1`);
+    await visit('/campagnes/1/participants/1');
 
     // then
     assert.dom('.page__title').hasText('Jack Doe');

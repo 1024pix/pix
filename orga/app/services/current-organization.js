@@ -10,7 +10,7 @@ export default Service.extend({
   }).readOnly(),
 
   load(user) {
-    if(isEmpty(user)) {
+    if (isEmpty(user)) {
       return resolve();
     }
 

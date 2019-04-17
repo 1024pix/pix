@@ -4,18 +4,18 @@ import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/details | participants-tab', function (hooks) {
+module('Integration | Component | routes/authenticated/campaign/details | participants-tab', function(hooks) {
   setupRenderingTest(hooks);
 
   let store;
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     run(() => {
       store = this.owner.lookup('service:store');
     });
   });
 
-  test('it should display the participant list of the campaign', async function (assert) {
+  test('it should display the participant list of the campaign', async function(assert) {
     // given
     const campaign = run(() => store.createRecord('campaign', {
       id: 1,
@@ -63,7 +63,7 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
     assert.dom('table tbody tr:nth-child(3) td:nth-child(3)').hasText('En cours de test');
   });
 
-  test('it should display the participant list of the campaign with external id', async function (assert) {
+  test('it should display the participant list of the campaign with external id', async function(assert) {
     // given
     const campaign = run(() => store.createRecord('campaign', {
       id: 1,
@@ -91,7 +91,7 @@ module('Integration | Component | routes/authenticated/campaign/details | partic
     assert.dom('table tbody tr td:nth-child(3)').hasText('123');
   });
 
-  test('it should display a sentence when there is no participant yet', async function (assert) {
+  test('it should display a sentence when there is no participant yet', async function(assert) {
     // given
     const campaign = run(() => store.createRecord('campaign', {
       id: 1,

@@ -29,7 +29,7 @@ Router.map(function() {
   this.route('login', { path: 'connexion' });
 
   this.route('authenticated', { path: '' }, function() {
-    this.route('terms-of-service', { path: '/cgu'});
+    this.route('terms-of-service', { path: '/cgu' });
     this.route('campaigns', { path: '/campagnes' }, function() {
       this.route('new', { path: '/creation' });
       this.route('list', { path: '/liste' });

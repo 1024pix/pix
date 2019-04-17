@@ -5,7 +5,7 @@ module('Unit | Route | authenticated/campaigns/update', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let route = this.owner.lookup('route:authenticated/campaigns/update');
+    const route = this.owner.lookup('route:authenticated/campaigns/update');
     assert.ok(route);
   });
 });
