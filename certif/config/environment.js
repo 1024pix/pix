@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(environment) {
-  let ENV = {
+  const ENV = {
     modulePrefix: 'pix-certif',
     environment,
     rootURL: '/',
@@ -45,18 +45,18 @@ module.exports = function(environment) {
 
     // Set or update content security policies
     contentSecurityPolicy: {
-      'default-src': "'none'",
-      'script-src': "'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
-      'font-src': "'self' fonts.gstatic.com",
-      'connect-src': "'self' www.google-analytics.com app.getsentry.com",
-      'img-src': "'self' app.getsentry.com",
-      'style-src': "'self' fonts.googleapis.com",
-      'media-src': "'self'",
+      'default-src': '\'none\'',
+      'script-src': '\'self\' www.google-analytics.com \'unsafe-inline\' \'unsafe-eval\' cdn.ravenjs.com',
+      'font-src': '\'self\' fonts.gstatic.com',
+      'connect-src': '\'self\' www.google-analytics.com app.getsentry.com',
+      'img-src': '\'self\' app.getsentry.com',
+      'style-src': '\'self\' fonts.googleapis.com',
+      'media-src': '\'self\'',
     },
   };
 
   if (environment === 'development') {
-    ENV.APP.API_HOST= 'http://localhost:3000';
+    ENV.APP.API_HOST = 'http://localhost:3000';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -65,7 +65,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
-    ENV.APP.API_HOST= 'http://localhost:3000';
+    ENV.APP.API_HOST = 'http://localhost:3000';
 
     // Testem prefers this...
     ENV.locationType = 'none';

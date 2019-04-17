@@ -6,7 +6,7 @@ import { createUserWithMembership } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Session Details', function (hooks) {
+module('Acceptance | Session Details', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -18,9 +18,9 @@ module('Acceptance | Session Details', function (hooks) {
     server.create('session', { id: 1 });
   });
 
-  module('When user is not logged in', function () {
+  module('When user is not logged in', function() {
 
-    test('it should not be accessible by an unauthenticated user', async function (assert) {
+    test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
       await visit('/sessions/1');
 
@@ -29,9 +29,9 @@ module('Acceptance | Session Details', function (hooks) {
     });
   });
 
-  module('When user is logged in', function () {
+  module('When user is logged in', function() {
 
-    test('it should be accessible for an authenticated user', async function (assert) {
+    test('it should be accessible for an authenticated user', async function(assert) {
       // given
       await authenticateSession({ user_id: user.id });
 
@@ -42,7 +42,7 @@ module('Acceptance | Session Details', function (hooks) {
       assert.equal(currentURL(), '/sessions/1');
     });
 
-    test('it should redirect to update page on click on update button', async function (assert) {
+    test('it should redirect to update page on click on update button', async function(assert) {
       // given
       await authenticateSession({ user_id: user.id });
       await visit('/sessions/1');
@@ -54,7 +54,7 @@ module('Acceptance | Session Details', function (hooks) {
       assert.equal(currentURL(), '/sessions/1/modification');
     });
 
-    test('it should redirect to update page on click on return button', async function (assert) {
+    test('it should redirect to update page on click on return button', async function(assert) {
       // given
       await authenticateSession({ user_id: user.id });
       await visit('/sessions/1');

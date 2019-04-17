@@ -14,6 +14,7 @@ module('Unit | Components | routes/authenticated/sessions/new-item', function(ho
   test('onDatePicked should set the session date', function(assert) {
     // given
     const formattedDate = '01/01/2010';
+    // eslint-disable-next-line
     const date = new Date('01/01/2010');
 
     // when
@@ -21,12 +22,13 @@ module('Unit | Components | routes/authenticated/sessions/new-item', function(ho
 
     // then
     const sessionDate = component.get('session.date');
-    assert.equal(sessionDate, formattedDate)
+    assert.equal(sessionDate, formattedDate);
   });
 
   test('onTimePicked should set the session time', function(assert) {
     // given
     const formattedTime = '13:45';
+    // eslint-disable-next-line
     const time = new Date('01/02/2015 13:45');
 
     // when
@@ -34,8 +36,7 @@ module('Unit | Components | routes/authenticated/sessions/new-item', function(ho
 
     // then
     const sessionTime = component.get('session.time');
-    assert.equal(sessionTime, formattedTime)
+    assert.equal(sessionTime, formattedTime);
   });
-
 
 });

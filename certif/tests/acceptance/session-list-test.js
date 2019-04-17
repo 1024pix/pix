@@ -14,9 +14,9 @@ module('Acceptance | Session List', function(hooks) {
 
   let user;
 
-  module('When user is not authenticated', function () {
+  module('When user is not authenticated', function() {
 
-    test('it should not be accessible', async function (assert) {
+    test('it should not be accessible', async function(assert) {
       // when
       await visit('/sessions/liste');
 
@@ -26,13 +26,13 @@ module('Acceptance | Session List', function(hooks) {
 
   });
 
-  module('When user is authenticated', function () {
+  module('When user is authenticated', function() {
 
     hooks.beforeEach(async () => {
       user = createUserWithMembership();
     });
 
-    test('it should be accessible', async function (assert) {
+    test('it should be accessible', async function(assert) {
       // given
       await authenticateSession({
         user_id: user.id,
@@ -45,7 +45,7 @@ module('Acceptance | Session List', function(hooks) {
       assert.equal(currentURL(), '/sessions/liste');
     });
 
-    test('it should show title indicating that the user can create a session', async function (assert) {
+    test('it should show title indicating that the user can create a session', async function(assert) {
       // given
       await authenticateSession({
         user_id: user.id,
@@ -58,7 +58,7 @@ module('Acceptance | Session List', function(hooks) {
       assert.dom('.page-title').hasText('Créez votre première session de certification');
     });
 
-    test('it should list the sessions', async function (assert) {
+    test('it should list the sessions', async function(assert) {
       // given
       server.createList('session', 12);
 
@@ -73,7 +73,7 @@ module('Acceptance | Session List', function(hooks) {
       assert.dom('table tbody tr').exists({ count: 12 });
     });
 
-    test('it should redirect to detail page of session id 1 on click on first row', async function (assert) {
+    test('it should redirect to detail page of session id 1 on click on first row', async function(assert) {
       // given
       const user = createUserWithMembership();
       server.createList('session', 2);
