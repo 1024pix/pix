@@ -11,7 +11,7 @@ export default Controller.extend({
       return campaign.save()
         .then((campaign) => this.transitionToRoute('authenticated.campaigns.details', campaign.id))
         .catch((errorResponse) => {
-          errorResponse.errors.forEach(error => {
+          errorResponse.errors.forEach((error) => {
             if (error.status === '500') {
               return this.set('error500Message', error.detail);
             }

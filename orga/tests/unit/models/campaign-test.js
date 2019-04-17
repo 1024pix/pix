@@ -6,14 +6,14 @@ module('Unit | Model | campaign', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let store = this.owner.lookup('service:store');
-    let model = run(() => store.createRecord('campaign', {}));
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('campaign', {}));
     assert.ok(model);
   });
 
   test('it should return the right data in the campaign model', function(assert) {
-    let store = this.owner.lookup('service:store');
-    let model = run(() => store.createRecord('campaign', {
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('campaign', {
       name: 'Fake name',
       code: 'ABC123'
     }));
@@ -22,13 +22,13 @@ module('Unit | Model | campaign', function(hooks) {
   });
 
   test('it should construct the url to result of the campaign', function(assert) {
-    let store = this.owner.lookup('service:store');
-    let model = run(() => store.createRecord('campaign', {
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('campaign', {
       id: 1,
       name: 'Fake name',
       code: 'ABC123',
       tokenForCampaignResults: 'token'
     }));
     assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csvResults?accessToken=token');
-  })
+  });
 });

@@ -17,13 +17,13 @@ module('Unit | Route | application', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let route = this.owner.lookup('route:application');
+    const route = this.owner.lookup('route:application');
     assert.ok(route);
   });
 
   test('it should load the current user', function(assert) {
     // given
-    let route =  this.owner.lookup('route:application');
+    const route =  this.owner.lookup('route:application');
     const currentUserStub = createLoadServiceStub();
     route.set('currentUser', currentUserStub);
 
@@ -38,7 +38,7 @@ module('Unit | Route | application', function(hooks) {
 
   test('it should load the current organization', function(assert) {
     // given
-    let route =  this.owner.lookup('route:application');
+    const route =  this.owner.lookup('route:application');
     const currentUserStub = createLoadServiceStub();
     const currentOrganizationStub = createLoadServiceStub();
 

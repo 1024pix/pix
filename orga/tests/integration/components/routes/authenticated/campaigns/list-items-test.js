@@ -10,8 +10,8 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
   test('it should display a list of campaigns', async function(assert) {
     // given
     const campaigns = [
-      { name: 'campagne 1', code: 'AAAAAA111'},
-      { name: 'campagne 2', code: 'BBBBBB222'},
+      { name: 'campagne 1', code: 'AAAAAA111' },
+      { name: 'campagne 2', code: 'BBBBBB222' },
     ];
 
     this.set('campaigns', campaigns);
@@ -26,13 +26,13 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
 
   test('it should display the name of the campaigns', async function(assert) {
     // given
-    let store = this.owner.lookup('service:store');
-    let campaign1 = run(() => store.createRecord('campaign', {
+    const store = this.owner.lookup('service:store');
+    const campaign1 = run(() => store.createRecord('campaign', {
       id: 1,
       name: 'campagne 1',
       code: 'AAAAAA111'
     }));
-    let campaign2 = run(() => store.createRecord('campaign', {
+    const campaign2 = run(() => store.createRecord('campaign', {
       id: 2,
       name: 'campagne 1',
       code: 'BBBBBB222'
@@ -50,14 +50,14 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
 
   test('it should display the participations count', async function(assert) {
     // given
-    let store = this.owner.lookup('service:store');
+    const store = this.owner.lookup('service:store');
     const campaignReport = run(() => store.createRecord('campaignReport', {
       id: 1,
       participationsCount: 10,
       sharedParticipationsCount: 4,
     }));
 
-    let campaign1 = run(() => store.createRecord('campaign', {
+    const campaign1 = run(() => store.createRecord('campaign', {
       id: 1,
       name: 'campagne 1',
       code: 'AAAAAA111',
@@ -77,14 +77,14 @@ module('Integration | Component | routes/authenticated/campaign | list-items', f
 
   test('it should display the shared participations count', async function(assert) {
     // given
-    let store = this.owner.lookup('service:store');
+    const store = this.owner.lookup('service:store');
     const campaignReport = run(() => store.createRecord('campaignReport', {
       id: 1,
       participationsCount: 10,
       sharedParticipationsCount: 4,
     }));
 
-    let campaign1 = run(() => store.createRecord('campaign', {
+    const campaign1 = run(() => store.createRecord('campaign', {
       id: 1,
       name: 'campagne 1',
       code: 'AAAAAA111',

@@ -6,16 +6,16 @@ module('Unit | Model | campaign-participation-result', function(hooks) {
   setupTest(hooks);
 
   test('should have a 100% progression when completed', function(assert) {
-    let store = this.owner.lookup('service:store');
-    let model = run(() => store.createRecord('campaign-participation-result', {
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('campaign-participation-result', {
       isCompleted: true,
     }));
     assert.equal(model.percentageProgression, 100);
   });
 
   test('should have a rounded progression', function(assert) {
-    let store = this.owner.lookup('service:store');
-    let model = run(() => store.createRecord('campaign-participation-result', {
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('campaign-participation-result', {
       isCompleted: false,
       totalSkillsCount: 11,
       testedSkillsCount: 3
@@ -26,7 +26,7 @@ module('Unit | Model | campaign-participation-result', function(hooks) {
   module('maxTotalSkillsCountInCompetences', function() {
 
     test('should calculate max total skills', function(assert) {
-      let store = this.owner.lookup('service:store');
+      const store = this.owner.lookup('service:store');
       const competenceResult1 = store.createRecord('competence-result', {
         totalSkillsCount: 2
       });
@@ -37,7 +37,7 @@ module('Unit | Model | campaign-participation-result', function(hooks) {
         totalSkillsCount: 10
       });
 
-      let model = run(() => store.createRecord('campaign-participation-result', {}));
+      const model = run(() => store.createRecord('campaign-participation-result', {}));
       model.set('competenceResults', [competenceResult1, competenceResult2, competenceResult3]);
 
       // when
@@ -51,8 +51,8 @@ module('Unit | Model | campaign-participation-result', function(hooks) {
   module('masteryPercentage', function() {
 
     test('should calculate total validated skills percentage', function(assert) {
-      let store = this.owner.lookup('service:store');
-      let model = run(() => store.createRecord('campaign-participation-result', {}));
+      const store = this.owner.lookup('service:store');
+      const model = run(() => store.createRecord('campaign-participation-result', {}));
       model.set('totalSkillsCount', 45);
       model.set('validatedSkillsCount', 40);
 

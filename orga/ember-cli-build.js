@@ -5,11 +5,10 @@ const environment = process.env.environment;
 const pluginsToBlacklist = environment === 'production' ? ['ember-freestyle'] : [];
 
 module.exports = function(defaults) {
-  let app = new EmberApp(defaults, {
+  const app = new EmberApp(defaults, {
     addons: {
       blacklist: pluginsToBlacklist
     },
-
 
     'ember-cli-template-lint': {
       testGenerator: 'qunit' // or 'mocha', etc.

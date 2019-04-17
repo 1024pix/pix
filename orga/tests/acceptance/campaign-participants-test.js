@@ -6,7 +6,7 @@ import { createUserWithMembership } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Participants', function (hooks) {
+module('Acceptance | Campaign Participants', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -25,9 +25,9 @@ module('Acceptance | Campaign Participants', function (hooks) {
     server.createList('campaign-participation', rowCount, { campaignId: 1 });
   });
 
-  module('When user arrives on participants page', function () {
+  module('When user arrives on participants page', function() {
 
-    test('it should display participant list with default settings for pagination', async function (assert) {
+    test('it should display participant list with default settings for pagination', async function(assert) {
       // when
       await visit('/campagnes/1/participants');
 
@@ -38,7 +38,7 @@ module('Acceptance | Campaign Participants', function (hooks) {
       assert.dom('.page-size option:checked').hasText(pageSize.toString());
     });
 
-    test('it should display participant list with settings in url for pagination', async function (assert) {
+    test('it should display participant list with settings in url for pagination', async function(assert) {
       // given
       const changedPageSize = 25;
       const changedPageNumber = 2;
@@ -53,10 +53,9 @@ module('Acceptance | Campaign Participants', function (hooks) {
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
 
-
-    test('it should redirect to participant details when user clicks on row', async function (assert) {
+    test('it should redirect to participant details when user clicks on row', async function(assert) {
       // given
-      await visit(`/campagnes/1/participants`);
+      await visit('/campagnes/1/participants');
 
       // when
       await click('table tbody .tr--clickable');
@@ -66,9 +65,9 @@ module('Acceptance | Campaign Participants', function (hooks) {
     });
   });
 
-  module('When user is already on participants page and changes pagination', function () {
+  module('When user is already on participants page and changes pagination', function() {
 
-    test('it should display participant list with updated page size', async function (assert) {
+    test('it should display participant list with updated page size', async function(assert) {
       // given
       const changedPageSize = 25;
 
@@ -83,7 +82,7 @@ module('Acceptance | Campaign Participants', function (hooks) {
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
 
-    test('it should change participant list page when user clicks on next page', async function (assert) {
+    test('it should change participant list page when user clicks on next page', async function(assert) {
       // given
       await visit('/campagnes/1/participants');
       const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
@@ -96,7 +95,7 @@ module('Acceptance | Campaign Participants', function (hooks) {
       assert.dom('table tbody').doesNotContainText(someElementFromPage1);
     });
 
-    test('it should go back to first page when user changes page size', async function (assert) {
+    test('it should go back to first page when user changes page size', async function(assert) {
       // given
       const changedPageSize = 25;
       const startPage = 3;

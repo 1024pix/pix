@@ -71,5 +71,4 @@ module('Integration | Component | login-form', function(hooks) {
     assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
   });
 
-
 });
