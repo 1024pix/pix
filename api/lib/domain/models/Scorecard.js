@@ -5,6 +5,7 @@ class Scorecard {
   constructor({
     id,
     name,
+    description,
     index,
     area,
     earnedPix,
@@ -12,6 +13,7 @@ class Scorecard {
     this.id = id;
     // attributes
     this.name = name;
+    this.description = description;
     this.index = index;
     this.area = area;
     this.earnedPix = earnedPix;

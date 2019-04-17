@@ -13,8 +13,8 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
         id: scorecardObject.id,
         attributes: {
           name: scorecardObject.name,
+          description: scorecardObject.description,
           index: scorecardObject.index,
-          'course-id': scorecardObject.courseId,
           'earned-pix': scorecardObject.earnedPix,
           level: scorecardObject.level,
           'remaining-pix-to-next-level': scorecardObject.remainingPixToNextLevel

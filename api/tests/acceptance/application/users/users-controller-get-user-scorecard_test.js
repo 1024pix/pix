@@ -68,6 +68,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
           id: competenceId,
           epreuves: [],
           titre: 'Mener une recherche et une veille d’information',
+          description: 'Une description',
           tests: [],
           acquisIdentifiants: [skillWeb1Id],
           tubes: [],
@@ -113,9 +114,10 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
         const expectedScorecardJSONApi = {
           data: [{
             type: 'scorecards',
-            id: `1234_${competenceId}`,
+            id: competenceId,
             attributes: {
               name: competence.fields.Titre,
+              description: competence.fields.Description,
               index: competence.fields['Sous-domaine'],
               'earned-pix': knowledgeElement.earnedPix,
               level: Math.round(knowledgeElement.earnedPix/8),
