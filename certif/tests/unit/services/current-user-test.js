@@ -37,7 +37,7 @@ module('Unit | Service | current-user', function(hooks) {
 
     const storeStub = buildResolvingStore(connectedUser);
 
-    let service = this.owner.lookup('service:current-user');
+    const service = this.owner.lookup('service:current-user');
     service.set('store', storeStub);
     service.set('session', sessionStub);
 
@@ -54,7 +54,7 @@ module('Unit | Service | current-user', function(hooks) {
 
   test('it should not be writable', function(assert) {
     // given
-    let service = this.owner.lookup('service:current-user');
+    const service = this.owner.lookup('service:current-user');
 
     // when
     const failingAction = () => service.set('user', 'should not pass');
@@ -70,8 +70,7 @@ module('Unit | Service | current-user', function(hooks) {
       data: { authenticated: { user_id: 123 } }
     });
 
-
-    let service = this.owner.lookup('service:current-user');
+    const service = this.owner.lookup('service:current-user');
     service.set('session', sessionStub);
     service.set('store', storeStub);
 
@@ -91,7 +90,7 @@ module('Unit | Service | current-user', function(hooks) {
       data: { authenticated: { user_id: connectedUserId } }
     });
 
-    let service = this.owner.lookup('service:current-user');
+    const service = this.owner.lookup('service:current-user');
     service.set('session', sessionStub);
 
     return run(() => {

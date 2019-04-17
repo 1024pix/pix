@@ -5,7 +5,7 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let route = this.owner.lookup('route:authenticated/sessions/list');
+    const route = this.owner.lookup('route:authenticated/sessions/list');
     assert.ok(route);
   });
 });

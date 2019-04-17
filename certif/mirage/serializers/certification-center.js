@@ -6,6 +6,6 @@ export default JSONAPISerializer.extend({
       'sessions': {
         related: `/certification-centers/${certificationCenter.id}/sessions`
       }
-    }
+    };
   }
 });

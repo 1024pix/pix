@@ -1,17 +1,13 @@
 function _createSignedUpUser(server) {
-  let user;
-  let userCertificationCenter;
-  let userMembership;
-
-  user = server.create('user', {
+  const user = server.create('user', {
     email: 'pro@example.net',
   });
 
-  userCertificationCenter = server.create('certificationCenter', {
+  const userCertificationCenter = server.create('certificationCenter', {
     name: 'Centre de certification du Pix'
   });
 
-  userMembership = server.create('certification-center-membership', {
+  const userMembership = server.create('certification-center-membership', {
     certificationCenterId: userCertificationCenter.id,
     userId: user.id
   });

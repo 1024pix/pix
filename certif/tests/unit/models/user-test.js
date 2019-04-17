@@ -8,10 +8,10 @@ module('Unit | Model | user', function(hooks) {
 
   test('it exists', function(assert) {
     // given
-    let store = this.owner.lookup('service:store');
+    const store = this.owner.lookup('service:store');
 
     // when
-    let model = run(() => store.createRecord('user', {}));
+    const model = run(() => store.createRecord('user', {}));
 
     // then
     assert.ok(model);

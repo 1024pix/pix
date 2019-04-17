@@ -5,7 +5,7 @@ module('Unit | Component | authenticated/sessions/details-item', function(hooks)
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let component = this.owner.lookup('component:routes/authenticated/sessions/details-item');
+    const component = this.owner.lookup('component:routes/authenticated/sessions/details-item');
     assert.ok(component);
   });
 });

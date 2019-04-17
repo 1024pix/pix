@@ -1,7 +1,7 @@
 import Response from 'ember-cli-mirage/response';
 
 function parseQueryString(queryString) {
-  let result = Object.create(null);
+  const result = Object.create(null);
   queryString.split('&').forEach((pair) => {
     const [name, value] = pair.split('=');
     result[name] = decodeURIComponent(value);

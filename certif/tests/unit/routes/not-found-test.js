@@ -5,13 +5,13 @@ module('Unit | Route | not-found', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let route = this.owner.lookup('route:not-found');
+    const route = this.owner.lookup('route:not-found');
     assert.ok(route);
   });
 
   test('should redirect to application route', function(assert) {
-    let route = this.owner.lookup('route:not-found');
-    let expectedRedirection = 'application';
+    const route = this.owner.lookup('route:not-found');
+    const expectedRedirection = 'application';
 
     route.transitionTo = (redirection) => {
       assert.equal(
