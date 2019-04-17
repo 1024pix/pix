@@ -47,7 +47,7 @@ describe('Unit | Route | changer mot de passe', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(findRecordStub);
-        sinon.assert.calledWith(findRecordStub, 'password-reset-demand', params.temporaryKey);
+        sinon.assert.calledWith(findRecordStub, 'password-reset-demand', params.temporary_key);
       });
     });
 
