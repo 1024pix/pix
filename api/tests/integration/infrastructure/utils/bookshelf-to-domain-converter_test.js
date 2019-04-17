@@ -100,7 +100,6 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       expect(domainAssessment.assessmentResults).to.equal('EvilCorp');
     });
 
-    // TODO: Remove this after refactoring SmartPlacementKnowledgeElements into KnowledgeElements
     it('should deal with the specific case of knowledge elements whose called differently as a model or as a property', () => {
       // given
       const userWithKnowledgeElements = new BookshelfUser({
