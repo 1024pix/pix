@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
       expect(scorecard.area).to.equal('Competence area');
       expect(scorecard.earnedPix).to.equal(10);
       expect(scorecard.level).to.equal(1);
-      expect(scorecard.remainingPixToNextLevel).to.equal(2);
+      expect(scorecard.pixScoreAheadOfNextLevel).to.equal(2);
     });
   });
 

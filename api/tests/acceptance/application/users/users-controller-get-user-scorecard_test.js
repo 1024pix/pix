@@ -121,7 +121,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
               index: competence.fields['Sous-domaine'],
               'earned-pix': knowledgeElement.earnedPix,
               level: Math.round(knowledgeElement.earnedPix/8),
-              'remaining-pix-to-next-level': knowledgeElement.earnedPix,
+              'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
             },
             relationships: {
               area: {

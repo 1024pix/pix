@@ -9,5 +9,5 @@ export default Model.extend({
   area: belongsTo('area'),
   earnedPix: attr('number'),
   level: attr('number'),
-  remainingPixToNextLevel: attr('number'),
+  pixScoreAheadOfNextLevel: attr('number'),
 });

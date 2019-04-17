@@ -14,15 +14,15 @@ describe('Unit | Component | competence-card-component', function() {
 
   describe('#percentageAheadOfNextLevel', function() {
     [
-      { remainingPixToNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
-      { remainingPixToNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
-      { remainingPixToNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
-      { remainingPixToNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 }
+      { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
+      { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
+      { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
+      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 }
     ].forEach((data) => {
 
-      it(`should return ${data.expectedPercentageAheadOfNextLevel} when remainingPixToNextLevelis ${data.remainingPixToNextLevel}`, function() {
+      it(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevelis ${data.pixScoreAheadOfNextLevel}`, function() {
         // given
-        const scorecard = { remainingPixToNextLevel: data.remainingPixToNextLevel };
+        const scorecard = { pixScoreAheadOfNextLevel: data.pixScoreAheadOfNextLevel };
         component.set('scorecard', scorecard);
 
         // when
@@ -36,17 +36,17 @@ describe('Unit | Component | competence-card-component', function() {
 
   describe('#displayedLevel', function() {
     [
-      { level: undefined, remainingPixToNextLevel: undefined, expectedLevel: null },
-      { level: null, remainingPixToNextLevel: null, expectedLevel: null },
-      { level: 0, remainingPixToNextLevel: 0, expectedLevel: null },
-      { level: 1, remainingPixToNextLevel: 0, expectedLevel: 1 },
-      { level: 0, remainingPixToNextLevel: 4, expectedLevel: '--' },
-      { level: 3, remainingPixToNextLevel: 5, expectedLevel: 3 }
+      { level: undefined, pixScoreAheadOfNextLevel: undefined, expectedLevel: null },
+      { level: null, pixScoreAheadOfNextLevel: null, expectedLevel: null },
+      { level: 0, pixScoreAheadOfNextLevel: 0, expectedLevel: null },
+      { level: 1, pixScoreAheadOfNextLevel: 0, expectedLevel: 1 },
+      { level: 0, pixScoreAheadOfNextLevel: 4, expectedLevel: '--' },
+      { level: 3, pixScoreAheadOfNextLevel: 5, expectedLevel: 3 }
     ].forEach((data) => {
 
-      it(`should return ${data.expectedLevel} when level is ${data.level} and remainingPixToNextLevelis ${data.remainingPixToNextLevel}`, function() {
+      it(`should return ${data.expectedLevel} when level is ${data.level} and pixScoreAheadOfNextLevelis ${data.pixScoreAheadOfNextLevel}`, function() {
         // given
-        const scorecard = { remainingPixToNextLevel: data.remainingPixToNextLevel, level: data.level };
+        const scorecard = { pixScoreAheadOfNextLevel: data.pixScoreAheadOfNextLevel, level: data.level };
         component.set('scorecard', scorecard);
 
         // when
