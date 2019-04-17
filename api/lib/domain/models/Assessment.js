@@ -4,7 +4,6 @@ const moment = require('moment');
 const { ObjectValidationError } = require('../errors');
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
-
 const MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = 7;
 
 const states = {
@@ -20,23 +19,7 @@ const types = {
   PREVIEW: 'PREVIEW',
 };
 
-/*
- * Traduction : Évaluation
- */
 class Assessment {
-
-  /*
-   * TODO: changer the Object.assign en quelque chose de plus expressif
-   * Complétez la liste des attributs de la classe Assessment
-   *
-   * id: String,
-   * course : associatedCourse (Class Course)
-   * createdAt: Date
-   * user: ? (class User ?)
-   * successRate: 24, ?? Je ne sais pas ce que c'est
-   * type: 'charade', String ?
-   * state: String
-   */
   constructor({
     id,
     // attributes
