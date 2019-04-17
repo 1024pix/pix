@@ -3,7 +3,7 @@ import DS from 'ember-data';
 export default DS.JSONAPISerializer.extend({
 
   serialize(snapshot) {
-    let json = this._super(...arguments);
+    const json = this._super(...arguments);
 
     json.data.attributes['first-name'] = snapshot.record.get('firstName');
     json.data.attributes['last-name'] = snapshot.record.get('lastName');

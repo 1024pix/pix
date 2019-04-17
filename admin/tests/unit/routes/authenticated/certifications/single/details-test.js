@@ -5,7 +5,7 @@ module('Unit | Route | authenticated/certifications/single/details', function(ho
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let route = this.owner.lookup('route:authenticated/certifications/single/details');
+    const route = this.owner.lookup('route:authenticated/certifications/single/details');
     assert.ok(route);
   });
 });

@@ -5,13 +5,13 @@ module('Unit | Component | certification-info-field', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let component = this.owner.factoryFor('component:certification-info-field').create();
+    const component = this.owner.factoryFor('component:certification-info-field').create();
     assert.ok(component);
   });
 
   test('it should compute correct widths for large dimensions', function(assert) {
     // given
-    let component = this.owner.factoryFor('component:certification-info-field').create();
+    const component = this.owner.factoryFor('component:certification-info-field').create();
     assert.expect(2);
 
     // when
@@ -24,7 +24,7 @@ module('Unit | Component | certification-info-field', function(hooks) {
 
   test('it should compute correct widths for small dimensions', function(assert) {
     // given
-    let component = this.owner.factoryFor('component:certification-info-field').create();
+    const component = this.owner.factoryFor('component:certification-info-field').create();
     assert.expect(2);
 
     // when

@@ -14,11 +14,11 @@ export default Component.extend({
 
   // Computed properties
   certifiedWidth: computed('competence', function() {
-    let obtainedLevel = this.competence.obtainedLevel;
+    const obtainedLevel = this.competence.obtainedLevel;
     return htmlSafe('width:' + Math.round((obtainedLevel / 8) * 100) + '%');
   }),
   positionedWidth: computed('competence', function() {
-    let positionedLevel = this.competence.positionedLevel;
+    const positionedLevel = this.competence.positionedLevel;
     return htmlSafe('width:' + Math.round((positionedLevel / 8) * 100) + '%');
   }),
   answers: computed('competence', function() {
@@ -34,7 +34,7 @@ export default Component.extend({
       return false;
     }
     const score = competence.obtainedScore;
-    let newScore = this._computeScore(juryRate);
+    const newScore = this._computeScore(juryRate);
     if (newScore.score != score) {
       competence.juryScore = newScore.score;
       competence.juryLevel = newScore.level;
@@ -55,25 +55,25 @@ export default Component.extend({
     if (rate < 50) {
       return { score: 0, level: -1 };
     }
-    let competence = this.competence;
+    const competence = this.competence;
     const score = competence.positionedScore;
     const level = competence.positionedLevel;
     const answers = competence.answers;
     let answersData = { good: 0, partially: 0, count: 0 };
     if (answers) {
       answersData = answers.reduce((data, answer) => {
-          let value = answer.jury ? answer.jury : answer.result;
-          if (value === 'ok') {
-            data.good++;
-          } else if (value === 'partially') {
-            data.partially++;
-          }
-          if (value !== 'skip') {
-            data.count++;
-          }
-          return data;
+        const value = answer.jury ? answer.jury : answer.result;
+        if (value === 'ok') {
+          data.good++;
+        } else if (value === 'partially') {
+          data.partially++;
         }
-        , answersData);
+        if (value !== 'skip') {
+          data.count++;
+        }
+        return data;
+      }
+      , answersData);
     }
     switch (answersData.count) {
       case 0:

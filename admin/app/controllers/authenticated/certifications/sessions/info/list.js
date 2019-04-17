@@ -53,7 +53,7 @@ export default Controller.extend({
   // Actions
   actions: {
     onExport() {
-      let ids = this.get('model.certificationIds').toArray();
+      const ids = this.get('model.certificationIds').toArray();
       this.set('progressMax', ids.length);
       this.set('progressValue', 0);
       this.set('progress', true);
@@ -67,26 +67,26 @@ export default Controller.extend({
         })
         .then((csv) => {
           this.set('progress', false);
-          let fileName = 'session_' + this.get('model.session.id') + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
-          this.fileSaver.saveAs(csv + "\n", fileName);
+          const fileName = 'session_' + this.get('model.session.id') + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+          this.fileSaver.saveAs(csv + '\n', fileName);
         });
     },
     onImport() {
-      let fileInput = document.getElementById('session-list__import-file');
+      const fileInput = document.getElementById('session-list__import-file');
       fileInput.click();
     },
     onImportFileSelect(evt) {
       try {
-        let file = evt.target.files[0];
-        let reader = new FileReader();
-        let that = this;
+        const file = evt.target.files[0];
+        const reader = new FileReader();
+        const that = this;
         reader.onload = function(event) {
-          let data = event.target.result;
+          const data = event.target.result;
           // We delete the BOM UTF8 at the beginning of the CSV,
           // otherwise the first element is wrongly parsed.
           const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
           const parsedCSVData = Papa.parse(csvRawData, { header: true, skipEmptyLines: true }).data;
-          let rowCount = parsedCSVData.length;
+          const rowCount = parsedCSVData.length;
           that.set('progressMax', parsedCSVData.length);
           that.set('progressValue', 0);
           that.set('progress', true);
@@ -107,7 +107,7 @@ export default Controller.extend({
       }
     },
     onConfirmPublishSelected() {
-      let count = this.selectedCertifications.length;
+      const count = this.selectedCertifications.length;
       if (count === 1) {
         this.set('confirmMessage', 'Souhaitez-vous publier la certification sélectionnée ?');
       } else {
@@ -117,7 +117,7 @@ export default Controller.extend({
       this.set('displayConfirm', true);
     },
     onConfirmUnpublishSelected() {
-      let count = this.selectedCertifications.length;
+      const count = this.selectedCertifications.length;
       if (count === 1) {
         this.set('confirmMessage', 'Souhaitez-vous dépublier la certification sélectionnée ?');
       } else {
@@ -144,7 +144,7 @@ export default Controller.extend({
   // Private methods
 
   _getExportJson(certificationsIds, json) {
-    let ids = certificationsIds.splice(0, 10);
+    const ids = certificationsIds.splice(0, 10);
     return this._getCertificationsJson(ids)
       .then((value) => {
         this.set('progressValue', this.progressValue + value.length);
@@ -157,7 +157,7 @@ export default Controller.extend({
   },
 
   _importCertificationsData(data) {
-    let dataPiece = data.splice(0, 10);
+    const dataPiece = data.splice(0, 10);
     return this._updateCertifications(dataPiece)
       .then(() => {
         this.set('progressValue', this.progressValue + 10);
@@ -171,8 +171,8 @@ export default Controller.extend({
 
   _startCertificationPublication(value) {
     this.set('displayConfirm', false);
-    let certifications = this.selectedCertifications;
-    let count = certifications.length;
+    const certifications = this.selectedCertifications;
+    const count = certifications.length;
     this.set('progressMax', certifications.length);
     this.set('progressValue', 0);
     this.set('progress', true);
@@ -193,7 +193,7 @@ export default Controller.extend({
   },
 
   _publishCertifications(certifications, value) {
-    let piece = certifications.splice(0, 10);
+    const piece = certifications.splice(0, 10);
     return this._setCertificationPublished(piece, value)
       .then(() => {
         this.set('progressValue', this.progressValue + 10);
@@ -206,8 +206,8 @@ export default Controller.extend({
   },
 
   _getCertificationsJson(ids) {
-    let store = this.store;
-    let requests = ids.map((id) => {
+    const store = this.store;
+    const requests = ids.map((id) => {
       return store.findRecord('certification', id)
         .catch(() => {
           // TODO: display error somehow
@@ -226,12 +226,12 @@ export default Controller.extend({
   },
 
   _getJsonRow(certification) {
-    let data = Object.keys(this._fields).reduce((currentData, field) => {
-      let header = this._fields[field];
+    const data = Object.keys(this._fields).reduce((currentData, field) => {
+      const header = this._fields[field];
       currentData[header] = certification.get(field);
       return currentData;
     }, {});
-    let competences = certification.get('indexedCompetences');
+    const competences = certification.get('indexedCompetences');
     this._competences.forEach((competence) => {
       data[competence] = (competences[competence] == null) ? '' : competences[competence].level;
     });
@@ -239,22 +239,22 @@ export default Controller.extend({
   },
 
   _updateCertifications(data) {
-    let store = this.store;
-    let requests = [];
-    let newData = {};
+    const store = this.store;
+    const requests = [];
+    const newData = {};
     data.forEach((piece) => {
-      let id = piece[this._fields.id];
+      const id = piece[this._fields.id];
       newData[id] = piece;
       requests.push(store.findRecord('certification', id));
     });
     return Promise.all(requests)
       .then((certifications) => {
-        let updateRequests = [];
+        const updateRequests = [];
         certifications.forEach((certification) => {
-          let id = certification.get('id');
-          let newDataPiece = newData[id];
+          const id = certification.get('id');
+          const newDataPiece = newData[id];
           this._csvImportFields.forEach((key) => {
-            let fieldName = this._fields[key];
+            const fieldName = this._fields[key];
             let fieldValue = newDataPiece[fieldName];
             if (fieldValue.length == 0) {
               fieldValue = null;
@@ -277,7 +277,7 @@ export default Controller.extend({
   },
 
   _setCertificationPublished(certifications, value) {
-    let promises = certifications.reduce((result, certification) => {
+    const promises = certifications.reduce((result, certification) => {
       certification.set('isPublished', value);
       result.push(certification.save({ adapterOptions: { updateMarks: false } }));
       return result;
