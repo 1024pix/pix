@@ -6,6 +6,7 @@ class CompetenceEvaluation {
     createdAt,
     updatedAt,
     // includes
+    assessment,
     // references
     assessmentId,
     competenceId,
@@ -15,6 +16,8 @@ class CompetenceEvaluation {
     // attributes
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    //includes
+    this.assessment = assessment;
     // references
     this.assessmentId = assessmentId;
     this.competenceId = competenceId;
