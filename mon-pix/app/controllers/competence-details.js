@@ -15,6 +15,10 @@ export default Controller.extend({
     return foundArea.color;
   }),
 
+  pixScoreToNextLevel: computed('model', function() {
+    return NUMBER_OF_PIX_BY_LEVEL - this.get('model.pixScoreAheadOfNextLevel');
+  }),
+
   percentageAheadOfNextLevel: computed('model', function() {
     const percentage = this.get('model.pixScoreAheadOfNextLevel') / NUMBER_OF_PIX_BY_LEVEL * 100;
 
