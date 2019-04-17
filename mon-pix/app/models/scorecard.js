@@ -13,7 +13,5 @@ export default Model.extend({
   pixScoreAheadOfNextLevel: attr('number'),
   status: attr('string'),
 
-  isStarted: equal('status', 'STARTED'),
-  isCompleted: equal('status', 'COMPLETED'),
-  isNotStarted: equal('status', 'NOT_STARTED'),
+  isFinished: equal('status', 'COMPLETED'),
 });
