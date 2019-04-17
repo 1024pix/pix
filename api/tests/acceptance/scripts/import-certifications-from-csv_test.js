@@ -256,7 +256,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
         })
         .reply(200, {});
-      const nockStub2= nock('http://localhost:3000', {
+      const nockStub2 = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
       })
         .patch('/api/certification-courses/2', function(body) {
