@@ -13,13 +13,15 @@
     {{/circle-chart}}
   </div>
   <footer class="competence-card__footer">
-    {{#link-to "competences.resume" scorecard.competenceId
-               class="button button--thin button--link button--green competence-card__button"}}
-      {{#if displayedLevel}}
-        Continuer
-      {{else}}
-        Commencer
-      {{/if}}
-    {{/link-to}}
+    {{#if (not scorecard.isCompleted)}}
+      {{#link-to "competences.resume" scorecard.competenceId
+                 class="button button--thin button--link button--green competence-card__button"}}
+        {{#if scorecard.isStarted}}
+          Continuer
+        {{else}}
+          Commencer
+        {{/if}}
+      {{/link-to}}
+    {{/if}}
   </footer>
 </article>

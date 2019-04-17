@@ -24,8 +24,7 @@ module.exports = {
       .then((knowledgeElements) => knowledgeElements.map(_toDomain));
   },
 
-  findUniqByUserId({ userId, limitDate, includeAssessments = false }) {
-    const withRelated = includeAssessments ? ['assessment'] : [];
+  findUniqByUserId({ userId, limitDate }) {
     return BookshelfKnowledgeElement
       .query((qb) => {
         qb.where({ userId });
@@ -33,15 +32,13 @@ module.exports = {
           qb.where('knowledge-elements.createdAt', '<', limitDate);
         }
       })
-      .fetchAll({ withRelated })
+      .fetchAll()
       .then((knowledgeElements) => knowledgeElements.map(_toDomain))
       .then((knowledgeElements) => {
         return _(knowledgeElements)
           .orderBy('createdAt', 'desc')
           .uniqBy('skillId')
           .value();
-      }).catch((err) => {
-        console.error(err);
       });
   },
 
