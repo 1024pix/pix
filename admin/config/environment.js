@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(environment) {
-  let ENV = {
+  const ENV = {
     modulePrefix: 'pix-admin',
     environment,
     rootURL: '/',
@@ -30,13 +30,13 @@ module.exports = function(environment) {
 
     // Set or update content security policies
     contentSecurityPolicy: {
-      'default-src': "'none'",
-      'script-src': "'self' www.google-analytics.com",
-      'font-src': "'self' fonts.gstatic.com",
-      'connect-src': "'self' www.google-analytics.com",
-      'img-src': "'self'",
-      'style-src': "'self' fonts.googleapis.com",
-      'media-src': "'self'"
+      'default-src': '\'none\'',
+      'script-src': '\'self\' www.google-analytics.com',
+      'font-src': '\'self\' fonts.gstatic.com',
+      'connect-src': '\'self\' www.google-analytics.com',
+      'img-src': '\'self\'',
+      'style-src': '\'self\' fonts.googleapis.com',
+      'media-src': '\'self\''
     },
 
     'ember-cli-notifications': {
@@ -55,7 +55,7 @@ module.exports = function(environment) {
       }
     ],
 
-};
+  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

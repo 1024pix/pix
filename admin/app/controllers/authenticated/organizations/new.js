@@ -17,7 +17,7 @@ export default Controller.extend({
           this.transitionToRoute('authenticated.organizations.get', organization.get('id'));
         })
         .catch(() => {
-          this.notifications.error('Une erreur est survenue.')
+          this.notifications.error('Une erreur est survenue.');
         });
     }
   },

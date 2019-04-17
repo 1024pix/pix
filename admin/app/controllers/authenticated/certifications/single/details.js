@@ -34,7 +34,7 @@ export default Controller.extend({
     onUpdateRate() {
       const competences = this.get('details.competences');
       let jury = false;
-      let answersData = competences.reduce((data, competence) => {
+      const answersData = competences.reduce((data, competence) => {
         if (competence.answers) {
           competence.answers.forEach((answer) => {
             if (answer.jury) {
@@ -64,7 +64,7 @@ export default Controller.extend({
       schedule('afterRender', this, () => {
         const score = this.score;
         const competences = this.get('details.competences');
-        let newScore = competences.reduce((value, competence) => {
+        const newScore = competences.reduce((value, competence) => {
           value += (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false) ? competence.juryScore : competence.obtainedScore;
           return value;
         }, 0);

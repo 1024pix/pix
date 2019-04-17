@@ -14,14 +14,14 @@ export default Component.extend({
 
   // Computed properties
   indexedValues: computed('competences', function() {
-    let competences = this.competences;
-    let indexedCompetences = competences.reduce((result, value) => {
+    const competences = this.competences;
+    const indexedCompetences = competences.reduce((result, value) => {
       result[value.index] = value;
       return result;
     }, {});
-    let competencesList = this.competenceList;
-    let scores = [];
-    let levels = [];
+    const competencesList = this.competenceList;
+    const scores = [];
+    const levels = [];
     let index = 0;
     competencesList.forEach((value) => {
       scores[index] = indexedCompetences[value] ? indexedCompetences[value].score : null;
@@ -37,11 +37,11 @@ export default Component.extend({
   //Actions
   actions: {
     onScoreChange(index, event) {
-      let list = this.competenceList;
+      const list = this.competenceList;
       this.onUpdateScore(list[index], event.target.value);
     },
     onLevelChange(index, event) {
-      let list = this.competenceList;
+      const list = this.competenceList;
       this.onUpdateLevel(list[index], event.target.value);
     }
   }

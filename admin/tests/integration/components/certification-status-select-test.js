@@ -5,17 +5,17 @@ import hbs from 'htmlbars-inline-precompile';
 import XSelectInteractor from 'emberx-select/test-support/interactor';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | certification-status-select', function (hooks) {
+module('Integration | Component | certification-status-select', function(hooks) {
 
   const xselect = new XSelectInteractor('.certification-status-select select');
 
   setupRenderingTest(hooks);
 
-  module('when in edition mode', function () {
+  module('when in edition mode', function() {
 
-    module('rendering', function () {
+    module('rendering', function() {
 
-      test('it renders the select', async function (assert) {
+      test('it renders the select', async function(assert) {
         // when
         await render(hbs`{{certification-status-select edition=true}}`);
 
@@ -23,7 +23,7 @@ module('Integration | Component | certification-status-select', function (hooks)
         assert.dom('.certification-status-select select').exists();
       });
 
-      test('it has a label', async function (assert) {
+      test('it has a label', async function(assert) {
         // when
         await render(hbs`{{certification-status-select edition=true}}`);
 
@@ -31,7 +31,7 @@ module('Integration | Component | certification-status-select', function (hooks)
         assert.dom('.certification-status-select label').hasText('Statut :');
       });
 
-      test('it has values', async function (assert) {
+      test('it has values', async function(assert) {
         // given
         const expectedValues = ['started', 'error', 'validated', 'rejected'];
 
@@ -43,9 +43,9 @@ module('Integration | Component | certification-status-select', function (hooks)
       });
     });
 
-    module('behaviour', function () {
+    module('behaviour', function() {
 
-      test('it updates the certification status when the selected value changes', async function (assert) {
+      test('it updates the certification status when the selected value changes', async function(assert) {
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
@@ -55,14 +55,14 @@ module('Integration | Component | certification-status-select', function (hooks)
         await xselect.select('validated');
 
         // then
-        assert.equal(certification.status, 'validated')
+        assert.equal(certification.status, 'validated');
       });
     });
   });
 
-  module('when not in edition mode', function () {
+  module('when not in edition mode', function() {
 
-    test('it does not render the select', async function (assert) {
+    test('it does not render the select', async function(assert) {
       // when
       await render(hbs`{{certification-status-select}}`);
 

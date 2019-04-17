@@ -41,8 +41,8 @@ module('Integration | Component | organization-form', function(hooks) {
 
     test('should update attribute organization.type', async function(assert) {
       // given
-      let selectedOrganizationType = null;
-      let organization = EmberObject.create();
+      const selectedOrganizationType = null;
+      const organization = EmberObject.create();
       this.set('selectedOrganizationType', selectedOrganizationType);
       this.set('organization', organization);
       await render(hbs`{{organization-form selectedOrganizationType=selectedOrganizationType organization=organization}}`);

@@ -33,9 +33,9 @@ module('Acceptance | organization memberships management', function(hooks) {
       const userBob = this.server.create('user', { firstName: 'Bob', lastName: 'Harr', email: 'bob@example.com' });
       const userCharlie = this.server.create('user', { firstName: 'Charlie', lastName: 'Bideau', email: 'charlie@example.com' });
 
-      this.server.create('membership', { organization, user: userAlice});
-      this.server.create('membership', { organization, user: userBob});
-      this.server.create('membership', { organization, user: userCharlie});
+      this.server.create('membership', { organization, user: userAlice });
+      this.server.create('membership', { organization, user: userBob });
+      this.server.create('membership', { organization, user: userCharlie });
 
       // when
       await visit(`/organizations/${organization.id}`);
@@ -51,7 +51,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       // given
       const organization = this.server.create('organization');
       const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
-      this.server.create('membership', { user, organization});
+      this.server.create('membership', { user, organization });
 
       // when
       await visit(`/organizations/${organization.id}`);
@@ -95,7 +95,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       // given
       const organization = this.server.create('organization');
       const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
-      this.server.create('membership', { user, organization});
+      this.server.create('membership', { user, organization });
 
       // when
       await visit(`/organizations/${organization.id}`);
@@ -112,7 +112,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       // given
       const organization = this.server.create('organization');
       const user = this.server.create('user', { firstName: 'Erica', lastName: 'Caouette', email: 'erica@example.com' });
-      this.server.create('membership', { user, organization});
+      this.server.create('membership', { user, organization });
 
       // when
       await visit(`/organizations/${organization.id}`);
