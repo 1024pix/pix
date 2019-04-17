@@ -13,7 +13,7 @@ export default function(schema, request) {
       description: 'Appliquer des traitements à des données pour les analyser et les interpréter (avec un tableur, un programme, un logiciel de traitement d’enquête, une requête calcul dans une base de données, etc.).',
       earnedPix: 26,
       level: 3,
-      remainingPixToNextLevel: 2,
+      pixScoreAheadOfNextLevel: 2,
     });
   }
 

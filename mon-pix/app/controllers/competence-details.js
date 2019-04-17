@@ -16,7 +16,7 @@ export default Controller.extend({
   }),
 
   percentageAheadOfNextLevel: computed('model', function() {
-    const percentage = this.get('model.remainingPixToNextLevel') / NUMBER_OF_PIX_BY_LEVEL * 100;
+    const percentage = this.get('model.pixScoreAheadOfNextLevel') / NUMBER_OF_PIX_BY_LEVEL * 100;
 
     return Math.min(MAX_DISPLAYED_PERCENTAGE, percentage);
   }),

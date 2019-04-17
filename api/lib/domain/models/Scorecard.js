@@ -18,7 +18,7 @@ class Scorecard {
     this.area = area;
     this.earnedPix = earnedPix;
     this.level = this._getCompetenceLevel(earnedPix);
-    this.remainingPixToNextLevel= this._getRemainingPixToNextLevel(earnedPix);
+    this.pixScoreAheadOfNextLevel= this._getpixScoreAheadOfNextLevel(earnedPix);
   }
 
   _getCompetenceLevel(earnedPix) {
@@ -27,7 +27,7 @@ class Scorecard {
     return Math.min(MAX_REACHABLE_LEVEL, userLevel);
   }
 
-  _getRemainingPixToNextLevel(earnedPix) {
+  _getpixScoreAheadOfNextLevel(earnedPix) {
     return earnedPix % NB_PIX_BY_LEVEL;
   }
 }
