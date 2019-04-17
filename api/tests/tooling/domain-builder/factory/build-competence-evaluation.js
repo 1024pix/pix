@@ -8,10 +8,11 @@ module.exports = function buildCompetenceEvaluation(
   {
     id = 1,
     assessmentId = buildAssessment().id,
+    assessment = buildAssessment(),
     userId = buildUser().id,
     competenceId = 'recsvLz0W2ShyfD63',
     createdAt = faker.date.recent(),
     updatedAt = faker.date.recent(),
   } = {}) {
-  return new CompetenceEvaluation({ id, assessmentId, userId, competenceId, createdAt, updatedAt });
+  return new CompetenceEvaluation({ id, assessmentId: assessmentId || assessment.id , userId, competenceId, createdAt, updatedAt, assessment });
 };

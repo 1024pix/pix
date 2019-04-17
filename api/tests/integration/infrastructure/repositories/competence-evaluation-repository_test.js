@@ -3,6 +3,7 @@ const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEv
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const _ = require('lodash');
 
 describe('Integration | Repository | Competence Evaluation', () => {
   describe('#save', () => {
@@ -74,7 +75,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
       competenceEvaluationExpected = databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
-        assessmentId: assessmentForExpectedCompetenceEvaluation.id
+        assessmentId: assessmentForExpectedCompetenceEvaluation.id,
       });
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
@@ -94,7 +95,8 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
       // then
       return promise.then((competenceEvaluation) => {
-        expect(competenceEvaluation).to.deep.equal(competenceEvaluationExpected);
+        expect(_.omit(competenceEvaluation, ['assessment'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+        expect(competenceEvaluation.assessment.id).to.deep.equal(assessmentForExpectedCompetenceEvaluation.id);
       });
     });
 
@@ -112,14 +114,17 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
   describe('#getLastByCompetenceIdAndUserId', () => {
     let user;
-    let competenceEvaluationExpected;
+    let competenceEvaluationExpected, assessmentExpected;
 
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser({});
 
+      assessmentExpected = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.COMPETENCE_EVALUATION });
+
       competenceEvaluationExpected = databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
-        competenceId: '1'
+        competenceId: '1',
+        assessmentId: assessmentExpected.id
       });
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
@@ -139,7 +144,9 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
       // then
       return promise.then((competenceEvaluation) => {
-        expect(competenceEvaluation).to.deep.equal(competenceEvaluationExpected);
+        expect(_.omit(competenceEvaluation, ['assessment'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+        expect(competenceEvaluation.assessment.id).to.deep.equal(assessmentExpected.id);
+
       });
     });
 
@@ -154,4 +161,53 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
 
   });
+
+  describe('#findByUserId', () => {
+    let user;
+    let competenceEvaluationExpected, assessmentExpected;
+
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser({});
+      const otherUser = databaseBuilder.factory.buildUser({});
+
+      assessmentExpected = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.COMPETENCE_EVALUATION });
+
+      competenceEvaluationExpected = databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        competenceId: '1',
+        assessmentId: assessmentExpected.id,
+        createdAt: new Date('2018-01-01')
+      });
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: user.id,
+        competenceId: '2',
+        createdAt: new Date('2017-01-01')
+      });
+
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: otherUser.id,
+        competenceId: '2'
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the competence evaluation linked to the competence id', () => {
+      // when
+      const promise = competenceEvaluationRepository.findByUserId(user.id);
+
+      // then
+      return promise.then((competenceEvaluation) => {
+        expect(competenceEvaluation).to.have.length(2);
+        expect(_.omit(competenceEvaluation[0], ['assessment'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+        expect(competenceEvaluation[0].assessment.id).to.deep.equal(assessmentExpected.id);
+
+      });
+    });
+  });
+
 });
