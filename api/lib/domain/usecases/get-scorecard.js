@@ -15,6 +15,7 @@ module.exports = async ({ authenticatedUserId, scorecardId, smartPlacementKnowle
   return new Scorecard({
     id: scorecardId,
     name: competence.name,
+    description: competence.description,
     index: competence.index,
     area: competence.area,
     earnedPix: totalEarnedPixByCompetence,

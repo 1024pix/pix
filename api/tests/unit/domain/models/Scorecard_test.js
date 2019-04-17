@@ -10,6 +10,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
       const rawData = {
         id: 1,
         name: 'Competence name',
+        description: 'Competence description',
         index: 'Competence index',
         area: 'Competence area',
         earnedPix: 10,
@@ -21,6 +22,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
       // then
       expect(scorecard.id).to.equal(1);
       expect(scorecard.name).to.equal('Competence name');
+      expect(scorecard.description).to.equal('Competence description');
       expect(scorecard.index).to.equal('Competence index');
       expect(scorecard.area).to.equal('Competence area');
       expect(scorecard.earnedPix).to.equal(10);
@@ -36,9 +38,9 @@ describe('Unit | Domain | Models | Scorecard', () => {
       const rawData = {
         id: 1,
         name: 'Competence name',
+        description: 'Competence description',
         index: 'Competence index',
         area: 'Competence area',
-        courseId: 1,
         earnedPix: 99999999,
       };
 

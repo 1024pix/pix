@@ -8,21 +8,21 @@ const MAX_DISPLAYED_PERCENTAGE = 95;
 export default Controller.extend({
   maxLevel: 5,
 
-  areaColor: computed('model.scorecard', function() {
-    const codeString = this.get('model.scorecard.area.code').toString();
+  areaColor: computed('model', function() {
+    const codeString = this.get('model.area.code').toString();
     const foundArea = areaColors.find((color) => color.area === codeString);
 
     return foundArea.color;
   }),
 
-  percentageAheadOfNextLevel: computed('model.scorecard', function() {
-    const percentage = this.get('model.scorecard.remainingPixToNextLevel') / NUMBER_OF_PIX_BY_LEVEL * 100;
+  percentageAheadOfNextLevel: computed('model', function() {
+    const percentage = this.get('model.remainingPixToNextLevel') / NUMBER_OF_PIX_BY_LEVEL * 100;
 
     return Math.min(MAX_DISPLAYED_PERCENTAGE, percentage);
   }),
 
-  earnedPixText: computed('model.scorecard', function() {
-    const earnedPix = this.get('model.scorecard.earnedPix');
+  earnedPixText: computed('model', function() {
+    const earnedPix = this.get('model.earnedPix');
 
     return `pix gagné${earnedPix > 1 ? 's' : ''}`;
   })

@@ -114,6 +114,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
             id: competenceId,
             attributes: {
               name: competence.fields.Titre,
+              description: competence.fields.Description,
               index: competence.fields['Sous-domaine'],
               'earned-pix': knowledgeElement.earnedPix ,
               level: Math.round(knowledgeElement.earnedPix / 8),

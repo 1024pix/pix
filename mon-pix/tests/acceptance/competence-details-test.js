@@ -39,6 +39,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
     it('displays the competence details', async () => {
       // given
       const name = 'Super compétence';
+      const description = 'Super description de la compétence';
       const earnedPix = 7;
       const level = 4;
       const remainingPixToNextLevel= 5;
@@ -47,6 +48,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       const scorecard = server.create('scorecard', {
         id: 1,
         name,
+        description,
         earnedPix,
         level,
         remainingPixToNextLevel,
@@ -60,7 +62,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       expect(find('.competence-details-panel-inner-left-area').text()).to.contain(area.title);
       expect(find('.competence-details-panel-inner-left-area').attr('class')).to.contain('competence-details--jaffa');
       expect(find('.competence-details-panel-inner-left-name').text()).to.contain(name);
-      expect(find('.competence-details-panel-inner-left-description').text()).to.contain('Description');
+      expect(find('.competence-details-panel-inner-left-description').text()).to.contain(description);
       expect(find('.competence-card-level__value').text()).to.contain(level);
       expect(find('.competence-details-panel-inner-right-score-container-pix-earned-number').text()).to.contain(earnedPix);
       expect(find('.competence-details-panel-inner-right-level-info').text()).to.contain(`${remainingPixToNextLevel} pix avant niveau ${level + 1}`);
