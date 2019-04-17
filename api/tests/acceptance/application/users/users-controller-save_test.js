@@ -66,27 +66,27 @@ describe('Acceptance | Controller | users-controller', () => {
                 '"pix-certif-terms-of-service-accepted":false' +
               '},' +
             '"relationships":{' +
-              '"memberships":{'+
-                '"links":{'+
-                  '"related":"/users/(\\d+)/memberships"'+
-                '}'+
-              '},'+
-              '"certification-center-memberships":{'+
-                '"links":{'+
-                  '"related":"/users/(\\d+)/certification-center-memberships"'+
-                '}'+
-              '},'+
-              '"pix-score":{'+
-                '"links":{'+
-                  '"related":"/users/(\\d+)/pixscore"'+
-                '}'+
-              '},'+
-              '"scorecards":{'+
-                '"links":{'+
-                  '"related":"/users/(\\d+)/scorecards"'+
-                '}'+
-              '}'+
-            '}'+
+              '"memberships":{' +
+                '"links":{' +
+                  '"related":"/users/(\\d+)/memberships"' +
+                '}' +
+              '},' +
+              '"certification-center-memberships":{' +
+                '"links":{' +
+                  '"related":"/users/(\\d+)/certification-center-memberships"' +
+                '}' +
+              '},' +
+              '"pix-score":{' +
+                '"links":{' +
+                  '"related":"/users/(\\d+)/pixscore"' +
+                '}' +
+              '},' +
+              '"scorecards":{' +
+                '"links":{' +
+                  '"related":"/users/(\\d+)/scorecards"' +
+                '}' +
+              '}' +
+            '}' +
             '}' +
           '}',
         );

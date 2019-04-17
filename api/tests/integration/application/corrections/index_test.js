@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const correctionsController= require('../../../../lib/application/corrections/corrections-controller');
+const correctionsController = require('../../../../lib/application/corrections/corrections-controller');
 
 describe('Integration | Application | Route | Corrections ', () => {
 

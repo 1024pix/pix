@@ -75,8 +75,8 @@ describe('Unit | Service | Validation Treatments', function() {
 
     it('should return a copy of the given string with unbreakable spaces replaced by normal spaces', () => {
       // given
-      const stringWithUnbreakableSpaces= ' Shi Foo-Bar ';
-      const sameStringWithNormalSpaces= ' Shi Foo-Bar ';
+      const stringWithUnbreakableSpaces = ' Shi Foo-Bar ';
+      const sameStringWithNormalSpaces = ' Shi Foo-Bar ';
 
       // when
       const actual = applyPreTreatments(stringWithUnbreakableSpaces);

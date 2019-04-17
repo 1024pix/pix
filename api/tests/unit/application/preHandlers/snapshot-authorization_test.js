@@ -41,7 +41,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
 
       it('should reply', () => {
         // given
-        const fetchedOrganization =[{ get: () => 8 }];
+        const fetchedOrganization = [{ get: () => 8 }];
         const extractedUserId = 'userId';
         tokenService.extractUserId.returns(extractedUserId);
         organizationRepository.getByUserId.resolves(fetchedOrganization);
