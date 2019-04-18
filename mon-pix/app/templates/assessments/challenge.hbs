@@ -2,22 +2,22 @@
 
   <div class="assessment-challenge__course-banner">
     {{#if model.assessment.isPlacement}}
-      {{placement-banner competenceName=model.assessment.course.name returnToProfileV2=false}}
+      {{placement-banner competenceName=model.assessment.course.name}}
     {{/if}}
     {{#if model.assessment.isDemo}}
-      {{course-banner course=model.assessment.course withHomeLink=true returnToProfileV2=false}}
+      {{course-banner course=model.assessment.course withHomeLink=true}}
     {{/if}}
     {{#if model.assessment.isPreview}}
-      {{course-banner course=model.assessment.course withHomeLink=true returnToProfileV2=false}}
+      {{course-banner course=model.assessment.course withHomeLink=true}}
     {{/if}}
     {{#if model.assessment.isCertification}}
-      {{certification-banner user=model.user certificationNumber=model.assessment.certificationNumber returnToProfileV2=false}}
+      {{certification-banner user=model.user certificationNumber=model.assessment.certificationNumber}}
     {{/if}}
     {{#if model.assessment.isSmartPlacement}}
-      {{campaign-banner title=model.campaign.title returnToProfileV2=false}}
+      {{campaign-banner title=model.campaign.title returnTo="index"}}
     {{/if}}
     {{#if model.assessment.isCompetenceEvaluation}}
-      {{campaign-banner title="" returnToProfileV2=true}}
+      {{campaign-banner title="" returnTo="profilv2"}}
     {{/if}}
   </div>
 

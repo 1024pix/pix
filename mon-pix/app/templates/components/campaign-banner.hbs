@@ -8,11 +8,7 @@
       <div class="campaign-banner__title"><h1>{{title}}</h1></div>
     {{/if}}
     <div class="campaign-banner__home-link">
-      {{#if returnToProfileV2}}
-        {{#link-to "profilv2" class="campaign-banner__home-link"}}‹ Quitter{{/link-to}}
-      {{else}}
-        {{#link-to "index" class="campaign-banner__home-link"}}‹ Quitter{{/link-to}}
-      {{/if}}
+      {{#link-to returnTo class="campaign-banner__home-link"}}‹ Quitter{{/link-to}}
     </div>
   </div>
 </div>

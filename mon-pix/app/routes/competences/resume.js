@@ -9,14 +9,14 @@ export default Route.extend(AuthenticatedRouteMixin, {
   competenceId: null,
 
   model(params) {
-    this.set('competenceId', params.competence_id);
+    const competenceId = params.competence_id;
 
     const competenceEvaluation = this.store.peekAll('competenceEvaluation')
-      .filter((competenceEvaluation) => competenceEvaluation.get('competenceId') === this.competenceId);
+      .filter((competenceEvaluation) => competenceEvaluation.get('competenceId') === competenceId);
     if (competenceEvaluation.length > 0) {
       return competenceEvaluation.get('firstObject');
     }
-    return this.store.createRecord('competenceEvaluation', { competenceId: this.competenceId }).save();
+    return this.store.createRecord('competenceEvaluation', { competenceId: competenceId }).save();
 
   },
 
