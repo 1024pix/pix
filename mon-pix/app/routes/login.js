@@ -6,16 +6,11 @@ export default Route.extend(UnauthenticatedRouteMixin, {
 
   session: service(),
 
-  routeIfNotAuthenticated: 'connexion',
-  routeIfAlreadyAuthenticated: 'compte',
-
   beforeModel(transition) {
     if (transition.to.queryParams && transition.to.queryParams.token) {
-      return this.session
-        .authenticate('authenticator:simple', { token: transition.to.queryParams.token })
-        .then((_) => {
-          this.transitionTo('compte');
-        });
+      return this.session.authenticate(
+        'authenticator:simple', { token: transition.to.queryParams.token }
+      );
     } else {
       return this._super(...arguments);
     }
