@@ -10,7 +10,14 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   model(params) {
     this.set('competenceId', params.competence_id);
+
+    const competenceEvaluation = this.store.peekAll('competenceEvaluation')
+      .filter((competenceEvaluation) => competenceEvaluation.get('competenceId') === this.competenceId);
+    if (competenceEvaluation.length > 0) {
+      return competenceEvaluation.get('firstObject');
+    }
     return this.store.createRecord('competenceEvaluation', { competenceId: this.competenceId }).save();
+
   },
 
   afterModel(competenceEvaluation) {
