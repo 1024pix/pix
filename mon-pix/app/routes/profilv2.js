@@ -4,10 +4,10 @@ import { inject as service } from '@ember/service';
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
-  session: service(),
+  currentUser: service(),
 
   model() {
-    return this.store.queryRecord('user', { me: true });
+    return this.currentUser.user;
   },
 
   async afterModel(user) {

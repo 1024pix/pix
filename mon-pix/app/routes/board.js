@@ -5,10 +5,13 @@ import { inject as service } from '@ember/service';
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
-  session: service(),
+  currentUser: service(),
 
   async model() {
-    const user = await this.store.queryRecord('user', { me: true });
+    const user = this.currentUser.user;
+
+    // If the organizations are not included in the JSON-API's response, the relationship
+    // is a promise to EmberData, hence we must keep the await here
     const organizations = await user.organizations;
 
     if (!organizations.length) {

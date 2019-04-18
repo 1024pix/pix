@@ -1,8 +1,8 @@
-{{#if _user}}
+{{#if currentUser.user}}
   <div class="logged-user-name" aria-haspopup="true"
        aria-expanded="{{_canDisplayMenu}}">
     <a href="#" class="logged-user-name__link" {{action 'toggleUserMenu'}}>
-      {{concat  _user.firstName ' '  _user.lastName}}
+      {{currentUser.user.fullName}}
       <span class="caret"></span>
     </a>
   </div>
@@ -12,8 +12,8 @@
         <div class="logged-user-menu">
           <ul class="logged-user-menu__list">
             <li class="logged-user-menu__item user-menu-item">
-              <div class="user-menu-item__details-firstname"> {{_user.firstName}}</div>
-              <div class="user-menu-item__details-email">{{_user.email}}</div>
+              <div class="user-menu-item__details-firstname"> {{currentUser.user.firstName}}</div>
+              <div class="user-menu-item__details-email">{{currentUser.user.email}}</div>
 
               {{#if canDisplayLinkToProfile}}
                 <div class="user-menu-item__details-account-link">
