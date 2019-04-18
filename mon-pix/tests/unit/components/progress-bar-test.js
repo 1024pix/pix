@@ -14,6 +14,7 @@ describe('Unit | Component | progress-bar', function() {
       const assessment = EmberObject.create({
         type: 'DEMO',
         answers: [{}, {}, {}],
+        hasCheckpoints: false,
         course: {
           nbChallenges: 10
         }
@@ -38,6 +39,7 @@ describe('Unit | Component | progress-bar', function() {
       const assessment = EmberObject.create({
         type: 'DEMO',
         answers: [{}, {}, {}, {}, {}],
+        hasCheckpoints: false,
         course: {
           nbChallenges: 10
         }

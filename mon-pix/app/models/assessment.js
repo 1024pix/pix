@@ -27,6 +27,20 @@ export default Model.extend({
   codeCampaign: attr('string'),
   participantExternalId: attr('string'),
 
+  showProgressBar: computed('isPreview', 'isPlacement', function() {
+    if (this.isPreview || this.isPlacement) {
+      return false;
+    }
+    return true;
+  }),
+
+  hasCheckpoints: computed('isCompetenceEvaluation', 'isSmartPlacement', function() {
+    if (this.isCompetenceEvaluation || this.isSmartPlacement) {
+      return true;
+    }
+    return false;
+  }),
+
   answersSinceLastCheckpoints: computed('answers.[]', function() {
     const answers = this.answers.toArray();
     const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT;
