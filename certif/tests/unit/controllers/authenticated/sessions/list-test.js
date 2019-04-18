@@ -30,8 +30,7 @@ module('Unit | Controller | authenticated/sessions/list', function(hooks) {
 
     // given
     const controller = this.owner.lookup('controller:authenticated/sessions/list');
-    // eslint-disable-next-line
-    const session1 = { id: 1, date: new Date('2018-08-07 14:00:44') };
+    const session1 = { id: 1, date: new Date('2018-08-07T14:00:44Z') };
     const sessions = ArrayProxy.create({
       content: [session1]
     });
