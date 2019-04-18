@@ -1,7 +1,4 @@
-const fs = require('fs');
-
 module.exports = {
-  root: true,
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: 'module'
@@ -11,7 +8,7 @@ module.exports = {
     'mocha'
   ],
   extends: [
-    ...(fs.existsSync('../.eslintrc') ? ['../.eslintrc'] : []),
+    '../.eslintrc.yaml',
     'plugin:ember/recommended'
   ],
   env: {
@@ -29,7 +26,6 @@ module.exports = {
         '.template-lintrc.js',
         'ember-cli-build.js',
         'testem.js',
-        'blueprints/*/index.js',
         'config/**/*.js',
         'lib/*/index.js'
       ],
@@ -54,12 +50,6 @@ module.exports = {
       globals: {
         'server': false
       },
-      rules: {
-        'no-unused-expressions': 0,
-        // FIXME reactivate the rules below
-        'ember/no-on-calls-in-components': 0,
-        'ember/closure-actions': 0
-      }
-    }
-  ]
+    },
+  ],
 };

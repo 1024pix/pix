@@ -1,19 +1,17 @@
-const fs = require('fs');
-
 module.exports = {
   globals: {
     server: true,
   },
-  root: true,
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: 'module'
   },
   plugins: [
-    'ember'
+    'ember',
+    'mocha'
   ],
   extends: [
-    ...(fs.existsSync('../.eslintrc') ? ['../.eslintrc'] : []),
+    '../.eslintrc.yaml',
     'plugin:ember/recommended'
   ],
   env: {
@@ -29,7 +27,6 @@ module.exports = {
         '.template-lintrc.js',
         'ember-cli-build.js',
         'testem.js',
-        'blueprints/*/index.js',
         'config/**/*.js',
         'lib/*/index.js',
         'server/**/*.js'
