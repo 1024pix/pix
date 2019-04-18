@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-syntax */
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import ArrayProxy from '@ember/array/proxy';
@@ -34,9 +33,9 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
   test('it should sort the campaigns from more recent to more old as a second criteria', function(assert) {
     // given
     const controller = this.owner.lookup('controller:authenticated/campaigns/list');
-    const campaign1 = { name: 'Cat', createdAt: new Date('2018-08-07 14:00:44') };
-    const campaign2 = { name: 'Tiger1', code: 'SECOND', createdAt: new Date('2018-08-07 14:00:45') };
-    const campaign3 = { name: 'Tiger1', code: 'THIRD', createdAt: new Date('2018-08-07 14:00:40') };
+    const campaign1 = { name: 'Cat', createdAt: new Date('2018-08-07') };
+    const campaign2 = { name: 'Tiger1', code: 'SECOND', createdAt: new Date('2018-08-07') };
+    const campaign3 = { name: 'Tiger1', code: 'THIRD', createdAt: new Date('2018-08-07') };
     const campaigns = ArrayProxy.create({
       content: [campaign1, campaign2, campaign3]
     });
@@ -71,7 +70,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
 
     // given
     const controller = this.owner.lookup('controller:authenticated/campaigns/list');
-    const campaign1 = { name: 'Cat', createdAt: new Date('2018-08-07 14:00:44') };
+    const campaign1 = { name: 'Cat', createdAt: new Date('2018-08-07') };
     const campaigns = ArrayProxy.create({
       content: [campaign1]
     });
