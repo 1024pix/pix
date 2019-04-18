@@ -20,7 +20,7 @@ describe('Unit | Component | competence-card-component', function() {
       { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 }
     ].forEach((data) => {
 
-      it(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevelis ${data.pixScoreAheadOfNextLevel}`, function() {
+      it(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function() {
         // given
         const scorecard = { pixScoreAheadOfNextLevel: data.pixScoreAheadOfNextLevel };
         component.set('scorecard', scorecard);
@@ -44,7 +44,7 @@ describe('Unit | Component | competence-card-component', function() {
       { level: 3, pixScoreAheadOfNextLevel: 5, expectedLevel: 3 }
     ].forEach((data) => {
 
-      it(`should return ${data.expectedLevel} when level is ${data.level} and pixScoreAheadOfNextLevelis ${data.pixScoreAheadOfNextLevel}`, function() {
+      it(`should return ${data.expectedLevel} when level is ${data.level} and pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function() {
         // given
         const scorecard = { pixScoreAheadOfNextLevel: data.pixScoreAheadOfNextLevel, level: data.level };
         component.set('scorecard', scorecard);
