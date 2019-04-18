@@ -10,10 +10,16 @@ export default Component.extend({
   progression: AssessmentProgression.create(),
 
   setProgression() {
+    let nbChallenges;
+    if (this.get('assessment.hasCheckpoints')) {
+      nbChallenges = 5;
+    } else {
+      nbChallenges = this.get('assessment.course.nbChallenges');
+    }
     this.set('progression', AssessmentProgression.create({
       assessmentType: this.get('assessment.type'),
       nbAnswers: this.get('assessment.answers.length'),
-      nbChallenges: this.get('assessment.course.nbChallenges')
+      nbChallenges
     }));
   },
 
