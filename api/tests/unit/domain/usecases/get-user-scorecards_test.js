@@ -103,7 +103,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
       it('should return the user scorecard with level limited to 5', async () => {
       // given
         const earnedPixNeededForLevelSixLimitedToFive = 50;
-        const pixScoreAheadOfNextLevel= 2;
+        const pixScoreAheadOfNextLevel = 2;
 
         const competenceList = [
           domainBuilder.buildCompetence({ id: 1 }),

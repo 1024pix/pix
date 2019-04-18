@@ -10,7 +10,7 @@ module.exports = function buildUserScorecard(
     index = `${faker.random.number()}.${faker.random.number()}`,
     earnedPix = `${faker.random.number()}`,
     level = `${faker.random.number()}`,
-    pixScoreAheadOfNextLevel= `${faker.random.number()}`,
+    pixScoreAheadOfNextLevel = `${faker.random.number()}`,
     // relationships
     area = buildArea(),
   } = {}) {
