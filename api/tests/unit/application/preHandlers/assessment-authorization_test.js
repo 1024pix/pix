@@ -16,7 +16,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
     beforeEach(() => {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
       sinon.stub(tokenService, 'extractUserId');
-      sinon.stub(assessmentRepository, 'getByUserIdAndAssessmentId');
+      sinon.stub(assessmentRepository, 'getByAssessmentIdAndUserId');
     });
 
     it('should be a function', () => {
@@ -28,7 +28,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
       // given
       tokenService.extractTokenFromAuthChain.returns('VALID_TOKEN');
       tokenService.extractUserId.returns('userId');
-      assessmentRepository.getByUserIdAndAssessmentId.resolves();
+      assessmentRepository.getByAssessmentIdAndUserId.resolves();
 
       // when
       const promise = AssessmentAuhorization.verify(request, hFake);
@@ -47,14 +47,14 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         const fetchedAssessment = {};
         const extractedUserId = 'userId';
         tokenService.extractUserId.returns(extractedUserId);
-        assessmentRepository.getByUserIdAndAssessmentId.resolves(fetchedAssessment);
+        assessmentRepository.getByAssessmentIdAndUserId.resolves(fetchedAssessment);
 
         // when
         const response = await AssessmentAuhorization.verify(request, hFake);
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.getByUserIdAndAssessmentId);
-        sinon.assert.calledWith(assessmentRepository.getByUserIdAndAssessmentId, request.params.id, extractedUserId);
+        sinon.assert.calledOnce(assessmentRepository.getByAssessmentIdAndUserId);
+        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, request.params.id, extractedUserId);
         expect(response).to.deep.equal(fetchedAssessment);
       });
     });
@@ -66,14 +66,14 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         const fetchedAssessment = {};
         const extractedUserId = null;
         tokenService.extractUserId.returns(extractedUserId);
-        assessmentRepository.getByUserIdAndAssessmentId.resolves(fetchedAssessment);
+        assessmentRepository.getByAssessmentIdAndUserId.resolves(fetchedAssessment);
 
         // when
         const response = await AssessmentAuhorization.verify(request, hFake);
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.getByUserIdAndAssessmentId);
-        sinon.assert.calledWith(assessmentRepository.getByUserIdAndAssessmentId, request.params.id, extractedUserId);
+        sinon.assert.calledOnce(assessmentRepository.getByAssessmentIdAndUserId);
+        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, request.params.id, extractedUserId);
         expect(response).to.deep.equal(fetchedAssessment);
       });
     });
@@ -83,7 +83,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         // given
         const extractedUserId = null;
         tokenService.extractUserId.returns(extractedUserId);
-        assessmentRepository.getByUserIdAndAssessmentId.rejects();
+        assessmentRepository.getByAssessmentIdAndUserId.rejects();
         // when
         const response = await AssessmentAuhorization.verify(request, hFake);
 

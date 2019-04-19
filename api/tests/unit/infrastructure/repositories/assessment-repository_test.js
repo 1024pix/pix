@@ -6,10 +6,10 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Repository | assessmentRepository', () => {
 
-  describe('#getByUserIdAndAssessmentId', () => {
+  describe('#getByAssessmentIdAndUserId', () => {
 
     it('should be a function', () => {
-      expect(assessmentRepository.getByUserIdAndAssessmentId).to.be.a('function');
+      expect(assessmentRepository.getByAssessmentIdAndUserId).to.be.a('function');
     });
 
     describe('test collaboration', () => {
@@ -31,7 +31,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         };
 
         // when
-        const promise = assessmentRepository.getByUserIdAndAssessmentId(fakeAssessmentId, fakeUserId);
+        const promise = assessmentRepository.getByAssessmentIdAndUserId(fakeAssessmentId, fakeUserId);
 
         // then
         return promise.then(() => {
