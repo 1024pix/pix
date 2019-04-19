@@ -4,9 +4,11 @@ const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildTargetProfilesSkills({
   id = faker.random.number(),
-  targetProfileId = buildTargetProfile().id,
+  targetProfileId,
   skillId = `rec${faker.random.uuid()}`,
 } = {}) {
+
+  targetProfileId = targetProfileId || buildTargetProfile().id;
 
   const values = {
     id,

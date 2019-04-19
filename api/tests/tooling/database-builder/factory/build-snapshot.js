@@ -6,10 +6,13 @@ const databaseBuffer = require('../database-buffer');
 module.exports = function buildSnapshot({
   id = faker.random.number(),
   profile = '{}',
-  organizationId = buildOrganization().id,
-  userId = buildUser().id,
+  organizationId,
+  userId,
   createdAt = faker.date.recent(),
 } = {}) {
+
+  organizationId = organizationId || buildOrganization().id;
+  userId = userId || buildUser().id;
 
   const values = {
     id, profile, organizationId, userId, createdAt

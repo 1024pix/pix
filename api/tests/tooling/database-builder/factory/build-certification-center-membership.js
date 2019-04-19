@@ -5,9 +5,12 @@ const faker = require('faker');
 
 module.exports = function buildCertificationCenterMembership({
   id = faker.random.number(),
-  userId = buildUser().id,
-  certificationCenterId = buildCertficationCenter().id,
+  userId,
+  certificationCenterId,
 } = {}) {
+
+  userId = userId || buildUser().id;
+  certificationCenterId = certificationCenterId || buildCertficationCenter().id;
 
   const values = {
     id, userId, certificationCenterId

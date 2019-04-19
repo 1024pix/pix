@@ -12,9 +12,11 @@ module.exports = function buildAssessmentResult({
   commentForCandidate = 'Comment for Candidate',
   commentForOrganization = 'Comment for Organization',
   juryId = 1,
-  assessmentId = buildAssessment().id,
+  assessmentId,
   createdAt = faker.date.past(),
 } = {}) {
+
+  assessmentId = assessmentId || buildAssessment().id;
 
   const values = {
     id, pixScore, level, status, emitter, commentForJury, commentForCandidate, commentForOrganization, juryId,

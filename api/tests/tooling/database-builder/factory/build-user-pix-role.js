@@ -6,9 +6,12 @@ const databaseBuffer = require('../database-buffer');
 
 const buildUserPixRole = function buildUserPixRole({
   id = faker.random.number(),
-  userId = buildUser().id,
-  pixRoleId = buildPixRole().id
+  userId,
+  pixRoleId,
 } = {}) {
+
+  userId = userId || buildUser().id;
+  pixRoleId = pixRoleId || buildPixRole().id;
 
   const values = {
     id, userId, pixRoleId,

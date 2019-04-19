@@ -12,11 +12,15 @@ module.exports = function buildSmartPlacementKnowledgeElement({
   createdAt = faker.date.recent(),
   earnedPix = 2,
   skillId = `rec${faker.random.uuid()}`,
-  assessmentId = buildAssessment().id,
-  answerId = buildAnswer({ assessmentId }).id,
-  userId = buildUser().id,
+  assessmentId,
+  answerId,
+  userId,
   competenceId = `rec${faker.random.uuid()}`,
 } = {}) {
+
+  assessmentId = assessmentId || buildAssessment().id;
+  answerId = answerId || buildAnswer().id;
+  userId = userId || buildUser().id;
 
   const values = {
     id,
