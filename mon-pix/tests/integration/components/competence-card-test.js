@@ -103,7 +103,7 @@ describe('Integration | Component | competence-card', function() {
     });
 
     context('when user can continue the competence', async function() {
-      it('should show the button "Continuer"', async function() {
+      it('should show the button "Reprendre"', async function() {
         // given
         const scorecard = { area, level: 3, isFinished: false, isStarted: true };
         this.set('scorecard', scorecard);
@@ -112,7 +112,7 @@ describe('Integration | Component | competence-card', function() {
         await render(hbs`{{competence-card scorecard=scorecard}}`);
 
         // then
-        expect(this.element.querySelector('.competence-card__button').textContent).to.contains('Continue');
+        expect(this.element.querySelector('.competence-card__button').textContent).to.contains('Reprendre');
       });
     });
 
