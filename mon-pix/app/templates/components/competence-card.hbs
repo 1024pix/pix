@@ -16,7 +16,7 @@
     {{#if (not scorecard.isFinished)}}
       {{#link-to "competences.resume" scorecard.competenceId
                  class="button button--thin button--link button--green competence-card__button"}}
-        {{#if (eq scorecard.status "STARTED")}}
+        {{#if scorecard.isStarted}}
           Continuer
         {{else}}
           Commencer

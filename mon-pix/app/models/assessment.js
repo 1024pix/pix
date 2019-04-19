@@ -28,17 +28,11 @@ export default Model.extend({
   participantExternalId: attr('string'),
 
   showProgressBar: computed('isPreview', 'isPlacement', function() {
-    if (this.isPreview || this.isPlacement) {
-      return false;
-    }
-    return true;
+    return (this.isCompetenceEvaluation || this.isSmartPlacement || this.isDemo || this.isCertification);
   }),
 
   hasCheckpoints: computed('isCompetenceEvaluation', 'isSmartPlacement', function() {
-    if (this.isCompetenceEvaluation || this.isSmartPlacement) {
-      return true;
-    }
-    return false;
+    return (this.isCompetenceEvaluation || this.isSmartPlacement);
   }),
 
   answersSinceLastCheckpoints: computed('answers.[]', function() {
