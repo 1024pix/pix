@@ -24,18 +24,26 @@
 
     &-content {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       border-radius: 6.75px;
       font-family: $font-roboto;
       background-color: $alabaster-grey;
       padding: 30px 0;
       margin: 14px;
 
+      @include device-is('desktop') {
+        flex-direction: row;
+      }
+
       &-left {
         flex-grow: 1;
-        padding: 0px 30px;
-        border-right: 4px dotted $silver-grey;
+        padding: 0px 30px 30px 30px;
 
+        @include device-is('desktop') {
+          padding: 0 30px;
+          border-bottom: none;
+          border-right: 4px dotted $silver-grey;
+        }
         &-area {
           text-transform: uppercase;
           font-size: 1.4rem;
