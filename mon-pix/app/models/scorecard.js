@@ -14,4 +14,6 @@ export default Model.extend({
   status: attr('string'),
 
   isFinished: equal('status', 'COMPLETED'),
+  isStarted: equal('status', 'STARTED'),
+  isNotStarted: equal('status', 'NOT_STARTED'),
 });

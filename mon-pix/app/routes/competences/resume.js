@@ -12,11 +12,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
     const competenceId = params.competence_id;
 
     const competenceEvaluation = this.store.peekAll('competenceEvaluation')
-      .filter((competenceEvaluation) => competenceEvaluation.get('competenceId') === competenceId);
-    if (competenceEvaluation.length > 0) {
-      return competenceEvaluation.get('firstObject');
+      .find((competenceEvaluation) => competenceEvaluation.get('competenceId') === competenceId);
+    if (competenceEvaluation) {
+      return competenceEvaluation;
     }
-    return this.store.createRecord('competenceEvaluation', { competenceId: competenceId }).save();
+    return this.store.createRecord('competenceEvaluation', { competenceId }).save();
 
   },
 

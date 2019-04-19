@@ -2,6 +2,7 @@ import { htmlSafe } from '@ember/string';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import AssessmentProgression from '../models/assessment-progression';
+import ENV from 'mon-pix/config/environment';
 
 export default Component.extend({
 
@@ -12,7 +13,7 @@ export default Component.extend({
   setProgression() {
     let nbChallenges;
     if (this.get('assessment.hasCheckpoints')) {
-      nbChallenges = 5;
+      nbChallenges = ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT;
     } else {
       nbChallenges = this.get('assessment.course.nbChallenges');
     }
