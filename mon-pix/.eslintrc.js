@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = {
   parserOptions: {
     ecmaVersion: 2017,
@@ -8,7 +10,7 @@ module.exports = {
     'mocha'
   ],
   extends: [
-    '../.eslintrc.yaml',
+    ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended'
   ],
   env: {

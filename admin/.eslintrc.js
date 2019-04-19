@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = {
   globals: {
     server: true,
@@ -11,7 +13,7 @@ module.exports = {
     'mocha'
   ],
   extends: [
-    '../.eslintrc.yaml',
+    ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended'
   ],
   env: {
