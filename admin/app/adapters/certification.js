@@ -14,8 +14,8 @@ export default ApplicationAdapter.extend({
   },
 
   updateRecord(store, type, snapshot) {
-    let data = {};
-    let serializer = store.serializerFor(type.modelName);
+    const data = {};
+    const serializer = store.serializerFor(type.modelName);
     if (snapshot.adapterOptions.updateMarks) {
       serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
       data.data.type = 'results';
@@ -29,7 +29,7 @@ export default ApplicationAdapter.extend({
   },
 
   ajaxOptions(url, type) {
-    let hash = this._super(...arguments);
+    const hash = this._super(...arguments);
     if (type === 'POST') {
       hash.dataType = '*';
     }

@@ -11,14 +11,14 @@ module('Unit | Service | current-organization', function(hooks) {
 
   test('it should stock the current organization data if user exists', function(assert) {
     // given
-    const userOrganization = Object.create({ name: 'Orga Nisme'});
+    const userOrganization = Object.create({ name: 'Orga Nisme' });
     const membership = Object.create({ organization: userOrganization });
     const memberships = EmberArray([membership]);
 
     const connectedUser = Object.create({ id: 1 });
     connectedUser.get = () => resolve(memberships);
 
-    let service = this.owner.lookup('service:current-organization');
+    const service = this.owner.lookup('service:current-organization');
 
     // when
     service.load(connectedUser);
@@ -31,7 +31,7 @@ module('Unit | Service | current-organization', function(hooks) {
 
   test('it should not be writable', function(assert) {
     // given
-    let service = this.owner.lookup('service:current-organization');
+    const service = this.owner.lookup('service:current-organization');
 
     // when
     const failingAction = () => service.set('organization', 'should not pass');
@@ -42,7 +42,7 @@ module('Unit | Service | current-organization', function(hooks) {
 
   test('it should do nothing when user is not authenticated', function(assert) {
     // given
-    let service = this.owner.lookup('service:current-organization');
+    const service = this.owner.lookup('service:current-organization');
 
     // when
     const promise = service.load(undefined);

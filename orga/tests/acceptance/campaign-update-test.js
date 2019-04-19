@@ -12,11 +12,11 @@ module('Acceptance | Campaign Update', function(hooks) {
 
   test('it should allow to update a campaign and redirect to the newly updated campaign', async function(assert) {
     // given
-    let user = createUserWithMembership();
+    const user = createUserWithMembership();
     await authenticateSession({ user_id: user.id });
-    let campaign = server.create('campaign', { id: 1 });
-    let newTitle = "New title";
-    let newText = "New text";
+    const campaign = server.create('campaign', { id: 1 });
+    const newTitle = 'New title';
+    const newText = 'New text';
 
     await visit(`/campagnes/${campaign.id}/modification`);
     await fillIn('#campaign-title', newTitle);

@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const updateSession = require('../../../../lib/domain/usecases/update-session');
-const sessionValidator= require('../../../../lib/domain/validators/session-validator');
+const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const { UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | update-session', () => {

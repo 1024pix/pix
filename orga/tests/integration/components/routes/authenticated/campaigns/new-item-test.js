@@ -23,9 +23,9 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
     // then
     assert.dom('#campaign-name').exists();
     assert.dom('button[type="submit"]').exists();
-    assert.dom('#campaign-name').hasAttribute('maxLength', "255");
-    assert.dom('#campaign-title').hasAttribute('maxLength', "50");
-    assert.dom('#custom-landing-page-text').hasAttribute('maxLength', "350");
+    assert.dom('#campaign-name').hasAttribute('maxLength', '255');
+    assert.dom('#campaign-title').hasAttribute('maxLength', '50');
+    assert.dom('#custom-landing-page-text').hasAttribute('maxLength', '350');
   });
 
   test('it should send campaign creation action when submitted', async function(assert) {

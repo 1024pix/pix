@@ -1,6 +1,6 @@
-import { createMembership } from "./handlers/memberships";
-import { getOrganizationMemberships } from "./handlers/organizations";
-import { findUsers } from "./handlers/users";
+import { createMembership } from './handlers/memberships';
+import { getOrganizationMemberships } from './handlers/organizations';
+import { findUsers } from './handlers/users';
 
 export default function() {
 

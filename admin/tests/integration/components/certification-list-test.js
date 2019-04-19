@@ -10,9 +10,9 @@ module('Integration | Component | certification-list', function(hooks) {
   test('sould display many certifications', async function(assert) {
     // given
     const certifications = [
-      EmberObject.create({ id: 1}),
-      EmberObject.create({ id: 2}),
-      EmberObject.create({ id: 3}),
+      EmberObject.create({ id: 1 }),
+      EmberObject.create({ id: 2 }),
+      EmberObject.create({ id: 3 }),
     ];
     this.set('model', certifications);
     this.set('actionChange', () => {});

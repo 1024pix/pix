@@ -15,7 +15,7 @@ export default Component.extend({
   actions: {
     authenticateUser() {
       const scope = 'pix-admin';
-      let { identification, password } = this;
+      const { identification, password } = this;
       this.session.authenticate('authenticator:oauth2', identification, password, scope).catch((response) => {
         if (response && response.errors && response.errors.length > 0) {
           const firstError = response.errors[0];

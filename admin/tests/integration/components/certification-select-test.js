@@ -14,7 +14,7 @@ module('Integration | Component | certification-select', function(hooks) {
 
   test('provides correct id', async function(assert) {
     // given
-    this.set("externalAction", (value) => {
+    this.set('externalAction', (value) => {
       this.set('certificationId', value);
       return resolve();
     });
@@ -27,6 +27,5 @@ module('Integration | Component | certification-select', function(hooks) {
     // then
     assert.equal(this.get('certificationId'), '1234');
   });
-
 
 });

@@ -28,7 +28,7 @@ module('Integration | Component | routes/authenticated/session | new-item', func
     assert.dom('#session-examiner').exists();
     assert.dom('#session-description').exists();
     assert.dom('button[type="submit"]').exists();
-    assert.dom('#session-description').hasAttribute('maxLength', "350");
+    assert.dom('#session-description').hasAttribute('maxLength', '350');
   });
 
   test('it should send session new action when submitted', async function(assert) {

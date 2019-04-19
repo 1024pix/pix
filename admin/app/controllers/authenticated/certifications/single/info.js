@@ -21,7 +21,7 @@ export default Controller.extend({
   _markStore: service('mark-store'),
 
   isValid: computed('certification.status', function() {
-    return this.get('certification.status') !== 'missing-assessment'
+    return this.get('certification.status') !== 'missing-assessment';
   }),
 
   // Actions
@@ -32,7 +32,7 @@ export default Controller.extend({
     onCancel() {
       this.set('edition', false);
       this.certification.rollbackAttributes();
-      let competencesCopy = this._competencesCopy;
+      const competencesCopy = this._competencesCopy;
       if (competencesCopy) {
         this.set('certification.competencesWithMark', competencesCopy);
         this.set('_competencesCopy', null);
@@ -48,9 +48,9 @@ export default Controller.extend({
     },
     onSave() {
       this.set('displayConfirm', false);
-      let certification = this.certification;
-      let changedAttributes = certification.changedAttributes();
-      let marksUpdateRequired = (changedAttributes.status || changedAttributes.pixScore || changedAttributes.competencesWithMark || changedAttributes.commentForCandidate || changedAttributes.commentForOrganization || changedAttributes.commentForJury) ? true : false;
+      const certification = this.certification;
+      const changedAttributes = certification.changedAttributes();
+      const marksUpdateRequired = (changedAttributes.status || changedAttributes.pixScore || changedAttributes.competencesWithMark || changedAttributes.commentForCandidate || changedAttributes.commentForOrganization || changedAttributes.commentForJury) ? true : false;
       return certification.save({ adapterOptions: { updateMarks: false } })
         .then(() => {
           if (marksUpdateRequired) {
@@ -76,11 +76,11 @@ export default Controller.extend({
     },
     onUpdateScore(code, value) {
       this._saveCompetences();
-      let existingCompetences = this.get('certification.competencesWithMark');
-      let newCompetences = existingCompetences.map((value) => {
+      const existingCompetences = this.get('certification.competencesWithMark');
+      const newCompetences = existingCompetences.map((value) => {
         return value;
       });
-      let competence = newCompetences.filter((value) => {
+      const competence = newCompetences.filter((value) => {
         return (value['competence-code'] === code);
       })[0];
       if (competence) {
@@ -88,7 +88,7 @@ export default Controller.extend({
           if (competence.level) {
             competence.score = null;
           } else {
-            let index = newCompetences.indexOf(competence);
+            const index = newCompetences.indexOf(competence);
             newCompetences.splice(index, 1);
           }
         } else {
@@ -101,11 +101,11 @@ export default Controller.extend({
     },
     onUpdateLevel(code, value) {
       this._saveCompetences();
-      let existingCompetences = this.get('certification.competencesWithMark');
-      let newCompetences = existingCompetences.map((value) => {
+      const existingCompetences = this.get('certification.competencesWithMark');
+      const newCompetences = existingCompetences.map((value) => {
         return value;
       });
-      let competence = newCompetences.filter((value) => {
+      const competence = newCompetences.filter((value) => {
         return (value['competence-code'] === code);
       })[0];
       if (competence) {
@@ -113,7 +113,7 @@ export default Controller.extend({
           if (competence.score) {
             competence.level = null;
           } else {
-            let index = newCompetences.indexOf(competence);
+            const index = newCompetences.indexOf(competence);
             newCompetences.splice(index, 1);
           }
         } else {
@@ -125,7 +125,7 @@ export default Controller.extend({
       this.set('certification.competencesWithMark', newCompetences);
     },
     onTogglePublishConfirm() {
-      let state = this.get('certification.isPublished');
+      const state = this.get('certification.isPublished');
       if (state) {
         this.set('confirmMessage', 'Souhaitez-vous dépublier cette certification ?');
       } else {
@@ -136,15 +136,15 @@ export default Controller.extend({
     },
     onTogglePublish() {
       this.set('displayConfirm', false);
-      let certification = this.certification;
-      let currentPublishState = certification.get('isPublished');
+      const certification = this.certification;
+      const currentPublishState = certification.get('isPublished');
       let operation;
       if (currentPublishState) {
         certification.set('isPublished', false);
-        operation = "dépubliée";
+        operation = 'dépubliée';
       } else {
         certification.set('isPublished', true);
-        operation = "publiée";
+        operation = 'publiée';
       }
       return certification.save({ adapterOptions: { updateMarks: false } })
         .then(() => {
@@ -155,13 +155,13 @@ export default Controller.extend({
         });
     },
     onCheckMarks() {
-      let markStore = this._markStore;
+      const markStore = this._markStore;
       if (markStore.hasState()) {
-        let state = markStore.getState();
-        let certification = this.certification;
+        const state = markStore.getState();
+        const certification = this.certification;
         certification.set('pixScore', state.score);
-        let newCompetences = Object.keys(state.marks).reduce((competences, code) => {
-          let mark = state.marks[code];
+        const newCompetences = Object.keys(state.marks).reduce((competences, code) => {
+          const mark = state.marks[code];
           competences.addObject({
             'competence-code': code,
             'level': mark.level,
@@ -180,9 +180,9 @@ export default Controller.extend({
 
   // Private methods
   _saveCompetences() {
-    let copy = this._competencesCopy;
+    const copy = this._competencesCopy;
     if (!copy) {
-      let current = this.get('certification.competencesWithMark');
+      const current = this.get('certification.competencesWithMark');
       this.set('_competencesCopy', cloneDeep(current));
     }
   }

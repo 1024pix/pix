@@ -9,7 +9,7 @@ export function findUsers(schema, request) {
   if (request.queryParams.organizationId) {
     const organizationId = request.queryParams.organizationId;
     const memberships = schema.memberships.where({ organizationId });
-    const userIds = memberships.models.map(membership => membership.userId);
+    const userIds = memberships.models.map((membership) => membership.userId);
     users = users.find(userIds);
   }
 

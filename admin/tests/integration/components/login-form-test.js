@@ -50,7 +50,7 @@ module('Integration | Component | login-form', function(hooks) {
 
     test('should display good error message when an error 401 occurred', async function(assert) {
       // given
-      const errorResponse = {errors: [{ status: '401' }]};
+      const errorResponse = { errors: [{ status: '401' }] };
       sessionStub.prototype.authenticate = () => reject(errorResponse);
 
       this.set('errorMessage', null);
@@ -65,7 +65,7 @@ module('Integration | Component | login-form', function(hooks) {
 
     test('should display good error message when an error 400 occurred', async function(assert) {
       // given
-      const errorResponse = {errors: [{ status: '400' }]};
+      const errorResponse = { errors: [{ status: '400' }] };
       sessionStub.prototype.authenticate = () => reject(errorResponse);
 
       this.set('errorMessage', null);
@@ -80,7 +80,7 @@ module('Integration | Component | login-form', function(hooks) {
 
     test('should display good error message when an undefined error occurred', async function(assert) {
       // given
-      const errorResponse = {errors: [{ status: '500' }]};
+      const errorResponse = { errors: [{ status: '500' }] };
       sessionStub.prototype.authenticate = () => reject(errorResponse);
 
       this.set('errorMessage', null);

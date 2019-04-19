@@ -3,7 +3,7 @@ const simpleUserAuthentication = {
     type: 'authentication',
     attributes: {
       'user-id': 1,
-      token: 'aaa.'+btoa('{"user_id":1,"source":"pix","iat":1545321469,"exp":4702193958}')+'.bbb'
+      token: 'aaa.' + btoa('{"user_id":1,"source":"pix","iat":1545321469,"exp":4702193958}') + '.bbb'
     },
     id: 1
   }
@@ -14,7 +14,7 @@ const simpleExternalUserAuthentication = {
     type: 'authentication',
     attributes: {
       'user-id': 3,
-      token: 'aaa.'+btoa('{"user_id":3,"source":"external","iat":1545321469,"exp":4702193958}')+'.bbb'
+      token: 'aaa.' + btoa('{"user_id":3,"source":"external","iat":1545321469,"exp":4702193958}') + '.bbb'
     },
     id: 3
   }
@@ -24,7 +24,7 @@ const prescriberAuthentication = {
     type: 'authentication',
     attributes: {
       'user-id': 2,
-      token: 'aaa.'+btoa('{"user_id":2,"source":"pix","iat":1545321469}')+'.bbb'
+      token: 'aaa.' + btoa('{"user_id":2,"source":"pix","iat":1545321469}') + '.bbb'
     },
     id: 2
   }

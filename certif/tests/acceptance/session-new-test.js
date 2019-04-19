@@ -9,7 +9,6 @@ import { createUserWithMembership } from '../helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 
-
 module('Acceptance | Session creation', function(hooks) {
 
   setupApplicationTest(hooks);
@@ -35,11 +34,10 @@ module('Acceptance | Session creation', function(hooks) {
 
     test('it should create a session and redirect to session details', async function(assert) {
       // given
-      let sessionDate = moment();
-      let sessionFormattedDate = sessionDate.format('DD/MM/YYYY');
-      let sesionFormattedTime = '02/02/2019 13:45';
-      let sessionTime = new Date(sesionFormattedTime);
-
+      const sessionDate = moment();
+      const sessionFormattedDate = sessionDate.format('DD/MM/YYYY');
+      const sesionFormattedTime = '02/02/2019 13:45';
+      const sessionTime = new Date(sesionFormattedTime);
 
       await visit('/sessions/creation');
       await fillIn('#session-address', 'My address');

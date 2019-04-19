@@ -6,8 +6,8 @@ module('Unit | Model | certification-center', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let store = this.owner.lookup('service:store');
-    let model = run(() => store.createRecord('certification-center', {}));
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('certification-center', {}));
     assert.ok(model);
   });
 });

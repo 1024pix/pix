@@ -168,10 +168,10 @@ describe('Acceptance | API | Certification Center', () => {
     beforeEach(async() => {
       options = {
         method: 'GET',
-        url: '/api/certification-centers/'+expectedCertificationCenterId,
+        url: '/api/certification-centers/' + expectedCertificationCenterId,
       };
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({ id: expectedCertificationCenterId });
-      databaseBuilder.factory.buildCertificationCenter({ id: expectedCertificationCenterId+1 });
+      databaseBuilder.factory.buildCertificationCenter({ id: expectedCertificationCenterId + 1 });
       await databaseBuilder.commit();
     });
 
@@ -259,7 +259,7 @@ describe('Acceptance | API | Certification Center', () => {
     beforeEach(async() => {
       options = {
         method: 'GET',
-        url: '/api/certification-centers/'+certificationCenterId+'/sessions',
+        url: '/api/certification-centers/' + certificationCenterId + '/sessions',
       };
       databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId });
       user = databaseBuilder.factory.buildUser();

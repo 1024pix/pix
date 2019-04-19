@@ -11,7 +11,7 @@ module('Integration | Component | certification-details-answer', function(hooks)
 
   setupRenderingTest(hooks);
 
-  let answerData = {
+  const answerData = {
     skill:'@skill5',
     challengeId:'rec12345',
     order:5,
@@ -41,7 +41,7 @@ module('Integration | Component | certification-details-answer', function(hooks)
     assert.dom('.certification-details-answer-skill').hasText('@skill5');
     assert.dom('.certification-details-answer-id').hasText('rec12345');
     assert.dom('.certification-details-answer-order').hasText('(numéro : 5)');
-    assert.dom([...this.element.querySelector('.answer-result select').querySelectorAll('option')].find(it => it.selected)).hasText('Partially');
+    assert.dom([...this.element.querySelector('.answer-result select').querySelectorAll('option')].find((it) => it.selected)).hasText('Partially');
   });
 
   test('jury class is set when answer is modified', async function(assert) {
@@ -86,7 +86,5 @@ module('Integration | Component | certification-details-answer', function(hooks)
     await xselect.select('Partially');
     assert.equal(answerData.jury, false);
   });
-
-
 
 });
