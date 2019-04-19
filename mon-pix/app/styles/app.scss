@@ -6,7 +6,6 @@
 /* globals */
 @import 'globals/palette';
 @import 'globals/fonts';
-@import 'globals/background-banner';
 @import 'globals/breakpoints';
 @import 'globals/alert';
 @import 'globals/dimension';
@@ -17,6 +16,7 @@
 @import 'globals/buttons';
 @import 'globals/tables';
 /* components */
+@import 'components/background-banner';
 @import 'components/_blue-ribbon';
 @import 'components/_campaign-banner';
 @import 'components/_certification-code-validation';

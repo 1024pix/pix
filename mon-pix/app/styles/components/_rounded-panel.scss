@@ -13,6 +13,16 @@
   &__row {
     padding: 20px;
   }
+
+  &__shadow {
+    min-height: 1px;
+    position: absolute;
+    bottom: 30px;
+    left: 7.5%;
+    width: 85%;
+    z-index: -100;
+    box-shadow: 0px 0px 40px 1px rgba(0,0,0,0.33);
+  }
 }
 
 .rounded-panel hr {

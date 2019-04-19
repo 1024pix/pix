@@ -15,7 +15,7 @@ export default Controller.extend({
     return foundArea.color;
   }),
 
-  pixScoreToNextLevel: computed('model', function() {
+  remainingPixToNextLevel: computed('model', function() {
     return NUMBER_OF_PIX_BY_LEVEL - this.get('model.pixScoreAheadOfNextLevel');
   }),
 

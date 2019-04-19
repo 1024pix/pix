@@ -59,13 +59,13 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await visit(`/competences/${scorecard.id}`);
 
       // then
-      expect(find('.competence-details-panel-content-left-area').text()).to.contain(area.title);
-      expect(find('.competence-details-panel-content-left-area').attr('class')).to.contain('competence-details--jaffa');
-      expect(find('.competence-details-panel-content-left-name').text()).to.contain(name);
-      expect(find('.competence-details-panel-content-left-description').text()).to.contain(description);
+      expect(find('.competence-details-panel-content-left__area').text()).to.contain(area.title);
+      expect(find('.competence-details-panel-content-left__area').attr('class')).to.contain('competence-details-panel-content-left__area--jaffa');
+      expect(find('.competence-details-panel-content-left__name').text()).to.contain(name);
+      expect(find('.competence-details-panel-content-left__description').text()).to.contain(description);
       expect(find('.competence-card-level__value').text()).to.contain(level);
-      expect(find('.competence-details-panel-content-right-score-container-pix-earned-number').text()).to.contain(earnedPix);
-      expect(find('.competence-details-panel-content-right-level-info').text()).to.contain(`${8 - pixScoreAheadOfNextLevel} pix avant niveau ${level + 1}`);
+      expect(find('.competence-details-panel-content-right-score-container-pix-earned__number').text()).to.contain(earnedPix);
+      expect(find('.competence-details-panel-content-right__level-info').text()).to.contain(`${8 - pixScoreAheadOfNextLevel} pix avant niveau ${level + 1}`);
     });
 
     it('Does not display pixScoreAheadOfNextLevelwhen next level is over the max level', async () => {
@@ -83,7 +83,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await visit(`/competence/${scorecard.id}`);
 
       // then
-      expect(find('.competence-details-panel-content-right-level-info')).to.have.lengthOf(0);
+      expect(find('.competence-details-panel-content-right__level-info')).to.have.lengthOf(0);
     });
   });
 
