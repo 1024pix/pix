@@ -12,10 +12,14 @@ module.exports = function buildCampaign({
   idPixLabel = faker.random.word(),
   customLandingPageText = faker.lorem.text(),
   createdAt = faker.date.recent(),
-  organizationId = buildOrganization().id,
-  creatorId = buildUser().id,
-  targetProfileId = buildTargetProfile({ organizationId }).id,
+  organizationId,
+  creatorId,
+  targetProfileId,
 } = {}) {
+
+  organizationId = organizationId || buildOrganization().id;
+  creatorId = creatorId || buildUser().id;
+  targetProfileId = targetProfileId || buildTargetProfile({ organizationId }).id;
 
   const values = {
     id,

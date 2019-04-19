@@ -10,6 +10,11 @@ module.exports = function buildMembership(
   } = {}) {
 
   const values = { id, organizationId, organizationRoleId, userId };
-  databaseBuffer.pushInsertable({ tableName: 'memberships', values, });
+
+  databaseBuffer.pushInsertable({
+    tableName: 'memberships',
+    values,
+  });
+
   return values;
 };

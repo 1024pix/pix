@@ -6,9 +6,11 @@ module.exports = function buildAnswer({
   id = faker.random.number(),
   value = 'default value',
   result = 'ok',
-  assessmentId = buildAssessment().id,
+  assessmentId,
   challengeId = 'rec123456',
 } = {}) {
+
+  assessmentId = assessmentId || buildAssessment().id;
 
   const values = {
     id, value, result, assessmentId, challengeId,

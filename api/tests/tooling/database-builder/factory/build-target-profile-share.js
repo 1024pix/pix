@@ -5,9 +5,12 @@ const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildTargetProfileShare({
   id = faker.random.number(),
-  targetProfileId = buildTargetProfile().id,
-  organizationId = buildOrganization().id,
+  targetProfileId,
+  organizationId,
 } = {}) {
+
+  targetProfileId = targetProfileId || buildTargetProfile().id;
+  organizationId = organizationId || buildOrganization().id;
 
   const values = {
     id,

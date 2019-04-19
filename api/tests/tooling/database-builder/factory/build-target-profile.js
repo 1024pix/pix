@@ -6,8 +6,10 @@ module.exports = function buildTargetProfile({
   id = faker.random.number(),
   name = faker.name.jobTitle(),
   isPublic = faker.random.boolean(),
-  organizationId = buildOrganization().id,
+  organizationId,
 } = {}) {
+
+  organizationId = organizationId || buildOrganization().id;
 
   const values = {
     id,

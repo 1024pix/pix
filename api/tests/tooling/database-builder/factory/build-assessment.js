@@ -6,12 +6,14 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 module.exports = function buildAssessment({
   id = faker.random.number(),
   courseId = 'recDefaultCourseIdValue',
-  userId = buildUser().id,
+  userId,
   type = Assessment.types.PLACEMENT,
   state = Assessment.states.COMPLETED,
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
+
+  userId = userId || buildUser().id;
 
   const values = {
     id, courseId, userId, type, state, createdAt, updatedAt,
