@@ -20,7 +20,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
     const totalEarnedPixByCompetence = _.sumBy(KEgroup, 'earnedPix');
 
     return new Scorecard({
-      id: competence.id,
+      id: `${authenticatedUserId}_${competence.id}`,
       name: competence.name,
       description: competence.description,
       index: competence.index,

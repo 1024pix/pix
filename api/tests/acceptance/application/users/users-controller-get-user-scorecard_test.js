@@ -7,6 +7,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
 
   let options;
   let server;
+  const userId = 1234;
 
   beforeEach(async () => {
 
@@ -89,7 +90,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
           .activate();
 
         knowledgeElement = databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
-          userId: 1234,
+          userId,
           competenceId: competence.id,
         });
 
@@ -114,7 +115,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
         const expectedScorecardJSONApi = {
           data: [{
             type: 'scorecards',
-            id: competenceId,
+            id: `${userId}_${competenceId}`,
             attributes: {
               name: competence.fields.Titre,
               description: competence.fields.Description,

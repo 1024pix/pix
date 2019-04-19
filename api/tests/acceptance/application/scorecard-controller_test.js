@@ -15,7 +15,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
 
     options = {
       method: 'GET',
-      url: `/api/scorecards/${competenceId}`,
+      url: `/api/scorecards/${userId}_${competenceId}`,
       payload: {},
       headers: {},
     };
@@ -111,7 +111,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
         const expectedScorecardJSONApi = {
           data: {
             type: 'scorecards',
-            id: competenceId,
+            id: `${userId}_${competenceId}`,
             attributes: {
               name: competence.fields.Titre,
               description: competence.fields.Description,

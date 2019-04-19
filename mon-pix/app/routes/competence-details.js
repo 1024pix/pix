@@ -13,7 +13,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       return this.transitionTo('board');
     }
 
-    return this.store.findRecord('scorecard', params.competence_id);
+    return this.store.findRecord('scorecard', params.scorecard_id);
   },
 
 });
