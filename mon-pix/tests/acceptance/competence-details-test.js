@@ -28,12 +28,12 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await authenticateAsSimpleUser();
     });
 
-    it('can visit /competence/1', async () => {
+    it('can visit /competences/1_1', async () => {
       // when
-      await visit('/competence/1');
+      await visit('/competences/1_1');
 
       // then
-      expect(currentURL()).to.equal('/competence/1');
+      expect(currentURL()).to.equal('/competences/1_1');
     });
 
     it('displays the competence details', async () => {
@@ -46,7 +46,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       const area = server.schema.areas.find(1);
 
       const scorecard = server.create('scorecard', {
-        id: 1,
+        id: '1_1',
         name,
         description,
         earnedPix,
@@ -56,7 +56,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       });
 
       // when
-      await visit(`/competence/${scorecard.id}`);
+      await visit(`/competences/${scorecard.id}`);
 
       // then
       expect(find('.competence-details-panel-content-left-area').text()).to.contain(area.title);
@@ -71,7 +71,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
     it('Does not display pixScoreAheadOfNextLevelwhen next level is over the max level', async () => {
       // given
       const scorecard = server.create('scorecard', {
-        id: 1,
+        id: '1_1',
         name: 'Super compétence',
         earnedPix: 7,
         level: 999,
@@ -92,9 +92,9 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await authenticateAsPrescriber();
     });
 
-    it('can visit /competence/1', async () => {
+    it('can visit /competences/1_1', async () => {
       // when
-      await visit('/competence/1');
+      await visit('/competences/1_1');
 
       // then
       expect(currentURL()).to.equal('/board');
@@ -104,7 +104,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
   describe('Not authenticated cases', () => {
     it('should redirect to home, when user is not authenticated', async () => {
       // when
-      await visit('/competence/1');
+      await visit('/competences/1_1');
       expect(currentURL()).to.equal('/connexion');
     });
   });
