@@ -1,4 +1,4 @@
-import Controller from '@ember/controller'
+import Controller from '@ember/controller';
 
 export default Controller.extend({
   actions: {
@@ -12,4 +12,4 @@ export default Controller.extend({
       this.transitionToRoute('authenticated.sessions.details', session.id);
     },
   }
-})
+});

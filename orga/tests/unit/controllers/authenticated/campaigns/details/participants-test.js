@@ -5,7 +5,7 @@ module('Unit | Controller | authenticated/campaigns/details/participants', funct
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let controller = this.owner.lookup('controller:authenticated/campaigns/details/participants');
+    const controller = this.owner.lookup('controller:authenticated/campaigns/details/participants');
     assert.ok(controller);
   });
 });

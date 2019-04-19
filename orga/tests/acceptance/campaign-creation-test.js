@@ -66,7 +66,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
     test('it should display a list of target profiles', async function(assert) {
       // given
-      let nbTargetProfiles = availableTargetProfiles.length;
+      const nbTargetProfiles = availableTargetProfiles.length;
 
       // when
       await visit('/campagnes/creation');
@@ -74,8 +74,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
       // then
       assert.dom('select#campaign-target-profile').exists();
       assert.dom('select[id=campaign-target-profile] option:not(:disabled)').exists({ count: nbTargetProfiles });
-      assert.dom(`select[id=campaign-target-profile] option[value="${availableTargetProfiles.get(0).id}"]`).hasText(availableTargetProfiles.get(0).name)
-      assert.dom(`select[id=campaign-target-profile] option[value="${availableTargetProfiles.get(1).id}"]`).hasText(availableTargetProfiles.get(1).name)
+      assert.dom(`select[id=campaign-target-profile] option[value="${availableTargetProfiles.get(0).id}"]`).hasText(availableTargetProfiles.get(0).name);
+      assert.dom(`select[id=campaign-target-profile] option[value="${availableTargetProfiles.get(1).id}"]`).hasText(availableTargetProfiles.get(1).name);
     });
 
     test('it should display error on global form when error 500 is returned from backend', async function(assert) {

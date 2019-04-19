@@ -12,7 +12,7 @@ export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
   * ref: http://ember-simple-auth.com/api/classes/BaseAuthorizer.html#method_authorize
   */
   authorize(xhr) {
-    let { access_token } = this.get('session.data.authenticated');
+    const { access_token } = this.get('session.data.authenticated');
     xhr.setRequestHeader('Authorization', `Bearer ${access_token}`);
   },
 

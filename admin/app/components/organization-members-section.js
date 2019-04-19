@@ -3,20 +3,20 @@ import BootstrapTheme from 'ember-models-table/themes/bootstrap4';
 
 const columns = [
   {
-    propertyName: "id",
+    propertyName: 'id',
     disableFiltering: true,
   },
   {
-    propertyName: "user.firstName",
-    title: "Prénom",
+    propertyName: 'user.firstName',
+    title: 'Prénom',
   },
   {
-    propertyName: "user.lastName",
-    title: "Nom",
+    propertyName: 'user.lastName',
+    title: 'Nom',
   },
   {
-    propertyName: "user.email",
-    title: "Courriel",
+    propertyName: 'user.email',
+    title: 'Courriel',
   }
 ];
 

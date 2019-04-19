@@ -11,14 +11,14 @@ module('Unit | Service | current-certification-center', function(hooks) {
 
   test('it should stock the current certification center data if user exists', function(assert) {
     // given
-    const userCertificationCenter = Object.create({ name: 'Certification Center'});
+    const userCertificationCenter = Object.create({ name: 'Certification Center' });
     const certificationCenterMembership = Object.create({ certificationCenter: userCertificationCenter });
     const certificationCenterMemberships = EmberArray([certificationCenterMembership]);
 
     const connectedUser = Object.create({ id: 1 });
     connectedUser.get = () => resolve(certificationCenterMemberships);
 
-    let service = this.owner.lookup('service:current-certification-center');
+    const service = this.owner.lookup('service:current-certification-center');
 
     // when
     service.load(connectedUser);
@@ -31,7 +31,7 @@ module('Unit | Service | current-certification-center', function(hooks) {
 
   test('it should not be writable', function(assert) {
     // given
-    let service = this.owner.lookup('service:current-certification-center');
+    const service = this.owner.lookup('service:current-certification-center');
 
     // when
     const failingAction = () => service.set('certificationCenter', 'should not pass');
@@ -42,7 +42,7 @@ module('Unit | Service | current-certification-center', function(hooks) {
 
   test('it should do nothing when user is not authenticated', function(assert) {
     // given
-    let service = this.owner.lookup('service:current-certification-center');
+    const service = this.owner.lookup('service:current-certification-center');
 
     // when
     const promise = service.load(undefined);

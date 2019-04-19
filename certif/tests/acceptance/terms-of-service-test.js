@@ -37,7 +37,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     // given
     let pixCertifTermsOfServiceAccepted;
     server.patch('/users/:id', (schema, request) => {
-      let requestBodyParams = JSON.parse(request.requestBody);
+      const requestBodyParams = JSON.parse(request.requestBody);
       pixCertifTermsOfServiceAccepted = requestBodyParams.data.attributes['pix-certif-terms-of-service-accepted'];
       return new Response(204);
     });

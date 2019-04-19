@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, testErr } = require('../../../test-helper'
 
 const createSession = require('../../../../lib/domain/usecases/create-session');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
-const sessionValidator= require('../../../../lib/domain/validators/session-validator');
+const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const Session = require('../../../../lib/domain/models/Session');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 

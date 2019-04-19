@@ -6,6 +6,6 @@ export default JSONAPISerializer.extend({
       'campaignReport': {
         related: `/campaigns/${campaign.id}/campaign-report`
       },
-    }
+    };
   }
 });

@@ -1,7 +1,7 @@
 import Response from 'ember-cli-mirage/response';
 
 function parseQueryString(queryString) {
-  let result = Object.create(null);
+  const result = Object.create(null);
   queryString.split('&').forEach((pair) => {
     const [name, value] = pair.split('=');
     result[name] = decodeURIComponent(value);
@@ -9,7 +9,7 @@ function parseQueryString(queryString) {
   return result;
 }
 
-export default function () {
+export default function() {
 
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';
@@ -74,7 +74,7 @@ export default function () {
     const end = start + pageSize;
     const campaignParticipations = schema.campaignParticipations.where({ campaignId }).models;
     const campaignParticipationIds = campaignParticipations.slice(start, end).map(
-      campaignParticipation => campaignParticipation.attrs.id
+      (campaignParticipation) => campaignParticipation.attrs.id
     );
     const results = schema.campaignParticipations.find(campaignParticipationIds);
     const json = this.serializerOrRegistry.serialize(results, request);

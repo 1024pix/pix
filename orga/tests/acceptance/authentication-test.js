@@ -19,7 +19,7 @@ module('Acceptance | authentication', function(hooks) {
 
   let user;
 
-  module( "When user is not logged in", function() {
+  module('When user is not logged in', function() {
 
     test('it should redirect user to login page', async function(assert) {
       // when
@@ -31,46 +31,46 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module( "When user is logging in but has not accepted terms of service yet", function(hooks) {
+  module('When user is logging in but has not accepted terms of service yet', function(hooks) {
 
     hooks.beforeEach(() => {
       user = createUserWithMembership();
     });
 
-   test('it should redirect user to the terms-of-service page', async function(assert) {
-     // given
-     await visit('/connexion');
-     await fillIn('#login-email', user.email);
-     await fillIn('#login-password', 'secret');
+    test('it should redirect user to the terms-of-service page', async function(assert) {
+      // given
+      await visit('/connexion');
+      await fillIn('#login-email', user.email);
+      await fillIn('#login-password', 'secret');
 
-     // when
-     await click('button[type=submit]');
+      // when
+      await click('button[type=submit]');
 
-     // then
-     assert.equal(currentURL(), '/cgu');
-     assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-   });
+      // then
+      assert.equal(currentURL(), '/cgu');
+      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+    });
 
-   test('it should not show menu nor top bar', async function(assert) {
-     // given
-     server.create('campaign');
+    test('it should not show menu nor top bar', async function(assert) {
+      // given
+      server.create('campaign');
 
-     await visit('/connexion');
-     await fillIn('#login-email', user.email);
-     await fillIn('#login-password', 'secret');
+      await visit('/connexion');
+      await fillIn('#login-email', user.email);
+      await fillIn('#login-password', 'secret');
 
-     // when
-     await click('button[type=submit]');
+      // when
+      await click('button[type=submit]');
 
-     // then
-     assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+      // then
+      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
-     assert.dom('.app__sidebar').doesNotExist();
-     assert.dom('.main-content__topbar').doesNotExist();
-   });
+      assert.dom('.app__sidebar').doesNotExist();
+      assert.dom('.main-content__topbar').doesNotExist();
+    });
   });
 
-  module( "When user is logging in and has accepted terms of service", function(hooks) {
+  module('When user is logging in and has accepted terms of service', function(hooks) {
 
     hooks.beforeEach(() => {
       user = createUserWithMembershipAndTermsOfServiceAccepted();
@@ -110,7 +110,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module( "When user is already authenticated and has accepted terms of service", function(hooks) {
+  module('When user is already authenticated and has accepted terms of service', function(hooks) {
 
     hooks.beforeEach(async () => {
       user = createUserWithMembershipAndTermsOfServiceAccepted();

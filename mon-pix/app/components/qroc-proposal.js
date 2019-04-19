@@ -16,7 +16,7 @@ export default Component.extend({
 
   userAnswer : computed('answerValue', function() {
     const answer = this.answerValue || '';
-    return answer.indexOf('#ABAND#') > -1? '' : answer;
+    return answer.indexOf('#ABAND#') > -1 ? '' : answer;
   }),
 
   didInsertElement: function() {

@@ -2,20 +2,20 @@ import Component from '@ember/component';
 
 const columns = [
   {
-    propertyName: "id",
+    propertyName: 'id',
     disableFiltering: true,
   },
   {
-    propertyName: "firstName",
-    title: "Prénom",
+    propertyName: 'firstName',
+    title: 'Prénom',
   },
   {
-    propertyName: "lastName",
-    title: "Nom",
+    propertyName: 'lastName',
+    title: 'Nom',
   },
   {
-    propertyName: "email",
-    title: "Courriel",
+    propertyName: 'email',
+    title: 'Courriel',
   }
 ];
 
