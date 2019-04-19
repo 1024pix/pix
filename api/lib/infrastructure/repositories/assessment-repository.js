@@ -86,7 +86,7 @@ module.exports = {
       .then(_toDomain);
   },
 
-  getByUserIdAndAssessmentId(assessmentId, userId) {
+  getByAssessmentIdAndUserId(assessmentId, userId) {
     return BookshelfAssessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
       .fetch({ require: true })

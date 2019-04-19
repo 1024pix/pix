@@ -13,7 +13,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
 
   const smartPlacementAssessmentRepository = { get: () => undefined };
   const smartPlacementKnowledgeElementRepository = { findUniqByUserId: () => undefined };
-  const assessmentRepository = { getByUserIdAndAssessmentId: () => undefined };
+  const assessmentRepository = { getByAssessmentIdAndUserId: () => undefined };
   const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
   const skillRepository = { findByCompetenceId: () => undefined };
 
@@ -44,7 +44,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       });
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'getByUserIdAndAssessmentId').resolves(assessment);
+        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
         sandbox.stub(smartPlacementAssessmentRepository, 'get').resolves(smartPlacementAssessment);
       });
 
@@ -108,7 +108,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       });
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'getByUserIdAndAssessmentId').resolves(competenceEvaluationAssessment);
+        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(competenceEvaluationAssessment);
         sandbox.stub(competenceEvaluationRepository, 'getByAssessmentId').resolves(competenceEvaluation);
         sandbox.stub(skillRepository, 'findByCompetenceId').resolves([]);
       });
@@ -167,12 +167,12 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       });
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'getByUserIdAndAssessmentId').resolves(assessment);
+        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
       });
 
       it('should transfer the errors', () => {
         // given
-        assessmentRepository.getByUserIdAndAssessmentId.rejects(new NotFoundError('No found Assessment for ID 1234'));
+        assessmentRepository.getByAssessmentIdAndUserId.rejects(new NotFoundError('No found Assessment for ID 1234'));
 
         // when
         const promise = getProgression({
