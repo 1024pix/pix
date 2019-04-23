@@ -3,16 +3,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  &__panel {
-    position: relative;
-    width: 100%;
-    margin-top: -205px;
-
-    @include device-is('desktop') {
-      max-width: 980px;
-    }
-  }
 }
 
 .competence-details-panel {
