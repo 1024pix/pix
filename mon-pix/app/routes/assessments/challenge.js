@@ -57,6 +57,7 @@ export default Route.extend({
           return modelResult;
         });
     }
+    return modelResult;
 
   },
 

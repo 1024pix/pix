@@ -85,5 +85,50 @@ describe('Integration | Component | competence-card', function() {
       expect(this.element.querySelector('.competence-card-level__label').textContent).to.equal('Niveau');
       expect(this.element.querySelector('.competence-card-level__value').textContent).to.equal(scorecard.level.toString());
     });
+
+    context('when user can start the competence', async function() {
+
+      it('should show the button "Commencer"', async function() {
+        // given
+        const scorecard = { area, level: 3, isFinished: false, isStarted: false };
+        this.set('scorecard', scorecard);
+
+        // when
+        await render(hbs`{{competence-card scorecard=scorecard}}`);
+
+        // then
+        expect(this.element.querySelector('.competence-card__button').textContent).to.contains('Commencer');
+      });
+
+    });
+
+    context('when user can continue the competence', async function() {
+      it('should show the button "Reprendre"', async function() {
+        // given
+        const scorecard = { area, level: 3, isFinished: false, isStarted: true };
+        this.set('scorecard', scorecard);
+
+        // when
+        await render(hbs`{{competence-card scorecard=scorecard}}`);
+
+        // then
+        expect(this.element.querySelector('.competence-card__button').textContent).to.contains('Reprendre');
+      });
+    });
+
+    context('when user has finished the competence', async function() {
+
+      it('should not show the button', async function() {
+        // given
+        const scorecard = { area, level: 3, isFinished: true, isStarted: false };
+        this.set('scorecard', scorecard);
+
+        // when
+        await render(hbs`{{competence-card scorecard=scorecard}}`);
+
+        // then
+        expect(this.element.querySelector('.competence-card__button')).to.be.null;
+      });
+    });
   });
 });

@@ -28,11 +28,11 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
       expect(controller.get('completionPercentage')).to.equal(100);
     });
 
-    it('should equal the smartPlacementProgression completionPercentage', function() {
+    it('should equal the progression completionPercentage', function() {
       // when
       const controller = this.subject();
       const model = {
-        smartPlacementProgression: {
+        progression: {
           completionPercentage: 73,
         }
       };

@@ -140,7 +140,7 @@ function _createOneLineOfCSV(
       return Promise.all([
         assessment,
         userRepository.get(assessment.userId),
-        smartPlacementKnowledgeElementRepository.findUniqByUserId(assessment.userId, assessment.campaignParticipation.sharedAt)
+        smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, limitDate: assessment.campaignParticipation.sharedAt })
       ]);
     })
     .then(([assessment, user, allKnowledgeElements]) => {

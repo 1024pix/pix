@@ -19,5 +19,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
     }
 
     model.hasMany('campaignParticipations').reload();
+    model.scorecards.reload();
   },
 });

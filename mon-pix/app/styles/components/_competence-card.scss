@@ -113,3 +113,16 @@
   @include competence-card-level-value;
   min-height: 44px;
 }
+
+.competence-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+}
+
+.competence-card__button {
+  text-transform: none;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}

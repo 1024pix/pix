@@ -1,8 +1,12 @@
 <div class="assessment-challenge">
 
-  <!-- Currently, there is checkpoints only during campaign participations -->
   <div class="assessment-challenge__course-banner">
-    {{campaign-banner title=model.campaign.title checkpoint='true'}}
+    {{#if model.isSmartPlacement}}
+      {{campaign-banner title=model.campaign.title checkpoint='true' returnTo="index"}}
+    {{/if}}
+    {{#if model.isCompetenceEvaluation}}
+      {{campaign-banner title="" checkpoint='true' returnTo="profilv2"}}
+    {{/if}}
   </div>
 
   <div class="checkpoint__container">
@@ -21,7 +25,7 @@
 
       </div>
       <div class="checkpoint__continue-wrapper">
-        {{checkpoint-continue campaignId=model.id nextPageButtonText=nextPageButtonText}}
+        {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
       </div>
     </div>
 
@@ -37,7 +41,7 @@
           {{result-item-campaign answer=answer openAnswerDetails=(action "openComparisonWindow")}}
         {{/each}}
       </div>
-      {{checkpoint-continue campaignId=model.id nextPageButtonText=nextPageButtonText}}
+      {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
     </div>
   </div>
 

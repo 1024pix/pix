@@ -9,21 +9,24 @@ export default function(schema, request) {
     earnedPix: 3,
     level: 2,
     pixScoreAheadOfNextLevel: 3.2,
-    area: area1
+    area: area1,
+    competenceId: 1,
   });
   const scorecardN2 = schema.scorecards.create({
     name: 'Compétence C2',
     earnedPix: 7,
     level: 4,
     pixScoreAheadOfNextLevel: 7.2,
-    area: area1
+    area: area1,
+    competenceId: 2,
   });
   const scorecardN3 = schema.scorecards.create({
     name: 'Compétence C3',
     earnedPix: 10,
     level: 3,
     pixScoreAheadOfNextLevel: 5.36,
-    area: area2
+    area: area2,
+    competenceId: 3,
   });
 
   const user = schema.users.find(userId);

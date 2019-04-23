@@ -174,7 +174,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     context('when there is no limit date', () => {
       it('should find the knowledge elements for smart placement assessment associated with a user id', async () => {
         // when
-        const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId(userId);
+        const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId({ userId });
 
         return promise
           .then((knowledgeElementsFound) => {
@@ -187,7 +187,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     context('when there is a limit date', () => {
       it('should find the knowledge elements for smart placement assessment associated with a user id created before limit date', async () => {
         // when
-        const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId(userId, today);
+        const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
 
         return promise
           .then((knowledgeElementsFound) => {
