@@ -1,8 +1,6 @@
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
-
-const MAX_REACHABLE_LEVEL = 5;
-const NB_PIX_BY_LEVEL = 8;
+const Scorecard = require('../models/Scorecard');
 
 module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository }) => {
 
@@ -21,24 +19,13 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
     const KEgroup = sortedKEGroupedByCompetence[competence.id];
     const totalEarnedPixByCompetence = _.sumBy(KEgroup, 'earnedPix');
 
-    return {
-      id: `${requestedUserId}_${competence.index}`,
+    return new Scorecard({
+      id: `${authenticatedUserId}_${competence.id}`,
       name: competence.name,
+      description: competence.description,
       index: competence.index,
       area: competence.area,
-      courseId: competence.courseId,
       earnedPix: totalEarnedPixByCompetence,
-      level: _getCompetenceLevel(totalEarnedPixByCompetence),
-      pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPixByCompetence)
-    };
+    });
   });
 };
-
-function _getCompetenceLevel(earnedPix) {
-  const userLevel = Math.floor(earnedPix / NB_PIX_BY_LEVEL);
-  return (userLevel >= MAX_REACHABLE_LEVEL) ? MAX_REACHABLE_LEVEL : userLevel;
-}
-
-function _getPixScoreAheadOfNextLevel(earnedPix) {
-  return earnedPix % NB_PIX_BY_LEVEL;
-}
