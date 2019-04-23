@@ -13,7 +13,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     const competenceEvaluation = this.store.peekAll('competenceEvaluation')
       .find((competenceEvaluation) => competenceEvaluation.get('competenceId') === competenceId);
-    if (competenceEvaluation) {
+
+    if (competenceEvaluation && competenceEvaluation.assessment.get('isStarted')) {
       return competenceEvaluation;
     }
     return this.store.createRecord('competenceEvaluation', { competenceId }).save();
