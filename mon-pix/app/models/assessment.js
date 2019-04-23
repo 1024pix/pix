@@ -37,9 +37,9 @@ export default Model.extend({
 
   answersSinceLastCheckpoints: computed('answers.[]', function() {
     const answers = this.answers.toArray();
-    const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT;
+    const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS;
     const sliceAnswersFrom = (howManyAnswersSinceTheLastCheckpoint === 0)
-      ? -ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT
+      ? -ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS
       : -howManyAnswersSinceTheLastCheckpoint;
     return answers.slice(sliceAnswersFrom);
   })
