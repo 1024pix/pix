@@ -105,6 +105,7 @@ class ProfileSerializer extends JSONAPISerializer {
           'name': competence.name,
           'index': competence.index,
           'level': competence.level,
+          'description': competence.description,
           'course-id': competence.courseId,
           'status': competence.status,
           'assessment-id': null,

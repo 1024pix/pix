@@ -6,8 +6,8 @@ module.exports = {
     return new Serializer('scorecard', {
       attributes: [
         'name',
+        'description',
         'index',
-        'courseId',
         'area',
         'earnedPix',
         'level',

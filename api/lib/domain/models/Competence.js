@@ -6,6 +6,7 @@ class Competence {
     area,
     name,
     index,
+    description,
     // includes
     skills = [],
     // references
@@ -16,6 +17,7 @@ class Competence {
     this.area = area;
     this.name = name;
     this.index = index;
+    this.description = description;
     // includes
     this.skills = skills; // TODO remplacer par un vrai tableau de SKills
     // references
