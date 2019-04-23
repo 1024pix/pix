@@ -7,15 +7,7 @@
 
 .profilv2 {
   &__panel {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-top: -205px;
     padding-left: 30px;
     padding-right: 30px;
-
-    @include device-is('desktop') {
-      max-width: 980px;
-    }
   }
 }

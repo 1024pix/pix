@@ -2,41 +2,39 @@
 <div class="competence-details">
   <div class="background-banner"></div>
 
-  <div class="competence-details__panel">
-    <div class="rounded-panel rounded-panel--strong">
-      <div class="competence-details-panel__content">
-        <div class="competence-details-panel-content__left">
-          <div class="competence-details-panel-content-left__area competence-details-panel-content-left__area--{{areaColor}}">
-            {{model.area.title}}
-          </div>
-          <div class="competence-details-panel-content-left__name">
-            {{model.name}}
-          </div>
-          <div class="competence-details-panel-content-left__description">
-            {{model.description}}
-          </div>
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
+    <div class="competence-details-panel__content">
+      <div class="competence-details-panel-content__left">
+        <div class="competence-details-panel-content-left__area competence-details-panel-content-left__area--{{areaColor}}">
+          {{model.area.title}}
         </div>
-        <div class="competence-details-panel-content__right">
-          <div class="competence-details-panel-content-right__score-container">
-            {{#circle-chart value=percentageAheadOfNextLevel sliceColor=areaColor chartClass='circle-chart__content--big' thicknessClass='circle--thick'}}
-              <div class="competence-card__level">
-                <span class="competence-card-level__label">Niveau</span>
-                <span class="competence-card-level__value">{{model.level}}</span>
-              </div>
-            {{/circle-chart}}
-            <div class="competence-details-panel-content-right-score-container__pix-earned">
-              <div class="competence-details-panel-content-right-score-container-pix-earned__number">{{model.earnedPix}}</div>
-              <div class="competence-details-panel-content-right-score-container-pix-earned__info">{{earnedPixText}}</div>
-            </div>
-          </div>
-          {{#if (lt model.level _MAX_REACHABLE_LEVEL)}}
-            <div class="competence-details-panel-content-right__level-info">
-              {{remainingPixToNextLevel}} pix avant niveau {{inc model.level}}
-            </div>
-          {{/if}}
+        <div class="competence-details-panel-content-left__name">
+          {{model.name}}
+        </div>
+        <div class="competence-details-panel-content-left__description">
+          {{model.description}}
         </div>
       </div>
+
+      <div class="competence-details-panel-content__right">
+        <div class="competence-details-panel-content-right__score-container">
+          {{#circle-chart value=percentageAheadOfNextLevel sliceColor=areaColor chartClass='circle-chart__content--big' thicknessClass='circle--thick'}}
+            <div class="competence-card__level">
+              <span class="competence-card-level__label">Niveau</span>
+              <span class="competence-card-level__value">{{model.level}}</span>
+            </div>
+          {{/circle-chart}}
+          <div class="competence-details-panel-content-right-score-container__pix-earned">
+            <div class="competence-details-panel-content-right-score-container-pix-earned__number">{{model.earnedPix}}</div>
+            <div class="competence-details-panel-content-right-score-container-pix-earned__info">{{earnedPixText}}</div>
+          </div>
+        </div>
+        {{#if (lt model.level _MAX_REACHABLE_LEVEL)}}
+          <div class="competence-details-panel-content-right__level-info">
+            {{remainingPixToNextLevel}} pix avant niveau {{inc model.level}}
+          </div>
+        {{/if}}
+      </div>
     </div>
-    <div class="rounded-panel__shadow" aria-hidden="true">.</div>
   </div>
 </div>

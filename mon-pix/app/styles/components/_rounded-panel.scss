@@ -7,21 +7,22 @@
 
   &--strong {
     border-radius: 10px;
-    box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 50px 54px -40px rgba(0,0,0,0.4), 0 7px 14px 0 rgba(12, 22, 58, 0.1);
+  }
+
+  &--over-background-banner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: -205px;
+
+    @include device-is('desktop') {
+      max-width: 980px;
+    }
   }
 
   &__row {
     padding: 20px;
-  }
-
-  &__shadow {
-    min-height: 1px;
-    position: absolute;
-    bottom: 30px;
-    left: 7.5%;
-    width: 85%;
-    z-index: -100;
-    box-shadow: 0px 0px 40px 1px rgba(0,0,0,0.33);
   }
 }
 
