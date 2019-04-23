@@ -6,7 +6,7 @@ const NUMBER_OF_PIX_BY_LEVEL = 8;
 const MAX_DISPLAYED_PERCENTAGE = 95;
 
 export default Controller.extend({
-  maxLevel: 5,
+  _MAX_REACHABLE_LEVEL: 5,
 
   areaColor: computed('model', function() {
     const codeString = this.get('model.area.code').toString();

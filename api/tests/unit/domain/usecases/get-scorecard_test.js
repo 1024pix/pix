@@ -26,7 +26,7 @@ describe('Unit | UseCase | get-scorecard', () => {
     const authenticatedUserId = 2;
     const maxLevel = 5;
 
-    context('And user asks for his own scorecards', () => {
+    context('And user asks for his own scorecard', () => {
       const scorecardId = `${authenticatedUserId}_1`;
 
       it('should resolve', () => {
@@ -46,7 +46,7 @@ describe('Unit | UseCase | get-scorecard', () => {
         return expect(promise).to.be.fulfilled;
       });
 
-      it('should return related user scorecards', async () => {
+      it('should return the user scorecard', async () => {
         // given
         const earnedPixForCompetenceId1 = 8;
         const levelForCompetenceId1 = 1;
@@ -118,26 +118,26 @@ describe('Unit | UseCase | get-scorecard', () => {
         assertScorecard(userScorecard, expectedUserScorecard);
       });
     });
-  });
 
-  context('And user asks for scorecards that do not belongs to him', () => {
-    it('should reject a "UserNotAuthorizedToAccessEntity" domain error', () => {
-      // given
-      const authenticatedUserId = 34;
+    context('And user asks for a scorecard that do not belongs to him', () => {
+      it('should reject a "UserNotAuthorizedToAccessEntity" domain error', () => {
+        // given
+        const authenticatedUserId = 34;
 
-      competenceRepository.get.resolves([]);
-      smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
+        competenceRepository.get.resolves([]);
+        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
 
-      // when
-      const promise = getScorecard({
-        authenticatedUserId,
-        scorecardId: '1_1',
-        smartPlacementKnowledgeElementRepository,
-        competenceRepository,
+        // when
+        const promise = getScorecard({
+          authenticatedUserId,
+          scorecardId: '1_1',
+          smartPlacementKnowledgeElementRepository,
+          competenceRepository,
+        });
+
+        // then
+        return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
       });
-
-      // then
-      return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
     });
   });
 });
