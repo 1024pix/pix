@@ -14,6 +14,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
         if (user.get('organizations.length') > 0) {
           return this.transitionTo('board');
         }
+        if (user.get('isInProfileV2')) {
+          return this.replaceWith('profilv2');
+        }
         return user;
       });
   },
