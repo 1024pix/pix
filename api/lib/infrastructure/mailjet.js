@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const mailjetConfig = require('../settings').mailing;
+const mailingConfig = require('../settings').mailing;
 const nodeMailjet = require('node-mailjet');
 const logger = require('./logger');
 const mailCheck = require('./mail-check');
@@ -25,8 +25,12 @@ function _formatPayload(options) {
 }
 
 function sendEmail(options) {
+  if (!mailingConfig.enabled) {
+    return Promise.resolve();
+  }
+
   return mailCheck.checkMail(options.to).then(()=>{
-    const mailjet = nodeMailjet.connect(mailjetConfig.mailjetApiKey, mailjetConfig.mailjetApiSecret);
+    const mailjet = nodeMailjet.connect(mailingConfig.mailjetApiKey, mailingConfig.mailjetApiSecret);
 
     return mailjet
       .post('send')
