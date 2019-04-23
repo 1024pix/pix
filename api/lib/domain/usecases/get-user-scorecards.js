@@ -2,17 +2,17 @@ const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const Scorecard = require('../models/Scorecard');
 
-module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository }) => {
+module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
 
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const [userKEList, competenceTree] = await Promise.all([
-    smartPlacementKnowledgeElementRepository.findUniqByUserId(requestedUserId),
+  const [userKEList, competenceTree, competenceEvaluations] = await Promise.all([
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
     competenceRepository.list(),
+    competenceEvaluationRepository.findByUserId(requestedUserId),
   ]);
-
   const sortedKEGroupedByCompetence = _.groupBy(userKEList, 'competenceId');
 
   return _.map(competenceTree, (competence) => {
@@ -25,7 +25,23 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
       description: competence.description,
       index: competence.index,
       area: competence.area,
+      competenceId: competence.id,
       earnedPix: totalEarnedPixByCompetence,
+      status: _getStatus(KEgroup, competence.id, competenceEvaluations)
     });
   });
 };
+
+function _getStatus(knowledgeElements, competenceId, competenceEvaluation) {
+  if (_.isEmpty(knowledgeElements)) {
+    return 'NOT_STARTED';
+  }
+
+  const competenceEvaluationForCompetence = _.find(competenceEvaluation, { competenceId });
+  const stateOfAssessment = _.get(competenceEvaluationForCompetence, 'assessment.state');
+  if (stateOfAssessment === 'completed') {
+    return 'COMPLETED';
+  }
+  return 'STARTED';
+
+}

@@ -24,7 +24,7 @@ module.exports = {
       .then((knowledgeElements) => knowledgeElements.map(_toDomain));
   },
 
-  findUniqByUserId(userId, limitDate) {
+  findUniqByUserId({ userId, limitDate }) {
     return BookshelfKnowledgeElement
       .query((qb) => {
         qb.where({ userId });

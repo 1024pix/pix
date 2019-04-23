@@ -13,6 +13,7 @@ module.exports = [
   require('./application/certificationCourses'),
   require('./application/certifications'),
   require('./application/challenges'),
+  require('./application/competence-evaluations'),
   require('./application/corrections'),
   require('./application/courses'),
   require('./application/feedbacks'),
@@ -25,7 +26,7 @@ module.exports = [
   require('./application/scorecards'),
   require('./application/sessions'),
   require('./application/simulateErrors'),
-  require('./application/smartPlacementProgressions'),
+  require('./application/progressions'),
   require('./application/snapshots'),
   require('./application/users'),
 ];

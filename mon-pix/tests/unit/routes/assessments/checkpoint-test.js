@@ -27,19 +27,22 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       };
       assessment = {
         codeCampaign: 'AZERTY',
+        type: 'SMART_PLACEMENT',
+        isSmartPlacement: true,
+        isCompetenceEvaluation: false,
         set: sinon.stub(),
         belongsTo: sinon.stub().returns({ reload: reloadStub })
       };
       route.set('store', storeStub);
     });
 
-    it('should force the smartPlacementProgression reload (that has certainly changed since last time)', function() {
+    it('should force the progression reload (that has certainly changed since last time)', function() {
       // when
       const promise = route.afterModel(assessment);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(assessment.belongsTo, 'smartPlacementProgression');
+        sinon.assert.calledWith(assessment.belongsTo, 'progression');
         sinon.assert.calledOnce(reloadStub);
       });
     });

@@ -8,10 +8,12 @@ module.exports = {
         'name',
         'description',
         'index',
+        'competenceId',
         'area',
         'earnedPix',
         'level',
-        'pixScoreAheadOfNextLevel'
+        'pixScoreAheadOfNextLevel',
+        'status'
       ],
 
       area: {

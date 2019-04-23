@@ -1,11 +1,11 @@
-const SmartPlacementProgressionController = require('./smart-placement-progression-controller');
+const ProgressionController = require('./progression-controller');
 exports.register = async function(server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/smart-placement-progressions/{id}',
+      path: '/api/progressions/{id}',
       config: {
-        handler: SmartPlacementProgressionController.get,
+        handler: ProgressionController.get,
         tags: ['api'],
         notes: [
           '- **Route nécessitant une authentification**\n' +
@@ -16,4 +16,4 @@ exports.register = async function(server) {
   ]);
 };
 
-exports.name = 'smart-placement-progressions-api';
+exports.name = 'progressions-api';

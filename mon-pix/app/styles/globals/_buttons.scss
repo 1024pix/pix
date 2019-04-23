@@ -60,6 +60,15 @@
     }
   }
 
+  &--green {
+    background: $mountain-meadow;
+    color: white;
+
+    &:hover, &:active, &:focus {
+      background-color: $jade;
+    }
+  }
+
   &--yellow {
     background: $pix-yellow;
     color: $nero;

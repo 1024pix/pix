@@ -6,17 +6,22 @@ const { ObjectValidationError } = require('../errors');
 const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 const MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = 7;
 
+const courseIdMessage = {
+  COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
+};
+
 const states = {
   COMPLETED: 'completed',
   STARTED: 'started',
 };
 
 const types = {
-  PLACEMENT: 'PLACEMENT',
-  SMARTPLACEMENT: 'SMART_PLACEMENT',
   CERTIFICATION: 'CERTIFICATION',
+  COMPETENCE_EVALUATION: 'COMPETENCE_EVALUATION',
   DEMO: 'DEMO',
+  PLACEMENT: 'PLACEMENT',
   PREVIEW: 'PREVIEW',
+  SMARTPLACEMENT: 'SMART_PLACEMENT',
 };
 
 class Assessment {
@@ -116,6 +121,10 @@ class Assessment {
     return this.type === types.CERTIFICATION;
   }
 
+  isCompetenceEvaluation() {
+    return this.type === types.COMPETENCE_EVALUATION;
+  }
+
   isPlacement() {
     return this.type === types.PLACEMENT;
   }
@@ -145,6 +154,7 @@ class Assessment {
 
 }
 
+Assessment.courseIdMessage = courseIdMessage;
 Assessment.states = states;
 Assessment.types = types;
 Assessment.MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS;

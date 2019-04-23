@@ -59,13 +59,13 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         type: Assessment.types.SMARTPLACEMENT,
         campaignParticipation: { campaign: { code: 'Konami' } },
       });
-      const expectedSmartPlacementProgressionJson = {
+      const expectedProgressionJson = {
         data: {
-          id: `smart-placement-progression-${assessment.id}`,
-          type: 'smartPlacementProgressions',
+          id: `progression-${assessment.id}`,
+          type: 'progressions',
         },
         links: {
-          related: `/smart-placement-progressions/smart-placement-progression-${assessment.id}`,
+          related: `/progressions/progression-${assessment.id}`,
         }
       };
 
@@ -73,7 +73,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       const json = serializer.serialize(assessment);
 
       // then
-      expect(json.data.relationships['smart-placement-progression']).to.deep.equal(expectedSmartPlacementProgressionJson);
+      expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
       expect(json.data.attributes['certification-number']).to.be.null;
       expect(json.data.attributes['code-campaign']).to.equal('Konami');
     });

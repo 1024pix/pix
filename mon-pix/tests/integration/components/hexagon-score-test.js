@@ -22,7 +22,7 @@ describe('Integration | Component | hexagon-score', function() {
       await render(hbs`{{hexagon-score}}`);
 
       // then
-      expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal('--');
+      expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal('–');
     });
 
     it('should display provided score in pastille', async function() {

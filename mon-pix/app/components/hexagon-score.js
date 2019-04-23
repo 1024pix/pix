@@ -6,6 +6,6 @@ export default Component.extend({
   pixScore: null,
 
   score: computed('pixScore', function() {
-    return (isNone(this.pixScore) || this.pixScore === 0) ? '--' : Math.floor(this.pixScore);
+    return (isNone(this.pixScore) || this.pixScore === 0) ? '–' : Math.floor(this.pixScore);
   })
 });
