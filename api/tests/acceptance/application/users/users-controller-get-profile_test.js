@@ -31,7 +31,8 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
       attributes: {
         'first-name': firstName,
         'last-name': lastName,
-        'email': email
+        'email': email,
+        'is-in-profile-v2': false,
       },
       relationships: {
         competences: {

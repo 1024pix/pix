@@ -7,6 +7,7 @@ export default Model.extend({
   firstName: attr('string'),
   lastName: attr('string'),
   email: attr('string'),
+  isInProfileV2: attr('boolean'),
   password: attr('string'),
   cgu: attr('boolean'),
   recaptchaToken: attr('string'),

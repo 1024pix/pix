@@ -128,6 +128,20 @@ module.exports = {
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(fp.map(_toDomain));
   },
+
+  // TODO: maybe obsolete after v1 be finished
+  hasCampaignOrCompetenceEvaluation(userId) {
+    return BookshelfAssessment
+      .query((qb) => {
+        qb.where({ userId });
+        qb.where('type', 'IN', ['SMART_PLACEMENT', 'COMPETENCE_EVALUATION']);
+      })
+      .fetchAll()
+      .then((bookshelfAssessmentCollection) => {
+        return Boolean(bookshelfAssessmentCollection.length);
+      });
+
+  }
 };
 
 function _toDomain(bookshelfAssessment) {
