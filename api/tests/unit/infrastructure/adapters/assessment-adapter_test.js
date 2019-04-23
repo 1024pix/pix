@@ -124,14 +124,14 @@ describe('Unit | Adapter | Assessment', () => {
         const challenge = Object.assign({}, defaultRawChallengeAttrs, { skills });
         const expectedChallenge = defaultCatChallenge;
 
-        const answersGiven = [new Answer({ id: 42, challengeId: challenge.id, result: '#ABAND#' })];
+        const answersGiven = [new Answer({ id: 42, challengeId: challenge.id, result: 'aband' })];
 
         // when
         const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answersGiven, [challenge], skills);
 
         // then
         const { answers } = adaptedAssessment;
-        expect(answers).to.deep.equal([new CatAnswer(expectedChallenge, '#ABAND#')]);
+        expect(answers).to.deep.equal([new CatAnswer(expectedChallenge, 'aband')]);
       });
     });
   });

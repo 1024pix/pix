@@ -1,4 +1,5 @@
-const Answer = require('../../infrastructure/data/answer');
+const BookshelfAnswer = require('../../infrastructure/data/answer');
+const Answer = require('../../domain/models/Answer');
 const AnswerStatus = require('../../domain/models/AnswerStatus');
 const AnswerStatusJsonApiAdapter = require('../../infrastructure/adapters/answer-status-json-api-adapter');
 const _ = require('../../infrastructure/utils/lodash-utils');
@@ -38,7 +39,7 @@ module.exports = {
       .getByChallengeId(existingAnswer.get('challengeId'))
       .then((solution) => {
         const answerCorrectness = this.validate(existingAnswer, solution);
-        return new Answer({
+        return new BookshelfAnswer({
           id: existingAnswer.id,
           result: answerCorrectness.result,
           resultDetails: answerCorrectness.resultDetails
@@ -64,7 +65,7 @@ module.exports = {
     let answerStatus;
     let resultDetails = null;
 
-    if (AnswerStatus.isSKIPPED(answerValue)) {
+    if (answerValue === Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {
       answerStatus = AnswerStatus.SKIPPED;
     } else {
       answerStatus = _adaptAnswerMatcherToSolutionType(solution, answerValue);

@@ -63,4 +63,8 @@ class Answer {
   }
 }
 
+// FIXME: DO NOT accept "#ABAND#" as an answer, give this information with a boolean,
+//  and transform it to an AnswerStatus "aband" in the api
+Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS = '#ABAND#';
+
 module.exports = Answer;
