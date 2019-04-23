@@ -15,9 +15,11 @@ describe('Unit | Component | competence-card-component', function() {
   describe('#percentageAheadOfNextLevel', function() {
     [
       { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
+      { pixScoreAheadOfNextLevel: 0.8, expectedPercentageAheadOfNextLevel: 0 },
       { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
-      { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
-      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 }
+      { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 37.5 },
+      { pixScoreAheadOfNextLevel: 3.8, expectedPercentageAheadOfNextLevel: 37.5 },
+      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 87.5 }
     ].forEach((data) => {
 
       it(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function() {
