@@ -77,7 +77,7 @@ export default Route.extend({
   _parseState(assessment, nextChallenge) {
     const assessmentHasNoMoreQuestions = !nextChallenge;
     const userHasSeenCheckpoint = this.hasSeenCheckpoint;
-    const userHasReachedCheckpoint = assessment.get('answers.length') > 0 && assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT === 0;
+    const userHasReachedCheckpoint = assessment.get('answers.length') > 0 && assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS === 0;
     const nextChallengeId = !assessmentHasNoMoreQuestions && nextChallenge.get('id');
     const assessmentIsCompleted = assessment.get('isCompleted');
 
