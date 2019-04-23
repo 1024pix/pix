@@ -20,7 +20,7 @@ class Scorecard {
     this.area = area;
     this.earnedPix = roundedEarnedPix;
     this.level = this._getCompetenceLevel(roundedEarnedPix);
-    this.pixScoreAheadOfNextLevel= this._getpixScoreAheadOfNextLevel(roundedEarnedPix);
+    this.pixScoreAheadOfNextLevel = this._getpixScoreAheadOfNextLevel(roundedEarnedPix);
   }
 
   _getCompetenceLevel(earnedPix) {

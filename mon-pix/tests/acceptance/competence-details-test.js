@@ -42,7 +42,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       const description = 'Super description de la compétence';
       const earnedPix = 7;
       const level = 4;
-      const pixScoreAheadOfNextLevel= 5;
+      const pixScoreAheadOfNextLevel = 5;
       const area = server.schema.areas.find(1);
 
       const scorecard = server.create('scorecard', {
