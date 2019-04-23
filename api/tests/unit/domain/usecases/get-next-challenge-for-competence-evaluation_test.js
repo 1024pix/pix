@@ -41,7 +41,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       beforeEach(async () => {
         requestErr = await catchErr(getNextChallengeForCompetenceEvaluation)({
           assessment,
-          userId: userId+1,
+          userId: userId + 1,
           answerRepository,
           challengeRepository,
           smartPlacementKnowledgeElementRepository,
