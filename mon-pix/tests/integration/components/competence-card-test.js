@@ -90,7 +90,7 @@ describe('Integration | Component | competence-card', function() {
 
       it('should show the button "Commencer"', async function() {
         // given
-        const scorecard ={ area, level: 3, isFinished: false, isStarted: false };
+        const scorecard = { area, level: 3, isFinished: false, isStarted: false };
         this.set('scorecard', scorecard);
 
         // when
