@@ -6,9 +6,11 @@ class Scorecard {
     id,
     name,
     description,
+    competenceId,
     index,
     area,
     earnedPix,
+    status,
   } = {}) {
     const roundedEarnedPix = Math.floor(earnedPix);
 
@@ -16,11 +18,13 @@ class Scorecard {
     // attributes
     this.name = name;
     this.description = description;
+    this.competenceId = competenceId;
     this.index = index;
     this.area = area;
     this.earnedPix = roundedEarnedPix;
     this.level = this._getCompetenceLevel(roundedEarnedPix);
     this.pixScoreAheadOfNextLevel = this._getpixScoreAheadOfNextLevel(roundedEarnedPix);
+    this.status = status;
   }
 
   _getCompetenceLevel(earnedPix) {

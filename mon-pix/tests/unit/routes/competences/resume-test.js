@@ -37,7 +37,7 @@ describe('Unit | Route | Competence | Resume', function() {
 
     // instance route object
     route = this.subject();
-    route.transitionTo = sinon.stub();
+    route.replaceWith = sinon.stub();
 
   });
 
@@ -77,7 +77,7 @@ describe('Unit | Route | Competence | Resume', function() {
 
     it('should transition to assessments.resume', function() {
       // given
-      route.transitionTo.resolves();
+      route.replaceWith.resolves();
       const competenceEvaluation = EmberObject.create({ competenceId, assessment: { id: 'assessmentId' } });
 
       // when
@@ -85,8 +85,8 @@ describe('Unit | Route | Competence | Resume', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(route.transitionTo);
-        sinon.assert.calledWith(route.transitionTo, 'assessments.resume', 'assessmentId');
+        sinon.assert.calledOnce(route.replaceWith);
+        sinon.assert.calledWith(route.replaceWith, 'assessments.resume', 'assessmentId');
       });
     });
   });

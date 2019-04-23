@@ -68,13 +68,13 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
 
       context('When competence evaluation does not exist', function() {
         beforeEach(async function() {
-          await visit('/competences/wrongId123');
+          await visit('/competences/wrongId/evaluer');
         });
 
         it('should show an error message', async function() {
           // then
           return andThen(() => {
-            expect(currentURL()).to.equal('/compte');
+            findWithAssert('.error-page__main-content');
           });
         });
       });

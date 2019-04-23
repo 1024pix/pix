@@ -12,10 +12,12 @@ describe('Unit | UseCase | get-scorecard', () => {
 
   let competenceRepository;
   let smartPlacementKnowledgeElementRepository;
+  let competenceEvaluationRepository;
 
   beforeEach(() => {
     competenceRepository = { get: sinon.stub() };
     smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    competenceEvaluationRepository = { findByUserId: sinon.stub() };
   });
 
   afterEach(() => {
@@ -40,6 +42,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           scorecardId,
           smartPlacementKnowledgeElementRepository,
           competenceRepository,
+          competenceEvaluationRepository,
         });
 
         // then
@@ -77,6 +80,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           scorecardId,
           smartPlacementKnowledgeElementRepository,
           competenceRepository,
+          competenceEvaluationRepository,
         });
 
         //then
@@ -112,6 +116,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           scorecardId,
           smartPlacementKnowledgeElementRepository,
           competenceRepository,
+          competenceEvaluationRepository,
         });
 
         //then
@@ -133,6 +138,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           scorecardId: '1_1',
           smartPlacementKnowledgeElementRepository,
           competenceRepository,
+          competenceEvaluationRepository
         });
 
         // then
