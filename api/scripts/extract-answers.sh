@@ -1,4 +1,8 @@
 #!/usr/bin/sh
+# Utilisation :
+# Avoir sur un postgres la base sur laquelle on souhaite extraire les réponses
+# sh ./extract-answers.sh "2018-11-28 12:45:04.713526+00" postgresql://postgres:@localhost:5432/postgres
+
 date=$1
 database=$2
 day="$(echo $date | cut -d' ' -f1)"
@@ -6,6 +10,8 @@ day="$(echo $date | cut -d' ' -f1)"
 echo "Début de l'extraction depuis la date $date dans des fichiers extractanswers-$day"
 
 # Récupération des données sur la base de données
+psql -d $database -t -A -F"," -c "CREATE EXTENSION pgcrypto;"
+
 psql -d $database -t -A -F"," -c "
 SELECT
   DISTINCT SUBSTRING(encode(digest(answers.id::TEXT, 'sha256'), 'hex'), 0,21)           AS \"answerId\",
