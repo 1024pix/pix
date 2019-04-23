@@ -54,5 +54,14 @@ module.exports = {
       .where({ rank: 1 })
       .then((result) => result.rows ? result.rows : result)
       .then(([{ earnedPix }]) => earnedPix);
+  },
+
+  deleteKnowledgeElements(competenceEvaluation) {
+    return BookshelfKnowledgeElement
+      .where({
+        userId: competenceEvaluation.userId,
+        competenceId: competenceEvaluation.competenceId
+      })
+      .destroy();
   }
 };

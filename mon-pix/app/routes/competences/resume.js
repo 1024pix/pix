@@ -6,19 +6,19 @@ import Route from '@ember/routing/route';
 export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
-  competenceId: null,
 
   model(params) {
     const competenceId = params.competence_id;
 
     const competenceEvaluation = this.store.peekAll('competenceEvaluation')
+      .sortBy('createdAt').reverse()
       .find((competenceEvaluation) => competenceEvaluation.get('competenceId') === competenceId);
 
-    if (competenceEvaluation && competenceEvaluation.assessment.get('isStarted')) {
-      return competenceEvaluation;
+    if (competenceEvaluation) {
+      this.store._removeFromIdMap(competenceEvaluation._internalModel);
     }
-    return this.store.createRecord('competenceEvaluation', { competenceId }).save();
 
+    return this.store.createRecord('competenceEvaluation', { competenceId }).save();
   },
 
   afterModel(competenceEvaluation) {

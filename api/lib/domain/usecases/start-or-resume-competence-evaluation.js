@@ -2,12 +2,22 @@ const Assessment = require('../models/Assessment');
 const CompetenceEvaluation = require('../models/CompetenceEvaluation');
 const { NotFoundError } = require('../../domain/errors');
 
-module.exports = async function startOrResumeCompetenceEvaluation({ competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository }) {
+module.exports = async function startOrResumeCompetenceEvaluation({ competenceId, userId,
+  competenceEvaluationRepository, assessmentRepository, competenceRepository, smartPlacementKnowledgeElementRepository
+}) {
   await _checkCompetenceExists(competenceId, competenceRepository);
 
   try {
     const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceIdAndUserId(competenceId, userId);
-    return { created: false, competenceEvaluation };
+    if (competenceEvaluation.assessment.state === Assessment.states.COMPLETED) {
+      await smartPlacementKnowledgeElementRepository.deleteKnowledgeElements(competenceEvaluation);
+
+      const assessment = await _createAssessmentForCompetenceEvaluation(userId, assessmentRepository);
+      const freshCompetenceEvaluation = await _saveCompetenceEvaluation(competenceId, assessment, userId, competenceEvaluationRepository);
+      return { created: true, competenceEvaluation: freshCompetenceEvaluation };
+    } else {
+      return { created: false, competenceEvaluation };
+    }
   } catch (error) {
     if (error instanceof NotFoundError) {
       const assessment = await _createAssessmentForCompetenceEvaluation(userId, assessmentRepository);
