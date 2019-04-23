@@ -36,6 +36,7 @@ module.exports = (function() {
     },
 
     mailing: {
+      enabled: !!process.env.MAILJET_KEY,
       mailjetApiKey: process.env.MAILJET_KEY,
       mailjetApiSecret: process.env.MAILJET_SECRET
     },
@@ -85,6 +86,7 @@ module.exports = (function() {
     };
 
     config.mailing = {
+      enabled: false,
       mailjetApiKey: 'test-api-ket',
       mailjetApiSecret: 'test-api-secret'
     };
