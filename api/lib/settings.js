@@ -40,8 +40,8 @@ module.exports = (function() {
       mailjetApiSecret: process.env.MAILJET_SECRET
     },
 
-    googleReCaptcha: {
-      secret: process.env.RECAPTCHA_KEY
+    captcha: {
+      googleRecaptchaSecret: process.env.RECAPTCHA_KEY
     },
 
     authentication: {
@@ -77,7 +77,7 @@ module.exports = (function() {
   if (process.env.NODE_ENV === 'test') {
     config.port = null;
 
-    config.app.domain = 'localhost',
+    config.app.domain = 'localhost';
 
     config.airtable = {
       apiKey: 'test-api-key',
@@ -89,8 +89,8 @@ module.exports = (function() {
       mailjetApiSecret: 'test-api-secret'
     };
 
-    config.googleReCaptcha = {
-      secret: 'test-recaptcha-key'
+    config.captcha = {
+      googleRecaptchaSecret: 'test-recaptcha-key'
     };
 
     config.authentication = {
