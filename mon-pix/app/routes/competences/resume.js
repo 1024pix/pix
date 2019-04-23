@@ -21,7 +21,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   afterModel(competenceEvaluation) {
-    return this.transitionTo('assessments.resume', competenceEvaluation.get('assessment.id'));
+    return this.replaceWith('assessments.resume', competenceEvaluation.get('assessment.id'));
   },
 
 });

@@ -33,7 +33,6 @@ export default Router.map(function() {
   this.route('inscription');
   this.route('compte');
   this.route('profilv2');
-  this.route('competence-details', { path: '/competences/:scorecard_id' });
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
 
@@ -69,6 +68,7 @@ export default Router.map(function() {
     this.route('skill-review', { path: '/:campaign_code/resultats/:assessment_id' });
   });
 
+  this.route('competence-details', { path: '/competences/:scorecard_id' });
   this.route('competences', { path: '/competences' }, function() {
     this.route('resume', { path: '/:competence_id/evaluer' });
     this.route('results', { path: '/resultats' });

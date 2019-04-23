@@ -1,14 +1,15 @@
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const Scorecard = require('../models/Scorecard');
 
-module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository }) => {
+module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
 
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 
   const [userKEList, competenceTree, competenceEvaluations] = await Promise.all([
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId, includeAssessments: false }),
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
     competenceRepository.list(),
     competenceEvaluationRepository.findByUserId(requestedUserId),
   ]);
@@ -27,7 +28,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
       competenceId: competence.id,
       earnedPix: totalEarnedPixByCompetence,
       status: _getStatus(KEgroup, competence.id, competenceEvaluations)
-    };
+    });
   });
 };
 
