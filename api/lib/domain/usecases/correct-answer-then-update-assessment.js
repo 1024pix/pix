@@ -1,4 +1,5 @@
 const { ChallengeAlreadyAnsweredError } = require('../errors');
+const Assessment = require('../models/Assessment');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/SmartPlacementKnowledgeElement');
 
@@ -73,10 +74,20 @@ async function saveKnowledgeElementsForSmartPlacement({ answer, challenge, smart
 async function saveKnowledgeElementsForCompetenceEvaluation({ assessment, answer, challenge, competenceEvaluationRepository, skillRepository, smartPlacementKnowledgeElementRepository }) {
 
   const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
-  const [targetSkills, knowledgeElements] = await Promise.all([
-    skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
-  );
+
+  const oldCompetenceEvaluation = await competenceEvaluationRepository.findOneCompletedByCompetenceIdAndUserId(competenceEvaluation.competenceId, assessment.userId);
+
+  let knowledgeElements;
+
+  if (oldCompetenceEvaluation && oldCompetenceEvaluation.id !== competenceEvaluation.id && oldCompetenceEvaluation.assessment.state === Assessment.states.COMPLETED) {
+    knowledgeElements = await smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, startDate: competenceEvaluation.createdAt });
+  } else {
+    const knowledgeElements1 = await smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, assessmentType: Assessment.types.COMPETENCE_EVALUATION, startDate: competenceEvaluation.createdAt });
+    const knowledgeElements2 = await smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, assessmentType: Assessment.types.SMARTPLACEMENT });
+    knowledgeElements = knowledgeElements1.concat(knowledgeElements2);
+  }
+
+  const targetSkills = await skillRepository.findByCompetenceId(competenceEvaluation.competenceId);
 
   return saveKnowledgeElements({
     userId: assessment.userId,

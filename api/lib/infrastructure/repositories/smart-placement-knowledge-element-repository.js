@@ -24,12 +24,15 @@ module.exports = {
       .then((knowledgeElements) => knowledgeElements.map(_toDomain));
   },
 
-  findUniqByUserId({ userId, limitDate }) {
+  findUniqByUserId({ userId, limitDate, startDate }) {
     return BookshelfKnowledgeElement
       .query((qb) => {
         qb.where({ userId });
         if (limitDate) {
           qb.where('knowledge-elements.createdAt', '<', limitDate);
+        }
+        if (startDate) {
+          qb.where('knowledge-elements.createdAt', '>', startDate);
         }
       })
       .fetchAll()

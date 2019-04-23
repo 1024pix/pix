@@ -7,6 +7,12 @@ module.exports = async function startOrResumeCompetenceEvaluation({ competenceId
 
   try {
     const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceIdAndUserId(competenceId, userId);
+
+    if (competenceEvaluation.assessment.state === Assessment.states.COMPLETED) {
+      const assessment = await _createAssessmentForCompetenceEvaluation(userId, assessmentRepository);
+      const freshCompetenceEvaluation = await _saveCompetenceEvaluation(competenceId, assessment, userId, competenceEvaluationRepository);
+      return { created: true, competenceEvaluation: freshCompetenceEvaluation };
+    }
     return { created: false, competenceEvaluation };
   } catch (error) {
     if (error instanceof NotFoundError) {
