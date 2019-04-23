@@ -35,9 +35,9 @@ module.exports = (function() {
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
-    mailjet: {
-      apiKey: process.env.MAILJET_KEY,
-      apiSecret: process.env.MAILJET_SECRET
+    mailing: {
+      mailjetApiKey: process.env.MAILJET_KEY,
+      mailjetApiSecret: process.env.MAILJET_SECRET
     },
 
     googleReCaptcha: {
@@ -84,9 +84,9 @@ module.exports = (function() {
       base: 'test-base',
     };
 
-    config.mailjet = {
-      apiKey: 'test-api-ket',
-      apiSecret: 'test-api-secret'
+    config.mailing = {
+      mailjetApiKey: 'test-api-ket',
+      mailjetApiSecret: 'test-api-secret'
     };
 
     config.googleReCaptcha = {
