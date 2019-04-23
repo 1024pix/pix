@@ -30,7 +30,7 @@ module.exports = (function() {
     },
 
     logging: {
-      enabled: (process.env.LOG_ENABLED == 'true' || process.env.NODE_ENV != 'test'),
+      enabled: !!process.env.LOG_ENABLED,
       colorEnabled: ('development' === process.env.NODE_ENV),
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
@@ -42,6 +42,7 @@ module.exports = (function() {
     },
 
     captcha: {
+      enabled: !!process.env.RECAPTCHA_KEY,
       googleRecaptchaSecret: process.env.RECAPTCHA_KEY
     },
 
@@ -92,6 +93,7 @@ module.exports = (function() {
     };
 
     config.captcha = {
+      enabled: false,
       googleRecaptchaSecret: 'test-recaptcha-key'
     };
 
