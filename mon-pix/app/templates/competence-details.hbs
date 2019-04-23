@@ -29,7 +29,7 @@
               <div class="competence-details-panel-content-right-score-container-pix-earned__info">{{earnedPixText}}</div>
             </div>
           </div>
-          {{#if (lt model.level maxLevel)}}
+          {{#if (lt model.level _MAX_REACHABLE_LEVEL)}}
             <div class="competence-details-panel-content-right__level-info">
               {{remainingPixToNextLevel}} pix avant niveau {{inc model.level}}
             </div>
