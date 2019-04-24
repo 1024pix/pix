@@ -26,7 +26,7 @@ class ProfileSerializer extends JSONAPISerializer {
     data.type = 'users';
     data.id = entity.id;
     data.attributes = {};
-    entity.isInProfileV2 = modelObject.isInProfileV2 || false;
+    entity.usesProfileV2 = modelObject.usesProfileV2 || false;
     this._serializeAttributes(entity, data);
     this._serializeRelationships(competencesEntity, 'competences', data);
     this._serializeRelationships(organizationsEntity, 'organizations', data);
@@ -72,7 +72,7 @@ class ProfileSerializer extends JSONAPISerializer {
     data.attributes['first-name'] = model.firstName;
     data.attributes['last-name'] = model.lastName;
     data.attributes['email'] = model.email;
-    data.attributes['is-in-profile-v2'] = model.isInProfileV2;
+    data.attributes['uses-profile-v2'] = model.usesProfileV2;
 
     if (!_.isUndefined(model['pix-score'])) {
       data.attributes['total-pix-score'] = model['pix-score'];
