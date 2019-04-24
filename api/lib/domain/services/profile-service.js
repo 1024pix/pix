@@ -29,10 +29,10 @@ const profileService = {
     const lastAssessments = assessmentRepository.findLastAssessmentsForEachCoursesByUser(user_id);
     const assessmentsCompletedWithResults = assessmentRepository.findCompletedAssessmentsByUserId(user_id);
     const organizations = organizationRepository.getByUserId(user_id);
-    const isInProfileV2 = assessmentRepository.hasCampaignOrCompetenceEvaluation(user_id);
+    const usesProfileV2 = assessmentRepository.hasCampaignOrCompetenceEvaluation(user_id);
 
-    return Promise.all([user, competences, areas, lastAssessments, assessmentsCompletedWithResults, adaptiveCourses, organizations, isInProfileV2])
-      .then(([user, competences, areas, lastAssessments, assessmentsCompletedWithResults, adaptiveCourses, organizations, isInProfileV2]) => {
+    return Promise.all([user, competences, areas, lastAssessments, assessmentsCompletedWithResults, adaptiveCourses, organizations, usesProfileV2])
+      .then(([user, competences, areas, lastAssessments, assessmentsCompletedWithResults, adaptiveCourses, organizations, usesProfileV2]) => {
 
         const competencesWithDefaultLevelAndStatus = _initCompetenceLevel(competences);
 
@@ -44,7 +44,7 @@ const profileService = {
           assessmentsCompletedWithResults,
           courses: adaptiveCourses,
           organizations,
-          isInProfileV2
+          usesProfileV2
         });
       });
   },

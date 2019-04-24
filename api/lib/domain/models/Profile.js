@@ -13,7 +13,7 @@ const competenceStatus = {
 class Profile {
   constructor({
     // attributes
-    isInProfileV2,
+    usesProfileV2,
     // includes
     areas,
     assessmentsCompletedWithResults,
@@ -25,7 +25,7 @@ class Profile {
     // references
   } = {}) {
     // attributes
-    this.isInProfileV2 = isInProfileV2;
+    this.usesProfileV2 = usesProfileV2;
     // includes
     this.areas = areas;
     this.competences = competences;

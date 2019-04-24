@@ -145,7 +145,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         assessmentsCompletedWithResults,
         courses,
         organizations: emptyOrganizations,
-        isInProfileV2: true,
+        usesProfileV2: true,
       });
       const expectedJson = {
         data: {
@@ -156,7 +156,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             'last-name': 'Skywalker',
             'total-pix-score': 128,
             'email': 'luke@sky.fr',
-            'is-in-profile-v2': true,
+            'uses-profile-v2': true,
           },
           relationships: {
             competences: {
@@ -304,7 +304,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         assessmentsCompletedWithResults: emptyAssessments,
         courses: emptyCourses,
         organizations,
-        isInProfileV2: false,
+        usesProfileV2: false,
       });
       const expectedJsonWithOrganisations = {
         data: {
@@ -314,7 +314,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             'first-name': 'Luke',
             'last-name': 'Skywalker',
             'email': 'luke@sky.fr',
-            'is-in-profile-v2': false,
+            'uses-profile-v2': false,
           },
           relationships: {
             organizations: {

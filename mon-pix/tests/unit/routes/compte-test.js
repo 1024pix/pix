@@ -45,7 +45,7 @@ describe('Unit | Route | compte', function() {
 
     it('should redirect to /profilv2 when the user has information in profilv2', function() {
       // Given
-      const foundUser = EmberObject.create({ isInProfileV2: true });
+      const foundUser = EmberObject.create({ usesProfileV2: true });
 
       this.register('service:store', storyStub);
       this.inject.service('store', { as: 'store' });
