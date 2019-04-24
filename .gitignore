@@ -60,3 +60,7 @@ high-level-tests/e2e/cypress/screenshots/*
 high-level-tests/e2e/cypress/screenshots
 high-level-tests/e2e/cypress/videos/*
 high-level-tests/e2e/cypress/videos
+
+# Heap files
+*.heapsnapshot
+*.heapprofile
