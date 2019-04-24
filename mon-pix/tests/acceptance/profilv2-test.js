@@ -35,6 +35,17 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       expect(currentURL()).to.equal('/profilv2');
     });
 
+    it('should redirect to /compte', async function() {
+      // given
+      await visit('/profilv2');
+
+      // when
+      await click('.rounded-panel__link');
+
+      // then
+      expect(currentURL()).to.equal('/compte');
+    });
+
     it('should display pixscore', async function() {
       await visit('/profilv2');
 
@@ -125,7 +136,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
 
     context('when user has completed the campaign but not shared', () => {
 
-      it('should display a resume campagin banner for a campaign with no title', async function() {
+      it('should display a resume campaign banner for a campaign with no title', async function() {
         // given
         server.create('assessment', {
           id: 2,
@@ -149,7 +160,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
         expect(find('.resume-campaign-banner__button').text()).to.equal('Continuer');
       });
 
-      it('should display a resume campagin banner for a campaign with a campaign with a title', async function() {
+      it('should display a resume campaign banner for a campaign with a campaign with a title', async function() {
         // given
         server.create('assessment', {
           id: 2,
