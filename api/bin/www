@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 
+const heapProfile = require('heap-profile');
 const createServer = require('../server');
 const logger = require('../lib/infrastructure/logger');
 
 const start = async () => {
   try {
+    heapProfile.start();
+
     const server = await createServer();
     await server.start();
 
