@@ -1,17 +1,27 @@
 .results-warning {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   width: 100%;
   max-width: 1190px;
+  margin-bottom: 50px;
+  margin-top: 10px;
+
+  &__icon {
+    font-size: 1.4em;
+  }
 
   &__warning-message {
-    display: flex;
-    align-items: center;
-    margin-bottom: 50px;
-    margin-top: 10px;
+    padding-left: 10px;
+  }
 
-    @include device-is('tablet') {
-      padding-left: 100px;
+  &__link {
+    color: $charcoal-grey;
+    text-decoration: underline;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $pix-blue-hover;
     }
   }
 }
