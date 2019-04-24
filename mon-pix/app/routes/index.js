@@ -15,7 +15,11 @@ export default Route.extend(UnauthenticatedRouteMixin, {
 
           if (connectedUser.get('organizations.length')) {
             this.transitionTo('board');
-          } else {
+          }
+          if (connectedUser.get('usesProfileV2')) {
+            return this.replaceWith('profilv2');
+          }
+          else {
             this.transitionTo('compte');
           }
         });
