@@ -172,6 +172,7 @@ input[type=radio]:focus:before {
   left: -11px;
   top: 3px;
 }
+
 .qcm-panel__proposal-label {
   display: inline-block;
   line-height: 21px;
@@ -181,8 +182,21 @@ input[type=radio]:focus:before {
 .proposal-comparison-window {
   margin-left: 10px;
 }
+
 .proposal-paragraph {
   margin-left: 7px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.proposal-paragraph > input[type=radio] {
+  margin-top: 3px;
+}
+
+.proposal-paragraph > input[type=checkbox] {
+  margin-top: 6px;
 }
 /*cursor: pointer is disabled here*/
 .label-proposal-comparison-window {
