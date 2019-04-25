@@ -1,0 +1,9 @@
+config:
+  processor: "../functions.js"
+  environments:
+    localhost:
+      target: http://localhost:3000
+    staging:
+      target: https://integration.pix.fr
+    pr:
+      target: https://pix-api-integration-pr478.scalingo.io

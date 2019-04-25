@@ -1,0 +1,12 @@
+config:
+  phases:
+    - duration: 10
+      arrivalRate: 10
+scenarios:
+  - name: 'Positionnement'
+    flow:
+      # Fetch assessment next challenge
+      - get:
+          url: "/api/assessments/10006143/next"
+          headers:
+            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMDEwODMzNywic291cmNlIjoicGl4IiwiaWF0IjoxNTU2MjA0NTc4LCJleHAiOjE1NTY4MDkzNzh9.WP0e-E7Nlv22ucLTojf2OID8QANsmG9xtMJ2fSLm0X0"
