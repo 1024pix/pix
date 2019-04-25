@@ -12,7 +12,7 @@ describe('Unit | Route | board', function() {
 
   let route;
 
-  describe('is organization user', function() {
+  context('is organization user', function() {
 
     beforeEach(function() {
       this.register('service:store', Service.extend({
@@ -41,7 +41,7 @@ describe('Unit | Route | board', function() {
     });
   });
 
-  describe('is regular user', function() {
+  context('is regular user', function() {
 
     beforeEach(function() {
       this.register('service:currentUser', Service.extend({
