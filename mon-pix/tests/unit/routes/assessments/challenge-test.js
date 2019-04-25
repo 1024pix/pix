@@ -31,14 +31,12 @@ describe('Unit | Route | Assessments | Challenge', function() {
       id: 'challenge_id'
     }
   };
-  const userId = 'user_id';
 
   beforeEach(function() {
     // define stubs
     createRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
     findRecordStub = sinon.stub();
-    findRecordStub.withArgs('user', userId).resolves({ userId });
     StoreStub = EmberService.extend({
       createRecord: createRecordStub,
       queryRecord: queryRecordStub,
@@ -48,17 +46,10 @@ describe('Unit | Route | Assessments | Challenge', function() {
     // manage dependency injection context
     this.register('service:store', StoreStub);
     this.inject.service('store', { as: 'store' });
-    this.register('service:session', EmberService.extend({
-      data: { authenticated: { userId: userId, token: 'VALID-TOKEN' } }
-    }));
 
     // instance route object
     route = this.subject();
     route.transitionTo = sinon.stub();
-  });
-
-  it('exists', function() {
-    expect(route).to.be.ok;
   });
 
   describe('#model', function() {
@@ -86,62 +77,6 @@ describe('Unit | Route | Assessments | Challenge', function() {
           assessment: params.assessment_id,
           challenge: params.challenge_id
         });
-      });
-    });
-  });
-
-  describe('#afterModel', function() {
-
-    it('should call queryRecord for user if assessment is certification', function() {
-      // given
-      model.assessment.get.withArgs('isPlacement').returns(false);
-      model.assessment.get.withArgs('isPreview').returns(false);
-      model.assessment.get.withArgs('isDemo').returns(false);
-      model.assessment.get.withArgs('isCertification').returns(true);
-      model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
-
-      // when
-      const promise = route.afterModel(model);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(queryRecordStub);
-      });
-    });
-
-    it('should not call findRecord for user if Assessment is not a certification', function() {
-      // given
-      model.assessment.get.withArgs('isPlacement').returns(true);
-      model.assessment.get.withArgs('isCertification').returns(false);
-      model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
-
-      // when
-      const promise = route.afterModel(model);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.notCalled(findRecordStub);
-      });
-    });
-
-    it('should return a complete model', function() {
-      // given
-      model.assessment.get.withArgs('isCertification').returns(true);
-      model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
-      const expectedModel = {
-        assessment: { id: 'assessment_id' },
-        challenge: { id: 'challenge_id' },
-        progress: 'course',
-        user: { userId: userId },
-        courseId: 'course_id'
-      };
-
-      // when
-      const promise = route.afterModel(model);
-
-      // then
-      return promise.then((createdModel) => {
-        expect(createdModel.toString()).to.equal(expectedModel.toString());
       });
     });
   });
