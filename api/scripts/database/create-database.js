@@ -1,7 +1,8 @@
 require('dotenv').config();
 const PgClient = require('../PgClient');
 
-const url = new URL(process.env.DATABASE_URL);
+const dbUrl = process.env.TEST_DATABASE_URL || process.env.DATABASE_URL;
+const url = new URL(dbUrl);
 
 const DB_TO_CREATE_NAME = url.pathname.slice(1);
 
