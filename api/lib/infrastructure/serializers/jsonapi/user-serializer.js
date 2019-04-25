@@ -42,10 +42,6 @@ module.exports = {
           }
         }
       },
-
-      transform(model) {
-        return (model instanceof User) ? model : model.toJSON();
-      },
       meta
     }).serialize(users);
   },
