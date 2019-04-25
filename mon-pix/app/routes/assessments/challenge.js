@@ -21,40 +21,12 @@ export default Route.extend({
     });
   },
 
-  afterModel(modelResult) {
-    const requiredDatas = {};
-
-    const campaignCode = modelResult.assessment.codeCampaign;
-
-    if (modelResult.assessment.get('isPlacement')
-      || modelResult.assessment.get('isPreview')
-      || modelResult.assessment.get('isDemo')
-    ) {
-
-      return Promise.resolve(modelResult);
-    }
-
-    if (modelResult.assessment.get('isCertification')) {
-      requiredDatas.user = this._getUser();
-      return RSVP.hash(requiredDatas)
-        .then((hash) => {
-          modelResult.user = hash.user;
-          return modelResult;
-        });
-    }
-
+  async afterModel(modelResult) {
     if (modelResult.assessment.get('isSmartPlacement')) {
-      requiredDatas.campaigns = this._findCampaigns({ campaignCode });
-
-      return RSVP.hash(requiredDatas)
-        .then((hash) => {
-          modelResult.campaign = hash.campaigns.get('firstObject');
-          modelResult.user = null;
-          return modelResult;
-        });
+      const campaignCode = modelResult.assessment.codeCampaign;
+      const campaigns = await this._findCampaigns({ campaignCode });
+      modelResult.campaign = campaigns.get('firstObject');
     }
-    return modelResult;
-
   },
 
   serialize(model) {
@@ -62,10 +34,6 @@ export default Route.extend({
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
     };
-  },
-
-  _getUser() {
-    return this.store.queryRecord('user', { profile: true });
   },
 
   _findCampaigns({ campaignCode }) {
