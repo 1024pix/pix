@@ -95,8 +95,21 @@
 .competence-card__body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 15px;
+  height: 136px;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+.competence-card__link {
+  border-radius: 50%;
+  border: 0 solid $porcelain-grey;
+  transition: all 0.1s ease-in-out;
+
+  &:hover, &:active, &:focus {
+    border: 8px solid $porcelain-grey;
+  }
 }
 
 .competence-card__level {
