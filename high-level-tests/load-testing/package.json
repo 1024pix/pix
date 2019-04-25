@@ -1,0 +1,22 @@
+{
+  "name": "pix-load-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "10.15.3"
+  },
+  "scripts": {
+    "report": "artillery report report/index.json",
+    "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-positionning.yml",
+    "shoot:pr:signup": "artillery run --config config/common.yml -e pr -o report/index.json scenarios/signup-only.yml",
+    "shoot:pr:profile": "artillery run --config config/common.yml -e pr -o report/index.json scenarios/signup-and-user-profile.yml",
+    "shoot:pr:next": "artillery run --config config/common.yml -e pr -o report/index.json scenarios/next-challenge.yml",
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "artillery": "^1.6.0-27",
+    "faker": "^4.1.0"
+  }
+}
