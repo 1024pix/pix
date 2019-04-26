@@ -207,6 +207,8 @@ jobs:
       - image: postgres:10-alpine
         environment:
           POSTGRES_USER: circleci
+          # See https://git.io/vdao3 for details.
+          JOBS: 2
     working_directory: ~/pix/high-level-tests/e2e
     steps:
       - attach_workspace:
@@ -246,10 +248,22 @@ jobs:
           command: npm ci && npm start
 
       - run:
+          working_directory: ~/pix/orga
+          command: cat package*.json > cachekey-orga
+      - restore_cache:
+          keys:
+            - v7-orga-npm-{{ checksum "~/pix/orga/cachekey-orga" }}
+      - run:
+          working_directory: ~/pix/orga
+          background: true
+          command: npm ci && npm start
+
+      - run:
           environment:
             DATABASE_URL: 'postgres://circleci@localhost:5432/circleci'
           command: |
             wget --retry-connrefused -T 60 -qO- http://localhost:4200
+            wget --retry-connrefused -T 60 -qO- http://localhost:4201
             wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
             npm run cy:run
 

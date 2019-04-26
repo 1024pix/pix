@@ -1,4 +1,3 @@
-const fs = require('fs');
 module.exports = {
   extends: "plugin:cypress/recommended",
   root: true,
