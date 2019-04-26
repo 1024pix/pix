@@ -14,15 +14,15 @@ given('tous les comptes sont créés', () => {
 });
 
 given('je vais sur Pix', () => {
-  cy.visit('/');
+  cy.visitMonPix('/');
 });
 
 given('je vais sur Pix Orga', () => {
-  cy.visit('http://localhost:4201');
+  cy.visitOrga('/');
 });
 
 given('j\'accède à mon profil', () => {
-  cy.visit('/profil');
+  cy.visitMonPix('/profil');
 });
 
 given('je suis connecté à Pix en tant que {string}', (user) => {
