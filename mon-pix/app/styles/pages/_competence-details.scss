@@ -31,7 +31,8 @@
   &__return-button {
     color: $black;
     font-size: 1.3rem;
-    font-weight: $font-medium;
+    font-weight: $font-semi-bold;
+    text-transform: uppercase;
     letter-spacing: 0.03rem;
     display: flex;
     align-items: center;
@@ -49,7 +50,7 @@
 
 .competence-details-panel-header-return-button {
   &__icon {
-    margin-right: 10px;
+    margin-right: 8px;
   }
 }
 
