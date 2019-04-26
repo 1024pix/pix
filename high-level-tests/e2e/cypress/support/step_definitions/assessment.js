@@ -1,5 +1,5 @@
 when(`je lance le course {string}`, (courseId) => {
-  cy.visit(`/courses/${courseId}`);
+  cy.visitMonPix(`/courses/${courseId}`);
 });
 
 then(`je suis redirigé vers une page d'épreuve`, () => {

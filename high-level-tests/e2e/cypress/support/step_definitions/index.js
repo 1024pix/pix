@@ -13,15 +13,15 @@ given('le compte de "Daenerys Targaryen" est créé', () => {
 });
 
 given('je vais sur Pix', () => {
-  cy.visit('/');
+  cy.visitMonPix('/');
 });
 
 given('je vais sur Pix Orga', () => {
-  cy.visit('http://localhost:4201');
+  cy.visitOrga('/');
 });
 
 given('j\'accède à mon profil v2', () => {
-  cy.visit('/profilv2');
+  cy.visitMonPix('/profilv2');
 });
 
 given('je suis connecté à Pix', () => {

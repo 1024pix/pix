@@ -1,5 +1,5 @@
 when(`je vais sur la campagne {string}`, (campaignCode) => {
-  cy.visit(`/campagnes/${campaignCode}`);
+  cy.visitMonPix(`/campagnes/${campaignCode}`);
 });
 
 then(`je vois la page de {string} de la campagne`, (page) => {
