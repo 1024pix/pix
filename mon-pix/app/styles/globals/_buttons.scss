@@ -92,6 +92,26 @@
   }
 }
 
+.icon-button {
+  color: $dove-gray;
+  padding: 4px 8px;
+  border: none;
+  font-size: 1.6rem;
+  background-color: transparent;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s ease;
+  border-radius: 50%;
+
+  &:hover, &:active {
+    background-color: $alto-grey;
+  }
+
+  &--link {
+    text-decoration: none;
+  }
+}
+
 .loader-in-button {
   background: url('/images/loader-white.svg');
   background-size: 50px 58px;
