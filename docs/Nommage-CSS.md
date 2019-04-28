@@ -1,24 +1,4 @@
-# Nommage
-
-## Domaine
-
-Une entité du domaine ne contient pas de préfix.
-```javascript
-const User = require(../../User);
-
-const myUser = new User({});
-```
-
-## Bookshelf
-
-Une entité bookshelf doit être préfixée par "Bookshelf".
-```javascript
-const BookshelfUser = require(../../User);
-
-const myBookshelfUser = new BookshelfUser({});
-```
-
-## CSS
+# Nommage CSS
 
 Privilégier le plus possible la [Convention Block__Element--Modifier BEM](http://getbem.com/).
 
