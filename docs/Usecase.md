@@ -10,14 +10,14 @@ Un usecase:
 
 ```javascript
 // BAD
-const myRepository = require(../../../infrastructure/repositories/myRepository);
+const myRepository = require('../../../infrastructure/repositories/myRepository');
 
 // GOOD
 const myService = require(../../../domain/services/myService);
 
 module.exports = function myUseCase({ param1, param2, param3, repo1, repo2 }) {
-...
-}
+  ...
+};
 ```
 
 ## Controllers
