@@ -1,6 +1,7 @@
 const Bookshelf = require('../bookshelf');
 
 require('./answer');
+require('./user');
 require('./assessment-result');
 require('./knowledge-element');
 require('./campaign-participation');
