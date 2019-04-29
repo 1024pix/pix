@@ -5,7 +5,8 @@ import config from '../config/environment';
 
 export default DS.JSONAPIAdapter.extend({
 
-  host: config.APP.API_HOST + '/api',
+  host: config.APP.API_HOST,
+  namespace: 'api',
 
   session: service(),
 
