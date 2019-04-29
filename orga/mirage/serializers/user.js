@@ -4,7 +4,7 @@ export default JSONAPISerializer.extend({
   links(user) {
     return {
       'memberships': {
-        related: `/users/${user.id}/memberships`
+        related: `/api/users/${user.id}/memberships`
       }
     };
   }
