@@ -1,18 +1,19 @@
 'use strict';
 const DatabaseBuilder = require('../../tests/tooling/database-builder/database-builder');
 const campaignParticipationsBuilder = require('./data/campaign-participations-builder');
-const pixAileBuilder = require('./data/pix-aile-builder');
-const dragonAndCoBuilder = require('./data/dragon-and-co-builder');
 const campaignsBuilder = require('./data/campaigns-builder');
+const certificationCentersBuilder = require('./data/certification-centers-builder');
+const certificationCenterMembershipsBuilder = require('./data/certification-center-memberships-builder');
+const dragonAndCoBuilder = require('./data/dragon-and-co-builder');
 const organizationsBuilder = require('./data/organizations-builder');
+const pixAileBuilder = require('./data/pix-aile-builder');
+const sessionsBuilder = require('./data/sessions-builder');
 const usersBuilder = require('./data/users-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 
 // Tables must be inserted in a specific orderr
 const orderedTableNames = [
-  'certification-centers',
-  'sessions',
   'assessments',
   'certification-courses',
   'users_pix_roles',
@@ -21,7 +22,6 @@ const orderedTableNames = [
   'certification-challenges',
   'snapshots',
   'competence-marks',
-  'certification-center-memberships'
 ];
 
 // Some seed datas are wrapped into promises, hence the need for #Promise.all
@@ -48,6 +48,9 @@ exports.seed = (knex) => {
   organizationsBuilder({ databaseBuilder });
   campaignsBuilder({ databaseBuilder });
   campaignParticipationsBuilder({ databaseBuilder });
+  certificationCentersBuilder({ databaseBuilder });
+  certificationCenterMembershipsBuilder({ databaseBuilder });
+  sessionsBuilder({ databaseBuilder });
 
   return databaseBuilder.commit()
     .then(() => insertSeeds(knex, orderedTableNames))

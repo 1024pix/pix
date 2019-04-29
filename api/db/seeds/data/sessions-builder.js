@@ -1,5 +1,6 @@
-module.exports = [
-  {
+module.exports = function sessionsBuilder({ databaseBuilder }) {
+
+  databaseBuilder.factory.buildSession({
     id: 1,
     certificationCenter: 'Tour Gamma',
     address: 'Rue de bercy',
@@ -10,8 +11,9 @@ module.exports = [
     room: 'Salle 2',
     accessCode: 'ABC12',
     certificationCenterId: 1,
-  },
-  {
+  });
+
+  databaseBuilder.factory.buildSession({
     id: 2,
     certificationCenter: 'Tour Theta',
     address: 'Rue de la soif',
@@ -21,8 +23,9 @@ module.exports = [
     description: 'Session de rattrapage',
     room: 'Salle Eau',
     accessCode: 'DEF34',
-  },
-  {
+  });
+
+  databaseBuilder.factory.buildSession({
     id: 3,
     certificationCenter: 'Tour Alpha',
     address: 'Rue Bikub',
@@ -33,5 +36,5 @@ module.exports = [
     room: 'Salle Feu',
     accessCode: 'GHI56',
     certificationCenterId: 1,
-  }
-];
+  });
+};
