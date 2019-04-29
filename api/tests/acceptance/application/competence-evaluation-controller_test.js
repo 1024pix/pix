@@ -5,7 +5,6 @@ const cache = require('../../../lib/infrastructure/caches/cache');
 describe('Acceptance | API | Competence Evaluations', () => {
 
   let server;
-  const competenceId = 'recABCD123';
   const userId = 24504875;
 
   beforeEach(async () => {
@@ -13,6 +12,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
   });
 
   describe('POST /api/competence-evaluations', () => {
+    const competenceId = 'recABCD123';
 
     const options = {
       method: 'POST',
@@ -106,6 +106,67 @@ describe('Acceptance | API | Competence Evaluations', () => {
           expect(response.statusCode).to.equal(401);
         });
       });
+    });
+  });
+
+  describe('GET /api/competence-evaluations', () => {
+    let options;
+    let assessment, competenceEvaluation;
+
+    beforeEach(async () => {
+      assessment = databaseBuilder.factory.buildAssessment({ userId });
+      competenceEvaluation = databaseBuilder.factory.buildCompetenceEvaluation({
+        assessmentId: assessment.id,
+        userId,
+      });
+
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'GET',
+        url: `/api/competence-evaluations?filter[assessmentId]=${assessment.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+      };
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the competence-evaluation of the given assessmentId', async () => {
+      // given
+      const expectedCompetenceEvaluations = [
+        {
+          attributes: {
+            'user-id': userId,
+            'competence-id': competenceEvaluation.competenceId,
+            'created-at': competenceEvaluation.createdAt,
+            'updated-at': competenceEvaluation.updatedAt,
+          },
+          id: competenceEvaluation.id.toString(),
+          type: 'competence-evaluations',
+          relationships: {
+            assessment: {
+              data: {
+                id: assessment.id.toString(),
+                type: 'assessments'
+              }
+            },
+            scorecard: {
+              links: {
+                related: `/scorecards/${userId}_${competenceEvaluation.competenceId}`
+              }
+            }
+          }
+        }
+      ];
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.be.deep.equal(expectedCompetenceEvaluations);
     });
   });
 });

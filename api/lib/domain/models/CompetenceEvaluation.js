@@ -7,6 +7,7 @@ class CompetenceEvaluation {
     updatedAt,
     // includes
     assessment,
+    scorecard,
     // references
     assessmentId,
     competenceId,
@@ -18,6 +19,7 @@ class CompetenceEvaluation {
     this.updatedAt = updatedAt;
     //includes
     this.assessment = assessment;
+    this.scorecard = scorecard;
     // references
     this.assessmentId = assessmentId;
     this.competenceId = competenceId;
