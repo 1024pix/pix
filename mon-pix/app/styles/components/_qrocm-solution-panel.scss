@@ -4,17 +4,21 @@
   flex-direction: row;
 }
 
-.correction-qrocm__label {
+.correction-qrocm__text {
+  display: inline-block;
   font-family: $font-lato;
   font-size: 16px;
   color: $charcoal-grey;
+  line-height: 2.8rem;
 }
 
 .correction-qrocm__answer-solution {
-  margin-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .correction-qrocm__answer-input {
+  width: 160px;
   height: 26px;
   line-height: 26px;
   border-radius: 3px;
