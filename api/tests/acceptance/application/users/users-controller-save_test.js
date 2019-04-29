@@ -68,22 +68,22 @@ describe('Acceptance | Controller | users-controller', () => {
             '"relationships":{' +
               '"memberships":{' +
                 '"links":{' +
-                  '"related":"/users/(\\d+)/memberships"' +
+                  '"related":"/api/users/(\\d+)/memberships"' +
                 '}' +
               '},' +
               '"certification-center-memberships":{' +
                 '"links":{' +
-                  '"related":"/users/(\\d+)/certification-center-memberships"' +
+                  '"related":"/api/users/(\\d+)/certification-center-memberships"' +
                 '}' +
               '},' +
               '"pix-score":{' +
                 '"links":{' +
-                  '"related":"/users/(\\d+)/pixscore"' +
+                  '"related":"/api/users/(\\d+)/pixscore"' +
                 '}' +
               '},' +
               '"scorecards":{' +
                 '"links":{' +
-                  '"related":"/users/(\\d+)/scorecards"' +
+                  '"related":"/api/users/(\\d+)/scorecards"' +
                 '}' +
               '}' +
             '}' +

@@ -38,7 +38,7 @@ class ProfileSerializer extends JSONAPISerializer {
   _serializeCampaignParticipationsLink(data, entity) {
     data.relationships['campaign-participations'] = {
       links: {
-        related: `/users/${entity.id}/campaign-participations`
+        related: `/api/users/${entity.id}/campaign-participations`
       }
     };
   }
@@ -46,7 +46,7 @@ class ProfileSerializer extends JSONAPISerializer {
   _serializePixScoreLink(data, entity) {
     data.relationships['pix-score'] = {
       links: {
-        related: `/users/${entity.id}/pixscore`
+        related: `/api/users/${entity.id}/pixscore`
       }
     };
   }
@@ -54,7 +54,7 @@ class ProfileSerializer extends JSONAPISerializer {
   _serializeScorecardsLink(data, entity) {
     data.relationships['scorecards'] = {
       links: {
-        related: `/users/${entity.id}/scorecards`
+        related: `/api/users/${entity.id}/scorecards`
       }
     };
   }
@@ -163,7 +163,7 @@ class ProfileSerializer extends JSONAPISerializer {
         relationships: {
           snapshots: {
             links: {
-              related: `/organizations/${organizationJson.id}/snapshots`
+              related: `/api/organizations/${organizationJson.id}/snapshots`
             }
           }
         }

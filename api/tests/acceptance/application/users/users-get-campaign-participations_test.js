@@ -78,12 +78,12 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 },
                 assessment: {
                   links: {
-                    related: `/assessments/${campaignParticipation2.assessmentId}`
+                    related: `/api/assessments/${campaignParticipation2.assessmentId}`
                   }
                 },
                 'campaign-participation-result': {
                   links: {
-                    'related': `/campaign-participations/${campaignParticipation2.id}/campaign-participation-result`
+                    'related': `/api/campaign-participations/${campaignParticipation2.id}/campaign-participation-result`
                   }
                 },
               },
@@ -107,12 +107,12 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 },
                 assessment: {
                   links: {
-                    related: `/assessments/${campaignParticipation1.assessmentId}`
+                    related: `/api/assessments/${campaignParticipation1.assessmentId}`
                   }
                 },
                 'campaign-participation-result': {
                   links: {
-                    'related': `/campaign-participations/${campaignParticipation1.id}/campaign-participation-result`
+                    'related': `/api/campaign-participations/${campaignParticipation1.id}/campaign-participation-result`
                   }
                 }
               },

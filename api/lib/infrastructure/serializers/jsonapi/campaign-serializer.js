@@ -25,7 +25,7 @@ module.exports = {
         ignoreRelationshipData: ignoreCampaignReportRelationshipData,
         relationshipLinks: {
           related(record, current, parent) {
-            return `/campaigns/${parent.id}/campaign-report`;
+            return `/api/campaigns/${parent.id}/campaign-report`;
           }
         }
       },
