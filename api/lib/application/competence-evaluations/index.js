@@ -14,7 +14,19 @@ exports.register = async function(server) {
         ],
         tags: ['api', 'competence-evaluations']
       }
-    }
+    },
+    {
+      method: 'GET',
+      path: '/api/competence-evaluations',
+      config: {
+        handler: competenceEvaluationController.find,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des competence-evaluations par assessment',
+        ],
+        tags: ['api', 'competence-evaluations']
+      }
+    },
   ]);
 };
 
