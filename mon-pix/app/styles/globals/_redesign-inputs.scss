@@ -192,11 +192,13 @@ input[type=radio]:focus:before {
 }
 
 .proposal-paragraph > input[type=radio] {
-  margin-top: 3px;
+  margin-top: 7px;
+  flex-shrink: 0;
 }
 
 .proposal-paragraph > input[type=checkbox] {
-  margin-top: 6px;
+  margin-top: 7px;
+  flex-shrink: 0;
 }
 /*cursor: pointer is disabled here*/
 .label-proposal-comparison-window {
