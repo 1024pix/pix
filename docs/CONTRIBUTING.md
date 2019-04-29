@@ -26,6 +26,10 @@ Exemples :
 [BUGFIX] Problème de style sous IE (PF-440).
 ```
 
+Pour aller plus loin : 
+- [Commit messages guide](https://github.com/RomuloOliveira/commit-messages-guide/blob/master/README.md)
+- [Git SCM commit guidelines](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#_commit_guidelines)
+
 ## Node.js
 
 On ne commit le `package-lock.json` qu'en cas de modification du `package.json`
