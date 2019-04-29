@@ -1,5 +1,6 @@
-module.exports = [
-  {
+module.exports = function snapshotsBuilder({ databaseBuilder }) {
+
+  databaseBuilder.factory.buildSnapshot({
     organizationId: 3,
     userId: 1,
     score: '196',
@@ -7,8 +8,8 @@ module.exports = [
     studentCode: null,
     campaignCode: 'CodeCampagne',
     testsFinished: 5
-  },
-  {
+  });
+  databaseBuilder.factory.buildSnapshot({
     organizationId: 2,
     userId: 1,
     score: '196',
@@ -16,8 +17,8 @@ module.exports = [
     studentCode: 'MonNum12',
     campaignCode: 'Code23',
     testsFinished: 5
-  },
-  {
+  });
+  databaseBuilder.factory.buildSnapshot({
     organizationId: 1,
     userId: 1,
     score: '196',
@@ -25,5 +26,5 @@ module.exports = [
     studentCode: 'MonIDPIX',
     campaignCode: 'CodeCampagne',
     testsFinished: 5
-  },
-];
+  });
+};

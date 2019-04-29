@@ -13,6 +13,7 @@ const dragonAndCoBuilder = require('./data/dragon-and-co-builder');
 const organizationsBuilder = require('./data/organizations-builder');
 const pixAileBuilder = require('./data/pix-aile-builder');
 const sessionsBuilder = require('./data/sessions-builder');
+const snapshotsBuilder = require('./data/snapshots-builder');
 const usersBuilder = require('./data/users-builder');
 const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 
@@ -21,7 +22,6 @@ const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 // Tables must be inserted in a specific orderr
 const orderedTableNames = [
   'answers',
-  'snapshots',
 ];
 
 // Some seed datas are wrapped into promises, hence the need for #Promise.all
@@ -47,6 +47,7 @@ exports.seed = (knex) => {
   pixAileBuilder({ databaseBuilder });
   dragonAndCoBuilder({ databaseBuilder });
   organizationsBuilder({ databaseBuilder });
+  snapshotsBuilder({ databaseBuilder });
   campaignsBuilder({ databaseBuilder });
   campaignParticipationsBuilder({ databaseBuilder });
   certificationCentersBuilder({ databaseBuilder });
