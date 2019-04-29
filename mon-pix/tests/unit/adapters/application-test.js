@@ -7,7 +7,7 @@ describe('Unit | Route | subscribers', function() {
     needs: ['service:session']
   });
 
-  it('should precise /api as the root url', function() {
+  it('should specify /api as the root url', function() {
     // Given
     const applicationAdapter = this.subject();
 
