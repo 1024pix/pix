@@ -4,7 +4,7 @@
   flex-direction: row;
 }
 
-.correction-qrocm__label {
+.correction-qrocm__text {
   display: inline-block;
   font-family: $font-lato;
   font-size: 16px;
@@ -14,7 +14,7 @@
 
 .correction-qrocm__answer-solution {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 .correction-qrocm__answer-input {
