@@ -4,7 +4,7 @@ export default JSONAPISerializer.extend({
   links(user) {
     return {
       'certificationCenterMemberships': {
-        related: `/users/${user.id}/certification-center-memberships`
+        related: `/api/users/${user.id}/certification-center-memberships`
       }
     };
   }
