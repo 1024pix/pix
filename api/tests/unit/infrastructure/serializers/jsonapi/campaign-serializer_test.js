@@ -49,7 +49,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
               },
               'campaign-report': {
                 'links': {
-                  'related': '/campaigns/5/campaign-report'
+                  'related': '/api/campaigns/5/campaign-report'
                 }
               }
             }
@@ -121,7 +121,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
                   type: 'campaignReports'
                 },
                 'links': {
-                  'related': '/campaigns/5/campaign-report'
+                  'related': '/api/campaigns/5/campaign-report'
                 }
               }
             }

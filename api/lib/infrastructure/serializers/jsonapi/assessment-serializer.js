@@ -46,7 +46,7 @@ module.exports = {
         ref: 'id',
         relationshipLinks: {
           related(record, current) {
-            return `/progressions/${current.id}`;
+            return `/api/progressions/${current.id}`;
           }
         }
       }

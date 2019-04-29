@@ -55,22 +55,22 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
           relationships: {
             'memberships': {
               links: {
-                related: '/users/1234/memberships'
+                related: '/api/users/1234/memberships'
               }
             },
             'certification-center-memberships': {
               links: {
-                related: '/users/1234/certification-center-memberships'
+                related: '/api/users/1234/certification-center-memberships'
               }
             },
             'pix-score' : {
               links: {
-                related: '/users/1234/pixscore'
+                related: '/api/users/1234/pixscore'
               }
             },
             scorecards: {
               links: {
-                related: '/users/1234/scorecards'
+                related: '/api/users/1234/scorecards'
               }
             }
           }

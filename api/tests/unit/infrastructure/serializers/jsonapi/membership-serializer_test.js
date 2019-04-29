@@ -49,12 +49,12 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
           relationships: {
             campaigns: {
               links: {
-                related: '/organizations/10293/campaigns'
+                related: '/api/organizations/10293/campaigns'
               }
             },
             'target-profiles': {
               links: {
-                related: '/organizations/10293/target-profiles'
+                related: '/api/organizations/10293/target-profiles'
               }
             }
           }
