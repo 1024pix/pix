@@ -1,5 +1,7 @@
 'use strict';
 const DatabaseBuilder = require('../../tests/tooling/database-builder/database-builder');
+const assessmentsBuilder = require('./data/assessments-builder');
+const assessmentResultsBuilder = require('./data/assessment-results-builder');
 const campaignParticipationsBuilder = require('./data/campaign-participations-builder');
 const campaignsBuilder = require('./data/campaigns-builder');
 const certificationCentersBuilder = require('./data/certification-centers-builder');
@@ -14,11 +16,9 @@ const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 
 // Tables must be inserted in a specific orderr
 const orderedTableNames = [
-  'assessments',
   'certification-courses',
   'users_pix_roles',
   'answers',
-  'assessment-results',
   'certification-challenges',
   'snapshots',
   'competence-marks',
@@ -51,6 +51,8 @@ exports.seed = (knex) => {
   certificationCentersBuilder({ databaseBuilder });
   certificationCenterMembershipsBuilder({ databaseBuilder });
   sessionsBuilder({ databaseBuilder });
+  assessmentsBuilder({ databaseBuilder });
+  assessmentResultsBuilder({ databaseBuilder });
 
   return databaseBuilder.commit()
     .then(() => insertSeeds(knex, orderedTableNames))
