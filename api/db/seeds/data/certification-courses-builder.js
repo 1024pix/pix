@@ -1,5 +1,6 @@
-module.exports = [
-  {
+module.exports = function certificationCoursesBuilder({ databaseBuilder }) {
+
+  databaseBuilder.factory.buildCertificationCourse({
     id: 1,
     userId: 1,
     completedAt: new Date('2018-02-15T15:15:52Z'),
@@ -11,8 +12,8 @@ module.exports = [
     sessionId: 1,
     externalId: 'NumeroEtudiantHubert',
     isPublished: true
-  },
-  {
+  });
+  databaseBuilder.factory.buildCertificationCourse({
     id: 2,
     userId: 1,
     completedAt: new Date('2018-04-27T10:11:02Z'),
@@ -24,8 +25,8 @@ module.exports = [
     sessionId: 2,
     externalId: 'L\'élève',
     isPublished: true
-  },
-  {
+  });
+  databaseBuilder.factory.buildCertificationCourse({
     id: 3,
     userId: 1,
     completedAt: new Date('2018-01-15T15:15:52Z'),
@@ -37,5 +38,5 @@ module.exports = [
     sessionId: 1,
     externalId: 'L\'élève',
     isPublished: false
-  }
-];
+  });
+};
