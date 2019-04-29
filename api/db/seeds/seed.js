@@ -19,25 +19,6 @@ const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 
-// Tables must be inserted in a specific orderr
-const orderedTableNames = [
-  'answers',
-];
-
-// Some seed datas are wrapped into promises, hence the need for #Promise.all
-async function insertSeeds(knex, orderedTableNames) {
-  for (const tableName of orderedTableNames) {
-    const seedData = await Promise.all(require('./data/' + tableName + '.js'));
-    await insertSeedByData(knex, tableName, seedData);
-  }
-}
-
-async function insertSeedByData(knex, tableName, tableRows) {
-  for (const row of tableRows) {
-    await knex(tableName).insert(row).catch(console.log);
-  }
-}
-
 exports.seed = (knex) => {
 
   const databaseBuilder = new DatabaseBuilder({ knex });
@@ -60,7 +41,6 @@ exports.seed = (knex) => {
   competenceMarksBuilder({ databaseBuilder });
 
   return databaseBuilder.commit()
-    .then(() => insertSeeds(knex, orderedTableNames))
     .then(() => alterSequenceIfPG(knex));
 };
 
