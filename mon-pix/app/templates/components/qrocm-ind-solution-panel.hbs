@@ -1,31 +1,19 @@
 <div class="qrocm-solution-panel rounded-panel">
-  <div class="rounded-panel__row ">
+  <div class="rounded-panel__row correction-qrocm__text">
+    {{#each inputFields as |field|}}
+      {{{field.label}}}
 
-    <div>
-      {{#each inputFields as |field|}}
-        <div class="correction-qrocm">
+      <div class="correction-qrocm__answer-solution">
+        <input value="{{field.answer}}" class="correction-qrocm__answer-input {{field.inputClass}}" disabled>
 
-          <div class="correction-qrocm__label">
-            <span>{{field.label}}</span>
+        {{#if field.emptyOrWrongAnswer}}
+          <div class="correction-qrocm__solution">
+            <img class="correction-qrocm__solution-img" src="/images/comparison-window/icon-arrow-right.svg" alt="">
+            <div class="correction-qrocm__solution-text">{{field.solution}}</div>
           </div>
-
-          <div class="correction-qrocm__answer-solution">
-            <div class="correction-qrocm__answer">
-              <input value="{{field.answer}}" class="correction-qrocm__answer-input {{field.inputClass}}" disabled>
-            </div>
-
-            {{#if field.emptyOrWrongAnswer}}
-              <div class="correction-qrocm__solution">
-                <img class="correction-qrocm__solution-img" src="/images/comparison-window/icon-arrow-right.svg" alt="">
-                <div class="correction-qrocm__solution-text">{{field.solution}}</div>
-              </div>
-            {{/if}}
-          </div>
-
-        </div>
-      {{/each}}
-    </div>
-
+        {{/if}}
+      </div>
+    {{/each}}
   </div>
 </div>
 
