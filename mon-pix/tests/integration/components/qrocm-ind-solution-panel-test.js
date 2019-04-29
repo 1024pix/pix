@@ -4,11 +4,25 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-const FIRST_CORRECTION_BLOCK = '.correction-qrocm:nth-child(1)';
-const SECOND_CORRECTION_BLOCK = '.correction-qrocm:nth-child(2)';
-const THIRD_CORRECTION_BLOCK = '.correction-qrocm:nth-child(3)';
+function getLabels(panelElement) {
+  const labels = [];
+  let currentLabel = '';
+
+  for (const node of panelElement.childNodes) {
+    if (node.nodeName === '#text' || node.nodeName === 'BR') {
+      currentLabel += node.textContent;
+    }
+    if (node.nodeName === 'DIV') {
+      labels.push(currentLabel);
+      currentLabel = '';
+    }
+  }
+
+  return labels;
+}
+
+const PANEL = '.rounded-panel__row';
 const SOLUTION_BLOCK = '.correction-qrocm__solution';
-const LABEL = '.correction-qrocm__label';
 const INPUT = '.correction-qrocm__answer-input';
 const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
@@ -52,8 +66,11 @@ describe('Integration | Component | qrocm solution panel', function() {
     // when
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
 
+    const panelElement = document.querySelector(PANEL);
+    const labels = getLabels(panelElement);
+
     // then
-    expect(document.querySelectorAll(LABEL)).to.have.lengthOf(3);
+    expect(labels).to.have.lengthOf(3);
   });
 
   describe('comparison of a qrocm-ind with a right answer, a wrong answer and one empty answer', function() {
@@ -65,11 +82,10 @@ describe('Integration | Component | qrocm solution panel', function() {
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
-        const answerBlock = document.querySelector(FIRST_CORRECTION_BLOCK);
-        const answerLabel = document.querySelector(FIRST_CORRECTION_BLOCK + ' ' + LABEL);
-        const answerInput = document.querySelector(FIRST_CORRECTION_BLOCK + ' ' + INPUT);
+        const panelElement = document.querySelector(PANEL);
+        const answerLabel = getLabels(panelElement)[0];
+        const answerInput = document.querySelector(INPUT);
 
-        expect(answerBlock).to.exist;
         expect(answerLabel).to.exist;
         expect(answerInput).to.exist;
 
@@ -82,7 +98,9 @@ describe('Integration | Component | qrocm solution panel', function() {
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
-        expect(document.querySelector(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK)).to.not.exist;
+        const solutionBlock = document.querySelectorAll(SOLUTION_BLOCK);
+
+        expect(solutionBlock).to.have.lengthOf(2);
       });
     });
 
@@ -93,11 +111,10 @@ describe('Integration | Component | qrocm solution panel', function() {
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
-        const answerBlock = document.querySelector(SECOND_CORRECTION_BLOCK);
-        const answerLabel = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + LABEL);
-        const answerInput = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + INPUT);
+        const panelElement = document.querySelector(PANEL);
+        const answerLabel = getLabels(panelElement)[1];
+        const answerInput = document.querySelectorAll(INPUT)[1];
 
-        expect(answerBlock).to.exist;
         expect(answerLabel).to.exist;
         expect(answerInput).to.exist;
 
@@ -110,8 +127,8 @@ describe('Integration | Component | qrocm solution panel', function() {
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
-        const solutionBlock = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
-        const solutionText = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
+        const solutionBlock = document.querySelectorAll(SOLUTION_BLOCK)[1];
+        const solutionText = document.querySelectorAll(SOLUTION_TEXT)[1];
 
         expect(solutionBlock).to.exist;
         expect(solutionText).to.exist;
@@ -128,11 +145,10 @@ describe('Integration | Component | qrocm solution panel', function() {
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
-        const answerBlock = document.querySelector(THIRD_CORRECTION_BLOCK);
-        const answerLabel = document.querySelector(THIRD_CORRECTION_BLOCK + ' ' + LABEL);
-        const answerInput = document.querySelector(THIRD_CORRECTION_BLOCK + ' ' + INPUT);
+        const panelElement = document.querySelector(PANEL);
+        const answerLabel = getLabels(panelElement)[2];
+        const answerInput = document.querySelectorAll(INPUT)[2];
 
-        expect(answerBlock).to.exist;
         expect(answerLabel).to.exist;
         expect(answerInput).to.exist;
 
@@ -145,8 +161,8 @@ describe('Integration | Component | qrocm solution panel', function() {
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
-        const solutionBlock = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
-        const solutionText = document.querySelector(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
+        const solutionBlock = document.querySelectorAll(SOLUTION_BLOCK)[1];
+        const solutionText = document.querySelectorAll(SOLUTION_TEXT)[1];
 
         expect(solutionBlock).to.exist;
         expect(solutionText).to.exist;
