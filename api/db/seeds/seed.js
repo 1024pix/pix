@@ -14,12 +14,12 @@ const organizationsBuilder = require('./data/organizations-builder');
 const pixAileBuilder = require('./data/pix-aile-builder');
 const sessionsBuilder = require('./data/sessions-builder');
 const usersBuilder = require('./data/users-builder');
+const usersPixRolesBuilder = require('./data/users_pix_roles-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 
 // Tables must be inserted in a specific orderr
 const orderedTableNames = [
-  'users_pix_roles',
   'answers',
   'snapshots',
 ];
@@ -43,6 +43,7 @@ exports.seed = (knex) => {
   const databaseBuilder = new DatabaseBuilder({ knex });
 
   usersBuilder({ databaseBuilder });
+  usersPixRolesBuilder({ databaseBuilder });
   pixAileBuilder({ databaseBuilder });
   dragonAndCoBuilder({ databaseBuilder });
   organizationsBuilder({ databaseBuilder });
