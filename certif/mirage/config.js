@@ -12,7 +12,7 @@ function parseQueryString(queryString) {
 export default function() {
 
   this.urlPrefix = 'http://localhost:3000';
-  this.namespace = '/api';
+  this.namespace = 'api';
   this.timing = 0;
 
   this.post('/token', (schema, request) => {
