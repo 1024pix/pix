@@ -1,4 +1,6 @@
-# Nommage Bookshelf
+# Bookshelf
+
+## Conventions de nommage
 
 Une entité bookshelf doit être préfixée par "Bookshelf".
 ```javascript
