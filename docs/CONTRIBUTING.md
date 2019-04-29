@@ -6,13 +6,13 @@ Pour toute contribution, il est essentiel de respecter *a minima* les points sui
 
 ⚠️ On ne merge jamais `dev` dans une autre branche ⚠️
 
-## Nommage
+## Conventions de nommage
 
 Tests, commits, branches : en anglais
 
 Description des Pull Requests : en français
 
-## Nommage des commits
+## Conventions de nommage des commits
 
 Exemples :
 
