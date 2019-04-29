@@ -2,6 +2,7 @@ const Bookshelf = require('../bookshelf');
 
 require('./assessment');
 require('./campaign');
+require('./user');
 
 module.exports = Bookshelf.model('CampaignParticipation', {
 

@@ -8,13 +8,14 @@ require('./assessment');
 require('./organization');
 require('./knowledge-element');
 require('./membership');
+require('./certification-center-membership');
 
 module.exports = Bookshelf.model('User', {
   tableName: 'users',
   hasTimestamps: ['createdAt', 'updatedAt'],
 
   assessments() {
-    return this.hasMany('Assessment');
+    return this.hasMany('Assessment', 'userId');
   },
 
   knowledgeElements() {
