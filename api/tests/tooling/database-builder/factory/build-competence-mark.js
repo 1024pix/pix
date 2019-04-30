@@ -8,8 +8,10 @@ module.exports = function buildCompetenceMark({
   score = faker.random.number(),
   area_code = faker.random.number(),
   competence_code = `${faker.random.number()}_${faker.random.number()}`,
-  assessmentResultId = buildAssessmentResult().id,
+  assessmentResultId,
 } = {}) {
+
+  assessmentResultId = assessmentResultId || buildAssessmentResult().id;
 
   const values = {
     id, level, score, area_code, competence_code, assessmentResultId
