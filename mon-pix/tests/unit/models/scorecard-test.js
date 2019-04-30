@@ -1,28 +1,95 @@
 import { expect } from 'chai';
-import { get } from '@ember/object';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
+import { run } from '@ember/runloop';
 
 describe('Unit | Model | Scorecard model', function() {
-  setupModelTest('scorecard', {});
+  let scorecard;
 
-  it('exists', function() {
-    const model = this.subject();
-    expect(model).to.be.ok;
+  setupTest();
+
+  beforeEach(function() {
+    scorecard = run(() => this.owner.lookup('service:store').createRecord('scorecard'));
   });
 
-  describe('#area relationship', () => {
+  describe('percentageAheadOfNextLevel', function() {
+    [
+      { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
+      { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
+      { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
+      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 }
+    ].forEach((data) => {
+      it(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function() {
+        // given
+        scorecard.set('pixScoreAheadOfNextLevel', data.pixScoreAheadOfNextLevel);
 
-    it('should exist', function() {
+        // when
+        const percentageAheadOfNextLevel = scorecard.percentageAheadOfNextLevel;
+
+        // then
+        expect(percentageAheadOfNextLevel).to.equal(data.expectedPercentageAheadOfNextLevel);
+      });
+    });
+  });
+
+  describe('remainingPixToNextLevel', function() {
+    it('should return 2 remaining Pix to next level', function() {
       // given
-      const Scorecard = this.store().modelFor('scorecard');
+      scorecard.set('pixScoreAheadOfNextLevel', 3);
 
       // when
-      const relationship = get(Scorecard, 'relationshipsByName').get('area');
+      const remainingPixToNextLevel = scorecard.remainingPixToNextLevel;
 
       // then
-      expect(relationship.key).to.equal('area');
-      expect(relationship.kind).to.equal('belongsTo');
+      expect(remainingPixToNextLevel).to.equal(5);
+    });
+  });
+
+  describe('isMaxLevel', function() {
+    it('should return true', function() {
+      // given
+      scorecard.set('level', 5);
+
+      // when
+      const isMaxLevel = scorecard.isMaxLevel;
+
+      // then
+      expect(isMaxLevel).to.be.true;
+    });
+
+    it('should return false', function() {
+      // given
+      scorecard.set('level', 2);
+
+      // when
+      const isMaxLevel = scorecard.get('isMaxLevel');
+
+      // then
+      expect(isMaxLevel).to.be.false;
+    });
+  });
+
+  describe('areaColor', function() {
+    [
+      { code: 1, expectedColor: 'jaffa' },
+      { code: 2, expectedColor: 'emerald' },
+      { code: 3, expectedColor: 'cerulean' },
+      { code: 4, expectedColor: 'wild-strawberry' },
+      { code: 5, expectedColor: 'butterfly-bush' }
+    ].forEach((data) => {
+      it(`should return ${data.expectedColor} when area.code is ${data.code}`, function() {
+        // given
+        const area = run(() => this.owner.lookup('service:store').createRecord('area', {
+          code: data.code,
+        }));
+        scorecard.set('area', area);
+
+        // when
+        const areaColor = scorecard.areaColor;
+
+        // then
+        expect(areaColor).to.equal(data.expectedColor);
+      });
     });
   });
 });
