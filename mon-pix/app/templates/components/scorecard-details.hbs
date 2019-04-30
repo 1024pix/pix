@@ -1,6 +1,6 @@
 <div class="scorecard-details-content">
   <div class="scorecard-details-content__left">
-    <div class="scorecard-details-content-left__area scorecard-details-content-left__area--{{areaColor}}">
+    <div class="scorecard-details-content-left__area scorecard-details-content-left__area--{{scorecard.areaColor}}">
       {{scorecard.area.title}}
     </div>
     <div class="scorecard-details-content-left__name">
@@ -13,9 +13,9 @@
 
   <div class="scorecard-details-content__right">
     <div class="scorecard-details-content-right__score-container">
-      {{#circle-chart value=percentageAheadOfNextLevel 
-                      sliceColor=areaColor 
-                      chartClass='circle-chart__content--big' 
+      {{#circle-chart value=scorecard.percentageAheadOfNextLevel
+                      sliceColor=scorecard.areaColor
+                      chartClass='circle-chart__content--big'
                       thicknessClass='circle--thick'}}
         <div class="competence-card__level">
           <span class="competence-card-level__label">Niveau</span>
@@ -27,10 +27,10 @@
         <div class="scorecard-details-content-right-score-container-pix-earned__info">{{earnedPixText}}</div>
       </div>
     </div>
-    {{#if (lt scorecard.level _MAX_REACHABLE_LEVEL)}}
+    {{#unless scorecard.isMaxLevel}}
       <div class="scorecard-details-content-right__level-info">
-        {{remainingPixToNextLevel}} pix avant niveau {{inc scorecard.level}}
+        {{scorecard.remainingPixToNextLevel}} pix avant niveau {{inc scorecard.level}}
       </div>
-    {{/if}}
+    {{/unless}}
   </div>
 </div>
