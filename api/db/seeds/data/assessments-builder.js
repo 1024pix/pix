@@ -1,4 +1,15 @@
 module.exports = function assessmentsBuilder({ databaseBuilder }) {
+
+  // PLACEMENT
+  databaseBuilder.factory.buildAssessment({
+    id: 1,
+    courseId: 'recyochcrrSOALQPS',
+    createdAt: new Date('2018-02-15T15:00:34Z'),
+    updatedAt: new Date('2018-02-15T15:00:34Z'),
+    userId: 1,
+    type: 'PLACEMENT',
+    state: 'completed',
+  });
   databaseBuilder.factory.buildAssessment({
     id: 2,
     courseId: 'rec43mpMIR5dUzdjh',
@@ -36,6 +47,17 @@ module.exports = function assessmentsBuilder({ databaseBuilder }) {
     state: 'completed'
   });
   databaseBuilder.factory.buildAssessment({
+    id: 8,
+    courseId: 'rec43mpMIR5dUzdjh',
+    createdAt: new Date('2018-01-15T15:00:34Z'),
+    updatedAt: new Date('2018-01-15T15:00:34Z'),
+    userId: 1,
+    type: 'PLACEMENT',
+    state: 'started'
+  });
+
+  // CERTIFICATION
+  databaseBuilder.factory.buildAssessment({
     id: 6,
     courseId: '1',
     createdAt: new Date('2018-02-15T15:14:46Z'),
@@ -53,15 +75,7 @@ module.exports = function assessmentsBuilder({ databaseBuilder }) {
     type: 'CERTIFICATION',
     state: 'completed'
   });
-  databaseBuilder.factory.buildAssessment({
-    id: 8,
-    courseId: 'rec43mpMIR5dUzdjh',
-    createdAt: new Date('2018-01-15T15:00:34Z'),
-    updatedAt: new Date('2018-01-15T15:00:34Z'),
-    userId: 1,
-    type: 'PLACEMENT',
-    state: 'started'
-  });
+
   databaseBuilder.factory.buildAssessment({
     id: 9,
     courseId: '3',
