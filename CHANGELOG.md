@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.39.0 (02/05/2019)
+
+- [#451](https://github.com/1024pix/pix/pull/451) [FEATURE] Lier le profil v1 et le profil v2 grâce à un lien cliquable (PF-558)
+- [#448](https://github.com/1024pix/pix/pull/448) [FEATURE] Positionnement sur compétence via un parcours depuis Profil V2 (PF-372)
+- [#467](https://github.com/1024pix/pix/pull/467) [FEATURE] Page de detail d'une competence (PF-553)
+- [#457](https://github.com/1024pix/pix/pull/457) [BUGFIX] Correction de l'affichage des détails d'une certification pour une réponse "Abandon" (PA-82)
+- [#490](https://github.com/1024pix/pix/pull/490) [TECH] Ajoute le premier enregistrement d'architecture (ADR)
+- [#449](https://github.com/1024pix/pix/pull/449) [TECH] Redesign du dossier docs et du contributing.md
+- [#473](https://github.com/1024pix/pix/pull/473) [TECH] Add state of the art markers in the code
+- [#405](https://github.com/1024pix/pix/pull/405) [TECH] Ajout d'un script pour récupérer les answers pour les statistiques
+- [#475](https://github.com/1024pix/pix/pull/475) [TECH] Corrige une erreur de linter
+- [#471](https://github.com/1024pix/pix/pull/471) [TECH] Suppression d'anciens commentaires
+- [#472](https://github.com/1024pix/pix/pull/472) [TECH] Mise à jour du linter avec la règle "space-infix-ops" et lint des projets
+
 ## v2.38.0 (16/04/2019)
 
 - [#461](https://github.com/1024pix/pix/pull/461) [FEATURE] Afficher le nombre de participants et de profils reçus dans la liste des campagnes (PO-86)
