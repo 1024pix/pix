@@ -73,6 +73,17 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card-level__value').text()).to.equal('4');
     });
 
+    it('should link to competence-details page on click on level circle', async function() {
+      // given
+      await visit('/profilv2');
+
+      // when
+      await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__link');
+
+      // then
+      expect(currentURL()).to.equal('/competences/1_2');
+    });
+
     it('should display first competence card of second area', async function() {
       // when
       await visit('/profilv2');

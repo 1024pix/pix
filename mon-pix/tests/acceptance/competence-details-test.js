@@ -5,7 +5,7 @@ import {
   it,
 } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsPrescriber, authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateAsSimpleUser } from '../helpers/testing';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
@@ -85,19 +85,16 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       // then
       expect(find('.competence-details-panel-content-right__level-info')).to.have.lengthOf(0);
     });
-  });
 
-  describe('Authenticated cases as user with organization', () => {
-    beforeEach(async () => {
-      await authenticateAsPrescriber();
-    });
-
-    it('can visit /competences/1_1', async () => {
-      // when
+    it('should transition to /profilv2 when the user clicks on return', async () => {
+      // given
       await visit('/competences/1_1');
 
+      // when
+      await click('.competence-details-panel-header__return-button');
+
       // then
-      expect(currentURL()).to.equal('/board');
+      expect(currentURL()).to.equal('/profilv2');
     });
   });
 

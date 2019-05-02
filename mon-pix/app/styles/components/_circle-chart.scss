@@ -6,12 +6,12 @@
 
 .circle-chart {
   position: relative;
+  display: flex;
 }
 
 .circle-chart__content {
   width: 100px;
   height: 100px;
-  margin: 2px;
   max-height: 128px;
 
   &--big {
