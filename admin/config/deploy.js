@@ -2,7 +2,7 @@
 'use strict';
 
 module.exports = function(deployTarget) {
-  let ENV = {
+  const ENV = {
     build: {}
     // include other plugin configuration that applies to all deploy targets here
   };

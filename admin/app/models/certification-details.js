@@ -14,7 +14,7 @@ export default DS.Model.extend({
     const competenceData = this.competencesWithMark;
     const answers = this.listChallengesAndAnswers;
     let count = 1;
-    answers.forEach(answer => {
+    answers.forEach((answer) => {
       answer.order = count;
       count++;
     });
@@ -31,8 +31,8 @@ export default DS.Model.extend({
       }
       return accumulator;
     }, competences);
-    let sortedCompetences = [];
-    Object.keys(competences).sort().forEach(key => {
+    const sortedCompetences = [];
+    Object.keys(competences).sort().forEach((key) => {
       sortedCompetences.push(competences[key]);
     });
     return sortedCompetences;

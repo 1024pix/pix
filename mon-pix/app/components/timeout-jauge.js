@@ -6,7 +6,7 @@ import _ from 'mon-pix/utils/lodash-custom';
 import ENV from 'mon-pix/config/environment';
 
 // see http://stackoverflow.com/a/37770048/2595513
-function fmtMSS(s) {return (s-(s%=60))/60+(9<s?':':':0')+s;}
+function fmtMSS(s) {return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;}
 
 export default Component.extend({
 

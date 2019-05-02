@@ -12,7 +12,7 @@ export default Route.extend({
       });
   },
 
-  deactivate: function () {
+  deactivate: function() {
     this.controller.model.rollbackAttributes();
   },
 });

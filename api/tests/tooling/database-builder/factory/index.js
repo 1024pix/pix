@@ -4,6 +4,7 @@ module.exports = {
   buildAssessmentResult: require('./build-assessment-result'),
   buildCampaign: require('./build-campaign'),
   buildCampaignParticipation: require('./build-campaign-participation'),
+  buildCompetenceEvaluation: require('./build-competence-evaluation'),
   buildCertificationCenter: require('./build-certification-center'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),

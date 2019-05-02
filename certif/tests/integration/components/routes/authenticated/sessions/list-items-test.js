@@ -7,15 +7,15 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | routes/authenticated/session | list-items', function(hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     this.set('goToDetailsSpy', () => {});
   });
 
   test('it should display a list of sessions', async function(assert) {
     // given
     const sessions = [
-      {id: 1},
-      {id: 2},
+      { id: 1 },
+      { id: 2 },
     ];
 
     this.set('model', sessions);
@@ -31,11 +31,11 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
 
   test('it should display the id of the sessions', async function(assert) {
     // given
-    let store = this.owner.lookup('service:store');
-    let session1 = run(() => store.createRecord('session', {
+    const store = this.owner.lookup('service:store');
+    const session1 = run(() => store.createRecord('session', {
       id: 1,
     }));
-    let session2 = run(() => store.createRecord('session', {
+    const session2 = run(() => store.createRecord('session', {
       id: 2,
     }));
     const sessions = [session1, session2];
@@ -52,12 +52,12 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
 
   test('it should display properly formatted dates', async function(assert) {
     // given
-    let store = this.owner.lookup('service:store');
-    let session1 = run(() => store.createRecord('session', {
+    const store = this.owner.lookup('service:store');
+    const session1 = run(() => store.createRecord('session', {
       id: 1,
       date: new Date('2018-08-06')
     }));
-    let session2 = run(() => store.createRecord('session', {
+    const session2 = run(() => store.createRecord('session', {
       id: 2,
       date: new Date('2018-08-07')
     }));
@@ -74,7 +74,6 @@ module('Integration | Component | routes/authenticated/session | list-items', fu
     assert.dom('table tbody tr:nth-child(1) td:nth-child(4)').hasText('07/08/2018');
     assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('06/08/2018');
   });
-
 
   test('it should sort the sessions from recent to older', async function(assert) {
     // given

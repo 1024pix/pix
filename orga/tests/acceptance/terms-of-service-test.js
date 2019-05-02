@@ -37,7 +37,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     // given
     let pixOrgaTermsOfServiceAccepted;
     server.patch('/users/:id', (schema, request) => {
-      let requestBodyParams = JSON.parse(request.requestBody);
+      const requestBodyParams = JSON.parse(request.requestBody);
       pixOrgaTermsOfServiceAccepted = requestBodyParams.data.attributes['pix-orga-terms-of-service-accepted'];
       return new Response(204);
     });

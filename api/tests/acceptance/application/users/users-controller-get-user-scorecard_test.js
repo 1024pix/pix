@@ -7,6 +7,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
 
   let options;
   let server;
+  const userId = 1234;
 
   beforeEach(async () => {
 
@@ -68,6 +69,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
           id: competenceId,
           epreuves: [],
           titre: 'Mener une recherche et une veille d’information',
+          description: 'Une description',
           tests: [],
           acquisIdentifiants: [skillWeb1Id],
           tubes: [],
@@ -88,7 +90,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
           .activate();
 
         knowledgeElement = databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
-          userId: 1234,
+          userId,
           competenceId: competence.id,
         });
 
@@ -113,14 +115,16 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
         const expectedScorecardJSONApi = {
           data: [{
             type: 'scorecards',
-            id: `1234_${competence.fields['Sous-domaine']}`,
+            id: `${userId}_${competenceId}`,
             attributes: {
               name: competence.fields.Titre,
+              description: competence.fields.Description,
               index: competence.fields['Sous-domaine'],
-              'course-id': competence.fields.courseId,
+              'competence-id': competenceId,
               'earned-pix': knowledgeElement.earnedPix,
-              level: Math.round(knowledgeElement.earnedPix/8),
+              level: Math.round(knowledgeElement.earnedPix / 8),
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
+              status: 'STARTED'
             },
             relationships: {
               area: {

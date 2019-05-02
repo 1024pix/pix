@@ -7,8 +7,8 @@ export default Route.extend({
 
   renderTemplate() {
     this.render('authenticated.terms-of-service', {
-    into: 'application'
-    })
+      into: 'application'
+    });
   },
 
   beforeModel() {

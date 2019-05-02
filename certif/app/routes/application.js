@@ -17,7 +17,7 @@ export default Route.extend(ApplicationRouteMixin, {
       .then(() => {
         // Because ember-simple-auth does not support calling this._super() asynchronously,
         // we have to do this hack to call the original "sessionAuthenticated"
-        let mixin = ApplicationRouteMixin.mixins[0];
+        const mixin = ApplicationRouteMixin.mixins[0];
         mixin.properties.sessionAuthenticated.call(this);
       });
   },
@@ -26,7 +26,6 @@ export default Route.extend(ApplicationRouteMixin, {
     return this._loadCurrentUser()
       .then((user) => this._loadCurrentCertificationCenter(user));
   },
-
 
   _loadCurrentUser() {
     return this.currentUser.load()

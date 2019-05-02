@@ -22,8 +22,8 @@ export default Component.extend({
   // Actions
   actions: {
     onSetResult(value) {
-      let answer = this.answer;
-      let jury = (value !== answer.result) ? value : false;
+      const answer = this.answer;
+      const jury = (value !== answer.result) ? value : false;
       answer.jury = jury;
       this.set('_jury', jury);
       this.onUpdateRate();

@@ -9,7 +9,7 @@ module('Integration | Component | confirm-popup', function(hooks) {
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
-    this.set('display', true)
+    this.set('display', true);
     this.set('actionConfirm', () => {
     });
     this.set('actionCancel', () => {

@@ -8,6 +8,6 @@ export default Component.extend({
 
   score: computed('pixScore', function() {
     const pixScore = this.pixScore;
-    return isNone(pixScore) ? '--' : pixScore;
+    return isNone(pixScore) ? '–' : pixScore;
   })
 });

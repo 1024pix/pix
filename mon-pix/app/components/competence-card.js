@@ -17,11 +17,11 @@ export default Component.extend({
     return percentage >= MAX_DISPLAYED_PERCENTAGE ? MAX_DISPLAYED_PERCENTAGE : percentage;
   }),
 
-  displayedLevel: computed('scorecard.level', 'percentageAheadOfNextLevel', function() {
-    if (!this.scorecard.level && !this.percentageAheadOfNextLevel) {
+  displayedLevel: computed('scorecard.{level,isNotStarted}', function() {
+    if (this.scorecard.isNotStarted) {
       return null;
-    } else if (!this.scorecard.level && this.percentageAheadOfNextLevel) {
-      return '--';
+    } else if (!this.scorecard.level) {
+      return '–';
     }
     return this.scorecard.level;
   }),

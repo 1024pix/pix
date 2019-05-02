@@ -6,16 +6,16 @@ module('Unit | Model | Competence-Result', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let store = this.owner.lookup('service:store');
-    let model = run(() => store.createRecord('competence-result', {}));
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('competence-result', {}));
     assert.ok(model);
   });
 
   module('totalSkillsCountPercentage', function() {
 
     test('should retrieve 100 since the competence is the highest number of total skills count', function(assert) {
-      let store = this.owner.lookup('service:store');
-      let model = run(() => store.createRecord('competence-result', {}));
+      const store = this.owner.lookup('service:store');
+      const model = run(() => store.createRecord('competence-result', {}));
       const otherCompetenceResult = store.createRecord('competence-result', {
         totalSkillsCount: 1
       });
@@ -34,8 +34,8 @@ module('Unit | Model | Competence-Result', function(hooks) {
     });
 
     test('should retrieve 25 since the competence is not the highest number of total skills count', function(assert) {
-      let store = this.owner.lookup('service:store');
-      let model = run(() => store.createRecord('competence-result', {}));
+      const store = this.owner.lookup('service:store');
+      const model = run(() => store.createRecord('competence-result', {}));
       const otherCompetenceResult = store.createRecord('competence-result', {
         totalSkillsCount: 4
       });
@@ -57,8 +57,8 @@ module('Unit | Model | Competence-Result', function(hooks) {
   module('validatedSkillsPercentage', function() {
 
     test('should retrieve 100 since the user has validated all the competence', function(assert) {
-      let store = this.owner.lookup('service:store');
-      let model = run(() => store.createRecord('competence-result', {}));
+      const store = this.owner.lookup('service:store');
+      const model = run(() => store.createRecord('competence-result', {}));
 
       model.set('totalSkillsCount', 2);
       model.set('validatedSkillsCount', 2);
@@ -71,8 +71,8 @@ module('Unit | Model | Competence-Result', function(hooks) {
     });
 
     test('should retrieve 25 since the user has validated half of the competence', function(assert) {
-      let store = this.owner.lookup('service:store');
-      let model = run(() => store.createRecord('competence-result', {}));
+      const store = this.owner.lookup('service:store');
+      const model = run(() => store.createRecord('competence-result', {}));
 
       model.set('totalSkillsCount', 3);
       model.set('validatedSkillsCount', 1);
@@ -88,8 +88,8 @@ module('Unit | Model | Competence-Result', function(hooks) {
   module('domainColorStyle', function() {
 
     test('should retrieve domain color style', function(assert) {
-      let store = this.owner.lookup('service:store');
-      let model = run(() => store.createRecord('competence-result', {}));
+      const store = this.owner.lookup('service:store');
+      const model = run(() => store.createRecord('competence-result', {}));
 
       model.set('index', '5.1');
 

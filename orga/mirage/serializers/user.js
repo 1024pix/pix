@@ -6,6 +6,6 @@ export default JSONAPISerializer.extend({
       'memberships': {
         related: `/users/${user.id}/memberships`
       }
-    }
+    };
   }
 });

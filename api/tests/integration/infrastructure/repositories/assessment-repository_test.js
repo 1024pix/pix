@@ -293,7 +293,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#getByUserIdAndAssessmentId', () => {
+  describe('#getByAssessmentIdAndUserId', () => {
 
     describe('when userId is provided,', () => {
       const fakeUserId = 3;
@@ -318,7 +318,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should fetch relative assessment ', () => {
         // when
-        const promise = assessmentRepository.getByUserIdAndAssessmentId(assessmentId, fakeUserId);
+        const promise = assessmentRepository.getByAssessmentIdAndUserId(assessmentId, fakeUserId);
 
         // then
         return promise.then((res) => {
@@ -353,7 +353,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should fetch relative assessment', () => {
         // when
-        const promise = assessmentRepository.getByUserIdAndAssessmentId(assessmentId, fakeUserId);
+        const promise = assessmentRepository.getByAssessmentIdAndUserId(assessmentId, fakeUserId);
 
         // then
         return promise.then((res) => {

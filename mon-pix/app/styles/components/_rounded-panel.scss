@@ -7,7 +7,18 @@
 
   &--strong {
     border-radius: 10px;
-    box-shadow: 0 7px 14px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 50px 54px -40px rgba(0,0,0,0.4), 0 7px 14px 0 rgba(12, 22, 58, 0.1);
+  }
+
+  &--over-background-banner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: -205px;
+
+    @include device-is('desktop') {
+      max-width: 980px;
+    }
   }
 
   &__row {
@@ -63,7 +74,7 @@
 .rounded-panel-body {
   display: flex;
   flex-direction: column;
-  margin: 30px 0;
+  margin: 4px 0;
 
   &__areas {
     display: flex;
@@ -84,6 +95,13 @@
   &__content {
     margin: 10px 0;
   }
+}
+
+.rounded-panel__link {
+  display: flex;
+  justify-content: flex-end;
+  margin: 4px 0;
+  font-family: $font-roboto;
 }
 
 // Text styles

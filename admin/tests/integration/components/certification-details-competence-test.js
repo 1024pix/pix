@@ -7,16 +7,16 @@ import { resolve } from 'rsvp';
 module('Integration | Component | certification-details-competence', function(hooks) {
   setupRenderingTest(hooks);
 
-  let answer = (result) => {
+  const answer = (result) => {
     return {
       skill:'@skill1',
       challengeId:'rec12345',
       order:'1',
       result:result
-    }
+    };
   };
 
-  let competence = (...result) => {
+  const competence = (...result) => {
     return {
       name: 'Une compétence',
       index: '1.1',
@@ -25,8 +25,8 @@ module('Integration | Component | certification-details-competence', function(ho
       obtainedLevel: -1,
       obtainedScore: 0,
       answers:[answer(result[0]), answer(result[1]), answer(result[2])]
-    }
-  }
+    };
+  };
 
   test('it renders', async function(assert) {
     // given

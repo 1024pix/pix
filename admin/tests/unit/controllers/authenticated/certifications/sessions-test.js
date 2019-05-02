@@ -6,7 +6,7 @@ module('Unit | Controller | authenticated/certifications/sessions', function(hoo
 
   // Replace this with your real tests.
   test('it exists', function(assert) {
-    let controller = this.owner.lookup('controller:authenticated/certifications/sessions');
+    const controller = this.owner.lookup('controller:authenticated/certifications/sessions');
     assert.ok(controller);
   });
 });

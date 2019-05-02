@@ -10,13 +10,13 @@ export default Service.extend({
   }).readOnly(),
 
   load(user) {
-    if(isEmpty(user)) {
+    if (isEmpty(user)) {
       return resolve();
     }
 
     return (this._certificationCenterPromise = user.get('certificationCenterMemberships')
       .then((certificationCenterMemberships) => {
-        return certificationCenterMemberships.get('firstObject.certificationCenter')
+        return certificationCenterMemberships.get('firstObject.certificationCenter');
       }));
   }
 

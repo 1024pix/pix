@@ -48,7 +48,7 @@ export default Router.map(function() {
   this.route('logout', { path: '/deconnexion' });
   this.route('not-connected', { path: '/nonconnecte' });
   this.route('board');
-  this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
+  this.route('reset-password', { path: '/changer-mot-de-passe/:temporary_key' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('certifications', function() {
     this.route('start', { path: '/' });
@@ -66,6 +66,12 @@ export default Router.map(function() {
     this.route('fill-in-id-pix', { path: '/:campaign_code/identifiant' });
     this.route('tutorial', { path: '/:campaign_code/didacticiel' });
     this.route('skill-review', { path: '/:campaign_code/resultats/:assessment_id' });
+  });
+
+  this.route('competence-details', { path: '/competences/:scorecard_id' });
+  this.route('competences', { path: '/competences' }, function() {
+    this.route('resume', { path: '/:competence_id/evaluer' });
+    this.route('results', { path: '/resultats' });
   });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE

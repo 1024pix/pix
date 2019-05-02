@@ -18,6 +18,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
       return this.transitionTo('board');
     }
 
+    model.belongsTo('pixScore').reload();
+    model.hasMany('scorecards').reload();
     model.hasMany('campaignParticipations').reload();
   },
 });

@@ -6,8 +6,8 @@ module('Unit | Model | campaign-participation', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let store = this.owner.lookup('service:store');
-    let model = run(() => store.createRecord('campaign-participation', {}));
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('campaign-participation', {}));
     assert.ok(model);
   });
 });

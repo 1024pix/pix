@@ -516,8 +516,8 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should call the expected usecase', async () => {
       // given
-      const authenticatedUserId= '12';
-      const requestedUserId= '12';
+      const authenticatedUserId = '12';
+      const requestedUserId = '12';
 
       const request = {
         auth: {

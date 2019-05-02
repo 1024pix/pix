@@ -16,8 +16,8 @@ describe('Unit | Component | score-pastille-component ', function() {
 
     describe('#score', function() {
       [
-        { pixScore: undefined, expectedScore: '--' },
-        { pixScore: null, expectedScore: '--' },
+        { pixScore: undefined, expectedScore: '–' },
+        { pixScore: null, expectedScore: '–' },
         { pixScore: 0, expectedScore: 0 },
         { pixScore: 1, expectedScore: 1 },
         { pixScore: 130, expectedScore: 130 }

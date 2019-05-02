@@ -6,8 +6,8 @@ module('Unit | Model | membership', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
-    let store = this.owner.lookup('service:store');
-    let model = run(() => store.createRecord('membership', {}));
+    const store = this.owner.lookup('service:store');
+    const model = run(() => store.createRecord('membership', {}));
     assert.ok(model);
   });
 });

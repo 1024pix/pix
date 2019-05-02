@@ -4,18 +4,18 @@ import { render } from '@ember/test-helpers';
 import { run } from '@ember/runloop';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/campaign/details/participants | results-item', function (hooks) {
+module('Integration | Component | routes/authenticated/campaign/details/participants | results-item', function(hooks) {
   setupRenderingTest(hooks);
 
   let store;
 
-  hooks.beforeEach(function () {
+  hooks.beforeEach(function() {
     run(() => {
       store = this.owner.lookup('service:store');
     });
   });
 
-  test('it should display a sentence when there is no participant result yet', async function (assert) {
+  test('it should display a sentence when there is no participant result yet', async function(assert) {
     // given
     const campaignParticipation = run(() => store.createRecord('campaignParticipation', {
       isShared: false,
@@ -32,7 +32,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('.table__empty').hasText('En attente de résultats');
   });
 
-  test('it should display a sentence when participant results have not been shared yet', async function (assert) {
+  test('it should display a sentence when participant results have not been shared yet', async function(assert) {
     // given
     const campaignParticipation = run(() => store.createRecord('campaignParticipation', {
       isShared: false,
@@ -60,7 +60,7 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('.table__empty').hasText('En attente de résultats');
   });
 
-  test('it should display participant results', async function (assert) {
+  test('it should display participant results', async function(assert) {
     // given
     const competenceResult = run(() => store.createRecord('competenceResult', {
       name: 'Compétence 1',
@@ -127,7 +127,6 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
       idPixLabel: 'MailPro',
     }));
 
-
     this.set('campaignParticipation', campaignParticipation);
     this.set('campaign', campaign);
 
@@ -143,9 +142,4 @@ module('Integration | Component | routes/authenticated/campaign/details/particip
     assert.dom('.participant-results-content__right-wrapper .participant-results-content:nth-child(3)').hasText('Partagé le 4 févr. 2019');
   });
 });
-
-
-
-
-
 

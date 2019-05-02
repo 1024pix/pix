@@ -1,44 +1,47 @@
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const Scorecard = require('../models/Scorecard');
 
-const MAX_REACHABLE_LEVEL = 5;
-const NB_PIX_BY_LEVEL = 8;
-
-module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository }) => {
+module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
 
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const [userKEList, competenceTree] = await Promise.all([
-    smartPlacementKnowledgeElementRepository.findUniqByUserId(requestedUserId),
+  const [userKEList, competenceTree, competenceEvaluations] = await Promise.all([
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
     competenceRepository.list(),
+    competenceEvaluationRepository.findByUserId(requestedUserId),
   ]);
-
   const sortedKEGroupedByCompetence = _.groupBy(userKEList, 'competenceId');
 
   return _.map(competenceTree, (competence) => {
     const KEgroup = sortedKEGroupedByCompetence[competence.id];
     const totalEarnedPixByCompetence = _.sumBy(KEgroup, 'earnedPix');
 
-    return {
-      id: `${requestedUserId}_${competence.index}`,
+    return new Scorecard({
+      id: `${authenticatedUserId}_${competence.id}`,
       name: competence.name,
+      description: competence.description,
       index: competence.index,
       area: competence.area,
-      courseId: competence.courseId,
+      competenceId: competence.id,
       earnedPix: totalEarnedPixByCompetence,
-      level: _getCompetenceLevel(totalEarnedPixByCompetence),
-      pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPixByCompetence)
-    };
+      status: _getStatus(KEgroup, competence.id, competenceEvaluations)
+    });
   });
 };
 
-function _getCompetenceLevel(earnedPix) {
-  const userLevel = Math.floor(earnedPix / NB_PIX_BY_LEVEL);
-  return (userLevel >= MAX_REACHABLE_LEVEL) ? MAX_REACHABLE_LEVEL : userLevel;
-}
+function _getStatus(knowledgeElements, competenceId, competenceEvaluation) {
+  if (_.isEmpty(knowledgeElements)) {
+    return 'NOT_STARTED';
+  }
 
-function _getPixScoreAheadOfNextLevel(earnedPix) {
-  return earnedPix % NB_PIX_BY_LEVEL;
+  const competenceEvaluationForCompetence = _.find(competenceEvaluation, { competenceId });
+  const stateOfAssessment = _.get(competenceEvaluationForCompetence, 'assessment.state');
+  if (stateOfAssessment === 'completed') {
+    return 'COMPLETED';
+  }
+  return 'STARTED';
+
 }

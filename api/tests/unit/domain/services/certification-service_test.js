@@ -1343,7 +1343,7 @@ describe('Unit | Service | Certification Service', function() {
 
       it('should has a success rate at 50% with 2W and 1R', () => {
         // given
-        const answers = [new Answer({ result: 'ok' }), new Answer({ result: '#ABAND#' }), new Answer({ result: 'ko' })];
+        const answers = [new Answer({ result: 'ok' }), new Answer({ result: 'aband' }), new Answer({ result: 'ko' })];
 
         // when
         const successRate = certificationService._computeAnswersSuccessRate(answers);

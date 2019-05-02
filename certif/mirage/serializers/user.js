@@ -6,6 +6,6 @@ export default JSONAPISerializer.extend({
       'certificationCenterMemberships': {
         related: `/users/${user.id}/certification-center-memberships`
       }
-    }
+    };
   }
 });

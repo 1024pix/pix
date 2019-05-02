@@ -2,18 +2,18 @@ import { Factory, faker } from 'ember-cli-mirage';
 
 export default Factory.extend({
   totalSkillsCount() {
-    return 100
+    return 100;
   },
 
   testedSkillsCount() {
-    return Math.floor(Math.random() * this.totalSkillsCount)
+    return Math.floor(Math.random() * this.totalSkillsCount);
   },
 
   validatedSkillsCount() {
-    return Math.floor(Math.random() * this.testedSkillsCount)
+    return Math.floor(Math.random() * this.testedSkillsCount);
   },
 
   isCompleted() {
-    return faker.random.boolean()
+    return faker.random.boolean();
   },
 });

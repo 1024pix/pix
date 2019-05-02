@@ -6,11 +6,13 @@ module.exports = function buildUserScorecard(
     id = faker.random.uuid(),
     // attributes
     name = faker.random.word(),
+    description = faker.random.word(),
     index = `${faker.random.number()}.${faker.random.number()}`,
-    courseId = faker.random.uuid(),
+    competenceId = faker.random.uuid(),
     earnedPix = `${faker.random.number()}`,
     level = `${faker.random.number()}`,
     pixScoreAheadOfNextLevel = `${faker.random.number()}`,
+    status = 'STARTED',
     // relationships
     area = buildArea(),
   } = {}) {
@@ -19,11 +21,13 @@ module.exports = function buildUserScorecard(
     id,
     // attributes
     name,
+    description,
     index,
-    courseId,
+    competenceId,
     earnedPix,
     level,
     pixScoreAheadOfNextLevel,
+    status,
     // relationships
     area,
   };

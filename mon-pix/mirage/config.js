@@ -13,6 +13,7 @@ import getCourses from './routes/get-courses';
 import getNextChallenge from './routes/get-next-challenge';
 import getOrganizations from './routes/get-organizations';
 import getPixScore from './routes/get-pix-score';
+import getScorecard from './routes/get-scorecard';
 import getScorecards from './routes/get-scorecards';
 import getUserCampaignParticipations from './routes/get-user-campaign-participations';
 import getSnapshots from './routes/get-snapshots';
@@ -24,6 +25,7 @@ import postAssessments from './routes/post-assessments';
 import postAuthentications from './routes/post-authentications';
 import postCampaignParticipation from './routes/post-campaign-participation';
 import postCertificationCourse from './routes/post-certification-course';
+import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postFeedbacks from './routes/post-feedbacks';
 
 import { Response } from 'ember-cli-mirage';
@@ -68,6 +70,7 @@ export default function() {
   this.get('/users/:id/pixscore', getPixScore);
   this.get('/users/:id/scorecards', getScorecards);
   this.get('/users/:id/campaign-participations', getUserCampaignParticipations);
+  this.get('/scorecards/:id', getScorecard);
   this.get('/competences/:id');
   this.get('/areas/:id');
   this.get('/organizations/:id');
@@ -102,10 +105,12 @@ export default function() {
   });
   this.patch('/password-reset-demands/:id');
 
-  this.get('/smart-placement-progressions/:id');
+  this.get('/progressions/:id');
   this.get('/campaigns', getCampaigns);
   this.post('/campaign-participations', postCampaignParticipation);
   this.get('/campaign-participations', getCampaignParticipation);
   this.patch('/campaign-participations/:id', patchCampaignParticipation);
   this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
+
+  this.post('/competence-evaluations', postCompetenceEvaluation);
 }

@@ -7,7 +7,7 @@ export default DS.JSONAPISerializer.extend({
   },
 
   extractAttributes() {
-    let attributes = this._super(...arguments);
+    const attributes = this._super(...arguments);
     if (attributes['birthdate']) {
       attributes['birthdate'] = (new Date(attributes['birthdate'])).toLocaleDateString('fr-FR');
     }
@@ -16,7 +16,7 @@ export default DS.JSONAPISerializer.extend({
 
   serialize(snapshot, options) {
     if (options && options.onlyInformation) {
-      let data = {};
+      const data = {};
       this.serializeAttribute(snapshot, data, 'firstName', 'first-name');
       this.serializeAttribute(snapshot, data, 'lastName', 'last-name');
       this.serializeAttribute(snapshot, data, 'birthplace', 'birthplace');

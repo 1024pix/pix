@@ -9,7 +9,7 @@ module.exports = {
     const assessmentId = request.params.id;
 
     return assessmentRepository
-      .getByUserIdAndAssessmentId(assessmentId, userId)
+      .getByAssessmentIdAndUserId(assessmentId, userId)
       .catch(() => {
         const buildedError = _handleWhenInvalidAuthorization('Vous n’êtes pas autorisé à accéder à cette évaluation');
         return h.response(validationErrorSerializer.serialize(buildedError)).code(401).takeover();

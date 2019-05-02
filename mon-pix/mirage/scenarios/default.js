@@ -71,7 +71,7 @@ export default function(server) {
     type: 'CERTIFICATION',
   });
 
-  server.create('smart-placement-progression', {
+  server.create('progression', {
     id: 12
   });
 

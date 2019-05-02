@@ -7,7 +7,7 @@ export default Route.extend(UnauthenticatedRouteMixin, {
   session: service(),
 
   model(params) {
-    return this.store.findRecord('password-reset-demand', params.temporaryKey);
+    return this.store.findRecord('password-reset-demand', params.temporary_key);
   }
 
 });

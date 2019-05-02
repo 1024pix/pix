@@ -29,18 +29,18 @@ export default DS.Model.extend({
   competencesWithMark: DS.attr(),
   isPublished: DS.attr('boolean', { defaultValue: false }),
   publishedText: computed('isPublished', function() {
-    let value = this.isPublished;
+    const value = this.isPublished;
     return value ? 'Oui' : 'Non';
   }),
   indexedCompetences: computed('competencesWithMark', function() {
-    let competencesWithMarks = this.competencesWithMark;
+    const competencesWithMarks = this.competencesWithMark;
     return competencesWithMarks.reduce((result, value) => {
       result[value['competence-code']] = { index: value['competence-code'], level: value.level, score: value.score };
       return result;
     }, {});
   }),
   competences: computed('indexedCompetences', function() {
-    let indexedCompetences = this.indexedCompetences;
+    const indexedCompetences = this.indexedCompetences;
     return Object.keys(indexedCompetences).sort().reduce((result, value) => {
       result.push(indexedCompetences[value]);
       return result;

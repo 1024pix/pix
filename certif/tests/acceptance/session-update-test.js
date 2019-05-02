@@ -10,16 +10,16 @@ module('Acceptance | Session Update', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach( async () => {
-    let user = createUserWithMembership();
+  hooks.beforeEach(async () => {
+    const user = createUserWithMembership();
     await authenticateSession({ user_id: user.id });
   });
 
   test('it should allow to update a session and redirect to the session #1 details', async function(assert) {
     // given
-    let session = server.create('session', { id: 1, date: '12/10/2010', time: '13:00' });
-    let newRoom = "New room";
-    let newExaminer = "New examiner";
+    const session = server.create('session', { id: 1, date: '12/10/2010', time: '13:00' });
+    const newRoom = 'New room';
+    const newExaminer = 'New examiner';
 
     await visit(`/sessions/${session.id}/modification`);
     await fillIn('#session-room', newRoom);
@@ -36,9 +36,9 @@ module('Acceptance | Session Update', function(hooks) {
 
   test('it should not update a session when cancel button is clicked and redirect to the session #1 details', async function(assert) {
     // given
-    let session = server.create('session', { id: 1, room: 'current room', examiner: 'current examiner', date: '12/10/2010', time: '13:00' });
-    let newRoom = "New room";
-    let newExaminer = "New examiner";
+    const session = server.create('session', { id: 1, room: 'current room', examiner: 'current examiner', date: '12/10/2010', time: '13:00' });
+    const newRoom = 'New room';
+    const newExaminer = 'New examiner';
 
     await visit(`/sessions/${session.id}/modification`);
     await fillIn('#session-room', newRoom);

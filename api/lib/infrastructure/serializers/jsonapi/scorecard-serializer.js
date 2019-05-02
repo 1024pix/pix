@@ -6,12 +6,14 @@ module.exports = {
     return new Serializer('scorecard', {
       attributes: [
         'name',
+        'description',
         'index',
-        'courseId',
+        'competenceId',
         'area',
         'earnedPix',
         'level',
-        'pixScoreAheadOfNextLevel'
+        'pixScoreAheadOfNextLevel',
+        'status'
       ],
 
       area: {

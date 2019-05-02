@@ -6,17 +6,17 @@ import EmberObject from '@ember/object';
 module('Unit | Controller | authenticated/certifications/single/details', function(hooks) {
   setupTest(hooks);
 
-  let answer = (result) => {
+  const answer = (result) => {
     return {
       skill:'@skill1',
       challengeId:'rec12345',
       order:'1',
       result:'ok',
       jury:result
-    }
+    };
   };
 
-  let competence = (juryScore, ...result) => {
+  const competence = (juryScore, ...result) => {
     return {
       name: 'Une compétence',
       index: '1.1',
@@ -25,14 +25,14 @@ module('Unit | Controller | authenticated/certifications/single/details', functi
       obtainedLevel: 3,
       obtainedScore: 26,
       answers:[answer(result[0]), answer(result[1]), answer(result[2])],
-      juryScore:juryScore?12:false
-    }
-  }
+      juryScore:juryScore ? 12 : false
+    };
+  };
 
   test('it computes jury rate correctly', function(assert) {
     // given
-    let controller = this.owner.lookup('controller:authenticated/certifications/single/details');
-    controller.set('model', EmberObject.create( {
+    const controller = this.owner.lookup('controller:authenticated/certifications/single/details');
+    controller.set('model', EmberObject.create({
       competences:[competence(false,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(false,'ok', 'aband', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(false,'ok', 'ok', 'ok')]
     }));
 
@@ -47,8 +47,8 @@ module('Unit | Controller | authenticated/certifications/single/details', functi
 
   test('it computes jury score correctly', function(assert) {
     // given
-    let controller = this.owner.lookup('controller:authenticated/certifications/single/details');
-    controller.set('model', EmberObject.create( {
+    const controller = this.owner.lookup('controller:authenticated/certifications/single/details');
+    controller.set('model', EmberObject.create({
       competences:[competence(true,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(true,'ok', 'aband', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(true,'ok', 'ok', 'ok')]
     }));
 
@@ -59,6 +59,6 @@ module('Unit | Controller | authenticated/certifications/single/details', functi
 
     // then
     // 3 jury scores + 2 obtained scores
-    assert.equal(controller.get('juryScore'), 12*3+26*2);
+    assert.equal(controller.get('juryScore'), 12 * 3 + 26 * 2);
   });
 });

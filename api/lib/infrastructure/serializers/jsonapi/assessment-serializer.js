@@ -1,5 +1,5 @@
 const Assessment = require('../../../domain/models/Assessment');
-const SmartPlacementProgression = require('../../../domain/models/SmartPlacementProgression');
+const Progression = require('../../../domain/models/Progression');
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
@@ -16,10 +16,10 @@ module.exports = {
           assessment.certificationNumber = currentAssessment.courseId;
         }
 
-        // Same here for isSmartPlacement()
-        if (currentAssessment.type === Assessment.types.SMARTPLACEMENT) {
-          assessment.smartPlacementProgression = {
-            id: SmartPlacementProgression.generateIdFromAssessmentId(currentAssessment.id),
+        // Same here for isSmartPlacement() and isCompetenceEvaluation()
+        if ([Assessment.types.SMARTPLACEMENT, Assessment.types.COMPETENCE_EVALUATION].includes(currentAssessment.type)) {
+          assessment.progression = {
+            id: Progression.generateIdFromAssessmentId(currentAssessment.id),
           };
         }
 
@@ -33,7 +33,7 @@ module.exports = {
 
         return assessment;
       },
-      attributes: ['estimatedLevel', 'pixScore', 'type', 'state', 'answers', 'codeCampaign', 'certificationNumber', 'course', 'smartPlacementProgression'],
+      attributes: ['estimatedLevel', 'pixScore', 'type', 'state', 'answers', 'codeCampaign', 'certificationNumber', 'course', 'progression'],
       answers: {
         ref: 'id',
       },
@@ -42,11 +42,11 @@ module.exports = {
         included: _includeCourse(assessments),
         attributes: ['name', 'description', 'nbChallenges'],
       },
-      smartPlacementProgression: {
+      progression: {
         ref: 'id',
         relationshipLinks: {
           related(record, current) {
-            return `/smart-placement-progressions/${current.id}`;
+            return `/progressions/${current.id}`;
           }
         }
       }
