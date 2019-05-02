@@ -29,7 +29,6 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
     isPublic: false,
     organizationId: dragonAndCoCompany.id,
-    organizationRoleId: 1,
   });
 
   [
