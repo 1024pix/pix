@@ -43,26 +43,6 @@ describe('Unit | Route | compte', function() {
       });
     });
 
-    it('should redirect to /profilv2 when the user has information in profilv2', function() {
-      // Given
-      const foundUser = EmberObject.create({ usesProfileV2: true });
-
-      this.register('service:store', storyStub);
-      this.inject.service('store', { as: 'store' });
-
-      findRecordStub.resolves(foundUser);
-      const route = this.subject();
-      route.replaceWith = sinon.stub();
-
-      // When
-      const promise = route.model();
-
-      // Then
-      return promise.then(function() {
-        sinon.assert.calledWith(route.replaceWith, 'profilv2');
-      });
-    });
-
     it('should remain on /compte when the user as no organization linked (with a forced data reload)', function() {
       // Given
       const foundUser = EmberObject.create({});
