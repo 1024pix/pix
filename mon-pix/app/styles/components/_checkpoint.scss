@@ -87,6 +87,9 @@
     margin-left: 30px;
     padding-top: 6px;
     font-size: 1.5em;
+    position: relative;
+    left: 0;
+    transition: all 0.25s ease-in-out;
 
     @include device-is('tablet') {
       margin-left: 6px;
@@ -96,12 +99,8 @@
   &:hover,
   &:focus,
   &:active {
-    padding-right: 4px;
-    transition: all 0.25s ease-in-out;
-
     & > svg {
-      margin-left: 12px;
-      transition: all 0.25s ease-in-out;
+      left: 12px;
     }
   }
 }
