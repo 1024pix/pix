@@ -27,7 +27,7 @@ docker run --rm --name pix-db-e2e -e POSTGRES_DB=pix_test -dit -p 5433:5432 post
 Lancer l'API sur Postgres (`~/pix/api`)
 
 ```
-DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5433/pix_test npm start
+DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:5433/pix_test npm run start:api
 ```
 
 Lancer le front (`~/pix/mon-pix`)
