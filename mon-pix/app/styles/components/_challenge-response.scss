@@ -14,4 +14,7 @@
 .proposal-text {
   font-weight: $font-normal;
   width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 2.6rem;
 }
