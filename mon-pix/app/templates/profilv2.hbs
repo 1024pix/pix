@@ -21,7 +21,9 @@
       </div>
     </div>
 
-    {{#link-to "compte" class="link link--grey rounded-panel__link"}}Accès à l'ancien profil{{/link-to}}
+    <div class="profilv2__v1link">
+      {{#link-to "compte" class="link link--grey rounded-panel__link"}}Accès à l'ancien profil{{/link-to}}
+    </div>
 
     <div class="rounded-panel-body">
       {{#each model.areasCode as |areaCode|}}
