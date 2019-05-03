@@ -24,12 +24,12 @@
       {{/circle-chart}}
       <div class="scorecard-details-content-right-score-container__pix-earned">
         <div class="scorecard-details-content-right-score-container-pix-earned__number">{{scorecard.earnedPix}}</div>
-        <div class="scorecard-details-content-right-score-container-pix-earned__info">{{earnedPixText}}</div>
+        <div class="scorecard-details-content-right-score-container-pix-earned__info">pix</div>
       </div>
     </div>
     {{#unless scorecard.isMaxLevel}}
       <div class="scorecard-details-content-right__level-info">
-        {{scorecard.remainingPixToNextLevel}} pix avant niveau {{inc scorecard.level}}
+        {{scorecard.remainingPixToNextLevel}} pix avant le niveau {{inc scorecard.level}}
       </div>
     {{/unless}}
   </div>
