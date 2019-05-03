@@ -9,7 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import $ from 'jquery';
 
-describe.only('Acceptance | Checkpoint', () => {
+describe('Acceptance | Checkpoint', () => {
 
   let application;
 
