@@ -6,7 +6,7 @@ import areaColors from 'mon-pix/static-data/area-colors';
 
 const NUMBER_OF_PIX_BY_LEVEL = 8;
 const MAX_DISPLAYED_PERCENTAGE = 95;
-const _MAX_REACHABLE_LEVEL = 5;
+const MAX_REACHABLE_LEVEL = 5;
 
 export default Model.extend({
   name: attr('string'),
@@ -35,7 +35,7 @@ export default Model.extend({
   }),
 
   isMaxLevel: computed('level', function() {
-    return this.level >= _MAX_REACHABLE_LEVEL;
+    return this.level >= MAX_REACHABLE_LEVEL;
   }),
 
   areaColor: computed('area.code', function() {
