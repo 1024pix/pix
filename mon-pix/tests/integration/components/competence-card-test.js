@@ -28,29 +28,20 @@ describe('Integration | Component | competence-card', function() {
       expect(this.element.querySelector('.competence-card')).to.exist;
     });
 
-    [
-      { code: 1, expectedColor: 'jaffa' },
-      { code: 2, expectedColor: 'emerald' },
-      { code: 3, expectedColor: 'cerulean' },
-      { code: 4, expectedColor: 'wild-strawberry' },
-      { code: 5, expectedColor: 'butterfly-bush' }
-    ].forEach((data) => {
-
-      it(`should display the competence card header in ${data.expectedColor} when code is ${data.code}`, async function() {
-        // given
-        const scorecard = EmberObject.create({
-          areaColor: data.expectedColor
-        });
-
-        this.set('scorecard', scorecard);
-
-        // when
-        await render(hbs`{{competence-card scorecard=scorecard}}`);
-
-        // then
-        expect(this.element.querySelector('.competence-card__color').getAttribute('class'))
-          .to.contains(`competence-card__color--${data.expectedColor}`);
+    it('should display the competence card header with scorecard color', async function() {
+      // given
+      const scorecard = EmberObject.create({
+        areaColor: 'jaffa'
       });
+
+      this.set('scorecard', scorecard);
+
+      // when
+      await render(hbs`{{competence-card scorecard=scorecard}}`);
+
+      // then
+      expect(this.element.querySelector('.competence-card__color').getAttribute('class'))
+        .to.contains('competence-card__color--jaffa');
     });
 
     it('should display the area name', async function() {
