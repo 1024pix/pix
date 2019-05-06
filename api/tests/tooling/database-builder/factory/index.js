@@ -9,6 +9,7 @@ module.exports = {
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
   buildCertificationCourse: require('./build-certification-course'),
+  buildCompetenceMark: require('./build-competence-mark'),
   buildOrganization: require('./build-organization'),
   buildOrganizationRole: require('./build-organization-role'),
   buildMembership: require('./build-membership'),

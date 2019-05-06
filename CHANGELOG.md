@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.40.0 (06/05/2019)
+
+- [#484](https://github.com/1024pix/pix/pull/484) [FEATURE] Lier la carte de la compétence à la page de détails de cette compétence (PF-554).
+- [#482](https://github.com/1024pix/pix/pull/482) [BUGFIX] Corriger l'alignement des listes à puces pour les phrases trop longues (PF-141)
+- [#483](https://github.com/1024pix/pix/pull/483) [TECH] Séparation des scripts sqlite et npm dans le package.json de api
+- [#489](https://github.com/1024pix/pix/pull/489) [TECH] Utilisation complète des builders lorsque l'on seed la base de données.
+- [#493](https://github.com/1024pix/pix/pull/493) Ajoute un indexe sur la colonne courseId de la table assessments
+
 ## v2.39.0 (02/05/2019)
 
 - [#451](https://github.com/1024pix/pix/pull/451) [FEATURE] Lier le profil v1 et le profil v2 grâce à un lien cliquable (PF-558)

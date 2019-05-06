@@ -5,6 +5,7 @@ export default function(schema, request) {
   const area2 = schema.areas.find(2);
 
   const scorecardN1 = schema.scorecards.create({
+    id: `${userId}_1`,
     name: 'Compétence C1',
     earnedPix: 3,
     level: 2,
@@ -13,6 +14,7 @@ export default function(schema, request) {
     competenceId: 1,
   });
   const scorecardN2 = schema.scorecards.create({
+    id: `${userId}_2`,
     name: 'Compétence C2',
     earnedPix: 7,
     level: 4,
@@ -21,6 +23,7 @@ export default function(schema, request) {
     competenceId: 2,
   });
   const scorecardN3 = schema.scorecards.create({
+    id: `${userId}_3`,
     name: 'Compétence C3',
     earnedPix: 10,
     level: 3,
