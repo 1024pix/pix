@@ -154,7 +154,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
             },
             scorecard: {
               links: {
-                related: `/scorecards/${userId}_${competenceEvaluation.competenceId}`
+                related: `/api/scorecards/${userId}_${competenceEvaluation.competenceId}`
               }
             }
           }

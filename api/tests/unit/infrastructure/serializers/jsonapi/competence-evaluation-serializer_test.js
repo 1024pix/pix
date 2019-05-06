@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', funct
             },
             scorecard: {
               links: {
-                related: `/scorecards/${competenceEvaluation.userId}_${competenceEvaluation.competenceId}`,
+                related: `/api/scorecards/${competenceEvaluation.userId}_${competenceEvaluation.competenceId}`,
               }
             }
           }
