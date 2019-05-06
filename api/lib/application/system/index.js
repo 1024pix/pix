@@ -6,7 +6,7 @@ exports.register = async function(server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/system/heap-dump',
+      path: '/api/system/heap-dump/{hostname}',
       config: {
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
@@ -17,12 +17,12 @@ exports.register = async function(server) {
           '- **Route nécessitant une authentification en tant que Pix Master**\n' +
           '- Génère et retourne un fichier heap dump'
         ],
-        tags: ['api', 'gc']
+        tags: ['api', 'system']
       }
     },
     {
       method: 'GET',
-      path: '/api/system/heap-profile',
+      path: '/api/system/heap-profile/{hostname}',
       config: {
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
@@ -33,10 +33,10 @@ exports.register = async function(server) {
           '- **Route nécessitant une authentification en tant que Pix Master**\n' +
           '- Génère et retourne un fichier heap profile'
         ],
-        tags: ['api', 'gc']
+        tags: ['api', 'system']
       }
     },
   ]);
 };
 
-exports.name = 'gc-api';
+exports.name = 'system-api';

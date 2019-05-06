@@ -119,7 +119,7 @@ const hFake = {
     };
   },
   file(path, options) {
-    return this.response({path, options});
+    return this.response({ path, options });
   }
 };
 

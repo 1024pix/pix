@@ -1,4 +1,4 @@
-const util = require('util');
+const os = require('os');
 const heapdump = require('heapdump');
 const heapProfile = require('heap-profile');
 const systemController = require('../../../../lib/application/system/system-controller');
@@ -9,33 +9,67 @@ describe('Unit | Application | System | system-controller', () => {
 
   describe('#generateAndDownloadHeapDump', () => {
 
+    const request = { params: { hostname: 'web-1' }, url: { path: '/api/system/heap-dump/web-1' } };
+
     beforeEach(() => {
       sinon.stub(heapdump, 'writeSnapshot').yields(null, 'heapdump-sec.usec.heapsnapshot');
+      sinon.stub(os, 'hostname');
     });
 
-    it('should take a heap dump snapshot and return a file', async () => {
+    it('should take a heap dump snapshot and return a file when matching host name', async () => {
+      // given
+      os.hostname.returns('my-app-web-1');
+
       // when
-      const response = await systemController.generateAndDownloadHeapDump(null, hFake);
+      const response = await systemController.generateAndDownloadHeapDump(request, hFake);
 
       // then
       expect(response.source.path).to.equal('heapdump-sec.usec.heapsnapshot');
       expect(response.source.options).to.deep.equal({ mode: 'attachment' });
     });
+
+    it('should redirect to itself when not matching host name', async () => {
+      // given
+      os.hostname.returns('my-app-web-999');
+
+      // when
+      const response = await systemController.generateAndDownloadHeapDump(request, hFake);
+
+      // then
+      expect(response.location).to.equal('/api/system/heap-dump/web-1');
+    });
   });
 
   describe('#generateAndDownloadHeapProfile', () => {
 
+    const request = { params: { hostname: 'web-1' }, url: { path: '/api/system/heap-profile/web-1' } };
+
     beforeEach(() => {
       sinon.stub(heapProfile, 'write').yields(null, 'heap-profile.usec.heapprofile');
+      sinon.stub(os, 'hostname');
     });
 
     it('should take a heap dump snapshot and return a file', async () => {
+      // given
+      os.hostname.returns('my-app-web-1');
+
       // when
-      const response = await systemController.generateAndDownloadHeapProfile(null, hFake);
+      const response = await systemController.generateAndDownloadHeapProfile(request, hFake);
 
       // then
       expect(response.source.path).to.equal('heap-profile.usec.heapprofile');
       expect(response.source.options).to.deep.equal({ mode: 'attachment' });
+    });
+
+    it('should redirect to itself when not matching host name', async () => {
+      // given
+      os.hostname.returns('my-app-web-999');
+
+      // when
+      const response = await systemController.generateAndDownloadHeapProfile(request, hFake);
+
+      // then
+      expect(response.location).to.equal('/api/system/heap-profile/web-1');
     });
   });
 });
