@@ -19,7 +19,7 @@ module.exports = {
         ignoreRelationshipData: true,
         relationshipLinks: {
           related: function(record) {
-            return `/scorecards/${record.userId}_${record.competenceId}`;
+            return `/api/scorecards/${record.userId}_${record.competenceId}`;
           }
         }
       }
