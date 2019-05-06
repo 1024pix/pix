@@ -55,9 +55,12 @@ describe('Integration | Repository | Session', function() {
         expect(savedSession.certificationCenter).to.equal('Université de dressage de loutres');
       });
     });
+    afterEach(async () => {
+      await knex('sessions').delete();
+    });
   });
 
-  xdescribe('#isSessionCodeAvailable', () => {
+  describe('#isSessionCodeAvailable', () => {
 
     beforeEach(() => {
       databaseBuilder.factory.buildSession({
@@ -101,7 +104,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  xdescribe('#getByAccessCode', () => {
+  describe('#getByAccessCode', () => {
     let session;
 
     beforeEach(() => {
@@ -226,7 +229,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  xdescribe('#update', () => {
+  describe('#update', () => {
     let session;
 
     beforeEach(() => {
@@ -328,7 +331,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  xdescribe('#findByCertificationCenterId', () => {
+  describe('#findByCertificationCenterId', () => {
 
     context('when there are some sessions', function() {
       let certificationCenterId;
@@ -403,7 +406,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  xdescribe('ensureUserHasAccessToSession', () => {
+  describe('ensureUserHasAccessToSession', () => {
     let requestErr, userId, userIdNotAllowed, sessionId, certificationCenterId, certificationCenterNotAllowedId;
     beforeEach(async () => {
       // given
