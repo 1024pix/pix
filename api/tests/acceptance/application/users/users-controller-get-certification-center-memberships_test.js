@@ -63,7 +63,7 @@ describe('Acceptance | Controller | users-controller-get-certification-center-me
               relationships: {
                 sessions: {
                   links: {
-                    related: `/certification-centers/${certificationCenter.id.toString()}/sessions`
+                    related: `/api/certification-centers/${certificationCenter.id.toString()}/sessions`
                   }
                 }
               }

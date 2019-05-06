@@ -18,7 +18,7 @@ module.exports = {
           ignoreRelationshipData: true,
           relationshipLinks: {
             related: function(record, current, parent) {
-              return `/certification-centers/${parent.id}/sessions`;
+              return `/api/certification-centers/${parent.id}/sessions`;
             }
           }
         }

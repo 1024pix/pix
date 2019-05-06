@@ -23,7 +23,7 @@ module.exports = {
           ignoreRelationshipData: true,
           relationshipLinks: {
             related: function(record, current, parent) {
-              return `/organizations/${parent.id}/campaigns`;
+              return `/api/organizations/${parent.id}/campaigns`;
             }
           }
         },
@@ -32,7 +32,7 @@ module.exports = {
           ignoreRelationshipData: true,
           relationshipLinks: {
             related: function(record, current, parent) {
-              return `/organizations/${parent.id}/target-profiles`;
+              return `/api/organizations/${parent.id}/target-profiles`;
             }
           }
         }
