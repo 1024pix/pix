@@ -10,7 +10,7 @@ config:
 scenarios:
   - name: 'Inscription et positionnement'
     flow:
-      - function: "setupSignupForData"
+      - function: "setupSignupFormData"
 
       ### ---------------------- ###
       ### From page /inscription ###
