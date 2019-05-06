@@ -1,11 +1,11 @@
 const util = require('util');
 const heapdump = require('heapdump');
 const heapProfile = require('heap-profile');
-const gcController = require('../../../../lib/application/gc/gc-controller');
+const systemController = require('../../../../lib/application/system/system-controller');
 
 const { expect, sinon } = require('../../../test-helper');
 
-describe('Unit | Application | GC | gc-controller', () => {
+describe('Unit | Application | System | system-controller', () => {
 
   describe('#generateAndDownloadHeapDump', () => {
 
@@ -24,7 +24,7 @@ describe('Unit | Application | GC | gc-controller', () => {
 
     it('should be asynchronous', () => {
       // when
-      const promise = gcController.generateAndDownloadHeapDump(null, hStub);
+      const promise = systemController.generateAndDownloadHeapDump(null, hStub);
 
       // then
       return expect(promise).to.be.fulfilled;
@@ -32,7 +32,7 @@ describe('Unit | Application | GC | gc-controller', () => {
 
     it('should take a heap dump snapshot', async () => {
       // when
-      await gcController.generateAndDownloadHeapDump(null, hStub);
+      await systemController.generateAndDownloadHeapDump(null, hStub);
 
       // then
       return expect(util.promisify).to.have.been.calledWithExactly(heapdump.writeSnapshot);
@@ -40,7 +40,7 @@ describe('Unit | Application | GC | gc-controller', () => {
 
     it('should return a file', async () => {
       // when
-      await gcController.generateAndDownloadHeapDump(null, hStub);
+      await systemController.generateAndDownloadHeapDump(null, hStub);
 
       // then
       return expect(hStub.file).to.have.been.calledWithMatch('heapdump-sec.usec.heapsnapshot', { mode: 'attachment' });
@@ -65,7 +65,7 @@ describe('Unit | Application | GC | gc-controller', () => {
 
     it('should be asynchronous', () => {
       // when
-      const promise = gcController.generateAndDownloadHeapProfile(null, hStub);
+      const promise = systemController.generateAndDownloadHeapProfile(null, hStub);
 
       // then
       return expect(promise).to.be.fulfilled;
@@ -73,7 +73,7 @@ describe('Unit | Application | GC | gc-controller', () => {
 
     it('should take a heap dump snapshot', async () => {
       // when
-      await gcController.generateAndDownloadHeapProfile(null, hStub);
+      await systemController.generateAndDownloadHeapProfile(null, hStub);
 
       // then
       return expect(util.promisify).to.have.been.calledWithExactly(heapProfile.write);
@@ -81,7 +81,7 @@ describe('Unit | Application | GC | gc-controller', () => {
 
     it('should return a file', async () => {
       // when
-      await gcController.generateAndDownloadHeapProfile(null, hStub);
+      await systemController.generateAndDownloadHeapProfile(null, hStub);
 
       // then
       return expect(hStub.file).to.have.been.calledWithMatch('heap-profile.usec.heapprofile', { mode: 'attachment' });
