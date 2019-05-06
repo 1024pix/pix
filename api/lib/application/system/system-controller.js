@@ -2,6 +2,7 @@ const os = require('os');
 const util = require('util');
 const heapdump = require('heapdump');
 const heapProfile = require('heap-profile');
+const { system } = require('../../settings');
 
 module.exports = {
 
@@ -17,6 +18,10 @@ module.exports = {
   },
 
   async generateAndDownloadHeapProfile(request, h) {
+
+    if (!system.samplingHeapProfilerEnabled) {
+      return h.response(`Heap profile sampling is disabled for the server ${request.params.hostname}`).code(404);
+    }
 
     if (!os.hostname().endsWith(request.params.hostname)) {
       return h.redirect(request.url.path);
