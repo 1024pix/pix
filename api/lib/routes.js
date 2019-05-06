@@ -17,7 +17,6 @@ module.exports = [
   require('./application/corrections'),
   require('./application/courses'),
   require('./application/feedbacks'),
-  require('./application/system'),
   require('./application/healthcheck'),
   require('./application/memberships'),
   require('./application/metrics'),
@@ -29,5 +28,6 @@ module.exports = [
   require('./application/simulateErrors'),
   require('./application/progressions'),
   require('./application/snapshots'),
+  require('./application/system'),
   require('./application/users'),
 ];
