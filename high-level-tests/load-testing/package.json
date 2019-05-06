@@ -8,10 +8,7 @@
   },
   "scripts": {
     "report": "artillery report report/index.json",
-    "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-positionning.yml",
-    "shoot:pr:signup": "artillery run --config config/common.yml -e pr -o report/index.json scenarios/signup-only.yml",
-    "shoot:pr:profile": "artillery run --config config/common.yml -e pr -o report/index.json scenarios/signup-and-user-profile.yml",
-    "shoot:pr:next": "artillery run --config config/common.yml -e pr -o report/index.json scenarios/next-challenge.yml",
+    "start": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-placement.yml"
   },
   "author": "",
   "license": "ISC",
