@@ -1,6 +1,7 @@
 const faker = require('faker');
 const buildCertificationCourse = require('./build-certification-course');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 module.exports = function buildCertificationChallenge({
   id = faker.random.number(),
@@ -13,7 +14,7 @@ module.exports = function buildCertificationChallenge({
   updatedAt = faker.date.recent(),
 } = {}) {
 
-  courseId = courseId || buildCertificationCourse().id;
+  courseId = _.isNil(courseId) ? buildCertificationCourse().id : courseId;
 
   const values = {
     id,

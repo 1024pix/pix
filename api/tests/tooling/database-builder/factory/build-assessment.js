@@ -2,6 +2,7 @@ const faker = require('faker');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const _ = require('lodash');
 
 module.exports = function buildAssessment({
   id = faker.random.number(),
@@ -13,7 +14,7 @@ module.exports = function buildAssessment({
   updatedAt = faker.date.past(),
 } = {}) {
 
-  userId = userId || buildUser().id;
+  userId = _.isNil(userId) ? buildUser().id : userId;
 
   const values = {
     id, courseId, userId, type, state, createdAt, updatedAt,

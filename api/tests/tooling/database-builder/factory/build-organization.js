@@ -1,6 +1,7 @@
 const faker = require('faker');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 const buildOrganization = function buildOrganization({
   id = faker.random.number(),
@@ -32,7 +33,7 @@ buildOrganization.withUser = function buildOrganizationWithUser({
   createdAt = faker.date.recent()
 } = {}) {
 
-  userId = userId || buildUser().id;
+  userId = _.isNil(userId) ? buildUser().id : userId;
 
   const values = { id, type, name, code, logoUrl, createdAt, userId };
 

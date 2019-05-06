@@ -2,6 +2,7 @@ const faker = require('faker');
 const buildSession = require('./build-session');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 module.exports = function buildCertificationCourse({
   id = faker.random.number(),
@@ -17,8 +18,8 @@ module.exports = function buildCertificationCourse({
   createdAt = faker.date.past(),
 } = {}) {
 
-  userId = userId || buildUser().id;
-  sessionId = sessionId || buildSession().id;
+  userId = _.isNil(userId) ? buildUser().id : userId;
+  sessionId = _.isNil(sessionId) ? buildSession().id : sessionId;
 
   const values = {
     id,

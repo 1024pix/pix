@@ -1,6 +1,7 @@
 const faker = require('faker');
 const buildTargetProfile = require('./build-target-profile');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 module.exports = function buildTargetProfilesSkills({
   id = faker.random.number(),
@@ -8,7 +9,7 @@ module.exports = function buildTargetProfilesSkills({
   skillId = `rec${faker.random.uuid()}`,
 } = {}) {
 
-  targetProfileId = targetProfileId || buildTargetProfile().id;
+  targetProfileId = _.isNil(targetProfileId) ? buildTargetProfile().id : targetProfileId;
 
   const values = {
     id,
