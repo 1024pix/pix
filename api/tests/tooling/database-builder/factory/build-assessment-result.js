@@ -1,6 +1,7 @@
 const faker = require('faker');
 const buildAssessment = require('./build-assessment');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 module.exports = function buildAssessmentResult({
   id = faker.random.number(),
@@ -16,7 +17,7 @@ module.exports = function buildAssessmentResult({
   createdAt = faker.date.past(),
 } = {}) {
 
-  assessmentId = assessmentId || buildAssessment().id;
+  assessmentId = _.isNil(assessmentId) ? buildAssessment().id : assessmentId;
 
   const values = {
     id, pixScore, level, status, emitter, commentForJury, commentForCandidate, commentForOrganization, juryId,

@@ -2,6 +2,7 @@ const faker = require('faker');
 const buildUser = require('./build-user');
 const buildOrganization = require('./build-organization');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 module.exports = function buildSnapshot({
   id = faker.random.number(),
@@ -11,8 +12,8 @@ module.exports = function buildSnapshot({
   createdAt = faker.date.recent(),
 } = {}) {
 
-  organizationId = organizationId || buildOrganization().id;
-  userId = userId || buildUser().id;
+  organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
+  userId = _.isNil(userId) ? buildUser().id : userId;
 
   const values = {
     id, profile, organizationId, userId, createdAt

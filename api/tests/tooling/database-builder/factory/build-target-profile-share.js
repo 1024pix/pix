@@ -2,6 +2,7 @@ const faker = require('faker');
 const buildTargetProfile = require('./build-target-profile');
 const buildOrganization = require('./build-organization');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 module.exports = function buildTargetProfileShare({
   id = faker.random.number(),
@@ -9,8 +10,8 @@ module.exports = function buildTargetProfileShare({
   organizationId,
 } = {}) {
 
-  targetProfileId = targetProfileId || buildTargetProfile().id;
-  organizationId = organizationId || buildOrganization().id;
+  targetProfileId = _.isNil(targetProfileId) ? buildTargetProfile().id : targetProfileId;
+  organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
 
   const values = {
     id,

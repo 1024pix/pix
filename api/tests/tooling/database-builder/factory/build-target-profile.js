@@ -1,6 +1,7 @@
 const faker = require('faker');
 const buildOrganization = require('./build-organization');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 module.exports = function buildTargetProfile({
   id = faker.random.number(),
@@ -9,7 +10,7 @@ module.exports = function buildTargetProfile({
   organizationId,
 } = {}) {
 
-  organizationId = organizationId || buildOrganization().id;
+  organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
 
   const values = {
     id,

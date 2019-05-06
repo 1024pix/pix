@@ -57,7 +57,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#isSessionCodeAvailable', () => {
+  xdescribe('#isSessionCodeAvailable', () => {
 
     beforeEach(() => {
       databaseBuilder.factory.buildSession({
@@ -101,7 +101,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#getByAccessCode', () => {
+  xdescribe('#getByAccessCode', () => {
     let session;
 
     beforeEach(() => {
@@ -226,7 +226,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#update', () => {
+  xdescribe('#update', () => {
     let session;
 
     beforeEach(() => {
@@ -328,7 +328,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#findByCertificationCenterId', () => {
+  xdescribe('#findByCertificationCenterId', () => {
 
     context('when there are some sessions', function() {
       let certificationCenterId;
@@ -403,7 +403,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('ensureUserHasAccessToSession', () => {
+  xdescribe('ensureUserHasAccessToSession', () => {
     let requestErr, userId, userIdNotAllowed, sessionId, certificationCenterId, certificationCenterNotAllowedId;
     beforeEach(async () => {
       // given

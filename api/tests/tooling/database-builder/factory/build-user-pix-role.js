@@ -1,8 +1,8 @@
 const buildUser = require('./build-user');
 const buildPixRole = require('./build-pix-role');
-
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
+const faker = require('faker');
+const _ = require('lodash');
 
 const buildUserPixRole = function buildUserPixRole({
   id = faker.random.number(),
@@ -10,8 +10,8 @@ const buildUserPixRole = function buildUserPixRole({
   pixRoleId,
 } = {}) {
 
-  userId = userId || buildUser().id;
-  pixRoleId = pixRoleId || buildPixRole().id;
+  userId = _.isNil(userId) ? buildUser().id : userId;
+  pixRoleId = _.isNil(pixRoleId) ? buildPixRole().id : pixRoleId;
 
   const values = {
     id, userId, pixRoleId,
