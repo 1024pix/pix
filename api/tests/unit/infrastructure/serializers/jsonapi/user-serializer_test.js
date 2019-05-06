@@ -59,17 +59,17 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             'relationships': {
               'memberships': {
                 'links': {
-                  'related': '/users/234567/memberships'
+                  'related': '/api/users/234567/memberships'
                 }
               },
               'certification-center-memberships': {
                 'links': {
-                  'related': '/users/234567/certification-center-memberships'
+                  'related': '/api/users/234567/certification-center-memberships'
                 }
               },
               'pix-score': {
                 'links': {
-                  'related': '/users/234567/pixscore'
+                  'related': '/api/users/234567/pixscore'
                 }
               }
             },
@@ -116,22 +116,22 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             'relationships': {
               'memberships': {
                 'links': {
-                  'related': '/users/234567/memberships'
+                  'related': '/api/users/234567/memberships'
                 }
               },
               'certification-center-memberships': {
                 'links': {
-                  'related': '/users/234567/certification-center-memberships'
+                  'related': '/api/users/234567/certification-center-memberships'
                 }
               },
               'pix-score': {
                 'links': {
-                  'related': '/users/234567/pixscore'
+                  'related': '/api/users/234567/pixscore'
                 }
               },
               scorecards: {
                 links: {
-                  related: '/users/234567/scorecards'
+                  related: '/api/users/234567/scorecards'
                 }
               }
             }

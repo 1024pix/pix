@@ -11,7 +11,7 @@ module.exports = {
         ignoreRelationshipData: true,
         relationshipLinks: {
           related(record, current, parent) {
-            return `/users/${parent.id}/memberships`;
+            return `/api/users/${parent.id}/memberships`;
           }
         }
       },
@@ -20,7 +20,7 @@ module.exports = {
         ignoreRelationshipData: true,
         relationshipLinks: {
           related: function(record, current, parent) {
-            return `/users/${parent.id}/certification-center-memberships`;
+            return `/api/users/${parent.id}/certification-center-memberships`;
           }
         }
       },
@@ -29,7 +29,7 @@ module.exports = {
         ignoreRelationshipData: true,
         relationshipLinks: {
           related: function(record, current, parent) {
-            return `/users/${parent.id}/pixscore`;
+            return `/api/users/${parent.id}/pixscore`;
           }
         }
       },
@@ -38,7 +38,7 @@ module.exports = {
         ignoreRelationshipData: true,
         relationshipLinks: {
           related: function(record, current, parent) {
-            return `/users/${parent.id}/scorecards`;
+            return `/api/users/${parent.id}/scorecards`;
           }
         }
       },

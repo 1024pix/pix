@@ -66,12 +66,12 @@ describe('Acceptance | API | Campaign Participations', () => {
           },
           assessment: {
             links: {
-              related: `/assessments/${assessment.id}`
+              related: `/api/assessments/${assessment.id}`
             }
           },
           'campaign-participation-result': {
             links: {
-              related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+              related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
             }
           },
         }
@@ -140,12 +140,12 @@ describe('Acceptance | API | Campaign Participations', () => {
               },
               assessment: {
                 links: {
-                  related: `/assessments/${assessment.id}`
+                  related: `/api/assessments/${assessment.id}`
                 }
               },
               'campaign-participation-result': {
                 links: {
-                  related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+                  related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
                 }
               }
             }
@@ -271,7 +271,7 @@ describe('Acceptance | API | Campaign Participations', () => {
             relationships: {
               assessment: {
                 links: {
-                  related: '/assessments/1',
+                  related: '/api/assessments/1',
                 }
               },
               campaign: {
@@ -283,7 +283,7 @@ describe('Acceptance | API | Campaign Participations', () => {
                   type: 'campaignParticipationResults',
                 },
                 links: {
-                  'related': '/campaign-participations/1/campaign-participation-result'
+                  'related': '/api/campaign-participations/1/campaign-participation-result'
                 },
               },
               user: {

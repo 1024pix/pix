@@ -53,12 +53,12 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             },
             assessment: {
               links: {
-                related: `/assessments/${campaignParticipation.assessmentId}`
+                related: `/api/assessments/${campaignParticipation.assessmentId}`
               }
             },
             'campaign-participation-result': {
               links: {
-                'related': '/campaign-participations/5/campaign-participation-result'
+                'related': '/api/campaign-participations/5/campaign-participation-result'
               }
             },
           },

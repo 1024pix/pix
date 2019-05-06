@@ -65,7 +65,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
           type: 'progressions',
         },
         links: {
-          related: `/progressions/progression-${assessment.id}`,
+          related: `/api/progressions/progression-${assessment.id}`,
         }
       };
 
