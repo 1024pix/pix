@@ -10,7 +10,6 @@ function setupSignupFormData(context, events, done) {
   context.vars['lastName'] = faker.name.lastName();
   context.vars['email'] = faker.internet.email();
   context.vars['password'] = 'L0rem1psum';
-  context.vars['recaptchaToken'] = 'some.recaptcha.token';
   return done();
 }
 

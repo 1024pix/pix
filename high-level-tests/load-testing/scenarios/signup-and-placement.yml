@@ -27,7 +27,7 @@ scenarios:
                 email: "{{ email }}"
                 password: "{{ password }}"
                 cgu: true
-                recaptcha-token: "{{ recaptchaToken }}"
+                recaptcha-token: "some.recaptcha.token"
               type: "users"
 
       # Authenticate user

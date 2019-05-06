@@ -30,8 +30,8 @@ module.exports = (function() {
     },
 
     logging: {
-      enabled: !!process.env.LOG_ENABLED,
-      colorEnabled: ('development' === process.env.NODE_ENV),
+      enabled: (process.env.LOG_ENABLED === 'true'),
+      colorEnabled: (process.env.NODE_ENV === 'development'),
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
@@ -107,6 +107,8 @@ module.exports = (function() {
       secret: 'test-jwt-key',
       tokenLifespan: '1d',
     };
+
+    config.logging.enabled = false;
 
     config.redisUrl = null;
     config.redisCacheKeyLockTTL = 0;
