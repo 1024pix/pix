@@ -522,24 +522,23 @@ describe('Acceptance | Application | organization-controller', () => {
 
   describe('GET /api/organizations/{id}', () => {
 
-    let organization;
+    let organization, otherUser;
     let options;
 
+    beforeEach(async () => {
+      const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      organization = databaseBuilder.factory.buildOrganization();
+      otherUser = databaseBuilder.factory.buildUser();
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
+      };
+    });
+
     context('Expected output', () => {
-
-      beforeEach(async () => {
-        const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
-        organization = databaseBuilder.factory.buildOrganization();
-
-        await databaseBuilder.commit();
-
-        options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
-        };
-
-      });
 
       it('should return the matching organization as JSON API', async () => {
         // given
@@ -618,8 +617,7 @@ describe('Acceptance | Application | organization-controller', () => {
 
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUser.id);
 
         // when
         const promise = server.inject(options);

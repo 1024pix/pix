@@ -27,8 +27,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     it('should call the usecase and serialize the response', async () => {
       // given
-      const organizationId = 1234;
-      request = { params: { id: organizationId } };
+      const userId = 1;
+      const organizationId = '1234';
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: organizationId }
+      };
 
       usecases.getOrganizationDetails.resolves();
       organizationSerializer.serialize.returns();
@@ -38,7 +42,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       // then
       expect(usecases.getOrganizationDetails).to.have.been.calledOnce;
-      expect(usecases.getOrganizationDetails).to.have.been.calledWith({ organizationId });
+      expect(usecases.getOrganizationDetails).to.have.been.calledWith({ userId, organizationId: 1234 });
       expect(organizationSerializer.serialize).to.have.been.calledOnce;
     });
   });
