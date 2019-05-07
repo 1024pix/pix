@@ -28,7 +28,7 @@ describe('Unit | Infrastructure | Repository | UserRepository', () => {
       return promise.then((result) => {
         expect(result).to.deep.equal(domainUser);
         expect(BookshelfUser.prototype.where).to.have.been.calledWithExactly({ id: userId });
-        expect(fetchStub).to.have.been.calledWithExactly({ require: true, withRelated: ['pixRoles', 'organizations'] });
+        expect(fetchStub).to.have.been.calledWithExactly({ require: true, withRelated: ['pixRoles'] });
       });
     });
 

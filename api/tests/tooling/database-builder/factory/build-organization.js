@@ -10,7 +10,6 @@ const buildOrganization = function buildOrganization({
   externalId = faker.lorem.word().toUpperCase(),
   provinceCode = faker.random.alphaNumeric(3),
   isManagingStudents = false,
-  userId = null,
   createdAt = faker.date.recent(),
   updatedAt = faker.date.recent(),
 } = {}) {
@@ -25,7 +24,6 @@ const buildOrganization = function buildOrganization({
     externalId,
     provinceCode,
     isManagingStudents,
-    userId,
     updatedAt
   };
 

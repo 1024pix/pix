@@ -11,7 +11,6 @@ class Organization {
     provinceCode,
     isManagingStudents,
     // includes
-    user,
     memberships = [],
     targetProfileShares = [],
     students = [],
@@ -28,7 +27,6 @@ class Organization {
     this.provinceCode = provinceCode;
     this.isManagingStudents = isManagingStudents;
     // includes
-    this.user = user;
     this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
     this.students = students;

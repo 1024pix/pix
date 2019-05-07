@@ -543,24 +543,21 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should return the matching organization as JSON API', async () => {
         // given
         const expectedResult = {
-          'data': {
-            'attributes': {
-              'code': organization.code,
-              'name': organization.name,
-              'type': organization.type,
+          data: {
+            attributes: {
+              code: organization.code,
+              name: organization.name,
+              type: organization.type,
               'logo-url': organization.logoUrl,
               'external-id': organization.externalId,
               'province-code': organization.provinceCode,
               'is-managing-students': organization.isManagingStudents,
             },
-            'id': organization.id.toString(),
-            'relationships': {
-              'user': {
-                'data': null,
-              },
-              'memberships': {
-                'links': {
-                  'related': `/api/organizations/${organization.id}/memberships`
+            id: organization.id.toString(),
+            relationships: {
+              memberships: {
+                links: {
+                  related: `/api/organizations/${organization.id}/memberships`
                 }
               },
               'students': {
@@ -569,7 +566,7 @@ describe('Acceptance | Application | organization-controller', () => {
                 }
               }
             },
-            'type': 'organizations'
+            type: 'organizations'
           }
         };
 

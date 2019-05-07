@@ -14,7 +14,7 @@ module.exports = {
         'firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted', 'usesProfileV2', 'memberships',
         'certificationCenterMemberships', 'pixScore', 'scorecards',
-        'campaignParticipations', 'organizations', 'isProfileV2',
+        'campaignParticipations', 'isProfileV2',
         'hasSeenAssessmentInstructions', 'certificationProfile', 'boardOrganizationId',
       ],
       memberships: {
@@ -61,10 +61,6 @@ module.exports = {
             return `/api/users/${parent.id}/campaign-participations`;
           }
         }
-      },
-      organizations: {
-        ref: 'id',
-        attributes: ['name', 'type', 'code', 'logoUrl', 'isManagingStudents'],
       },
       certificationProfile: {
         ref: 'id',

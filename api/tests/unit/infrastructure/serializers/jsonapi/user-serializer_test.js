@@ -36,7 +36,6 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
         hasSeenAssessmentInstructions: false,
         password: '',
         boardOrganizationId: 123,
-        organizations: [],
         hasSeenMigration: false,
         isMigratedToV2: false,
       });
@@ -85,9 +84,6 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               links: {
                 related: '/api/users/234567/campaign-participations'
               }
-            },
-            organizations: {
-              data: []
             },
             'certification-profile': {
               links: {

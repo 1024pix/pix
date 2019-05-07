@@ -5,7 +5,6 @@ const BookshelfPixRole = require('./pix-role');
 const BookshelfUserPixRole = require('./user-pix-role');
 
 require('./assessment');
-require('./organization');
 require('./knowledge-element');
 require('./membership');
 require('./certification-center-membership');
@@ -20,13 +19,6 @@ module.exports = Bookshelf.model('User', {
 
   knowledgeElements() {
     return this.hasMany('KnowledgeElement', 'userId');
-  },
-
-  /**
-   * @deprecated Please use #organizationsAccesses() which also manages the access rights
-   */
-  organizations() {
-    return this.hasMany('Organization', 'userId');
   },
 
   pixRoles() {

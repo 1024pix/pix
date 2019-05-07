@@ -121,11 +121,4 @@ module.exports = {
   count(filters) {
     return BookshelfOrganization.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb)).count();
   },
-
-  findByUserId(userId) {
-    return BookshelfOrganization
-      .where({ userId })
-      .fetchAll()
-      .then((organizations) => organizations.models.map(_toDomain));
-  },
 };

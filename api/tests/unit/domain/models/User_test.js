@@ -130,7 +130,7 @@ describe('Unit | Domain | Models | User', () => {
 
   describe('hasAccessToOrganization', () => {
 
-    it('should be false is user has no access to no organizations', () => {
+    it('should be false if user has no access to no organizations', () => {
       // given
       const user = new User();
       const organizationId = 12345;
@@ -139,7 +139,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.hasAccessToOrganization(organizationId)).to.be.false;
     });
 
-    it('should be false is the user has access to many organizations, but not the one asked', () => {
+    it('should be false if the user has access to many organizations, but not the one asked', () => {
       // given
       const organizationId = 12345;
       const user = domainBuilder.buildUser();
