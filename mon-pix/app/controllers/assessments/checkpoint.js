@@ -18,6 +18,10 @@ export default Controller.extend({
     return this.finalCheckpoint ? 100 : this.get('model.progression.completionPercentage');
   }),
 
+  shouldDisplayAnswers: computed('model.answersSinceLastCheckpoints', function() {
+    return !!this.model.answersSinceLastCheckpoints.length;
+  }),
+
   actions: {
     async openComparisonWindow(answer) {
       const store = this.store;
