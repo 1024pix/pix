@@ -1,0 +1,7 @@
+config:
+  processor: "../functions.js"
+  environments:
+    localhost:
+      target: http://localhost:3000
+    staging:
+      target: https://integration.pix.fr

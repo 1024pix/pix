@@ -30,18 +30,20 @@ module.exports = (function() {
     },
 
     logging: {
-      enabled: (process.env.LOG_ENABLED == 'true' || process.env.NODE_ENV != 'test'),
-      colorEnabled: ('development' === process.env.NODE_ENV),
+      enabled: (process.env.LOG_ENABLED === 'true'),
+      colorEnabled: (process.env.NODE_ENV === 'development'),
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
-    mailjet: {
-      apiKey: process.env.MAILJET_KEY,
-      apiSecret: process.env.MAILJET_SECRET
+    mailing: {
+      enabled: !!process.env.MAILJET_KEY,
+      mailjetApiKey: process.env.MAILJET_KEY,
+      mailjetApiSecret: process.env.MAILJET_SECRET
     },
 
-    googleReCaptcha: {
-      secret: process.env.RECAPTCHA_KEY
+    captcha: {
+      enabled: !!process.env.RECAPTCHA_KEY,
+      googleRecaptchaSecret: process.env.RECAPTCHA_KEY
     },
 
     authentication: {
@@ -72,25 +74,31 @@ module.exports = (function() {
     redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
     redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
 
+    system: {
+      samplingHeapProfilerEnabled: (process.env.SYSTEM_SAMPLING_HEAP_PROFILER_ENABLED === 'true'),
+    }
+
   };
 
   if (process.env.NODE_ENV === 'test') {
     config.port = null;
 
-    config.app.domain = 'localhost',
+    config.app.domain = 'localhost';
 
     config.airtable = {
       apiKey: 'test-api-key',
       base: 'test-base',
     };
 
-    config.mailjet = {
-      apiKey: 'test-api-ket',
-      apiSecret: 'test-api-secret'
+    config.mailing = {
+      enabled: false,
+      mailjetApiKey: 'test-api-ket',
+      mailjetApiSecret: 'test-api-secret'
     };
 
-    config.googleReCaptcha = {
-      secret: 'test-recaptcha-key'
+    config.captcha = {
+      enabled: false,
+      googleRecaptchaSecret: 'test-recaptcha-key'
     };
 
     config.authentication = {
@@ -103,6 +111,8 @@ module.exports = (function() {
       secret: 'test-jwt-key',
       tokenLifespan: '1d',
     };
+
+    config.logging.enabled = false;
 
     config.redisUrl = null;
     config.redisCacheKeyLockTTL = 0;

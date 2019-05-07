@@ -1,13 +1,17 @@
 const request = require('request');
-const config = require('../../settings');
+const captchaConfig = require('../../settings').captcha;
 const logger = require('../logger');
 const { InvalidRecaptchaTokenError } = require('../../domain/errors');
 
 module.exports = {
 
   verify(responseToken) {
+    if (!captchaConfig.enabled) {
+      return Promise.resolve();
+    }
+
     return new Promise((resolve, reject) => {
-      request.post(`https://www.google.com/recaptcha/api/siteverify?secret=${config.googleReCaptcha.secret}&response=${responseToken}`, (err, response) => {
+      request.post(`https://www.google.com/recaptcha/api/siteverify?secret=${captchaConfig.googleRecaptchaSecret}&response=${responseToken}`, (err, response) => {
         if (err) {
           logger.error(err);
           return reject('An error occurred during connection to the Google servers');
