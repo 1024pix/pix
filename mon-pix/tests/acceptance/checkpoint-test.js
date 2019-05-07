@@ -7,7 +7,6 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import $ from 'jquery';
 
 describe('Acceptance | Checkpoint', () => {
 
@@ -28,11 +27,11 @@ describe('Acceptance | Checkpoint', () => {
       await visit('/assessments/ref_assessment_id/checkpoint');
 
       // then
-      expect($('.checkpoint-progression-gauge-wrapper')).to.have.lengthOf(1);
-      expect($('.assessment-results__list')).to.have.lengthOf(1);
-      expect($('.result-item-campaign')).to.have.lengthOf(4);
-      expect($('.checkpoint__continue').text()).to.contain('Continuer mon parcours');
-      expect($('.checkpoint-no-answer')).to.have.lengthOf(0);
+      expect(find('.checkpoint-progression-gauge-wrapper')).to.have.lengthOf(1);
+      expect(find('.assessment-results__list')).to.have.lengthOf(1);
+      expect(find('.result-item-campaign')).to.have.lengthOf(4);
+      expect(find('.checkpoint__continue').text()).to.contain('Continuer mon parcours');
+      expect(find('.checkpoint-no-answer')).to.have.lengthOf(0);
     });
   });
 
@@ -43,14 +42,14 @@ describe('Acceptance | Checkpoint', () => {
       await visit('/assessments/ref_assessment_id_no_answer/checkpoint?finalCheckpoint=true');
 
       // then
-      expect($('.checkpoint-progression-gauge-wrapper')).to.have.lengthOf(0);
-      expect($('.assessment-results__list')).to.have.lengthOf(0);
-      expect($('.checkpoint-no-answer')).to.have.lengthOf(1);
+      expect(find('.checkpoint-progression-gauge-wrapper')).to.have.lengthOf(0);
+      expect(find('.assessment-results__list')).to.have.lengthOf(0);
+      expect(find('.checkpoint-no-answer')).to.have.lengthOf(1);
 
-      const continueElement = $('.checkpoint__continue');
+      const continueElement = find('.checkpoint__continue');
       expect(continueElement).to.have.lengthOf(1);
       expect(continueElement.text()).to.contain('Voir mes résultats');
-      expect($('.checkpoint-no-answer__info').text()).to.contain('Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.');
+      expect(find('.checkpoint-no-answer__info').text()).to.contain('Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.');
     });
   });
 });
