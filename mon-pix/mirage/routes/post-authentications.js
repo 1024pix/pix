@@ -14,7 +14,7 @@ const simpleUserAuthentication = {
   user_id: 1
 };
 
-const prescriberAuthentication = {
+const organizationAuthentication = {
   token_type: 'bearer',
   expires_in: '',
   access_token: 'aaa.' + btoa('{"user_id":2,"source":"mon-pix","iat":1545321469}') + '.bbb',
@@ -46,7 +46,7 @@ export default function(schema, request) {
   }
 
   if (email === 'john@acme.com' && password === 'John1234') {
-    return prescriberAuthentication;
+    return organizationAuthentication;
   }
 
   const userId = JSON.parse(atob(token.split('.')[1])).user_id;

@@ -12,7 +12,7 @@ export async function authenticateAsSimpleExternalUser() {
   await visitWithAbortedTransition('/?token=aaa.' + btoa('{"user_id":3,"source":"external","iat":1545321469,"exp":4702193958}') + '.bbb');
 }
 
-export async function authenticateAsPrescriber() {
+export async function authenticateAsBoardOrganization() {
   await visitWithAbortedTransition('/connexion');
   await fillIn('#email', 'john@acme.com');
   await fillIn('#password', 'John1234');

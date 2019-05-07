@@ -1,7 +1,7 @@
 import { findAll, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsPrescriber } from '../helpers/testing';
+import { authenticateAsBoardOrganization } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -17,7 +17,7 @@ describe('Acceptance | Board organization', function() {
 
   it('can visit /board', async function() {
     // given
-    await authenticateAsPrescriber();
+    await authenticateAsBoardOrganization();
 
     // when
     await visitWithAbortedTransition('/board');
@@ -36,7 +36,7 @@ describe('Acceptance | Board organization', function() {
 
   it('should display the name and the code of my organization', async function() {
     // given
-    await authenticateAsPrescriber();
+    await authenticateAsBoardOrganization();
 
     // when
     await visitWithAbortedTransition('/board');
@@ -50,7 +50,7 @@ describe('Acceptance | Board organization', function() {
 
   it('should display an empty list of snapshot', async function() {
     // given
-    await authenticateAsPrescriber();
+    await authenticateAsBoardOrganization();
 
     // when
     await visitWithAbortedTransition('/board');
@@ -63,7 +63,7 @@ describe('Acceptance | Board organization', function() {
 
   it('should display a link to download snapshots', async function() {
     // given
-    await authenticateAsPrescriber();
+    await authenticateAsBoardOrganization();
 
     // when
     await visitWithAbortedTransition('/board');

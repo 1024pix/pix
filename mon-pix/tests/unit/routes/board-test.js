@@ -16,11 +16,13 @@ describe('Unit | Route | board', function() {
 
     beforeEach(function() {
       storeStub = Service.create({
-        query: sinon.stub().resolves([{ id: 1 }, { id: 2 }])
+        query: sinon.stub().resolves([{ id: 1 }, { id: 2 }]),
+        findRecord: sinon.stub().withArgs('organization', 123)
+          .resolves({ id: 123 })
       });
 
       currentUserStub = Service.create({
-        user: { organizations: [{ id: 1 }, { id: 2 }] }
+        user: { isBoardOrganization: true, boardOrganizationId: 123 }
       });
 
       route = this.owner.lookup('route:board');
@@ -35,7 +37,7 @@ describe('Unit | Route | board', function() {
       const model = await route.model();
 
       // then
-      expect(model.organization.id).to.equal(1);
+      expect(model.organization.id).to.equal(123);
       expect(model.snapshots.length).to.equal(2);
     });
   });
@@ -44,7 +46,7 @@ describe('Unit | Route | board', function() {
 
     beforeEach(function() {
       currentUserStub = Service.create({
-        user: { organizations: [] }
+        user: { isBoardOrganization: false, organizations: [] }
       });
 
       route = this.owner.lookup('route:board');

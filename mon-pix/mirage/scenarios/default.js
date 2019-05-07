@@ -32,7 +32,15 @@ export default function(server) {
     competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
   });
 
-  const prescriber = server.create('user', {
+  const company = server.create('organization', {
+    id: 1,
+    name: 'Mon Entreprise',
+    email: 'contact@company.com',
+    type: 'PRO',
+    code: 'PRO001',
+  });
+
+  server.create('user', {
     id: 2,
     firstName: 'John',
     lastName: 'Smith',
@@ -40,14 +48,7 @@ export default function(server) {
     password: 'John1234',
     cgu: true,
     recaptchaToken: 'recaptcha-token-xxxxxx',
-  });
-
-  const company = server.create('organization', {
-    id: 1,
-    name: 'Mon Entreprise',
-    email: 'contact@company.com',
-    type: 'PRO',
-    code: 'PRO001',
+    boardOrganizationId: 1,
   });
 
   server.create('organization', {
@@ -143,9 +144,6 @@ export default function(server) {
     temporaryKey: 'temporaryKey',
     email: 'jane@acme.com',
   });
-
-  prescriber.organization = company;
-  company.user = prescriber;
 
   const snapshots = server.createList('snapshot', 3, { organization: company });
 

@@ -1,7 +1,7 @@
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsPrescriber, authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateAsBoardOrganization, authenticateAsSimpleUser } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -203,7 +203,7 @@ describe('Acceptance | Profile', function() {
 
   describe('Authenticated cases as user with organization', function() {
     beforeEach(async function() {
-      await authenticateAsPrescriber();
+      await authenticateAsBoardOrganization();
     });
 
     it('can visit /profil', async function() {

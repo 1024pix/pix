@@ -1,7 +1,7 @@
 import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsPrescriber, authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateAsBoardOrganization, authenticateAsSimpleUser } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -38,7 +38,7 @@ describe('Acceptance | Authentication', function() {
 
       it('should redirect to the /board after connexion for users with organization', async function() {
         // given
-        await authenticateAsPrescriber();
+        await authenticateAsBoardOrganization();
 
         // then
         expect(currentURL()).to.equal('/board');

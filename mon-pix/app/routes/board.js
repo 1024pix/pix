@@ -10,21 +10,15 @@ export default Route.extend(AuthenticatedRouteMixin, {
   async model() {
     const user = this.currentUser.user;
 
-    // If the organizations are not included in the JSON-API's response, the relationship
-    // is a promise to EmberData, hence we must keep the await here
-    const organizations = await user.organizations;
-
-    if (!organizations.length) {
+    if (!user.isBoardOrganization) {
       return this.transitionTo('index');
     }
 
-    const organization = organizations.get('firstObject');
-
     return RSVP.hash({
-      organization,
+      organization: this.store.findRecord('organization', user.boardOrganizationId),
       snapshots: this.store.query('snapshot', {
         filter: {
-          organizationId: organization.id,
+          organizationId: user.boardOrganizationId,
         },
         page: {
           number: 1,
