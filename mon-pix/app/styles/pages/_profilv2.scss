@@ -10,4 +10,9 @@
     padding-left: 30px;
     padding-right: 30px;
   }
+
+  &__link-to-compte {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
