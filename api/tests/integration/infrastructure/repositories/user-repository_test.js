@@ -20,7 +20,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
     samlId: 'some-saml-id',
-    boardOrganizationId: 123,
   };
 
   let userInDB;
@@ -35,7 +34,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       code: 'ABCD12',
     });
 
-    userInDB = databaseBuilder.factory.buildUser(userToInsert);
+    userInDB = databaseBuilder.factory.buildUser({
+      ...userToInsert,
+      boardOrganizationId: organizationInDB.id,
+    });
     organizationRoleInDB = Membership.roles.ADMIN;
 
     membershipInDB = databaseBuilder.factory.buildMembership({
@@ -198,7 +200,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       let userInDb;
 
       beforeEach(async () => {
-        userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        organizationInDB = databaseBuilder.factory.buildOrganization({
+          type: 'PRO',
+          name: 'Mon Entreprise',
+          code: 'ABCD12',
+        });
+
+        userInDb = databaseBuilder.factory.buildUser({
+          ...userToInsert,
+          boardOrganizationId: organizationInDB.id,
+        });
         await databaseBuilder.commit();
       });
 
@@ -214,7 +225,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.email).to.equal(userInDb.email);
         expect(user.cgu).to.be.true;
         expect(user.pixRoles).to.be.an('array');
-        expect(user.boardOrganizationId).to.equal(123);
+        expect(user.boardOrganizationId).to.equal(organizationInDB.id);
       });
 
       it('should return a UserNotFoundError if no user is found', async () => {
@@ -250,7 +261,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.email).to.equal(expectedUser.email);
         expect(user.password).to.equal(expectedUser.password);
         expect(user.cgu).to.equal(expectedUser.cgu);
-        expect(user.boardOrganizationId).to.equal(123);
+        expect(user.boardOrganizationId).to.equal(organizationInDB.id);
       });
 
       it('should return membership associated to the user', async () => {

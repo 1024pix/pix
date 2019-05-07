@@ -1,71 +1,59 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 const snapshotAuthorization = require('../../../../lib/application/preHandlers/snapshot-authorization');
 const tokenService = require('../../../../lib/domain/services/token-service');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Pre-handler | Snapshot Authorization', () => {
 
+  const userToken = 'token';
+  const userId = 'userId';
+  const organizationId = 42;
+
   describe('#verify', () => {
     const request = {
-      headers: { },
       params: {
-        id: 8,
+        id: organizationId,
       },
-      query: {
-        userToken: 'VALID-TOKEN'
-      }
+      query: { userToken }
     };
 
     beforeEach(() => {
-      sinon.stub(tokenService, 'extractTokenFromAuthChain');
       sinon.stub(tokenService, 'extractUserId');
-      sinon.stub(organizationRepository, 'findByUserId');
+      sinon.stub(userRepository, 'get');
     });
 
-    it('should get userId from token in queryString', () => {
+    it('should not reject', async () => {
       // given
-      tokenService.extractUserId.returns('userId');
-      organizationRepository.findByUserId.resolves([{ get: () => 8 }]);
+      tokenService.extractUserId.withArgs(userToken).returns(userId);
+      userRepository.get.withArgs(userId).resolves({ boardOrganizationId: organizationId });
 
       // when
-      const promise = snapshotAuthorization.verify(request, hFake);
+      const response = await snapshotAuthorization.verify(request, hFake);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(tokenService.extractUserId);
-        sinon.assert.calledWith(tokenService.extractUserId, request.query.userToken);
-      });
+      expect(response).to.be.null;
     });
 
-    describe('When snapshot is linked to userId (userId exist)', () => {
-
-      it('should reply', () => {
+    describe('When user is not found', () => {
+      it('should take over the request and response with 403 status code', async () => {
         // given
-        const fetchedOrganization = [{ get: () => 8 }];
-        const extractedUserId = 'userId';
-        tokenService.extractUserId.returns(extractedUserId);
-        organizationRepository.findByUserId.resolves(fetchedOrganization);
+        tokenService.extractUserId.withArgs(userToken).returns(userId);
+        userRepository.get.withArgs(userId).rejects();
 
         // when
-        const promise = snapshotAuthorization.verify(request, hFake);
+        const response = await snapshotAuthorization.verify(request, hFake);
 
         // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(organizationRepository.findByUserId);
-          sinon.assert.calledWith(organizationRepository.findByUserId, extractedUserId);
-        });
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
       });
     });
 
-    describe('When userId (from token) is not linked to organization', () => {
+    describe('When user is not linked to the organization', () => {
       it('should take over the request and response with 403 status code', async () => {
-        // XXX should take over to avoid the call of controller
-
         // given
-        const extractedUserId = null;
-
-        tokenService.extractUserId.returns(extractedUserId);
-        organizationRepository.findByUserId.resolves([]);
+        tokenService.extractUserId.withArgs(userToken).returns(userId);
+        userRepository.get.withArgs(userId).resolves({ boardOrganizationId: null });
 
         // when
         const response = await snapshotAuthorization.verify(request, hFake);

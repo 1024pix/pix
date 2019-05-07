@@ -14,23 +14,23 @@ const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/ar
 const Membership = require('../../../lib/domain/models/Membership');
 const OrganizationInvitation = require('../../../lib/domain/models/OrganizationInvitation');
 
-async function _insertOrganization(userId) {
+async function _insertOrganization() {
   const organization = databaseBuilder.factory.buildOrganization({
     name: 'The name of the organization',
     type: 'SUP',
     code: 'AAA111',
-    userId
   });
   await databaseBuilder.commit();
   return organization;
 }
 
-async function _insertUser() {
+async function _insertUser({ boardOrganizationId } = {}) {
   const user = databaseBuilder.factory.buildUser({
     firstName: 'john',
     lastName: 'Doe',
     email: 'john.Doe@internet.fr',
-    password: 'Pix2017!'
+    password: 'Pix2017!',
+    boardOrganizationId,
   });
 
   await databaseBuilder.commit();
@@ -364,10 +364,10 @@ describe('Acceptance | Application | organization-controller', () => {
     };
 
     beforeEach(() => {
-      return _insertUser()
+      return _insertOrganization()
+        .then(({ id }) => _insertUser({ boardOrganizationId: id }))
         .then(({ id }) => userId = id)
-        .then(() => options.headers.authorization = generateValidRequestAuthorizationHeader(userId))
-        .then(() => _insertOrganization(userId));
+        .then(() => options.headers.authorization = generateValidRequestAuthorizationHeader(userId));
     });
 
     it('should return 200 HTTP status code', () => {
@@ -415,11 +415,11 @@ describe('Acceptance | Application | organization-controller', () => {
     let userId;
 
     beforeEach(() => {
-      return _insertUser()
+      return _insertOrganization()
+        .then(({ id }) => organizationId = id)
+        .then(() => _insertUser({ boardOrganizationId: organizationId }))
         .then(({ id }) => userId = id)
         .then(() => userToken = _createTokenWithUserId(userId))
-        .then(() => _insertOrganization(userId))
-        .then(({ id }) => organizationId = id)
         .then(() => _insertSnapshot(organizationId, userId));
     });
 
