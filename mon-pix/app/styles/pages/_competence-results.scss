@@ -19,7 +19,12 @@
     letter-spacing: 0.03rem;
     display: flex;
     align-items: center;
+
+    > .competence-results-panel-header-return-button__icon {
+      margin-right: 4px;
+    }
   }
+
 
   &__return-button:hover {
     text-decoration: none;
