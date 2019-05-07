@@ -40,6 +40,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
             'pix-certif-terms-of-service-accepted': false,
             'has-seen-assessment-instructions': false,
             'uses-profile-v2': false,
+            'board-organization-id': null,
           },
           relationships: {
             memberships: {
