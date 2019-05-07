@@ -15,6 +15,7 @@ describe('Unit | Domain | Models | User', () => {
         password: 'pix123',
         cgu: true,
         samlId: 'some-saml-id',
+        boardOrganizationId: 42,
       };
 
       // when
@@ -29,6 +30,7 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.cgu).to.be.true;
       expect(user.samlId).to.equal('some-saml-id');
       expect(user.isProfileV2).to.be.true;
+      expect(user.boardOrganizationId).to.equal(42);
     });
 
   });
