@@ -50,10 +50,7 @@ describe('Acceptance | Checkpoint', () => {
       const continueElement = $('.checkpoint__continue');
       expect(continueElement).to.have.lengthOf(1);
       expect(continueElement.text()).to.contain('Voir mes résultats');
-
-      const infoElementText = $('.checkpoint-no-answer__info').text();
-      expect(infoElementText).to.contain('Vous avez déjà passé toutes les questions de ce parcours.');
-      expect(infoElementText).to.contain('Partagez vos résultats depuis l’écran suivant.');
+      expect($('.checkpoint-no-answer__info').text()).to.contain('Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.');
     });
   });
 });
