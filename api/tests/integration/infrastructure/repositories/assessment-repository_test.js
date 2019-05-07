@@ -917,4 +917,103 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return expect(foundAssessment.assessmentResults).to.have.length.of(2);
     });
   });
+
+  describe('#hasCampaignOrCompetenceEvaluation', () => {
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    context('when user has only PLACEMENT assessment', () => {
+      beforeEach(async() => {
+        databaseBuilder.factory.buildAssessment({
+          userId: 1,
+          type: 'PLACEMENT',
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should returns the assessment with campaign when it matches with userId', () => {
+        // when
+        const promise = assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.false;
+        });
+      });
+    });
+
+    context('when user has SMART_PLACEMENT assessment', () => {
+      beforeEach(async() => {
+        databaseBuilder.factory.buildAssessment({
+          userId: 1,
+          type: 'SMART_PLACEMENT',
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should returns the assessment with campaign when it matches with userId', () => {
+        // when
+        const promise = assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.true;
+        });
+      });
+
+    });
+    
+    context('when user has COMPETENCE_EVALUATION assessment', () => {
+      beforeEach(async() => {
+        databaseBuilder.factory.buildAssessment({
+          userId: 1,
+          type: 'COMPETENCE_EVALUATION',
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should returns the assessment with campaign when it matches with userId', () => {
+        // when
+        const promise = assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.true;
+        });
+      });
+
+    });
+
+    context('when user has both SMART_PLACEMENT or COMPETENCE_EVALUATION assessment', () => {
+      beforeEach(async() => {
+        databaseBuilder.factory.buildAssessment({
+          userId: 1,
+          type: 'SMART_PLACEMENT',
+        });
+        databaseBuilder.factory.buildAssessment({
+          userId: 1,
+          type: 'COMPETENCE_EVALUATION',
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should returns the assessment with campaign when it matches with userId', () => {
+        // when
+        const promise = assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.true;
+        });
+      });
+
+    });
+
+  });
+
 });
