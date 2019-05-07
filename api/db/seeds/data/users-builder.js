@@ -1,3 +1,5 @@
+const Membership = require('../../../lib/domain/models/Membership');
+
 module.exports = function usersBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -7,6 +9,13 @@ module.exports = function usersBuilder({ databaseBuilder }) {
     email: 'sup@example.net',
     rawPassword: 'pix123',
     cgu: true,
+    boardOrganizationId: 2,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: 3,
+    organizationId: 2,
+    organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -16,6 +25,13 @@ module.exports = function usersBuilder({ databaseBuilder }) {
     email: 'sco@example.net',
     rawPassword: 'pix123',
     cgu: true,
+    boardOrganizationId: 3,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: 4,
+    organizationId: 3,
+    organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -35,4 +51,11 @@ module.exports = function usersBuilder({ databaseBuilder }) {
     rawPassword: 'pix123',
     cgu: true,
   });
+
+  databaseBuilder.factory.buildMembership({
+    userId: 9,
+    organizationId: 3,
+    organizationRole: Membership.roles.MEMBER,
+  });
+
 };

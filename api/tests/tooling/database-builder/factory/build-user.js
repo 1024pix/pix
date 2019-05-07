@@ -19,6 +19,7 @@ const buildUser = function buildUser({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   samlId,
+  boardOrganizationId = null,
 } = {}) {
 
   password = _.isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
@@ -26,7 +27,7 @@ const buildUser = function buildUser({
 
   const values = {
     id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, boardOrganizationId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -46,13 +47,14 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
   samlId,
+  boardOrganizationId = null,
 }) {
 
   const password = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
     id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId,
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, samlId, boardOrganizationId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -71,11 +73,12 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   pixOrgaTermsOfServiceAccepted = false,
   pixCertifTermsOfServiceAccepted = false,
   hasSeenAssessmentInstructions = false,
+  boardOrganizationId = null,
 } = {}) {
 
   const values = {
     id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, boardOrganizationId,
   };
 
   const pixRolePixMaster = buildPixRole({ name: 'PIX_MASTER' });
@@ -102,11 +105,12 @@ buildUser.withMembership = function buildUserWithMemberships({
   hasSeenAssessmentInstructions = false,
   organizationRole = Membership.roles.ADMIN,
   organizationId = null,
+  boardOrganizationId = null,
 } = {}) {
 
   const values = {
     id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions
+    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions, boardOrganizationId,
   };
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
