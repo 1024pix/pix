@@ -10,7 +10,7 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:assessments/checkpoint');
-  })
+  });
 
   describe('#finalCheckpoint', () => {
     it('should equal false by default', function() {
@@ -42,7 +42,6 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
     });
   });
 
-
   describe('#shouldDisplayAnswers', () => {
     it('should be true when answers are present', function() {
       // when
@@ -54,7 +53,7 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
       expect(controller.shouldDisplayAnswers).to.be.true;
     });
 
-    it('should be true when answers are present', function() {
+    it('should be false when answers are absent', function() {
       // when
       const model = {
         answersSinceLastCheckpoints: [],
