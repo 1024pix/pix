@@ -3,6 +3,14 @@
   <div class="background-banner"></div>
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
+    <div class="competence-results-panel__header">
+      {{#link-to "profilv2" class="competence-results-panel-header__return-button"}}
+        <span class="icon-button competence-results-panel-header-return-button__icon">
+          {{fa-icon 'arrow-left'}}
+        </span>
+        Retour Profil
+      {{/link-to}}
+    </div>
     {{#if model.scorecard}}
       {{scorecard-details scorecard=model.scorecard}}
     {{/if}}
