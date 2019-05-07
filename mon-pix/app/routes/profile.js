@@ -11,9 +11,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   async afterModel(user) {
-    const organizations = await user.organizations;
-
-    if (organizations.length) {
+    if (user.isBoardOrganization) {
       return this.transitionTo('board');
     }
 
