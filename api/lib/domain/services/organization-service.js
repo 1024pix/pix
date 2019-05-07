@@ -1,16 +1,10 @@
 const { sampleSize, random, uniqBy, concat, orderBy } = require('lodash');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
-const userRepository = require('../../infrastructure/repositories/user-repository');
 
 function _randomLetters(count) {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'.split('');
   return sampleSize(letters, count).join('');
-}
-
-function _noCodeGivenIn(filters) {
-  const code = filters.code;
-  return !code || !code.trim();
 }
 
 function _extractProfilesSharedWithOrganization(organization) {
@@ -50,17 +44,5 @@ module.exports = {
         return uniqBy(allAvailableTargetProfiles, 'id');
       });
   },
-
-  search(userId, filters = {}) {
-    return userRepository
-      .hasRolePixMaster(userId)
-      .then((isUserPixMaster) => {
-        if (!isUserPixMaster && _noCodeGivenIn(filters)) {
-          return [];
-        }
-        return organizationRepository.findBy(filters);
-      });
-
-  }
 
 };
