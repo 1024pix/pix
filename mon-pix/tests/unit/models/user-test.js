@@ -57,4 +57,34 @@ describe('Unit | Model | user model', function() {
       });
     });
   });
+
+  describe('@isBoardOrganization', () => {
+    it('should return true', function() {
+      return run(() => {
+        // given
+        const model = store.createRecord('user');
+        model.set('boardOrganizationId', 42);
+
+        // when
+        const isBoardOrganization = model.get('isBoardOrganization');
+
+        // then
+        expect(isBoardOrganization).to.be.true;
+      });
+    });
+
+    it('should return false', function() {
+      return run(() => {
+        // given
+        const model = store.createRecord('user');
+        model.set('boardOrganizationId', null);
+
+        // when
+        const isBoardOrganization = model.get('isBoardOrganization');
+
+        // then
+        expect(isBoardOrganization).to.be.false;
+      });
+    });
+  });
 });
