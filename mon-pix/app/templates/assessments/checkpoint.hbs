@@ -10,38 +10,50 @@
   </div>
 
   <div class="checkpoint__container">
-
     <div class="checkpoint__header">
+      {{#if shouldDisplayAnswers}}
+        <div class="checkpoint-progression-gauge-wrapper">
+          {{#progression-gauge total=100 value=completionPercentage
+                              progressionClass="progression-gauge--white progression-gauge--tooltip-left"}}
+            <p class="sr-only">Vous avez effectué</p>{{completionPercentage}}%<p
+            class="sr-only"> de votre parcours.</p>
+          {{/progression-gauge}}
 
-      <div class="checkpoint-progression-gauge-wrapper">
+          <p class="checkpoint-legend">avancement du parcours</p>
 
-        {{#progression-gauge total=100 value=completionPercentage
-                             progressionClass="progression-gauge--white progression-gauge--tooltip-left"}}
-          <p class="sr-only">Vous avez effectué</p>{{completionPercentage}}%<p
-          class="sr-only"> de votre parcours.</p>
-        {{/progression-gauge}}
-
-        <p class="checkpoint-legend">avancement du parcours</p>
-
-      </div>
-      <div class="checkpoint__continue-wrapper">
-        {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
-      </div>
+        </div>
+        <div class="checkpoint__continue-wrapper">
+          {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
+        </div>
+      {{/if}}
     </div>
 
-    <div class="rounded-panel rounded-panel--strong checkpoint__content">
-      <div class="rounded-panel-one-line-header">
-        <h1 class="rounded-panel-header-text__content rounded-panel-title">
-          vos réponses
-        </h1>
-      </div>
 
-      <div class="assessment-results__list">
-        {{#each model.answersSinceLastCheckpoints as |answer|}}
-          {{result-item-campaign answer=answer openAnswerDetails=(action "openComparisonWindow")}}
-        {{/each}}
-      </div>
-      {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
+    <div class="rounded-panel rounded-panel--strong checkpoint__content">
+      {{#if shouldDisplayAnswers}}
+        <div class="rounded-panel-one-line-header">
+          <h1 class="rounded-panel-header-text__content rounded-panel-title">
+            vos réponses
+          </h1>
+        </div>
+
+        <div class="assessment-results__list">
+          {{#each model.answersSinceLastCheckpoints as |answer|}}
+            {{result-item-campaign answer=answer openAnswerDetails=(action "openComparisonWindow")}}
+          {{/each}}
+        </div>
+        {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
+      {{else}}
+        <div class="checkpoint-no-answer">
+          <div class="checkpoint-no-answer__header">
+            C’est déjà fini, ne soyez pas surpris !
+          </div>
+          <div class="checkpoint-no-answer__info">
+            Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.
+          </div>
+          {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}
+        </div>
+      {{/if}}
     </div>
   </div>
 
