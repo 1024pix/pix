@@ -15,7 +15,6 @@ export default Model.extend({
   totalPixScore: attr('number'),
   pixScore: belongsTo('pix-score'),
   competences: hasMany('competence'),
-  organizations: hasMany('organization'),
   certifications: hasMany('certification'),
   campaignParticipations: hasMany('campaign-participation'),
   scorecards: hasMany('scorecard'),

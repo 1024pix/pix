@@ -46,7 +46,7 @@ describe('Unit | Route | board', function() {
 
     beforeEach(function() {
       currentUserStub = Service.create({
-        user: { isBoardOrganization: false, organizations: [] }
+        user: { isBoardOrganization: false }
       });
 
       route = this.owner.lookup('route:board');

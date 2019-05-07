@@ -1,7 +1,7 @@
 import BaseSerializer from './application';
 
 export default BaseSerializer.extend({
-  include: ['competences', 'organizations'],
+  include: ['competences'],
   links(user) {
     return {
       certificationProfile: {
