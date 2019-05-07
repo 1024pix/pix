@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.only('Unit | Controller | Assessments | Checkpoint', function() {
+describe('Unit | Controller | Assessments | Checkpoint', function() {
 
   setupTest();
 
@@ -39,6 +39,29 @@ describe.only('Unit | Controller | Assessments | Checkpoint', function() {
 
       // then
       expect(controller.completionPercentage).to.equal(73);
+    });
+  });
+
+
+  describe('#shouldDisplayAnswers', () => {
+    it('should be true when answers are present', function() {
+      // when
+      const model = {
+        answersSinceLastCheckpoints: [0, 1, 2],
+      };
+      controller.set('model', model);
+      // then
+      expect(controller.shouldDisplayAnswers).to.be.true;
+    });
+
+    it('should be true when answers are present', function() {
+      // when
+      const model = {
+        answersSinceLastCheckpoints: [],
+      };
+      controller.set('model', model);
+      // then
+      expect(controller.shouldDisplayAnswers).to.be.false;
     });
   });
 });
