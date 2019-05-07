@@ -1,8 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default Route.extend(UnauthenticatedRouteMixin, {
+export default Route.extend({
 
   session: service(),
   store: service(),
@@ -12,31 +11,15 @@ export default Route.extend(UnauthenticatedRouteMixin, {
       return this.store
         .findRecord('user', this.get('session.data.authenticated.userId'))
         .then((connectedUser) => {
-
           if (connectedUser.get('organizations.length')) {
-            this.transitionTo('board');
-          } else {
-            this.transitionTo('compte');
+            return this.transitionTo('board');
           }
+          if (connectedUser.get('usesProfileV2')) {
+            return this.replaceWith('profilv2');
+          }
+          return this.transitionTo('compte');
         });
-    } else {
-      this.transitionTo('login');
     }
+    return this.transitionTo('login');
   },
-
-  model() {
-    return this.store.query('course', { isCourseOfTheWeek: false, isAdaptive: false });
-  },
-
-  setupController(controller, model) {
-    this._super(controller, model);
-    this.controllerFor('index').set('session', this.session);
-  },
-
-  actions: {
-    startCourse(course) {
-      this.transitionTo('courses.create-assessment', course.get('id'));
-    }
-  }
-
 });
