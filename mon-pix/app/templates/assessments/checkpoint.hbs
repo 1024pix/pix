@@ -11,7 +11,7 @@
 
   <div class="checkpoint__container">
     <div class="checkpoint__header">
-      {{#if model.answersSinceLastCheckpoints.length}}
+      {{#if shouldDisplayAnswers}}
         <div class="checkpoint-progression-gauge-wrapper">
           {{#progression-gauge total=100 value=completionPercentage
                               progressionClass="progression-gauge--white progression-gauge--tooltip-left"}}
@@ -30,7 +30,7 @@
 
 
     <div class="rounded-panel rounded-panel--strong checkpoint__content">
-      {{#if model.answersSinceLastCheckpoints.length}}
+      {{#if shouldDisplayAnswers}}
         <div class="rounded-panel-one-line-header">
           <h1 class="rounded-panel-header-text__content rounded-panel-title">
             vos réponses
