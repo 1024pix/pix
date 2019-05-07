@@ -1,116 +1,145 @@
-const { expect } = require('../../../test-helper');
+const { expect, databaseBuilder } = require('../../../test-helper');
 const bookshelfToDomainConverter = require('../../../../lib/infrastructure/utils/bookshelf-to-domain-converter');
 
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const User = require('../../../../lib/domain/models/User');
+const Membership = require('../../../../lib/domain/models/Membership');
+const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
 
-const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
+const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
+const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/data/campaign-participation');
+const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function() {
-  let assessmentWithRelated, assessmentWithoutRelated, assessments;
 
-  beforeEach(() => {
-    assessmentWithRelated = new BookshelfAssessment({
-      id: 1,
-      assessmentResults: [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-      ],
-      campaignParticipation: { id: 1 },
-    });
-
-    assessmentWithoutRelated = new BookshelfAssessment({ id: 2 });
-
-    assessments = [assessmentWithRelated, assessmentWithoutRelated];
+  afterEach(async () => {
+    await databaseBuilder.clean();
   });
 
-  describe('buildDomainObjects', function() {
-    it('should convert array of bookshelf object to array of corresponding domain object', function() {
-      // when
-      const domainAssessments = bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments);
-      const domainAssessmentWithRelated = domainAssessments[0];
-      const domainAssessmentWithoutRelated = domainAssessments[1];
-
-      // then
-      expect(domainAssessments).to.have.lengthOf(2);
-
-      expect(domainAssessmentWithRelated.id).to.equal(1);
-      expect(domainAssessmentWithRelated.assessmentResults).to.have.lengthOf(3);
-      expect(domainAssessmentWithRelated.assessmentResults[2].id).to.equal(3);
-      expect(domainAssessmentWithRelated.campaignParticipation.id).to.equal(1);
-
-      expect(domainAssessmentWithoutRelated.id).to.equal(2);
-      expect(domainAssessmentWithoutRelated.assessmentResults).to.be.undefined;
-      expect(domainAssessmentWithoutRelated.campaignParticipation).to.be.undefined;
-    });
-
-    it('should return empty array if bookshelf array is empty', function() {
-      // when
-      const domainAssessments = bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, []);
-
-      // then
-      expect(domainAssessments).to.be.empty;
-    });
-  });
-
-  describe('buildDomainObject', function() {
-    it('should convert bookshelf object with relation to corresponding domain object', function() {
-      // when
-      const domainAssessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessmentWithRelated);
-
-      // then
-      expect(domainAssessment).to.be.instanceOf(Assessment);
-      expect(domainAssessment.id).to.equal(1);
-
-      expect(domainAssessment.assessmentResults).to.have.lengthOf(3);
-      expect(domainAssessment.assessmentResults[1]).to.be.instanceOf(AssessmentResult);
-      expect(domainAssessment.assessmentResults[2].id).to.equal(3);
-
-      expect(domainAssessment.campaignParticipation).to.be.instanceOf(CampaignParticipation);
-      expect(domainAssessment.campaignParticipation.id).to.equal(1);
-    });
-
-    it('should convert bookshelf object without relation to corresponding domain object', function() {
-      // when
-      const domainAssessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessmentWithoutRelated);
-
-      // then
-      expect(domainAssessment.id).to.equal(2);
-      expect(domainAssessment.assessmentResults).to.be.undefined;
-      expect(domainAssessment.campaignParticipation).to.be.undefined;
-    });
-
-    it('should convert bookshelf object with attribute with name equal to a model name but are not a relation', function() {
+  describe('buildDomainObject', () => {
+    it('should convert a Bookshelf object into a domain object', async () => {
       // given
-      const assessment = new BookshelfAssessment({
-        id: 1,
-        campaignParticipation: 'Manu',
-        assessmentResults: 'EvilCorp',
+      databaseBuilder.factory.buildUser({ id: 1 });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch();
+
+      // when
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, bookshelfObject);
+
+      // then
+      expect(domainObject).to.be.an.instanceOf(User);
+    });
+    it('should populate the domain object with the matching Bookshelf properties', async () => {
+      // given
+      databaseBuilder.factory.buildUser({ id: 1 });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch();
+
+      // when
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, bookshelfObject);
+
+      // then
+      for (const property of ['firstName', 'lastName', 'email']) {
+        expect(domainObject[property]).to.exist;
+      }
+    });
+    it('should honor the domain object constructor', async () => {
+      // given
+      databaseBuilder.factory.buildUser({ id: 1 });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch();
+
+      // when
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, bookshelfObject);
+
+      // then
+      expect(domainObject.scorecards).to.deep.equal([]);
+
+    });
+    it('should support has-one relationships', async () => {
+      // given
+      databaseBuilder.factory.buildUser({ id: 1 });
+      databaseBuilder.factory.buildAssessment({ id: 1, userId: 1 });
+      databaseBuilder.factory.buildCampaignParticipation({ id: 1, assessmentId: 1, userId: 1 });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfAssessment.where({ id: 1 }).fetch({
+        withRelated: ['campaignParticipation'],
       });
 
       // when
-      const domainAssessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment);
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfObject);
 
       // then
-      expect(domainAssessment.campaignParticipation).to.equal('Manu');
-      expect(domainAssessment.assessmentResults).to.equal('EvilCorp');
+      expect(domainObject.campaignParticipation).to.be.instanceOf(CampaignParticipation);
     });
-
-    // TODO: Remove this after refactoring SmartPlacementKnowledgeElements into KnowledgeElements
-    it('should deal with the specific case of knowledge elements whose called differently as a model or as a property', () => {
+    it('should support has-many relationships', async () => {
       // given
-      const userWithKnowledgeElements = new BookshelfUser({
-        id: 1,
-        knowledgeElements: [{ id: 1, status: 'validated' }],
+      databaseBuilder.factory.buildUser({ id: 1 });
+      databaseBuilder.factory.buildMembership({ id: 1, userId: 1 });
+      databaseBuilder.factory.buildMembership({ id: 2, userId: 1 });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch({
+        withRelated: ['memberships'],
       });
+
       // when
-      const domainUser = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, userWithKnowledgeElements);
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, bookshelfObject);
+
       // then
-      expect(domainUser.knowledgeElements[0]).to.be.instanceOf(SmartPlacementKnowledgeElement);
+      expect(domainObject.memberships).to.be.instanceOf(Array);
+      expect(domainObject.memberships[0]).to.be.instanceOf(Membership);
+    });
+    it('should support belongs-to relationships', async () => {
+      //given
+      databaseBuilder.factory.buildCampaign({ id: 1 });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfCampaign.where({ id: 1 }).fetch({
+        withRelated: ['targetProfile'],
+      });
+
+      // when
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfObject);
+
+      // then
+      expect(domainObject.targetProfile).to.be.instanceOf(TargetProfile);
+    });
+    it('should support domain object relationship’s name not matching the corresponding Bookshelf class name', async () => {
+      // given
+      databaseBuilder.factory.buildUser({ id: 1 });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: 1 });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: 1 });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch({
+        withRelated: 'knowledgeElements'
+      });
+
+      // when
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, bookshelfObject);
+
+      // then
+      expect(domainObject.knowledgeElements).to.be.instanceOf(Array);
+      expect(domainObject.knowledgeElements[0]).to.be.instanceOf(SmartPlacementKnowledgeElement);
+    });
+    it('should support nested relationships', async () => {
+      // given
+      databaseBuilder.factory.buildCampaign({ id: 1 });
+      databaseBuilder.factory.buildUser({ id: 1 });
+      databaseBuilder.factory.buildCampaignParticipation({ id: 1, campaignId: 1, userId: 1 });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, userId: 1 });
+      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, userId: 1 });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfCampaignParticipation.where({ id: 1 }).fetch({
+        withRelated: ['user.knowledgeElements'],
+      });
+
+      // when 
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, bookshelfObject);
+
+      // then
+      expect(domainObject.user.knowledgeElements).to.be.instanceOf(Array);
+      expect(domainObject.user.knowledgeElements[0]).to.be.instanceOf(SmartPlacementKnowledgeElement);
     });
   });
 });

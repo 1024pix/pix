@@ -55,6 +55,9 @@ describe('Integration | Repository | Session', function() {
         expect(savedSession.certificationCenter).to.equal('Université de dressage de loutres');
       });
     });
+    afterEach(async () => {
+      await knex('sessions').delete();
+    });
   });
 
   describe('#isSessionCodeAvailable', () => {

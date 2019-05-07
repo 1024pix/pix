@@ -1,6 +1,7 @@
 const faker = require('faker');
 const buildAssessmentResult = require('./build-assessment-result');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 module.exports = function buildCompetenceMark({
   id = faker.random.number(),
@@ -11,7 +12,7 @@ module.exports = function buildCompetenceMark({
   assessmentResultId,
 } = {}) {
 
-  assessmentResultId = assessmentResultId || buildAssessmentResult().id;
+  assessmentResultId = _.isNil(assessmentResultId) ? buildAssessmentResult().id : assessmentResultId;
 
   const values = {
     id, level, score, area_code, competence_code, assessmentResultId
