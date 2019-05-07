@@ -200,7 +200,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       const competences = [ competence1, competence2, competence3 ];
 
       // Build a target profile targeting the full competence 1, partly competence 2, and nothing in competence 3
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({ id: 1 });
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       _([ skillIds1, _.dropRight(skillIds2) ]).flatten().each((skillId) =>
         databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId, skillId })
       );

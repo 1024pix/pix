@@ -15,10 +15,6 @@ module.exports = Bookshelf.model('Campaign', {
     return this.hasMany('CampaignParticipation', 'campaignId');
   },
 
-  assessments: function() {
-    return this.belongsToMany('Assessment', 'campaingId').through('CampaignParticipation');
-  },
-
   targetProfile: function() {
     return this.belongsTo('TargetProfile', 'targetProfileId');
   },
