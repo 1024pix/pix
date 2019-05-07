@@ -16,6 +16,7 @@
   align-items: flex-end;
   margin-bottom: 35px;
   width: 80%;
+  min-height: 50px;
 
   @include device-is('tablet') {
     width: 800px;
@@ -86,6 +87,9 @@
     margin-left: 30px;
     padding-top: 6px;
     font-size: 1.5em;
+    position: relative;
+    left: 0;
+    transition: all 0.25s ease-in-out;
 
     @include device-is('tablet') {
       margin-left: 6px;
@@ -95,12 +99,31 @@
   &:hover,
   &:focus,
   &:active {
-    padding-right: 4px;
-    transition: all 0.25s ease-in-out;
-
     & > svg {
-      margin-left: 12px;
-      transition: all 0.25s ease-in-out;
+      left: 12px;
     }
+  }
+}
+
+.checkpoint-no-answer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &__header {
+    font-size: 4.2rem;
+    line-height: 4.8rem;
+    font-weight: $font-light;
+    margin-bottom: 60px;
+  }
+
+  &__info {
+    color: $dove-gray;
+    font-size: 2.4rem;
+    line-height: 3.3rem;
+    font-weight: $font-light;
+    margin-bottom: 60px;
+    max-width: 100%;
   }
 }

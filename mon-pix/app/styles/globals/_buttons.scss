@@ -11,10 +11,10 @@
   cursor: pointer;
   border: none;
   outline: none;
+  transition: background-color 0.2s ease;
 
   &:hover, &:active, &:focus {
     background-color: $pix-blue-hover;
-    transition: background-color 0.2s ease;
   }
 
   &--link {
