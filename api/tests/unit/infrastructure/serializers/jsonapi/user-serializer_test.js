@@ -72,7 +72,12 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               links: {
                 related: '/api/users/234567/scorecards'
               }
-            }
+            },
+            'campaign-participations': {
+              links: {
+                related: '/api/users/234567/campaign-participations'
+              }
+            },
           }
         }
       });

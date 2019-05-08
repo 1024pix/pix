@@ -5,7 +5,11 @@ module.exports = {
 
   serialize(users, meta) {
     return new Serializer('user', {
-      attributes: ['firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'memberships', 'certificationCenterMemberships', 'pixScore', 'scorecards'],
+      attributes: [
+        'firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted',
+        'pixCertifTermsOfServiceAccepted', 'memberships', 'certificationCenterMemberships',
+        'pixScore', 'scorecards', 'campaignParticipations',
+      ],
       memberships: {
         ref: 'id',
         ignoreRelationshipData: true,
@@ -42,7 +46,16 @@ module.exports = {
           }
         }
       },
-      meta
+      campaignParticipations: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function(record, current, parent) {
+            return `/api/users/${parent.id}/campaign-participations`;
+          }
+        }
+      },
+      meta,
     }).serialize(users);
   },
 
