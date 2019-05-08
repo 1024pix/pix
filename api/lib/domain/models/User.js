@@ -20,6 +20,7 @@ class User {
     pixRoles = [],
     pixScore,
     scorecards = [],
+    campaignParticipations = [],
     // references
   } = {}) {
     this.id = id;
@@ -39,6 +40,7 @@ class User {
     this.memberships = memberships;
     this.certificationCenterMemberships = certificationCenterMemberships;
     this.scorecards = scorecards;
+    this.campaignParticipations = campaignParticipations;
     // references
   }
 
