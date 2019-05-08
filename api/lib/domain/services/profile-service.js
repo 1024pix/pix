@@ -15,7 +15,7 @@ async function getByUserId(user_id) {
     assessmentRepository.findLastAssessmentsForEachCoursesByUser(user_id),
     assessmentRepository.findCompletedAssessmentsByUserId(user_id),
     courseRepository.getAdaptiveCourses(),
-    organizationRepository.getByUserId(user_id),
+    organizationRepository.findByUserId(user_id),
     assessmentRepository.hasCampaignOrCompetenceEvaluation(user_id)
   ])
     .then(([

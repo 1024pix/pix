@@ -1,7 +1,5 @@
 const { expect } = require('../../../../test-helper');
-
 const User = require('../../../../../lib/domain/models/User');
-
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 
 describe('Unit | Serializer | JSONAPI | user-serializer', () => {
@@ -23,6 +21,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
   });
 
   describe('#serialize', () => {
+
     it('should serialize excluding email and password', () => {
       // given
       const modelObject = new User({
@@ -33,7 +32,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
         cgu: true,
         pixOrgaTermsOfServiceAccepted: false,
         pixCertifTermsOfServiceAccepted: false,
-        password: ''
+        password: '',
+        organizations: [],
       });
 
       // when
@@ -77,6 +77,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               links: {
                 related: '/api/users/234567/campaign-participations'
               }
+            },
+            organizations: {
+              data: []
             },
           }
         }
