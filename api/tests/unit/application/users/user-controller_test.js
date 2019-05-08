@@ -498,7 +498,7 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getPixScore(request, hFake);
+      await userController.getPixScore(request);
 
       // then
       expect(usecases.getUserPixScore).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
@@ -531,7 +531,7 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getScorecards(request, hFake);
+      await userController.getScorecards(request);
 
       // then
       expect(usecases.getUserScorecards).to.have.been.calledWith({ authenticatedUserId, requestedUserId });

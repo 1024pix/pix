@@ -334,15 +334,14 @@ describe('Integration | Repository | Organization', function() {
         const userId = 2;
 
         // then
-        return organizationRepository.getByUserId(userId)
-          .then((foundOrganization) => {
-            expect(foundOrganization).to.exist;
-            expect(foundOrganization).to.be.an('array');
-            expect(foundOrganization[0].attributes.type).to.equal(secondInsertedOrganization.type);
-            expect(foundOrganization[0].attributes.name).to.equal(secondInsertedOrganization.name);
-            expect(foundOrganization[0].attributes.userId).to.equal(secondInsertedOrganization.userId);
-            expect(foundOrganization[0].attributes.id).to.equal(secondInsertedOrganization.id);
-            expect(foundOrganization[0].attributes.code).to.equal(secondInsertedOrganization.code);
+        return organizationRepository.findByUserId(userId)
+          .then((foundOrganizations) => {
+            expect(foundOrganizations).to.exist;
+            expect(foundOrganizations).to.be.an('array');
+            expect(foundOrganizations[0].type).to.equal(secondInsertedOrganization.type);
+            expect(foundOrganizations[0].name).to.equal(secondInsertedOrganization.name);
+            expect(foundOrganizations[0].id).to.equal(secondInsertedOrganization.id);
+            expect(foundOrganizations[0].code).to.equal(secondInsertedOrganization.code);
           });
       });
 
@@ -351,7 +350,7 @@ describe('Integration | Repository | Organization', function() {
         const userId = 1;
 
         // when
-        const promise = organizationRepository.getByUserId(userId);
+        const promise = organizationRepository.findByUserId(userId);
 
         // then
         return promise.then((foundOrganizations) => {
@@ -364,7 +363,7 @@ describe('Integration | Repository | Organization', function() {
 
       it('should return an empty Array, when organization id is not found', function() {
         const userId = 10083;
-        return organizationRepository.getByUserId(userId)
+        return organizationRepository.findByUserId(userId)
           .then((organization) => {
             expect(organization).to.deep.equal([]);
           });
