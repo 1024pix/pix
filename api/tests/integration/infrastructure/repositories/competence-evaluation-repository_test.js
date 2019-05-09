@@ -95,7 +95,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
       // then
       return promise.then((competenceEvaluation) => {
-        expect(_.omit(competenceEvaluation, ['assessment'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+        expect(_.omit(competenceEvaluation, ['assessment', 'scorecard'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
         expect(competenceEvaluation.assessment.id).to.deep.equal(assessmentForExpectedCompetenceEvaluation.id);
       });
     });
@@ -144,7 +144,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
       // then
       return promise.then((competenceEvaluation) => {
-        expect(_.omit(competenceEvaluation, ['assessment'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+        expect(_.omit(competenceEvaluation, ['assessment', 'scorecard'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
         expect(competenceEvaluation.assessment.id).to.deep.equal(assessmentExpected.id);
 
       });
@@ -203,7 +203,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       // then
       return promise.then((competenceEvaluation) => {
         expect(competenceEvaluation).to.have.length(2);
-        expect(_.omit(competenceEvaluation[0], ['assessment'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+        expect(_.omit(competenceEvaluation[0], ['assessment', 'scorecard'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
         expect(competenceEvaluation[0].assessment.id).to.deep.equal(assessmentExpected.id);
 
       });

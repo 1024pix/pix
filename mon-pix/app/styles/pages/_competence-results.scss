@@ -1,0 +1,37 @@
+.competence-results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.competence-results-panel {
+  &__header {
+    padding: 14px 14px 0 14px;
+  }
+}
+
+.competence-results-panel-header {
+  &__return-button {
+    color: $black;
+    font-size: 1.3rem;
+    font-weight: $font-semi-bold;
+    letter-spacing: 0.03rem;
+    display: flex;
+    align-items: center;
+
+    > .competence-results-panel-header-return-button__icon {
+      margin-right: 4px;
+    }
+  }
+
+
+  &__return-button:hover {
+    text-decoration: none;
+    color: $black;
+
+    > .competence-results-panel-header-return-button__icon {
+      background-color: $alto-grey;
+    }
+  }
+}

@@ -59,13 +59,13 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await visit(`/competences/${scorecard.id}`);
 
       // then
-      expect(find('.competence-details-panel-content-left__area').text()).to.contain(area.title);
-      expect(find('.competence-details-panel-content-left__area').attr('class')).to.contain('competence-details-panel-content-left__area--jaffa');
-      expect(find('.competence-details-panel-content-left__name').text()).to.contain(name);
-      expect(find('.competence-details-panel-content-left__description').text()).to.contain(description);
+      expect(find('.scorecard-details-content-left__area').text()).to.contain(area.title);
+      expect(find('.scorecard-details-content-left__area').attr('class')).to.contain('scorecard-details-content-left__area--jaffa');
+      expect(find('.scorecard-details-content-left__name').text()).to.contain(name);
+      expect(find('.scorecard-details-content-left__description').text()).to.contain(description);
       expect(find('.competence-card-level__value').text()).to.contain(level);
-      expect(find('.competence-details-panel-content-right-score-container-pix-earned__number').text()).to.contain(earnedPix);
-      expect(find('.competence-details-panel-content-right__level-info').text()).to.contain(`${8 - pixScoreAheadOfNextLevel} pix avant niveau ${level + 1}`);
+      expect(find('.scorecard-details-content-right-score-container-pix-earned__number').text()).to.contain(earnedPix);
+      expect(find('.scorecard-details-content-right__level-info').text()).to.contain(`${8 - pixScoreAheadOfNextLevel} pix avant le niveau ${level + 1}`);
     });
 
     it('Does not display pixScoreAheadOfNextLevelwhen next level is over the max level', async () => {
@@ -83,7 +83,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await visit(`/competence/${scorecard.id}`);
 
       // then
-      expect(find('.competence-details-panel-content-right__level-info')).to.have.lengthOf(0);
+      expect(find('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
     });
 
     it('should transition to /profilv2 when the user clicks on return', async () => {
