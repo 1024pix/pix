@@ -82,7 +82,20 @@ describe('Unit | Route | Assessments | Rating', function() {
       });
     });
 
-    context('when the assessment is not a CERTIFICATION nor SMART_PLACEMENT', function() {
+    context('when the assessment is a COMPETENCE_EVALUATION', function() {
+      it('should redirect to the competence evaluation results page', async function() {
+        // given
+        const assessment = EmberObject.create({ id: 12, type: 'COMPETENCE_EVALUATION' });
+
+        // when
+        await route.afterModel(assessment);
+
+        // then
+        sinon.assert.calledWithExactly(route.replaceWith, 'competences.results', 12);
+      });
+    });
+
+    context('when the assessment is not a CERTIFICATION nor SMART_PLACEMENT nor COMPETENCE_EVALUATION', function() {
       it('should redirect to the assessment results page', async function() {
         // given
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });

@@ -1,12 +1,14 @@
 <article class="competence-card">
   <header class="competence-card__header">
-    <span class="competence-card__color competence-card__color--{{areaColor}}"></span>
+    <span class="competence-card__color competence-card__color--{{scorecard.areaColor}}"></span>
     <span class="competence-card__area-name">{{scorecard.area.title}}</span>
     <span class="competence-card__competence-name">{{scorecard.name}}</span>
   </header>
   <div class="competence-card__body">
     {{#link-to "competence-details" scorecard.id class="competence-card__link"}}
-      {{#circle-chart value=percentageAheadOfNextLevel sliceColor=areaColor chartClass='circle-chart__content--big'
+      {{#circle-chart value=scorecard.percentageAheadOfNextLevel
+                      sliceColor=scorecard.areaColor
+                      chartClass='circle-chart__content--big'
                       thicknessClass='circle--thick'}}
         <div class="competence-card__level">
           <span class="competence-card-level__label">Niveau</span>

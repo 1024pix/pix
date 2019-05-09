@@ -20,10 +20,15 @@ describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', funct
             'competence-id': competenceEvaluation.competenceId,
           },
           relationships: {
-            'assessment': {
+            assessment: {
               data: {
-                'id': competenceEvaluation.assessmentId.toString(),
-                'type': 'assessments',
+                id: competenceEvaluation.assessmentId.toString(),
+                type: 'assessments',
+              }
+            },
+            scorecard: {
+              links: {
+                related: `/api/scorecards/${competenceEvaluation.userId}_${competenceEvaluation.competenceId}`,
               }
             }
           }
