@@ -15,7 +15,7 @@ export default Controller.extend({
   }),
 
   completionPercentage: computed('finalCheckpoint', 'model.progression.completionPercentage', function() {
-    return this.finalCheckpoint ? 100 : this.model.progression.completionPercentage;
+    return this.finalCheckpoint ? 100 : this.get('model.progression.completionPercentage');
   }),
 
   shouldDisplayAnswers: computed('model.answersSinceLastCheckpoints', function() {
