@@ -19,7 +19,7 @@ export default Controller.extend({
   }),
 
   shouldDisplayAnswers: computed('model.answersSinceLastCheckpoints', function() {
-    return !!this.model.answersSinceLastCheckpoints.length;
+    return !!this.get('model.answersSinceLastCheckpoints.length');
   }),
 
   actions: {
