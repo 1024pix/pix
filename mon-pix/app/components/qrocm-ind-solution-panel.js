@@ -1,4 +1,5 @@
 import { computed } from '@ember/object';
+import { htmlSafe } from '@ember/template';
 import Component from '@ember/component';
 import _ from 'lodash';
 import answersAsObject from 'mon-pix/utils/answers-as-object';
@@ -27,7 +28,8 @@ const QrocmIndSolutionPanel = Component.extend({
 
   inputFields: computed('challenge.proposals', 'answer.value', 'solution', function() {
 
-    const labels = labelsAsObject(this.get('challenge.proposals'));
+    const escapedProposals = this.get('challenge.proposals').replace(/(\n\n|\n)/gm, '<br>');
+    const labels = labelsAsObject(htmlSafe(escapedProposals).string);
     const answers = answersAsObject(this.get('answer.value'), _.keys(labels));
     const solutions = solutionsAsObject(this.solution);
     const resultDetails = resultDetailsAsObject(this.get('answer.resultDetails'));
@@ -41,6 +43,7 @@ const QrocmIndSolutionPanel = Component.extend({
       if (answers[labelKey] === '') {
         answers[labelKey] = 'Pas de réponse';
       }
+
       const inputField = {
         label: labels[labelKey],
         answer: answers[labelKey],
