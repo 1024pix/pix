@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const getNextChallengeForSmartPlacement = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
-const SmartRandom = require('../../../../lib/domain/services/smart-random/SmartRandom');
+const SmartRandom = require('../../../../lib/domain/services/smart-random/smartRandom');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', () => {
 
