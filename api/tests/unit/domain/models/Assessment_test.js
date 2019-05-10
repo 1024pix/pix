@@ -214,6 +214,39 @@ describe('Unit | Domain | Models | Assessment', () => {
       return expect(promise).to.be.rejected;
     });
 
+    it('should return rejected promise when Certification assessment has no userId', () => {
+      //given
+      assessment = Assessment.fromAttributes({ type: 'CERTIFICATION' });
+
+      // when
+      const promise = assessment.validate();
+
+      // then
+      return expect(promise).to.be.rejected;
+    });
+
+    it('should return rejected promise when Competence evaluation assessment has no userId', () => {
+      //given
+      assessment = Assessment.fromAttributes({ type: 'COMPETENCE_EVALUATION' });
+
+      // when
+      const promise = assessment.validate();
+
+      // then
+      return expect(promise).to.be.rejected;
+    });
+
+    it('should return rejected promise when Smart Placement assessment has no userId', () => {
+      //given
+      assessment = Assessment.fromAttributes({ type: 'SMART_PLACEMENT' });
+
+      // when
+      const promise = assessment.validate();
+
+      // then
+      return expect(promise).to.be.rejected;
+    });
+
     it('should return rejected promise when userId is null for placement', () => {
       //given
       assessment = Assessment.fromAttributes({ userId: null, type: 'PLACEMENT' });
