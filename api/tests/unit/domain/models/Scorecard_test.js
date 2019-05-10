@@ -34,7 +34,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
 
   describe('_getCompetenceLevel', () => {
 
-    it('should be capped at a maximum level', () => {
+    it('should be capped at a maximum reachable level', () => {
       // given
       const rawData = {
         id: 1,

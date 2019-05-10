@@ -1,8 +1,8 @@
 const { AssessmentEndedError, UserNotAuthorizedToAccessEntity } = require('../errors');
-const SmartRandom = require('../services/smart-random/smartRandom');
+const smartRandom = require('../services/smart-random/smartRandom');
 
 async function getNextChallengeForCompetenceEvaluation({ assessment, userId, answerRepository, competenceEvaluationRepository, challengeRepository, smartPlacementKnowledgeElementRepository, skillRepository }) {
-  _checkIfUserIsAssessmentsUser(assessment, userId);
+  _checkIfAssessmentBelongsToUser(assessment, userId);
   const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
   const [answers, targetSkills, challenges, knowledgeElements] = await getSmartRandomInputValues({
     assessment,
@@ -12,18 +12,20 @@ async function getNextChallengeForCompetenceEvaluation({ assessment, userId, ans
     smartPlacementKnowledgeElementRepository,
     skillRepository
   });
-  const nextChallenge = SmartRandom.getNextChallenge({ answers, challenges, targetSkills, knowledgeElements });
+  const nextChallenge = smartRandom.getNextChallenge({ answers, challenges, targetSkills, knowledgeElements });
+
   if (nextChallenge === null) {
     throw new AssessmentEndedError();
   }
   return nextChallenge;
 }
 
-function _checkIfUserIsAssessmentsUser(assessment, userId) {
+function _checkIfAssessmentBelongsToUser(assessment, userId) {
   if (assessment.userId != userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 }
+
 function getSmartRandomInputValues({ assessment, competenceEvaluation, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, skillRepository }) {
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
