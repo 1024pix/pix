@@ -7,7 +7,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
   session: service(),
 
   model(params) {
-    return this.store.findRecord('scorecard', params.scorecard_id);
+    return this.store.findRecord('scorecard', params.scorecard_id, {
+      reload: true,
+    });
   },
 
 });
