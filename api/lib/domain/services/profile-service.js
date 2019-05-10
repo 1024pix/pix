@@ -7,7 +7,6 @@ const organizationRepository = require('../../infrastructure/repositories/organi
 
 const Profile = require('../models/Profile');
 
-// FIXME: A déplacer dans le competenceRepository pour qu'il ne renvoit plus des Challenges de Bookshelf (mais objets du domaine).
 function _initCompetenceLevel(competences) {
   if (competences) {
     competences.forEach((competence) => {
