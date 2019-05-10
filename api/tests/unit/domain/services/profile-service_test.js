@@ -40,11 +40,15 @@ describe('Unit | Service | Profil User Service', function() {
           id: 'competenceId1',
           name: '1.1 Mener une recherche d’information',
           areaId: 'areaId1',
+          level: -1,
+          status: 'notAssessed',
         },
         {
           id: 'competenceId2',
           name: '1.2 Gérer des données',
-          areaId: 'areaId2'
+          areaId: 'areaId2',
+          level: -1,
+          status: 'notAssessed',
         }];
 
       fakeAreaRecords = [

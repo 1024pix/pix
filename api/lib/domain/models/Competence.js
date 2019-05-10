@@ -1,3 +1,5 @@
+const Profile = require('./Profile');
+
 class Competence {
 
   constructor({
@@ -18,6 +20,8 @@ class Competence {
     this.name = name;
     this.index = index;
     this.description = description;
+    this.level = -1;
+    this.status = Profile.competenceStatus.NOT_ASSESSED;
     // includes
     this.skills = skills; // TODO remplacer par un vrai tableau de SKills
     // references
