@@ -1,5 +1,6 @@
 const { expect } = require('../../../test-helper');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
+const constants = require('../../../../lib/domain/constants');
 
 describe('Unit | Domain | Models | Scorecard', () => {
 
@@ -33,7 +34,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
 
   describe('_getCompetenceLevel', () => {
 
-    it('should be capped at MAX_REACHABLE_LEVEL', () => {
+    it('should be capped at a maximum level', () => {
       // given
       const rawData = {
         id: 1,
@@ -48,7 +49,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
       const scorecard = new Scorecard(rawData);
 
       // then
-      expect(scorecard.level).to.equal(Scorecard.MAX_REACHABLE_LEVEL);
+      expect(scorecard.level).to.equal(constants.MAX_REACHABLE_LEVEL);
     });
   });
 });

@@ -2,8 +2,7 @@ const _ = require('lodash');
 const AssessmentScore = require('../../models/AssessmentScore');
 const AnswerStatus = require('../../models/AnswerStatus');
 const CompetenceMark = require('../../models/CompetenceMark');
-
-const NB_PIX_BY_LEVEL = 8;
+const constants = require('../../constants');
 
 async function calculate({ answerRepository, challengeRepository, competenceRepository, courseRepository, skillRepository }, assessment) {
 
@@ -79,7 +78,7 @@ function _getFailedSkills(answers, challenges, tubes) {
 }
 
 function _computeLevel(pixScore) {
-  return Math.floor(pixScore / NB_PIX_BY_LEVEL);
+  return Math.floor(pixScore / constants.PIX_COUNT_BY_LEVEL);
 }
 
 function _computeObtainedPixScore(allSkills, validatedSkills) {
