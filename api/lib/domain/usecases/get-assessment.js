@@ -1,5 +1,5 @@
 const { NotFoundError } = require('../errors');
-const { MAX_REACHABLE_LEVEL } = require('../../../lib/domain/models/Profile');
+const { MAX_REACHABLE_LEVEL } = require('../constants');
 
 module.exports = async function getAssessment(
   {

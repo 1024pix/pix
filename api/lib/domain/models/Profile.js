@@ -1,6 +1,5 @@
+const constants = require('../constants');
 const _ = require('lodash');
-
-const MAX_REACHABLE_LEVEL = 5;
 
 const competenceStatus = {
   NOT_ASSESSED: 'notAssessed',
@@ -57,7 +56,7 @@ class Profile {
         competence.status = competenceStatus.ASSESSED;
         const lastCompletedAssessment = _(assessmentsCompletedByCompetenceId).find({ 'id': lastAssessmentByCompetenceId[0].id });
         competence.isRetryable = lastCompletedAssessment.canStartNewAttemptOnCourse();
-        
+
         if (!competence.isRetryable) {
           competence.daysBeforeNewAttempt = lastCompletedAssessment.getRemainingDaysBeforeNewAttempt();
         }
@@ -75,7 +74,7 @@ class Profile {
         const course = this._getCourseById(courses, courseIdFromAssessment);
         const competence = this.competences.find((competence) => course.competences.includes(competence.id));
 
-        competence.level = Math.min(assessment.getLevel(), MAX_REACHABLE_LEVEL);
+        competence.level = Math.min(assessment.getLevel(), constants.MAX_REACHABLE_LEVEL);
         competence.pixScore = assessment.getPixScore();
       }
     });
@@ -119,6 +118,5 @@ class Profile {
 }
 
 Profile.competenceStatus = competenceStatus;
-Profile.MAX_REACHABLE_LEVEL = MAX_REACHABLE_LEVEL;
 
 module.exports = Profile;
