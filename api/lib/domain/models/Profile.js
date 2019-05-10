@@ -49,12 +49,15 @@ class Profile {
 
       if (lastAssessmentByCompetenceId.length === 0) {
         competence.status = competenceStatus.NOT_ASSESSED;
+
       } else if (!lastAssessmentByCompetenceId[0].isCompleted()) {
         competence.status = competenceStatus.ASSESSMENT_NOT_COMPLETED;
+
       } else if (lastAssessmentByCompetenceId[0].isCompleted()) {
         competence.status = competenceStatus.ASSESSED;
         const lastCompletedAssessment = _(assessmentsCompletedByCompetenceId).find({ 'id': lastAssessmentByCompetenceId[0].id });
         competence.isRetryable = lastCompletedAssessment.canStartNewAttemptOnCourse();
+        
         if (!competence.isRetryable) {
           competence.daysBeforeNewAttempt = lastCompletedAssessment.getRemainingDaysBeforeNewAttempt();
         }
