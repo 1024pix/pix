@@ -7,26 +7,23 @@ const { pipe } = require('lodash/fp');
 
 module.exports = {
   findMaxRewardingChallenges,
-  getPredictedLevel
+  getPredictedLevel,
 };
 
 function getPredictedLevel(knowledgeElements, skills) {
-  let maxLikelihood = -Infinity;
-  let level = 0.5;
-  let predictedLevel = 0.5;
-
-  while (level < 8) {
-    const likelihood = _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills);
-    if (likelihood > maxLikelihood) {
-      maxLikelihood = likelihood;
-      predictedLevel = level;
-    }
-    level += 0.5;
-  }
-  return predictedLevel;
+  return _.maxBy(_enumerateCatLevels(),
+    (level) => _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills)
+  );
 }
 
-function _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills) {
+function _enumerateCatLevels() {
+  const firstLevel = 0.5;
+  const lastLevel = 8; // The upper boundary is not included in the range
+  const levelStep = 0.5;
+  return _.range(firstLevel, lastLevel, levelStep);
+}
+
+function _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills) {
   const directKnowledgeElements = _.filter(knowledgeElements, (ke) => ke.source === 'direct');
   const extraAnswers = directKnowledgeElements.map((ke) => {
     const skill = skills.find((skill) => skill.id === ke.skillId);
