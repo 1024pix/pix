@@ -3,7 +3,6 @@ const moment = require('moment');
 
 const { ObjectValidationError } = require('../errors');
 
-const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 const MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = 7;
 
 const courseIdMessage = {
@@ -23,6 +22,13 @@ const types = {
   PREVIEW: 'PREVIEW',
   SMARTPLACEMENT: 'SMART_PLACEMENT',
 };
+
+const TYPES_OF_ASSESSMENT_NEEDING_USER = [
+  types.PLACEMENT,
+  types.CERTIFICATION,
+  types.COMPETENCE_EVALUATION,
+  types.SMARTPLACEMENT,
+];
 
 class Assessment {
   constructor({
