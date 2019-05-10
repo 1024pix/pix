@@ -19,3 +19,16 @@
     justify-content: flex-end;
   }
 }
+
+.profilv2-panel-header-information {
+  font-weight: $font-light;
+  font-family: $font-roboto;
+  color: $black;
+  font-size: 1.8rem;
+  line-height: 2.1rem;
+
+  &__link {
+    cursor: pointer;
+    color: $pix-blue;
+  }
+}
