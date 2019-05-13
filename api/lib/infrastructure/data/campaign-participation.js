@@ -22,7 +22,7 @@ module.exports = Bookshelf.model('CampaignParticipation', {
   },
 
   parse(rawAttributes) {
-    if (rawAttributes.sharedAt) {
+    if (rawAttributes && rawAttributes.sharedAt) {
       rawAttributes.sharedAt = new Date(rawAttributes.sharedAt);
     }
 
