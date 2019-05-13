@@ -46,7 +46,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  padding-bottom: 32px;
+  padding-bottom: 18px;
   border-bottom: 1px dashed $silver-grey;
 
   @include device-is('tablet') {
@@ -108,21 +108,8 @@
 .rounded-panel-title {
   font-weight: $font-light;
   font-family: $font-open-sans;
-  color: $nero;
-  font-size: 1.8rem;
-  letter-spacing: 0.03rem;
-  line-height: 1.8rem;
-  text-transform: uppercase;
-
-  @include device-is('tablet') {
-    font-size: 1.3rem;
-  }
-}
-
-.rounded-panel-subtitle {
-  font-weight: $font-light;
-  font-family: $font-open-sans;
   color: $black;
   font-size: 3.2rem;
   line-height: 4.5rem;
+  margin-bottom: 26px;
 }
