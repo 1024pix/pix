@@ -92,7 +92,7 @@ buildUser.withMembership = function buildUserWithMemberships({
     id, firstName, lastName, email, password, cgu,
   };
 
-  organizationId = _.isNil(organizationId) ? buildOrganization({ name: faker.company.name() }).id : organizationId;
+  organizationId = _.isNil(organizationId) ? buildOrganization({ name: faker.companyName() }).id : organizationId;
   organizationRoleId = _.isNil(organizationRoleId) ? buildOrganizationRole({ name: 'ADMIN' }).id : organizationRoleId;
 
   buildMembership({ 
