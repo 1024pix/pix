@@ -7,12 +7,12 @@ const challengeRepository = require('../../../../lib/infrastructure/repositories
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const { retrieveOrCreateCertificationCourseFromKnowledgeElements } = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | retrieve-or-create-certification-course-from-knowledge-elements', () => {
+describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-knowledge-elements', () => {
 
   // TODO: [PF-577] Creuser le sessionExist() -> Controller porte la logique de renvoyer un 404
   //  lorsque la session n'existe pas ?
 
-  describe.skip('#retrieveOrCreateCertificationCourseFromKnowledgeElements', () => {
+  describe('#retrieveOrCreateCertificationCourseFromKnowledgeElements', () => {
 
     let userId;
     let sessionId;
@@ -74,7 +74,6 @@ describe('Unit | UseCase | retrieve-or-create-certification-course-from-knowledg
       sinon.stub(certificationChallengesService, 'findChallengesBySkills')
         .withArgs(['C'])
         .resoves(['challenges links to C']);
-
 
       sinon.stub(certificationChallengesService, 'saveChallenges')
         .withArgs(certificationCourse, userCompetencesAndChallenges)

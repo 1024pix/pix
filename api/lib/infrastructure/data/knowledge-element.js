@@ -18,4 +18,8 @@ module.exports = Bookshelf.model('KnowledgeElement', {
     return this.belongsTo('User');
   },
 
+  answer() {
+    return this.belongsTo('Answer', 'answerId');
+  }
+
 });

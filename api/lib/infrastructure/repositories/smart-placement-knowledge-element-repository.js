@@ -1,10 +1,13 @@
 const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
+const Answer = require('../../domain/models/Answer');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 
 function _toDomain(knowledgeElementBookshelf) {
-  return new SmartPlacementKnowledgeElement(knowledgeElementBookshelf.toJSON());
+  const knowledgeElement = new SmartPlacementKnowledgeElement(knowledgeElementBookshelf.toJSON());
+  //knowledgeElement.answer = new Answer(knowledgeElementBookshelf.related('answer').toJSON());
+  return knowledgeElement;
 }
 
 module.exports = {
@@ -56,7 +59,21 @@ module.exports = {
       .then(([{ earnedPix }]) => earnedPix);
   },
 
-  findUniqByUserIdWithAnswersAndSkills(userId, limitDate) {
-
+  async findUniqByUserIdWithAnswersAndSkills(userId, limitDate) {
+    return BookshelfKnowledgeElement
+      .query((qb) => {
+        qb.where({ userId });
+        if (limitDate) {
+          qb.where('knowledge-elements.createdAt', '<', limitDate);
+        }
+      })
+      .fetchAll({ withRelated: ['answer'] })
+      .then((knowledgeElements) => knowledgeElements.map(_toDomain))
+      .then((knowledgeElements) => {
+        return _(knowledgeElements)
+          .orderBy('createdAt', 'desc')
+          .uniqBy('skillId')
+          .value();
+      });
   }
 };

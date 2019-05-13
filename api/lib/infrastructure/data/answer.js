@@ -10,4 +10,8 @@ module.exports = Bookshelf.model('Answer', {
   assessment() {
     return this.belongsTo('Assessment');
   },
+
+  knowledgeElements() {
+    return this.hasMany('KnowledgeElement', 'answerId');
+  }
 });
