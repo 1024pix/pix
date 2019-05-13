@@ -16,7 +16,7 @@ describe('Integration | Repository | Target-profile', () => {
     beforeEach(async () => {
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({});
-      targetProfileFirstSkill = databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: targetProfile.id });
+      targetProfileFirstSkill = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id });
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfile.id, organizationId: 2 });
       await databaseBuilder.commit();
 
@@ -60,7 +60,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     beforeEach(async () => {
       publicTargetProfile = databaseBuilder.factory.buildTargetProfile(publicTargetProfile);
-      publicProfileSkillAssociation = databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: publicTargetProfile.id });
+      publicProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: publicTargetProfile.id });
       privateTargetProfile = databaseBuilder.factory.buildTargetProfile(privateTargetProfile);
 
       await databaseBuilder.commit();
@@ -131,7 +131,7 @@ describe('Integration | Repository | Target-profile', () => {
       anotherOrganization = databaseBuilder.factory.buildOrganization(anotherOrganization);
 
       requestedOrganizationTargetProfile = databaseBuilder.factory.buildTargetProfile(requestedOrganizationTargetProfile);
-      targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: requestedOrganizationTargetProfile.id });
+      targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: requestedOrganizationTargetProfile.id });
 
       anotherOrganizationTargetProfile = databaseBuilder.factory.buildTargetProfile(anotherOrganizationTargetProfile);
 
@@ -191,7 +191,7 @@ describe('Integration | Repository | Target-profile', () => {
     beforeEach(async () => {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
-      const { skillId } = databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId });
+      const { skillId } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
       const skillAssociatedToTargetProfile = new SkillDataObject({ id: skillId, name: '@Acquis2' });
       databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildCampaign();
@@ -210,7 +210,5 @@ describe('Integration | Repository | Target-profile', () => {
       // then
       expect(targetProfile.id).to.equal(targetProfileId);
     });
-
   });
-
 });
