@@ -65,6 +65,12 @@ export default function() {
     return foundCampaignReport ? foundCampaignReport : emptyCampaignReport;
   });
 
+  this.get('/campaigns/:id/collective-results', (schema, request) => {
+    const campaignId = request.params.id;
+    const campaign = schema.campaigns.find(campaignId);
+    return campaign.campaignCollectiveResult;
+  });
+
   this.get('/campaign-participations', (schema, request) => {
     const qp = request.queryParams;
     const campaignId = qp['filter[campaignId]'];
