@@ -88,30 +88,23 @@
 .scorecard-details-content-right-score-container {
   &__pix-earned {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    margin-left: 30px;
+    margin-left: 60px;
     text-transform: uppercase;
     color: $grayish-grey;
   }
 }
 
-@mixin pix-earned-number-text {
-  font-size: 3.2rem;
-  line-height: 3.2rem;
-  font-family: $font-open-sans;
-  font-weight: $font-semi-bold;
-}
-
 .scorecard-details-content-right-score-container-pix-earned {
   &__number {
-    margin-right: 5px;
-    margin-bottom: 4px;
-    @include pix-earned-number-text;
+    font-size: 4.6rem;
+    line-height: 4.6rem;
+    font-family: $font-open-sans;
   }
 
   &__info {
-    line-height: 1.4rem;
-    letter-spacing: 0.12rem;
+    font-size: 1rem;
+    letter-spacing: 0.25rem;
   }
 }
