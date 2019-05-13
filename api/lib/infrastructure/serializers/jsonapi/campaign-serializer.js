@@ -8,7 +8,7 @@ module.exports = {
   serialize(campaigns, { tokenForCampaignResults, ignoreCampaignReportRelationshipData = true } = {}) {
 
     return new Serializer('campaign', {
-      attributes: ['name', 'code', 'title', 'createdAt', 'customLandingPageText', 'tokenForCampaignResults', 'idPixLabel', 'organizationLogoUrl', 'targetProfile', 'campaignReport'],
+      attributes: ['name', 'code', 'title', 'createdAt', 'customLandingPageText', 'tokenForCampaignResults', 'idPixLabel', 'organizationLogoUrl', 'targetProfile', 'campaignReport', 'campaignCollectiveResult'],
       transform: (record) => {
         const campaign = Object.assign({}, record);
         campaign.tokenForCampaignResults = tokenForCampaignResults;
@@ -26,6 +26,15 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/campaigns/${parent.id}/campaign-report`;
+          }
+        }
+      },
+      campaignCollectiveResult: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/campaigns/${parent.id}/collective-results`;
           }
         }
       },
