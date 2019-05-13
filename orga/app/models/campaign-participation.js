@@ -10,4 +10,5 @@ export default Model.extend({
   campaign: belongsTo('campaign'),
   user: belongsTo('user'),
   campaignParticipationResult: belongsTo('campaignParticipationResult'),
+  campaignCollectiveResult: belongsTo('campaignCollectiveResult'),
 });

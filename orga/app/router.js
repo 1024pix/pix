@@ -35,6 +35,7 @@ Router.map(function() {
       this.route('list', { path: '/liste' });
       this.route('update', { path: '/:campaign_id/modification' });
       this.route('details', { path: '/:campaign_id' }, function() {
+        this.route('collective-results', { path: '/resultats-collectifs' });
         this.route('parameters', { path: '/' });
         this.route('participants', { path: '/participants' }, function() {
           this.route('results', { path: '/:campaign_participation_id' });

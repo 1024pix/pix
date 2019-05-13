@@ -1,0 +1,40 @@
+<div class="panel panel--light-shadow participant-results__details content-text content-text--small">
+
+  <table>
+    <thead>
+    <tr>
+      <th class="table__column--wide">Compétences</th>
+      <th class="table__column--wide">Acquis validés (moyenne par participant)</th>
+      <th class="table__column--small">Acquis évalués</th>
+    </tr>
+    </thead>
+
+    {{#if campaignCollectiveResult.campaignCompetenceCollectiveResults }}
+
+      <tbody>
+      {{#each campaignCollectiveResult.campaignCompetenceCollectiveResults as |competenceResult|}}
+        <tr>
+          <td class="participant-results-details__competence-wrapper">
+            <span class="participant-results-details-competence__bullet"
+                  style={{competenceResult.domainColorStyle}}>&#8226;</span>
+            <span>{{competenceResult.competenceName}}</span>
+          </td>
+          <td>
+            {{#progression-gauge
+                total=competenceResult.totalSkillsCount
+                value=competenceResult.averageValidatedSkillsPercentage}}
+              {{competenceResult.roundedAverageValidatedSkills}}
+            {{/progression-gauge}}
+          </td>
+          <td>{{competenceResult.totalSkillsCount}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    {{/if}}
+  </table>
+
+  {{#unless campaignCollectiveResult.campaignCompetenceCollectiveResults }}
+    <div class="table__empty content-text">En attente de résultats</div>
+  {{/unless}}
+
+</div>
