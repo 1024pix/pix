@@ -82,6 +82,7 @@
     color: $grayish-grey;
     text-transform: uppercase;
     letter-spacing: 0.03rem;
+    white-space: nowrap;
   }
 }
 
@@ -107,4 +108,8 @@
     font-size: 1rem;
     letter-spacing: 0.25rem;
   }
+}
+
+.scorecard-details__button {
+  margin-top: 20px;
 }
