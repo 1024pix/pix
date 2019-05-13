@@ -10,7 +10,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     return this.store.findRecord('user', this.get('session.data.authenticated.userId'))
       .then((user) => {
         if (user.get('organizations.length') <= 0) {
-          return this.transitionTo('compte');
+          return this.transitionTo('index');
         }
 
         const organization = user.get('organizations.firstObject');
