@@ -105,6 +105,7 @@ module.exports = injectDependencies({
   reloadCacheEntry: require('./reload-cache-entry'),
   removeAllCacheEntries: require('./remove-all-cache-entries'),
   retrieveLastOrCreateCertificationCourse : require('./retrieve-last-or-create-certification-course'),
+  retrieveOrCreateCertificationCourseFromKnowledgeElements : require('./retrieve-or-create-certification-course-from-knowledge-elements'),
   saveCertificationCenter: require('./save-certification-center'),
   shareCampaignResult: require('./share-campaign-result'),
   startCampaignParticipation: require('./start-campaign-participation'),

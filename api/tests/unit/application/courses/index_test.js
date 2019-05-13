@@ -12,6 +12,7 @@ describe('Integration | Router | course-router', () => {
     sinon.stub(courseController, 'list').returns('ok');
     sinon.stub(courseController, 'get').returns('ok');
     sinon.stub(courseController, 'save').returns('ok');
+    sinon.stub(courseController, 'retrieveOrCreateCertificationCourseFromKnowledgeElements').returns('ok');
 
     server = this.server = Hapi.server();
     return server.register(require('../../../../lib/application/courses'));
@@ -62,6 +63,25 @@ describe('Integration | Router | course-router', () => {
       const options = {
         method: 'POST',
         url: '/api/courses'
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(200);
+      });
+    });
+  });
+
+  describe('POST /api/courses-v2', () => {
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/courses-v2'
       };
 
       // when

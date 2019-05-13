@@ -174,4 +174,50 @@ describe('Unit | Controller | course-controller', () => {
     });
   });
 
+  // TODO: [PF-577] Tester et implémenter les causes possibles de 400, 404, 403, 500, ?... en fonction du comportement des
+  //       collaborateurs
+
+  // TODO: [PF-577] Tester que les code 200 / 201 soit correctement renvoyé en fonction
+  //  de la création (ou non) du certificationCourse
+
+  describe('#retieveOrCreateCertificationCourseFromKnowledgeElements', () => {
+
+    let request;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'retrieveOrCreateCertificationCourseFromKnowledgeElements');
+      request = {
+        auth: { credentials: { accessToken: 'jwt.access.token', userId: 'userId' } },
+        pre: { userId: 'userId' },
+        payload: {
+          data: {
+            attributes: {
+              'access-code': 'ABCD12'
+            },
+          }
+        }
+      };
+    });
+
+    context('when certification course needs to be created', function() {
+      const newlyCreatedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
+
+      it('should reply the certification course serialized', async () => {
+        // given
+        usecases.retrieveOrCreateCertificationCourseFromKnowledgeElements
+          .withArgs({ accessCode: 'ABCD12', userId: 'userId' })
+          .resolves({ created: true, certificationCourse: newlyCreatedCertificationCourse });
+        certificationCourseSerializer.serialize.resolves({});
+
+        // when
+        const response = await courseController.retrieveOrCreateCertificationCourseFromKnowledgeElements(request, hFake);
+
+        // then
+        sinon.assert.calledOnce(certificationCourseSerializer.serialize);
+        sinon.assert.calledWith(certificationCourseSerializer.serialize, newlyCreatedCertificationCourse);
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+  });
+
 });

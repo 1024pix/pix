@@ -39,6 +39,18 @@ module.exports = {
 
         return created ? h.response(serialized).created() : serialized;
       });
+  },
+
+  retrieveOrCreateCertificationCourseFromKnowledgeElements(request, h) {
+    const userId = request.auth.credentials.userId;
+    const accessCode = request.payload.data.attributes['access-code'];
+
+    return usecases.retrieveOrCreateCertificationCourseFromKnowledgeElements({ accessCode, userId })
+      .then(({ created, certificationCourse }) => {
+        const serialized = certificationCourseSerializer.serialize(certificationCourse);
+
+        return created ? h.response(serialized).created() : serialized;
+      });
   }
 
 };
