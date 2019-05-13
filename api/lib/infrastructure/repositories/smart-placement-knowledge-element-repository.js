@@ -54,5 +54,9 @@ module.exports = {
       .where({ rank: 1 })
       .then((result) => result.rows ? result.rows : result)
       .then(([{ earnedPix }]) => earnedPix);
+  },
+
+  findUniqByUserIdWithAnswersAndSkills(userId, limitDate) {
+
   }
 };

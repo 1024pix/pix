@@ -1,4 +1,5 @@
 const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
+const smartPlacementKnowledgeElementRepository = require('../../infrastructure/repositories/smart-placement-knowledge-element-repository');
 
 module.exports = {
 
@@ -15,5 +16,9 @@ module.exports = {
         certificationCourse.nbChallenges = certificationChallenges.length;
         return certificationCourse;
       });
+  },
+
+  async getUserKnowledgeElementsWithAnswersAndSkills(userId, certificationStartDateTime) {
+    return await smartPlacementKnowledgeElementRepository.findUniqByUserIdWithAnswersAndSkills();
   }
 };
