@@ -1,69 +1,80 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { expect } from 'chai';
-import { before, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | compte', function() {
   setupTest('route:compte', {
-    needs: ['service:session', 'service:metrics']
+    needs: ['service:session', 'service:metrics', 'service:currentUser']
   });
 
   describe('model', function() {
 
-    let storyStub;
-    let queryRecordStub;
-
-    before(function() {
-      queryRecordStub = sinon.stub();
-      storyStub = Service.extend({
-        queryRecord: queryRecordStub
-      });
+    beforeEach(function() {
+      this.register('service:session', Service.extend({
+        isAuthenticated: true,
+      }));
+      this.inject.service('session');
     });
 
-    it('should redirect to /board when the user as an organization', function() {
-      // Given
-      const linkedOrganization = EmberObject.create({ id: 1 });
-      const foundUser = EmberObject.create({ organizations: [linkedOrganization] });
+    context('when user is an organization', function() {
 
-      this.register('service:store', storyStub);
-      this.inject.service('store', { as: 'store' });
+      beforeEach(function() {
+        this.register('service:currentUser', Service.extend({
+          user: { organizations: [{ id: 1 }] }
+        }));
+        this.inject.service('currentUser');
+      });
 
-      queryRecordStub.resolves(foundUser);
-      const route = this.subject();
-      route.transitionTo = sinon.stub();
+      it('should redirect to /board', async function() {
+        // Given
+        const route = this.subject();
+        route.transitionTo = sinon.spy();
 
-      // When
-      const promise = route.model();
+        // When
+        await route.model();
 
-      // Then
-      return promise.then(function() {
+        // Then
         sinon.assert.calledWith(route.transitionTo, 'board');
       });
     });
 
-    it('should remain on /compte when the user as no organization linked (with a forced data reload)', function() {
-      // Given
-      const foundUser = EmberObject.create({ organizations: [] });
+    context('when user is regular user', function() {
 
-      this.register('service:store', storyStub);
-      this.inject.service('store', { as: 'store' });
+      let storyStub;
+      let queryRecordStub;
 
-      queryRecordStub.resolves(foundUser);
-      const route = this.subject();
-      route.transitionTo = sinon.stub();
+      beforeEach(function() {
+        this.register('service:currentUser', Service.extend({
+          user: { organizations: [] }
+        }));
+        this.inject.service('currentUser');
 
-      // When
-      const promise = route.model();
+        queryRecordStub = sinon.stub();
+        storyStub = Service.extend({
+          queryRecord: queryRecordStub
+        });
+      });
 
-      // Then
-      return promise.then(function() {
-        sinon.assert.notCalled(route.transitionTo);
-        sinon.assert.calledTwice(queryRecordStub);
+      it('should load user profile', async function() {
+        // Given
+        const foundUser = EmberObject.create({ id: 'hello' });
+
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        queryRecordStub.withArgs('user', { profile: true }).resolves(foundUser);
+        const route = this.subject();
+
+        // When
+        const model = await route.model();
+
+        // Then
+        expect(model).to.deep.equal(foundUser);
       });
     });
-
   });
 
   describe('#searchForOrganization', function() {

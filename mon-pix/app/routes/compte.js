@@ -4,18 +4,17 @@ import { inject as service } from '@ember/service';
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
-  session: service(),
+  currentUser: service(),
 
   async model() {
-    const user = await this.store.queryRecord('user', { profile: true });
-
+    const user = this.currentUser.user;
     const organizations = await user.organizations;
 
     if (organizations.length) {
       return this.transitionTo('board');
     }
 
-    return user;
+    return this.store.queryRecord('user', { profile: true });
   },
 
   afterModel(model) {
