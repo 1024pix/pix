@@ -64,7 +64,7 @@ describe('Unit | Route | board', function() {
     });
   });
 
-  it('should return to /compte when the user has no organization', function() {
+  it('should return to index when the user has no organization', function() {
     // given
     const user = EmberObject.create({ id: 1, organizations: [] });
     findRecord.resolves(user);
@@ -75,7 +75,7 @@ describe('Unit | Route | board', function() {
     // then
     return result.then((_) => {
       sinon.assert.calledOnce(route.transitionTo);
-      sinon.assert.calledWith(route.transitionTo, 'compte');
+      sinon.assert.calledWith(route.transitionTo, 'index');
     });
   });
 });
