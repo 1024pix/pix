@@ -1,25 +1,18 @@
-import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default Route.extend(AuthenticatedRouteMixin, {
 
-  session: service(),
-  store: service(),
+  currentUser: service(),
 
-  beforeModel() {
-    if (this.get('session.isAuthenticated')) {
-      return this.store
-        .findRecord('user', this.get('session.data.authenticated.userId'))
-        .then((connectedUser) => {
-          if (connectedUser.get('organizations.length')) {
-            return this.transitionTo('board');
-          }
-          if (connectedUser.get('usesProfileV2')) {
-            return this.replaceWith('profilv2');
-          }
-          return this.transitionTo('compte');
-        });
+  model() {
+    const usesProfileV2 = this.currentUser.get('user.usesProfileV2');
+
+    if (usesProfileV2) {
+      return this.transitionTo('profilv2');
     }
-    return this.transitionTo('login');
+
+    return this.transitionTo('compte');
   },
 });
