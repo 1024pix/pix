@@ -42,7 +42,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     });
 
     targetProfileSkills = _.times(8, () => {
-      return databaseBuilder.factory.buildTargetProfilesSkills({
+      return databaseBuilder.factory.buildTargetProfileSkill({
         targetProfileId: targetProfile.id,
       });
     });

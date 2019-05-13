@@ -18,7 +18,7 @@ module.exports = {
   buildSnapshot: require('./build-snapshot'),
   buildSession: require('./build-session'),
   buildTargetProfile: require('./build-target-profile'),
-  buildTargetProfilesSkills: require('./build-target-profiles-skills'),
+  buildTargetProfileSkill: require('./build-target-profile-skill'),
   buildTargetProfileShare: require('./build-target-profile-share'),
   buildUser: require('./build-user'),
   buildUserPixRole: require('./build-user-pix-role'),

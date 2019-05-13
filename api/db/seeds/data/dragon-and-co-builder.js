@@ -41,7 +41,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     'recr9No0p5zGhq2bg', 'recWalmeLbapvhX3K', 'recKTybfk95zVWBDM', 'recKFUQ2CzcYHrxPR'
   ]
     .forEach((skillId) => {
-      databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: privateTargetProfile.id, skillId });
+      databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: privateTargetProfile.id, skillId });
     });
 
   const proUserSub = databaseBuilder.factory.buildUser.withUnencryptedPassword({

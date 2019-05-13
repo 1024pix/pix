@@ -3,7 +3,7 @@ const buildTargetProfile = require('./build-target-profile');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
-module.exports = function buildTargetProfilesSkills({
+module.exports = function buildTargetProfileSkill({
   id = faker.random.number(),
   targetProfileId,
   skillId = `rec${faker.random.uuid()}`,
