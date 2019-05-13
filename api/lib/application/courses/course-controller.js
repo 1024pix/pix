@@ -41,6 +41,10 @@ module.exports = {
       });
   },
 
+
+  // TODO: [PF-577] Creuser le sessionExist() -> Controller porte la logique de renvoyer un 404
+  //  lorsque la session n'existe pas ?
+
   retrieveOrCreateCertificationCourseFromKnowledgeElements(request, h) {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];

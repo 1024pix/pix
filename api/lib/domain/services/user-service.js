@@ -171,5 +171,10 @@ module.exports = {
 
         return userCompetences;
       });
+  },
+
+  getUserCertificationChallenges(userId, certificationStartDateTime) {
+
   }
 };
+
