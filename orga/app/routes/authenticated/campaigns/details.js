@@ -7,6 +7,6 @@ export default Route.extend({
   },
 
   afterModel(model) {
-    model.belongsTo('campaignReport').reload();
+    return model.belongsTo('campaignReport').reload();
   }
 });
