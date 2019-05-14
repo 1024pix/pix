@@ -4,19 +4,35 @@
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
 
-    <div class="competence-details-panel-header__banner competence-details-panel-header__banner--congrats">
-      <img src="/images/banners/congrats-text.svg" alt="Félicitations !" class="competence-details-banner__title">
-      <div class="competence-details-banner__results">
-        <div class="competence-details-banner-results__level">
-          <div class="competence-details-banner-results__label">Vous avez atteint</div>
-          <div class="competence-details-banner-results__value">Niveau&nbsp;{{model.level}}</div>
+    {{#if (lt model.level 1)}}
+      <div class="competence-details-panel-header__banner competence-details-panel-header__banner--not-bad">
+        <div class="competence-details-banner__hexagone">
+          <div class="competence-details-banner-hexagone__level">{{model.earnedPix}}</div>
+          <div class="competence-details-banner-hexagone__label">pix</div>
         </div>
-        <div class="competence-details-banner-results__pix">
-          <div class="competence-details-banner-results__label">Vous avez gagné</div>
-          <div class="competence-details-banner-results__value">{{model.earnedPix}}&nbsp;pix</div>
+        <div class="competence-details-banner__text">
+          <img src="/images/banners/not-bad-text.svg" alt="Pas mal, mais pas max !"
+               class="competence-details-banner__title competence-details-banner__title--wide">
+          <div class="competence-details-banner__subtitle">
+            Encore quelques petits efforts<br/>et vous décrocherez le premier niveau
+          </div>
         </div>
       </div>
-    </div>
+    {{else}}
+      <div class="competence-details-panel-header__banner competence-details-panel-header__banner--congrats">
+        <img src="/images/banners/congrats-text.svg" alt="Félicitations !" class="competence-details-banner__title">
+        <div class="competence-details-banner__text">
+          <div class="competence-details-banner-text__level">
+            <div class="competence-details-banner-text__label">Vous avez atteint</div>
+            <div class="competence-details-banner-text__value">Niveau&nbsp;{{model.level}}</div>
+          </div>
+          <div class="competence-details-banner-text__pix">
+            <div class="competence-details-banner-text__label">Vous avez gagné</div>
+            <div class="competence-details-banner-text__value">{{model.earnedPix}}&nbsp;pix</div>
+          </div>
+        </div>
+      </div>
+    {{/if}}
     <div class="competence-details-panel__header">
       {{#link-to "profilv2" class="competence-details-panel-header__return-button"}}
         <span class="icon-button competence-details-panel-header-return-button__icon">

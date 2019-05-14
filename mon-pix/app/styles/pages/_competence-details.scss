@@ -50,6 +50,19 @@
     &--congrats {
       background: url('/images/banners/congrats.svg');
     }
+
+    &--not-bad {
+      background: url('/images/banners/not-bad.svg');
+      flex-direction: column;
+      justify-content: space-around;
+      padding: 50px 40px 0 40px;
+
+      @include device-is('tablet') {
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 0 40px;
+      }
+    }
   }
 
   &__return-button {
@@ -75,6 +88,13 @@
 
   &__title {
     margin-bottom: 20px;
+
+    &--wide {
+      width: 300px;
+      @include device-is('tablet') {
+        width: auto;
+      }
+    }
   }
 
   &__subtitle {
@@ -83,12 +103,13 @@
     font-size: 2rem;
   }
 
-  &__results {
+  &__text {
     display: flex;
+    flex-direction: column;
   }
 }
 
-.competence-details-banner-results {
+.competence-details-banner-text {
   &__level {
     display: flex;
     flex-direction: column;
@@ -119,6 +140,23 @@
     color: $white;
     font-family: $font-open-sans;
     font-size: 2.8rem;
+  }
+}
+
+.competence-details-banner-hexagone {
+  &__level {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 5.5rem;
+    line-height: 5.5rem;
+  }
+
+  &__label {
+    color: $white;
+    font-family: $font-roboto;
+    font-size: 1rem;
+    letter-spacing: 0.25rem;
+    text-align: center;
   }
 }
 
