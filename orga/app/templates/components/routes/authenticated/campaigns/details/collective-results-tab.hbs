@@ -4,7 +4,8 @@
     <thead>
     <tr>
       <th class="table__column--wide">Compétences</th>
-      <th class="table__column--wide">Acquis validés (moyenne par participant)</th>
+      <th class="table__column--wide">Résultats</th>
+      <th class="table__column--small">Acquis validés (moyenne)</th>
       <th class="table__column--small">Acquis évalués</th>
     </tr>
     </thead>
@@ -21,11 +22,12 @@
           </td>
           <td>
             {{#progression-gauge
-                total=competenceResult.totalSkillsCount
-                value=competenceResult.averageValidatedSkillsPercentage}}
-              {{competenceResult.roundedAverageValidatedSkills}}
+                total=competenceResult.totalSkillsCountPercentage
+                value=competenceResult.validatedSkillsPercentage}}
+              {{competenceResult.validatedSkillsPercentage}}%
             {{/progression-gauge}}
           </td>
+          <td>{{competenceResult.roundedAverageValidatedSkills}}</td>
           <td>{{competenceResult.totalSkillsCount}}</td>
         </tr>
       {{/each}}

@@ -31,7 +31,8 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
     assert.dom('.table__empty').doesNotExist();
 
     assert.dom('table tbody tr:first-child td:first-child span:nth-child(2)').hasText('Competence A');
-    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('5');
-    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('10');
+    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('50%');
+    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('5');
+    assert.dom('table tbody tr:first-child td:nth-child(4)').hasText('10');
   });
 });
