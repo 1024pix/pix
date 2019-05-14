@@ -49,8 +49,8 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
       domainCode: '2',
       competenceId: 'recCompB',
       competenceName: 'Competence B',
-      averageValidatedSkills: 52,
-      totalSkillsCount: 20
+      averageValidatedSkills: 12.5,
+      totalSkillsCount: 50
     }));
 
     const campaignCollectiveResult = run(() => store.createRecord('campaign-collective-result', {
@@ -66,12 +66,14 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
     // then
     assert.dom('.table__empty').doesNotExist();
     assert.dom('table tbody tr:first-child td:first-child span:nth-child(2)').hasText('Competence A');
-    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('10');
-    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('30');
+    assert.dom('table tbody tr:first-child td:nth-child(2)').hasText('33%');
+    assert.dom('table tbody tr:first-child td:nth-child(3)').hasText('10');
+    assert.dom('table tbody tr:first-child td:nth-child(4)').hasText('30');
 
     assert.dom('table tbody tr:nth-child(2) td:first-child span:nth-child(2)').hasText('Competence B');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(2)').hasText('52');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('20');
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(2)').hasText('25%');
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('12.5');
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('50');
   });
 
 });
