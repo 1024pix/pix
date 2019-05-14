@@ -31,6 +31,20 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
       }
     ];
 
+    const userKnowledgeElementsWithChallengeId = [{
+      answerId: 43744,
+      assessmentId: 68997,
+      challengeId: 'rec123456',
+      competenceId: 'rec0956165c-4417-4d27-82ad-650df872ee15',
+      createdAt: '2018-01-01T00:00:00.000Z',
+      earnedPix: 2,
+      id: 32704,
+      skillId: 'recf04956d8-8794-4361-8341-51b00d78a40a',
+      source: 'direct',
+      status: 'validated',
+      userId: 1,
+    }];
+
     beforeEach(() => {
       userId = 12345;
       sessionId = 23;
@@ -55,25 +69,25 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
       sinon.stub(competenceRepository, 'list')
         .resolves(['list de competences']);
 
-      sinon.stub(certificationChallengesService, 'getUserKnowledgeElementsWithAnswersAndSkills')
+      sinon.stub(certificationChallengesService, 'getUserKnowledgeElementsWithChallengeId')
         .withArgs(userId, sinon.match.any)
-        .resolves(['A']);
+        .resolves(userKnowledgeElementsWithChallengeId);
 
       sinon.stub(certificationChallengesService, 'groupUserKnowledgeElementsByCompetence')
-        .withArgs(['A'])
+        .withArgs(userKnowledgeElementsWithChallengeId)
         .resolves(['B']);
 
-      sinon.stub(certificationChallengesService, 'sortUserKnowledgeElementsHighterSkillsFirstByCompetence')
-        .withArgs(['B'])
-        .resolves(['C']);
+      // TODO: [PF-577] Ajouter l'étape de tri des 3 KE de plus haut niveau par compétence.
 
-      sinon.stub(certificationChallengesService, 'sortUserKnowledgeElementsHighterSkillsFirstByCompetence')
-        .withArgs(['B'])
-        .resolves(['C']);
+      /*      sinon.stub(certificationChallengesService, 'sortUserKnowledgeElementsHighterSkillsFirstByCompetence')
+              .withArgs(['B'])
+              .resolves(['C']);*/
 
       sinon.stub(certificationChallengesService, 'findChallengesBySkills')
         .withArgs(['C'])
         .resoves(['challenges links to C']);
+
+      // TODO: [PF-577] Ajouter une étape pour récupérer les varaiantes des questions.
 
       sinon.stub(certificationChallengesService, 'saveChallenges')
         .withArgs(certificationCourse, userCompetencesAndChallenges)

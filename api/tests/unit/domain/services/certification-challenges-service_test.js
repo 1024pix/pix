@@ -2,7 +2,7 @@ const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 
-describe.skip('Unit | Service | Certification Challenge Service', function() {
+describe('Unit | Service | Certification Challenge Service', function() {
 
   describe('#saveChallenges', () => {
 
@@ -82,21 +82,21 @@ describe.skip('Unit | Service | Certification Challenge Service', function() {
 
   });
 
-  describe('#getUserKnowledgeElementsWithAnswersAndSkills', () => {
+  describe('#groupUserKnowledgeElementsByCompetence', () => {
+    const knowledgeElementOnUrl2 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+    const knowledgeElementOnUrl3 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+    const knowledgeElementOnText1 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence2' });
+    const knowledgeElementsWithChallengeIds = [ knowledgeElementOnUrl2, knowledgeElementOnUrl3, knowledgeElementOnText1 ];
 
-    it('should do something', async () => {
-      // given
-      const userId = 1;
-      const expectedKnowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ userId }),
-        domainBuilder.buildSmartPlacementKnowledgeElement({ userId })
-      ];
-
+    it('should group knowledge elements by competences', () => {
       // when
-      const result = await certificationChallengesService.getUserKnowledgeElementsWithAnswersAndSkills(userId, new Date());
+      const result = certificationChallengesService.groupUserKnowledgeElementsByCompetence(knowledgeElementsWithChallengeIds)
 
       // then
-      expect(result).to.deep.equal(expectedKnowledgeElements);
+      expect(result).to.deep.equal({
+        recCompetence1: [knowledgeElementOnUrl2, knowledgeElementOnUrl3],
+        recCompetence2: [knowledgeElementOnText1],
+      });
     });
   });
 });

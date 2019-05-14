@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 const smartPlacementKnowledgeElementRepository = require('../../infrastructure/repositories/smart-placement-knowledge-element-repository');
 
@@ -18,7 +19,11 @@ module.exports = {
       });
   },
 
-  async getUserKnowledgeElementsWithAnswersAndSkills(userId, certificationStartDateTime) {
-    return await smartPlacementKnowledgeElementRepository.findUniqByUserIdWithChallengeId();
+  groupUserKnowledgeElementsByCompetence(knowledgeElementsWithChallengeIds){
+    return _.groupBy(knowledgeElementsWithChallengeIds, 'competenceId');
+  },
+
+  async getUserKnowledgeElementsWithChallengeId(userId, certificationStartDateTime) {
+    return await smartPlacementKnowledgeElementRepository.findUniqByUserIdWithChallengeId(userId, certificationStartDateTime);
   }
 };
