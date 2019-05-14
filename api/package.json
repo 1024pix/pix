@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "2.40.0",
+  "version": "2.41.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "license": "AGPL-3.0",
@@ -91,14 +91,12 @@
     "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test nyc --silent _mocha --recursive --exit --reporter dot tests && nyc report --reporter=lcovonly --report-dir=../coverage",
     "coverage:rename": "mv ../coverage/lcov.info ../coverage/api_lcov.info",
     "coverage": "npm run coverage:check && npm run coverage:rename",
-
     "db:sqlite:delete": "rm -f db/dev.sqlite3 db/dev.sqlite3-journal db/test.sqlite3 db/test.sqlite3-journal",
     "db:sqlite:empty": "node scripts/database/empty-database",
     "db:sqlite:migrate": "knex --knexfile db/knexfile.js migrate:latest",
     "db:sqlite:prepare": "npm run db:sqlite:delete && npm run db:sqlite:migrate",
     "db:sqlite:seed": "knex --knexfile db/knexfile.js seed:run",
     "db:sqlite:reset": "npm run db:sqlite:prepare && npm run db:sqlite:seed",
-
     "db:pg:create": "node scripts/database/create-database",
     "db:pg:delete": "node scripts/database/drop-database",
     "db:pg:empty": "node scripts/database/empty-database",
@@ -106,7 +104,6 @@
     "db:pg:prepare": "npm run db:pg:delete && npm run db:pg:create && npm run db:pg:migrate",
     "db:pg:seed": "knex --knexfile db/knexfile.js seed:run",
     "db:pg:reset": "npm run db:pg:prepare && npm run db:pg:seed",
-
     "dev": "nodemon bin/www",
     "lint": "eslint lib tests",
     "lint:fix": "eslint lib tests --fix",

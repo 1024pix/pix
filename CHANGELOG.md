@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v2.41.0 (14/05/2019)
+
+- [#501](https://github.com/1024pix/pix/pull/501) [FEATURE] Afficher un lien temporaire d'explications pour Profil v2(PF-589).
+- [#488](https://github.com/1024pix/pix/pull/488) [FEATURE] Affiche la scorecard associée à la fin d'un parcours par compétence. (PF-569)
+- [#497](https://github.com/1024pix/pix/pull/497) [FEATURE] Modifier le wording de la page d'avertissement du chronomètre. (PF-115)
+- [#491](https://github.com/1024pix/pix/pull/491) [FEATURE] Afficher un message lors d'un checkpoint si aucune réponse n'est affichée. (PF-581)
+- [#477](https://github.com/1024pix/pix/pull/477) [FEATURE] Afficher par défaut le profil V2 pour certains utilisateurs (PF-556).
+- [#503](https://github.com/1024pix/pix/pull/503) [BUGFIX] Correction d'une typo dans la modale de prévention sur support mobile.
+- [#499](https://github.com/1024pix/pix/pull/499) [BUGFIX] Unifier l'affichage du cercle de progression d'une compétence (pf-599)
+- [#498](https://github.com/1024pix/pix/pull/498) [BUGFIX] Rétablir l'affichage de la barre de progression d'un checkpoint. (PF-597)
+- [#486](https://github.com/1024pix/pix/pull/486) [BUGFIX] Corriger la disposition des réponses d'un QCROQM-ind (PF-570).
+- [#496](https://github.com/1024pix/pix/pull/496) [BUGFIX] Corriger le problème d'affichage des niveaux sous IE. (PF-595)
+- [#492](https://github.com/1024pix/pix/pull/492) [BUGFIX] Corriger l'affichage de certains liens de mon-pix. (PF-590)
+- [#478](https://github.com/1024pix/pix/pull/478) [TECH] Mise en place d'outils pour faciliter les tests de charge & perfs.
+- [#470](https://github.com/1024pix/pix/pull/470) [TECH] Amélioration du bookshelf-to-domain converter
+- [#487](https://github.com/1024pix/pix/pull/487) [TECH] Ajout d'un namespace "/api" dans les resources exposées par l'API ainsi que les adapters des apps front-end (PF-551).
+
 ## v2.40.0 (06/05/2019)
 
 - [#484](https://github.com/1024pix/pix/pull/484) [FEATURE] Lier la carte de la compétence à la page de détails de cette compétence (PF-554).
