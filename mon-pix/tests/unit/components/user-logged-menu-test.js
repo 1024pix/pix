@@ -114,15 +114,28 @@ describe('Unit | Component | User logged Menu', function() {
       this.inject.service('metrics', { as: 'metrics' });
 
       this.register('service:store', Service.extend({
-        findRecord() {
-          return resolve({});
-        }
+        findRecord() { return resolve({}); }
       }));
       this.inject.service('store', { as: 'store' });
-
     });
 
-    it('should be false if the current route is /compte', function() {
+    it('should be false if user uses profilV2 and the current route is /profilv2', function() {
+      // given
+      this.register('service:-routing', Service.extend({
+        currentRouteName: 'profilv2'
+      }));
+      this.inject.service('-routing', { as: '-routing' });
+      const component = this.subject();
+      component.set('_user', { usesProfileV2: true });
+
+      // when
+      const result = component.get('canDisplayLinkToProfile');
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should be false if user does not use profilV2 and the current route is /compte', function() {
       // given
       this.register('service:-routing', Service.extend({
         currentRouteName: 'compte'
@@ -152,10 +165,10 @@ describe('Unit | Component | User logged Menu', function() {
       expect(result).to.be.false;
     });
 
-    it('should be true if the current route is not /compte', function() {
+    it('should be true otherwise', function() {
       // given
       this.register('service:-routing', Service.extend({
-        currentRouteName: 'autreRoute'
+        currentRouteName: 'other'
       }));
       this.inject.service('-routing', { as: '-routing' });
       const component = this.subject();
@@ -166,7 +179,5 @@ describe('Unit | Component | User logged Menu', function() {
       // then
       expect(result).to.be.true;
     });
-
   });
-
 });

@@ -46,6 +46,18 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       expect(currentURL()).to.equal('/compte');
     });
 
+    it('should contains references to pix.fr/actualites/votre-profil-evolue', async function() {
+      // when
+      await visit('/profilv2');
+
+      // then
+      expect(document.querySelector('.profilv2-panel-header-information > .link'))
+        .to.have.attr('href', 'https://pix.fr/actualites/votre-profil-evolue');
+
+      expect(document.querySelector('.profilv2-panel-header-information > .link'))
+        .to.have.attr('target', 'Actualité Pix');
+    });
+
     it('should display pixscore', async function() {
       await visit('/profilv2');
 

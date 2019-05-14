@@ -1,6 +1,7 @@
 const faker = require('faker');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
+const _ = require('lodash');
 
 const buildOrganization = function buildOrganization({
   id = faker.random.number(),
@@ -28,13 +29,13 @@ buildOrganization.withUser = function buildOrganizationWithUser({
   name = faker.company.companyName(),
   code = 'ABCD12',
   logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
-  userId = buildUser().id,
+  userId,
   createdAt = faker.date.recent()
 } = {}) {
 
-  const values = { id, type, name, code, logoUrl, createdAt, userId };
+  userId = _.isNil(userId) ? buildUser().id : userId;
 
-  values.userId = buildUser().id;
+  const values = { id, type, name, code, logoUrl, createdAt, userId };
 
   databaseBuffer.pushInsertable({
     tableName: 'organizations',

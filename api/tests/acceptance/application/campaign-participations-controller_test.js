@@ -66,12 +66,12 @@ describe('Acceptance | API | Campaign Participations', () => {
           },
           assessment: {
             links: {
-              related: `/assessments/${assessment.id}`
+              related: `/api/assessments/${assessment.id}`
             }
           },
           'campaign-participation-result': {
             links: {
-              related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+              related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
             }
           },
         }
@@ -140,12 +140,12 @@ describe('Acceptance | API | Campaign Participations', () => {
               },
               assessment: {
                 links: {
-                  related: `/assessments/${assessment.id}`
+                  related: `/api/assessments/${assessment.id}`
                 }
               },
               'campaign-participation-result': {
                 links: {
-                  related: `/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
+                  related: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`
                 }
               }
             }
@@ -200,7 +200,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       const competences = [ competence1, competence2, competence3 ];
 
       // Build a target profile targeting the full competence 1, partly competence 2, and nothing in competence 3
-      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile({ id: 1 });
+      const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       _([ skillIds1, _.dropRight(skillIds2) ]).flatten().each((skillId) =>
         databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId, skillId })
       );
@@ -271,7 +271,7 @@ describe('Acceptance | API | Campaign Participations', () => {
             relationships: {
               assessment: {
                 links: {
-                  related: '/assessments/1',
+                  related: '/api/assessments/1',
                 }
               },
               campaign: {
@@ -283,7 +283,7 @@ describe('Acceptance | API | Campaign Participations', () => {
                   type: 'campaignParticipationResults',
                 },
                 links: {
-                  'related': '/campaign-participations/1/campaign-participation-result'
+                  'related': '/api/campaign-participations/1/campaign-participation-result'
                 },
               },
               user: {

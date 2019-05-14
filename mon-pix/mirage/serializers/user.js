@@ -5,13 +5,13 @@ export default BaseSerializer.extend({
   links(user) {
     return {
       pixScore: {
-        related: `/users/${user.id}/pixscore`
+        related: `/api/users/${user.id}/pixscore`
       },
       scorecards: {
-        related: `/users/${user.id}/scorecards`
+        related: `/api/users/${user.id}/scorecards`
       },
       campaignParticipations: {
-        related: `/users/${user.id}/campaign-participations`
+        related: `/api/users/${user.id}/campaign-participations`
       }
     };
   }

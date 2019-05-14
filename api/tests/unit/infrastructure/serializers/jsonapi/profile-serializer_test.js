@@ -145,6 +145,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         assessmentsCompletedWithResults,
         courses,
         organizations: emptyOrganizations,
+        usesProfileV2: true,
       });
       const expectedJson = {
         data: {
@@ -155,6 +156,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             'last-name': 'Skywalker',
             'total-pix-score': 128,
             'email': 'luke@sky.fr',
+            'uses-profile-v2': true,
           },
           relationships: {
             competences: {
@@ -166,17 +168,17 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             },
             'campaign-participations': {
               links: {
-                related: '/users/user_id/campaign-participations'
+                related: '/api/users/user_id/campaign-participations'
               },
             },
             'pix-score': {
               links: {
-                related: '/users/user_id/pixscore'
+                related: '/api/users/user_id/pixscore'
               }
             },
             'scorecards': {
               links: {
-                related: '/users/user_id/scorecards'
+                related: '/api/users/user_id/scorecards'
               }
             },
           },
@@ -302,6 +304,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         assessmentsCompletedWithResults: emptyAssessments,
         courses: emptyCourses,
         organizations,
+        usesProfileV2: false,
       });
       const expectedJsonWithOrganisations = {
         data: {
@@ -311,6 +314,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             'first-name': 'Luke',
             'last-name': 'Skywalker',
             'email': 'luke@sky.fr',
+            'uses-profile-v2': false,
           },
           relationships: {
             organizations: {
@@ -321,17 +325,17 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             },
             'campaign-participations': {
               links: {
-                related: '/users/user_id/campaign-participations'
+                related: '/api/users/user_id/campaign-participations'
               },
             },
             'pix-score': {
               links: {
-                related: '/users/user_id/pixscore'
+                related: '/api/users/user_id/pixscore'
               }
             },
             'scorecards': {
               links: {
-                related: '/users/user_id/scorecards'
+                related: '/api/users/user_id/scorecards'
               }
             },
           },
@@ -348,7 +352,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             relationships: {
               snapshots: {
                 links: {
-                  related: '/organizations/organizationId1/snapshots',
+                  related: '/api/organizations/organizationId1/snapshots',
                 },
               },
             },
@@ -364,7 +368,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             relationships: {
               snapshots: {
                 links: {
-                  related: '/organizations/organizationId2/snapshots',
+                  related: '/api/organizations/organizationId2/snapshots',
                 },
               },
             },

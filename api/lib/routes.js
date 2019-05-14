@@ -28,5 +28,6 @@ module.exports = [
   require('./application/simulateErrors'),
   require('./application/progressions'),
   require('./application/snapshots'),
+  require('./application/system'),
   require('./application/users'),
 ];

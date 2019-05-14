@@ -1,13 +1,14 @@
+import findAssessments from './routes/find-assessments';
 import getAnswer from './routes/get-answer';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import getAssessment from './routes/get-assessment';
-import findAssessments from './routes/find-assessments';
 import getAuthenticatedUser from './routes/get-user-me';
-import getCampaigns from './routes/get-campaigns';
 import getCampaignParticipation from './routes/get-campaign-participation';
 import getCampaignParticipationResult from './routes/get-campaign-participation-result';
+import getCampaigns from './routes/get-campaigns';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
+import getCorrections from './routes/get-corrections';
 import getCourse from './routes/get-course';
 import getCourses from './routes/get-courses';
 import getNextChallenge from './routes/get-next-challenge';
@@ -15,9 +16,8 @@ import getOrganizations from './routes/get-organizations';
 import getPixScore from './routes/get-pix-score';
 import getScorecard from './routes/get-scorecard';
 import getScorecards from './routes/get-scorecards';
-import getUserCampaignParticipations from './routes/get-user-campaign-participations';
 import getSnapshots from './routes/get-snapshots';
-import getCorrections from './routes/get-corrections';
+import getUserCampaignParticipations from './routes/get-user-campaign-participations';
 import patchAnswer from './routes/patch-answer';
 import patchCampaignParticipation from './routes/patch-campaign-participation';
 import postAnswers from './routes/post-answers';
@@ -37,7 +37,8 @@ export default function() {
   this.post('https://fonts.googleapis.com/**', () => {
   });
 
-  this.urlPrefix = 'http://localhost:3000/api';
+  this.urlPrefix = 'http://localhost:3000';
+  this.namespace = 'api';
   this.timing = 0; // response delay
 
   this.get('/courses', getCourses);
@@ -112,5 +113,6 @@ export default function() {
   this.patch('/campaign-participations/:id', patchCampaignParticipation);
   this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
 
+  this.get('/competence-evaluations');
   this.post('/competence-evaluations', postCompetenceEvaluation);
 }

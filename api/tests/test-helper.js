@@ -118,6 +118,9 @@ const hFake = {
       location
     };
   },
+  file(path, options) {
+    return this.response({ path, options });
+  }
 };
 
 function streamToPromise(stream) {

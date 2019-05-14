@@ -21,7 +21,7 @@ module.exports = {
         ignoreRelationshipData: true,
         relationshipLinks: {
           related(record) {
-            return `/assessments/${record.assessmentId}`;
+            return `/api/assessments/${record.assessmentId}`;
           }
         },
       },
@@ -30,7 +30,7 @@ module.exports = {
         ignoreRelationshipData: ignoreCampaignParticipationResultsRelationshipData,
         relationshipLinks: {
           related(record, current, parent) {
-            return `/campaign-participations/${parent.id}/campaign-participation-result`;
+            return `/api/campaign-participations/${parent.id}/campaign-participation-result`;
           }
         },
         attributes: ['id', 'isCompleted', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'competenceResults'],

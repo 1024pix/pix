@@ -26,6 +26,7 @@ class ProfileSerializer extends JSONAPISerializer {
     data.type = 'users';
     data.id = entity.id;
     data.attributes = {};
+    entity.usesProfileV2 = modelObject.usesProfileV2 || false;
     this._serializeAttributes(entity, data);
     this._serializeRelationships(competencesEntity, 'competences', data);
     this._serializeRelationships(organizationsEntity, 'organizations', data);
@@ -38,7 +39,7 @@ class ProfileSerializer extends JSONAPISerializer {
   _serializeCampaignParticipationsLink(data, entity) {
     data.relationships['campaign-participations'] = {
       links: {
-        related: `/users/${entity.id}/campaign-participations`
+        related: `/api/users/${entity.id}/campaign-participations`
       }
     };
   }
@@ -46,7 +47,7 @@ class ProfileSerializer extends JSONAPISerializer {
   _serializePixScoreLink(data, entity) {
     data.relationships['pix-score'] = {
       links: {
-        related: `/users/${entity.id}/pixscore`
+        related: `/api/users/${entity.id}/pixscore`
       }
     };
   }
@@ -54,7 +55,7 @@ class ProfileSerializer extends JSONAPISerializer {
   _serializeScorecardsLink(data, entity) {
     data.relationships['scorecards'] = {
       links: {
-        related: `/users/${entity.id}/scorecards`
+        related: `/api/users/${entity.id}/scorecards`
       }
     };
   }
@@ -71,6 +72,7 @@ class ProfileSerializer extends JSONAPISerializer {
     data.attributes['first-name'] = model.firstName;
     data.attributes['last-name'] = model.lastName;
     data.attributes['email'] = model.email;
+    data.attributes['uses-profile-v2'] = model.usesProfileV2;
 
     if (!_.isUndefined(model['pix-score'])) {
       data.attributes['total-pix-score'] = model['pix-score'];
@@ -163,7 +165,7 @@ class ProfileSerializer extends JSONAPISerializer {
         relationships: {
           snapshots: {
             links: {
-              related: `/organizations/${organizationJson.id}/snapshots`
+              related: `/api/organizations/${organizationJson.id}/snapshots`
             }
           }
         }

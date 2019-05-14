@@ -519,7 +519,7 @@ describe('Acceptance | Application | organization-controller', () => {
               },
               'memberships': {
                 'links': {
-                  'related': `/organizations/${organization.id}/memberships`
+                  'related': `/api/organizations/${organization.id}/memberships`
                 }
               }
             },

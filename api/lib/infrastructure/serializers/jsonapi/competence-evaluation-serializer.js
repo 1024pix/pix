@@ -9,10 +9,19 @@ module.exports = {
         competenceEvaluation.assessment = { id: current.assessmentId };
         return competenceEvaluation;
       },
-      attributes: ['createdAt', 'updatedAt', 'userId', 'competenceId', 'assessment'],
+      attributes: ['createdAt', 'updatedAt', 'userId', 'competenceId', 'assessment', 'scorecard'],
       assessment: {
         ref: 'id',
         included: false,
+      },
+      scorecard: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function(record) {
+            return `/api/scorecards/${record.userId}_${record.competenceId}`;
+          }
+        }
       }
     }).serialize(competenceEvaluations);
   },

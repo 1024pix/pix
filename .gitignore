@@ -60,3 +60,11 @@ high-level-tests/e2e/cypress/screenshots/*
 high-level-tests/e2e/cypress/screenshots
 high-level-tests/e2e/cypress/videos/*
 high-level-tests/e2e/cypress/videos
+
+# Heap files
+*.heapsnapshot
+*.heapprofile
+
+# Artillery.io
+high-level-tests/load-testing/report/*.json
+high-level-tests/load-testing/report/*.html

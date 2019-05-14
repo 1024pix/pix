@@ -4,6 +4,7 @@ const Mailjet = require('../../../lib/infrastructure/mailjet');
 const nodeMailjet = require('node-mailjet');
 const mailCheck = require('../../../lib/infrastructure/mail-check');
 const logger = require('../../../lib/infrastructure/logger');
+const mailingConfig = require('../../../lib/settings').mailing;
 
 describe('Unit | Class | Mailjet', function() {
 
@@ -11,9 +12,46 @@ describe('Unit | Class | Mailjet', function() {
     sinon.stub(nodeMailjet, 'connect');
   });
 
+  afterEach(() => {
+    nodeMailjet.connect.restore();
+  });
+
   describe('#sendEmail', () => {
 
-    describe('when email check fails', () => {
+    context('when mail sending is disabled', () => {
+
+      beforeEach(() => {
+        sinon.stub(mailCheck, 'checkMail').resolves();
+        mailingConfig.enabled = false;
+      });
+
+      afterEach(() => {
+        mailCheck.checkMail.restore();
+      });
+
+      it('should only return an empty promise when mail sending is disabled', () => {
+        // when
+        const promise = Mailjet.sendEmail({ to: 'test@example.net' });
+
+        // then
+        return expect(promise).to.be.fulfilled.then(() => {
+          expect(mailCheck.checkMail).to.not.have.been.calledOnce;
+        });
+      });
+    });
+  });
+
+  context('when mail sending is enabled', () => {
+
+    beforeEach(() => {
+      mailingConfig.enabled = true;
+    });
+
+    afterEach(() => {
+      mailingConfig.enabled = false;
+    });
+
+    context('when email check fails', () => {
       let error;
 
       beforeEach(() => {
@@ -32,7 +70,7 @@ describe('Unit | Class | Mailjet', function() {
       });
     });
 
-    describe('when email check succeeds', () => {
+    context('when email check succeeds', () => {
 
       beforeEach(() => {
         sinon.stub(mailCheck, 'checkMail').resolves(true);
@@ -139,5 +177,6 @@ describe('Unit | Class | Mailjet', function() {
         });
       });
     });
+
   });
 });

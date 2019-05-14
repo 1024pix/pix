@@ -1,0 +1,117 @@
+.scorecard-details-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6.75px;
+  font-family: $font-roboto;
+  background-color: $alabaster-grey;
+  padding: 30px 0;
+  margin: 14px;
+
+  @include device-is('desktop') {
+    flex-direction: row;
+  }
+
+  &__left {
+    flex-grow: 1;
+    padding: 0px 30px 30px 30px;
+
+    @include device-is('desktop') {
+      padding: 0 30px;
+      border-bottom: none;
+      border-right: 2px dashed $silver-grey;
+    }
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 30px;
+  }
+}
+
+.scorecard-details-content-left {
+  &__area {
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    letter-spacing: 0.2rem;
+
+    &--jaffa {
+      color: $jaffa;
+    }
+    &--emerald {
+      color: $emerald;
+    }
+    &--cerulean {
+      color: $cerulean;
+    }
+    &--wild-strawberry {
+      color: $wild-strawberry;
+    }
+    &--butterfly-bush {
+      color: $butterfly-bush;
+    }
+  }
+
+  &__name {
+    margin: 15px 0;
+    font-size: 3.6rem;
+  }
+
+  &__description {
+    font-family: $font-open-sans;
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+    color: $dove-gray;
+  }
+}
+
+.scorecard-details-content-right {
+  &__score-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__level-info {
+    margin-top: 20px;
+    color: $grayish-grey;
+    text-transform: uppercase;
+    letter-spacing: 0.03rem;
+  }
+}
+
+.scorecard-details-content-right-score-container {
+  &__pix-earned {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 30px;
+    text-transform: uppercase;
+    color: $grayish-grey;
+  }
+}
+
+@mixin pix-earned-number-text {
+  font-size: 3.2rem;
+  line-height: 3.2rem;
+  font-family: $font-open-sans;
+  font-weight: $font-semi-bold;
+}
+
+.scorecard-details-content-right-score-container-pix-earned {
+  &__number {
+    margin-right: 5px;
+    margin-bottom: 4px;
+    @include pix-earned-number-text;
+  }
+
+  &__info {
+    line-height: 1.4rem;
+    letter-spacing: 0.12rem;
+  }
+}

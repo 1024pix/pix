@@ -6,6 +6,7 @@ const buildUserPixRole = require('./build-user-pix-role');
 const buildOrganization = require('./build-organization');
 const buildOrganizationRole = require('./build-organization-role');
 const buildMembership = require('./build-membership');
+const _ = require('lodash');
 
 const buildUser = function buildUser({
   id = faker.random.number(),
@@ -91,14 +92,13 @@ buildUser.withMembership = function buildUserWithMemberships({
     id, firstName, lastName, email, password, cgu,
   };
 
-  const _organizationId = organizationId || buildOrganization({ name: faker.company.name() }).id;
-
-  const _organizationRoleId = organizationRoleId || buildOrganizationRole({ name: 'ADMIN' }).id;
+  organizationId = _.isNil(organizationId) ? buildOrganization({ name: faker.company.name() }).id : organizationId;
+  organizationRoleId = _.isNil(organizationRoleId) ? buildOrganizationRole({ name: 'ADMIN' }).id : organizationRoleId;
 
   buildMembership({ 
     userId: id, 
-    organizationId: _organizationId, 
-    organizationRoleId: _organizationRoleId
+    organizationId,
+    organizationRoleId
   });
   
   databaseBuffer.pushInsertable({

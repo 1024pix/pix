@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import EmberObject from '@ember/object';
+import  EmberObject  from '@ember/object';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -28,25 +28,20 @@ describe('Integration | Component | competence-card', function() {
       expect(this.element.querySelector('.competence-card')).to.exist;
     });
 
-    [
-      { code: 1, expectedColor: 'jaffa' },
-      { code: 2, expectedColor: 'emerald' },
-      { code: 3, expectedColor: 'cerulean' },
-      { code: 4, expectedColor: 'wild-strawberry' },
-      { code: 5, expectedColor: 'butterfly-bush' }
-    ].forEach((data) => {
-
-      it(`should display the competence card header in ${data.expectedColor} when code is ${data.code}`, async function() {
-        // given
-        const scorecard = { area: EmberObject.create({ code: data.code }) };
-        this.set('scorecard', scorecard);
-
-        // when
-        await render(hbs`{{competence-card scorecard=scorecard}}`);
-
-        // then
-        expect(this.element.querySelector('.competence-card__color').getAttribute('class')).to.contains(`competence-card__color--${data.expectedColor}`);
+    it('should display the competence card header with scorecard color', async function() {
+      // given
+      const scorecard = EmberObject.create({
+        areaColor: 'jaffa'
       });
+
+      this.set('scorecard', scorecard);
+
+      // when
+      await render(hbs`{{competence-card scorecard=scorecard}}`);
+
+      // then
+      expect(this.element.querySelector('.competence-card__color').getAttribute('class'))
+        .to.contains('competence-card__color--jaffa');
     });
 
     it('should display the area name', async function() {

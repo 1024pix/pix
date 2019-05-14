@@ -7,18 +7,18 @@ export default Route.extend({
       .createRecord('assessment-result', { assessment })
       .save()
       .finally(() => {
-        switch (assessment.get('type')) {
+        switch (assessment.type) {
           case 'CERTIFICATION':
-            return this.replaceWith('certifications.results', assessment.get('certificationNumber'));
+            return this.replaceWith('certifications.results', assessment.certificationNumber);
 
           case 'SMART_PLACEMENT':
-            return this.replaceWith('campaigns.skill-review', assessment.get('codeCampaign'), assessment.get('id'));
+            return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
 
           case 'COMPETENCE_EVALUATION':
-            return this.replaceWith('competences.results');
+            return this.replaceWith('competences.results', assessment.id);
 
           default:
-            return this.replaceWith('assessments.results', assessment.get('id'));
+            return this.replaceWith('assessments.results', assessment.id);
         }
       });
   },

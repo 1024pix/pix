@@ -4,7 +4,7 @@ export default JSONAPISerializer.extend({
   links(campaign) {
     return {
       'campaignReport': {
-        related: `/campaigns/${campaign.id}/campaign-report`
+        related: `/api/campaigns/${campaign.id}/campaign-report`
       },
     };
   }

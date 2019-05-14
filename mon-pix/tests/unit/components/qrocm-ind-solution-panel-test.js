@@ -39,7 +39,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         emptyOrWrongAnswer: false,
         inputClass: 'correction-qroc-box__input-right-answer',
       }, {
-        label: 'triste : ',
+        label: '<br>triste : ',
         answer: ':(',
         solution: ':-(',
         emptyOrWrongAnswer: false,
@@ -65,7 +65,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         emptyOrWrongAnswer: true,
         inputClass: 'correction-qroc-box__input-wrong-answer',
       }, {
-        label: 'Carte mémoire (SD) : ',
+        label: '<br>Carte mémoire (SD) : ',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
@@ -93,7 +93,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         emptyOrWrongAnswer: true,
         inputClass: 'correction-qroc-box__input-no-answer',
       }, {
-        label: 'Carte mémoire (SD) : ',
+        label: '<br>Carte mémoire (SD) : ',
         answer: '2',
         solution: '1',
         emptyOrWrongAnswer: true,
@@ -123,31 +123,31 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         emptyOrWrongAnswer: true,
         inputClass: 'correction-qroc-box__input-wrong-answer',
       }, {
-        label: '- leonie@pix.fr : ',
+        label: '<br>- leonie@pix.fr : ',
         answer: '2',
         solution: '3',
         emptyOrWrongAnswer: true,
         inputClass: 'correction-qroc-box__input-wrong-answer',
       }, {
-        label: '- Programme_Pix.pdf : ',
+        label: '<br>- Programme_Pix.pdf : ',
         answer: '3',
         solution: '6',
         emptyOrWrongAnswer: true,
         inputClass: 'correction-qroc-box__input-wrong-answer',
       }, {
-        label: '- lucie@pix.fr : ',
+        label: '<br>- lucie@pix.fr : ',
         answer: '4',
         solution: '1',
         emptyOrWrongAnswer: true,
         inputClass: 'correction-qroc-box__input-wrong-answer',
       }, {
-        label: '- Programme du festival Pix : ',
+        label: '<br>- Programme du festival Pix : ',
         answer: '5',
         solution: '5',
         emptyOrWrongAnswer: false,
         inputClass: 'correction-qroc-box__input-right-answer',
       }, {
-        label: '- jeremy@pix.fr : ',
+        label: '<br>- jeremy@pix.fr : ',
         answer: '6',
         solution: '2',
         emptyOrWrongAnswer: true,
@@ -174,7 +174,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         emptyOrWrongAnswer: true,
         inputClass: 'correction-qroc-box__input-wrong-answer',
       }, {
-        label: '- Combien le dossier "images" contient-il de fichiers ? ',
+        label: '<br>- Combien le dossier "images" contient-il de fichiers ? ',
         answer: '3',
         solution: '6',
         emptyOrWrongAnswer: true,
@@ -201,7 +201,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         emptyOrWrongAnswer: true,
         inputClass: 'correction-qroc-box__input-no-answer',
       }, {
-        label: 'Carte mémoire (SD) : ',
+        label: '<br>Carte mémoire (SD) : ',
         answer: 'Pas de réponse',
         solution: '1',
         emptyOrWrongAnswer: true,

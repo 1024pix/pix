@@ -26,7 +26,7 @@ module.exports = class DatabaseBuilder {
     return objectsToDelete.reduce((promise, objectToDelete) => {
 
       return promise
-        .then(() => this.knex(objectToDelete.tableName).delete());
+        .then(() => this.knex(objectToDelete.tableName).where({ id: objectToDelete.values.id }).delete());
 
     }, initialPromise)
       .then(() => {

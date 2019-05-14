@@ -4,6 +4,7 @@ const buildUser = require('./build-user');
 const buildAssessment = require('./build-assessment');
 const databaseBuffer = require('../database-buffer');
 const KnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const _ = require('lodash');
 
 module.exports = function buildSmartPlacementKnowledgeElement({
   id = faker.random.number(),
@@ -12,11 +13,15 @@ module.exports = function buildSmartPlacementKnowledgeElement({
   createdAt = faker.date.recent(),
   earnedPix = 2,
   skillId = `rec${faker.random.uuid()}`,
-  assessmentId = buildAssessment().id,
-  answerId = buildAnswer({ assessmentId }).id,
-  userId = buildUser().id,
+  assessmentId,
+  answerId,
+  userId,
   competenceId = `rec${faker.random.uuid()}`,
 } = {}) {
+
+  assessmentId = _.isNil(assessmentId) ? buildAssessment().id : assessmentId;
+  answerId = _.isNil(answerId) ? buildAnswer().id : answerId;
+  userId = _.isNil(userId) ? buildUser().id : userId;
 
   const values = {
     id,

@@ -31,7 +31,8 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
       attributes: {
         'first-name': firstName,
         'last-name': lastName,
-        'email': email
+        'email': email,
+        'uses-profile-v2': false,
       },
       relationships: {
         competences: {
@@ -42,17 +43,17 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         },
         'campaign-participations': {
           links: {
-            related: '/users/1234/campaign-participations'
+            related: '/api/users/1234/campaign-participations'
           },
         },
         'pix-score': {
           'links': {
-            'related': '/users/1234/pixscore'
+            'related': '/api/users/1234/pixscore'
           }
         },
         'scorecards': {
           'links': {
-            'related': '/users/1234/scorecards'
+            'related': '/api/users/1234/scorecards'
           }
         },
       }

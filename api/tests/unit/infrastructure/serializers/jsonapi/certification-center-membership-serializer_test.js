@@ -41,7 +41,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
             relationships: {
               sessions: {
                 links: {
-                  related: '/certification-centers/1/sessions'
+                  related: '/api/certification-centers/1/sessions'
                 }
               }
             },
