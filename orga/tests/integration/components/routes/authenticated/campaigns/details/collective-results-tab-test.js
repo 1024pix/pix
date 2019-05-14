@@ -35,6 +35,8 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
 
   test('it should display the collective result list of the campaign', async function(assert) {
     // given
+    const campaignReport = run(() => store.createRecord('campaign-report', { id: 1, participationsCount: 5, sharedParticipationsCount: 4 }));
+
     const campaignCompetenceCollectiveResult_1 = run(() => store.createRecord('campaign-competence-collective-result', {
       id: '1_recCompA',
       domainCode: '1',
@@ -59,9 +61,13 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
     }));
 
     this.set('campaignCollectiveResult', campaignCollectiveResult);
+    this.set('sharedParticipationsCount', campaignReport.sharedParticipationsCount);
 
     // when
-    await render(hbs`{{routes/authenticated/campaigns/details/collective-results-tab campaignCollectiveResult=campaignCollectiveResult}}`);
+    await render(hbs`{{routes/authenticated/campaigns/details/collective-results-tab 
+      campaignCollectiveResult=campaignCollectiveResult 
+      sharedParticipationsCount=sharedParticipationsCount}}`
+    );
 
     // then
     assert.dom('.table__empty').doesNotExist();

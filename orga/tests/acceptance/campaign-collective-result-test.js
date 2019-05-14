@@ -19,8 +19,13 @@ module('Acceptance | Campaign Collective Result', function(hooks) {
     await authenticateSession({
       user_id: user.id,
     });
+    const campaignReport = server.create('campaign-report', { sharedParticipationCount: 3 });
     const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
-    server.create('campaign', { id: 1, campaignCollectiveResult });
+    server.create('campaign', {
+      id: 1,
+      campaignCollectiveResult,
+      campaignReport,
+    });
   });
 
   test('it should display campain collective result', async function(assert) {

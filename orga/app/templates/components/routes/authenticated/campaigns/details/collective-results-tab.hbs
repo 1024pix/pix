@@ -10,7 +10,7 @@
     </tr>
     </thead>
 
-    {{#if campaignCollectiveResult.campaignCompetenceCollectiveResults }}
+    {{#if sharedParticipationsCount }}
 
       <tbody>
       {{#each campaignCollectiveResult.campaignCompetenceCollectiveResults as |competenceResult|}}
@@ -35,7 +35,7 @@
     {{/if}}
   </table>
 
-  {{#unless campaignCollectiveResult.campaignCompetenceCollectiveResults }}
+  {{#unless sharedParticipationsCount }}
     <div class="table__empty content-text">En attente de résultats</div>
   {{/unless}}
 
