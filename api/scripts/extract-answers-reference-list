@@ -1,17 +1,5 @@
 ;
-; Archive created at 2019-05-13 12:45:04 CEST
-;     dbname: pix_api_1412
-;     TOC Entries: 276
-;     Compression: -1
-;     Dump Version: 1.13-0
-;     Format: CUSTOM
-;     Integer: 4 bytes
-;     Offset: 8 bytes
-;     Dumped from database version: 10.4 (Debian 10.4-2.pgdg90+1)
-;     Dumped by pg_dump version: 10.4 (Debian 10.4-2.pgdg90+1)
-;
-;
-; Selected TOC Entries:
+; List of tables with data needed to extract answers
 ;
 3319; 0 0 ENCODING - ENCODING 
 3320; 0 0 STDSTRINGS - STDSTRINGS 
@@ -19,179 +7,15 @@
 3322; 1262 16386 DATABASE - pix_api_1412 pix_api_1412
 5; 2615 2200 SCHEMA - public postgresql
 3323; 0 0 COMMENT - SCHEMA public postgresql
-;	depends on: 5
-1; 3079 12980 EXTENSION - plpgsql 
+1; 3079 12980 EXTENSION - plpgsql
 3324; 0 0 COMMENT - EXTENSION plpgsql 
-;	depends on: 1
-3; 3079 27128 EXTENSION - pg_stat_statements 
-;	depends on: 5
-3325; 0 0 COMMENT - EXTENSION pg_stat_statements 
-;	depends on: 3
-2; 3079 32739 EXTENSION - pgcrypto 
-;	depends on: 5
-3326; 0 0 COMMENT - EXTENSION pgcrypto 
-;	depends on: 2
+3; 3079 27128 EXTENSION - pg_stat_statements
+3325; 0 0 COMMENT - EXTENSION pg_stat_statements
+2; 3079 32739 EXTENSION - pgcrypto
+3326; 0 0 COMMENT - EXTENSION pgcrypto
 199; 1259 29933 TABLE public answers pix_api_1412
-;	depends on: 5
-200; 1259 29941 SEQUENCE public answers_id_seq pix_api_1412
-;	depends on: 199 5
-3327; 0 0 SEQUENCE OWNED BY public answers_id_seq pix_api_1412
-;	depends on: 200
 201; 1259 29943 TABLE public assessment-results pix_api_1412
-;	depends on: 5
-202; 1259 29950 SEQUENCE public assessment-results_id_seq pix_api_1412
-;	depends on: 201 5
-3328; 0 0 SEQUENCE OWNED BY public assessment-results_id_seq pix_api_1412
-;	depends on: 202
 203; 1259 29952 TABLE public assessments pix_api_1412
-;	depends on: 5
-204; 1259 29960 SEQUENCE public assessments_id_seq pix_api_1412
-;	depends on: 203 5
-3329; 0 0 SEQUENCE OWNED BY public assessments_id_seq pix_api_1412
-;	depends on: 204
-239; 1259 33976 TABLE public campaign-participations pix_api_1412
-;	depends on: 5
-238; 1259 33974 SEQUENCE public campaign-participations_id_seq pix_api_1412
-;	depends on: 239 5
-3330; 0 0 SEQUENCE OWNED BY public campaign-participations_id_seq pix_api_1412
-;	depends on: 238
-235; 1259 33908 TABLE public campaigns pix_api_1412
-;	depends on: 5
-234; 1259 33906 SEQUENCE public campaigns_id_seq pix_api_1412
-;	depends on: 235 5
-3331; 0 0 SEQUENCE OWNED BY public campaigns_id_seq pix_api_1412
-;	depends on: 234
-249; 1259 78364 TABLE public certification-center-memberships pix_api_1412
-;	depends on: 5
-248; 1259 78362 SEQUENCE public certification-center-memberships_id_seq pix_api_1412
-;	depends on: 249 5
-3332; 0 0 SEQUENCE OWNED BY public certification-center-memberships_id_seq pix_api_1412
-;	depends on: 248
-247; 1259 75246 TABLE public certification-centers pix_api_1412
-;	depends on: 5
-246; 1259 75244 SEQUENCE public certification-centers_id_seq pix_api_1412
-;	depends on: 247 5
-3333; 0 0 SEQUENCE OWNED BY public certification-centers_id_seq pix_api_1412
-;	depends on: 246
-205; 1259 29962 TABLE public certification-challenges pix_api_1412
-;	depends on: 5
-206; 1259 29970 SEQUENCE public certification-challenges_id_seq pix_api_1412
-;	depends on: 205 5
-3334; 0 0 SEQUENCE OWNED BY public certification-challenges_id_seq pix_api_1412
-;	depends on: 206
-207; 1259 29972 TABLE public certification-courses pix_api_1412
-;	depends on: 5
-208; 1259 29980 SEQUENCE public certification-courses_id_seq pix_api_1412
-;	depends on: 207 5
-3335; 0 0 SEQUENCE OWNED BY public certification-courses_id_seq pix_api_1412
-;	depends on: 208
-251; 1259 124873 TABLE public competence-evaluations pix_api_1412
-;	depends on: 5
-250; 1259 124871 SEQUENCE public competence-evaluations_id_seq pix_api_1412
-;	depends on: 251 5
-3336; 0 0 SEQUENCE OWNED BY public competence-evaluations_id_seq pix_api_1412
-;	depends on: 250
-209; 1259 29982 TABLE public competence-marks pix_api_1412
-;	depends on: 5
-210; 1259 29989 SEQUENCE public competence-marks_id_seq pix_api_1412
-;	depends on: 209 5
-3337; 0 0 SEQUENCE OWNED BY public competence-marks_id_seq pix_api_1412
-;	depends on: 210
-211; 1259 29991 TABLE public feedbacks pix_api_1412
-;	depends on: 5
-212; 1259 29999 SEQUENCE public feedbacks_id_seq pix_api_1412
-;	depends on: 211 5
-3338; 0 0 SEQUENCE OWNED BY public feedbacks_id_seq pix_api_1412
-;	depends on: 212
-213; 1259 30008 TABLE public knex_migrations pix_api_1412
-;	depends on: 5
-214; 1259 30011 SEQUENCE public knex_migrations_id_seq pix_api_1412
-;	depends on: 213 5
-3339; 0 0 SEQUENCE OWNED BY public knex_migrations_id_seq pix_api_1412
-;	depends on: 214
-215; 1259 30013 TABLE public knex_migrations_lock pix_api_1412
-;	depends on: 5
-237; 1259 33941 TABLE public knowledge-elements pix_api_1412
-;	depends on: 5
-236; 1259 33939 SEQUENCE public knowledge-elements_id_seq pix_api_1412
-;	depends on: 237 5
-3340; 0 0 SEQUENCE OWNED BY public knowledge-elements_id_seq pix_api_1412
-;	depends on: 236
-233; 1259 33701 TABLE public memberships pix_api_1412
-;	depends on: 5
-231; 1259 33693 TABLE public organization-roles pix_api_1412
-;	depends on: 5
-230; 1259 33691 SEQUENCE public organization-roles_id_seq pix_api_1412
-;	depends on: 231 5
-3341; 0 0 SEQUENCE OWNED BY public organization-roles_id_seq pix_api_1412
-;	depends on: 230
-216; 1259 30016 TABLE public organizations pix_api_1412
-;	depends on: 5
-232; 1259 33699 SEQUENCE public organizations-accesses_id_seq pix_api_1412
-;	depends on: 233 5
-3342; 0 0 SEQUENCE OWNED BY public organizations-accesses_id_seq pix_api_1412
-;	depends on: 232
-217; 1259 30026 SEQUENCE public organizations_id_seq pix_api_1412
-;	depends on: 216 5
-3343; 0 0 SEQUENCE OWNED BY public organizations_id_seq pix_api_1412
-;	depends on: 217
-218; 1259 30028 TABLE public pix_roles pix_api_1412
-;	depends on: 5
-219; 1259 30031 SEQUENCE public pix_roles_id_seq pix_api_1412
-;	depends on: 218 5
-3344; 0 0 SEQUENCE OWNED BY public pix_roles_id_seq pix_api_1412
-;	depends on: 219
-220; 1259 30033 TABLE public reset-password-demands pix_api_1412
-;	depends on: 5
-221; 1259 30042 SEQUENCE public reset-password-demands_id_seq pix_api_1412
-;	depends on: 220 5
-3345; 0 0 SEQUENCE OWNED BY public reset-password-demands_id_seq pix_api_1412
-;	depends on: 221
-222; 1259 30044 TABLE public sessions pix_api_1412
-;	depends on: 5
-223; 1259 30052 SEQUENCE public sessions_id_seq pix_api_1412
-;	depends on: 222 5
-3346; 0 0 SEQUENCE OWNED BY public sessions_id_seq pix_api_1412
-;	depends on: 223
-224; 1259 30064 TABLE public snapshots pix_api_1412
-;	depends on: 5
-225; 1259 30072 SEQUENCE public snapshots_id_seq pix_api_1412
-;	depends on: 224 5
-3347; 0 0 SEQUENCE OWNED BY public snapshots_id_seq pix_api_1412
-;	depends on: 225
-245; 1259 42614 TABLE public target-profile-shares pix_api_1412
-;	depends on: 5
-244; 1259 42612 SEQUENCE public target-profile-shares_id_seq pix_api_1412
-;	depends on: 245 5
-3348; 0 0 SEQUENCE OWNED BY public target-profile-shares_id_seq pix_api_1412
-;	depends on: 244
-241; 1259 33997 TABLE public target-profiles pix_api_1412
-;	depends on: 5
-240; 1259 33995 SEQUENCE public target-profiles_id_seq pix_api_1412
-;	depends on: 241 5
-3349; 0 0 SEQUENCE OWNED BY public target-profiles_id_seq pix_api_1412
-;	depends on: 240
-243; 1259 34013 TABLE public target-profiles_skills pix_api_1412
-;	depends on: 5
-242; 1259 34011 SEQUENCE public target-profiles_skills_id_seq pix_api_1412
-;	depends on: 243 5
-3350; 0 0 SEQUENCE OWNED BY public target-profiles_skills_id_seq pix_api_1412
-;	depends on: 242
-226; 1259 30074 TABLE public users pix_api_1412
-;	depends on: 5
-227; 1259 30082 SEQUENCE public users_id_seq pix_api_1412
-;	depends on: 226 5
-3351; 0 0 SEQUENCE OWNED BY public users_id_seq pix_api_1412
-;	depends on: 227
-228; 1259 30084 TABLE public users_pix_roles pix_api_1412
-;	depends on: 5
-229; 1259 30087 SEQUENCE public users_pix_roles_id_seq pix_api_1412
-;	depends on: 228 5
-3352; 0 0 SEQUENCE OWNED BY public users_pix_roles_id_seq pix_api_1412
-;	depends on: 229
 3264; 0 29933 TABLE DATA public answers pix_api_1412
-;	depends on: 199
 3266; 0 29943 TABLE DATA public assessment-results pix_api_1412
-;	depends on: 201
 3268; 0 29952 TABLE DATA public assessments pix_api_1412
-3291; 0 30074 TABLE DATA public users pix_api_1412
