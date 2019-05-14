@@ -47,16 +47,18 @@ WHERE answers.\"assessmentId\" = assessments.id AND assessments.type <> 'DEMO' A
 ORDER BY answers.\"createdAt\";" > output_answers.csv
 
 # Split en plusieurs fichiers pour éviter les fichiers trop gros (max 250Mo)
-split -l 800000 output_answers.csv extractanswers-${day}
-splitfile=$(find . -d 1 -name "*extractanswers*")
+mkdir extractions
+split -l 800000 output_answers.csv extractions/extractanswers-${day}
+splitfile=$(ls extractions)
 
 # Ajout de la ligne de header du csv sur tous les fichiers
-for file in ${splitfile}
+for file in ./extractions/${splitfile}
 do
-sed -i '' '1s/^/answerId,value,result,createdAt,challengeId,elapsedTime,resultDetails,assessmentId,userId,level,pixScore,type,state\n/' ${file}
-mv ${file} ${file}.csv
+echo 'answerId,value,result,createdAt,challengeId,elapsedTime,resultDetails,assessmentId,userId,level,pixScore,type,state' > ${file}.csv
+cat ${file} >> ${file}.csv
+rm ${file}
 done
 
 # Suppression du fichier de sortie
 rm output_answers.csv
-echo "\nExtraction terminée, récupérez les fichiers: \n$splitfile"
+echo "\nExtraction terminée, récupérez les fichiers dans /extractions \n"
