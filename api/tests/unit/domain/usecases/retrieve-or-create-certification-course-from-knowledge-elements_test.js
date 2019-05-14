@@ -1,7 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
-const userService = require('../../../../lib/domain/services/user-service');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
@@ -19,7 +18,7 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
     let certificationCourse;
     let certificationCourseWithNbOfChallenges;
 
-    const userCompetencesAndChallenges = [
+    const userCompetences = [
       {
         id: 'competenceRecordIdTwo',
         index: '1.2',
@@ -35,7 +34,7 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
       answerId: 43744,
       assessmentId: 68997,
       challengeId: 'rec123456',
-      competenceId: 'rec0956165c-4417-4d27-82ad-650df872ee15',
+      competenceId: 'recCompetence1',
       createdAt: '2018-01-01T00:00:00.000Z',
       earnedPix: 2,
       id: 32704,
@@ -63,8 +62,10 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
       sinon.stub(certificationCourseRepository, 'save')
         .resolves(certificationCourse);
 
+      const allChallenges = Symbol('Liste de Challenge');
+
       sinon.stub(challengeRepository, 'list')
-        .resolves(['list de challenges']);
+        .resolves(allChallenges);
 
       sinon.stub(competenceRepository, 'list')
         .resolves(['list de competences']);
@@ -73,31 +74,46 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
         .withArgs(userId, sinon.match.any)
         .resolves(userKnowledgeElementsWithChallengeId);
 
+      const knowledgeElementsWithChallengeIdsByCompetences = {
+        'recCompetence1': [userKnowledgeElementsWithChallengeId]
+      };
       sinon.stub(certificationChallengesService, 'groupUserKnowledgeElementsByCompetence')
         .withArgs(userKnowledgeElementsWithChallengeId)
-        .resolves(['B']);
+        .resolves(knowledgeElementsWithChallengeIdsByCompetences);
 
-      // TODO: [PF-577] Ajouter l'étape de tri des 3 KE de plus haut niveau par compétence.
+      // TODO: [PF-577] Ajouter l'étape de tri des KE par niveau par compétence (les plus hauts en premier).
 
       /*      sinon.stub(certificationChallengesService, 'sortUserKnowledgeElementsHighterSkillsFirstByCompetence')
               .withArgs(['B'])
               .resolves(['C']);*/
 
+      // TODO: [PF-577] Supprimer les challenges auxquels le user a déjà répondu (du boulot)
+      // Est-ce que c'est plus haut ?
+
+      const selectedKnowledgeElementsWithChallengeId = {
+        'recCompetence1': [userKnowledgeElementsWithChallengeId]
+      };
+
+      sinon.stub(certificationChallengesService, 'selectThreeKnowledgeElementsHigherSkillsByCompetence')
+        .withArgs(knowledgeElementsWithChallengeIdsByCompetences)
+        .resolves(selectedKnowledgeElementsWithChallengeId);
+
       sinon.stub(certificationChallengesService, 'findChallengesBySkills')
-        .withArgs(['C'])
-        .resoves(['challenges links to C']);
+        .withArgs(allChallenges, selectedKnowledgeElementsWithChallengeId)
+        .resolves([{ id: 1, competenceId: 'rec1', testedSkill: 'skill1' }, { id: 2, competenceId: 'rec2', testedSkill: 'skill2' }]);
 
       // TODO: [PF-577] Ajouter une étape pour récupérer les varaiantes des questions.
 
+      // TODO: [PF-577] Créer un objet certification profile (contenant une liste de userCompetence)
+
       sinon.stub(certificationChallengesService, 'saveChallenges')
-        .withArgs(certificationCourse, userCompetencesAndChallenges)
+        .withArgs(certificationCourse, userCompetences)
         .resolves(certificationCourseWithNbOfChallenges);
 
       // when
       const newCertification = await retrieveOrCreateCertificationCourseFromKnowledgeElements({
         userId,
         sessionId,
-        userService,
         certificationChallengesService,
         certificationCourseRepository
       });

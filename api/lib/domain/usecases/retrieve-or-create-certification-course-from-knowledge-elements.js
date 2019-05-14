@@ -1,11 +1,17 @@
 const CertificationCourse = require('../models/CertificationCourse');
 
-module.exports = async function retrieveOrCreateCertificationCourseFromKnowledgeElements({ userId, sessionId, userService, certificationChallengesService, certificationCourseRepository }) {
+module.exports = async function retrieveOrCreateCertificationCourseFromKnowledgeElements({ userId, sessionId, certificationChallengesService, certificationCourseRepository, challengeRepository }) {
 
   const certificationCourse = await certificationCourseRepository.save(new CertificationCourse({ userId, sessionId }));
-  //const userCertificationChallenges = await userService.getUserCertificationChallenges(userId, 'Toto');
+  const allChallenges = await challengeRepository.list();
+
+  const userKnowledgeElementsWithChallengeId = await certificationChallengesService.getUserKnowledgeElementsWithChallengeId();
+  const knowledgeElementsWithChallengeIdsByCompetences = certificationChallengesService.groupUserKnowledgeElementsByCompetence(userKnowledgeElementsWithChallengeId);
+  const selectedKnowledgeElementsWithChallengeId = certificationChallengesService.selectThreeKnowledgeElementsHigherSkillsByCompetence(knowledgeElementsWithChallengeIdsByCompetences);
+  const userCertificationChallenges = certificationChallengesService.findChallengesBySkills(allChallenges, selectedKnowledgeElementsWithChallengeId);
+
   return {
     created: true,
-    certificationCourse: await certificationChallengesService.saveChallenges(certificationCourse, userCertificationChallenges)
+    certificationCourse: await certificationChallengesService.saveChallenges(userCertificationChallenges, certificationCourse)
   };
 };

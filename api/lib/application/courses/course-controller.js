@@ -41,7 +41,6 @@ module.exports = {
       });
   },
 
-
   // TODO: [PF-577] Creuser le sessionExist() -> Controller porte la logique de renvoyer un 404
   //  lorsque la session n'existe pas ?
 
