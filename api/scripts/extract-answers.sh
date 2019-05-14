@@ -3,16 +3,29 @@
 # Avoir sur un postgres la base sur laquelle on souhaite extraire les réponses
 # sh ./extract-answers.sh "2018-11-28 12:45:04.713526+00" postgresql://postgres:@localhost:5432/postgres
 
-date=$1
-database=$2
-day="$(echo $date | cut -d' ' -f1)"
+pgFile=$1
+date=$2
+database=$3
+day="$(echo ${date} | cut -d' ' -f1)"
+extractAnswersReferenceList="./extract-answers-reference-list"
 
-echo "Début de l'extraction depuis la date $date dans des fichiers extractanswers-$day"
+echo "\nRemonter la base PostgreSQL"
+docker stop pix-db-pg
+docker rm pix-db-pg
+docker run --name pix-db-pg -e POSTGRES_DB=pix -dit -p 5432:5432 postgres
+
+echo "\nWaiting 5 seconds to let docker catch his breath"
+sleep 5
+
+echo "\nImporter les données à partir de la liste"
+pg_restore --clean --if-exists --verbose --host localhost --no-owner --no-privileges --schema=public --dbname postgres --user postgres ${pgFile}  -j 2 -L ${extractAnswersReferenceList}
+
+echo "\nDébut de l'extraction depuis la date $date dans les fichiers extractanswers-$day"
 
 # Récupération des données sur la base de données
-psql -d $database -t -A -F"," -c "CREATE EXTENSION pgcrypto;"
+psql -d ${database} -t -A -F"," -c "CREATE EXTENSION pgcrypto;"
 
-psql -d $database -t -A -F"," -c "
+psql -d ${database} -t -A -F"," -c "
 SELECT
   DISTINCT SUBSTRING(encode(digest(answers.id::TEXT, 'sha256'), 'hex'), 0,21)           AS \"answerId\",
   CONCAT('\"', REPLACE(REPLACE(REPLACE(answers.value, '\"', ''), chr(10), ''), '''',''), '\"') AS \"value\",
@@ -34,15 +47,16 @@ WHERE answers.\"assessmentId\" = assessments.id AND assessments.type <> 'DEMO' A
 ORDER BY answers.\"createdAt\";" > output_answers.csv
 
 # Split en plusieurs fichiers pour éviter les fichiers trop gros (max 250Mo)
-split --lines=1000000 --additional-suffix=.csv output_answers.csv extractanswers-$day
-splitfile=$(find -maxdepth 1 -name "*extractanswers*")
+split -l 800000 output_answers.csv extractanswers-${day}
+splitfile=$(find . -d 1 -name "*extractanswers*")
 
 # Ajout de la ligne de header du csv sur tous les fichiers
-for file in $splitfile
+for file in ${splitfile}
 do
-sed -i '1s/^/answerId,value,result,createdAt,challengeId,elapsedTime,resultDetails,assessmentId,userId,level,pixScore,type,state\n/' $file
+sed -i '' '1s/^/answerId,value,result,createdAt,challengeId,elapsedTime,resultDetails,assessmentId,userId,level,pixScore,type,state\n/' ${file}
+mv ${file} ${file}.csv
 done
 
 # Suppression du fichier de sortie
 rm output_answers.csv
-echo "Extraction terminée, récupérez les fichiers: \n $splitfile"
+echo "\nExtraction terminée, récupérez les fichiers: \n$splitfile"
