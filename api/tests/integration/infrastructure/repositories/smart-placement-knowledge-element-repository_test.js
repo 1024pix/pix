@@ -270,19 +270,18 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
   });
 
-  describe.skip('#findUniqByUserIdWithAnswersAndSkills', () => {
+  describe('#findUniqByUserIdWithAnswersAndSkills', () => {
 
     const userId = 1;
     const startCertificationDateTime = new Date('2018-12-01T00:00:00Z');
     const beforeCertificationDateTime = new Date('2018-01-01T00:00:00Z');
-    let expectedKnowledgeElement;
+    let expectedKnowledgeElementWithChallengeId;
     let answer;
 
     beforeEach(async () => {
 
       answer = databaseBuilder.factory.buildAnswer();
-
-      expectedKnowledgeElement = databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      expectedKnowledgeElementWithChallengeId = databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
         userId,
         createdAt: beforeCertificationDateTime,
         answerId: answer.id
@@ -290,15 +289,15 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
       await databaseBuilder.commit();
 
-      expectedKnowledgeElement.answer = answer;
+      expectedKnowledgeElementWithChallengeId.challengeId = answer.challengeId;
     });
 
     it('should return 1 K.E. with its answer and skill', async () => {
       // when
-      const result = await SmartPlacementKnowledgeElementRepository.findUniqByUserIdWithAnswersAndSkills(userId, startCertificationDateTime);
+      const result = await SmartPlacementKnowledgeElementRepository.findUniqByUserIdWithChallengeId(userId, startCertificationDateTime);
 
       // then
-      expect(result).to.deep.equal([expectedKnowledgeElement]);
+      expect(result).to.deep.equal([expectedKnowledgeElementWithChallengeId]);
     });
   });
 });

@@ -5,9 +5,7 @@ const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 
 function _toDomain(knowledgeElementBookshelf) {
-  const knowledgeElement = new SmartPlacementKnowledgeElement(knowledgeElementBookshelf.toJSON());
-  //knowledgeElement.answer = new Answer(knowledgeElementBookshelf.related('answer').toJSON());
-  return knowledgeElement;
+  return new SmartPlacementKnowledgeElement(knowledgeElementBookshelf.toJSON());
 }
 
 module.exports = {
@@ -59,7 +57,9 @@ module.exports = {
       .then(([{ earnedPix }]) => earnedPix);
   },
 
-  async findUniqByUserIdWithAnswersAndSkills(userId, limitDate) {
+  // TODO: [PF-577] Modifier la requete Boookshelf, avoir uniquement le challengeId qui soit remonté.
+  //  knowledgeElementWithChallengeId ? conserver le nommage ? etraire un nouvel objet ?
+  async findUniqByUserIdWithChallengeId(userId, limitDate) {
     return BookshelfKnowledgeElement
       .query((qb) => {
         qb.where({ userId });
@@ -68,9 +68,13 @@ module.exports = {
         }
       })
       .fetchAll({ withRelated: ['answer'] })
-      .then((knowledgeElements) => knowledgeElements.map(_toDomain))
-      .then((knowledgeElements) => {
-        return _(knowledgeElements)
+      .then((bookshelfKnowledgeElements) => bookshelfKnowledgeElements.map((bookshelfKnowledgeElement) => {
+        const knowledgeElementWithChallengeId = _toDomain(bookshelfKnowledgeElement);
+        knowledgeElementWithChallengeId.challengeId = bookshelfKnowledgeElement.related('answer').toJSON().challengeId;
+        return knowledgeElementWithChallengeId;
+      }))
+      .then((knowledgeElementWithChallengeId) => {
+        return _(knowledgeElementWithChallengeId)
           .orderBy('createdAt', 'desc')
           .uniqBy('skillId')
           .value();

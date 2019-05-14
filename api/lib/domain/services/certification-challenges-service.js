@@ -19,6 +19,6 @@ module.exports = {
   },
 
   async getUserKnowledgeElementsWithAnswersAndSkills(userId, certificationStartDateTime) {
-    return await smartPlacementKnowledgeElementRepository.findUniqByUserIdWithAnswersAndSkills();
+    return await smartPlacementKnowledgeElementRepository.findUniqByUserIdWithChallengeId();
   }
 };
