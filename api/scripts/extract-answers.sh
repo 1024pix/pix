@@ -1,20 +1,18 @@
 #!/usr/bin/sh
 # Utilisation :
 # Avoir sur un postgres la base sur laquelle on souhaite extraire les réponses
-# sh ./extract-answers.sh "2018-11-28 12:45:04.713526+00" postgresql://postgres:@localhost:5432/postgres
+# sh ./extract-answers.sh ~/Downloads/20190513134501_pix_api_1412.pgsql "2019-04-11 11:44:37.006+00"
 
 pgFile=$1
 date=$2
-database=$3
+database="postgresql://postgres:@localhost:5432/postgres"
 day="$(echo ${date} | cut -d' ' -f1)"
 extractAnswersReferenceList="./extract-answers-reference-list"
 
-echo "\nRemonter la base PostgreSQL"
-docker stop pix-db-pg
-docker rm pix-db-pg
-docker run --name pix-db-pg -e POSTGRES_DB=pix -dit -p 5432:5432 postgres
+echo "\nMise en place de la base PostgreSQL avec Docker"
+docker-compose up -d postgres
 
-echo "\nWaiting 5 seconds to let docker catch his breath"
+echo "\nPetite pause de 5 secondes le temps que Docker reprenne son souffle"
 sleep 5
 
 echo "\nImporter les données à partir de la liste"
@@ -48,17 +46,35 @@ ORDER BY answers.\"createdAt\";" > output_answers.csv
 
 # Split en plusieurs fichiers pour éviter les fichiers trop gros (max 250Mo)
 mkdir extractions
+rm ./extractions/extractanswers-*
 split -l 800000 output_answers.csv extractions/extractanswers-${day}
 splitfile=$(ls extractions)
 
+# On se déplace dans le dossier extractions pour effectuer nos traitements
+cd ./extractions
+echo "\nDans $PWD"
+
 # Ajout de la ligne de header du csv sur tous les fichiers
-for file in ./extractions/${splitfile}
+for file in ${splitfile}
 do
+echo "Façonnage de ${file}"
 echo 'answerId,value,result,createdAt,challengeId,elapsedTime,resultDetails,assessmentId,userId,level,pixScore,type,state' > ${file}.csv
 cat ${file} >> ${file}.csv
 rm ${file}
 done
 
+# On retourne dans le dossier /scripts pour nettoyer ce qui a été généré
+cd ..
+
 # Suppression du fichier de sortie
 rm output_answers.csv
-echo "\nExtraction terminée, récupérez les fichiers dans /extractions \n"
+
+echo "\nNettoyage du container Docker"
+
+# On arrête le container postgres
+docker-compose stop postgres
+
+# On supprime le container et le volume associé
+docker-compose rm --force -v postgres
+
+echo "\nExtraction terminée, récupérez les fichiers dans le dossier /extractions\n"
