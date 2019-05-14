@@ -4,8 +4,15 @@
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
 
-    {{#if (lt model.level 1)}}
-      <div class="competence-details-panel-header__banner competence-details-panel-header__banner--not-bad">
+    {{#if (eq model.earnedPix 0)}}
+      <div class="competence-details-panel-header__banner competence-details-panel-header__banner--too-bad">
+        <img src="/images/banners/too-bad-text.svg" alt="Tant pix !" class="competence-details-banner__title">
+        <div class="competence-details-banner__subtitle competence-details-banner__subtitle--center">
+          Manifestement, ce n’est pas votre jour mais vous ferez mieux la prochaine fois.
+        </div>
+      </div>
+    {{else if (lt model.level 1)}}
+        <div class="competence-details-panel-header__banner competence-details-panel-header__banner--not-bad">
         <div class="competence-details-banner__hexagone">
           <div class="competence-details-banner-hexagone__level">{{model.earnedPix}}</div>
           <div class="competence-details-banner-hexagone__label">pix</div>
