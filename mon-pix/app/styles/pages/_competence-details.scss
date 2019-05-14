@@ -33,22 +33,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     height: 360px;
-    background-size: cover;
     margin: 4px;
-    padding-bottom: 30px;
     border-radius: 5px;
 
     @include device-is('tablet') {
       height: 240px;
-      justify-content: center;
       margin: 12px;
-      padding-bottom: 0;
     }
 
     &--congrats {
       background: url('/images/banners/congrats.svg');
+      justify-content: flex-end;
+      padding-bottom: 30px;
+
+      @include device-is('tablet') {
+        padding-bottom: 0;
+      }
     }
 
     &--not-bad {
@@ -59,9 +61,12 @@
 
       @include device-is('tablet') {
         flex-direction: row;
-        justify-content: space-around;
         padding: 0 40px;
       }
+    }
+
+    &--too-bad {
+      background: url('/images/banners/too-bad.svg') center;
     }
   }
 
@@ -101,6 +106,15 @@
     color: $white;
     font-family: $font-open-sans;
     font-size: 2rem;
+
+    &--center {
+      width: 310px;
+      text-align: center;
+
+      @include device-is('tablet') {
+        width: 450px;
+      }
+    }
   }
 
   &__text {
