@@ -28,6 +28,30 @@
 }
 
 .competence-details-panel-header {
+
+  &__banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 360px;
+    background-size: cover;
+    margin: 4px;
+    padding-bottom: 30px;
+    border-radius: 5px;
+
+    @include device-is('tablet') {
+      height: 240px;
+      justify-content: center;
+      margin: 12px;
+      padding-bottom: 0;
+    }
+
+    &--congrats {
+      background: url('/images/banners/congrats.svg');
+    }
+  }
+
   &__return-button {
     color: $black;
     font-size: 1.3rem;
@@ -46,6 +70,58 @@
     }
   }
 }
+
+.competence-details-banner {
+
+  &__title {
+    margin-bottom: 20px;
+  }
+
+  &__subtitle {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 2rem;
+  }
+
+  &__results {
+    display: flex;
+  }
+}
+
+.competence-details-banner-results {
+  &__level {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+
+    @include device-is('tablet') {
+      padding: 0 40px;
+    }
+  }
+
+  &__pix {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+
+    @include device-is('tablet') {
+      padding: 0 40px;
+    }
+  }
+
+  &__label {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 1.4rem;
+  }
+
+  &__value {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 2.8rem;
+  }
+}
+
 
 .competence-details-panel-header-return-button {
   &__icon {
