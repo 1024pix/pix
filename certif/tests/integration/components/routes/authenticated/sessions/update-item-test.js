@@ -10,7 +10,7 @@ module('Integration | Component | routes/authenticated/session | update-item', f
   let session;
 
   hooks.beforeEach(function() {
-    session = new EmberObject({ });
+    session = EmberObject.create({ });
     session.set('address', '20 rue du gros chat');
     session.set('room', '2B');
     session.set('date', '2028-05-26T22:00:00.000Z');
