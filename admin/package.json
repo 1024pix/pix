@@ -22,7 +22,7 @@
     "coverage": "COVERAGE=true ember test",
     "dev": "ember serve",
     "lint": "eslint .",
-    "preinstall": "test \"$(npm --version)\" = 6.4.1",
+    "preinstall": "test \"$(npm --version)\" = 6.9.0",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "ember serve --proxy",
     "test": "ember exam",
