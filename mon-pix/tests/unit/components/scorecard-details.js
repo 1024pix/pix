@@ -28,7 +28,7 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(controller.get('level')).to.be.equal(1);
     });
 
-    it('returns a dash if the scorecard level is over zero', function() {
+    it('returns a dash if the scorecard level is zero', function() {
       // given
       const controller = this.owner.lookup('controller:scorecard-details');
 
@@ -52,7 +52,7 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(controller.get('earnedPix')).to.be.equal(1);
     });
 
-    it('returns a dash if the scorecard earnedPix is over zero', function() {
+    it('returns a dash if the scorecard earnedPix is zero', function() {
       // given
       const controller = this.owner.lookup('controller:scorecard-details');
 
