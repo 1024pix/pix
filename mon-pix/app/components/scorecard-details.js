@@ -17,4 +17,8 @@ export default Component.extend({
     return replaceZeroByDash(this.get('scorecard.earnedPix'));
   }),
 
+  buttonClass: computed('scorecard.isNotStarted', function() {
+    return `button button--thin button--link button--green ${this.get('scorecard.isNotStarted') ? '' : 'scorecard-details__button'}`;
+  }),
+
 });
