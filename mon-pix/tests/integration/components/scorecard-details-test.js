@@ -94,7 +94,7 @@ describe('Integration | Component | scorecard-details', function() {
       expect(this.element.querySelector('.scorecard-details-content-right__level-info')).to.not.exist;
     });
 
-    it('should not display remainingPixToNextLevel if scorecard.isNotStarted is true', async function() {
+    it('should not display the level and remainingPixToNextLevel if scorecard.isNotStarted is true', async function() {
       // given
       const scorecard = {
         remainingPixToNextLevel: 1,
@@ -107,6 +107,7 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
+      expect(this.element.querySelector('.scorecard-details-content-right__score-container')).to.not.exist;
       expect(this.element.querySelector('.scorecard-details-content-right__level-info')).to.not.exist;
     });
 

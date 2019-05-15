@@ -12,24 +12,24 @@
   </div>
 
   <div class="scorecard-details-content__right">
-    <div class="scorecard-details-content-right__score-container">
 
-      {{#circle-chart value=scorecard.percentageAheadOfNextLevel
-                      sliceColor=scorecard.areaColor
-                      chartClass='circle-chart__content--big'
-                      thicknessClass='circle--thick'}}
-        <div class="competence-card__level">
-          <span class="competence-card-level__label">Niveau</span>
-          <span class="competence-card-level__value">{{level}}</span>
-        </div>
-      {{/circle-chart}}
-      {{#unless scorecard.isNotStarted}}
+    {{#unless scorecard.isNotStarted}}
+      <div class="scorecard-details-content-right__score-container">
+        {{#circle-chart value=scorecard.percentageAheadOfNextLevel
+                        sliceColor=scorecard.areaColor
+                        chartClass='circle-chart__content--big'
+                        thicknessClass='circle--thick'}}
+          <div class="competence-card__level">
+            <span class="competence-card-level__label">Niveau</span>
+            <span class="competence-card-level__value">{{level}}</span>
+          </div>
+        {{/circle-chart}}
         <div class="scorecard-details-content-right-score-container__pix-earned">
           <div class="scorecard-details-content-right-score-container-pix-earned__info">pix</div>
           <div class="scorecard-details-content-right-score-container-pix-earned__number">{{earnedPix}}</div>
         </div>
-      {{/unless}}
-    </div>
+      </div>
+    {{/unless}}
 
     {{#unless (or scorecard.isMaxLevel scorecard.isNotStarted)}}
       <div class="scorecard-details-content-right__level-info">
@@ -39,7 +39,7 @@
 
     {{#unless scorecard.isFinished}}
       {{#link-to "competences.resume" scorecard.competenceId
-                  class="button button--thin button--link button--green scorecard-details__button"}}
+                  class=buttonClass}}
         {{#if scorecard.isStarted}}
           Reprendre
         {{else}}
