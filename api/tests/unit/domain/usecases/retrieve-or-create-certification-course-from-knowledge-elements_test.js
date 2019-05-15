@@ -98,7 +98,7 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
         .withArgs(knowledgeElementsWithChallengeIdsByCompetences)
         .resolves(selectedKnowledgeElementsWithChallengeId);
 
-      sinon.stub(certificationChallengesService, 'findChallengesBySkills')
+      sinon.stub(certificationChallengesService, 'findChallengesByCompetenceId')
         .withArgs(allChallenges, selectedKnowledgeElementsWithChallengeId)
         .resolves([{ id: 1, competenceId: 'rec1', testedSkill: 'skill1' }, { id: 2, competenceId: 'rec2', testedSkill: 'skill2' }]);
 

@@ -33,7 +33,17 @@ module.exports = {
     return _.mapValues(knowledgeElementsWithChallengeIdsByCompetences, fp.take(NUMBER_OF_CERTIFICATION_CHALLANGES_BY_COMPETENCES));
   },
 
-  findChallengesBySkills() {
-
+  _findChallengeByKnowledgeElement: function(allChallenges, ke) {
+    return _.find(allChallenges, (challenge) =>  {
+      return _.find(challenge.skills, { id: ke.skillId });
+    });
   },
+
+  findChallengesByCompetenceId(allChallenges, selectedKnowledgeElementsWithChallengeId) {
+    return _.mapValues(selectedKnowledgeElementsWithChallengeId, (keList) => {
+      return _.map(keList, (ke) => {
+        return this._findChallengeByKnowledgeElement(allChallenges, ke);
+      });
+    });
+  }
 };

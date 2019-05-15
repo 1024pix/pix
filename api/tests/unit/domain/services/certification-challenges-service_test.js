@@ -2,7 +2,7 @@ const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 
-describe('Unit | Service | Certification Challenge Service', function() {
+describe('Unit | Service | Certification Challenge Service', () => {
 
   describe('#saveChallenges', () => {
 
@@ -67,7 +67,7 @@ describe('Unit | Service | Certification Challenge Service', function() {
       });
     });
 
-    it('should return the certification course with the number of saved challenges', function() {
+    it('should return the certification course with the number of saved challenges', () => {
       // when
       const promise = certificationChallengesService.saveChallenges(certificationProfileWithTwoCompetence, certificationCourse);
 
@@ -82,43 +82,100 @@ describe('Unit | Service | Certification Challenge Service', function() {
 
   });
 
-  describe('#groupUserKnowledgeElementsByCompetence', () => {
-    const knowledgeElementOnUrl2 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
-    const knowledgeElementOnUrl3 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
-    const knowledgeElementOnText1 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence2' });
-    const knowledgeElementsWithChallengeIds = [knowledgeElementOnUrl2, knowledgeElementOnUrl3, knowledgeElementOnText1];
+  context('Usecase | retrieveOrCreateCertificationCourseFromKnowledgeElements', () => {
 
-    it('should group knowledge elements by competences', () => {
-      // when
-      const result = certificationChallengesService.groupUserKnowledgeElementsByCompetence(knowledgeElementsWithChallengeIds);
+    let knowledgeElementOnUrl2;
+    let knowledgeElementOnUrl3;
+    let knowledgeElementOnUrl4;
+    let knowledgeElementOnUrl5;
+    let knowledgeElementOnText1;
 
-      // then
-      expect(result).to.deep.equal({
-        recCompetence1: [knowledgeElementOnUrl2, knowledgeElementOnUrl3],
-        recCompetence2: [knowledgeElementOnText1],
+    beforeEach(() => {
+
+      knowledgeElementOnUrl2 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+      knowledgeElementOnUrl3 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+      knowledgeElementOnUrl4 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+      knowledgeElementOnUrl5 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+      knowledgeElementOnText1 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence2' });
+
+      knowledgeElementOnUrl2.challengeId = 'recChallengeOnUrl2';
+      knowledgeElementOnUrl3.challengeId = 'recChallengeOnUrl3';
+      knowledgeElementOnUrl4.challengeId = 'recChallengeOnUrl4';
+      knowledgeElementOnUrl5.challengeId = 'recChallengeOnUrl5';
+      knowledgeElementOnText1.challengeId = 'recChallengeOnText1';
+    });
+
+    describe('#groupUserKnowledgeElementsByCompetence', () => {
+      let knowledgeElementsWithChallengeIds;
+
+      beforeEach(() => {
+        knowledgeElementsWithChallengeIds = [knowledgeElementOnUrl2, knowledgeElementOnUrl3, knowledgeElementOnText1];
+      });
+
+      it('should group knowledge elements by competences', () => {
+        // when
+        const result = certificationChallengesService.groupUserKnowledgeElementsByCompetence(knowledgeElementsWithChallengeIds);
+
+        // then
+        expect(result).to.deep.equal({
+          recCompetence1: [knowledgeElementOnUrl2, knowledgeElementOnUrl3],
+          recCompetence2: [knowledgeElementOnText1],
+        });
       });
     });
-  });
 
-  describe('#knowledgeElementsWithChallengeIdsByCompetence', () => {
-    const knowledgeElementOnUrl2 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
-    const knowledgeElementOnUrl3 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
-    const knowledgeElementOnUrl4 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
-    const knowledgeElementOnUrl5 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
-    const knowledgeElementOnText1 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence2' });
-    const knowledgeElementsWithChallengeIds = {
-      recCompetence1: [knowledgeElementOnUrl5, knowledgeElementOnUrl4, knowledgeElementOnUrl3, knowledgeElementOnUrl2],
-      recCompetence2: [knowledgeElementOnText1],
-    };
+    describe('#knowledgeElementsWithChallengeIdsByCompetence', () => {
+      let knowledgeElementsWithChallengeIds;
 
-    it('should keep only 3 knowledge elements by competence', () => {
-      // when
-      const result = certificationChallengesService.selectThreeKnowledgeElementsHigherSkillsByCompetence(knowledgeElementsWithChallengeIds);
+      beforeEach(() => {
+        knowledgeElementsWithChallengeIds = {
+          recCompetence1: [knowledgeElementOnUrl5, knowledgeElementOnUrl4, knowledgeElementOnUrl3, knowledgeElementOnUrl2],
+          recCompetence2: [knowledgeElementOnText1],
+        };
+      });
 
-      // then
-      expect(result).to.deep.equal({
-        recCompetence1: [knowledgeElementOnUrl5, knowledgeElementOnUrl4, knowledgeElementOnUrl3],
-        recCompetence2: [knowledgeElementOnText1],
+      it('should keep only 3 knowledge elements by competence', () => {
+        // when
+        const result = certificationChallengesService.selectThreeKnowledgeElementsHigherSkillsByCompetence(knowledgeElementsWithChallengeIds);
+
+        // then
+        expect(result).to.deep.equal({
+          recCompetence1: [knowledgeElementOnUrl5, knowledgeElementOnUrl4, knowledgeElementOnUrl3],
+          recCompetence2: [knowledgeElementOnText1],
+        });
+      });
+    });
+
+    describe('#findChallengesByCompetenceId', () => {
+      it('should return a challenges list based on skills from knowlegde elements', () => {
+        const selectedKnowledgeElementsWithChallengeId = {
+          recCompetence1: [knowledgeElementOnUrl5, knowledgeElementOnUrl4, knowledgeElementOnUrl3],
+          recCompetence2: [knowledgeElementOnText1],
+        };
+
+        const skillUrl5 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl5.skillId, name: '@url5' });
+        const skillUrl4 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl4.skillId, name: '@url4' });
+        const skillUrl3 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl3.skillId, name: '@url3' });
+        const skillText1 = domainBuilder.buildSkill({ id: knowledgeElementOnText1.skillId, name: '@text1' });
+
+        const challengeUrl5 = domainBuilder.buildChallenge({ skills: [skillUrl5] });
+        const challengeUrl4 = domainBuilder.buildChallenge({ skills: [skillUrl4] });
+        const challengeUrl3 = domainBuilder.buildChallenge({ skills: [skillUrl3] });
+        const challengeText1 = domainBuilder.buildChallenge({ skills: [skillText1] });
+
+        const challengeNotUsed = domainBuilder.buildChallenge();
+
+        const allChallenges = [challengeUrl5, challengeUrl4, challengeUrl3, challengeText1, challengeNotUsed];
+
+        // when
+        const userCertificationChallenges = certificationChallengesService.findChallengesByCompetenceId(allChallenges, selectedKnowledgeElementsWithChallengeId);
+
+        // then
+        expect(userCertificationChallenges).to.deep.equal(
+          {
+            'recCompetence1': [challengeUrl5, challengeUrl4, challengeUrl3],
+            'recCompetence2': [challengeText1]
+          });
       });
     });
   });
