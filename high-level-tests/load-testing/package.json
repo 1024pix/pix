@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "10.15.3"
+    "node": "12.2.0"
   },
   "scripts": {
     "report": "artillery report report/index.json",
