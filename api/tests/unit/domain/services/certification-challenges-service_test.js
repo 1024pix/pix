@@ -90,6 +90,16 @@ describe('Unit | Service | Certification Challenge Service', () => {
     let knowledgeElementOnUrl5;
     let knowledgeElementOnText1;
 
+    let skillUrl5;
+    let skillUrl4;
+    let skillUrl3;
+    let skillText1;
+
+    let challengeUrl5;
+    let challengeUrl4;
+    let challengeUrl3;
+    let challengeText1;
+
     beforeEach(() => {
 
       knowledgeElementOnUrl2 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
@@ -103,6 +113,16 @@ describe('Unit | Service | Certification Challenge Service', () => {
       knowledgeElementOnUrl4.challengeId = 'recChallengeOnUrl4';
       knowledgeElementOnUrl5.challengeId = 'recChallengeOnUrl5';
       knowledgeElementOnText1.challengeId = 'recChallengeOnText1';
+
+      skillUrl5 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl5.skillId, name: '@url5' });
+      skillUrl4 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl4.skillId, name: '@url4' });
+      skillUrl3 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl3.skillId, name: '@url3' });
+      skillText1 = domainBuilder.buildSkill({ id: knowledgeElementOnText1.skillId, name: '@text1' });
+
+      challengeUrl5 = domainBuilder.buildChallenge({ skills: [skillUrl5] });
+      challengeUrl4 = domainBuilder.buildChallenge({ skills: [skillUrl4] });
+      challengeUrl3 = domainBuilder.buildChallenge({ skills: [skillUrl3] });
+      challengeText1 = domainBuilder.buildChallenge({ skills: [skillText1] });
     });
 
     describe('#groupUserKnowledgeElementsByCompetence', () => {
@@ -153,16 +173,6 @@ describe('Unit | Service | Certification Challenge Service', () => {
           recCompetence2: [knowledgeElementOnText1],
         };
 
-        const skillUrl5 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl5.skillId, name: '@url5' });
-        const skillUrl4 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl4.skillId, name: '@url4' });
-        const skillUrl3 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl3.skillId, name: '@url3' });
-        const skillText1 = domainBuilder.buildSkill({ id: knowledgeElementOnText1.skillId, name: '@text1' });
-
-        const challengeUrl5 = domainBuilder.buildChallenge({ skills: [skillUrl5] });
-        const challengeUrl4 = domainBuilder.buildChallenge({ skills: [skillUrl4] });
-        const challengeUrl3 = domainBuilder.buildChallenge({ skills: [skillUrl3] });
-        const challengeText1 = domainBuilder.buildChallenge({ skills: [skillText1] });
-
         const challengeNotUsed = domainBuilder.buildChallenge();
 
         const allChallenges = [challengeUrl5, challengeUrl4, challengeUrl3, challengeText1, challengeNotUsed];
@@ -176,6 +186,25 @@ describe('Unit | Service | Certification Challenge Service', () => {
             'recCompetence1': [challengeUrl5, challengeUrl4, challengeUrl3],
             'recCompetence2': [challengeText1]
           });
+      });
+    });
+
+    describe('#convertChallengesToUserCompetences', () => {
+      it('should quelque chose', () => {
+        // given
+        const challengesByCompetenceId = {
+          'recCompetence1': [challengeUrl5, challengeUrl4, challengeUrl3],
+          'recCompetence2': [challengeText1]
+        };
+
+        // when
+        const userCompetences = certificationChallengesService.convertChallengesToUserCompetences(challengesByCompetenceId);
+
+        // then
+        expect(userCompetences).to.deep.equal([
+          { competenceId: 'recCompetence1', challenges: [challengeUrl5, challengeUrl4, challengeUrl3] },
+          { competenceId: 'recCompetence2', challenges: [challengeText1] }
+        ]);
       });
     });
   });

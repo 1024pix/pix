@@ -30,19 +30,23 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
       }
     ];
 
-    const userKnowledgeElementsWithChallengeId = [{
-      answerId: 43744,
-      assessmentId: 68997,
-      challengeId: 'rec123456',
-      competenceId: 'recCompetence1',
-      createdAt: '2018-01-01T00:00:00.000Z',
-      earnedPix: 2,
-      id: 32704,
-      skillId: 'recf04956d8-8794-4361-8341-51b00d78a40a',
-      source: 'direct',
-      status: 'validated',
-      userId: 1,
-    }];
+    let knowledgeElementOnUrl2;
+    let knowledgeElementOnUrl3;
+    let knowledgeElementOnUrl4;
+    let knowledgeElementOnUrl5;
+    let knowledgeElementOnText1;
+
+    let skillUrl5;
+    let skillUrl4;
+    let skillUrl3;
+    let skillText1;
+
+    let challengeUrl5;
+    let challengeUrl4;
+    let challengeUrl3;
+    let challengeText1;
+
+    let userKnowledgeElementsWithChallengeId;
 
     beforeEach(() => {
       userId = 12345;
@@ -55,6 +59,30 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
         createdAt: new Date('2018-12-12T01:02:03Z'),
         nbChallenges: 3
       });
+
+      knowledgeElementOnUrl2 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+      knowledgeElementOnUrl3 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+      knowledgeElementOnUrl4 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+      knowledgeElementOnUrl5 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence1' });
+      knowledgeElementOnText1 = domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 'recCompetence2' });
+
+      knowledgeElementOnUrl2.challengeId = 'recChallengeOnUrl2';
+      knowledgeElementOnUrl3.challengeId = 'recChallengeOnUrl3';
+      knowledgeElementOnUrl4.challengeId = 'recChallengeOnUrl4';
+      knowledgeElementOnUrl5.challengeId = 'recChallengeOnUrl5';
+      knowledgeElementOnText1.challengeId = 'recChallengeOnText1';
+
+      skillUrl5 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl5.skillId, name: '@url5' });
+      skillUrl4 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl4.skillId, name: '@url4' });
+      skillUrl3 = domainBuilder.buildSkill({ id: knowledgeElementOnUrl3.skillId, name: '@url3' });
+      skillText1 = domainBuilder.buildSkill({ id: knowledgeElementOnText1.skillId, name: '@text1' });
+
+      challengeUrl5 = domainBuilder.buildChallenge({ skills: [skillUrl5] });
+      challengeUrl4 = domainBuilder.buildChallenge({ skills: [skillUrl4] });
+      challengeUrl3 = domainBuilder.buildChallenge({ skills: [skillUrl3] });
+      challengeText1 = domainBuilder.buildChallenge({ skills: [skillText1] });
+
+      userKnowledgeElementsWithChallengeId = [knowledgeElementOnUrl2];
     });
 
     it('should create the certification course and add challenges', async function() {
@@ -100,9 +128,14 @@ describe.skip('Unit | UseCase | retrieve-or-create-certification-course-from-kno
 
       sinon.stub(certificationChallengesService, 'findChallengesByCompetenceId')
         .withArgs(allChallenges, selectedKnowledgeElementsWithChallengeId)
-        .resolves([{ id: 1, competenceId: 'rec1', testedSkill: 'skill1' }, { id: 2, competenceId: 'rec2', testedSkill: 'skill2' }]);
+        .resolves({
+          'recCompetence1': [challengeUrl5, challengeUrl4, challengeUrl3],
+          'recCompetence2': [challengeText1]
+        });
 
       // TODO: [PF-577] Ajouter une étape pour récupérer les varaiantes des questions.
+
+      // TODO: [PF-577] Ajouter les testedSkills (source de donnée: skill.name) aux challenges.
 
       // TODO: [PF-577] Créer un objet certification profile (contenant une liste de userCompetence)
 
