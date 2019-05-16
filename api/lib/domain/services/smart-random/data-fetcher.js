@@ -21,11 +21,12 @@ async function fetchForCompetenceEvaluations({
   competenceEvaluationRepository,
   skillRepository,
 }) {
-  const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
+  const { competenceId } = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
+
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
-    skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
-    challengeRepository.findByCompetenceId(competenceEvaluation.competenceId),
+    skillRepository.findByCompetenceId(competenceId),
+    challengeRepository.findByCompetenceId(competenceId),
     knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
   );
 }
