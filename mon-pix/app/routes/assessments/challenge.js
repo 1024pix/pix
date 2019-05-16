@@ -12,7 +12,7 @@ export default Route.extend({
     return RSVP.hash({
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
-      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+      answer: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     }).catch((err) => {
       const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {

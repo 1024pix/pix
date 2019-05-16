@@ -13,24 +13,24 @@ describe('Unit | Component | QCU proposals', function() {
 
     const DEFAULT_PROPOSALS = '- prop 1\n- prop 2\n- prop 3';
 
-    let answersValue;
+    let answerValue;
     let proposals;
     let component;
 
     beforeEach(function() {
       proposals = DEFAULT_PROPOSALS;
-      answersValue = '2';
+      answerValue = '2';
     });
 
     function initComponent() {
       component = this.subject();
       component.set('proposals', proposals);
-      component.set('answersValue', answersValue);
+      component.set('answerValue', answerValue);
     }
 
     it('should return an array of [<proposal_text>, <boolean_answer>]', function() {
       // Given
-      answersValue = '2';
+      answerValue = '2';
       const expectedLabeledRadios = [
         ['prop 1', false],
         ['prop 2', true],
@@ -59,7 +59,7 @@ describe('Unit | Component | QCU proposals', function() {
 
     it('should not select a radio when given answer is null', function() {
       // given
-      answersValue = null;
+      answerValue = null;
       const expectedLabeledRadios = [
         ['prop 1', false],
         ['prop 2', false],
@@ -76,7 +76,7 @@ describe('Unit | Component | QCU proposals', function() {
 
     it('should not select a radio when no answer is given', function() {
       // given
-      answersValue = '';
+      answerValue = '';
       const expectedLabeledRadios = [
         ['prop 1', false],
         ['prop 2', false],

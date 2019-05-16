@@ -6,13 +6,13 @@ import valueAsArrayOfBoolean from 'mon-pix/utils/value-as-array-of-boolean';
 
 export default Component.extend({
 
-  answersValue: null,
+  answerValue: null,
   proposals: null,
   answerChanged: null, // action
 
-  labeledRadios: computed('proposals', 'answersValue', function() {
+  labeledRadios: computed('proposals', 'answerValue', function() {
     const arrayOfProposals = proposalsAsArray(this.proposals);
-    return labeledCheckboxes(arrayOfProposals, valueAsArrayOfBoolean(this.answersValue));
+    return labeledCheckboxes(arrayOfProposals, valueAsArrayOfBoolean(this.answerValue));
   }),
 
   _uncheckAllRadioButtons() {
