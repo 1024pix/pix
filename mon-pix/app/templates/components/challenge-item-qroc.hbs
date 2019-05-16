@@ -12,7 +12,7 @@
       <div class="rounded-panel__row challenge-proposals">
         {{qroc-proposal
           proposals=challenge.proposals
-          answerValue=answers.value
+          answerValue=answer.value
           answerChanged=(action 'answerChanged')}}
       </div>
       {{#if challenge.timer}}
@@ -31,12 +31,12 @@
     {{/if}}
 
     {{#if assessment}}
-      {{challenge-actions 
-        challenge=challenge 
-        validateAnswer=(action "validateAnswer") 
-        skipChallenge=(action "skipChallenge") 
+      {{challenge-actions
+        challenge=challenge
+        validateAnswer=(action "validateAnswer")
+        skipChallenge=(action "skipChallenge")
         isValidateButtonEnabled=isValidateButtonEnabled
-        isSkipButtonEnabled=isSkipButtonEnabled 
+        isSkipButtonEnabled=isSkipButtonEnabled
       }}
     {{/if}}
   </form>
