@@ -1,9 +1,11 @@
-const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
+const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
+const campaignCollectiveResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
+const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Application | Controller | Campaign', () => {
@@ -244,5 +246,52 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       expect(response).to.deep.equal(updatedCampaign);
     });
+  });
+
+  describe('#getCollectiveResult', () => {
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'computeCampaignCollectiveResult');
+      sinon.stub(campaignCollectiveResultSerializer, 'serialize');
+    });
+
+    it('should return ok', async () => {
+      // given
+      usecases.computeCampaignCollectiveResult.resolves({});
+      campaignCollectiveResultSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await campaignController.getCollectiveResult({
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId }
+        }
+      });
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+
+    it('should return an unauthorized error', async () => {
+      // given
+      const error = new UserNotAuthorizedToAccessEntity('User does not have access to this campaign participation');
+      const request = {
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId }
+        }
+      };
+      usecases.computeCampaignCollectiveResult.rejects(error);
+
+      // when
+      const errorCatched = await catchErr(campaignController.getCollectiveResult)(request);
+
+      // then
+      expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntity);
+    });
+
   });
 });

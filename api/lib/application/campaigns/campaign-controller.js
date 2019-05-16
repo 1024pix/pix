@@ -3,14 +3,14 @@ const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
+const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const infraErrors = require('../../infrastructure/errors');
 
 module.exports = {
 
   save(request, h) {
-
-    const userId = request.auth.credentials.userId;
+    const { userId } = request.auth.credentials;
 
     return campaignSerializer.deserialize(request.payload)
       .then((campaign) => {
@@ -56,13 +56,21 @@ module.exports = {
   },
 
   update(request) {
-    const userId = request.auth.credentials.userId;
+    const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
     const { title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
     return usecases.updateCampaign({ userId, campaignId, title, customLandingPageText })
       .then(campaignSerializer.serialize);
   },
+
+  async getCollectiveResult(request) {
+    const { userId } = request.auth.credentials;
+    const campaignId = request.params.id;
+
+    const campaignCollectiveResult = await usecases.computeCampaignCollectiveResult({ userId, campaignId });
+    return campaignCollectiveResultSerializer.serialize(campaignCollectiveResult);
+  }
 };
 
 function _validateFilters(filters) {

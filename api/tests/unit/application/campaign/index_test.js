@@ -1,17 +1,17 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const campaignCollectiveResults = require('../../../../lib/application/campaign-collective-results/campaign-collective-results-controller');
+const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 
-describe('Unit | Application | Campaign Collective Results| Route', function() {
+describe('Unit | Application | Router | campaign-router ', function() {
 
   let server;
 
   beforeEach(() => {
-    sinon.stub(campaignCollectiveResults, 'get').returns('ok');
+    sinon.stub(campaignController, 'getCollectiveResult').returns('ok');
 
     server = Hapi.server();
 
-    return server.register(require('../../../../lib/application/campaign-collective-results'));
+    return server.register(require('../../../../lib/application/campaigns'));
   });
 
   describe('GET /api/campaigns/{id}/collective-results', () => {
