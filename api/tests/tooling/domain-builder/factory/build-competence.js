@@ -9,6 +9,7 @@ module.exports = function buildCompetence({
   name = faker.random.word(),
   index = `${faker.random.number()}.${faker.random.number()}`,
   courseId = faker.random.uuid(),
+  description = faker.lorem.sentence(),
   // relationships
   area = buildArea(),
   skills = [],
@@ -20,6 +21,7 @@ module.exports = function buildCompetence({
     name,
     index,
     courseId,
+    description,
     // relationships
     area,
     skills,
