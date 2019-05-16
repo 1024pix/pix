@@ -1,4 +1,4 @@
-function fetchForCampaigns({
+async function fetchForCampaigns({
   assessment,
   answerRepository,
   targetProfileRepository,
@@ -7,13 +7,21 @@ function fetchForCampaigns({
 }) {
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
-    targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId())
-      .then((targetProfile) => Promise.all([targetProfile, challengeRepository.findBySkills(targetProfile.skills)])),
+    ...(await targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId())
+      .then((targetProfile) => Promise.all([targetProfile, challengeRepository.findBySkills(targetProfile.skills)]))),
     knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId }),
   ]);
 }
 
-function fetchForCompetenceEvaluations({ assessment, competenceEvaluation, answerRepository, challengeRepository, knowledgeElementRepository, skillRepository }) {
+async function fetchForCompetenceEvaluations({
+  assessment,
+  answerRepository,
+  challengeRepository,
+  knowledgeElementRepository,
+  competenceEvaluationRepository,
+  skillRepository,
+}) {
+  const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
     skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
