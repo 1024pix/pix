@@ -233,7 +233,7 @@ replacements = [
   ["SkillReview *-- ValidatedSkill :", "SkillReview *-- Skill :"],
   ["SkillReview *-- FailedSkill :", "SkillReview *-- Skill :"],
   ["SkillReview *-- UnratableSkill :", "SkillReview *-- Skill :"],
-  ["SmartPlacementAssessment *-- KnowledgeElement :", "SmartPlacementAssessment *-- SmartPlacementKnowledgeElement :"],
+  ["SmartPlacementAssessment *-- KnowledgeElement :", "SmartPlacementAssessment *-- KnowledgeElement :"],
   ["AssessmentResult o-- Jury : ref 1", "AssessmentResult o-- User : ref 1"],
   ["Campaign o-- Creator : ref 1", "Campaign o-- User : ref 1"],
   ["Correction *-- LearningMoreTutorial : inc *", "Correction *-- Tutorial : inc *"]

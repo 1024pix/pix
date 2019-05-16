@@ -28,7 +28,7 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
   const targetProfileRepository = { getByCampaignId: sinon.stub() };
   const competenceRepository = { list: sinon.stub() };
   const assessmentRepository = { get: sinon.stub() };
-  const smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+  const knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
 
   beforeEach(() => {
     requestErr = null;
@@ -41,7 +41,7 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
       targetProfileRepository.getByCampaignId.resolves(targetProfile);
       competenceRepository.list.resolves(competences);
       assessmentRepository.get.resolves(assessment);
-      smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
+      knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
       sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
 
       campaignParticipationsResult = await getCampaignParticipationsWithResults({

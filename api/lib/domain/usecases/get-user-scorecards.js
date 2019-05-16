@@ -2,14 +2,14 @@ const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const Scorecard = require('../models/Scorecard');
 
-module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
+module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
 
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 
   const [userKEList, competenceTree, competenceEvaluations] = await Promise.all([
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
+    knowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
     competenceRepository.list(),
     competenceEvaluationRepository.findByUserId(requestedUserId),
   ]);

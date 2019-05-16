@@ -10,7 +10,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
     let userId, assessmentId, competenceId,
       assessment, answers, challenges, targetSkills, competenceEvaluation,
       answerRepository, challengeRepository, competenceEvaluationRepository, skillRepository,
-      smartPlacementKnowledgeElementRepository,
+      knowledgeElementRepository,
       recentKnowledgeElements, expectedComputedChallenge, actualComputedChallenge;
 
     beforeEach(async () => {
@@ -31,7 +31,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       skillRepository = { findByCompetenceId: sinon.stub().resolves(targetSkills) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
-      smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
+      knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
       expectedComputedChallenge = {};
       sinon.stub(SmartRandom, 'getNextChallenge').resolves(expectedComputedChallenge);
     });
@@ -44,7 +44,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           userId: userId + 1,
           answerRepository,
           challengeRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceEvaluationRepository,
           skillRepository
         });
@@ -61,7 +61,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           userId,
           answerRepository,
           challengeRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceEvaluationRepository,
           skillRepository
         });
@@ -75,7 +75,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       });
 
       it('should have fetched the most recent knowledge elements', () => {
-        expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
+        expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
       });
 
       it('should have fetched the challenges', () => {

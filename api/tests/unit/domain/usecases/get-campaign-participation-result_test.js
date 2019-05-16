@@ -20,7 +20,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     targetProfileRepository,
     competenceRepository,
     assessmentRepository,
-    smartPlacementKnowledgeElementRepository;
+    knowledgeElementRepository;
 
   beforeEach(() => {
     campaignParticipationRepository = { get: sinon.stub() };
@@ -28,7 +28,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     targetProfileRepository = { getByCampaignId: sinon.stub() };
     competenceRepository = { list: sinon.stub() };
     assessmentRepository = { get: sinon.stub() };
-    smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
   });
 
@@ -48,7 +48,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         targetProfileRepository,
         competenceRepository,
         assessmentRepository,
-        smartPlacementKnowledgeElementRepository,
+        knowledgeElementRepository,
       });
 
       // then
@@ -73,7 +73,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         targetProfileRepository,
         competenceRepository,
         assessmentRepository,
-        smartPlacementKnowledgeElementRepository,
+        knowledgeElementRepository,
       });
 
       // then

@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
 
@@ -19,7 +19,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
   const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
   const smartPlacementAssessmentRepository = { get: () => undefined };
   const skillRepository = { findByCompetenceId: () => undefined };
-  const smartPlacementKnowledgeElementRepository = {
+  const knowledgeElementRepository = {
     save: () => undefined,
     findUniqByUserId: () => undefined,
   };
@@ -32,9 +32,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(competenceEvaluationRepository, 'getByAssessmentId');
     sinon.stub(skillRepository, 'findByCompetenceId');
     sinon.stub(smartPlacementAssessmentRepository, 'get');
-    sinon.stub(smartPlacementKnowledgeElementRepository, 'save');
-    sinon.stub(smartPlacementKnowledgeElementRepository, 'findUniqByUserId');
-    sinon.stub(SmartPlacementKnowledgeElement, 'createKnowledgeElementsForAnswer');
+    sinon.stub(knowledgeElementRepository, 'save');
+    sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
+    sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
   });
 
   context('when an answer for that challenge and that assessment already exists', () => {
@@ -53,7 +53,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         answerRepository,
         challengeRepository,
         smartPlacementAssessmentRepository,
-        smartPlacementKnowledgeElementRepository,
+        knowledgeElementRepository,
       });
     });
 
@@ -106,9 +106,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
         assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
         competenceEvaluation = domainBuilder.buildCompetenceEvaluation();
-        knowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement();
-        firstCreatedKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement();
-        secondCreatedKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement();
+        knowledgeElement = domainBuilder.buildKnowledgeElement();
+        firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement();
+        secondCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement();
         skills = domainBuilder.buildSkillCollection();
 
         completedAnswer = domainBuilder.buildAnswer(answer);
@@ -124,8 +124,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         answerRepository.save.resolves(savedAnswer);
         competenceEvaluationRepository.getByAssessmentId.resolves(competenceEvaluation);
         skillRepository.findByCompetenceId.resolves(skills);
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([knowledgeElement]);
-        SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer.returns([
+        knowledgeElementRepository.findUniqByUserId.resolves([knowledgeElement]);
+        KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstCreatedKnowledgeElement, secondCreatedKnowledgeElement,
         ]);
         smartPlacementAssessmentRepository.get.rejects(new NotFoundError());
@@ -141,7 +141,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -162,7 +162,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -179,13 +179,13 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
         expect(competenceEvaluationRepository.getByAssessmentId).to.have.been.calledWith(assessment.id);
         expect(skillRepository.findByCompetenceId).to.have.been.calledWith(competenceEvaluation.competenceId);
-        expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWith({ userId: assessment.userId });
+        expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWith({ userId: assessment.userId });
       });
 
       it('should return the saved answer - with the id', async () => {
@@ -198,7 +198,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -243,15 +243,15 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
         smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment();
-        firstKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement();
-        secondKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement();
+        firstKnowledgeElement = domainBuilder.buildKnowledgeElement();
+        secondKnowledgeElement = domainBuilder.buildKnowledgeElement();
 
         answerRepository.findByChallengeAndAssessment.resolves(false);
         assessmentRepository.get.resolves(assessment);
         challengeRepository.get.resolves(challenge);
         answerRepository.save.resolves(savedAnswer);
         smartPlacementAssessmentRepository.get.resolves(smartPlacementAssessment);
-        SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer.returns([
+        KnowledgeElement.createKnowledgeElementsForAnswer.returns([
           firstKnowledgeElement, secondKnowledgeElement,
         ]);
       });
@@ -266,7 +266,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -287,7 +287,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -305,7 +305,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -323,7 +323,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -341,7 +341,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -353,7 +353,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           targetSkills: smartPlacementAssessment.targetProfile.skills,
           userId: smartPlacementAssessment.userId
         };
-        expect(SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer).to.have.been.calledWith(expectedArgument);
+        expect(KnowledgeElement.createKnowledgeElementsForAnswer).to.have.been.calledWith(expectedArgument);
       });
 
       it('should save the newly created knowledge elements', async () => {
@@ -366,7 +366,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -374,7 +374,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           [firstKnowledgeElement],
           [secondKnowledgeElement],
         ];
-        expect(smartPlacementKnowledgeElementRepository.save.args).to.deep.equal(expectedArgs);
+        expect(knowledgeElementRepository.save.args).to.deep.equal(expectedArgs);
       });
 
       it('should return the saved answer - with the id', async () => {
@@ -387,7 +387,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -445,7 +445,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -466,7 +466,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -484,7 +484,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -502,7 +502,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
           competenceEvaluationRepository,
           skillRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then

@@ -11,12 +11,12 @@ function assertScorecard(userScorecard, expectedUserScorecard) {
 describe('Unit | UseCase | get-scorecard', () => {
 
   let competenceRepository;
-  let smartPlacementKnowledgeElementRepository;
+  let knowledgeElementRepository;
   let competenceEvaluationRepository;
 
   beforeEach(() => {
     competenceRepository = { get: sinon.stub() };
-    smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
   });
 
@@ -34,13 +34,13 @@ describe('Unit | UseCase | get-scorecard', () => {
       it('should resolve', () => {
         // given
         competenceRepository.get.resolves([]);
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
+        knowledgeElementRepository.findUniqByUserId.resolves([]);
 
         // when
         const promise = getScorecard({
           authenticatedUserId,
           scorecardId,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
         });
@@ -60,11 +60,11 @@ describe('Unit | UseCase | get-scorecard', () => {
         competenceRepository.get.resolves(competence);
 
         const knowledgeElementList = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1 }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1 }),
+          domainBuilder.buildKnowledgeElement({ competenceId: 1 }),
+          domainBuilder.buildKnowledgeElement({ competenceId: 1 }),
         ];
 
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
+        knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
 
         const expectedUserScorecard = domainBuilder.buildUserScorecard({
           courseId: competence.courseId,
@@ -78,7 +78,7 @@ describe('Unit | UseCase | get-scorecard', () => {
         const userScorecard = await getScorecard({
           authenticatedUserId,
           scorecardId,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
         });
@@ -97,10 +97,10 @@ describe('Unit | UseCase | get-scorecard', () => {
         competenceRepository.get.resolves(competence);
 
         const knowledgeElementList = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1, earnedPix: earnedPixNeededForLevelSixLimitedToFive })
+          domainBuilder.buildKnowledgeElement({ competenceId: 1, earnedPix: earnedPixNeededForLevelSixLimitedToFive })
         ];
 
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
+        knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
 
         const expectedUserScorecard = domainBuilder.buildUserScorecard({
           courseId: competence.courseId,
@@ -114,7 +114,7 @@ describe('Unit | UseCase | get-scorecard', () => {
         const userScorecard = await getScorecard({
           authenticatedUserId,
           scorecardId,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
         });
@@ -130,13 +130,13 @@ describe('Unit | UseCase | get-scorecard', () => {
         const authenticatedUserId = 34;
 
         competenceRepository.get.resolves([]);
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
+        knowledgeElementRepository.findUniqByUserId.resolves([]);
 
         // when
         const promise = getScorecard({
           authenticatedUserId,
           scorecardId: '1_1',
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository
         });
