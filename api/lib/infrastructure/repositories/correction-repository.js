@@ -69,7 +69,7 @@ module.exports = {
           _getTutorialDataObjects(learningMoreTutorialIds),
         ]);
       })
-      .then(([tutorials, learningMoreTutorials]) =>{
+      .then(([tutorials, learningMoreTutorials]) => {
 
         return new Correction({
           id: challengeDataObject.id,

@@ -37,7 +37,16 @@ exports.register = async function(server) {
         handler: answerController.findByChallengeAndAssessment,
         tags: ['api']
       }
-    }
+    },
+    {
+      method: 'GET',
+      path: '/api/answers/{id}/correction',
+      config: {
+        auth: false,
+        handler: answerController.getCorrection,
+        tags: ['api']
+      }
+    },
   ]);
 };
 

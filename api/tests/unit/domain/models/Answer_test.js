@@ -29,6 +29,7 @@ describe('Unit | Domain | Models | Answer', () => {
         timeout: 0,
         challengeId: 'redRecordId',
         assessmentId: 82,
+        correction: undefined,
       };
 
       // when
