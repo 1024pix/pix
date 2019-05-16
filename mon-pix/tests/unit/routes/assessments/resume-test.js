@@ -14,14 +14,19 @@ describe('Unit | Route | Assessments | Resume', function() {
   let StoreStub;
   let findRecordStub;
   let queryRecordStub;
+  let createRecordStub;
 
   beforeEach(function() {
     // define stubs
     findRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
+    createRecordStub = sinon.stub().returns({
+      save: sinon.stub().resolves()
+    });
     StoreStub = Service.extend({
       findRecord: findRecordStub,
-      queryRecord: queryRecordStub
+      queryRecord: queryRecordStub,
+      createRecord: createRecordStub,
     });
 
     // manage dependency injection context
@@ -164,6 +169,7 @@ describe('Unit | Route | Assessments | Resume', function() {
           assessment.isSmartPlacement = true;
           assessment.isDemo = false;
           assessment.hasCheckpoints = true;
+          assessment.codeCampaign = 'konami';
         });
 
         context('when assessment is not completed', function() {
@@ -179,14 +185,13 @@ describe('Unit | Route | Assessments | Resume', function() {
               route.hasSeenCheckpoint = true;
             });
 
-            it('should redirect to assessment rating page', function() {
+            it('should redirect to campaigns.skill-review page', function() {
               // when
               const promise = route.afterModel(assessment);
 
               // then
               return promise.then(() => {
-                sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.rating', 123);
+                sinon.assert.calledWith(route.replaceWith, 'campaigns.skill-review', 'konami', 123);
               });
             });
           });
@@ -217,31 +222,63 @@ describe('Unit | Route | Assessments | Resume', function() {
             assessment.isCompleted = true;
           });
 
-          it('should redirect to assessment rating page', function() {
+          it('should redirect to campaigns.skill-review page', function() {
             // when
             const promise = route.afterModel(assessment);
 
             // then
             return promise.then(() => {
-              sinon.assert.calledOnce(route.replaceWith);
-              sinon.assert.calledWith(route.replaceWith, 'assessments.rating', 123);
+              sinon.assert.calledWith(route.replaceWith, 'campaigns.skill-review', 'konami', 123);
             });
           });
         });
       });
 
-      context('when assessment is a DEMO, PLACEMENT, CERTIFICATION or PREVIEW', function() {
+      context('when assessment is a CERTIFICATION', function() {
         beforeEach(() => {
-          assessment.isPlacement = true;
+          assessment.isCertification = true;
+          assessment.certificationNumber = 666;
         });
-        it('should redirect to assessment rating page', function() {
+
+        it('should redirect to certifications.results page', function() {
           // when
           const promise = route.afterModel(assessment);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(route.replaceWith);
-            sinon.assert.calledWith(route.replaceWith, 'assessments.rating', 123);
+            sinon.assert.calledWith(route.replaceWith, 'certifications.results', 666);
+          });
+        });
+      });
+
+      context('when assessment is a COMPETENCE_EVALUATION', function() {
+        beforeEach(() => {
+          assessment.isCompetenceEvaluation = true;
+        });
+
+        it('should redirect to competences.results page', function() {
+          // when
+          const promise = route.afterModel(assessment);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledWith(route.replaceWith, 'competences.results', 123);
+          });
+        });
+      });
+
+      context('when assessment is a PLACEMENT', function() {
+        beforeEach(() => {
+          assessment.isPlacement = true;
+        });
+        it('should redirect to assessments.results page', function() {
+          // when
+          const promise = route.afterModel(assessment);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledWith(createRecordStub, 'assessment-result', { assessment });
+            sinon.assert.calledWith(route.replaceWith, 'assessments.results', 123);
           });
         });
       });
