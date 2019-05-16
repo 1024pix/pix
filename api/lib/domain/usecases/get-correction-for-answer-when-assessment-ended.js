@@ -1,19 +1,17 @@
 const { AssessmentNotCompletedError } = require('../errors');
 
-module.exports = function getCorrectionForAnswerWhenAssessmentEnded({
+module.exports = async function getCorrectionForAnswerWhenAssessmentEnded({
   assessmentRepository,
   answerRepository,
   correctionRepository,
   answerId
 } = {}) {
-  let answer;
-  return answerRepository.get(answerId)
-    .then((answerFromRepo) => {
-      answer = answerFromRepo;
-    })
-    .then(() => assessmentRepository.get(answer.assessmentId))
-    .then(_validateCorrectionIsAccessible)
-    .then(() => correctionRepository.getByChallengeId(answer.challengeId));
+  const answer = await answerRepository.get(answerId);
+  const assessment = await assessmentRepository.get(answer.assessmentId);
+
+  _validateCorrectionIsAccessible(assessment);
+
+  return correctionRepository.getByChallengeId(answer.challengeId);
 };
 
 function _validateCorrectionIsAccessible(assessment) {

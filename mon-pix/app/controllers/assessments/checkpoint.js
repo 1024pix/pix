@@ -24,9 +24,7 @@ export default Controller.extend({
 
   actions: {
     async openComparisonWindow(answer) {
-      const store = this.store;
-
-      const correction = await store.query('correction', { answerId: answer.id }).then((corrections) => corrections.get('firstObject'));
+      const correction = await answer.get('correction');
 
       this.set('answer', answer);
       this.set('correction', correction);
