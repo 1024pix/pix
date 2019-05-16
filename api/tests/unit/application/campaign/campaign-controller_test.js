@@ -1,8 +1,11 @@
 const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
+
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
+const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
+
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
@@ -246,6 +249,29 @@ describe('Unit | Application | Controller | Campaign', () => {
       // then
       expect(response).to.deep.equal(updatedCampaign);
     });
+  });
+
+  describe('#getReport', () => {
+
+    const campaignId = 1;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getCampaignReport');
+      sinon.stub(campaignReportSerializer, 'serialize');
+    });
+
+    it('should return ok', async () => {
+      // given
+      usecases.getCampaignReport.withArgs({ campaignId }).resolves({});
+      campaignReportSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await campaignController.getReport({ params: { id: campaignId } });
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+
   });
 
   describe('#getCollectiveResult', () => {

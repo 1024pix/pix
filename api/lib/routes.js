@@ -6,7 +6,6 @@ module.exports = [
   require('./application/cache'),
   require('./application/campaignParticipationResults'),
   require('./application/campaignParticipations'),
-  require('./application/campaignReports'),
   require('./application/campaigns'),
   require('./application/certification-centers'),
   require('./application/certification-center-memberships'),
