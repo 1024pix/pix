@@ -14,19 +14,19 @@ export default Model.extend({
 
   roundedAverageValidatedSkills: computed('averageValidatedSkills', function() {
     return Math.round(this.averageValidatedSkills * 10) / 10;
-  }).readOnly(),
+  }),
 
   validatedSkillsPercentage: computed('averageValidatedSkills', 'totalSkillsCount', function() {
     return Math.round(this.averageValidatedSkills * 100 / this.totalSkillsCount);
-  }).readOnly(),
+  }),
 
   totalSkillsCountPercentage: computed('totalSkillsCount', 'campaignCollectiveResult.maxTotalSkillsCountInCompetences', function() {
     return Math.round(this.totalSkillsCount * 100 / this.campaignCollectiveResult.get('maxTotalSkillsCountInCompetences'));
-  }).readOnly(),
+  }),
 
   domainColorStyle: computed('domainCode', function() {
     const foundDomain = domainColors.find((colors) => colors.domain === this.domainCode);
     return htmlSafe(`color: ${foundDomain.color}`);
-  }).readOnly(),
+  }),
 
 });
