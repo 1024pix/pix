@@ -10,20 +10,6 @@
   font-weight: $font-medium;
 }
 
-@mixin competence-card-level-label {
-  color: $nero;
-  font-size: 1rem;
-  letter-spacing: 0.25rem;
-  text-transform: uppercase;
-}
-
-@mixin competence-card-level-value {
-  color: $black;
-  font-family: $font-open-sans;
-  font-size: 4.6rem;
-  line-height: 4.6rem;
-}
-
 .competence-card {
   width: 210px;
   height: 300px;
@@ -118,12 +104,7 @@
   align-items: center;
 }
 
-.competence-card-level__label {
-  @include competence-card-level-label;
-}
-
-.competence-card-level__value {
-  @include competence-card-level-value;
+.competence-card-score-value {
   min-height: 44px;
 }
 

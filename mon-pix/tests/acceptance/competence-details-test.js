@@ -63,8 +63,8 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       expect(find('.scorecard-details-content-left__area').attr('class')).to.contain('scorecard-details-content-left__area--jaffa');
       expect(find('.scorecard-details-content-left__name').text()).to.contain(name);
       expect(find('.scorecard-details-content-left__description').text()).to.contain(description);
-      expect(find('.competence-card-level__value').text()).to.contain(level);
-      expect(find('.scorecard-details-content-right-score-container-pix-earned__number').text()).to.contain(earnedPix);
+      expect(find('.score-value').text()).to.contain(level);
+      expect(find('.score-value').text()).to.contain(earnedPix);
       expect(find('.scorecard-details-content-right__level-info').text()).to.contain(`${8 - pixScoreAheadOfNextLevel} pix avant le niveau ${level + 1}`);
     });
 

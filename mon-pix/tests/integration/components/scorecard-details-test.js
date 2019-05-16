@@ -73,9 +73,9 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
-      expect(this.element.querySelector('.competence-card-level__value').textContent).to.contain(scorecard.level);
-      expect(this.element.querySelector('.scorecard-details-content-right-score-container-pix-earned__number').textContent).to.contain(scorecard.earnedPix);
-      expect(this.element.querySelector('.scorecard-details-content-right__level-info').textContent).to.contain(`${scorecard.remainingPixToNextLevel} pix avant le niveau 3`);
+      expect(this.element.querySelector('.score-value').textContent).to.contain(scorecard.level);
+      expect(this.element.getElementsByClassName('score-value')[1].textContent).to.contain(scorecard.earnedPix);
+      expect(this.element.querySelector('.scorecard-details-content-right__level-info').textContent).to.contain(`${scorecard.remainingPixToNextLevel} pix avant le niveau ${scorecard.level + 1}`);
     });
 
     it('should not display remainingPixToNextLevel if scorecard.isMaxLevel is true', async function() {
@@ -124,11 +124,11 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
-      expect(this.element.querySelector('.competence-card-level__value').textContent).to.contain('–');
-      expect(this.element.querySelector('.scorecard-details-content-right-score-container-pix-earned__number').textContent).to.contain('–');
+      expect(this.element.querySelector('.score-value').textContent).to.contain('–');
+      expect(this.element.querySelector('.score-value').textContent).to.contain('–');
     });
 
-    it('should not display a button to ompetences.resume if scorecard.isFinished', async function() {
+    it('should not display a button if scorecard.isFinished', async function() {
       // given
       const scorecard = {
         isFinished: true,
