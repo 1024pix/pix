@@ -77,8 +77,8 @@ describe('Integration | Component | competence-card', function() {
       await render(hbs`{{competence-card scorecard=scorecard}}`);
 
       // then
-      expect(this.element.querySelector('.competence-card-level__label').textContent).to.equal('Niveau');
-      expect(this.element.querySelector('.competence-card-level__value').textContent).to.equal(scorecard.level.toString());
+      expect(this.element.querySelector('.score-label').textContent).to.equal('Niveau');
+      expect(this.element.querySelector('.score-value').textContent).to.equal(scorecard.level.toString());
     });
 
     context('when user can start the competence', async function() {

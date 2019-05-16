@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.42.0 (16/05/2019)
+
+- [#502](https://github.com/1024pix/pix/pull/502) [FEATURE] Modification du design de scorecard-details (PF-594).
+- [#500](https://github.com/1024pix/pix/pull/500) [TECH] Refactoring pour préparer la remise à zéro.
+
 ## v2.41.0 (14/05/2019)
 
 - [#501](https://github.com/1024pix/pix/pull/501) [FEATURE] Afficher un lien temporaire d'explications pour Profil v2(PF-589).

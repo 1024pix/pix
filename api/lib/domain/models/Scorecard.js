@@ -1,5 +1,4 @@
-const MAX_REACHABLE_LEVEL = 5;
-const NB_PIX_BY_LEVEL = 8;
+const constants = require('../constants');
 
 class Scorecard {
   constructor({
@@ -28,16 +27,14 @@ class Scorecard {
   }
 
   _getCompetenceLevel(earnedPix) {
-    const userLevel = Math.floor(earnedPix / NB_PIX_BY_LEVEL);
+    const userLevel = Math.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
 
-    return Math.min(MAX_REACHABLE_LEVEL, userLevel);
+    return Math.min(constants.MAX_REACHABLE_LEVEL, userLevel);
   }
 
   _getpixScoreAheadOfNextLevel(earnedPix) {
-    return earnedPix % NB_PIX_BY_LEVEL;
+    return earnedPix % constants.PIX_COUNT_BY_LEVEL;
   }
 }
-
-Scorecard.MAX_REACHABLE_LEVEL = MAX_REACHABLE_LEVEL;
 
 module.exports = Scorecard;
