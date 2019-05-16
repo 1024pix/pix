@@ -1,7 +1,8 @@
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
+const Scorecard = require('../models/Scorecard');
 
-module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository, scorecardService }) => {
+module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
 
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
@@ -14,7 +15,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElement
   ]);
 
   return _.map(competenceTree, (competence) =>
-    scorecardService.createScorecard(requestedUserId, userKEList, competence, competenceEvaluations)
+    Scorecard.buildFrom({ userId: requestedUserId, userKEList, competence, competenceEvaluations })
   );
 };
 
