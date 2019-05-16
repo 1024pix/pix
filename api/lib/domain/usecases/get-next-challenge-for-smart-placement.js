@@ -1,13 +1,14 @@
 const { AssessmentEndedError } = require('../errors');
 const smartRandom = require('../services/smart-random/smart-random');
+const dataFetcher = require('../services/smart-random/data-fetcher');
 
 async function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, knowledgeElementRepository, targetProfileRepository }) {
-  const [answers, [targetProfile, challenges], knowledgeElements] = await getSmartRandomInputValues({
+  const [answers, [targetProfile, challenges], knowledgeElements] = await dataFetcher.fetchForCampaigns({
     assessment,
     answerRepository,
     challengeRepository,
     knowledgeElementRepository,
-    targetProfileRepository
+    targetProfileRepository,
   });
 
   const {
@@ -20,21 +21,6 @@ async function getNextChallengeForSmartPlacement({ assessment, answerRepository,
   }
 
   return nextChallenge;
-}
-
-function getSmartRandomInputValues({
-  assessment,
-  answerRepository,
-  challengeRepository,
-  knowledgeElementRepository,
-  targetProfileRepository
-}) {
-  return Promise.all([
-    answerRepository.findByAssessment(assessment.id),
-    targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId())
-      .then((targetProfile) => Promise.all([targetProfile, challengeRepository.findBySkills(targetProfile.skills)])),
-    knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
-  );
 }
 
 module.exports = getNextChallengeForSmartPlacement;
