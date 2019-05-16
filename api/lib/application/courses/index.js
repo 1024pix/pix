@@ -32,7 +32,7 @@ exports.register = async function(server) {
       }
     }, {
       method: 'POST',
-      path: '/api/courses-v2',
+      path: '/api/courses-v2s',
       config: {
         handler: courseController.retrieveOrCreateCertificationCourseFromKnowledgeElements,
         notes: [

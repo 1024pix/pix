@@ -56,6 +56,10 @@ export default Router.map(function() {
     this.route('results', { path: '/:certification_number/results' });
   });
 
+  this.route('certifications-v2', function() {
+    this.route('start-v2', { path: '/' });
+  });
+
   this.route('user-certifications', { path: 'mes-certifications' }, function() {
     this.route('get', { path: '/:id' });
   });

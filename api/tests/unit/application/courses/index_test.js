@@ -75,13 +75,13 @@ describe('Integration | Router | course-router', () => {
     });
   });
 
-  describe('POST /api/courses-v2', () => {
+  describe('POST /api/courses-v2s', () => {
 
     it('should exist', () => {
       // given
       const options = {
         method: 'POST',
-        url: '/api/courses-v2'
+        url: '/api/courses-v2s'
       };
 
       // when

@@ -1,0 +1,37 @@
+<p class="certification-course-page__order">
+  Un code d'accès va vous être communiqué par le responsable de la session.
+</p>
+
+<div class="certification-course-page__session-code-input">
+  {{input id="session-code" type="text" value=_accessCode placeholder="Code d'accès"}}
+  {{#if _errorMessage}}
+    <div class="certification-course-page__errors">{{_errorMessage}}</div>
+  {{/if}}
+</div>
+
+<div class="certification-course-page__cgu">
+  <p>
+    En cliquant sur "Lancer le test", j’accepte que mes données d’identité, le numéro de certification v2 et les
+    circonstances de la passation telles que renseignées par le surveillant soient communiquées à Pix. Pix les utilisera
+    lors de la délibération du jury pour produire et archiver mes résultats et pour éditer mon certificat. Si cette
+    certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.
+  </p>
+  <p>
+    Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous
+    concernant et les faire rectifier en envoyant un mail à <a href="mailto:dpo@pix.fr">dpo@pix.fr</a>.
+  </p>
+</div>
+
+<div class="certification-course-page__field-button">
+
+  {{#if _loadingCertification}}
+    <div class="certification-course-page__field-button__action-validate">
+      <div class="certification-course-page__field-button__loader-bar"></div>
+    </div>
+  {{else}}
+    <button type="submit" class="certification-course-page__submit_button" {{ action "submit" }}>Lancer le test</button>
+  {{/if}}
+</div>
+
+
+
