@@ -1,12 +1,12 @@
 const _ = require('lodash');
 const Scorecard = require('../models/Scorecard');
 
-function _getStatus(knowledgeElements, competenceId, competenceEvaluation) {
+function _getStatus(knowledgeElements, competenceId, competenceEvaluations) {
   if (_.isEmpty(knowledgeElements)) {
     return 'NOT_STARTED';
   }
 
-  const competenceEvaluationForCompetence = _.find(competenceEvaluation, { competenceId });
+  const competenceEvaluationForCompetence = _.find(competenceEvaluations, { competenceId });
   const stateOfAssessment = _.get(competenceEvaluationForCompetence, 'assessment.state');
   if (stateOfAssessment === 'completed') {
     return 'COMPLETED';
