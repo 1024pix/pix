@@ -2,6 +2,7 @@ const { expect, databaseBuilder, domainBuilder, airtableBuilder } = require('../
 const campaignCollectiveResultRepository = require('../../../../lib/infrastructure/repositories/campaign-collective-result-repository');
 const CampaignCollectiveResult = require('../../../../lib/domain/models/CampaignCollectiveResult');
 const cache = require('../../../../lib/infrastructure/caches/cache');
+const _ = require('lodash');
 
 function _createUserWithCampaignParticipation(userName, campaignId, sharedAt) {
   const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
@@ -18,39 +19,28 @@ function _createUserWithCampaignParticipation(userName, campaignId, sharedAt) {
 describe('Integration | Repository | Service | Campaign collective result repository', () => {
 
   beforeEach(() => {
+    const areas = [airtableBuilder.factory.buildArea()];
+    const competences = [];
+    const skills = [];
 
-    /* REFERENTIAL */
+    _.each([
+      { competence: { id: 'recCompetenceA', titre: 'Competence A', sousDomaine: '1.1' }, skillIds: ['recUrl1', 'recUrl2', 'recUrl3', 'recUrl4', 'recUrl5'] },
+      { competence: { id: 'recCompetenceB', titre: 'Competence B', sousDomaine: '1.2' }, skillIds: ['recFile2', 'recFile3', 'recFile5', 'recText1'] },
+      { competence: { id: 'recCompetenceC', titre: 'Competence C', sousDomaine: '1.3' }, skillIds: ['recMedia1', 'recMedia2'] },
+      { competence: { id: 'recCompetenceD', titre: 'Competence D', sousDomaine: '2.1' }, skillIds: ['recAlgo1', 'recAlgo2'] },
+      { competence: { id: 'recCompetenceE', titre: 'Competence E', sousDomaine: '2.2' }, skillIds: ['recBrowser1'] },
 
-    const area = airtableBuilder.factory.buildArea();
+    ], ({ competence, skillIds }) => {
+      competences.push(airtableBuilder.factory.buildCompetence(competence));
 
-    const competences = [
-      airtableBuilder.factory.buildCompetence({ id: 'recCompetenceA', titre: 'Competence A', sousDomaine: '1.1' }),
-      airtableBuilder.factory.buildCompetence({ id: 'recCompetenceB', titre: 'Competence B', sousDomaine: '1.2' }),
-      airtableBuilder.factory.buildCompetence({ id: 'recCompetenceC', titre: 'Competence C', sousDomaine: '1.3' }),
-      airtableBuilder.factory.buildCompetence({ id: 'recCompetenceD', titre: 'Competence D', sousDomaine: '2.1' }),
-      airtableBuilder.factory.buildCompetence({ id: 'recCompetenceE', titre: 'Competence E', sousDomaine: '2.2' }),
-    ];
-
-    const skills = [
-      airtableBuilder.factory.buildSkill({ id: 'recUrl1', 'compétenceViaTube': ['recCompetenceA'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recUrl2', 'compétenceViaTube': ['recCompetenceA'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recUrl3', 'compétenceViaTube': ['recCompetenceA'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recUrl4', 'compétenceViaTube': ['recCompetenceA'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recUrl5', 'compétenceViaTube': ['recCompetenceA'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recFile2', 'compétenceViaTube': ['recCompetenceB'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recFile3', 'compétenceViaTube': ['recCompetenceB'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recFile5', 'compétenceViaTube': ['recCompetenceB'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recText1', 'compétenceViaTube': ['recCompetenceB'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recMedia1', 'compétenceViaTube': ['recCompetenceC'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recMedia2', 'compétenceViaTube': ['recCompetenceC'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recAlgo1', 'compétenceViaTube': ['recCompetenceD'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recAlgo2', 'compétenceViaTube': ['recCompetenceD'] }),
-      airtableBuilder.factory.buildSkill({ id: 'recBrowser1', 'compétenceViaTube': ['recCompetenceE'] }),
-    ];
+      _.each(skillIds, (skillId) => skills.push(
+        airtableBuilder.factory.buildSkill({ id: skillId, 'compétenceViaTube': [competence.id] })
+      ));
+    });
 
     airtableBuilder
       .mockList({ tableName: 'Domaines' })
-      .returns([area])
+      .returns(areas)
       .activate();
 
     airtableBuilder
