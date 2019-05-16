@@ -1,3 +1,4 @@
+const SmartPlacementKnowledgeElement = require('../../models/SmartPlacementKnowledgeElement');
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 
@@ -6,9 +7,41 @@ const { pipe } = require('lodash/fp');
 // https://en.wikipedia.org/wiki/Item_response_theory
 
 module.exports = {
-  findMaxRewardingChallenges: findMaxRewardingChallenges,
-  getPredictedLevel: getPredictedLevel
+  findMaxRewardingChallenges,
+  getPredictedLevel,
 };
+
+function getPredictedLevel(knowledgeElements, skills) {
+  return _.maxBy(_enumerateCatLevels(),
+    (level) => _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills)
+  );
+}
+
+function _enumerateCatLevels() {
+  const firstLevel = 0.5;
+  const lastLevel = 8; // The upper boundary is not included in the range
+  const levelStep = 0.5;
+  return _.range(firstLevel, lastLevel, levelStep);
+}
+
+function _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills) {
+  const directKnowledgeElements = _.filter(knowledgeElements, (ke) => ke.source === 'direct');
+  const extraAnswers = directKnowledgeElements.map((ke) => {
+    const skill = skills.find((skill) => skill.id === ke.skillId);
+    const maxDifficulty = skill.difficulty || 2;
+    const binaryOutcome = (ke.status === SmartPlacementKnowledgeElement.StatusType.VALIDATED) ? 1 : 0;
+    return { binaryOutcome, maxDifficulty };
+  });
+
+  const answerThatAnyoneCanSolve = { maxDifficulty: 0, binaryOutcome: 1 };
+  const answerThatNobodyCanSolve = { maxDifficulty: 7, binaryOutcome: 0 };
+  extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
+
+  const diffBetweenResultAndProbaToResolve = extraAnswers.map((answer) =>
+    answer.binaryOutcome - _probaOfCorrectAnswer(level, answer.maxDifficulty));
+
+  return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
+}
 
 function findMaxRewardingChallenges(...args) {
   return pipe(
@@ -19,7 +52,7 @@ function findMaxRewardingChallenges(...args) {
 
 function _getMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements }) {
   return _.reduce(availableChallenges, (acc, challenge) => {
-    const challengeReward = computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements });
+    const challengeReward = _computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements });
     if (challengeReward > acc.maxReward) {
       acc.maxReward = challengeReward;
       acc.maxRewardingChallenges = [challenge];
@@ -37,7 +70,7 @@ function _clearChallengesIfNotRewarding(challenges) {
   return _.filter(challenges, (challenge) => challenge.reward !== 0);
 }
 
-function computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements }) {
+function _computeReward({ challenge, predictedLevel, courseTubes, knowledgeElements }) {
   const proba = _probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
   const nbExtraSkillsIfSolved = _getNewSkillsInfoIfChallengeSolved(challenge, courseTubes, knowledgeElements).length;
   const nbFailedSkillsIfUnsolved = _getNewSkillsInfoIfChallengeUnsolved(challenge, courseTubes, knowledgeElements).length;
@@ -45,39 +78,10 @@ function computeReward({ challenge, predictedLevel, courseTubes, knowledgeElemen
   return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
 }
 
-function getPredictedLevel(knowledgeElements, skills) {
-  let maxLikelihood = -Infinity;
-  let level = 0.5;
-  let predictedLevel = 0.5;
-
-  while (level < 8) {
-    const likelihood = _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills);
-    if (likelihood > maxLikelihood) {
-      maxLikelihood = likelihood;
-      predictedLevel = level;
-    }
-    level += 0.5;
-  }
-  return predictedLevel;
-}
-
-function _computeProbabilityOfCorrectLevelPredicted(level, knowledgeElements, skills) {
-  const directKnowledgeElements = _.filter(knowledgeElements, (ke)=> ke.source === 'direct');
-  const extraAnswers = directKnowledgeElements.map((ke)=> {
-    const skill = skills.find((skill) => skill.id === ke.skillId);
-    const maxDifficulty = skill.difficulty || 2;
-    const binaryOutcome = (ke.status === 'validated') ? 1 : 0;
-    return { binaryOutcome, maxDifficulty };
-  });
-
-  const answerThatAnyoneCanSolve = { maxDifficulty: 0, binaryOutcome: 1 };
-  const answerThatNobodyCanSolve = { maxDifficulty: 7, binaryOutcome: 0 };
-  extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
-
-  const diffBetweenResultAndProbaToResolve = extraAnswers.map((answer) =>
-    answer.binaryOutcome - _probaOfCorrectAnswer(level, answer.maxDifficulty));
-
-  return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
+// The probability P(gap) of giving the correct answer is given by the "logistic function"
+// https://en.wikipedia.org/wiki/Logistic_function
+function _probaOfCorrectAnswer(userEstimatedLevel, challengeDifficulty) {
+  return 1 / (1 + Math.exp(-(userEstimatedLevel - challengeDifficulty)));
 }
 
 function _getNewSkillsInfoIfChallengeSolved(challenge, courseTubes, knowledgeElements) {
@@ -108,10 +112,4 @@ function _findTubeByName(courseTubes, tubeName) {
 function _skillNotTestedYet(skill, knowledgesElements) {
   const skillsAlreadyTested = _.map(knowledgesElements, 'skillId');
   return !skillsAlreadyTested.includes(skill.id);
-}
-
-// The probability P(gap) of giving the correct answer is given by the "logistic function"
-// https://en.wikipedia.org/wiki/Logistic_function
-function _probaOfCorrectAnswer(userEstimatedLevel, challengeDifficulty) {
-  return 1 / (1 + Math.exp(-(userEstimatedLevel - challengeDifficulty)));
 }
