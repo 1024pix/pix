@@ -40,11 +40,11 @@ class Scorecard {
       index: competence.index,
       area: competence.area,
       earnedPix: totalEarnedPixByCompetence,
-      status: Scorecard._computeStatus(knowledgeElementsOfCompetence, competence.id, competenceEvaluations)
+      status: Scorecard._computeStatus({ knowledgeElements: knowledgeElementsOfCompetence, competenceId: competence.id, competenceEvaluations })
     });
   }
 
-  static _computeStatus(knowledgeElements, competenceId, competenceEvaluations) {
+  static _computeStatus({ knowledgeElements, competenceId, competenceEvaluations }) {
     if (_.isEmpty(knowledgeElements)) {
       return 'NOT_STARTED';
     }

@@ -1,4 +1,4 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const constants = require('../../../../lib/domain/constants');
 
@@ -37,9 +37,12 @@ describe('Unit | Domain | Models | Scorecard', () => {
     const maxLevel = 5;
     const competenceId = 1;
     const scorecardId = `${authenticatedUserId}_${competenceId}`;
+    let status = 'FOO';
+    sinon.stub(Scorecard, '_computeStatus').returns(status);
 
     it('should return the user scorecard with level limited to 5', async () => {
       // given
+      status = 'STARTED';
       const earnedPixNeededForLevelSixLimitedToFive = 50;
       const pixScoreAheadOfNextLevel = 2;
 
@@ -66,7 +69,12 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
 
       // when
-      const userScorecard = Scorecard.buildFrom({ userId: authenticatedUserId, userKEList: knowledgeElementList, competence, competenceEvaluations: null });
+      const userScorecard = Scorecard.buildFrom({
+        userId: authenticatedUserId,
+        userKEList: knowledgeElementList,
+        competence,
+        competenceEvaluations: null
+      });
 
       //then
       expect(userScorecard).to.deep.equal(expectedUserScorecard);
@@ -74,8 +82,10 @@ describe('Unit | Domain | Models | Scorecard', () => {
 
     context('when there is no knowledge elements', async () => {
 
-      it('should return the user scorecard with status NOT_STARTED', async () => {
+      it('should return the user scorecard with score null', async () => {
         // given
+        status = 'NOT_STARTED';
+
         const competence = domainBuilder.buildCompetence({ id: competenceId });
 
         const expectedUserScorecard = domainBuilder.buildUserScorecard({
@@ -92,18 +102,24 @@ describe('Unit | Domain | Models | Scorecard', () => {
         });
 
         // when
-        const userScorecard = Scorecard.buildFrom({ userId: authenticatedUserId, userKEList: null, competence, competenceEvaluations: null });
+        const userScorecard = Scorecard.buildFrom({
+          userId: authenticatedUserId,
+          userKEList: null,
+          competence,
+          competenceEvaluations: null
+        });
 
         //then
         expect(userScorecard).to.deep.equal(expectedUserScorecard);
       });
     });
 
-    context('when assessment is completed', async () => {
+    context('when there is some knowledge elements', async () => {
       const earnedPix = 10;
 
-      it('should return the user scorecard with status COMPLETED', async () => {
+      it('should return the user scorecard with computed level and pix', async () => {
         // given
+        status = 'COMPLETED';
         const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId, earnedPix })];
         const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
         const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
@@ -127,45 +143,86 @@ describe('Unit | Domain | Models | Scorecard', () => {
         });
 
         // when
-        const userScorecard = Scorecard.buildFrom({ userId: authenticatedUserId, userKEList: knowledgeElementList, competence, competenceEvaluations });
+        const userScorecard = Scorecard.buildFrom({
+          userId: authenticatedUserId,
+          userKEList: knowledgeElementList,
+          competence,
+          competenceEvaluations
+        });
 
         //then
         expect(userScorecard).to.deep.equal(expectedUserScorecard);
       });
     });
+  });
+
+  describe('_computeStatus', () => {
+    const competenceId = 1;
+
+    context('when there is no knowledge elements', async () => {
+
+      it('should return the user scorecard with status NOT_STARTED', async () => {
+        // given
+        const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
+        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+          competenceId: 1,
+          assessmentId: assessment.id,
+          assessment
+        })];
+
+        // when
+        const status = Scorecard._computeStatus({ knowledgeElements: null, competenceId, competenceEvaluations });
+
+        //then
+        expect(status).to.deep.equal('NOT_STARTED');
+      });
+    });
+
+    context('when assessment is completed', async () => {
+
+      it('should return the user scorecard with status COMPLETED', async () => {
+        // given
+        const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId })];
+        const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
+        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+          competenceId,
+          assessmentId: assessment.id,
+          assessment
+        })];
+
+        // when
+        const status = Scorecard._computeStatus({
+          knowledgeElements: knowledgeElementList,
+          competenceId,
+          competenceEvaluations
+        });
+
+        //then
+        expect(status).to.deep.equal('COMPLETED');
+      });
+    });
 
     context('when there is some knowledge-elements and assessment is not completed', async () => {
-      const earnedPix = 10;
 
       it('should return the user scorecard with status STARTED', async () => {
         // given
-        const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId, earnedPix })];
+        const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId })];
         const assessment = domainBuilder.buildAssessment({ state: 'started', type: 'COMPETENCE_EVALUATION' });
         const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
           competenceId,
           assessmentId: assessment.id,
           assessment
         })];
-        const competence = domainBuilder.buildCompetence({ id: competenceId });
-
-        const expectedUserScorecard = domainBuilder.buildUserScorecard({
-          id: scorecardId,
-          name: competence.name,
-          description: competence.description,
-          competenceId,
-          index: competence.index,
-          area: competence.area,
-          earnedPix,
-          level: 1,
-          pixScoreAheadOfNextLevel: 2,
-          status: 'STARTED',
-        });
 
         // when
-        const userScorecard = Scorecard.buildFrom({ userId: authenticatedUserId, userKEList: knowledgeElementList, competence, competenceEvaluations });
+        const status = Scorecard._computeStatus({
+          knowledgeElements: knowledgeElementList,
+          competenceId,
+          competenceEvaluations
+        });
 
         //then
-        expect(userScorecard).to.deep.equal(expectedUserScorecard);
+        expect(status).to.deep.equal('STARTED');
       });
     });
   });
