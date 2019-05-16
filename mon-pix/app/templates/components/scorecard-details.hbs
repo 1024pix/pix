@@ -12,25 +12,42 @@
   </div>
 
   <div class="scorecard-details-content__right">
-    <div class="scorecard-details-content-right__score-container">
-      {{#circle-chart value=scorecard.percentageAheadOfNextLevel
-                      sliceColor=scorecard.areaColor
-                      chartClass='circle-chart__content--big'
-                      thicknessClass='circle--thick'}}
-        <div class="competence-card__level">
-          <span class="competence-card-level__label">Niveau</span>
-          <span class="competence-card-level__value">{{scorecard.level}}</span>
+
+    {{#unless scorecard.isNotStarted}}
+      <div class="scorecard-details-content-right__score-container">
+        {{#circle-chart value=scorecard.percentageAheadOfNextLevel
+                        sliceColor=scorecard.areaColor
+                        chartClass='circle-chart__content--big'
+                        thicknessClass='circle--thick'}}
+          <div class="competence-card__level">
+            <span class="score-label">Niveau</span>
+            <span class="score-value">{{replace-zero-by-dash level}}</span>
+          </div>
+        {{/circle-chart}}
+        <div class="scorecard-details-content-right-score-container__pix-earned">
+          <div class="score-label">pix</div>
+          <div class="score-value">{{replace-zero-by-dash scorecard.earnedPix}}</div>
         </div>
-      {{/circle-chart}}
-      <div class="scorecard-details-content-right-score-container__pix-earned">
-        <div class="scorecard-details-content-right-score-container-pix-earned__number">{{scorecard.earnedPix}}</div>
-        <div class="scorecard-details-content-right-score-container-pix-earned__info">pix</div>
       </div>
-    </div>
-    {{#unless scorecard.isMaxLevel}}
+    {{/unless}}
+
+    {{#if isProgressable}}
       <div class="scorecard-details-content-right__level-info">
         {{scorecard.remainingPixToNextLevel}} pix avant le niveau {{inc scorecard.level}}
       </div>
+    {{/if}}
+
+    {{#unless scorecard.isFinished}}
+      {{#link-to "competences.resume" scorecard.competenceId
+          class=(concat "button button--thin button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__button"))}}
+        {{#if scorecard.isStarted}}
+          Reprendre
+        {{else}}
+          Commencer
+        {{/if}}
+      {{/link-to}}
     {{/unless}}
+
   </div>
+
 </div>

@@ -16,6 +16,7 @@
   &__left {
     flex-grow: 1;
     padding: 0px 30px 30px 30px;
+    max-width: 100%;
 
     @include device-is('desktop') {
       padding: 0 30px;
@@ -82,36 +83,21 @@
     color: $grayish-grey;
     text-transform: uppercase;
     letter-spacing: 0.03rem;
+    white-space: nowrap;
   }
 }
 
 .scorecard-details-content-right-score-container {
   &__pix-earned {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    margin-left: 30px;
+    margin-left: 60px;
     text-transform: uppercase;
     color: $grayish-grey;
   }
 }
 
-@mixin pix-earned-number-text {
-  font-size: 3.2rem;
-  line-height: 3.2rem;
-  font-family: $font-open-sans;
-  font-weight: $font-semi-bold;
-}
-
-.scorecard-details-content-right-score-container-pix-earned {
-  &__number {
-    margin-right: 5px;
-    margin-bottom: 4px;
-    @include pix-earned-number-text;
-  }
-
-  &__info {
-    line-height: 1.4rem;
-    letter-spacing: 0.12rem;
-  }
+.scorecard-details__button {
+  margin-top: 20px;
 }

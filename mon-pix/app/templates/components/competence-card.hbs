@@ -11,8 +11,8 @@
                       chartClass='circle-chart__content--big'
                       thicknessClass='circle--thick'}}
         <div class="competence-card__level">
-          <span class="competence-card-level__label">Niveau</span>
-          <span class="competence-card-level__value">{{displayedLevel}}</span>
+          <span class="score-label">Niveau</span>
+          <span class="score-value competence-card-score-value">{{replace-zero-by-dash displayedLevel}}</span>
         </div>
       {{/circle-chart}}
     {{/link-to}}
