@@ -1,6 +1,6 @@
 const Course = require('../../models/Course');
 const catAlgorithm = require('./cat-algorithm');
-const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challengesFilter');
+const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challenges-filter');
 const _ = require('lodash');
 
 const UNEXISTING_ITEM = null;
