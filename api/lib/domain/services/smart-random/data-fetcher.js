@@ -8,7 +8,7 @@ async function fetchForCampaigns({
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
     ...(await targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId())
-      .then((targetProfile) => Promise.all([targetProfile, challengeRepository.findBySkills(targetProfile.skills)]))),
+      .then((targetProfile) => Promise.all([targetProfile.skills, challengeRepository.findBySkills(targetProfile.skills)]))),
     knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId }),
   ]);
 }
