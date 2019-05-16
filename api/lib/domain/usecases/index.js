@@ -28,7 +28,6 @@ const dependencies = {
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
   resetPasswordService: require('../../domain/services/reset-password-service'),
   reCaptchaValidator: require('../../infrastructure/validators/grecaptcha-validator'),
-  scorecardService: require('../../domain/services/scorecard-service'),
   scoringService: require('../../domain/services/scoring/scoring-service'),
   settings: require('../../settings'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),

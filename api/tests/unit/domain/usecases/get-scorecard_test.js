@@ -1,5 +1,6 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
@@ -13,13 +14,13 @@ describe('Unit | UseCase | get-scorecard', () => {
   let competenceRepository;
   let knowledgeElementRepository;
   let competenceEvaluationRepository;
-  let scorecardService;
+  const scorecard = { id: 'foo' };
 
   beforeEach(() => {
     competenceRepository = { get: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
-    scorecardService = { createScorecard: sinon.stub() };
+    sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
   });
 
   afterEach(() => {
@@ -44,7 +45,6 @@ describe('Unit | UseCase | get-scorecard', () => {
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
-          scorecardService
         });
 
         // then
@@ -69,7 +69,11 @@ describe('Unit | UseCase | get-scorecard', () => {
         knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
 
         const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
-        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({ competenceId: 1, assessmentId: assessment.id, assessment })];
+        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+          competenceId: 1,
+          assessmentId: assessment.id,
+          assessment
+        })];
 
         competenceEvaluationRepository.findByUserId.resolves(competenceEvaluations);
 
@@ -80,7 +84,12 @@ describe('Unit | UseCase | get-scorecard', () => {
           pixScoreAheadOfNextLevel: pixScoreAheadOfNextLevelForCompetenceId1
         });
 
-        scorecardService.createScorecard.withArgs(authenticatedUserId, knowledgeElementList, competence, competenceEvaluations).returns(expectedUserScorecard);
+        Scorecard.buildFrom.withArgs({
+          userId: authenticatedUserId,
+          userKEList: knowledgeElementList,
+          competence,
+          competenceEvaluations
+        }).returns(expectedUserScorecard);
 
         // when
         const userScorecard = await getScorecard({
@@ -89,7 +98,6 @@ describe('Unit | UseCase | get-scorecard', () => {
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
-          scorecardService
         });
 
         //then
@@ -112,7 +120,6 @@ describe('Unit | UseCase | get-scorecard', () => {
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
-          scorecardService
         });
 
         // then
