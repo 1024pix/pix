@@ -13,7 +13,7 @@ async function getNextChallengeForSmartPlacement(
 
   const [
     answers,
-    targetProfile,
+    targetSkills,
     challenges,
     knowledgeElements,
   ] = await dataFetcher.fetchForCampaigns(...arguments);
@@ -25,7 +25,7 @@ async function getNextChallengeForSmartPlacement(
   } = smartRandom.getNextChallenge({
     answers,
     challenges,
-    targetSkills: targetProfile.skills,
+    targetSkills,
     knowledgeElements,
   });
 
