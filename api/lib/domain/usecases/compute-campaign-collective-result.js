@@ -11,7 +11,7 @@ module.exports = async function computeCampaignCollectiveResult(
   const hasUserAccessToResult = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(campaignId, userId);
 
   if (!hasUserAccessToResult) {
-    throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign participation');
+    throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign');
   }
 
   return campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId);
