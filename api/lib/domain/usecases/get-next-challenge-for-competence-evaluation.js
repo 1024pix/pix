@@ -1,5 +1,5 @@
 const { AssessmentEndedError, UserNotAuthorizedToAccessEntity } = require('../errors');
-const smartRandom = require('../services/smart-random/smartRandom');
+const smartRandom = require('../services/smart-random/smart-random');
 
 async function getNextChallengeForCompetenceEvaluation({ assessment, userId, answerRepository, competenceEvaluationRepository, challengeRepository, knowledgeElementRepository, skillRepository }) {
   _checkIfAssessmentBelongsToUser(assessment, userId);

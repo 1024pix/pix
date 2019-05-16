@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getNextChallengeForCompetenceEvaluation = require('../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation');
-const SmartRandom = require('../../../../lib/domain/services/smart-random/smartRandom');
+const SmartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', () => {
 
