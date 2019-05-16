@@ -1,4 +1,4 @@
-const { sinon, expect, hFake } = require('../../../test-helper');
+const { sinon, expect, catchErr } = require('../../../test-helper');
 const campaignCollectiveResultsController = require('../../../../lib/application/campaign-collective-results/campaign-collective-results-controller');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 const usecases = require('../../../../lib/domain/usecases');
@@ -45,30 +45,11 @@ describe('Unit | Controller | campaign-collective-results-controller', () => {
       usecases.computeCampaignCollectiveResult.rejects(error);
 
       // when
-      const response = await campaignCollectiveResultsController.get(request, hFake);
+      const errorCatched = await catchErr(campaignCollectiveResultsController.get)(request);
 
       // then
-      expect(response.statusCode).to.be.equal(403);
-      expect(response.source).to.be.equal('Error: User is not authorized to access ressource');
+      expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntity);
     });
 
-    it('should return an error', async () => {
-      // given
-      const error = new Error('Traditional error');
-      const request = {
-        params: { id: campaignId },
-        auth: {
-          credentials: { userId }
-        }
-      };
-      usecases.computeCampaignCollectiveResult.rejects(error);
-
-      // when
-      const response = await campaignCollectiveResultsController.get(request, hFake);
-
-      // then
-      expect(response.statusCode).to.be.equal(400);
-      expect(response.source).to.be.equal('Error: Traditional error');
-    });
   });
 });
