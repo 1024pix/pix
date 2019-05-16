@@ -3,7 +3,6 @@ const catAlgorithm = require('./catAlgorithm');
 const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challengesFilter');
 const _ = require('lodash');
 
-const TEST_ENDED_CHAR = null;
 const UNEXISTING_ITEM = null;
 
 module.exports = { getNextChallenge };
@@ -22,8 +21,10 @@ function getNextChallenge({ knowledgeElements, challenges, targetSkills, answers
     ? _findFirstChallenge({ challenges, knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes })
     : _findAnyChallenge({ challenges, knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, courseTubes, lastChallenge });
 
-  // Test is considered finished when it returns null
-  return nextChallenge || TEST_ENDED_CHAR;
+  // Test is considered finished when no challenges are returned but we don't expose this detail
+  return nextChallenge
+    ? { assessmentEnded: false, nextChallenge }
+    : { assessmentEnded: true, nextChallenge: null };
 }
 
 function _findLastChallengeIfAny(answers, challenges) {
