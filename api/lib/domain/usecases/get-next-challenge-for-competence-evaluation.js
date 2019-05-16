@@ -12,11 +12,16 @@ async function getNextChallengeForCompetenceEvaluation({ assessment, userId, ans
     knowledgeElementRepository,
     skillRepository
   });
-  const nextChallenge = smartRandom.getNextChallenge({ answers, challenges, targetSkills, knowledgeElements });
 
-  if (nextChallenge === null) {
+  const {
+    nextChallenge,
+    assessmentEnded,
+  } = smartRandom.getNextChallenge({ answers, challenges, targetSkills, knowledgeElements });
+
+  if (assessmentEnded) {
     throw new AssessmentEndedError();
   }
+
   return nextChallenge;
 }
 

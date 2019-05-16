@@ -9,11 +9,16 @@ async function getNextChallengeForSmartPlacement({ assessment, answerRepository,
     knowledgeElementRepository,
     targetProfileRepository
   });
-  const nextChallenge = smartRandom.getNextChallenge({ answers, challenges, targetSkills: targetProfile.skills, knowledgeElements });
 
-  if (nextChallenge === null) {
+  const {
+    nextChallenge,
+    assessmentEnded,
+  } = smartRandom.getNextChallenge({ answers, challenges, targetSkills: targetProfile.skills, knowledgeElements });
+
+  if (assessmentEnded) {
     throw new AssessmentEndedError();
   }
+
   return nextChallenge;
 }
 
