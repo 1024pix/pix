@@ -1,7 +1,7 @@
 const { AssessmentEndedError, UserNotAuthorizedToAccessEntity } = require('../errors');
 const smartRandom = require('../services/smart-random/smartRandom');
 
-async function getNextChallengeForCompetenceEvaluation({ assessment, userId, answerRepository, competenceEvaluationRepository, challengeRepository, smartPlacementKnowledgeElementRepository, skillRepository }) {
+async function getNextChallengeForCompetenceEvaluation({ assessment, userId, answerRepository, competenceEvaluationRepository, challengeRepository, knowledgeElementRepository, skillRepository }) {
   _checkIfAssessmentBelongsToUser(assessment, userId);
   const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
   const [answers, targetSkills, challenges, knowledgeElements] = await getSmartRandomInputValues({
@@ -9,7 +9,7 @@ async function getNextChallengeForCompetenceEvaluation({ assessment, userId, ans
     competenceEvaluation,
     answerRepository,
     challengeRepository,
-    smartPlacementKnowledgeElementRepository,
+    knowledgeElementRepository,
     skillRepository
   });
   const nextChallenge = smartRandom.getNextChallenge({ answers, challenges, targetSkills, knowledgeElements });
@@ -26,12 +26,12 @@ function _checkIfAssessmentBelongsToUser(assessment, userId) {
   }
 }
 
-function getSmartRandomInputValues({ assessment, competenceEvaluation, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, skillRepository }) {
+function getSmartRandomInputValues({ assessment, competenceEvaluation, answerRepository, challengeRepository, knowledgeElementRepository, skillRepository }) {
   return Promise.all([
     answerRepository.findByAssessment(assessment.id),
     skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
     challengeRepository.findByCompetenceId(competenceEvaluation.competenceId),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
+    knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
   );
 }
 

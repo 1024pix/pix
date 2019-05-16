@@ -12,7 +12,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
   const userId = 9874;
 
   const smartPlacementAssessmentRepository = { get: () => undefined };
-  const smartPlacementKnowledgeElementRepository = { findUniqByUserId: () => undefined };
+  const knowledgeElementRepository = { findUniqByUserId: () => undefined };
   const assessmentRepository = { getByAssessmentIdAndUserId: () => undefined };
   const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
   const skillRepository = { findByCompetenceId: () => undefined };
@@ -21,7 +21,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sandbox.stub(smartPlacementKnowledgeElementRepository, 'findUniqByUserId').resolves([]);
+    sandbox.stub(knowledgeElementRepository, 'findUniqByUserId').resolves([]);
   });
 
   afterEach(() => {
@@ -56,7 +56,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           assessmentRepository,
           competenceEvaluationRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           skillRepository
         });
 
@@ -82,7 +82,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           assessmentRepository,
           competenceEvaluationRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           skillRepository
         });
 
@@ -121,7 +121,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           assessmentRepository,
           competenceEvaluationRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           skillRepository
         });
 
@@ -147,7 +147,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           assessmentRepository,
           competenceEvaluationRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           skillRepository
         });
 
@@ -181,7 +181,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           assessmentRepository,
           competenceEvaluationRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           skillRepository
         });
 

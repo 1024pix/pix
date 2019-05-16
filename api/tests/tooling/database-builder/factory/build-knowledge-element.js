@@ -3,10 +3,10 @@ const buildAnswer = require('./build-answer');
 const buildUser = require('./build-user');
 const buildAssessment = require('./build-assessment');
 const databaseBuffer = require('../database-buffer');
-const KnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const _ = require('lodash');
 
-module.exports = function buildSmartPlacementKnowledgeElement({
+module.exports = function buildKnowledgeElement({
   id = faker.random.number(),
   source = KnowledgeElement.SourceType.DIRECT,
   status = KnowledgeElement.StatusType.VALIDATED,

@@ -10,7 +10,7 @@ module.exports = async function getCampaignParticipationResult(
     competenceRepository,
     assessmentRepository,
     targetProfileRepository,
-    smartPlacementKnowledgeElementRepository,
+    knowledgeElementRepository,
   }
 ) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
@@ -29,7 +29,7 @@ module.exports = async function getCampaignParticipationResult(
     targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
     competenceRepository.list(),
     assessmentRepository.get(campaignParticipation.assessmentId),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
+    knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   ]);
 
   return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements });

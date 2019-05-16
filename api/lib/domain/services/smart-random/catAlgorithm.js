@@ -1,4 +1,4 @@
-const SmartPlacementKnowledgeElement = require('../../models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../models/KnowledgeElement');
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 
@@ -29,7 +29,7 @@ function _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills) 
   const extraAnswers = directKnowledgeElements.map((ke) => {
     const skill = skills.find((skill) => skill.id === ke.skillId);
     const maxDifficulty = skill.difficulty || 2;
-    const binaryOutcome = (ke.status === SmartPlacementKnowledgeElement.StatusType.VALIDATED) ? 1 : 0;
+    const binaryOutcome = (ke.status === KnowledgeElement.StatusType.VALIDATED) ? 1 : 0;
     return { binaryOutcome, maxDifficulty };
   });
 

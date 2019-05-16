@@ -7,7 +7,7 @@ const Assessment = require('../../domain/models/Assessment');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const SmartPlacementAnswer = require('../../domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../domain/models/SmartPlacementAssessment');
-const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 
 module.exports = {
 
@@ -95,7 +95,7 @@ function _toDomain({ bookshelfAssessment, bookshelfTargetProfile, bookshelfCampa
   const knowledgeElements = bookshelfAssessment
     .related('knowledgeElements')
     .map((bookshelfKnowledgeElement) => {
-      return new SmartPlacementKnowledgeElement({
+      return new KnowledgeElement({
         id: bookshelfKnowledgeElement.get('id'),
         source: bookshelfKnowledgeElement.get('source'),
         status: bookshelfKnowledgeElement.get('status'),

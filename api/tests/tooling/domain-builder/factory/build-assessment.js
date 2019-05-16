@@ -5,7 +5,7 @@ const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPla
 const buildAnswer = require('./build-answer');
 const buildCourse = require('./build-course');
 const buildAssessmentResult = require('./build-assessment-result');
-const buildKnowledgeElement = require('./build-smart-placement-knowledge-element');
+const buildKnowledgeElement = require('./build-knowledge-element');
 const buildTargetProfile = require('./build-target-profile');
 const buildCampaignParticipation = require('./build-campaign-participation');
 

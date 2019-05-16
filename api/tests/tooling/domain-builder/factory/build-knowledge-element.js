@@ -1,10 +1,10 @@
 const faker = require('faker');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-module.exports = function buildSmartPlacementKnowledgeElement({
+module.exports = function buildKnowledgeElement({
   id = faker.random.number(),
-  source = SmartPlacementKnowledgeElement.SourceType.DIRECT,
-  status = SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+  source = KnowledgeElement.SourceType.DIRECT,
+  status = KnowledgeElement.StatusType.VALIDATED,
   earnedPix = 4,
   createdAt,
   // relationship Ids
@@ -14,7 +14,7 @@ module.exports = function buildSmartPlacementKnowledgeElement({
   userId = faker.random.number(),
   competenceId = `rec${faker.random.uuid()}`
 } = {}) {
-  return new SmartPlacementKnowledgeElement({
+  return new KnowledgeElement({
     id,
     source,
     status,

@@ -15,42 +15,42 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const [skillWeb1, skillWeb2, skillWeb3, skillWeb4, skillWeb5] = listSkills;
     const [skillUrl1, skillUrl2] = listSkillsNotInTargetProfile;
     const knowledgeElements = [
-      domainBuilder.buildSmartPlacementKnowledgeElement({
+      domainBuilder.buildKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb1.id,
         createdAt: moment().subtract(2, 'days').toDate()
       }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({
+      domainBuilder.buildKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb2.id,
         createdAt: moment().subtract(2, 'days').toDate()
       }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({
+      domainBuilder.buildKnowledgeElement({
         status: 'validated',
         pixScore: 2,
         skillId: skillWeb3.id,
         createdAt: moment().subtract(2, 'days').toDate()
       }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({
+      domainBuilder.buildKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb4.id,
         createdAt: moment().subtract(2, 'days').toDate()
       }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({
+      domainBuilder.buildKnowledgeElement({
         status: 'invalidated',
         pixScore: 2,
         skillId: skillWeb5.id,
         createdAt: moment().subtract(2, 'days').toDate()
       }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({
+      domainBuilder.buildKnowledgeElement({
         status: 'validated',
         skillId: skillUrl1.id,
         createdAt: moment().subtract(2, 'days').toDate()
       }),
-      domainBuilder.buildSmartPlacementKnowledgeElement({
+      domainBuilder.buildKnowledgeElement({
         status: 'validated',
         skillId: skillUrl2.id,
         createdAt: moment().subtract(2, 'days').toDate()
@@ -101,7 +101,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const organizationRepository = { get: () => undefined };
     const campaignParticipationRepository = { findByCampaignId: () => undefined };
     const smartPlacementAssessmentRepository = { get: () => undefined };
-    const smartPlacementKnowledgeElementRepository = { findUniqByUserId: () => undefined };
+    const knowledgeElementRepository = { findUniqByUserId: () => undefined };
 
     let findCampaignParticipationStub;
 
@@ -114,7 +114,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       sinon.stub(organizationRepository, 'get').resolves(organization);
       sinon.stub(userRepository, 'get').resolves(user);
       sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
-      sinon.stub(smartPlacementKnowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
+      sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
       findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findByCampaignId');
     });
 
@@ -157,7 +157,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         organizationRepository,
         campaignParticipationRepository,
         smartPlacementAssessmentRepository,
-        smartPlacementKnowledgeElementRepository,
+        knowledgeElementRepository,
       });
 
       // then
@@ -208,7 +208,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           organizationRepository,
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -262,7 +262,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           organizationRepository,
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
@@ -322,7 +322,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           organizationRepository,
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
         });
 
         // then
