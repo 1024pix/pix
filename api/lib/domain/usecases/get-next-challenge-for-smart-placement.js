@@ -11,23 +11,12 @@ async function getNextChallengeForSmartPlacement(
   assessment,
 ) {
 
-  const [
-    answers,
-    targetSkills,
-    challenges,
-    knowledgeElements,
-  ] = await dataFetcher.fetchForCampaigns(...arguments);
+  const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
 
   const {
     nextChallenge,
     assessmentEnded,
-
-  } = smartRandom.getNextChallenge({
-    answers,
-    challenges,
-    targetSkills,
-    knowledgeElements,
-  });
+  } = smartRandom.getNextChallenge(inputValues);
 
   if (assessmentEnded) {
     throw new AssessmentEndedError();

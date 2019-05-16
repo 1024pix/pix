@@ -14,24 +14,12 @@ async function getNextChallengeForCompetenceEvaluation({
 }) {
 
   _checkIfAssessmentBelongsToUser(assessment, userId);
-
-  const [
-    answers,
-    targetSkills,
-    challenges,
-    knowledgeElements
-  ] = await dataFetcher.fetchForCompetenceEvaluations(...arguments);
+  const inputValues = await dataFetcher.fetchForCompetenceEvaluations(...arguments);
 
   const {
     nextChallenge,
     assessmentEnded,
-
-  } = smartRandom.getNextChallenge({
-    answers,
-    challenges,
-    targetSkills,
-    knowledgeElements
-  });
+  } = smartRandom.getNextChallenge(inputValues);
 
   if (assessmentEnded) {
     throw new AssessmentEndedError();
