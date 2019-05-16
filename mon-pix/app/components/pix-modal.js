@@ -20,12 +20,16 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
 
   didRender() {
     this._super(...arguments);
-    document.querySelector('#modal-overlays').classList.add('active');
+    if (document.querySelector('#modal-overlays')) {
+      document.querySelector('#modal-overlays').classList.add('active');
+    }
     document.body.classList.add('centered-modal-showing');
   },
 
   willDestroyElement() {
-    document.querySelector('#modal-overlays').classList.remove('active');
+    if (document.querySelector('#modal-overlays')) {
+      document.querySelector('#modal-overlays').classList.remove('active');
+    }
     document.body.classList.remove('centered-modal-showing');
     this._super(...arguments);
   },
