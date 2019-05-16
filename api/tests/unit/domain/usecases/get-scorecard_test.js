@@ -1,5 +1,6 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const scorecardService = require('../../../../lib/domain/services/scorecard-service');
 const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
@@ -43,6 +44,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
+          scorecardService
         });
 
         // then
@@ -81,6 +83,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
+          scorecardService
         });
 
         //then
@@ -117,6 +120,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
+          scorecardService
         });
 
         //then
@@ -138,7 +142,8 @@ describe('Unit | UseCase | get-scorecard', () => {
           scorecardId: '1_1',
           knowledgeElementRepository,
           competenceRepository,
-          competenceEvaluationRepository
+          competenceEvaluationRepository,
+          scorecardService
         });
 
         // then
