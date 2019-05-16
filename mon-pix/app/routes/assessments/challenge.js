@@ -41,7 +41,7 @@ export default Route.extend({
   },
 
   _findOrCreateAnswer(challenge, assessment) {
-    let answer = assessment.get('answers').findBy('challenge.id', challenge.get('id'));
+    let answer = assessment.get('answers').findBy('challenge.id', challenge.id);
     if (!answer) {
       answer = this.store.createRecord('answer', { assessment, challenge });
     }
@@ -52,6 +52,7 @@ export default Route.extend({
 
     saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
       const answer = this._findOrCreateAnswer(challenge, assessment);
+
       answer.setProperties({
         value: answerValue,
         timeout: answerTimeout,
@@ -59,16 +60,8 @@ export default Route.extend({
       });
 
       return answer.save()
-        .then(
-          () => this.transitionTo('assessments.resume', assessment.get('id')),
-          () => {
-            answer.rollbackAttributes();
-            return this.send('error');
-          }
-        );
+        .then(() => this.transitionTo('assessments.resume', assessment.get('id')))
+        .catch(() => answer.rollbackAttributes());
     },
-    error() {
-      return true;
-    }
   }
 });

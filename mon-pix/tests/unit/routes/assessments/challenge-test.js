@@ -163,19 +163,17 @@ describe('Unit | Route | Assessments | Challenge', function() {
     });
 
     context('when saving fails', function() {
-      it('should remove temporary answer and send error', async function() {
+      it('should remove temporary answer', async function() {
         // given
         answerToChallengeOne.save = sinon.stub().rejects();
-        route.actions.error = sinon.stub();
 
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
         // when
-        const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+        const promise = await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
 
         // then
-        await expect(promise).to.be.rejected;
-        sinon.assert.called(route.actions.error);
+        expect(promise).to.be.rejected;
         sinon.assert.called(answerToChallengeOne.rollbackAttributes);
       });
     });
