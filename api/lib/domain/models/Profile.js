@@ -1,13 +1,6 @@
+const Competence = require('./Competence');
+const constants = require('../constants');
 const _ = require('lodash');
-
-const MAX_REACHABLE_LEVEL = 5;
-
-const competenceStatus = {
-  NOT_ASSESSED: 'notAssessed',
-  ASSESSMENT_NOT_COMPLETED: 'assessmentNotCompleted',
-  ASSESSED: 'assessed',
-  UNKNOWN: 'unknown',
-};
 
 // FIXME: Cet objet a trop de responsabilité (modification des compétences)
 class Profile {
@@ -48,18 +41,21 @@ class Profile {
       competence.isRetryable = false;
 
       if (lastAssessmentByCompetenceId.length === 0) {
-        competence.status = competenceStatus.NOT_ASSESSED;
+        competence.status = Competence.STATUSES.NOT_ASSESSED;
+
       } else if (!lastAssessmentByCompetenceId[0].isCompleted()) {
-        competence.status = competenceStatus.ASSESSMENT_NOT_COMPLETED;
+        competence.status = Competence.STATUSES.ASSESSMENT_NOT_COMPLETED;
+
       } else if (lastAssessmentByCompetenceId[0].isCompleted()) {
-        competence.status = competenceStatus.ASSESSED;
+        competence.status = Competence.STATUSES.ASSESSED;
         const lastCompletedAssessment = _(assessmentsCompletedByCompetenceId).find({ 'id': lastAssessmentByCompetenceId[0].id });
         competence.isRetryable = lastCompletedAssessment.canStartNewAttemptOnCourse();
+
         if (!competence.isRetryable) {
           competence.daysBeforeNewAttempt = lastCompletedAssessment.getRemainingDaysBeforeNewAttempt();
         }
       } else {
-        competence.status = competenceStatus.UNKNOWN;
+        competence.status = Competence.STATUSES.UNKNOWN;
       }
 
     });
@@ -72,7 +68,7 @@ class Profile {
         const course = this._getCourseById(courses, courseIdFromAssessment);
         const competence = this.competences.find((competence) => course.competences.includes(competence.id));
 
-        competence.level = Math.min(assessment.getLevel(), MAX_REACHABLE_LEVEL);
+        competence.level = Math.min(assessment.getLevel(), constants.MAX_REACHABLE_LEVEL);
         competence.pixScore = assessment.getPixScore();
       }
     });
@@ -114,8 +110,5 @@ class Profile {
     }
   }
 }
-
-Profile.competenceStatus = competenceStatus;
-Profile.MAX_REACHABLE_LEVEL = MAX_REACHABLE_LEVEL;
 
 module.exports = Profile;
