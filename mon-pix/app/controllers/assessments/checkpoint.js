@@ -7,7 +7,6 @@ export default Controller.extend({
   finalCheckpoint: false,
   isShowingModal: false,
   answer: null,
-  correction: null,
   challenge: null,
 
   nextPageButtonText: computed('finalCheckpoint', function() {
@@ -23,12 +22,8 @@ export default Controller.extend({
   }),
 
   actions: {
-    async openComparisonWindow(answer) {
-      const correction = await answer.get('correction');
-
+    openComparisonWindow(answer) {
       this.set('answer', answer);
-      this.set('correction', correction);
-
       this.set('isShowingModal', true);
     },
 
@@ -36,5 +31,4 @@ export default Controller.extend({
       this.set('isShowingModal', false);
     },
   }
-
 });
