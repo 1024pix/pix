@@ -1,5 +1,5 @@
 const Course = require('../../models/Course');
-const catAlgorithm = require('./catAlgorithm');
+const catAlgorithm = require('./cat-algorithm');
 const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challengesFilter');
 const _ = require('lodash');
 
