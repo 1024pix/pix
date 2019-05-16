@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../../test-helper');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
-const SmartRandom = require('../../../../../lib/domain/services/smart-random/smartRandom');
+const SmartRandom = require('../../../../../lib/domain/services/smart-random/smart-random');
 const _ = require('lodash');
 
 const KNOWLEDGE_ELEMENT_STATUS = {
