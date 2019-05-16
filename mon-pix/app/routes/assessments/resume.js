@@ -13,7 +13,7 @@ export default Route.extend({
 
   afterModel(assessment) {
     return this.store
-      .queryRecord('challenge', { assessmentId: assessment.get('id') })
+      .queryRecord('challenge', { assessmentId: assessment.id })
       .then((nextChallenge) => {
 
         if (assessment.isPlacement || assessment.isDemo || assessment.isCertification || assessment.isPreview) {
@@ -92,19 +92,33 @@ export default Route.extend({
   },
 
   _routeToNextChallenge(assessment, nextChallengeId) {
-    return this.replaceWith('assessments.challenge', assessment.get('id'), nextChallengeId);
+    return this.replaceWith('assessments.challenge', assessment.id, nextChallengeId);
   },
 
   _rateAssessment(assessment) {
-    return this.replaceWith('assessments.rating', assessment.get('id'));
+    return this.store
+      .createRecord('assessment-result', { assessment })
+      .save()
+      .finally(() => {
+        if (assessment.isCertification) {
+          return this.replaceWith('certifications.results', assessment.certificationNumber);
+        }
+        if (assessment.isSmartPlacement) {
+          return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
+        }
+        if (assessment.isCompetenceEvaluation) {
+          return this.replaceWith('competences.results', assessment.id);
+        }
+        return this.replaceWith('assessments.results', assessment.id);
+      });
   },
 
   _routeToCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.get('id'));
+    return this.replaceWith('assessments.checkpoint', assessment.id);
   },
 
   _routeToFinalCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.get('id'), { queryParams: { finalCheckpoint: true } });
+    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
   },
 
 });
