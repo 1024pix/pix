@@ -60,7 +60,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       // then
       expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__area-name').text()).to.equal('Information et données');
       expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__competence-name').text()).to.equal('Compétence C1');
-      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card-level__value').text()).to.equal('2');
+      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .score-value').text()).to.equal('2');
     });
 
     it('should display second competence card of first area', async function() {
@@ -70,7 +70,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       // then
       expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__area-name').text()).to.equal('Information et données');
       expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__competence-name').text()).to.equal('Compétence C2');
-      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card-level__value').text()).to.equal('4');
+      expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .score-value').text()).to.equal('4');
     });
 
     it('should link to competence-details page on click on level circle', async function() {
@@ -91,7 +91,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       // then
       expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card__area-name').text()).to.equal('Communication et collaboration');
       expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card__competence-name').text()).to.equal('Compétence C3');
-      expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card-level__value').text()).to.equal('3');
+      expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .score-value').text()).to.equal('3');
     });
 
     context('when user has not completed the campaign', () => {

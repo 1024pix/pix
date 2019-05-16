@@ -17,7 +17,7 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(controller.get('level')).to.be.equal(null);
     });
 
-    it('returns the level if the scorecard level is over zero', function() {
+    it('returns the level if the scorecard is not isNotStarted', function() {
       // given
       const controller = this.owner.lookup('controller:scorecard-details');
 
@@ -28,39 +28,40 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(controller.get('level')).to.be.equal(1);
     });
 
-    it('returns a dash if the scorecard level is zero', function() {
-      // given
-      const controller = this.owner.lookup('controller:scorecard-details');
-
-      // when
-      controller.set('scorecard', { level: 0 });
-
-      // then
-      expect(controller.get('level')).to.be.equal('–');
-    });
   });
 
-  describe('#earnedPix', function() {
-    it('returns the earnedPix if the scorecard earnedPix is over zero', function() {
+  describe('#isProgressable', function() {
+    it('returns false if isMaxLevel', function() {
       // given
       const controller = this.owner.lookup('controller:scorecard-details');
 
       // when
-      controller.set('scorecard', { earnedPix: 1 });
+      controller.set('scorecard', { isMaxLevel: true });
 
       // then
-      expect(controller.get('earnedPix')).to.be.equal(1);
+      expect(controller.get('isProgressable')).to.be.equal(false);
     });
 
-    it('returns a dash if the scorecard earnedPix is zero', function() {
+    it('returns false if isNotStarted', function() {
       // given
       const controller = this.owner.lookup('controller:scorecard-details');
 
       // when
-      controller.set('scorecard', { earnedPix: 0 });
+      controller.set('scorecard', { isNotStarted: true });
 
       // then
-      expect(controller.get('earnedPix')).to.be.equal('–');
+      expect(controller.get('isProgressable')).to.be.equal(false);
+    });
+
+    it('returns true otherwise', function() {
+      // given
+      const controller = this.owner.lookup('controller:scorecard-details');
+
+      // when
+      controller.set('scorecard', {});
+
+      // then
+      expect(controller.get('isProgressable')).to.be.equal(true);
     });
   });
 });
