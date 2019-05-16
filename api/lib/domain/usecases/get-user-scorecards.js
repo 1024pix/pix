@@ -1,8 +1,7 @@
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
-const Scorecard = require('../models/Scorecard');
 
-module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
+module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository, scorecardService }) => {
 
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
@@ -13,35 +12,9 @@ module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElement
     competenceRepository.list(),
     competenceEvaluationRepository.findByUserId(requestedUserId),
   ]);
-  const sortedKEGroupedByCompetence = _.groupBy(userKEList, 'competenceId');
 
-  return _.map(competenceTree, (competence) => {
-    const KEgroup = sortedKEGroupedByCompetence[competence.id];
-    const totalEarnedPixByCompetence = _.sumBy(KEgroup, 'earnedPix');
-
-    return new Scorecard({
-      id: `${authenticatedUserId}_${competence.id}`,
-      name: competence.name,
-      description: competence.description,
-      index: competence.index,
-      area: competence.area,
-      competenceId: competence.id,
-      earnedPix: totalEarnedPixByCompetence,
-      status: _getStatus(KEgroup, competence.id, competenceEvaluations)
-    });
-  });
+  return _.map(competenceTree, (competence) =>
+    scorecardService.createScorecard(requestedUserId, userKEList, competence, competenceEvaluations)
+  );
 };
 
-function _getStatus(knowledgeElements, competenceId, competenceEvaluation) {
-  if (_.isEmpty(knowledgeElements)) {
-    return 'NOT_STARTED';
-  }
-
-  const competenceEvaluationForCompetence = _.find(competenceEvaluation, { competenceId });
-  const stateOfAssessment = _.get(competenceEvaluationForCompetence, 'assessment.state');
-  if (stateOfAssessment === 'completed') {
-    return 'COMPLETED';
-  }
-  return 'STARTED';
-
-}
