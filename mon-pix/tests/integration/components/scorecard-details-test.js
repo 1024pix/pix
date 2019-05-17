@@ -19,7 +19,7 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
-      expect(this.element.querySelector('.scorecard-details-content')).to.exist;
+      expect(this.element.querySelector('.scorecard-details__content')).to.exist;
     });
 
     it('should display the scorecard header with area color', async function() {

@@ -45,8 +45,8 @@ describe('Acceptance | competences results', function() {
       await visit('/competences/resultats/111');
 
       // then
-      expect(find('.competence-results-panel-header__return-button')).to.have.lengthOf(1);
-      expect(find('.competence-results-panel-header__return-button').attr('href')).to.equal('/profilv2');
+      expect(find('.scorecard-details-header__return-button')).to.have.lengthOf(1);
+      expect(find('.scorecard-details-header__return-button').attr('href')).to.equal('/profilv2');
     });
 
     context('When user obtained 0 pix', async function() {
