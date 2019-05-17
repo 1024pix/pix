@@ -4,7 +4,7 @@
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner">
     <div class="competence-results-panel__header">
-      {{#if (eq model.scorecard.earnedPix 0)}}
+      {{#if model.scorecard.hasNotEarnAnything}}
         <div class="competence-results-panel-header__banner competence-results-panel-header__banner--too-bad">
           <img src="/images/banners/too-bad-text.svg" alt="Tant pix !"
                class="competence-results-banner__title">
@@ -12,7 +12,7 @@
             Manifestement, ce n’est pas votre jour mais vous ferez mieux la prochaine fois.
           </div>
         </div>
-      {{else if (lt model.scorecard.level 1)}}
+      {{else if model.scorecard.hasNotReachLevelOne}}
         <div class="competence-results-panel-header__banner competence-results-panel-header__banner--not-bad">
           <img src="/images/banners/not-bad-text.svg" alt="Pas mal, mais pas max !"
                class="competence-results-banner__title competence-results-banner__title--tablet">
