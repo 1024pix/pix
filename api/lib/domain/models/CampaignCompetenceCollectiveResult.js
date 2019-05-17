@@ -22,7 +22,7 @@ class CampaignCompetenceCollectiveResult {
     return `${this.campaignId}_${this.competenceId}`;
   }
 
-  get domainCode() {
+  get areaCode() {
     return this.competenceIndex.charAt(0);
   }
 }

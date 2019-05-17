@@ -39,7 +39,7 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
 
     const campaignCompetenceCollectiveResult_1 = run(() => store.createRecord('campaign-competence-collective-result', {
       id: '1_recCompA',
-      domainCode: '1',
+      areaCode: '1',
       competenceId: 'recCompA',
       competenceName: 'Competence A',
       averageValidatedSkills: 10,
@@ -48,7 +48,7 @@ module('Integration | Component | routes/authenticated/campaign/details | collec
 
     const campaignCompetenceCollectiveResult_2 = run(() => store.createRecord('campaign-competence-collective-result', {
       id: '2_recCompB',
-      domainCode: '2',
+      areaCode: '2',
       competenceId: 'recCompB',
       competenceName: 'Competence B',
       averageValidatedSkills: 12.5,

@@ -17,7 +17,7 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
       id: '123',
       collectiveResultsByCompetence: [
         {
-          'domain-code': '1',
+          'area-code': '1',
           'competence-id': 'rec1',
           'competence-name': 'Pocher les gambas',
           'average-validated-skills': 2,
@@ -28,7 +28,7 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
     assert.equal(model.id, '123');
     assert.deepEqual(model.collectiveResultsByCompetence, [
       {
-        'domain-code': '1',
+        'area-code': '1',
         'competence-id': 'rec1',
         'competence-name': 'Pocher les gambas',
         'average-validated-skills': 2,

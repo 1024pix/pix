@@ -19,7 +19,7 @@ describe('Unit | Domain | Models | CampaignCompetenceCollectiveResult', () => {
     });
   });
 
-  describe('@domainCode', () => {
+  describe('@areaCode', () => {
 
     it('should return the area index covered by the competence', () => {
       // given
@@ -27,10 +27,10 @@ describe('Unit | Domain | Models | CampaignCompetenceCollectiveResult', () => {
       const competenceResult = new CampaignCompetenceCollectiveResult({ competenceIndex });
 
       // when
-      const domainCode = competenceResult.domainCode;
+      const areaCode = competenceResult.areaCode;
 
       // then
-      expect(domainCode).to.equal('1');
+      expect(areaCode).to.equal('1');
     });
   });
 
