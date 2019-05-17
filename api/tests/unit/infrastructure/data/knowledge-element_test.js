@@ -5,7 +5,7 @@ const BookshelfKnowledgeElement = require('../../../../lib/infrastructure/data/k
 
 describe('Unit | Infrastructure | Data | knowledge-element', () => {
 
-  describe('#isConcernedByTargetProfile', () => {
+  describe('#isCoveredByTargetProfile', () => {
 
     it('should return true when knowledge element covers a given target profile skill list', () => {
       // given
@@ -13,19 +13,19 @@ describe('Unit | Infrastructure | Data | knowledge-element', () => {
       const ke = new BookshelfKnowledgeElement({ skillId: '@skill2_id' });
 
       // when
-      const actual = ke.isConcernedByTargetProfile(targetProfileSkillIds);
+      const actual = ke.isCoveredByTargetProfile(targetProfileSkillIds);
 
       // then
       expect(actual).to.equal(true);
     });
 
-    it('should return false when knowledge element does not concern a target profile skill list', () => {
+    it('should return false when knowledge element does not cover a target profile skill list', () => {
       // given
       const targetProfileSkillIds = ['@skill1_id', '@skill2_id', '@skill3_id'];
       const ke = new BookshelfKnowledgeElement({ skillId: '@skull666_id' });
 
       // when
-      const actual = ke.isConcernedByTargetProfile(targetProfileSkillIds);
+      const actual = ke.isCoveredByTargetProfile(targetProfileSkillIds);
 
       // then
       expect(actual).to.equal(false);

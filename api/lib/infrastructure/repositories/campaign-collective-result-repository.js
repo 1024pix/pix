@@ -54,7 +54,7 @@ function _filterParticipantsKEs(sharedParticipations, targetedSkillIds) {
     participation
       .related('user')
       .related('knowledgeElements')
-      .filter((ke) => ke.isConcernedByTargetProfile(targetedSkillIds))
+      .filter((ke) => ke.isCoveredByTargetProfile(targetedSkillIds))
       .filter((ke) => ke.wasCreatedBefore(participation.get('sharedAt')))
       .filter((ke, index, otherKEs) => ke.isTheLastOneForGivenSkill(otherKEs))
       .filter((ke) => ke.isValidated())
