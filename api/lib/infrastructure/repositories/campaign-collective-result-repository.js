@@ -10,33 +10,47 @@ module.exports = {
 
   async getCampaignCollectiveResult(campaignId) {
 
-    // 1. Fetch data
+    const { competences, campaign, targetedSkillIds, targetedSkills } = await _fetchData(campaignId);
 
-    const [competences, campaign] = await Promise.all([
-      competenceDatasource.list(),
-      _fetchCampaignWithRelatedData(campaignId)
-    ]);
+    const { participants, participantsKEs } = _filterData(campaign, targetedSkillIds);
 
-    const targetedSkillIds = campaign.related('targetProfile').related('skillIds').map((targetProfileSkill) => targetProfileSkill.get('skillId'));
-    const targetedSkills = await skillDatasource.findByRecordIds(targetedSkillIds);
+    const { participantsKEsByCompetenceId, targetedSkillsByCompetenceId } = _groupByCompetenceId(participantsKEs, targetedSkills);
 
-    // 2. Filter data
-
-    const sharedParticipations = campaign.related('campaignParticipations').filter((participation) => participation.get('isShared'));
-    const participants = sharedParticipations.map((participation) => participation.related('user'));
-    const participantsKEs = _filterParticipantsKEs(sharedParticipations, targetedSkillIds);
-
-    // 3. Forge data
-
-    const participantsKEsByCompetenceId = _.groupBy(participantsKEs, (bookshelfKE) => bookshelfKE.get('competenceId'));
-    const targetedSkillsByCompetenceId = _.groupBy(targetedSkills, 'competenceId');
     const campaignCompetenceCollectiveResults = _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participants, targetedSkillsByCompetenceId, participantsKEsByCompetenceId);
-
-    // 4. Format data
 
     return new CampaignCollectiveResult({ id: campaignId, campaignCompetenceCollectiveResults });
   }
 };
+
+async function _fetchData(campaignId) {
+
+  const [competences, campaign] = await Promise.all([
+    competenceDatasource.list(),
+    _fetchCampaignWithRelatedData(campaignId)
+  ]);
+
+  const targetedSkillIds = campaign.related('targetProfile').related('skillIds').map((targetProfileSkill) => targetProfileSkill.get('skillId'));
+  const targetedSkills = await skillDatasource.findByRecordIds(targetedSkillIds);
+
+  return { competences, campaign, targetedSkillIds, targetedSkills };
+}
+
+function _filterData(campaign, targetedSkillIds) {
+
+  const sharedParticipations = campaign.related('campaignParticipations').filter((participation) => participation.get('isShared'));
+  const participants = sharedParticipations.map((participation) => participation.related('user'));
+  const participantsKEs = _filterParticipantsKEs(sharedParticipations, targetedSkillIds);
+
+  return { participants, participantsKEs };
+}
+
+function _groupByCompetenceId(participantsKEs, targetedSkills) {
+
+  const participantsKEsByCompetenceId = _.groupBy(participantsKEs, (bookshelfKE) => bookshelfKE.get('competenceId'));
+  const targetedSkillsByCompetenceId = _.groupBy(targetedSkills, 'competenceId');
+
+  return { participantsKEsByCompetenceId, targetedSkillsByCompetenceId };
+}
 
 function _fetchCampaignWithRelatedData(campaignId) {
 
