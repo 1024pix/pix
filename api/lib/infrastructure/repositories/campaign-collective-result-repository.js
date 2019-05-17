@@ -12,8 +12,11 @@ module.exports = {
 
     // 1. Fetch data
 
-    const competences = await competenceDatasource.list();
-    const campaign = await _fetchCampaignWithRelatedData(campaignId);
+    const [competences, campaign] = await Promise.all([
+      competenceDatasource.list(),
+      _fetchCampaignWithRelatedData(campaignId)
+    ]);
+
     const targetedSkillIds = campaign.related('targetProfile').related('skillIds').map((targetProfileSkill) => targetProfileSkill.get('skillId'));
     const targetedSkills = await skillDatasource.findByRecordIds(targetedSkillIds);
 
