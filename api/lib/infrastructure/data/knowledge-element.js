@@ -1,4 +1,4 @@
-const moment = require('moment/moment');
+const moment = require('moment');
 const Bookshelf = require('../bookshelf');
 
 require('./assessment');
@@ -21,10 +21,9 @@ module.exports = Bookshelf.model('KnowledgeElement', {
     return targetProfileSkillIds.includes(this.get('skillId'));
   },
 
-  wasCreatedBeforeParticipationSharingDate(bookshelfCampaignParticipation) {
+  wasCreatedBefore(comparingDate) {
     const keCreatedAt = moment(this.get('createdAt'));
-    const campaignParticipationSharingDate = moment(bookshelfCampaignParticipation.get('sharedAt'));
-    return keCreatedAt.isBefore(campaignParticipationSharingDate);
+    return keCreatedAt.isBefore(comparingDate);
   },
 
   isTheLastOneForGivenSkill(participantsKEs) {
