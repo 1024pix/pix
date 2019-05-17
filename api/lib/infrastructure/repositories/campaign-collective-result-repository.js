@@ -11,11 +11,8 @@ module.exports = {
   async getCampaignCollectiveResult(campaignId) {
 
     const { competences, campaign, targetedSkillIds, targetedSkills } = await _fetchData(campaignId);
-
     const { participants, participantsKEs } = _filterData(campaign, targetedSkillIds);
-
     const { participantsKEsByCompetenceId, targetedSkillsByCompetenceId } = _groupByCompetenceId(participantsKEs, targetedSkills);
-
     const campaignCompetenceCollectiveResults = _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participants, targetedSkillsByCompetenceId, participantsKEsByCompetenceId);
 
     return new CampaignCollectiveResult({ id: campaignId, campaignCompetenceCollectiveResults });
@@ -65,20 +62,15 @@ function _fetchCampaignWithRelatedData(campaignId) {
 }
 
 function _filterParticipantsKEs(sharedParticipations, targetedSkillIds) {
-
-  return sharedParticipations.reduce((filteredKEs, participation) => {
-
-    participation
+  return _.flatMap(sharedParticipations, (participation) => {
+    return participation
       .related('user')
       .related('knowledgeElements')
-      .filter((ke) => ke.isCoveredByTargetProfile(targetedSkillIds))
-      .filter((ke) => ke.wasCreatedBefore(participation.get('sharedAt')))
-      .filter((ke, index, otherKEs) => ke.isTheLastOneForGivenSkill(otherKEs))
-      .filter((ke) => ke.isValidated())
-      .forEach((ke) => filteredKEs.push(ke));
-
-    return filteredKEs;
-  }, []);
+      .filter((ke) => ke.isValidated()
+        && ke.isCoveredByTargetProfile(targetedSkillIds)
+        && ke.wasCreatedBefore(participation.get('sharedAt')))
+      .filter((ke, index, otherKEs) => ke.isTheLastOneForGivenSkill(otherKEs));
+  });
 }
 
 function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participants, targetedSkillsByCompetenceId, participantsKEsByCompetenceId) {
