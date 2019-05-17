@@ -63,13 +63,15 @@ function _fetchCampaignWithRelatedData(campaignId) {
 
 function _filterParticipantsKEs(sharedParticipations, targetedSkillIds) {
   return _.flatMap(sharedParticipations, (participation) => {
-    return participation
+    const filteredKEs = participation
       .related('user')
       .related('knowledgeElements')
       .filter((ke) => ke.isValidated()
         && ke.isCoveredByTargetProfile(targetedSkillIds)
-        && ke.wasCreatedBefore(participation.get('sharedAt')))
-      .filter((ke, index, otherKEs) => ke.isTheLastOneForGivenSkill(otherKEs));
+        && ke.wasCreatedBefore(participation.get('sharedAt')));
+
+    const sortedByDateKEs = _.orderBy(filteredKEs, ((ke) => ke.get('createdAt')), 'desc');
+    return _.uniqBy(sortedByDateKEs, ((ke) => ke.get('skillId')));
   });
 }
 

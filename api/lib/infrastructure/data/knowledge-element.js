@@ -1,5 +1,4 @@
 const moment = require('moment');
-const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 
 require('./assessment');
@@ -25,13 +24,6 @@ module.exports = Bookshelf.model('KnowledgeElement', {
   wasCreatedBefore(comparingDate) {
     const keCreatedAt = moment(this.get('createdAt'));
     return keCreatedAt.isBefore(comparingDate);
-  },
-
-  isTheLastOneForGivenSkill(knowledgeElements) {
-    const filteredKEs = knowledgeElements.filter((ke) => this.get('skillId') === ke.get('skillId'));
-    const sortedKEs = _.sortBy(filteredKEs, (ke) => ke.get('createdAt'));
-
-    return this === sortedKEs.pop();
   },
 
   isValidated() {
