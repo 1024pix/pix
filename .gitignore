@@ -68,3 +68,6 @@ high-level-tests/e2e/cypress/videos
 # Artillery.io
 high-level-tests/load-testing/report/*.json
 high-level-tests/load-testing/report/*.html
+
+# Answers extracts
+api/scripts/extractions
