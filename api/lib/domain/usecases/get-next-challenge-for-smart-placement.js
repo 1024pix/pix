@@ -3,13 +3,13 @@ const { AssessmentEndedError } = require('../errors');
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
 
-async function getNextChallengeForSmartPlacement(
+async function getNextChallengeForSmartPlacement({
   knowledgeElementRepository,
   targetProfileRepository,
   challengeRepository,
   answerRepository,
   assessment,
-) {
+}) {
 
   const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
 
@@ -21,6 +21,7 @@ async function getNextChallengeForSmartPlacement(
   if (assessmentEnded) {
     throw new AssessmentEndedError();
   }
+
   return nextChallenge;
 }
 
