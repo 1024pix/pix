@@ -1,21 +1,53 @@
-.scorecard-details-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 6.75px;
-  font-family: $font-roboto;
-  background-color: $alabaster-grey;
-  padding: 30px 0;
-  margin: 14px;
+.scorecard-details {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6.75px;
+    font-family: $font-roboto;
+    background-color: $alabaster-grey;
+    padding: 30px 0;
+    margin: 14px;
 
-  @include device-is('desktop') {
-    flex-direction: row;
+    @include device-is('desktop') {
+      flex-direction: row;
+    }
   }
 
+  &__header {
+    padding: 14px 14px 0 14px;
+  }
+
+  &__button {
+    margin-top: 20px;
+  }
+}
+
+.scorecard-details-header {
+  &__return-button {
+    color: $black;
+    font-size: 1.3rem;
+    font-weight: $font-semi-bold;
+    letter-spacing: 0.03rem;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__return-button:hover {
+    text-decoration: none;
+    color: $black;
+
+    > .scorecard-details-header-return-button__icon {
+      background-color: $alto-grey;
+    }
+  }
+}
+
+.scorecard-details-content {
   &__left {
     flex-grow: 1;
-    padding: 0px 30px 30px 30px;
+    padding: 0 30px 30px 30px;
     max-width: 100%;
 
     @include device-is('desktop') {
@@ -98,6 +130,8 @@
   }
 }
 
-.scorecard-details__button {
-  margin-top: 20px;
+.scorecard-details-header-return-button {
+  &__icon {
+    margin-right: 8px;
+  }
 }

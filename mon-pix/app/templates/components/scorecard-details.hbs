@@ -1,4 +1,13 @@
-<div class="scorecard-details-content">
+<div class="scorecard-details__header">
+  {{#link-to "profilv2" class="scorecard-details-header__return-button"}}
+    <span class="icon-button scorecard-details-header-return-button__icon">
+      {{fa-icon 'arrow-left'}}
+    </span>
+    Retour Profil
+  {{/link-to}}
+</div>
+
+<div class="scorecard-details__content">
   <div class="scorecard-details-content__left">
     <div class="scorecard-details-content-left__area scorecard-details-content-left__area--{{scorecard.areaColor}}">
       {{scorecard.area.title}}
@@ -39,7 +48,7 @@
 
     {{#unless scorecard.isFinished}}
       {{#link-to "competences.resume" scorecard.competenceId
-          class=(concat "button button--thin button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__button"))}}
+                 class=(concat "button button--thin button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__button"))}}
         {{#if scorecard.isStarted}}
           Reprendre
         {{else}}
