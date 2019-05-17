@@ -1,7 +1,6 @@
 #!/usr/bin/sh
 # Utilisation :
-# Avoir sur un postgres la base sur laquelle on souhaite extraire les réponses
-# sh ./extract-answers.sh ~/Downloads/20190513134501_pix_api_1412.pgsql "2019-04-11 11:44:37.006+00"
+# sh ./extract-answers.sh ~/Downloads/20190513134501_pix_api_1412.pgsql "2019-04-11"
 
 pgFile=$1
 date=$2
