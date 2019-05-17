@@ -11,6 +11,10 @@ export default Route.extend({
     this.set('campaignCode', transition.to.queryParams.campaignCode);
   },
 
+  model() {
+    return this.modelFor('assessments');
+  },
+
   afterModel(assessment) {
     return this.store
       .queryRecord('challenge', { assessmentId: assessment.id })

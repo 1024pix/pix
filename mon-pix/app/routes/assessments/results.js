@@ -3,6 +3,10 @@ import RSVP from 'rsvp';
 
 export default Route.extend({
 
+  model() {
+    return this.modelFor('assessments');
+  },
+
   afterModel(assessment) {
     if (assessment.get('isCertification')) {
       return this.transitionTo('index');
