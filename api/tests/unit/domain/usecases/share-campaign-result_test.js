@@ -1,6 +1,8 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const usecases = require('../../../../lib/domain/usecases');
+const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
+const dataFetcher = require('../../../../lib/domain/services/smart-random/data-fetcher');
 
 describe('Unit | UseCase | share-campaign-result', () => {
 
@@ -30,6 +32,8 @@ describe('Unit | UseCase | share-campaign-result', () => {
 
     sinon.stub(smartPlacementAssessmentRepository, 'checkIfAssessmentBelongToUser');
     sinon.stub(campaignParticipationRepository, 'get').resolves();
+    sinon.stub(dataFetcher, 'fetchForCampaigns').resolves();
+    sinon.stub(smartRandom, 'getNextChallenge').returns({ assessmentEnded: true });
   });
 
   context('when the share request comes from the owner of the assessment', () => {

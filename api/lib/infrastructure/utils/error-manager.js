@@ -62,7 +62,7 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.ObjectValidationError) {
     return new InfraErrors.UnprocessableEntityError(error.message);
   }
-  if (error instanceof DomainErrors.NotCompletedAssessmentError) {
+  if (error instanceof DomainErrors.AssessmentNotCompletedError) {
     return new InfraErrors.ConflictError(error.message);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToCertifyError) {
