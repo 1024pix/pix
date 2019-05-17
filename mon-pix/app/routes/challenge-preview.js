@@ -17,7 +17,7 @@ export default Route.extend({
 
     correctionAdapter.refreshRecord('correction', { challengeId: challenge.get('id') });
     return assessment.save().then(() => {
-      return that.transitionTo('assessments.challenge', { assessment, challenge });
+      return that.transitionTo('assessment.challenge', { assessment, challenge });
     });
   }
 });

@@ -77,7 +77,7 @@
 
 {{#if competence.isBeingAssessed}}
   <div class="competence-level-progress-bar__link">
-    {{#link-to "assessments.resume" competence.assessmentId class="competence-level-progress-bar__link-resume" }}
+    {{#link-to 'assessment.resume' competence.assessmentId class="competence-level-progress-bar__link-resume" }}
       Reprendre <div class="sr-only">le test "{{competence.name}}"</div>
     {{/link-to}}
   </div>

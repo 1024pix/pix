@@ -6,7 +6,7 @@ export default Route.extend({
   model(params) {
     const store = this.store;
 
-    const assessment = this.modelFor('assessments');
+    const assessment = this.modelFor('assessment');
     const challengeId = params.challenge_id;
 
     return RSVP.hash({
@@ -60,7 +60,7 @@ export default Route.extend({
       });
 
       return answer.save()
-        .then(() => this.transitionTo('assessments.resume', assessment.get('id')))
+        .then(() => this.transitionTo('assessment.resume', assessment.get('id')))
         .catch(() => answer.rollbackAttributes());
     },
   }

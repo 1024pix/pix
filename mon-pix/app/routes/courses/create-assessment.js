@@ -14,7 +14,7 @@ export default Route.extend({
           return assessments.get('firstObject');
         }
       }).then((assessment) => {
-        return this.replaceWith('assessments.resume', assessment.get('id'));
+        return this.replaceWith('assessment.resume', assessment.get('id'));
       });
   },
 

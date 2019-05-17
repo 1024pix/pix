@@ -12,7 +12,7 @@ export default Route.extend({
   },
 
   model() {
-    return this.modelFor('assessments');
+    return this.modelFor('assessment');
   },
 
   afterModel(assessment) {
@@ -34,7 +34,7 @@ export default Route.extend({
   actions: {
     loading(transition, originRoute) {
       // allows the loading template to be shown or not
-      return originRoute._router.currentRouteName !== 'assessments.challenge';
+      return originRoute._router.currentRouteName !== 'assessment.challenge';
     }
   },
 
@@ -96,7 +96,7 @@ export default Route.extend({
   },
 
   _routeToNextChallenge(assessment, nextChallengeId) {
-    return this.replaceWith('assessments.challenge', assessment.id, nextChallengeId);
+    return this.replaceWith('assessment.challenge', assessment.id, nextChallengeId);
   },
 
   _rateAssessment(assessment) {
@@ -113,16 +113,16 @@ export default Route.extend({
         if (assessment.isCompetenceEvaluation) {
           return this.replaceWith('competences.results', assessment.id);
         }
-        return this.replaceWith('assessments.results', assessment.id);
+        return this.replaceWith('assessment.results', assessment.id);
       });
   },
 
   _routeToCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.id);
+    return this.replaceWith('assessment.checkpoint', assessment.id);
   },
 
   _routeToFinalCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
+    return this.replaceWith('assessment.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
   },
 
 });

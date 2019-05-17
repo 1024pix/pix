@@ -5,8 +5,8 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments | Resume', function() {
-  setupTest('route:assessments.resume', {
+describe('Unit | Route | Assessment | Resume', function() {
+  setupTest('route:assessment.resume', {
     needs: ['service:metrics']
   });
 
@@ -101,7 +101,7 @@ describe('Unit | Route | Assessments | Resume', function() {
               // then
               return promise.then(() => {
                 sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123, 456);
+                sinon.assert.calledWith(route.replaceWith, 'assessment.challenge', 123, 456);
               });
             });
           });
@@ -119,7 +119,7 @@ describe('Unit | Route | Assessments | Resume', function() {
               // then
               return promise.then(() => {
                 sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123);
+                sinon.assert.calledWith(route.replaceWith, 'assessment.checkpoint', 123);
               });
             });
           });
@@ -134,7 +134,7 @@ describe('Unit | Route | Assessments | Resume', function() {
             // then
             return promise.then(() => {
               sinon.assert.calledOnce(route.replaceWith);
-              sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123, 456);
+              sinon.assert.calledWith(route.replaceWith, 'assessment.challenge', 123, 456);
             });
           });
         });
@@ -151,7 +151,7 @@ describe('Unit | Route | Assessments | Resume', function() {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(route.replaceWith);
-            sinon.assert.calledWith(route.replaceWith, 'assessments.challenge', 123, 456);
+            sinon.assert.calledWith(route.replaceWith, 'assessment.challenge', 123, 456);
           });
         });
       });
@@ -209,7 +209,7 @@ describe('Unit | Route | Assessments | Resume', function() {
               // then
               return promise.then(() => {
                 sinon.assert.calledOnce(route.replaceWith);
-                sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', 123, { queryParams: { finalCheckpoint: true } });
+                sinon.assert.calledWith(route.replaceWith, 'assessment.checkpoint', 123, { queryParams: { finalCheckpoint: true } });
               });
             });
           });
@@ -271,14 +271,14 @@ describe('Unit | Route | Assessments | Resume', function() {
         beforeEach(() => {
           assessment.isPlacement = true;
         });
-        it('should redirect to assessments.results page', function() {
+        it('should redirect to assessment.results page', function() {
           // when
           const promise = route.afterModel(assessment);
 
           // then
           return promise.then(() => {
             sinon.assert.calledWith(createRecordStub, 'assessment-result', { assessment });
-            sinon.assert.calledWith(route.replaceWith, 'assessments.results', 123);
+            sinon.assert.calledWith(route.replaceWith, 'assessment.results', 123);
           });
         });
       });

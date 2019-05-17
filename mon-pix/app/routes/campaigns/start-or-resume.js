@@ -50,7 +50,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
         if (!this.userHasJustConsultedTutorial && assessment.answers.length === 0 && !assessment.isCompleted) {
           return this.transitionTo('campaigns.tutorial', this.campaignCode);
         }
-        return this.transitionTo('assessments.resume', assessment.get('id'));
+        return this.transitionTo('assessment.resume', assessment.get('id'));
       });
   },
 

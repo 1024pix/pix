@@ -61,7 +61,7 @@ describe('Unit | Route | Courses | Create Assessment', function() {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(route.replaceWith, 'assessments.resume', assessment.get('id'));
+          sinon.assert.calledWith(route.replaceWith, 'assessment.resume', assessment.get('id'));
         });
       });
     });
@@ -88,7 +88,7 @@ describe('Unit | Route | Courses | Create Assessment', function() {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(route.replaceWith, 'assessments.resume', createdAssessment.get('id'));
+          sinon.assert.calledWith(route.replaceWith, 'assessment.resume', createdAssessment.get('id'));
         });
       });
     });

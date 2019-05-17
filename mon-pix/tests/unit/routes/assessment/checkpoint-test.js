@@ -2,8 +2,8 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Assessments | Checkpoint', function() {
-  setupTest('route:assessments/checkpoint', {
+describe('Unit | Route | Assessment | Checkpoint', function() {
+  setupTest('route:assessment/checkpoint', {
     needs: ['service:metrics']
   });
 

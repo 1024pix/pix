@@ -2,14 +2,14 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Controller | Assessments | Checkpoint', function() {
+describe('Unit | Controller | Assessment | Checkpoint', function() {
 
   setupTest();
 
   let controller;
 
   beforeEach(function() {
-    controller = this.owner.lookup('controller:assessments/checkpoint');
+    controller = this.owner.lookup('controller:assessment/checkpoint');
   });
 
   describe('#finalCheckpoint', () => {

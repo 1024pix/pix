@@ -4,9 +4,9 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-describe('Unit | Route | Assessments | Results', function() {
+describe('Unit | Route | Assessment | Results', function() {
 
-  setupTest('route:assessments.results', {
+  setupTest('route:assessment.results', {
     needs: ['service:metrics']
   });
 
