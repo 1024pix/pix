@@ -36,11 +36,11 @@ export default Router.map(function() {
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
 
-  this.route('assessments', function() {
-    this.route('resume', { path: '/:assessment_id' });
-    this.route('challenge', { path: '/:assessment_id/challenges/:challenge_id' });
-    this.route('results', { path: '/:assessment_id/results' });
-    this.route('checkpoint', { path: '/:assessment_id/checkpoint' });
+  this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
+    this.route('resume', { path: '/resume' });
+    this.route('challenge', { path: '/challenges/:challenge_id' });
+    this.route('results', { path: '/results' });
+    this.route('checkpoint', { path: '/checkpoint' });
   });
 
   this.route('login', { path: '/connexion' });
