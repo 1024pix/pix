@@ -23,7 +23,7 @@ class CampaignCompetenceCollectiveResult {
   }
 
   get areaCode() {
-    return this.competenceIndex.charAt(0);
+    return this.competenceIndex.split('.')[0];
   }
 }
 
