@@ -24,6 +24,7 @@ async function getNextChallengeForCompetenceEvaluation({
   if (assessmentEnded) {
     throw new AssessmentEndedError();
   }
+
   return nextChallenge;
 }
 

@@ -3,7 +3,7 @@ const { expect, sinon } = require('../../../test-helper');
 const getNextChallengeForSmartPlacement = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 
-describe.only('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', () => {
+describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', () => {
 
   describe('#getNextChallengeForSmartPlacement', () => {
 
