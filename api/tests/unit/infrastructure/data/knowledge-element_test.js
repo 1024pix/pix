@@ -43,7 +43,7 @@ describe('Unit | Infrastructure | Data | knowledge-element', () => {
       const ke = new BookshelfKnowledgeElement({ createdAt: keCreationDate });
 
       // when
-      const actual = ke.wasCreatedBeforeParticipationSharingDate(campaignParticipation);
+      const actual = ke.wasCreatedBefore(campaignParticipation.get('sharedAt'));
 
       // then
       expect(actual).to.equal(true);
@@ -58,7 +58,7 @@ describe('Unit | Infrastructure | Data | knowledge-element', () => {
       const ke = new BookshelfKnowledgeElement({ createdAt: keCreationDate });
 
       // when
-      const actual = ke.wasCreatedBeforeParticipationSharingDate(campaignParticipation);
+      const actual = ke.wasCreatedBefore(campaignParticipation.sharedAt);
 
       // then
       expect(actual).to.equal(false);
@@ -73,7 +73,7 @@ describe('Unit | Infrastructure | Data | knowledge-element', () => {
       const ke = new BookshelfKnowledgeElement({ createdAt: keCreationDate });
 
       // when
-      const actual = ke.wasCreatedBeforeParticipationSharingDate(campaignParticipation);
+      const actual = ke.wasCreatedBefore(campaignParticipation.sharedAt);
 
       // then
       expect(actual).to.equal(false);
