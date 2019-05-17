@@ -57,6 +57,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
   afterEach(async () => {
     await cache.flushAll();
     await airtableBuilder.cleanAll();
+    await databaseBuilder.clean();
   });
 
   describe('#getCampaignCollectiveResults', () => {
@@ -140,10 +141,6 @@ describe('Integration | Repository | Service | Campaign collective result reposi
           ],
         }
         ));
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       context('when there is no participant', () => {
