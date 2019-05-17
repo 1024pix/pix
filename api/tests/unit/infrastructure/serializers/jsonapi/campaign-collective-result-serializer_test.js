@@ -55,7 +55,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             'average-validated-skills': 2,
             'competence-id': 'rec1',
             'competence-name': 'Cuisson des legumes d’automne',
-            'domain-code': '1',
+            'area-code': '1',
             'total-skills-count': 3,
           }
         }, {
@@ -65,7 +65,7 @@ describe('Unit | Serializer | JSONAPI | campaign-collective-results-serializer',
             'average-validated-skills': 1,
             'competence-id': 'rec2',
             'competence-name': 'Tourner un champignon',
-            'domain-code': '3',
+            'area-code': '3',
             'total-skills-count': 4,
           }
         }]

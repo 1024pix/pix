@@ -5,7 +5,7 @@ import domainColors from 'pix-orga/static-data/domain-colors';
 const { belongsTo, Model, attr } = DS;
 
 export default Model.extend({
-  domainCode: attr('string'),
+  areaCode: attr('string'),
   competenceName: attr('string'),
   competenceId: attr('string'),
   averageValidatedSkills: attr('number'),
@@ -24,8 +24,8 @@ export default Model.extend({
     return Math.round(this.totalSkillsCount * 100 / this.campaignCollectiveResult.get('maxTotalSkillsCountInCompetences'));
   }),
 
-  domainColorStyle: computed('domainCode', function() {
-    const foundDomain = domainColors.find((colors) => colors.domain === this.domainCode);
+  domainColorStyle: computed('areaCode', function() {
+    const foundDomain = domainColors.find((colors) => colors.domain === this.areaCode);
     return htmlSafe(`color: ${foundDomain.color}`);
   }),
 
