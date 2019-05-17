@@ -76,14 +76,10 @@ function _filterParticipantsKEs(sharedParticipations, targetedSkillIds) {
 }
 
 function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, participants, targetedSkillsByCompetenceId, participantsKEsByCompetenceId) {
-
-  const results = Object.keys(targetedSkillsByCompetenceId).reduce((results, competenceId) => {
-
+  return _(targetedSkillsByCompetenceId).keys().map((competenceId) => {
     const competence = _.find(competences, { id: competenceId });
-
     const averageValidatedSkills = _.size(participants) ? _.size(participantsKEsByCompetenceId[competenceId]) / _.size(participants) : 0;
-
-    const campaignCompetenceCollectiveResult = new CampaignCompetenceCollectiveResult({
+    return new CampaignCompetenceCollectiveResult({
       campaignId,
       competenceId,
       competenceName: competence.name,
@@ -91,11 +87,7 @@ function _forgeCampaignCompetenceCollectiveResults(campaignId, competences, part
       totalSkillsCount: _.size(targetedSkillsByCompetenceId[competenceId]),
       averageValidatedSkills,
     });
-
-    results.push(campaignCompetenceCollectiveResult);
-
-    return results;
-  }, []);
-
-  return _.sortBy(results, ['competenceIndex']);
+  })
+    .sortBy('competenceIndex')
+    .value();
 }
