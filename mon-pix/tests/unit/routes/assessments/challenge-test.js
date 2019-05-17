@@ -17,16 +17,17 @@ describe('Unit | Route | Assessments | Challenge', function() {
   let queryRecordStub;
   let findRecordStub;
   const params = {
-    assessment_id: 'assessment_id',
     challenge_id: 'challenge_id'
   };
 
+  const assessment = {
+    id: 'assessment_id',
+    get: sinon.stub().callsFake(() => 'ASSESSMENT_TYPE'),
+    type: 'PLACEMENT',
+  };
+
   const model = {
-    assessment: {
-      id: 'assessment_id',
-      get: sinon.stub().callsFake(() => 'ASSESSMENT_TYPE'),
-      type: 'PLACEMENT'
-    },
+    assessment,
     challenge: {
       id: 'challenge_id'
     }
@@ -50,6 +51,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
     // instance route object
     route = this.subject();
     route.transitionTo = sinon.stub();
+    route.modelFor = sinon.stub().returns(assessment);
   });
 
   describe('#model', function() {
@@ -58,8 +60,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       route.model(params);
 
       // then
-      sinon.assert.calledTwice(findRecordStub);
-      sinon.assert.calledWith(findRecordStub, 'assessment', params.assessment_id);
+      sinon.assert.calledWith(route.modelFor, 'assessments');
       sinon.assert.calledWith(findRecordStub, 'challenge', params.challenge_id);
     });
     it('should call queryRecord to find answer', function() {
@@ -74,7 +75,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       return promise.then(() => {
         sinon.assert.calledOnce(queryRecordStub);
         sinon.assert.calledWith(queryRecordStub, 'answer', {
-          assessment: params.assessment_id,
+          assessment: assessment.id,
           challenge: params.challenge_id
         });
       });
