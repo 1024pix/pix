@@ -4,7 +4,7 @@ const constants = require('../../../../lib/domain/constants');
 
 describe('Unit | Domain | Models | Scorecard', () => {
 
-  describe('constructor', () => {
+  describe('#constructor', () => {
 
     it('should build a Scorecard from raw JSON', () => {
       // given
@@ -32,17 +32,20 @@ describe('Unit | Domain | Models | Scorecard', () => {
     });
   });
 
-  describe('_buildFrom', () => {
+  describe('#buildFrom', () => {
     const authenticatedUserId = 2;
     const maxLevel = 5;
     const competenceId = 1;
     const scorecardId = `${authenticatedUserId}_${competenceId}`;
-    let status = 'FOO';
-    sinon.stub(Scorecard, '_computeStatus').returns(status);
+    const computeStatusStub = sinon.stub(Scorecard, 'computeStatus');
+
+    afterEach(() => {
+      computeStatusStub.restore();
+    });
 
     it('should return the user scorecard with level limited to 5', async () => {
       // given
-      status = 'STARTED';
+      computeStatusStub.returns(Scorecard.StatusType.STARTED);
       const earnedPixNeededForLevelSixLimitedToFive = 50;
       const pixScoreAheadOfNextLevel = 2;
 
@@ -65,13 +68,13 @@ describe('Unit | Domain | Models | Scorecard', () => {
         earnedPix: earnedPixNeededForLevelSixLimitedToFive,
         level: maxLevel,
         pixScoreAheadOfNextLevel,
-        status: 'STARTED',
+        status: Scorecard.StatusType.STARTED,
       });
 
       // when
       const userScorecard = Scorecard.buildFrom({
         userId: authenticatedUserId,
-        userKEList: knowledgeElementList,
+        knowledgeElements: knowledgeElementList,
         competence,
         competenceEvaluations: null
       });
@@ -84,7 +87,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
 
       it('should return the user scorecard with score null', async () => {
         // given
-        status = 'NOT_STARTED';
+        computeStatusStub.returns(Scorecard.StatusType.NOT_STARTED);
 
         const competence = domainBuilder.buildCompetence({ id: competenceId });
 
@@ -98,13 +101,13 @@ describe('Unit | Domain | Models | Scorecard', () => {
           earnedPix: 0,
           level: 0,
           pixScoreAheadOfNextLevel: 0,
-          status: 'NOT_STARTED',
+          status: Scorecard.StatusType.NOT_STARTED,
         });
 
         // when
         const userScorecard = Scorecard.buildFrom({
           userId: authenticatedUserId,
-          userKEList: null,
+          knowledgeElements: null,
           competence,
           competenceEvaluations: null
         });
@@ -114,12 +117,13 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
     });
 
-    context('when there is some knowledge elements', async () => {
+    context('when there are some knowledge elements', async () => {
       const earnedPix = 10;
 
       it('should return the user scorecard with computed level and pix', async () => {
         // given
-        status = 'COMPLETED';
+        computeStatusStub.returns(Scorecard.StatusType.COMPLETED);
+
         const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId, earnedPix })];
         const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
         const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
@@ -139,13 +143,13 @@ describe('Unit | Domain | Models | Scorecard', () => {
           earnedPix,
           level: 1,
           pixScoreAheadOfNextLevel: 2,
-          status: 'COMPLETED',
+          status: Scorecard.StatusType.COMPLETED,
         });
 
         // when
         const userScorecard = Scorecard.buildFrom({
           userId: authenticatedUserId,
-          userKEList: knowledgeElementList,
+          knowledgeElements: knowledgeElementList,
           competence,
           competenceEvaluations
         });
@@ -156,7 +160,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
     });
   });
 
-  describe('_computeStatus', () => {
+  describe('#computeStatus', () => {
     const competenceId = 1;
 
     context('when there is no knowledge elements', async () => {
@@ -171,10 +175,10 @@ describe('Unit | Domain | Models | Scorecard', () => {
         })];
 
         // when
-        const status = Scorecard._computeStatus({ knowledgeElements: null, competenceId, competenceEvaluations });
+        const status = Scorecard.computeStatus({ knowledgeElements: null, competenceId, competenceEvaluations });
 
         //then
-        expect(status).to.deep.equal('NOT_STARTED');
+        expect(status).to.equal(Scorecard.StatusType.NOT_STARTED);
       });
     });
 
@@ -191,18 +195,18 @@ describe('Unit | Domain | Models | Scorecard', () => {
         })];
 
         // when
-        const status = Scorecard._computeStatus({
+        const status = Scorecard.computeStatus({
           knowledgeElements: knowledgeElementList,
           competenceId,
           competenceEvaluations
         });
 
         //then
-        expect(status).to.deep.equal('COMPLETED');
+        expect(status).to.equal(Scorecard.StatusType.COMPLETED);
       });
     });
 
-    context('when there is some knowledge-elements and assessment is not completed', async () => {
+    context('when there are some knowledge-elements and assessment is not completed', async () => {
 
       it('should return the user scorecard with status STARTED', async () => {
         // given
@@ -215,19 +219,19 @@ describe('Unit | Domain | Models | Scorecard', () => {
         })];
 
         // when
-        const status = Scorecard._computeStatus({
+        const status = Scorecard.computeStatus({
           knowledgeElements: knowledgeElementList,
           competenceId,
           competenceEvaluations
         });
 
         //then
-        expect(status).to.deep.equal('STARTED');
+        expect(status).to.equal(Scorecard.StatusType.STARTED);
       });
     });
   });
 
-  describe('_getCompetenceLevel', () => {
+  describe('#_getCompetenceLevel', () => {
 
     it('should be capped at a maximum reachable level', () => {
       // given
