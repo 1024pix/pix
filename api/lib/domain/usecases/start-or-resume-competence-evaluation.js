@@ -10,8 +10,8 @@ module.exports = async function startOrResumeCompetenceEvaluation({ competenceId
     return { created: false, competenceEvaluation };
   } catch (error) {
     if (error instanceof NotFoundError) {
-      const assessment = await _createAssessmentForCompetenceEvaluation(userId, assessmentRepository);
-      const competenceEvaluation = await _saveCompetenceEvaluation(competenceId, assessment.id, userId, competenceEvaluationRepository);
+      const assessment = await _createAssessment(userId, assessmentRepository);
+      const competenceEvaluation = await _createCompetenceEvaluation(competenceId, assessment.id, userId, competenceEvaluationRepository);
       return { created: true, competenceEvaluation };
     } else {
       throw error;
@@ -26,7 +26,7 @@ function _checkCompetenceExists(competenceId, competenceRepository) {
     });
 }
 
-function _createAssessmentForCompetenceEvaluation(userId, assessmentRepository) {
+function _createAssessment(userId, assessmentRepository) {
   const assessment = new Assessment({
     userId,
     state: Assessment.states.STARTED,
@@ -36,7 +36,7 @@ function _createAssessmentForCompetenceEvaluation(userId, assessmentRepository) 
   return assessmentRepository.save(assessment);
 }
 
-function _saveCompetenceEvaluation(competenceId, assessmentId, userId, competenceEvaluationRepository) {
+function _createCompetenceEvaluation(competenceId, assessmentId, userId, competenceEvaluationRepository) {
   const competenceEvaluation = new CompetenceEvaluation({
     userId,
     assessmentId,
