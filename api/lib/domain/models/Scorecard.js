@@ -1,4 +1,12 @@
+const _ = require('lodash');
 const constants = require('../constants');
+const Assessment = require('./Assessment');
+
+const ScorecardStatusType = Object.freeze({
+  NOT_STARTED: 'NOT_STARTED',
+  STARTED: 'STARTED',
+  COMPLETED: 'COMPLETED',
+});
 
 class Scorecard {
   constructor({
@@ -26,6 +34,42 @@ class Scorecard {
     this.status = status;
   }
 
+  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluations }) {
+    const sortedKEGroupedByCompetence = _.groupBy(knowledgeElements, 'competenceId');
+    const knowledgeElementsOfCompetence = sortedKEGroupedByCompetence[competence.id];
+    const totalEarnedPixByCompetence = _.sumBy(knowledgeElementsOfCompetence, 'earnedPix');
+    const status = Scorecard.computeStatus({
+      knowledgeElements: knowledgeElementsOfCompetence,
+      competenceId: competence.id,
+      competenceEvaluations
+    });
+
+    return new Scorecard({
+      id: `${userId}_${competence.id}`,
+      name: competence.name,
+      description: competence.description,
+      competenceId: competence.id,
+      index: competence.index,
+      area: competence.area,
+      earnedPix: totalEarnedPixByCompetence,
+      status,
+    });
+  }
+
+  static computeStatus({ knowledgeElements, competenceId, competenceEvaluations }) {
+    if (_.isEmpty(knowledgeElements)) {
+      return ScorecardStatusType.NOT_STARTED;
+    }
+
+    const competenceEvaluationForCompetence = _.find(competenceEvaluations, { competenceId });
+    const stateOfAssessment = _.get(competenceEvaluationForCompetence, 'assessment.state');
+
+    if (stateOfAssessment === Assessment.states.COMPLETED) {
+      return ScorecardStatusType.COMPLETED;
+    }
+    return ScorecardStatusType.STARTED;
+  }
+
   _getCompetenceLevel(earnedPix) {
     const userLevel = Math.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
 
@@ -36,5 +80,7 @@ class Scorecard {
     return earnedPix % constants.PIX_COUNT_BY_LEVEL;
   }
 }
+
+Scorecard.StatusType = ScorecardStatusType;
 
 module.exports = Scorecard;
