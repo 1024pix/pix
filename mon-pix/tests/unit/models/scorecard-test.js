@@ -91,40 +91,75 @@ describe('Unit | Model | Scorecard model', function() {
       // then
       expect(hasNotEarnAnything).to.be.false;
     });
+  });
 
-    describe('hasNotReachLevelOne', function() {
-      it('should return true', function() {
-        // given
-        scorecard.set('level', 0);
+  describe('hasNotReachLevelOne', function() {
+    it('should return true', function() {
+      // given
+      scorecard.set('level', 0);
 
-        // when
-        const hasNotReachLevelOne = scorecard.get('hasNotReachLevelOne');
+      // when
+      const hasNotReachLevelOne = scorecard.get('hasNotReachLevelOne');
 
-        // then
-        expect(hasNotReachLevelOne).to.be.true;
-      });
+      // then
+      expect(hasNotReachLevelOne).to.be.true;
+    });
 
-      it('should return false if level is 1', function() {
-        // given
-        scorecard.set('level', 1);
+    it('should return false if level is 1', function() {
+      // given
+      scorecard.set('level', 1);
 
-        // when
-        const hasNotReachLevelOne = scorecard.get('hasNotReachLevelOne');
+      // when
+      const hasNotReachLevelOne = scorecard.get('hasNotReachLevelOne');
 
-        // then
-        expect(hasNotReachLevelOne).to.be.false;
-      });
+      // then
+      expect(hasNotReachLevelOne).to.be.false;
+    });
 
-      it('should return false if level > 1', function() {
-        // given
-        scorecard.set('level', 2);
+    it('should return false if level > 1', function() {
+      // given
+      scorecard.set('level', 2);
 
-        // when
-        const hasNotReachLevelOne = scorecard.get('hasNotReachLevelOne');
+      // when
+      const hasNotReachLevelOne = scorecard.get('hasNotReachLevelOne');
 
-        // then
-        expect(hasNotReachLevelOne).to.be.false;
-      });
+      // then
+      expect(hasNotReachLevelOne).to.be.false;
+    });
+  });
+
+  describe('hasReachAtLeastLevelOne', function() {
+    it('should return true if level is 1', function() {
+      // given
+      scorecard.set('level', 1);
+
+      // when
+      const hasReachAtLeastLevelOne = scorecard.get('hasReachAtLeastLevelOne');
+
+      // then
+      expect(hasReachAtLeastLevelOne).to.be.true;
+    });
+
+    it('should return true if level is 4', function() {
+      // given
+      scorecard.set('level', 4);
+
+      // when
+      const hasReachAtLeastLevelOne = scorecard.get('hasReachAtLeastLevelOne');
+
+      // then
+      expect(hasReachAtLeastLevelOne).to.be.true;
+    });
+
+    it('should return false', function() {
+      // given
+      scorecard.set('level', 0);
+
+      // when
+      const hasReachAtLeastLevelOne = scorecard.get('hasReachAtLeastLevelOne');
+
+      // then
+      expect(hasReachAtLeastLevelOne).to.be.false;
     });
   });
 

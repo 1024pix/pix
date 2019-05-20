@@ -46,6 +46,10 @@ export default Model.extend({
     return this.level < 1;
   }),
 
+  hasReachAtLeastLevelOne: computed('level', function() {
+    return this.level >= 1;
+  }),
+
   areaColor: computed('area.code', function() {
     const areaCode = this.area.get('code').toString();
     const foundArea = areaColors.find((color) => color.area === areaCode);
