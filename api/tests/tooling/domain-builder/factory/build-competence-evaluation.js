@@ -7,12 +7,34 @@ const faker = require('faker');
 module.exports = function buildCompetenceEvaluation(
   {
     id = 1,
-    assessmentId = buildAssessment().id,
-    assessment = buildAssessment(),
+    assessmentId,
+    assessment,
+    status = 'initialized',
     userId = buildUser().id,
     competenceId = 'recsvLz0W2ShyfD63',
     createdAt = faker.date.recent(),
     updatedAt = faker.date.recent(),
   } = {}) {
-  return new CompetenceEvaluation({ id, assessmentId: assessmentId || assessment.id , userId, competenceId, createdAt, updatedAt, assessment });
+
+  if (assessment && !assessmentId) {
+    assessmentId = assessment.id;
+  }
+  if (assessmentId && !assessment) {
+    assessmentId = buildAssessment({ id: assessmentId });
+  }
+  if (!assessmentId && !assessment) {
+    assessment = buildAssessment();
+    assessmentId = assessment.id;
+  }
+
+  return new CompetenceEvaluation({
+    id,
+    assessmentId,
+    userId,
+    competenceId,
+    createdAt,
+    updatedAt,
+    assessment,
+    status,
+  });
 };

@@ -55,6 +55,7 @@ function _createCompetenceEvaluation(competenceId, assessmentId, userId, compete
     userId,
     assessmentId,
     competenceId,
+    status: CompetenceEvaluation.statuses.STARTED,
   });
   return competenceEvaluationRepository.save(competenceEvaluation);
 }
