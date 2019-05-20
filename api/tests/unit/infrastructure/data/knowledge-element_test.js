@@ -32,7 +32,7 @@ describe('Unit | Infrastructure | Data | knowledge-element', () => {
     });
   });
 
-  describe('#wasCreatedBeforeParticipationSharingDate', () => {
+  describe('#wasCreatedBefore', () => {
 
     it('should return true when KE creation date is before campaign participation share date', () => {
       // given
@@ -58,7 +58,7 @@ describe('Unit | Infrastructure | Data | knowledge-element', () => {
       const ke = new BookshelfKnowledgeElement({ createdAt: keCreationDate });
 
       // when
-      const actual = ke.wasCreatedBefore(campaignParticipation.sharedAt);
+      const actual = ke.wasCreatedBefore(campaignParticipation.get('sharedAt'));
 
       // then
       expect(actual).to.equal(false);
@@ -73,7 +73,7 @@ describe('Unit | Infrastructure | Data | knowledge-element', () => {
       const ke = new BookshelfKnowledgeElement({ createdAt: keCreationDate });
 
       // when
-      const actual = ke.wasCreatedBefore(campaignParticipation.sharedAt);
+      const actual = ke.wasCreatedBefore(campaignParticipation.get('sharedAt'));
 
       // then
       expect(actual).to.equal(false);
