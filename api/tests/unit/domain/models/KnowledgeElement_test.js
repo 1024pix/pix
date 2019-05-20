@@ -1,15 +1,15 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
+describe('Unit | Domain | Models | KnowledgeElement', () => {
 
   describe('#isValidated', () => {
 
     it('should be true if status validated', () => {
       // given
-      const knowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
-        status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.VALIDATED,
       });
 
       // when
@@ -21,8 +21,8 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
     it('should be false if status not validated', () => {
       // given
-      const knowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
-        status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.INVALIDATED,
       });
 
       // when
@@ -37,8 +37,8 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
     it('should be true if status invalidated', () => {
       // given
-      const knowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
-        status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.INVALIDATED,
       });
 
       // when
@@ -50,8 +50,8 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
     it('should be false if status not invalidated', () => {
       // given
-      const knowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
-        status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+      const knowledgeElement = domainBuilder.buildKnowledgeElement({
+        status: KnowledgeElement.StatusType.VALIDATED,
       });
 
       // when
@@ -98,7 +98,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           otherSkill = domainBuilder.buildSkill();
 
           // when
-          createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
+          createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
             answer: validAnswer,
             challenge: challenge,
             previouslyValidatedSkills: [],
@@ -124,7 +124,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           targetSkills = [skill];
 
           // when
-          createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
+          createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
             answer: validAnswer,
             challenge: challenge,
             previouslyValidatedSkills: [],
@@ -136,9 +136,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
         it('should create a knowledge element', () => {
           // then
-          const directKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
-            source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-            status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+          const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
+            source: KnowledgeElement.SourceType.DIRECT,
+            status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: skill.pixValue,
             answerId: validAnswer.id,
             assessmentId: validAnswer.assessmentId,
@@ -167,7 +167,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           beforeEach(() => {
             // when
-            createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
+            createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: validAnswer,
               challenge: challenge,
               previouslyValidatedSkills: [],
@@ -180,9 +180,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           it('should create one direct knowledge element and two inferred validated for easier skills', () => {
             // then
-            const directKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: skill.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -192,9 +192,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: skill.competenceId
             });
             directKnowledgeElement.id = undefined;
-            const inferredKnowledgeElementForEasierSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const inferredKnowledgeElementForEasierSkill = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: easierSkill.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -204,9 +204,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: easierSkill.competenceId
             });
             inferredKnowledgeElementForEasierSkill.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const inferredKnowledgeElementForMuchEasierSkill = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: muchEasierSkill.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -232,7 +232,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           beforeEach(() => {
             // when
-            createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
+            createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: invalidAnswer,
               challenge: challenge,
               previouslyValidatedSkills: [],
@@ -245,9 +245,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           it('should create one direct knowledge element and two inferred invalidated for harder skills', () => {
             // then
-            const directKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -256,9 +256,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: skill.competenceId
             });
             directKnowledgeElement.id = undefined;
-            const inferredKnowledgeElementForHarderSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const inferredKnowledgeElementForHarderSkill = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -267,9 +267,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: harderSkill.competenceId
             });
             inferredKnowledgeElementForHarderSkill.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkill = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const inferredKnowledgeElementForMuchHarderSkill = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -352,7 +352,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
         beforeEach(() => {
           // when
-          createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
+          createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
             answer: validAnswer,
             challenge: challenge,
             previouslyValidatedSkills: [],
@@ -364,9 +364,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
         it('should create knowledge elements for the other skills that are in the target profile', () => {
           // then
-          const directKnowledgeElementFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
-            source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-            status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+          const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
+            source: KnowledgeElement.SourceType.DIRECT,
+            status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: skillFromTube1.pixValue,
             answerId: validAnswer.id,
             assessmentId: validAnswer.assessmentId,
@@ -375,9 +375,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             competenceId: skillFromTube1.competenceId
           });
           directKnowledgeElementFromTube1.id = undefined;
-          const directKnowledgeElementFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-            source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-            status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+          const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
+            source: KnowledgeElement.SourceType.DIRECT,
+            status: KnowledgeElement.StatusType.VALIDATED,
             earnedPix: skillFromTube3.pixValue,
             answerId: validAnswer.id,
             assessmentId: validAnswer.assessmentId,
@@ -422,7 +422,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           beforeEach(() => {
             // when
-            createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
+            createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: validAnswer,
               challenge: challenge,
               previouslyValidatedSkills: [],
@@ -434,9 +434,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           it('should create the three direct knowledge elements' +
             ' and the six inferred validated for easier skills', () => {
-            const directKnowledgeElementFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: skillFromTube1.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -445,9 +445,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: skillFromTube1.competenceId
             });
             directKnowledgeElementFromTube1.id = undefined;
-            const inferredKnowledgeElementForEasierSkillFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const inferredKnowledgeElementForEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: easierSkillFromTube1.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -456,9 +456,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: easierSkillFromTube1.competenceId
             });
             inferredKnowledgeElementForEasierSkillFromTube1.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkillFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const inferredKnowledgeElementForMuchEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: muchEasierSkillFromTube1.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -468,9 +468,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube1.id = undefined;
 
-            const directKnowledgeElementFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: skillFromTube2.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -479,9 +479,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: skillFromTube2.competenceId
             });
             directKnowledgeElementFromTube2.id = undefined;
-            const inferredKnowledgeElementForEasierSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const inferredKnowledgeElementForEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: easierSkillFromTube2.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -490,9 +490,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: easierSkillFromTube2.competenceId
             });
             inferredKnowledgeElementForEasierSkillFromTube2.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: muchEasierSkillFromTube2.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -502,9 +502,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
-            const directKnowledgeElementFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: skillFromTube3.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -513,9 +513,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: skillFromTube3.competenceId
             });
             directKnowledgeElementFromTube3.id = undefined;
-            const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: easierSkillFromTube3.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -524,9 +524,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: easierSkillFromTube3.competenceId
             });
             inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+            const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.VALIDATED,
               earnedPix: muchEasierSkillFromTube3.pixValue,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
@@ -558,7 +558,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           beforeEach(() => {
             // when
-            createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
+            createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: invalidAnswer,
               challenge: challenge,
               previouslyValidatedSkills: [],
@@ -570,9 +570,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
           it('should create the three direct knowledge elements' +
             ' and the six inferred validated for harder skills', () => {
-            const directKnowledgeElementFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -581,9 +581,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: skillFromTube1.competenceId
             });
             directKnowledgeElementFromTube1.id = undefined;
-            const inferredKnowledgeElementForHarderSkillFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const inferredKnowledgeElementForHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -592,9 +592,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: harderSkillFromTube1.competenceId
             });
             inferredKnowledgeElementForHarderSkillFromTube1.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkillFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const inferredKnowledgeElementForMuchHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -604,9 +604,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube1.id = undefined;
 
-            const directKnowledgeElementFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -615,9 +615,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: skillFromTube2.competenceId
             });
             directKnowledgeElementFromTube2.id = undefined;
-            const inferredKnowledgeElementForHarderSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const inferredKnowledgeElementForHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -626,9 +626,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: harderSkillFromTube2.competenceId
             });
             inferredKnowledgeElementForHarderSkillFromTube2.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const inferredKnowledgeElementForMuchHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -638,9 +638,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube2.id = undefined;
 
-            const directKnowledgeElementFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -649,9 +649,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: skillFromTube3.competenceId
             });
             directKnowledgeElementFromTube3.id = undefined;
-            const inferredKnowledgeElementForHarderSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const inferredKnowledgeElementForHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -660,9 +660,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               competenceId: harderSkillFromTube3.competenceId
             });
             inferredKnowledgeElementForHarderSkillFromTube3.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-              source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-              status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            const inferredKnowledgeElementForMuchHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.INFERRED,
+              status: KnowledgeElement.StatusType.INVALIDATED,
               earnedPix: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
@@ -776,7 +776,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
             beforeEach(() => {
               // when
-              createdKnowledgeElements = SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer({
+              createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
                 answer: validAnswer,
                 challenge: challenge,
                 previouslyValidatedSkills: [easierSkillFromTube1, muchEasierSkillFromTube1],
@@ -788,9 +788,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
 
             it('should create the three direct knowledge elements' +
               ' and the three inferred validated for easier skills than are not evaluated', () => {
-              const directKnowledgeElementFromTube1 = domainBuilder.buildSmartPlacementKnowledgeElement({
-                source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-                status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+              const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.DIRECT,
+                status: KnowledgeElement.StatusType.VALIDATED,
                 earnedPix: skillFromTube1.pixValue,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
@@ -800,9 +800,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               });
               directKnowledgeElementFromTube1.id = undefined;
 
-              const directKnowledgeElementFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
-                source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-                status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+              const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.DIRECT,
+                status: KnowledgeElement.StatusType.VALIDATED,
                 earnedPix: skillFromTube2.pixValue,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
@@ -811,9 +811,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 competenceId: skillFromTube2.competenceId
               });
               directKnowledgeElementFromTube2.id = undefined;
-              const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildSmartPlacementKnowledgeElement({
-                source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-                status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+              const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.VALIDATED,
                 earnedPix: muchEasierSkillFromTube2.pixValue,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
@@ -823,9 +823,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               });
               inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
-              const directKnowledgeElementFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-                source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-                status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+              const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.DIRECT,
+                status: KnowledgeElement.StatusType.VALIDATED,
                 earnedPix: skillFromTube3.pixValue,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
@@ -834,9 +834,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 competenceId: skillFromTube3.competenceId
               });
               directKnowledgeElementFromTube3.id = undefined;
-              const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-                source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-                status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+              const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.VALIDATED,
                 earnedPix: easierSkillFromTube3.pixValue,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
@@ -845,9 +845,9 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 competenceId: easierSkillFromTube3.competenceId
               });
               inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
-              const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildSmartPlacementKnowledgeElement({
-                source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-                status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+              const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.VALIDATED,
                 earnedPix: muchEasierSkillFromTube3.pixValue,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,

@@ -234,7 +234,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         { skillId: skillIds2[2], status: 'invalidated' },
 
       ]).each((ke, id) => {
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id, userId: participant.id, assessmentId, ...ke });
+        databaseBuilder.factory.buildKnowledgeElement({ id, userId: participant.id, assessmentId, ...ke });
       });
 
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns(dataSourceSkills).activate();

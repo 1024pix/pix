@@ -1,11 +1,10 @@
 const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
-const SmartPlacementKnowledgeElementRepository =
-  require('../../../../lib/infrastructure/repositories/smart-placement-knowledge-element-repository');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const KnowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const _ = require('lodash');
 const moment = require('moment');
 
-describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', () => {
+describe('Integration | Repository | KnowledgeElementRepository', () => {
 
   afterEach(() => {
     return knex('knowledge-elements').delete()
@@ -15,7 +14,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
   describe('#save', () => {
 
     let promise;
-    let smartPlacementKnowledgeElement;
+    let knowledgeElement;
 
     beforeEach(async () => {
       // given
@@ -24,29 +23,29 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
       await databaseBuilder.commit();
 
-      smartPlacementKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
+      knowledgeElement = domainBuilder.buildKnowledgeElement({
         assessmentId,
         answerId,
         competenceId: 'recABC'
       });
-      smartPlacementKnowledgeElement.id = undefined;
+      knowledgeElement.id = undefined;
 
       // when
-      promise = SmartPlacementKnowledgeElementRepository.save(smartPlacementKnowledgeElement);
+      promise = KnowledgeElementRepository.save(knowledgeElement);
     });
 
-    it('should save the smartPlacementKnowledgeElement in db', async () => {
+    it('should save the knowledgeElement in db', async () => {
       // then
       // id, createdAt, and updatedAt are not present
       const expectedRawKnowledgeElementWithoutIdNorDates = {
-        source: smartPlacementKnowledgeElement.source,
-        status: smartPlacementKnowledgeElement.status,
-        earnedPix: smartPlacementKnowledgeElement.earnedPix,
-        answerId: smartPlacementKnowledgeElement.answerId,
-        assessmentId: smartPlacementKnowledgeElement.assessmentId,
-        skillId: `${smartPlacementKnowledgeElement.skillId}`,
-        userId: smartPlacementKnowledgeElement.userId,
-        competenceId: smartPlacementKnowledgeElement.competenceId
+        source: knowledgeElement.source,
+        status: knowledgeElement.status,
+        earnedPix: knowledgeElement.earnedPix,
+        answerId: knowledgeElement.answerId,
+        assessmentId: knowledgeElement.assessmentId,
+        skillId: `${knowledgeElement.skillId}`,
+        userId: knowledgeElement.userId,
+        competenceId: knowledgeElement.competenceId
       };
       return promise
         .then(() => knex('knowledge-elements').first())
@@ -59,11 +58,11 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     it('should return a domain object with the id', async () => {
       // then
       return promise
-        .then((savedSmartPlacementKnowledgeElement) => {
-          expect(savedSmartPlacementKnowledgeElement.id).to.not.equal(undefined);
-          expect(savedSmartPlacementKnowledgeElement).to.be.an.instanceOf(SmartPlacementKnowledgeElement);
-          expect(_.omit(savedSmartPlacementKnowledgeElement, ['id', 'createdAt']))
-            .to.deep.equal(_.omit(smartPlacementKnowledgeElement, ['id', 'createdAt']));
+        .then((savedKnowledgeElement) => {
+          expect(savedKnowledgeElement.id).to.not.equal(undefined);
+          expect(savedKnowledgeElement).to.be.an.instanceOf(KnowledgeElement);
+          expect(_.omit(savedKnowledgeElement, ['id', 'createdAt']))
+            .to.deep.equal(_.omit(knowledgeElement, ['id', 'createdAt']));
         });
     });
   });
@@ -82,16 +81,16 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       const answer3Id = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentIdOther }).id;
 
       knowledgeElementsWanted = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           assessmentId,
           answerId: answer1Id,
         }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           assessmentId,
           answerId: answer2Id,
         })
       ];
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         assessmentId: assessmentIdOther,
         answerId: answer3Id
       });
@@ -105,7 +104,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     it('should find the knowledge elements associated with a given assessment', async () => {
 
       // when
-      const promise = SmartPlacementKnowledgeElementRepository.findByAssessmentId(assessmentId);
+      const promise = KnowledgeElementRepository.findByAssessmentId(assessmentId);
 
       return promise
         .then((knowledgeElementsFound) => {
@@ -130,13 +129,13 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       userId = databaseBuilder.factory.buildUser().id;
 
       knowledgeElementsWantedWithLimitDate = [
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           id: 1,
           createdAt: yesterday,
           skillId: '1',
           userId
         }),
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           id: 2,
           createdAt: yesterday,
           skillId: '3',
@@ -146,7 +145,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       ];
 
       knowledgeElementsWanted = knowledgeElementsWantedWithLimitDate.concat([
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        databaseBuilder.factory.buildKnowledgeElement({
           id: 3,
           createdAt: tomorrow,
           skillId: '2',
@@ -154,15 +153,15 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         })
       ]);
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         id: 4,
         createdAt: dayBeforeYesterday,
         skillId: '3',
         status: 'invalidated'
       });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 5, createdAt: yesterday });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 6, createdAt: yesterday });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 7, createdAt: today });
+      databaseBuilder.factory.buildKnowledgeElement({ id: 5, createdAt: yesterday });
+      databaseBuilder.factory.buildKnowledgeElement({ id: 6, createdAt: yesterday });
+      databaseBuilder.factory.buildKnowledgeElement({ id: 7, createdAt: today });
 
       await databaseBuilder.commit();
     });
@@ -174,7 +173,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     context('when there is no limit date', () => {
       it('should find the knowledge elements for smart placement assessment associated with a user id', async () => {
         // when
-        const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId({ userId });
+        const promise = KnowledgeElementRepository.findUniqByUserId({ userId });
 
         return promise
           .then((knowledgeElementsFound) => {
@@ -187,7 +186,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
     context('when there is a limit date', () => {
       it('should find the knowledge elements for smart placement assessment associated with a user id created before limit date', async () => {
         // when
-        const promise = SmartPlacementKnowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
+        const promise = KnowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
 
         return promise
           .then((knowledgeElementsFound) => {
@@ -211,13 +210,13 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
       userId = databaseBuilder.factory.buildUser().id;
       const userId_tmp = databaseBuilder.factory.buildUser().id;
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         id: 1,
         skillId: 'rec1',
         userId,
         earnedPix: 5,
       });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         id: 2,
         skillId: 'rec2',
         status: 'validated',
@@ -225,14 +224,14 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         earnedPix: 10,
         createdAt: today,
       });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         id: 3,
         skillId: 'rec2',
         userId,
         earnedPix: 1000,
         createdAt: yesterday,
       });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         id: 4,
         skillId: 'rec2',
         status: 'validated',
@@ -240,13 +239,13 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
         earnedPix: 1000,
         createdAt: yesterday,
       });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         id: 5,
         skillId: 'rec3',
         userId,
         earnedPix: 3,
       });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         id: 6,
         skillId: 'rec1',
         status: 'invalidated',
@@ -263,7 +262,7 @@ describe('Integration | Repository | SmartPlacementKnowledgeElementRepository', 
 
     it('should return the right sum of Pix from user knowledge elements', async () => {
       // when
-      const earnedPix = await SmartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(userId);
+      const earnedPix = await KnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(userId);
 
       expect(earnedPix).to.equal(18);
     });

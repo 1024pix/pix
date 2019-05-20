@@ -53,7 +53,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     });
 
     targetProfileSkills.slice(2).forEach((targetProfileSkill, index) => {
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         userId: user.id,
         assessmentId: assessment.id,
         skillId: targetProfileSkill.skillId,
@@ -62,7 +62,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       });
     });
 
-    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+    databaseBuilder.factory.buildKnowledgeElement({
       userId: user.id,
       assessmentId: assessment.id,
       skillId: 'otherSkillId',

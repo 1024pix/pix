@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 
@@ -375,7 +375,7 @@ describe('Integration | Repository | Campaign Participation', () => {
         const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId, id: member.assessmentId });
         databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate });
         for (const ke of member.knowledgeElements) {
-          databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId, ...ke });
+          databaseBuilder.factory.buildKnowledgeElement({ userId, ...ke });
         }
       };
 
@@ -401,7 +401,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(foundAssessmentIds).to.deep.equal([assessmentId1, assessmentId2]);
       expect(foundKnowledgeElementsSkillsIds).to.have.members(['@web1', '@web2', '@web3', '@web4']);
       expect(foundCampaignParticipation.models[0].assessment).to.be.instanceOf(Assessment);
-      expect(foundCampaignParticipation.models[0].user.knowledgeElements[0]).to.be.instanceOf(SmartPlacementKnowledgeElement);
+      expect(foundCampaignParticipation.models[0].user.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
     });
   });
 

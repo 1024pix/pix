@@ -13,8 +13,8 @@ describe('Acceptance | users-controller-get-pix-score', () => {
 
     user = databaseBuilder.factory.buildUser();
 
-    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: user.id, earnedPix: 3 });
-    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: user.id, earnedPix: 4 });
+    databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 3 });
+    databaseBuilder.factory.buildKnowledgeElement({ userId: user.id, earnedPix: 4 });
 
     options = {
       method: 'GET',

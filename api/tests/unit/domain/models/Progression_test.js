@@ -31,8 +31,8 @@ describe('Unit | Domain | Models | Progression', () => {
           // Given
           const targetedSkills = [skillLevel1, skillLevel2];
           const knowledgeElements = [
-            domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skillLevel1.id }),
-            domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skillLevel2.id })
+            domainBuilder.buildKnowledgeElement({ skillId: skillLevel1.id }),
+            domainBuilder.buildKnowledgeElement({ skillId: skillLevel2.id })
           ];
 
           // When
@@ -46,8 +46,8 @@ describe('Unit | Domain | Models | Progression', () => {
           // Given
           const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
           const knowledgeElements = [
-            domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skillLevel1.id }),
-            domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skillLevel2.id })
+            domainBuilder.buildKnowledgeElement({ skillId: skillLevel1.id }),
+            domainBuilder.buildKnowledgeElement({ skillId: skillLevel2.id })
           ];
 
           // When
@@ -65,8 +65,8 @@ describe('Unit | Domain | Models | Progression', () => {
           // Given
           const targetedSkills = [skillLevel1];
           const knowledgeElements = [
-            domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skillLevel1.id, status: 'invalidated' }),
-            domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skillLevel2.id, status: 'invalidated' })
+            domainBuilder.buildKnowledgeElement({ skillId: skillLevel1.id, status: 'invalidated' }),
+            domainBuilder.buildKnowledgeElement({ skillId: skillLevel2.id, status: 'invalidated' })
           ];
 
           // When

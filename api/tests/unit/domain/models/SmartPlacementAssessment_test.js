@@ -1,7 +1,7 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 function generateSmartPlacementAssessmentWithNoKnowledgeElement() {
   const skills = domainBuilder.buildSkillCollection();
@@ -21,7 +21,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
   knowledgeElement3Status,
 }) {
   function answerStatusForKnowledgeElementStatus(knowledgeElementStatus) {
-    return knowledgeElementStatus === SmartPlacementKnowledgeElement.StatusType.VALIDATED ?
+    return knowledgeElementStatus === KnowledgeElement.StatusType.VALIDATED ?
       SmartPlacementAnswer.ResultType.OK : SmartPlacementAnswer.ResultType.KO;
   }
 
@@ -37,7 +37,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
   const answer1 = domainBuilder.buildSmartPlacementAnswer({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement1Status),
   });
-  const knowledgeElement1 = domainBuilder.buildSmartPlacementKnowledgeElement({
+  const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
     answerId: answer1.id,
     skillId: skill1.id,
     status: knowledgeElement1Status,
@@ -47,7 +47,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement2Status),
   });
 
-  const knowledgeElement2 = domainBuilder.buildSmartPlacementKnowledgeElement({
+  const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
     answerId: answer2.id,
     skillId: skill2.id,
     status: knowledgeElement2Status,
@@ -56,7 +56,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
   const answer3 = domainBuilder.buildSmartPlacementAnswer({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement3Status),
   });
-  const knowledgeElement3 = domainBuilder.buildSmartPlacementKnowledgeElement({
+  const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
     answerId: answer3.id,
     skillId: skill3.id,
     status: knowledgeElement3Status,
@@ -154,9 +154,9 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
       // given
       const { assessment, knowledgeElement1Skill, knowledgeElement2Skill } =
         generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
-          knowledgeElement1Status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
-          knowledgeElement2Status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
-          knowledgeElement3Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+          knowledgeElement1Status: KnowledgeElement.StatusType.VALIDATED,
+          knowledgeElement2Status: KnowledgeElement.StatusType.VALIDATED,
+          knowledgeElement3Status: KnowledgeElement.StatusType.INVALIDATED,
         });
 
       const expectedValidatedSkills = [knowledgeElement1Skill, knowledgeElement2Skill];
@@ -188,9 +188,9 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
       // given
       const { assessment, knowledgeElement1Skill, knowledgeElement2Skill } =
         generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
-          knowledgeElement1Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
-          knowledgeElement2Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
-          knowledgeElement3Status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+          knowledgeElement1Status: KnowledgeElement.StatusType.INVALIDATED,
+          knowledgeElement2Status: KnowledgeElement.StatusType.INVALIDATED,
+          knowledgeElement3Status: KnowledgeElement.StatusType.VALIDATED,
         });
 
       const expectedFailedSkills = [knowledgeElement1Skill, knowledgeElement2Skill];

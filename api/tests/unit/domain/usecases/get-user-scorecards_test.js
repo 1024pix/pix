@@ -12,12 +12,12 @@ function assertScorecard(userScorecard, expectedUserScorecard) {
 describe('Unit | UseCase | get-user-scorecard', () => {
 
   let competenceRepository;
-  let smartPlacementKnowledgeElementRepository;
+  let knowledgeElementRepository;
   let competenceEvaluationRepository;
 
   beforeEach(() => {
     competenceRepository = { list: sinon.stub() };
-    smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
   });
 
@@ -36,14 +36,14 @@ describe('Unit | UseCase | get-user-scorecard', () => {
       it('should resolve', () => {
         // given
         competenceRepository.list.resolves([]);
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
+        knowledgeElementRepository.findUniqByUserId.resolves([]);
         competenceEvaluationRepository.findByUserId.resolves([]);
 
         // when
         const promise = getUserScorecard({
           authenticatedUserId,
           requestedUserId,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository
         });
@@ -82,9 +82,18 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         });
 
         const knowledgeElementList = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1, assessment: assessmentFinishedOfCompetence1 }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1, assessment: assessmentFinishedOfCompetence1 }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 2, assessment: assessmentStartedOfCompetence2 })
+          domainBuilder.buildKnowledgeElement({
+            competenceId: 1,
+            assessment: assessmentFinishedOfCompetence1
+          }),
+          domainBuilder.buildKnowledgeElement({
+            competenceId: 1,
+            assessment: assessmentFinishedOfCompetence1
+          }),
+          domainBuilder.buildKnowledgeElement({
+            competenceId: 2,
+            assessment: assessmentStartedOfCompetence2
+          })
         ];
 
         const expectedUserScorecard = [
@@ -115,14 +124,14 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           }),
         ];
 
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
+        knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
         competenceEvaluationRepository.findByUserId.resolves([competenceEvaluationOfCompetence1]);
 
         // when
         const userScorecard = await getUserScorecard({
           authenticatedUserId,
           requestedUserId,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository
         });
@@ -144,9 +153,9 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         competenceRepository.list.resolves(competenceList);
 
         const knowledgeElementList = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ competenceId: 1, earnedPix: earnedPixNeededForLevelSixLimitedToFive })
+          domainBuilder.buildKnowledgeElement({ competenceId: 1, earnedPix: earnedPixNeededForLevelSixLimitedToFive })
         ];
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
+        knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
 
         const expectedUserScorecard = [
           domainBuilder.buildUserScorecard({
@@ -162,7 +171,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         const userScorecard = await getUserScorecard({
           authenticatedUserId,
           requestedUserId,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository
         });
@@ -178,14 +187,14 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         const requestedUserId = 34;
 
         competenceRepository.list.resolves([]);
-        smartPlacementKnowledgeElementRepository.findUniqByUserId.resolves([]);
+        knowledgeElementRepository.findUniqByUserId.resolves([]);
 
         // when
         const promise = getUserScorecard({
           authenticatedUserId,
           requestedUserId,
-          smartPlacementKnowledgeElementRepository,
-          competenceRepository
+          knowledgeElementRepository,
+          competenceRepository,
         });
 
         // then

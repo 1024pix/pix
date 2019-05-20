@@ -1,7 +1,7 @@
 const Skill = require('../models/Skill');
 const _ = require('lodash');
 
-const SmartPlacementKnowledgeElementStatusType = Object.freeze({
+const KnowledgeElementStatusType = Object.freeze({
   VALIDATED: 'validated',
   INVALIDATED: 'invalidated',
 });
@@ -9,19 +9,19 @@ const SmartPlacementKnowledgeElementStatusType = Object.freeze({
 // Par quelle méthode avons nous créé cet Élément de Connaissance ?
 // DIRECT => On sait que l'Acquis est validé ou non par une Réponse à une Épreuve
 // INFERRED => On déduit que l'Acquis est validé ou non parce qu'il fait partie d'un Tube sur lequel on a un Élément de Connaissance direct
-const SmartPlacementKnowledgeElementSourceType = Object.freeze({
+const KnowledgeElementSourceType = Object.freeze({
   DIRECT: 'direct',
   INFERRED: 'inferred',
 });
 
-const VALIDATED_STATUS = SmartPlacementKnowledgeElementStatusType.VALIDATED;
-const INVALIDATED_STATUS = SmartPlacementKnowledgeElementStatusType.INVALIDATED;
+const VALIDATED_STATUS = KnowledgeElementStatusType.VALIDATED;
+const INVALIDATED_STATUS = KnowledgeElementStatusType.INVALIDATED;
 
 /**
  * Traduction: Élément de connaissance d'un profil exploré dans le cadre d'un smart placement
  * Context:    Objet existant dans le cadre d'un smart placement hors calcul de la réponse suivante
  */
-class SmartPlacementKnowledgeElement {
+class KnowledgeElement {
 
   constructor({
     id,
@@ -54,11 +54,11 @@ class SmartPlacementKnowledgeElement {
   }
 
   get isValidated() {
-    return this.status === SmartPlacementKnowledgeElementStatusType.VALIDATED;
+    return this.status === KnowledgeElementStatusType.VALIDATED;
   }
 
   get isInvalidated() {
-    return this.status === SmartPlacementKnowledgeElementStatusType.INVALIDATED;
+    return this.status === KnowledgeElementStatusType.INVALIDATED;
   }
 
   static createKnowledgeElementsForAnswer({
@@ -85,8 +85,8 @@ class SmartPlacementKnowledgeElement {
   }
 }
 
-SmartPlacementKnowledgeElement.SourceType = SmartPlacementKnowledgeElementSourceType;
-SmartPlacementKnowledgeElement.StatusType = SmartPlacementKnowledgeElementStatusType;
+KnowledgeElement.SourceType = KnowledgeElementSourceType;
+KnowledgeElement.StatusType = KnowledgeElementStatusType;
 
 function _createDirectKnowledgeElements({
   answer,
@@ -103,7 +103,7 @@ function _createDirectKnowledgeElements({
     .filter(_skillIsInTargetedSkills({ targetSkills }))
     .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
     .map((skill) => {
-      const source = SmartPlacementKnowledgeElement.SourceType.DIRECT;
+      const source = KnowledgeElement.SourceType.DIRECT;
       return _createKnowledgeElementsForSkill({ skill, source, status, answer, userId });
     });
 }
@@ -181,7 +181,7 @@ function _createInferredKnowledgeElements({ answer, status, directSkill, skillTo
 }
 
 function _createInferredValidatedKnowledgeElement({ answer, skillToInfer, userId }) {
-  const source = SmartPlacementKnowledgeElement.SourceType.INFERRED;
+  const source = KnowledgeElement.SourceType.INFERRED;
 
   return _createKnowledgeElementsForSkill({
     answer,
@@ -193,7 +193,7 @@ function _createInferredValidatedKnowledgeElement({ answer, skillToInfer, userId
 }
 
 function _createInferredInvalidatedKnowledgeElement({ answer, skillToInfer, userId }) {
-  const source = SmartPlacementKnowledgeElement.SourceType.INFERRED;
+  const source = KnowledgeElement.SourceType.INFERRED;
 
   return _createKnowledgeElementsForSkill({
     answer,
@@ -207,7 +207,7 @@ function _createInferredInvalidatedKnowledgeElement({ answer, skillToInfer, user
 function _createKnowledgeElementsForSkill({ skill, source, status, answer, userId }) {
   const pixValue = (status === VALIDATED_STATUS) ? skill.pixValue : 0;
 
-  return new SmartPlacementKnowledgeElement({
+  return new KnowledgeElement({
     answerId: answer.id,
     assessmentId: answer.assessmentId,
     earnedPix: pixValue,
@@ -219,4 +219,4 @@ function _createKnowledgeElementsForSkill({ skill, source, status, answer, userI
   });
 }
 
-module.exports = SmartPlacementKnowledgeElement;
+module.exports = KnowledgeElement;

@@ -1,18 +1,18 @@
-const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 
 function _toDomain(knowledgeElementBookshelf) {
-  return new SmartPlacementKnowledgeElement(knowledgeElementBookshelf.toJSON());
+  return new KnowledgeElement(knowledgeElementBookshelf.toJSON());
 }
 
 module.exports = {
 
-  save(smartPlacementKnowledgeElement) {
+  save(knowledgeElement) {
 
-    return Promise.resolve(_.omit(smartPlacementKnowledgeElement, 'createdAt'))
-      .then((smartPlacementKnowledgeElement) => new BookshelfKnowledgeElement(smartPlacementKnowledgeElement))
+    return Promise.resolve(_.omit(knowledgeElement, 'createdAt'))
+      .then((knowledgeElement) => new BookshelfKnowledgeElement(knowledgeElement))
       .then((knowledgeElementBookshelf) => knowledgeElementBookshelf.save())
       .then(_toDomain);
   },

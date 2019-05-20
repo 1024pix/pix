@@ -3,7 +3,7 @@ const cache = require('../../../../lib/infrastructure/caches/cache');
 const createServer = require('../../../../server');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 const competenceId = 'recCompetence';
 
@@ -139,8 +139,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId });
         const { id: answerId } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
-          status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+        databaseBuilder.factory.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
           skillId: skillWeb2Id,
           assessmentId,
           answerId,
@@ -179,25 +179,25 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         const { id: answerId1 } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
         const { id: answerId2 } = databaseBuilder.factory.buildAnswer({ challengeId: secondChallengeId, assessmentId, value: 'any bad answer', result: 'ko' });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
-          status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+        databaseBuilder.factory.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
           skillId: skillWeb2Id,
           assessmentId,
           answerId1,
           userId,
           competenceId
         });
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
-          source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-          status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+        databaseBuilder.factory.buildKnowledgeElement({
+          source: KnowledgeElement.SourceType.INFERRED,
+          status: KnowledgeElement.StatusType.VALIDATED,
           skillId: skillWeb1Id,
           assessmentId,
           answerId1,
           userId,
           competenceId
         });
-        databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
-          status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+        databaseBuilder.factory.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.INVALIDATED,
           skillId: skillWeb3Id,
           assessmentId,
           answerId2,
