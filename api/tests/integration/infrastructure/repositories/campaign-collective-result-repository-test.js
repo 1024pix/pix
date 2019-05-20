@@ -195,7 +195,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
           const userWithCampaignParticipationFred = _createUserWithCampaignParticipation('Fred', campaignId, new Date());
           const fredId = userWithCampaignParticipationFred.userId;
 
-          [
+          _.each([
             { userId: fredId, competenceId: 'recCompetenceA', skillId: url1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: fredId, competenceId: 'recCompetenceA', skillId: url2Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: fredId, competenceId: 'recCompetenceA', skillId: url3Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
@@ -205,7 +205,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             { userId: fredId, competenceId: 'recCompetenceB', skillId: text1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: fredId, competenceId: 'recCompetenceC', skillId: media1Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
 
-          ].forEach((knownledgeElement) => {
+          ], (knownledgeElement) => {
             databaseBuilder.factory.buildKnowledgeElement(knownledgeElement);
           });
 
@@ -293,7 +293,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
           /* KNOWLEDGE ELEMENTS */
 
-          [
+          _.each([
             // Alice
             { userId: aliceId, competenceId: 'recCompetenceA', skillId: url1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: aliceId, competenceId: 'recCompetenceA', skillId: url2Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
@@ -347,7 +347,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             { userId: danId, competenceId: 'recCompetenceB', skillId: text1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
 
             { userId: danId, competenceId: 'recCompetenceC', skillId: media1Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
-          ].forEach((knownledgeElement) => {
+          ], (knownledgeElement) => {
             databaseBuilder.factory.buildKnowledgeElement(knownledgeElement);
           });
 
