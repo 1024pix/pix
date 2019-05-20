@@ -1,10 +1,10 @@
-const { expect } = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const constants = require('../../../../lib/domain/constants');
 
 describe('Unit | Domain | Models | Scorecard', () => {
 
-  describe('constructor', () => {
+  describe('#constructor', () => {
 
     it('should build a Scorecard from raw JSON', () => {
       // given
@@ -32,7 +32,206 @@ describe('Unit | Domain | Models | Scorecard', () => {
     });
   });
 
-  describe('_getCompetenceLevel', () => {
+  describe('#buildFrom', () => {
+    const authenticatedUserId = 2;
+    const maxLevel = 5;
+    const competenceId = 1;
+    const scorecardId = `${authenticatedUserId}_${competenceId}`;
+    const computeStatusStub = sinon.stub(Scorecard, 'computeStatus');
+
+    afterEach(() => {
+      computeStatusStub.restore();
+    });
+
+    it('should return the user scorecard with level limited to 5', async () => {
+      // given
+      computeStatusStub.returns(Scorecard.StatusType.STARTED);
+      const earnedPixNeededForLevelSixLimitedToFive = 50;
+      const pixScoreAheadOfNextLevel = 2;
+
+      const competence = domainBuilder.buildCompetence({ id: competenceId });
+
+      const knowledgeElementList = [
+        domainBuilder.buildKnowledgeElement({
+          competenceId,
+          earnedPix: earnedPixNeededForLevelSixLimitedToFive
+        })
+      ];
+
+      const expectedUserScorecard = domainBuilder.buildUserScorecard({
+        id: scorecardId,
+        name: competence.name,
+        description: competence.description,
+        competenceId,
+        index: competence.index,
+        area: competence.area,
+        earnedPix: earnedPixNeededForLevelSixLimitedToFive,
+        level: maxLevel,
+        pixScoreAheadOfNextLevel,
+        status: Scorecard.StatusType.STARTED,
+      });
+
+      // when
+      const userScorecard = Scorecard.buildFrom({
+        userId: authenticatedUserId,
+        knowledgeElements: knowledgeElementList,
+        competence,
+        competenceEvaluations: null
+      });
+
+      //then
+      expect(userScorecard).to.deep.equal(expectedUserScorecard);
+    });
+
+    context('when there is no knowledge elements', async () => {
+
+      it('should return the user scorecard with score null', async () => {
+        // given
+        computeStatusStub.returns(Scorecard.StatusType.NOT_STARTED);
+
+        const competence = domainBuilder.buildCompetence({ id: competenceId });
+
+        const expectedUserScorecard = domainBuilder.buildUserScorecard({
+          id: scorecardId,
+          name: competence.name,
+          description: competence.description,
+          competenceId,
+          index: competence.index,
+          area: competence.area,
+          earnedPix: 0,
+          level: 0,
+          pixScoreAheadOfNextLevel: 0,
+          status: Scorecard.StatusType.NOT_STARTED,
+        });
+
+        // when
+        const userScorecard = Scorecard.buildFrom({
+          userId: authenticatedUserId,
+          knowledgeElements: null,
+          competence,
+          competenceEvaluations: null
+        });
+
+        //then
+        expect(userScorecard).to.deep.equal(expectedUserScorecard);
+      });
+    });
+
+    context('when there are some knowledge elements', async () => {
+      const earnedPix = 10;
+
+      it('should return the user scorecard with computed level and pix', async () => {
+        // given
+        computeStatusStub.returns(Scorecard.StatusType.COMPLETED);
+
+        const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId, earnedPix })];
+        const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
+        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+          competenceId,
+          assessmentId: assessment.id,
+          assessment
+        })];
+        const competence = domainBuilder.buildCompetence({ id: competenceId });
+
+        const expectedUserScorecard = domainBuilder.buildUserScorecard({
+          id: scorecardId,
+          name: competence.name,
+          description: competence.description,
+          competenceId,
+          index: competence.index,
+          area: competence.area,
+          earnedPix,
+          level: 1,
+          pixScoreAheadOfNextLevel: 2,
+          status: Scorecard.StatusType.COMPLETED,
+        });
+
+        // when
+        const userScorecard = Scorecard.buildFrom({
+          userId: authenticatedUserId,
+          knowledgeElements: knowledgeElementList,
+          competence,
+          competenceEvaluations
+        });
+
+        //then
+        expect(userScorecard).to.deep.equal(expectedUserScorecard);
+      });
+    });
+  });
+
+  describe('#computeStatus', () => {
+    const competenceId = 1;
+
+    context('when there is no knowledge elements', async () => {
+
+      it('should return the user scorecard with status NOT_STARTED', async () => {
+        // given
+        const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
+        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+          competenceId: 1,
+          assessmentId: assessment.id,
+          assessment
+        })];
+
+        // when
+        const status = Scorecard.computeStatus({ knowledgeElements: null, competenceId, competenceEvaluations });
+
+        //then
+        expect(status).to.equal(Scorecard.StatusType.NOT_STARTED);
+      });
+    });
+
+    context('when assessment is completed', async () => {
+
+      it('should return the user scorecard with status COMPLETED', async () => {
+        // given
+        const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId })];
+        const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
+        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+          competenceId,
+          assessmentId: assessment.id,
+          assessment
+        })];
+
+        // when
+        const status = Scorecard.computeStatus({
+          knowledgeElements: knowledgeElementList,
+          competenceId,
+          competenceEvaluations
+        });
+
+        //then
+        expect(status).to.equal(Scorecard.StatusType.COMPLETED);
+      });
+    });
+
+    context('when there are some knowledge-elements and assessment is not completed', async () => {
+
+      it('should return the user scorecard with status STARTED', async () => {
+        // given
+        const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId })];
+        const assessment = domainBuilder.buildAssessment({ state: 'started', type: 'COMPETENCE_EVALUATION' });
+        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+          competenceId,
+          assessmentId: assessment.id,
+          assessment
+        })];
+
+        // when
+        const status = Scorecard.computeStatus({
+          knowledgeElements: knowledgeElementList,
+          competenceId,
+          competenceEvaluations
+        });
+
+        //then
+        expect(status).to.equal(Scorecard.StatusType.STARTED);
+      });
+    });
+  });
+
+  describe('#_getCompetenceLevel', () => {
 
     it('should be capped at a maximum reachable level', () => {
       // given

@@ -8,40 +8,14 @@ module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElement
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const [userKEList, competenceTree, competenceEvaluations] = await Promise.all([
+  const [knowledgeElements, competenceTree, competenceEvaluations] = await Promise.all([
     knowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
     competenceRepository.list(),
     competenceEvaluationRepository.findByUserId(requestedUserId),
   ]);
-  const sortedKEGroupedByCompetence = _.groupBy(userKEList, 'competenceId');
 
-  return _.map(competenceTree, (competence) => {
-    const KEgroup = sortedKEGroupedByCompetence[competence.id];
-    const totalEarnedPixByCompetence = _.sumBy(KEgroup, 'earnedPix');
-
-    return new Scorecard({
-      id: `${authenticatedUserId}_${competence.id}`,
-      name: competence.name,
-      description: competence.description,
-      index: competence.index,
-      area: competence.area,
-      competenceId: competence.id,
-      earnedPix: totalEarnedPixByCompetence,
-      status: _getStatus(KEgroup, competence.id, competenceEvaluations)
-    });
-  });
+  return _.map(competenceTree, (competence) =>
+    Scorecard.buildFrom({ userId: requestedUserId, knowledgeElements, competence, competenceEvaluations })
+  );
 };
 
-function _getStatus(knowledgeElements, competenceId, competenceEvaluation) {
-  if (_.isEmpty(knowledgeElements)) {
-    return 'NOT_STARTED';
-  }
-
-  const competenceEvaluationForCompetence = _.find(competenceEvaluation, { competenceId });
-  const stateOfAssessment = _.get(competenceEvaluationForCompetence, 'assessment.state');
-  if (stateOfAssessment === 'completed') {
-    return 'COMPLETED';
-  }
-  return 'STARTED';
-
-}
