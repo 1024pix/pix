@@ -5,19 +5,19 @@ async function fetchForCampaigns({
   challengeRepository,
   knowledgeElementRepository,
 }) {
-
   const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
 
   const [
     answers,
     knowledgeElements,
-    targetSkills,
-    challenges,
-
+    [
+      targetSkills,
+      challenges,
+    ],
   ] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
     knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId }),
-    ...(await _fetchSkillsAndChallenges({ targetProfileId, targetProfileRepository, challengeRepository }))
+    _fetchSkillsAndChallenges({ targetProfileId, targetProfileRepository, challengeRepository })
   ]);
 
   return {
