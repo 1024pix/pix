@@ -3,6 +3,12 @@ import RSVP from 'rsvp';
 
 export default Route.extend({
 
+  renderTemplate() {
+    this.render('assessment.results', {
+      into: 'application'
+    });
+  },
+
   model() {
     return this.modelFor('assessment');
   },

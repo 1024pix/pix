@@ -2,6 +2,12 @@ import Route from '@ember/routing/route';
 
 export default Route.extend({
 
+  renderTemplate() {
+    this.render('assessment.checkpoint', {
+      into: 'application'
+    });
+  },
+
   model() {
     return this.modelFor('assessment');
   },

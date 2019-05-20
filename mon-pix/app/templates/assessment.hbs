@@ -1,1 +1,10 @@
-{{outlet}}
+<div class="assessment">
+
+  <div class="assessment__banner">
+    {{#if model.isCompetenceEvaluation}}
+      {{campaign-banner title="" returnTo="profilv2"}}
+    {{/if}}
+  </div>
+
+  {{outlet}}
+</div>
