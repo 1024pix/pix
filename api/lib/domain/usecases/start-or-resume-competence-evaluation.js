@@ -6,18 +6,32 @@ module.exports = async function startOrResumeCompetenceEvaluation({ competenceId
   await _checkCompetenceExists(competenceId, competenceRepository);
 
   try {
-    const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceIdAndUserId(competenceId, userId);
-    return { created: false, competenceEvaluation };
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      const assessment = await _createAssessment(userId, assessmentRepository);
-      const competenceEvaluation = await _createCompetenceEvaluation(competenceId, assessment.id, userId, competenceEvaluationRepository);
-      return { created: true, competenceEvaluation };
+    return await _resumeCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository });
+  } catch (err) {
+    if (err instanceof NotFoundError) {
+      return await _startCompetenceEvaluation({ userId, competenceId, assessmentRepository, competenceEvaluationRepository });
     } else {
-      throw error;
+      throw err;
     }
   }
 };
+
+async function _resumeCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }) {
+  const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceIdAndUserId(competenceId, userId);
+  return {
+    created: false,
+    competenceEvaluation,
+  };
+}
+
+async function _startCompetenceEvaluation({ userId, competenceId, assessmentRepository, competenceEvaluationRepository }) {
+  const assessment = await _createAssessment(userId, assessmentRepository);
+  const competenceEvaluation = await _createCompetenceEvaluation(competenceId, assessment.id, userId, competenceEvaluationRepository);
+  return {
+    created: true,
+    competenceEvaluation,
+  };
+}
 
 function _checkCompetenceExists(competenceId, competenceRepository) {
   return competenceRepository.get(competenceId)
