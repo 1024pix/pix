@@ -4,6 +4,7 @@ const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
   competenceId: attr('string'),
+  status: attr('string'),
   createdAt: attr('date'),
   updatedAt: attr('date'),
   user: belongsTo('user'),

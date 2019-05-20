@@ -91,6 +91,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
         expect(competenceEvaluationToSave.userId).to.equal(userId);
         expect(competenceEvaluationToSave.assessmentId).to.equal(assessmentId);
         expect(competenceEvaluationToSave.competenceId).to.equal(competenceId);
+        expect(competenceEvaluationToSave.status).to.equal('started');
       });
     });
 

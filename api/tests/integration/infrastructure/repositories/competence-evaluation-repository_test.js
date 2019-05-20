@@ -6,6 +6,8 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
 describe('Integration | Repository | Competence Evaluation', () => {
+
+  const status = 'initialized';
   describe('#save', () => {
 
     afterEach(() => {
@@ -17,6 +19,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       const competenceEvaluationToSave = new CompetenceEvaluation({
         assessmentId: 12,
         competenceId: 'recABCD1234',
+        status,
         userId: 1,
       });
 
@@ -28,6 +31,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
         expect(savedCompetenceEvaluation).to.be.instanceof(CompetenceEvaluation);
         expect(savedCompetenceEvaluation.id).to.exist;
         expect(savedCompetenceEvaluation.createdAt).to.exist;
+        expect(savedCompetenceEvaluation.status).to.equal(status);
         expect(savedCompetenceEvaluation.assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
         expect(savedCompetenceEvaluation.competenceId).to.equal(competenceEvaluationToSave.competenceId);
         expect(savedCompetenceEvaluation.userId).to.equal(competenceEvaluationToSave.userId);
@@ -39,6 +43,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       const competenceEvaluationToSave = new CompetenceEvaluation({
         assessmentId: 12,
         competenceId: 'recABCD1234',
+        status,
         userId: 1,
       });
 
@@ -47,7 +52,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
       // then
       return promise.then((savedCompetenceEvaluation) => {
-        return knex.select('id', 'assessmentId', 'competenceId', 'userId')
+        return knex.select('id', 'assessmentId', 'competenceId', 'userId', 'status')
           .from('competence-evaluations')
           .where({ id: savedCompetenceEvaluation.id })
           .then(([competenceEvaluationInDb]) => {
@@ -55,6 +60,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
             expect(competenceEvaluationInDb.assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
             expect(competenceEvaluationInDb.competenceId).to.equal(competenceEvaluationToSave.competenceId);
             expect(competenceEvaluationInDb.userId).to.equal(competenceEvaluationToSave.userId);
+            expect(competenceEvaluationInDb.status).to.equal('initialized');
           });
       });
     });
@@ -70,16 +76,23 @@ describe('Integration | Repository | Competence Evaluation', () => {
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser({});
 
-      assessmentForExpectedCompetenceEvaluation = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.COMPETENCE_EVALUATION });
-      assessmentNotExpected = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.COMPETENCE_EVALUATION });
-
+      assessmentForExpectedCompetenceEvaluation = databaseBuilder.factory.buildAssessment({
+        userId: user.id,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
+      assessmentNotExpected = databaseBuilder.factory.buildAssessment({
+        userId: user.id,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
       competenceEvaluationExpected = databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
         assessmentId: assessmentForExpectedCompetenceEvaluation.id,
+        status,
       });
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
-        assessmentId: assessmentNotExpected.id
+        assessmentId: assessmentNotExpected.id,
+        status,
       });
 
       await databaseBuilder.commit();
@@ -119,16 +132,21 @@ describe('Integration | Repository | Competence Evaluation', () => {
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser({});
 
-      assessmentExpected = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.COMPETENCE_EVALUATION });
+      assessmentExpected = databaseBuilder.factory.buildAssessment({
+        userId: user.id,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
 
       competenceEvaluationExpected = databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
         competenceId: '1',
-        assessmentId: assessmentExpected.id
+        assessmentId: assessmentExpected.id,
+        status,
       });
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
-        competenceId: '2'
+        competenceId: '2',
+        status,
       });
 
       await databaseBuilder.commit();
@@ -170,23 +188,29 @@ describe('Integration | Repository | Competence Evaluation', () => {
       user = databaseBuilder.factory.buildUser({});
       const otherUser = databaseBuilder.factory.buildUser({});
 
-      assessmentExpected = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.COMPETENCE_EVALUATION });
+      assessmentExpected = databaseBuilder.factory.buildAssessment({
+        userId: user.id,
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
 
       competenceEvaluationExpected = databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
         competenceId: '1',
         assessmentId: assessmentExpected.id,
-        createdAt: new Date('2018-01-01')
+        createdAt: new Date('2018-01-01'),
+        status,
       });
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId: user.id,
         competenceId: '2',
-        createdAt: new Date('2017-01-01')
+        createdAt: new Date('2017-01-01'),
+        status,
       });
 
       databaseBuilder.factory.buildCompetenceEvaluation({
         userId: otherUser.id,
-        competenceId: '2'
+        competenceId: '2',
+        status,
       });
 
       await databaseBuilder.commit();
@@ -205,7 +229,6 @@ describe('Integration | Repository | Competence Evaluation', () => {
         expect(competenceEvaluation).to.have.length(2);
         expect(_.omit(competenceEvaluation[0], ['assessment', 'scorecard'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
         expect(competenceEvaluation[0].assessment.id).to.deep.equal(assessmentExpected.id);
-
       });
     });
   });
