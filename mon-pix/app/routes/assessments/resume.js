@@ -12,7 +12,7 @@ export default Route.extend({
   },
 
   model() {
-    return this.modelFor('assessments');
+    return this.modelFor('assessments').reload();
   },
 
   afterModel(assessment) {
