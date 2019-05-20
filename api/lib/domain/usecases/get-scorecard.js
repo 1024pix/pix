@@ -8,12 +8,12 @@ module.exports = async ({ authenticatedUserId, scorecardId, knowledgeElementRepo
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const [userKEList, competence, competenceEvaluations] = await Promise.all([
+  const [knowledgeElements, competence, competenceEvaluations] = await Promise.all([
     knowledgeElementRepository.findUniqByUserId({ userId: authenticatedUserId }),
     competenceRepository.get(competenceId),
     competenceEvaluationRepository.findByUserId(authenticatedUserId),
   ]);
 
-  return Scorecard.buildFrom({ userId: authenticatedUserId, userKEList, competence, competenceEvaluations });
+  return Scorecard.buildFrom({ userId: authenticatedUserId, knowledgeElements, competence, competenceEvaluations });
 };
 

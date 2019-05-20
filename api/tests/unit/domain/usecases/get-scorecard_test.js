@@ -3,24 +3,18 @@ const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/erro
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
 
-function assertScorecard(userScorecard, expectedUserScorecard) {
-  expect(userScorecard.earnedPix).to.equal(expectedUserScorecard.earnedPix);
-  expect(userScorecard.level).to.equal(expectedUserScorecard.level);
-  expect(userScorecard.pixScoreAheadOfNextLevel).to.equal(expectedUserScorecard.pixScoreAheadOfNextLevel);
-}
-
 describe('Unit | UseCase | get-scorecard', () => {
 
   let competenceRepository;
   let knowledgeElementRepository;
   let competenceEvaluationRepository;
-  const scorecard = { id: 'foo' };
+  let buildFromStub;
 
   beforeEach(() => {
     competenceRepository = { get: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
-    sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
+    buildFromStub = sinon.stub(Scorecard, 'buildFrom');
   });
 
   afterEach(() => {
@@ -84,9 +78,9 @@ describe('Unit | UseCase | get-scorecard', () => {
           pixScoreAheadOfNextLevel: pixScoreAheadOfNextLevelForCompetenceId1
         });
 
-        Scorecard.buildFrom.withArgs({
+        buildFromStub.withArgs({
           userId: authenticatedUserId,
-          userKEList: knowledgeElementList,
+          knowledgeElements: knowledgeElementList,
           competence,
           competenceEvaluations
         }).returns(expectedUserScorecard);
@@ -101,7 +95,7 @@ describe('Unit | UseCase | get-scorecard', () => {
         });
 
         //then
-        assertScorecard(userScorecard, expectedUserScorecard);
+        expect(userScorecard).to.deep.equal(expectedUserScorecard);
       });
     });
 
