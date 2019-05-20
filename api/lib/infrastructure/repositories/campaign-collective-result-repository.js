@@ -36,7 +36,7 @@ function _filterData(campaign, targetedSkillIds) {
 
   const sharedParticipations = campaign.related('campaignParticipations').filter((participation) => participation.get('isShared'));
   const participants = sharedParticipations.map((participation) => participation.related('user'));
-  const participantsKEs = _filterParticipantsKEs(sharedParticipations, targetedSkillIds);
+  const participantsKEs = _extractParticipantsKEs(sharedParticipations, targetedSkillIds);
 
   return { participants, participantsKEs };
 }
@@ -61,14 +61,15 @@ function _fetchCampaignWithRelatedData(campaignId) {
   });
 }
 
-function _filterParticipantsKEs(sharedParticipations, targetedSkillIds) {
+function _extractParticipantsKEs(sharedParticipations, targetedSkillIds) {
   return _.flatMap(sharedParticipations, (participation) => {
     const filteredKEs = participation
       .related('user')
       .related('knowledgeElements')
       .filter((ke) => ke.isValidated()
         && ke.isCoveredByTargetProfile(targetedSkillIds)
-        && ke.wasCreatedBefore(participation.get('sharedAt')));
+        && ke.wasCreatedBefore(participation.get('sharedAt'))
+      );
 
     const sortedByDateKEs = _.orderBy(filteredKEs, ((ke) => ke.get('createdAt')), 'desc');
     return _.uniqBy(sortedByDateKEs, ((ke) => ke.get('skillId')));
