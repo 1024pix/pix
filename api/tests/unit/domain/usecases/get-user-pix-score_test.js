@@ -4,10 +4,10 @@ const getUserPixScore = require('../../../../lib/domain/usecases/get-user-pix-sc
 
 describe('Unit | UseCase | get-user-pix-score', () => {
 
-  let smartPlacementKnowledgeElementRepository;
+  let knowledgeElementRepository;
 
   beforeEach(() => {
-    smartPlacementKnowledgeElementRepository = { getSumOfPixFromUserKnowledgeElements: sinon.stub() };
+    knowledgeElementRepository = { getSumOfPixFromUserKnowledgeElements: sinon.stub() };
   });
 
   afterEach(() => {
@@ -18,13 +18,13 @@ describe('Unit | UseCase | get-user-pix-score', () => {
     // given
     const authenticatedUserId = 2;
     const requestedUserId = 2;
-    smartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves([]);
+    knowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves([]);
 
     // when
     const promise = getUserPixScore({
       authenticatedUserId,
       requestedUserId,
-      smartPlacementKnowledgeElementRepository,
+      knowledgeElementRepository,
     });
 
     // then
@@ -35,13 +35,13 @@ describe('Unit | UseCase | get-user-pix-score', () => {
     // given
     const authenticatedUserId = 34;
     const requestedUserId = 2;
-    smartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves([]);
+    knowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves([]);
 
     // when
     const promise = getUserPixScore({
       authenticatedUserId,
       requestedUserId,
-      smartPlacementKnowledgeElementRepository,
+      knowledgeElementRepository,
     });
 
     // then
@@ -58,13 +58,13 @@ describe('Unit | UseCase | get-user-pix-score', () => {
       value: sumOfPixKnowledgeElement
     };
 
-    smartPlacementKnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves(sumOfPixKnowledgeElement);
+    knowledgeElementRepository.getSumOfPixFromUserKnowledgeElements.resolves(sumOfPixKnowledgeElement);
 
     // when
     const userPixScore = await getUserPixScore({
       authenticatedUserId,
       requestedUserId,
-      smartPlacementKnowledgeElementRepository,
+      knowledgeElementRepository,
     });
 
     //then

@@ -1,6 +1,6 @@
 const { expect } = require('../../../test-helper');
 const CampaignParticipationResult = require('../../../../lib/domain/models/CampaignParticipationResult');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
@@ -12,9 +12,9 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
     const skills = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
     const knowledgeElements = [
-      new SmartPlacementKnowledgeElement({ skillId: 1, status: 'validated' }),
-      new SmartPlacementKnowledgeElement({ skillId: 2, status: 'invalidated' }),
-      new SmartPlacementKnowledgeElement({ skillId: 7, status: 'validated' }),
+      new KnowledgeElement({ skillId: 1, status: 'validated' }),
+      new KnowledgeElement({ skillId: 2, status: 'invalidated' }),
+      new KnowledgeElement({ skillId: 7, status: 'validated' }),
     ];
 
     const competences = [

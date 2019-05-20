@@ -89,7 +89,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
           .returns([competence])
           .activate();
 
-        knowledgeElement = databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+        knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
           userId,
           competenceId: competence.id,
         });

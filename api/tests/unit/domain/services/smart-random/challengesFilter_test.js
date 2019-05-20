@@ -127,8 +127,8 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         const lastChallenge = domainBuilder.buildChallenge();
 
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
 
         const challenges = [
@@ -164,7 +164,7 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         const challengeTimed = domainBuilder.buildChallenge({ skills: [skill2], timer: 23 });
 
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const challenges = [
           lastChallenge,
@@ -196,7 +196,7 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         const challengeTimed = domainBuilder.buildChallenge({ skills: [skill2], timer: 23 });
 
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const challenges = [
           lastChallenge,
@@ -232,8 +232,8 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         const challengeLevel6 = domainBuilder.buildChallenge({ skills: [skill6] });
 
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const challenges = [
           lastChallenge,
@@ -279,7 +279,7 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         const challengeLevel3EasyTube = domainBuilder.buildChallenge({ skills: [easyTubeSkill3] });
 
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: easyTubeSkill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildKnowledgeElement({ skillId: easyTubeSkill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const challenges = [
           lastChallenge,
@@ -321,7 +321,7 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         const challengeLevel6 = domainBuilder.buildChallenge({ skills: [skill6] });
 
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const challenges = [
           lastChallenge,
@@ -359,7 +359,7 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         const challengeAssessingSkill1 = domainBuilder.buildChallenge({ skills: [skill1, skill2] });
 
         const knowledgeElements = [
-          domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
         ];
         const challenges = [
           challengeAssessingSkill1,

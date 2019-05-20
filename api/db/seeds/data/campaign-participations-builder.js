@@ -1,5 +1,5 @@
 const Assessment = require('../../../lib/domain/models/Assessment');
-const SmartPlacementKnowledgeElement = require('../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
 module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
 
@@ -38,28 +38,28 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
       assessmentId,
       challengeId: 'recqxUPlzYVbbTtFP',
     });
-    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+    databaseBuilder.factory.buildKnowledgeElement({
       skillId: 'recGd7oJ2wVEyKmPS',
       assessmentId,
       userId,
       competenceId: 'recIhdrmCuEmCDAzj',
       answerId
     });
-    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+    databaseBuilder.factory.buildKnowledgeElement({
       skillId: 'recVv1eoSLW7yFgXv',
       assessmentId,
       userId,
       competenceId: 'recIhdrmCuEmCDAzj',
       answerId,
-      source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
+      source: KnowledgeElement.SourceType.INFERRED,
     });
-    databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+    databaseBuilder.factory.buildKnowledgeElement({
       skillId: 'recVywppdS4hGEekR',
       assessmentId,
       userId,
       competenceId: 'recIhdrmCuEmCDAzj',
       answerId,
-      source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
+      source: KnowledgeElement.SourceType.INFERRED,
     });
     databaseBuilder.factory.buildCampaignParticipation({ campaignId: 1, userId, assessmentId, participantExternalId, isShared: isShared  });
   };

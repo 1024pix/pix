@@ -18,7 +18,7 @@ class SmartPlacementAssessment {
     createdAt,
     // includes
     answers = [], // of type SmartPlacementAnswers
-    knowledgeElements = [], // of type SmartKnowledgeElements
+    knowledgeElements = [],
     campaignParticipation,
     targetProfile,
     // references

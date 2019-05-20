@@ -9,7 +9,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     let userId, assessmentId, targetProfileId, campaignParticipation,
       assessment, answers, answerRepository, challengeRepository, challenges,
-      smartPlacementKnowledgeElementRepository, recentKnowledgeElements,
+      knowledgeElementRepository, recentKnowledgeElements,
       targetProfileRepository, targetProfile, skills, expectedComputedChallenge, actualComputedChallenge;
 
     beforeEach(async () => {
@@ -29,7 +29,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       targetProfileRepository = { get: sinon.stub().resolves(targetProfile) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
-      smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
+      knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
       expectedComputedChallenge = {};
       sinon.stub(SmartRandom, 'getNextChallenge').resolves(expectedComputedChallenge);
 
@@ -37,7 +37,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
         assessment,
         answerRepository,
         challengeRepository,
-        smartPlacementKnowledgeElementRepository,
+        knowledgeElementRepository,
         targetProfileRepository
       });
     });
@@ -51,7 +51,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     });
 
     it('should have fetched the most recent knowledge elements', () => {
-      expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
+      expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
     });
 
     it('should have fetched the challenges', () => {
