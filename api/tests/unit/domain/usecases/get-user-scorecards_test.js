@@ -1,7 +1,7 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
-const getUserScorecard = require('../../../../lib/domain/usecases/get-user-scorecards');
+const getUserScorecards = require('../../../../lib/domain/usecases/get-user-scorecards');
 
 function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.earnedPix).to.equal(expectedUserScorecard.earnedPix);
@@ -42,7 +42,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         competenceEvaluationRepository.findByUserId.resolves([]);
 
         // when
-        const promise = getUserScorecard({
+        const promise = getUserScorecards({
           authenticatedUserId,
           requestedUserId,
           knowledgeElementRepository,
@@ -153,7 +153,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         }).returns(expectedUserScorecard[2]);
 
         // when
-        const userScorecard = await getUserScorecard({
+        const userScorecard = await getUserScorecards({
           authenticatedUserId,
           requestedUserId,
           knowledgeElementRepository,
@@ -177,7 +177,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
 
         // when
-        const promise = getUserScorecard({
+        const promise = getUserScorecards({
           authenticatedUserId,
           requestedUserId,
           knowledgeElementRepository,
