@@ -72,11 +72,11 @@ function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
   return _(assessments).filter((assessment) => assessment.getLastAssessmentResult().level >= 1).values();
 }
 
-async function _addChallengesToUserCompetences({ userCompetences, challengeIdsCorrectlyAnswered }) {
+async function _pickChallengesForUserCompetences({ userCompetences, challengeIdsCorrectlyAnswered }) {
   const allChallenges = await challengeRepository.list();
+  const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => _getChallengeById(allChallenges, challengeId));
 
-  challengeIdsCorrectlyAnswered.forEach((challengeId) => {
-    const challenge = _getChallengeById(allChallenges, challengeId);
+  challengesAlreadyAnswered.forEach((challenge) => {
     const competence = _getCompetenceByChallengeCompetenceId(userCompetences, challenge);
 
     if (challenge && competence) {
@@ -87,7 +87,6 @@ async function _addChallengesToUserCompetences({ userCompetences, challengeIdsCo
   });
 
   userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
-  const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => _getChallengeById(allChallenges, challengeId));
 
   userCompetences.forEach((userCompetence) => {
     const testedSkills = [];
@@ -147,7 +146,7 @@ module.exports = {
     const { userCompetences, correctAnswers } = await _getUserCompetencesAndAnswers({ userId, limitDate });
 
     // From here, only userCompetences and answers are needed
-    return _addChallengesToUserCompetences({
+    return _pickChallengesForUserCompetences({
       userCompetences,
       challengeIdsCorrectlyAnswered: _.map(correctAnswers, 'challengeId')
     });
