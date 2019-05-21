@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
 
   beforeEach(() => {
     competenceRepository = { list: sinon.stub() };
-    knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
     sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
   });
@@ -38,7 +38,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
       it('should resolve', () => {
         // given
         competenceRepository.list.resolves([]);
-        knowledgeElementRepository.findUniqByUserId.resolves([]);
+        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
         competenceEvaluationRepository.findByUserId.resolves([]);
 
         // when
@@ -98,6 +98,11 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           })
         ];
 
+        const knowledgeElementGroupedByCompetenceId = {
+          '1': [ knowledgeElementList[0], knowledgeElementList[1] ],
+          '2': [ knowledgeElementList[2] ],
+        };
+
         const expectedUserScorecard = [
           domainBuilder.buildUserScorecard({
             name: competenceList[0].name,
@@ -123,19 +128,19 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           }),
         ];
 
-        knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElementList);
+        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves(knowledgeElementGroupedByCompetenceId);
         competenceEvaluationRepository.findByUserId.resolves([competenceEvaluationOfCompetence1]);
 
         Scorecard.buildFrom.withArgs({
           userId: authenticatedUserId,
-          knowledgeElements: [knowledgeElementList[0], knowledgeElementList[1]],
+          knowledgeElements: knowledgeElementGroupedByCompetenceId[1],
           competence: competenceList[0],
           competenceEvaluations: [competenceEvaluationOfCompetence1]
         }).returns(expectedUserScorecard[0]);
 
         Scorecard.buildFrom.withArgs({
           userId: authenticatedUserId,
-          knowledgeElements: [knowledgeElementList[2]],
+          knowledgeElements: knowledgeElementGroupedByCompetenceId[2],
           competence: competenceList[1],
           competenceEvaluations: [competenceEvaluationOfCompetence1]
         }).returns(expectedUserScorecard[1]);
@@ -169,7 +174,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         const requestedUserId = 34;
 
         competenceRepository.list.resolves([]);
-        knowledgeElementRepository.findUniqByUserId.resolves([]);
+        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
 
         // when
         const promise = getUserScorecard({
