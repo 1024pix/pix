@@ -8,7 +8,7 @@ export default Component.extend({
     if (this.scorecard.isNotStarted) {
       return null;
     } else if (!this.scorecard.level) {
-      return '–';
+      return '-';
     }
     return this.scorecard.level;
   }),
