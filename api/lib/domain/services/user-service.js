@@ -29,19 +29,8 @@ function _getCompetenceByChallengeCompetenceId(competences, challenge) {
   return challenge ? competences.find((competence) => competence.id === challenge.competenceId) : null;
 }
 
-function _loadRequiredChallengesInformationsAndAnswers(answers) {
-  return Promise.all([
-    challengeRepository.list(), competenceRepository.list(), answers,
-  ]);
-}
-
-function _castCompetencesToUserCompetences([challenges, competences, answers]) {
-  competences = competences.reduce((result, value) => {
-    result.push(new UserCompetence(value));
-    return result;
-  }, []);
-
-  return [challenges, competences, answers];
+function _castCompetencesToUserCompetences(competences) {
+  return competences.map((value) => new UserCompetence(value));
 }
 
 function _findChallengeBySkill(challenges, skill) {
@@ -156,23 +145,23 @@ module.exports = {
       });
   },
 
-  getProfileToCertify(userId, limitDate) {
-    let coursesFromAdaptativeCourses;
-    let userLastAssessments;
-    return courseRepository.getAdaptiveCourses()
-      .then((courses) => {
-        coursesFromAdaptativeCourses = courses;
-        return assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
-      })
-      .then((lastAssessments) => {
-        userLastAssessments = lastAssessments;
-        return _filterAssessmentWithEstimatedLevelGreaterThanZero(lastAssessments);
-      })
-      .then(_findCorrectAnswersByAssessments)
-      .then(_loadRequiredChallengesInformationsAndAnswers)
-      .then(_castCompetencesToUserCompetences)
-      .then(([challenges, userCompetences, answers]) => {
-        return _addChallengesToUserCompetences({ challenges, userCompetences, answers, coursesFromAdaptativeCourses, userLastAssessments });
-      });
+  async getProfileToCertify(userId, limitDate) {
+    const coursesFromAdaptativeCourses = await courseRepository.getAdaptiveCourses();
+    const userLastAssessments = await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
+    const filteredAssessments = _filterAssessmentWithEstimatedLevelGreaterThanZero(userLastAssessments);
+    const correctAnswersByAssessments = await _findCorrectAnswersByAssessments(filteredAssessments);
+    const [allChallenges, allCompetences] = await Promise.all([
+      challengeRepository.list(),
+      competenceRepository.list()
+    ]);
+    const userCompetences = _castCompetencesToUserCompetences(allCompetences);
+
+    return _addChallengesToUserCompetences({
+      challenges: allChallenges,
+      userCompetences,
+      answers: correctAnswersByAssessments,
+      coursesFromAdaptativeCourses,
+      userLastAssessments
+    });
   },
 };
