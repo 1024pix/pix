@@ -29,10 +29,6 @@ function _getCompetenceByChallengeCompetenceId(competences, challenge) {
   return challenge ? competences.find((competence) => competence.id === challenge.competenceId) : null;
 }
 
-function _castCompetencesToUserCompetences(competences) {
-  return competences.map((value) => new UserCompetence(value));
-}
-
 function _findChallengeBySkill(challenges, skill) {
   return _(challenges).filter((challenge) => {
     return challenge.hasSkill(skill) && challenge.isPublished();
@@ -44,8 +40,9 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
   return challengesBySkill.length > 0;
 }
 
-function _addPixScoreAndEstimatedLevelToCompetences(userCompetences, { allAdaptativeCourses, userLastAssessments }) {
-  userCompetences.forEach((userCompetence) => {
+function _createUserCompetences({ allCompetences, allAdaptativeCourses, userLastAssessments }) {
+  return allCompetences.map((competence) => {
+    const userCompetence = new UserCompetence(competence);
     const currentCourse = allAdaptativeCourses.find((course) => course.competences[0] === userCompetence.id);
     const assessment = userLastAssessments.find((assessment) => currentCourse.id === assessment.courseId);
     if (assessment) {
@@ -55,6 +52,7 @@ function _addPixScoreAndEstimatedLevelToCompetences(userCompetences, { allAdapta
       userCompetence.pixScore = 0;
       userCompetence.estimatedLevel = 0;
     }
+    return userCompetence;
   });
 }
 
@@ -80,7 +78,8 @@ function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
   return _(assessments).filter((assessment) => assessment.getLastAssessmentResult().level >= 1).values();
 }
 
-function _addChallengesToUserCompetences({ allChallenges, userCompetences, challengeIdsCorrectlyAnswered }) {
+async function _addChallengesToUserCompetences({ userCompetences, challengeIdsCorrectlyAnswered }) {
+  const allChallenges = await challengeRepository.list();
 
   challengeIdsCorrectlyAnswered.forEach((challengeId) => {
     const challenge = _getChallengeById(allChallenges, challengeId);
@@ -118,6 +117,19 @@ function _addChallengesToUserCompetences({ allChallenges, userCompetences, chall
   return userCompetences;
 }
 
+async function _getUserCompetencesAndAnswers({ userId, limitDate }) {
+  const [allCompetences, allAdaptativeCourses] = await Promise.all([
+    competenceRepository.list(),
+    courseRepository.getAdaptiveCourses()
+  ]);
+  const userLastAssessments = await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
+  const userCompetences = _createUserCompetences({ allCompetences, allAdaptativeCourses, userLastAssessments });
+  const filteredAssessments = _filterAssessmentWithEstimatedLevelGreaterThanZero(userLastAssessments);
+  const correctAnswers = await _findCorrectAnswersByAssessments(filteredAssessments);
+
+  return { userCompetences, correctAnswers };
+}
+
 module.exports = {
   isUserExistingByEmail(email) {
     return userRepository
@@ -138,22 +150,12 @@ module.exports = {
   },
 
   async getProfileToCertify(userId, limitDate) {
-    const [allAdaptativeCourses, allChallenges, allCompetences] = await Promise.all([
-      courseRepository.getAdaptiveCourses(),
-      challengeRepository.list(),
-      competenceRepository.list()
-    ]);
-    const userLastAssessments = await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
-    const filteredAssessments = _filterAssessmentWithEstimatedLevelGreaterThanZero(userLastAssessments);
-    const correctAnswers = await _findCorrectAnswersByAssessments(filteredAssessments);
-    const userCompetences = _castCompetencesToUserCompetences(allCompetences);
-    _addPixScoreAndEstimatedLevelToCompetences(userCompetences, { allAdaptativeCourses, userLastAssessments });
+    const { userCompetences, correctAnswers } = await _getUserCompetencesAndAnswers({ userId, limitDate });
 
-    const challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
+    // From here, only userCompetences and answers are needed
     return _addChallengesToUserCompetences({
-      allChallenges,
       userCompetences,
-      challengeIdsCorrectlyAnswered
+      challengeIdsCorrectlyAnswered: _.map(correctAnswers, 'challengeId')
     });
   },
 };
