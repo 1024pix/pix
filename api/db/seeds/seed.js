@@ -1,5 +1,6 @@
 'use strict';
 const DatabaseBuilder = require('../../tests/tooling/database-builder/database-builder');
+const answersBuilder = require('./data/answers-builder');
 const assessmentsBuilder = require('./data/assessments-builder');
 const assessmentResultsBuilder = require('./data/assessment-results-builder');
 const campaignParticipationsBuilder = require('./data/campaign-participations-builder');
@@ -37,6 +38,7 @@ exports.seed = (knex) => {
   certificationCoursesBuilder({ databaseBuilder });
   certificationChallengesBuilder({ databaseBuilder });
   assessmentsBuilder({ databaseBuilder });
+  answersBuilder({ databaseBuilder });
   assessmentResultsBuilder({ databaseBuilder });
   competenceMarksBuilder({ databaseBuilder });
 
