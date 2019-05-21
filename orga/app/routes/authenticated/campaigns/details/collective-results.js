@@ -6,4 +6,8 @@ export default Route.extend({
     return this.modelFor('authenticated.campaigns.details');
   },
 
+  afterModel(model) {
+    model.belongsTo('campaignCollectiveResult').reload();
+  }
+
 });
