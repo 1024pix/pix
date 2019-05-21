@@ -76,7 +76,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
         userId: authenticatedUserId,
         knowledgeElements: knowledgeElementList,
         competence,
-        competenceEvaluations: null
+        competenceEvaluation: null
       });
 
       //then
@@ -109,7 +109,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
           userId: authenticatedUserId,
           knowledgeElements: null,
           competence,
-          competenceEvaluations: null
+          competenceEvaluation: null
         });
 
         //then
@@ -126,11 +126,12 @@ describe('Unit | Domain | Models | Scorecard', () => {
 
         const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId, earnedPix })];
         const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
-        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+        const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
           competenceId,
           assessmentId: assessment.id,
           assessment
-        })];
+        })
+        ;
         const competence = domainBuilder.buildCompetence({ id: competenceId });
 
         const expectedUserScorecard = domainBuilder.buildUserScorecard({
@@ -151,7 +152,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
           userId: authenticatedUserId,
           knowledgeElements: knowledgeElementList,
           competence,
-          competenceEvaluations
+          competenceEvaluation
         });
 
         //then
@@ -168,14 +169,14 @@ describe('Unit | Domain | Models | Scorecard', () => {
       it('should return the user scorecard with status NOT_STARTED', async () => {
         // given
         const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
-        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+        const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
           competenceId: 1,
           assessmentId: assessment.id,
           assessment
-        })];
+        });
 
         // when
-        const status = Scorecard.computeStatus({ knowledgeElements: null, competenceId, competenceEvaluations });
+        const status = Scorecard.computeStatus({ knowledgeElements: null, competenceId, competenceEvaluation });
 
         //then
         expect(status).to.equal(Scorecard.StatusType.NOT_STARTED);
@@ -188,17 +189,17 @@ describe('Unit | Domain | Models | Scorecard', () => {
         // given
         const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId })];
         const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
-        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+        const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
           competenceId,
           assessmentId: assessment.id,
           assessment
-        })];
+        });
 
         // when
         const status = Scorecard.computeStatus({
           knowledgeElements: knowledgeElementList,
           competenceId,
-          competenceEvaluations
+          competenceEvaluation
         });
 
         //then
@@ -212,17 +213,17 @@ describe('Unit | Domain | Models | Scorecard', () => {
         // given
         const knowledgeElementList = [domainBuilder.buildKnowledgeElement({ competenceId })];
         const assessment = domainBuilder.buildAssessment({ state: 'started', type: 'COMPETENCE_EVALUATION' });
-        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+        const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
           competenceId,
           assessmentId: assessment.id,
           assessment
-        })];
+        });
 
         // when
         const status = Scorecard.computeStatus({
           knowledgeElements: knowledgeElementList,
           competenceId,
-          competenceEvaluations
+          competenceEvaluation
         });
 
         //then

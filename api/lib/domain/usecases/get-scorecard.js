@@ -1,5 +1,6 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const Scorecard = require('../models/Scorecard');
+const _ = require('lodash');
 
 module.exports = async ({ authenticatedUserId, scorecardId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
 
@@ -15,7 +16,14 @@ module.exports = async ({ authenticatedUserId, scorecardId, knowledgeElementRepo
     competenceEvaluationRepository.findByUserId(authenticatedUserId),
   ]);
 
-  const knowledgeElements = knowledgeElementsGroupedByCompetenceId[competence.id];
-  return Scorecard.buildFrom({ userId: authenticatedUserId, knowledgeElements, competence, competenceEvaluations });
+  const knowledgeElements = knowledgeElementsGroupedByCompetenceId[competenceId];
+  const competenceEvaluation = _.find(competenceEvaluations, { competenceId: competence.id });
+
+  return Scorecard.buildFrom({
+    userId: authenticatedUserId,
+    knowledgeElements,
+    competenceEvaluation,
+    competence,
+  });
 };
 

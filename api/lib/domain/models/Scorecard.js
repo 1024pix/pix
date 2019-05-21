@@ -41,10 +41,7 @@ class Scorecard {
 
   static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation }) {
     const totalEarnedPixByCompetence = _.sumBy(knowledgeElements, 'earnedPix');
-    const status = Scorecard.computeStatus({
-      knowledgeElements,
-      competenceEvaluation
-    });
+    const status = Scorecard.computeStatus(competenceEvaluation);
 
     return new Scorecard({
       id: `${userId}_${competence.id}`,
@@ -57,10 +54,9 @@ class Scorecard {
       status,
     });
   }
-
-  static computeStatus({ knowledgeElements, competenceEvaluation }) {
-    if (_.isEmpty(knowledgeElements)) {
-      return ScorecardStatusType.NOT_STARTED;
+  static computeStatus(competenceEvaluation) {
+    if (!competenceEvaluation) {
+      return statuses.NOT_STARTED;
     }
     const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
     if (stateOfAssessment === Assessment.states.COMPLETED) {
