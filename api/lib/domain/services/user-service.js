@@ -1,13 +1,16 @@
 const _ = require('lodash');
 
 const { UserNotFoundError } = require('../errors');
+const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
+const Scorecard = require('../models/Scorecard');
 
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
+const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 
 async function _findCorrectAnswersByAssessments(assessments) {
@@ -124,6 +127,46 @@ async function _getUserCompetencesAndAnswersV1({ userId, limitDate }) {
   return { userCompetences, challengeIdsCorrectlyAnswered };
 }
 
+function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences }) {
+  return allCompetences.map((competence) => {
+    const userCompetence = new UserCompetence(competence);
+
+    const scorecard = Scorecard.buildFrom({
+      userId,
+      knowledgeElements: knowledgeElementsByCompetence[competence.id],
+      competence
+    });
+
+    userCompetence.estimatedLevel = scorecard.level;
+    userCompetence.pixScore = scorecard.earnedPix;
+
+    return userCompetence;
+  });
+}
+
+function _getDirectlyValidatedKnowledgeElements(knowledgeElementsByCompetence) {
+  return _(knowledgeElementsByCompetence)
+    .values()
+    .flatten()
+    .filter({ status: KnowledgeElement.StatusType.VALIDATED })
+    .filter({ source: KnowledgeElement.SourceType.DIRECT })
+    .value();
+}
+
+async function _getUserCompetencesAndAnswersV2({ userId, limitDate }) {
+  const allCompetences = await competenceRepository.list();
+
+  const knowledgeElementsByCompetence = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId, limitDate });
+  const userCompetences = _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences });
+
+  const knowledgeElements = _getDirectlyValidatedKnowledgeElements(knowledgeElementsByCompetence);
+  const answerIds = _.map(knowledgeElements, 'answerId');
+
+  const challengeIdsCorrectlyAnswered = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
+
+  return { userCompetences, challengeIdsCorrectlyAnswered };
+}
+
 module.exports = {
   isUserExistingByEmail(email) {
     return userRepository
@@ -145,6 +188,18 @@ module.exports = {
 
   async getProfileToCertifyV1(userId, limitDate) {
     const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV1({
+      userId,
+      limitDate
+    });
+
+    return _pickChallengesForUserCompetences({
+      userCompetences,
+      challengeIdsCorrectlyAnswered,
+    });
+  },
+
+  async getProfileToCertifyV2(userId, limitDate) {
+    const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV2({
       userId,
       limitDate
     });
