@@ -58,7 +58,10 @@ describe('Acceptance | Displaying a QCM', function() {
     expect($proposals).to.have.lengthOf(4);
   });
 
-  it('should mark checkboxes that have been checked', function() {
+  it('should mark checkboxes that have been checked', async function() {
+    await click($('input:checkbox:eq(0)'));
+    await click($('input:checkbox:eq(1)'));
+
     expect($('input:checkbox:checked')).to.have.lengthOf(2);
   });
 
@@ -76,9 +79,6 @@ describe('Acceptance | Displaying a QCM', function() {
   it('should display the alert box if user validates without checking a checkbox', function() {
     // Given
     const $validateLink = $('.challenge-actions__action-validate');
-    expect($('input:checkbox:checked')).to.have.lengthOf(2);
-
-    //
     $('input:checkbox').prop('checked', false);
     expect($('input:checkbox:checked')).to.have.lengthOf(0);
 
