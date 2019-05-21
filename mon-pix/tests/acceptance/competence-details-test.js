@@ -91,7 +91,7 @@ describe('Acceptance | Competence details | Afficher la page de detail d\'une c
       await visit('/competences/1_1');
 
       // when
-      await click('.competence-details-panel-header__return-button');
+      await click('.scorecard-details-header__return-button');
 
       // then
       expect(currentURL()).to.equal('/profilv2');
