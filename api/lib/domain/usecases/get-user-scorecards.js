@@ -8,14 +8,17 @@ module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElement
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const [knowledgeElements, competenceTree, competenceEvaluations] = await Promise.all([
+  const [knowledgeElements, competencesWithArea, competenceEvaluations] = await Promise.all([
     knowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
     competenceRepository.list(),
     competenceEvaluationRepository.findByUserId(requestedUserId),
   ]);
 
-  return _.map(competenceTree, (competence) =>
-    Scorecard.buildFrom({ userId: requestedUserId, knowledgeElements, competence, competenceEvaluations })
-  );
+  const knowledgeElementsGroupedByCompetenceId = _.groupBy(knowledgeElements, 'competenceId');
+
+  return _.map(competencesWithArea, (competence) => {
+    const knowledgeElementsForCompetence = knowledgeElementsGroupedByCompetenceId[competence.id];
+    return Scorecard.buildFrom({ userId: requestedUserId, knowledgeElements: knowledgeElementsForCompetence, competence, competenceEvaluations });
+  });
 };
 
