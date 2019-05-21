@@ -10,19 +10,13 @@ const answerRepository = require('../../../lib/infrastructure/repositories/answe
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 
-function _findCorrectAnswersByAssessments(assessments) {
+async function _findCorrectAnswersByAssessments(assessments) {
+  const answersByAssessmentsPromises = assessments.map((assessment) =>
+    answerRepository.findCorrectAnswersByAssessment(assessment.id));
 
-  const answersByAssessmentsPromises = assessments.map((assessment) => answerRepository.findCorrectAnswersByAssessment(assessment.id));
+  const answersByAssessments = await Promise.all(answersByAssessmentsPromises);
 
-  return Promise.all(answersByAssessmentsPromises)
-    .then((answersByAssessments) => {
-      return answersByAssessments.reduce((answersInJSON, answersByAssessment) => {
-        answersByAssessment.forEach((answer) => {
-          answersInJSON.push(answer);
-        });
-        return answersInJSON;
-      }, []);
-    });
+  return _.flatten(answersByAssessments);
 }
 
 function _getCompetenceByChallengeCompetenceId(competences, challenge) {
