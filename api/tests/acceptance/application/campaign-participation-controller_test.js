@@ -18,7 +18,10 @@ describe('Acceptance | API | Campaign Participations', () => {
   beforeEach(async () => {
     server = await createServer();
     user = databaseBuilder.factory.buildUser();
-    assessment = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.SMARTPLACEMENT });
+    assessment = databaseBuilder.factory.buildAssessment({
+      userId: user.id,
+      type: Assessment.types.SMARTPLACEMENT,
+    });
   });
 
   describe('GET /api/campaign-participations/{id}', () => {
@@ -356,16 +359,30 @@ describe('Acceptance | API | Campaign Participations', () => {
 
   describe('PATCH /api/campaign-participations/{id}', () => {
 
+    let skillWeb1Id;
+    let skillWeb2Id;
+    let skillWeb3Id;
+    let campaignParticipationId;
+
     beforeEach(async () => {
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        isShared: false,
-        sharedAt: null,
-        assessmentId: assessment.id,
-      });
+      const competenceId = 'recCompetence';
+      campaignParticipationId = 123111;
+
+      skillWeb1Id = 'recAcquisWeb1';
+      const skillWeb1Name = '@web1';
+      const skillWeb1 = airtableBuilder.factory.buildSkill({ id: skillWeb1Id, nom: skillWeb1Name, compétenceViaTube: [ competenceId ], });
+
+      skillWeb2Id = 'recAcquisWeb2';
+      const skillWeb2Name = '@web2';
+      const skillWeb2 = airtableBuilder.factory.buildSkill({ id: skillWeb2Id, nom: skillWeb2Name, compétenceViaTube: [ competenceId ], });
+
+      skillWeb3Id = 'recAcquisWeb3';
+      const skillWeb3Name = '@web3';
+      const skillWeb3 = airtableBuilder.factory.buildSkill({ id: skillWeb3Id, nom: skillWeb3Name, compétenceViaTube: [ competenceId ], });
 
       options = {
         method: 'PATCH',
-        url: `/api/campaign-participations/${campaignParticipation.id}`,
+        url: `/api/campaign-participations/${campaignParticipationId}`,
         headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
         payload: {
           data: {
@@ -373,20 +390,6 @@ describe('Acceptance | API | Campaign Participations', () => {
           }
         },
       };
-
-      const competenceId = 'recCompetence';
-
-      const skillWeb1Id = 'recAcquisWeb1';
-      const skillWeb1Name = '@web1';
-      const skillWeb1 = airtableBuilder.factory.buildSkill({ id: skillWeb1Id, nom: skillWeb1Name, compétenceViaTube: [ competenceId ], });
-
-      const skillWeb2Id = 'recAcquisWeb2';
-      const skillWeb2Name = '@web2';
-      const skillWeb2 = airtableBuilder.factory.buildSkill({ id: skillWeb2Id, nom: skillWeb2Name, compétenceViaTube: [ competenceId ], });
-
-      const skillWeb3Id = 'recAcquisWeb3';
-      const skillWeb3Name = '@web3';
-      const skillWeb3 = airtableBuilder.factory.buildSkill({ id: skillWeb3Id, nom: skillWeb3Name, compétenceViaTube: [ competenceId ], });
 
       airtableBuilder.mockList({ tableName: 'Acquis' })
         .returns([skillWeb1, skillWeb2, skillWeb3])
@@ -405,28 +408,89 @@ describe('Acceptance | API | Campaign Participations', () => {
       airtableBuilder.mockList({ tableName: 'Epreuves' })
         .returns([challenge])
         .activate();
-
-      await databaseBuilder.commit();
-
     });
 
     afterEach(async () => {
       await airtableBuilder.cleanAll();
-      await databaseBuilder.clean();
     });
 
     after(() => {
       cache.flushAll();
     });
 
-    it('should allow user to share his campaign participation', () => {
-      // when
-      const promise = server.inject(options);
+    context('when there is no remaining challenges', () => {
+      beforeEach(async () => {
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
 
-      // then
-      return promise.then((response) => {
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb1Id });
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb2Id });
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb3Id });
+
+        campaign = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          id: campaignParticipationId,
+          isShared: false,
+          sharedAt: null,
+          assessmentId: assessment.id,
+          campaignId: campaign.id,
+        });
+
+        _([
+          { skillId: skillWeb1Id, status: 'validated' },
+          { skillId: skillWeb2Id, status: 'validated' },
+          { skillId: skillWeb3Id, status: 'validated' },
+        ]).each((ke, id) => {
+          databaseBuilder.factory.buildKnowledgeElement({ id, userId: user.id, assessmentId: assessment.id, ...ke });
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should allow the user to share his campaign participation', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
         expect(response.statusCode).to.equal(204);
         expect(response.result).to.be.null;
+      });
+    });
+
+    context('when there is some remaining challenges', () => {
+      beforeEach(async () => {
+        const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
+
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb1Id });
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb2Id });
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: skillWeb3Id });
+
+        campaign = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          id: campaignParticipationId,
+          isShared: false,
+          sharedAt: null,
+          assessmentId: assessment.id,
+          campaignId: campaign.id,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should disallow the user to share his campaign participation', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(409);
+        expect(response.result.errors[0].detail).to.equal('Cette évaluation n\'est pas terminée.');
       });
     });
   });
