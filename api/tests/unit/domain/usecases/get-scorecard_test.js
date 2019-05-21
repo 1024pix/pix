@@ -73,13 +73,13 @@ describe('Unit | UseCase | get-scorecard', () => {
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({ '1': knowledgeElementList });
 
         const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
-        const competenceEvaluations = [domainBuilder.buildCompetenceEvaluation({
+        const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
           competenceId: 1,
           assessmentId: assessment.id,
           assessment
-        })];
+        });
 
-        competenceEvaluationRepository.findByUserId.resolves(competenceEvaluations);
+        competenceEvaluationRepository.findByUserId.resolves([competenceEvaluation]);
 
         const expectedUserScorecard = domainBuilder.buildUserScorecard({
           name: competence.name,
@@ -92,7 +92,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           userId: authenticatedUserId,
           knowledgeElements: knowledgeElementList,
           competence,
-          competenceEvaluations
+          competenceEvaluation
         }).returns(expectedUserScorecard);
 
         // when

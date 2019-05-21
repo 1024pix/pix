@@ -15,8 +15,16 @@ module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElement
   ]);
 
   return _.map(competencesWithArea, (competence) => {
-    const knowledgeElementsForCompetence = knowledgeElementsGroupedByCompetenceId[competence.id];
-    return Scorecard.buildFrom({ userId: requestedUserId, knowledgeElements: knowledgeElementsForCompetence, competence, competenceEvaluations });
+    const competenceId = competence.id;
+    const knowledgeElementsForCompetence = knowledgeElementsGroupedByCompetenceId[competenceId];
+    const competenceEvaluation = _.find(competenceEvaluations, { competenceId });
+
+    return Scorecard.buildFrom({
+      userId: requestedUserId,
+      knowledgeElements: knowledgeElementsForCompetence,
+      competence,
+      competenceEvaluation,
+    });
   });
 };
 

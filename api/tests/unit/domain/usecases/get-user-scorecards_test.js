@@ -135,21 +135,21 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           userId: authenticatedUserId,
           knowledgeElements: knowledgeElementGroupedByCompetenceId[1],
           competence: competenceList[0],
-          competenceEvaluations: [competenceEvaluationOfCompetence1]
+          competenceEvaluation: competenceEvaluationOfCompetence1,
         }).returns(expectedUserScorecard[0]);
 
         Scorecard.buildFrom.withArgs({
           userId: authenticatedUserId,
           knowledgeElements: knowledgeElementGroupedByCompetenceId[2],
           competence: competenceList[1],
-          competenceEvaluations: [competenceEvaluationOfCompetence1]
+          competenceEvaluation: undefined,
         }).returns(expectedUserScorecard[1]);
 
         Scorecard.buildFrom.withArgs({
           userId: authenticatedUserId,
           knowledgeElements: undefined,
           competence: competenceList[2],
-          competenceEvaluations: [competenceEvaluationOfCompetence1]
+          competenceEvaluation: undefined,
         }).returns(expectedUserScorecard[2]);
 
         // when
