@@ -3,7 +3,8 @@ const Scorecard = require('../models/Scorecard');
 
 module.exports = async ({ authenticatedUserId, scorecardId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
 
-  const [userId, competenceId] = scorecardId.split('_');
+  const { userId, competenceId } = Scorecard.parseId(scorecardId);
+
   if (parseInt(authenticatedUserId) !== parseInt(userId)) {
     throw new UserNotAuthorizedToAccessEntity();
   }

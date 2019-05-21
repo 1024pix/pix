@@ -34,12 +34,16 @@ class Scorecard {
     this.status = status;
   }
 
-  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluations }) {
+  static parseId(scorecardId) {
+    const [userId, competenceId] = scorecardId.split('_');
+    return { userId: _.parseInt(userId), competenceId };
+  }
+
+  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation }) {
     const totalEarnedPixByCompetence = _.sumBy(knowledgeElements, 'earnedPix');
     const status = Scorecard.computeStatus({
       knowledgeElements,
-      competenceId: competence.id,
-      competenceEvaluations
+      competenceEvaluation
     });
 
     return new Scorecard({
@@ -54,14 +58,11 @@ class Scorecard {
     });
   }
 
-  static computeStatus({ knowledgeElements, competenceId, competenceEvaluations }) {
+  static computeStatus({ knowledgeElements, competenceEvaluation }) {
     if (_.isEmpty(knowledgeElements)) {
       return ScorecardStatusType.NOT_STARTED;
     }
-
-    const competenceEvaluationForCompetence = _.find(competenceEvaluations, { competenceId });
-    const stateOfAssessment = _.get(competenceEvaluationForCompetence, 'assessment.state');
-
+    const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
     if (stateOfAssessment === Assessment.states.COMPLETED) {
       return ScorecardStatusType.COMPLETED;
     }
@@ -70,7 +71,6 @@ class Scorecard {
 
   _getCompetenceLevel(earnedPix) {
     const userLevel = Math.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
-
     return Math.min(constants.MAX_REACHABLE_LEVEL, userLevel);
   }
 

@@ -9,12 +9,20 @@ describe('Unit | UseCase | get-scorecard', () => {
   let knowledgeElementRepository;
   let competenceEvaluationRepository;
   let buildFromStub;
+  let scorecardId;
+  let competenceId;
+  let authenticatedUserId;
+  let parseIdStub;
 
   beforeEach(() => {
+    scorecardId = '1_1';
+    competenceId = 1;
+    authenticatedUserId = 1;
     competenceRepository = { get: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
     buildFromStub = sinon.stub(Scorecard, 'buildFrom');
+    parseIdStub = sinon.stub(Scorecard, 'parseId');
   });
 
   afterEach(() => {
@@ -22,10 +30,12 @@ describe('Unit | UseCase | get-scorecard', () => {
   });
 
   context('When user is authenticated', () => {
-    const authenticatedUserId = 2;
+
+    beforeEach(() => {
+      parseIdStub.withArgs(scorecardId).returns({ competenceId, userId: authenticatedUserId });
+    });
 
     context('And user asks for his own scorecard', () => {
-      const scorecardId = `${authenticatedUserId}_1`;
 
       it('should resolve', () => {
         // given
@@ -102,15 +112,14 @@ describe('Unit | UseCase | get-scorecard', () => {
     context('And user asks for a scorecard that do not belongs to him', () => {
       it('should reject a "UserNotAuthorizedToAccessEntity" domain error', () => {
         // given
-        const authenticatedUserId = 34;
-
+        const unauthorizedUserId = 42;
         competenceRepository.get.resolves([]);
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
 
         // when
         const promise = getScorecard({
-          authenticatedUserId,
-          scorecardId: '1_1',
+          authenticatedUserId: unauthorizedUserId,
+          scorecardId,
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
