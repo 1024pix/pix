@@ -35,11 +35,14 @@
       background: url('/images/banners/not-bad.svg') top right;
       justify-content: flex-end;
       align-items: center;
-      padding-left: 10px;
 
       @include device-is('tablet') {
         justify-content: center;
         align-items: flex-start;
+        padding-left: 30px;
+      }
+
+      @include device-is('desktop') {
         padding-left: 80px;
       }
     }
@@ -77,6 +80,20 @@
     font-size: 1.8rem;
     margin-top: 14px;
     text-align: center;
+
+    @include device-is('tablet') {
+      width: 400px;
+    }
+
+    @include device-is('desktop') {
+      width: inherit;
+    }
+
+    &--left {
+      @include device-is('tablet') {
+        text-align: left;
+      }
+    }
 
     &--small {
       width: 300px;
