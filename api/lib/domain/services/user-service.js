@@ -97,6 +97,46 @@ function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
   return _(assessments).filter((assessment) => assessment.getLastAssessmentResult().level >= 1).values();
 }
 
+function _addChallengesToUserCompetences({ challenges, userCompetences, answers, coursesFromAdaptativeCourses, userLastAssessments }) {
+  answers.forEach((answer) => {
+    const challenge = _getRelatedChallengeById(challenges, answer);
+    const competence = _getCompetenceByChallengeCompetenceId(userCompetences, challenge);
+
+    if (challenge && competence) {
+      challenge.skills
+        .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges))
+        .forEach((publishedSkill) => competence.addSkill(publishedSkill));
+    }
+  });
+
+  userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
+  const challengeIdsAlreadyAnswered = answers.map((answer) => answer.challengeId);
+  const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map((challengeId) => _getChallengeById(challenges, challengeId));
+
+  userCompetences = _addCourseIdAndPixToCompetence(userCompetences, coursesFromAdaptativeCourses, userLastAssessments);
+
+  userCompetences.forEach((userCompetence) => {
+    const testedSkills = [];
+    userCompetence.skills.forEach((skill) => {
+      if (userCompetence.challenges.length < 3) {
+        const challengesToValidateCurrentSkill = _findChallengeBySkill(challenges, skill);
+        const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
+
+        const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
+
+        //TODO : Mettre le skill en entier (Skill{id, name})
+        challenge.testedSkill = skill.name;
+        testedSkills.push(skill);
+
+        userCompetence.addChallenge(challenge);
+      }
+    });
+    userCompetence.skills = testedSkills;
+  });
+
+  return userCompetences;
+}
+
 module.exports = {
   isUserExistingByEmail(email) {
     return userRepository
@@ -132,44 +172,7 @@ module.exports = {
       .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)
       .then(([challenges, userCompetences, answers]) => {
-
-        answers.forEach((answer) => {
-          const challenge = _getRelatedChallengeById(challenges, answer);
-          const competence = _getCompetenceByChallengeCompetenceId(userCompetences, challenge);
-
-          if (challenge && competence) {
-            challenge.skills
-              .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges))
-              .forEach((publishedSkill) => competence.addSkill(publishedSkill));
-          }
-        });
-
-        userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
-        const challengeIdsAlreadyAnswered = answers.map((answer) => answer.challengeId);
-        const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map((challengeId) => _getChallengeById(challenges, challengeId));
-
-        userCompetences = _addCourseIdAndPixToCompetence(userCompetences, coursesFromAdaptativeCourses, userLastAssessments);
-
-        userCompetences.forEach((userCompetence) => {
-          const testedSkills = [];
-          userCompetence.skills.forEach((skill) => {
-            if (userCompetence.challenges.length < 3) {
-              const challengesToValidateCurrentSkill = _findChallengeBySkill(challenges, skill);
-              const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
-
-              const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
-
-              //TODO : Mettre le skill en entier (Skill{id, name})
-              challenge.testedSkill = skill.name;
-              testedSkills.push(skill);
-
-              userCompetence.addChallenge(challenge);
-            }
-          });
-          userCompetence.skills = testedSkills;
-        });
-
-        return userCompetences;
+        return _addChallengesToUserCompetences({ challenges, userCompetences, answers, coursesFromAdaptativeCourses, userLastAssessments });
       });
-  }
+  },
 };
