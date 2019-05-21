@@ -27,9 +27,9 @@ module.exports = async function shareCampaignResult({
     knowledgeElementRepository,
   });
 
-  const { assessmentEnded } = smartRandom.getNextChallenge(getNextChallengeData);
+  const { hasAssessmentEnded } = smartRandom.getNextChallenge(getNextChallengeData);
 
-  if (!assessmentEnded) {
+  if (!hasAssessmentEnded) {
     throw new AssessmentNotCompletedError();
   }
 

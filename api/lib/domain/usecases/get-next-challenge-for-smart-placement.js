@@ -15,10 +15,10 @@ async function getNextChallengeForSmartPlacement({
 
   const {
     nextChallenge,
-    assessmentEnded,
+    hasAssessmentEnded,
   } = smartRandom.getNextChallenge(inputValues);
 
-  if (assessmentEnded) {
+  if (hasAssessmentEnded) {
     throw new AssessmentEndedError();
   }
 

@@ -23,8 +23,8 @@ function getNextChallenge({ knowledgeElements, challenges, targetSkills, answers
 
   // Test is considered finished when no challenges are returned but we don't expose this detail
   return nextChallenge
-    ? { assessmentEnded: false, nextChallenge }
-    : { assessmentEnded: true, nextChallenge: null };
+    ? { hasAssessmentEnded: false, nextChallenge }
+    : { hasAssessmentEnded: true, nextChallenge: null };
 }
 
 function _findLastChallengeIfAny(answers, challenges) {
