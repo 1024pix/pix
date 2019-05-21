@@ -44,20 +44,18 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
   return challengesBySkill.length > 0;
 }
 
-function _addCourseIdAndPixToCompetence(competences, courses, assessments) {
-  competences.forEach((competence) => {
-    const currentCourse = courses.find((course) => course.competences[0] === competence.id);
-    const assessment = assessments.find((assessment) => currentCourse.id === assessment.courseId);
+function _addPixScoreAndEstimatedLevelToCompetences(userCompetences, { allAdaptativeCourses, userLastAssessments }) {
+  userCompetences.forEach((userCompetence) => {
+    const currentCourse = allAdaptativeCourses.find((course) => course.competences[0] === userCompetence.id);
+    const assessment = userLastAssessments.find((assessment) => currentCourse.id === assessment.courseId);
     if (assessment) {
-      competence.pixScore = assessment.getPixScore();
-      competence.estimatedLevel = assessment.getLevel();
+      userCompetence.pixScore = assessment.getPixScore();
+      userCompetence.estimatedLevel = assessment.getLevel();
     } else {
-      competence.pixScore = 0;
-      competence.estimatedLevel = 0;
+      userCompetence.pixScore = 0;
+      userCompetence.estimatedLevel = 0;
     }
   });
-
-  return competences;
 }
 
 function _sortByDifficultyDesc(skills) {
@@ -82,7 +80,8 @@ function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
   return _(assessments).filter((assessment) => assessment.getLastAssessmentResult().level >= 1).values();
 }
 
-function _addChallengesToUserCompetences({ allChallenges, userCompetences, challengeIdsCorrectlyAnswered, allAdaptativeCourses, userLastAssessments }) {
+function _addChallengesToUserCompetences({ allChallenges, userCompetences, challengeIdsCorrectlyAnswered }) {
+
   challengeIdsCorrectlyAnswered.forEach((challengeId) => {
     const challenge = _getChallengeById(allChallenges, challengeId);
     const competence = _getCompetenceByChallengeCompetenceId(userCompetences, challenge);
@@ -96,8 +95,6 @@ function _addChallengesToUserCompetences({ allChallenges, userCompetences, chall
 
   userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
   const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => _getChallengeById(allChallenges, challengeId));
-
-  userCompetences = _addCourseIdAndPixToCompetence(userCompetences, allAdaptativeCourses, userLastAssessments);
 
   userCompetences.forEach((userCompetence) => {
     const testedSkills = [];
@@ -150,14 +147,13 @@ module.exports = {
     const filteredAssessments = _filterAssessmentWithEstimatedLevelGreaterThanZero(userLastAssessments);
     const correctAnswers = await _findCorrectAnswersByAssessments(filteredAssessments);
     const userCompetences = _castCompetencesToUserCompetences(allCompetences);
-    const challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
+    _addPixScoreAndEstimatedLevelToCompetences(userCompetences, { allAdaptativeCourses, userLastAssessments });
 
+    const challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
     return _addChallengesToUserCompetences({
       allChallenges,
       userCompetences,
-      challengeIdsCorrectlyAnswered,
-      allAdaptativeCourses,
-      userLastAssessments
+      challengeIdsCorrectlyAnswered
     });
   },
 };
