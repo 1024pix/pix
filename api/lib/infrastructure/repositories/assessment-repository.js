@@ -146,10 +146,7 @@ module.exports = {
       .where({ userId })
       .where('type', 'IN', ['SMART_PLACEMENT', 'COMPETENCE_EVALUATION'])
       .fetchAll()
-      .then((bookshelfAssessmentCollection) => {
-        return Boolean(bookshelfAssessmentCollection.length);
-      });
-
+      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.length > 0);
   }
 };
 
