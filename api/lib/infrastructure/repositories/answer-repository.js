@@ -1,6 +1,8 @@
+const fp = require('lodash/fp');
 const Answer = require('../../domain/models/Answer');
 const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const BookshelfAnswer = require('../data/answer');
+const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 const jsYaml = require('js-yaml');
 
@@ -68,6 +70,13 @@ module.exports = {
       .where({ challengeId })
       .fetchAll()
       .then((answers) => answers.models.map(_toDomain));
+  },
+
+  findChallengeIdsFromAnswerIds(answerIds) {
+    return Bookshelf.knex('answers')
+      .distinct('challengeId')
+      .whereIn('id', answerIds)
+      .then(fp.map('challengeId'));
   },
 
   findCorrectAnswersByAssessmentId(assessmentId) {
