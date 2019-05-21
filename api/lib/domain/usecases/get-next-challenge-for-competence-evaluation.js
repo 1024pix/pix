@@ -18,10 +18,10 @@ async function getNextChallengeForCompetenceEvaluation({
 
   const {
     nextChallenge,
-    assessmentEnded,
+    hasAssessmentEnded,
   } = smartRandom.getNextChallenge(inputValues);
 
-  if (assessmentEnded) {
+  if (hasAssessmentEnded) {
     throw new AssessmentEndedError();
   }
 

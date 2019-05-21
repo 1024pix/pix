@@ -33,7 +33,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       expectedNextChallenge = { some: 'next challenge' };
 
       sinon.stub(smartRandom, 'getNextChallenge').returns({
-        assessmentEnded: false,
+        hasAssessmentEnded: false,
         nextChallenge: expectedNextChallenge,
       });
 
