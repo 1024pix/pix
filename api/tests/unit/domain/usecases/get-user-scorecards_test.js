@@ -128,19 +128,21 @@ describe('Unit | UseCase | get-user-scorecard', () => {
 
         Scorecard.buildFrom.withArgs({
           userId: authenticatedUserId,
-          knowledgeElements: knowledgeElementList,
+          knowledgeElements: [knowledgeElementList[0], knowledgeElementList[1]],
           competence: competenceList[0],
           competenceEvaluations: [competenceEvaluationOfCompetence1]
         }).returns(expectedUserScorecard[0]);
+
         Scorecard.buildFrom.withArgs({
           userId: authenticatedUserId,
-          knowledgeElements: knowledgeElementList,
+          knowledgeElements: [knowledgeElementList[2]],
           competence: competenceList[1],
           competenceEvaluations: [competenceEvaluationOfCompetence1]
         }).returns(expectedUserScorecard[1]);
+
         Scorecard.buildFrom.withArgs({
           userId: authenticatedUserId,
-          knowledgeElements: knowledgeElementList,
+          knowledgeElements: undefined,
           competence: competenceList[2],
           competenceEvaluations: [competenceEvaluationOfCompetence1]
         }).returns(expectedUserScorecard[2]);

@@ -35,11 +35,9 @@ class Scorecard {
   }
 
   static buildFrom({ userId, knowledgeElements, competence, competenceEvaluations }) {
-    const sortedKEGroupedByCompetence = _.groupBy(knowledgeElements, 'competenceId');
-    const knowledgeElementsOfCompetence = sortedKEGroupedByCompetence[competence.id];
-    const totalEarnedPixByCompetence = _.sumBy(knowledgeElementsOfCompetence, 'earnedPix');
+    const totalEarnedPixByCompetence = _.sumBy(knowledgeElements, 'earnedPix');
     const status = Scorecard.computeStatus({
-      knowledgeElements: knowledgeElementsOfCompetence,
+      knowledgeElements,
       competenceId: competence.id,
       competenceEvaluations
     });
