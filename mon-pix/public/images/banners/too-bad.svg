@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="956px" height="361px" viewBox="0 0 956 361" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient x1="0.563523013%" y1="42.909788%" x2="99.2613181%" y2="56.6447266%" id="linearGradient-1">
+            <stop stop-color="#FBD013" offset="0%"></stop>
+            <stop stop-color="#FF9400" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="2.35473769%" id="linearGradient-2">
+            <stop stop-color="#12A3FF" offset="0%"></stop>
+            <stop stop-color="#3D68FF" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-3" x="0" y="0.872187209" width="956" height="360"></rect>
+    </defs>
+    <g id="COMPETENCES" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-50.000000, -974.000000)">
+            <g id="TANT-PIX" transform="translate(50.000000, 974.000000)">
+                <g id="fx">
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <g id="Mask">
+                        <use fill="url(#linearGradient-1)" xlink:href="#path-3"></use>
+                        <use fill="url(#linearGradient-2)" xlink:href="#path-3"></use>
+                    </g>
+                    <circle id="Oval" fill="#3257D9" opacity="0.299544271" mask="url(#mask-4)" cx="478" cy="179" r="363"></circle>
+                    <circle id="Oval" fill="#3257D9" opacity="0.299544271" mask="url(#mask-4)" cx="478" cy="179" r="213"></circle>
+                    <circle id="Oval" fill="#3257D9" opacity="0.299544271" mask="url(#mask-4)" cx="478" cy="179" r="141.127813"></circle>
+                </g>
+                <g id="CONGRATS" transform="translate(366.000000, 127.000000)"></g>
+            </g>
+        </g>
+    </g>
+</svg>
