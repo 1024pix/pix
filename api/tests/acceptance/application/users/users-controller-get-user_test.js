@@ -72,7 +72,15 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
               links: {
                 related: '/api/users/1234/scorecards'
               }
-            }
+            },
+            'campaign-participations': {
+              links: {
+                related: '/api/users/1234/campaign-participations'
+              }
+            },
+            organizations: {
+              data: []
+            },
           }
         }
       };

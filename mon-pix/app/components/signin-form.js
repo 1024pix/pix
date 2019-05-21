@@ -1,9 +1,7 @@
 import Component from '@ember/component';
-import { inject as service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
 
 export default Component.extend({
-  session: service(),
   displayErrorMessage: false,
   email: '',
   password: '',

@@ -5,7 +5,12 @@ module.exports = {
 
   serialize(users, meta) {
     return new Serializer('user', {
-      attributes: ['firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'memberships', 'certificationCenterMemberships', 'pixScore', 'scorecards'],
+      attributes: [
+        'firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted',
+        'pixCertifTermsOfServiceAccepted', 'usesProfileV2', 'memberships',
+        'certificationCenterMemberships', 'pixScore', 'scorecards',
+        'campaignParticipations', 'organizations',
+      ],
       memberships: {
         ref: 'id',
         ignoreRelationshipData: true,
@@ -42,11 +47,20 @@ module.exports = {
           }
         }
       },
-
-      transform(model) {
-        return (model instanceof User) ? model : model.toJSON();
+      campaignParticipations: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function(record, current, parent) {
+            return `/api/users/${parent.id}/campaign-participations`;
+          }
+        }
       },
-      meta
+      organizations: {
+        ref: 'id',
+        attributes: ['name', 'type', 'code', 'logoUrl'],
+      },
+      meta,
     }).serialize(users);
   },
 

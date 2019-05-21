@@ -35,7 +35,6 @@ describe('Unit | Route | inscription', function() {
     return promise.then(() => {
       // Then
       sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { email: expectedEmail, password: expectedPassword });
-      sinon.assert.calledWith(queryRecordStub, 'user', {});
     });
   });
 });

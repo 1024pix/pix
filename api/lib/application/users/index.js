@@ -49,6 +49,18 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/me',
       config: {
+        handler: userController.getCurrentUser,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération de l’utilisateur courant\n',
+        ],
+        tags: ['api', 'user'],
+      }
+    },
+    {
+      method: 'GET',
+      path: '/api/users/me/profile',
+      config: {
         handler: userController.getAuthenticatedUserProfile,
         tags: ['api']
       }

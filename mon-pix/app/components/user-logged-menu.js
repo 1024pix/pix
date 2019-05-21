@@ -9,8 +9,7 @@ import {
 
 export default Component.extend(EmberKeyboardMixin, {
 
-  session: service(),
-  store: service(),
+  currentUser: service(),
   routing: service('-routing'),
 
   classNames: ['logged-user-details'],
@@ -19,21 +18,15 @@ export default Component.extend(EmberKeyboardMixin, {
   _canDisplayMenu: false,
   _user: null,
 
-  canDisplayLinkToProfile: computed('_user.usesProfileV2', 'routing.currentRouteName', function() {
+  canDisplayLinkToProfile: computed('currentUser.user.usesProfileV2', 'routing.currentRouteName', function() {
     const currentRouteName = this.get('routing.currentRouteName');
 
-    if (this.get('_user.usesProfileV2')) {
+    if (this.get('currentUser.user.usesProfileV2')) {
       return currentRouteName !== 'profilv2' && currentRouteName !== 'board';
     }
 
     return currentRouteName !== 'compte' && currentRouteName !== 'board';
   }),
-
-  init() {
-    this._super(...arguments);
-    this.store.findRecord('user', this.get('session.data.authenticated.userId'))
-      .then((user) => this.set('_user', user));
-  },
 
   closeOnEsc: on(keyDown('Escape'), function() {
     this.set('_canDisplayMenu', false);

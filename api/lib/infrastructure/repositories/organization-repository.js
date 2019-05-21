@@ -127,12 +127,10 @@ module.exports = {
     return BookshelfOrganization.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb)).count();
   },
 
-  // TODO return domain object
-  getByUserId(userId) {
+  findByUserId(userId) {
     return BookshelfOrganization
       .where({ userId })
       .fetchAll()
-      .then((organizations) => organizations.models);
+      .then((organizations) => organizations.models.map(_toDomain));
   },
 };
-

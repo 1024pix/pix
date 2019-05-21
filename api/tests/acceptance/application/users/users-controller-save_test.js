@@ -1,5 +1,4 @@
 const { expect, sinon, knex, nock } = require('../../../test-helper');
-const XRegExp = require('xregexp');
 const mailJet = require('../../../../lib/infrastructure/mailjet');
 const createServer = require('../../../../server');
 
@@ -51,53 +50,19 @@ describe('Acceptance | Controller | users-controller', () => {
       });
 
       it('should return status 201 with user', () => {
-        // given
-        const payloadRegExp = XRegExp(
-          '{' +
-            '"data":{' +
-              '"type":"users",' +
-              '"id":"(\\d+)",' +
-              '"attributes":{' +
-                '"first-name":"John",' +
-                '"last-name":"DoDoe",' +
-                '"email":"john.dodoe@example.net",' +
-                '"cgu":true,' +
-                '"pix-orga-terms-of-service-accepted":false,' +
-                '"pix-certif-terms-of-service-accepted":false' +
-              '},' +
-            '"relationships":{' +
-              '"memberships":{' +
-                '"links":{' +
-                  '"related":"/api/users/(\\d+)/memberships"' +
-                '}' +
-              '},' +
-              '"certification-center-memberships":{' +
-                '"links":{' +
-                  '"related":"/api/users/(\\d+)/certification-center-memberships"' +
-                '}' +
-              '},' +
-              '"pix-score":{' +
-                '"links":{' +
-                  '"related":"/api/users/(\\d+)/pixscore"' +
-                '}' +
-              '},' +
-              '"scorecards":{' +
-                '"links":{' +
-                  '"related":"/api/users/(\\d+)/scorecards"' +
-                '}' +
-              '}' +
-            '}' +
-            '}' +
-          '}',
-        );
-
         // when
         const promise = server.inject(options);
 
         // then
         return promise.then((response) => {
           expect(response.statusCode).to.equal(201);
-          expect(response.payload).to.match(payloadRegExp);
+          expect(response.result.data.type).to.equal('users');
+          expect(response.result.data.attributes['first-name']).to.equal('John');
+          expect(response.result.data.attributes['last-name']).to.equal('DoDoe');
+          expect(response.result.data.attributes.email).to.equal('john.dodoe@example.net');
+          expect(response.result.data.attributes.cgu).to.be.true;
+          expect(response.result.data.attributes.password).to.be.undefined;
+          expect(response.result.data.attributes['recaptcha-token']).to.be.undefined;
         });
       });
 

@@ -2,7 +2,7 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const Profile = require('../../../../../lib/domain/models/Profile');
 const BookshelfUser = require('../../../../../lib/infrastructure/data/user');
-const Organization = require('../../../../../lib/infrastructure/data/organization');
+const Organization = require('../../../../../lib/domain/models/Organization');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
 const Area = require('../../../../../lib/domain/models/Area');
@@ -145,7 +145,6 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         assessmentsCompletedWithResults,
         courses,
         organizations: emptyOrganizations,
-        usesProfileV2: true,
       });
       const expectedJson = {
         data: {
@@ -156,7 +155,6 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             'last-name': 'Skywalker',
             'total-pix-score': 128,
             'email': 'luke@sky.fr',
-            'uses-profile-v2': true,
           },
           relationships: {
             competences: {
@@ -304,7 +302,6 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         assessmentsCompletedWithResults: emptyAssessments,
         courses: emptyCourses,
         organizations,
-        usesProfileV2: false,
       });
       const expectedJsonWithOrganisations = {
         data: {
@@ -314,7 +311,6 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             'first-name': 'Luke',
             'last-name': 'Skywalker',
             'email': 'luke@sky.fr',
-            'uses-profile-v2': false,
           },
           relationships: {
             organizations: {

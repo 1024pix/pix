@@ -33,10 +33,17 @@ module.exports = {
   },
 
   getUser(request) {
-    const requestedUserId = parseInt(request.params.id, 10);
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+
+    return usecases.getUser({ authenticatedUserId, requestedUserId })
+      .then(userSerializer.serialize);
+  },
+
+  getCurrentUser(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
+    return usecases.getCurrentUser({ authenticatedUserId })
       .then(userSerializer.serialize);
   },
 

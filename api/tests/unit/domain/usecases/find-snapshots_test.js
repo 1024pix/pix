@@ -11,7 +11,7 @@ describe('Unit | UseCase | find-snapshots', () => {
       filter: { organisationId: 1 },
     };
     snapshotRepository = {
-      find: sinon.stub().withArgs(options).resolves('ok'),
+      find: sinon.stub(),
     };
   });
 
