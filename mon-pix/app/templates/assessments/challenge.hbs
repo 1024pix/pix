@@ -11,7 +11,7 @@
       {{course-banner course=model.assessment.course withHomeLink=true}}
     {{/if}}
     {{#if model.assessment.isCertification}}
-      {{certification-banner user=model.user certificationNumber=model.assessment.certificationNumber}}
+      {{certification-banner certificationNumber=model.assessment.certificationNumber}}
     {{/if}}
     {{#if model.assessment.isSmartPlacement}}
       {{campaign-banner title=model.campaign.title returnTo="index"}}

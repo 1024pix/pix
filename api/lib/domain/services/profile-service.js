@@ -15,8 +15,7 @@ async function getByUserId(user_id) {
     assessmentRepository.findLastAssessmentsForEachCoursesByUser(user_id),
     assessmentRepository.findCompletedAssessmentsByUserId(user_id),
     courseRepository.getAdaptiveCourses(),
-    organizationRepository.getByUserId(user_id),
-    assessmentRepository.hasCampaignOrCompetenceEvaluation(user_id)
+    organizationRepository.findByUserId(user_id),
   ])
     .then(([
       user,
@@ -26,8 +25,6 @@ async function getByUserId(user_id) {
       assessmentsCompletedWithResults,
       courses,
       organizations,
-      usesProfileV2
-
     ]) => new Profile({
       user,
       competences,
@@ -36,7 +33,6 @@ async function getByUserId(user_id) {
       assessmentsCompletedWithResults,
       courses,
       organizations,
-      usesProfileV2
     }));
 }
 

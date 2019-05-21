@@ -1,10 +1,7 @@
-import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-
-  session: service(),
 
   model(params) {
     const store = this.store;
@@ -24,41 +21,12 @@ export default Route.extend({
     });
   },
 
-  afterModel(modelResult) {
-    const requiredDatas = {};
-
-    const userId = this.get('session.data.authenticated.userId');
-    const campaignCode = modelResult.assessment.codeCampaign;
-
-    if (modelResult.assessment.get('isPlacement')
-      || modelResult.assessment.get('isPreview')
-      || modelResult.assessment.get('isDemo')
-    ) {
-
-      return Promise.resolve(modelResult);
-    }
-
-    if (modelResult.assessment.get('isCertification')) {
-      requiredDatas.user = this._getUser(userId);
-      return RSVP.hash(requiredDatas)
-        .then((hash) => {
-          modelResult.user = hash.user;
-          return modelResult;
-        });
-    }
-
+  async afterModel(modelResult) {
     if (modelResult.assessment.get('isSmartPlacement')) {
-      requiredDatas.campaigns = this._findCampaigns({ campaignCode });
-
-      return RSVP.hash(requiredDatas)
-        .then((hash) => {
-          modelResult.campaign = hash.campaigns.get('firstObject');
-          modelResult.user = null;
-          return modelResult;
-        });
+      const campaignCode = modelResult.assessment.codeCampaign;
+      const campaigns = await this._findCampaigns({ campaignCode });
+      modelResult.campaign = campaigns.get('firstObject');
     }
-    return modelResult;
-
   },
 
   serialize(model) {
@@ -66,10 +34,6 @@ export default Route.extend({
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
     };
-  },
-
-  _getUser(userId) {
-    return this.store.findRecord('user', userId);
   },
 
   _findCampaigns({ campaignCode }) {

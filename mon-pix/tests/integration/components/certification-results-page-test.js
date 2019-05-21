@@ -11,28 +11,15 @@ describe('Integration | Component | certification results template', function() 
   });
 
   context('When component is rendered', function() {
-    const user = { id: 5, firstName: 'shi', lastName: 'fu' };
     const certificationNumber = 'certification-number';
 
     beforeEach(function() {
-      this.set('user', user);
       this.set('certificationNumber', certificationNumber);
-    });
-
-    it('should also render a certification banner', function() {
-      // when
-      this.render(hbs`{{certification-results-page user=user certificationNumber=certificationNumber}}`);
-
-      // then
-      expect(this.$('.certification-banner')).to.have.lengthOf(1);
-      expect(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
-      expect(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(`${user.firstName} ${user.lastName}`);
-      expect(this.$('.certification-banner__container .certification-banner__certification-number').text().trim()).to.equal(`#${certificationNumber}`);
     });
 
     it('should not be able to click on validation button when the verification is unchecked ', function() {
       // when
-      this.render(hbs`{{certification-results-page user=user certificationNumber=certificationNumber}}`);
+      this.render(hbs`{{certification-results-page certificationNumber=certificationNumber}}`);
 
       // then
       expect(this.$('.result-content__validation-button')).to.have.lengthOf(0);
@@ -41,7 +28,7 @@ describe('Integration | Component | certification results template', function() 
 
     it('should be able to click on validation when we check to show the last message', function() {
       // when
-      this.render(hbs`{{certification-results-page user=user certificationNumber=certificationNumber}}`);
+      this.render(hbs`{{certification-results-page certificationNumber=certificationNumber}}`);
       this.$('#validSupervisor').click();
       this.$('.result-content__validation-button').click();
 
@@ -56,7 +43,7 @@ describe('Integration | Component | certification results template', function() 
       });
 
       // when
-      this.render(hbs`{{certification-results-page user=user certificationNumber=certificationNumber}}`);
+      this.render(hbs`{{certification-results-page certificationNumber=certificationNumber}}`);
       this.$('#validSupervisor').click();
       this.$('.result-content__validation-button').click();
 

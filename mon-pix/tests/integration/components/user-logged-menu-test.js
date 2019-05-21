@@ -1,4 +1,3 @@
-import { resolve, reject } from 'rsvp';
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
@@ -17,22 +16,15 @@ describe('Integration | Component | user logged menu', function() {
 
     beforeEach(function() {
       // given
-      this.register('service:store', Service.extend({
-        findRecord() {
-          return resolve({
-            firstName: 'FHI',
-            lastName: '4EVER',
-            email: 'FHI@4EVER.fr'
-          });
+      this.register('service:currentUser', Service.extend({
+        user: {
+          firstName: 'FHI',
+          email: 'FHI@4EVER.fr',
+          fullName: 'FHI 4EVER',
         }
       }));
 
-      this.register('service:session', Service.extend({
-        data: { authenticated: { userId: 123 } }
-      }));
-
-      this.inject.service('store', { as: 'store' });
-      this.inject.service('session', { as: 'session' });
+      this.inject.service('currentUser', { as: 'currentUser' });
 
       // when
       this.render(hbs`{{user-logged-menu}}`);
@@ -187,13 +179,9 @@ describe('Integration | Component | user logged menu', function() {
 
   describe('when user is unlogged or not found', function() {
     beforeEach(function() {
-      this.register('service:store', Service.extend({
-        findRecord() {
-          return reject();
-        }
-      }));
+      this.register('service:currentUser', Service.extend({ user: null }));
 
-      this.inject.service('store', { as: 'store' });
+      this.inject.service('currentUser', { as: 'currentUser' });
     });
 
     it('should not display user information, for unlogged', function() {
