@@ -74,41 +74,36 @@ function _orderSkillsOfCompetenceByDifficulty(competences) {
   return competences;
 }
 
-function _getRelatedChallengeById(challenges, answer) {
-  return challenges.find((challenge) => challenge.id === answer.challengeId);
-}
-
-function _getChallengeById(challenges, challengeId) {
-  return _(challenges).find((challenge) => challenge.id === challengeId);
+function _getChallengeById(challenges, id) {
+  return _(challenges).find({ id });
 }
 
 function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
   return _(assessments).filter((assessment) => assessment.getLastAssessmentResult().level >= 1).values();
 }
 
-function _addChallengesToUserCompetences({ challenges, userCompetences, answers, coursesFromAdaptativeCourses, userLastAssessments }) {
-  answers.forEach((answer) => {
-    const challenge = _getRelatedChallengeById(challenges, answer);
+function _addChallengesToUserCompetences({ allChallenges, userCompetences, challengeIdsCorrectlyAnswered, allAdaptativeCourses, userLastAssessments }) {
+  challengeIdsCorrectlyAnswered.forEach((challengeId) => {
+    const challenge = _getChallengeById(allChallenges, challengeId);
     const competence = _getCompetenceByChallengeCompetenceId(userCompetences, challenge);
 
     if (challenge && competence) {
       challenge.skills
-        .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges))
+        .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, allChallenges))
         .forEach((publishedSkill) => competence.addSkill(publishedSkill));
     }
   });
 
   userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
-  const challengeIdsAlreadyAnswered = answers.map((answer) => answer.challengeId);
-  const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map((challengeId) => _getChallengeById(challenges, challengeId));
+  const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => _getChallengeById(allChallenges, challengeId));
 
-  userCompetences = _addCourseIdAndPixToCompetence(userCompetences, coursesFromAdaptativeCourses, userLastAssessments);
+  userCompetences = _addCourseIdAndPixToCompetence(userCompetences, allAdaptativeCourses, userLastAssessments);
 
   userCompetences.forEach((userCompetence) => {
     const testedSkills = [];
     userCompetence.skills.forEach((skill) => {
       if (userCompetence.challenges.length < 3) {
-        const challengesToValidateCurrentSkill = _findChallengeBySkill(challenges, skill);
+        const challengesToValidateCurrentSkill = _findChallengeBySkill(allChallenges, skill);
         const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
         const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
@@ -146,21 +141,22 @@ module.exports = {
   },
 
   async getProfileToCertify(userId, limitDate) {
-    const coursesFromAdaptativeCourses = await courseRepository.getAdaptiveCourses();
-    const userLastAssessments = await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
-    const filteredAssessments = _filterAssessmentWithEstimatedLevelGreaterThanZero(userLastAssessments);
-    const correctAnswersByAssessments = await _findCorrectAnswersByAssessments(filteredAssessments);
-    const [allChallenges, allCompetences] = await Promise.all([
+    const [allAdaptativeCourses, allChallenges, allCompetences] = await Promise.all([
+      courseRepository.getAdaptiveCourses(),
       challengeRepository.list(),
       competenceRepository.list()
     ]);
+    const userLastAssessments = await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
+    const filteredAssessments = _filterAssessmentWithEstimatedLevelGreaterThanZero(userLastAssessments);
+    const correctAnswers = await _findCorrectAnswersByAssessments(filteredAssessments);
     const userCompetences = _castCompetencesToUserCompetences(allCompetences);
+    const challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
 
     return _addChallengesToUserCompetences({
-      challenges: allChallenges,
+      allChallenges,
       userCompetences,
-      answers: correctAnswersByAssessments,
-      coursesFromAdaptativeCourses,
+      challengeIdsCorrectlyAnswered,
+      allAdaptativeCourses,
       userLastAssessments
     });
   },
