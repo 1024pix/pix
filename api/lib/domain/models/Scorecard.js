@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const constants = require('../constants');
 const Assessment = require('./Assessment');
+const constants = require('../constants');
+const _ = require('lodash');
 
 const statuses = {
   NOT_STARTED: 'NOT_STARTED',
@@ -15,11 +15,12 @@ class Scorecard {
     description,
     competenceId,
     index,
+    level,
     area,
+    pixScoreAheadOfNextLevel,
     earnedPix,
     status,
   } = {}) {
-    const roundedEarnedPix = Math.floor(earnedPix);
 
     this.id = id;
     // attributes
@@ -28,9 +29,9 @@ class Scorecard {
     this.competenceId = competenceId;
     this.index = index;
     this.area = area;
-    this.earnedPix = roundedEarnedPix;
-    this.level = _getCompetenceLevel(roundedEarnedPix);
-    this.pixScoreAheadOfNextLevel = _getpixScoreAheadOfNextLevel(roundedEarnedPix);
+    this.earnedPix = earnedPix;
+    this.level = level;
+    this.pixScoreAheadOfNextLevel = pixScoreAheadOfNextLevel;
     this.status = status;
   }
 
@@ -40,32 +41,49 @@ class Scorecard {
   }
 
   static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation }) {
-    const totalEarnedPixByCompetence = _.sumBy(knowledgeElements, 'earnedPix');
-    const status = _computeStatus(competenceEvaluation);
+
+    const scorecardIdData = { id: `${userId}_${competence.id}` };
+    const scoringData = _computeScoringDatas(knowledgeElements);
+    const statusData = _getScorecardStatus(competenceEvaluation);
+    const competenceData = _getCompetenceDatas(competence);
 
     return new Scorecard({
-      id: `${userId}_${competence.id}`,
-      name: competence.name,
-      description: competence.description,
-      competenceId: competence.id,
-      index: competence.index,
-      area: competence.area,
-      earnedPix: totalEarnedPixByCompetence,
-      status,
+      ...scorecardIdData,
+      ...competenceData,
+      ...statusData,
+      ...scoringData,
     });
   }
-
 }
 
-function _computeStatus(competenceEvaluation) {
+function _getScorecardStatus(competenceEvaluation) {
+
   if (!competenceEvaluation) {
-    return statuses.NOT_STARTED;
+    return { status: statuses.NOT_STARTED };
   }
   const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
   if (stateOfAssessment === Assessment.states.COMPLETED) {
-    return statuses.COMPLETED;
+    return { status: statuses.COMPLETED };
   }
-  return statuses.STARTED;
+  return { status: statuses.STARTED };
+}
+
+function _getCompetenceDatas(competence) {
+  return {
+    name: competence.name,
+    description: competence.description,
+    competenceId: competence.id,
+    index: competence.index,
+    area: competence.area
+  };
+}
+
+function _computeScoringDatas(knowledgeElements) {
+  const totalEarnedPix = _.floor(_(knowledgeElements).sumBy('earnedPix'));
+  const level = _getCompetenceLevel(totalEarnedPix);
+  const pixScoreAheadOfNextLevel = _getpixScoreAheadOfNextLevel(totalEarnedPix);
+
+  return { earnedPix: totalEarnedPix, level, pixScoreAheadOfNextLevel };
 }
 
 function _getCompetenceLevel(earnedPix) {
