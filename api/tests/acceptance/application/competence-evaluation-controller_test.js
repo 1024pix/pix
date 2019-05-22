@@ -117,7 +117,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
       assessment = databaseBuilder.factory.buildAssessment({ userId });
       competenceEvaluation = databaseBuilder.factory.buildCompetenceEvaluation({
         assessmentId: assessment.id,
-        status: 'initialized',
+        status: 'started',
         userId,
       });
 

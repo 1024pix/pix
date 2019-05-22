@@ -7,7 +7,7 @@ const _ = require('lodash');
 
 describe('Integration | Repository | Competence Evaluation', () => {
 
-  const status = 'initialized';
+  const status = 'started';
   describe('#save', () => {
 
     afterEach(() => {
@@ -60,7 +60,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
             expect(competenceEvaluationInDb.assessmentId).to.equal(competenceEvaluationToSave.assessmentId);
             expect(competenceEvaluationInDb.competenceId).to.equal(competenceEvaluationToSave.competenceId);
             expect(competenceEvaluationInDb.userId).to.equal(competenceEvaluationToSave.userId);
-            expect(competenceEvaluationInDb.status).to.equal('initialized');
+            expect(competenceEvaluationInDb.status).to.equal('started');
           });
       });
     });
