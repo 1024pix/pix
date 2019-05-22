@@ -119,8 +119,9 @@ async function _getUserCompetencesAndAnswers({ userId, limitDate }) {
   const userCompetences = _createUserCompetences({ allCompetences, allAdaptativeCourses, userLastAssessments });
   const filteredAssessments = _filterAssessmentWithEstimatedLevelGreaterThanZero(userLastAssessments);
   const correctAnswers = await _findCorrectAnswersByAssessments(filteredAssessments);
+  const challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
 
-  return { userCompetences, correctAnswers };
+  return { userCompetences, challengeIdsCorrectlyAnswered };
 }
 
 module.exports = {
@@ -143,12 +144,12 @@ module.exports = {
   },
 
   async getProfileToCertify(userId, limitDate) {
-    const { userCompetences, correctAnswers } = await _getUserCompetencesAndAnswers({ userId, limitDate });
+    const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswers({ userId, limitDate });
 
     // From here, only userCompetences and answers are needed
     return _pickChallengesForUserCompetences({
       userCompetences,
-      challengeIdsCorrectlyAnswered: _.map(correctAnswers, 'challengeId')
+      challengeIdsCorrectlyAnswered,
     });
   },
 };
