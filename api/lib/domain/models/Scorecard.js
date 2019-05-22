@@ -29,8 +29,8 @@ class Scorecard {
     this.index = index;
     this.area = area;
     this.earnedPix = roundedEarnedPix;
-    this.level = this._getCompetenceLevel(roundedEarnedPix);
-    this.pixScoreAheadOfNextLevel = this._getpixScoreAheadOfNextLevel(roundedEarnedPix);
+    this.level = _getCompetenceLevel(roundedEarnedPix);
+    this.pixScoreAheadOfNextLevel = _getpixScoreAheadOfNextLevel(roundedEarnedPix);
     this.status = status;
   }
 
@@ -41,7 +41,7 @@ class Scorecard {
 
   static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation }) {
     const totalEarnedPixByCompetence = _.sumBy(knowledgeElements, 'earnedPix');
-    const status = Scorecard.computeStatus(competenceEvaluation);
+    const status = _computeStatus(competenceEvaluation);
 
     return new Scorecard({
       id: `${userId}_${competence.id}`,
@@ -54,26 +54,27 @@ class Scorecard {
       status,
     });
   }
-  
-  static computeStatus(competenceEvaluation) {
-    if (!competenceEvaluation) {
-      return statuses.NOT_STARTED;
-    }
-    const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
-    if (stateOfAssessment === Assessment.states.COMPLETED) {
-      return statuses.COMPLETED;
-    }
-    return statuses.STARTED;
-  }
 
-  _getCompetenceLevel(earnedPix) {
-    const userLevel = Math.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
-    return Math.min(constants.MAX_REACHABLE_LEVEL, userLevel);
-  }
+}
 
-  _getpixScoreAheadOfNextLevel(earnedPix) {
-    return earnedPix % constants.PIX_COUNT_BY_LEVEL;
+function _computeStatus(competenceEvaluation) {
+  if (!competenceEvaluation) {
+    return statuses.NOT_STARTED;
   }
+  const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
+  if (stateOfAssessment === Assessment.states.COMPLETED) {
+    return statuses.COMPLETED;
+  }
+  return statuses.STARTED;
+}
+
+function _getCompetenceLevel(earnedPix) {
+  const userLevel = Math.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
+  return Math.min(constants.MAX_REACHABLE_LEVEL, userLevel);
+}
+
+function _getpixScoreAheadOfNextLevel(earnedPix) {
+  return earnedPix % constants.PIX_COUNT_BY_LEVEL;
 }
 
 Scorecard.statuses = statuses;
