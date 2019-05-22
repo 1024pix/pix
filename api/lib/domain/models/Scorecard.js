@@ -2,11 +2,11 @@ const _ = require('lodash');
 const constants = require('../constants');
 const Assessment = require('./Assessment');
 
-const ScorecardStatusType = Object.freeze({
+const statuses = {
   NOT_STARTED: 'NOT_STARTED',
   STARTED: 'STARTED',
   COMPLETED: 'COMPLETED',
-});
+};
 
 class Scorecard {
   constructor({
@@ -54,15 +54,16 @@ class Scorecard {
       status,
     });
   }
+  
   static computeStatus(competenceEvaluation) {
     if (!competenceEvaluation) {
       return ScorecardStatusType.NOT_STARTED;
     }
     const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
     if (stateOfAssessment === Assessment.states.COMPLETED) {
-      return ScorecardStatusType.COMPLETED;
+      return statuses.COMPLETED;
     }
-    return ScorecardStatusType.STARTED;
+    return statuses.STARTED;
   }
 
   _getCompetenceLevel(earnedPix) {
@@ -75,6 +76,6 @@ class Scorecard {
   }
 }
 
-Scorecard.StatusType = ScorecardStatusType;
+Scorecard.statuses = statuses;
 
 module.exports = Scorecard;
