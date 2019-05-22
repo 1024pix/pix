@@ -16,8 +16,7 @@ describe('Unit | Component | competence-card-component', function() {
     [
       { level: null, isNotStarted: true, expectedLevel: null },
       { level: 1, isNotStarted: false, expectedLevel: 1 },
-      { level: 0, isNotStarted: false, expectedLevel: '–' },
-      { level: 0, isNotStarted: false, expectedLevel: '–' },
+      { level: 0, isNotStarted: false, expectedLevel: 0 },
       { level: 3, isNotStarted: false, expectedLevel: 3 }
     ].forEach((data) => {
 
