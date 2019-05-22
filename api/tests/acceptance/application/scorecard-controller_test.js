@@ -90,6 +90,13 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           competenceId: competence.id,
         });
 
+        const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
+        databaseBuilder.factory.buildCompetenceEvaluation({
+          userId,
+          assessmentId,
+          competenceId: competence.id
+        });
+
         await databaseBuilder.commit();
       });
 

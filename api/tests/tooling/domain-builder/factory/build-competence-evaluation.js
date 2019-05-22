@@ -9,7 +9,7 @@ module.exports = function buildCompetenceEvaluation(
     id = 1,
     assessmentId,
     assessment,
-    status = 'initialized',
+    status = 'started',
     userId = buildUser().id,
     competenceId = 'recsvLz0W2ShyfD63',
     createdAt = faker.date.recent(),
