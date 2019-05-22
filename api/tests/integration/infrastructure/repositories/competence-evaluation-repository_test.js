@@ -233,4 +233,24 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
   });
 
+  describe('#updateStatusByAssessmentId', () => {
+    const assessmentId = 'some id';
+
+    beforeEach(async () => {
+      databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, status: 'current_status' });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should update the competence status', async () => {
+      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByAssessmentId(assessmentId, 'new_status');
+
+      expect(updatedCompetenceEvaluation).to.be.instanceOf(CompetenceEvaluation);
+      expect(updatedCompetenceEvaluation.status).to.equal('new_status');
+    });
+  });
+
 });
