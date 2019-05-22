@@ -56,7 +56,7 @@ class Scorecard {
   }
   static computeStatus(competenceEvaluation) {
     if (!competenceEvaluation) {
-      return statuses.NOT_STARTED;
+      return ScorecardStatusType.NOT_STARTED;
     }
     const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
     if (stateOfAssessment === Assessment.states.COMPLETED) {
