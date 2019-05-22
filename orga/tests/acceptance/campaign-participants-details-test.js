@@ -18,7 +18,9 @@ module('Acceptance | Campaign Participants Details', function(hooks) {
     await authenticateSession({
       user_id: user.id,
     });
-    server.create('campaign', { id: 1 });
+    const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
+    server.create('campaign', { id: 1, campaignCollectiveResult });
+
     server.create('user', { id: 1, firstName: 'Jack', lastName: 'Doe' });
     server.create('campaign-participation', { campaignId: 1, userId: 1 });
   });

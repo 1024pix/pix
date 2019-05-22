@@ -31,6 +31,8 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
     beforeEach(async () => {
 
+      const userId = databaseBuilder.factory.buildUser().id;
+
       assessmentId = 987654321;
       notSmartPlacementAssessmentId = 32323;
       notExistingAssessmentId = 88888;
@@ -68,14 +70,13 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         answers: [firstAnswer, secondAnswer],
         knowledgeElements: [firstKnowledgeElement, secondKnowledgeElement],
         createdAt: new Date('2017-10-02T09:10:12Z'),
+        userId,
         targetProfile,
       });
 
-      databaseBuilder.factory.buildUser({ id: assessment.userId });
-
       databaseBuilder.factory.buildAssessment({
         id: assessment.id,
-        userId: assessment.userId,
+        userId,
         type: Assessment.types.SMARTPLACEMENT,
         state: Assessment.states.COMPLETED,
         createdAt: assessment.createdAt,
@@ -109,6 +110,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         answerId: firstKnowledgeElement.answerId,
         assessmentId: firstKnowledgeElement.assessmentId,
         skillId: firstKnowledgeElement.skillId,
+        userId
       });
       databaseBuilder.factory.buildKnowledgeElement({
         id: secondKnowledgeElement.id,
@@ -118,6 +120,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         answerId: secondKnowledgeElement.answerId,
         assessmentId: secondKnowledgeElement.assessmentId,
         skillId: secondKnowledgeElement.skillId,
+        userId
       });
 
       const organization = databaseBuilder.factory.buildOrganization({ id: targetProfile.organizationId });
@@ -140,17 +143,17 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         campaignId: campaign.id,
       });
 
-      databaseBuilder.factory.buildTargetProfilesSkills({
+      databaseBuilder.factory.buildTargetProfileSkill({
         id: 101,
         targetProfileId: targetProfile.id,
         skillId: firstSkill.id,
       });
-      databaseBuilder.factory.buildTargetProfilesSkills({
+      databaseBuilder.factory.buildTargetProfileSkill({
         id: 102,
         targetProfileId: targetProfile.id,
         skillId: secondSkill.id,
       });
-      databaseBuilder.factory.buildTargetProfilesSkills({
+      databaseBuilder.factory.buildTargetProfileSkill({
         id: 103,
         targetProfileId: targetProfile.id,
         skillId: thirdSkill.id,

@@ -52,7 +52,7 @@ describe('Unit | UseCase | get-campaign-participation', () => {
   });
 
   context('when user is neither the user of the campaignParticipation nor the organization', () => {
-    it('should get the campaignParticipation', async () => {
+    it('should not get the campaignParticipation', async () => {
       // given
       const campaignParticipationId = 1;
       const userId = 2;
