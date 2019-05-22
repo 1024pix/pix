@@ -23,6 +23,17 @@ module.exports = {
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
 
+  updateStatusByUserIdAndCompetenceId(userId, competenceId, status) {
+    return BookshelfCompetenceEvaluation
+      .where({ userId, competenceId })
+      .fetch({ require: true })
+      .then((competenceEvaluation) => {
+        competenceEvaluation.set('status', status);
+        return competenceEvaluation.save();
+      })
+      .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
+  },
+
   getByAssessmentId(assessmentId) {
     return BookshelfCompetenceEvaluation
       .where({ assessmentId })
