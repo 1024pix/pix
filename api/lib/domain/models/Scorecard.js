@@ -1,4 +1,5 @@
 const Assessment = require('./Assessment');
+const CompetenceEvaluation = require('./CompetenceEvaluation');
 const constants = require('../constants');
 const _ = require('lodash');
 
@@ -57,8 +58,10 @@ class Scorecard {
 }
 
 function _getScorecardStatus(competenceEvaluation) {
-
   if (!competenceEvaluation) {
+    return { status: statuses.NOT_STARTED };
+  }
+  if (competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
     return { status: statuses.NOT_STARTED };
   }
   const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');

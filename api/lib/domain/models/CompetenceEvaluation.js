@@ -1,5 +1,6 @@
 const statuses = {
   STARTED: 'started',
+  RESET: 'reset',
 };
 
 class CompetenceEvaluation {
@@ -32,6 +33,7 @@ class CompetenceEvaluation {
     this.userId = userId;
   }
 }
+
 CompetenceEvaluation.statuses = statuses;
 
 module.exports = CompetenceEvaluation;

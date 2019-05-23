@@ -70,6 +70,19 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
     });
 
+    context('when the competence evaluation has been reset', () => {
+      beforeEach(() => {
+        // given
+        competenceEvaluation = { status: 'reset' };
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+      });
+      // then
+      it('should have set the scorecard status based on the competence evaluation status', () => {
+        expect(actualScorecard.status).to.equal('NOT_STARTED');
+      });
+    });
+
     context('when the user level is beyond the upper limit allowed', () => {
       beforeEach(() => {
         // given
