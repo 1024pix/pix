@@ -17,8 +17,7 @@ module.exports = {
       .where({ assessmentId })
       .fetch({ require: true })
       .then((competenceEvaluation) => {
-        competenceEvaluation.set('status', status);
-        return competenceEvaluation.save();
+        return competenceEvaluation.save({ status, updatedAt: new Date() }, { patch: true, require: true });
       })
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
@@ -28,8 +27,7 @@ module.exports = {
       .where({ userId, competenceId })
       .fetch({ require: true })
       .then((competenceEvaluation) => {
-        competenceEvaluation.set('status', status);
-        return competenceEvaluation.save();
+        return competenceEvaluation.save({ status, updatedAt: new Date() }, { patch: true, require: true });
       })
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
