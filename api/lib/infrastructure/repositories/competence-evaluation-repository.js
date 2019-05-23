@@ -47,11 +47,9 @@ module.exports = {
       });
   },
 
-  getLastByCompetenceIdAndUserId(competenceId, userId) {
+  getByCompetenceIdAndUserId(competenceId, userId) {
     return BookshelfCompetenceEvaluation
       .where({ competenceId, userId })
-      .orderBy('createdAt', 'desc')
-      .query((qb) => qb.limit(1))
       .fetch({ require: true, withRelated: ['assessment'] })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {
