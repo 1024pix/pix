@@ -282,4 +282,48 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     });
 
   });
+
+  describe('findUniqByUserIdAndCompetenceId', () => {
+    let wantedKnowledgeElements;
+    let userId;
+    let otherUserId;
+    let competenceId;
+    let otherCompetenceId;
+
+    beforeEach(async () => {
+      userId = 1;
+      otherUserId = 2;
+      competenceId = '3';
+      otherCompetenceId = '4';
+
+      wantedKnowledgeElements = _.map([
+        { id: 1, status: 'validated', userId, competenceId },
+        { id: 2, status: 'invalidated', userId, competenceId },
+      ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
+      
+      _.each([
+        { id: 3, status: 'invalidated', userId, competenceId: otherCompetenceId },
+        { id: 4, status: 'validated', userId: otherUserId, competenceId },
+        { id: 5, status: 'validated', userId: otherUserId, competenceId: otherCompetenceId },
+        { id: 6, status: 'validated', userId, competenceId: null },
+      ], (ke) => {
+        databaseBuilder.factory.buildKnowledgeElement(ke);
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should reset only the knowledge elements matching both userId and competenceId', async () => {
+      // when
+      const actualKnowledgeElements = await KnowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
+
+      expect(actualKnowledgeElements).to.have.deep.members(wantedKnowledgeElements);
+
+    });
+
+  });
 });
