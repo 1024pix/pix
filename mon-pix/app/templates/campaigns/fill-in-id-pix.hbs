@@ -10,7 +10,7 @@
           {{input required id="id-pix-label" value=model.participantExternalId}}
         </div>
         {{#if model.loading}}
-          <button type="submit" class="button button--big"><span class="loader-in-button"></span></button>
+          <button type="submit" class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
         {{else}}
           <button type="submit" class="button button--big" {{action "submit"}}>Continuer</button>
         {{/if}}

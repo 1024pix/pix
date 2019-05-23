@@ -1,6 +1,8 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const usecases = require('../../../../lib/domain/usecases');
+const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
+const dataFetcher = require('../../../../lib/domain/services/smart-random/data-fetcher');
 
 describe('Unit | UseCase | share-campaign-result', () => {
 
@@ -13,11 +15,13 @@ describe('Unit | UseCase | share-campaign-result', () => {
   const campaignParticipationRepository = {
     updateCampaignParticipation() {
     },
-    get() {
-    },
   };
   const smartPlacementAssessmentRepository = {
     checkIfAssessmentBelongToUser() {
+    },
+  };
+  const assessmentRepository = {
+    getByCampaignParticipationId() {
     },
   };
 
@@ -29,7 +33,9 @@ describe('Unit | UseCase | share-campaign-result', () => {
     campaignParticipation = domainBuilder.buildCampaignParticipation({ assessmentId });
 
     sinon.stub(smartPlacementAssessmentRepository, 'checkIfAssessmentBelongToUser');
-    sinon.stub(campaignParticipationRepository, 'get').resolves();
+    sinon.stub(assessmentRepository, 'getByCampaignParticipationId').resolves();
+    sinon.stub(dataFetcher, 'fetchForCampaigns').resolves();
+    sinon.stub(smartRandom, 'getNextChallenge').returns({ hasAssessmentEnded: true });
   });
 
   context('when the share request comes from the owner of the assessment', () => {
@@ -41,10 +47,10 @@ describe('Unit | UseCase | share-campaign-result', () => {
     context('when the assessmentId is in the database', () => {
 
       beforeEach(() => {
-        campaignParticipationRepository.get.resolves(campaignParticipation);
+        assessmentRepository.getByCampaignParticipationId.resolves(assessment);
 
         expectedCampaignParticipation = domainBuilder.buildCampaignParticipation({
-          assessmentId: campaignParticipation.assessmentId,
+          assessmentId,
           campaignId: campaignParticipation.campaignId,
           isShared: true
         });
@@ -58,6 +64,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
         const promise = usecases.shareCampaignResult({
           userId,
           assessmentId,
+          assessmentRepository,
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
         });
@@ -69,10 +76,10 @@ describe('Unit | UseCase | share-campaign-result', () => {
       });
     });
 
-    context('when the assessmentId is not in the database', () => {
+    context('when the assessment is not in the database', () => {
 
       beforeEach(() => {
-        campaignParticipationRepository.get.rejects(new NotFoundError());
+        assessmentRepository.getByCampaignParticipationId.rejects(new NotFoundError());
       });
 
       it('should reject with a Not Found Error', () => {
@@ -80,6 +87,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
         const promise = usecases.shareCampaignResult({
           userId,
           assessmentId,
+          assessmentRepository,
           campaignParticipationRepository,
           smartPlacementAssessmentRepository,
         });
@@ -93,7 +101,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
   context('when the share request does not come from the owner of the assessment', () => {
 
     beforeEach(() => {
-      campaignParticipationRepository.get.resolves(campaignParticipation);
+      assessmentRepository.getByCampaignParticipationId.resolves(assessment);
       smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(false);
     });
 
@@ -105,6 +113,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
       const promise = usecases.shareCampaignResult({
         userId: wrongUserId,
         assessmentId,
+        assessmentRepository,
         campaignParticipationRepository,
         smartPlacementAssessmentRepository,
       });
