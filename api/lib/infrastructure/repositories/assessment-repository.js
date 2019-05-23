@@ -4,6 +4,7 @@ const Assessment = require('../../domain/models/Assessment');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const Campaign = require('../../domain/models/Campaign');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { groupBy, map, head, _ } = require('lodash');
 const fp = require('lodash/fp');
 const { NotFoundError } = require('../../domain/errors');
@@ -119,6 +120,16 @@ module.exports = {
       .where({ userId, courseId, type: 'CERTIFICATION' })
       .fetch({ withRelated: ['assessmentResults', 'answers'] })
       .then(_toDomain);
+  },
+
+  getByCampaignParticipationId(campaignParticipationId) {
+    return BookshelfAssessment
+      .where({ 'campaign-participations.id': campaignParticipationId, 'assessments.type': 'SMART_PLACEMENT' })
+      .query((qb) => {
+        qb.innerJoin('campaign-participations', 'campaign-participations.assessmentId', 'assessments.id');
+      })
+      .fetch({ require: true, withRelated: ['campaignParticipation.campaign'] })
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
   findSmartPlacementAssessmentsByUserId(userId) {

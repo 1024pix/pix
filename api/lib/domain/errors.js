@@ -170,7 +170,7 @@ class MissingOrInvalidCredentialsError extends DomainError {
   }
 }
 
-class NotCompletedAssessmentError extends DomainError {
+class AssessmentNotCompletedError extends DomainError {
   constructor() {
     super('Cette évaluation n\'est pas terminée.');
   }
@@ -280,23 +280,23 @@ module.exports = {
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
   AssessmentEndedError,
+  AssessmentNotCompletedError,
   AssessmentStartError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
-  CertificationComputeError,
   CertificationCenterMembershipCreationError,
+  CertificationComputeError,
   ChallengeAlreadyAnsweredError,
   EntityValidationError,
   ForbiddenAccess,
   InternalError,
+  InvaliOrganizationIdError,
   InvalidRecaptchaTokenError,
   InvalidSnapshotCode,
   InvalidTemporaryKeyError,
   InvalidTokenError,
-  InvaliOrganizationIdError,
   MembershipCreationError,
   MissingOrInvalidCredentialsError,
-  NotCompletedAssessmentError,
   NotFoundError,
   ObjectValidationError,
   PasswordNotMatching,
@@ -304,8 +304,8 @@ module.exports = {
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
-  UserNotAuthorizedToUpdateResourceError,
   UserNotAuthorizedToGetCampaignResultsError,
+  UserNotAuthorizedToUpdateResourceError,
   UserNotFoundError,
   WrongDateFormatError,
 };

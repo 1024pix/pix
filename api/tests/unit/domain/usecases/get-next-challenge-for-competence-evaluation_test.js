@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getNextChallengeForCompetenceEvaluation = require('../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation');
-const SmartRandom = require('../../../../lib/domain/services/smart-random/smartRandom');
+const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', () => {
 
@@ -11,7 +11,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       assessment, answers, challenges, targetSkills, competenceEvaluation,
       answerRepository, challengeRepository, competenceEvaluationRepository, skillRepository,
       knowledgeElementRepository,
-      recentKnowledgeElements, expectedComputedChallenge, actualComputedChallenge;
+      recentKnowledgeElements, expectedNextChallenge, actualComputedChallenge;
 
     beforeEach(async () => {
 
@@ -32,8 +32,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
       knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
-      expectedComputedChallenge = {};
-      sinon.stub(SmartRandom, 'getNextChallenge').resolves(expectedComputedChallenge);
+      expectedNextChallenge = { some: 'next challenge' };
+
+      sinon.stub(smartRandom, 'getNextChallenge').returns({
+        hasAssessmentEnded: false,
+        nextChallenge: expectedNextChallenge,
+      });
     });
 
     context('when user is not related to assessment', () => {
@@ -83,13 +87,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       });
 
       it('should have fetched the next challenge with only most recent knowledge elements', () => {
-        expect(SmartRandom.getNextChallenge).to.have.been.calledWithExactly({
+        expect(smartRandom.getNextChallenge).to.have.been.calledWithExactly({
           answers, challenges, targetSkills, knowledgeElements: recentKnowledgeElements
         });
       });
 
       it('should have returned the next challenge', () => {
-        expect(actualComputedChallenge).to.deep.equal(expectedComputedChallenge);
+        expect(actualComputedChallenge).to.deep.equal(expectedNextChallenge);
       });
     });
   });

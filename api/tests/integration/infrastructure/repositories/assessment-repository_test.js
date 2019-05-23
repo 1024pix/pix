@@ -4,6 +4,7 @@ const _ = require('lodash');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
@@ -704,6 +705,63 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
+  describe('#getByCampaignParticipationId', () => {
+
+    let assessmentsInDb;
+    let campaignParticipationsInDb;
+
+    beforeEach(() => {
+      assessmentsInDb = [
+        databaseBuilder.factory.buildAssessment({
+          id: 1,
+          type: 'SMART_PLACEMENT',
+        }),
+        databaseBuilder.factory.buildAssessment({
+          id: 2,
+          type: 'SMART_PLACEMENT',
+        }),
+      ];
+
+      campaignParticipationsInDb = [
+        databaseBuilder.factory.buildCampaignParticipation({
+          id: 3,
+          assessmentId: 1,
+        }),
+        databaseBuilder.factory.buildCampaignParticipation({
+          id: 4,
+          assessmentId: 2,
+        }),
+      ];
+
+      return Promise.all([
+        knex('assessments').insert(assessmentsInDb),
+        knex('campaign-participations').insert(campaignParticipationsInDb),
+      ]);
+    });
+
+    afterEach(() => {
+      return Promise.all([
+        knex('assessments').delete(),
+        knex('campaign-participations').delete(),
+      ]).then(() => databaseBuilder.clean());
+    });
+
+    it('should return assessment with campaignParticipation when it matches with campaignParticipationId', async function() {
+      // given
+      const campaignParticipationId = 4;
+
+      // when
+      const assessmentsReturned = await assessmentRepository.getByCampaignParticipationId(campaignParticipationId);
+
+      // then
+      expect(assessmentsReturned).to.be.an.instanceOf(Assessment);
+      expect(assessmentsReturned.campaignParticipation).to.be.an.instanceOf(CampaignParticipation);
+      expect(assessmentsReturned.campaignParticipation.id).to.equal(campaignParticipationId);
+      expect(assessmentsReturned.campaignParticipation.assessmentId).to.equal(2);
+    });
+
+  });
+
   describe('#findSmartPlacementAssessmentsByUserId', () => {
     let assessmentId;
 
@@ -965,7 +1023,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       });
 
     });
-    
+
     context('when user has COMPETENCE_EVALUATION assessment', () => {
       beforeEach(async() => {
         databaseBuilder.factory.buildAssessment({
