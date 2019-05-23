@@ -34,12 +34,15 @@ module.exports = {
       })
       .fetchAll()
       .then((knowledgeElements) => knowledgeElements.map(_toDomain))
-      .then((knowledgeElements) => {
-        return _(knowledgeElements)
-          .orderBy('createdAt', 'desc')
-          .uniqBy('skillId')
-          .value();
-      });
+      .then(_getUniqMostRecents);
+  },
+
+  findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
+    return BookshelfKnowledgeElement
+      .where({ userId, competenceId })
+      .fetchAll()
+      .then((knowledgeElements) => knowledgeElements.map(_toDomain))
+      .then(_getUniqMostRecents);
   },
 
   findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
@@ -72,5 +75,13 @@ module.exports = {
       .where({ rank: 1 })
       .then((result) => result.rows ? result.rows : result)
       .then(([{ earnedPix }]) => earnedPix);
-  }
+  },
+
 };
+
+function _getUniqMostRecents(knowledgeElements) {
+  return _(knowledgeElements)
+    .orderBy('createdAt', 'desc')
+    .uniqBy('skillId')
+    .value();
+}
