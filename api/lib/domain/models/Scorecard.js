@@ -43,58 +43,47 @@ class Scorecard {
 
   static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation }) {
 
-    const scorecardIdData = { id: `${userId}_${competence.id}` };
-    const scoringData = _computeScoringDatas(knowledgeElements);
-    const statusData = _getScorecardStatus(competenceEvaluation);
-    const competenceData = _getCompetenceDatas(competence);
+    const totalEarnedPix = _getTotalEarnedPix(knowledgeElements);
 
     return new Scorecard({
-      ...scorecardIdData,
-      ...competenceData,
-      ...statusData,
-      ...scoringData,
+      id: `${userId}_${competence.id}`,
+      name: competence.name,
+      description: competence.description,
+      competenceId: competence.id,
+      index: competence.index,
+      area: competence.area,
+      earnedPix: totalEarnedPix,
+      level: _getCompetenceLevel(totalEarnedPix),
+      pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPix),
+      status: _getScorecardStatus(competenceEvaluation),
     });
   }
 }
 
 function _getScorecardStatus(competenceEvaluation) {
   if (!competenceEvaluation) {
-    return { status: statuses.NOT_STARTED };
+    return statuses.NOT_STARTED;
   }
   if (competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
-    return { status: statuses.NOT_STARTED };
+    return statuses.NOT_STARTED;
   }
   const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
   if (stateOfAssessment === Assessment.states.COMPLETED) {
-    return { status: statuses.COMPLETED };
+    return statuses.COMPLETED;
   }
-  return { status: statuses.STARTED };
+  return statuses.STARTED;
 }
 
-function _getCompetenceDatas(competence) {
-  return {
-    name: competence.name,
-    description: competence.description,
-    competenceId: competence.id,
-    index: competence.index,
-    area: competence.area
-  };
-}
-
-function _computeScoringDatas(knowledgeElements) {
-  const totalEarnedPix = _.floor(_(knowledgeElements).sumBy('earnedPix'));
-  const level = _getCompetenceLevel(totalEarnedPix);
-  const pixScoreAheadOfNextLevel = _getpixScoreAheadOfNextLevel(totalEarnedPix);
-
-  return { earnedPix: totalEarnedPix, level, pixScoreAheadOfNextLevel };
+function _getTotalEarnedPix(knowledgeElements) {
+  return _.floor(_(knowledgeElements).sumBy('earnedPix'));
 }
 
 function _getCompetenceLevel(earnedPix) {
-  const userLevel = Math.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
+  const userLevel = _.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
   return Math.min(constants.MAX_REACHABLE_LEVEL, userLevel);
 }
 
-function _getpixScoreAheadOfNextLevel(earnedPix) {
+function _getPixScoreAheadOfNextLevel(earnedPix) {
   return earnedPix % constants.PIX_COUNT_BY_LEVEL;
 }
 
