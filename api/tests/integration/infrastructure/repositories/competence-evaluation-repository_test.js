@@ -125,7 +125,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
   });
 
-  describe('#getLastByCompetenceIdAndUserId', () => {
+  describe('#getByCompetenceIdAndUserId', () => {
     let user;
     let competenceEvaluationExpected, assessmentExpected;
 
@@ -158,7 +158,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
     it('should return the competence evaluation linked to the competence id', () => {
       // when
-      const promise = competenceEvaluationRepository.getLastByCompetenceIdAndUserId(1, user.id);
+      const promise = competenceEvaluationRepository.getByCompetenceIdAndUserId(1, user.id);
 
       // then
       return promise.then((competenceEvaluation) => {
@@ -170,7 +170,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
     it('should return an error when there is no competence evaluation', () => {
       // when
-      const promise = catchErr(competenceEvaluationRepository.getLastByCompetenceIdAndUserId)('fakeId', user.id);
+      const promise = catchErr(competenceEvaluationRepository.getByCompetenceIdAndUserId)('fakeId', user.id);
 
       // then
       return promise.then((error) => {
@@ -270,7 +270,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
     it('should update the competence status', async () => {
       const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId(userId, competenceId, 'new_status');
-      const unchangedCompetenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceIdAndUserId(competenceId, otherUserId);
+      const unchangedCompetenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId(competenceId, otherUserId);
 
       expect(updatedCompetenceEvaluation).to.be.instanceOf(CompetenceEvaluation);
       expect(updatedCompetenceEvaluation.status).to.equal('new_status');

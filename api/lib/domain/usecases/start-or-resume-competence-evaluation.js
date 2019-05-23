@@ -17,7 +17,7 @@ module.exports = async function startOrResumeCompetenceEvaluation({ competenceId
 };
 
 async function _resumeCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }) {
-  const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceIdAndUserId(competenceId, userId);
+  const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId(competenceId, userId);
 
   if (competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
     await competenceEvaluationRepository.updateStatusByCompetenceId(competenceId, CompetenceEvaluation.statuses.STARTED);
