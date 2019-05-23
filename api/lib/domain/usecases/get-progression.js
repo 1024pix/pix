@@ -7,7 +7,7 @@ module.exports = async function getProgression(
     assessmentRepository,
     competenceEvaluationRepository,
     smartPlacementAssessmentRepository,
-    smartPlacementKnowledgeElementRepository,
+    knowledgeElementRepository,
     skillRepository
   }) {
 
@@ -18,7 +18,7 @@ module.exports = async function getProgression(
 
   if (assessment.isSmartPlacement()) {
     const smartPlacementAssessment = await smartPlacementAssessmentRepository.get(assessmentId);
-    const knowledgeElementsBeforeSharedDate = await smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId, limitDate: smartPlacementAssessment.campaignParticipation.sharedAt });
+    const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: smartPlacementAssessment.campaignParticipation.sharedAt });
 
     progression = new Progression({
       id: progressionId,
@@ -32,7 +32,7 @@ module.exports = async function getProgression(
     const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessmentId);
     const [targetedSkills, knowledgeElements] = await Promise.all([
       skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
-      smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId })]
+      knowledgeElementRepository.findUniqByUserId({ userId })]
     );
 
     progression = new Progression({

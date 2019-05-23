@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const getNextChallengeForSmartPlacement = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
-const SmartRandom = require('../../../../lib/domain/services/smart-random/smartRandom');
+const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', () => {
 
@@ -9,8 +9,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     let userId, assessmentId, targetProfileId, campaignParticipation,
       assessment, answers, answerRepository, challengeRepository, challenges,
-      smartPlacementKnowledgeElementRepository, recentKnowledgeElements,
-      targetProfileRepository, targetProfile, skills, expectedComputedChallenge, actualComputedChallenge;
+      knowledgeElementRepository, recentKnowledgeElements,
+      targetProfileRepository, targetProfile, skills, expectedNextChallenge, actualNextChallenge;
 
     beforeEach(async () => {
 
@@ -29,15 +29,19 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       targetProfileRepository = { get: sinon.stub().resolves(targetProfile) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
-      smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
-      expectedComputedChallenge = {};
-      sinon.stub(SmartRandom, 'getNextChallenge').resolves(expectedComputedChallenge);
+      knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
+      expectedNextChallenge = { some: 'next challenge' };
 
-      actualComputedChallenge = await getNextChallengeForSmartPlacement({
+      sinon.stub(smartRandom, 'getNextChallenge').returns({
+        hasAssessmentEnded: false,
+        nextChallenge: expectedNextChallenge,
+      });
+
+      actualNextChallenge = await getNextChallengeForSmartPlacement({
         assessment,
         answerRepository,
         challengeRepository,
-        smartPlacementKnowledgeElementRepository,
+        knowledgeElementRepository,
         targetProfileRepository
       });
     });
@@ -51,7 +55,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     });
 
     it('should have fetched the most recent knowledge elements', () => {
-      expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
+      expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
     });
 
     it('should have fetched the challenges', () => {
@@ -59,13 +63,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     });
 
     it('should have fetched the next challenge with only most recent knowledge elements', () => {
-      expect(SmartRandom.getNextChallenge).to.have.been.calledWithExactly({
+      expect(smartRandom.getNextChallenge).to.have.been.calledWithExactly({
         answers, challenges, targetSkills: targetProfile.skills, knowledgeElements: recentKnowledgeElements
       });
     });
 
     it('should have returned the next challenge', () => {
-      expect(actualComputedChallenge).to.deep.equal(expectedComputedChallenge);
+      expect(actualNextChallenge).to.deep.equal(expectedNextChallenge);
     });
 
   });

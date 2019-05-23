@@ -5,33 +5,149 @@
   align-items: center;
 }
 
-.competence-results-panel {
-  &__header {
-    padding: 14px 14px 0 14px;
+.competence-results-panel-header {
+  &__banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 360px;
+    margin: 4px;
+    border-radius: 5px;
+
+    @include device-is('tablet') {
+      height: 240px;
+      margin: 12px;
+    }
+
+    &--congrats {
+      background: url('/images/banners/congrats.svg');
+      justify-content: flex-end;
+      padding-bottom: 30px;
+
+      @include device-is('tablet') {
+        justify-content: center;
+        padding-bottom: 0;
+      }
+    }
+
+    &--not-bad {
+      background: url('/images/banners/not-bad.svg') top right;
+      justify-content: flex-end;
+      align-items: center;
+
+      @include device-is('tablet') {
+        justify-content: center;
+        align-items: flex-start;
+        padding-left: 30px;
+      }
+
+      @include device-is('desktop') {
+        padding-left: 80px;
+      }
+    }
+
+    &--too-bad {
+      background: url('/images/banners/too-bad.svg') center;
+    }
   }
 }
 
-.competence-results-panel-header {
-  &__return-button {
-    color: $black;
-    font-size: 1.3rem;
-    font-weight: $font-semi-bold;
-    letter-spacing: 0.03rem;
-    display: flex;
-    align-items: center;
+.competence-results-banner {
 
-    > .competence-results-panel-header-return-button__icon {
-      margin-right: 4px;
+  &__title {
+
+    &--tablet {
+      display: none;
+
+      @include device-is('tablet') {
+        display: inherit;
+      }
+    }
+
+    &--mobile {
+      display: inherit;
+
+      @include device-is('tablet') {
+        display: none;
+      }
     }
   }
 
+  &__subtitle {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 1.8rem;
+    margin-top: 14px;
+    text-align: center;
 
-  &__return-button:hover {
-    text-decoration: none;
-    color: $black;
-
-    > .competence-results-panel-header-return-button__icon {
-      background-color: $alto-grey;
+    @include device-is('tablet') {
+      width: 400px;
     }
+
+    @include device-is('desktop') {
+      width: inherit;
+    }
+
+    &--left {
+      @include device-is('tablet') {
+        text-align: left;
+      }
+    }
+
+    &--small {
+      width: 300px;
+
+      @include device-is('tablet') {
+        width: 450px;
+      }
+    }
+  }
+
+  &__text {
+    display: flex;
+
+    @include device-is('tablet') {
+      padding-top: 20px;
+    }
+
+    &--spaced {
+      padding-top: 20px;
+    }
+  }
+}
+
+.competence-results-banner-text {
+  &__results {
+    display: flex;
+    align-items: center;
+
+    @include device-is('tablet') {
+      flex-direction: column;
+    }
+
+    &--spaced {
+      padding: 0 10px;
+      flex-direction: column;
+
+      @include device-is('tablet') {
+        padding: 0 30px;
+      }
+    }
+  }
+}
+
+.competence-results-banner-text-results {
+  &__label {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 1.4rem;
+  }
+
+  &__value {
+    color: $white;
+    font-family: $font-open-sans;
+    font-size: 2.4rem;
+    padding: 0 10px;
   }
 }

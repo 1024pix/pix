@@ -6,14 +6,17 @@ export default ApplicationAdapter.extend({
     return false;
   },
 
-  queryRecord() {
-    const url = this.buildURL('user', 'me');
-    return this.ajax(url, 'GET');
-  },
+  urlForQueryRecord(query) {
+    if (query.me) {
+      delete query.me;
+      return `${this._super(...arguments)}/me`;
+    }
 
-  findRecord() {
-    const url = this.buildURL('user', 'me');
-    return this.ajax(url, 'GET');
+    if (query.profile) {
+      delete query.profile;
+      return `${this._super(...arguments)}/me/profile`;
+    }
+
+    return this._super(...arguments);
   }
-
 });

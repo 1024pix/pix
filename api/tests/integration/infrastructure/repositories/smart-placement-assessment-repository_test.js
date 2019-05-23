@@ -7,7 +7,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -31,6 +31,8 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
     beforeEach(async () => {
 
+      const userId = databaseBuilder.factory.buildUser().id;
+
       assessmentId = 987654321;
       notSmartPlacementAssessmentId = 32323;
       notExistingAssessmentId = 88888;
@@ -42,17 +44,17 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       firstAnswer = domainBuilder.buildAnswer({ assessmentId });
       secondAnswer = domainBuilder.buildAnswer({ assessmentId });
 
-      firstKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
-        source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-        status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+      firstKnowledgeElement = domainBuilder.buildKnowledgeElement({
+        source: KnowledgeElement.SourceType.DIRECT,
+        status: KnowledgeElement.StatusType.VALIDATED,
         pixScore: 4,
         answerId: firstAnswer.id,
         assessmentId,
         skillId: firstSkill.id,
       });
-      secondKnowledgeElement = domainBuilder.buildSmartPlacementKnowledgeElement({
-        source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
-        status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+      secondKnowledgeElement = domainBuilder.buildKnowledgeElement({
+        source: KnowledgeElement.SourceType.DIRECT,
+        status: KnowledgeElement.StatusType.INVALIDATED,
         pixScore: 2,
         answerId: secondAnswer.id,
         assessmentId,
@@ -68,14 +70,13 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         answers: [firstAnswer, secondAnswer],
         knowledgeElements: [firstKnowledgeElement, secondKnowledgeElement],
         createdAt: new Date('2017-10-02T09:10:12Z'),
+        userId,
         targetProfile,
       });
 
-      databaseBuilder.factory.buildUser({ id: assessment.userId });
-
       databaseBuilder.factory.buildAssessment({
         id: assessment.id,
-        userId: assessment.userId,
+        userId,
         type: Assessment.types.SMARTPLACEMENT,
         state: Assessment.states.COMPLETED,
         createdAt: assessment.createdAt,
@@ -101,7 +102,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         challengeId: secondAnswer.challengeId,
       });
 
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         id: firstKnowledgeElement.id,
         source: firstKnowledgeElement.source,
         status: firstKnowledgeElement.status,
@@ -109,8 +110,9 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         answerId: firstKnowledgeElement.answerId,
         assessmentId: firstKnowledgeElement.assessmentId,
         skillId: firstKnowledgeElement.skillId,
+        userId
       });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
+      databaseBuilder.factory.buildKnowledgeElement({
         id: secondKnowledgeElement.id,
         source: secondKnowledgeElement.source,
         status: secondKnowledgeElement.status,
@@ -118,6 +120,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         answerId: secondKnowledgeElement.answerId,
         assessmentId: secondKnowledgeElement.assessmentId,
         skillId: secondKnowledgeElement.skillId,
+        userId
       });
 
       const organization = databaseBuilder.factory.buildOrganization({ id: targetProfile.organizationId });
@@ -140,17 +143,17 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         campaignId: campaign.id,
       });
 
-      databaseBuilder.factory.buildTargetProfilesSkills({
+      databaseBuilder.factory.buildTargetProfileSkill({
         id: 101,
         targetProfileId: targetProfile.id,
         skillId: firstSkill.id,
       });
-      databaseBuilder.factory.buildTargetProfilesSkills({
+      databaseBuilder.factory.buildTargetProfileSkill({
         id: 102,
         targetProfileId: targetProfile.id,
         skillId: secondSkill.id,
       });
-      databaseBuilder.factory.buildTargetProfilesSkills({
+      databaseBuilder.factory.buildTargetProfileSkill({
         id: 103,
         targetProfileId: targetProfile.id,
         skillId: thirdSkill.id,

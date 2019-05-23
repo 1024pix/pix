@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getNextChallengeForCompetenceEvaluation = require('../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation');
-const SmartRandom = require('../../../../lib/domain/services/smart-random/smartRandom');
+const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 
 describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluation', () => {
 
@@ -10,8 +10,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
     let userId, assessmentId, competenceId,
       assessment, answers, challenges, targetSkills, competenceEvaluation,
       answerRepository, challengeRepository, competenceEvaluationRepository, skillRepository,
-      smartPlacementKnowledgeElementRepository,
-      recentKnowledgeElements, expectedComputedChallenge, actualComputedChallenge;
+      knowledgeElementRepository,
+      recentKnowledgeElements, expectedNextChallenge, actualComputedChallenge;
 
     beforeEach(async () => {
 
@@ -31,9 +31,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       skillRepository = { findByCompetenceId: sinon.stub().resolves(targetSkills) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
-      smartPlacementKnowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
-      expectedComputedChallenge = {};
-      sinon.stub(SmartRandom, 'getNextChallenge').resolves(expectedComputedChallenge);
+      knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
+      expectedNextChallenge = { some: 'next challenge' };
+
+      sinon.stub(smartRandom, 'getNextChallenge').returns({
+        hasAssessmentEnded: false,
+        nextChallenge: expectedNextChallenge,
+      });
     });
 
     context('when user is not related to assessment', () => {
@@ -44,7 +48,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           userId: userId + 1,
           answerRepository,
           challengeRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceEvaluationRepository,
           skillRepository
         });
@@ -61,7 +65,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           userId,
           answerRepository,
           challengeRepository,
-          smartPlacementKnowledgeElementRepository,
+          knowledgeElementRepository,
           competenceEvaluationRepository,
           skillRepository
         });
@@ -75,7 +79,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       });
 
       it('should have fetched the most recent knowledge elements', () => {
-        expect(smartPlacementKnowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
+        expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
       });
 
       it('should have fetched the challenges', () => {
@@ -83,13 +87,13 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       });
 
       it('should have fetched the next challenge with only most recent knowledge elements', () => {
-        expect(SmartRandom.getNextChallenge).to.have.been.calledWithExactly({
+        expect(smartRandom.getNextChallenge).to.have.been.calledWithExactly({
           answers, challenges, targetSkills, knowledgeElements: recentKnowledgeElements
         });
       });
 
       it('should have returned the next challenge', () => {
-        expect(actualComputedChallenge).to.deep.equal(expectedComputedChallenge);
+        expect(actualComputedChallenge).to.deep.equal(expectedNextChallenge);
       });
     });
   });

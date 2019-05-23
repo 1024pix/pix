@@ -23,12 +23,7 @@ export default Route.extend(UnauthenticatedRouteMixin, {
     },
 
     authenticateUser(credentials) {
-      return this.session
-        .authenticate('authenticator:simple', credentials)
-        .then(() => {
-          return this.store.queryRecord('user', {});
-        });
+      return this.session.authenticate('authenticator:simple', credentials);
     },
-
   }
 });

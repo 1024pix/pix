@@ -1,35 +1,28 @@
+/* eslint-disable no-unused-vars */
 const { AssessmentEndedError } = require('../errors');
-const smartRandom = require('../services/smart-random/smartRandom');
+const smartRandom = require('../services/smart-random/smart-random');
+const dataFetcher = require('../services/smart-random/data-fetcher');
 
-async function getNextChallengeForSmartPlacement({ assessment, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, targetProfileRepository }) {
-  const [answers, [targetProfile, challenges], knowledgeElements] = await getSmartRandomInputValues({
-    assessment,
-    answerRepository,
-    challengeRepository,
-    smartPlacementKnowledgeElementRepository,
-    targetProfileRepository
-  });
-  const nextChallenge = smartRandom.getNextChallenge({ answers, challenges, targetSkills: targetProfile.skills, knowledgeElements });
+async function getNextChallengeForSmartPlacement({
+  knowledgeElementRepository,
+  targetProfileRepository,
+  challengeRepository,
+  answerRepository,
+  assessment,
+}) {
 
-  if (nextChallenge === null) {
+  const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
+
+  const {
+    nextChallenge,
+    hasAssessmentEnded,
+  } = smartRandom.getNextChallenge(inputValues);
+
+  if (hasAssessmentEnded) {
     throw new AssessmentEndedError();
   }
-  return nextChallenge;
-}
 
-function getSmartRandomInputValues({
-  assessment,
-  answerRepository,
-  challengeRepository,
-  smartPlacementKnowledgeElementRepository,
-  targetProfileRepository
-}) {
-  return Promise.all([
-    answerRepository.findByAssessment(assessment.id),
-    targetProfileRepository.get(assessment.campaignParticipation.getTargetProfileId())
-      .then((targetProfile) => Promise.all([targetProfile, challengeRepository.findBySkills(targetProfile.skills)])),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
-  );
+  return nextChallenge;
 }
 
 module.exports = getNextChallengeForSmartPlacement;

@@ -5,8 +5,6 @@ const _ = require('lodash');
 // FIXME: Cet objet a trop de responsabilité (modification des compétences)
 class Profile {
   constructor({
-    // attributes
-    usesProfileV2,
     // includes
     areas,
     assessmentsCompletedWithResults,
@@ -17,8 +15,6 @@ class Profile {
     user,
     // references
   } = {}) {
-    // attributes
-    this.usesProfileV2 = usesProfileV2;
     // includes
     this.areas = areas;
     this.competences = competences;

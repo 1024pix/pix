@@ -144,7 +144,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
       expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
       expect(updateCampaignParticiaption).to.have.property('userId');
-      expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
     });
 
     context('when the request comes from a different user', () => {
@@ -169,7 +168,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
         expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
         expect(updateCampaignParticiaption).to.have.property('userId');
-        expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
       });
     });
   });

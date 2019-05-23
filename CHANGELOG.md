@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v2.43.0 (23/05/2019)
+
+- [#522](https://github.com/1024pix/pix/pull/522) [FEATURE] Renommer PIX en Pix dans les signalements (PF-608).
+- [#511](https://github.com/1024pix/pix/pull/511) [FEATURE] Empêcher les utilisateurs de partager une campagne non terminée (PF-579-2).
+- [#494](https://github.com/1024pix/pix/pull/494) [FEATURE] Afficher la moyenne des résultats d'une campagne (PO-199).
+- [#515](https://github.com/1024pix/pix/pull/515) [FEATURE] Changement du texte pour les signalements (PF-504).
+- [#509](https://github.com/1024pix/pix/pull/509) [FEATURE] Ajout de bannières de résultats sur la page de résultats de parcours par compétence (PF-585).
+- [#507](https://github.com/1024pix/pix/pull/507) [TECH] Ajout de scénarios Cypress.
+- [#519](https://github.com/1024pix/pix/pull/519) [TECH] Remise en place des Answers dans les seeds.
+- [#443](https://github.com/1024pix/pix/pull/443) [TECH] Nettoyage de l'utilisation de users/me.
+- [#510](https://github.com/1024pix/pix/pull/510) [TECH] Refactor des usecases `get-scorecard` et `get-user-scorecards`.
+- [#512](https://github.com/1024pix/pix/pull/512) [TECH] Renommer SmartPlacementKnowledgeElement en KnowledgeElement.
+- [#504](https://github.com/1024pix/pix/pull/504) [TECH] Améliorer le script d'extraction d'answers.
+- [#514](https://github.com/1024pix/pix/pull/514) [TECH] Réparer le script `npm run start:watch` de l'API.
+
 ## v2.42.0 (16/05/2019)
 
 - [#502](https://github.com/1024pix/pix/pull/502) [FEATURE] Modification du design de scorecard-details (PF-594).

@@ -215,7 +215,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       // given
       const [s1] = domainBuilder.buildSkillCollection();
       const challenge = domainBuilder.buildChallenge({ skills: [s1] });
-      const knowledgeElements = [domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: s1.id })];
+      const knowledgeElements = [domainBuilder.buildKnowledgeElement({ skillId: s1.id })];
       const targetProfile = {
         skills: [s1]
       };
@@ -230,7 +230,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       const [s1, s2, s3] = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
       const challenge = domainBuilder.buildChallenge({ skills: [s1, s3] });
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: s1.id })];
+        domainBuilder.buildKnowledgeElement({ skillId: s1.id })];
       const targetProfile = {
         skills: [s1, s2, s3]
       };
@@ -245,7 +245,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       const [s1, s2] = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
       const challenge = domainBuilder.buildChallenge({ skills: [s1, s2] });
       const knowledgeElements = [
-        domainBuilder.buildSmartPlacementKnowledgeElement({ skillId: s1.id })];
+        domainBuilder.buildKnowledgeElement({ skillId: s1.id })];
       const targetProfile = {
         skills: [s1]
       };

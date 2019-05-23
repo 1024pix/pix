@@ -2,7 +2,7 @@ const getCorrectionForAnswerWhenAssessmentEnded = require('../../../../lib/domai
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Correction = require('../../../../lib/domain/models/Correction');
-const { NotCompletedAssessmentError } = require('../../../../lib/domain/errors');
+const { AssessmentNotCompletedError } = require('../../../../lib/domain/errors');
 const { expect, sinon } = require('../../../test-helper');
 
 describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
@@ -36,7 +36,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         });
 
         // then
-        return expect(promise).to.be.rejectedWith(NotCompletedAssessmentError)
+        return expect(promise).to.be.rejectedWith(AssessmentNotCompletedError)
           .then(() => {
             expect(assessmentRepository.get).to.have.been.calledWith(1);
             expect(answerRepository.get).to.have.been.calledWith(2);
@@ -137,4 +137,3 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
     });
   });
 });
-

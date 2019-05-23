@@ -124,5 +124,38 @@ module('Acceptance | Campaign Details', function(hooks) {
       // then
       assert.equal(currentURL(), '/campagnes/liste');
     });
+
+    test('it should display collective results tab', async function(assert) {
+      // given
+      await authenticateSession({
+        user_id: user.id,
+      });
+
+      server.create('campaign', { id: 1 });
+
+      // when
+      await visit('/campagnes/1');
+
+      // then
+      assert.dom('.navbar-item:nth-child(3)').hasText('Résultats collectifs');
+    });
+
+    test('it should redirect to collective results page on click on collective results tab', async function(assert) {
+      // given
+      await authenticateSession({
+        user_id: user.id,
+      });
+      const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
+      server.create('campaign', { id: 1, campaignCollectiveResult });
+
+      // when
+      await visit('/campagnes/1');
+      await click('.navbar-item:nth-child(3)');
+
+      // then
+      assert.dom('.navbar-item.active').hasText('Résultats collectifs');
+      assert.equal(currentURL(), '/campagnes/1/resultats-collectifs');
+    });
+
   });
 });

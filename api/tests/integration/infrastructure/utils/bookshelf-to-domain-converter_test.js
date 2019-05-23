@@ -5,7 +5,7 @@ const User = require('../../../../lib/domain/models/User');
 const Membership = require('../../../../lib/domain/models/Membership');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
@@ -108,8 +108,8 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     it('should support domain object relationship’s name not matching the corresponding Bookshelf class name', async () => {
       // given
       databaseBuilder.factory.buildUser({ id: 1 });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: 1 });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ userId: 1 });
+      databaseBuilder.factory.buildKnowledgeElement({ userId: 1 });
+      databaseBuilder.factory.buildKnowledgeElement({ userId: 1 });
       await databaseBuilder.commit();
       const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch({
         withRelated: 'knowledgeElements'
@@ -120,26 +120,26 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
 
       // then
       expect(domainObject.knowledgeElements).to.be.instanceOf(Array);
-      expect(domainObject.knowledgeElements[0]).to.be.instanceOf(SmartPlacementKnowledgeElement);
+      expect(domainObject.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
     });
     it('should support nested relationships', async () => {
       // given
       databaseBuilder.factory.buildCampaign({ id: 1 });
       databaseBuilder.factory.buildUser({ id: 1 });
       databaseBuilder.factory.buildCampaignParticipation({ id: 1, campaignId: 1, userId: 1 });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 1, userId: 1 });
-      databaseBuilder.factory.buildSmartPlacementKnowledgeElement({ id: 2, userId: 1 });
+      databaseBuilder.factory.buildKnowledgeElement({ id: 1, userId: 1 });
+      databaseBuilder.factory.buildKnowledgeElement({ id: 2, userId: 1 });
       await databaseBuilder.commit();
       const bookshelfObject = await BookshelfCampaignParticipation.where({ id: 1 }).fetch({
         withRelated: ['user.knowledgeElements'],
       });
 
-      // when 
+      // when
       const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, bookshelfObject);
 
       // then
       expect(domainObject.user.knowledgeElements).to.be.instanceOf(Array);
-      expect(domainObject.user.knowledgeElements[0]).to.be.instanceOf(SmartPlacementKnowledgeElement);
+      expect(domainObject.user.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
     });
   });
 });

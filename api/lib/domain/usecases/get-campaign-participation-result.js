@@ -10,27 +10,30 @@ module.exports = async function getCampaignParticipationResult(
     competenceRepository,
     assessmentRepository,
     targetProfileRepository,
-    smartPlacementKnowledgeElementRepository,
+    knowledgeElementRepository,
   }
 ) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
-
-  const userIsNotRequestingHisCampaignParticipation = !(userId === campaignParticipation.userId);
-  const userIsNotCampaignOrganizationMember = !(await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
-    campaignParticipation.campaignId,
-    userId
-  ));
-
-  if (userIsNotRequestingHisCampaignParticipation && userIsNotCampaignOrganizationMember) {
-    throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign participation');
-  }
+  await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
 
   const [ targetProfile, competences, assessment, knowledgeElements ] = await Promise.all([
     targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
     competenceRepository.list(),
     assessmentRepository.get(campaignParticipation.assessmentId),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
+    knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   ]);
 
   return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements });
 };
+
+async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {
+  const campaignParticipationBelongsToUser = (userId === campaignParticipation.userId);
+  const userIsMemberOfCampaignOrganization = await campaignRepository.checkIfUserOrganizationHasAccessToCampaign(
+    campaignParticipation.campaignId,
+    userId
+  );
+
+  if (!campaignParticipationBelongsToUser && !userIsMemberOfCampaignOrganization) {
+    throw new UserNotAuthorizedToAccessEntity('User does not have access to this campaign participation');
+  }
+}

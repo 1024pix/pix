@@ -48,7 +48,7 @@
   }
 
   &__share-container {
-    padding: 20px;
+    padding-bottom: 20px;
     text-align: center;
 
     @include device-is('tablet') {
@@ -80,6 +80,12 @@
     font-weight: $font-light;
     font-size: 2.4rem;
     padding-top: 20px;
+  }
+
+  &__share-error {
+    color: $pure-orange;
+    font-size: 1.5rem;
+    padding-bottom: 10px;
   }
 
   &__information {

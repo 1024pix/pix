@@ -10,8 +10,8 @@ module.exports = {
     const organizationId = request.params.id || extractParameters(request.query).filter.organizationId;
 
     return organizationRepository
-      .getByUserId(userId)
-      .then((organizations) => organizations.some((organization) => organization.get('id') == organizationId))
+      .findByUserId(userId)
+      .then((organizations) => organizations.some((organization) => organization.id == organizationId))
       .then((organizationFound) => organizationFound ? null : Promise.reject())
       .catch(() => {
         const buildedError = _dataAuthorizationPayload('Vous n’êtes pas autorisé à accéder à ces profils partagés');

@@ -1,4 +1,4 @@
-const { NotCompletedAssessmentError } = require('../errors');
+const { AssessmentNotCompletedError } = require('../errors');
 
 module.exports = function getCorrectionForAnswerWhenAssessmentEnded({
   assessmentRepository,
@@ -18,6 +18,6 @@ module.exports = function getCorrectionForAnswerWhenAssessmentEnded({
 
 function _validateCorrectionIsAccessible(assessment) {
   if (!assessment.isCompleted() && !assessment.isSmartPlacement() && !assessment.isCompetenceEvaluation()) {
-    throw new NotCompletedAssessmentError();
+    throw new AssessmentNotCompletedError();
   }
 }

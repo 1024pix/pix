@@ -2,9 +2,6 @@ const { BadRequestError } = require('../../infrastructure/errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
-const smartPlacementAssessmentRepository = require('../../infrastructure/repositories/smart-placement-assessment-repository');
-const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
-
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 
@@ -58,8 +55,6 @@ module.exports = {
     return usecases.shareCampaignResult({
       userId,
       campaignParticipationId,
-      campaignParticipationRepository,
-      smartPlacementAssessmentRepository
     })
       .then(() => null);
   }

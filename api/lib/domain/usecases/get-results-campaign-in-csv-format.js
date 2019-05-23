@@ -131,7 +131,7 @@ function _createOneLineOfCSV(
   targetProfile,
   userRepository,
   smartPlacementAssessmentRepository,
-  smartPlacementKnowledgeElementRepository,
+  knowledgeElementRepository,
 ) {
   let line = headers.map(() => '"NA"');
 
@@ -140,7 +140,7 @@ function _createOneLineOfCSV(
       return Promise.all([
         assessment,
         userRepository.get(assessment.userId),
-        smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, limitDate: assessment.campaignParticipation.sharedAt })
+        knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, limitDate: assessment.campaignParticipation.sharedAt })
       ]);
     })
     .then(([assessment, user, allKnowledgeElements]) => {
@@ -275,7 +275,7 @@ module.exports = function getResultsCampaignInCSVFormat(
     campaignParticipationRepository,
     organizationRepository,
     smartPlacementAssessmentRepository,
-    smartPlacementKnowledgeElementRepository,
+    knowledgeElementRepository,
   }) {
 
   let campaign, headersAsArray, listCompetences, listArea, organization;
@@ -322,7 +322,7 @@ module.exports = function getResultsCampaignInCSVFormat(
           targetProfile,
           userRepository,
           smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository
+          knowledgeElementRepository
         );
       });
       return Promise.all(getCSVLineForEachParticipation);

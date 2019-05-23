@@ -4,7 +4,7 @@ const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPla
 const buildCampaignParticipation = require('./build-campaign-participation');
 const buildSkillCollection = require('./build-skill-collection');
 const buildSmartPlacementAnswer = require('./build-smart-placement-answer');
-const buildSmartPlacementKnowledgeElement = require('./build-smart-placement-knowledge-element');
+const buildKnowledgeElement = require('./build-knowledge-element');
 const buildTargetProfile = require('./build-target-profile');
 
 const initialValues = {};
@@ -20,7 +20,7 @@ function initialValuesForId(id) {
   const targetProfile = buildTargetProfile({ skills });
 
   const answer1 = buildSmartPlacementAnswer();
-  const knowledgeElement1 = buildSmartPlacementKnowledgeElement({ answerId: answer1.id, skillId: skill1.name });
+  const knowledgeElement1 = buildKnowledgeElement({ answerId: answer1.id, skillId: skill1.name });
   const campaignParticipation = buildCampaignParticipation();
 
   initialValues[id] = {

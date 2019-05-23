@@ -99,7 +99,7 @@ describe('Unit | Service | Profil User Service', function() {
         sinon.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
         sinon.stub(assessmentRepository, 'findLastAssessmentsForEachCoursesByUser').resolves(fakeAssessmentRecords);
         sinon.stub(assessmentRepository, 'findCompletedAssessmentsByUserId').resolves(fakeAssessmentRecords);
-        sinon.stub(organizationRepository, 'getByUserId').resolves(fakeOrganizationsRecords);
+        sinon.stub(organizationRepository, 'findByUserId').resolves(fakeOrganizationsRecords);
       });
 
       it('should return a resolved promise', () => {
@@ -134,7 +134,6 @@ describe('Unit | Service | Profil User Service', function() {
               status: 'notAssessed',
               isRetryable: false,
             }],
-          usesProfileV2: false,
           areas: fakeAreaRecords,
           organizations: fakeOrganizationsRecords
         };
@@ -152,7 +151,6 @@ describe('Unit | Service | Profil User Service', function() {
         // given
         const expectedUser = {
           user: fakeUserRecord,
-          usesProfileV2: false,
           competences: [
             {
               id: 'competenceId1',
@@ -215,8 +213,8 @@ describe('Unit | Service | Profil User Service', function() {
 
         // then
         return promise.then(() => {
-          sinon.assert.called(organizationRepository.getByUserId);
-          sinon.assert.calledWith(organizationRepository.getByUserId, 'user-id');
+          sinon.assert.called(organizationRepository.findByUserId);
+          sinon.assert.calledWith(organizationRepository.findByUserId, 'user-id');
         });
       });
 

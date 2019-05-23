@@ -1,22 +1,30 @@
+/* eslint-disable no-unused-vars */
 const { AssessmentEndedError, UserNotAuthorizedToAccessEntity } = require('../errors');
-const smartRandom = require('../services/smart-random/smartRandom');
+const smartRandom = require('../services/smart-random/smart-random');
+const dataFetcher = require('../services/smart-random/data-fetcher');
 
-async function getNextChallengeForCompetenceEvaluation({ assessment, userId, answerRepository, competenceEvaluationRepository, challengeRepository, smartPlacementKnowledgeElementRepository, skillRepository }) {
+async function getNextChallengeForCompetenceEvaluation({
+  knowledgeElementRepository,
+  competenceEvaluationRepository,
+  challengeRepository,
+  answerRepository,
+  skillRepository,
+  assessment,
+  userId,
+}) {
+
   _checkIfAssessmentBelongsToUser(assessment, userId);
-  const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
-  const [answers, targetSkills, challenges, knowledgeElements] = await getSmartRandomInputValues({
-    assessment,
-    competenceEvaluation,
-    answerRepository,
-    challengeRepository,
-    smartPlacementKnowledgeElementRepository,
-    skillRepository
-  });
-  const nextChallenge = smartRandom.getNextChallenge({ answers, challenges, targetSkills, knowledgeElements });
+  const inputValues = await dataFetcher.fetchForCompetenceEvaluations(...arguments);
 
-  if (nextChallenge === null) {
+  const {
+    nextChallenge,
+    hasAssessmentEnded,
+  } = smartRandom.getNextChallenge(inputValues);
+
+  if (hasAssessmentEnded) {
     throw new AssessmentEndedError();
   }
+
   return nextChallenge;
 }
 
@@ -24,15 +32,6 @@ function _checkIfAssessmentBelongsToUser(assessment, userId) {
   if (assessment.userId != userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
-}
-
-function getSmartRandomInputValues({ assessment, competenceEvaluation, answerRepository, challengeRepository, smartPlacementKnowledgeElementRepository, skillRepository }) {
-  return Promise.all([
-    answerRepository.findByAssessment(assessment.id),
-    skillRepository.findByCompetenceId(competenceEvaluation.competenceId),
-    challengeRepository.findByCompetenceId(competenceEvaluation.competenceId),
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
-  );
 }
 
 module.exports = getNextChallengeForCompetenceEvaluation;

@@ -19,13 +19,13 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
     beforeEach(() => {
       sinon.stub(tokenService, 'extractTokenFromAuthChain');
       sinon.stub(tokenService, 'extractUserId');
-      sinon.stub(organizationRepository, 'getByUserId');
+      sinon.stub(organizationRepository, 'findByUserId');
     });
 
     it('should get userId from token in queryString', () => {
       // given
       tokenService.extractUserId.returns('userId');
-      organizationRepository.getByUserId.resolves([{ get: () => 8 }]);
+      organizationRepository.findByUserId.resolves([{ get: () => 8 }]);
 
       // when
       const promise = snapshotAuthorization.verify(request, hFake);
@@ -44,15 +44,15 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         const fetchedOrganization = [{ get: () => 8 }];
         const extractedUserId = 'userId';
         tokenService.extractUserId.returns(extractedUserId);
-        organizationRepository.getByUserId.resolves(fetchedOrganization);
+        organizationRepository.findByUserId.resolves(fetchedOrganization);
 
         // when
         const promise = snapshotAuthorization.verify(request, hFake);
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(organizationRepository.getByUserId);
-          sinon.assert.calledWith(organizationRepository.getByUserId, extractedUserId);
+          sinon.assert.calledOnce(organizationRepository.findByUserId);
+          sinon.assert.calledWith(organizationRepository.findByUserId, extractedUserId);
         });
       });
     });
@@ -65,7 +65,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         const extractedUserId = null;
 
         tokenService.extractUserId.returns(extractedUserId);
-        organizationRepository.getByUserId.resolves([]);
+        organizationRepository.findByUserId.resolves([]);
 
         // when
         const response = await snapshotAuthorization.verify(request, hFake);

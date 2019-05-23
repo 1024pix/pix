@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "2.42.0",
+  "version": "2.43.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "license": "AGPL-3.0",
@@ -104,7 +104,7 @@
     "db:pg:prepare": "npm run db:pg:delete && npm run db:pg:create && npm run db:pg:migrate",
     "db:pg:seed": "knex --knexfile db/knexfile.js seed:run",
     "db:pg:reset": "npm run db:pg:prepare && npm run db:pg:seed",
-    "dev": "nodemon bin/www",
+    "dev": "nodemon --signal SIGTERM bin/www",
     "lint": "eslint lib tests",
     "lint:fix": "eslint lib tests --fix",
     "preinstall": "test \"$(npm --version)\" = 6.4.1",

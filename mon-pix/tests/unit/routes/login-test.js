@@ -62,28 +62,6 @@ describe('Unit | Route | login page', function() {
 
       // Then
       sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb' });
-      sinon.assert.calledWith(route.transitionTo, 'compte');
-    });
-  });
-
-  context('when user is authenticated', function() {
-    beforeEach(function() {
-      this.register('service:session', Service.extend({
-        isAuthenticated: true
-      }));
-      this.inject.service('session', { as: 'session' });
-    });
-
-    it('should redirect authenticated users to /compte', async function() {
-      // Given
-      const route = this.subject();
-      sinon.stub(route, 'transitionTo');
-
-      // When
-      await route.beforeModel({ to: {} });
-
-      // Then
-      sinon.assert.calledWith(route.transitionTo, 'compte');
     });
   });
 });
