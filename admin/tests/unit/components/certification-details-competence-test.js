@@ -7,10 +7,10 @@ module('Unit | Component | certification-details-competence', function(hooks) {
 
   const answer = (result) => {
     return {
-      skill:'@skill1',
-      challengeId:'rec12345',
-      order:'1',
-      result:result
+      skill: '@skill1',
+      challengeId: 'rec12345',
+      order: '1',
+      result: result,
     };
   };
 
@@ -338,6 +338,48 @@ module('Unit | Component | certification-details-competence', function(hooks) {
 
     // then
     assert.deepEqual(component.get('answers'), [answer('ok'), answer('partially'), answer('ko')]);
+  });
+
+  test('it should replace unimplemented by aband and retrieve answers from competence', async function(assert) {
+    // given
+    const answer = (data) => {
+      const { value, result } = data;
+      return {
+        skill: '@skill1',
+        challengeId: 'rec12345',
+        order: '1',
+        result: result,
+        value: value,
+      };
+    };
+
+    const competence = (result1, result2, result3) => {
+      return {
+        name: 'Une compétence',
+        index: '1.1',
+        positionedLevel: 3,
+        positionedScore: 25,
+        obtainedLevel: -1,
+        obtainedScore: 0,
+        answers: [answer(result1), answer(result2), answer(result3)]
+      };
+    };
+
+    const component = this.owner.factoryFor('component:certification-details-competence').create();
+
+    // when
+    component.set('competence', competence(
+      { result: 'unimplemented', value: '#ABAND#' },
+      { result: 'ok' },
+      { result: 'ko' }
+    ));
+
+    // then
+    assert.deepEqual(component.get('answers'), [
+      answer({ result: 'aband', value: '#ABAND#' }),
+      answer({ result: 'ok' }),
+      answer({ result: 'ko' })
+    ]);
   });
 
 });

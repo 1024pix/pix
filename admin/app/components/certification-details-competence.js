@@ -21,10 +21,12 @@ export default Component.extend({
     const positionedLevel = this.competence.positionedLevel;
     return htmlSafe('width:' + Math.round((positionedLevel / 8) * 100) + '%');
   }),
+
   answers: computed('competence', function() {
     const competence = this.competence;
-    return competence.answers;
+    return this._replaceUnimplementedByAband(competence.answers);
   }),
+
   competenceJury: computed('juryRate', function() {
     const juryRate = this.juryRate;
     const competence = this.competence;
@@ -108,5 +110,15 @@ export default Component.extend({
         }
         return { score: 0, level: -1 };
     }
-  }
+  },
+
+  _replaceUnimplementedByAband: function(answers) {
+    return answers.map((answer) => {
+      if (answer.result === 'unimplemented' && answer.value === '#ABAND#') {
+        answer.result = 'aband';
+      }
+      return answer;
+    });
+  },
+
 });
