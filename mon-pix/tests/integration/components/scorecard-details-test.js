@@ -94,6 +94,22 @@ describe('Integration | Component | scorecard-details', function() {
       expect(this.element.querySelector('.scorecard-details-content-right__level-info')).to.not.exist;
     });
 
+    it('should not display remainingPixToNextLevel if scorecard.isFinished is true', async function() {
+      // given
+      const scorecard = {
+        remainingPixToNextLevel: 1,
+        isFinished: true,
+      };
+
+      this.set('scorecard', scorecard);
+
+      // when
+      await render(hbs`{{scorecard-details scorecard=scorecard}}`);
+
+      // then
+      expect(this.element.querySelector('.scorecard-details-content-right__level-info')).to.not.exist;
+    });
+
     it('should not display the level and remainingPixToNextLevel if scorecard.isNotStarted is true', async function() {
       // given
       const scorecard = {
