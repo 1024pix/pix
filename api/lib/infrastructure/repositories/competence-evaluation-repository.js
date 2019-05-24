@@ -12,6 +12,28 @@ module.exports = {
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result));
   },
 
+  updateStatusByAssessmentId(assessmentId, status) {
+    return BookshelfCompetenceEvaluation
+      .where({ assessmentId })
+      .fetch({ require: true })
+      .then((competenceEvaluation) => {
+        competenceEvaluation.set('status', status);
+        return competenceEvaluation.save();
+      })
+      .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
+  },
+
+  updateStatusByUserIdAndCompetenceId(userId, competenceId, status) {
+    return BookshelfCompetenceEvaluation
+      .where({ userId, competenceId })
+      .fetch({ require: true })
+      .then((competenceEvaluation) => {
+        competenceEvaluation.set('status', status);
+        return competenceEvaluation.save();
+      })
+      .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
+  },
+
   getByAssessmentId(assessmentId) {
     return BookshelfCompetenceEvaluation
       .where({ assessmentId })
@@ -25,11 +47,9 @@ module.exports = {
       });
   },
 
-  getLastByCompetenceIdAndUserId(competenceId, userId) {
+  getByCompetenceIdAndUserId(competenceId, userId) {
     return BookshelfCompetenceEvaluation
       .where({ competenceId, userId })
-      .orderBy('createdAt', 'desc')
-      .query((qb) => qb.limit(1))
       .fetch({ require: true, withRelated: ['assessment'] })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {

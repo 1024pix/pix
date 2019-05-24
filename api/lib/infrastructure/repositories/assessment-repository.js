@@ -143,15 +143,10 @@ module.exports = {
   // TODO: maybe obsolete after v1 be finished
   hasCampaignOrCompetenceEvaluation(userId) {
     return BookshelfAssessment
-      .query((qb) => {
-        qb.where({ userId });
-        qb.where('type', 'IN', ['SMART_PLACEMENT', 'COMPETENCE_EVALUATION']);
-      })
+      .where({ userId })
+      .where('type', 'IN', ['SMART_PLACEMENT', 'COMPETENCE_EVALUATION'])
       .fetchAll()
-      .then((bookshelfAssessmentCollection) => {
-        return Boolean(bookshelfAssessmentCollection.length);
-      });
-
+      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.length > 0);
   }
 };
 

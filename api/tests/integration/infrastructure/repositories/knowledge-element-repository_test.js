@@ -198,6 +198,39 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
   });
 
+  describe('#findUniqByUserIdGroupedByCompetenceId', () => {
+
+    let userId;
+
+    beforeEach(async () => {
+      // given
+      userId = databaseBuilder.factory.buildUser().id;
+
+      _.each([
+        { id: 1, competenceId: 1, userId, skillId: 'web1' },
+        { id: 2, competenceId: 1, userId, skillId: 'web2' },
+        { id: 3, competenceId: 2, userId, skillId: 'url1' },
+      ], (ke) => {
+        databaseBuilder.factory.buildKnowledgeElement(ke);
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should find the knowledge elements grouped by competence id', async () => {
+      // when
+      const actualKnowledgeElementsGroupedByCompetenceId = await KnowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId });
+      expect(actualKnowledgeElementsGroupedByCompetenceId[1]).to.have.length(2);
+      expect(actualKnowledgeElementsGroupedByCompetenceId[2]).to.have.length(1);
+      expect(actualKnowledgeElementsGroupedByCompetenceId[1][0]).to.be.instanceOf(KnowledgeElement);
+    });
+
+  });
+
   describe('#getSumOfPixFromUserKnowledgeElements', () => {
 
     let userId;

@@ -1,3 +1,8 @@
+const statuses = {
+  STARTED: 'started',
+  RESET: 'reset',
+};
+
 class CompetenceEvaluation {
 
   constructor({
@@ -5,6 +10,7 @@ class CompetenceEvaluation {
     // attributes
     createdAt,
     updatedAt,
+    status,
     // includes
     assessment,
     scorecard,
@@ -17,6 +23,7 @@ class CompetenceEvaluation {
     // attributes
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.status = status;
     //includes
     this.assessment = assessment;
     this.scorecard = scorecard;
@@ -26,5 +33,7 @@ class CompetenceEvaluation {
     this.userId = userId;
   }
 }
+
+CompetenceEvaluation.statuses = statuses;
 
 module.exports = CompetenceEvaluation;
