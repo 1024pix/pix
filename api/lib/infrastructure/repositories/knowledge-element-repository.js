@@ -10,6 +10,13 @@ function _toDomain(knowledgeElementBookshelf) {
     : new KnowledgeElement(knowledgeElements);
 }
 
+function _getUniqMostRecents(knowledgeElements) {
+  return _(knowledgeElements)
+    .orderBy('createdAt', 'desc')
+    .uniqBy('skillId')
+    .value();
+}
+
 module.exports = {
 
   save(knowledgeElement) {
@@ -82,9 +89,3 @@ module.exports = {
 
 };
 
-function _getUniqMostRecents(knowledgeElements) {
-  return _(knowledgeElements)
-    .orderBy('createdAt', 'desc')
-    .uniqBy('skillId')
-    .value();
-}
