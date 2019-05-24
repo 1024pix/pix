@@ -128,6 +128,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
               level: Math.round(knowledgeElement.earnedPix / 8),
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
               status: 'STARTED',
+              'days-before-reset': 7,
             },
             relationships: {
               area: {

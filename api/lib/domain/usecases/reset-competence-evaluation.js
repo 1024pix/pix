@@ -1,14 +1,23 @@
 const CompetenceEvaluation = require('../models/CompetenceEvaluation');
-const { UserNotAuthorizedToAccessEntity, NotFoundError } = require('../errors');
+const Scorecard = require('../models/Scorecard');
+const { UserNotAuthorizedToAccessEntity, CompetenceResetError, NotFoundError } = require('../errors');
 
 module.exports = async function resetCompetenceEvaluation({
   authenticatedUserId,
   requestedUserId,
   competenceId,
   competenceEvaluationRepository,
+  knowledgeElementRepository,
 }) {
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
+  }
+
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId: authenticatedUserId, competenceId });
+
+  const remainingDaysBeforeReset = Scorecard.getRemainingDaysBeforeReset(knowledgeElements);
+  if (remainingDaysBeforeReset > 0) {
+    throw new CompetenceResetError(remainingDaysBeforeReset);
   }
 
   try {

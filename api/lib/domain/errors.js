@@ -52,6 +52,12 @@ class CampaignWithoutOrganizationError extends DomainError {
   }
 }
 
+class CompetenceResetError extends DomainError {
+  constructor(remainingDaysBeforeReset) {
+    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence. Un peu de patience !`);
+  }
+}
+
 class AssessmentEndedError extends DomainError {
   constructor() {
     super();
@@ -284,6 +290,7 @@ module.exports = {
   AssessmentStartError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
+  CompetenceResetError,
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,

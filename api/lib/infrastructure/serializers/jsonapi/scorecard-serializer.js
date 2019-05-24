@@ -13,7 +13,8 @@ module.exports = {
         'earnedPix',
         'level',
         'pixScoreAheadOfNextLevel',
-        'status'
+        'status',
+        'daysBeforeReset'
       ],
 
       area: {
