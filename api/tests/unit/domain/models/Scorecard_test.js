@@ -1,5 +1,6 @@
-const { expect } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
+const moment = require('moment');
 
 describe('Unit | Domain | Models | Scorecard', () => {
 
@@ -8,6 +9,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
     let competenceEvaluation;
     let knowledgeElements;
     let actualScorecard;
+    let testCurrentDate;
 
     const userId = '123';
     const competence = {
@@ -18,6 +20,11 @@ describe('Unit | Domain | Models | Scorecard', () => {
       index: 'index',
     };
 
+    beforeEach(() => {
+      testCurrentDate = new Date('2018-01-10T05:00:00Z');
+      sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
     context('with existing competence evaluation and assessment', () => {
       beforeEach(() => {
         // given
@@ -25,7 +32,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
           status: 'started',
           assessment: { state: 'started' },
         };
-        knowledgeElements = [{ earnedPix: 5.5 }, { earnedPix: 3.6 }];
+        knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, { earnedPix: 3.6, createdAt: new Date() }];
         // when
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
       });
@@ -54,6 +61,9 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
       it('should have set the scorecard status based on the competence evaluation status', () => {
         expect(actualScorecard.status).to.equal('STARTED');
+      });
+      it('should have set the scorecard daysBeforeReset based on last knowledge element date', () => {
+        expect(actualScorecard.daysBeforeReset).to.equal(7);
       });
     });
 
@@ -93,6 +103,32 @@ describe('Unit | Domain | Models | Scorecard', () => {
       // then
       it('should have the competence level capped at the maximum value', () => {
         expect(actualScorecard.level).to.equal(5);
+      });
+    });
+
+    [
+      { daysBefore: 0, hoursBefore: 2, expectedDaysBeforeReset: 7 },
+      { daysBefore: 1, hoursBefore: 0, expectedDaysBeforeReset: 6 },
+      { daysBefore: 5, hoursBefore: 0, expectedDaysBeforeReset: 2 },
+      { daysBefore: 5, hoursBefore: 12, expectedDaysBeforeReset: 2 },
+      { daysBefore: 6, hoursBefore: 0, expectedDaysBeforeReset: 1 },
+      { daysBefore: 6, hoursBefore: 11, expectedDaysBeforeReset: 1 },
+      { daysBefore: 6, hoursBefore: 12, expectedDaysBeforeReset: 1 },
+      { daysBefore: 6, hoursBefore: 13, expectedDaysBeforeReset: 1 },
+      { daysBefore: 7, hoursBefore: 0, expectedDaysBeforeReset: 0 },
+      { daysBefore: 10, hoursBefore: 0, expectedDaysBeforeReset: 0 },
+    ].forEach(({ daysBefore, hoursBefore, expectedDaysBeforeReset }) => {
+      it(`should return ${expectedDaysBeforeReset} days when the last knowledge element is ${daysBefore} days and ${hoursBefore} hours old`, () => {
+        const knowledgeElementCreationDate = moment(testCurrentDate).subtract(daysBefore, 'day').subtract(hoursBefore, 'hour').toDate();
+        const oldDate = moment(testCurrentDate).subtract(100, 'day').toDate();
+
+        knowledgeElements = [{ createdAt: oldDate }, { createdAt: knowledgeElementCreationDate }];
+
+        // when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+
+        // then
+        expect(actualScorecard.daysBeforeReset).to.equal(expectedDaysBeforeReset);
       });
     });
 
