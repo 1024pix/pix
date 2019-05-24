@@ -5,6 +5,7 @@ const moment = require('moment');
 const statuses = {
   VALIDATED: 'validated',
   INVALIDATED: 'invalidated',
+  RESET: 'reset',
 };
 
 // Everytime a user gives an answers, it gives an information about what he knows
