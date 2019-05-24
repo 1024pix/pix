@@ -4,7 +4,10 @@ const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 
 function _toDomain(knowledgeElementBookshelf) {
-  return new KnowledgeElement(knowledgeElementBookshelf.toJSON());
+  const knowledgeElements = knowledgeElementBookshelf.toJSON();
+  return _.isArray(knowledgeElements)
+    ? knowledgeElements.map((ke) => new KnowledgeElement(ke))
+    : new KnowledgeElement(knowledgeElements);
 }
 
 module.exports = {
@@ -21,7 +24,7 @@ module.exports = {
     return BookshelfKnowledgeElement
       .where({ assessmentId })
       .fetchAll()
-      .then((knowledgeElements) => knowledgeElements.map(_toDomain));
+      .then(_toDomain);
   },
 
   findUniqByUserId({ userId, limitDate }) {
@@ -33,7 +36,7 @@ module.exports = {
         }
       })
       .fetchAll()
-      .then((knowledgeElements) => knowledgeElements.map(_toDomain))
+      .then(_toDomain)
       .then(_getUniqMostRecents);
   },
 
@@ -41,7 +44,7 @@ module.exports = {
     return BookshelfKnowledgeElement
       .where({ userId, competenceId })
       .fetchAll()
-      .then((knowledgeElements) => knowledgeElements.map(_toDomain))
+      .then(_toDomain)
       .then(_getUniqMostRecents);
   },
 
