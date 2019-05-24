@@ -53,6 +53,17 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(controller.get('isProgressable')).to.be.equal(false);
     });
 
+    it('returns false if isFinished', function() {
+      // given
+      const controller = this.owner.lookup('controller:scorecard-details');
+
+      // when
+      controller.set('scorecard', { isFinished: true });
+
+      // then
+      expect(controller.get('isProgressable')).to.be.equal(false);
+    });
+
     it('returns true otherwise', function() {
       // given
       const controller = this.owner.lookup('controller:scorecard-details');
