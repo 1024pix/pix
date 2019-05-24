@@ -59,10 +59,24 @@ export default Controller.extend({
       commentForJury: 'Commentaire pour le jury',
       pixScore: 'Note Pix'
     };
+    this._resultFields = {
+      id: 'Numéro de certification',
+      firstName: 'Prénom',
+      lastName: 'Nom',
+      birthdate: 'Date de naissance',
+      birthplace: 'Lieu de naissance',
+      externalId: 'Identifiant Externe',
+      pixScore: 'Nombre de Pix',
+      sessionId: 'Session',
+      certificationCenter: 'Centre de certification',
+      creationDate:'Date de passage de la certification'
+    };
 
     this._csvHeaders = Object.values(this._fields).concat(this._competences);
 
     this._juryCsvHeaders = Object.values(this._juryFields).concat(this._competences);
+
+    this._resultCsvHeaders = Object.values(this._resultFields).slice(0,-3).concat(this._competences).concat(Object.values(this._resultFields).slice(-3));
 
     this._csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
 
@@ -206,6 +220,32 @@ export default Controller.extend({
           this.fileSaver.saveAs(csv + '\n', fileName);
         });
     },
+
+    onExportResults() {
+      const dateFieldName = this._resultFields.creationDate;
+      const centerFieldName = this._resultFields.certificationCenter;
+      const centerName = this.get('model.session.certificationCenter');
+      return this._getExportJson(this._resultFields)
+        .then((json) => {
+          this.set('progress', false);
+          json.forEach((certification) => {
+            this._competences.forEach((competence) => {
+              if (certification[competence] == null || certification[competence] == 0 || certification[competence] == -1) {
+                certification[competence] = '-';
+              }
+            });
+            certification[dateFieldName] = certification[dateFieldName].substring(0,10);
+            certification[centerFieldName] = centerName;
+          });
+          const csv = json2csv.parse(json, {
+            fields: this._resultCsvHeaders,
+            delimiter: ';',
+            withBOM: false,
+          });
+          const fileName = 'resultats_session_' + this.get('model.session.id') + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+          this.fileSaver.saveAs(csv + '\n', fileName);
+        });
+    }
 
     /*
      * End of temporary code
