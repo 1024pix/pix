@@ -7,10 +7,11 @@ const KnowledgeElementStatusType = {
   INVALIDATED: 'invalidated',
 };
 
-// Par quelle méthode avons nous créé cet Élément de Connaissance ?
-// DIRECT => On sait que l'Acquis est validé ou non par une Réponse à une Épreuve
-// INFERRED => On déduit que l'Acquis est validé ou non parce qu'il fait partie d'un Tube sur lequel on a un Élément de Connaissance direct
-const KnowledgeElementSourceType = {
+// Everytime a user gives an answers, it gives an information about what he knows
+// at a given point in time about a specific skill. This is represented by a 'direct'
+// knowledge element. Depending on the success of the response, we can also infer more
+// knowledge elements about him regarding other skills: these knowledge elements are thereby 'inferred'.
+const sources = {
   DIRECT: 'direct',
   INFERRED: 'inferred',
 };
@@ -18,10 +19,6 @@ const KnowledgeElementSourceType = {
 const VALIDATED_STATUS = KnowledgeElementStatusType.VALIDATED;
 const INVALIDATED_STATUS = KnowledgeElementStatusType.INVALIDATED;
 
-/**
- * Traduction: Élément de connaissance d'un profil exploré dans le cadre d'un smart placement
- * Context:    Objet existant dans le cadre d'un smart placement hors calcul de la réponse suivante
- */
 class KnowledgeElement {
 
   constructor({
