@@ -28,9 +28,12 @@ module.exports = async function resetCompetenceEvaluation({
   }
 
   try {
-    await competenceEvaluationRepository.getByCompetenceIdAndUserId(competenceId, authenticatedUserId);
+    await competenceEvaluationRepository.getByCompetenceIdAndUserId({
+      competenceId, userId: authenticatedUserId
+    });
   } catch (err) {
-    // If user wants to reset its knowledge elements on a competence, but has only validated or invalidated them on campaigns
+    // If user wants to reset its knowledge elements on a competence,
+    // but has only validated or invalidated them on campaigns.
     if (err instanceof NotFoundError) {
       return null;
     } else {
@@ -38,5 +41,7 @@ module.exports = async function resetCompetenceEvaluation({
     }
   }
 
-  return competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId(authenticatedUserId, competenceId, CompetenceEvaluation.statuses.RESET);
+  return competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({
+    competenceId, userId: authenticatedUserId, status: CompetenceEvaluation.statuses.RESET
+  });
 };
