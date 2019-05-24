@@ -14,6 +14,8 @@
       Importer données (csv){{/bs-button}}
     {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onImport" false)}}
       Analyser PV (ods){{/bs-button}}
+    {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onExportResults")}}
+      Exporter résultats{{/bs-button}}
     {{#if showSelectedActions}}
       {{#bs-dropdown as |dd|}}
         {{#dd.button type='primary'}}Avec la sélection... <span class='caret'></span>{{/dd.button}}
