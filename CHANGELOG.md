@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.44.0 (24/05/2019)
+
+- [#523](https://github.com/1024pix/pix/pull/523) [FEATURE] Indication du format de la date de naissance sur le PV de certif (PC-55).
+- [#524](https://github.com/1024pix/pix/pull/524) [FEATURE] Changement de wordings sur les pages de résultats de campagnes (PO-208).
+
 ## v2.43.0 (23/05/2019)
 
 - [#522](https://github.com/1024pix/pix/pull/522) [FEATURE] Renommer PIX en Pix dans les signalements (PF-608).
