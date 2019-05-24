@@ -42,6 +42,11 @@ module.exports = {
       });
   },
 
+  findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
+    return this.findUniqByUserId({ userId, limitDate })
+      .then((knowledgeElements) => _.groupBy(knowledgeElements, 'competenceId'));
+  },
+
   getSumOfPixFromUserKnowledgeElements(userId) {
     return Bookshelf.knex.with('earnedPixWithRankPerSkill',
       (qb) => {
