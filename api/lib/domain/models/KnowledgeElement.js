@@ -2,18 +2,18 @@ const Skill = require('../models/Skill');
 const _ = require('lodash');
 const moment = require('moment');
 
-const KnowledgeElementStatusType = Object.freeze({
+const KnowledgeElementStatusType = {
   VALIDATED: 'validated',
   INVALIDATED: 'invalidated',
-});
+};
 
 // Par quelle méthode avons nous créé cet Élément de Connaissance ?
 // DIRECT => On sait que l'Acquis est validé ou non par une Réponse à une Épreuve
 // INFERRED => On déduit que l'Acquis est validé ou non parce qu'il fait partie d'un Tube sur lequel on a un Élément de Connaissance direct
-const KnowledgeElementSourceType = Object.freeze({
+const KnowledgeElementSourceType = {
   DIRECT: 'direct',
   INFERRED: 'inferred',
-});
+};
 
 const VALIDATED_STATUS = KnowledgeElementStatusType.VALIDATED;
 const INVALIDATED_STATUS = KnowledgeElementStatusType.INVALIDATED;
