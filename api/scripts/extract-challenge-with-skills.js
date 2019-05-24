@@ -1,10 +1,9 @@
-#! /usr/bin/env node
 const _ = require('lodash');
 const challengeRepository = require('../lib/infrastructure/repositories/challenge-repository');
 const skillsRepository = require('../lib/infrastructure/repositories/skill-repository');
 const competencesRepository = require('../lib/infrastructure/repositories/competence-repository');
 
-async function main () {
+async function findChallengesWithSkills () {
 
   // Récupération des challenges
   let challenges = await challengeRepository.list();
@@ -15,7 +14,7 @@ async function main () {
   // Récupération des acquis par compétences
   let skills = await Promise.all(
     _.map(competences, (competence) => {
-     return skillsRepository.findByCompetenceId(competence.id);
+      return skillsRepository.findByCompetenceId(competence.id);
     })
   );
   skills = _.flatten(skills);
@@ -29,8 +28,8 @@ async function main () {
     })
     .forEach((skill) => {
       skill.lowerSkills = _.filter(skills,(s) => {
-          return s.tube === skill.tube && s.level < skill.level;
-        });
+        return s.tube === skill.tube && s.level < skill.level;
+      });
       skill.higherSkills = _.filter(skills,(s) => {
         return s.tube === skill.tube && s.level > skill.level;
       });
@@ -80,29 +79,50 @@ async function main () {
       skillsInvalidated,
     };
   });
-  console.log(`ChallengeId;source;status;skillId;earnedPix;skillName`);
 
+  const skillsForChallengeAndResults = [];
   _.forEach(informationForKnowledgeElements, (challengeWithSkills) => {
     const challengeId = challengeWithSkills.challengeId;
-    _.forEach(challengeWithSkills.skillsFromChallenge, (directSkills) => {
-      console.log(`${challengeId};direct;validated;${directSkills.id};${directSkills.pixValue};${directSkills.name}`)
+    skillsForChallengeAndResults[challengeId] = [];
+    const validatedDirect = _.map(challengeWithSkills.skillsFromChallenge, (skill) => {
+      return {
+        source: 'direct',
+        skillId: skill.id,
+        earnedPix: skill.pixValue,
+        competenceId: skill.competenceId,
+      }
     });
-    _.forEach(challengeWithSkills.skillsValidated, (inferredValidatedSkills) => {
-      console.log(`${challengeId};inferred;validated;${inferredValidatedSkills.id};${inferredValidatedSkills.pixValue};${inferredValidatedSkills.name}`)
+    const validatedInferred = _.map(challengeWithSkills.skillsValidated, (skill) => {
+      return {
+        source: 'inferred',
+        skillId: skill.id,
+        earnedPix: skill.pixValue,
+        competenceId: skill.competenceId,
+      }
     });
-    _.forEach(challengeWithSkills.skillsFromChallenge, (directSkills) => {
-      console.log(`${challengeId};direct;invalidated;${directSkills.id};0;${directSkills.name}`)
+    skillsForChallengeAndResults[challengeId]['validated'] = _.concat(validatedDirect, validatedInferred);
+
+    const invalidatedDirect = _.map(challengeWithSkills.skillsFromChallenge, (skill) => {
+      return {
+        source: 'direct',
+        skillId: skill.id,
+        earnedPix: 0,
+        competenceId: skill.competenceId,
+      }
     });
-    _.forEach(challengeWithSkills.skillsInvalidated, (inferredInvalidatedSkills) => {
-      console.log(`${challengeId};inferred;invalidated;${inferredInvalidatedSkills.id};0;${inferredInvalidatedSkills.name}`)
+    const invalidatedInferred = _.map(challengeWithSkills.skillsInvalidated, (skill) => {
+      return {
+        source: 'inferred',
+        skillId: skill.id,
+        earnedPix: 0,
+        competenceId: skill.competenceId,
+      }
     });
+    skillsForChallengeAndResults[challengeId]['invalidated'] = _.concat(invalidatedDirect, invalidatedInferred);
+
   });
-  process.exit(1);
+  return skillsForChallengeAndResults;
 
 }
 
-/*=================== tests =============================*/
-
-if (require.main === module) {
-  main();
-}
+module.exports = findChallengesWithSkills;
