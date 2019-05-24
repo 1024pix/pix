@@ -17,6 +17,10 @@ function _getUniqMostRecents(knowledgeElements) {
     .value();
 }
 
+function _removeResetKnowledgeElements(knowledgeElements) {
+  return _.reject(knowledgeElements, { status: KnowledgeElement.StatusType.RESET });
+}
+
 module.exports = {
 
   save(knowledgeElement) {
@@ -31,7 +35,8 @@ module.exports = {
     return BookshelfKnowledgeElement
       .where({ assessmentId })
       .fetchAll()
-      .then(_toDomain);
+      .then(_toDomain)
+      .then(_removeResetKnowledgeElements);
   },
 
   findUniqByUserId({ userId, limitDate }) {
@@ -44,7 +49,8 @@ module.exports = {
       })
       .fetchAll()
       .then(_toDomain)
-      .then(_getUniqMostRecents);
+      .then(_getUniqMostRecents)
+      .then(_removeResetKnowledgeElements);
   },
 
   findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
@@ -52,7 +58,8 @@ module.exports = {
       .where({ userId, competenceId })
       .fetchAll()
       .then(_toDomain)
-      .then(_getUniqMostRecents);
+      .then(_getUniqMostRecents)
+      .then(_removeResetKnowledgeElements);
   },
 
   findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
