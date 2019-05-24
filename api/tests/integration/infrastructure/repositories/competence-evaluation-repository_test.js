@@ -158,7 +158,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
     it('should return the competence evaluation linked to the competence id', () => {
       // when
-      const promise = competenceEvaluationRepository.getByCompetenceIdAndUserId(1, user.id);
+      const promise = competenceEvaluationRepository.getByCompetenceIdAndUserId({ competenceId: 1, userId: user.id });
 
       // then
       return promise.then((competenceEvaluation) => {
@@ -170,7 +170,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
     it('should return an error when there is no competence evaluation', () => {
       // when
-      const promise = catchErr(competenceEvaluationRepository.getByCompetenceIdAndUserId)('fakeId', user.id);
+      const promise = catchErr(competenceEvaluationRepository.getByCompetenceIdAndUserId)({ competenceId: 'fakeId', userId: user.id });
 
       // then
       return promise.then((error) => {
@@ -246,7 +246,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
 
     it('should update the competence status', async () => {
-      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByAssessmentId(assessmentId, 'new_status');
+      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByAssessmentId({ assessmentId, status: 'new_status' });
 
       expect(updatedCompetenceEvaluation).to.be.instanceOf(CompetenceEvaluation);
       expect(updatedCompetenceEvaluation.status).to.equal('new_status');
@@ -269,8 +269,8 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
 
     it('should update the competence status', async () => {
-      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId(userId, competenceId, 'new_status');
-      const unchangedCompetenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId(competenceId, otherUserId);
+      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({ userId, competenceId, status: 'new_status' });
+      const unchangedCompetenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ competenceId, userId: otherUserId });
 
       expect(updatedCompetenceEvaluation).to.be.instanceOf(CompetenceEvaluation);
       expect(updatedCompetenceEvaluation.status).to.equal('new_status');

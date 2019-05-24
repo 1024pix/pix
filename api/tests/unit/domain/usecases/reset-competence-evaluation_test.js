@@ -48,12 +48,15 @@ describe('Unit | UseCase | reset-competence-evaluation', () => {
       competenceEvaluationRepository.getByCompetenceIdAndUserId
         .withArgs(competenceId, authenticatedUserId)
         .resolves(competenceEvaluation);
+
       competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId
-        .withArgs(authenticatedUserId, competenceId, CompetenceEvaluation.statuses.RESET)
+        .withArgs({ userId: authenticatedUserId, competenceId, status: CompetenceEvaluation.statuses.RESET })
         .resolves(expectedCompetenceEvaluation);
+
       knowledgeElementRepository.findUniqByUserIdAndCompetenceId
         .withArgs({ userId: authenticatedUserId, competenceId })
         .resolves(knowledgeElements);
+
       getRemainingDaysBeforeResetStub
         .withArgs(knowledgeElements)
         .returns(0);
@@ -100,7 +103,7 @@ describe('Unit | UseCase | reset-competence-evaluation', () => {
         .withArgs({ userId: authenticatedUserId, competenceId })
         .resolves(knowledgeElements);
       competenceEvaluationRepository.getByCompetenceIdAndUserId
-        .withArgs(competenceId, authenticatedUserId)
+        .withArgs({ competenceId, userId: authenticatedUserId })
         .rejects(new NotFoundError());
 
       // when
@@ -149,7 +152,7 @@ describe('Unit | UseCase | reset-competence-evaluation', () => {
       const response = await resetCompetenceEvaluation({ authenticatedUserId, requestedUserId, competenceId, competenceEvaluationRepository, knowledgeElementRepository });
 
       // then
-      sinon.assert.neverCalledWith(competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId, competenceId, authenticatedUserId);
+      sinon.assert.neverCalledWith(competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId, { competenceId, userId: requestedUserId });
       expect(response).to.equal(null);
     });
   });
