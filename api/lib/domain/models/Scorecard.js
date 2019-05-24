@@ -59,8 +59,20 @@ class Scorecard {
       level: _getCompetenceLevel(totalEarnedPix),
       pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPix),
       status: _getScorecardStatus(competenceEvaluation),
-      daysBeforeReset: _getRemainingDaysBeforeReset(knowledgeElements),
+      daysBeforeReset: Scorecard.getRemainingDaysBeforeReset(knowledgeElements),
     });
+  }
+
+  static getRemainingDaysBeforeReset(knowledgeElements) {
+    if (!knowledgeElements) {
+      return null;
+    }
+    const lastKnowledgeElement = _(knowledgeElements).sortBy(['createdAt']).last();
+    const daysSinceLastKnowledgeElement = moment.utc().diff(lastKnowledgeElement.createdAt, 'days', true);
+
+    const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
+
+    return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
 }
 
@@ -89,15 +101,6 @@ function _getCompetenceLevel(earnedPix) {
 
 function _getPixScoreAheadOfNextLevel(earnedPix) {
   return earnedPix % constants.PIX_COUNT_BY_LEVEL;
-}
-
-function _getRemainingDaysBeforeReset(knowledgeElements) {
-  const lastKnowledgeElement = _(knowledgeElements).sortBy(['createdAt']).last();
-  const daysSinceLastKnowledgeElement = moment.utc().diff(lastKnowledgeElement.createdAt, 'days', true);
-
-  const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
-
-  return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
 }
 
 Scorecard.statuses = statuses;

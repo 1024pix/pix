@@ -231,6 +231,46 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
   });
 
+  describe('#findUniqByUserIdAndCompetenceId', () => {
+
+    let userId;
+    let competenceId;
+
+    beforeEach(async () => {
+      // given
+      userId = databaseBuilder.factory.buildUser().id;
+      const otherUserId = 'fakeId';
+      competenceId = 2;
+
+      const today = moment.utc().toDate();
+      const yesterday = moment.utc().subtract(1, 'day').toDate();
+
+      _.each([
+        { id: 1, competenceId: 1, userId, skillId: 'web1', createdAt: today },
+        { id: 2, competenceId, userId, skillId: 'url1', createdAt: today },
+        { id: 3, competenceId, userId, skillId: 'url1', createdAt: yesterday },
+        { id: 4, competenceId, userId: otherUserId, skillId: 'url2', createdAt: today },
+      ], (ke) => {
+        databaseBuilder.factory.buildKnowledgeElement(ke);
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should find the knowledge elements', async () => {
+      // when
+      const actualKnowledgeElements = await KnowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
+      expect(actualKnowledgeElements).to.have.length(1);
+      expect(actualKnowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
+      expect(actualKnowledgeElements[0].id).to.equal(2);
+    });
+
+  });
+
   describe('#getSumOfPixFromUserKnowledgeElements', () => {
 
     let userId;
