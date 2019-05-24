@@ -26,6 +26,14 @@ module.exports = {
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
 
+  updateAssessmentId({ currentAssessmentId, newAssessmentId }) {
+    return BookshelfCompetenceEvaluation
+      .where({ assessmentId: currentAssessmentId })
+      .save({ assessmentId: newAssessmentId }, { require: true, patch: true })
+      .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
+
+  },
+
   getByAssessmentId(assessmentId) {
     return BookshelfCompetenceEvaluation
       .where({ assessmentId })
