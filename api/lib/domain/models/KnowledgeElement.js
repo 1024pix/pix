@@ -2,7 +2,7 @@ const Skill = require('../models/Skill');
 const _ = require('lodash');
 const moment = require('moment');
 
-const KnowledgeElementStatusType = {
+const statuses = {
   VALIDATED: 'validated',
   INVALIDATED: 'invalidated',
 };
@@ -15,9 +15,6 @@ const sources = {
   DIRECT: 'direct',
   INFERRED: 'inferred',
 };
-
-const VALIDATED_STATUS = KnowledgeElementStatusType.VALIDATED;
-const INVALIDATED_STATUS = KnowledgeElementStatusType.INVALIDATED;
 
 class KnowledgeElement {
 
@@ -52,11 +49,11 @@ class KnowledgeElement {
   }
 
   get isValidated() {
-    return this.status === KnowledgeElementStatusType.VALIDATED;
+    return this.status === statuses.VALIDATED;
   }
 
   get isInvalidated() {
-    return this.status === KnowledgeElementStatusType.INVALIDATED;
+    return this.status === statuses.INVALIDATED;
   }
 
   static createKnowledgeElementsForAnswer({
@@ -89,8 +86,8 @@ class KnowledgeElement {
   }
 }
 
-KnowledgeElement.SourceType = KnowledgeElementSourceType;
-KnowledgeElement.StatusType = KnowledgeElementStatusType;
+KnowledgeElement.SourceType = sources;
+KnowledgeElement.StatusType = statuses;
 
 function _createDirectKnowledgeElements({
   answer,
@@ -101,14 +98,14 @@ function _createDirectKnowledgeElements({
   userId,
 }) {
 
-  const status = answer.isOk() ? VALIDATED_STATUS : INVALIDATED_STATUS;
+  const status = answer.isOk() ? statuses.VALIDATED : statuses.INVALIDATED;
 
   return challenge.skills
     .filter(_skillIsInTargetedSkills({ targetSkills }))
     .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
     .map((skill) => {
-      const source = KnowledgeElement.SourceType.DIRECT;
-      return _createKnowledgeElementsForSkill({ skill, source, status, answer, userId });
+      const source = sources.DIRECT;
+      return _createKnowledgeElement({ skill, source, status, answer, userId });
     });
 }
 
@@ -134,7 +131,7 @@ function _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
   userId,
 }) {
   const targetSkillsGroupedByTubeName = _.groupBy(targetSkills, (skill) => skill.tubeName);
-  const status = answer.isOk() ? VALIDATED_STATUS : INVALIDATED_STATUS;
+  const status = answer.isOk() ? statuses.VALIDATED : statuses.INVALIDATED;
 
   return directKnowledgeElements.reduce((totalKnowledgeElements, directKnowledgeElement) => {
 
@@ -169,47 +166,27 @@ function _findSkillByIdFromTargetSkills(skillId, targetSkills) {
 
 function _createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer, userId }) {
   const newInferredKnowledgeElements = [];
-  if (status === VALIDATED_STATUS
+  if (status === statuses.VALIDATED
       && skillToInfer.difficulty < directSkill.difficulty) {
 
-    const newKnowledgeElement = _createInferredValidatedKnowledgeElement({ answer, skillToInfer, userId });
+    const newKnowledgeElement = _createKnowledgeElement({
+      answer, skill: skillToInfer, userId, status: statuses.VALIDATED, source: sources.INFERRED
+    });
     newInferredKnowledgeElements.push(newKnowledgeElement);
   }
-  if (status === INVALIDATED_STATUS
+  if (status === statuses.INVALIDATED
       && skillToInfer.difficulty > directSkill.difficulty) {
 
-    const newKnowledgeElement = _createInferredInvalidatedKnowledgeElement({ answer, skillToInfer, userId });
+    const newKnowledgeElement = _createKnowledgeElement({
+      answer, skill: skillToInfer, userId, status: statuses.INVALIDATED, source: sources.INFERRED
+    });
     newInferredKnowledgeElements.push(newKnowledgeElement);
   }
   return newInferredKnowledgeElements;
 }
 
-function _createInferredValidatedKnowledgeElement({ answer, skillToInfer, userId }) {
-  const source = KnowledgeElement.SourceType.INFERRED;
-
-  return _createKnowledgeElementsForSkill({
-    answer,
-    skill: skillToInfer,
-    source,
-    status: VALIDATED_STATUS,
-    userId
-  });
-}
-
-function _createInferredInvalidatedKnowledgeElement({ answer, skillToInfer, userId }) {
-  const source = KnowledgeElement.SourceType.INFERRED;
-
-  return _createKnowledgeElementsForSkill({
-    answer,
-    skill: skillToInfer,
-    source,
-    status: INVALIDATED_STATUS,
-    userId
-  });
-}
-
-function _createKnowledgeElementsForSkill({ skill, source, status, answer, userId }) {
-  const pixValue = (status === VALIDATED_STATUS) ? skill.pixValue : 0;
+function _createKnowledgeElement({ answer, skill, userId, status, source }) {
+  const pixValue = (status === statuses.VALIDATED) ? skill.pixValue : 0;
 
   return new KnowledgeElement({
     answerId: answer.id,
