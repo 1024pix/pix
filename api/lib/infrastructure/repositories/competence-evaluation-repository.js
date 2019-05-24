@@ -15,20 +15,14 @@ module.exports = {
   updateStatusByAssessmentId(assessmentId, status) {
     return BookshelfCompetenceEvaluation
       .where({ assessmentId })
-      .fetch({ require: true })
-      .then((competenceEvaluation) => {
-        return competenceEvaluation.save({ status, updatedAt: new Date() }, { patch: true, require: true });
-      })
+      .save({ status }, { require: true, patch: true })
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
 
   updateStatusByUserIdAndCompetenceId(userId, competenceId, status) {
     return BookshelfCompetenceEvaluation
       .where({ userId, competenceId })
-      .fetch({ require: true })
-      .then((competenceEvaluation) => {
-        return competenceEvaluation.save({ status, updatedAt: new Date() }, { patch: true, require: true });
-      })
+      .save({ status }, { require: true, patch: true })
       .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
   },
 
