@@ -126,9 +126,9 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
           }
         ], ({ assessment, competenceEvaluation, knowledgeElements, campaignParticipation }) => {
           const assessmentId = databaseBuilder.factory.buildAssessment(assessment).id;
-          databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, ...competenceEvaluation });
-          databaseBuilder.factory.buildCampaignParticipation({ assessmentId, ...campaignParticipation });
-          _.each(knowledgeElements, (ke) => databaseBuilder.factory.buildKnowledgeElement({ userId, assessmentId, ...ke }));
+          databaseBuilder.factory.buildCompetenceEvaluation({ ...competenceEvaluation, assessmentId, });
+          databaseBuilder.factory.buildCampaignParticipation({ ...campaignParticipation, assessmentId, });
+          _.each(knowledgeElements, (ke) => databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, assessmentId, }));
         });
 
         databaseBuilder.factory.buildKnowledgeElement({
