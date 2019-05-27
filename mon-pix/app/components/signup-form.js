@@ -36,6 +36,7 @@ export default Component.extend({
   validation: null,
   _tokenHasBeenUsed: null,
   urlHome: ENV.APP.HOME_HOST,
+  isRecaptchaEnabled: ENV.APP.IS_RECAPTCHA_ENABLED,
 
   init() {
     this._super(...arguments);
@@ -90,6 +91,7 @@ export default Component.extend({
         message: null
       }
     };
+
     this.set('validation', defaultValidationObject);
   },
 

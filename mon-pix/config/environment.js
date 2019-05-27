@@ -31,7 +31,8 @@ module.exports = function(environment) {
       LOAD_EXTERNAL_SCRIPT: true,
       GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
       SCROLL_DURATION: 800,
-      NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS: 5
+      NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS: 5,
+      IS_RECAPTCHA_ENABLED: process.env.IS_RECAPTCHA_ENABLED === 'true'
     },
 
     googleFonts: [
