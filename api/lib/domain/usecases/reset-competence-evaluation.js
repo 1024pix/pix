@@ -1,7 +1,7 @@
-const CompetenceEvaluation = require('../models/CompetenceEvaluation');
 const Scorecard = require('../models/Scorecard');
 const { UserNotAuthorizedToAccessEntity, CompetenceResetError, NotFoundError } = require('../errors');
 const _ = require('lodash');
+const competenceEvaluationService = require('../services/competence-evaluation-service');
 
 module.exports = async function resetCompetenceEvaluation({
   authenticatedUserId,
@@ -41,7 +41,10 @@ module.exports = async function resetCompetenceEvaluation({
     }
   }
 
-  return competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({
-    competenceId, userId: authenticatedUserId, status: CompetenceEvaluation.statuses.RESET
+  return competenceEvaluationService.resetCompetenceEvaluation({
+    competenceEvaluationRepository,
+    knowledgeElementRepository,
+    competenceId,
+    userId: authenticatedUserId,
   });
 };
