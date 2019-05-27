@@ -93,6 +93,19 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
     });
 
+    context('when the user has no knowledge elements for the competence', () => {
+      beforeEach(() => {
+        // given
+        competenceEvaluation = { status: 'reset' };
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements: [], competenceEvaluation, competence });
+      });
+      // then
+      it('should have a dayBeforeReset at null', () => {
+        expect(actualScorecard.daysBeforeReset).to.be.null;
+      });
+    });
+
     context('when the user level is beyond the upper limit allowed', () => {
       beforeEach(() => {
         // given
