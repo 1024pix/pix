@@ -74,7 +74,6 @@ describe('Integration | Component | signup form', function() {
       { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 },
       { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 },
       { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 },
-      { expectedRendering: 'a captcha', input: CAPTCHA_CONTAINER, expected: 1 },
       { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 },
     ].forEach(function({ expectedRendering, input, expected }) {
 
@@ -336,7 +335,8 @@ describe('Integration | Component | signup form', function() {
         });
 
         this.set('user', userWithCaptchaNotValid);
-        this.render(hbs`{{signup-form user=user}}`);
+        this.set('isRecaptchaEnabled', true);
+        this.render(hbs`{{signup-form user=user isRecaptchaEnabled=isRecaptchaEnabled}}`);
 
         // when
         this.$('.button').click();
@@ -477,6 +477,28 @@ describe('Integration | Component | signup form', function() {
           const inputFirst = this.$('.form-textfield__input-field-container').first();
           expect(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
         });
+      });
+    });
+
+    describe('isRecaptchaEnabled ', function() {
+      it('disabled: it should not display the captcha', function() {
+        // given
+        this.set('isRecaptchaEnabled', false);
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user isRecaptchaEnabled=isRecaptchaEnabled}}`);
+
+        // then
+        expect(this.$(CAPTCHA_CONTAINER)).to.have.length(0);
+      });
+
+      it('enabled: it should display the captcha', function() {
+        // given
+        this.set('isRecaptchaEnabled', true);
+        this.set('user', userEmpty);
+        this.render(hbs`{{signup-form user=user isRecaptchaEnabled=isRecaptchaEnabled}}`);
+
+        // then
+        expect(this.$(CAPTCHA_CONTAINER)).to.have.length(1);
       });
     });
 

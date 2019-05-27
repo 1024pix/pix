@@ -81,12 +81,14 @@
       </label>
     </div>
 
-    <div class="signup-form__captcha-container">
-      {{#if user.errors.recaptchaToken}}
-        <div class="sign-form__validation-error  sign-form-validation-error">{{user.errors.recaptchaToken.firstObject.message}}</div>
-      {{/if}}
-      {{g-recaptcha recaptchaToken=user.recaptchaToken tokenHasBeenUsed=_tokenHasBeenUsed}}
-    </div>
+    {{#if isRecaptchaEnabled}}
+      <div class="signup-form__captcha-container">
+        {{#if user.errors.recaptchaToken}}
+          <div class="sign-form__validation-error  sign-form-validation-error">{{user.errors.recaptchaToken.firstObject.message}}</div>
+        {{/if}}
+        {{g-recaptcha recaptchaToken=user.recaptchaToken tokenHasBeenUsed=_tokenHasBeenUsed}}
+      </div>
+    {{/if}}
 
     <div class="sign-form-body__bottom-button">
       <button type="submit" class="button button--thin button--round button--big">
