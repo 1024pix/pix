@@ -64,7 +64,7 @@ class Scorecard {
   }
 
   static getRemainingDaysBeforeReset(knowledgeElements) {
-    if (!knowledgeElements) {
+    if (!knowledgeElements || knowledgeElements.length === 0) {
       return null;
     }
     const lastKnowledgeElement = _(knowledgeElements).sortBy(['createdAt']).last();
