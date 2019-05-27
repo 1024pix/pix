@@ -12,11 +12,12 @@ module('Integration | Component | certification-session-report', function(hooks)
       // given
       this.set('visible', true);
       this.set('onHide', function() {});
+      this.set('onGetJuryFile', function() {});
       this.set('candidateData', []);
       this.set('certificationData', Promise.resolve([]));
 
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide candidates=candidateData certifications=certificationData}}`);
+      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile candidates=candidateData certifications=certificationData}}`);
 
       // then
       assert.dom('form.session-report').exists();
@@ -58,11 +59,12 @@ module('Integration | Component | certification-session-report', function(hooks)
       }]);
       this.set('visible', true);
       this.set('onHide', function() {});
+      this.set('onGetJuryFile', function() {});
       this.set('certificationData', Promise.resolve([]));
       assert.expect(2);
 
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide candidates=candidateData certifications=certificationData}}`);
+      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile candidates=candidateData certifications=certificationData}}`);
       this.$('#count-button').click();
 
       // then
@@ -102,11 +104,12 @@ module('Integration | Component | certification-session-report', function(hooks)
       }]);
       this.set('visible', true);
       this.set('onHide', function() {});
+      this.set('onGetJuryFile', function() {});
       this.set('certificationData', Promise.resolve([]));
       assert.expect(2);
 
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide candidates=candidateData certifications=certificationData}}`);
+      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile candidates=candidateData certifications=certificationData}}`);
       this.$('#duplicates-button').click();
 
       //then
@@ -154,11 +157,12 @@ module('Integration | Component | certification-session-report', function(hooks)
       }]);
       this.set('visible', true);
       this.set('onHide', function() {});
+      this.set('onGetJuryFile', function() {});
       this.set('certificationData', Promise.resolve([]));
       assert.expect(2);
 
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide candidates=candidateData certifications=certificationData}}`);
+      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile candidates=candidateData certifications=certificationData}}`);
       this.$('#incomplete-button').click();
 
       //then
@@ -190,11 +194,12 @@ module('Integration | Component | certification-session-report', function(hooks)
       }]);
       this.set('visible', true);
       this.set('onHide', function() {});
+      this.set('onGetJuryFile', function() {});
       this.set('certificationData', Promise.resolve([]));
       assert.expect(2);
 
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide candidates=candidateData certifications=certificationData}}`);
+      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile candidates=candidateData certifications=certificationData}}`);
       this.$('#end-screen-button').click();
 
       //then
@@ -237,11 +242,12 @@ module('Integration | Component | certification-session-report', function(hooks)
       }]);
       this.set('visible', true);
       this.set('onHide', function() {});
+      this.set('onGetJuryFile', function() {});
       this.set('certificationData', Promise.resolve([]));
       assert.expect(2);
 
       // when
-      await render(hbs`{{certification-session-report show=visible hide=onHide candidates=candidateData certifications=certificationData}}`);
+      await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile candidates=candidateData certifications=certificationData}}`);
       this.$('#comments-button').click();
 
       //then
@@ -292,10 +298,11 @@ module('Integration | Component | certification-session-report', function(hooks)
         ]));
         this.set('visible', true);
         this.set('onHide', function() {});
+        this.set('onGetJuryFile', function() {});
         assert.expect(2);
 
         // when
-        await render(hbs`{{certification-session-report show=visible hide=onHide candidates=candidateData certifications=certificationData}}`);
+        await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile candidates=candidateData certifications=certificationData}}`);
         this.$('#out-button').click();
 
         // then
@@ -344,10 +351,11 @@ module('Integration | Component | certification-session-report', function(hooks)
         ]));
         this.set('visible', true);
         this.set('onHide', function() {});
+        this.set('onGetJuryFile', function() {});
         assert.expect(2);
 
         // when
-        await render(hbs`{{certification-session-report show=visible hide=onHide candidates=candidateData certifications=certificationData}}`);
+        await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile candidates=candidateData certifications=certificationData}}`);
         this.$('#without-candidate-button').click();
 
         // then
