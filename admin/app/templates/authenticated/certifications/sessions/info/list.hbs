@@ -9,9 +9,11 @@
 <div class="row">
   <div class="col session-list__actions">
     {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onExport")}}
-      Exporter{{/bs-button}}
-    {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onImport")}}
-      Importer...{{/bs-button}}
+      Exporter données (csv){{/bs-button}}
+    {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onImport" true)}}
+      Importer données (csv){{/bs-button}}
+    {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onImport" false)}}
+      Analyser PV (ods){{/bs-button}}
     {{#if showSelectedActions}}
       {{#bs-dropdown as |dd|}}
         {{#dd.button type='primary'}}Avec la sélection... <span class='caret'></span>{{/dd.button}}
@@ -24,5 +26,13 @@
     {{input type='file' id='session-list__import-file' change=(action "onImportFileSelect")}}
   </div>
 </div>
-{{confirm-popup message=confirmMessage confirm=(action confirmAction) cancel=(action "onCancelConfirm")
+
+{{confirm-popup message=confirmMessage
+                confirm=(action confirmAction)
+                cancel=(action "onCancelConfirm")
                 show=displayConfirm}}
+
+{{certification-session-report show=displaySessionReport
+                               hide=(action "onHideSessionReport")
+                               candidates=importedCandidates
+                               certifications=model.certifications }}

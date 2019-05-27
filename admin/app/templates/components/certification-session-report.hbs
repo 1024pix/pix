@@ -1,0 +1,166 @@
+ {{#bs-modal onHide=(action hide) open=show size="lg" as |modal|}}
+    {{#modal.header}}
+      <h4 class="modal-title">Analyse du PV de session</h4>
+    {{/modal.header}}
+    {{#modal.body}}
+    <form action="" class="session-report">
+      <div class="form-group row">
+        <label for="count" class="col-8 col-form-label" id="count-button" onClick={{action "toggleCandidates"}}>Nombre de candidats trouvés</label>
+        <div class="col-3">
+          <input type="text" readonly class="form-control-plaintext" id="count" value={{candidates.length}}>
+        </div>
+        <div class="col-1 col-form-label">
+          {{#if candidates.length}}
+            {{fa-icon "check" class="session-report-ok"}}
+          {{else}}
+            {{fa-icon "times" class="session-report-ko"}}
+          {{/if}}
+        </div>
+      </div>
+      {{#if (and candidates.length displayCandidates)}}
+      <div class="row mb-4">
+          <div class="col-12" id="count-details">
+            {{#each candidates as |candidate|}}
+              {{candidate.certificationId}}
+            {{/each}}
+          </div>
+      </div>
+      {{/if}}
+      <div class="form-group row">
+        <label for="out" class="col-8 col-form-label" id="out-button" onClick={{action "toggleNotFromSession"}}>Candidats hors session</label>
+        <div class="col-3">
+          <input type="text" readonly class="form-control-plaintext" id="out" value={{notFromSession.length}}>
+        </div>
+        <div class="col-1 col-form-label">
+          {{#if notFromSession.length}}
+            {{fa-icon "times" class="session-report-ko"}}
+          {{else}}
+            {{fa-icon "check" class="session-report-ok"}}
+          {{/if}}
+        </div>
+      </div>
+      {{#if (and notFromSession.length displayNotFromSession)}}
+      <div class="row mb-4">
+          <div class="col-12" id="out-details">
+            {{#each notFromSession as |item|}}
+              {{item.certificationId}}
+            {{/each}}
+          </div>
+      </div>
+      {{/if}}
+      <div class="form-group row">
+        <label for="incomplete" class="col-8 col-form-label" id="incomplete-button" onClick={{action "toggleIncomplete"}}>Candidats incomplets</label>
+        <div class="col-3">
+          <input type="text" readonly class="form-control-plaintext" id="incomplete" value={{incomplete.length}}>
+        </div>
+        <div class="col-1 col-form-label">
+          {{#if incomplete.length}}
+            {{fa-icon "times" class="session-report-ko"}}
+          {{else}}
+            {{fa-icon "check" class="session-report-ok"}}
+          {{/if}}
+        </div>
+      </div>
+      {{#if (and incomplete.length displayIncomplete)}}
+      <div class="row mb-4">
+          <div class="col-12" id="incomplete-details">
+            {{#each incomplete as |item|}}
+              {{item.certificationId}}
+            {{/each}}
+          </div>
+      </div>
+      {{/if}}
+      <div class="form-group row">
+        <label for="duplicates" class="col-8 col-form-label" id="duplicates-button" onClick={{action "toggleDuplicates"}}>Nombre de doublons</label>
+        <div class="col-3">
+          <input type="text" readonly class="form-control-plaintext" id="duplicates" value={{duplicates.length}}>
+        </div>
+        <div class="col-1 col-form-label">
+          {{#if duplicates.length}}
+            {{fa-icon "times" class="session-report-ko"}}
+          {{else}}
+            {{fa-icon "check" class="session-report-ok"}}
+          {{/if}}
+        </div>
+      </div>
+      {{#if (and duplicates.length displayDuplicates)}}
+      <div class="row mb-4">
+          <div class="col-12" id="duplicates-details">
+            {{#each duplicates as |duplicate|}}
+              {{duplicate}}
+            {{/each}}
+          </div>
+      </div>
+      {{/if}}
+      <div class="form-group row">
+        <label for="without-candidate" class="col-8 col-form-label" id="without-candidate-button" onClick={{action "toggleWithoutCandidate"}}>Certifications sans candidat</label>
+        <div class="col-3">
+          <input type="text" readonly class="form-control-plaintext" id="without-candidate" value={{withoutCandidate.length}}>
+        </div>
+        <div class="col-1 col-form-label">
+          {{#if withoutCandidate.length}}
+            {{fa-icon "times" class="session-report-ko"}}
+          {{else}}
+            {{fa-icon "check" class="session-report-ok"}}
+          {{/if}}
+        </div>
+      </div>
+      {{#if (and withoutCandidate.length displayWithoutCandidate)}}
+      <div class="row mb-4">
+          <div class="col-12" id="without-candidate-details">
+            {{#each withoutCandidate as |item|}}
+              {{item.id}}
+            {{/each}}
+          </div>
+      </div>
+      {{/if}}
+      <div class="form-group row">
+        <label for="end-screen" class="col-8 col-form-label" id="end-screen-button" onClick={{action "toggleMissingEndScreen"}}>Ecrans de fin non renseignés</label>
+        <div class="col-3">
+          <input type="text" readonly class="form-control-plaintext" id="end-screen" value={{missingEndScreen.length}}>
+        </div>
+        <div class="col-1 col-form-label">
+          {{#if missingEndScreen.length}}
+            {{fa-icon "times" class="session-report-ko"}}
+          {{else}}
+            {{fa-icon "check" class="session-report-ok"}}
+          {{/if}}
+        </div>
+      </div>
+      {{#if (and missingEndScreen.length displayMissingEndScreen)}}
+      <div class="row mb-4">
+          <div class="col-12" id="end-screen-details">
+            {{#each missingEndScreen as |item|}}
+              {{item.certificationId}}
+            {{/each}}
+          </div>
+      </div>
+      {{/if}}
+      <div class="form-group row">
+        <label for="comments" class="col-8 col-form-label" id="comments-button" onClick={{action "toggleComments"}}>Commentaires</label>
+        <div class="col-3">
+          <input type="text" readonly class="form-control-plaintext" id="comments" value={{comments.length}}>
+        </div>
+        <div class="col-1 col-form-label">
+          {{#if comments.length}}
+            {{fa-icon "exclamation-triangle" class="session-report-ko"}}
+          {{else}}
+            {{fa-icon "check" class="session-report-ok"}}
+          {{/if}}
+        </div>
+      </div>
+      {{#if (and comments.length displayComments)}}
+      <div class="row mb-4">
+          <div class="col-12" id="comments-details">
+            {{#each comments as |item|}}
+              {{item.certificationId}}
+            {{/each}}
+          </div>
+      </div>
+      {{/if}}
+    </form>
+    {{/modal.body}}
+    {{#modal.footer as |footer|}}
+      {{#bs-button onClick=(action modal.close)}}Fermer{{/bs-button}}
+    {{/modal.footer}}
+{{/bs-modal}}
