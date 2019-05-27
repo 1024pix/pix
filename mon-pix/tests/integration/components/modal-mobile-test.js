@@ -28,7 +28,7 @@ describe('Integration | Component | modal mobile', function() {
     this.render(hbs`{{modal-mobile}}`);
 
     // then
-    const expected = 'Certaines épreuves PIX peuvent être difficiles à réussir sur mobile. Pour une meilleure expérience, nous vous conseillons de passer ce test sur un ordinateur.';
+    const expected = 'Certaines épreuves Pix peuvent être difficiles à réussir sur mobile. Pour une meilleure expérience, nous vous conseillons de passer ce test sur un ordinateur.';
     expect(this.$('.modal-body').text().trim()).to.equal(expected);
   });
 });

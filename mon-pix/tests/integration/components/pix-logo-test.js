@@ -26,7 +26,7 @@ describe('Integration | Component | pix logo', function() {
   });
 
   it('should have a title in the link', function() {
-    expect(this.$('.pix-logo__link').attr('title')).to.equal('Lien vers la page d\'accueil de PIX');
+    expect(this.$('.pix-logo__link').attr('title')).to.equal('Lien vers la page d\'accueil de Pix');
   });
 
 });
