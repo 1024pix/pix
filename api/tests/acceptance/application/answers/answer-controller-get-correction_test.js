@@ -2,7 +2,7 @@ const { expect, knex, nock } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 
-describe('Acceptance | Controller | correction-controller', () => {
+describe('Acceptance | Controller | answer-controller-get-correction', () => {
 
   let server;
 
@@ -10,7 +10,7 @@ describe('Acceptance | Controller | correction-controller', () => {
     server = await createServer();
   });
 
-  describe('GET /api/corrections', function() {
+  describe('GET /api/answers/{id}/correction', function() {
 
     let insertedAssessmentId = null;
     let insertedAnswerId = null;
@@ -76,39 +76,38 @@ describe('Acceptance | Controller | correction-controller', () => {
         .then(() => knex('assessments').delete());
     });
 
-    it('should not necessitate auth and return 200 HTTP status with a solution, a hint, an array of tutorial and a learning more array', () => {
+    it('should return the answer correction', async () => {
       // given
       const options = {
         method: 'GET',
-        url: `/api/corrections?answerId=${insertedAnswerId}`
+        url: `/api/answers/${insertedAnswerId}/correction`
       };
+
       const expectedBody = {
-        'data': [{
-          'attributes': {
-            'solution': 'fromage',
-            'hint': 'Indice web3',
+        data: {
+          id: 'q_first_challenge',
+          type: 'corrections',
+          attributes: {
+            solution: 'fromage',
+            hint: 'Indice web3',
           },
-          'relationships': {
-            'tutorials': {
+          relationships: {
+            tutorials: {
               'data': [],
             },
             'learning-more-tutorials': {
               'data': [],
             }
           },
-          'id': 'q_first_challenge',
-          'type': 'corrections',
-        }]
+        }
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.result).to.deep.equal(expectedBody);
-      });
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal(expectedBody);
     });
   });
 });

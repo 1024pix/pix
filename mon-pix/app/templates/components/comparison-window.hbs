@@ -36,29 +36,29 @@
         </div>
         <div class="comparison-window__corrected-answers">
         {{#if isAssessmentChallengeTypeQcm}}
-          {{qcm-solution-panel challenge=answer.challenge answer=answer solution=correction.solution}}
+          {{qcm-solution-panel challenge=answer.challenge answer=answer solution=answer.correction.solution}}
         {{/if}}
 
 
         {{#if isAssessmentChallengeTypeQcu}}
-          {{qcu-solution-panel challenge=answer.challenge answer=answer solution=correction.solution}}
+          {{qcu-solution-panel challenge=answer.challenge answer=answer solution=answer.correction.solution}}
         {{/if}}
 
         {{#if isAssessmentChallengeTypeQroc}}
           <div class="comparison-window__corrected-answers--qroc">
-            {{qroc-solution-panel answer=answer solution=correction.solution}}
+            {{qroc-solution-panel answer=answer solution=answer.correction.solution}}
           </div>
         {{/if}}
 
         {{#if isAssessmentChallengeTypeQrocmInd}}
           <div class="comparison-window__corrected-answers--qrocm">
-            {{qrocm-ind-solution-panel answer=answer solution=correction.solution challenge=answer.challenge}}
+            {{qrocm-ind-solution-panel answer=answer solution=answer.correction.solution challenge=answer.challenge}}
           </div>
         {{/if}}
         </div>
 
         {{#if answer.isResultNotOk}}
-          {{#if correction.noHintsNorTutorialsAtAll }}
+          {{#if answer.correction.noHintsNorTutorialsAtAll }}
             <div class="comparison-windows__default-message-container">
               <div class="comparison-windows__default-message-picto-container">
                 <img src="{{rootURL}}/images/comparison-window/icon-tuto.svg"
@@ -70,10 +70,10 @@
               </div>
             </div>
           {{else}}
-            {{tutorial-panel hint=correction.hint tutorials=correction.tutorials}}
+            {{tutorial-panel hint=answer.correction.hint tutorials=answer.correction.tutorials}}
           {{/if}}
         {{/if}}
-        {{learning-more-panel learningMoreTutorials=correction.learningMoreTutorials}}
+        {{learning-more-panel learningMoreTutorials=answer.correction.learningMoreTutorials}}
       </div>
 
       <div class="pix-modal-footer">

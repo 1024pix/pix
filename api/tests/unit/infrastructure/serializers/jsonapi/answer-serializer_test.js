@@ -80,6 +80,11 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
                 id: `${challengeId}`,
               },
             },
+            correction: {
+              links: {
+                related: `/api/answers/${answerId}/correction`,
+              }
+            }
           },
         },
       };

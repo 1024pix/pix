@@ -11,7 +11,7 @@ export default Route.extend({
       assessment.answers,
       assessment.course
     ]).then(([answers]) => {
-      return RSVP.all(answers.map((answer) => answer.challenge));
+      return RSVP.all([answers.map((answer) => answer.challenge), answers.map((answer) => answer.correction)]);
     });
   },
 

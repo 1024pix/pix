@@ -6,7 +6,14 @@ module.exports = {
 
   serialize(answer) {
     return new Serializer('answer', {
-      attributes: ['value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment', 'challenge'],
+      transform: (untouchedAnswer) => {
+        const answer = Object.assign({}, untouchedAnswer);
+        answer.assessment = { id: answer.assessmentId };
+        answer.challenge = { id: answer.challengeId };
+        answer.result = answerStatusJSONAPIAdapter.adapt(untouchedAnswer.result);
+        return answer;
+      },
+      attributes: ['value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment', 'challenge', 'correction'],
       assessment: {
         ref: 'id',
         includes: false,
@@ -15,12 +22,14 @@ module.exports = {
         ref: 'id',
         includes: false,
       },
-      transform: (untouchedAnswer) => {
-        const answer = Object.assign({}, untouchedAnswer);
-        answer.assessment = { id: answer.assessmentId };
-        answer.challenge = { id: answer.challengeId };
-        answer.result = answerStatusJSONAPIAdapter.adapt(untouchedAnswer.result);
-        return answer;
+      correction: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/answers/${parent.id}/correction`;
+          }
+        }
       },
     }).serialize(answer);
   },

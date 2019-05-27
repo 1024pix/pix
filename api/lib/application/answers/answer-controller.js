@@ -2,6 +2,7 @@ const Answer = require('../../domain/models/Answer');
 const AnswerStatus = require('../../domain/models/AnswerStatus');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
+const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer');
 const usecases = require('../../domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../infrastructure/repositories/smart-placement-assessment-repository');
@@ -52,7 +53,7 @@ module.exports = {
 
   update(request) {
     const updatedAnswer = request.payload.data;
-    
+
     return answerRepository
       .findByChallengeAndAssessment({
         challengeId: updatedAnswer.relationships.challenge.data.id,
@@ -84,6 +85,14 @@ module.exports = {
         assessmentId: request.url.query.assessment
       })
       .then(answerSerializer.serialize);
+  },
+
+  async getCorrection(request) {
+    const correction = await usecases.getCorrectionForAnswerWhenAssessmentEnded({
+      answerId: request.params.id
+    });
+
+    return correctionSerializer.serialize(correction);
   },
 };
 
