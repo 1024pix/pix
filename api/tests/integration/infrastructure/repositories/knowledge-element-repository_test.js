@@ -130,8 +130,8 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       ], ((ke) => databaseBuilder.factory.buildKnowledgeElement(ke)));
 
       knowledgeElementsWanted = [
-        databaseBuilder.factory.buildKnowledgeElement({ id: 3, createdAt: tomorrow, skillId: '2', userId }),
         ...knowledgeElementsWantedWithLimitDate,
+        databaseBuilder.factory.buildKnowledgeElement({ id: 3, createdAt: tomorrow, skillId: '2', userId }),
       ];
 
       _.each([
