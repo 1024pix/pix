@@ -27,9 +27,9 @@ async function _resetKnowledgeElements({ userId, competenceId, knowledgeElementR
 
 function _resetKnowledgeElement({ knowledgeElement, knowledgeElementRepository }) {
   const newKnowledgeElement = {
+    ...knowledgeElement,
     status: KnowledgeElement.StatusType.RESET,
     earnedPix: 0,
-    ...knowledgeElement
   };
   return knowledgeElementRepository.save(newKnowledgeElement);
 }
