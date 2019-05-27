@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import json2csv from 'json2csv';
+import Papa from 'papaparse';
 import { inject as service } from '@ember/service';
 /*
  * Important note:
@@ -157,6 +158,29 @@ export default Controller.extend({
       this.set('displaySessionReport', false);
     },
 
+    onSaveReportData(candidatesData) {
+      return candidatesData
+        .then((data) => {
+          const certificationData = data.map((piece) => {
+            const certificationItem = {};
+            certificationItem[this._fields.id] = piece.certificationId;
+            certificationItem[this._fields.firstName] = piece.firstName;
+            certificationItem[this._fields.lastName] = piece.lastName;
+            certificationItem[this._fields.birthdate] = piece.birthDate;
+            certificationItem[this._fields.birthplace] = piece.birthPlace;
+            certificationItem[this._fields.externalId] = piece.externalId;
+            return certificationItem;
+          });
+          this.set('progressMax', certificationData.length);
+          this.set('progressValue', 0);
+          this.set('progress', true);
+          return this._importCertificationsData(certificationData);
+        })
+        .then(() => {
+          this.set('progress', false);
+          this.get('notifications').success(candidatesData.length + ' lignes correctement importées');
+        });
+    },
     onGetJuryFile(candidatesWithComments) {
       const comments = candidatesWithComments.reduce((values, candidate) => {
         values[candidate.certificationId] = candidate.comments;
@@ -309,16 +333,18 @@ export default Controller.extend({
         certifications.forEach((certification) => {
           const id = certification.get('id');
           const newDataPiece = newData[id];
-          this._csvImportFields.forEach((key) => {
-            const fieldName = this._fields[key];
-            let fieldValue = newDataPiece[fieldName];
-            if (fieldValue.length == 0) {
-              fieldValue = null;
-            }
-            certification.set(key, fieldValue);
-          });
           // check that session id is correct
-          if (certification.get('sessionId') == this.get('model.session.id')) {
+          if (newDataPiece && certification.get('sessionId') == this.get('model.session.id')) {
+            this._csvImportFields.forEach((key) => {
+              const fieldName = this._fields[key];
+              let fieldValue = newDataPiece[fieldName];
+              if (fieldValue) {
+                if (fieldValue.length == 0) {
+                  fieldValue = null;
+                }
+                certification.set(key, fieldValue);
+              }
+            });
             // check that info has changed
             if (Object.keys(certification.changedAttributes()).length > 0) {
               updateRequests.push(certification.save({ adapterOptions: { updateMarks: false } }));
@@ -339,6 +365,26 @@ export default Controller.extend({
       return result;
     }, []);
     return Promise.all(promises);
+  },
+
+  _importCSVData(data) {
+    // We delete the BOM UTF8 at the beginning of the CSV,
+    // otherwise the first element is wrongly parsed.
+    const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
+    const parsedCSVData = Papa.parse(csvRawData, { header: true, skipEmptyLines: true }).data;
+    const rowCount = parsedCSVData.length;
+    this.set('progressMax', parsedCSVData.length);
+    this.set('progressValue', 0);
+    this.set('progress', true);
+    return this._importCertificationsData(parsedCSVData)
+      .then(() => {
+        this.set('progress', false);
+        this.get('notifications').success(rowCount + ' lignes correctement importées');
+      })
+      .catch((error) => {
+        this.set('progress', false);
+        this.get('notifications').error(error);
+      });
   },
 
   /*
