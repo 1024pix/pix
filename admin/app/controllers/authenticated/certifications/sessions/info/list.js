@@ -1,7 +1,11 @@
 import Controller from '@ember/controller';
 import json2csv from 'json2csv';
-import Papa from 'papaparse';
 import { inject as service } from '@ember/service';
+/*
+ * Important note:
+ * this dependency to 'xlsx' has to be removed when session report import is removed from admin
+ */
+import XLSX from 'xlsx';
 
 export default Controller.extend({
 
@@ -12,10 +16,12 @@ export default Controller.extend({
   notifications: service('notification-messages'),
   fileSaver: service('file-saver'),
   displayConfirm: false,
+  displaySessionReport: false,
   confirmMessage: null,
   confirmAction: 'onPublishSelected',
   showSelectedActions: false,
   selectedCertifications: null,
+  csvImport:false,
 
   init() {
     this._super();
@@ -48,6 +54,8 @@ export default Controller.extend({
     this._csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
 
     this.selected = [];
+
+    this.importedCandidates = [];
   },
 
   // Actions
@@ -71,7 +79,8 @@ export default Controller.extend({
           this.fileSaver.saveAs(csv + '\n', fileName);
         });
     },
-    onImport() {
+    onImport(csvImport) {
+      this.set('csvImport', csvImport);
       const fileInput = document.getElementById('session-list__import-file');
       fileInput.click();
     },
@@ -80,27 +89,19 @@ export default Controller.extend({
         const file = evt.target.files[0];
         const reader = new FileReader();
         const that = this;
+        const csvImport = this.get('csvImport');
         reader.onload = function(event) {
-          const data = event.target.result;
-          // We delete the BOM UTF8 at the beginning of the CSV,
-          // otherwise the first element is wrongly parsed.
-          const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
-          const parsedCSVData = Papa.parse(csvRawData, { header: true, skipEmptyLines: true }).data;
-          const rowCount = parsedCSVData.length;
-          that.set('progressMax', parsedCSVData.length);
-          that.set('progressValue', 0);
-          that.set('progress', true);
-          return that._importCertificationsData(parsedCSVData)
-            .then(() => {
-              that.set('progress', false);
-              that.get('notifications').success(rowCount + ' lignes correctement importées');
-            })
-            .catch((error) => {
-              that.set('progress', false);
-              that.get('notifications').error(error);
-            });
+          if (csvImport) {
+            return that._importCSVData(event.target.result);
+          } else {
+            return that._importODSReport(event.target.result);
+          }
         };
-        reader.readAsText(file);
+        if (csvImport) {
+          reader.readAsText(file);
+        } else {
+          reader.readAsArrayBuffer(file);
+        }
       } catch (error) {
         this.set('progress', false);
         this.notifications.error(error);
@@ -138,7 +139,22 @@ export default Controller.extend({
     onListSelectionChange(e) {
       this.set('selectedCertifications', e.selectedItems);
       this.set('showSelectedActions', e.selectedItems.length > 0);
-    }
+    },
+
+    /*
+     * Important note:
+     * These actions will be removed when session report import is removed from admin
+     * (temporary code)
+     */
+
+    onHideSessionReport() {
+      this.set('displaySessionReport', false);
+    },
+
+    /*
+     * End of temporary code
+     */
+
   },
 
   // Private methods
@@ -283,5 +299,38 @@ export default Controller.extend({
       return result;
     }, []);
     return Promise.all(promises);
+  },
+
+  /*
+   * Important note:
+   * These actions will be removed when session report import is removed from admin
+   * (temporary code)
+   */
+
+  _importODSReport(result) {
+    const data = new Uint8Array(result);
+    const workbook = XLSX.read(data, { type: 'array', cellDates:true });
+    const first_sheet_name = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[first_sheet_name];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet, { range:8, header:['row', 'lastName', 'firstName', 'birthDate', 'birthPlace', 'email', 'externalId', 'extraTime', 'signature', 'certificationId', 'lastScreen', 'comments'] });
+
+    const lastRow = jsonData.findIndex((row) => {
+      return row.lastName == null;
+    });
+    const importedCandidates = jsonData.slice(0, lastRow);
+    importedCandidates.forEach((candidate) => {
+      if (candidate.birthDate instanceof Date) {
+        const formatedDate = candidate.birthDate.toISOString();
+        candidate.birthDate = formatedDate.substring(8,10) + '/' + formatedDate.substring(5,7) + '/' + formatedDate.substring(0,4);
+      } else {
+        candidate.birthDate = null;
+      }
+    });
+    this.set('importedCandidates', importedCandidates);
+    this.set('displaySessionReport', true);
   }
+  /*
+   * End of temporary code
+   */
+
 });
