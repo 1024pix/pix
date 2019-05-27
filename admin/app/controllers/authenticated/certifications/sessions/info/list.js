@@ -48,8 +48,20 @@ export default Controller.extend({
       commentForJury: 'Commentaire pour le jury',
       pixScore: 'Note Pix'
     };
+    this._juryFields = {
+      sessionId: 'ID de session',
+      id: 'ID de certification',
+      status: 'Statut de la certification',
+      creationDate: 'Date de debut',
+      completionDate: 'Date de fin',
+      commentFromManager: 'Commentaire surveillant',
+      commentForJury: 'Commentaire pour le jury',
+      pixScore: 'Note Pix'
+    };
 
     this._csvHeaders = Object.values(this._fields).concat(this._competences);
+
+    this._juryCsvHeaders = Object.values(this._juryFields).concat(this._competences);
 
     this._csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
 
@@ -61,20 +73,14 @@ export default Controller.extend({
   // Actions
   actions: {
     onExport() {
-      const ids = this.get('model.certificationIds').toArray();
-      this.set('progressMax', ids.length);
-      this.set('progressValue', 0);
-      this.set('progress', true);
-      return this._getExportJson(ids, [])
+      return this._getExportJson(this._fields)
         .then((json) => {
-          return json2csv.parse(json, {
+          this.set('progress', false);
+          const csv = json2csv.parse(json, {
             fields: this._csvHeaders,
             delimiter: ';',
             withBOM: false,
           });
-        })
-        .then((csv) => {
-          this.set('progress', false);
           const fileName = 'session_' + this.get('model.session.id') + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
           this.fileSaver.saveAs(csv + '\n', fileName);
         });
@@ -151,6 +157,32 @@ export default Controller.extend({
       this.set('displaySessionReport', false);
     },
 
+    onGetJuryFile(candidatesWithComments) {
+      const comments = candidatesWithComments.reduce((values, candidate) => {
+        values[candidate.certificationId] = candidate.comments;
+        return values;
+      }, {});
+      return this._getExportJson(this._juryFields)
+        .then((json) => {
+          this.set('progress', false);
+          json = json.filter((item) => {
+            const id = item[this._fields.id];
+            if (comments[id] != null) {
+              item[this._juryFields.commentFromManager] = comments[id];
+              return true;
+            }
+            return item[this._fields.status] !== 'validated';
+          });
+          const csv = json2csv.parse(json, {
+            fields: this._juryCsvHeaders,
+            delimiter: ';',
+            withBOM: false,
+          });
+          const fileName = 'jury_session_' + this.get('model.session.id') + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+          this.fileSaver.saveAs(csv + '\n', fileName);
+        });
+    },
+
     /*
      * End of temporary code
      */
@@ -159,13 +191,21 @@ export default Controller.extend({
 
   // Private methods
 
-  _getExportJson(certificationsIds, json) {
+  _getExportJson(fields) {
+    const ids = this.get('model.certificationIds').toArray();
+    this.set('progressMax', ids.length);
+    this.set('progressValue', 0);
+    this.set('progress', true);
+    return this._getExportJsonPart(ids, [], fields);
+  },
+
+  _getExportJsonPart(certificationsIds, json, fields) {
     const ids = certificationsIds.splice(0, 10);
-    return this._getCertificationsJson(ids)
+    return this._getCertificationsJson(ids, fields)
       .then((value) => {
         this.set('progressValue', this.progressValue + value.length);
         if (certificationsIds.length > 0) {
-          return this._getExportJson(certificationsIds, json.concat(value));
+          return this._getExportJsonPart(certificationsIds, json.concat(value), fields);
         } else {
           return json.concat(value);
         }
@@ -221,7 +261,7 @@ export default Controller.extend({
       });
   },
 
-  _getCertificationsJson(ids) {
+  _getCertificationsJson(ids, fields) {
     const store = this.store;
     const requests = ids.map((id) => {
       return store.findRecord('certification', id)
@@ -234,16 +274,16 @@ export default Controller.extend({
       .then((certifications) => {
         return certifications.reduce((current, certification) => {
           if (certification) {
-            current.push(this._getJsonRow(certification));
+            current.push(this._getJsonRow(certification, fields));
           }
           return current;
         }, []);
       });
   },
 
-  _getJsonRow(certification) {
-    const data = Object.keys(this._fields).reduce((currentData, field) => {
-      const header = this._fields[field];
+  _getJsonRow(certification, fields) {
+    const data = Object.keys(fields).reduce((currentData, field) => {
+      const header = fields[field];
       currentData[header] = certification.get(field);
       return currentData;
     }, {});
