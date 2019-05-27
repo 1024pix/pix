@@ -9,16 +9,25 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
 
   const userId = 123;
   const assessmentId = 456;
+  const newAssessmentId = 789;
   const competenceId = 'recABC123';
   const competenceEvaluation = { userId, competenceId, assessmentId };
   const competenceRepository = { get: _.noop };
-  const competenceEvaluationRepository = { save: _.noop, getByCompetenceIdAndUserId: _.noop, };
+  const competenceEvaluationRepository = {
+    save: _.noop,
+    getByCompetenceIdAndUserId: _.noop,
+    updateStatusByUserIdAndCompetenceId: _.noop,
+    updateAssessmentId: _.noop,
+  };
   const assessmentRepository = { save: _.noop };
+  const updatedCompetenceEvaluation = Symbol('updated competence evaluation');
 
   beforeEach(() => {
     sinon.stub(competenceRepository, 'get');
     sinon.stub(competenceEvaluationRepository, 'save');
     sinon.stub(competenceEvaluationRepository, 'getByCompetenceIdAndUserId');
+    sinon.stub(competenceEvaluationRepository, 'updateStatusByUserIdAndCompetenceId');
+    sinon.stub(competenceEvaluationRepository, 'updateAssessmentId');
     sinon.stub(assessmentRepository, 'save');
   });
 
@@ -88,6 +97,47 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
           competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
         });
         expect(res).to.deep.equal({ created: false, competenceEvaluation });
+      });
+    });
+
+    context('When the user restarts a competence evaluation', () => {
+      let resetCompetenceEvaluation, res;
+      beforeEach(async () => {
+        resetCompetenceEvaluation = { ...competenceEvaluation, status: CompetenceEvaluation.statuses.RESET };
+        competenceEvaluationRepository.getByCompetenceIdAndUserId
+          .onFirstCall().resolves(resetCompetenceEvaluation)
+          .onSecondCall().resolves(updatedCompetenceEvaluation);
+
+        assessmentRepository.save.withArgs(new Assessment({
+          courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
+          type: Assessment.types.COMPETENCE_EVALUATION,
+          userId, state: Assessment.states.STARTED,
+        })).resolves({ id: newAssessmentId });
+
+        competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId.resolves();
+        competenceEvaluationRepository.updateAssessmentId.resolves();
+
+        res = await usecases.startOrResumeCompetenceEvaluation({
+          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
+        });
+      });
+      it('should return the updated competenceEvaluation', () => {
+        expect(res).to.deep.equal({ created: true, competenceEvaluation: updatedCompetenceEvaluation });
+      });
+      it('should have updated the status', () => {
+        expect(competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId).to.have.been
+          .calledWithExactly({
+            userId,
+            competenceId: competenceEvaluation.competenceId,
+            status: CompetenceEvaluation.statuses.STARTED,
+          });
+      });
+      it('should have updated the assessment id to the newly created assessment id', () => {
+        expect(competenceEvaluationRepository.updateAssessmentId).to.have.been
+          .calledWithExactly({
+            currentAssessmentId: competenceEvaluation.assessmentId,
+            newAssessmentId: newAssessmentId,
+          });
       });
     });
   });
