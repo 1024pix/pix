@@ -22,7 +22,7 @@ class Scorecard {
     pixScoreAheadOfNextLevel,
     earnedPix,
     status,
-    daysBeforeReset,
+    remainingDaysBeforeReset,
   } = {}) {
 
     this.id = id;
@@ -36,7 +36,7 @@ class Scorecard {
     this.level = level;
     this.pixScoreAheadOfNextLevel = pixScoreAheadOfNextLevel;
     this.status = status;
-    this.daysBeforeReset = daysBeforeReset;
+    this.remainingDaysBeforeReset = remainingDaysBeforeReset;
   }
 
   static parseId(scorecardId) {
@@ -59,12 +59,12 @@ class Scorecard {
       level: _getCompetenceLevel(totalEarnedPix),
       pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPix),
       status: _getScorecardStatus(competenceEvaluation),
-      daysBeforeReset: Scorecard.getRemainingDaysBeforeReset(knowledgeElements),
+      remainingDaysBeforeReset: Scorecard.computeRemainingDaysBeforeReset(knowledgeElements),
     });
   }
 
-  static getRemainingDaysBeforeReset(knowledgeElements) {
-    if (!knowledgeElements || knowledgeElements.length === 0) {
+  static computeRemainingDaysBeforeReset(knowledgeElements = []) {
+    if (_.isEmpty(knowledgeElements)) {
       return null;
     }
     const lastKnowledgeElement = _(knowledgeElements).sortBy(['createdAt']).last();

@@ -62,8 +62,8 @@ describe('Unit | Domain | Models | Scorecard', () => {
       it('should have set the scorecard status based on the competence evaluation status', () => {
         expect(actualScorecard.status).to.equal('STARTED');
       });
-      it('should have set the scorecard daysBeforeReset based on last knowledge element date', () => {
-        expect(actualScorecard.daysBeforeReset).to.equal(7);
+      it('should have set the scorecard remainingDaysBeforeReset based on last knowledge element date', () => {
+        expect(actualScorecard.remainingDaysBeforeReset).to.equal(7);
       });
     });
 
@@ -102,7 +102,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
       // then
       it('should have a dayBeforeReset at null', () => {
-        expect(actualScorecard.daysBeforeReset).to.be.null;
+        expect(actualScorecard.remainingDaysBeforeReset).to.be.null;
       });
     });
 
@@ -141,7 +141,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
 
         // then
-        expect(actualScorecard.daysBeforeReset).to.equal(expectedDaysBeforeReset);
+        expect(actualScorecard.remainingDaysBeforeReset).to.equal(expectedDaysBeforeReset);
       });
     });
 

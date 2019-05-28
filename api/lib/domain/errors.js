@@ -54,7 +54,7 @@ class CampaignWithoutOrganizationError extends DomainError {
 
 class CompetenceResetError extends DomainError {
   constructor(remainingDaysBeforeReset) {
-    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence. Un peu de patience !`);
+    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
   }
 }
 

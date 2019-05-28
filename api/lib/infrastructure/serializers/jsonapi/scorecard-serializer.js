@@ -14,7 +14,7 @@ module.exports = {
         'level',
         'pixScoreAheadOfNextLevel',
         'status',
-        'daysBeforeReset'
+        'remainingDaysBeforeReset'
       ],
 
       area: {

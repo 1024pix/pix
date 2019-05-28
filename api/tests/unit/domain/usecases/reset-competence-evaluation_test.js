@@ -21,7 +21,7 @@ describe('Unit | UseCase | reset-competence-evaluation', () => {
     competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId = sinon.stub();
     competenceEvaluationRepository.getByCompetenceIdAndUserId = sinon.stub();
     knowledgeElementRepository.findUniqByUserIdAndCompetenceId = sinon.stub();
-    getRemainingDaysBeforeResetStub = sinon.stub(Scorecard, 'getRemainingDaysBeforeReset');
+    getRemainingDaysBeforeResetStub = sinon.stub(Scorecard, 'computeRemainingDaysBeforeReset');
 
     knowledgeElements = [{}, {}];
     competenceEvaluation = {

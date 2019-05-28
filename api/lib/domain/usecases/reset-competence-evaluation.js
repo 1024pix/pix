@@ -15,7 +15,8 @@ module.exports = async function resetCompetenceEvaluation({
 
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId: authenticatedUserId, competenceId });
 
-  const remainingDaysBeforeReset = Scorecard.getRemainingDaysBeforeReset(knowledgeElements);
+  const remainingDaysBeforeReset = Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
+
   if (remainingDaysBeforeReset > 0) {
     throw new CompetenceResetError(remainingDaysBeforeReset);
   }
