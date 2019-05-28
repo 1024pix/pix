@@ -65,8 +65,6 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
       });
 
       it('should respond with a 421 - precondition failed - if last knowledge element date is not old enough', () => {
-        // given
-
         // when
         const promise = server.inject(options);
 

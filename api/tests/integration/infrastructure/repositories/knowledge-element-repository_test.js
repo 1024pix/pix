@@ -106,6 +106,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       // when
       const promise = KnowledgeElementRepository.findByAssessmentId(assessmentId);
 
+      // then
       return promise
         .then((knowledgeElementsFound) => {
           expect(knowledgeElementsFound).have.lengthOf(2);
@@ -175,6 +176,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
         // when
         const promise = KnowledgeElementRepository.findUniqByUserId({ userId });
 
+        // then
         return promise
           .then((knowledgeElementsFound) => {
             expect(knowledgeElementsFound).have.lengthOf(3);
@@ -188,6 +190,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
         // when
         const promise = KnowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
 
+        // then
         return promise
           .then((knowledgeElementsFound) => {
             expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedWithLimitDate);
@@ -224,6 +227,8 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     it('should find the knowledge elements grouped by competence id', async () => {
       // when
       const actualKnowledgeElementsGroupedByCompetenceId = await KnowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId });
+
+      // then
       expect(actualKnowledgeElementsGroupedByCompetenceId[1]).to.have.length(2);
       expect(actualKnowledgeElementsGroupedByCompetenceId[2]).to.have.length(1);
       expect(actualKnowledgeElementsGroupedByCompetenceId[1][0]).to.be.instanceOf(KnowledgeElement);
@@ -264,6 +269,8 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     it('should find the knowledge elements', async () => {
       // when
       const actualKnowledgeElements = await KnowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
+
+      // then
       expect(actualKnowledgeElements).to.have.length(1);
       expect(actualKnowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
       expect(actualKnowledgeElements[0].id).to.equal(2);
@@ -278,7 +285,6 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     const yesterday = moment(today).subtract(1, 'days').toDate();
 
     beforeEach(async () => {
-
       // given
       userId = databaseBuilder.factory.buildUser().id;
       const userId_tmp = databaseBuilder.factory.buildUser().id;
@@ -337,6 +343,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       // when
       const earnedPix = await KnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(userId);
 
+      // then
       expect(earnedPix).to.equal(18);
     });
 
