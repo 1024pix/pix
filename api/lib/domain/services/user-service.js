@@ -209,4 +209,8 @@ module.exports = {
       challengeIdsCorrectlyAnswered,
     });
   },
+
+  _pickChallengesForUserCompetences,
+  _getUserCompetencesAndAnswersV1,
+  _getUserCompetencesAndAnswersV2,
 };
