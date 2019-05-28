@@ -1,8 +1,8 @@
 const Assessment = require('./Assessment');
 const CompetenceEvaluation = require('./CompetenceEvaluation');
+const KnowledgeElement = require('./KnowledgeElement');
 const constants = require('../constants');
 const _ = require('lodash');
-const moment = require('moment');
 
 const statuses = {
   NOT_STARTED: 'NOT_STARTED',
@@ -67,9 +67,8 @@ class Scorecard {
     if (_.isEmpty(knowledgeElements)) {
       return null;
     }
-    const lastKnowledgeElement = _(knowledgeElements).sortBy(['createdAt']).last();
-    const daysSinceLastKnowledgeElement = moment().diff(lastKnowledgeElement.createdAt, 'days', true);
 
+    const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
     const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
