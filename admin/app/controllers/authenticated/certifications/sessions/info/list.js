@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import json2csv from 'json2csv';
 import Papa from 'papaparse';
 import { inject as service } from '@ember/service';
+import moment from 'moment';
 /*
  * Important note:
  * this dependency to 'xlsx' has to be removed when session report import is removed from admin
@@ -438,7 +439,8 @@ export default Controller.extend({
     const workbook = XLSX.read(data, { type: 'array', cellDates:true });
     const first_sheet_name = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[first_sheet_name];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet, { range:8, header:['row', 'lastName', 'firstName', 'birthDate', 'birthPlace', 'email', 'externalId', 'extraTime', 'signature', 'certificationId', 'lastScreen', 'comments'] });
+    const header_rows_number = 8;
+    const jsonData = XLSX.utils.sheet_to_json(worksheet, { range:header_rows_number, header:['row', 'lastName', 'firstName', 'birthDate', 'birthPlace', 'email', 'externalId', 'extraTime', 'signature', 'certificationId', 'lastScreen', 'comments'] });
 
     const lastRow = jsonData.findIndex((row) => {
       return row.lastName == null;
@@ -446,8 +448,7 @@ export default Controller.extend({
     const importedCandidates = jsonData.slice(0, lastRow);
     importedCandidates.forEach((candidate) => {
       if (candidate.birthDate instanceof Date) {
-        const formatedDate = candidate.birthDate.toISOString();
-        candidate.birthDate = formatedDate.substring(8,10) + '/' + formatedDate.substring(5,7) + '/' + formatedDate.substring(0,4);
+        candidate.birthDate = moment(candidate.birthDate).format('DD/MM/YYYY');
       } else {
         candidate.birthDate = null;
       }
