@@ -1,15 +1,20 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { setupComponentTest } from 'ember-mocha';
 
 describe('Unit | Component | scorecard-details ', function() {
-  setupTest();
+  setupComponentTest('scorecard-details', {
+    unit: true
+  });
+
+  let controller;
+
+  beforeEach(function() {
+    controller = this.subject();
+  });
 
   describe('#level', function() {
     it('returns null if the scorecard isNotStarted', function() {
-      // given
-      const controller = this.owner.lookup('controller:scorecard-details');
-
       // when
       controller.set('scorecard', { isNotStarted: true });
 
@@ -18,9 +23,6 @@ describe('Unit | Component | scorecard-details ', function() {
     });
 
     it('returns the level if the scorecard is not isNotStarted', function() {
-      // given
-      const controller = this.owner.lookup('controller:scorecard-details');
-
       // when
       controller.set('scorecard', { level: 1 });
 
@@ -32,9 +34,6 @@ describe('Unit | Component | scorecard-details ', function() {
 
   describe('#isProgressable', function() {
     it('returns false if isMaxLevel', function() {
-      // given
-      const controller = this.owner.lookup('controller:scorecard-details');
-
       // when
       controller.set('scorecard', { isMaxLevel: true });
 
@@ -43,9 +42,6 @@ describe('Unit | Component | scorecard-details ', function() {
     });
 
     it('returns false if isNotStarted', function() {
-      // given
-      const controller = this.owner.lookup('controller:scorecard-details');
-
       // when
       controller.set('scorecard', { isNotStarted: true });
 
@@ -53,10 +49,15 @@ describe('Unit | Component | scorecard-details ', function() {
       expect(controller.get('isProgressable')).to.be.equal(false);
     });
 
-    it('returns true otherwise', function() {
-      // given
-      const controller = this.owner.lookup('controller:scorecard-details');
+    it('returns false if isFinished', function() {
+      // when
+      controller.set('scorecard', { isFinished: true });
 
+      // then
+      expect(controller.get('isProgressable')).to.be.equal(false);
+    });
+
+    it('returns true otherwise', function() {
       // when
       controller.set('scorecard', {});
 

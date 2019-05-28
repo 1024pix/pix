@@ -9,8 +9,8 @@ export default Component.extend({
     return this.get('scorecard.isNotStarted') ? null : this.get('scorecard.level');
   }),
 
-  isProgressable: computed('scorecard.{isMaxLevel,isNotStarted}', function() {
-    return !(this.get('scorecard.isMaxLevel') || this.get('scorecard.isNotStarted'));
+  isProgressable: computed('scorecard.{isMaxLevel,isNotStarted,isFinished}', function() {
+    return !(this.get('scorecard.isFinished') || this.get('scorecard.isMaxLevel') || this.get('scorecard.isNotStarted'));
   }),
 
 });
