@@ -75,4 +75,40 @@ buildAssessment.ofTypeSmartPlacement = function({
   });
 };
 
+buildAssessment.ofTypeCompetenceEvaluation = function({
+  id = faker.random.number(),
+
+  courseId = 'courseId',
+  createdAt = new Date('1992-06-12T01:02:03Z'),
+  userId = faker.random.number(),
+  state = Assessment.states.COMPLETED,
+  title = faker.lorem,
+
+  answers = [buildAnswer()],
+  assessmentResults = [buildAssessmentResult()],
+  course = buildCourse({ id: 'courseId' }),
+  targetProfile = buildTargetProfile(),
+  knowledgeElements = [buildKnowledgeElement()],
+  campaignParticipation = buildCampaignParticipation(),
+} = {}) {
+  return new Assessment({
+    // attributes
+    id,
+    courseId,
+    createdAt,
+    userId,
+    title,
+    type: Assessment.types.COMPETENCE_EVALUATION,
+    state,
+
+    // relationships
+    answers,
+    assessmentResults,
+    course,
+    targetProfile,
+    knowledgeElements,
+    campaignParticipation
+  });
+};
+
 module.exports = buildAssessment;

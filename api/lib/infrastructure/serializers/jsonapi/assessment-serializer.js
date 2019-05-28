@@ -31,9 +31,22 @@ module.exports = {
           assessment.course = { id: currentAssessment.courseId };
         }
 
+        assessment.title = currentAssessment.title;
+
         return assessment;
       },
-      attributes: ['estimatedLevel', 'pixScore', 'type', 'state', 'answers', 'codeCampaign', 'certificationNumber', 'course', 'progression'],
+      attributes: [
+        'estimatedLevel',
+        'pixScore',
+        'title',
+        'type',
+        'state',
+        'answers',
+        'codeCampaign',
+        'certificationNumber',
+        'course',
+        'progression'
+      ],
       answers: {
         ref: 'id',
       },

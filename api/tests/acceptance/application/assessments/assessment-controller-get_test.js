@@ -208,6 +208,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'estimated-level': null,
             'pix-score': null,
             'state': null,
+            'title': undefined,
             'type': 'PLACEMENT',
             'certification-number': null,
           },
@@ -338,6 +339,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'estimated-level': 1,
             'pix-score': 12,
             'state': 'completed',
+            'title': undefined,
             'type': 'PLACEMENT',
             'certification-number': null,
           },
@@ -437,6 +439,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
         'id': assessmentId,
         'attributes': {
           'state': 'completed',
+          'title': undefined,
           'type': 'SMART_PLACEMENT',
           'certification-number': null,
           'code-campaign': 'TESTCODE',
