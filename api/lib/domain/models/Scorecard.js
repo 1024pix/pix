@@ -68,7 +68,7 @@ class Scorecard {
       return null;
     }
     const lastKnowledgeElement = _(knowledgeElements).sortBy(['createdAt']).last();
-    const daysSinceLastKnowledgeElement = moment.utc().diff(lastKnowledgeElement.createdAt, 'days', true);
+    const daysSinceLastKnowledgeElement = moment().diff(lastKnowledgeElement.createdAt, 'days', true);
 
     const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
 
