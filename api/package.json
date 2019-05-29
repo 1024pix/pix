@@ -109,6 +109,7 @@
     "lint:fix": "eslint lib tests --fix",
     "preinstall": "test \"$(npm --version)\" = 6.4.1",
     "scalingo-background-job": "node scripts/reload-cache-everyday.js",
+    "scalingo-replication-job": "sh scripts/reload-database-replication.sh",
     "scalingo-postbuild": "echo 'nothing to do'",
     "scalingo-post-ra-creation": "npm run db:pg:seed",
     "scalingo-start": "npm run db:pg:migrate && npm start",
