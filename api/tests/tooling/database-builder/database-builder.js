@@ -11,12 +11,12 @@ module.exports = class DatabaseBuilder {
   async commit() {
     for (const objectToInsert of this.databaseBuffer.objectsToInsert) {
       await this.knex(objectToInsert.tableName).insert(objectToInsert.values);
+      this.databaseBuffer.objectsToDelete.unshift(objectToInsert);
     }
   }
 
   async clean() {
-    const objectsToDelete = this.databaseBuffer.objectsToInsert.slice().reverse();
-    for (const objectToDelete of objectsToDelete) {
+    for (const objectToDelete of this.databaseBuffer.objectsToDelete) {
       await this.knex(objectToDelete.tableName).where({ id: objectToDelete.values.id }).delete();
     }
     this.databaseBuffer.purge();
