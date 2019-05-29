@@ -5,6 +5,7 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import DS from 'ember-data';
+import _ from 'lodash';
 
 export default Component.extend({
   displayCandidates:false,
@@ -29,16 +30,10 @@ export default Component.extend({
     });
   }),
   duplicates:computed('candidates', function() {
-    let certificationIds = this.get('candidates').map((candidate) => candidate.certificationId);
-    certificationIds = certificationIds.sort();
-    let previous = -1;
-    return certificationIds.reduce((duplicates, id) => {
-      if (id === previous) {
-        duplicates.push(id);
-      }
-      previous = id;
-      return duplicates;
-    }, []);
+    const certificationIds = _.map(this.candidates, 'certificationId');
+    const grouppedCertificationIds = _.groupBy(certificationIds, _.identity);
+    const duplicateCertificationIds = _.uniq(_.flatten(_.filter(grouppedCertificationIds, (n) => n.length > 1)));
+    return duplicateCertificationIds;
   }),
   notFromSession:computed('candidates', 'certifications', function() {
     return DS.PromiseArray.create({
