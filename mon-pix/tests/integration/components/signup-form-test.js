@@ -485,6 +485,8 @@ describe('Integration | Component | signup form', function() {
         // given
         this.set('isRecaptchaEnabled', false);
         this.set('user', userEmpty);
+
+        // when
         this.render(hbs`{{signup-form user=user isRecaptchaEnabled=isRecaptchaEnabled}}`);
 
         // then
@@ -495,6 +497,8 @@ describe('Integration | Component | signup form', function() {
         // given
         this.set('isRecaptchaEnabled', true);
         this.set('user', userEmpty);
+
+        // when
         this.render(hbs`{{signup-form user=user isRecaptchaEnabled=isRecaptchaEnabled}}`);
 
         // then
