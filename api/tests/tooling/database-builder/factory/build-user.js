@@ -68,7 +68,9 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
     values,
   });
 
-  return values;
+  buildUserPixRole({ userId: user.id, pixRoleId: pixRolePixMaster.id });
+
+  return user;
 };
 
 buildUser.withMembership = function buildUserWithMemberships({
@@ -89,18 +91,18 @@ buildUser.withMembership = function buildUserWithMemberships({
   organizationId = _.isNil(organizationId) ? buildOrganization({ name: faker.companyName() }).id : organizationId;
   organizationRoleId = _.isNil(organizationRoleId) ? buildOrganizationRole({ name: 'ADMIN' }).id : organizationRoleId;
 
-  buildMembership({ 
-    userId: id, 
-    organizationId,
-    organizationRoleId
-  });
-  
-  databaseBuffer.pushInsertable({
+  const user = databaseBuffer.pushInsertable({
     tableName: 'users',
     values,
   });
 
-  return values;
+  buildMembership({
+    userId: user.id,
+    organizationId,
+    organizationRoleId
+  });
+
+  return user;
 };
 
 module.exports = buildUser;

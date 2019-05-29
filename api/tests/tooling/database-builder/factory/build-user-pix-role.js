@@ -1,7 +1,6 @@
 const buildUser = require('./build-user');
 const buildPixRole = require('./build-pix-role');
 const databaseBuffer = require('../database-buffer');
-const faker = require('faker');
 const _ = require('lodash');
 
 const buildUserPixRole = function buildUserPixRole({
