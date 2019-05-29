@@ -4,7 +4,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildCompetenceMark({
-  id = faker.random.number(),
+  id,
   level = faker.random.number(),
   score = faker.random.number(),
   area_code = faker.random.number(),
@@ -17,11 +17,8 @@ module.exports = function buildCompetenceMark({
   const values = {
     id, level, score, area_code, competence_code, assessmentResultId
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'competence-marks',
     values,
   });
-
-  return values;
 };

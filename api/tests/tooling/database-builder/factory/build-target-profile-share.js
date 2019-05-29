@@ -5,7 +5,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildTargetProfileShare({
-  id = faker.random.number(),
+  id,
   targetProfileId,
   organizationId,
 } = {}) {
@@ -18,11 +18,8 @@ module.exports = function buildTargetProfileShare({
     targetProfileId,
     organizationId,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'target-profile-shares',
     values,
   });
-
-  return values;
 };
