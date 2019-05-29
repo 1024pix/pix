@@ -6,8 +6,8 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
 
   let options;
   let server;
-  const userId = 1234;
-  const competenceId = 5678;
+  const userId = 5678;
+  const competenceId = 1234;
 
   beforeEach(async () => {
 
@@ -18,10 +18,6 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
       headers: {},
     };
     server = await createServer();
-  });
-
-  afterEach(async () => {
-    await databaseBuilder.clean();
   });
 
   describe('GET /users/:id/competences/:id/reset', () => {
@@ -42,12 +38,12 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
       });
     });
 
-    describe('Success case', () => {
+    describe('Precondition verification', () => {
 
       const competenceEvaluationId = 111;
 
       beforeEach(async () => {
-        options.headers.authorization = generateValidRequestAuhorizationHeader();
+        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
 
         databaseBuilder.factory.buildCompetenceEvaluation({
           id: competenceEvaluationId,
@@ -55,7 +51,55 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
           competenceId,
         });
 
+        databaseBuilder.factory.buildKnowledgeElement({
+          id: 1,
+          userId,
+          competenceId,
+        });
+
         await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should respond with a 421 - precondition failed - if last knowledge element date is not old enough', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(421);
+        });
+      });
+    });
+
+    describe('Success case', () => {
+
+      const competenceEvaluationId = 111;
+
+      beforeEach(async () => {
+        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+
+        databaseBuilder.factory.buildCompetenceEvaluation({
+          id: competenceEvaluationId,
+          userId,
+          competenceId,
+        });
+
+        databaseBuilder.factory.buildKnowledgeElement({
+          id: 1,
+          userId,
+          competenceId,
+          createdAt: new Date('2018-02-15T15:15:52Z'),
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
       });
 
       it('should return 204', async () => {

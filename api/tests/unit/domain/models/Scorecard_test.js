@@ -1,12 +1,20 @@
-const { expect } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
+const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
+const moment = require('moment');
 
 describe('Unit | Domain | Models | Scorecard', () => {
+
+  let computeDaysSinceLastKnowledgeElementStub;
+  let knowledgeElements;
+
+  beforeEach(() => {
+    computeDaysSinceLastKnowledgeElementStub = sinon.stub(KnowledgeElement, 'computeDaysSinceLastKnowledgeElement');
+  });
 
   describe('#buildFrom', () => {
 
     let competenceEvaluation;
-    let knowledgeElements;
     let actualScorecard;
 
     const userId = '123';
@@ -25,7 +33,8 @@ describe('Unit | Domain | Models | Scorecard', () => {
           status: 'started',
           assessment: { state: 'started' },
         };
-        knowledgeElements = [{ earnedPix: 5.5 }, { earnedPix: 3.6 }];
+        knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, { earnedPix: 3.6, createdAt: new Date() }];
+        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         // when
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
       });
@@ -55,12 +64,16 @@ describe('Unit | Domain | Models | Scorecard', () => {
       it('should have set the scorecard status based on the competence evaluation status', () => {
         expect(actualScorecard.status).to.equal('STARTED');
       });
+      it('should have set the scorecard remainingDaysBeforeReset based on last knowledge element date', () => {
+        expect(actualScorecard.remainingDaysBeforeReset).to.equal(7);
+      });
     });
 
     context('when the competence evaluation has never been started', () => {
       beforeEach(() => {
         // given
         competenceEvaluation = undefined;
+        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         //when
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
       });
@@ -73,6 +86,7 @@ describe('Unit | Domain | Models | Scorecard', () => {
     context('when the competence evaluation has been reset', () => {
       beforeEach(() => {
         // given
+        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         competenceEvaluation = { status: 'reset' };
         //when
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
@@ -83,10 +97,25 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
     });
 
+    context('when the user has no knowledge elements for the competence', () => {
+      beforeEach(() => {
+        // given
+        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+        competenceEvaluation = { status: 'reset' };
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements: [], competenceEvaluation, competence });
+      });
+      // then
+      it('should have a dayBeforeReset at null', () => {
+        expect(actualScorecard.remainingDaysBeforeReset).to.be.null;
+      });
+    });
+
     context('when the user level is beyond the upper limit allowed', () => {
       beforeEach(() => {
         // given
         knowledgeElements = [{ earnedPix: 50 }, { earnedPix: 70 }];
+        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
         //when
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
       });
@@ -96,6 +125,52 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
     });
 
+    context('when there is no knowledge elements', () => {
+      it('should return null', () => {
+        knowledgeElements = [];
+
+        // when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+
+        // then
+        expect(actualScorecard.remainingDaysBeforeReset).to.equal(null);
+      });
+    });
   });
 
+  describe('#computeDaysSinceLastKnowledgeElement', () => {
+
+    let testCurrentDate;
+
+    beforeEach(() => {
+      testCurrentDate = new Date('2018-01-10T05:00:00Z');
+      sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
+    [
+      { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeReset: 7 },
+      { daysSinceLastKnowledgeElement: 1, expectedDaysBeforeReset: 6 },
+      { daysSinceLastKnowledgeElement: 5, expectedDaysBeforeReset: 2 },
+      { daysSinceLastKnowledgeElement: 5.5, expectedDaysBeforeReset: 2 },
+      { daysSinceLastKnowledgeElement: 6, expectedDaysBeforeReset: 1 },
+      { daysSinceLastKnowledgeElement: 6.4583, expectedDaysBeforeReset: 1 },
+      { daysSinceLastKnowledgeElement: 6.5, expectedDaysBeforeReset: 1 },
+      { daysSinceLastKnowledgeElement: 6.5416, expectedDaysBeforeReset: 1 },
+      { daysSinceLastKnowledgeElement: 7, expectedDaysBeforeReset: 0 },
+      { daysSinceLastKnowledgeElement: 10, expectedDaysBeforeReset: 0 },
+    ].forEach(({ daysSinceLastKnowledgeElement, expectedDaysBeforeReset }) => {
+      it(`should return ${expectedDaysBeforeReset} days when ${daysSinceLastKnowledgeElement} days passed since last knowledge element`, () => {
+        const date = moment(testCurrentDate).toDate();
+        knowledgeElements = [{ createdAt: date }];
+
+        computeDaysSinceLastKnowledgeElementStub.returns(daysSinceLastKnowledgeElement);
+
+        // when
+        const remainingDaysBeforeReset = Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
+
+        // then
+        expect(remainingDaysBeforeReset).to.equal(expectedDaysBeforeReset);
+      });
+    });
+  });
 });
