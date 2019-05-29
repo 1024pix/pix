@@ -1,5 +1,6 @@
 module.exports = {
   objectsToInsert: [],
+  objectsToDelete: [],
 
   pushInsertable({ tableName, values }) {
     this.objectsToInsert.push({ tableName, values });
@@ -7,5 +8,6 @@ module.exports = {
 
   purge() {
     this.objectsToInsert = [];
+    this.objectsToDelete = [];
   },
 };
