@@ -35,15 +35,10 @@ export default Component.extend({
     const duplicateCertificationIds = _.uniq(_.flatten(_.filter(grouppedCertificationIds, (n) => n.length > 1)));
     return duplicateCertificationIds;
   }),
-  notFromSession:computed('candidates', 'certifications', function() {
-    return DS.PromiseArray.create({
-      promise: this.get('certifications')
-        .then((certifications) => {
-          const ids = certifications.map((certification) => parseInt(certification.get('id')));
-          return this.get('candidates').filter((candidate) => {
-            return ids.indexOf(candidate.certificationId) === -1;
-          });
-        })
+  notFromSession:computed(function() {
+    const certificationIds = this.certifications.map((certification) => certification.id);
+    return this.candidates.filter((candidate) => {
+      return certificationIds.indexOf(parseInt(candidate.certificationId)) === -1;
     });
   }),
   sessionCandidates:computed('candidates', 'notFromSession', function() {
