@@ -44,7 +44,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
       expect(err).to.be.instanceOf(NotFoundError);
     });
   });
-  context('When the competence could not be retrieved not exist', () => {
+  context('When the competence could not be retrieved', () => {
     beforeEach(() => {
       competenceRepository.get.withArgs(competenceId).resolves();
       competenceEvaluationRepository.getByCompetenceIdAndUserId.rejects(new Error);
