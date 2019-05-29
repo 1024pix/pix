@@ -65,4 +65,57 @@ module('Unit | Components | certification-session-report', function(hooks) {
     });
   });
 
+  module('#withoutCandidate', function() {
+    test('should return an empty array when every candidates certification IDs match an existing certification', function(assert) {
+      // given
+      const candidates = [
+        { row: 1, certificationId: 123 },
+        { row: 2, certificationId: 456 },
+        { row: 3, certificationId: 789 },
+      ];
+      component.set('candidates', candidates);
+
+      const certifications = [
+        { id: 123 },
+        { id: 456 },
+        { id: 789 },
+      ];
+      component.set('certifications', certifications);
+
+      // when
+      const certificationsWithoutCandidate = component.withoutCandidate;
+
+      // then
+      const expectedResult = [];
+      assert.deepEqual(certificationsWithoutCandidate, expectedResult);
+    });
+
+    test('should return an array with certifications missing associated candidate', function(assert) {
+      // given
+      const candidates = [
+        { row: 1, certificationId: 123 },
+        { row: 2, certificationId: 456 },
+        { row: 3, certificationId: 789 },
+      ];
+      component.set('candidates', candidates);
+
+      const certifications = [
+        { id: 123 },
+        { id: 100000 },
+        { id: 200000 },
+      ];
+      component.set('certifications', certifications);
+
+      // when
+      const certificationsWithoutCandidate = component.withoutCandidate;
+
+      // then
+      const expectedResult = [
+        { id: 100000 },
+        { id: 200000 }
+      ];
+      assert.deepEqual(certificationsWithoutCandidate, expectedResult);
+    });
+  });
+
 });

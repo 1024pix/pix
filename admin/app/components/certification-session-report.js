@@ -60,15 +60,10 @@ export default Component.extend({
         })
     });
   }),
-  withoutCandidate:computed('candidates', 'certifications', function() {
-    return DS.PromiseArray.create({
-      promise: this.get('certifications')
-        .then((certifications) => {
-          const candidateIds = this.get('candidates').map((candidate) => candidate.certificationId);
-          return certifications.filter((certification) => {
-            return candidateIds.indexOf(parseInt(certification.get('id'))) === -1;
-          });
-        })
+  withoutCandidate:computed(function() {
+    const candidateIds = this.candidates.map((candidate) => candidate.certificationId);
+    return this.certifications.filter((certification) => {
+      return candidateIds.indexOf(parseInt(certification.id)) === -1;
     });
   }),
   missingEndScreen:computed('candidates', function() {
