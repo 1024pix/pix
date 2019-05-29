@@ -26,6 +26,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.AlreadyRatedAssessmentError) {
     return new InfraErrors.PreconditionFailedError('Assessment is already rated.');
   }
+  if (error instanceof DomainErrors.CompetenceResetError) {
+    return new InfraErrors.PreconditionFailedError(error.message);
+  }
   if (error instanceof DomainErrors.ChallengeAlreadyAnsweredError) {
     return new InfraErrors.ConflictError('This challenge has already been answered.');
   }

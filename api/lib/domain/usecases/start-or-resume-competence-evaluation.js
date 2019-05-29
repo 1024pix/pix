@@ -20,7 +20,7 @@ async function _resumeCompetenceEvaluation({ userId, competenceId, competenceEva
   const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId(competenceId, userId);
 
   if (competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
-    await competenceEvaluationRepository.updateStatusByCompetenceId(competenceId, CompetenceEvaluation.statuses.STARTED);
+    await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId(userId, competenceId, CompetenceEvaluation.statuses.STARTED);
   }
   return {
     created: false,

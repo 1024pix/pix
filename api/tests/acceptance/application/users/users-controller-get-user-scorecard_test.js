@@ -131,7 +131,8 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
               'earned-pix': knowledgeElement.earnedPix,
               level: Math.round(knowledgeElement.earnedPix / 8),
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
-              status: 'STARTED'
+              status: 'STARTED',
+              'remaining-days-before-reset': 7,
             },
             relationships: {
               area: {

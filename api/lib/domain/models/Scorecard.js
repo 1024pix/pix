@@ -1,5 +1,6 @@
 const Assessment = require('./Assessment');
 const CompetenceEvaluation = require('./CompetenceEvaluation');
+const KnowledgeElement = require('./KnowledgeElement');
 const constants = require('../constants');
 const _ = require('lodash');
 
@@ -21,6 +22,7 @@ class Scorecard {
     pixScoreAheadOfNextLevel,
     earnedPix,
     status,
+    remainingDaysBeforeReset,
   } = {}) {
 
     this.id = id;
@@ -34,6 +36,7 @@ class Scorecard {
     this.level = level;
     this.pixScoreAheadOfNextLevel = pixScoreAheadOfNextLevel;
     this.status = status;
+    this.remainingDaysBeforeReset = remainingDaysBeforeReset;
   }
 
   static parseId(scorecardId) {
@@ -42,8 +45,9 @@ class Scorecard {
   }
 
   static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation }) {
-
     const totalEarnedPix = _getTotalEarnedPix(knowledgeElements);
+
+    const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
 
     return new Scorecard({
       id: `${userId}_${competence.id}`,
@@ -56,7 +60,15 @@ class Scorecard {
       level: _getCompetenceLevel(totalEarnedPix),
       pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPix),
       status: _getScorecardStatus(competenceEvaluation),
+      remainingDaysBeforeReset,
     });
+  }
+
+  static computeRemainingDaysBeforeReset(knowledgeElements) {
+    const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
+    const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
+
+    return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
 }
 

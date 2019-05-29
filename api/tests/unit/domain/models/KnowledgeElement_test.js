@@ -1,6 +1,7 @@
-const { expect, domainBuilder } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
+const moment = require('moment');
 
 describe('Unit | Domain | Models | KnowledgeElement', () => {
 
@@ -871,6 +872,44 @@ describe('Unit | Domain | Models | KnowledgeElement', () => {
             });
           });
         });
+      });
+    });
+  });
+
+  describe('#computeDaysSinceLastKnowledgeElement', () => {
+
+    let testCurrentDate;
+    let knowledgeElements;
+    let daysSinceLastKnowledgeElement;
+
+    beforeEach(() => {
+      testCurrentDate = new Date('2018-01-10T05:00:00Z');
+      sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
+    [
+      { daysBefore: 0, hoursBefore: 2, expectedDaysSinceLastKnowledgeElement: 0.0833 },
+      { daysBefore: 1, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 1 },
+      { daysBefore: 5, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 5 },
+      { daysBefore: 5, hoursBefore: 12, expectedDaysSinceLastKnowledgeElement: 5.5 },
+      { daysBefore: 6, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 6 },
+      { daysBefore: 6, hoursBefore: 11, expectedDaysSinceLastKnowledgeElement: 6.4583 },
+      { daysBefore: 6, hoursBefore: 12, expectedDaysSinceLastKnowledgeElement: 6.5 },
+      { daysBefore: 6, hoursBefore: 13, expectedDaysSinceLastKnowledgeElement: 6.5416 },
+      { daysBefore: 7, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 7 },
+      { daysBefore: 10, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 10 },
+    ].forEach(({ daysBefore, hoursBefore, expectedDaysSinceLastKnowledgeElement }) => {
+      it(`should return ${expectedDaysSinceLastKnowledgeElement} days when the last knowledge element is ${daysBefore} days and ${hoursBefore} hours old`, () => {
+        const knowledgeElementCreationDate = moment(testCurrentDate).subtract(daysBefore, 'day').subtract(hoursBefore, 'hour').toDate();
+        const oldDate = moment(testCurrentDate).subtract(100, 'day').toDate();
+
+        knowledgeElements = [{ createdAt: oldDate }, { createdAt: knowledgeElementCreationDate }];
+
+        // when
+        daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
+
+        // then
+        expect(daysSinceLastKnowledgeElement).to.be.closeTo(expectedDaysSinceLastKnowledgeElement, 0.0001);
       });
     });
   });

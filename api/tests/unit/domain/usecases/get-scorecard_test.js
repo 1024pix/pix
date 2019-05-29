@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-scorecard', () => {
     competenceId = 1;
     authenticatedUserId = 1;
     competenceRepository = { get: sinon.stub() };
-    knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
+    knowledgeElementRepository = { findUniqByUserIdAndCompetenceId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
     buildFromStub = sinon.stub(Scorecard, 'buildFrom');
     parseIdStub = sinon.stub(Scorecard, 'parseId');
@@ -40,7 +40,7 @@ describe('Unit | UseCase | get-scorecard', () => {
       it('should resolve', () => {
         // given
         competenceRepository.get.resolves([]);
-        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
+        knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves({});
 
         // when
         const promise = getScorecard({
@@ -70,7 +70,7 @@ describe('Unit | UseCase | get-scorecard', () => {
           domainBuilder.buildKnowledgeElement({ competenceId: 1 }),
         ];
 
-        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({ '1': knowledgeElementList });
+        knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
 
         const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
         const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
@@ -114,7 +114,7 @@ describe('Unit | UseCase | get-scorecard', () => {
         // given
         const unauthorizedUserId = 42;
         competenceRepository.get.resolves([]);
-        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
+        knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves({});
 
         // when
         const promise = getScorecard({
