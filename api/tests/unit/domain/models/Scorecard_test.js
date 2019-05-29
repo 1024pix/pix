@@ -5,13 +5,17 @@ const moment = require('moment');
 
 describe('Unit | Domain | Models | Scorecard', () => {
 
+  let computeDaysSinceLastKnowledgeElementStub;
+  let knowledgeElements;
+
+  beforeEach(() => {
+    computeDaysSinceLastKnowledgeElementStub = sinon.stub(KnowledgeElement, 'computeDaysSinceLastKnowledgeElement');
+  });
+
   describe('#buildFrom', () => {
 
     let competenceEvaluation;
-    let knowledgeElements;
     let actualScorecard;
-    let testCurrentDate;
-    let computeDaysSinceLastKnowledgeElementStub;
 
     const userId = '123';
     const competence = {
@@ -21,12 +25,6 @@ describe('Unit | Domain | Models | Scorecard', () => {
       area: 'area',
       index: 'index',
     };
-
-    beforeEach(() => {
-      testCurrentDate = new Date('2018-01-10T05:00:00Z');
-      sinon.useFakeTimers(testCurrentDate.getTime());
-      computeDaysSinceLastKnowledgeElementStub = sinon.stub(KnowledgeElement, 'computeDaysSinceLastKnowledgeElement');
-    });
 
     context('with existing competence evaluation and assessment', () => {
       beforeEach(() => {
@@ -127,6 +125,28 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
     });
 
+    context('when there is no knowledge elements', () => {
+      it('should return null', () => {
+        knowledgeElements = [];
+
+        // when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+
+        // then
+        expect(actualScorecard.remainingDaysBeforeReset).to.equal(null);
+      });
+    });
+  });
+
+  describe('#computeDaysSinceLastKnowledgeElement', () => {
+
+    let testCurrentDate;
+
+    beforeEach(() => {
+      testCurrentDate = new Date('2018-01-10T05:00:00Z');
+      sinon.useFakeTimers(testCurrentDate.getTime());
+    });
+
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeReset: 7 },
       { daysSinceLastKnowledgeElement: 1, expectedDaysBeforeReset: 6 },
@@ -146,13 +166,11 @@ describe('Unit | Domain | Models | Scorecard', () => {
         computeDaysSinceLastKnowledgeElementStub.returns(daysSinceLastKnowledgeElement);
 
         // when
-        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        const remainingDaysBeforeReset = Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
 
         // then
-        expect(actualScorecard.remainingDaysBeforeReset).to.equal(expectedDaysBeforeReset);
+        expect(remainingDaysBeforeReset).to.equal(expectedDaysBeforeReset);
       });
     });
-
   });
-
 });

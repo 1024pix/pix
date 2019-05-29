@@ -136,4 +136,21 @@ describe('Unit | UseCase | reset-competence-evaluation', () => {
       expect(requestErr).to.be.instanceOf(CompetenceResetError);
     });
   });
+
+  context('when there is no knowledge elements', () => {
+    it('should do nothing', async () => {
+      // given
+      requestedUserId = 456;
+      knowledgeElementRepository.findUniqByUserIdAndCompetenceId
+        .withArgs({ userId: authenticatedUserId, competenceId })
+        .resolves([]);
+
+      // when
+      const response = await resetCompetenceEvaluation({ authenticatedUserId, requestedUserId, competenceId, competenceEvaluationRepository, knowledgeElementRepository });
+
+      // then
+      sinon.assert.neverCalledWith(competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId, competenceId, authenticatedUserId);
+      expect(response).to.equal(null);
+    });
+  });
 });

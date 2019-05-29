@@ -45,8 +45,9 @@ class Scorecard {
   }
 
   static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation }) {
-
     const totalEarnedPix = _getTotalEarnedPix(knowledgeElements);
+
+    const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
 
     return new Scorecard({
       id: `${userId}_${competence.id}`,
@@ -59,15 +60,11 @@ class Scorecard {
       level: _getCompetenceLevel(totalEarnedPix),
       pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPix),
       status: _getScorecardStatus(competenceEvaluation),
-      remainingDaysBeforeReset: Scorecard.computeRemainingDaysBeforeReset(knowledgeElements),
+      remainingDaysBeforeReset,
     });
   }
 
-  static computeRemainingDaysBeforeReset(knowledgeElements = []) {
-    if (_.isEmpty(knowledgeElements)) {
-      return null;
-    }
-
+  static computeRemainingDaysBeforeReset(knowledgeElements) {
     const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
     const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
 
