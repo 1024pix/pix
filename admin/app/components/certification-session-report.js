@@ -8,6 +8,9 @@ import DS from 'ember-data';
 import _ from 'lodash';
 
 export default Component.extend({
+
+  classNames: ['certification-session-report'],
+
   displayCandidates:false,
   displayIncomplete:false,
   displayDuplicates:false,
