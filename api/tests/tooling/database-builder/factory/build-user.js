@@ -9,7 +9,7 @@ const buildMembership = require('./build-membership');
 const _ = require('lodash');
 
 const buildUser = function buildUser({
-  id = faker.random.number(),
+  id,
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   email = faker.internet.exampleEmail().toLowerCase(),
@@ -21,16 +21,14 @@ const buildUser = function buildUser({
     id, firstName, lastName, email, password, cgu,
   };
 
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'users',
     values,
   });
-
-  return values;
 };
 
 buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
-  id = faker.random.number(),
+  id,
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   email = faker.internet.email(),
@@ -44,16 +42,14 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
     id, firstName, lastName, email, password, cgu,
   };
 
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'users',
     values,
   });
-
-  return values;
 };
 
 buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
-  id = faker.random.number(),
+  id,
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   email = faker.internet.email(),
@@ -65,11 +61,9 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
     id, firstName, lastName, email, password, cgu,
   };
 
-  const pixRolePixMaster = buildPixRole({ id: 1, name: 'PIX_MASTER' });
+  const pixRolePixMaster = buildPixRole({ name: 'PIX_MASTER' });
 
-  buildUserPixRole({ userId: id, pixRoleId: pixRolePixMaster.id });
-
-  databaseBuffer.pushInsertable({
+  const user = databaseBuffer.pushInsertable({
     tableName: 'users',
     values,
   });
@@ -78,7 +72,7 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
 };
 
 buildUser.withMembership = function buildUserWithMemberships({
-  id = faker.random.number(),
+  id,
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   email = faker.internet.email(),

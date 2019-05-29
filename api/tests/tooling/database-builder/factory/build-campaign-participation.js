@@ -6,7 +6,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildCampaignParticipation({
-  id = faker.random.number(),
+  id,
   assessmentId,
   campaignId,
   isShared = faker.random.boolean(),
@@ -23,11 +23,8 @@ module.exports = function buildCampaignParticipation({
   const values = {
     id, assessmentId, campaignId, userId, isShared, createdAt, sharedAt, participantExternalId
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'campaign-participations',
     values,
   });
-
-  return values;
 };
