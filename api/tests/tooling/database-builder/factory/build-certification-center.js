@@ -2,7 +2,7 @@ const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildCertificationCenter({
-  id = faker.random.number(),
+  id,
   name = faker.company.companyName(),
   createdAt = faker.date.recent(),
 } = {}) {
@@ -12,11 +12,8 @@ module.exports = function buildCertificationCenter({
     name,
     createdAt,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'certification-centers',
     values,
   });
-
-  return values;
 };

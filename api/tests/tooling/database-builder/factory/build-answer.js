@@ -4,7 +4,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildAnswer({
-  id = faker.random.number(),
+  id,
   value = 'default value',
   result = 'ok',
   assessmentId,
@@ -16,11 +16,8 @@ module.exports = function buildAnswer({
   const values = {
     id, value, result, assessmentId, challengeId,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'answers',
     values,
   });
-
-  return values;
 };
