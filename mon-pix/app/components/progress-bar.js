@@ -13,7 +13,7 @@ export default Component.extend({
   setProgression() {
     let nbChallenges;
     if (this.get('assessment.hasCheckpoints')) {
-      nbChallenges = ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS;
+      nbChallenges = ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
     } else {
       nbChallenges = this.get('assessment.course.nbChallenges');
     }
