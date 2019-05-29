@@ -317,7 +317,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       await databaseBuilder.clean();
     });
 
-    it('should reset only the knowledge elements matching both userId and competenceId', async () => {
+    it('should find only the knowledge elements matching both userId and competenceId', async () => {
       // when
       const actualKnowledgeElements = await KnowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
 

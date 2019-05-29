@@ -17,7 +17,7 @@ function _getUniqMostRecents(knowledgeElements) {
     .value();
 }
 
-function _removeResetKnowledgeElements(knowledgeElements) {
+function _dropResetKnowledgeElements(knowledgeElements) {
   return _.reject(knowledgeElements, { status: KnowledgeElement.StatusType.RESET });
 }
 
@@ -36,7 +36,7 @@ module.exports = {
       .where({ assessmentId })
       .fetchAll()
       .then(_toDomain)
-      .then(_removeResetKnowledgeElements);
+      .then(_dropResetKnowledgeElements);
   },
 
   findUniqByUserId({ userId, limitDate }) {
@@ -50,7 +50,7 @@ module.exports = {
       .fetchAll()
       .then(_toDomain)
       .then(_getUniqMostRecents)
-      .then(_removeResetKnowledgeElements);
+      .then(_dropResetKnowledgeElements);
   },
 
   findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
@@ -59,11 +59,12 @@ module.exports = {
       .fetchAll()
       .then(_toDomain)
       .then(_getUniqMostRecents)
-      .then(_removeResetKnowledgeElements);
+      .then(_dropResetKnowledgeElements);
   },
 
   findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
     return this.findUniqByUserId({ userId, limitDate })
+      .then(_dropResetKnowledgeElements)
       .then((knowledgeElements) => _.groupBy(knowledgeElements, 'competenceId'));
   },
 
