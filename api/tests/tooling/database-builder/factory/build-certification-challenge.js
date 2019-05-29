@@ -4,7 +4,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildCertificationChallenge({
-  id = faker.random.number(),
+  id,
   associatedSkill = '@twi8',
   associatedSkillId = `rec${faker.random.uuid()}`,
   challengeId = `rec${faker.random.uuid()}`,
@@ -26,11 +26,8 @@ module.exports = function buildCertificationChallenge({
     createdAt,
     updatedAt,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'certification-challenges',
     values,
   });
-
-  return values;
 };

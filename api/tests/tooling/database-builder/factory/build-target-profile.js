@@ -4,7 +4,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildTargetProfile({
-  id = faker.random.number(),
+  id,
   name = faker.name.jobTitle(),
   isPublic = faker.random.boolean(),
   organizationId,
@@ -18,11 +18,8 @@ module.exports = function buildTargetProfile({
     isPublic,
     organizationId,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'target-profiles',
     values,
   });
-
-  return values;
 };

@@ -4,7 +4,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 const buildOrganization = function buildOrganization({
-  id = faker.random.number(),
+  id,
   type = 'PRO',
   name = faker.company.companyName(),
   code = 'ABCD12',
@@ -14,17 +14,14 @@ const buildOrganization = function buildOrganization({
 } = {}) {
 
   const values = { id, type, name, code, logoUrl, createdAt, userId };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'organizations',
     values,
   });
-
-  return values;
 };
 
 buildOrganization.withUser = function buildOrganizationWithUser({
-  id = faker.random.number(),
+  id,
   type = 'PRO',
   name = faker.company.companyName(),
   code = 'ABCD12',
@@ -36,13 +33,10 @@ buildOrganization.withUser = function buildOrganizationWithUser({
   userId = _.isNil(userId) ? buildUser().id : userId;
 
   const values = { id, type, name, code, logoUrl, createdAt, userId };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'organizations',
     values,
   });
-
-  return values;
 };
 
 module.exports = buildOrganization;
