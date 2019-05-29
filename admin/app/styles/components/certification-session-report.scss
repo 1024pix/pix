@@ -1,0 +1,37 @@
+.certification-session-report {
+
+  &__section {
+    margin-bottom: 20px;
+  }
+
+  &__section-switch {
+    border: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      text-decoration: underline;
+    }
+  }
+
+  &__certification-id {
+    border-radius: 20px;
+    background-color: #F1F1F1;
+    padding: 0 10px;
+  }
+
+  &__status-icon {
+
+    &--success {
+      color: #39B97A;
+    }
+
+    &--failure {
+      color: #E55636;
+    }
+
+    &--warning {
+      color: #F5B042;
+    }
+  }
+}
