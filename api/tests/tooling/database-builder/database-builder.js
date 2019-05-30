@@ -13,6 +13,7 @@ module.exports = class DatabaseBuilder {
       await this.knex(objectToInsert.tableName).insert(objectToInsert.values);
       this.databaseBuffer.objectsToDelete.unshift(objectToInsert);
     }
+    this.databaseBuffer.objectsToInsert = [];
   }
 
   async clean() {
