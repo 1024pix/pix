@@ -1,4 +1,3 @@
-const faker = require('faker');
 const buildTargetProfile = require('./build-target-profile');
 const buildOrganization = require('./build-organization');
 const databaseBuffer = require('../database-buffer');
