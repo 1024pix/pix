@@ -10,20 +10,20 @@ function buildRequestObject(baseUrl, authToken, assessmentId) {
     },
     baseUrl: baseUrl,
     body: {
-      "data": {
-        "attributes": {
+      'data': {
+        'attributes': {
         },
-        "relationships": {
-          "assessment": {
-            "data":{
-              "id":assessmentId
+        'relationships': {
+          'assessment': {
+            'data':{
+              'id':assessmentId
             }
 
           }
         }
       }
     },
-    url: `/api/assessment-results?recompute=true`,
+    url: '/api/assessment-results?recompute=true',
     json: true
   };
   return request;
@@ -41,8 +41,8 @@ function main() {
     listCertif.push(i);
   }
   const requests = Promise.all(
-    listCertif.map(id => buildRequestObject(baseUrl, authToken, id))
-      .map(requestObject => request(requestObject)));
+    listCertif.map((id) => buildRequestObject(baseUrl, authToken, id))
+      .map((requestObject) => request(requestObject)));
 
   requests
     .then((result) => console.log(result))

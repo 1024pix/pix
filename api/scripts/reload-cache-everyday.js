@@ -49,7 +49,7 @@ cron.schedule(process.env.CACHE_RELOAD_TIME, () => {
   console.log('Starting daily cache reload');
 
   return request(authenticationTokenRequest())
-    .then(response => authToken = response.data.attributes.token)
+    .then((response) => authToken = response.data.attributes.token)
     .then(() => request(cacheFlushingRequest(authToken)))
     .then(() => request(cacheWarmupRequest(authToken)))
     .then(() => console.log('Daily cache reload done'))

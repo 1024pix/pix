@@ -42,12 +42,12 @@ function buildCertificationRequest(baseUrl, authToken, certificationId) {
 }
 
 function findCompetence(profile, competenceName) {
-  const result = profile.find(competence => competence['competence-code'] === competenceName);
+  const result = profile.find((competence) => competence['competence-code'] === competenceName);
   return (result || { level: '' }).level;
 }
 
 function toCSVRow(rowJSON) {
-  if(!rowJSON.data) {
+  if (!rowJSON.data) {
     return {};
   }
   const certificationData = rowJSON.data.attributes;
@@ -98,7 +98,7 @@ function toCSVRow(rowJSON) {
 
   res[note] = certificationData['pix-score'];
 
-  competencess.forEach(column => {
+  competencess.forEach((column) => {
     res[column] = findCompetence(certificationData['competences-with-mark'], column);
   });
 
@@ -127,23 +127,23 @@ function main() {
     .catch((err) => {
       if (err.statusCode === 404) {
         console.error(err);
-        throw new Error(`L'id session n'existe pas`);
+        throw new Error('L\'id session n\'existe pas');
       }
     })
     .then((certificationIds) => {
       const certificationsRequests = Promise.all(
-        certificationIds.map(certificationId => buildCertificationRequest(baseUrl, authToken, certificationId))
-          .map(requestObject => request(requestObject))
+        certificationIds.map((certificationId) => buildCertificationRequest(baseUrl, authToken, certificationId))
+          .map((requestObject) => request(requestObject))
       );
 
-      return certificationsRequests.then(certificationResults => certificationResults.map(toCSVRow))
-        .then(certificationResult => json2csv({
+      return certificationsRequests.then((certificationResults) => certificationResults.map(toCSVRow))
+        .then((certificationResult) => json2csv({
           data: certificationResult,
           fieldNames: HEADERS,
           del: ';',
           withBOM: true,
         }))
-        .then(csv => {
+        .then((csv) => {
           saveInFile(csv, sessionId);
           console.log(`\n\n${csv}\n\n`);
           return csv;
