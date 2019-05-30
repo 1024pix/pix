@@ -138,7 +138,6 @@ la propriété `encPrivateKey` de `SAML_SP_CONFIG`.
   * De même l'attribut `Location` de `SingleLogoutService` désigne le service de consommation
     de requêtes de déconnexion, mais il n'est pas actuellement implémenté.
 
-
 # Utilisation du script `make-saml-env.js`
 
 La syntaxe d'une valeur de variable d'environnement contenant du XML à
