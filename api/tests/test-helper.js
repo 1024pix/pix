@@ -43,41 +43,36 @@ function generateValidRequestAuhorizationHeader(userId = 1234) {
   return `Bearer ${accessToken}`;
 }
 
-function insertUserWithRolePixMaster() {
-  let userId;
+async function insertUserWithRolePixMaster() {
 
-  return knex('users').insert({
+  databaseBuilder.factory.buildUser.withPixRolePixMaster({
     id: 1234,
     firstName: 'Super',
     lastName: 'Papa',
     email: 'super.papa@example.net',
     password: 'abcd1234',
-  }).returning('id')
-    .then((insertUserId) => {
-      userId = insertUserId[0];
-      return knex('pix_roles').insert({ name: 'PIX_MASTER' }).returning('id');
-    })
-    .then((insertRoleId) => {
-      return knex('users_pix_roles').insert({ user_id: userId, pix_role_id: insertRoleId[0] });
-    });
+  });
+
+  return databaseBuilder.commit();
+
 }
 
-function insertUserWithStandardRole() {
-  return knex('users').insert({
+async function insertUserWithStandardRole() {
+  const user = databaseBuilder.factory.buildUser({
     id: 4444,
     firstName: 'Classic',
     lastName: 'Papa',
     email: 'classic.papa@example.net',
     password: 'abcd1234',
-  }).returning('id');
+  });
+
+  await databaseBuilder.commit();
+
+  return user;
 }
 
 function cleanupUsersAndPixRolesTables() {
-  return knex('users_pix_roles').delete()
-    .then(() => Promise.all([
-      knex('users').delete(),
-      knex('pix_roles').delete(),
-    ]));
+  return databaseBuilder.clean();
 }
 
 // Hapi
