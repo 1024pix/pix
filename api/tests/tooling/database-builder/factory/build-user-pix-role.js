@@ -12,9 +12,6 @@ const buildUserPixRole = function buildUserPixRole({
   userId = _.isNil(userId) ? buildUser().id : userId;
   pixRoleId = _.isNil(pixRoleId) ? buildPixRole().id : pixRoleId;
 
-  const values = {
-    id, userId, pixRoleId,
-  };
   return databaseBuffer.pushInsertable({
     tableName: 'users_pix_roles',
     values: {

@@ -21,8 +21,8 @@ describe('Acceptance | API | Assessments POST', () => {
 
     beforeEach(() => {
       return insertUserWithStandardRole()
-        .then((ids) => {
-          userId = ids[0];
+        .then(({ id }) => {
+          userId = id;
           options = {
             method: 'POST',
             url: '/api/assessments',

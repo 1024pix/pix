@@ -1,4 +1,3 @@
-const faker = require('faker');
 const buildAssessment = require('./build-assessment');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
