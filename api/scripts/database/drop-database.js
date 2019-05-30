@@ -15,4 +15,4 @@ client.query_and_log(`DROP DATABASE ${DB_TO_DELETE_NAME};`)
     console.log('Database dropped');
     client.end();
     process.exit(0);
-  })
+  });

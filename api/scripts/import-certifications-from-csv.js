@@ -112,7 +112,7 @@ function main() {
     assertFileValidity(filePath);
     console.log('Test de validité du fichier : OK');
 
-    fs.readFile(filePath, 'utf8', function (err, data) {
+    fs.readFile(filePath, 'utf8', function(err, data) {
       console.log('\nTéléversement des certifications sur le serveur...');
 
       // We delete the BOM UTF8 at the beginning of the CSV,

@@ -39,7 +39,7 @@ function makeRequest(config) {
 }
 
 function findCompetence(profile, competenceName) {
-  const result = profile.find(competence => competence.index === competenceName);
+  const result = profile.find((competence) => competence.index === competenceName);
   return (result || { obtainedLevel: '' }).obtainedLevel;
 }
 
@@ -55,7 +55,7 @@ function toCSVRow(rowJSON) {
   }
 
   res[noteColumn] = rowJSON.totalScore;
-  competencesColumns.forEach(column => {
+  competencesColumns.forEach((column) => {
     res[column] = findCompetence(rowJSON.competencesWithMark, column);
   });
   return res;
@@ -66,17 +66,17 @@ function main() {
   const authToken = process.argv[3];
   const ids = parseArgs(process.argv.slice(4));
   const requests = Promise.all(
-    ids.map(id => buildRequestObject(baseUrl, authToken, id))
-      .map(requestObject => makeRequest(requestObject))
+    ids.map((id) => buildRequestObject(baseUrl, authToken, id))
+      .map((requestObject) => makeRequest(requestObject))
   );
 
-  requests.then(certificationResults => certificationResults.map(toCSVRow))
-    .then(res => json2csv({
+  requests.then((certificationResults) => certificationResults.map(toCSVRow))
+    .then((res) => json2csv({
       data: res,
       fieldNames: HEADERS,
       del: ';',
     }))
-    .then(csv => {
+    .then((csv) => {
       console.log(`\n\n${csv}\n\n`);
       return csv;
     });

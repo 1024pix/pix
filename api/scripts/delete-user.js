@@ -98,7 +98,7 @@ class UserEraser {
       .then(() => this.queryBuilder.count_certifications_from_user_id(this.userId))
       .then((query) => this.client.query_and_log(query))
       .then((result) => {
-        if(this.clientQueryAdapter.count(result) > 0)
+        if (this.clientQueryAdapter.count(result) > 0)
           return Promise.reject('The user has been certified, deletion impossible');
       });
   }
