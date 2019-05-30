@@ -1,4 +1,3 @@
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildMembership(
