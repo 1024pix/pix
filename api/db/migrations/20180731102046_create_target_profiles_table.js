@@ -2,13 +2,13 @@ const TABLE_NAME_TARGET_PROFILES = 'target-profiles';
 const TABLE_NAME_TARGET_PROFILES_SKILLS = 'target-profiles_skills';
 const TABLE_NAME_CAMPAIGNS = 'campaigns';
 
-let targetProfile = {
+const targetProfile = {
   name: 'PIC - Diagnostic Initial',
   isPublic: true,
   organizationId: null
 };
 
-let associatedSkills = [
+const associatedSkills = [
   { skillId: 'rectL2ZZeWPc7yezp' },
   { skillId: 'recndXqXiv4pv2Ukp' },
   { skillId: 'recMOy4S8XnaWblYI' },

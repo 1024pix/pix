@@ -15,7 +15,7 @@ module.exports = {
       type: 'modify',
       path: 'lib/domain/usecases/index.js',
       pattern: '});\n',
-      template: "  {{camelCase name}}: require('./{{name}}.js'),\n});\n"
+      template: '  {{camelCase name}}: require(\'./{{name}}.js\'),\n});\n'
     },
     {
       type: 'add',
