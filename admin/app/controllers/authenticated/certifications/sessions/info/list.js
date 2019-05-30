@@ -169,10 +169,6 @@ export default Controller.extend({
      * (temporary code)
      */
 
-    onHideSessionReport() {
-      this.set('displaySessionReport', false);
-    },
-
     onSaveReportData(candidatesData) {
       return candidatesData
         .then((data) => {
@@ -246,7 +242,43 @@ export default Controller.extend({
           const fileName = 'resultats_session_' + this.get('model.session.id') + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
           this.fileSaver.saveAs(csv + '\n', fileName);
         });
-    }
+    },
+
+    async displayCertificationSessionReport(file) {
+      const arrayBuffer = await file.readAsArrayBuffer();
+      const data = new Uint8Array(arrayBuffer);
+      const workbook = XLSX.read(data, { type: 'array', cellDates:true });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+      const headerRowsNumber = 8;
+      const header = [
+        'row',
+        'lastName',
+        'firstName',
+        'birthDate',
+        'birthPlace',
+        'email',
+        'externalId',
+        'extraTime',
+        'signature',
+        'certificationId',
+        'lastScreen',
+        'comments'
+      ];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { range:headerRowsNumber, header });
+
+      const lastRowIndex = jsonData.findIndex((row) => !row.lastName);
+      const importedCandidates = jsonData.slice(0, lastRowIndex);
+      importedCandidates.forEach((candidate) => {
+        if (candidate.birthDate instanceof Date) {
+          candidate.birthDate = moment(candidate.birthDate).format('DD/MM/YYYY');
+        } else {
+          candidate.birthDate = null;
+        }
+      });
+      this.set('importedCandidates', importedCandidates);
+      this.set('displaySessionReport', true);
+    },
 
     /*
      * End of temporary code
@@ -427,37 +459,5 @@ export default Controller.extend({
         this.get('notifications').error(error);
       });
   },
-
-  /*
-   * Important note:
-   * These actions will be removed when session report import is removed from admin
-   * (temporary code)
-   */
-
-  _importODSReport(result) {
-    const data = new Uint8Array(result);
-    const workbook = XLSX.read(data, { type: 'array', cellDates:true });
-    const first_sheet_name = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[first_sheet_name];
-    const header_rows_number = 8;
-    const jsonData = XLSX.utils.sheet_to_json(worksheet, { range:header_rows_number, header:['row', 'lastName', 'firstName', 'birthDate', 'birthPlace', 'email', 'externalId', 'extraTime', 'signature', 'certificationId', 'lastScreen', 'comments'] });
-
-    const lastRow = jsonData.findIndex((row) => {
-      return row.lastName == null;
-    });
-    const importedCandidates = jsonData.slice(0, lastRow);
-    importedCandidates.forEach((candidate) => {
-      if (candidate.birthDate instanceof Date) {
-        candidate.birthDate = moment(candidate.birthDate).format('DD/MM/YYYY');
-      } else {
-        candidate.birthDate = null;
-      }
-    });
-    this.set('importedCandidates', importedCandidates);
-    this.set('displaySessionReport', true);
-  }
-  /*
-   * End of temporary code
-   */
 
 });
