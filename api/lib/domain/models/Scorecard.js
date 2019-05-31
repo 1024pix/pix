@@ -59,7 +59,7 @@ class Scorecard {
       earnedPix: totalEarnedPix,
       level: _getCompetenceLevel(totalEarnedPix),
       pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPix),
-      status: _getScorecardStatus(competenceEvaluation),
+      status: _getScorecardStatus(competenceEvaluation, knowledgeElements),
       remainingDaysBeforeReset,
     });
   }
@@ -72,9 +72,9 @@ class Scorecard {
   }
 }
 
-function _getScorecardStatus(competenceEvaluation) {
+function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
   if (!competenceEvaluation) {
-    return statuses.NOT_STARTED;
+    return _.isEmpty(knowledgeElements) ? statuses.NOT_STARTED : statuses.STARTED;
   }
   if (competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
     return statuses.NOT_STARTED;
