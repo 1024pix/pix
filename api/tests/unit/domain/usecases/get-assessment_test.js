@@ -1,6 +1,5 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const getAssessment = require('../../../../lib/domain/usecases/get-assessment');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -15,15 +14,12 @@ describe('Unit | UseCase | get-assessment', () => {
       assessmentResults:[assessmentResult]
     });
 
-    sinon.stub(assessmentRepository, 'get');
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async () => {
-    // given
-    assessmentRepository.get.resolves(assessment);
 
     // when
-    const result = await getAssessment({ assessmentRepository, assessmentId: assessment.id  });
+    const result = await getAssessment({ assessment });
 
     // then
     expect(result).to.be.an.instanceOf(Assessment);
@@ -33,13 +29,10 @@ describe('Unit | UseCase | get-assessment', () => {
   });
 
   it('should reject a domain NotFoundError when there is no assessment for given ID', () => {
-    // given
-    assessmentRepository.get.resolves(null);
-
     // when
-    const promise = getAssessment({ assessmentRepository, assessmentId: assessment.id  });
+    const promise = getAssessment({ assessment: null });
 
     // then
-    return expect(promise).to.have.been.rejectedWith(NotFoundError, `Assessment not found for ID ${assessment.id}`);
+    return expect(promise).to.have.been.rejectedWith(NotFoundError, 'Assessment not found');
   });
 });

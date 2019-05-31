@@ -42,7 +42,7 @@ exports.register = async function(server) {
         auth: false,
         pre: [{
           method: assessmentAuthorization.verify,
-          assign: 'authorizationCheck'
+          assign: 'assessment'
         }],
         handler: assessmentController.get,
         tags: ['api']

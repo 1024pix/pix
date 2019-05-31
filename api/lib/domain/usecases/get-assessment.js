@@ -4,13 +4,10 @@ const { MAX_REACHABLE_LEVEL } = require('../constants');
 module.exports = async function getAssessment(
   {
     // arguments
-    assessmentId,
-    // dependencies
-    assessmentRepository,
+    assessment,
   }) {
-  const assessment = await assessmentRepository.get(assessmentId);
   if (!assessment) {
-    throw new NotFoundError(`Assessment not found for ID ${assessmentId}`);
+    throw new NotFoundError('Assessment not found');
   }
   const assessmentResult = assessment.getLastAssessmentResult();
 

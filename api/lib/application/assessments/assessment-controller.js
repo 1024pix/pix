@@ -48,11 +48,10 @@ module.exports = {
   },
 
   async get(request) {
-    const assessmentId = request.params.id;
+    const assessment = request.pre.assessment;
+    const assessmentWithResults = await useCases.getAssessment({ assessment: assessment });
 
-    const assessment = await useCases.getAssessment({ assessmentId });
-
-    return assessmentSerializer.serialize(assessment);
+    return assessmentSerializer.serialize(assessmentWithResults);
   },
 
   findByFilters(request) {
