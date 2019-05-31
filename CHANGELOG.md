@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v2.45.0 (31/05/2019)
+
+- [#530](https://github.com/1024pix/pix/pull/530) [FEATURE] Ajout du délai de 7 jours pour réinitialiser une évaluation de compétence (PF-579-6).
+- [#532](https://github.com/1024pix/pix/pull/532) [FEATURE] Passer le recaptcha en feature-flipping côté front (PF-588).
+- [#528](https://github.com/1024pix/pix/pull/528) [FEATURE] Cacher "n Pix avant le niveau x" si le parcours est terminé (PF-610).
+- [#525](https://github.com/1024pix/pix/pull/525) [FEATURE] Création d'une route pour reset une CompetenceEvaluation (PF-579-4).
+- [#527](https://github.com/1024pix/pix/pull/527) [FEATURE] Renommer PIX en Pix (PF-609).
+- [#516](https://github.com/1024pix/pix/pull/516) [FEATURE] Ajout d'un champs status aux compétences évaluations (PF-579-3).
+- [#529](https://github.com/1024pix/pix/pull/529) [TECH] Suppression de feature-list et de feature-item.
+- [#521](https://github.com/1024pix/pix/pull/521) [TECH] Remaniement de la génération du profil de certification v1 (PF-577).
+- [#517](https://github.com/1024pix/pix/pull/517) [TECH] Refacto sur l'affichage des réponses et des corrections.
+
 ## v2.44.0 (24/05/2019)
 
 - [#523](https://github.com/1024pix/pix/pull/523) [FEATURE] Indication du format de la date de naissance sur le PV de certif (PC-55).
