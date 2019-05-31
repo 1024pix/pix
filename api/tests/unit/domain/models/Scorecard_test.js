@@ -78,8 +78,23 @@ describe('Unit | Domain | Models | Scorecard', () => {
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
       });
       // then
-      it('should have set the scorecard status based on the competence evaluation status', () => {
-        expect(actualScorecard.status).to.equal('NOT_STARTED');
+      it('should have set the scorecard status NOT_STARTED', () => {
+        expect(actualScorecard.status).to.equal(Scorecard.statuses.NOT_STARTED);
+      });
+    });
+
+    context('when the competence evaluation has never been started and some knowledgeElements exist', () => {
+      beforeEach(() => {
+        // given
+        competenceEvaluation = undefined;
+        const knowledgeElements = [{ earnedPix: 5.5, createdAt: new Date() }, { earnedPix: 3.6, createdAt: new Date() }];
+        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+      });
+      // then
+      it('should have set the scorecard status STARTED', () => {
+        expect(actualScorecard.status).to.equal(Scorecard.statuses.STARTED);
       });
     });
 
