@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.45.1 (31/05/2019)
+
+- [#539](https://github.com/1024pix/pix/pull/539) [BUGFIX] Afficher "Reprendre" si la scorecard possède des knowledgeElements (PF-618).
+
 ## v2.45.0 (31/05/2019)
 
 - [#530](https://github.com/1024pix/pix/pull/530) [FEATURE] Ajout du délai de 7 jours pour réinitialiser une évaluation de compétence (PF-579-6).
