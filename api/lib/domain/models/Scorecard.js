@@ -1,12 +1,14 @@
-const _ = require('lodash');
-const constants = require('../constants');
 const Assessment = require('./Assessment');
+const CompetenceEvaluation = require('./CompetenceEvaluation');
+const KnowledgeElement = require('./KnowledgeElement');
+const constants = require('../constants');
+const _ = require('lodash');
 
-const ScorecardStatusType = Object.freeze({
+const statuses = {
   NOT_STARTED: 'NOT_STARTED',
   STARTED: 'STARTED',
   COMPLETED: 'COMPLETED',
-});
+};
 
 class Scorecard {
   constructor({
@@ -15,11 +17,13 @@ class Scorecard {
     description,
     competenceId,
     index,
+    level,
     area,
+    pixScoreAheadOfNextLevel,
     earnedPix,
     status,
+    remainingDaysBeforeReset,
   } = {}) {
-    const roundedEarnedPix = Math.floor(earnedPix);
 
     this.id = id;
     // attributes
@@ -28,21 +32,22 @@ class Scorecard {
     this.competenceId = competenceId;
     this.index = index;
     this.area = area;
-    this.earnedPix = roundedEarnedPix;
-    this.level = this._getCompetenceLevel(roundedEarnedPix);
-    this.pixScoreAheadOfNextLevel = this._getpixScoreAheadOfNextLevel(roundedEarnedPix);
+    this.earnedPix = earnedPix;
+    this.level = level;
+    this.pixScoreAheadOfNextLevel = pixScoreAheadOfNextLevel;
     this.status = status;
+    this.remainingDaysBeforeReset = remainingDaysBeforeReset;
   }
 
-  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluations }) {
-    const sortedKEGroupedByCompetence = _.groupBy(knowledgeElements, 'competenceId');
-    const knowledgeElementsOfCompetence = sortedKEGroupedByCompetence[competence.id];
-    const totalEarnedPixByCompetence = _.sumBy(knowledgeElementsOfCompetence, 'earnedPix');
-    const status = Scorecard.computeStatus({
-      knowledgeElements: knowledgeElementsOfCompetence,
-      competenceId: competence.id,
-      competenceEvaluations
-    });
+  static parseId(scorecardId) {
+    const [userId, competenceId] = scorecardId.split('_');
+    return { userId: _.parseInt(userId), competenceId };
+  }
+
+  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation }) {
+    const totalEarnedPix = _getTotalEarnedPix(knowledgeElements);
+
+    const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
 
     return new Scorecard({
       id: `${userId}_${competence.id}`,
@@ -51,36 +56,49 @@ class Scorecard {
       competenceId: competence.id,
       index: competence.index,
       area: competence.area,
-      earnedPix: totalEarnedPixByCompetence,
-      status,
+      earnedPix: totalEarnedPix,
+      level: _getCompetenceLevel(totalEarnedPix),
+      pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPix),
+      status: _getScorecardStatus(competenceEvaluation),
+      remainingDaysBeforeReset,
     });
   }
 
-  static computeStatus({ knowledgeElements, competenceId, competenceEvaluations }) {
-    if (_.isEmpty(knowledgeElements)) {
-      return ScorecardStatusType.NOT_STARTED;
-    }
+  static computeRemainingDaysBeforeReset(knowledgeElements) {
+    const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
+    const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET - daysSinceLastKnowledgeElement);
 
-    const competenceEvaluationForCompetence = _.find(competenceEvaluations, { competenceId });
-    const stateOfAssessment = _.get(competenceEvaluationForCompetence, 'assessment.state');
-
-    if (stateOfAssessment === Assessment.states.COMPLETED) {
-      return ScorecardStatusType.COMPLETED;
-    }
-    return ScorecardStatusType.STARTED;
-  }
-
-  _getCompetenceLevel(earnedPix) {
-    const userLevel = Math.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
-
-    return Math.min(constants.MAX_REACHABLE_LEVEL, userLevel);
-  }
-
-  _getpixScoreAheadOfNextLevel(earnedPix) {
-    return earnedPix % constants.PIX_COUNT_BY_LEVEL;
+    return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
 }
 
-Scorecard.StatusType = ScorecardStatusType;
+function _getScorecardStatus(competenceEvaluation) {
+  if (!competenceEvaluation) {
+    return statuses.NOT_STARTED;
+  }
+  if (competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
+    return statuses.NOT_STARTED;
+  }
+  const stateOfAssessment = _.get(competenceEvaluation, 'assessment.state');
+  if (stateOfAssessment === Assessment.states.COMPLETED) {
+    return statuses.COMPLETED;
+  }
+  return statuses.STARTED;
+}
+
+function _getTotalEarnedPix(knowledgeElements) {
+  return _.floor(_(knowledgeElements).sumBy('earnedPix'));
+}
+
+function _getCompetenceLevel(earnedPix) {
+  const userLevel = _.floor(earnedPix / constants.PIX_COUNT_BY_LEVEL);
+  return Math.min(constants.MAX_REACHABLE_LEVEL, userLevel);
+}
+
+function _getPixScoreAheadOfNextLevel(earnedPix) {
+  return earnedPix % constants.PIX_COUNT_BY_LEVEL;
+}
+
+Scorecard.statuses = statuses;
 
 module.exports = Scorecard;

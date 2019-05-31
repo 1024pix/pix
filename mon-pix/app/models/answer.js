@@ -13,6 +13,7 @@ export default Model.extend(ValueAsArrayOfString, {
   elapsedTime: attr('number'),
   assessment: belongsTo('assessment'),
   challenge: belongsTo('challenge'),
+  correction: belongsTo('correction'),
 
   isResultOk: equal('result', 'ok'),
   isResultNotOk: not('isResultOk'),

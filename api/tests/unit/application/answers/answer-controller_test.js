@@ -3,6 +3,7 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const answerController = require('../../../../lib/application/answers/answer-controller');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
+const correctionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/correction-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
@@ -228,4 +229,28 @@ describe('Unit | Controller | answer-controller', () => {
       });
     });
   });
+
+  describe('#getCorrection', () => {
+
+    const answerId = 1;
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'getCorrectionForAnswerWhenAssessmentEnded');
+      sinon.stub(correctionSerializer, 'serialize');
+    });
+
+    it('should return ok', async () => {
+      // given
+      usecases.getCorrectionForAnswerWhenAssessmentEnded.withArgs({ answerId }).resolves({});
+      correctionSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await answerController.getCorrection({ params: { id: answerId } });
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+
+  });
+
 });

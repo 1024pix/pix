@@ -7,17 +7,10 @@ export default Controller.extend({
 
   isShowingModal: false,
   answer: null,
-  correction: null,
 
   actions: {
-    async openComparisonWindow(answer) {
-      const store = this.store;
-
-      const correction = await store.query('correction', { answerId: answer.id }).then((corrections) => corrections.get('firstObject'));
-
+    openComparisonWindow(answer) {
       this.set('answer', answer);
-      this.set('correction', correction);
-
       this.set('isShowingModal', true);
     },
 
@@ -25,5 +18,4 @@ export default Controller.extend({
       this.set('isShowingModal', false);
     },
   }
-
 });

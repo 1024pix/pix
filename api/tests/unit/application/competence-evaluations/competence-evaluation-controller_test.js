@@ -40,10 +40,10 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
       // then
       expect(usecases.startOrResumeCompetenceEvaluation).to.have.been.calledOnce;
 
-      const args = usecases.startOrResumeCompetenceEvaluation.firstCall.args[0];
+      const { userId, competenceId } = usecases.startOrResumeCompetenceEvaluation.firstCall.args[0];
 
-      expect(args.userId).to.equal(userId);
-      expect(args.competenceId).to.equal(competenceId);
+      expect(userId).to.equal(userId);
+      expect(competenceId).to.equal(competenceId);
     });
 
     it('should return the serialized competence evaluation when it has been successfully created', async () => {

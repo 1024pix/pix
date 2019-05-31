@@ -7,8 +7,6 @@ export default Component.extend({
   displayedLevel: computed('scorecard.{level,isNotStarted}', function() {
     if (this.scorecard.isNotStarted) {
       return null;
-    } else if (!this.scorecard.level) {
-      return '–';
     }
     return this.scorecard.level;
   }),

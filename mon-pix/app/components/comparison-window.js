@@ -44,7 +44,6 @@ const TEXT_FOR_RESULT = {
 export default Component.extend({
 
   answer: null,
-  correction: null,
   index: null,
 
   isAssessmentChallengeTypeQroc: equal('answer.challenge.type', 'QROC'),

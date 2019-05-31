@@ -8,14 +8,23 @@ module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElement
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const [knowledgeElements, competenceTree, competenceEvaluations] = await Promise.all([
-    knowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
+  const [knowledgeElementsGroupedByCompetenceId, competencesWithArea, competenceEvaluations] = await Promise.all([
+    knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId: requestedUserId }),
     competenceRepository.list(),
     competenceEvaluationRepository.findByUserId(requestedUserId),
   ]);
 
-  return _.map(competenceTree, (competence) =>
-    Scorecard.buildFrom({ userId: requestedUserId, knowledgeElements, competence, competenceEvaluations })
-  );
+  return _.map(competencesWithArea, (competence) => {
+    const competenceId = competence.id;
+    const knowledgeElementsForCompetence = knowledgeElementsGroupedByCompetenceId[competenceId];
+    const competenceEvaluation = _.find(competenceEvaluations, { competenceId });
+
+    return Scorecard.buildFrom({
+      userId: requestedUserId,
+      knowledgeElements: knowledgeElementsForCompetence,
+      competence,
+      competenceEvaluation,
+    });
+  });
 };
 

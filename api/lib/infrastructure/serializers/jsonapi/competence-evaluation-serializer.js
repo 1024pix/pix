@@ -9,7 +9,7 @@ module.exports = {
         competenceEvaluation.assessment = { id: current.assessmentId };
         return competenceEvaluation;
       },
-      attributes: ['createdAt', 'updatedAt', 'userId', 'competenceId', 'assessment', 'scorecard'],
+      attributes: ['createdAt', 'updatedAt', 'userId', 'competenceId', 'assessment', 'scorecard', 'status'],
       assessment: {
         ref: 'id',
         included: false,

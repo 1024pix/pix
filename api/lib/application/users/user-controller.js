@@ -152,4 +152,13 @@ module.exports = {
     return usecases.getUserScorecards({ authenticatedUserId, requestedUserId })
       .then(scorecardSerializer.serialize);
   },
+
+  resetCompetenceEvaluation(request) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.userId;
+    const competenceId = request.params.competenceId;
+
+    return usecases.resetCompetenceEvaluation({ authenticatedUserId, requestedUserId, competenceId })
+      .then(() => null);
+  }
 };

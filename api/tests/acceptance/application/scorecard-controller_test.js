@@ -90,6 +90,13 @@ describe('Acceptance | Controller | scorecard-controller', () => {
           competenceId: competence.id,
         });
 
+        const assessmentId = databaseBuilder.factory.buildAssessment({ state: 'started' }).id;
+        databaseBuilder.factory.buildCompetenceEvaluation({
+          userId,
+          assessmentId,
+          competenceId: competence.id
+        });
+
         await databaseBuilder.commit();
       });
 
@@ -121,6 +128,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
               level: Math.round(knowledgeElement.earnedPix / 8),
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,
               status: 'STARTED',
+              'remaining-days-before-reset': 7,
             },
             relationships: {
               area: {

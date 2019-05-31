@@ -6,18 +6,36 @@ module.exports = async function startOrResumeCompetenceEvaluation({ competenceId
   await _checkCompetenceExists(competenceId, competenceRepository);
 
   try {
-    const competenceEvaluation = await competenceEvaluationRepository.getLastByCompetenceIdAndUserId(competenceId, userId);
-    return { created: false, competenceEvaluation };
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      const assessment = await _createAssessmentForCompetenceEvaluation(userId, assessmentRepository);
-      const freshCompetenceEvaluation = await _saveCompetenceEvaluation(competenceId, assessment, userId, competenceEvaluationRepository);
-      return { created: true, competenceEvaluation: freshCompetenceEvaluation };
+    return await _resumeCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository });
+  } catch (err) {
+    if (err instanceof NotFoundError) {
+      return await _startCompetenceEvaluation({ userId, competenceId, assessmentRepository, competenceEvaluationRepository });
     } else {
-      throw error;
+      throw err;
     }
   }
 };
+
+async function _resumeCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }) {
+  const competenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId(competenceId, userId);
+
+  if (competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
+    await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId(userId, competenceId, CompetenceEvaluation.statuses.STARTED);
+  }
+  return {
+    created: false,
+    competenceEvaluation,
+  };
+}
+
+async function _startCompetenceEvaluation({ userId, competenceId, assessmentRepository, competenceEvaluationRepository }) {
+  const assessment = await _createAssessment(userId, assessmentRepository);
+  const competenceEvaluation = await _createCompetenceEvaluation(competenceId, assessment.id, userId, competenceEvaluationRepository);
+  return {
+    created: true,
+    competenceEvaluation,
+  };
+}
 
 function _checkCompetenceExists(competenceId, competenceRepository) {
   return competenceRepository.get(competenceId)
@@ -26,7 +44,7 @@ function _checkCompetenceExists(competenceId, competenceRepository) {
     });
 }
 
-function _createAssessmentForCompetenceEvaluation(userId, assessmentRepository) {
+function _createAssessment(userId, assessmentRepository) {
   const assessment = new Assessment({
     userId,
     state: Assessment.states.STARTED,
@@ -36,11 +54,12 @@ function _createAssessmentForCompetenceEvaluation(userId, assessmentRepository) 
   return assessmentRepository.save(assessment);
 }
 
-function _saveCompetenceEvaluation(competenceId, assessment, userId, competenceEvaluationRepository) {
-  const competenceEvaluation = new  CompetenceEvaluation({
+function _createCompetenceEvaluation(competenceId, assessmentId, userId, competenceEvaluationRepository) {
+  const competenceEvaluation = new CompetenceEvaluation({
     userId,
-    assessmentId: assessment.id,
+    assessmentId,
     competenceId,
+    status: CompetenceEvaluation.statuses.STARTED,
   });
   return competenceEvaluationRepository.save(competenceEvaluation);
 }

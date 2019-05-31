@@ -1,5 +1,6 @@
 const Skill = require('../models/Skill');
 const _ = require('lodash');
+const moment = require('moment');
 
 const KnowledgeElementStatusType = Object.freeze({
   VALIDATED: 'validated',
@@ -82,6 +83,12 @@ class KnowledgeElement {
       targetSkills,
       userId
     });
+  }
+
+  static computeDaysSinceLastKnowledgeElement(knowledgeElements) {
+    const lastKnowledgeElement = _(knowledgeElements).sortBy('createdAt').last();
+    const precise = true;
+    return moment().diff(lastKnowledgeElement.createdAt, 'days', precise);
   }
 }
 
