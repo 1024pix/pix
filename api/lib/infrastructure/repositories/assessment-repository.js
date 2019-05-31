@@ -202,5 +202,6 @@ function _adaptModelToDb(assessment) {
     'targetProfile',
     'campaign',
     'campaignParticipation',
+    'title',
   ]);
 }
