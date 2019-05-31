@@ -1,4 +1,4 @@
-const { expect, sinon, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, sinon, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -6,6 +6,7 @@ const Answer = require('../../../../lib/domain/models/Answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
 
@@ -296,72 +297,57 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   describe('#getByAssessmentIdAndUserId', () => {
 
-    describe('when userId is provided,', () => {
-      const fakeUserId = 3;
-      let assessmentId;
-      const assessment =
-        {
-          userId: fakeUserId,
-          courseId: 'courseId',
-        };
+    let assessmentInDB;
+    const userId = 1;
 
-      beforeEach(() => {
-        return knex('assessments')
-          .insert(assessment)
-          .then((insertedAssessment) => {
-            assessmentId = insertedAssessment.shift();
-          });
-      });
+    beforeEach(async () => {
+      assessmentInDB = databaseBuilder.factory.buildAssessment({ userId });
 
-      afterEach(() => {
-        return knex('assessments').delete();
-      });
+      databaseBuilder.factory.buildAnswer({ assessmentId: assessmentInDB.id });
+      databaseBuilder.factory.buildAnswer({ assessmentId: assessmentInDB.id });
+      databaseBuilder.factory.buildAnswer({ assessmentId: (assessmentInDB.id + 1) });
+      await databaseBuilder.commit();
+    });
 
-      it('should fetch relative assessment ', () => {
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    context('when the assessment exists', () => {
+
+      it('should return the assessment with the answers sorted by creation date ', () => {
         // when
-        const promise = assessmentRepository.getByAssessmentIdAndUserId(assessmentId, fakeUserId);
+        const promise = assessmentRepository.getByAssessmentIdAndUserId({ assessmentId: assessmentInDB.id, userId });
 
         // then
-        return promise.then((res) => {
-          expect(res).to.be.an.instanceOf(Assessment);
-          expect(res.id).to.equal(assessmentId);
-          expect(res.userId).to.equal(fakeUserId);
+        return promise.then((assessment) => {
+          expect(assessment).to.be.an.instanceOf(Assessment);
+          expect(assessment.id).to.equal(assessmentInDB.id);
+
+          expect(assessment.answers).to.have.lengthOf(2);
+          expect(assessment.answers[0]).to.be.an.instanceOf(Answer);
         });
       });
     });
 
-    describe('when userId is null,', () => {
-      const fakeUserId = null;
-      let assessmentId;
-      const assessment =
-        {
-          userId: fakeUserId,
-          courseId: 'courseId',
-        };
-
-      beforeEach(() => {
-        return knex('assessments')
-          .insert(assessment)
-          .returning('id')
-          .then((insertedAssessment) => {
-            assessmentId = insertedAssessment.shift();
-          });
-      });
-
-      afterEach(() => {
-        return knex('assessments').delete();
-      });
-
-      it('should fetch relative assessment', () => {
+    context('when the assessment does not exist', () => {
+      it('should return an Error', async () => {
         // when
-        const promise = assessmentRepository.getByAssessmentIdAndUserId(assessmentId, fakeUserId);
+        const requestErr = await catchErr(assessmentRepository.getByAssessmentIdAndUserId)({ assessmentId: 245, userId });
 
         // then
-        return promise.then((res) => {
-          expect(res).to.be.an.instanceOf(Assessment);
-          expect(res.id).to.equal(assessmentId);
-          expect(res.userId).to.equal(fakeUserId);
-        });
+        expect(requestErr).to.be.instanceOf(NotFoundError);
+      });
+    });
+
+    context('when the assessment is not related to asked user', () => {
+      it('should return null', async () => {
+        // when
+        const requestErr = await catchErr(assessmentRepository.getByAssessmentIdAndUserId)({ assessmentId: assessmentInDB.id, userId:456 });
+
+        // then
+        expect(requestErr).to.be.instanceOf(NotFoundError);
+
       });
     });
 

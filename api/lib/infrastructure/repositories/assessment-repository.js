@@ -87,10 +87,19 @@ module.exports = {
       .then(_toDomain);
   },
 
-  getByAssessmentIdAndUserId(assessmentId, userId) {
+  getByAssessmentIdAndUserId({ assessmentId, userId }) {
     return BookshelfAssessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
-      .fetch({ require: true })
+      .fetch({
+        withRelated: [
+          {
+            answers: function(query) {
+              query.orderBy('createdAt', 'ASC');
+            },
+          }, 'assessmentResults', 'campaignParticipation', 'campaignParticipation.campaign',
+        ],
+        require: true
+      })
       .then(_toDomain)
       .catch((error) => {
         if (error instanceof BookshelfAssessment.NotFoundError) {

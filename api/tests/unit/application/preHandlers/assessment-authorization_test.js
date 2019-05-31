@@ -54,7 +54,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
 
         // then
         sinon.assert.calledOnce(assessmentRepository.getByAssessmentIdAndUserId);
-        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, request.params.id, extractedUserId);
+        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, { assessmentId: request.params.id, userId: extractedUserId });
         expect(response).to.deep.equal(fetchedAssessment);
       });
     });
@@ -73,12 +73,12 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
 
         // then
         sinon.assert.calledOnce(assessmentRepository.getByAssessmentIdAndUserId);
-        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, request.params.id, extractedUserId);
+        sinon.assert.calledWith(assessmentRepository.getByAssessmentIdAndUserId, { assessmentId: request.params.id, userId: extractedUserId });
         expect(response).to.deep.equal(fetchedAssessment);
       });
     });
 
-    describe('When userId (from token) is not linked to assessment', () => {
+    describe('When userId (from token) is not linked to the asked assessment', () => {
       it('should take over the request and response with 401 status code', async () => {
         // given
         const extractedUserId = null;

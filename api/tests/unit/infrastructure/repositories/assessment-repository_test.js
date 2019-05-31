@@ -6,44 +6,6 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Repository | assessmentRepository', () => {
 
-  describe('#getByAssessmentIdAndUserId', () => {
-
-    it('should be a function', () => {
-      expect(assessmentRepository.getByAssessmentIdAndUserId).to.be.a('function');
-    });
-
-    describe('test collaboration', () => {
-      let fetchStub;
-      beforeEach(() => {
-        fetchStub = sinon.stub().resolves(new BookshelfAssessment());
-        sinon.stub(BookshelfAssessment, 'query').returns({
-          fetch: fetchStub,
-        });
-      });
-
-      it('should correctly query Assessment', () => {
-        // given
-        const fakeUserId = 3;
-        const fakeAssessmentId = 2;
-        const expectedParams = {
-          where: { id: fakeAssessmentId },
-          andWhere: { userId: fakeUserId },
-        };
-
-        // when
-        const promise = assessmentRepository.getByAssessmentIdAndUserId(fakeAssessmentId, fakeUserId);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(BookshelfAssessment.query);
-          sinon.assert.calledWith(BookshelfAssessment.query, expectedParams);
-          sinon.assert.calledWith(fetchStub, { require: true });
-        });
-      });
-    });
-
-  });
-
   describe('#save', function() {
 
     let assessment;

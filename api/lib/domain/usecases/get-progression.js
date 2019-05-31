@@ -13,7 +13,7 @@ module.exports = async function getProgression(
 
   const assessmentId = Progression.getAssessmentIdFromId(progressionId);
 
-  const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId);
+  const assessment = await assessmentRepository.getByAssessmentIdAndUserId({ assessmentId, userId });
   let progression;
 
   if (assessment.isSmartPlacement()) {
