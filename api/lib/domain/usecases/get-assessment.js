@@ -1,5 +1,6 @@
 const { NotFoundError } = require('../errors');
 const { MAX_REACHABLE_LEVEL } = require('../constants');
+const Assessment = require('../models/Assessment');
 
 module.exports = async function getAssessment(
   {
@@ -24,13 +25,30 @@ module.exports = async function getAssessment(
     assessment.pixScore = null;
   }
 
-  if (assessment.type === 'COMPETENCE_EVALUATION') {
-    const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessmentId);
-    assessment.title = await _fetchCompetenceName(competenceEvaluation.competenceId, competenceRepository);
-  }
+  assessment.title = await _fetchAssessmentTitle({
+    assessment,
+    competenceEvaluationRepository,
+    competenceRepository
+  });
 
   return assessment;
 };
+
+async function _fetchAssessmentTitle({ assessment, competenceEvaluationRepository, competenceRepository }) {
+  switch (assessment.type) {
+    case Assessment.types.COMPETENCE_EVALUATION : {
+      const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
+      return await _fetchCompetenceName(competenceEvaluation.competenceId, competenceRepository);
+    }
+
+    case Assessment.types.SMARTPLACEMENT : {
+      return assessment.campaignParticipation.campaign.title;
+    }
+
+    default:
+      return undefined;
+  }
+}
 
 function _fetchCompetenceName(competenceId, competenceRepository) {
   return competenceRepository.get(competenceId)
