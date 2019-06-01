@@ -10,6 +10,7 @@ module.exports = async function getAssessment(
     assessmentRepository,
     competenceRepository,
     competenceEvaluationRepository,
+    courseRepository,
   }) {
   const assessment = await assessmentRepository.get(assessmentId);
   if (!assessment) {
@@ -28,17 +29,39 @@ module.exports = async function getAssessment(
   assessment.title = await _fetchAssessmentTitle({
     assessment,
     competenceEvaluationRepository,
-    competenceRepository
+    competenceRepository,
+    courseRepository
   });
 
   return assessment;
 };
 
-async function _fetchAssessmentTitle({ assessment, competenceEvaluationRepository, competenceRepository }) {
+async function _fetchAssessmentTitle({
+  assessment,
+  competenceEvaluationRepository,
+  competenceRepository,
+  courseRepository
+}) {
   switch (assessment.type) {
+    case Assessment.types.CERTIFICATION : {
+      return assessment.courseId;
+    }
+
     case Assessment.types.COMPETENCE_EVALUATION : {
       const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
       return await _fetchCompetenceName(competenceEvaluation.competenceId, competenceRepository);
+    }
+
+    case Assessment.types.DEMO : {
+      return await _fetchCourseName(assessment.courseId, courseRepository);
+    }
+
+    case Assessment.types.PLACEMENT : {
+      return await _fetchCourseName(assessment.courseId, courseRepository);
+    }
+
+    case Assessment.types.PREVIEW : {
+      return await _fetchCourseName(assessment.courseId, courseRepository);
     }
 
     case Assessment.types.SMARTPLACEMENT : {
@@ -57,5 +80,15 @@ function _fetchCompetenceName(competenceId, competenceRepository) {
     })
     .catch(() => {
       throw new NotFoundError('La compétence demandée n\'existe pas');
+    });
+}
+
+function _fetchCourseName(courseId, courseRepository) {
+  return courseRepository.get(courseId)
+    .then((course) => {
+      return course.name;
+    })
+    .catch(() => {
+      throw new NotFoundError('Le cours demandé n\'existe pas');
     });
 }

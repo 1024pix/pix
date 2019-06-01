@@ -4,6 +4,8 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
+const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -14,7 +16,10 @@ describe('Unit | UseCase | get-assessment', () => {
   let campaign;
   let campaignParticipation;
   let competence;
+  let course;
+
   const expectedCampaignName = 'Campagne Il';
+  const expectedCourseName = 'Course Àpieds';
   const expectedAssessmentTitle = 'Traiter des données';
 
   beforeEach(() => {
@@ -22,16 +27,19 @@ describe('Unit | UseCase | get-assessment', () => {
     campaign = domainBuilder.buildCampaign({ title: expectedCampaignName });
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
     competence = domainBuilder.buildCompetence({ id: 'recsvLz0W2ShyfD63', name: expectedAssessmentTitle });
+    course = domainBuilder.buildCourse({ id: 'ABC123', name: expectedCourseName });
 
     assessment = domainBuilder.buildAssessment({
       assessmentResults:[assessmentResult],
       campaignParticipation,
+      courseId: course.id,
     });
 
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(campaignRepository, 'get');
     sinon.stub(competenceEvaluationRepository, 'getByAssessmentId');
     sinon.stub(competenceRepository, 'get');
+    sinon.stub(courseRepository, 'get');
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async () => {
@@ -71,6 +79,53 @@ describe('Unit | UseCase | get-assessment', () => {
     expect(result.title).to.equal(expectedAssessmentTitle);
   });
 
+  it('should resolve the Assessment domain object with CERTIFICATION title matching the given assessment ID', async () => {
+    // given
+    assessment.type = Assessment.types.CERTIFICATION;
+    assessmentRepository.get.resolves(assessment);
+
+    // when
+    const result = await getAssessment({
+      assessmentId: assessment.id,
+      assessmentRepository,
+      courseRepository,
+    });
+
+    // then
+    expect(result).to.be.an.instanceOf(Assessment);
+    expect(result.id).to.equal(assessment.id);
+    expect(result.pixScore).to.equal(assessmentResult.pixScore);
+    expect(result.estimatedLevel).to.equal(assessmentResult.level);
+    expect(result.title).to.equal(course.id);
+  });
+
+  [
+    { assessmentType: Assessment.types.DEMO },
+    { assessmentType: Assessment.types.PREVIEW },
+    { assessmentType: Assessment.types.PLACEMENT },
+  ].forEach(({ assessmentType }) => {
+    it(`should resolve the Assessment domain object with ${assessmentType} title matching the given assessment ID`, async () => {
+      // given
+      assessment.type = assessmentType;
+      courseRepository.get.resolves(course);
+      assessmentRepository.get.resolves(assessment);
+
+      // when
+      const result = await getAssessment({
+        assessmentId: assessment.id,
+        assessmentRepository,
+        courseRepository,
+      });
+
+      // then
+      expect(result).to.be.an.instanceOf(Assessment);
+      expect(result.id).to.equal(assessment.id);
+      expect(result.pixScore).to.equal(assessmentResult.pixScore);
+      expect(result.estimatedLevel).to.equal(assessmentResult.level);
+      expect(result.title).to.equal(expectedCourseName);
+    });
+  });
+
   it('should resolve the Assessment domain object with SMARTPLACEMENT title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.SMARTPLACEMENT;
@@ -94,7 +149,7 @@ describe('Unit | UseCase | get-assessment', () => {
 
   it('should resolve the Assessment domain object without title matching the given assessment ID', async () => {
     // given
-    assessment.type = Assessment.types.DEMO;
+    assessment.type = 'NO TYPE';
     competenceEvaluationRepository.getByAssessmentId.resolves(competence);
     competenceRepository.get.resolves(competence);
     assessmentRepository.get.resolves(assessment);
