@@ -54,6 +54,7 @@ describe('Acceptance | Challenge page banner', function() {
         };
         newAssessment.type = 'SMART_PLACEMENT';
         newAssessment.codeCampaign = 'CAMPAIGN_CODE';
+        newAssessment.title = campaignTitle;
 
         const assessment = schema.assessments.create(newAssessment);
         return schema.campaignParticipations.create({ assessment });
