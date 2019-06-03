@@ -1,16 +1,18 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | feedback', function() {
+  setupTest();
 
-  setupModelTest('feedback', {
-    needs: ['model:assessment', 'model:challenge']
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
+    const model = store.createRecord('feedback');
     expect(model).to.be.ok;
   });
-
 });

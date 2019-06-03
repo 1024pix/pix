@@ -2,15 +2,19 @@ import { run } from '@ember/runloop';
 import { get } from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | competence model', function() {
-  setupModelTest('competence', {
-    needs: ['model:area']
+  setupTest();
+
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
+    const model = store.createRecord('competence');
     expect(model).to.be.ok;
   });
 
@@ -18,7 +22,7 @@ describe('Unit | Model | competence model', function() {
 
     it('should exist', function() {
       // given
-      const Competence = this.store().modelFor('competence');
+      const Competence = store.modelFor('competence');
 
       // when
       const relationship = get(Competence, 'relationshipsByName').get('area');
@@ -34,9 +38,8 @@ describe('Unit | Model | competence model', function() {
     it('should be an alias for "area" relationship on "name" property', function() {
       run(() => {
         // given
-        const store = this.store();
         const area = store.createRecord('area', { name: 'coucou' });
-        const competence = this.subject({ area });
+        const competence = store.createRecord('competence', { area });
 
         // when
         const areaName = competence.get('areaName');
@@ -51,17 +54,17 @@ describe('Unit | Model | competence model', function() {
 
     it('should return true if status is "assessed"', function() {
       // given
-      const competence = this.subject({ status: 'assessed' });
+      const competence = store.createRecord('competence', { status: 'assessed' });
 
-      // when/then
+      // then
       expect(competence.get('isAssessed')).to.be.true;
     });
 
     it('should return false if status is not "assessed"', function() {
       // given
-      const competence = this.subject({ status: 'tralala' });
+      const competence = store.createRecord('competence', { status: 'tralala' });
 
-      // when/then
+      // then
       expect(competence.get('isAssessed')).to.be.false;
     });
 
@@ -71,17 +74,17 @@ describe('Unit | Model | competence model', function() {
 
     it('should return true if status is "notAssessed"', function() {
       // given
-      const competence = this.subject({ status: 'notAssessed' });
+      const competence = store.createRecord('competence', { status: 'notAssessed' });
 
-      // when/then
+      // then
       expect(competence.get('isNotAssessed')).to.be.true;
     });
 
     it('should return false if status is not "notAssessed"', function() {
       // given
-      const competence = this.subject({ status: 'tralala' });
+      const competence = store.createRecord('competence', { status: 'tralala' });
 
-      // when/then
+      // then
       expect(competence.get('isNotAssessed')).to.be.false;
     });
 
@@ -91,17 +94,17 @@ describe('Unit | Model | competence model', function() {
 
     it('should return true if status is "assessmentNotCompleted"', function() {
       // given
-      const competence = this.subject({ status: 'assessmentNotCompleted' });
+      const competence = store.createRecord('competence', { status: 'assessmentNotCompleted' });
 
-      // when/then
+      // then
       expect(competence.get('isBeingAssessed')).to.be.true;
     });
 
     it('should return false if status is not "assessmentNotCompleted"', function() {
       // given
-      const competence = this.subject({ status: 'tralala' });
+      const competence = store.createRecord('competence', { status: 'tralala' });
 
-      // when/then
+      // then
       expect(competence.get('isBeingAssessed')).to.be.false;
     });
 
@@ -111,25 +114,25 @@ describe('Unit | Model | competence model', function() {
 
     it('should be true if there is a courseId status is "notAssessed"', function() {
       // given
-      const competence = this.subject({ courseId: 'recDhfez76uygze', status: 'notAssessed' });
+      const competence = store.createRecord('competence', { courseId: 'recDhfez76uygze', status: 'notAssessed' });
 
-      // when/then
+      // then
       expect(competence.get('isAssessableForTheFirstTime')).to.be.true;
     });
 
     it('should be false if there is a courseId status is not "notAssessed"', function() {
       // given
-      const competence = this.subject({ courseId: 'recDhfez76uygze', status: 'assessed' });
+      const competence = store.createRecord('competence', { courseId: 'recDhfez76uygze', status: 'assessed' });
 
-      // when/then
+      // then
       expect(competence.get('isAssessableForTheFirstTime')).to.be.false;
     });
 
     it('should be false if status is "notAssessed" but there is no courseId', function() {
       // given
-      const competence = this.subject({ status: 'notAssessed' });
+      const competence = store.createRecord('competence', { status: 'notAssessed' });
 
-      // when/then
+      // then
       expect(competence.get('isAssessableForTheFirstTime')).to.be.false;
     });
 

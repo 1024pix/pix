@@ -1,15 +1,19 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 import { run } from '@ember/runloop';
 
 describe('Unit | Model | correction', function() {
-  setupModelTest('correction', {
-    needs: ['model:tutorial']
+  setupTest();
+
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
+    const model = store.createRecord('correction');
     expect(model).to.be.ok;
   });
 
@@ -25,7 +29,7 @@ describe('Unit | Model | correction', function() {
 
     it('should be true when correction has only solution', function() {
       // given
-      model = this.subject(defaultAttributes);
+      model = store.createRecord('correction', defaultAttributes);
 
       // when
       const result = model.get('noHintsNorTutorialsAtAll');
@@ -36,7 +40,7 @@ describe('Unit | Model | correction', function() {
 
     it('should be false when correction has an hint', function() {
       // given
-      model = this.subject(Object.assign({}, defaultAttributes, {
+      model = store.createRecord('correction', Object.assign({}, defaultAttributes, {
         hint: 'a fake hint',
       }));
 
@@ -49,8 +53,8 @@ describe('Unit | Model | correction', function() {
 
     it('should be false when correction has a tutorial', function() {
       // given
-      const givenTutorial = run(() => this.store().createRecord('tutorial', { title: 'is a fake tutorial' }));
-      model = this.subject(Object.assign({}, defaultAttributes, {
+      const givenTutorial = run(() => store.createRecord('tutorial', { title: 'is a fake tutorial' }));
+      model = store.createRecord('correction', Object.assign({}, defaultAttributes, {
         tutorials: [ givenTutorial ],
       }));
 
@@ -63,8 +67,8 @@ describe('Unit | Model | correction', function() {
 
     it('should be false when correction has a learningMoreTutorial', function() {
       // given
-      const givenTutorial = run(() => this.store().createRecord('tutorial', { title: 'is a fake tutorial' }));
-      model = this.subject(Object.assign({}, defaultAttributes, {
+      const givenTutorial = run(() => store.createRecord('tutorial', { title: 'is a fake tutorial' }));
+      model = store.createRecord('correction', Object.assign({}, defaultAttributes, {
         learningMoreTutorials: [ givenTutorial ],
       }));
 
