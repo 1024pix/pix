@@ -112,7 +112,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       ].forEach(function(testCase) {
         it(`should not create a new certification if ${testCase.label}`, function() {
           // given
-          sinon.stub(userService, 'getProfileToCertify').resolves(testCase.competences);
+          sinon.stub(userService, 'getProfileToCertifyV1').resolves(testCase.competences);
           sinon.stub(certificationCourseRepository, 'save');
 
           // when
@@ -129,7 +129,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       it('should create the certification course with status "started", if at least 5 competences with level higher than 0', async function() {
         // given
         sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
-        sinon.stub(userService, 'getProfileToCertify').resolves(fiveCompetencesWithLevelHigherThan0);
+        sinon.stub(userService, 'getProfileToCertifyV1').resolves(fiveCompetencesWithLevelHigherThan0);
         sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
 
         // when

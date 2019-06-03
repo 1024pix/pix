@@ -118,7 +118,7 @@ describe('Unit | Service | User Service', () => {
     });
   });
 
-  describe('#getProfileToCertify', () => {
+  describe('#getProfileToCertifyV1', () => {
 
     const userId = 63731;
 
@@ -212,7 +212,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should load achieved assessments', () => {
       // when
-      const promise = userService.getProfileToCertify(userId, '2020-10-27 08:44:25');
+      const promise = userService.getProfileToCertifyV1(userId, '2020-10-27 08:44:25');
 
       // then
       return promise.then(() => {
@@ -223,7 +223,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should list available challenges', () => {
       // when
-      const promise = userService.getProfileToCertify(userId);
+      const promise = userService.getProfileToCertifyV1(userId);
 
       // then
       return promise.then(() => {
@@ -233,7 +233,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should list right answers for every assessment fulfilled', () => {
       // when
-      const promise = userService.getProfileToCertify(userId);
+      const promise = userService.getProfileToCertifyV1(userId);
 
       // then
       return promise.then(() => {
@@ -243,7 +243,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should not list right answers for assessments that have an estimated level null or 1', () => {
       // when
-      const promise = userService.getProfileToCertify(userId);
+      const promise = userService.getProfileToCertifyV1(userId);
 
       // then
       return promise.then(() => {
@@ -253,7 +253,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should list available competences', () => {
       // when
-      const promise = userService.getProfileToCertify(userId);
+      const promise = userService.getProfileToCertifyV1(userId);
 
       // then
       return promise.then(() => {
@@ -272,7 +272,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
         // when
-        const promise = userService.getProfileToCertify(userId);
+        const promise = userService.getProfileToCertifyV1(userId);
 
         // then
         return promise.then((skillProfile) => {
@@ -314,7 +314,7 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // when
-            const promise = userService.getProfileToCertify(userId);
+            const promise = userService.getProfileToCertifyV1(userId);
 
             // then
             return promise.then((skillProfile) => {
@@ -350,7 +350,7 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
             // when
-            const promise = userService.getProfileToCertify(userId);
+            const promise = userService.getProfileToCertifyV1(userId);
 
             // then
             return promise.then((skillProfile) => {
@@ -388,7 +388,7 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // when
-            const promise = userService.getProfileToCertify(userId);
+            const promise = userService.getProfileToCertifyV1(userId);
 
             // then
             return promise.then((skillProfile) => {
@@ -424,7 +424,7 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // when
-            const promise = userService.getProfileToCertify(userId);
+            const promise = userService.getProfileToCertifyV1(userId);
 
             // then
             return promise.then((skillProfile) => {
@@ -465,7 +465,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionB);
 
         // when
-        const promise = userService.getProfileToCertify(userId);
+        const promise = userService.getProfileToCertifyV1(userId);
 
         // then
         return promise.then((skillProfile) => {
@@ -502,7 +502,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
-        const promise = userService.getProfileToCertify(userId);
+        const promise = userService.getProfileToCertifyV1(userId);
 
         // then
         return promise.then((skillProfile) => {
@@ -541,7 +541,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
-        const promise = userService.getProfileToCertify(userId);
+        const promise = userService.getProfileToCertifyV1(userId);
 
         // then
         return promise.then((skillProfile) => {
@@ -577,7 +577,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
-        const promise = userService.getProfileToCertify(userId);
+        const promise = userService.getProfileToCertifyV1(userId);
 
         // then
         return promise.then((skillProfile) => {
@@ -612,7 +612,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
-        const promise = userService.getProfileToCertify(userId);
+        const promise = userService.getProfileToCertifyV1(userId);
 
         // then
         return promise.then((skillProfile) => {
@@ -647,7 +647,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
-        const promise = userService.getProfileToCertify(userId);
+        const promise = userService.getProfileToCertifyV1(userId);
 
         // then
         return promise.then((skillProfile) => {
@@ -689,7 +689,7 @@ describe('Unit | Service | User Service', () => {
           answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
           // when
-          const promise = userService.getProfileToCertify(userId);
+          const promise = userService.getProfileToCertifyV1(userId);
 
           // then
           return promise.then((skillProfile) => {
@@ -718,7 +718,7 @@ describe('Unit | Service | User Service', () => {
           ]);
 
           // when
-          const promise = userService.getProfileToCertify(userId);
+          const promise = userService.getProfileToCertifyV1(userId);
 
           // then
           return promise.then((skillProfile) => {
