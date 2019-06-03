@@ -1,145 +1,143 @@
-const { expect, sinon, catchErr } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
+
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
 
-describe  ('Unit | UseCase | start-or-resume-competence-evaluation', () => {
+describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
 
-  const userId = 123;
-  const assessmentId = 456;
-  const newAssessmentId = 789;
+  const userId = 19837482;
   const competenceId = 'recABC123';
-  const competenceEvaluation = { userId, competenceId, assessmentId };
-  const competenceRepository = { get: _.noop };
-  const competenceEvaluationRepository = {
-    save: _.noop,
-    getByCompetenceIdAndUserId: _.noop,
-    updateStatusByUserIdAndCompetenceId: _.noop,
-    updateAssessmentId: _.noop,
-  };
-  const assessmentRepository = { save: _.noop };
-  const updatedCompetenceEvaluation = Symbol('updated competence evaluation');
+  const competenceRepository = { get: () => undefined };
+  const competenceEvaluationRepository = { save: () => undefined, getByCompetenceIdAndUserId: () => undefined, };
+  const assessmentRepository = { save: () => undefined };
 
   beforeEach(() => {
     sinon.stub(competenceRepository, 'get');
     sinon.stub(competenceEvaluationRepository, 'save');
     sinon.stub(competenceEvaluationRepository, 'getByCompetenceIdAndUserId');
-    sinon.stub(competenceEvaluationRepository, 'updateStatusByUserIdAndCompetenceId');
-    sinon.stub(competenceEvaluationRepository, 'updateAssessmentId');
     sinon.stub(assessmentRepository, 'save');
+
+    competenceRepository.get.resolves(domainBuilder.buildCompetence());
   });
 
-  context('When the competence does not exist', () => {
-    beforeEach(() => {
-      competenceRepository.get.withArgs(competenceId).rejects();
+  it('should throw an error if the competence does not exists', () => {
+    // given
+    competenceRepository.get.rejects();
+
+    // when
+    const promise = usecases.startOrResumeCompetenceEvaluation({
+      competenceId,
+      userId,
+      competenceEvaluationRepository,
+      assessmentRepository,
+      competenceRepository
     });
-    it('should throw a Not Found Error', async () => {
+
+    // then
+    return expect(promise).to.be.rejectedWith(NotFoundError);
+  });
+
+  context('When user start a new competence evaluation', () => {
+    beforeEach(() => {
+      competenceEvaluationRepository.getByCompetenceIdAndUserId.rejects(new NotFoundError);
+    });
+
+    it('should create an assessment for competence evaluation', () => {
+    // given
+      assessmentRepository.save.resolves({});
+
       // when
-      const err = await catchErr(usecases.startOrResumeCompetenceEvaluation)({
-        competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
+      const promise = usecases.startOrResumeCompetenceEvaluation({
+        competenceId,
+        userId,
+        competenceEvaluationRepository,
+        assessmentRepository,
+        competenceRepository
       });
+
       // then
-      expect(err).to.be.instanceOf(NotFoundError);
+      return promise.then(() => {
+        expect(assessmentRepository.save).to.have.been.called;
+
+        const assessmentToSave = assessmentRepository.save.firstCall.args[0];
+        expect(assessmentToSave.type).to.equal(Assessment.types.COMPETENCE_EVALUATION);
+        expect(assessmentToSave.state).to.equal(Assessment.states.STARTED);
+        expect(assessmentToSave.userId).to.equal(userId);
+        expect(assessmentToSave.courseId).to.equal(Assessment.courseIdMessage.COMPETENCE_EVALUATION);
+      });
     });
-  });
-  context('When the competence could not be retrieved', () => {
-    beforeEach(() => {
-      competenceRepository.get.withArgs(competenceId).resolves();
-      competenceEvaluationRepository.getByCompetenceIdAndUserId.rejects(new Error);
-    });
-    it('should forward the error', async () => {
+
+    it('should save the competence evaluation with userId and assessmentId', () => {
+    // given
+      const assessmentId = 987654321;
+      assessmentRepository.save.resolves({ id: assessmentId });
+      competenceEvaluationRepository.save.resolves({});
+
       // when
-      const err = await catchErr(usecases.startOrResumeCompetenceEvaluation)({
-        competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
+      const promise = usecases.startOrResumeCompetenceEvaluation({
+        competenceId,
+        userId,
+        competenceEvaluationRepository,
+        assessmentRepository,
+        competenceRepository
       });
+
       // then
-      expect(err).to.be.instanceOf(Error);
+      return promise.then(() => {
+        expect(competenceEvaluationRepository.save).to.have.been.called;
+
+        const competenceEvaluationToSave = competenceEvaluationRepository.save.firstCall.args[0];
+        expect(competenceEvaluationToSave.userId).to.equal(userId);
+        expect(competenceEvaluationToSave.assessmentId).to.equal(assessmentId);
+        expect(competenceEvaluationToSave.competenceId).to.equal(competenceId);
+        expect(competenceEvaluationToSave.status).to.equal('started');
+      });
+    });
+
+    it('should return the saved competence evaluation', () => {
+    // given
+      const assessmentId = 987654321;
+      const createdCompetenceEvaluation = domainBuilder.buildCompetenceEvaluation();
+      assessmentRepository.save.resolves({ id: assessmentId });
+      competenceEvaluationRepository.save.resolves(createdCompetenceEvaluation);
+
+      // when
+      const promise = usecases.startOrResumeCompetenceEvaluation({
+        competenceId,
+        userId,
+        competenceEvaluationRepository,
+        assessmentRepository,
+        competenceRepository
+      });
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.deep.equal({ created: true, competenceEvaluation: createdCompetenceEvaluation });
+      });
     });
   });
-  context('When the competence exists', () => {
-    beforeEach(() => {
-      competenceRepository.get.withArgs(competenceId).resolves();
-    });
-    context('When the user starts a new competence evaluation', () => {
-      beforeEach(() => {
-        competenceEvaluationRepository.getByCompetenceIdAndUserId.rejects(new NotFoundError);
 
-        assessmentRepository.save.withArgs(new Assessment({
-          courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
-          type: Assessment.types.COMPETENCE_EVALUATION,
-          userId, state: Assessment.states.STARTED,
-          competenceId,
-        })).resolves({ id: assessmentId });
-
-        competenceEvaluationRepository.save.withArgs(new CompetenceEvaluation({
-          status: CompetenceEvaluation.statuses.STARTED,
-          assessmentId,
-          competenceId,
-          userId,
-        })).resolves(competenceEvaluation);
-      });
-      it('should return the created competence evaluation with created flag set to true', async () => {
-        const res = await usecases.startOrResumeCompetenceEvaluation({
-          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
-        });
-        expect(res).to.deep.equal({ created: true, competenceEvaluation });
-      });
-    });
-
-    context('When the user resumes a competence evaluation', () => {
-      beforeEach(() => {
-        competenceEvaluationRepository.getByCompetenceIdAndUserId.resolves(competenceEvaluation);
-      });
-      it('should return the existing competence evaluation', async () => {
+  context('When user resume a competence evaluation', () => {
+    it('should return the existing competence evaluation', () => {
       // given
-        const res = await usecases.startOrResumeCompetenceEvaluation({
-          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
-        });
-        expect(res).to.deep.equal({ created: false, competenceEvaluation });
-      });
-    });
+      const assessmentId = 987654321;
+      const createdCompetenceEvaluation = domainBuilder.buildCompetenceEvaluation();
+      assessmentRepository.save.resolves({ id: assessmentId });
+      competenceEvaluationRepository.getByCompetenceIdAndUserId.resolves(createdCompetenceEvaluation);
 
-    context('When the user restarts a competence evaluation', () => {
-      let resetCompetenceEvaluation, res;
-      beforeEach(async () => {
-        resetCompetenceEvaluation = { ...competenceEvaluation, status: CompetenceEvaluation.statuses.RESET };
-        competenceEvaluationRepository.getByCompetenceIdAndUserId
-          .onFirstCall().resolves(resetCompetenceEvaluation)
-          .onSecondCall().resolves(updatedCompetenceEvaluation);
-
-        assessmentRepository.save.withArgs(new Assessment({
-          courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
-          type: Assessment.types.COMPETENCE_EVALUATION,
-          userId, state: Assessment.states.STARTED,
-          competenceId,
-        })).resolves({ id: newAssessmentId });
-
-        competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId.resolves();
-        competenceEvaluationRepository.updateAssessmentId.resolves();
-
-        res = await usecases.startOrResumeCompetenceEvaluation({
-          competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
-        });
+      // when
+      const promise = usecases.startOrResumeCompetenceEvaluation({
+        competenceId,
+        userId,
+        competenceEvaluationRepository,
+        assessmentRepository,
+        competenceRepository
       });
-      it('should return the updated competenceEvaluation', () => {
-        expect(res).to.deep.equal({ created: true, competenceEvaluation: updatedCompetenceEvaluation });
-      });
-      it('should have updated the status', () => {
-        expect(competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId).to.have.been
-          .calledWithExactly({
-            userId,
-            competenceId: competenceEvaluation.competenceId,
-            status: CompetenceEvaluation.statuses.STARTED,
-          });
-      });
-      it('should have updated the assessment id to the newly created assessment id', () => {
-        expect(competenceEvaluationRepository.updateAssessmentId).to.have.been
-          .calledWithExactly({
-            currentAssessmentId: competenceEvaluation.assessmentId,
-            newAssessmentId: newAssessmentId,
-          });
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.deep.equal({ created: false, competenceEvaluation: createdCompetenceEvaluation });
       });
     });
   });

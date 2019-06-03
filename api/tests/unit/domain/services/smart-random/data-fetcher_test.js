@@ -67,6 +67,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
     let answerRepository;
     let challengeRepository;
     let knowledgeElementRepository;
+    let competenceEvaluationRepository;
     let skillRepository;
 
     beforeEach(() => {
@@ -79,6 +80,9 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       knowledgeElementRepository = {
         findUniqByUserId: sinon.stub(),
       };
+      competenceEvaluationRepository = {
+        getByAssessmentId: sinon.stub(),
+      };
       skillRepository = {
         findByCompetenceId: sinon.stub(),
       };
@@ -86,6 +90,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
 
     it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
       // given
+      const competenceEvaluation = domainBuilder.buildCompetenceEvaluation();
       const answers = [
         domainBuilder.buildAnswer(),
       ];
@@ -100,9 +105,10 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       ];
       const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement();
 
+      competenceEvaluationRepository.getByAssessmentId.withArgs(assessment.id).resolves(competenceEvaluation);
       answerRepository.findByAssessment.withArgs(assessment.id).resolves(answers);
-      skillRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
-      challengeRepository.findByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
+      skillRepository.findByCompetenceId.withArgs(competenceEvaluation.competenceId).resolves(skills);
+      challengeRepository.findByCompetenceId.withArgs(competenceEvaluation.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
 
       // when
@@ -111,6 +117,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         answerRepository,
         challengeRepository,
         knowledgeElementRepository,
+        competenceEvaluationRepository,
         skillRepository,
       });
 
