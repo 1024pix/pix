@@ -65,6 +65,42 @@
       {{remainingDaysText}}
     {{/if}}
 
+    {{#if showResetModal}}
+      {{#pix-modal containerClass="scorecard-details__reset-modal" onClose=(action "closeModal") }}
+        <div class="pix-modal__close-link">
+          <a href="#" {{action "closeModal"}}>Fermer
+            <img src="/images/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
+          </a>
+        </div>
+
+        <div class="pix-modal__container">
+          <div class="pix-modal-header">
+            <h1 class="pix-modal-header__title">Remise à zéro de la compétence</h1>
+            <h2 class="pix-modal-header__subtitle">{{scorecard.name}}</h2>
+          </div>
+
+          <div class="pix-modal-body pix-modal-body--with-padding">
+            <div class="">
+              {{#if scorecard.hasNotReachLevelOne}}
+                Vos {{scorecard.earnedPix}} Pix vont être supprimés.
+              {{else if scorecard.hasReachAtLeastLevelOne}}
+                Votre niveau {{scorecard.level}} et vos {{scorecard.earnedPix}} Pix vont être supprimés.
+              {{/if}}
+            </div>
+            <div class="">
+              <p>Attention : Si vous participez à un parcours de test, celui-ci pourrait être affecté.</p>
+              <p>Vous devrez reprendre ce parcours pour refaire les questions de cette compétence. </p>
+            </div>
+          </div>
+
+          <div class="pix-modal-footer pix-modal-footer--with-centered--buttons">
+            <button class="button button--grey" {{action "closeModal"}}>Annuler</button>
+            <button class="button" {{action "reset"}}>Remettre à zéro</button>
+          </div>
+        </div>
+      {{/pix-modal}}
+    {{/if}}
+
   </div>
 
 </div>
