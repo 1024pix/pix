@@ -4,12 +4,10 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | inscription', function() {
-  setupTest('route:inscription', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   it('exists', function() {
-    const route = this.subject();
+    const route = this.owner.lookup('route:inscription');
     expect(route).to.be.ok;
   });
 
@@ -22,7 +20,8 @@ describe('Unit | Route | inscription', function() {
     const sessionStub = { authenticate: authenticateStub };
     const storeStub = { queryRecord: queryRecordStub };
 
-    const route = this.subject();
+    const route = this.owner.lookup('route:inscription');
+
     route.set('session', sessionStub);
     route.set('store', storeStub);
 

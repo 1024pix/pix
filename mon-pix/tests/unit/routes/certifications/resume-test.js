@@ -3,16 +3,14 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | Certification | Resume', function() {
-  setupTest('route:certifications.resume', {
-    needs: ['service:metrics']
-  });
+  setupTest();
 
   let route;
   const certificationCourseId = 'certification_course_id';
 
   beforeEach(function() {
-    // instance route object
-    route = this.subject();
+    route = this.owner.lookup('route:certifications.resume');
+
     route.transitionTo = sinon.stub();
   });
 

@@ -6,9 +6,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | Competence | Resume', function() {
-  setupTest('route:competences.resume', {
-    needs: ['service:session','service:metrics']
-  });
+  setupTest();
 
   let route;
   const competenceId = 'competenceId';
@@ -32,11 +30,10 @@ describe('Unit | Route | Competence | Resume', function() {
     });
 
     // manage dependency injection context
-    this.register('service:store', storeStub);
-    this.inject.service('store', { as: 'store' });
+    this.owner.register('service:store', storeStub);
 
     // instance route object
-    route = this.subject();
+    route = this.owner.lookup('route:competences.resume');
     route.replaceWith = sinon.stub();
 
   });

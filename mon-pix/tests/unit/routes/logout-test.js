@@ -4,22 +4,19 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | logout', () => {
-  setupTest('route:logout', {
-    needs: ['service:metrics']
-  });
+  setupTest();
 
   it('should disconnect the user', function() {
     // Given
     const invalidateStub = sinon.stub();
-    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub, data: {
+    this.owner.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub, data: {
       authenticated: {
         source: 'external'
       }
     }
     }));
-    this.inject.service('session', { as: 'session' });
 
-    const route = this.subject();
+    const route = this.owner.lookup('route:logout');
 
     // When
     route.beforeModel();
@@ -32,10 +29,9 @@ describe('Unit | Route | logout', () => {
     // Given
     const invalidateStub = sinon.stub();
 
-    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
-    this.inject.service('session', { as: 'session' });
+    this.owner.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
 
-    const route = this.subject();
+    const route = this.owner.lookup('route:logout');
     route._redirectToHome = sinon.stub();
     route.source = 'pix';
 
@@ -50,10 +46,9 @@ describe('Unit | Route | logout', () => {
     // Given
     const invalidateStub = sinon.stub();
 
-    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
-    this.inject.service('session', { as: 'session' });
+    this.owner.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
 
-    const route = this.subject();
+    const route = this.owner.lookup('route:logout');
     route._redirectToDisconnectedPage = sinon.stub();
     route.source = 'external';
 

@@ -7,9 +7,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | Assessments | Challenge', function() {
 
-  setupTest('route:assessments.challenge', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   let route;
   let StoreStub;
@@ -44,11 +42,9 @@ describe('Unit | Route | Assessments | Challenge', function() {
     });
 
     // manage dependency injection context
-    this.register('service:store', StoreStub);
-    this.inject.service('store', { as: 'store' });
+    this.owner.register('service:store', StoreStub);
 
-    // instance route object
-    route = this.subject();
+    route = this.owner.lookup('route:assessments.challenge');
     route.transitionTo = sinon.stub();
   });
 
