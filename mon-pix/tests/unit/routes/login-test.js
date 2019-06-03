@@ -6,9 +6,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | login page', function() {
 
-  setupTest('route:login', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   context('when user is not authenticated', function() {
     let authenticateStub;
@@ -19,15 +17,13 @@ describe('Unit | Route | login page', function() {
     beforeEach(function() {
       queryRecordStub = sinon.stub();
       authenticateStub = sinon.stub();
-      this.register('service:session', Service.extend({
+      this.owner.register('service:session', Service.extend({
         authenticate: authenticateStub,
       }));
-      this.inject.service('session', { as: 'session' });
 
-      this.register('service:store', Service.extend({
+      this.owner.register('service:store', Service.extend({
         queryRecord: queryRecordStub
       }));
-      this.inject.service('store', { as: 'store' });
     });
 
     it('should authenticate the user given email and password', async function() {
@@ -36,7 +32,7 @@ describe('Unit | Route | login page', function() {
 
       const foundUser = EmberObject.create({ id: 12 });
       queryRecordStub.resolves(foundUser);
-      const route = this.subject();
+      const route = this.owner.lookup('route:login');
       sinon.stub(route, 'transitionTo').throws('Must not be called');
 
       // When
@@ -54,7 +50,7 @@ describe('Unit | Route | login page', function() {
       // Given
       authenticateStub.resolves();
 
-      const route = this.subject();
+      const route = this.owner.lookup('route:login');
       sinon.stub(route, 'transitionTo');
 
       // When

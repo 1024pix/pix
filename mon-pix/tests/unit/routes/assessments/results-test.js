@@ -6,12 +6,10 @@ import EmberObject from '@ember/object';
 
 describe('Unit | Route | Assessments | Results', function() {
 
-  setupTest('route:assessments.results', {
-    needs: ['service:metrics']
-  });
+  setupTest();
 
   it('exists', function() {
-    const route = this.subject();
+    const route = this.owner.lookup('route:assessments.results');
     expect(route).to.be.ok;
   });
 
@@ -19,7 +17,7 @@ describe('Unit | Route | Assessments | Results', function() {
 
     it('should redirect to homepage if assessment is a certification', function() {
       // given
-      const route = this.subject();
+      const route = this.owner.lookup('route:assessments.results');
       route.transitionTo = sinon.spy();
 
       const assessment = EmberObject.create({ id: 123, isCertification: true });
@@ -33,7 +31,7 @@ describe('Unit | Route | Assessments | Results', function() {
 
     it('should not redirect to homepage if assessment is not a certification', function() {
       // given
-      const route = this.subject();
+      const route = this.owner.lookup('route:assessments.results');
       route.transitionTo = sinon.spy();
 
       const assessment = EmberObject.create({ id: 123, isCertification: false, answers: [] });

@@ -3,9 +3,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | Assessments | Checkpoint', function() {
-  setupTest('route:assessments/checkpoint', {
-    needs: ['service:metrics']
-  });
+  setupTest();
 
   describe('#afterModel', function() {
 
@@ -17,8 +15,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
     let getCampaignStub;
 
     beforeEach(function() {
-      // instance route object
-      route = this.subject();
+      route = this.owner.lookup('route:assessments/checkpoint');
 
       reloadStub = sinon.stub();
       getCampaignStub = sinon.stub();

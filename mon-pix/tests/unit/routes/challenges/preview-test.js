@@ -4,12 +4,10 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | challenges-preview', function() {
 
-  setupTest('route:challenge-preview', {
-    needs: ['service:metrics']
-  });
+  setupTest();
 
   it('exists', function() {
-    const route = this.subject();
+    const route = this.owner.lookup('route:challenge-preview');
     expect(route).to.be.ok;
   });
 

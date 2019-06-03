@@ -6,9 +6,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | changer mot de passe', function() {
 
-  setupTest('route:reset-password', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   describe('Route behavior', function() {
 
@@ -24,13 +22,12 @@ describe('Unit | Route | changer mot de passe', function() {
         findRecord: findRecordStub
       });
 
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
+      this.owner.register('service:store', storeStub);
     });
 
     it('should exists', function() {
       // when
-      const route = this.subject();
+      const route = this.owner.lookup('route:reset-password');
 
       // then
       expect(route).to.be.ok;
@@ -39,7 +36,7 @@ describe('Unit | Route | changer mot de passe', function() {
     it('should ask password reset demand validity', function() {
       // given
       findRecordStub.resolves();
-      const route = this.subject();
+      const route = this.owner.lookup('route:reset-password');
 
       // when
       const promise = route.model(params);
@@ -73,7 +70,7 @@ describe('Unit | Route | changer mot de passe', function() {
         };
 
         findRecordStub.resolves(fetchedOwnerDetails);
-        const route = this.subject();
+        const route = this.owner.lookup('route:reset-password');
 
         // when
         const promise = route.model(params);

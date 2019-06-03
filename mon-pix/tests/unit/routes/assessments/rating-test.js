@@ -6,14 +6,7 @@ import EmberService from '@ember/service';
 import sinon from 'sinon';
 
 describe('Unit | Route | Assessments | Rating', function() {
-  setupTest('route:assessments.rating', {
-    needs: ['service:metrics'],
-  });
-
-  it('exists', function() {
-    const route = this.subject();
-    expect(route).to.be.ok;
-  });
+  setupTest();
 
   let route;
   let StoreStub;
@@ -30,12 +23,14 @@ describe('Unit | Route | Assessments | Rating', function() {
     });
 
     // manage dependency injection context
-    this.register('service:store', StoreStub);
-    this.inject.service('store', { as: 'store' });
+    this.owner.register('service:store', StoreStub);
 
-    // instance route object
-    route = this.subject();
+    route = this.owner.lookup('route:assessments.rating');
     route.replaceWith = sinon.stub();
+  });
+
+  it('exists', function() {
+    expect(route).to.be.ok;
   });
 
   describe('#afterModel', function() {

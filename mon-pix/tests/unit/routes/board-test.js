@@ -6,26 +6,22 @@ import sinon from 'sinon';
 
 describe('Unit | Route | board', function() {
 
-  setupTest('route:board', {
-    needs: ['service:metrics', 'service:session']
-  });
+  setupTest();
 
   let route;
 
   context('is organization user', function() {
 
     beforeEach(function() {
-      this.register('service:store', Service.extend({
+      this.owner.register('service:store', Service.extend({
         query: sinon.stub().resolves([{ id: 1 }, { id: 2 }])
       }));
-      this.inject.service('store', { as: 'store' });
 
-      this.register('service:currentUser', Service.extend({
+      this.owner.register('service:currentUser', Service.extend({
         user: { organizations: [{ id: 1 }, { id: 2 }] }
       }));
-      this.inject.service('currentUser', { as: 'currentUser' });
 
-      route = this.subject();
+      route = this.owner.lookup('route:board');
       route.transitionTo = sinon.spy();
     });
 
@@ -44,12 +40,11 @@ describe('Unit | Route | board', function() {
   context('is regular user', function() {
 
     beforeEach(function() {
-      this.register('service:currentUser', Service.extend({
+      this.owner.register('service:currentUser', Service.extend({
         user: { organizations: [] }
       }));
-      this.inject.service('currentUser', { as: 'currentUser' });
 
-      route = this.subject();
+      route = this.owner.lookup('route:board');
       route.transitionTo = sinon.spy();
     });
 

@@ -8,9 +8,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
-  setupTest('route:campaigns/fill-in-id-pix', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   let route;
   let storeStub;
@@ -31,16 +29,16 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     storeStub = Service.extend({
       queryRecord: queryChallengeStub, query: queryStub, createRecord: createCampaignParticipationStub
     });
-    this.register('service:store', storeStub);
-    this.inject.service('store', { as: 'store' });
-    this.register('service:session', EmberService.extend({
+    this.owner.register('service:store', storeStub);
+    this.owner.register('service:session', EmberService.extend({
       invalidate: sinon.stub(),
       isAuthenticated: sinon.stub().returns(true)
     }));
     savedAssessment = EmberObject.create({ id: 1234, codeCampaign: campaignCode, reload: sinon.stub() });
     createdCampaignParticipation = EmberObject.create({ id: 456, assessment: savedAssessment });
     campaign = EmberObject.create({ code: campaignCode });
-    route = this.subject();
+    route = this.owner.lookup('route:campaigns/fill-in-id-pix');
+
   });
 
   describe('#beforeModel', function() {
