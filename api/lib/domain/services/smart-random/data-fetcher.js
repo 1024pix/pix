@@ -43,12 +43,8 @@ async function fetchForCompetenceEvaluations({
   answerRepository,
   challengeRepository,
   knowledgeElementRepository,
-  competenceEvaluationRepository,
   skillRepository,
 }) {
-  const {
-    competenceId
-  } = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
 
   const [
     answers,
@@ -58,8 +54,8 @@ async function fetchForCompetenceEvaluations({
 
   ] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
-    skillRepository.findByCompetenceId(competenceId),
-    challengeRepository.findByCompetenceId(competenceId),
+    skillRepository.findByCompetenceId(assessment.competenceId),
+    challengeRepository.findByCompetenceId(assessment.competenceId),
     knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId })]
   );
 
