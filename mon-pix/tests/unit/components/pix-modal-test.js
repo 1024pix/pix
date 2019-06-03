@@ -7,14 +7,12 @@ import { keyUp } from 'ember-keyboard';
 
 describe('Unit | Component | pix-modal', function() {
 
-  setupTest('component:pix-modal', {
-    needs: ['service:keyboard', 'service:modal-dialog']
-  });
+  setupTest();
 
   describe('#init', () => {
     it('should set the overlay as translucent', function() {
       // Given
-      const component = this.subject();
+      const component = this.owner.lookup('component:pix-modal');
 
       // then
       expect(component.get('translucentOverlay')).to.be.equal(true);
@@ -22,7 +20,7 @@ describe('Unit | Component | pix-modal', function() {
 
     it('should activate keyboard events', function() {
       // Given
-      const component = this.subject();
+      const component = this.owner.lookup('component:pix-modal');
 
       // then
       expect(component.get('keyboardActivated')).to.be.equal(true);
@@ -35,7 +33,7 @@ describe('Unit | Component | pix-modal', function() {
       // Given
       const sendActionStub = sinon.stub();
 
-      const component = this.subject();
+      const component = this.owner.lookup('component:pix-modal');
       component.onClose = sendActionStub;
       component.trigger(keyUp('Escape'));
 

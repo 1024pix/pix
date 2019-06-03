@@ -1,16 +1,14 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | tutorial item', function() {
-  setupComponentTest('tutorial-item', {
-    unit: true
-  });
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:tutorial-item');
   });
 
   describe('#displayedDuration', function() {

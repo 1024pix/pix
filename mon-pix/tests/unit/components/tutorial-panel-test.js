@@ -1,16 +1,14 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | tutorial panel', function() {
-  setupComponentTest('tutorial-panel', {
-    unit: true
-  });
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:tutorial-panel');
   });
 
   describe('#shouldDisplayHint', function() {
