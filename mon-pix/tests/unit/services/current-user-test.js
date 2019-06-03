@@ -5,22 +5,19 @@ import Service from '@ember/service';
 import sinon from 'sinon';
 
 describe('Unit | Service | current-user', function() {
-  setupTest('service:currentUser');
+  setupTest();
 
   describe('user is authenticated', function() {
     beforeEach(function() {
-      this.register('service:session', Service.extend({ isAuthenticated: true }));
-      this.inject.service('session', { as: 'session' });
-
-      this.register('service:store', Service.extend({
+      this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
+      this.owner.register('service:store', Service.extend({
         queryRecord: sinon.stub().resolves({ id: 1 })
       }));
-      this.inject.service('store', { as: 'store' });
     });
 
     it('should load the current user', async function() {
       // Given
-      const currentUser = this.subject();
+      const currentUser = this.owner.lookup('service:currentUser');
 
       // When
       await currentUser.load();
@@ -33,13 +30,12 @@ describe('Unit | Service | current-user', function() {
   describe('user is not authenticated', function() {
 
     beforeEach(function() {
-      this.register('service:session', Service.extend({ isAuthenticated: false }));
-      this.inject.service('session', { as: 'session' });
+      this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
     });
 
     it('should do nothing', async function() {
       // Given
-      const currentUser = this.subject();
+      const currentUser = this.owner.lookup('service:currentUser');
 
       // When
       await currentUser.load();
@@ -52,21 +48,18 @@ describe('Unit | Service | current-user', function() {
   describe('user token is expired', function() {
 
     beforeEach(function() {
-      this.register('service:session', Service.extend({
+      this.owner.register('service:session', Service.extend({
         isAuthenticated: true,
         invalidate: sinon.stub().resolves('invalidate'),
       }));
-      this.inject.service('session', { as: 'session' });
-
-      this.register('service:store', Service.extend({
+      this.owner.register('service:store', Service.extend({
         queryRecord: sinon.stub().rejects({ errors: [{ code: 401 }] })
       }));
-      this.inject.service('store', { as: 'store' });
     });
 
     it('should redirect to login', async function() {
       // Given
-      const currentUser = this.subject();
+      const currentUser = this.owner.lookup('service:currentUser');
 
       // When
       const result = await currentUser.load();

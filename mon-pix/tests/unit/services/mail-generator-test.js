@@ -4,17 +4,16 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Service | mail generator', function() {
-  setupTest('service:mail-generator', {});
+  setupTest();
 
-  // Replace this with your real tests.
   it('exists', function() {
-    const service = this.subject();
+    const service = this.owner.lookup('service:mail-generator');
     expect(service).to.be.ok;
   });
 
   it('should have a generateEmail function', function() {
     // Given
-    const service = this.subject();
+    const service = this.owner.lookup('service:mail-generator');
 
     // When
     expect(service).to.have.property('generateEmail')
@@ -27,7 +26,7 @@ describe('Unit | Service | mail generator', function() {
     const februaryTheFifth = new Date(2017, 1, 5);
 
     beforeEach(function() {
-      service = this.subject();
+      service = this.owner.lookup('service:mail-generator');
       clock = sinon.useFakeTimers(februaryTheFifth);
     });
 
