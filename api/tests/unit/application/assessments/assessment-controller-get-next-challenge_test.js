@@ -6,20 +6,11 @@ const certificationChallengeRepository = require('../../../../lib/infrastructure
 const usecases = require('../../../../lib/domain/usecases');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const Skill = require('../../../../lib/cat/skill');
 
 describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
   describe('#getNextChallenge', () => {
     let assessmentWithoutScore;
-    let assessmentWithScore;
-    let scoredAsssessment;
-
-    const assessmentSkills = {
-      assessmentId: 1,
-      validatedSkills: _generateValidatedSkills(),
-      failedSkills: _generateFailedSkills(),
-    };
 
     beforeEach(() => {
 
@@ -29,18 +20,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         userId: 5,
         type: 'DEMO',
       });
-
-      assessmentWithScore = Assessment.fromAttributes({
-        id: 1,
-        courseId: 'recHzEA6lN4PEs7LG', userId: 5,
-        estimatedLevel: 0,
-        pixScore: 0,
-      });
-
-      scoredAsssessment = {
-        assessmentPix: assessmentWithScore,
-        skills: assessmentSkills,
-      };
 
       sinon.stub(assessmentRepository, 'get');
       sinon.stub(challengeRepository, 'get').resolves({});
@@ -96,7 +75,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
       });
     });
-
 
     describe('when the assessment is a certification assessment', function() {
 
@@ -190,23 +168,3 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     });
   });
 });
-
-function _generateValidatedSkills() {
-  const url2 = new Skill('@url2');
-  const web3 = new Skill('@web3');
-  const skills = new Set();
-  skills.add(url2);
-  skills.add(web3);
-
-  return skills;
-}
-
-function _generateFailedSkills() {
-  const recherche2 = new Skill('@recherch2');
-  const securite3 = new Skill('@securite3');
-  const skill = new Set();
-  skill.add(recherche2);
-  skill.add(securite3);
-
-  return skill;
-}

@@ -33,6 +33,6 @@ describe('Unit | UseCase | add-level-and-pix-score-to-assessment', () => {
     const promise = addLevelAndPixScoreToAssessment({ assessment: null, assessmentId: 1 });
 
     // then
-    return expect(promise).to.have.been.rejectedWith(NotFoundError, `Assessment not found for ID 1`);
+    return expect(promise).to.have.been.rejectedWith(NotFoundError, 'Assessment not found for ID 1');
   });
 });
