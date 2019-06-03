@@ -4,7 +4,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildAssessmentResult({
-  id = faker.random.number(),
+  id,
   pixScore = faker.random.number(),
   level = faker.random.number({ min: 0, max: 5 }),
   status = 'validated',
@@ -23,11 +23,8 @@ module.exports = function buildAssessmentResult({
     id, pixScore, level, status, emitter, commentForJury, commentForCandidate, commentForOrganization, juryId,
     assessmentId, createdAt,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'assessment-results',
     values,
   });
-
-  return values;
 };

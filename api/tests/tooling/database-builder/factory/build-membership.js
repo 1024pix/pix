@@ -1,20 +1,16 @@
-const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildMembership(
   {
-    id = faker.random.number(),
+    id,
     organizationId,
     organizationRoleId,
     userId,
   } = {}) {
 
   const values = { id, organizationId, organizationRoleId, userId };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'memberships',
     values,
   });
-
-  return values;
 };

@@ -1,11 +1,10 @@
 const buildUser = require('./build-user');
 const buildCertficationCenter = require('./build-certification-center');
 const databaseBuffer = require('../database-buffer');
-const faker = require('faker');
 const _ = require('lodash');
 
 module.exports = function buildCertificationCenterMembership({
-  id = faker.random.number(),
+  id,
   userId,
   certificationCenterId,
 } = {}) {
@@ -16,12 +15,9 @@ module.exports = function buildCertificationCenterMembership({
   const values = {
     id, userId, certificationCenterId
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'certification-center-memberships',
     values,
   });
-
-  return values;
 };
 

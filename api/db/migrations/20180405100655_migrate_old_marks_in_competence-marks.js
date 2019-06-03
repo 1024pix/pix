@@ -42,7 +42,7 @@ exports.down = function(knex) {
     .then(() => knex(TABLE_NAME_COMPETENCE_MARKS).select('id', 'level', 'score', 'area_code', 'competence_code', 'correctionId'))
     .then((allMarks) => {
 
-      return batch(knex, allMarks, mark => {
+      return batch(knex, allMarks, (mark) => {
         return knex(TABLE_NAME_MARKS)
           .insert({
             level: mark.level,

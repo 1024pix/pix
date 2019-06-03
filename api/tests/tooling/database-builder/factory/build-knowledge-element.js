@@ -7,7 +7,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const _ = require('lodash');
 
 module.exports = function buildKnowledgeElement({
-  id = faker.random.number(),
+  id,
   source = KnowledgeElement.SourceType.DIRECT,
   status = KnowledgeElement.StatusType.VALIDATED,
   createdAt = faker.date.recent(),
@@ -35,12 +35,9 @@ module.exports = function buildKnowledgeElement({
     userId,
     competenceId
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'knowledge-elements',
     values,
   });
-
-  return values;
 };
 

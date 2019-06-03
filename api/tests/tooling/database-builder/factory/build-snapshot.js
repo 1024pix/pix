@@ -5,7 +5,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildSnapshot({
-  id = faker.random.number(),
+  id,
   profile = '{}',
   organizationId,
   userId,
@@ -18,11 +18,8 @@ module.exports = function buildSnapshot({
   const values = {
     id, profile, organizationId, userId, createdAt
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'snapshots',
     values,
   });
-
-  return values;
 };
