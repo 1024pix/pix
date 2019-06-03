@@ -46,7 +46,6 @@ class Assessment {
     // references
     courseId,
     userId,
-    competenceId,
   } = {}) {
     this.id = id;
     // attributes
@@ -62,7 +61,6 @@ class Assessment {
     // references
     this.courseId = courseId;
     this.userId = userId;
-    this.competenceId = competenceId;
   }
 
   /**
