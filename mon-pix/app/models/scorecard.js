@@ -17,6 +17,7 @@ export default Model.extend({
   level: attr('number'),
   pixScoreAheadOfNextLevel: attr('number'),
   status: attr('string'),
+  remainingDaysBeforeReset: attr('number'),
 
   area: belongsTo('area'),
 
