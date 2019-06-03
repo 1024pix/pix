@@ -57,6 +57,14 @@
       {{/link-to}}
     {{/unless}}
 
+    {{#if displayResetButton}}
+      <button class="button button--no-color" {{action "openModal"}}>
+        Remettre à zéro <div class="sr-only">la compétence "{{scorecard.name}}"</div>
+      </button>
+    {{else if displayWaitSentence}}
+      {{remainingDaysText}}
+    {{/if}}
+
   </div>
 
 </div>
