@@ -50,6 +50,7 @@ function injectDependencies(usecases) {
 module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
+  addLevelAndPixScoreToAssessment: require('./add-level-and-pix-score-to-assessment'),
   authenticateUser: require('./authenticate-user'),
   computeCampaignCollectiveResult: require('./compute-campaign-collective-result'),
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
@@ -72,7 +73,6 @@ module.exports = injectDependencies({
   findSmartPlacementAssessments: require('./find-smart-placement-assessments'),
   findSnapshots: require('./find-snapshots.js'),
   findUsers: require('./find-users.js'),
-  getAssessment: require('./get-assessment'),
   getAttendanceSheet: require('./get-attendance-sheet'),
   getCampaign: require('./get-campaign'),
   getCampaignByCode: require('./get-campaign-by-code'),

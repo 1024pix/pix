@@ -49,9 +49,9 @@ module.exports = {
 
   async get(request) {
     const assessment = request.pre.assessment;
-    const assessmentWithResults = await useCases.getAssessment({ assessment: assessment });
+    const assessmentWithLevelAndPixScore = await useCases.addLevelAndPixScoreToAssessment({ assessment, assessmentId: request.params.id });
 
-    return assessmentSerializer.serialize(assessmentWithResults);
+    return assessmentSerializer.serialize(assessmentWithLevelAndPixScore);
   },
 
   findByFilters(request) {

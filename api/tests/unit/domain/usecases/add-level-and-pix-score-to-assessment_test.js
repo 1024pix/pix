@@ -1,9 +1,9 @@
 const { expect, domainBuilder } = require('../../../test-helper');
-const getAssessment = require('../../../../lib/domain/usecases/get-assessment');
+const addLevelAndPixScoreToAssessment = require('../../../../lib/domain/usecases/add-level-and-pix-score-to-assessment');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-assessment', () => {
+describe('Unit | UseCase | add-level-and-pix-score-to-assessment', () => {
 
   let assessment;
   let assessmentResult;
@@ -19,7 +19,7 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object matching the given assessment ID', async () => {
 
     // when
-    const result = await getAssessment({ assessment });
+    const result = await addLevelAndPixScoreToAssessment({ assessment, assessmentId: 1 });
 
     // then
     expect(result).to.be.an.instanceOf(Assessment);
@@ -30,9 +30,9 @@ describe('Unit | UseCase | get-assessment', () => {
 
   it('should reject a domain NotFoundError when there is no assessment for given ID', () => {
     // when
-    const promise = getAssessment({ assessment: null });
+    const promise = addLevelAndPixScoreToAssessment({ assessment: null, assessmentId: 1 });
 
     // then
-    return expect(promise).to.have.been.rejectedWith(NotFoundError, 'Assessment not found');
+    return expect(promise).to.have.been.rejectedWith(NotFoundError, `Assessment not found for ID 1`);
   });
 });

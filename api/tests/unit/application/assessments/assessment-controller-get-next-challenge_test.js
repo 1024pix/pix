@@ -45,7 +45,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sinon.stub(assessmentRepository, 'get');
       sinon.stub(challengeRepository, 'get').resolves({});
 
-      sinon.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
       sinon.stub(usecases, 'getNextChallengeForCertification').resolves();
       sinon.stub(usecases, 'getNextChallengeForDemo').resolves();
       sinon.stub(usecases, 'getNextChallengeForSmartPlacement').resolves();
@@ -85,7 +84,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
-        usecases.getAssessment.resolves(scoredAsssessment);
       });
 
       context('when the assessment is a DEMO', () => {
@@ -99,21 +97,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
     });
 
-    describe('when the assessment is not over yet', () => {
-
-      beforeEach(() => {
-        assessmentRepository.get.resolves(assessmentWithoutScore);
-      });
-
-      it('should not evaluate assessment score', async () => {
-        // when
-        await assessmentController.getNextChallenge({ params: { id: 7531 } }, hFake);
-
-        // then
-        expect(usecases.getAssessment).not.to.have.been.called;
-      });
-
-    });
 
     describe('when the assessment is a certification assessment', function() {
 

@@ -1,13 +1,14 @@
 const { NotFoundError } = require('../errors');
 const { MAX_REACHABLE_LEVEL } = require('../constants');
 
-module.exports = async function getAssessment(
+module.exports = async function addLevelAndPixScoreToAssessment(
   {
     // arguments
     assessment,
+    assessmentId
   }) {
   if (!assessment) {
-    throw new NotFoundError('Assessment not found');
+    throw new NotFoundError(`Assessment not found for ID ${assessmentId}`);
   }
   const assessmentResult = assessment.getLastAssessmentResult();
 

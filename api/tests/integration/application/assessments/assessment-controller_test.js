@@ -10,7 +10,7 @@ describe('Integration | Application | Assessments | assessment-controller', () =
   let httpTestServer;
 
   beforeEach(() => {
-    sinon.stub(usecases, 'getAssessment');
+    sinon.stub(usecases, 'addLevelAndPixScoreToAssessment');
     sinon.stub(assessmentAuthorization, 'verify');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
@@ -25,7 +25,7 @@ describe('Integration | Application | Assessments | assessment-controller', () =
 
       it('should resolve a 200 HTTP response', async () => {
         // given
-        usecases.getAssessment.resolves(assessment);
+        usecases.addLevelAndPixScoreToAssessment.resolves(assessment);
 
         // when
         const response = await httpTestServer.request('GET', '/api/assessments/1234');
@@ -36,7 +36,7 @@ describe('Integration | Application | Assessments | assessment-controller', () =
 
       it('should return a JSON API organization', async () => {
         // given
-        usecases.getAssessment.resolves(assessment);
+        usecases.addLevelAndPixScoreToAssessment.resolves(assessment);
 
         // when
         const response = await httpTestServer.request('GET', '/api/assessments/1234');
