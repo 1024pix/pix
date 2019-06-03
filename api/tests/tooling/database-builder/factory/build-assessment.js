@@ -5,7 +5,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const _ = require('lodash');
 
 module.exports = function buildAssessment({
-  id = faker.random.number(),
+  id,
   courseId = 'recDefaultCourseIdValue',
   userId,
   type = Assessment.types.PLACEMENT,
@@ -19,12 +19,9 @@ module.exports = function buildAssessment({
   const values = {
     id, courseId, userId, type, state, createdAt, updatedAt,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'assessments',
     values,
   });
-
-  return values;
 };
 

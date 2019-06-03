@@ -2,7 +2,7 @@ const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildSession({
-  id = faker.random.number(),
+  id,
   certificationCenter = faker.company.companyName(),
   certificationCenterId,
   accessCode = faker.random.alphaNumeric(9),
@@ -28,11 +28,8 @@ module.exports = function buildSession({
     description,
     createdAt,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'sessions',
     values,
   });
-
-  return values;
 };

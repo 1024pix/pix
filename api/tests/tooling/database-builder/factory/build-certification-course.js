@@ -5,7 +5,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildCertificationCourse({
-  id = faker.random.number(),
+  id,
   userId,
   completedAt = faker.date.recent(),
   firstName = faker.name.firstName(),
@@ -34,11 +34,8 @@ module.exports = function buildCertificationCourse({
     sessionId,
     userId,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'certification-courses',
     values,
   });
-
-  return values;
 };

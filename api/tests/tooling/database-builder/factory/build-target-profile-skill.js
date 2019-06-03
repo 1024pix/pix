@@ -4,7 +4,7 @@ const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
 module.exports = function buildTargetProfileSkill({
-  id = faker.random.number(),
+  id,
   targetProfileId,
   skillId = `rec${faker.random.uuid()}`,
 } = {}) {
@@ -16,11 +16,8 @@ module.exports = function buildTargetProfileSkill({
     targetProfileId,
     skillId,
   };
-
-  databaseBuffer.pushInsertable({
+  return databaseBuffer.pushInsertable({
     tableName: 'target-profiles_skills',
     values,
   });
-
-  return values;
 };

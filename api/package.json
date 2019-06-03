@@ -91,7 +91,7 @@
     "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test nyc --silent _mocha --recursive --exit --reporter dot tests && nyc report --reporter=lcovonly --report-dir=../coverage",
     "coverage:rename": "mv ../coverage/lcov.info ../coverage/api_lcov.info",
     "coverage": "npm run coverage:check && npm run coverage:rename",
-    "db:sqlite:delete": "rm -f db/dev.sqlite3 db/dev.sqlite3-journal db/test.sqlite3 db/test.sqlite3-journal",
+    "db:sqlite:delete": "rm -f db/${NODE_ENV:-dev}.sqlite3*",
     "db:sqlite:empty": "node scripts/database/empty-database",
     "db:sqlite:migrate": "knex --knexfile db/knexfile.js migrate:latest",
     "db:sqlite:prepare": "npm run db:sqlite:delete && npm run db:sqlite:migrate",
