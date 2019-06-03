@@ -5,6 +5,7 @@ const dataFetcher = require('../services/smart-random/data-fetcher');
 
 async function getNextChallengeForCompetenceEvaluation({
   knowledgeElementRepository,
+  competenceEvaluationRepository,
   challengeRepository,
   answerRepository,
   skillRepository,

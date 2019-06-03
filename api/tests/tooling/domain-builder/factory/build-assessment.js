@@ -45,7 +45,6 @@ buildAssessment.ofTypeSmartPlacement = function({
   courseId = 'courseId',
   createdAt = new Date('1992-06-12T01:02:03Z'),
   userId = faker.random.number(),
-  competenceId = faker.random.number(),
   state = Assessment.states.COMPLETED,
 
   answers = [buildAnswer()],
@@ -61,7 +60,6 @@ buildAssessment.ofTypeSmartPlacement = function({
     courseId,
     createdAt,
     userId,
-    competenceId,
     type: Assessment.types.SMARTPLACEMENT,
     state,
 

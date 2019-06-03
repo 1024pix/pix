@@ -1,7 +1,7 @@
+const CompetenceEvaluation = require('../models/CompetenceEvaluation');
 const Scorecard = require('../models/Scorecard');
 const { UserNotAuthorizedToAccessEntity, CompetenceResetError, NotFoundError } = require('../errors');
 const _ = require('lodash');
-const competenceEvaluationService = require('../services/competence-evaluation-service');
 
 module.exports = async function resetCompetenceEvaluation({
   authenticatedUserId,
@@ -28,12 +28,9 @@ module.exports = async function resetCompetenceEvaluation({
   }
 
   try {
-    await competenceEvaluationRepository.getByCompetenceIdAndUserId({
-      competenceId, userId: authenticatedUserId
-    });
+    await competenceEvaluationRepository.getByCompetenceIdAndUserId(competenceId, authenticatedUserId);
   } catch (err) {
-    // If user wants to reset its knowledge elements on a competence,
-    // but has only validated or invalidated them on campaigns.
+    // If user wants to reset its knowledge elements on a competence, but has only validated or invalidated them on campaigns
     if (err instanceof NotFoundError) {
       return null;
     } else {
@@ -41,10 +38,5 @@ module.exports = async function resetCompetenceEvaluation({
     }
   }
 
-  return competenceEvaluationService.resetCompetenceEvaluation({
-    competenceEvaluationRepository,
-    knowledgeElementRepository,
-    competenceId,
-    userId: authenticatedUserId,
-  });
+  return competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId(authenticatedUserId, competenceId, CompetenceEvaluation.statuses.RESET);
 };

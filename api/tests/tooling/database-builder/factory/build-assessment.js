@@ -10,7 +10,6 @@ module.exports = function buildAssessment({
   userId,
   type = Assessment.types.PLACEMENT,
   state = Assessment.states.COMPLETED,
-  competenceId = 'recsvLz0W2ShyfD63',
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
@@ -18,7 +17,7 @@ module.exports = function buildAssessment({
   userId = _.isNil(userId) ? buildUser().id : userId;
 
   const values = {
-    id, courseId, userId, type, state, createdAt, updatedAt, competenceId,
+    id, courseId, userId, type, state, createdAt, updatedAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'assessments',

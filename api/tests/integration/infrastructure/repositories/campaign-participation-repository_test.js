@@ -375,7 +375,7 @@ describe('Integration | Repository | Campaign Participation', () => {
         const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId, id: member.assessmentId });
         databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate });
         for (const ke of member.knowledgeElements) {
-          databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, });
+          databaseBuilder.factory.buildKnowledgeElement({ userId, ...ke });
         }
       };
 
