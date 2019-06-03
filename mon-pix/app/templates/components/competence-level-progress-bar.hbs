@@ -17,7 +17,7 @@
           </button>
         {{else}}
 
-          {{# pix-modal containerClass="second-chance__modal" onClose=(action "closeModal") }}
+          {{#pix-modal containerClass="second-chance__modal" onClose=(action "closeModal") }}
             <div class="pix-modal__close-link">
               <a href="#" {{action "closeModal"}}>Fermer
                 <img src="/images/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
@@ -43,7 +43,7 @@
                 <button class="button button--grey competence-level-progress-bar__modal-link-cancel" {{action "closeModal"}}>Annuler</button>
               </div>
             </div>
-          {{/ pix-modal}}
+          {{/pix-modal}}
 
         {{/unless}}
       </div>

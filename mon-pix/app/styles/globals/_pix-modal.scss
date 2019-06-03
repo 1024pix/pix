@@ -52,6 +52,14 @@ $pix-modal-border-radius: 5px;
           font-family: $font-open-sans;
           font-size: 2.8rem;
         }
+
+        .pix-modal-header__subtitle {
+          margin: 0;
+          text-align: center;
+          padding: 15px;
+          font-family: $font-open-sans;
+          font-size: 2.8rem;
+        }
       }
 
       .pix-modal-body {

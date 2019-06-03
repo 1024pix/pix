@@ -18,5 +18,14 @@ export default ApplicationAdapter.extend({
     }
 
     return this._super(...arguments);
+  },
+
+  urlForUpdateRecord(id, modelName, { adapterOptions }) {
+    if (adapterOptions.resetCompetence) {
+      delete adapterOptions.resetCompetence;
+      return `${this._super(...arguments)}/competences/${adapterOptions.competenceId}/reset`;
+    }
+
+    return this._super(...arguments);
   }
 });
