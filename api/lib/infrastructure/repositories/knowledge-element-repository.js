@@ -68,19 +68,6 @@ module.exports = {
       .then((knowledgeElements) => _.groupBy(knowledgeElements, 'competenceId'));
   },
 
-  findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
-    return BookshelfKnowledgeElement
-      .where({ userId, competenceId })
-      .fetchAll()
-      .then((knowledgeElements) => knowledgeElements.map(_toDomain))
-      .then((knowledgeElements) => {
-        return _(knowledgeElements)
-          .orderBy('createdAt', 'desc')
-          .uniqBy('skillId')
-          .value();
-      });
-  },
-
   getSumOfPixFromUserKnowledgeElements(userId) {
     return Bookshelf.knex.with('earnedPixWithRankPerSkill',
       (qb) => {
