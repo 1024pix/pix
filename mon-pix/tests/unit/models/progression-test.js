@@ -1,11 +1,20 @@
 import { run } from '@ember/runloop';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | Progression', function() {
-  setupModelTest('progression', {
-    needs: []
+  setupTest();
+
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
+  });
+
+  it('exists', function() {
+    const model = store.createRecord('progression');
+    expect(model).to.be.ok;
   });
 
   describe('Computed property #completionPercentage', function() {
@@ -13,7 +22,6 @@ describe('Unit | Model | Progression', function() {
     it('should compute a completionRate property in %', function() {
       run(() => {
         // given
-        const store = this.store();
         const progression = store.createRecord('progression', { completionRate: 0.06815 });
 
         // when
