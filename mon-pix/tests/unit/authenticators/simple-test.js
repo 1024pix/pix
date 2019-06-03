@@ -9,9 +9,7 @@ const expectedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJz
 
 describe('Unit | Authenticator | simple', function() {
 
-  setupTest('authenticator:simple', {
-    needs: ['service:ajax']
-  });
+  setupTest();
 
   const requestStub = sinon.stub().resolves({
     'data': {
@@ -26,17 +24,16 @@ describe('Unit | Authenticator | simple', function() {
   });
 
   beforeEach(function() {
-    this.register('service:ajax', Service.extend({
+    this.owner.register('service:ajax', Service.extend({
       request: requestStub
     }));
-    this.inject.service('ajax', { as: 'ajax' });
   });
 
   it('should post a request to retrieve token', function() {
     // Given
     const email = 'test@example.net';
     const password = 'Hx523è9#';
-    const authenticator = this.subject();
+    const authenticator = this.owner.lookup('authenticator:simple');
 
     // When
     const promise = authenticator.authenticate({ email, password });
@@ -56,7 +53,7 @@ describe('Unit | Authenticator | simple', function() {
     // Given
     const email = 'test@example.net';
     const password = 'Hx523è9#';
-    const authenticator = this.subject();
+    const authenticator = this.owner.lookup('authenticator:simple');
 
     // When
     const promise = authenticator.authenticate({ email, password });
@@ -73,7 +70,7 @@ describe('Unit | Authenticator | simple', function() {
     // Given
     const token = expectedToken;
     const userId = expectedUserId;
-    const authenticator = this.subject();
+    const authenticator = this.owner.lookup('authenticator:simple');
 
     // When
     const promise = authenticator.authenticate({ token, userId });
@@ -90,7 +87,7 @@ describe('Unit | Authenticator | simple', function() {
     it('should extract userId and source from token', function() {
       // given
       const token = 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb';
-      const authenticator = this.subject();
+      const authenticator = this.owner.lookup('authenticator:simple');
 
       // when
       const dataFromToken = authenticator.extractDataFromToken(token);
