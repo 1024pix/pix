@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
+const { expect, sinon, catchErr } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const getNextChallengeForCompetenceEvaluation = require('../../../../lib/domain/usecases/get-next-challenge-for-competence-evaluation');
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
@@ -8,26 +8,24 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
   describe('#getNextChallengeForCompetenceEvaluation', () => {
 
     let userId, assessmentId, competenceId,
-      assessment, answers, challenges, targetSkills, competenceEvaluation,
-      answerRepository, challengeRepository, competenceEvaluationRepository, skillRepository,
+      assessment, answers, challenges, targetSkills,
+      answerRepository, challengeRepository, skillRepository,
       knowledgeElementRepository,
       recentKnowledgeElements, expectedNextChallenge, actualComputedChallenge;
 
     beforeEach(async () => {
 
       userId = 'dummyUserId';
-      competenceId = 'dummyTargetProfileId';
+      competenceId = 'dummyCompetenceId';
       assessmentId = 'dummyAssessmentId';
 
       answers = [];
-      assessment = { id: assessmentId, userId };
+      assessment = { id: assessmentId, userId, competenceId };
       challenges = [];
-      competenceEvaluation = domainBuilder.buildCompetenceEvaluation({ competenceId, assessmentId, userId });
       targetSkills = [];
 
       answerRepository = { findByAssessment: sinon.stub().resolves(answers) };
       challengeRepository = { findByCompetenceId: sinon.stub().resolves(challenges) };
-      competenceEvaluationRepository = { getByAssessmentId: sinon.stub().resolves(competenceEvaluation) };
       skillRepository = { findByCompetenceId: sinon.stub().resolves(targetSkills) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
@@ -49,7 +47,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           answerRepository,
           challengeRepository,
           knowledgeElementRepository,
-          competenceEvaluationRepository,
           skillRepository
         });
       });
@@ -66,16 +63,11 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
           answerRepository,
           challengeRepository,
           knowledgeElementRepository,
-          competenceEvaluationRepository,
-          skillRepository
+          skillRepository,
         });
       });
       it('should have fetched the answers', () => {
         expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(assessmentId);
-      });
-
-      it('should have fetched the competence evaluation', () => {
-        expect(competenceEvaluationRepository.getByAssessmentId).to.have.been.calledWithExactly(assessmentId);
       });
 
       it('should have fetched the most recent knowledge elements', () => {

@@ -237,7 +237,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         { skillId: skillIds2[2], status: 'invalidated' },
 
       ]).each((ke, id) => {
-        databaseBuilder.factory.buildKnowledgeElement({ id, userId: participant.id, assessmentId, ...ke });
+        databaseBuilder.factory.buildKnowledgeElement({ ...ke, id, userId: participant.id, assessmentId, });
       });
 
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns(dataSourceSkills).activate();
@@ -440,7 +440,7 @@ describe('Acceptance | API | Campaign Participations', () => {
           { skillId: skillWeb2Id, status: 'validated' },
           { skillId: skillWeb3Id, status: 'validated' },
         ]).each((ke, id) => {
-          databaseBuilder.factory.buildKnowledgeElement({ id, userId: user.id, assessmentId: assessment.id, ...ke });
+          databaseBuilder.factory.buildKnowledgeElement({ ...ke, id, userId: user.id, assessmentId: assessment.id, });
         });
 
         await databaseBuilder.commit();
