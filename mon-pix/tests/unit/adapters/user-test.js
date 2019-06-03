@@ -4,16 +4,14 @@ import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | subscribers', function() {
-  setupTest('adapter:user', {
-    needs: ['service:session']
-  });
+  setupTest();
 
   describe('#queryRecord', () => {
 
     let adapter;
 
     beforeEach(function() {
-      adapter = this.subject();
+      adapter = this.owner.lookup('adapter:user');
       adapter.ajax = sinon.stub().resolves();
     });
 
