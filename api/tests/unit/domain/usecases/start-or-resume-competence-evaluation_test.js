@@ -5,7 +5,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
-describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
+describe  ('Unit | UseCase | start-or-resume-competence-evaluation', () => {
 
   const userId = 123;
   const assessmentId = 456;
@@ -70,6 +70,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
           courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
           type: Assessment.types.COMPETENCE_EVALUATION,
           userId, state: Assessment.states.STARTED,
+          competenceId,
         })).resolves({ id: assessmentId });
 
         competenceEvaluationRepository.save.withArgs(new CompetenceEvaluation({
@@ -112,6 +113,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
           courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
           type: Assessment.types.COMPETENCE_EVALUATION,
           userId, state: Assessment.states.STARTED,
+          competenceId,
         })).resolves({ id: newAssessmentId });
 
         competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId.resolves();

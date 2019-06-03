@@ -36,7 +36,7 @@ async function _resumeCompetenceEvaluation({ userId, competenceId, assessmentRep
 }
 
 async function _startCompetenceEvaluation({ userId, competenceId, assessmentRepository, competenceEvaluationRepository }) {
-  const assessment = await _createAssessment(userId, assessmentRepository);
+  const assessment = await _createAssessment({ userId, competenceId, assessmentRepository });
   const competenceEvaluation = await _createCompetenceEvaluation(competenceId, assessment.id, userId, competenceEvaluationRepository);
   return {
     created: true,
@@ -44,12 +44,13 @@ async function _startCompetenceEvaluation({ userId, competenceId, assessmentRepo
   };
 }
 
-function _createAssessment(userId, assessmentRepository) {
+function _createAssessment({ userId, competenceId, assessmentRepository }) {
   const assessment = new Assessment({
     userId,
+    competenceId,
     state: Assessment.states.STARTED,
     type: Assessment.types.COMPETENCE_EVALUATION,
-    courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION
+    courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
   });
   return assessmentRepository.save(assessment);
 }
@@ -65,7 +66,7 @@ function _createCompetenceEvaluation(competenceId, assessmentId, userId, compete
 }
 
 async function _restartCompetenceEvaluation({ userId, competenceEvaluation, assessmentRepository, competenceEvaluationRepository }) {
-  const assessment = await _createAssessment(userId, assessmentRepository);
+  const assessment = await _createAssessment({ userId, competenceId: competenceEvaluation.competenceId, assessmentRepository });
   await competenceEvaluationRepository.updateAssessmentId({ currentAssessmentId: competenceEvaluation.assessmentId, newAssessmentId: assessment.id });
   await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({ userId, competenceId: competenceEvaluation.competenceId, status: CompetenceEvaluation.statuses.STARTED });
   const updatedCompetenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ userId, competenceId: competenceEvaluation.competenceId });

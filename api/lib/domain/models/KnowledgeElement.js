@@ -8,7 +8,7 @@ const statuses = {
   RESET: 'reset',
 };
 
-// Everytime a user gives an answers, it gives an information about what he knows
+// Everytime a user answers a challenge, it gives an information about what he knows
 // at a given point in time about a specific skill. This is represented by a 'direct'
 // knowledge element. Depending on the success of the response, we can also infer more
 // knowledge elements about him regarding other skills: these knowledge elements are thereby 'inferred'.
