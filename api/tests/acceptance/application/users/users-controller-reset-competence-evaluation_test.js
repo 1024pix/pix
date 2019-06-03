@@ -1,4 +1,4 @@
-const { knex, databaseBuilder, expect, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { knex, databaseBuilder, expect, generateValidRequestAuhorizationHeader, sinon } = require('../../../test-helper');
 const _ = require('lodash');
 
 const createServer = require('../../../../server');
@@ -93,35 +93,40 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
 
       let response;
       const otherStartedCompetenceId = 'recBejNZgJke422G';
+      const createdAt = new Date('2019-01-01');
 
       beforeEach(async () => {
         options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
-
         databaseBuilder.factory.buildUser({ id: userId });
+
+        sinon.useFakeTimers({
+          now: new Date('2019-01-10'),
+          toFake: ['Date'],
+        });
 
         _.each([
           {
             assessment: { id: 1, userId, },
             competenceEvaluation: { id: 111, competenceId, userId, status: 'started' },
             knowledgeElements: [
-              { id: 1, skillId: 'web1', status: 'validated', source: 'direct', competenceId, earnedPix: 1, },
-              { id: 2, skillId: 'web2', status: 'invalidated', source: 'direct', competenceId, earnedPix: 2, },
-              { id: 3, skillId: 'web4', status: 'invalidated', source: 'inferred', competenceId, earnedPix: 4, },
-              { id: 4, skillId: 'url2', status: 'validated', source: 'direct', competenceId, earnedPix: 4, },
+              { id: 1, skillId: 'web1', status: 'validated', source: 'direct', competenceId, earnedPix: 1, createdAt, },
+              { id: 2, skillId: 'web2', status: 'invalidated', source: 'direct', competenceId, earnedPix: 2, createdAt, },
+              { id: 3, skillId: 'web4', status: 'invalidated', source: 'inferred', competenceId, earnedPix: 4, createdAt, },
+              { id: 4, skillId: 'url2', status: 'validated', source: 'direct', competenceId, earnedPix: 4, createdAt, },
             ]
           },
           {
             assessment: { id: 2, userId, },
             competenceEvaluation: { id: 222, competenceId: otherStartedCompetenceId, userId, status: 'started' },
             knowledgeElements: [
-              { id: 5, skillId: 'rechInfo3', status: 'validated', source: 'direct', competenceId: otherStartedCompetenceId, earnedPix: 3, },
+              { id: 5, skillId: 'rechInfo3', status: 'validated', source: 'direct', competenceId: otherStartedCompetenceId, earnedPix: 3, createdAt, },
             ]
           },
           {
             assessment: { id: 3, userId, },
             campaignParticipation: { id: 111 },
             knowledgeElements: [
-              { id: 6, skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, },
+              { id: 6, skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt, },
             ]
           }
         ], ({ assessment, competenceEvaluation, knowledgeElements, campaignParticipation }) => {
@@ -129,13 +134,6 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
           databaseBuilder.factory.buildCompetenceEvaluation({ ...competenceEvaluation, assessmentId, });
           databaseBuilder.factory.buildCampaignParticipation({ ...campaignParticipation, assessmentId, });
           _.each(knowledgeElements, (ke) => databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, assessmentId, }));
-        });
-
-        databaseBuilder.factory.buildKnowledgeElement({
-          id: 1,
-          userId,
-          competenceId,
-          createdAt: new Date('2018-02-15T15:15:52Z'),
         });
 
         await databaseBuilder.commit();
