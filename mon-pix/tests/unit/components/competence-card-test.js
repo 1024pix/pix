@@ -4,12 +4,12 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | competence-card-component', function() {
 
-  setupTest('component:competence-card', {});
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:competence-card');
   });
 
   describe('#displayedLevel', function() {

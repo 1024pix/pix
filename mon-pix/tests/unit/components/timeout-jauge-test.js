@@ -4,12 +4,12 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | timeout-jauge-component ', function() {
 
-  setupTest('component:timeout-jauge', {});
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:timeout-jauge');
   });
 
   describe('#Test rendering Property', function() {

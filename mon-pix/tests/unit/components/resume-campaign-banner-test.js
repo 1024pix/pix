@@ -5,7 +5,7 @@ import EmberObject from '@ember/object';
 
 describe('Unit | Component | resume-campaign-banner-component ', function() {
 
-  setupTest('component:resume-campaign-banner', {});
+  setupTest();
 
   let component;
 
@@ -45,7 +45,7 @@ describe('Unit | Component | resume-campaign-banner-component ', function() {
   });
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:resume-campaign-banner');
   });
 
   describe('#campaignToResumeOrShare', function() {

@@ -4,13 +4,13 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | feedback-panel', function() {
 
-  setupTest('component:feedback-panel', {});
+  setupTest();
 
   describe('#isFormClosed', function() {
 
     it('should return true by default', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:feedback-panel');
 
       // when
       const isFormClosed = component.get('isFormClosed');
@@ -21,7 +21,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return true if status equals "FORM_CLOSED"', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:feedback-panel');
       component.set('_status', 'FORM_CLOSED');
 
       // when
@@ -33,7 +33,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return false if status is not equal to "FORM_CLOSED"', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:feedback-panel');
       component.set('_status', 'FORM_OPENED');
 
       // when
@@ -48,7 +48,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return true if status equals "FORM_OPENED"', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:feedback-panel');
       component.set('_status', 'FORM_OPENED');
 
       // when
@@ -60,7 +60,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return false if status is not equal to "FORM_OPENED"', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:feedback-panel');
       component.set('_status', 'FORM_CLOSED');
 
       // when
@@ -76,7 +76,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return empty text, error and back to the default status', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:feedback-panel');
       component.set('collapsible', false);
       component.set('_content', 'un contenu');
       component.set('_error', 'une erreur');
@@ -96,7 +96,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should set status to CLOSED and set errors to null', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:feedback-panel');
       component.set('_error', 'une erreur');
       component.set('_status', 'FORM_OPENED');
 
@@ -113,7 +113,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return FORM_CLOSED if has property collapsible at "true"', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:feedback-panel');
       component.set('collapsible', true);
 
       // when
@@ -125,7 +125,7 @@ describe('Unit | Component | feedback-panel', function() {
 
     it('should return FORM_OPENED if has property collapsible at "false"', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:feedback-panel');
       component.set('collapsible', false);
 
       // when
