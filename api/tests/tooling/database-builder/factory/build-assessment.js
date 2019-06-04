@@ -10,7 +10,7 @@ module.exports = function buildAssessment({
   userId,
   type = Assessment.types.PLACEMENT,
   state = Assessment.states.COMPLETED,
-  competenceId = 'recsvLz0W2ShyfD63',
+  competenceId = null,
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
