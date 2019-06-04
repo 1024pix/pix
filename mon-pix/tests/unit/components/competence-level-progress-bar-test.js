@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | Competence-level-progress-bar ', function() {
 
-  setupTest('component:competence-level-progress-bar', {});
+  setupTest();
 
   describe('#Computed Properties behaviors: ', function() {
 
@@ -23,7 +23,7 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
         it(`should return ${expectedValue} when the level is ${level}`, function() {
           // given
-          const component = this.subject();
+          const component = this.owner.lookup('component:competence-level-progress-bar');
           const competence = { level };
 
           // when

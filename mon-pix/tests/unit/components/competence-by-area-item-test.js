@@ -5,14 +5,14 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | Competence area item Component', function() {
 
-  setupTest('component:competence-by-area-item', {});
+  setupTest();
 
   describe('#Computed Properties behaviors: ', function() {
 
     describe('#_competencesAreaName', function() {
       it('should return Area name related to competences without index number', function() {
         // given
-        const component = this.subject();
+        const component = this.owner.lookup('component:competence-by-area-item');
 
         // when
         component.set('competenceArea', {
@@ -27,7 +27,7 @@ describe('Unit | Component | Competence area item Component', function() {
 
       it('should return empty Area name related to competences when it does not exist', function() {
         // given
-        const component = this.subject();
+        const component = this.owner.lookup('component:competence-by-area-item');
 
         // when
         component.set('competenceArea', {});
@@ -42,7 +42,7 @@ describe('Unit | Component | Competence area item Component', function() {
 
       it('should display sorted competences', function() {
         // given
-        const component = this.subject();
+        const component = this.owner.lookup('component:competence-by-area-item');
 
         const competencesWithSameArea = [
           EmberObject.create({ id: 2, name: 'competence-name-2', index: '1.2', area: 'area-id-1', level: -1 }),

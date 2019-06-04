@@ -1,16 +1,19 @@
 import { run } from '@ember/runloop';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | Challenge', function() {
+  setupTest();
 
-  setupModelTest('challenge', {
-    needs: ['model:course']
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
+    const model = store.createRecord('challenge');
     expect(model).to.be.ok;
   });
 
@@ -19,7 +22,6 @@ describe('Unit | Model | Challenge', function() {
     it('Should be true when challenge has at least one attachment file', function() {
       run(() => {
         // given
-        const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
         // when
@@ -34,7 +36,6 @@ describe('Unit | Model | Challenge', function() {
     it('Should be false when challenge has multiple attachment files', function() {
       run(() => {
         // given
-        const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: [] });
 
         // when
@@ -52,7 +53,6 @@ describe('Unit | Model | Challenge', function() {
     it('Should be true when challenge has only one attachment file', function() {
       run(() => {
         // given
-        const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
         // when
@@ -67,7 +67,6 @@ describe('Unit | Model | Challenge', function() {
     it('Should be false when challenge has multiple attachment files', function() {
       run(() => {
         // given
-        const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
 
         // when
@@ -85,7 +84,6 @@ describe('Unit | Model | Challenge', function() {
     it('Should be false when challenge has no attachment file', function() {
       run(() => {
         // given
-        const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: [] });
 
         // when
@@ -100,7 +98,6 @@ describe('Unit | Model | Challenge', function() {
     it('Should be false when challenge has only one attachment file', function() {
       run(() => {
         // given
-        const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
 
         // when
@@ -115,7 +112,6 @@ describe('Unit | Model | Challenge', function() {
     it('Should be true when challenge has multiple attachments files', function() {
       run(() => {
         // given
-        const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
 
         // when
@@ -142,7 +138,7 @@ describe('Unit | Model | Challenge', function() {
 
     it('should be true when embed data (URL, title and height) are defined', function() {
       // given
-      const challenge = this.subject(embedOptions);
+      const challenge = store.createRecord('challenge', embedOptions);
 
       // when
       const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
@@ -154,7 +150,7 @@ describe('Unit | Model | Challenge', function() {
     it('should be false when embed URL is missing', function() {
       // given
       delete embedOptions.embedUrl;
-      const challenge = this.subject(embedOptions);
+      const challenge = store.createRecord('challenge', embedOptions);
 
       // when
       const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
@@ -166,7 +162,7 @@ describe('Unit | Model | Challenge', function() {
     it('should be false when embed URL is not secured (HTTPS)', function() {
       // given
       embedOptions.embedUrl = 'http://unsecured.url';
-      const challenge = this.subject(embedOptions);
+      const challenge = store.createRecord('challenge', embedOptions);
 
       // when
       const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
@@ -178,7 +174,7 @@ describe('Unit | Model | Challenge', function() {
     it('should be false when embed title is missing', function() {
       // given
       delete embedOptions.embedTitle;
-      const challenge = this.subject(embedOptions);
+      const challenge = store.createRecord('challenge', embedOptions);
 
       // when
       const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
@@ -190,7 +186,7 @@ describe('Unit | Model | Challenge', function() {
     it('should be false when embed height is missing', function() {
       // given
       delete embedOptions.embedHeight;
-      const challenge = this.subject(embedOptions);
+      const challenge = store.createRecord('challenge', embedOptions);
 
       // when
       const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');

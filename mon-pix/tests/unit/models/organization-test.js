@@ -1,14 +1,18 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | organization', function() {
-  setupModelTest('organization', {
-    needs: ['model:user', 'model:snapshot']
+  setupTest();
+
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
+    const model = store.createRecord('organization');
     expect(model).to.be.ok;
   });
 });

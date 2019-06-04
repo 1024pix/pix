@@ -1,17 +1,18 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | result competence tree', function() {
-  setupModelTest('result-competence-tree', {
-    // Specify the other units that are required for this test.
-    needs: []
+  setupTest();
+
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
-  // Replace this with your real tests.
   it('exists', function() {
-    const model = this.subject();
-    // var store = this.store();
+    const model = store.createRecord('result-competence-tree');
     expect(model).to.be.ok;
   });
 });

@@ -22,12 +22,12 @@ const answerWithNullResult = {
 
 describe('Unit | Component | result-item-campaign-component', function() {
 
-  setupTest('component:result-item-campaign', {});
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:result-item-campaign');
   });
 
   describe('#resultItem Computed property - undefined case', function() {

@@ -3,13 +3,10 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | error', function() {
-  setupTest('route:error', {
-    // Specify the other units that are required for this test.
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   it('exists', function() {
-    const route = this.subject();
+    const route = this.owner.lookup('route:error');
     expect(route).to.be.ok;
   });
 
@@ -17,7 +14,7 @@ describe('Unit | Route | error', function() {
     let route;
 
     beforeEach(function() {
-      route = this.subject();
+      route = this.owner.lookup('route:error');
     });
 
     it('finds an unauthorized code in the first error object', function() {

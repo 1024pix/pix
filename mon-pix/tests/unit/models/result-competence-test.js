@@ -1,15 +1,19 @@
 import { get } from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | result-competence model', function() {
-  setupModelTest('result-competence', {
-    needs: ['model:area']
+  setupTest();
+
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
+    const model = store.createRecord('result-competence');
     expect(model).to.be.ok;
   });
 
@@ -17,7 +21,7 @@ describe('Unit | Model | result-competence model', function() {
 
     it('should exist', function() {
       // given
-      const Competence = this.store().modelFor('result-competence');
+      const Competence = store.modelFor('result-competence');
 
       // when
       const relationship = get(Competence, 'relationshipsByName').get('area');

@@ -4,9 +4,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | Certification | Start', function() {
 
-  setupTest('route:certifications.start', {
-    needs: ['service:session', 'service:metrics'],
-  });
+  setupTest();
 
   let route;
 
@@ -14,7 +12,7 @@ describe('Unit | Route | Certification | Start', function() {
 
     it('should redirect to index if error is not 403', function() {
       // given
-      route = this.subject();
+      route = this.owner.lookup('route:certifications.start');
       route.transitionTo = sinon.stub();
       const error = { errors: [{ status: '404' }] };
 
@@ -28,7 +26,7 @@ describe('Unit | Route | Certification | Start', function() {
 
     it('should return the start-error page if error is 403', function() {
       // given
-      route = this.subject();
+      route = this.owner.lookup('route:certifications.start');
       route.render = sinon.stub();
       route.transitionTo = sinon.stub();
       const error = { errors: [{ status: '403' }] };
@@ -47,7 +45,7 @@ describe('Unit | Route | Certification | Start', function() {
 
     it('should replace current route with courses.create-assessment', function() {
       // given
-      route = this.subject();
+      route = this.owner.lookup('route:certifications.start');
       route.replaceWith = sinon.stub();
 
       // when

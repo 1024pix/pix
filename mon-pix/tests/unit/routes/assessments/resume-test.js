@@ -6,9 +6,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | Assessments | Resume', function() {
-  setupTest('route:assessments.resume', {
-    needs: ['service:metrics']
-  });
+  setupTest();
 
   let route;
   let StoreStub;
@@ -25,16 +23,14 @@ describe('Unit | Route | Assessments | Resume', function() {
     });
 
     // manage dependency injection context
-    this.register('service:store', StoreStub);
-    this.inject.service('store', { as: 'store' });
+    this.owner.register('service:store', StoreStub);
 
-    // instance route object
-    route = this.subject();
+    route = this.owner.lookup('route:assessments.resume');
     route.replaceWith = sinon.stub();
   });
 
   it('exists', function() {
-    const route = this.subject();
+    route = this.owner.lookup('route:assessments.resume');
     expect(route).to.be.ok;
   });
 

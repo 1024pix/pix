@@ -5,14 +5,12 @@ import sinon from 'sinon';
 
 describe('Unit | Controller | Campaigns | Skill Review', function() {
 
-  setupTest('controller:campaigns/skill-review', {
-    needs: ['service:metrics']
-  });
+  setupTest();
 
   let controller;
 
   beforeEach(function() {
-    controller = this.subject();
+    controller = this.owner.lookup('controller:campaigns/skill-review');
 
     const setStub = sinon.stub();
 

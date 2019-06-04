@@ -4,20 +4,19 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | Navbar Header Component', function() {
-  setupTest('component:navbar-header', {});
+  setupTest();
   const sessionStubResolve = Service.extend({ isAuthenticated: true });
   const sessionStubReject = Service.extend({ isAuthenticated: false });
 
   describe('When user is logged', function() {
     beforeEach(function() {
-      this.register('service:session', sessionStubResolve);
-      this.inject.service('session', { as: 'session' });
+      this.owner.register('service:session', sessionStubResolve);
     });
 
     describe('#isUserLogged', function() {
       it('should return true', function() {
         // when
-        const component = this.subject();
+        const component = this.owner.lookup('component:navbar-header');
 
         // then
         expect(component.get('isUserLogged')).to.equal(true);
@@ -30,7 +29,7 @@ describe('Unit | Component | Navbar Header Component', function() {
         const expectedLoggedUserMenu = [];
 
         // when
-        const component = this.subject();
+        const component = this.owner.lookup('component:navbar-header');
 
         // then
         expect(component.get('menu')).to.deep.equal(expectedLoggedUserMenu);
@@ -40,14 +39,13 @@ describe('Unit | Component | Navbar Header Component', function() {
 
   context('When user is not logged', function() {
     beforeEach(function() {
-      this.register('service:session', sessionStubReject);
-      this.inject.service('session', { as: 'session' });
+      this.owner.register('service:session', sessionStubReject);
     });
 
     context('#isUserLogged', function() {
       it('should return false, when user is unauthenticated', function() {
         // when
-        const component = this.subject();
+        const component = this.owner.lookup('component:navbar-header');
 
         // then
         expect(component.get('isUserLogged')).to.equal(false);
@@ -63,7 +61,7 @@ describe('Unit | Component | Navbar Header Component', function() {
         ];
 
         // when
-        const component = this.subject();
+        const component = this.owner.lookup('component:navbar-header');
 
         // then
         expect(component.get('menu')).to.deep.equal(expectedUnloggedUserMenu);

@@ -6,9 +6,7 @@ import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
 describe('Unit | Route | user certifications/index', function() {
-  setupTest('route:user-certifications/index', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   let route;
   const findAll = sinon.stub();
@@ -16,13 +14,12 @@ describe('Unit | Route | user certifications/index', function() {
 
   beforeEach(function() {
 
-    this.register('service:store', Service.extend({
+    this.owner.register('service:store', Service.extend({
       findAll: findAll,
       unloadAll: unloadAll
     }));
-    this.inject.service('store', { as: 'store' });
 
-    route = this.subject();
+    route = this.owner.lookup('route:user-certifications/index');
   });
 
   it('exists', function() {

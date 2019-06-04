@@ -30,12 +30,12 @@ const answerWithRandomResult = {
 
 describe('Unit | Component | result-item-component', function() {
 
-  setupTest('component:result-item', {});
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:result-item');
   });
 
   describe('#resultItem Computed property - undefined case', function() {

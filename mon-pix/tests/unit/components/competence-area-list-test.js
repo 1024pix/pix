@@ -4,14 +4,14 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | Competence area list Component', function() {
 
-  setupTest('component:competence-area-list', {});
+  setupTest();
 
   describe('Computed Properties behaviors: ', function() {
 
     describe('#_sanitizedCompetences', function() {
       it('should not return competences', function() {
         // given
-        const component = this.subject();
+        const component = this.owner.lookup('component:competence-area-list');
 
         // when
         component.set('competences', []);
@@ -22,7 +22,7 @@ describe('Unit | Component | Competence area list Component', function() {
 
       it('should return as many competences as provided', function() {
         // given
-        const component = this.subject();
+        const component = this.owner.lookup('component:competence-area-list');
 
         // when
         component.set('competences', [{
@@ -42,7 +42,7 @@ describe('Unit | Component | Competence area list Component', function() {
     describe('#_competencesGroupedByArea', function() {
       it('should return some competences grouped by areas', function() {
         // given
-        const component = this.subject();
+        const component = this.owner.lookup('component:competence-area-list');
         const expectedGroupedCompetences = [
           {
             property: 'areaName',
@@ -70,7 +70,7 @@ describe('Unit | Component | Competence area list Component', function() {
     describe('#_competencesByAreaSorted', function() {
       it('should return some competences grouped by areas and asc sorted', function() {
         // given
-        const component = this.subject();
+        const component = this.owner.lookup('component:competence-area-list');
         const expectedGroupedCompetences = [
           { property: 'areaName', value: '2. area-A', items: [{ id: 2, name: 'competence-2', areaName: '2. area-A' }] },
           { property: 'areaName', value: '4. area-B', items: [{ id: 4, name: 'competence-4', areaName: '4. area-B' }] },

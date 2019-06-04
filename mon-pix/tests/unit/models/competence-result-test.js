@@ -1,55 +1,58 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | Competence-Result', function() {
 
-  setupModelTest('competence-result', {
-    needs: ['model:campaign-participation-result']
+  setupTest();
+
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
-    expect(model).to.be.ok;
+    const competenceResult = store.createRecord('competence-result');
+
+    expect(competenceResult).to.be.ok;
   });
 
   describe('totalSkillsCountPercentage', function() {
 
     it('should retrieve 100 since the competence is the highest number of total skills count', function() {
-      const store = this.store();
-      const model = this.subject();
+      const competenceResult = store.createRecord('competence-result');
       const otherCompetenceResult = store.createRecord('competence-result', {
         totalSkillsCount: 1
       });
       const campaignParticipationResult = store.createRecord('campaign-participation-result', {
-        competenceResults: [otherCompetenceResult, model]
+        competenceResults: [otherCompetenceResult, competenceResult]
       });
 
-      model.set('totalSkillsCount', 2);
-      model.set('campaignParticipationResult', campaignParticipationResult);
+      competenceResult.set('totalSkillsCount', 2);
+      competenceResult.set('campaignParticipationResult', campaignParticipationResult);
 
       // when
-      const totalSkillsCountPercentage = model.get('totalSkillsCountPercentage');
+      const totalSkillsCountPercentage = competenceResult.get('totalSkillsCountPercentage');
 
       // then
       expect(totalSkillsCountPercentage).to.equal(100);
     });
 
     it('should retrieve 25 since the competence is not the highest number of total skills count', function() {
-      const store = this.store();
-      const model = this.subject();
+      const competenceResult = store.createRecord('competence-result');
       const otherCompetenceResult = store.createRecord('competence-result', {
         totalSkillsCount: 4
       });
       const campaignParticipationResult = store.createRecord('campaign-participation-result', {
-        competenceResults: [otherCompetenceResult, model]
+        competenceResults: [otherCompetenceResult, competenceResult]
       });
 
-      model.set('totalSkillsCount', 1);
-      model.set('campaignParticipationResult', campaignParticipationResult);
+      competenceResult.set('totalSkillsCount', 1);
+      competenceResult.set('campaignParticipationResult', campaignParticipationResult);
 
       // when
-      const totalSkillsCountPercentage = model.get('totalSkillsCountPercentage');
+      const totalSkillsCountPercentage = competenceResult.get('totalSkillsCountPercentage');
 
       // then
       expect(totalSkillsCountPercentage).to.equal(25);
@@ -59,26 +62,26 @@ describe('Unit | Model | Competence-Result', function() {
   describe('validatedSkillsPercentage', function() {
 
     it('should retrieve 100 since the user has validated all the competence', function() {
-      const model = this.subject();
+      const competenceResult = store.createRecord('competence-result');
 
-      model.set('totalSkillsCount', 2);
-      model.set('validatedSkillsCount', 2);
+      competenceResult.set('totalSkillsCount', 2);
+      competenceResult.set('validatedSkillsCount', 2);
 
       // when
-      const validatedSkillsPercentage = model.get('validatedSkillsPercentage');
+      const validatedSkillsPercentage = competenceResult.get('validatedSkillsPercentage');
 
       // then
       expect(validatedSkillsPercentage).to.equal(100);
     });
 
     it('should retrieve 25 since the user has validated half of the competence', function() {
-      const model = this.subject();
+      const competenceResult = store.createRecord('competence-result');
 
-      model.set('totalSkillsCount', 3);
-      model.set('validatedSkillsCount', 1);
+      competenceResult.set('totalSkillsCount', 3);
+      competenceResult.set('validatedSkillsCount', 1);
 
       // when
-      const validatedSkillsPercentage = model.get('validatedSkillsPercentage');
+      const validatedSkillsPercentage = competenceResult.get('validatedSkillsPercentage');
 
       // then
       expect(validatedSkillsPercentage).to.equal(33);
@@ -88,12 +91,12 @@ describe('Unit | Model | Competence-Result', function() {
   describe('areaColor', function() {
 
     it('should retrieve domain color style', function() {
-      const model = this.subject();
+      const competenceResult = store.createRecord('competence-result');
 
-      model.set('index', '5.1');
+      competenceResult.set('index', '5.1');
 
       // when
-      const areaColor = model.get('areaColor');
+      const areaColor = competenceResult.get('areaColor');
 
       // then
       expect(areaColor).to.equal('butterfly-bush');

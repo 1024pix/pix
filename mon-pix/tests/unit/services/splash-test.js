@@ -20,13 +20,13 @@ function hasSplash() {
 }
 
 describe('Unit | Service | splash', function() {
-  setupTest('service:splash');
+  setupTest();
 
   describe('#hide', function() {
     context('when a splash is present in the DOM', function() {
       it('removes the splash from the DOM', function() {
         // Given
-        const splash = this.subject();
+        const splash = this.owner.lookup('service:splash');
         createSplash();
         expect(hasSplash()).to.be.true;
         // When
@@ -39,7 +39,7 @@ describe('Unit | Service | splash', function() {
     context('when there is no splash', function() {
       it('does nothing', function() {
         // Given
-        const splash = this.subject();
+        const splash = this.owner.lookup('service:splash');
         expect(hasSplash()).to.be.false;
         // When
         splash.hide();
