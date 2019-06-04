@@ -11,12 +11,14 @@ import XLSX from 'xlsx';
 
 export default Controller.extend({
 
+  // DI
+  fileSaver: service('file-saver'),
+
   // Properties
   progress: false,
   progressMax: 0,
   progressValue: 0,
   notifications: service('notification-messages'),
-  fileSaver: service('file-saver'),
   displayConfirm: false,
   displaySessionReport: false,
   confirmMessage: null,

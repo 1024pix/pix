@@ -1,0 +1,24 @@
+.certification-list-page {
+
+  /* Ugly class! please, Future-Us, replace this awful component with the smarter "ember-file-upload"… */
+  #session-list__import-file {
+    display: none;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+  }
+
+  &__actions {
+
+  }
+
+  &__body {
+
+  }
+}

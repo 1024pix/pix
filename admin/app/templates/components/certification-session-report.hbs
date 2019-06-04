@@ -6,20 +6,21 @@
   {{#modal.body}}
     <div class="certification-session-report__body">
 
-      <section class="row data-section data-section--filled-candidates">
-        <div class="col-8">
-          <button class="data-section__switch" type="button" {{action "toggleCandidates"}}>Nombre de candidats trouvés
-          </button>
-        </div>
-        <div class="col-3">
-          <span class="data-section__counter">{{candidates.length}}</span>
-        </div>
-        <div class="col-1">
-          {{#if candidates.length}}
-            {{fa-icon "check" class="data-section__status--success"}}
-          {{else}}
-            {{fa-icon "times" class="data-section__status--failure"}}
-          {{/if}}
+      <section class="data-section data-section--filled-candidates">
+        <div class="row mb-2">
+          <div class="col-8">
+            <button class="data-section__switch" type="button" {{action "toggleCandidates"}}>Nombre de candidats trouvés</button>
+          </div>
+          <div class="col-3">
+            <span class="data-section__counter">{{candidates.length}}</span>
+          </div>
+          <div class="col-1">
+            {{#if candidates.length}}
+              {{fa-icon "check" class="data-section__status--success"}}
+            {{else}}
+              {{fa-icon "times" class="data-section__status--failure"}}
+            {{/if}}
+          </div>
         </div>
         {{#if (and candidates.length displayCandidates)}}
           <div class="row mb-4">
@@ -32,20 +33,21 @@
         {{/if}}
       </section>
 
-      <section class="row data-section data-section--unexpected-candidates">
-        <div class="col-8">
-          <button class="data-section__switch" type="button" {{action "toggleNotFromSession"}}>Candidats hors session
-          </button>
-        </div>
-        <div class="col-3">
-          <span class="data-section__counter">{{notFromSession.length}}</span>
-        </div>
-        <div class="col-1">
-          {{#if notFromSession.length}}
-            {{fa-icon "times" class="data-section__status--failure"}}
-          {{else}}
-            {{fa-icon "check" class="data-section__status--success"}}
-          {{/if}}
+      <section class="data-section data-section--unexpected-candidates">
+         <div class="row mb-2">
+          <div class="col-8">
+            <button class="data-section__switch" type="button" {{action "toggleNotFromSession"}}>Candidats hors session</button>
+          </div>
+          <div class="col-3">
+            <span class="data-section__counter">{{notFromSession.length}}</span>
+          </div>
+          <div class="col-1">
+            {{#if notFromSession.length}}
+              {{fa-icon "times" class="data-section__status--failure"}}
+            {{else}}
+              {{fa-icon "check" class="data-section__status--success"}}
+            {{/if}}
+          </div>
         </div>
         {{#if (and notFromSession.length displayNotFromSession)}}
           <div class="row mb-4">
@@ -58,19 +60,21 @@
         {{/if}}
       </section>
 
-      <section class="row data-section data-section--incomplete-candidates">
-        <div class="col-8">
-          <button class="data-section__switch" type="button" {{action "toggleIncomplete"}}>Candidats incomplets</button>
-        </div>
-        <div class="col-3">
-          <span class="data-section__counter">{{incomplete.length}}</span>
-        </div>
-        <div class="col-1">
-          {{#if incomplete.length}}
-            {{fa-icon "times" class="data-section__status--failure"}}
-          {{else}}
-            {{fa-icon "check" class="data-section__status--success"}}
-          {{/if}}
+      <section class="data-section data-section--incomplete-candidates">
+         <div class="row mb-2">
+          <div class="col-8">
+            <button class="data-section__switch" type="button" {{action "toggleIncomplete"}}>Candidats incomplets</button>
+          </div>
+          <div class="col-3">
+            <span class="data-section__counter">{{incomplete.length}}</span>
+          </div>
+          <div class="col-1">
+            {{#if incomplete.length}}
+              {{fa-icon "times" class="data-section__status--failure"}}
+            {{else}}
+              {{fa-icon "check" class="data-section__status--success"}}
+            {{/if}}
+          </div>
         </div>
         {{#if (and incomplete.length displayIncomplete)}}
           <div class="row mb-4">
@@ -83,19 +87,21 @@
         {{/if}}
       </section>
 
-      <section class="row data-section data-section--duplicate-candidates">
-        <div class="col-8">
-          <button class="data-section__switch" type="button" {{action "toggleDuplicates"}}>Nombre de doublons</button>
-        </div>
-        <div class="col-3">
-          <span class="data-section__counter">{{duplicates.length}}</span>
-        </div>
-        <div class="col-1">
-          {{#if duplicates.length}}
-            {{fa-icon "times" class="data-section__status--failure"}}
-          {{else}}
-            {{fa-icon "check" class="data-section__status--success"}}
-          {{/if}}
+      <section class="data-section data-section--duplicate-candidates">
+         <div class="row mb-2">
+          <div class="col-8">
+            <button class="data-section__switch" type="button" {{action "toggleDuplicates"}}>Nombre de doublons</button>
+          </div>
+          <div class="col-3">
+            <span class="data-section__counter">{{duplicates.length}}</span>
+          </div>
+          <div class="col-1">
+            {{#if duplicates.length}}
+              {{fa-icon "times" class="data-section__status--failure"}}
+            {{else}}
+              {{fa-icon "check" class="data-section__status--success"}}
+            {{/if}}
+          </div>
         </div>
         {{#if (and duplicates.length displayDuplicates)}}
           <div class="row mb-4">
@@ -108,21 +114,21 @@
         {{/if}}
       </section>
 
-      <section class="row data-section data-section--missing-candidates">
-        <div class="col-8">
-          <button class="data-section__switch" type="button" {{action "toggleWithoutCandidate"}}>Certifications sans
-            candidat
-          </button>
-        </div>
-        <div class="col-3">
-          <span class="data-section__counter">{{withoutCandidate.length}}</span>
-        </div>
-        <div class="col-1">
-          {{#if withoutCandidate.length}}
-            {{fa-icon "times" class="data-section__status--failure"}}
-          {{else}}
-            {{fa-icon "check" class="data-section__status--success"}}
-          {{/if}}
+      <section class="data-section data-section--missing-candidates">
+         <div class="row mb-2">
+          <div class="col-8">
+            <button class="data-section__switch" type="button" {{action "toggleWithoutCandidate"}}>Certifications sans candidat</button>
+          </div>
+          <div class="col-3">
+            <span class="data-section__counter">{{withoutCandidate.length}}</span>
+          </div>
+          <div class="col-1">
+            {{#if withoutCandidate.length}}
+              {{fa-icon "times" class="data-section__status--failure"}}
+            {{else}}
+              {{fa-icon "check" class="data-section__status--success"}}
+            {{/if}}
+          </div>
         </div>
         {{#if (and withoutCandidate.length displayWithoutCandidate)}}
           <div class="row mb-4">
@@ -135,21 +141,21 @@
         {{/if}}
       </section>
 
-      <section class="row data-section data-section--missing-end-screen">
-        <div class="col-8">
-          <button class="data-section__switch" type="button" {{action "toggleMissingEndScreen"}}>Écrans de fin non
-            renseignés
-          </button>
-        </div>
-        <div class="col-3">
-          <span class="data-section__counter">{{missingEndScreen.length}}</span>
-        </div>
-        <div class="col-1">
-          {{#if missingEndScreen.length}}
-            {{fa-icon "times" class="data-section__status--failure"}}
-          {{else}}
-            {{fa-icon "check" class="data-section__status--success"}}
-          {{/if}}
+      <section class="data-section data-section--missing-end-screen">
+         <div class="row mb-2">
+          <div class="col-8">
+            <button class="data-section__switch" type="button" {{action "toggleMissingEndScreen"}}>Écrans de fin non renseignés</button>
+          </div>
+          <div class="col-3">
+            <span class="data-section__counter">{{missingEndScreen.length}}</span>
+          </div>
+          <div class="col-1">
+            {{#if missingEndScreen.length}}
+              {{fa-icon "times" class="data-section__status--failure"}}
+            {{else}}
+              {{fa-icon "check" class="data-section__status--success"}}
+            {{/if}}
+          </div>
         </div>
         {{#if (and missingEndScreen.length displayMissingEndScreen)}}
           <div class="row mb-4">
@@ -162,19 +168,21 @@
         {{/if}}
       </section>
 
-      <section class="row data-section data-section--comments">
-        <div class="col-8">
-          <button class="data-section__switch" type="button" {{action "toggleComments"}}>Commentaires</button>
-        </div>
-        <div class="col-3">
-          <span class="data-section__counter">{{comments.length}}</span>
-        </div>
-        <div class="col-1">
-          {{#if comments.length}}
-            {{fa-icon "exclamation-triangle" class="data-section__status--warning"}}
-          {{else}}
-            {{fa-icon "check" class="data-section__status--success"}}
-          {{/if}}
+      <section class="data-section data-section--comments">
+         <div class="row mb-2">
+          <div class="col-8">
+            <button class="data-section__switch" type="button" {{action "toggleComments"}}>Commentaires</button>
+          </div>
+          <div class="col-3">
+            <span class="data-section__counter">{{comments.length}}</span>
+          </div>
+          <div class="col-1">
+            {{#if comments.length}}
+              {{fa-icon "exclamation-triangle" class="data-section__status--warning"}}
+            {{else}}
+              {{fa-icon "check" class="data-section__status--success"}}
+            {{/if}}
+          </div>
         </div>
         {{#if (and comments.length displayComments)}}
           <div class="row mb-4">

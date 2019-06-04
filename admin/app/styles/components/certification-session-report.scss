@@ -1,10 +1,11 @@
-.certification-session-report {
+.certification-session-report__body {
 
   .data-section {
     margin-bottom: 20px;
 
     &__switch {
       border: none;
+      background: none;
 
       &:hover,
       &:focus,
@@ -13,10 +14,15 @@
       }
     }
 
+    &__certification-ids {
+
+    }
+
     &__certification-id {
       border-radius: 20px;
       background-color: #F1F1F1;
-      padding: 0 10px;
+      padding: 4px 10px;
+      line-height: 2rem;
     }
 
     &__status {
