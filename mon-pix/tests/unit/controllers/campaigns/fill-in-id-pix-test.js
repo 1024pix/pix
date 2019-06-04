@@ -5,9 +5,7 @@ import sinon from 'sinon';
 
 describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', function() {
 
-  setupTest('controller:campaigns/fill-in-id-pix', {
-    needs: ['service:metrics']
-  });
+  setupTest();
 
   const campaign = { id: 1243 };
   const campaignCode = 'CODECAMPAIGN';
@@ -15,7 +13,7 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
   let controller;
 
   beforeEach(function() {
-    controller = this.subject();
+    controller = this.owner.lookup('controller:campaigns/fill-in-id-pix');
     controller.set('model', {
       campaign,
       campaignCode,

@@ -4,12 +4,12 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | warning-page-component ', function() {
 
-  setupTest('component:warning-page', {});
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:warning-page');
   });
 
   describe('#Test rendering Property', function() {

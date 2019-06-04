@@ -5,12 +5,12 @@ import sinon from 'sinon';
 
 describe('Unit | Component | certification-code-value', function() {
 
-  setupTest('component:certification-code-validation', {});
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:certification-code-validation');
   });
 
   describe('#submit', function() {

@@ -1,22 +1,24 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | Campaign-Participation-Result', function() {
+  setupTest();
 
-  setupModelTest('campaign-participation-result', {
-    needs: ['model:competence-result']
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
+    const model = store.createRecord('campaign-participation-result');
     expect(model).to.be.ok;
   });
 
   describe('maxTotalSkillsCountInCompetences', function() {
 
     it('should calculate max total skills', function() {
-      const store = this.store();
       const competenceResult1 = store.createRecord('competence-result', {
         totalSkillsCount: 2
       });
@@ -27,7 +29,7 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
         totalSkillsCount: 10
       });
 
-      const model = this.subject();
+      const model = store.createRecord('campaign-participation-result');
       model.set('competenceResults', [competenceResult1, competenceResult2, competenceResult3]);
 
       // when
@@ -41,7 +43,7 @@ describe('Unit | Model | Campaign-Participation-Result', function() {
   describe('masteryPercentage', function() {
 
     it('should calculate total validated skills percentage', function() {
-      const model = this.subject();
+      const model = store.createRecord('campaign-participation-result');
       model.set('totalSkillsCount', 45);
       model.set('validatedSkillsCount', 40);
 

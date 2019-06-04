@@ -9,7 +9,7 @@ const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comport
 
 describe('Unit | Component | signupTextfieldComponent', function() {
 
-  setupTest('component:form-textfield', {});
+  setupTest();
 
   describe('Component should renders :', function() {
 
@@ -21,7 +21,8 @@ describe('Unit | Component | signupTextfieldComponent', function() {
     ].forEach(({ renderingIntent, inputId }) => {
       it(`an ${renderingIntent} when input id is ${inputId}`, function() {
         // given
-        const component = this.subject();
+        const component = this.owner.lookup('component:form-textfield');
+
         // when
         component.set('textfieldName', inputId);
         const inputType = component.get('textfieldType');
@@ -43,7 +44,7 @@ describe('Unit | Component | signupTextfieldComponent', function() {
     ].forEach(({ property, expectedValue }) => {
       it(`${property} should return ${expectedValue} `, function() {
         // Given
-        const component = this.subject();
+        const component = this.owner.lookup('component:form-textfield');
         // When
         component.set('validationStatus', 'default');
         component.set('validationMessage', '');
@@ -65,7 +66,7 @@ describe('Unit | Component | signupTextfieldComponent', function() {
 
         it(`gets ${message} when ${errorType}`, function(done) {
           // Given
-          const component = this.subject();
+          const component = this.owner.lookup('component:form-textfield');
           // When
           component.set('validationStatus', 'default');
           component.set('validationMessage', message);
@@ -92,7 +93,7 @@ describe('Unit | Component | signupTextfieldComponent', function() {
     ].forEach(({ property, expectedValue }) => {
       it(`${property} should return ${expectedValue} `, function() {
         // Given
-        const component = this.subject();
+        const component = this.owner.lookup('component:form-textfield');
         // When
         component.set('validationStatus', 'error');
         const propertyValue = component.get(property);
@@ -113,7 +114,7 @@ describe('Unit | Component | signupTextfieldComponent', function() {
 
         it(`gets ${message} when ${errorType}`, function() {
           // Given
-          const component = this.subject();
+          const component = this.owner.lookup('component:form-textfield');
           // When
           component.set('validationStatus', 'error');
           component.set('validationMessage', message);
@@ -139,7 +140,7 @@ describe('Unit | Component | signupTextfieldComponent', function() {
     ].forEach(({ property, expectedValue }) => {
       it(`${property} should return ${expectedValue} `, function() {
         // Given
-        const component = this.subject();
+        const component = this.owner.lookup('component:form-textfield');
         // When
         component.set('validationStatus', 'success');
         const propertyValue = component.get(property);
@@ -160,7 +161,7 @@ describe('Unit | Component | signupTextfieldComponent', function() {
 
         it(`gets ${message} when ${errorType}`, function() {
           // Given
-          const component = this.subject();
+          const component = this.owner.lookup('component:form-textfield');
           // When
           component.set('validationStatus', 'error');
           component.set('validationMessage', message);

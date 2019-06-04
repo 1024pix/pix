@@ -6,7 +6,7 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | password-reset-demand-form', function() {
 
-  setupTest('component:password-reset-demand-form', {});
+  setupTest();
 
   let component;
   const sentEmail = 'dumb@people.com';
@@ -21,12 +21,11 @@ describe('Unit | Component | password-reset-demand-form', function() {
         save: saveStub
       });
 
-      this.register('service:store', Service.extend({
+      this.owner.register('service:store', Service.extend({
         createRecord: createRecordStub
       }));
-      this.inject.service('store', { as: 'store' });
 
-      component = this.subject();
+      component = this.owner.lookup('component:password-reset-demand-form');
       component.set('email', sentEmail);
     });
 

@@ -6,16 +6,12 @@ import sinon from 'sinon';
 
 describe('Unit | Route | Competences | Results', function() {
 
-  setupTest('route:competences.results', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   beforeEach(function() {
-    this.register('service:session', Service.extend({
+    this.owner.register('service:session', Service.extend({
       isAuthenticated: true,
     }));
-
-    this.inject.service('session', { as: 'session' });
   });
 
   describe('model', function() {
@@ -32,10 +28,9 @@ describe('Unit | Route | Competences | Results', function() {
         query: queryStub
       });
 
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
+      this.owner.register('service:store', storeStub);
 
-      route = this.subject();
+      route = this.owner.lookup('route:competences.results');
       route.transitionTo = sinon.stub();
     });
 

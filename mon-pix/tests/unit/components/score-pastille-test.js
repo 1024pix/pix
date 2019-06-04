@@ -4,12 +4,12 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | score-pastille-component ', function() {
 
-  setupTest('component:score-pastille', {});
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:score-pastille');
   });
 
   describe('#Test computed Property', function() {

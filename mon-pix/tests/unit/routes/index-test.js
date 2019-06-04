@@ -5,31 +5,27 @@ import Service from '@ember/service';
 
 describe('Unit | Route | index', function() {
 
-  setupTest('route:index', {
-    needs: ['service:metrics', 'service:currentUser', 'service:session']
-  });
+  setupTest();
 
   describe('model', function() {
 
     beforeEach(function() {
-      this.register('service:session', Service.extend({
+      this.owner.register('service:session', Service.extend({
         isAuthenticated: true,
       }));
-      this.inject.service('session');
     });
 
     context('when user uses ProfileV2', function() {
 
       beforeEach(function() {
-        this.register('service:currentUser', Service.extend({
+        this.owner.register('service:currentUser', Service.extend({
           user: { usesProfileV2: true }
         }));
-        this.inject.service('currentUser');
       });
 
       it('should redirect to /profilv2', async function() {
         // Given
-        const route = this.subject();
+        const route = this.owner.lookup('route:index');
         route.transitionTo = sinon.spy();
 
         // When
@@ -44,7 +40,7 @@ describe('Unit | Route | index', function() {
 
       it('should redirect to /compte', async function() {
         // Given
-        const route = this.subject();
+        const route = this.owner.lookup('route:index');
         route.transitionTo = sinon.spy();
 
         // When

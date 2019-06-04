@@ -12,14 +12,13 @@ const SplashServiceStub = EmberObject.extend({
 
 describe('Unit | Route | application splash', function() {
 
-  setupTest('route:application', {
-    needs: ['service:splash', 'service:currentUser', 'service:metrics', 'service:session']
-  });
+  setupTest();
 
   it('hides the splash when the route is activated', function() {
     // Given
     const splashStub = SplashServiceStub.create();
-    const route = this.subject({ splash: splashStub });
+    const route = this.owner.lookup('route:application');
+    route.set('splash', splashStub);
 
     // When
     route.activate();
@@ -36,7 +35,8 @@ describe('Unit | Route | application splash', function() {
         this.called = true;
       }
     };
-    const route = this.subject({ currentUser: currentUserStub });
+    const route = this.owner.lookup('route:application');
+    route.set('currentUser', currentUserStub);
 
     // when
     route.sessionAuthenticated();

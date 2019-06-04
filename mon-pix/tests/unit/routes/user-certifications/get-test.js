@@ -5,11 +5,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe ('Unit | Route | user certifications/get', function() {
+describe('Unit | Route | user certifications/get', function() {
 
-  setupTest('route:user-certifications/get', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   let route;
   let StoreStub;
@@ -24,16 +22,14 @@ describe ('Unit | Route | user certifications/get', function() {
     });
 
     // manage dependency injection context
-    this.register('service:store', StoreStub);
-    this.inject.service('store', { as: 'store' });
+    this.owner.register('service:store', StoreStub);
 
-    // instance route object
-    route = this.subject();
+    route = this.owner.lookup('route:user-certifications/get');
     route.replaceWith = sinon.stub().resolves();
   });
 
   it('exists', function() {
-    const route = this.subject();
+    route = this.owner.lookup('route:user-certifications/get');
     expect(route).to.be.ok;
   });
 

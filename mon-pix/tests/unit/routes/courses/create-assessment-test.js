@@ -5,9 +5,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | Courses | Create Assessment', function() {
-  setupTest('route:courses.create-assessment', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   let route;
   let queryRecordStub;
@@ -36,9 +34,9 @@ describe('Unit | Route | Courses | Create Assessment', function() {
 
     storeStub = Service.extend({
       queryRecord: queryRecordStub, query: queryStub, createRecord: createRecordStub });
-    this.register('service:store', storeStub);
-    this.inject.service('store', { as: 'store' });
-    route = this.subject();
+    this.owner.register('service:store', storeStub);
+    route = this.owner.lookup('route:courses.create-assessment');
+
     route.replaceWith = sinon.stub();
   });
 

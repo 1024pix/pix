@@ -4,12 +4,10 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Adapters | correction', function() {
 
-  setupTest('adapter:correction', {
-    needs: ['service:session']
-  });
+  setupTest();
 
   it('exists', function() {
-    const adapter = this.subject();
+    const adapter = this.owner.lookup('adapter:correction');
     expect(adapter).to.be.ok;
   });
 
