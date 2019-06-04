@@ -39,6 +39,7 @@ function _selectProfileToCertify(userCompetencesProfilV1, userCompetencesProfilV
 async function _startNewCertification({
   userId,
   sessionId,
+  isCertificationV2Active,
   userService,
   certificationChallengesService,
   certificationCourseRepository
@@ -46,7 +47,14 @@ async function _startNewCertification({
   const newCertificationCourse = new CertificationCourse({ userId, sessionId });
 
   const userCompetencesProfileV1 = await userService.getProfileToCertifyV1(userId, new Date());
-  const userCompetencesProfileV2 = await userService.getProfileToCertifyV2(userId, new Date());
+
+  let userCompetencesProfileV2;
+  if (isCertificationV2Active) {
+    userCompetencesProfileV2 = await userService.getProfileToCertifyV2(userId, new Date());
+  }
+  else {
+    userCompetencesProfileV2 = [];
+  }
 
   const userCompetencesToCertify = _selectProfileToCertify(userCompetencesProfileV1, userCompetencesProfileV2);
 
@@ -57,6 +65,7 @@ async function _startNewCertification({
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   accessCode,
   userId,
+  settings,
   sessionService,
   userService,
   certificationChallengesService,
@@ -68,9 +77,11 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   if (_.size(certificationCourses) > 0) {
     return { created: false, certificationCourse: certificationCourses[0] };
   } else {
+    const isCertificationV2Active = settings.features.isCertificationV2Active;
     const certificationCourse = await _startNewCertification({
       userId,
       sessionId,
+      isCertificationV2Active,
       userService,
       certificationChallengesService,
       certificationCourseRepository

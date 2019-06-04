@@ -76,8 +76,11 @@ module.exports = (function() {
 
     system: {
       samplingHeapProfilerEnabled: (process.env.SYSTEM_SAMPLING_HEAP_PROFILER_ENABLED === 'true'),
-    }
+    },
 
+    features: {
+      isCertificationV2Active: process.env.FT_USE_ONLY_V1_CERTIFICATION !== 'true'
+    }
   };
 
   if (process.env.NODE_ENV === 'test') {
