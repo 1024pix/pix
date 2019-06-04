@@ -3,7 +3,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     border-radius: 6.75px;
     font-family: $font-roboto;
     background-color: $alabaster-grey;
@@ -19,8 +18,13 @@
     padding: 14px 14px 0 14px;
   }
 
-  &__button {
-    margin-top: 20px;
+  &__resume-or-start-button {
+    margin-top: 30px;
+  }
+
+  &__reset-button {
+    color: $dusty-grey;
+    margin-top: 50px;
   }
 
   &__reset-modal {
@@ -52,13 +56,15 @@
 
 .scorecard-details-content {
   &__left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     flex-grow: 1;
     padding: 0 30px 30px 30px;
     max-width: 100%;
 
     @include device-is('desktop') {
       padding: 0 30px;
-      border-bottom: none;
       border-right: 2px dashed $silver-grey;
     }
   }
@@ -69,6 +75,7 @@
     justify-content: center;
     align-items: center;
     padding: 0 30px;
+    white-space: nowrap;
   }
 }
 
@@ -123,6 +130,13 @@
     letter-spacing: 0.03rem;
     white-space: nowrap;
   }
+
+  &__reset-message {
+    padding-top: 50px;
+    color: $dusty-grey;
+    font-family: $font-roboto;
+    font-size: 1.3rem;
+  }
 }
 
 .scorecard-details-content-right-score-container {
@@ -139,5 +153,27 @@
 .scorecard-details-header-return-button {
   &__icon {
     margin-right: 8px;
+  }
+}
+
+.scorecard-details-reset-modal {
+  &__important-message {
+    padding: 20px 0;
+    color: $black;
+    font-family: $font-roboto;
+    font-weight: $font-medium;
+    font-size: 2.2rem;
+
+    @include device-is('desktop') {
+      padding: 50px 0 20px 0;
+    }
+  }
+
+  &__warning {
+    padding-bottom: 10px;
+    color: $grayish-grey;
+    font-family: $font-roboto;
+    font-weight: $font-light;
+    font-size: 1.6rem;
   }
 }
