@@ -13,7 +13,7 @@
     {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onExport")}}
       Exporter données (csv)
     {{/bs-button}}
-    {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onImport" true)}}
+    {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onImport")}}
       Importer données (csv)
     {{/bs-button}}
     {{#file-upload name="certification-session-report" onfileadd=(action "displayCertificationSessionReport")}}

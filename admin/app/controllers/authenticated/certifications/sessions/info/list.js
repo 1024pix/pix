@@ -23,7 +23,6 @@ export default Controller.extend({
   confirmAction: 'onPublishSelected',
   showSelectedActions: false,
   selectedCertifications: null,
-  csvImport:false,
 
   init() {
     this._super();
@@ -70,14 +69,14 @@ export default Controller.extend({
       pixScore: 'Nombre de Pix',
       sessionId: 'Session',
       certificationCenter: 'Centre de certification',
-      creationDate:'Date de passage de la certification'
+      creationDate: 'Date de passage de la certification'
     };
 
     this._csvHeaders = Object.values(this._fields).concat(this._competences);
 
     this._juryCsvHeaders = Object.values(this._juryFields).concat(this._competences);
 
-    this._resultCsvHeaders = Object.values(this._resultFields).slice(0,-3).concat(this._competences).concat(Object.values(this._resultFields).slice(-3));
+    this._resultCsvHeaders = Object.values(this._resultFields).slice(0, -3).concat(this._competences).concat(Object.values(this._resultFields).slice(-3));
 
     this._csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
 
@@ -101,8 +100,7 @@ export default Controller.extend({
           this.fileSaver.saveAs(csv + '\n', fileName);
         });
     },
-    onImport(csvImport) {
-      this.set('csvImport', csvImport);
+    onImport() {
       const fileInput = document.getElementById('session-list__import-file');
       fileInput.click();
     },
@@ -111,19 +109,10 @@ export default Controller.extend({
         const file = evt.target.files[0];
         const reader = new FileReader();
         const that = this;
-        const csvImport = this.get('csvImport');
         reader.onload = function(event) {
-          if (csvImport) {
-            return that._importCSVData(event.target.result);
-          } else {
-            return that._importODSReport(event.target.result);
-          }
+          return that._importCSVData(event.target.result);
         };
-        if (csvImport) {
-          reader.readAsText(file);
-        } else {
-          reader.readAsArrayBuffer(file);
-        }
+        reader.readAsText(file);
       } catch (error) {
         this.set('progress', false);
         this.notifications.error(error);
@@ -231,7 +220,7 @@ export default Controller.extend({
                 certification[competence] = '-';
               }
             });
-            certification[dateFieldName] = certification[dateFieldName].substring(0,10);
+            certification[dateFieldName] = certification[dateFieldName].substring(0, 10);
             certification[centerFieldName] = centerName;
           });
           const csv = json2csv.parse(json, {
@@ -247,7 +236,7 @@ export default Controller.extend({
     async displayCertificationSessionReport(file) {
       const arrayBuffer = await file.readAsArrayBuffer();
       const data = new Uint8Array(arrayBuffer);
-      const workbook = XLSX.read(data, { type: 'array', cellDates:true });
+      const workbook = XLSX.read(data, { type: 'array', cellDates: true });
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
       const headerRowsNumber = 8;
@@ -265,7 +254,7 @@ export default Controller.extend({
         'lastScreen',
         'comments'
       ];
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, { range:headerRowsNumber, header });
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { range: headerRowsNumber, header });
 
       const lastRowIndex = jsonData.findIndex((row) => !row.lastName);
       const importedCandidates = jsonData.slice(0, lastRowIndex);
