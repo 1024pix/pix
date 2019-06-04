@@ -1,190 +1,197 @@
- {{#bs-modal onHide=(action hide) open=show size="lg" as |modal|}}
-    {{#modal.header}}
-      <h4 class="modal-title">Analyse du PV de session</h4>
-    {{/modal.header}}
+{{#bs-modal onHide=(action hide) open=show size="lg" as |modal|}}
+  {{#modal.header}}
+    <h4 class="modal-title">Analyse du PV de session</h4>
+  {{/modal.header}}
 
-    {{#modal.body}}
-    <div class="session-report">
-      <section class="row certification-session-report__section">
+  {{#modal.body}}
+    <div class="certification-session-report__body">
+
+      <section class="row data-section data-section--filled-candidates">
         <div class="col-8">
-          <button class="certification-session-report__section-switch" type="button" {{action "toggleCandidates"}}>Nombre de candidats trouvés</button>
+          <button class="data-section__switch" type="button" {{action "toggleCandidates"}}>Nombre de candidats trouvés
+          </button>
         </div>
         <div class="col-3">
-          <span>{{candidates.length}}</span>
+          <span class="data-section__counter">{{candidates.length}}</span>
         </div>
         <div class="col-1">
           {{#if candidates.length}}
-            {{fa-icon "check" class="certification-session-report__status-icon--success"}}
+            {{fa-icon "check" class="data-section__status--success"}}
           {{else}}
-            {{fa-icon "times" class="certification-session-report__status-icon--failure"}}
+            {{fa-icon "times" class="data-section__status--failure"}}
           {{/if}}
         </div>
-      </section>
-      {{#if (and candidates.length displayCandidates)}}
-      <div class="row mb-4">
-          <div class="col-12">
-            {{#each candidates as |candidate|}}
-              <span class="certification-session-report__certification-id">{{candidate.certificationId}}</span>
-            {{/each}}
+        {{#if (and candidates.length displayCandidates)}}
+          <div class="row mb-4">
+            <div class="col-12 data-section__certification-ids">
+              {{#each candidates as |candidate|}}
+                <span class="data-section__certification-id">{{candidate.certificationId}}</span>
+              {{/each}}
+            </div>
           </div>
-      </div>
-      {{/if}}
+        {{/if}}
+      </section>
 
-      <section class="row certification-session-report__section">
+      <section class="row data-section data-section--unexpected-candidates">
         <div class="col-8">
-          <button class="certification-session-report__section-switch" type="button" {{action "toggleNotFromSession"}}>Candidats hors session</button>
+          <button class="data-section__switch" type="button" {{action "toggleNotFromSession"}}>Candidats hors session
+          </button>
         </div>
         <div class="col-3">
-          <span>{{notFromSession.length}}</span>
+          <span class="data-section__counter">{{notFromSession.length}}</span>
         </div>
         <div class="col-1">
           {{#if notFromSession.length}}
-            {{fa-icon "times" class="certification-session-report__status-icon--failure"}}
+            {{fa-icon "times" class="data-section__status--failure"}}
           {{else}}
-            {{fa-icon "check" class="certification-session-report__status-icon--success"}}
+            {{fa-icon "check" class="data-section__status--success"}}
           {{/if}}
         </div>
-      </section>
-      {{#if (and notFromSession.length displayNotFromSession)}}
-      <div class="row mb-4">
-          <div class="col-12">
-            {{#each notFromSession as |item|}}
-              <span class="certification-session-report__certification-id">{{item.certificationId}}</span>
-            {{/each}}
+        {{#if (and notFromSession.length displayNotFromSession)}}
+          <div class="row mb-4">
+            <div class="col-12 data-section__certification-ids">
+              {{#each notFromSession as |item|}}
+                <span class="data-section__certification-id">{{item.certificationId}}</span>
+              {{/each}}
+            </div>
           </div>
-      </div>
-      {{/if}}
+        {{/if}}
+      </section>
 
-      <section class="row certification-session-report__section">
+      <section class="row data-section data-section--incomplete-candidates">
         <div class="col-8">
-          <button class="certification-session-report__section-switch" type="button" {{action "toggleIncomplete"}}>Candidats incomplets</button>
+          <button class="data-section__switch" type="button" {{action "toggleIncomplete"}}>Candidats incomplets</button>
         </div>
         <div class="col-3">
-          <span>{{incomplete.length}}</span>
+          <span class="data-section__counter">{{incomplete.length}}</span>
         </div>
         <div class="col-1">
           {{#if incomplete.length}}
-            {{fa-icon "times" class="certification-session-report__status-icon--failure"}}
+            {{fa-icon "times" class="data-section__status--failure"}}
           {{else}}
-            {{fa-icon "check" class="certification-session-report__status-icon--success"}}
+            {{fa-icon "check" class="data-section__status--success"}}
           {{/if}}
         </div>
-      </section>
-      {{#if (and incomplete.length displayIncomplete)}}
-      <div class="row mb-4">
-          <div class="col-12">
-            {{#each incomplete as |item|}}
-              <span class="certification-session-report__certification-id">{{item.certificationId}}</span>
-            {{/each}}
+        {{#if (and incomplete.length displayIncomplete)}}
+          <div class="row mb-4">
+            <div class="col-12 data-section__certification-ids">
+              {{#each incomplete as |item|}}
+                <span class="data-section__certification-id">{{item.certificationId}}</span>
+              {{/each}}
+            </div>
           </div>
-      </div>
-      {{/if}}
+        {{/if}}
+      </section>
 
-      <section class="row certification-session-report__section">
+      <section class="row data-section data-section--duplicate-candidates">
         <div class="col-8">
-          <button class="certification-session-report__section-switch" type="button" {{action "toggleDuplicates"}}>Nombre de doublons</button>
+          <button class="data-section__switch" type="button" {{action "toggleDuplicates"}}>Nombre de doublons</button>
         </div>
         <div class="col-3">
-          <span>{{duplicates.length}}</span>
+          <span class="data-section__counter">{{duplicates.length}}</span>
         </div>
         <div class="col-1">
           {{#if duplicates.length}}
-            {{fa-icon "times" class="certification-session-report__status-icon--failure"}}
+            {{fa-icon "times" class="data-section__status--failure"}}
           {{else}}
-            {{fa-icon "check" class="certification-session-report__status-icon--success"}}
+            {{fa-icon "check" class="data-section__status--success"}}
           {{/if}}
         </div>
-      </section>
-      {{#if (and duplicates.length displayDuplicates)}}
-      <div class="row mb-4">
-          <div class="col-12">
-            {{#each duplicates as |duplicate|}}
-              <span class="certification-session-report__certification-id">{{duplicate}}</span>
-            {{/each}}
+        {{#if (and duplicates.length displayDuplicates)}}
+          <div class="row mb-4">
+            <div class="col-12 data-section__certification-ids">
+              {{#each duplicates as |duplicate|}}
+                <span class="data-section__certification-id">{{duplicate}}</span>
+              {{/each}}
+            </div>
           </div>
-      </div>
-      {{/if}}
+        {{/if}}
+      </section>
 
-      <section class="row certification-session-report__section">
+      <section class="row data-section data-section--missing-candidates">
         <div class="col-8">
-          <button class="certification-session-report__section-switch" type="button" {{action "toggleWithoutCandidate"}}>Certifications sans candidat</button>
+          <button class="data-section__switch" type="button" {{action "toggleWithoutCandidate"}}>Certifications sans
+            candidat
+          </button>
         </div>
         <div class="col-3">
-          <span>{{withoutCandidate.length}}</span>
+          <span class="data-section__counter">{{withoutCandidate.length}}</span>
         </div>
         <div class="col-1">
           {{#if withoutCandidate.length}}
-            {{fa-icon "times" class="certification-session-report__status-icon--failure"}}
+            {{fa-icon "times" class="data-section__status--failure"}}
           {{else}}
-            {{fa-icon "check" class="certification-session-report__status-icon--success"}}
+            {{fa-icon "check" class="data-section__status--success"}}
           {{/if}}
         </div>
-      </section>
-      {{#if (and withoutCandidate.length displayWithoutCandidate)}}
-      <div class="row mb-4">
-          <div class="col-12">
-            {{#each withoutCandidate as |item|}}
-              <span class="certification-session-report__certification-id">{{item.id}}</span>
-            {{/each}}
+        {{#if (and withoutCandidate.length displayWithoutCandidate)}}
+          <div class="row mb-4">
+            <div class="col-12 data-section__certification-ids">
+              {{#each withoutCandidate as |item|}}
+                <span class="data-section__certification-id">{{item.id}}</span>
+              {{/each}}
+            </div>
           </div>
-      </div>
-      {{/if}}
+        {{/if}}
+      </section>
 
-      <section class="row certification-session-report__section">
+      <section class="row data-section data-section--missing-end-screen">
         <div class="col-8">
-          <button class="certification-session-report__section-switch" type="button" {{action "toggleMissingEndScreen"}}>Écrans de fin non renseignés</button>
+          <button class="data-section__switch" type="button" {{action "toggleMissingEndScreen"}}>Écrans de fin non
+            renseignés
+          </button>
         </div>
         <div class="col-3">
-          <span>{{missingEndScreen.length}}</span>
+          <span class="data-section__counter">{{missingEndScreen.length}}</span>
         </div>
         <div class="col-1">
           {{#if missingEndScreen.length}}
-            {{fa-icon "times" class="certification-session-report__status-icon--failure"}}
+            {{fa-icon "times" class="data-section__status--failure"}}
           {{else}}
-            {{fa-icon "check" class="certification-session-report__status-icon--success"}}
+            {{fa-icon "check" class="data-section__status--success"}}
           {{/if}}
         </div>
-      </section>
-      {{#if (and missingEndScreen.length displayMissingEndScreen)}}
-      <div class="row mb-4">
-          <div class="col-12">
-            {{#each missingEndScreen as |item|}}
-              <span class="certification-session-report__certification-id">{{item.certificationId}}</span>
-            {{/each}}
+        {{#if (and missingEndScreen.length displayMissingEndScreen)}}
+          <div class="row mb-4">
+            <div class="col-12 data-section__certification-ids">
+              {{#each missingEndScreen as |item|}}
+                <span class="data-section__certification-id">{{item.certificationId}}</span>
+              {{/each}}
+            </div>
           </div>
-      </div>
-      {{/if}}
+        {{/if}}
+      </section>
 
-      <section class="row certification-session-report__section">
+      <section class="row data-section data-section--comments">
         <div class="col-8">
-          <button class="certification-session-report__section-switch" type="button" {{action "toggleComments"}}>Commentaires</button>
+          <button class="data-section__switch" type="button" {{action "toggleComments"}}>Commentaires</button>
         </div>
         <div class="col-3">
-          <span>{{comments.length}}</span>
+          <span class="data-section__counter">{{comments.length}}</span>
         </div>
         <div class="col-1">
           {{#if comments.length}}
-            {{fa-icon "exclamation-triangle" class="certification-session-report__status-icon--warning"}}
+            {{fa-icon "exclamation-triangle" class="data-section__status--warning"}}
           {{else}}
-            {{fa-icon "check" class="certification-session-report__status-icon--success"}}
+            {{fa-icon "check" class="data-section__status--success"}}
           {{/if}}
         </div>
-      </section>
-      {{#if (and comments.length displayComments)}}
-      <div class="row mb-4">
-          <div class="col-12">
-            {{#each comments as |item|}}
-              <span class="certification-session-report__certification-id">{{item.certificationId}}</span>
-            {{/each}}
+        {{#if (and comments.length displayComments)}}
+          <div class="row mb-4">
+            <div class="col-12 data-section__certification-ids">
+              {{#each comments as |item|}}
+                <span class="data-section__certification-id">{{item.certificationId}}</span>
+              {{/each}}
+            </div>
           </div>
-      </div>
-      {{/if}}
+        {{/if}}
+      </section>
     </div>
 
-    {{/modal.body}}
-    {{#modal.footer as |footer|}}
-      {{#bs-button onClick=(action modal.close)}}Fermer{{/bs-button}}
-      {{#bs-button onClick=(action getJuryFile comments) type="primary"}}Récupérer le fichier avant Jury{{/bs-button}}
-      {{#bs-button onClick=(action saveCandidates sessionCandidates) type="primary"}}Enregistrer les infos candidats{{/bs-button}}
-    {{/modal.footer}}
+  {{/modal.body}}
+  {{#modal.footer as |footer|}}
+    {{#bs-button onClick=(action modal.close)}}Fermer{{/bs-button}}
+    {{#bs-button onClick=(action getJuryFile comments) type="primary"}}Récupérer le fichier avant Jury{{/bs-button}}
+    {{#bs-button onClick=(action saveCandidates sessionCandidates) type="primary"}}Enregistrer les infos candidats{{/bs-button}}
+  {{/modal.footer}}
 {{/bs-modal}}
