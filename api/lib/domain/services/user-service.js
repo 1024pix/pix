@@ -12,7 +12,7 @@ const courseRepository = require('../../../lib/infrastructure/repositories/cours
 
 async function _findCorrectAnswersByAssessments(assessments) {
   const answersByAssessmentsPromises = assessments.map((assessment) =>
-    answerRepository.findCorrectAnswersByAssessment(assessment.id));
+    answerRepository.findCorrectAnswersByAssessmentId(assessment.id));
 
   const answersByAssessments = await Promise.all(answersByAssessmentsPromises);
 

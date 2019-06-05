@@ -70,7 +70,7 @@ module.exports = {
       .then((answers) => answers.models.map(_toDomain));
   },
 
-  findCorrectAnswersByAssessment(assessmentId) {
+  findCorrectAnswersByAssessmentId(assessmentId) {
     return BookshelfAnswer
       .where({ assessmentId, result: 'ok' })
       .fetchAll()

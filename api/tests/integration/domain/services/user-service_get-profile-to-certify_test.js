@@ -105,7 +105,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
       sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
         assessment1, assessment2, assessment3
       ]);
-      sinon.stub(answerRepository, 'findCorrectAnswersByAssessment').resolves(answerCollectionWithEmptyData);
+      sinon.stub(answerRepository, 'findCorrectAnswersByAssessmentId').resolves(answerCollectionWithEmptyData);
     });
 
     it('should load achieved assessments', () => {
@@ -135,7 +135,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
       // then
       return promise.then(() => {
-        sinon.assert.calledTwice(answerRepository.findCorrectAnswersByAssessment);
+        sinon.assert.calledTwice(answerRepository.findCorrectAnswersByAssessmentId);
       });
     });
 
@@ -145,7 +145,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
       // then
       return promise.then(() => {
-        sinon.assert.neverCalledWith(answerRepository.findCorrectAnswersByAssessment, assessment3.id);
+        sinon.assert.neverCalledWith(answerRepository.findCorrectAnswersByAssessmentId, assessment3.id);
       });
     });
 
@@ -166,8 +166,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         const answer = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionWithOneAnswer = [answer];
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
         // when
         const promise = userService.getProfileToCertifyV1(userId);
@@ -208,8 +208,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             });
             const answerCollectionWithOneAnswer = [answerOfOldChallenge];
 
-            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithOneAnswer);
-            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
+            answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithOneAnswer);
+            answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // when
             const promise = userService.getProfileToCertifyV1(userId);
@@ -244,8 +244,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             const answer = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
             const answerCollectionWithOneAnswer = [answer];
 
-            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
-            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
+            answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+            answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
             // when
             const promise = userService.getProfileToCertifyV1(userId);
@@ -282,8 +282,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             const answer = new Answer({ challengeId: challengeForSkillCitation4.id, result: 'ok' });
             const answerCollectionWithOneAnswer = [answer];
 
-            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithOneAnswer);
-            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
+            answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithOneAnswer);
+            answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // when
             const promise = userService.getProfileToCertifyV1(userId);
@@ -318,8 +318,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             const answer2 = new Answer({ challengeId: challengeForSkillCitation4AndMoteur3.id, result: 'ok' });
             const answerCollectionWithTwoAnswers = [answer, answer2];
 
-            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithTwoAnswers);
-            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
+            answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithTwoAnswers);
+            answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // when
             const promise = userService.getProfileToCertifyV1(userId);
@@ -359,8 +359,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         const answerB2 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
         const answerCollectionB = [answerB1, answerB2];
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionA);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionB);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionA);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionB);
 
         // when
         const promise = userService.getProfileToCertifyV1(userId);
@@ -396,8 +396,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         const answer3 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
         const answerCollectionArray = [answer1, answer2, answer3];
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
         const promise = userService.getProfileToCertifyV1(userId);
@@ -435,8 +435,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         const answer4 = new Answer({ challengeId: challengeForSkillWeb1.id, result: 'ok' });
         const answerCollectionArray = [answer1, answer2, answer3, answer4];
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
         const promise = userService.getProfileToCertifyV1(userId);
@@ -471,8 +471,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         const answer = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionArray = [answer, answer];
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
         const promise = userService.getProfileToCertifyV1(userId);
@@ -506,8 +506,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         const answer = new Answer({ challengeId: 'challengeRecordIdThatDoesNotExist', result: 'ok' });
         const answerCollectionArray = [answer];
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
         const promise = userService.getProfileToCertifyV1(userId);
@@ -541,8 +541,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         const answer = new Answer({ challengeId: 'challengeRecordIdThree', result: 'ok' });
         const answerCollectionArray = [answer];
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // when
         const promise = userService.getProfileToCertifyV1(userId);
@@ -583,8 +583,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           const answer4 = new Answer({ challengeId: challengeForSkillWeb1.id, result: 'ok' });
           const answerCollectionArray = [answer1, answer2, answer3, answer4];
 
-          answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
-          answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
+          answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+          answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionArray);
 
           // when
           const promise = userService.getProfileToCertifyV1(userId);
@@ -605,8 +605,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           const answer4 = new Answer({ challengeId: challengeForSkillSearch1.id, result: 'ok' });
           const answerCollectionArray = [answer1, answer2, answer4];
 
-          answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
-          answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
+          answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+          answerRepository.findCorrectAnswersByAssessmentId.withArgs(assessment2.id).resolves(answerCollectionArray);
           challengeRepository.list.resolves([
             challengeForSkillRecherche4,
             challengeForSkillCitation4AndMoteur3,
