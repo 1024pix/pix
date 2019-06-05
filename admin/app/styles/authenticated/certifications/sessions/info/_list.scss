@@ -16,6 +16,14 @@
 
   &__actions {
 
+    .btn--check-session-record {
+      padding: 0;
+
+      label {
+        display: block;
+        padding: 10px 0;
+      }
+    }
   }
 
   &__body {
