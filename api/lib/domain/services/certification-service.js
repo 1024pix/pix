@@ -18,6 +18,7 @@ const certificationChallengesRepository = require('../../../lib/infrastructure/r
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const userService = require('./user-service');
 
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges, continueOnError) {
   return _.map(listAnswers, (answer) => {
@@ -175,22 +176,13 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   });
 }
 
-async function _getTestedCompetences({ userId, limitDate, allCompetences }) {
-  const userCompletedAssessments =
-    await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
-
-  return userCompletedAssessments
-    .filter((assessment) => assessment.isCertifiable())
-    .map((assessment) => {
-      const competenceOfAssessment = _.find(allCompetences, (competence) => competence.courseId === assessment.courseId);
-      return {
-        id: competenceOfAssessment.id,
-        index: competenceOfAssessment.index,
-        name: competenceOfAssessment.name,
-        estimatedLevel: assessment.getLastAssessmentResult().level,
-        pixScore: assessment.getLastAssessmentResult().pixScore,
-      };
-    });
+async function _getTestedCompetences({ userId, limitDate }) {
+  const userCompetences = await userService.getProfileToCertifyV1({ userId, limitDate });
+  const testedCompetences = _(userCompetences)
+    .filter((uc) => uc.estimatedLevel > 0)
+    .map((uc) => _.pick(uc, ['id', 'index', 'name', 'estimatedLevel', 'pixScore']))
+    .value();
+  return testedCompetences;
 }
 
 async function _getCertificationResult(assessment, continueOnError = false) {

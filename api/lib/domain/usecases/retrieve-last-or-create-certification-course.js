@@ -44,7 +44,6 @@ async function _startNewCertification({
   certificationChallengesService,
   certificationCourseRepository
 }) {
-
   const userCompetencesProfileV1 = await userService.getProfileToCertifyV1(userId, new Date());
 
   let userCompetencesProfileV2;
