@@ -4,10 +4,7 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | QCU proposals', function() {
 
-  setupTest('component:qcu-proposals', {});
-
-  /* Computed property "labeledRadios"
-   ----------------------------------------------------- */
+  setupTest();
 
   describe('Computed property "labeledRadios"', function() {
 
@@ -23,7 +20,7 @@ describe('Unit | Component | QCU proposals', function() {
     });
 
     function initComponent() {
-      component = this.subject();
+      component = this.owner.lookup('component:qcu-proposals');
       component.set('proposals', proposals);
       component.set('answerValue', answerValue);
     }

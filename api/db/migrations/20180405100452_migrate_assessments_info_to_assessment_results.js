@@ -25,7 +25,7 @@ exports.up = function(knex) {
       });
 
     }).then(() => {
-      return knex.schema.table(TABLE_NAME_ASSESSMENTS, function (table) {
+      return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
         table.dropColumn('pixScore');
         table.dropColumn('estimatedLevel');
       });

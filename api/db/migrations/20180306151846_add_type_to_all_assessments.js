@@ -26,73 +26,73 @@ const TYPE_PREVIEW = 'PREVIEW';
 exports.up = function(knex, Promise) {
 
   // XXX : Modify PREVIEW assessments
-    return knex(TABLE_NAME_ASSESSMENTS)
-      .select('id', 'courseId', 'type')
-      .whereNull('type')
-      .where('courseId', 'LIKE', 'null%')
-      .then((allAssessmentsPreview) => {
-        return batch(knex, allAssessmentsPreview, (assessment) => {
-          return knex(TABLE_NAME_ASSESSMENTS)
-            .where('id', '=', assessment.id)
-            .update({
-              type: TYPE_PREVIEW
-            });
-        });
-
-      })
-      .then(() => {
-        // XXX : Modify PLACEMENT assessments
+  return knex(TABLE_NAME_ASSESSMENTS)
+    .select('id', 'courseId', 'type')
+    .whereNull('type')
+    .where('courseId', 'LIKE', 'null%')
+    .then((allAssessmentsPreview) => {
+      return batch(knex, allAssessmentsPreview, (assessment) => {
         return knex(TABLE_NAME_ASSESSMENTS)
-          .select('id', 'courseId', 'type')
-          .whereNull('type')
-          .where('courseId', 'IN', LIST_COMPETENCES_PLACEMENT);
-      })
-      .then((allAssessmentsPlacement) => {
-        return batch(knex, allAssessmentsPlacement, (assessment) => {
-          return knex(TABLE_NAME_ASSESSMENTS)
-            .where('id', '=', assessment.id)
-            .update({
-              type: TYPE_PLACEMENT
-            });
-        });
-
-      }).then(() => {
-        // XXX : Modify CERTIFICATION assessments
-        return knex(TABLE_NAME_CERTIFICATIONS)
-          .select('id');
-      }).then((allCertifications) => {
-        const certificationsId = allCertifications.map(certification => certification.id.toString());
-        return knex(TABLE_NAME_ASSESSMENTS)
-          .select('id', 'courseId', 'type')
-          .whereNull('type')
-          .where('courseId', 'IN', certificationsId);
-      })
-      .then((allAssessmentsCertifications) => {
-        return batch(knex, allAssessmentsCertifications, (assessment) => {
-          return knex(TABLE_NAME_ASSESSMENTS)
-            .where('id', '=', assessment.id)
-            .update({
-              type: TYPE_CERTIFICATION
-            });
-        });
-
-      }).then(() => {
-        // XXX : Modify DEMO assessments
-
-        return knex(TABLE_NAME_ASSESSMENTS)
-          .select('id', 'courseId', 'type')
-          .whereNull('type');
-      })
-      .then((allAssessmentsDemo) => {
-        return batch(knex, allAssessmentsDemo, (assessment) => {
-          return knex(TABLE_NAME_ASSESSMENTS)
-            .where('id', '=', assessment.id)
-            .update({
-              type: TYPE_DEMO
-            });
-        });
-
+          .where('id', '=', assessment.id)
+          .update({
+            type: TYPE_PREVIEW
+          });
       });
+
+    })
+    .then(() => {
+      // XXX : Modify PLACEMENT assessments
+      return knex(TABLE_NAME_ASSESSMENTS)
+        .select('id', 'courseId', 'type')
+        .whereNull('type')
+        .where('courseId', 'IN', LIST_COMPETENCES_PLACEMENT);
+    })
+    .then((allAssessmentsPlacement) => {
+      return batch(knex, allAssessmentsPlacement, (assessment) => {
+        return knex(TABLE_NAME_ASSESSMENTS)
+          .where('id', '=', assessment.id)
+          .update({
+            type: TYPE_PLACEMENT
+          });
+      });
+
+    }).then(() => {
+      // XXX : Modify CERTIFICATION assessments
+      return knex(TABLE_NAME_CERTIFICATIONS)
+        .select('id');
+    }).then((allCertifications) => {
+      const certificationsId = allCertifications.map((certification) => certification.id.toString());
+      return knex(TABLE_NAME_ASSESSMENTS)
+        .select('id', 'courseId', 'type')
+        .whereNull('type')
+        .where('courseId', 'IN', certificationsId);
+    })
+    .then((allAssessmentsCertifications) => {
+      return batch(knex, allAssessmentsCertifications, (assessment) => {
+        return knex(TABLE_NAME_ASSESSMENTS)
+          .where('id', '=', assessment.id)
+          .update({
+            type: TYPE_CERTIFICATION
+          });
+      });
+
+    }).then(() => {
+      // XXX : Modify DEMO assessments
+
+      return knex(TABLE_NAME_ASSESSMENTS)
+        .select('id', 'courseId', 'type')
+        .whereNull('type');
+    })
+    .then((allAssessmentsDemo) => {
+      return batch(knex, allAssessmentsDemo, (assessment) => {
+        return knex(TABLE_NAME_ASSESSMENTS)
+          .where('id', '=', assessment.id)
+          .update({
+            type: TYPE_DEMO
+          });
+      });
+
+    });
 
 };
 

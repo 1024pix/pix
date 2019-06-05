@@ -1,17 +1,20 @@
 import { expect } from 'chai';
 import { run } from '@ember/runloop';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 import _ from 'lodash';
 
 describe('Unit | Model | Assessment', function() {
+  setupTest();
 
-  setupModelTest('assessment', {
-    needs: ['model:course', 'model:challenge', 'model:answer', 'model:assessment-result']
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
+    const model = store.createRecord('assessment');
     expect(model).to.be.ok;
   });
 
@@ -25,7 +28,7 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return an empty array when no answers has been given', function() {
       // given
-      const assessment = this.subject();
+      const assessment = store.createRecord('assessment');
       assessment.set('answers', []);
 
       // when
@@ -37,8 +40,8 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return the one answer when only one answer has been given', function() {
       // given
-      const answer = run(() => this.store().createRecord('answer'));
-      const assessment = this.subject();
+      const answer = run(() => store.createRecord('answer'));
+      const assessment = store.createRecord('assessment');
       const answers = [answer];
       run(() => assessment.set('answers', answers));
 
@@ -51,9 +54,9 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return the last 2 answers when there is 7 answers', function() {
       // given
-      const answers = newAnswers(this.store(), 7);
+      const answers = newAnswers(store, 7);
       const [answer6, answer7] = answers.slice(5);
-      const assessment = this.subject();
+      const assessment = store.createRecord('assessment');
       run(() => assessment.set('answers', answers));
 
       // when
@@ -65,9 +68,9 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return the last 5 answers when there is 10 answers', function() {
       // given
-      const answers = newAnswers(this.store(), 10);
+      const answers = newAnswers(store, 10);
       const [answer6, answer7, answer8, answer9, answer10] = answers.slice(5);
-      const assessment = this.subject();
+      const assessment = store.createRecord('assessment');
       run(() => assessment.set('answers', answers));
 
       // when
@@ -79,9 +82,9 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return the last 1 answer when there is 11 answers', function() {
       // given
-      const answers = newAnswers(this.store(), 11);
+      const answers = newAnswers(store, 11);
       const answer11 = answers[10];
-      const assessment = this.subject();
+      const assessment = store.createRecord('assessment');
       run(() => assessment.set('answers', answers));
 
       // when
@@ -91,11 +94,11 @@ describe('Unit | Model | Assessment', function() {
       expect(answersSinceLastCheckpoints).to.deep.equal([answer11]);
     });
   });
-  
+
   describe('#isPlacement', function() {
     it('should return true when the assessment type is placement', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', 'PLACEMENT');
@@ -105,7 +108,7 @@ describe('Unit | Model | Assessment', function() {
     });
     it('should return false when the assessment type is not placement', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', '_');
@@ -118,7 +121,7 @@ describe('Unit | Model | Assessment', function() {
   describe('#isSmartPlacement', function() {
     it('should return true when the assessment type is a smart placement', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', 'SMART_PLACEMENT');
@@ -128,7 +131,7 @@ describe('Unit | Model | Assessment', function() {
     });
     it('should return false when the assessment type is not a smart placement', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', '_');
@@ -141,7 +144,7 @@ describe('Unit | Model | Assessment', function() {
   describe('#isCertification', function() {
     it('should return true when the assessment type is a certification', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', 'CERTIFICATION');
@@ -151,7 +154,7 @@ describe('Unit | Model | Assessment', function() {
     });
     it('should return false when the assessment type is not a certification', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', '_');
@@ -164,7 +167,7 @@ describe('Unit | Model | Assessment', function() {
   describe('#isDemo', function() {
     it('should return true when the assessment type is demo', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', 'DEMO');
@@ -174,7 +177,7 @@ describe('Unit | Model | Assessment', function() {
     });
     it('should return false when the assessment type is not demo', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', '_');
@@ -187,7 +190,7 @@ describe('Unit | Model | Assessment', function() {
   describe('#isPreview', function() {
     it('should return true when the assessment type is placement', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', 'PREVIEW');
@@ -197,7 +200,7 @@ describe('Unit | Model | Assessment', function() {
     });
     it('should return false when the assessment type is not placement', function() {
       // given
-      const model = this.subject();
+      const model = store.createRecord('assessment');
 
       // when
       model.set('type', '_');

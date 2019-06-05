@@ -10,7 +10,6 @@ module.exports = {
   },
   plugins: [
     'ember',
-    'mocha'
   ],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),

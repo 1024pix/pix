@@ -4,15 +4,13 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | Certifications | Results', function() {
 
-  setupTest('route:certifications.results', {
-    needs: ['service:session', 'service:metrics']
-  });
+  setupTest();
 
   describe('model', function() {
 
     it('should find logged user details', function() {
       // Given
-      const route = this.subject();
+      const route = this.owner.lookup('route:certifications.results');
 
       // When
       const model = route.model({

@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.45.2 (05/06/2019)
+
+- [#541](https://github.com/1024pix/pix/pull/541) [TECH] Suppression des usages dépréciés de ember-mocha pour les tests unitaires.
+- [#508](https://github.com/1024pix/pix/pull/508) [TECH] Montée de version des applications Ember (3.8 → 3.9).
+- [#540](https://github.com/1024pix/pix/pull/540) [TECH] Améliore la probabilité de succès des tests end to end
+- [#537](https://github.com/1024pix/pix/pull/537) [TECH] Amélioration du database builder et des tests cassants aléatoirement
+
 ## v2.45.1 (31/05/2019)
 
 - [#539](https://github.com/1024pix/pix/pull/539) [BUGFIX] Afficher "Reprendre" si la scorecard possède des knowledgeElements (PF-618).

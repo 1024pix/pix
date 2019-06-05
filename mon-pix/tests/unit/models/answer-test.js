@@ -1,17 +1,21 @@
 import { run } from '@ember/runloop';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupModelTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Model | Answer', function() {
 
-  setupModelTest('answer', {
-    needs: ['model:assessment', 'model:challenge']
+  setupTest();
+
+  let store;
+
+  beforeEach(function() {
+    store = this.owner.lookup('service:store');
   });
 
   it('exists', function() {
-    const model = this.subject();
-    // var store = this.store();
+    const model = store.createRecord('competence-result');
+
     expect(model).to.be.ok;
   });
 
@@ -19,7 +23,6 @@ describe('Unit | Model | Answer', function() {
 
     it('should return true when answser.result is ok', function() {
       // given
-      const store = this.store();
       const answer = run(() => store.createRecord('answer', { 'result': 'ok' }));
 
       // when
@@ -30,7 +33,6 @@ describe('Unit | Model | Answer', function() {
 
     it('should return false when answser.result is ko', function() {
       // given
-      const store = this.store();
       const answer = run(() => store.createRecord('answer', { 'result': 'ko' }));
 
       // when
@@ -43,7 +45,6 @@ describe('Unit | Model | Answer', function() {
 
     it('should return true when answser.result is ok', function() {
       // given
-      const store = this.store();
       const answer = run(() => store.createRecord('answer', { 'result': 'ok' }));
 
       // when
@@ -54,7 +55,6 @@ describe('Unit | Model | Answer', function() {
 
     it('should return false when answser.result is ko', function() {
       // given
-      const store = this.store();
       const answer = run(() => store.createRecord('answer', { 'result': 'ko' }));
 
       // when

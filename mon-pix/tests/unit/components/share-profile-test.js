@@ -5,12 +5,12 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | share-profile', function() {
 
-  setupTest('component:share-profile', {});
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
+    component = this.owner.lookup('component:share-profile');
   });
 
   describe('#init', () => {

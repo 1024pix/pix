@@ -8,13 +8,13 @@ describe('Unit | Component | g-recaptcha', function() {
 
   let serviceResetCalled = false;
 
-  setupTest('component:g-recaptcha', {});
+  setupTest();
 
   beforeEach(function() {
 
     serviceResetCalled = false;
 
-    this.register('service:googleRecaptcha', Service.extend({
+    this.owner.register('service:googleRecaptcha', Service.extend({
       loadScript() {
         return RSVP.resolve();
       },
@@ -28,7 +28,6 @@ describe('Unit | Component | g-recaptcha', function() {
       }
 
     }));
-    this.inject.service('googleRecaptcha', { as: 'googleRecaptcha' });
 
   });
 
@@ -36,7 +35,8 @@ describe('Unit | Component | g-recaptcha', function() {
 
     it('should reset the recaptcha if the token has been used', function() {
       // given
-      const component = this.subject({});
+      const component = this.owner.lookup('component:g-recaptcha');
+
       component.set('recaptchaToken', null);
       component.set('tokenHasBeenUsed', true);
 
@@ -49,7 +49,7 @@ describe('Unit | Component | g-recaptcha', function() {
 
     it('should not reset the recaptcha if the token has not been used', function() {
       // given
-      const component = this.subject({});
+      const component = this.owner.lookup('component:g-recaptcha');
       component.set('recaptchaToken', null);
       component.set('tokenHasBeenUsed', false);
 
@@ -66,7 +66,7 @@ describe('Unit | Component | g-recaptcha', function() {
 
     it('should set the recaptchaToken to the GoogleRecaptchaToken and indicate that he has not been used', function() {
       // given
-      const component = this.subject({});
+      const component = this.owner.lookup('component:g-recaptcha');
       component.set('recaptchaToken', null);
       component.set('tokenHasBeenUsed', true);
       const googleRecaptchaResponse = 'la reponse de recaptcha';
@@ -84,7 +84,7 @@ describe('Unit | Component | g-recaptcha', function() {
 
     it('should set the recaptchaToken to null and indicate that he has not been used', function() {
       // given
-      const component = this.subject();
+      const component = this.owner.lookup('component:g-recaptcha');
       component.set('recaptchaToken', 'un token');
       component.set('tokenHasBeenUsed', true);
 

@@ -3,7 +3,7 @@ import { resolve, reject } from 'rsvp';
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupTest } from 'ember-mocha';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
 
@@ -27,24 +27,12 @@ const SUBMISSION_MAP = {
 
 describe('Unit | Component | reset password form', function() {
 
-  setupComponentTest('reset-password-form', {
-    needs: ['component:form-textfield'],
-    unit: true
-  });
+  setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.subject();
-  });
-
-  it('should be rendered', function() {
-    // when
-    this.render();
-
-    // then
-    expect(component).to.be.ok;
-    expect(this.$()).to.have.length(1);
+    component = this.owner.lookup('component:reset-password-form');
   });
 
   describe('#validatePassword', () => {

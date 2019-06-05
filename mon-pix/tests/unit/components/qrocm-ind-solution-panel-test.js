@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | qrocm-solution-panel', function() {
 
-  setupTest('component:qrocm-ind-solution-panel', {});
+  setupTest();
 
   describe('#inputFields', function() {
 
@@ -19,7 +19,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
     });
 
     function _getComponentInputFields(context) {
-      const component = context.subject();
+      const component = context.owner.lookup('component:qrocm-ind-solution-panel');
       component.set('challenge', challenge);
       component.set('answer', answer);
       component.set('solution', solution);

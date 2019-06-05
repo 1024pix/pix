@@ -5,26 +5,27 @@ const settings = require('../../../lib/settings');
 const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 const _ = require('lodash');
 
-function _insertOrganization(userId) {
-  const organizationRaw = {
+async function _insertOrganization(userId) {
+  const organization = databaseBuilder.factory.buildOrganization({
     name: 'The name of the organization',
     type: 'SUP',
     code: 'AAA111',
     userId
-  };
-
-  return knex('organizations').insert(organizationRaw).returning('id');
+  });
+  await databaseBuilder.commit();
+  return organization;
 }
 
-function _insertUser() {
-  const userRaw = {
+async function _insertUser() {
+  const user = databaseBuilder.factory.buildUser({
     firstName: 'john',
     lastName: 'Doe',
     email: 'john.Doe@internet.fr',
     password: 'Pix2017!'
-  };
+  });
 
-  return knex('users').insert(userRaw).returning('id');
+  await databaseBuilder.commit();
+  return user;
 }
 
 function _insertSnapshot(organizationId, userId) {
@@ -291,14 +292,13 @@ describe('Acceptance | Application | organization-controller', () => {
 
     beforeEach(() => {
       return _insertUser()
-        .then(([id]) => userId = id)
+        .then(({ id }) => userId = id)
         .then(() => options.headers.authorization = generateValidRequestAuhorizationHeader(userId))
         .then(() => _insertOrganization(userId));
     });
 
     afterEach(() => {
-      return knex('organizations').delete()
-        .then(() => knex('organizations').delete());
+      return databaseBuilder.clean();
     });
 
     it('should return 200 HTTP status code', () => {
@@ -347,10 +347,10 @@ describe('Acceptance | Application | organization-controller', () => {
 
     beforeEach(() => {
       return _insertUser()
-        .then(([id]) => userId = id)
+        .then(({ id }) => userId = id)
         .then(() => userToken = _createToken(userId))
         .then(() => _insertOrganization(userId))
-        .then(([id]) => organizationId = id)
+        .then(({ id }) => organizationId = id)
         .then(() => _insertSnapshot(organizationId, userId));
     });
 

@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | progress-bar', function() {
 
-  setupTest('component:progress-bar', {});
+  setupTest();
 
   describe('@progression', function() {
 
@@ -19,7 +19,8 @@ describe('Unit | Component | progress-bar', function() {
           nbChallenges: 10
         }
       });
-      const component = this.subject({ assessment });
+      const component = this.owner.lookup('component:progress-bar');
+      component.set('assessment', assessment);
       component.setProgression();
 
       // when
@@ -44,7 +45,8 @@ describe('Unit | Component | progress-bar', function() {
           nbChallenges: 10
         }
       });
-      const component = this.subject({ assessment });
+      const component = this.owner.lookup('component:progress-bar');
+      component.set('assessment', assessment);
       component.setProgression();
 
       // when

@@ -6,31 +6,28 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | compte', function() {
-  setupTest('route:compte', {
-    needs: ['service:session', 'service:metrics', 'service:currentUser']
-  });
+  setupTest();
 
   describe('model', function() {
 
     beforeEach(function() {
-      this.register('service:session', Service.extend({
+      this.owner.register('service:session', Service.extend({
         isAuthenticated: true,
       }));
-      this.inject.service('session');
     });
 
     context('when user is an organization', function() {
 
       beforeEach(function() {
-        this.register('service:currentUser', Service.extend({
+        this.owner.register('service:currentUser', Service.extend({
           user: { organizations: [{ id: 1 }] }
         }));
-        this.inject.service('currentUser');
       });
 
       it('should redirect to /board', async function() {
         // Given
-        const route = this.subject();
+        const route = this.owner.lookup('route:compte');
+
         route.transitionTo = sinon.spy();
 
         // When
@@ -47,10 +44,9 @@ describe('Unit | Route | compte', function() {
       let queryRecordStub;
 
       beforeEach(function() {
-        this.register('service:currentUser', Service.extend({
+        this.owner.register('service:currentUser', Service.extend({
           user: { organizations: [] }
         }));
-        this.inject.service('currentUser');
 
         queryRecordStub = sinon.stub();
         storyStub = Service.extend({
@@ -62,11 +58,10 @@ describe('Unit | Route | compte', function() {
         // Given
         const foundUser = EmberObject.create({ id: 'hello' });
 
-        this.register('service:store', storyStub);
-        this.inject.service('store', { as: 'store' });
+        this.owner.register('service:store', storyStub);
 
         queryRecordStub.withArgs('user', { profile: true }).resolves(foundUser);
-        const route = this.subject();
+        const route = this.owner.lookup('route:compte');
 
         // When
         const model = await route.model();
@@ -96,10 +91,9 @@ describe('Unit | Route | compte', function() {
 
     it('should search for an organization', function() {
       // Given
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
+      this.owner.register('service:store', storeStub);
 
-      const route = this.subject();
+      const route = this.owner.lookup('route:compte');
 
       // When
       route.actions.searchForOrganization.call(route, 'RVSG44');
@@ -116,9 +110,8 @@ describe('Unit | Route | compte', function() {
         // Given
         organizationCollectionStub.returns('THE FIRST OBJECT');
 
-        this.register('service:store', storeStub);
-        this.inject.service('store', { as: 'store' });
-        const route = this.subject();
+        this.owner.register('service:store', storeStub);
+        const route = this.owner.lookup('route:compte');
 
         // When
         const routeActionResult = route.actions.searchForOrganization.call(route, 'RVSG44');
@@ -135,9 +128,8 @@ describe('Unit | Route | compte', function() {
         organizations.content = [];
         organizationCollectionStub.returns('THE FIRST OBJECT');
 
-        this.register('service:store', storeStub);
-        this.inject.service('store', { as: 'store' });
-        const route = this.subject();
+        this.owner.register('service:store', storeStub);
+        const route = this.owner.lookup('route:compte');
 
         // When
         const routeActionResult = route.actions.searchForOrganization.call(route, 'RVSG44');
@@ -167,9 +159,8 @@ describe('Unit | Route | compte', function() {
 
     it('should create and save a new Snapshot', function() {
       // given
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
-      const route = this.subject();
+      this.owner.register('service:store', storeStub);
+      const route = this.owner.lookup('route:compte');
 
       // when
       const promise = route.actions.shareProfileSnapshot.call(route, organization);
