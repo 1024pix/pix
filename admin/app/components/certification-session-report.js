@@ -34,12 +34,11 @@ export default Component.extend({
   }),
   duplicates:computed('candidates', function() {
     const certificationIds = _.map(this.candidates, 'certificationId');
-    const grouppedCertificationIds = _.groupBy(certificationIds, _.identity);
-    const duplicateCertificationIds = _.uniq(_.flatten(_.filter(grouppedCertificationIds, (n) => n.length > 1)));
-    return duplicateCertificationIds;
+    const groupedCertificationIds = _.groupBy(certificationIds, _.identity);
+    return _.uniq(_.flatten(_.filter(groupedCertificationIds, (n) => n.length > 1)));
   }),
   notFromSession:computed(function() {
-    const certificationIds = this.certifications.map((certification) => certification.id);
+    const certificationIds = this.certifications.map((certification) => parseInt(certification.id));
     return this.candidates.filter((candidate) => {
       return certificationIds.indexOf(parseInt(candidate.certificationId)) === -1;
     });
