@@ -93,7 +93,10 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     it('should find the answer by challenge and assessment and return its in an object', () => {
       // when
-      const promise = AnswerRepository.findByChallengeAndAssessment({ challengeId: 'challenge_1234', assessmentId: assessmentId });
+      const promise = AnswerRepository.findByChallengeAndAssessment({
+        challengeId: 'challenge_1234',
+        assessmentId: assessmentId
+      });
 
       // then
       return promise.then((foundAnswers) => {
@@ -148,7 +151,7 @@ describe('Integration | Repository | AnswerRepository', () => {
         expect(foundAnswers).to.have.length.of(2);
 
         const values = _.map(foundAnswers, 'value');
-        expect(values).to.include.members(['1','1,2']);
+        expect(values).to.include.members(['1', '1,2']);
 
         const challengeIds = _.map(foundAnswers, 'challengeId');
         expect(challengeIds).to.include('challenge_1234');
@@ -211,7 +214,7 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
   });
 
-  describe('#findCorrectAnswersByAssessment', () => {
+  describe('#findCorrectAnswersByAssessmentId', () => {
 
     const answer1 = {
       value: 'Un pancake Tabernacle',
@@ -248,7 +251,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       };
 
       // when
-      const promise = AnswerRepository.findCorrectAnswersByAssessment(assessmentId);
+      const promise = AnswerRepository.findCorrectAnswersByAssessmentId(assessmentId);
 
       // then
       return promise.then((answers) => {
@@ -309,5 +312,4 @@ describe('Integration | Repository | AnswerRepository', () => {
       expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
     });
   });
-})
-;
+});
