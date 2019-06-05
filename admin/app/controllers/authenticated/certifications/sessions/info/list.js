@@ -90,6 +90,66 @@ export default Controller.extend({
       return this._importCSVData(csvAsText);
     },
 
+    async displayCertificationSessionReport(file) {
+      const arrayBuffer = await file.readAsArrayBuffer();
+      const data = new Uint8Array(arrayBuffer);
+      const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+      const headerRowsNumber = 8;
+      const header = [
+        'row',
+        'lastName',
+        'firstName',
+        'birthDate',
+        'birthPlace',
+        'email',
+        'externalId',
+        'extraTime',
+        'signature',
+        'certificationId',
+        'lastScreen',
+        'comments'
+      ];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, { range: headerRowsNumber, header });
+
+      const lastRowIndex = jsonData.findIndex((row) => !row.lastName);
+      const importedCandidates = jsonData.slice(0, lastRowIndex);
+      importedCandidates.forEach((candidate) => {
+        if (candidate.birthDate instanceof Date) {
+          candidate.birthDate = moment(candidate.birthDate).format('DD/MM/YYYY');
+        } else {
+          candidate.birthDate = null;
+        }
+      });
+      this.set('importedCandidates', importedCandidates);
+      this.set('displaySessionReport', true);
+    },
+
+    async downloadResultsAfterJurysDeliberation() {
+      const dateFieldName = this._resultFields.creationDate;
+      const centerFieldName = this._resultFields.certificationCenter;
+      const centerName = this.model.certificationCenter;
+      const resultsAsJson = await this._getExportJson(this._resultFields);
+
+      resultsAsJson.forEach((certification) => {
+        this._competences.forEach((competence) => {
+          if (!certification[competence] || certification[competence] === 0 || certification[competence] === -1) {
+            certification[competence] = '-';
+          }
+        });
+        certification[dateFieldName] = certification[dateFieldName].substring(0, 10);
+        certification[centerFieldName] = centerName;
+      });
+      const csv = json2csv.parse(resultsAsJson, {
+        fields: this._resultCsvHeaders,
+        delimiter: ';',
+        withBOM: false,
+      });
+      const fileName = 'resultats_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+      this.fileSaver.saveAs(csv + '\n', fileName);
+    },
+
     onConfirmPublishSelected() {
       const count = this.selectedCertifications.length;
       if (count === 1) {
@@ -172,67 +232,6 @@ export default Controller.extend({
           const fileName = 'jury_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
           this.fileSaver.saveAs(csv + '\n', fileName);
         });
-    },
-
-    onExportResults() {
-      const dateFieldName = this._resultFields.creationDate;
-      const centerFieldName = this._resultFields.certificationCenter;
-      const centerName = this.model.certificationCenter;
-      return this._getExportJson(this._resultFields)
-        .then((json) => {
-          json.forEach((certification) => {
-            this._competences.forEach((competence) => {
-              if (certification[competence] == null || certification[competence] === 0 || certification[competence] === -1) {
-                certification[competence] = '-';
-              }
-            });
-            certification[dateFieldName] = certification[dateFieldName].substring(0, 10);
-            certification[centerFieldName] = centerName;
-          });
-          const csv = json2csv.parse(json, {
-            fields: this._resultCsvHeaders,
-            delimiter: ';',
-            withBOM: false,
-          });
-          const fileName = 'resultats_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
-          this.fileSaver.saveAs(csv + '\n', fileName);
-        });
-    },
-
-    async displayCertificationSessionReport(file) {
-      const arrayBuffer = await file.readAsArrayBuffer();
-      const data = new Uint8Array(arrayBuffer);
-      const workbook = XLSX.read(data, { type: 'array', cellDates: true });
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-      const headerRowsNumber = 8;
-      const header = [
-        'row',
-        'lastName',
-        'firstName',
-        'birthDate',
-        'birthPlace',
-        'email',
-        'externalId',
-        'extraTime',
-        'signature',
-        'certificationId',
-        'lastScreen',
-        'comments'
-      ];
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, { range: headerRowsNumber, header });
-
-      const lastRowIndex = jsonData.findIndex((row) => !row.lastName);
-      const importedCandidates = jsonData.slice(0, lastRowIndex);
-      importedCandidates.forEach((candidate) => {
-        if (candidate.birthDate instanceof Date) {
-          candidate.birthDate = moment(candidate.birthDate).format('DD/MM/YYYY');
-        } else {
-          candidate.birthDate = null;
-        }
-      });
-      this.set('importedCandidates', importedCandidates);
-      this.set('displaySessionReport', true);
     },
 
   },
