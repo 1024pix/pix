@@ -175,24 +175,11 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   });
 }
 
-async function _getCertificationResult(assessment, continueOnError = false) {
-  const [
-    assessmentAnswers,
-    certificationChallenges,
-    userCompletedAssessments,
-    certificationCourse,
-    allCompetences,
-    allChallenges
-  ] = await Promise.all([
-    answersRepository.findByAssessment(assessment.id),
-    certificationChallengesRepository.findByCertificationCourseId(assessment.courseId),
-    assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(assessment.userId, assessment.createdAt),
-    certificationCourseRepository.get(assessment.courseId),
-    competenceRepository.list(),
-    challengeRepository.list(),
-  ]);
+async function _getTestedCompetences({ userId, limitDate, allCompetences }) {
+  const userCompletedAssessments =
+    await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
 
-  const testedCompetences = userCompletedAssessments
+  return userCompletedAssessments
     .filter((assessment) => assessment.isCertifiable())
     .map((assessment) => {
       const competenceOfAssessment = _.find(allCompetences, (competence) => competence.courseId === assessment.courseId);
@@ -204,6 +191,28 @@ async function _getCertificationResult(assessment, continueOnError = false) {
         pixScore: assessment.getLastAssessmentResult().pixScore,
       };
     });
+}
+
+async function _getCertificationResult(assessment, continueOnError = false) {
+  const [
+    assessmentAnswers,
+    certificationChallenges,
+    certificationCourse,
+    allCompetences,
+    allChallenges
+  ] = await Promise.all([
+    answersRepository.findByAssessment(assessment.id),
+    certificationChallengesRepository.findByCertificationCourseId(assessment.courseId),
+    certificationCourseRepository.get(assessment.courseId),
+    competenceRepository.list(),
+    challengeRepository.list(),
+  ]);
+
+  const testedCompetences = await _getTestedCompetences({
+    userId: assessment.userId,
+    limitDate: assessment.createdAt,
+    allCompetences
+  });
 
   certificationChallenges.forEach((certifChallenge) => {
     const challenge = _.find(allChallenges, (challengeFromAirtable) => challengeFromAirtable.id === certifChallenge.challengeId);
