@@ -230,7 +230,7 @@ describe('Unit | Controller | user-controller', () => {
 
     beforeEach(() => {
       sinon.stub(userService, 'isUserExistingById').resolves(true);
-      sinon.stub(userService, 'getProfileToCertify').resolves([]);
+      sinon.stub(userService, 'getProfileToCertifyV1').resolves([]);
     });
 
     it('should be a function', () => {
@@ -248,8 +248,8 @@ describe('Unit | Controller | user-controller', () => {
         await userController.getProfileToCertify(request, hFake);
 
         // then
-        sinon.assert.calledOnce(userService.getProfileToCertify);
-        sinon.assert.calledWith(userService.getProfileToCertify, 1, new Date('1970-01-01T00:00:00Z'));
+        sinon.assert.calledOnce(userService.getProfileToCertifyV1);
+        sinon.assert.calledWith(userService.getProfileToCertifyV1, 1, new Date('1970-01-01T00:00:00Z'));
       });
 
       it('should reply the skillProfile', async () => {

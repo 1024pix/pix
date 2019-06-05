@@ -220,7 +220,7 @@ class UserNotAuthorizedToAccessEntity extends DomainError {
 
 class UserNotAuthorizedToCertifyError extends DomainError {
   constructor() {
-    super();
+    super('User is not certifiable');
   }
 
   getErrorMessage() {
