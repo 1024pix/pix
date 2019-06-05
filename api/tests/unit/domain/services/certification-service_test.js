@@ -1,4 +1,4 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const Answer = require('../../../../lib/domain/models/Answer');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
@@ -19,6 +19,7 @@ const certificationCourseRepository = require('../../../../lib/infrastructure/re
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+const userService = require('../../../../lib/domain/services/user-service');
 
 function _buildAnswer(challengeId, result) {
   return new Answer({ id: 'answer_id', challengeId, result, value: 'something' });
@@ -45,15 +46,12 @@ function _buildChallenge(id, competence, type) {
   return { id, competence, type, testedSkill: '@skill' };
 }
 
-function _buildAssessment(courseId, pixScore, estimatedLevel) {
-  const assessmentResult = domainBuilder.buildAssessmentResult({ pixScore, level: estimatedLevel });
-  const assessment = domainBuilder.buildAssessment({
+function _buildUserCompetence(competence, pixScore, estimatedLevel) {
+  return {
+    ...competence,
+    estimatedLevel,
     pixScore,
-    level: estimatedLevel,
-    assessmentResults: [assessmentResult],
-    courseId
-  });
-  return assessment;
+  };
 }
 
 const pixForCompetence1 = 10;
@@ -92,20 +90,27 @@ const challenges = [
   _buildCertificationChallenge('challenge_L_for_competence_4', 'competence_4', '@skillChallengeL_4'),
 ];
 
-const assessments = [
-  _buildAssessment('competence_1', pixForCompetence1, 1),
-  _buildAssessment('competence_2', pixForCompetence2, 2),
-  _buildAssessment('competence_3', pixForCompetence3, 3),
-  _buildAssessment('competence_4', pixForCompetence4, 4),
-];
+const competence_1 = new Competence({ id: 'competence_1', index: '1.1', name: 'Mener une recherche', courseId: 'competence_1' });
+const competence_2 = new Competence({ id: 'competence_2', index: '2.2', name: 'Partager', courseId: 'competence_2' });
+const competence_3 = new Competence({ id: 'competence_3', index: '3.3', name: 'Adapter', courseId: 'competence_3' });
+const competence_4 = new Competence({ id: 'competence_4', index: '4.4', name: 'Résoudre', courseId: 'competence_4' });
+const competence_5 = new Competence({ id: 'competence_5', index: '5.5', name: 'Chercher', courseId: 'competence_5' });
+const competence_6 = new Competence({ id: 'competence_6', index: '6.6', name: 'Trouver', courseId: 'competence_6' });
 
 const competencesFromAirtable = [
-  new Competence({ id: 'competence_1', index: '1.1', name: 'Mener une recherche', courseId: 'competence_1' }),
-  new Competence({ id: 'competence_2', index: '2.2', name: 'Partager', courseId: 'competence_2' }),
-  new Competence({ id: 'competence_3', index: '3.3', name: 'Adapter', courseId: 'competence_3' }),
-  new Competence({ id: 'competence_4', index: '4.4', name: 'Résoudre', courseId: 'competence_4' }),
-  new Competence({ id: 'competence_5', index: '5.5', name: 'Chercher', courseId: 'competence_5' }),
-  new Competence({ id: 'competence_6', index: '6.6', name: 'Trouver', courseId: 'competence_6' }),
+  competence_1,
+  competence_2,
+  competence_3,
+  competence_4,
+  competence_5,
+  competence_6,
+];
+
+const userCompetencesV1 = [
+  _buildUserCompetence(competence_1, pixForCompetence1, 1),
+  _buildUserCompetence(competence_2, pixForCompetence2, 2),
+  _buildUserCompetence(competence_3, pixForCompetence3, 3),
+  _buildUserCompetence(competence_4, pixForCompetence4, 4),
 ];
 
 function _buildCorrectAnswersForAllChallenges() {
@@ -195,7 +200,7 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessment);
-      sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves(assessments);
+      sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId: 'user_id', limitDate: dateCreationCertif  }).resolves(userCompetencesV1);
       sinon.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
@@ -243,17 +248,6 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(challengeRepository.list);
-      });
-    });
-
-    it('should call assessment Repository to findLastCompletedAssessmentsForEachCoursesByUser', function() {
-      // when
-      const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessment.userId, dateCreationCertif);
       });
     });
 
@@ -694,12 +688,12 @@ describe('Unit | Service | Certification Service', function() {
             ];
 
             const userProfile = [
-              _buildAssessment('competence_1', positionedScore, positionedLevel),
+              _buildUserCompetence(competence_1, positionedScore, positionedLevel),
             ];
 
             answersRepository.findByAssessment.resolves(answers);
             certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
-            assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser.resolves(userProfile);
+            userService.getProfileToCertifyV1.withArgs({ userId: 'user_id', limitDate: dateCreationCertif }).resolves(userProfile);
 
             // When
             const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
@@ -733,13 +727,12 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       sinon.stub(assessmentRepository, 'get').resolves(certificationAssessment);
-      sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves(assessments);
+      sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId: 'user_id', limitDate: dateCreationCertif  }).resolves(userCompetencesV1);
       sinon.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
       sinon.stub(competenceRepository, 'list').resolves(competencesFromAirtable);
       sinon.stub(challengeRepository, 'list').resolves(challengesFromAirTable);
-
     });
 
     it('should call Assessment Repository to get Assessment by CertificationCourseId', function() {
@@ -781,17 +774,6 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(challengeRepository.list);
-      });
-    });
-
-    it('should call assessment Repository to findLastCompletedAssessmentsForEachCoursesByUser', function() {
-      // when
-      const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessment.userId, dateCreationCertif);
       });
     });
 
@@ -1079,9 +1061,9 @@ describe('Unit | Service | Certification Service', function() {
           _buildChallenge('challenge_B_for_competence_6', 'competence_6', 'QCM'),
           _buildChallenge('challenge_C_for_competence_6', 'competence_6', 'QCM')];
 
-        const assessments = [
-          _buildAssessment('competence_5', 50, 5),
-          _buildAssessment('competence_6', 36, 3),
+        const userCompetences = [
+          _buildUserCompetence(competence_5, 50, 5),
+          _buildUserCompetence(competence_6, 36, 3),
         ];
 
         const challenges = [
@@ -1094,7 +1076,7 @@ describe('Unit | Service | Certification Service', function() {
 
         challengeRepository.list.resolves(listChallengeComp5WithOneQROCMDEPChallengeAndAnother);
         certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
-        assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser.resolves(assessments);
+        userService.getProfileToCertifyV1.withArgs({ userId: 'user_id', limitDate: dateCreationCertif  }).resolves(userCompetences);
 
       });
 
