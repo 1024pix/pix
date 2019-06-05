@@ -9,8 +9,10 @@ import _ from 'lodash';
 
 export default Component.extend({
 
+  // Element
   classNames: ['certification-session-report'],
 
+  // Props
   displayCandidates:false,
   displayIncomplete:false,
   displayDuplicates:false,
@@ -18,8 +20,10 @@ export default Component.extend({
   displayWithoutCandidate:false,
   displayMissingEndScreen:false,
   displayComments:false,
+
+  // CPs
   incomplete:computed('candidates', function() {
-    return this.get('candidates').filter((candidate) => {
+    return this.candidates.filter((candidate) => {
       return candidate.lastName == null
       || candidate.lastName === ''
       || candidate.firstName == null
@@ -29,7 +33,7 @@ export default Component.extend({
       || candidate.birthPlace == null
       || candidate.birthPlace === ''
       || candidate.certificationId == null
-      || candidate.certficiationId === '';
+      || candidate.certificationId === '';
     });
   }),
   duplicates:computed('candidates', function() {
@@ -37,7 +41,7 @@ export default Component.extend({
     const groupedCertificationIds = _.groupBy(certificationIds, _.identity);
     return _.uniq(_.flatten(_.filter(groupedCertificationIds, (n) => n.length > 1)));
   }),
-  notFromSession:computed(function() {
+  notFromSession:computed('candidates', function() {
     const certificationIds = this.certifications.map((certification) => parseInt(certification.id));
     return this.candidates.filter((candidate) => {
       return certificationIds.indexOf(parseInt(candidate.certificationId)) === -1;
@@ -45,31 +49,31 @@ export default Component.extend({
   }),
   sessionCandidates:computed('candidates', 'notFromSession', function() {
     return DS.PromiseArray.create({
-      promise: this.get('notFromSession')
+      promise: this.notFromSession
         .then((toBeExcluded) => {
           const excludeIds = toBeExcluded.reduce((ids, candidate) => {
             ids.push(candidate.certificationId);
             return ids;
           }, []);
-          return this.get('candidates').filter((candidate) => {
+          return this.candidates.filter((candidate) => {
             return excludeIds.indexOf(candidate.certificationId) === -1;
           });
         })
     });
   }),
-  withoutCandidate:computed(function() {
+  withoutCandidate:computed('candidates', function() {
     const candidateIds = this.candidates.map((candidate) => candidate.certificationId);
     return this.certifications.filter((certification) => {
       return candidateIds.indexOf(parseInt(certification.id)) === -1;
     });
   }),
   missingEndScreen:computed('candidates', function() {
-    return this.get('candidates').filter((candidate) => {
+    return this.candidates.filter((candidate) => {
       return candidate.lastScreen == null;
     });
   }),
   comments:computed('candidates', function() {
-    return this.get('candidates').filter((candidate) => {
+    return this.candidates.filter((candidate) => {
       return candidate.comments != null;
     });
   }),
