@@ -24,7 +24,7 @@
         </div>
         {{#if (and candidates.length displayCandidates)}}
           <div class="row mb-4">
-            <div class="col-12 data-section__certification-ids">
+            <div class="col-8 data-section__certification-ids">
               {{#each candidates as |candidate|}}
                 <span class="data-section__certification-id">{{candidate.certificationId}}</span>
               {{/each}}
@@ -51,7 +51,7 @@
         </div>
         {{#if (and notFromSession.length displayNotFromSession)}}
           <div class="row mb-4">
-            <div class="col-12 data-section__certification-ids">
+            <div class="col-8 data-section__certification-ids">
               {{#each notFromSession as |item|}}
                 <span class="data-section__certification-id">{{item.certificationId}}</span>
               {{/each}}
@@ -78,7 +78,7 @@
         </div>
         {{#if (and incomplete.length displayIncomplete)}}
           <div class="row mb-4">
-            <div class="col-12 data-section__certification-ids">
+            <div class="col-8 data-section__certification-ids">
               {{#each incomplete as |item|}}
                 <span class="data-section__certification-id">{{item.certificationId}}</span>
               {{/each}}
@@ -105,7 +105,7 @@
         </div>
         {{#if (and duplicates.length displayDuplicates)}}
           <div class="row mb-4">
-            <div class="col-12 data-section__certification-ids">
+            <div class="col-8 data-section__certification-ids">
               {{#each duplicates as |duplicate|}}
                 <span class="data-section__certification-id">{{duplicate}}</span>
               {{/each}}
@@ -132,7 +132,7 @@
         </div>
         {{#if (and withoutCandidate.length displayWithoutCandidate)}}
           <div class="row mb-4">
-            <div class="col-12 data-section__certification-ids">
+            <div class="col-8 data-section__certification-ids">
               {{#each withoutCandidate as |item|}}
                 <span class="data-section__certification-id">{{item.id}}</span>
               {{/each}}
@@ -159,7 +159,7 @@
         </div>
         {{#if (and missingEndScreen.length displayMissingEndScreen)}}
           <div class="row mb-4">
-            <div class="col-12 data-section__certification-ids">
+            <div class="col-8 data-section__certification-ids">
               {{#each missingEndScreen as |item|}}
                 <span class="data-section__certification-id">{{item.certificationId}}</span>
               {{/each}}
@@ -186,7 +186,7 @@
         </div>
         {{#if (and comments.length displayComments)}}
           <div class="row mb-4">
-            <div class="col-12 data-section__certification-ids">
+            <div class="col-8 data-section__certification-ids">
               {{#each comments as |item|}}
                 <span class="data-section__certification-id">{{item.certificationId}}</span>
               {{/each}}
@@ -198,7 +198,7 @@
 
   {{/modal.body}}
   {{#modal.footer as |footer|}}
-    {{#bs-button onClick=(action modal.close)}}Fermer{{/bs-button}}
+    {{#bs-button onClick=(action modal.close) type="default"}}Fermer{{/bs-button}}
     {{#bs-button onClick=(action getJuryFile comments) type="primary"}}Récupérer le fichier avant Jury{{/bs-button}}
     {{#bs-button onClick=(action saveCandidates sessionCandidates) type="primary"}}Enregistrer les infos candidats{{/bs-button}}
   {{/modal.footer}}
