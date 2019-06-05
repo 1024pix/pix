@@ -44,7 +44,7 @@ export default Controller.extend({
       creationDate: 'Date de debut',
       completionDate: 'Date de fin',
       commentForCandidate: 'Commentaire pour le candidat',
-      commentForOrganization: 'Commentaire pour l\'organisation',
+      commentForOrganization: 'Commentaire pour l’organisation',
       commentForJury: 'Commentaire pour le jury',
       pixScore: 'Note Pix'
     };
@@ -85,24 +85,11 @@ export default Controller.extend({
   // Actions
   actions: {
 
-    onImport() {
-      const fileInput = document.getElementById('session-list__import-file');
-      fileInput.click();
+    async importAndLinkCandidatesToTheSessionCertifications(file) {
+      const csvAsText = await file.readAsText();
+      return this._importCSVData(csvAsText);
     },
 
-    onImportFileSelect(evt) {
-      try {
-        const file = evt.target.files[0];
-        const reader = new FileReader();
-        const that = this;
-        reader.onload = function(event) {
-          return that._importCSVData(event.target.result);
-        };
-        reader.readAsText(file);
-      } catch (error) {
-        this.notifications.error(error);
-      }
-    },
     onConfirmPublishSelected() {
       const count = this.selectedCertifications.length;
       if (count === 1) {
@@ -113,6 +100,7 @@ export default Controller.extend({
       this.set('confirmAction', 'onPublishSelected');
       this.set('displayConfirm', true);
     },
+
     onConfirmUnpublishSelected() {
       const count = this.selectedCertifications.length;
       if (count === 1) {
@@ -123,25 +111,23 @@ export default Controller.extend({
       this.set('confirmAction', 'onUnpublishSelected');
       this.set('displayConfirm', true);
     },
+
     onPublishSelected() {
       this._startCertificationPublication(true);
     },
+
     onUnpublishSelected() {
       this._startCertificationPublication(false);
     },
+
     onCancelConfirm() {
       this.set('displayConfirm', false);
     },
+
     onListSelectionChange(e) {
       this.set('selectedCertifications', e.selectedItems);
       this.set('showSelectedActions', e.selectedItems.length > 0);
     },
-
-    /*
-     * Important note:
-     * These actions will be removed when session report import is removed from admin
-     * (temporary code)
-     */
 
     onSaveReportData(candidatesData) {
       return candidatesData
@@ -249,10 +235,6 @@ export default Controller.extend({
       this.set('displaySessionReport', true);
     },
 
-    /*
-     * End of temporary code
-     */
-
   },
 
   // Private methods
@@ -316,9 +298,9 @@ export default Controller.extend({
       });
   },
 
-  _getCertificationsJson(ids, fields) {
+  _getCertificationsJson(certificationIds, fields) {
     const store = this.store;
-    const requests = ids.map((id) => {
+    const requests = certificationIds.map((id) => {
       return store.findRecord('certification', id)
         .catch(() => {
           // TODO: display error somehow
