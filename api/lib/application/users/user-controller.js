@@ -89,7 +89,7 @@ module.exports = {
     const userId = request.params.id;
     const currentDate = new Date();
 
-    return userService.getProfileToCertify(userId, currentDate);
+    return userService.getProfileToCertifyV1(userId, currentDate);
   },
 
   getMemberships(request) {

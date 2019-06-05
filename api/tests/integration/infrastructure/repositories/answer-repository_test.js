@@ -93,7 +93,10 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     it('should find the answer by challenge and assessment and return its in an object', () => {
       // when
-      const promise = AnswerRepository.findByChallengeAndAssessment({ challengeId: 'challenge_1234', assessmentId: assessmentId });
+      const promise = AnswerRepository.findByChallengeAndAssessment({
+        challengeId: 'challenge_1234',
+        assessmentId: assessmentId
+      });
 
       // then
       return promise.then((foundAnswers) => {
@@ -148,12 +151,99 @@ describe('Integration | Repository | AnswerRepository', () => {
         expect(foundAnswers).to.have.length.of(2);
 
         const values = _.map(foundAnswers, 'value');
-        expect(values).to.include.members(['1','1,2']);
+        expect(values).to.include.members(['1', '1,2']);
 
         const challengeIds = _.map(foundAnswers, 'challengeId');
         expect(challengeIds).to.include('challenge_1234');
         expect(challengeIds).to.not.include('challenge_000');
       });
+    });
+  });
+
+  describe('#findChallengeIdsFromAnswerIds', () => {
+    it('should return a list of corresponding challenge ids', async () => {
+      // given
+      const answerIds = [1, 2, 3, 4];
+
+      answerIds.forEach((id) => {
+        databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id });
+      });
+      await databaseBuilder.commit();
+
+      const expectedChallengeIds = ['rec1', 'rec2', 'rec3', 'rec4'];
+
+      // when
+      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(answerIds);
+
+      // then
+      expect(challengeIds).to.deep.equal(expectedChallengeIds);
+    });
+
+    it('should return an empty list when given an empty list', async () => {
+      // given
+      const answerIds = [];
+
+      // when
+      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(answerIds);
+
+      // then
+      expect(challengeIds).to.deep.equal([]);
+    });
+
+    it('should ignore a non existing answer', async () => {
+      // given
+      const answerIds = [1, 2, 3, 4];
+
+      answerIds.forEach((id) => {
+        databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id });
+      });
+      await databaseBuilder.commit();
+
+      const nonExistingAnswerId = 1234;
+
+      const expectedChallengeIds = ['rec1', 'rec2', 'rec3', 'rec4'];
+
+      // when
+      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(
+        answerIds.concat([nonExistingAnswerId])
+      );
+
+      // then
+      expect(challengeIds).to.deep.equal(expectedChallengeIds);
+    });
+
+    it('should return one challenge which valid 2 distinct skills', async () => {
+      // given
+      const answerIds = [1, 1];
+
+      databaseBuilder.factory.buildAnswer({ id: 1, challengeId: 'rec10' });
+      await databaseBuilder.commit();
+
+      const expectedChallengeIds = ['rec10'];
+
+      // when
+      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(answerIds);
+
+      // then
+      expect(challengeIds).to.deep.equal(expectedChallengeIds);
+    });
+
+    it('should return only once a challengeId answered twice', async () => {
+      // given
+      const answerIds = [1, 2];
+
+      answerIds.forEach((id) => {
+        databaseBuilder.factory.buildAnswer({ id, challengeId: 'recChallenge10' });
+      });
+      await databaseBuilder.commit();
+
+      const expectedChallengeIds = ['recChallenge10'];
+
+      // when
+      const challengeIds = await AnswerRepository.findChallengeIdsFromAnswerIds(answerIds);
+
+      // then
+      expect(challengeIds).to.deep.equal(expectedChallengeIds);
     });
   });
 
@@ -211,7 +301,7 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
   });
 
-  describe('#findCorrectAnswersByAssessment', () => {
+  describe('#findCorrectAnswersByAssessmentId', () => {
 
     const answer1 = {
       value: 'Un pancake Tabernacle',
@@ -248,7 +338,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       };
 
       // when
-      const promise = AnswerRepository.findCorrectAnswersByAssessment(assessmentId);
+      const promise = AnswerRepository.findCorrectAnswersByAssessmentId(assessmentId);
 
       // then
       return promise.then((answers) => {
@@ -309,5 +399,4 @@ describe('Integration | Repository | AnswerRepository', () => {
       expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
     });
   });
-})
-;
+});
