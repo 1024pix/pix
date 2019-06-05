@@ -74,8 +74,6 @@ export default Controller.extend({
       creationDate: 'Date de passage de la certification'
     };
 
-    this._csvHeaders = Object.values(this._fields).concat(this._competences);
-
     this._juryCsvHeaders = Object.values(this._juryFields).concat(this._competences);
 
     this._resultCsvHeaders = Object.values(this._resultFields).slice(0, -3).concat(this._competences).concat(Object.values(this._resultFields).slice(-3));
@@ -89,23 +87,12 @@ export default Controller.extend({
 
   // Actions
   actions: {
-    onExport() {
-      return this._getExportJson(this._fields)
-        .then((json) => {
-          this.set('progress', false);
-          const csv = json2csv.parse(json, {
-            fields: this._csvHeaders,
-            delimiter: ';',
-            withBOM: false,
-          });
-          const fileName = 'session_' + this.get('model.session.id') + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
-          this.fileSaver.saveAs(csv + '\n', fileName);
-        });
-    },
+
     onImport() {
       const fileInput = document.getElementById('session-list__import-file');
       fileInput.click();
     },
+
     onImportFileSelect(evt) {
       try {
         const file = evt.target.files[0];
@@ -183,6 +170,7 @@ export default Controller.extend({
           this.get('notifications').success(candidatesData.length + ' lignes correctement importées');
         });
     },
+
     onGetJuryFile(candidatesWithComments) {
       const comments = candidatesWithComments.reduce((values, candidate) => {
         values[candidate.certificationId] = candidate.comments;
@@ -204,7 +192,7 @@ export default Controller.extend({
             delimiter: ';',
             withBOM: false,
           });
-          const fileName = 'jury_session_' + this.get('model.session.id') + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+          const fileName = 'jury_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
           this.fileSaver.saveAs(csv + '\n', fileName);
         });
     },
@@ -212,13 +200,13 @@ export default Controller.extend({
     onExportResults() {
       const dateFieldName = this._resultFields.creationDate;
       const centerFieldName = this._resultFields.certificationCenter;
-      const centerName = this.get('model.session.certificationCenter');
+      const centerName = this.model.certificationCenter;
       return this._getExportJson(this._resultFields)
         .then((json) => {
           this.set('progress', false);
           json.forEach((certification) => {
             this._competences.forEach((competence) => {
-              if (certification[competence] == null || certification[competence] == 0 || certification[competence] == -1) {
+              if (certification[competence] == null || certification[competence] === 0 || certification[competence] === -1) {
                 certification[competence] = '-';
               }
             });
@@ -230,7 +218,7 @@ export default Controller.extend({
             delimiter: ';',
             withBOM: false,
           });
-          const fileName = 'resultats_session_' + this.get('model.session.id') + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+          const fileName = 'resultats_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
           this.fileSaver.saveAs(csv + '\n', fileName);
         });
     },
@@ -281,9 +269,6 @@ export default Controller.extend({
 
   _getExportJson(fields) {
     const ids = this.model.certifications.map(c => c.id);
-    this.set('progressMax', ids.length);
-    this.set('progressValue', 0);
-    this.set('progress', true);
     return this._getExportJsonPart(ids, [], fields);
   },
 
@@ -291,7 +276,6 @@ export default Controller.extend({
     const ids = certificationsIds.splice(0, 10);
     return this._getCertificationsJson(ids, fields)
       .then((value) => {
-        this.set('progressValue', this.progressValue + value.length);
         if (certificationsIds.length > 0) {
           return this._getExportJsonPart(certificationsIds, json.concat(value), fields);
         } else {
@@ -396,14 +380,15 @@ export default Controller.extend({
         const updateRequests = [];
         certifications.forEach((certification) => {
           const id = certification.get('id');
+          const sessionId = certification.get('sessionId').toString();
           const newDataPiece = newData[id];
           // check that session id is correct
-          if (newDataPiece && certification.get('sessionId') == this.get('model.session.id')) {
+          if (newDataPiece && sessionId === this.model.id) {
             this._csvImportFields.forEach((key) => {
               const fieldName = this._fields[key];
               let fieldValue = newDataPiece[fieldName];
               if (fieldValue) {
-                if (fieldValue.length == 0) {
+                if (fieldValue.length === 0) {
                   fieldValue = null;
                 }
                 certification.set(key, fieldValue);

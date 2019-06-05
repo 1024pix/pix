@@ -6,27 +6,20 @@
 
       <button class="btn btn-outline-default" {{action "onImport"}} type="button">
         {{fa-icon "file-import"}}
-        {{#bs-tooltip}}Importer données (csv){{/bs-tooltip}}
+        {{#bs-tooltip}}Importer données (.csv){{/bs-tooltip}}
       </button>
       {{input type='file' id='session-list__import-file' change=(action "onImportFileSelect")}}
 
-      <button class="btn btn-outline-default" {{action "onExport"}} type="button">
-        {{fa-icon "file-export"}}
-        {{#bs-tooltip}}Exporter données (csv){{/bs-tooltip}}
-      </button>
-
-      <button class="btn btn-outline-default">
-        {{#file-upload name="certification-session-report" onfileadd=(action "displayCertificationSessionReport")}}
-          <a>
-            {{fa-icon "notes-medical"}}
-          </a>
+      <button class="btn btn-outline-default btn--check-session-record">
+        {{#file-upload name="certification-session-report" onfileadd=(action "displayCertificationSessionReport") accept="application/vnd.oasis.opendocument.spreadsheet"}}
+          {{fa-icon "clipboard-list"}}
         {{/file-upload}}
-        {{#bs-tooltip}}Analyser PV (ods){{/bs-tooltip}}
+        {{#bs-tooltip}}Analyser PV de session (.ods){{/bs-tooltip}}
       </button>
 
       <button class="btn btn-outline-default" {{action "onExportResults"}} type="button">
-        {{fa-icon "coffee"}}
-        {{#bs-tooltip}}Exporter résultats{{/bs-tooltip}}
+        {{fa-icon "file-download"}}
+        {{#bs-tooltip}}Exporter résultats (.csv){{/bs-tooltip}}
       </button>
 
       {{#if showSelectedActions}}
