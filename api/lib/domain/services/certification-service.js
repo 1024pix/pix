@@ -175,43 +175,50 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   });
 }
 
-function _getCertificationResult(assessment, continueOnError = false) {
-  return Promise.all([
+async function _getCertificationResult(assessment, continueOnError = false) {
+  const [
+    assessmentAnswers,
+    certificationChallenges,
+    userCompletedAssessments,
+    certificationCourse,
+    allCompetences,
+    allChallenges
+  ] = await Promise.all([
     answersRepository.findByAssessment(assessment.id),
     certificationChallengesRepository.findByCertificationCourseId(assessment.courseId),
     assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(assessment.userId, assessment.createdAt),
     certificationCourseRepository.get(assessment.courseId),
     competenceRepository.list(),
     challengeRepository.list(),
-  ]).then(([assessmentAnswers, certificationChallenges, userCompletedAssessments, certificationCourse, allCompetences, allChallenges]) => {
-    const testedCompetences = userCompletedAssessments
-      .filter((assessment) => assessment.isCertifiable())
-      .map((assessment) => {
-        const competenceOfAssessment = _.find(allCompetences, (competence) => competence.courseId === assessment.courseId);
-        return {
-          id: competenceOfAssessment.id,
-          index: competenceOfAssessment.index,
-          name: competenceOfAssessment.name,
-          estimatedLevel: assessment.getLastAssessmentResult().level,
-          pixScore: assessment.getLastAssessmentResult().pixScore,
-        };
-      });
+  ]);
 
-    certificationChallenges.forEach((certifChallenge) => {
-      const challenge = _.find(allChallenges, (challengeFromAirtable) => challengeFromAirtable.id === certifChallenge.challengeId);
-      certifChallenge.type = challenge ? challenge.type : 'EmptyType';
+  const testedCompetences = userCompletedAssessments
+    .filter((assessment) => assessment.isCertifiable())
+    .map((assessment) => {
+      const competenceOfAssessment = _.find(allCompetences, (competence) => competence.courseId === assessment.courseId);
+      return {
+        id: competenceOfAssessment.id,
+        index: competenceOfAssessment.index,
+        name: competenceOfAssessment.name,
+        estimatedLevel: assessment.getLastAssessmentResult().level,
+        pixScore: assessment.getLastAssessmentResult().pixScore,
+      };
     });
 
-    const result = _getResult(assessmentAnswers, certificationChallenges, testedCompetences, continueOnError);
-    // FIXME: Missing tests
-    result.createdAt = assessment.createdAt;
-    result.userId = assessment.userId;
-    result.status = assessment.state;
-    result.completedAt = certificationCourse.completedAt;
-
-    result.listChallengesAndAnswers = _getChallengeInformation(assessmentAnswers, certificationChallenges, allCompetences);
-    return result;
+  certificationChallenges.forEach((certifChallenge) => {
+    const challenge = _.find(allChallenges, (challengeFromAirtable) => challengeFromAirtable.id === certifChallenge.challengeId);
+    certifChallenge.type = challenge ? challenge.type : 'EmptyType';
   });
+
+  const result = _getResult(assessmentAnswers, certificationChallenges, testedCompetences, continueOnError);
+  // FIXME: Missing tests
+  result.createdAt = assessment.createdAt;
+  result.userId = assessment.userId;
+  result.status = assessment.state;
+  result.completedAt = certificationCourse.completedAt;
+
+  result.listChallengesAndAnswers = _getChallengeInformation(assessmentAnswers, certificationChallenges, allCompetences);
+  return result;
 }
 
 function _computeAnswersSuccessRate(answers = []) {
