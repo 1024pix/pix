@@ -280,7 +280,7 @@ export default Controller.extend({
   // Private methods
 
   _getExportJson(fields) {
-    const ids = this.get('model.certificationIds').toArray();
+    const ids = this.model.certifications.map(c => c.id);
     this.set('progressMax', ids.length);
     this.set('progressValue', 0);
     this.set('progress', true);
