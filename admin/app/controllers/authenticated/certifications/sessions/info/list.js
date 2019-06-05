@@ -13,12 +13,9 @@ export default Controller.extend({
 
   // DI
   fileSaver: service('file-saver'),
+  notifications: service('notification-messages'),
 
   // Properties
-  progress: false,
-  progressMax: 0,
-  progressValue: 0,
-  notifications: service('notification-messages'),
   displayConfirm: false,
   displaySessionReport: false,
   confirmMessage: null,
@@ -103,7 +100,6 @@ export default Controller.extend({
         };
         reader.readAsText(file);
       } catch (error) {
-        this.set('progress', false);
         this.notifications.error(error);
       }
     },
@@ -160,13 +156,9 @@ export default Controller.extend({
             certificationItem[this._fields.externalId] = piece.externalId;
             return certificationItem;
           });
-          this.set('progressMax', certificationData.length);
-          this.set('progressValue', 0);
-          this.set('progress', true);
           return this._importCertificationsData(certificationData);
         })
         .then(() => {
-          this.set('progress', false);
           this.get('notifications').success(candidatesData.length + ' lignes correctement importées');
         });
     },
@@ -178,7 +170,6 @@ export default Controller.extend({
       }, {});
       return this._getExportJson(this._juryFields)
         .then((json) => {
-          this.set('progress', false);
           json = json.filter((item) => {
             const id = item[this._fields.id];
             if (comments[id] != null) {
@@ -203,7 +194,6 @@ export default Controller.extend({
       const centerName = this.model.certificationCenter;
       return this._getExportJson(this._resultFields)
         .then((json) => {
-          this.set('progress', false);
           json.forEach((certification) => {
             this._competences.forEach((competence) => {
               if (certification[competence] == null || certification[competence] === 0 || certification[competence] === -1) {
@@ -288,7 +278,6 @@ export default Controller.extend({
     const dataPiece = data.splice(0, 10);
     return this._updateCertifications(dataPiece)
       .then(() => {
-        this.set('progressValue', this.progressValue + 10);
         if (data.length > 0) {
           return this._importCertificationsData(data);
         } else {
@@ -301,12 +290,8 @@ export default Controller.extend({
     this.set('displayConfirm', false);
     const certifications = this.selectedCertifications;
     const count = certifications.length;
-    this.set('progressMax', certifications.length);
-    this.set('progressValue', 0);
-    this.set('progress', true);
     return this._publishCertifications(certifications.slice(0), value)
       .then(() => {
-        this.set('progress', false);
         if (count === 1) {
 
           this.notifications.success('La certification a été correctement ' + (value ? 'publiée' : 'dépubliée'));
@@ -315,7 +300,6 @@ export default Controller.extend({
         }
       })
       .catch((error) => {
-        this.set('progress', false);
         this.notifications.error(error);
       });
   },
@@ -324,7 +308,6 @@ export default Controller.extend({
     const piece = certifications.splice(0, 10);
     return this._setCertificationPublished(piece, value)
       .then(() => {
-        this.set('progressValue', this.progressValue + 10);
         if (certifications.length > 0) {
           return this._publishCertifications(certifications, value);
         } else {
@@ -422,16 +405,11 @@ export default Controller.extend({
     const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
     const parsedCSVData = Papa.parse(csvRawData, { header: true, skipEmptyLines: true }).data;
     const rowCount = parsedCSVData.length;
-    this.set('progressMax', parsedCSVData.length);
-    this.set('progressValue', 0);
-    this.set('progress', true);
     return this._importCertificationsData(parsedCSVData)
       .then(() => {
-        this.set('progress', false);
         this.get('notifications').success(rowCount + ' lignes correctement importées');
       })
       .catch((error) => {
-        this.set('progress', false);
         this.get('notifications').error(error);
       });
   },

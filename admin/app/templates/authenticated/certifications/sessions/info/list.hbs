@@ -39,15 +39,6 @@
   </div>
 </div>
 
-
-{{#if progress}}
-  <div class="session-list__progress">
-    {{#bs-progress as |p|}}
-      {{p.bar value=progressValue maxValue=progressMax}}
-    {{/bs-progress}}
-  </div>
-{{/if}}
-
 {{confirm-popup message=confirmMessage
                 confirm=(action confirmAction)
                 cancel=(action "onCancelConfirm")
