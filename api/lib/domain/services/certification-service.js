@@ -215,7 +215,7 @@ async function _getCertificationResult(assessment, continueOnError = false) {
   });
 
   certificationChallenges.forEach((certifChallenge) => {
-    const challenge = _.find(allChallenges, (challengeFromAirtable) => challengeFromAirtable.id === certifChallenge.challengeId);
+    const challenge = _.find(allChallenges, { id: certifChallenge.challengeId });
     certifChallenge.type = challenge ? challenge.type : 'EmptyType';
   });
 
