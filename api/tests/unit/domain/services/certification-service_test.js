@@ -7,6 +7,7 @@ const Competence = require('../../../../lib/domain/models/Competence');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMarks = require('../../../../lib/domain/models/CompetenceMark');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
 
@@ -190,7 +191,7 @@ describe('Unit | Service | Certification Service', function() {
       state: 'completed',
     });
 
-    const certificationCourse = { id: 'course1', status: 'completed', completedAt: dateCreationCertif };
+    const certificationCourse = new CertificationCourse({ id: 'course1', status: 'completed', completedAt: dateCreationCertif });
 
     beforeEach(() => {
       sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessment);
@@ -719,7 +720,7 @@ describe('Unit | Service | Certification Service', function() {
 
   describe('#calculateCertificationResultByAssessmentId', () => {
 
-    const certificationCourse = { id: 'course1', status: 'completed' };
+    const certificationCourse = new CertificationCourse({ id: 'course1', status: 'completed' });
     const dateCreationCertif = new Date('2018-02-02T01:02:03Z');
 
     const certificationAssessment = Assessment.fromAttributes({
@@ -1186,7 +1187,7 @@ describe('Unit | Service | Certification Service', function() {
             _buildAssessmentResult(20, 3),
           ],
         }));
-        sinon.stub(certificationCourseRepository, 'get').resolves({
+        sinon.stub(certificationCourseRepository, 'get').resolves(new CertificationCourse({
           createdAt: new Date('2017-12-23T15:23:12Z'),
           completedAt: new Date('2017-12-23T16:23:12Z'),
           firstName: 'Pumba',
@@ -1195,7 +1196,7 @@ describe('Unit | Service | Certification Service', function() {
           birthdate: '28/01/1992',
           sessionId: 'MoufMufassa',
           externalId: 'TimonsFriend',
-        });
+        }));
         assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
         sinon.stub(assessmentResultRepository, 'get').resolves(
           assessmentResult,
@@ -1251,7 +1252,7 @@ describe('Unit | Service | Certification Service', function() {
         sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
           state: 'started',
         }));
-        sinon.stub(certificationCourseRepository, 'get').resolves({
+        sinon.stub(certificationCourseRepository, 'get').resolves(new CertificationCourse({
           createdAt: new Date('2017-12-23T15:23:12Z'),
           firstName: 'Pumba',
           lastName: 'De La Savane',
@@ -1259,7 +1260,7 @@ describe('Unit | Service | Certification Service', function() {
           birthdate: '28/01/1992',
           sessionId: 'MoufMufassa',
           externalId: 'TimonsFriend',
-        });
+        }));
         sinon.stub(assessmentResultRepository, 'get').resolves(null);
       });
 
@@ -1281,6 +1282,16 @@ describe('Unit | Service | Certification Service', function() {
         });
       });
 
+      it('should know certification version', async () => {
+        // given
+        const certificationCourseId = 1;
+
+        // when
+        const certificationResult = await certificationService.getCertificationResult(certificationCourseId);
+
+        // then
+        expect(certificationResult.isV2Certification).to.be.false;
+      });
     });
   });
 

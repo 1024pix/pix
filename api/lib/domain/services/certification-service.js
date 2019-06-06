@@ -287,6 +287,7 @@ module.exports = {
           sessionId: certification.sessionId,
           externalId: certification.externalId,
           isPublished: certification.isPublished,
+          isV2Certification: certification.isV2Certification,
         };
       });
   },
