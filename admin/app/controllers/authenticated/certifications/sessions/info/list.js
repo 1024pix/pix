@@ -189,24 +189,23 @@ export default Controller.extend({
       this.set('showSelectedActions', e.selectedItems.length > 0);
     },
 
-    onSaveReportData(candidatesData) {
-      return candidatesData
-        .then((data) => {
-          const certificationData = data.map((piece) => {
-            const certificationItem = {};
-            certificationItem[this._fields.id] = piece.certificationId;
-            certificationItem[this._fields.firstName] = piece.firstName;
-            certificationItem[this._fields.lastName] = piece.lastName;
-            certificationItem[this._fields.birthdate] = piece.birthDate;
-            certificationItem[this._fields.birthplace] = piece.birthPlace;
-            certificationItem[this._fields.externalId] = piece.externalId;
-            return certificationItem;
-          });
-          return this._importCertificationsData(certificationData);
-        })
-        .then(() => {
-          this.get('notifications').success(candidatesData.length + ' lignes correctement importées');
-        });
+    async onSaveReportData(candidatesData) {
+      const certificationData = candidatesData.map((piece) => {
+        const certificationItem = {};
+        certificationItem[this._fields.id] = piece.certificationId;
+        certificationItem[this._fields.firstName] = piece.firstName;
+        certificationItem[this._fields.lastName] = piece.lastName;
+        certificationItem[this._fields.birthdate] = piece.birthDate;
+        certificationItem[this._fields.birthplace] = piece.birthPlace;
+        certificationItem[this._fields.externalId] = piece.externalId;
+        return certificationItem;
+      });
+      try {
+        await this._importCertificationsData(certificationData);
+        this.notifications.success(candidatesData.length + ' lignes correctement importées');
+      } catch (error) {
+        this.notifications.error(error);
+      }
     },
 
     onGetJuryFile(candidatesWithComments) {
@@ -388,10 +387,10 @@ export default Controller.extend({
     const rowCount = parsedCSVData.length;
     return this._importCertificationsData(parsedCSVData)
       .then(() => {
-        this.get('notifications').success(rowCount + ' lignes correctement importées');
+        this.notifications.success(rowCount + ' lignes correctement importées');
       })
       .catch((error) => {
-        this.get('notifications').error(error);
+        this.notifications.error(error);
       });
   },
 
