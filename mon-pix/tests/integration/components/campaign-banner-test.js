@@ -1,48 +1,47 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | campaign-banner', function() {
-  setupComponentTest('campaign-banner', {
-    integration: true
-  });
+  setupRenderingTest();
 
-  it('renders', function() {
-    this.render(hbs`{{campaign-banner}}`);
-    expect(this.$()).to.have.length(1);
+  it('renders', async function() {
+    await render(hbs`{{campaign-banner}}`);
+    expect(find('.campaign-banner')).to.exist;
   });
 
   context('When campaign has a title', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       this.set('campaignTitle', 'My campaign');
-      this.render(hbs`{{campaign-banner title=campaignTitle}}`);
+      await render(hbs`{{campaign-banner title=campaignTitle}}`);
     });
 
     it('should render the banner with a title', function() {
-      expect(this.$('.campaign-banner__title')).to.have.length(1);
-      expect(this.$('.campaign-banner__title').text()).to.equal('My campaign');
+      expect(find('.campaign-banner__title')).to.exist;
+      expect(find('.campaign-banner__title').textContent).to.equal('My campaign');
     });
 
     it('should render the banner with a splitter', function() {
-      expect(this.$('.campaign-banner__splitter')).to.have.length(1);
+      expect(find('.campaign-banner__splitter')).to.exist;
     });
 
   });
 
   context('When campaign doesn\'t have a title', function() {
-    beforeEach(function() {
+    beforeEach(async function() {
       this.set('campaignTitle', null);
-      this.render(hbs`{{campaign-banner title=campaignTitle}}`);
+      await render(hbs`{{campaign-banner title=campaignTitle}}`);
     });
 
     it('should not render the banner with a title', function() {
-      expect(this.$('.campaign-banner__title')).to.have.length(0);
+      expect(find('.campaign-banner__title')).to.not.exist;
     });
 
     it('should not render the banner with a splitter', function() {
-      expect(this.$('.campaign-banner__splitter')).to.have.length(0);
+      expect(find('.campaign-banner__splitter')).to.not.exist;
     });
 
   });

@@ -9,6 +9,7 @@ export default Component.extend({
   answerValue: null,
   proposals: null,
   answerChanged: null,
+  classNames: ['qcm-proposals'],
 
   labeledCheckboxes: computed('proposals', 'answerValue', function() {
     const arrayOfProposals = proposalsAsArray(this.proposals);

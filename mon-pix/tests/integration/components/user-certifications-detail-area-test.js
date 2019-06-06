@@ -1,15 +1,13 @@
 import EmberObject from '@ember/object';
 import { A as EmberArray } from '@ember/array';
-
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | user certifications detail area', function() {
-  setupComponentTest('user-certifications-detail-area', {
-    integration: true,
-  });
+  setupRenderingTest();
 
   let area;
 
@@ -43,16 +41,16 @@ describe('Integration | Component | user certifications detail area', function()
     this.set('area', area);
   });
 
-  it('renders', function() {
-    this.render(hbs`{{user-certifications-detail-area area=area}}`);
-    expect(this.$()).to.have.length(1);
+  it('renders', async function() {
+    await render(hbs`{{user-certifications-detail-area area=area}}`);
+    expect(find('.user-certifications-detail-area')).to.exist;
   });
 
   context('when has a list of competences', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // when
-      this.render(hbs`{{user-certifications-detail-area area=area}}`);
+      await render(hbs`{{user-certifications-detail-area area=area}}`);
     });
 
     // then
@@ -61,7 +59,7 @@ describe('Integration | Component | user certifications detail area', function()
       const divOfName = '.user-certifications-detail-area__box-name';
 
       // then
-      expect(this.$(divOfName).text()).to.include(area.get('title'));
+      expect(find(divOfName).textContent).to.include(area.get('title'));
     });
 
     it('should include one competences detail per competence', function() {
@@ -69,7 +67,7 @@ describe('Integration | Component | user certifications detail area', function()
       const divOfCompetence = '.user-certifications-detail-competence';
 
       // then
-      expect(this.$(divOfCompetence)).to.have.lengthOf(area.get('resultCompetences.length'));
+      expect(findAll(divOfCompetence)).to.have.lengthOf(area.get('resultCompetences.length'));
     });
   });
 });

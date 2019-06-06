@@ -1,7 +1,6 @@
 import { A as EmberArray } from '@ember/array';
 import { computed } from '@ember/object';
 import { classify } from '@ember/string';
-import { getOwner } from '@ember/application';
 import MediaService from 'ember-responsive/media';
 import { registerAsyncHelper } from '@ember/test';
 
@@ -51,7 +50,7 @@ export default registerAsyncHelper('setBreakpoint', function(app, breakpoint) {
 });
 
 export function setBreakpointForIntegrationTest(container, breakpoint) {
-  const mediaService = getOwner(container).lookup('service:media');
+  const mediaService = container.owner.lookup('service:media');
   mediaService._forceSetBreakpoint(breakpoint);
   container.set('media', mediaService);
 

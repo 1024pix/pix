@@ -1,34 +1,32 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | modal mobile', function() {
 
-  setupComponentTest('modal-mobile', {
-    integration: true
+  setupRenderingTest();
+
+  it('renders', async function() {
+    await render(hbs`{{modal-mobile}}`);
+    expect(find('.modal-mobile')).to.exist;
   });
 
-  it('renders', function() {
-    this.render(hbs`{{modal-mobile}}`);
-    expect(this.$()).to.have.lengthOf(1);
-  });
-
-  it('should display a title with a "warning" icon', function() {
+  it('should display a title with a "warning" icon', async function() {
     // when
-    this.render(hbs`{{modal-mobile}}`);
+    await render(hbs`{{modal-mobile}}`);
 
     // then
-    const $titleWarningIcon = this.$('.modal-title__warning-icon');
-    expect($titleWarningIcon.attr('src')).to.equal('/images/icon-mobile-support-warning.svg');
+    expect(find('.modal-title__warning-icon').getAttribute('src')).to.equal('/images/icon-mobile-support-warning.svg');
   });
 
-  it('should display a message', function() {
+  it('should display a message', async function() {
     // when
-    this.render(hbs`{{modal-mobile}}`);
+    await render(hbs`{{modal-mobile}}`);
 
     // then
     const expected = 'Certaines épreuves Pix peuvent être difficiles à réussir sur mobile. Pour une meilleure expérience, nous vous conseillons de passer ce test sur un ordinateur.';
-    expect(this.$('.modal-body').text().trim()).to.equal(expected);
+    expect(find('.modal-body').textContent.trim()).to.equal(expected);
   });
 });

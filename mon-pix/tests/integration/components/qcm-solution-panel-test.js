@@ -1,44 +1,27 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it, before } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import _ from 'mon-pix/utils/lodash-custom';
-import $ from 'jquery';
-
-const CHECKBOX_CORRECT_AND_CHECKED = 'input[type=checkbox]:eq(1)';
-const LABEL_CORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(1)';
-
-const CHECKBOX_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(2)';
-const LABEL_CORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(2)';
-
-const LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(0)';
-const LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
-
-const CSS_LINETHROUGH_ON = 'line-through';
-const CSS_LINETHROUGH_OFF = 'none';
 
 const assessment = {};
 let challenge = null;
 let answer = null;
 let solution = null;
 
-function charCount(str) {
-  return str.match(/[a-zA-Z]/g).length;
-}
-
 describe('Integration | Component | qcm-solution-panel.js', function() {
 
-  setupComponentTest('qcm-solution-panel', {
-    integration: true
-  });
+  setupRenderingTest();
 
   describe('#Component should renders: ', function() {
 
-    it('Should renders', function() {
-      this.render(hbs`{{qcm-solution-panel}}`);
-      expect(this.$()).to.have.lengthOf(1);
-      expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+    it('Should renders', async function() {
+      await render(hbs`{{qcm-solution-panel}}`);
+
+      expect(find('.qcm-solution-panel')).to.exist;
+      expect(findAll('.qcm-proposal-label__oracle')).to.have.lengthOf(0);
     });
 
     describe('checkbox state', function() {
@@ -62,39 +45,36 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         answer = EmberObject.create(correctAnswer);
       });
 
-      it('QCM, la réponse correcte est cochée', function() {
+      it('QCM, la réponse correcte est cochée', async function() {
         // Given
         this.set('answer', answer);
         this.set('solution', solution);
         this.set('challenge', challenge);
 
         // When
-        this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
-        expect($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
-
-        expect($(CHECKBOX_CORRECT_AND_CHECKED).attr('disabled')).to.equal('disabled');
-        expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
-        expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+        expect(findAll('.qcm-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('yes');
+        expect(findAll('input[type=checkbox]')[1].getAttribute('disabled')).to.equal('disabled');
+        expect(findAll('.qcm-proposal-label__oracle')[1].getAttribute('data-goodness')).to.equal('good');
       });
 
-      it('QCM, aucune réponse incorrecte n\'est cochée', function() {
+      it('QCM, une réponse incorrecte n\'est pas cochée', async function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
         this.set('challenge', challenge);
 
         // When
-        this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+        expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('no');
+        expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-goodness')).to.equal('bad');
       });
 
-      it('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function() {
+      it('QCM, Au moins l\'une des réponses correctes n\'est pas cochée', async function() {
         //Given
         answer = EmberObject.create(unCorrectAnswer);
 
@@ -103,14 +83,14 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
-        expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+        expect(findAll('.qcm-proposal-label__oracle')[2].getAttribute('data-checked')).to.equal('no');
+        expect(findAll('.qcm-proposal-label__oracle')[2].getAttribute('data-goodness')).to.equal('good');
       });
 
-      it('QCM, au moins l\'une des réponse incorrecte est cochée', function() {
+      it('QCM, au moins l\'une des réponses incorrectes est cochée', async function() {
         //Given
         answer = EmberObject.create(unCorrectAnswer);
 
@@ -119,28 +99,26 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
-        expect(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
-        expect($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
-
+        expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('yes');
+        expect(findAll('.qcm-proposal-label__oracle')[0].getAttribute('data-goodness')).to.equal('bad');
       });
 
-      it('Aucune case à cocher n\'est cliquable', function() {
+      it('Aucune case à cocher n\'est cliquable', async function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
         this.set('challenge', challenge);
 
         // When
-        this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        const size = $('.comparison-window .qcm-proposal-label__checkbox-picture').length;
+        const size = findAll('.comparison-window .qcm-proposal-label__checkbox-picture').length;
         _.times(size, function(index) {
-          expect($('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').is(':disabled')).to.equal(true);
+          expect(find('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
         });
       });
     });

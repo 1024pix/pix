@@ -1,42 +1,41 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | score pastille', function() {
-  setupComponentTest('score-pastille', {
-    integration: true
-  });
+  setupRenderingTest();
 
   describe('Component rendering', function() {
 
-    it('should render component', function() {
+    it('should render component', async function() {
       // when
-      this.render(hbs`{{score-pastille}}`);
+      await render(hbs`{{score-pastille}}`);
 
       // then
-      expect(this.$()).to.have.lengthOf(1);
+      expect(find('.score-pastille')).to.exist;
     });
 
     describe('Component dashes rendering instead of zero cases:', function() {
 
-      it('should display two dashes, when no pixScore provided', function() {
+      it('should display two dashes, when no pixScore provided', async function() {
         // when
-        this.render(hbs`{{score-pastille}}`);
+        await render(hbs`{{score-pastille}}`);
         // then
-        expect(this.$('.score-pastille__pix-score').text().trim()).to.equal('–');
+        expect(find('.score-pastille__pix-score').textContent.trim()).to.equal('–');
       });
 
     });
 
-    it('should display provided score in pastille', function() {
+    it('should display provided score in pastille', async function() {
       // given
       const pixScore = '777';
       this.set('pixScore', pixScore);
       // when
-      this.render(hbs`{{score-pastille pixScore=pixScore}}`);
+      await render(hbs`{{score-pastille pixScore=pixScore}}`);
       // then
-      expect(this.$('.score-pastille__pix-score').text().trim()).to.equal(pixScore);
+      expect(find('.score-pastille__pix-score').textContent.trim()).to.equal(pixScore);
     });
   });
 });
