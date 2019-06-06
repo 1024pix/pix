@@ -2,21 +2,20 @@ import EmberObject from '@ember/object';
 import { resolve, reject } from 'rsvp';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { click, find, fillIn, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
 describe('Integration | Component | reset password form', function() {
-  setupComponentTest('reset-password-form', {
-    integration: true
-  });
+  setupRenderingTest();
 
   describe('Component rendering', function() {
 
-    it('should be rendered', function() {
-      this.render(hbs`{{reset-password-form}}`);
-      expect(this.$()).to.have.length(1);
+    it('should be rendered', async function() {
+      await render(hbs`{{reset-password-form}}`);
+      expect(find('.sign-form__container')).to.exist;
     });
 
     describe('When component is rendered,', function() {
@@ -30,37 +29,37 @@ describe('Integration | Component | reset password form', function() {
         { item: '.form-textfield__input-field-container' },
         { item: '.button' }
       ].forEach(({ item }) => {
-        it(`should contains a item with class: ${item}`, function() {
+        it(`should contains a item with class: ${item}`, async function() {
           // when
-          this.render(hbs`{{reset-password-form}}`);
+          await render(hbs`{{reset-password-form}}`);
 
           // then
-          expect(this.$(item)).to.have.lengthOf(1);
+          expect(find(item)).to.exist;
         });
       });
 
-      it('should display user’s fullName', function() {
+      it('should display user’s fullName', async function() {
         // given
         const user = { fullName: 'toto riri' };
         this.set('user', user);
 
         // when
-        this.render(hbs`{{reset-password-form user=user}}`);
+        await render(hbs`{{reset-password-form user=user}}`);
 
         // then
-        expect(this.$('.sign-form-title').text().trim()).to.equal(user.fullName);
+        expect(find('.sign-form-title').textContent.trim()).to.equal(user.fullName);
       });
 
     });
 
     describe('A submit button', () => {
 
-      it('should be rendered', function() {
+      it('should be rendered', async function() {
         // when
-        this.render(hbs`{{reset-password-form}}`);
+        await render(hbs`{{reset-password-form}}`);
 
         // then
-        expect(this.$('.button')).to.have.lengthOf(1);
+        expect(find('.button')).to.exist;
       });
 
       describe('Saving behavior', function() {
@@ -87,19 +86,19 @@ describe('Integration | Component | reset password form', function() {
           this.set('user', user);
           const validPassword = 'Pix 1 2 3!';
 
-          this.render(hbs `{{reset-password-form user=user}}`);
+          await render(hbs `{{reset-password-form user=user}}`);
 
           // when
-          this.$(PASSWORD_INPUT_CLASS).val(validPassword);
-          this.$(PASSWORD_INPUT_CLASS).change();
+          await fillIn(PASSWORD_INPUT_CLASS, validPassword);
+          await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
 
-          await this.$('.button').click();
+          await click('.button');
 
           // then
           expect(isSaveMethodCalled).to.be.true;
           expect(this.get('user.password')).to.eql(null);
-          expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal(undefined);
-          expect(this.$('.password-reset-demand-form__body')).to.have.lengthOf(1);
+          expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
+          expect(find('.password-reset-demand-form__body')).to.exist;
         });
 
         it('should get an error, when button is clicked and saving return error', async function() {
@@ -108,19 +107,19 @@ describe('Integration | Component | reset password form', function() {
           this.set('user', user);
           const validPassword = 'Pix 1 2 3!';
 
-          this.render(hbs `{{reset-password-form user=user}}`);
+          await render(hbs `{{reset-password-form user=user}}`);
 
           // when
-          this.$(PASSWORD_INPUT_CLASS).val(validPassword);
-          this.$(PASSWORD_INPUT_CLASS).change();
+          await fillIn(PASSWORD_INPUT_CLASS, validPassword);
+          await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
 
-          await this.$('.button').click();
+          await click('.button');
 
           // then
           expect(isSaveMethodCalled).to.be.true;
           expect(this.get('user.password')).to.eql(validPassword);
-          expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal(validPassword);
-          expect(this.$('.form-textfield__message--error')).to.have.lengthOf(1);
+          expect(find(PASSWORD_INPUT_CLASS).value).to.equal(validPassword);
+          expect(find('.form-textfield__message--error')).to.exist;
         });
 
       });

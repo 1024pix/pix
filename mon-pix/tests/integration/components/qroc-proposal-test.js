@@ -1,48 +1,45 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | QROC proposal', function() {
 
-  setupComponentTest('qroc-proposal', {
-    integration: true
-  });
+  setupRenderingTest();
 
-  it('renders', function() {
-    this.render(hbs`{{qroc-proposal}}`);
-    expect(this.$()).to.have.lengthOf(1);
+  it('renders', async function() {
+    await render(hbs`{{qroc-proposal}}`);
+    expect(find('.qroc-proposal')).to.exist;
   });
 
   describe('Component behavior when the user clicks on the input:', function() {
 
-    it('should not display autocompletion answers', function() {
+    it('should not display autocompletion answers', async function() {
       // given
       const proposals = '${myInput}';
       this.set('proposals', proposals);
       this.set('answerValue', '');
       // when
-      this.render(hbs`{{qroc-proposal proposals=proposals answerValue=answerValue}}`);
+      await render(hbs`{{qroc-proposal proposals=proposals answerValue=answerValue}}`);
       // then
-      expect(this.$('.challenge-response__proposal-input').attr('autocomplete')).to.equal('off');
+      expect(find('.challenge-response__proposal-input').getAttribute('autocomplete')).to.equal('off');
     });
   });
 
   describe('Component behavior when user fill input of challenge:', function() {
 
-    it('should display a value when a non-empty value is providing by user', function() {
+    it('should display a value when a non-empty value is providing by user', async function() {
       // given
       const proposals = '${myInput}';
       this.set('proposals', proposals);
       this.set('answerValue', 'myValue');
       // when
-      this.render(hbs`{{qroc-proposal proposals=proposals answerValue=answerValue}}`);
+      await render(hbs`{{qroc-proposal proposals=proposals answerValue=answerValue}}`);
       // then
-      expect(this.$('.challenge-response__proposal-input').val()).to.equal('myValue');
+      expect(find('.challenge-response__proposal-input').value).to.equal('myValue');
     });
   });
-
-  //     block.push(Ember.Object.create({name: 'myInput', input: 'mylabel'}));
 
   describe('Component behavior when user skip challenge:', function() {
 
@@ -57,14 +54,14 @@ describe('Integration | Component | QROC proposal', function() {
       { input: '', output: '' }
     ].forEach(({ input, output }) => {
 
-      it(`should display '' value ${input} is providing to component`, function() {
+      it(`should display '' value ${input} is providing to component`, async function() {
         // given
         this.set('proposals', '${myLabel}');
         this.set('answerValue', input);
         // when
-        this.render(hbs`{{qroc-proposal proposals=proposals answerValue=answerValue}}`);
+        await render(hbs`{{qroc-proposal proposals=proposals answerValue=answerValue}}`);
         // then
-        expect(this.$('.challenge-response__proposal-input').val()).to.be.equal(output);
+        expect(find('.challenge-response__proposal-input').value).to.be.equal(output);
       });
 
     });

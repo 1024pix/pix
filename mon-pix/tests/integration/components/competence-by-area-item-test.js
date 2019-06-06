@@ -1,34 +1,33 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | competence area item', function() {
-  setupComponentTest('competence-by-area-item', {
-    integration: true
-  });
+  setupRenderingTest();
 
-  it('should render', function() {
+  it('should render', async function() {
     // when
-    this.render(hbs`{{competence-by-area-item}}`);
+    await render(hbs`{{competence-by-area-item}}`);
 
     // then
-    expect(this.$('.competence-by-area-item')).to.have.lengthOf(1);
+    expect(find('.competence-by-area-item')).to.exist;
   });
 
-  it('should render a title', function() {
+  it('should render a title', async function() {
     // Given
     const competence = EmberObject.create({ name: 'competence-A', level: 1 });
     const areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
     this.set('competenceArea', areaWithOnlyOneCompetence);
     // when
-    this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
+    await render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
     // then
-    expect(this.$('.area__name').text().trim()).to.equal('Information et données');
+    expect(find('.area__name').textContent.trim()).to.equal('Information et données');
   });
 
-  it('should render as many competences as received', function() {
+  it('should render as many competences as received', async function() {
     // given
     const competencesWithSameArea = [
       EmberObject.create({ id: 1, name: 'competence-name-1', area: 'area-id-1' }),
@@ -45,37 +44,37 @@ describe('Integration | Component | competence area item', function() {
 
     this.set('competenceArea', areaWithManyCompetences);
     // when
-    this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
+    await render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
 
     // then
-    expect(this.$('.competence__name')).to.have.lengthOf(5);
+    expect(findAll('.competence__name')).to.have.lengthOf(5);
   });
 
   describe('Competence rendering', function() {
-    it('should render its name', function() {
+    it('should render its name', async function() {
       // given
       const competence = EmberObject.create({ name: 'Mener une recherche et une veille d’information' });
       const areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
       this.set('competenceArea', areaWithOnlyOneCompetence);
 
       // when
-      this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
+      await render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
 
       // then
-      expect(this.$('.competence__name').text().trim()).to.equal('Mener une recherche et une veille d’information');
+      expect(find('.competence__name').textContent.trim()).to.equal('Mener une recherche et une veille d’information');
     });
 
-    it('should render the relative level progress bar for user', function() {
+    it('should render the relative level progress bar for user', async function() {
       // given
       const competence = EmberObject.create();
       const areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
       this.set('competenceArea', areaWithOnlyOneCompetence);
 
       // when
-      this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
+      await render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
 
       // then
-      expect(this.$('.competence__progress-bar')).to.have.lengthOf(1);
+      expect(find('.competence__progress-bar')).to.exist;
     });
   });
 });

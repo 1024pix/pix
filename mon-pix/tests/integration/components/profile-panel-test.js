@@ -1,72 +1,69 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | profile panel', function() {
-  setupComponentTest('profile-panel', {
-    integration: true
-  });
+  setupRenderingTest();
 
   describe('(Rendering behavior) Component: ', function() {
 
     beforeEach(function() {
-      this.register('service:session', Service.extend({
+      this.owner.register('service:session', Service.extend({
         data: { authenticated: { userId: 123, source: 'pix' } }
       }));
-      this.inject.service('session', { as: 'session' });
-
     });
 
-    it('should be rendered', function() {
+    it('should be rendered', async function() {
       // when
-      this.render(hbs`{{profile-panel}}`);
+      await render(hbs`{{profile-panel}}`);
 
       // then
-      expect(this.$()).to.have.lengthOf(1);
+      expect(find('.profile-panel')).to.exist;
     });
 
-    it('should render a wrapper', function() {
+    it('should render a wrapper', async function() {
       // when
-      this.render(hbs`{{profile-panel}}`);
+      await render(hbs`{{profile-panel}}`);
 
       // then
       const WRAPPER_CLASS = '.profile-panel';
-      expect(this.$(WRAPPER_CLASS)).to.have.lengthOf(1);
+      expect(find(WRAPPER_CLASS)).to.exist;
     });
 
-    it('should render a profile header', function() {
+    it('should render a profile header', async function() {
       // when
-      this.render(hbs`{{profile-panel}}`);
+      await render(hbs`{{profile-panel}}`);
 
       // Then
       const HEADER_CLASS = '.profile-panel__header';
       const HEADER_TITLE = '.profile-header__title';
-      expect(this.$(HEADER_CLASS)).to.have.lengthOf(1);
-      expect(this.$(HEADER_TITLE).text().trim()).to.be.equal('Votre profil');
+      expect(find(HEADER_CLASS)).to.exist;
+      expect(find(HEADER_TITLE).textContent.trim()).to.equal('Votre profil');
     });
 
-    it('should render a competence profile block', function() {
+    it('should render a competence profile block', async function() {
       // when
-      this.render(hbs`{{profile-panel}}`);
+      await render(hbs`{{profile-panel}}`);
 
       // Then
       const COMPETENCY_BLOCK = '.profile-panel__competence-areas';
-      expect(this.$(COMPETENCY_BLOCK)).to.have.lengthOf(1);
+      expect(find(COMPETENCY_BLOCK)).to.exist;
     });
 
     describe('behavior according to totalPixScore value', function() {
-      it('should display two dashes instead of zero in total pix score, when user has’nt yet assessed on placement test', function() {
+      it('should display two dashes instead of zero in total pix score, when user has’nt yet assessed on placement test', async function() {
         // given
         const totalPixScore = '';
 
         this.set('totalPixScore', totalPixScore);
         // when
-        this.render(hbs`{{profile-panel totalPixScore=totalPixScore}}`);
+        await render(hbs`{{profile-panel totalPixScore=totalPixScore}}`);
 
         // then
-        expect(this.$('.profile-header__score-pastille-wrapper')).to.have.lengthOf(1);
+        expect(find('.profile-header__score-pastille-wrapper')).to.exist;
       });
     });
   });

@@ -1,35 +1,34 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | competence area list', function() {
-  setupComponentTest('competence-area-list', {
-    integration: true
-  });
+  setupRenderingTest();
 
   describe('Component rendering', function() {
-    it('renders', function() {
+    it('renders', async function() {
       // when
-      this.render(hbs`{{competence-area-list}}`);
+      await render(hbs`{{competence-area-list}}`);
 
       // then
-      expect(this.$()).to.have.lengthOf(1);
+      expect(find('.competence-area-list')).to.exist;
     });
 
-    it('should render a wrapper', function() {
+    it('should render a wrapper', async function() {
       // when
-      this.render(hbs`{{competence-area-list}}`);
+      await render(hbs`{{competence-area-list}}`);
 
       // then
       const WRAPPER_CLASS = '.competence-area-list';
-      expect(this.$(WRAPPER_CLASS)).to.have.lengthOf(1);
+      expect(find(WRAPPER_CLASS)).to.exist;
     });
 
     describe('Rendering when different areas', function() {
 
-      it('should render 5 competence areas, when there are 5 competences with different area for each one', function() {
+      it('should render 5 competence areas, when there are 5 competences with different area for each one', async function() {
         // given
         const competencesWithDifferentAreas = [
           EmberObject.create({ id: 1, name: 'competence-1', areaName: 'area-A' }),
@@ -41,13 +40,13 @@ describe('Integration | Component | competence area list', function() {
         this.set('competences', competencesWithDifferentAreas);
 
         // when
-        this.render(hbs`{{competence-area-list competences=competences}}`);
+        await render(hbs`{{competence-area-list competences=competences}}`);
 
         // then
-        expect(this.$('.competence-area-list__item')).to.have.lengthOf(5);
+        expect(findAll('.competence-area-list__item')).to.have.lengthOf(5);
       });
 
-      it('should render 2 competence areas, when there are 5 competences related to 2 different areas', function() {
+      it('should render 2 competence areas, when there are 5 competences related to 2 different areas', async function() {
         // given
         const competencesWithDifferentAreas = [
           EmberObject.create({ id: 1, name: 'competence-1', areaName: 'area-A' }),
@@ -59,15 +58,15 @@ describe('Integration | Component | competence area list', function() {
         this.set('competences', competencesWithDifferentAreas);
 
         // when
-        this.render(hbs`{{competence-area-list competences=competences}}`);
+        await render(hbs`{{competence-area-list competences=competences}}`);
 
         // then
-        expect(this.$('.competence-area-list__item')).to.have.lengthOf(2);
+        expect(findAll('.competence-area-list__item')).to.have.lengthOf(2);
       });
     });
 
     describe('Rendering when same area', function() {
-      it('should render only 1 competence area, when there are 5 competences with the same area', function() {
+      it('should render only 1 competence area, when there are 5 competences with the same area', async function() {
         // given
         const competencesWithSameArea = [
           EmberObject.create({ id: 1, name: 'competence-1', areaName: 'area-A' }),
@@ -79,9 +78,9 @@ describe('Integration | Component | competence area list', function() {
 
         // when
         this.set('competences', competencesWithSameArea);
-        this.render(hbs`{{competence-area-list competences=competences}}`);
+        await render(hbs`{{competence-area-list competences=competences}}`);
         // then
-        expect(this.$('.competence-area-list__item')).to.have.lengthOf(1);
+        expect(find('.competence-area-list__item')).to.exist;
       });
     });
 

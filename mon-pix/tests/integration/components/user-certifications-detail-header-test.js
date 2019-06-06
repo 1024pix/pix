@@ -1,24 +1,23 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 describe('Integration | Component | user certifications detail header', function() {
-  setupComponentTest('user-certifications-detail-header', {
-    integration: true,
-  });
+  setupRenderingTest();
 
   let certification;
 
-  it('renders', function() {
-    this.render(hbs`{{user-certifications-detail-header certification=certification}}`);
-    expect(this.$()).to.have.length(1);
+  it('renders', async function() {
+    await render(hbs`{{user-certifications-detail-header certification=certification}}`);
+    expect(find('.user-certifications-detail-header')).to.exist;
   });
 
   context('when certification is complete', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -36,41 +35,41 @@ describe('Integration | Component | user certifications detail header', function
       this.set('certification', certification);
 
       // when
-      this.render(hbs`{{user-certifications-detail-header certification=certification}}`);
+      await render(hbs`{{user-certifications-detail-header certification=certification}}`);
     });
 
     // then
     it('should show the certification icon', function() {
-      expect(this.$('.user-certifications-detail-header__icon')).to.have.lengthOf(1);
+      expect(find('.user-certifications-detail-header__icon')).to.exist;
     });
 
     it('should show the certification date', function() {
-      expect(this.$('.user-certifications-detail-header__data-box')).to.have.lengthOf(1);
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('15 février 2018');
+      expect(find('.user-certifications-detail-header__data-box')).to.exist;
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.include('15 février 2018');
     });
 
     it('should show the certification user full name', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Nom : Jean Bon');
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.include('Nom : Jean Bon');
     });
 
     it('should show the certification user birthdate', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Date de naissance : 22' +
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.include('Date de naissance : 22' +
         ' janvier 2000');
     });
 
     it('should show the certification user birthplace', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Lieu de naissance : Paris');
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.include('Lieu de naissance : Paris');
     });
 
     it('should show the certification center', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Centre de' +
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.include('Centre de' +
         ' certification : Université de Lyon');
     });
   });
 
   context('when certification is not complete', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -88,28 +87,28 @@ describe('Integration | Component | user certifications detail header', function
       this.set('certification', certification);
 
       // when
-      this.render(hbs`{{user-certifications-detail-header certification=certification}}`);
+      await render(hbs`{{user-certifications-detail-header certification=certification}}`);
     });
 
     // then
     it('should not show the certification date', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('obtenue le');
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.not.include('obtenue le');
     });
 
     it('should not show the certification user full name', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Nom :');
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.not.include('Nom :');
     });
 
     it('should not show the certification user birthdate', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Date de naissance :');
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.not.include('Date de naissance :');
     });
 
     it('should not show the certification user birthplace', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Lieu de naissance :');
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.not.include('Lieu de naissance :');
     });
 
     it('should not show the certification center', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Centre de' +
+      expect(find('.user-certifications-detail-header__data-box').textContent).to.not.include('Centre de' +
         ' certification :');
     });
   });

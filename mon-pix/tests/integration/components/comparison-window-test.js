@@ -1,7 +1,8 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const FEEDBACK_FORM = '.feedback-panel__view--form';
@@ -9,9 +10,7 @@ const LINK_OPEN_FORM = '.feedback-panel__view--link';
 
 describe('Integration | Component | comparison-window', function() {
 
-  setupComponentTest('comparison-window', {
-    integration: true
-  });
+  setupRenderingTest();
 
   describe('rendering', function() {
 
@@ -41,78 +40,78 @@ describe('Integration | Component | comparison-window', function() {
       this.set('closeComparisonWindow', () => {});
     });
 
-    it('renders', function() {
+    it('renders', async function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
-      expect(this.$()).to.have.lengthOf(1);
+      expect(find('.pix-modal-overlay')).to.exist;
     });
 
-    it('should render challenge result in the header', function() {
+    it('should render challenge result in the header', async function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
-      expect(document.querySelectorAll('.comparison-window-header')).to.have.lengthOf(1);
-      expect(document.querySelectorAll('.comparison-window__result-icon')).to.have.lengthOf(1);
+      expect(find('.comparison-window-header')).to.exist;
+      expect(find('.comparison-window__result-icon')).to.exist;
     });
 
-    it('should render challenge instruction', function() {
+    it('should render challenge instruction', async function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
-      expect(document.querySelectorAll('.comparison-window__instruction')).to.have.lengthOf(1);
+      expect(find('.comparison-window__instruction')).to.exist;
     });
 
-    it('should not render corrected answers when challenge has no type', function() {
+    it('should not render corrected answers when challenge has no type', async function() {
       // when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
       // then
-      expect(document.querySelectorAll('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(0);
+      expect(find('.comparison-window__corrected-answers--qroc')).to.not.exist;
     });
 
-    it('should render corrected answers when challenge type is QROC', function() {
+    it('should render corrected answers when challenge type is QROC', async function() {
       // given
       challenge = EmberObject.create({ type: 'QROC' });
       answer.set('challenge', challenge);
 
       // when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
-      expect(document.querySelectorAll('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(1);
+      expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
     });
 
-    it('should render corrected answers when challenge type is QROCM-ind', function() {
+    it('should render corrected answers when challenge type is QROCM-ind', async function() {
       // given
       challenge = EmberObject.create({ type: 'QROCM-ind', proposals: '' });
       correction.set('solution',  '');
       answer.set('challenge', challenge);
       // when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
       // then
-      expect(document.querySelectorAll('.comparison-window__corrected-answers--qrocm')).to.have.lengthOf(1);
+      expect(find('.comparison-window__corrected-answers--qrocm')).to.exist;
     });
 
-    it('should render corrected answers when challenge type is QCM', function() {
+    it('should render corrected answers when challenge type is QCM', async function() {
       // given
       challenge = EmberObject.create({ type: 'QCM' });
       answer.set('challenge', challenge);
       // when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
       // then
-      expect(document.querySelectorAll('.qcm-solution-panel')).to.have.lengthOf(1);
+      expect(find('.qcm-solution-panel')).to.exist;
     });
 
-    it('should render a feedback panel already opened', function() {
+    it('should render a feedback panel already opened',async  function() {
       //when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
       //then
-      expect(document.querySelectorAll('.comparison-window__feedback-panel')).to.have.lengthOf(1);
-      expect(document.querySelectorAll(FEEDBACK_FORM)).to.have.lengthOf(1);
-      expect(document.querySelectorAll(LINK_OPEN_FORM)).to.have.lengthOf(0);
+      expect(find('.comparison-window__feedback-panel')).to.exist;
+      expect(find(FEEDBACK_FORM)).to.exist;
+      expect(find(LINK_OPEN_FORM)).to.not.exist;
     });
 
     [
@@ -124,7 +123,7 @@ describe('Integration | Component | comparison-window', function() {
       { status: 'default' }
     ].forEach(function(data) {
 
-      it(`should display the good icon in title when answer's result is "${data.status}"`, function() {
+      it(`should display the good icon in title when answer's result is "${data.status}"`, async function() {
         // given
         answer.setProperties({
           result: data.status,
@@ -132,42 +131,41 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+        await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
         // then
-        const $icon = document.querySelector('.comparison-window__result-icon');
-        expect(document.querySelectorAll(`.comparison-window__result-icon--${data.status}`)).to.have.lengthOf(1);
-        expect($icon.src).to.have.string(`/images/answer-validation/icon-${data.status}.svg`);
+        expect(find(`.comparison-window__result-icon--${data.status}`)).to.exist;
+        expect(find('.comparison-window__result-icon').src).to.have.string(`/images/answer-validation/icon-${data.status}.svg`);
       });
     });
 
-    it('should render a tutorial panel with a hint', function() {
+    it('should render a tutorial panel with a hint', async function() {
       // given
       answer.set('result', 'ko');
       correction.set('hint', 'Conseil : mangez des épinards.');
 
       // when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
-      expect(document.querySelector('.tutorial-panel')).to.contain.text('Conseil : mangez des épinards.');
+      expect(find('.tutorial-panel')).to.contain.text('Conseil : mangez des épinards.');
     });
 
-    it('should render a learningMoreTutorials panel when correction has a list of LearningMoreTutorials elements', function() {
+    it('should render a learningMoreTutorials panel when correction has a list of LearningMoreTutorials elements', async function() {
       // given
       correction.setProperties({
         learningMoreTutorials: [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }],
       });
 
       // when
-      this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+      await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
       // then
-      expect(document.querySelectorAll('.learning-more-panel__container')).to.have.lengthOf(1);
+      expect(find('.learning-more-panel__container')).to.exist;
     });
 
     context('when the answer is OK', () => {
-      it('should neither display “Bientot ici des tutos“ nor hints nor any tutorials', function() {
+      it('should neither display “Bientot ici des tutos“ nor hints nor any tutorials', async function() {
         // given
         answer.setProperties({
           result: 'ok',
@@ -175,17 +173,17 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+        await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
         // then
-        expect(document.querySelectorAll('.tutorial-panel')).to.have.lengthOf(0);
-        expect(document.querySelectorAll('.learning-more-panel__container')).to.have.lengthOf(0);
-        expect(document.querySelectorAll('.comparison-window__default-message-container')).to.have.lengthOf(0);
+        expect(find('.tutorial-panel')).to.not.exist;
+        expect(find('.learning-more-panel__container')).to.not.exist;
+        expect(find('.comparison-window__default-message-container')).to.not.exist;
       });
     });
 
     context('the correction has no hints nor tutoriasl at all', function() {
-      it('should render “Bientot des tutos”', function() {
+      it('should render “Bientot des tutos”', async function() {
         // given
         correction.setProperties({
           solution: '2,3',
@@ -193,30 +191,30 @@ describe('Integration | Component | comparison-window', function() {
         });
 
         // when
-        this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+        await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
         // then
-        expect(document.querySelectorAll('.comparison-windows__default-message-container')).to.have.lengthOf(1);
-        expect(document.querySelectorAll('.comparison-windows__default-message-title')).to.have.lengthOf(1);
-        expect(document.querySelectorAll('.comparison-windows__default-message-picto-container')).to.have.lengthOf(1);
-        expect(document.querySelectorAll('.comparison-windows__default-message-picto')).to.have.lengthOf(1);
+        expect(find('.comparison-windows__default-message-container')).to.exist;
+        expect(find('.comparison-windows__default-message-title')).to.exist;
+        expect(find('.comparison-windows__default-message-picto-container')).to.exist;
+        expect(find('.comparison-windows__default-message-picto')).to.exist;
       });
     });
 
     context('when the correction has a hint or a tutorial or a learninMoreTutorial', function() {
-      it('should not render a hint or a tutorial', function() {
+      it('should not render a hint or a tutorial', async function() {
         // given
         correction.setProperties({
           learningMoreTutorials: [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }],
         });
 
         // when
-        this.render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
+        await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
 
         // then
-        expect(document.querySelectorAll('.tutorial-panel')).to.have.lengthOf(1);
-        expect(document.querySelectorAll('.tutorial-panel__hint-container')).to.have.lengthOf(0);
-        expect(document.querySelectorAll('.tutorial-panel__tutorial-item')).to.have.lengthOf(0);
+        expect(find('.tutorial-panel')).to.exist;
+        expect(find('.tutorial-panel__hint-container')).to.not.exist;
+        expect(find('.tutorial-panel__tutorial-item')).to.not.exist;
       });
     });
   });

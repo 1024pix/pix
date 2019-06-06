@@ -1,33 +1,32 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 describe('Integration | Component | user certifications panel', function() {
-  setupComponentTest('user-certifications-panel', {
-    integration: true
-  });
+  setupRenderingTest();
 
-  it('renders', function() {
-    this.render(hbs`{{user-certifications-panel}}`);
-    expect(this.$()).to.have.length(1);
+  it('renders', async function() {
+    await render(hbs`{{user-certifications-panel}}`);
+    expect(find('.user-certifications-panel')).to.exist;
   });
 
   context('when there is no certifications', function() {
 
-    it('should render a panel which indicate there is no certifications', function() {
+    it('should render a panel which indicate there is no certifications', async function() {
       // when
-      this.render(hbs`{{user-certifications-panel}}`);
+      await render(hbs`{{user-certifications-panel}}`);
 
       // then
-      expect(this.$('.user-certifications-panel__no-certification-panel')).to.have.length(1);
+      expect(find('.user-certifications-panel__no-certification-panel')).to.exist;
     });
   });
 
   context('when there is some certifications to show', function() {
 
-    it('should render a certifications list', function() {
+    it('should render a certifications list', async function() {
       // given
       const certification1 = EmberObject.create({
         id: 1,
@@ -45,10 +44,10 @@ describe('Integration | Component | user certifications panel', function() {
       this.set('certifications', certifications);
 
       // when
-      this.render(hbs`{{user-certifications-panel certifications=certifications}}`);
+      await render(hbs`{{user-certifications-panel certifications=certifications}}`);
 
       // then
-      expect(this.$('.user-certifications-panel__certifications-list')).to.have.length(1);
+      expect(find('.user-certifications-panel__certifications-list')).to.exist;
     });
 
   });
