@@ -14,6 +14,20 @@ describe('Integration | Component | QROC proposal', function() {
     expect(this.$()).to.have.lengthOf(1);
   });
 
+  describe('Component behavior when the user clicks on the input:', function() {
+
+    it('should not display autocompletion answers', function() {
+      // given
+      const proposals = '${myInput}';
+      this.set('proposals', proposals);
+      this.set('answerValue', '');
+      // when
+      this.render(hbs`{{qroc-proposal proposals=proposals answerValue=answerValue}}`);
+      // then
+      expect(this.$('.challenge-response__proposal-input').attr('autocomplete')).to.equal('off');
+    });
+  });
+
   describe('Component behavior when user fill input of challenge:', function() {
 
     it('should display a value when a non-empty value is providing by user', function() {
