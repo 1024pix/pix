@@ -159,3 +159,30 @@
   font-family: $font-roboto;
   font-size: 3.1rem;
 }
+
+@media print {
+  a[href]:after {
+    content: none;
+  }
+
+  .progression-gauge {
+    border-bottom: 4px solid $alto-grey;
+  }
+
+  .progression-gauge__marker {
+    border-bottom: 4px solid $orange-peel;
+  }
+
+  .default-table thead {
+    display: table-header-group;
+  }
+
+  .default-table tr {
+    display: table-row;
+    height: 60px;
+  }
+
+  .skill-review-results__header {
+    flex-direction: row;
+  }
+}
