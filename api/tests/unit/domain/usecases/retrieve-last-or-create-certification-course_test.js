@@ -229,6 +229,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           // then
           expect(certificationChallengesService.saveChallenges)
             .to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0, sinon.match.any);
+          expect(certificationCourseRepository.save)
+            .to.have.been.calledWithMatch({ isV2Certification: false });
         });
 
         it('should use certifiable profil V2 even when V1 has higher score but is not certifiable', async () => {
@@ -251,6 +253,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           // then
           expect(certificationChallengesService.saveChallenges)
             .to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0, sinon.match.any);
+          expect(certificationCourseRepository.save)
+            .to.have.been.calledWithMatch({ isV2Certification: true });
         });
 
         it('should use certification profile v1 when v1 pix score is greater than v2', async () => {
@@ -273,6 +277,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           // then
           expect(certificationChallengesService.saveChallenges)
             .to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0WithHigherScore, sinon.match.any);
+          expect(certificationCourseRepository.save)
+            .to.have.been.calledWithMatch({ isV2Certification: false });
         });
 
         it('should use certification profile v2 when v2 pix score is greater than v1', async () => {
@@ -295,6 +301,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           // then
           expect(certificationChallengesService.saveChallenges)
             .to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0WithHigherScore, sinon.match.any);
+          expect(certificationCourseRepository.save)
+            .to.have.been.calledWithMatch({ isV2Certification: true });
         });
       });
 

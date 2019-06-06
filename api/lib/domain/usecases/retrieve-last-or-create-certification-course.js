@@ -60,7 +60,9 @@ async function _startNewCertification({
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  const newCertificationCourse = new CertificationCourse({ userId, sessionId });
+  const isV2Certification = userCompetencesToCertify === userCompetencesProfileV2;
+
+  const newCertificationCourse = new CertificationCourse({ userId, sessionId, isV2Certification });
   const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
   return certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse);
 }

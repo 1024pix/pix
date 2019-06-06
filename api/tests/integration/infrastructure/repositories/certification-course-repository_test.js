@@ -208,6 +208,7 @@ describe('Integration | Repository | Certification Course', function() {
         birthdate: '24/10/1989',
         sessionId: null,
         isPublished: 0,
+        isV2Certification: 0,
         externalId: ''
       };
 
