@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.46.0 (06/06/2019)
+
+- [#534](https://github.com/1024pix/pix/pull/534) [FEATURE] Certifier suivant le profil v2 (PF-577).
+
 ## v2.45.2 (05/06/2019)
 
 - [#541](https://github.com/1024pix/pix/pull/541) [TECH] Suppression des usages dépréciés de ember-mocha pour les tests unitaires.
