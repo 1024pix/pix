@@ -65,6 +65,115 @@ module('Unit | Components | certification-session-report', function(hooks) {
     });
   });
 
+  module('#incomplete', function() {
+    test('should return an empty array when there is no empty candidate', function(assert) {
+      // given
+      const completeCandidates = [
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: 123 },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: 456 },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: 789 },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: 101112 },
+      ];
+      component.set('candidates', completeCandidates);
+
+      // when
+      const incomplete = component.incomplete;
+
+      // then
+      const expectedResult = [];
+      assert.deepEqual(incomplete, expectedResult);
+    });
+
+    test('should return an array with candidate that miss first name', function(assert) {
+      // given
+      const candidatesMissingFirstName = [
+        { row: 1, lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: 123 },
+        { row: 2, firstName: null, lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: 123 },
+        { row: 3, firstName: '', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: 456 },
+        { row: 4, firstName: '   ', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: 789 },
+      ];
+      component.set('candidates', candidatesMissingFirstName);
+
+      // when
+      const incomplete = component.incomplete;
+
+      // then
+      assert.deepEqual(incomplete, candidatesMissingFirstName);
+    });
+
+    test('should return an array with candidate that miss last name', function(assert) {
+      // given
+      const candidatesMissingLastName = [
+        { row: 1, firstName: 'Bruce', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: 123 },
+        { row: 2, firstName: 'James', lastName: null, birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: 456 },
+        { row: 3, firstName: 'Natalia', lastName: '', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: 789 },
+        { row: 4, firstName: 'Clark', lastName: '    ', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: 101112 },
+      ];
+      component.set('candidates', candidatesMissingLastName);
+
+      // when
+      const incomplete = component.incomplete;
+
+      // then
+      assert.deepEqual(incomplete, candidatesMissingLastName);
+    });
+
+    test('should return an array with candidate that miss birth date', function(assert) {
+      // given
+      const candidatesMissingBirthDate = [
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthPlace: 'Gotham City', certificationId: 123 },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: null, birthPlace: 'Northwest Territories of Canada', certificationId: 456 },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '', birthPlace: 'Stalingrad', certificationId: 789 },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '    ', birthPlace: 'Smallville', certificationId: 101112 },
+      ];
+      component.set('candidates', candidatesMissingBirthDate);
+
+      // when
+      const incomplete = component.incomplete;
+
+      // then
+      assert.deepEqual(incomplete, candidatesMissingBirthDate);
+    });
+
+    test('should return an array with candidate that miss birth place', function(assert) {
+      // given
+      const candidatesMissingBirthPlace = [
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', certificationId: 123 },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: null, certificationId: 456 },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: '', certificationId: 789 },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: '    ', certificationId: 101112 },
+      ];
+      component.set('candidates', candidatesMissingBirthPlace);
+
+      // when
+      const incomplete = component.incomplete;
+
+      // then
+      assert.deepEqual(incomplete, candidatesMissingBirthPlace);
+    });
+
+    test('should return an array with candidate that miss certification ID', function(assert) {
+      // given
+      const candidatesMissingBirthPlace = [
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: null },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: '  101112  ' },
+      ];
+      component.set('candidates', candidatesMissingBirthPlace);
+
+      // when
+      const incomplete = component.incomplete;
+
+      // then
+      const expected = [
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: null },
+      ];
+      assert.deepEqual(incomplete, expected);
+    });
+  });
+
   module('#withoutCandidate', function() {
     test('should return an empty array when every certification has an associated candidate', function(assert) {
       // given
@@ -76,9 +185,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
       component.set('candidates', candidates);
 
       const certifications = [
-        { id: 123 },
-        { id: 456 },
-        { id: 789 },
+        { id: '123' },
+        { id: '456' },
+        { id: '789' },
       ];
       component.set('certifications', certifications);
 
@@ -100,9 +209,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
       component.set('candidates', candidates);
 
       const certifications = [
-        { id: 123 },
-        { id: 100000 },
-        { id: 200000 },
+        { id: '123' },
+        { id: '100000' },
+        { id: '200000' },
       ];
       component.set('certifications', certifications);
 
@@ -111,8 +220,8 @@ module('Unit | Components | certification-session-report', function(hooks) {
 
       // then
       const expectedResult = [
-        { id: 100000 },
-        { id: 200000 }
+        { id: '100000' },
+        { id: '200000' }
       ];
       assert.deepEqual(certificationsWithoutCandidate, expectedResult);
     });
@@ -129,18 +238,18 @@ module('Unit | Components | certification-session-report', function(hooks) {
       component.set('candidates', candidates);
 
       const certifications = [
-        { id: 123 },
-        { id: 456 },
-        { id: 789 },
+        { id: '123' },
+        { id: '456' },
+        { id: '789' },
       ];
       component.set('certifications', certifications);
 
       // when
-      const certificationsWithoutCandidate = component.notFromSession;
+      const notFromSession = component.notFromSession;
 
       // then
       const expectedResult = [];
-      assert.deepEqual(certificationsWithoutCandidate, expectedResult);
+      assert.deepEqual(notFromSession, expectedResult);
     });
 
     test('should return an array with candidates missing associated certification', function(assert) {
@@ -156,9 +265,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
       component.set('candidates', candidatesWithoutCertification);
 
       const certifications = [
-        { id: 123 },
-        { id: 100000 },
-        { id: 200000 },
+        { id: '123' },
+        { id: '100000' },
+        { id: '200000' },
       ];
       component.set('certifications', certifications);
 
@@ -167,6 +276,139 @@ module('Unit | Components | certification-session-report', function(hooks) {
 
       // then
       assert.deepEqual(notFromSession, candidatesWithoutCertification);
+    });
+  });
+
+  module('#sessionCandidates', function() {
+    test('should return an empty array when no candidates certification IDs match an existing certification', function(assert) {
+      // given
+      const candidates = [
+        { firstName: 'Toto', certificationId: 123 },
+        { firstName: 'Jean', certificationId: 456 },
+        { firstName: 'Michel', certificationId: 789 },
+      ];
+      component.set('candidates', candidates);
+
+      const certifications = [
+        { id: '321' },
+        { id: '654' },
+        { id: '987' },
+      ];
+      component.set('certifications', certifications);
+
+      // when
+      const sessionCandidates = component.sessionCandidates;
+
+      // then
+      const expectedResult = [];
+      assert.deepEqual(sessionCandidates, expectedResult);
+    });
+
+    test('should return an array with candidates corresponding to session certifications', function(assert) {
+      // given
+      const candidates = [
+        { firstName: 'Toto', certificationId: 123 },
+        { firstName: 'Jean', certificationId: 456 },
+        { firstName: 'Michel', certificationId: 0 },
+      ];
+      component.set('candidates', candidates);
+
+      const certifications = [
+        { id: '123' },
+        { id: '456' },
+        { id: '789' },
+      ];
+      component.set('certifications', certifications);
+
+      // when
+      const sessionCandidates = component.sessionCandidates;
+
+      // then
+      const expectedResult = [
+        { firstName: 'Toto', certificationId: 123 },
+        { firstName: 'Jean', certificationId: 456 },
+      ];
+      assert.deepEqual(sessionCandidates, expectedResult);
+    });
+  });
+
+  module('#missingEndScreen', function() {
+    test('should return an empty array when all candidates saw the end screen', function(assert) {
+      // given
+      const candidates = [
+        { row: 1, certificationId: 123, lastScreen: 'X' },
+        { row: 2, certificationId: 456, lastScreen: 'X' },
+        { row: 3, certificationId: 789, lastScreen: 'X' },
+      ];
+      component.set('candidates', candidates);
+
+      // when
+      const missingEndScreen = component.missingEndScreen;
+
+      // then
+      const expectedResult = [];
+      assert.deepEqual(missingEndScreen, expectedResult);
+    });
+
+    test('should return an array with candidates having not seen the end screen', function(assert) {
+      // given
+      const candidates = [
+        { row: 1, certificationId: 123, },
+        { row: 2, certificationId: 456, lastScreen: null },
+        { row: 3, certificationId: 789, lastScreen: '   ' },
+      ];
+      component.set('candidates', candidates);
+
+      // when
+      const missingEndScreen = component.missingEndScreen;
+
+      // then
+      const expectedResult = [
+        { row: 1, certificationId: 123, },
+        { row: 2, certificationId: 456, lastScreen: null },
+        { row: 3, certificationId: 789, lastScreen: '   ' },
+      ];
+      assert.deepEqual(missingEndScreen, expectedResult);
+    });
+  });
+
+  module('#comments', function() {
+    test('should return an empty array when no candidates have comment', function(assert) {
+      // given
+      const candidates = [
+        { row: 1, certificationId: 123 },
+        { row: 2, certificationId: 456, comments: null },
+        { row: 3, certificationId: 789, comments: '      ' },
+      ];
+      component.set('candidates', candidates);
+
+      // when
+      const comments = component.comments;
+
+      // then
+      const expectedResult = [];
+      assert.deepEqual(comments, expectedResult);
+    });
+
+    test('should return an array with candidates having comments', function(assert) {
+      // given
+      const candidates = [
+        { row: 1, certificationId: 123, comments: '' },
+        { row: 2, certificationId: 456, comments: '     ' },
+        { row: 3, certificationId: 456, comments: 'null' },
+        { row: 4, certificationId: 789, comments: 'My comment' },
+      ];
+      component.set('candidates', candidates);
+
+      // when
+      const comments = component.comments;
+
+      // then
+      const expectedResult = [
+        { row: 3, certificationId: 456, comments: 'null' },
+        { row: 4, certificationId: 789, comments: 'My comment' },
+      ];
+      assert.deepEqual(comments, expectedResult);
     });
   });
 

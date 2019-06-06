@@ -239,8 +239,8 @@ export default Controller.extend({
   // Private methods
 
   _getExportJson(fields) {
-    const ids = this.model.certifications.map(c => c.id);
-    return this._getExportJsonPart(ids, [], fields);
+    const certificationIds = this.model.certifications.map((certification) => certification.id);
+    return this._getExportJsonPart(certificationIds, [], fields);
   },
 
   _getExportJsonPart(certificationsIds, json, fields) {
