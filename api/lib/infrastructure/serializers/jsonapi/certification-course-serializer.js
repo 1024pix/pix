@@ -45,6 +45,7 @@ module.exports = {
         'sessionId',
         'externalId',
         'isPublished',
+        'isV2Certification',
       ],
     }).serialize(certificationCourseResult);
   },
@@ -64,6 +65,7 @@ module.exports = {
       lastName: json.data.attributes.lastName,
       birthdate: moment.utc(json.data.attributes.birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
       birthplace: json.data.attributes.birthplace,
+      isV2Certification: json.data.attributes.isV2Certification,
     });
   },
 };
