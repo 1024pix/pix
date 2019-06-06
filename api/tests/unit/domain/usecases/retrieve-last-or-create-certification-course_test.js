@@ -34,6 +34,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         sinon.stub(sessionService, 'sessionExists').resolves(sessionId);
         sinon.stub(certificationCourseRepository, 'findLastCertificationCourseByUserIdAndSessionId').resolves([certificationCourse, oldCertificationCourse]);
+        sinon.stub(certificationCourseRepository, 'save').resolves();
       });
 
       it('should get last started certification course for given sessionId and userId', async function() {
@@ -70,6 +71,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         sinon.stub(sessionService, 'sessionExists').rejects(new NotFoundError());
         sinon.stub(certificationCourseRepository, 'findLastCertificationCourseByUserIdAndSessionId').resolves(certificationCourse);
+        sinon.stub(certificationCourseRepository, 'save').resolves();
       });
 
       it('should rejects an error when the session does not exist',  function() {
@@ -178,10 +180,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       it('should create the certification course with status "started", if at least 5 competences with level higher than 0', async function() {
         // given
-        sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
         sinon.stub(userService, 'getProfileToCertifyV1').resolves(fiveCompetencesWithLevelHigherThan0);
         sinon.stub(userService, 'getProfileToCertifyV2').resolves([]);
         sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
+        sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
 
         // when
         const newCertification = await retrieveLastOrCreateCertificationCourse({
@@ -202,6 +204,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       });
 
       describe('choice of certification profile v1 or v2', () => {
+
+        beforeEach(() => {
+          sinon.stub(certificationCourseRepository, 'save').resolves();
+        });
 
         it('should use certifiable profil V1 even when V2 has higher score but is not certifiable', async () => {
           // given
@@ -297,6 +303,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           sinon.stub(userService, 'getProfileToCertifyV1').resolves(fiveCompetencesWithLevelHigherThan0);
           sinon.stub(userService, 'getProfileToCertifyV2').resolves(fiveCompetencesWithLevelHigherThan0WithHigherScore);
           sinon.stub(certificationChallengesService, 'saveChallenges').resolves();
+          sinon.stub(certificationCourseRepository, 'save').resolves();
         });
 
         it('should choose profile v2 when certification v2 is active', async () => {
