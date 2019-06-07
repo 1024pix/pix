@@ -33,7 +33,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       this.set('candidateData', [{
         birthDate: '20/02/2000',
         birthPlace: 'Paris',
-        certificationId: 33347,
+        certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
         firstName: 'Toto',
@@ -42,7 +42,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       },{
         birthDate: '20/03/2000',
         birthPlace: 'Toulouse',
-        certificationId: 33348,
+        certificationId: '33348',
         email: 'firstname.name@mail.com',
         externalId: '123456',
         firstName: 'Titi',
@@ -51,7 +51,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       },{
         birthDate: '20/01/2000',
         birthPlace: 'Bordeaux',
-        certificationId: 33349,
+        certificationId: '33349',
         email: 'firstname.name@mail.com',
         externalId: '123458',
         firstName: 'Cats',
@@ -80,7 +80,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       this.set('candidateData', [{
         birthDate: '20/02/2000',
         birthPlace: 'Paris',
-        certificationId: 33347,
+        certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
         firstName: 'Toto',
@@ -89,7 +89,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       },{
         birthDate: '20/03/2000',
         birthPlace: '',
-        certificationId: 33348,
+        certificationId: '33348',
         email: 'firstname.name@mail.com',
         externalId: '123456',
         firstName: 'Titi',
@@ -98,7 +98,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       },{
         birthDate: '20/01/2000',
         birthPlace: 'Bordeaux',
-        certificationId: 33349,
+        certificationId: '33349',
         email: 'firstname.name@mail.com',
         externalId: '123458',
         firstName: 'Cats',
@@ -134,7 +134,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       this.set('candidateData', [{
         birthDate: '20/02/2000',
         birthPlace: 'Paris',
-        certificationId: 33347,
+        certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
         firstName: 'Toto',
@@ -143,7 +143,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       },{
         birthDate: '20/03/2000',
         birthPlace: 'Toulouse',
-        certificationId: 33347,
+        certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123456',
         firstName: 'Titi',
@@ -152,7 +152,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       },{
         birthDate: '20/01/2000',
         birthPlace: 'Bordeaux',
-        certificationId: 33349,
+        certificationId: '33349',
         email: 'firstname.name@mail.com',
         externalId: '123458',
         firstName: 'Cats',
@@ -179,7 +179,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       this.set('candidateData', [{
         birthDate: '20/02/2000',
         birthPlace: 'Paris',
-        certificationId: 33347,
+        certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
         firstName: 'Toto',
@@ -188,7 +188,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       },{
         birthDate: '20/03/2000',
         birthPlace: '',
-        certificationId: 33348,
+        certificationId: '33348',
         email: 'firstname.name@mail.com',
         externalId: '123456',
         firstName: 'Titi',
@@ -216,7 +216,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       this.set('candidateData', [{
         birthDate: '20/02/2000',
         birthPlace: 'Paris',
-        certificationId: 33347,
+        certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
         firstName: 'Toto',
@@ -226,7 +226,7 @@ module('Integration | Component | certification-session-report', function(hooks)
       },{
         birthDate: '20/03/2000',
         birthPlace: '',
-        certificationId: 33348,
+        certificationId: '33348',
         email: 'firstname.name@mail.com',
         externalId: '123456',
         firstName: 'Titi',
@@ -240,7 +240,7 @@ module('Integration | Component | certification-session-report', function(hooks)
         externalId: '123458',
         firstName: 'Cats',
         lastName: 'Eyes',
-        certificationId: 33351,
+        certificationId: '33351',
         row: 3,
         comments: 'another comment'
       }]);
@@ -268,7 +268,7 @@ module('Integration | Component | certification-session-report', function(hooks)
         this.set('candidateData', [{
           birthDate: '20/02/2000',
           birthPlace: 'Paris',
-          certificationId: 33347,
+          certificationId: '33347',
           email: 'firstname.name@mail.com',
           externalId: '123455',
           firstName: 'Toto',
@@ -277,7 +277,7 @@ module('Integration | Component | certification-session-report', function(hooks)
         },{
           birthDate: '20/03/2000',
           birthPlace: 'Toulouse',
-          certificationId: 33348,
+          certificationId: '33348',
           email: 'firstname.name@mail.com',
           externalId: '123456',
           firstName: 'Titi',
@@ -286,14 +286,14 @@ module('Integration | Component | certification-session-report', function(hooks)
         },{
           birthDate: '20/01/2000',
           birthPlace: 'Bordeaux',
-          certificationId: 33349,
+          certificationId: '33349',
           email: 'firstname.name@mail.com',
           externalId: '123458',
           firstName: 'Cats',
           lastName: 'Eyes',
           row: 3
         }]);
-        this.set('certificationData', [{ id:33347 }, { id:33349 }]);
+        this.set('certificationData', [{ id:'33347' }, { id:'33349' }]);
         this.set('visible', true);
         this.set('onHide', function() {});
         this.set('onGetJuryFile', function() {});
@@ -314,7 +314,7 @@ module('Integration | Component | certification-session-report', function(hooks)
         this.set('candidateData', [{
           birthDate: '20/02/2000',
           birthPlace: 'Paris',
-          certificationId: 33347,
+          certificationId: '33347',
           email: 'firstname.name@mail.com',
           externalId: '123455',
           firstName: 'Toto',
@@ -323,7 +323,7 @@ module('Integration | Component | certification-session-report', function(hooks)
         },{
           birthDate: '20/03/2000',
           birthPlace: 'Toulouse',
-          certificationId: 33348,
+          certificationId: '33348',
           email: 'firstname.name@mail.com',
           externalId: '123456',
           firstName: 'Titi',
@@ -332,14 +332,14 @@ module('Integration | Component | certification-session-report', function(hooks)
         },{
           birthDate: '20/01/2000',
           birthPlace: 'Bordeaux',
-          certificationId: 33349,
+          certificationId: '33349',
           email: 'firstname.name@mail.com',
           externalId: '123458',
           firstName: 'Cats',
           lastName: 'Eyes',
           row: 3
         }]);
-        this.set('certificationData', [{ id:33347 }, { id:33350 }]);
+        this.set('certificationData', [{ id:'33347' }, { id:'33350' }]);
         this.set('visible', true);
         this.set('onHide', function() {});
         this.set('onGetJuryFile', function() {});

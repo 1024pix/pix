@@ -7,6 +7,9 @@ export default Component.extend({
   // Element
   classNames: ['certification-session-report'],
 
+  // Props
+  candidates: null,
+
   // CPs
   incomplete: computed('candidates', function() {
     return this.candidates.filter((candidate) => {
@@ -14,7 +17,7 @@ export default Component.extend({
         || !candidate.firstName || candidate.firstName.trim() === ''
         || !candidate.birthDate || candidate.birthDate.trim() === ''
         || !candidate.birthPlace || candidate.birthPlace.trim() === ''
-        || !candidate.certificationId || candidate.certificationId.toString().trim() === '';
+        || !candidate.certificationId || candidate.certificationId.trim() === '';
     });
   }),
 
@@ -34,14 +37,14 @@ export default Component.extend({
   sessionCandidates: computed('candidates', function() {
     const certificationIds = this.certifications.map((certification) => certification.id);
     return _.filter(this.candidates, (candidate) => {
-      return candidate.certificationId && certificationIds.includes(candidate.certificationId.toString());
+      return candidate.certificationId && certificationIds.includes(candidate.certificationId);
     });
   }),
 
   withoutCandidate:computed('candidates', function() {
     const candidateCertificationIds = this.candidates.map((candidate) => candidate.certificationId);
     return this.certifications.filter((certification) => {
-      return candidateCertificationIds.indexOf(parseInt(certification.id)) === -1;
+      return candidateCertificationIds.indexOf(certification.id) === -1;
     });
   }),
 

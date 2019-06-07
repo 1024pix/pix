@@ -3,11 +3,8 @@ import json2csv from 'json2csv';
 import Papa from 'papaparse';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
-/*
- * Important note:
- * this dependency to 'xlsx' has to be removed when session report import is removed from admin
- */
 import XLSX from 'xlsx';
+import _ from 'lodash';
 
 export default Controller.extend({
 
@@ -71,8 +68,6 @@ export default Controller.extend({
       creationDate: 'Date de passage de la certification'
     };
 
-    this._juryCsvHeaders = Object.values(this._juryFields).concat(this._competences);
-
     this._resultCsvHeaders = Object.values(this._resultFields).slice(0, -3).concat(this._competences).concat(Object.values(this._resultFields).slice(-3));
 
     this._csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
@@ -82,12 +77,21 @@ export default Controller.extend({
     this.importedCandidates = [];
   },
 
-  // Actions
   actions: {
 
     async importAndLinkCandidatesToTheSessionCertifications(file) {
       const csvAsText = await file.readAsText();
-      return this._importCSVData(csvAsText);
+      // We delete the BOM UTF8 at the beginning of the CSV,
+      // otherwise the first element is wrongly parsed.
+      const csvRawData = csvAsText.toString('utf8').replace(/^\uFEFF/, '');
+      const parsedCSVData = Papa.parse(csvRawData, { header: true, skipEmptyLines: true }).data;
+      const rowCount = parsedCSVData.length;
+      try {
+        await this._importCertificationsData(parsedCSVData);
+        this.notifications.success(rowCount + ' lignes correctement importées');
+      } catch (error) {
+        this.notifications.error(error);
+      }
     },
 
     async displayCertificationSessionReport(file) {
@@ -97,25 +101,13 @@ export default Controller.extend({
       const firstSheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[firstSheetName];
       const headerRowsNumber = 8;
-      const header = [
-        'row',
-        'lastName',
-        'firstName',
-        'birthDate',
-        'birthPlace',
-        'email',
-        'externalId',
-        'extraTime',
-        'signature',
-        'certificationId',
-        'lastScreen',
-        'comments'
-      ];
+      const header = ['row', 'lastName', 'firstName', 'birthDate', 'birthPlace', 'email', 'externalId', 'extraTime', 'signature', 'certificationId', 'lastScreen', 'comments'];
       const jsonData = XLSX.utils.sheet_to_json(worksheet, { range: headerRowsNumber, header });
 
       const lastRowIndex = jsonData.findIndex((row) => !row.lastName);
       const importedCandidates = jsonData.slice(0, lastRowIndex);
       importedCandidates.forEach((candidate) => {
+        candidate.certificationId = candidate.certificationId.toString();
         if (candidate.birthDate instanceof Date) {
           candidate.birthDate = moment(candidate.birthDate).format('DD/MM/YYYY');
         } else {
@@ -209,34 +201,60 @@ export default Controller.extend({
       }
     },
 
-    async onGetJuryFile(certificationsWithComments) {
-      const comments = certificationsWithComments.reduce((values, candidate) => {
-        values[candidate.certificationId] = candidate.comments;
-        return values;
-      }, {});
-      const json = await this._getExportJson(this._juryFields);
-      const jsonData = json.filter((item) => {
-        const id = item[this._fields.id];
-        if (comments[id] != null) {
-          item[this._juryFields.commentFromManager] = comments[id];
-          return true;
-        }
-        return item[this._fields.status] !== 'validated';
-      });
-
-      // 3) Format
-      const csv = json2csv.parse(jsonData, {
-        fields: this._juryCsvHeaders,
-        delimiter: ';',
-        withBOM: false,
-      });
+    async onGetJuryFile(attendanceSheetCandidates) {
+      const sessionCertifications = this.model.certifications;
+      const certificationsToBeReviewed = this._getSessionCertificationsToBeReviewed(sessionCertifications, attendanceSheetCandidates);
+      const dataRows = this._convertCertificationsToBeReviewedIntoJsonDataRows(certificationsToBeReviewed, attendanceSheetCandidates);
+      const fileHeaders = _.concat(Object.values(this._juryFields), this._competences);
+      const csv = json2csv.parse(dataRows, { fields: fileHeaders, delimiter: ';', withBOM: true, });
       const fileName = 'jury_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
-      this.fileSaver.saveAs(csv + '\n', fileName);
+      this.fileSaver.saveAs(`${csv}\n`, fileName);
     },
 
   },
 
   // Private methods
+
+  _getSessionCertificationsToBeReviewed(certifications, attendanceSheetCandidates) {
+    const candidatesToBeReviewed = _.filter(attendanceSheetCandidates, (candidate) => {
+      const hasCommentFromManager = candidate.comments && candidate.comments.trim() !== '';
+      const didNotSeenEndScreen = !candidate.lastScreen || candidate.lastScreen.trim() === '';
+      return hasCommentFromManager || didNotSeenEndScreen;
+    });
+
+    const certificationIdsOfCandidatesToBeReviewed = _.map(candidatesToBeReviewed, (candidate) => candidate.certificationId.trim());
+
+    return certifications.filter((certification) => {
+      const hasInvalidCandidate = _.includes(certificationIdsOfCandidatesToBeReviewed, certification.id);
+      const hasInvalidStatus = certification.status !== 'validated';
+      return hasInvalidCandidate || hasInvalidStatus;
+    });
+  },
+
+  _convertCertificationsToBeReviewedIntoJsonDataRows(certifications, attendanceSheetCandidates) {
+    return certifications.map((certification) => {
+      const rowItem = {};
+
+      const certificationCandidate = _.find(attendanceSheetCandidates, ['certificationId', certification.id]);
+
+      rowItem[this._juryFields.sessionId] = this.model.id;
+      rowItem[this._juryFields.id] = certification.id;
+      rowItem[this._juryFields.status] = certification.status;
+      rowItem[this._juryFields.creationDate] = certification.creationDate;
+      rowItem[this._juryFields.completionDate] = certification.completionDate;
+      rowItem[this._juryFields.commentFromManager] = certificationCandidate.comments;
+      rowItem[this._juryFields.commentForJury] = certification.commentForJury;
+      rowItem[this._juryFields.pixScore] = certification.pixScore;
+
+      const certificationIndexedCompetences = certification.get('indexedCompetences');
+      this._competences.forEach((competence) => {
+        rowItem[competence] = certificationIndexedCompetences[competence] ? certificationIndexedCompetences[competence].level : '';
+      });
+
+      return rowItem;
+    });
+
+  },
 
   _getExportJson(fields) {
     const certificationIds = this.model.certifications.map((certification) => certification.id);
@@ -378,21 +396,6 @@ export default Controller.extend({
       return result;
     }, []);
     return Promise.all(promises);
-  },
-
-  _importCSVData(data) {
-    // We delete the BOM UTF8 at the beginning of the CSV,
-    // otherwise the first element is wrongly parsed.
-    const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
-    const parsedCSVData = Papa.parse(csvRawData, { header: true, skipEmptyLines: true }).data;
-    const rowCount = parsedCSVData.length;
-    return this._importCertificationsData(parsedCSVData)
-      .then(() => {
-        this.notifications.success(rowCount + ' lignes correctement importées');
-      })
-      .catch((error) => {
-        this.notifications.error(error);
-      });
   },
 
 });

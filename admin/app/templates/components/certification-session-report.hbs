@@ -199,7 +199,7 @@
   {{/modal.body}}
   {{#modal.footer as |footer|}}
     {{#bs-button onClick=(action modal.close) type="default"}}Fermer{{/bs-button}}
-    {{#bs-button onClick=(action getJuryFile comments) type="primary"}}Récupérer le fichier avant Jury{{/bs-button}}
+    {{#bs-button onClick=(action getJuryFile candidates) type="primary"}}Récupérer le fichier avant Jury{{/bs-button}}
     {{#bs-button onClick=(action saveCandidates sessionCandidates) type="primary"}}Enregistrer les infos candidats{{/bs-button}}
   {{/modal.footer}}
 {{/bs-modal}}

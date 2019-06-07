@@ -33,7 +33,7 @@ function buildCertification(id, status) {
   });
 }
 
-module.only('Unit | Controller | authenticated/certifications/sessions/info/list', function(hooks) {
+module('Unit | Controller | authenticated/certifications/sessions/info/list', function(hooks) {
   setupTest(hooks);
 
   test('it exists', function(assert) {
@@ -126,17 +126,28 @@ module.only('Unit | Controller | authenticated/certifications/sessions/info/list
 
     const controller = this.owner.lookup('controller:authenticated/certifications/sessions/info/list');
     controller.set('model', EmberObject.create({
+      id: 5,
       certifications: A([
-        buildCertification(1, 'validated'),
-        buildCertification(2, 'error'),
-        buildCertification(3, 'validated'),
-        buildCertification(4, 'error'),
-        buildCertification(5, 'validated'),
+        buildCertification('1', 'validated'),
+        buildCertification('2', 'rejected'),
+        buildCertification('3', 'validated'),
+        buildCertification('4', 'validated'),
       ])
     }));
-    const certificationWithComment = {
-      id: 5,
-      certificationId: 5,
+    const candidateWithCommentsFromManager = {
+      id: 2,
+      certificationId: '2',
+      firstName: 'Toto',
+      lastName: 'Le héros',
+      birthdate: '20/03/1986',
+      birthplace: 'une ville',
+      externalId: '1234',
+      comments: null
+    };
+
+    const candidateMissingEndScreen = {
+      id: 3,
+      certificationId: '3',
       firstName: 'Toto',
       lastName: 'Le héros',
       birthdate: '20/03/1986',
@@ -145,12 +156,27 @@ module.only('Unit | Controller | authenticated/certifications/sessions/info/list
       comments: 'manager comments'
     };
 
+    const candidateWichCertificationIsRejected = {
+      id: 4,
+      certificationId: '4',
+      firstName: 'Toto',
+      lastName: 'Le héros',
+      birthdate: '20/03/1986',
+      birthplace: 'une ville',
+      externalId: '1234',
+      comments: null
+    };
+
     // when
-    controller.send('onGetJuryFile', [certificationWithComment]);
+    controller.send('onGetJuryFile', [candidateWithCommentsFromManager, candidateMissingEndScreen, candidateWichCertificationIsRejected]);
 
     // then
     await settled();
-    assert.equal(fileSaverStub.getContent(), '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Commentaire surveillant";"Commentaire pour le jury";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n5;2;"error";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n5;5;"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"manager comments";"jury";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n');
+    assert.equal(fileSaverStub.getContent(), '\uFEFF' +
+      '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Commentaire surveillant";"Commentaire pour le jury";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
+      '5;"2";"rejected";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+      '5;"3";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";"manager comments";"jury";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+      '5;"4";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n');
   });
 
 });
