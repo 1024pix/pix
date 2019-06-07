@@ -11,6 +11,9 @@
 }
 
 .competence-card {
+  position: relative;
+  top: 0;
+  overflow: hidden;
   width: 210px;
   height: 300px;
   font-family: $font-roboto;
@@ -18,6 +21,12 @@
   border: 1px solid $alto-grey;
   border-radius: 11px;
   background-color: $white;
+  transition: all 0.1s linear;
+}
+
+.competence-card:hover {
+  top: -8px;
+  box-shadow: 0 14px 24px 0 rgba(12, 22, 58, 0.2), 0 3px 6px 0 rgba(0, 0, 0, 0.2);
 }
 
 .competence-card__header {
@@ -29,8 +38,11 @@
   height: 110px;
   overflow: hidden;
   position: relative;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+  transition: height 0.2s cubic-bezier(0.265, 0.075, 0.025, 0.990);
+}
+
+.competence-card:hover > .competence-card__header {
+  height: 174px;
 }
 
 .competence-card__color {
@@ -40,29 +52,29 @@
     position: absolute;
     right: -200px;
     left: -200px;
-    top: -100px;
+    top: -350px;
     content: '';
     bottom: 0;
   }
 
   &--jaffa::after {
-    background: radial-gradient(#F24645 0%, $jaffa 100%);
+    background: radial-gradient(#F24645 25%, $jaffa 100%);
   }
 
   &--emerald::after {
-    background: radial-gradient(#1A8C89 0%, $emerald 100%);
+    background: radial-gradient(#1A8C89 25%, $emerald 100%);
   }
 
   &--cerulean::after {
-    background: radial-gradient(#3D68FF 0%, $cerulean 100%);
+    background: radial-gradient(#3D68FF 25%, $cerulean 100%);
   }
 
   &--wild-strawberry::after {
-    background: radial-gradient(#AC008D 0%, $wild-strawberry 100%);
+    background: radial-gradient(#AC008D 25%, $wild-strawberry 100%);
   }
 
   &--butterfly-bush::after {
-    background: radial-gradient(#5E2563 0%, $butterfly-bush 100%);
+    background: radial-gradient(#5E2563 25%, $butterfly-bush 100%);
   }
 }
 
@@ -79,6 +91,11 @@
 }
 
 .competence-card__body {
+  position: absolute;
+  top: 126px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -86,15 +103,38 @@
   height: 136px;
   margin-top: 10px;
   margin-bottom: 4px;
+  transition: top 0.2s ease-out;
+}
+
+.competence-card:hover > .competence-card__body {
+  top: 95px;
 }
 
 .competence-card__link {
+  display: inline-block;
   border-radius: 50%;
-  border: 0 solid $porcelain-grey;
-  transition: all 0.1s ease-in-out;
+  background-color: $white;
+  border: 8px solid $white;
+  transition: border 0.1s ease-in;
+}
 
-  &:hover, &:active, &:focus {
-    border: 8px solid $porcelain-grey;
+.competence-card__link-wrapper {
+  border: 0px solid rgba($white, 0.4);
+  border-radius: 50%;
+  transition: border 0.1s ease-in;
+}
+
+.competence-card:hover > .competence-card__body > .competence-card__link-wrapper {
+  transition-delay: 0.15s;
+  border: 12px solid rgba($white, 0.4);
+
+  &:hover {
+    transition-delay: 0s;
+    border: 0px solid rgba($white, 0.4);
+
+    > .competence-card__link {
+      border: 20px solid $white;
+    }
   }
 }
 
@@ -104,15 +144,39 @@
   align-items: center;
 }
 
-.competence-card-score-value {
+.competence-card__score-value {
   min-height: 44px;
 }
 
+.competence-card__score-details {
+  color: $dusty-grey;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin-top: 3px;
+  margin-bottom: -4px;
+  opacity: 0;
+  transition: opacity 0.1s linear;
+  letter-spacing: 0.5px;
+}
+
+.competence-card:hover > .competence-card__body > .competence-card__link-wrapper > .competence-card__link > div > div > div > .competence-card__score-details {
+  transition-delay: 0.2s;
+  opacity: 1;
+}
+
 .competence-card__footer {
+  position: absolute;
+  bottom: -34px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 34px;
+  transition: bottom 0.2s ease-out;
+}
+
+.competence-card:hover > .competence-card__footer {
+  bottom: 10px;
 }
 
 .competence-card__button {
