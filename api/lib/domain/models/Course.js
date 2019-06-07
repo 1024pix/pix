@@ -39,12 +39,12 @@ class Course {
     return this.challenges.length;
   }
 
-  addCompetenceSkills(competenceSkills) {
-    this.competenceSkills = competenceSkills;
-  }
-
   findTube(tubeName) {
     return this.tubes.find((tube) => tube.name === tubeName);
+  }
+
+  static findByCompetenceId(courses, competenceId) {
+    return courses.find((course) => course.competences[0] === competenceId);
   }
 
   computeTubes(listSkills) {

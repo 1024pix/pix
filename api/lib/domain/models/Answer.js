@@ -63,6 +63,7 @@ class Answer {
   get hasTimedOut() {
     return _.isInteger(this.timeout) && this.timeout < 0;
   }
+
 }
 
 // FIXME: DO NOT accept "#ABAND#" as an answer, give this information with a boolean,

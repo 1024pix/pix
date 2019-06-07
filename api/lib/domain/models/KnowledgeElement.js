@@ -85,6 +85,14 @@ class KnowledgeElement {
     const precise = true;
     return moment().diff(lastKnowledgeElement.createdAt, 'days', precise);
   }
+
+  static findDirectlyValidated({ knowledgeElements, knowledgeElementsByCompetence }) {
+    knowledgeElements = knowledgeElements || _(knowledgeElementsByCompetence).values().flatten();
+    return _(knowledgeElements)
+      .filter({ status: statuses.VALIDATED })
+      .filter({ source: sources.DIRECT })
+      .value();
+  }
 }
 
 KnowledgeElement.SourceType = sources;

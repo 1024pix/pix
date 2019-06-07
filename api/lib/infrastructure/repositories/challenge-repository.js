@@ -24,7 +24,6 @@ module.exports = {
   },
 
   list() {
-
     return challengeDatasource.list()
       .then(_generateChallengeDomainModels);
   },

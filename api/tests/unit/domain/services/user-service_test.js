@@ -62,27 +62,27 @@ describe('Unit | Service | User Service', () => {
     const userId = 4367;
 
     beforeEach(() => {
-      sinon.stub(userRepository, 'findUserById');
+      sinon.stub(userRepository, 'get');
     });
 
-    it('should call a userRepository.findUserById', () => {
+    it('should call a userRepository.get', () => {
       // given
-      userRepository.findUserById.resolves();
+      userRepository.get.resolves();
 
       // when
       const promise = userService.isUserExistingById(userId);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(userRepository.findUserById);
-        sinon.assert.calledWith(userRepository.findUserById, userId);
+        sinon.assert.calledOnce(userRepository.get);
+        sinon.assert.calledWith(userRepository.get, userId);
       });
     });
 
     it('should return true, when user is found', () => {
       // given
       const foundUser = {};
-      userRepository.findUserById.resolves(foundUser);
+      userRepository.get.resolves(foundUser);
 
       // when
       const promise = userService.isUserExistingById(userId);
@@ -95,14 +95,14 @@ describe('Unit | Service | User Service', () => {
 
     it('should throw an error, when no user found', () => {
       // given
-      userRepository.findUserById.rejects();
+      userRepository.get.rejects();
 
       // when
       const promise = userService.isUserExistingById(userId);
 
       // then
       return promise.catch((result) => {
-        expect(result).to.be.an.instanceOf(UserNotFoundError);
+        expect(result).to.be.an.instanceOf(Error);
       });
     });
   });

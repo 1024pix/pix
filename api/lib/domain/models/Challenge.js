@@ -151,6 +151,28 @@ class Challenge {
         return new Validator({ solution });
     }
   }
+
+  static findBySkill(challenges, skill) {
+    return _.filter(challenges, (challenge) => challenge.hasSkill(skill));
+  }
+
+  static findById(challenges, id) {
+    return _(challenges).find({ id });
+  }
+
+  static getPublishedSkills(skills, challenges) {
+    return _.each(skills, (skill) => this.hasAtLeastOneActiveChallenge(challenges, skill));
+  }
+
+  static hasAtLeastOneActiveChallenge(challenges, skill) {
+    const challengesBySkill = _.filter(challenges, (challenge) => challenge.hasSkill(skill) && challenge.isPublished());
+    return challengesBySkill.length > 0;
+  }
+
+  static findByIds(challenges, challengeIds) {
+    return challengeIds.map((challengeId) => this.findById(challenges, challengeId));
+  }
+
 }
 
 Challenge.Type = ChallengeType;

@@ -162,6 +162,27 @@ class Assessment {
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }
 
+  static findByCourseId(assessments, courseId) {
+    return assessments.find((assessment) => courseId === assessment.courseId);
+  }
+
+  static async findCorrectAnswers(assessments, correctAnswersFetcher) {
+    const answersByAssessmentsPromises = assessments.map((assessment) => correctAnswersFetcher(assessment.id));
+    const answersByAssessments = await Promise.all(answersByAssessmentsPromises);
+
+    return _.flatten(answersByAssessments);
+  }
+
+  static filterWithEstimatedLevelGreaterThanZero(assessments) {
+    return _(assessments).filter((assessment) => assessment.getLastAssessmentResult().level >= 1).values();
+  }
+
+  static async findCorrectlyAnsweredChallengeIds(userLastAssessments, correctAnswersFetcher) {
+    const assessments = Assessment.filterWithEstimatedLevelGreaterThanZero(userLastAssessments);
+    const correctAnswers = await Assessment.findCorrectAnswers(assessments, correctAnswersFetcher);
+    return _.map(correctAnswers, 'challengeId');
+  }
+
 }
 
 Assessment.courseIdMessage = courseIdMessage;
