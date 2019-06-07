@@ -51,7 +51,7 @@ module.exports = {
         return course.name;
       })
       .catch(() => {
-        throw new NotFoundError('Le cours demandé n\'existe pas');
+        throw new NotFoundError('Le test demandé n\'existe pas');
       });
   }
 };

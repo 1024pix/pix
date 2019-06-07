@@ -16,8 +16,8 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
           attributes: {
             'certification-number': assessment.courseId.toString(),
             state: assessment.state,
-            title: undefined,
             type: assessment.type,
+            title: assessment.courseId.toString(),
           },
           relationships: {
             answers: {

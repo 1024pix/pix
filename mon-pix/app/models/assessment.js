@@ -14,16 +14,14 @@ export default Model.extend({
   state: attr('string'),
   title: attr('string'),
   type: attr('string'),
+  certificationNumber: attr('string'),
+  participantExternalId: attr('string'),
 
   // includes
   answers: hasMany('answer'),
   course: belongsTo('course', { inverse: null }),
   progression: belongsTo('progression', { inverse: null }),
   result: belongsTo('assessment-result'),
-
-  // references
-  certificationNumber: attr('string'),
-  participantExternalId: attr('string'),
 
   // methods
   isCertification: equal('type', 'CERTIFICATION'),
