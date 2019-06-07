@@ -9,7 +9,6 @@ export default Route.extend({
 
   afterModel(challenge) {
     const store = this.store;
-    const that = this;
 
     const assessment = store.createRecord('assessment', { type: 'PREVIEW' });
 
@@ -17,7 +16,7 @@ export default Route.extend({
 
     correctionAdapter.refreshRecord('correction', { challengeId: challenge.get('id') });
     return assessment.save().then(() => {
-      return that.transitionTo('assessments.challenge', { assessment, challenge });
+      return this.replaceWith('assessments.challenge', assessment.id, challenge.id);
     });
   }
 });
