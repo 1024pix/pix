@@ -31,6 +31,7 @@ describe('Unit | UseCase | get-assessment', () => {
     assessment = domainBuilder.buildAssessment({
       assessmentResults:[assessmentResult],
       campaignParticipation,
+      competenceId: competence.id,
       courseId: course.id,
     });
 
@@ -68,6 +69,9 @@ describe('Unit | UseCase | get-assessment', () => {
     });
 
     // then
+    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
+    expect(competenceRepository.getCompetenceName).to.have.been.calledWithExactly(assessment.competenceId);
+
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.pixScore).to.equal(assessmentResult.pixScore);
@@ -103,8 +107,8 @@ describe('Unit | UseCase | get-assessment', () => {
     it(`should resolve the Assessment domain object with ${assessmentType} title matching the given assessment ID`, async () => {
       // given
       assessment.type = assessmentType;
-      courseRepository.get.resolves(course);
       assessmentRepository.get.resolves(assessment);
+      courseRepository.get.resolves(course);
 
       // when
       const result = await getAssessment({
@@ -114,6 +118,9 @@ describe('Unit | UseCase | get-assessment', () => {
       });
 
       // then
+      expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
+      expect(courseRepository.get).to.have.been.calledWithExactly(assessment.courseId);
+
       expect(result).to.be.an.instanceOf(Assessment);
       expect(result.id).to.equal(assessment.id);
       expect(result.pixScore).to.equal(assessmentResult.pixScore);
@@ -125,7 +132,6 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object with SMARTPLACEMENT title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.SMARTPLACEMENT;
-    campaignRepository.get.resolves(campaign);
     assessmentRepository.get.resolves(assessment);
 
     // when
@@ -136,6 +142,8 @@ describe('Unit | UseCase | get-assessment', () => {
     });
 
     // then
+    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
+
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.pixScore).to.equal(assessmentResult.pixScore);
@@ -146,8 +154,8 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object without title matching the given assessment ID', async () => {
     // given
     assessment.type = 'NO TYPE';
-    competenceRepository.getCompetenceName.resolves(competence);
     assessmentRepository.get.resolves(assessment);
+    competenceRepository.getCompetenceName.resolves(competence);
 
     // when
     const result = await getAssessment({
@@ -157,6 +165,9 @@ describe('Unit | UseCase | get-assessment', () => {
     });
 
     // then
+    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
+    expect(competenceRepository.getCompetenceName).to.not.have.been.called;
+
     expect(result).to.be.an.instanceOf(Assessment);
     expect(result.id).to.equal(assessment.id);
     expect(result.pixScore).to.equal(assessmentResult.pixScore);
