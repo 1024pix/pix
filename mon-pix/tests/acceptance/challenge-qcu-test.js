@@ -62,7 +62,7 @@ describe('Acceptance | Displaying a QCU', function() {
     await visit('/assessments/' + assessment.id + '/challenges/' + challenge.id);
 
     // then
-    expect($('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
+    expect($('.proposal-paragraph input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
   });
 
   it('should display an ordered list of instructions', async function() {
@@ -94,6 +94,7 @@ describe('Acceptance | Displaying a QCU', function() {
   it('should not be possible to select multiple radio buttons', async function() {
     // when
     await visit('/assessments/' + assessment.id + '/challenges/' + challenge.id);
+    await click('input[type=radio][name="radio"]:eq(1)');
 
     expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
     expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
@@ -101,7 +102,7 @@ describe('Acceptance | Displaying a QCU', function() {
     expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
     // When
-    await click($('.label-checkbox-proposal:eq(0)')); // Click on label trigger the event.
+    await click('.label-checkbox-proposal:eq(0)'); // Click on label trigger the event.
 
     // Then
     expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(true);
@@ -131,6 +132,7 @@ describe('Acceptance | Displaying a QCU', function() {
 
     // when
     await visit('/assessments/' + assessment.id + '/challenges/' + challenge.id);
+    await click('input[type=radio][name="radio"]:eq(1)');
 
     expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
     expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
