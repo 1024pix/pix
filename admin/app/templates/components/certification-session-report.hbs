@@ -6,10 +6,10 @@
   {{#modal.body}}
     <div class="certification-session-report__body">
 
-      <section class="data-section data-section--filled-candidates">
+      <section class="data-section data-section--listed-candidates">
         <div class="row mb-2">
           <div class="col-8">
-            <button class="data-section__switch" type="button" {{action "toggleCandidates"}}>Nombre de candidats trouvés</button>
+            <button class="data-section__switch" type="button" {{action "toggleSection" "displayListedCandidatesSection"}}>Nombre de candidats trouvés</button>
           </div>
           <div class="col-3">
             <span class="data-section__counter">{{candidates.length}}</span>
@@ -22,7 +22,7 @@
             {{/if}}
           </div>
         </div>
-        {{#if (and candidates.length displayCandidates)}}
+        {{#if (and candidates.length displayListedCandidatesSection)}}
           <div class="row mb-4">
             <div class="col-8 data-section__certification-ids">
               {{#each candidates as |candidate|}}
@@ -36,7 +36,7 @@
       <section class="data-section data-section--unexpected-candidates">
          <div class="row mb-2">
           <div class="col-8">
-            <button class="data-section__switch" type="button" {{action "toggleNotFromSession"}}>Candidats hors session</button>
+            <button class="data-section__switch" type="button" {{action "toggleSection" "displayUnexpectedCandidates"}}>Candidats hors session</button>
           </div>
           <div class="col-3">
             <span class="data-section__counter">{{notFromSession.length}}</span>
@@ -49,7 +49,7 @@
             {{/if}}
           </div>
         </div>
-        {{#if (and notFromSession.length displayNotFromSession)}}
+        {{#if (and notFromSession.length displayUnexpectedCandidates)}}
           <div class="row mb-4">
             <div class="col-8 data-section__certification-ids">
               {{#each notFromSession as |item|}}
@@ -63,7 +63,7 @@
       <section class="data-section data-section--incomplete-candidates">
          <div class="row mb-2">
           <div class="col-8">
-            <button class="data-section__switch" type="button" {{action "toggleIncomplete"}}>Candidats incomplets</button>
+            <button class="data-section__switch" type="button" {{action "toggleSection" "displayIncompleteCandidates"}}>Candidats incomplets</button>
           </div>
           <div class="col-3">
             <span class="data-section__counter">{{incomplete.length}}</span>
@@ -76,7 +76,7 @@
             {{/if}}
           </div>
         </div>
-        {{#if (and incomplete.length displayIncomplete)}}
+        {{#if (and incomplete.length displayIncompleteCandidates)}}
           <div class="row mb-4">
             <div class="col-8 data-section__certification-ids">
               {{#each incomplete as |item|}}
@@ -90,7 +90,7 @@
       <section class="data-section data-section--duplicate-candidates">
          <div class="row mb-2">
           <div class="col-8">
-            <button class="data-section__switch" type="button" {{action "toggleDuplicates"}}>Nombre de doublons</button>
+            <button class="data-section__switch" type="button" {{action "toggleSection" "displayDuplicateCandidates"}}>Nombre de doublons</button>
           </div>
           <div class="col-3">
             <span class="data-section__counter">{{duplicates.length}}</span>
@@ -103,7 +103,7 @@
             {{/if}}
           </div>
         </div>
-        {{#if (and duplicates.length displayDuplicates)}}
+        {{#if (and duplicates.length displayDuplicateCandidates)}}
           <div class="row mb-4">
             <div class="col-8 data-section__certification-ids">
               {{#each duplicates as |duplicate|}}
@@ -117,7 +117,7 @@
       <section class="data-section data-section--missing-candidates">
          <div class="row mb-2">
           <div class="col-8">
-            <button class="data-section__switch" type="button" {{action "toggleWithoutCandidate"}}>Certifications sans candidat</button>
+            <button class="data-section__switch" type="button" {{action "toggleSection" "displayMissingCandidates"}}>Certifications sans candidat</button>
           </div>
           <div class="col-3">
             <span class="data-section__counter">{{withoutCandidate.length}}</span>
@@ -130,7 +130,7 @@
             {{/if}}
           </div>
         </div>
-        {{#if (and withoutCandidate.length displayWithoutCandidate)}}
+        {{#if (and withoutCandidate.length displayMissingCandidates)}}
           <div class="row mb-4">
             <div class="col-8 data-section__certification-ids">
               {{#each withoutCandidate as |item|}}
@@ -144,7 +144,7 @@
       <section class="data-section data-section--missing-end-screen">
          <div class="row mb-2">
           <div class="col-8">
-            <button class="data-section__switch" type="button" {{action "toggleMissingEndScreen"}}>Écrans de fin non renseignés</button>
+            <button class="data-section__switch" type="button" {{action "toggleSection" "displayMissingEndScreen"}}>Écrans de fin non renseignés</button>
           </div>
           <div class="col-3">
             <span class="data-section__counter">{{missingEndScreen.length}}</span>
@@ -171,7 +171,7 @@
       <section class="data-section data-section--comments">
          <div class="row mb-2">
           <div class="col-8">
-            <button class="data-section__switch" type="button" {{action "toggleComments"}}>Commentaires</button>
+            <button class="data-section__switch" type="button" {{action "toggleSection" "displayCommentedCandidates"}}>Commentaires</button>
           </div>
           <div class="col-3">
             <span class="data-section__counter">{{comments.length}}</span>
@@ -184,7 +184,7 @@
             {{/if}}
           </div>
         </div>
-        {{#if (and comments.length displayComments)}}
+        {{#if (and comments.length displayCommentedCandidates)}}
           <div class="row mb-4">
             <div class="col-8 data-section__certification-ids">
               {{#each comments as |item|}}

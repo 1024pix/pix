@@ -66,13 +66,13 @@ module('Integration | Component | certification-session-report', function(hooks)
 
       // when
       await render(hbs`{{certification-session-report show=visible hide=onHide getJuryFile=onGetJuryFile saveCandidates=onSaveReportData candidates=candidateData certifications=certificationData}}`);
-      await click('.data-section--filled-candidates .data-section__switch');
+      await click('.data-section--listed-candidates .data-section__switch');
 
       // then
-      assert.dom('.data-section--filled-candidates .data-section__counter').hasText('3');
-      assert.dom('.data-section--filled-candidates .data-section__certification-ids').includesText('33347');
-      assert.dom('.data-section--filled-candidates .data-section__certification-ids').includesText('33348');
-      assert.dom('.data-section--filled-candidates .data-section__certification-ids').includesText('33349');
+      assert.dom('.data-section--listed-candidates .data-section__counter').hasText('3');
+      assert.dom('.data-section--listed-candidates .data-section__certification-ids').includesText('33347');
+      assert.dom('.data-section--listed-candidates .data-section__certification-ids').includesText('33348');
+      assert.dom('.data-section--listed-candidates .data-section__certification-ids').includesText('33349');
     });
 
     test('it detects candidates with incomplete information and displays their certification ids', async function(assert) {
