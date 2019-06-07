@@ -14,9 +14,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an empty array when there is no duplicates in candidate list', function(assert) {
       // given
       const candidates = [
-        { row: 1, certificationId: 123 },
-        { row: 2, certificationId: 456 },
-        { row: 3, certificationId: 789 },
+        { row: 1, certificationId: '123' },
+        { row: 2, certificationId: '456' },
+        { row: 3, certificationId: '789' },
       ];
       component.set('candidates', candidates);
 
@@ -31,9 +31,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with certifications IDs when there is one duplicate in candidate list', function(assert) {
       // given
       const candidates = [
-        { row: 1, certificationId: 123 },
-        { row: 2, certificationId: 123 },
-        { row: 3, certificationId: 789 },
+        { row: 1, certificationId: '123' },
+        { row: 2, certificationId: '123' },
+        { row: 3, certificationId: '789' },
       ];
       component.set('candidates', candidates);
 
@@ -41,18 +41,18 @@ module('Unit | Components | certification-session-report', function(hooks) {
       const duplicates = component.duplicates;
 
       // then
-      const expectedResult = [123];
+      const expectedResult = ['123'];
       assert.deepEqual(duplicates, expectedResult);
     });
 
     test('should return an array with certifications IDs when there are duplicates in candidate list', function(assert) {
       // given
       const candidates = [
-        { row: 1, certificationId: 123 },
-        { row: 2, certificationId: 123 },
-        { row: 1, certificationId: 456 },
-        { row: 2, certificationId: 456 },
-        { row: 3, certificationId: 789 },
+        { row: 1, certificationId: '123' },
+        { row: 2, certificationId: '123' },
+        { row: 1, certificationId: '456' },
+        { row: 2, certificationId: '456' },
+        { row: 3, certificationId: '789' },
       ];
       component.set('candidates', candidates);
 
@@ -60,7 +60,7 @@ module('Unit | Components | certification-session-report', function(hooks) {
       const duplicates = component.duplicates;
 
       // then
-      const expectedResult = [123, 456];
+      const expectedResult = ['123', '456'];
       assert.deepEqual(duplicates, expectedResult);
     });
   });
@@ -69,10 +69,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an empty array when there is no empty candidate', function(assert) {
       // given
       const completeCandidates = [
-        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: 123 },
-        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: 456 },
-        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: 789 },
-        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: 101112 },
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: '123' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: '456' },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: '101112' },
       ];
       component.set('candidates', completeCandidates);
 
@@ -87,10 +87,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidate that miss first name', function(assert) {
       // given
       const candidatesMissingFirstName = [
-        { row: 1, lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: 123 },
-        { row: 2, firstName: null, lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: 123 },
-        { row: 3, firstName: '', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: 456 },
-        { row: 4, firstName: '   ', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: 789 },
+        { row: 1, lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: '123' },
+        { row: 2, firstName: null, lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: '123' },
+        { row: 3, firstName: '', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: '456' },
+        { row: 4, firstName: '   ', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: '789' },
       ];
       component.set('candidates', candidatesMissingFirstName);
 
@@ -104,10 +104,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidate that miss last name', function(assert) {
       // given
       const candidatesMissingLastName = [
-        { row: 1, firstName: 'Bruce', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: 123 },
-        { row: 2, firstName: 'James', lastName: null, birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: 456 },
-        { row: 3, firstName: 'Natalia', lastName: '', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: 789 },
-        { row: 4, firstName: 'Clark', lastName: '    ', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: 101112 },
+        { row: 1, firstName: 'Bruce', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: '123' },
+        { row: 2, firstName: 'James', lastName: null, birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: '456' },
+        { row: 3, firstName: 'Natalia', lastName: '', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: '    ', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: '101112' },
       ];
       component.set('candidates', candidatesMissingLastName);
 
@@ -121,10 +121,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidate that miss birth date', function(assert) {
       // given
       const candidatesMissingBirthDate = [
-        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthPlace: 'Gotham City', certificationId: 123 },
-        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: null, birthPlace: 'Northwest Territories of Canada', certificationId: 456 },
-        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '', birthPlace: 'Stalingrad', certificationId: 789 },
-        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '    ', birthPlace: 'Smallville', certificationId: 101112 },
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthPlace: 'Gotham City', certificationId: '123' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: null, birthPlace: 'Northwest Territories of Canada', certificationId: '456' },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '', birthPlace: 'Stalingrad', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '    ', birthPlace: 'Smallville', certificationId: '101112' },
       ];
       component.set('candidates', candidatesMissingBirthDate);
 
@@ -138,10 +138,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidate that miss birth place', function(assert) {
       // given
       const candidatesMissingBirthPlace = [
-        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', certificationId: 123 },
-        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: null, certificationId: 456 },
-        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: '', certificationId: 789 },
-        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: '    ', certificationId: 101112 },
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', certificationId: '123' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: null, certificationId: '456' },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: '', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: '    ', certificationId: '101112' },
       ];
       component.set('candidates', candidatesMissingBirthPlace);
 
@@ -178,9 +178,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an empty array when every certification has an associated candidate', function(assert) {
       // given
       const candidates = [
-        { row: 1, certificationId: 123 },
-        { row: 2, certificationId: 456 },
-        { row: 3, certificationId: 789 },
+        { row: 1, certificationId: '123' },
+        { row: 2, certificationId: '456' },
+        { row: 3, certificationId: '789' },
       ];
       component.set('candidates', candidates);
 
@@ -202,9 +202,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with certifications missing associated candidate', function(assert) {
       // given
       const candidates = [
-        { row: 1, certificationId: 123 },
-        { row: 2, certificationId: 456 },
-        { row: 3, certificationId: 789 },
+        { row: 1, certificationId: '123' },
+        { row: 2, certificationId: '456' },
+        { row: 3, certificationId: '789' },
       ];
       component.set('candidates', candidates);
 
@@ -231,9 +231,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an empty array when every candidates certification IDs match an existing certification', function(assert) {
       // given
       const candidates = [
-        { firstName: 'Toto', certificationId: 123 },
-        { firstName: 'Jean', certificationId: 456 },
-        { firstName: 'Michel', certificationId: 789 },
+        { firstName: 'Toto', certificationId: '123' },
+        { firstName: 'Jean', certificationId: '456' },
+        { firstName: 'Michel', certificationId: '789' },
       ];
       component.set('candidates', candidates);
 
@@ -255,12 +255,12 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidates missing associated certification', function(assert) {
       // given
       const candidateWithCertification =
-        { firstName: 'Candidate with certification', certificationId: 123 };
+        { firstName: 'Candidate with certification', certificationId: '123' };
       component.set('candidates', candidateWithCertification);
 
       const candidatesWithoutCertification = [
-        { firstName: 'Candidate without certification 1', certificationId: 456 },
-        { firstName: 'Candidate without certification 2', certificationId: 789 },
+        { firstName: 'Candidate without certification 1', certificationId: '456' },
+        { firstName: 'Candidate without certification 2', certificationId: '789' },
       ];
       component.set('candidates', candidatesWithoutCertification);
 
@@ -283,9 +283,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an empty array when no candidates certification IDs match an existing certification', function(assert) {
       // given
       const candidates = [
-        { firstName: 'Toto', certificationId: 123 },
-        { firstName: 'Jean', certificationId: 456 },
-        { firstName: 'Michel', certificationId: 789 },
+        { firstName: 'Toto', certificationId: '123' },
+        { firstName: 'Jean', certificationId: '456' },
+        { firstName: 'Michel', certificationId: '789' },
       ];
       component.set('candidates', candidates);
 
@@ -307,9 +307,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidates corresponding to session certifications', function(assert) {
       // given
       const candidates = [
-        { firstName: 'Toto', certificationId: 123 },
-        { firstName: 'Jean', certificationId: 456 },
-        { firstName: 'Michel', certificationId: 0 },
+        { firstName: 'Toto', certificationId: '123' },
+        { firstName: 'Jean', certificationId: '456' },
+        { firstName: 'Michel', certificationId: '0' },
       ];
       component.set('candidates', candidates);
 
@@ -325,8 +325,8 @@ module('Unit | Components | certification-session-report', function(hooks) {
 
       // then
       const expectedResult = [
-        { firstName: 'Toto', certificationId: 123 },
-        { firstName: 'Jean', certificationId: 456 },
+        { firstName: 'Toto', certificationId: '123' },
+        { firstName: 'Jean', certificationId: '456' },
       ];
       assert.deepEqual(sessionCandidates, expectedResult);
     });
@@ -336,9 +336,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an empty array when all candidates saw the end screen', function(assert) {
       // given
       const candidates = [
-        { row: 1, certificationId: 123, lastScreen: 'X' },
-        { row: 2, certificationId: 456, lastScreen: 'X' },
-        { row: 3, certificationId: 789, lastScreen: 'X' },
+        { row: 1, certificationId: '123', lastScreen: 'X' },
+        { row: 2, certificationId: '456', lastScreen: 'X' },
+        { row: 3, certificationId: '789', lastScreen: 'X' },
       ];
       component.set('candidates', candidates);
 
@@ -353,9 +353,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidates having not seen the end screen', function(assert) {
       // given
       const candidates = [
-        { row: 1, certificationId: 123, },
-        { row: 2, certificationId: 456, lastScreen: null },
-        { row: 3, certificationId: 789, lastScreen: '   ' },
+        { row: 1, certificationId: '123', },
+        { row: 2, certificationId: '456', lastScreen: null },
+        { row: 3, certificationId: '789', lastScreen: '   ' },
       ];
       component.set('candidates', candidates);
 
@@ -364,9 +364,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
 
       // then
       const expectedResult = [
-        { row: 1, certificationId: 123, },
-        { row: 2, certificationId: 456, lastScreen: null },
-        { row: 3, certificationId: 789, lastScreen: '   ' },
+        { row: 1, certificationId: '123', },
+        { row: 2, certificationId: '456', lastScreen: null },
+        { row: 3, certificationId: '789', lastScreen: '   ' },
       ];
       assert.deepEqual(missingEndScreen, expectedResult);
     });
@@ -376,9 +376,9 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an empty array when no candidates have comment', function(assert) {
       // given
       const candidates = [
-        { row: 1, certificationId: 123 },
-        { row: 2, certificationId: 456, comments: null },
-        { row: 3, certificationId: 789, comments: '      ' },
+        { row: 1, certificationId: '123' },
+        { row: 2, certificationId: '456', comments: null },
+        { row: 3, certificationId: '789', comments: '      ' },
       ];
       component.set('candidates', candidates);
 
@@ -393,10 +393,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidates having comments', function(assert) {
       // given
       const candidates = [
-        { row: 1, certificationId: 123, comments: '' },
-        { row: 2, certificationId: 456, comments: '     ' },
-        { row: 3, certificationId: 456, comments: 'null' },
-        { row: 4, certificationId: 789, comments: 'My comment' },
+        { row: 1, certificationId: '123', comments: '' },
+        { row: 2, certificationId: '456', comments: '     ' },
+        { row: 3, certificationId: '456', comments: 'null' },
+        { row: 4, certificationId: '789', comments: 'My comment' },
       ];
       component.set('candidates', candidates);
 
@@ -405,8 +405,8 @@ module('Unit | Components | certification-session-report', function(hooks) {
 
       // then
       const expectedResult = [
-        { row: 3, certificationId: 456, comments: 'null' },
-        { row: 4, certificationId: 789, comments: 'My comment' },
+        { row: 3, certificationId: '456', comments: 'null' },
+        { row: 4, certificationId: '789', comments: 'My comment' },
       ];
       assert.deepEqual(comments, expectedResult);
     });
