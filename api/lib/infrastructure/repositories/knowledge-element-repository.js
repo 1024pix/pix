@@ -4,7 +4,21 @@ const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
 
 function _toDomain(knowledgeElementBookshelf) {
-  return new KnowledgeElement(knowledgeElementBookshelf.toJSON());
+  const knowledgeElements = knowledgeElementBookshelf.toJSON();
+  return _.isArray(knowledgeElements)
+    ? knowledgeElements.map((ke) => new KnowledgeElement(ke))
+    : new KnowledgeElement(knowledgeElements);
+}
+
+function _getUniqMostRecents(knowledgeElements) {
+  return _(knowledgeElements)
+    .orderBy('createdAt', 'desc')
+    .uniqBy('skillId')
+    .value();
+}
+
+function _dropResetKnowledgeElements(knowledgeElements) {
+  return _.reject(knowledgeElements, { status: KnowledgeElement.StatusType.RESET });
 }
 
 module.exports = {
@@ -21,7 +35,8 @@ module.exports = {
     return BookshelfKnowledgeElement
       .where({ assessmentId })
       .fetchAll()
-      .then((knowledgeElements) => knowledgeElements.map(_toDomain));
+      .then(_toDomain)
+      .then(_dropResetKnowledgeElements);
   },
 
   findUniqByUserId({ userId, limitDate }) {
@@ -33,31 +48,24 @@ module.exports = {
         }
       })
       .fetchAll()
-      .then((knowledgeElements) => knowledgeElements.map(_toDomain))
-      .then((knowledgeElements) => {
-        return _(knowledgeElements)
-          .orderBy('createdAt', 'desc')
-          .uniqBy('skillId')
-          .value();
-      });
-  },
-
-  findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
-    return this.findUniqByUserId({ userId, limitDate })
-      .then((knowledgeElements) => _.groupBy(knowledgeElements, 'competenceId'));
+      .then(_toDomain)
+      .then(_getUniqMostRecents)
+      .then(_dropResetKnowledgeElements);
   },
 
   findUniqByUserIdAndCompetenceId({ userId, competenceId }) {
     return BookshelfKnowledgeElement
       .where({ userId, competenceId })
       .fetchAll()
-      .then((knowledgeElements) => knowledgeElements.map(_toDomain))
-      .then((knowledgeElements) => {
-        return _(knowledgeElements)
-          .orderBy('createdAt', 'desc')
-          .uniqBy('skillId')
-          .value();
-      });
+      .then(_toDomain)
+      .then(_getUniqMostRecents)
+      .then(_dropResetKnowledgeElements);
+  },
+
+  findUniqByUserIdGroupedByCompetenceId({ userId, limitDate }) {
+    return this.findUniqByUserId({ userId, limitDate })
+      .then(_dropResetKnowledgeElements)
+      .then((knowledgeElements) => _.groupBy(knowledgeElements, 'competenceId'));
   },
 
   getSumOfPixFromUserKnowledgeElements(userId) {
@@ -72,5 +80,7 @@ module.exports = {
       .where({ rank: 1 })
       .then((result) => result.rows ? result.rows : result)
       .then(([{ earnedPix }]) => earnedPix);
-  }
+  },
+
 };
+
