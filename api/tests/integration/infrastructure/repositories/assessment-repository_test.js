@@ -1,4 +1,4 @@
-const { expect, sinon, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, sinon, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -61,34 +61,30 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           .then(() => knex('answers').delete());
       });
 
-      it('should return the assessment with the answers sorted by creation date ', () => {
+      it('should return the assessment with the answers sorted by creation date ', async () => {
         // when
-        const promise = assessmentRepository.get(assessmentIdInDb);
+        const assessment = await assessmentRepository.get(assessmentIdInDb);
 
         // then
-        return promise.then((assessment) => {
-          expect(assessment).to.be.an.instanceOf(Assessment);
-          expect(assessment.id).to.equal(assessmentIdInDb);
-          expect(assessment.courseId).to.equal('course_A');
+        expect(assessment).to.be.an.instanceOf(Assessment);
+        expect(assessment.id).to.equal(assessmentIdInDb);
+        expect(assessment.courseId).to.equal('course_A');
 
-          expect(assessment.answers).to.have.lengthOf(3);
-          expect(assessment.answers[0]).to.be.an.instanceOf(Answer);
-          expect(assessment.answers[0].challengeId).to.equal('challenge_3_1');
-          expect(assessment.answers[1].challengeId).to.equal('challenge_1_4');
-          expect(assessment.answers[2].challengeId).to.equal('challenge_2_8');
-        });
+        expect(assessment.answers).to.have.lengthOf(3);
+        expect(assessment.answers[0]).to.be.an.instanceOf(Answer);
+        expect(assessment.answers[0].challengeId).to.equal('challenge_3_1');
+        expect(assessment.answers[1].challengeId).to.equal('challenge_1_4');
+        expect(assessment.answers[2].challengeId).to.equal('challenge_2_8');
       });
     });
 
     context('when the assessment does not exist', () => {
-      it('should return null', () => {
+      it('should return null', async () => {
         // when
-        const promise = assessmentRepository.get(245);
+        const assessment = await assessmentRepository.get(245);
 
         // then
-        return promise.then((assessment) => {
-          expect(assessment).to.equal(null);
-        });
+        expect(assessment).to.equal(null);
       });
     });
   });
@@ -148,49 +144,38 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return knex('assessments').delete();
     });
 
-    it('should return only the last assessment (which are not Certifications) for each courses from JOHN', () => {
+    it('should return only the last assessment (which are not Certifications) for each courses from JOHN', async () => {
       // when
-      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
+      const assessments = await assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
       // then
-      return promise.then((assessments) => {
-        expect(assessments).to.have.lengthOf(2);
+      expect(assessments).to.have.lengthOf(2);
 
-        const firstId = assessments[0].id;
-        expect(firstId).to.equal(1);
+      const firstId = assessments[0].id;
+      expect(firstId).to.equal(1);
 
-        const secondId = assessments[1].id;
-        expect(secondId).to.equal(4);
-      });
+      const secondId = assessments[1].id;
+      expect(secondId).to.equal(4);
     });
 
-    it('should not return preview assessments', () => {
+    it('should not return preview assessments', async () => {
       // when
-      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(LAYLA);
+      const assessments = await assessmentRepository.findLastAssessmentsForEachCoursesByUser(LAYLA);
 
       // then
-      return promise.then((assessments) => {
-        expect(assessments).to.have.lengthOf(1);
-      });
+      expect(assessments).to.have.lengthOf(1);
     });
 
-    it('should throw an error if something went wrong', () => {
-      //Given
+    it('should throw an error if something went wrong', async () => {
+      // given
       const error = new Error('Unable to fetch');
-      sinon.stub(BookshelfAssessment, 'where').returns({
-        fetchAll: () => {
-          return Promise.reject(error);
-        },
-      });
+      sinon.stub(BookshelfAssessment, 'collection').throws(error);
 
       // when
-      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
+      const result = await catchErr(assessmentRepository.findLastAssessmentsForEachCoursesByUser)(JOHN);
 
       // then
-      return promise
-        .catch((err) => {
-          expect(err).to.equal(error);
-        });
+      expect(result).to.equal(error);
     });
   });
 
@@ -248,49 +233,38 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return knex('assessments').delete();
     });
 
-    it('should return the list of assessments (which are not Certifications) from JOHN', () => {
+    it('should return the list of assessments (which are not Certifications) from JOHN', async () => {
       // when
-      const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
+      const assessments = await assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
 
       // then
-      return promise.then((assessments) => {
-        expect(assessments).to.have.lengthOf(2);
+      expect(assessments).to.have.lengthOf(2);
 
-        expect(assessments[0]).to.be.an.instanceOf(Assessment);
-        expect(assessments[1]).to.be.an.instanceOf(Assessment);
+      expect(assessments[0]).to.be.an.instanceOf(Assessment);
+      expect(assessments[1]).to.be.an.instanceOf(Assessment);
 
-        expect(assessments[0].id).to.equal(COMPLETED_ASSESSMENT_A_ID);
-        expect(assessments[1].id).to.equal(COMPLETED_ASSESSMENT_B_ID);
-      });
+      expect(assessments[0].id).to.equal(COMPLETED_ASSESSMENT_A_ID);
+      expect(assessments[1].id).to.equal(COMPLETED_ASSESSMENT_B_ID);
     });
 
-    it('should not return preview assessments from LAYLA', () => {
+    it('should not return preview assessments from LAYLA', async () => {
       // when
-      const promise = assessmentRepository.findCompletedAssessmentsByUserId(LAYLA);
+      const assessments = await assessmentRepository.findCompletedAssessmentsByUserId(LAYLA);
 
       // then
-      return promise.then((assessments) => {
-        expect(assessments).to.have.lengthOf(1);
-      });
+      expect(assessments).to.have.lengthOf(1);
     });
 
-    it('should throw an error if something went wrong', () => {
-      //Given
+    it('should throw an error if something went wrong', async () => {
+      // given
       const error = new Error('Unable to fetch');
-      sinon.stub(BookshelfAssessment, 'where').returns({
-        fetchAll: () => {
-          return Promise.reject(error);
-        },
-      });
+      sinon.stub(BookshelfAssessment, 'query').throws(error);
 
       // when
-      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
+      const result = await catchErr(assessmentRepository.findCompletedAssessmentsByUserId)(JOHN);
 
       // then
-      return promise
-        .catch((err) => {
-          expect(err).to.equal(error);
-        });
+      expect(result).to.equal(error);
     });
   });
 
@@ -317,16 +291,14 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         return knex('assessments').delete();
       });
 
-      it('should fetch relative assessment ', () => {
+      it('should fetch relative assessment ', async () => {
         // when
-        const promise = assessmentRepository.getByAssessmentIdAndUserId(assessmentId, fakeUserId);
+        const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, fakeUserId);
 
         // then
-        return promise.then((res) => {
-          expect(res).to.be.an.instanceOf(Assessment);
-          expect(res.id).to.equal(assessmentId);
-          expect(res.userId).to.equal(fakeUserId);
-        });
+        expect(assessment).to.be.an.instanceOf(Assessment);
+        expect(assessment.id).to.equal(assessmentId);
+        expect(assessment.userId).to.equal(fakeUserId);
       });
     });
 
@@ -352,16 +324,14 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         return knex('assessments').delete();
       });
 
-      it('should fetch relative assessment', () => {
+      it('should fetch relative assessment', async () => {
         // when
-        const promise = assessmentRepository.getByAssessmentIdAndUserId(assessmentId, fakeUserId);
+        const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, fakeUserId);
 
         // then
-        return promise.then((res) => {
-          expect(res).to.be.an.instanceOf(Assessment);
-          expect(res.id).to.equal(assessmentId);
-          expect(res.userId).to.equal(fakeUserId);
-        });
+        expect(assessment).to.be.an.instanceOf(Assessment);
+        expect(assessment.id).to.equal(assessmentId);
+        expect(assessment.userId).to.equal(fakeUserId);
       });
     });
 
@@ -475,10 +445,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         .then(() => knex('assessments').delete());
     });
 
-    it('should correctly query Assessment conditions', () => {
+    it('should correctly query Assessment conditions', async () => {
       // given
       const expectedAssessments = [
-        Assessment.fromAttributes({
+        new Assessment({
           id: 3,
           userId: JOHN,
           courseId: 'courseId1',
@@ -507,19 +477,20 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       ];
 
       // when
-      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(JOHN, new Date('2019-10-27T08:44:25Z'));
+      const assessments = await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(
+        JOHN,
+        new Date('2019-10-27T08:44:25Z')
+      );
 
       // then
-      return promise.then((assessments) => {
-        expect(assessments).to.deep.equal(expectedAssessments);
-      });
+      expect(assessments).to.deep.equal(expectedAssessments);
     });
   });
 
   describe('#save', () => {
 
     const JOHN = 2;
-    const assessmentToBeSaved = Assessment.fromAttributes({
+    const assessmentToBeSaved = new Assessment({
       userId: JOHN,
       courseId: 'courseId1',
       type: Assessment.types.CERTIFICATION,
@@ -531,20 +502,17 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return knex('assessments').delete();
     });
 
-    it('should save new assessment if not already existing', () => {
+    it('should save new assessment if not already existing', async () => {
       // when
-      const promise = assessmentRepository.save(assessmentToBeSaved);
+      const assessmentReturned = await assessmentRepository.save(assessmentToBeSaved);
 
       // then
-      return promise.then((assessmentReturned) =>
-        knex('assessments').where('id', assessmentReturned.id).first('id', 'userId'))
-        .then((assessmentsInDb) => {
-          expect(assessmentsInDb.userId).to.equal(JOHN);
-        });
+      const  assessmentsInDb = await knex('assessments').where('id', assessmentReturned.id).first('id', 'userId');
+      expect(assessmentsInDb.userId).to.equal(JOHN);
     });
   });
 
-  describe('#getByCertificationCourseId', () => {
+  describe('#getByCertificationCourseId', async () => {
 
     const assessmentInDb = {
       courseId: 'course_A',
@@ -611,19 +579,16 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       ]);
     });
 
-    it('should returns assessment results for the given certificationId', () => {
+    it('should returns assessment results for the given certificationId', async () => {
       // when
-
-      const promise = assessmentRepository.getByCertificationCourseId('course_A');
+      const assessmentReturned = await assessmentRepository.getByCertificationCourseId('course_A');
 
       // then
-      return promise.then((assessmentReturned) => {
-        expect(assessmentReturned).to.be.an.instanceOf(Assessment);
-        expect(assessmentReturned.courseId).to.equal('course_A');
-        expect(assessmentReturned.pixScore).to.equal(assessmentInDb.pixScore);
-        expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
-        expect(assessmentReturned.assessmentResults[0]).to.deep.equal(expectedAssessmentResult);
-      });
+      expect(assessmentReturned).to.be.an.instanceOf(Assessment);
+      expect(assessmentReturned.courseId).to.equal('course_A');
+      expect(assessmentReturned.pixScore).to.equal(assessmentInDb.pixScore);
+      expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
+      expect(assessmentReturned.assessmentResults[0]).to.deep.equal(expectedAssessmentResult);
     });
   });
 
@@ -683,33 +648,29 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       ]).then(() => databaseBuilder.clean());
     });
 
-    it('should return assessment with answers when it matches with userId and courseId', function() {
+    it('should return assessment with answers when it matches with userId and courseId', async () => {
       // given
       const userId = 2;
       const courseId = 'courseId1';
 
       // when
-      const promise = assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, courseId);
+      const assessment = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return promise.then((assessment) => {
-        expect(assessment.id).to.equal(2);
-        expect(assessment.answers).to.have.lengthOf(2);
-      });
+      expect(assessment.id).to.equal(2);
+      expect(assessment.answers).to.have.lengthOf(2);
     });
 
-    it('should return null when it does not match with userId and courseId', function() {
+    it('should return null when it does not match with userId and courseId', async () => {
       // given
       const userId = 234;
       const courseId = 'inexistantId';
 
       // when
-      const promise = assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, courseId);
+      const assessment = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return promise.then((assessment) => {
-        expect(assessment).to.equal(null);
-      });
+      expect(assessment).to.equal(null);
     });
   });
 
@@ -754,7 +715,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       ]).then(() => databaseBuilder.clean());
     });
 
-    it('should return assessment with campaignParticipation when it matches with campaignParticipationId', async function() {
+    it('should return assessment with campaignParticipation when it matches with campaignParticipationId', async () => {
       // given
       const campaignParticipationId = 4;
 
@@ -803,16 +764,14 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       ]);
     });
 
-    it('should returns the assessment with campaign when it matches with userId', () => {
+    it('should returns the assessment with campaign when it matches with userId', async () => {
       // when
-      const promise = assessmentRepository.findSmartPlacementAssessmentsByUserId(1);
+      const assessmentsReturned = await assessmentRepository.findSmartPlacementAssessmentsByUserId(1);
 
       // then
-      return promise.then((assessmentsReturned) => {
-        expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
-        expect(assessmentsReturned[0].id).to.equal(assessmentId);
-        expect(assessmentsReturned[0].campaignParticipation.campaign.name).to.equal('Campagne');
-      });
+      expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
+      expect(assessmentsReturned[0].id).to.equal(assessmentId);
+      expect(assessmentsReturned[0].campaignParticipation.campaign.name).to.equal('Campagne');
     });
 
     context('when assessment do not have campaign', () => {
@@ -823,16 +782,14 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         ]);
       });
 
-      it('should returns the assessment without campaign when matches with userId', () => {
+      it('should returns the assessment without campaign when matches with userId', async () => {
         // when
-        const promise = assessmentRepository.findSmartPlacementAssessmentsByUserId(1);
+        const assessmentsReturned = await assessmentRepository.findSmartPlacementAssessmentsByUserId(1);
 
         // then
-        return promise.then((assessmentsReturned) => {
-          expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
-          expect(assessmentsReturned[0].id).to.equal(assessmentId);
-          expect(assessmentsReturned[0].campaignParticipation).to.equal(null);
-        });
+        expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
+        expect(assessmentsReturned[0].id).to.equal(assessmentId);
+        expect(assessmentsReturned[0].campaignParticipation).to.equal(null);
       });
     });
   });
@@ -851,7 +808,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(foundAssessment).to.be.null;
+      expect(foundAssessment).to.be.null;
     });
 
     it('should return a placement regarding the given userId', async () => {
@@ -877,7 +834,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
+      expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
     });
 
     it('should return a placement concerning the given courseId', async () => {
@@ -902,7 +859,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
+      expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
     });
 
     it('should return an assessment of type placement', async () => {
@@ -927,7 +884,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
+      expect(foundAssessment.id).to.deep.equal(userOlderAssessment.id);
     });
 
     it('should return the last placement concerning the userId and courseId', async () => {
@@ -959,7 +916,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(foundAssessment.id).to.deep.equal(lastAssessment.id);
+      expect(foundAssessment.id).to.deep.equal(lastAssessment.id);
 
     });
 
@@ -980,7 +937,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
 
       // then
-      return expect(foundAssessment.assessmentResults).to.have.length.of(2);
+      expect(foundAssessment.assessmentResults).to.have.length.of(2);
     });
   });
 
@@ -999,14 +956,12 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should returns the assessment with campaign when it matches with userId', () => {
+      it('should returns the assessment with campaign when it matches with userId', async () => {
         // when
-        const promise = assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
+        const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
 
         // then
-        return promise.then((result) => {
-          expect(result).to.be.false;
-        });
+        expect(result).to.be.false;
       });
     });
 
@@ -1020,16 +975,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should returns the assessment with campaign when it matches with userId', () => {
+      it('should returns the assessment with campaign when it matches with userId', async () => {
         // when
-        const promise = assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
+        const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
 
         // then
-        return promise.then((result) => {
-          expect(result).to.be.true;
-        });
+        expect(result).to.be.true;
       });
-
     });
 
     context('when user has COMPETENCE_EVALUATION assessment', () => {
@@ -1042,16 +994,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should returns the assessment with campaign when it matches with userId', () => {
+      it('should returns the assessment with campaign when it matches with userId', async () => {
         // when
-        const promise = assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
+        const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
 
         // then
-        return promise.then((result) => {
-          expect(result).to.be.true;
-        });
+        expect(result).to.be.true;
       });
-
     });
 
     context('when user has both SMART_PLACEMENT or COMPETENCE_EVALUATION assessment', () => {
@@ -1068,18 +1017,14 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should returns the assessment with campaign when it matches with userId', () => {
+      it('should returns the assessment with campaign when it matches with userId', async () => {
         // when
-        const promise = assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
+        const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(1);
 
         // then
-        return promise.then((result) => {
-          expect(result).to.be.true;
-        });
+        expect(result).to.be.true;
       });
-
     });
-
   });
 
 });
