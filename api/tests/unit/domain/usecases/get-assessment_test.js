@@ -3,7 +3,6 @@ const getAssessment = require('../../../../lib/domain/usecases/get-assessment');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const competenceEvaluationRepository = require('../../../../lib/infrastructure/repositories/competence-evaluation-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -37,8 +36,7 @@ describe('Unit | UseCase | get-assessment', () => {
 
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(campaignRepository, 'get');
-    sinon.stub(competenceEvaluationRepository, 'getByAssessmentId');
-    sinon.stub(competenceRepository, 'get');
+    sinon.stub(competenceRepository, 'getCompetenceName');
     sinon.stub(courseRepository, 'get');
   });
 
@@ -59,15 +57,13 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object with COMPETENCE_EVALUATION title matching the given assessment ID', async () => {
     // given
     assessment.type = Assessment.types.COMPETENCE_EVALUATION;
-    competenceEvaluationRepository.getByAssessmentId.resolves(competence);
-    competenceRepository.get.resolves(competence);
     assessmentRepository.get.resolves(assessment);
+    competenceRepository.getCompetenceName.resolves(competence.name);
 
     // when
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      competenceEvaluationRepository,
       competenceRepository,
     });
 
@@ -150,15 +146,13 @@ describe('Unit | UseCase | get-assessment', () => {
   it('should resolve the Assessment domain object without title matching the given assessment ID', async () => {
     // given
     assessment.type = 'NO TYPE';
-    competenceEvaluationRepository.getByAssessmentId.resolves(competence);
-    competenceRepository.get.resolves(competence);
+    competenceRepository.getCompetenceName.resolves(competence);
     assessmentRepository.get.resolves(assessment);
 
     // when
     const result = await getAssessment({
       assessmentId: assessment.id,
       assessmentRepository,
-      competenceEvaluationRepository,
       competenceRepository,
     });
 
