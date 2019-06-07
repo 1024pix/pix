@@ -49,15 +49,15 @@ async function _fetchAssessmentTitle({
     }
 
     case Assessment.types.DEMO : {
-      return await _fetchCourseName(assessment.courseId, courseRepository);
+      return await courseRepository.getCourseName(assessment.courseId);
     }
 
     case Assessment.types.PLACEMENT : {
-      return await _fetchCourseName(assessment.courseId, courseRepository);
+      return await courseRepository.getCourseName(assessment.courseId);
     }
 
     case Assessment.types.PREVIEW : {
-      return await _fetchCourseName(assessment.courseId, courseRepository);
+      return await courseRepository.getCourseName(assessment.courseId);
     }
 
     case Assessment.types.SMARTPLACEMENT : {
@@ -67,14 +67,4 @@ async function _fetchAssessmentTitle({
     default:
       return undefined;
   }
-}
-
-function _fetchCourseName(courseId, courseRepository) {
-  return courseRepository.get(courseId)
-    .then((course) => {
-      return course.name;
-    })
-    .catch(() => {
-      throw new NotFoundError('Le cours demandé n\'existe pas');
-    });
 }

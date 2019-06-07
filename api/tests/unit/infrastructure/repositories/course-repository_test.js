@@ -150,4 +150,25 @@ describe('Unit | Repository | course-repository', function() {
 
   });
 
+  describe('#getCourseName', function() {
+
+    beforeEach(() => {
+      sinon.stub(airtable, 'getRecord')
+        .withArgs('Tests', 'recTestAdaptative')
+        .resolves(adaptativeCourse);
+    });
+
+    it('should return Course domain objects', () => {
+      // when
+      const promise = courseRepository.getCourseName('recTestAdaptative');
+
+      // then
+      return promise.then((courseName) => {
+        expect(courseName).to.exist;
+        expect(courseName).to.equal('Test de positionnement 1.1');
+      });
+    });
+
+  });
+
 });
