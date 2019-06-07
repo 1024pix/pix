@@ -203,6 +203,7 @@ export default Controller.extend({
       try {
         await this._importCertificationsData(certificationData);
         this.notifications.success(candidatesData.length + ' lignes correctement importées');
+        this.set('displaySessionReport', false);
       } catch (error) {
         this.notifications.error(error);
       }
