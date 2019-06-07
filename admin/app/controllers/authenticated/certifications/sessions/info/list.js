@@ -209,29 +209,29 @@ export default Controller.extend({
       }
     },
 
-    onGetJuryFile(candidatesWithComments) {
-      const comments = candidatesWithComments.reduce((values, candidate) => {
+    async onGetJuryFile(certificationsWithComments) {
+      const comments = certificationsWithComments.reduce((values, candidate) => {
         values[candidate.certificationId] = candidate.comments;
         return values;
       }, {});
-      return this._getExportJson(this._juryFields)
-        .then((json) => {
-          json = json.filter((item) => {
-            const id = item[this._fields.id];
-            if (comments[id] != null) {
-              item[this._juryFields.commentFromManager] = comments[id];
-              return true;
-            }
-            return item[this._fields.status] !== 'validated';
-          });
-          const csv = json2csv.parse(json, {
-            fields: this._juryCsvHeaders,
-            delimiter: ';',
-            withBOM: false,
-          });
-          const fileName = 'jury_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
-          this.fileSaver.saveAs(csv + '\n', fileName);
-        });
+      const json = await this._getExportJson(this._juryFields);
+      const jsonData = json.filter((item) => {
+        const id = item[this._fields.id];
+        if (comments[id] != null) {
+          item[this._juryFields.commentFromManager] = comments[id];
+          return true;
+        }
+        return item[this._fields.status] !== 'validated';
+      });
+
+      // 3) Format
+      const csv = json2csv.parse(jsonData, {
+        fields: this._juryCsvHeaders,
+        delimiter: ';',
+        withBOM: false,
+      });
+      const fileName = 'jury_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+      this.fileSaver.saveAs(csv + '\n', fileName);
     },
 
   },
