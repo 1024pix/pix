@@ -12,6 +12,7 @@ class CertificationCourse {
       isPublished = false,
       lastName,
       nbChallenges,
+      isV2Certification = false,
       // includes
       // references
       userId,
@@ -28,6 +29,7 @@ class CertificationCourse {
     this.isPublished = isPublished;
     this.lastName = lastName;
     this.nbChallenges = nbChallenges;
+    this.isV2Certification = isV2Certification;
     // includes
     // references
     this.userId = userId;

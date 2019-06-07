@@ -22,6 +22,7 @@ function _toDomain(model) {
       sessionId: model.get('sessionId'),
       externalId: model.get('externalId'),
       isPublished: Boolean(model.get('isPublished')),
+      isV2Certification: Boolean(model.get('isV2Certification')),
     });
   }
   return null;

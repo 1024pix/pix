@@ -13,6 +13,7 @@ module.exports = function certificationCoursesBuilder({ databaseBuilder }) {
     externalId: 'NumeroEtudiantHubert',
     isPublished: true
   });
+
   databaseBuilder.factory.buildCertificationCourse({
     id: 2,
     userId: 1,
@@ -24,8 +25,10 @@ module.exports = function certificationCoursesBuilder({ databaseBuilder }) {
     birthplace: 'Bruxelles',
     sessionId: 2,
     externalId: 'L\'élève',
-    isPublished: true
+    isPublished: true,
+    isV2Certification: true
   });
+
   databaseBuilder.factory.buildCertificationCourse({
     id: 3,
     userId: 1,
