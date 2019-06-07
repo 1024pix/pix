@@ -172,7 +172,7 @@ describe('Unit | UseCase | get-assessment', () => {
     expect(result.id).to.equal(assessment.id);
     expect(result.pixScore).to.equal(assessmentResult.pixScore);
     expect(result.estimatedLevel).to.equal(assessmentResult.level);
-    expect(result.title).to.equal(undefined);
+    expect(result.title).to.equal('');
   });
 
   it('should reject a domain NotFoundError when there is no assessment for given ID', () => {
