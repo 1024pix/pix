@@ -3,6 +3,7 @@ const Competence = require('../../domain/models/Competence');
 const competenceDatasource = require('../datasources/airtable/competence-datasource');
 const areaDatasource = require('../datasources/airtable/area-datasource');
 const Area = require('../../domain/models/Area');
+const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(competenceData, areaDatas) {
   const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
@@ -37,4 +38,14 @@ module.exports = {
     return Promise.all([competenceDatasource.get(id), areaDatasource.list()])
       .then(([competenceData, areaDatas]) => _toDomain(competenceData, areaDatas));
   },
+
+  getCompetenceName(id) {
+    return competenceDatasource.get(id)
+      .then((competence) => {
+        return competence.name;
+      })
+      .catch(() => {
+        throw new NotFoundError('La compétence demandée n\'existe pas');
+      });
+  }
 };

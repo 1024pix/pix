@@ -9,7 +9,6 @@ module.exports = async function getAssessment(
     // dependencies
     assessmentRepository,
     competenceRepository,
-    competenceEvaluationRepository,
     courseRepository,
   }) {
   const assessment = await assessmentRepository.get(assessmentId);
@@ -28,7 +27,6 @@ module.exports = async function getAssessment(
 
   assessment.title = await _fetchAssessmentTitle({
     assessment,
-    competenceEvaluationRepository,
     competenceRepository,
     courseRepository
   });
@@ -38,7 +36,6 @@ module.exports = async function getAssessment(
 
 async function _fetchAssessmentTitle({
   assessment,
-  competenceEvaluationRepository,
   competenceRepository,
   courseRepository
 }) {
@@ -48,8 +45,7 @@ async function _fetchAssessmentTitle({
     }
 
     case Assessment.types.COMPETENCE_EVALUATION : {
-      const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessment.id);
-      return await _fetchCompetenceName(competenceEvaluation.competenceId, competenceRepository);
+      return await competenceRepository.getCompetenceName(assessment.competenceId);
     }
 
     case Assessment.types.DEMO : {
@@ -71,16 +67,6 @@ async function _fetchAssessmentTitle({
     default:
       return undefined;
   }
-}
-
-function _fetchCompetenceName(competenceId, competenceRepository) {
-  return competenceRepository.get(competenceId)
-    .then((competence) => {
-      return competence.name;
-    })
-    .catch(() => {
-      throw new NotFoundError('La compétence demandée n\'existe pas');
-    });
 }
 
 function _fetchCourseName(courseId, courseRepository) {

@@ -107,4 +107,43 @@ describe('Unit | Repository | competence-repository', () => {
       });
     });
   });
+
+  describe('#getCompetenceName', () => {
+    const competenceData1 = new airTableDataObjects.Competence({
+      id: 'recCompetence1',
+      name: 'Mener une recherche d’information',
+      index: '1.1',
+      courseId: 'recCourse',
+      skillIds: ['recSkill1', 'recSkill2'],
+      areaId: 'recArea',
+    });
+
+    beforeEach(() => {
+      // given
+      sinon.stub(competenceDatasource, 'get')
+        .withArgs('recCompetence1')
+        .resolves(competenceData1);
+    });
+
+    it('should return a domain Competence name', async () => {
+      // when
+      const fetchedCompetenceName = await competenceRepository.getCompetenceName('recCompetence1');
+
+      // then
+      const expectedCompetence = new Competence({
+        id: 'recCompetence1',
+        index: '1.1',
+        name: 'Mener une recherche d’information',
+        courseId: 'recCourse',
+        skills: ['recSkill1', 'recSkill2'],
+        area: new Area({
+          id: 'recArea',
+          code: '1',
+          title: 'Information et données',
+        })
+      });
+
+      expect(fetchedCompetenceName).to.deep.equal(expectedCompetence.name);
+    });
+  });
 });
