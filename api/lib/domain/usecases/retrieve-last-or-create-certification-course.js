@@ -15,7 +15,7 @@ function _selectProfileToCertify(userCompetencesProfilV1, userCompetencesProfilV
   const canStartACertificationOnProfileV1 = _canStartACertification(userCompetencesProfilV1);
 
   if (!canStartACertificationOnProfileV1 && !canStartACertificationOnProfileV2) {
-    throw new UserNotAuthorizedToCertifyError();
+    return null;
   }
 
   else if (canStartACertificationOnProfileV1 && !canStartACertificationOnProfileV2) {
@@ -44,7 +44,6 @@ async function _startNewCertification({
   certificationChallengesService,
   certificationCourseRepository
 }) {
-  const newCertificationCourse = new CertificationCourse({ userId, sessionId });
 
   const userCompetencesProfileV1 = await userService.getProfileToCertifyV1(userId, new Date());
 
@@ -57,7 +56,13 @@ async function _startNewCertification({
   }
 
   const userCompetencesToCertify = _selectProfileToCertify(userCompetencesProfileV1, userCompetencesProfileV2);
+  if (!userCompetencesToCertify) {
+    throw new UserNotAuthorizedToCertifyError();
+  }
 
+  const isV2Certification = userCompetencesToCertify === userCompetencesProfileV2;
+
+  const newCertificationCourse = new CertificationCourse({ userId, sessionId, isV2Certification });
   const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
   return certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse);
 }

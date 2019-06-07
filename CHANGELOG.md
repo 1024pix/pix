@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.47.0 (07/06/2019)
+
+- [#550](https://github.com/1024pix/pix/pull/550) [FEATURE] Afficher la version de la certification dans Pix Admin (PF-577).
+
 ## v2.46.0 (06/06/2019)
 
 - [#534](https://github.com/1024pix/pix/pull/534) [FEATURE] Certifier suivant le profil v2 (PF-577).

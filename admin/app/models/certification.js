@@ -32,6 +32,11 @@ export default DS.Model.extend({
     const value = this.isPublished;
     return value ? 'Oui' : 'Non';
   }),
+  isV2Certification: DS.attr('boolean', { defaultValue: false }),
+  isV2CertificationText: computed('isV2Certification', function() {
+    const value = this.isV2Certification;
+    return value ? 'Oui' : 'Non';
+  }),
   indexedCompetences: computed('competencesWithMark', function() {
     const competencesWithMarks = this.competencesWithMark;
     return competencesWithMarks.reduce((result, value) => {
