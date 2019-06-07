@@ -38,7 +38,7 @@ describe('Unit | UseCase | get-assessment', () => {
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(campaignRepository, 'get');
     sinon.stub(competenceRepository, 'getCompetenceName');
-    sinon.stub(courseRepository, 'get');
+    sinon.stub(courseRepository, 'getCourseName');
   });
 
   it('should resolve the Assessment domain object matching the given assessment ID', async () => {
@@ -108,7 +108,7 @@ describe('Unit | UseCase | get-assessment', () => {
       // given
       assessment.type = assessmentType;
       assessmentRepository.get.resolves(assessment);
-      courseRepository.get.resolves(course);
+      courseRepository.getCourseName.resolves(course.name);
 
       // when
       const result = await getAssessment({
@@ -119,7 +119,7 @@ describe('Unit | UseCase | get-assessment', () => {
 
       // then
       expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
-      expect(courseRepository.get).to.have.been.calledWithExactly(assessment.courseId);
+      expect(courseRepository.getCourseName).to.have.been.calledWithExactly(assessment.courseId);
 
       expect(result).to.be.an.instanceOf(Assessment);
       expect(result.id).to.equal(assessment.id);
