@@ -14,7 +14,7 @@ export default Controller.extend({
   displayConfirm: false,
   displaySessionReport: false,
   confirmMessage: null,
-  confirmAction: 'onPublishSelected',
+  confirmAction: null,
   showSelectedActions: false,
   selectedCertifications: null,
 
@@ -38,6 +38,7 @@ export default Controller.extend({
     };
     this.selected = [];
     this.importedCandidates = [];
+    this.confirmAction = () => {};
   },
 
   actions: {
@@ -108,34 +109,42 @@ export default Controller.extend({
       this.sessionInfoService.downloadGetJuryFile(this.model, attendanceSheetCandidates);
     },
 
-    onConfirmPublishSelected() {
+    displayCertificationStatusUpdateConfirmationModal(intention = 'publish') {
       const count = this.selectedCertifications.length;
-      if (count === 1) {
-        this.set('confirmMessage', 'Souhaitez-vous publier la certification sélectionnée ?');
+      if (intention === 'publish') {
+        if (count === 1) {
+          this.set('confirmMessage', 'Souhaitez-vous publier la certification sélectionnée ?');
+        } else {
+          this.set('confirmMessage', `Souhaitez-vous publier les ${count} certifications sélectionnées ?`);
+        }
+        this.set('confirmAction', 'publishSelectedCertifications');
       } else {
-        this.set('confirmMessage', 'Souhaitez-vous publier les ' + count + ' certifications sélectionnées ?');
+        if (count === 1) {
+          this.set('confirmMessage', 'Souhaitez-vous dépublier la certification sélectionnée ?');
+        } else {
+          this.set('confirmMessage', `Souhaitez-vous dépublier les ${count} certifications sélectionnées ?`);
+        }
+        this.set('confirmAction', 'unpublishSelectedCertifications');
       }
-      this.set('confirmAction', 'onPublishSelected');
       this.set('displayConfirm', true);
     },
 
-    onConfirmUnpublishSelected() {
-      const count = this.selectedCertifications.length;
-      if (count === 1) {
-        this.set('confirmMessage', 'Souhaitez-vous dépublier la certification sélectionnée ?');
-      } else {
-        this.set('confirmMessage', 'Souhaitez-vous dépublier les ' + count + ' certifications sélectionnées ?');
+    async publishSelectedCertifications() {
+      try {
+        await this._updateCertificationsStatus(this.selectedCertifications, true);
+        this.set('displayConfirm', false);
+      } catch (error) {
+        this.notifications.error(error);
       }
-      this.set('confirmAction', 'onUnpublishSelected');
-      this.set('displayConfirm', true);
     },
 
-    onPublishSelected() {
-      this._startCertificationPublication(true);
-    },
-
-    onUnpublishSelected() {
-      this._startCertificationPublication(false);
+    async unpublishSelectedCertifications() {
+      try {
+        await this._updateCertificationsStatus(this.selectedCertifications, false);
+        this.set('displayConfirm', false);
+      } catch (error) {
+        this.notifications.error(error);
+      }
     },
 
     onCancelConfirm() {
@@ -163,34 +172,19 @@ export default Controller.extend({
       });
   },
 
-  _startCertificationPublication(value) {
-    this.set('displayConfirm', false);
-    const certifications = this.selectedCertifications;
-    const count = certifications.length;
-    return this._publishCertifications(certifications.slice(0), value)
-      .then(() => {
-        if (count === 1) {
+  async _updateCertificationsStatus(certifications, isPublished) {
+    const promises = certifications.map((certification) => {
+      certification.set('isPublished', isPublished);
+      return certification.save({ adapterOptions: { updateMarks: false } });
+    });
 
-          this.notifications.success('La certification a été correctement ' + (value ? 'publiée' : 'dépubliée'));
-        } else {
-          this.notifications.success('Les ' + count + ' certifications ont été correctement ' + (value ? 'publiées' : 'dépubliées'));
-        }
-      })
-      .catch((error) => {
-        this.notifications.error(error);
-      });
-  },
-
-  _publishCertifications(certifications, value) {
-    const piece = certifications.splice(0, 10);
-    return this._setCertificationPublished(piece, value)
-      .then(() => {
-        if (certifications.length > 0) {
-          return this._publishCertifications(certifications, value);
-        } else {
-          return true;
-        }
-      });
+    const updatedCertifications = await Promise.all(promises);
+    const statusLabel = (isPublished ? 'publiée' : 'dépubliée');
+    if (updatedCertifications.length === 1) {
+      this.notifications.success(`La certification a été correctement ${statusLabel}.`);
+    } else {
+      this.notifications.success(`Les ${updatedCertifications.length} certifications ont été correctement  ${statusLabel}s.`);
+    }
   },
 
   _updateCertifications(data) {
@@ -235,15 +229,6 @@ export default Controller.extend({
       .then(() => {
         return true;
       });
-  },
-
-  _setCertificationPublished(certifications, value) {
-    const promises = certifications.reduce((result, certification) => {
-      certification.set('isPublished', value);
-      result.push(certification.save({ adapterOptions: { updateMarks: false } }));
-      return result;
-    }, []);
-    return Promise.all(promises);
   },
 
 });
