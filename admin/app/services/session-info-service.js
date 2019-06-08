@@ -2,6 +2,8 @@ import Service from '@ember/service';
 import json2csv from 'json2csv';
 import _ from 'lodash';
 import { inject as service } from '@ember/service';
+import moment from 'moment';
+import XLSX from 'xlsx';
 
 const competenceIndexes = [
   '1.1', '1.2', '1.3',
@@ -15,6 +17,42 @@ export default Service.extend({
 
   fileSaver: service(),
 
+  async readSessionAttendanceSheet(attendanceSheetFile) {
+    const arrayBuffer = await attendanceSheetFile.readAsArrayBuffer();
+    const data = new Uint8Array(arrayBuffer);
+    const workbook = XLSX.read(data, { type: 'array', cellDates: true });
+    const firstSheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[firstSheetName];
+    const headerRowsNumber = 8;
+    const header = [
+      'row',
+      'lastName',
+      'firstName',
+      'birthDate',
+      'birthPlace',
+      'email',
+      'externalId',
+      'extraTime',
+      'signature',
+      'certificationId',
+      'lastScreen',
+      'comments'
+    ];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet, { range: headerRowsNumber, header });
+
+    const lastRowIndex = jsonData.findIndex((row) => !row.lastName);
+    const importedCandidates = jsonData.slice(0, lastRowIndex);
+    importedCandidates.forEach((candidate) => {
+      candidate.certificationId = candidate.certificationId.toString();
+      if (candidate.birthDate instanceof Date) {
+        candidate.birthDate = moment(candidate.birthDate).format('DD/MM/YYYY');
+      } else {
+        candidate.birthDate = null;
+      }
+    });
+    return importedCandidates;
+  },
+
   downloadSessionExportFile(session) {
     const data = _buildSessionExportFileData(session);
     const fileHeaders = _buildSessionExportFileHeaders();
@@ -23,7 +61,7 @@ export default Service.extend({
     this.fileSaver.saveAs(csv + '\n', fileName);
   },
 
-  downloadGetJuryFile(session, attendanceSheetCandidates) {
+  downloadJuryFile(session, attendanceSheetCandidates) {
     const certificationsToBeReviewed = _getSessionCertificationsToBeReviewed(session.certifications, attendanceSheetCandidates);
     const data = _buildJuryFileData(certificationsToBeReviewed, attendanceSheetCandidates);
     const fileHeaders = _buildJuryFileHeaders();

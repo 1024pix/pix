@@ -88,7 +88,7 @@ module('Unit | Service | session-info-service', function(hooks) {
     });
   });
 
-  module('#downloadGetJuryFile', function() {
+  module('#downloadJuryFile', function() {
 
     function buildCertification(id, status) {
       return EmberObject.create({
@@ -151,7 +151,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       ];
 
       // when
-      service.downloadGetJuryFile(session, validSessionCandidates);
+      service.downloadJuryFile(session, validSessionCandidates);
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
@@ -177,7 +177,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       const candidateWithComments = buildCandidate(2, '2', 'manager comments');
 
       // when
-      service.downloadGetJuryFile(session, [candidateWithoutComments, candidateWithEmptyComments, candidateWithComments]);
+      service.downloadJuryFile(session, [candidateWithoutComments, candidateWithEmptyComments, candidateWithComments]);
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
@@ -201,7 +201,7 @@ module('Unit | Service | session-info-service', function(hooks) {
       const candidateThatDidNotSeenTheEndScreen_emptyString = buildCandidate(3, '3', null, '    ');
 
       // when
-      service.downloadGetJuryFile(session, [candidateThatSawTheEndScreen, candidateThatDidNotSeenTheEndScreen_null, candidateThatDidNotSeenTheEndScreen_emptyString]);
+      service.downloadJuryFile(session, [candidateThatSawTheEndScreen, candidateThatDidNotSeenTheEndScreen_null, candidateThatDidNotSeenTheEndScreen_emptyString]);
 
       // then
       assert.equal(fileSaverStub.getContent(), '\uFEFF' +
@@ -211,4 +211,5 @@ module('Unit | Service | session-info-service', function(hooks) {
         '');
     });
   });
+
 });
