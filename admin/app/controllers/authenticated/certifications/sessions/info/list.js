@@ -1,23 +1,13 @@
 import Controller from '@ember/controller';
-import json2csv from 'json2csv';
 import Papa from 'papaparse';
 import { inject as service } from '@ember/service';
 import moment from 'moment';
 import XLSX from 'xlsx';
-import _ from 'lodash';
-
-const competenceIndexes = [
-  '1.1', '1.2', '1.3',
-  '2.1', '2.2', '2.3', '2.4',
-  '3.1', '3.2', '3.3', '3.4',
-  '4.1', '4.2', '4.3',
-  '5.1', '5.2'
-];
 
 export default Controller.extend({
 
   // DI
-  fileSaver: service('file-saver'),
+  sessionInfoService: service(),
   notifications: service('notification-messages'),
 
   // Properties
@@ -91,11 +81,7 @@ export default Controller.extend({
     },
 
     async downloadSessionResultFile() {
-      const dataRows = this._buildSessionExportFileData();
-      const fileHeaders = this._buildSessionExportFileHeaders();
-      const csv = json2csv.parse(dataRows, { fields: fileHeaders, delimiter: ';', withBOM: true });
-      const fileName = 'resultats_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
-      this.fileSaver.saveAs(csv + '\n', fileName);
+      this.sessionInfoService.downloadSessionExportFile(this.model);
     },
 
     async onSaveReportData(candidatesData) {
@@ -119,13 +105,7 @@ export default Controller.extend({
     },
 
     downloadGetJuryFile(attendanceSheetCandidates) {
-      const sessionCertifications = this.model.certifications;
-      const certificationsToBeReviewed = this._getSessionCertificationsToBeReviewed(sessionCertifications, attendanceSheetCandidates);
-      const data = this._buildJuryFileData(certificationsToBeReviewed, attendanceSheetCandidates);
-      const fileHeaders = this._buildJuryFileHeaders();
-      const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true, });
-      const fileName = 'jury_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
-      this.fileSaver.saveAs(`${csv}\n`, fileName);
+      this.sessionInfoService.downloadGetJuryFile(this.model, attendanceSheetCandidates);
     },
 
     onConfirmPublishSelected() {
@@ -170,112 +150,6 @@ export default Controller.extend({
   },
 
   // Private methods
-
-  _buildSessionExportFileData() {
-    return this.model.certifications.map((certification) => {
-      const rowItem = {};
-
-      rowItem['Numéro de certification'] = certification.id;
-      rowItem['Prénom'] = certification.firstName;
-      rowItem['Nom'] = certification.lastName;
-      rowItem['Date de naissance'] = certification.birthdate;
-      rowItem['Lieu de naissance'] = certification.birthplace;
-      rowItem['Identifiant Externe'] = certification.externalId;
-      rowItem['Nombre de Pix'] = certification.pixScore;
-
-      const certificationIndexedCompetences = certification.indexedCompetences;
-      competenceIndexes.forEach((competence) => {
-        if (!certificationIndexedCompetences[competence] || certificationIndexedCompetences[competence].level === 0 || certificationIndexedCompetences[competence].level === -1) {
-          rowItem[competence] = '-';
-        } else {
-          rowItem[competence] = certificationIndexedCompetences[competence].level;
-        }
-      });
-
-      rowItem['Session'] = this.model.id;
-      rowItem['Centre de certification'] = this.model.certificationCenter;
-      rowItem['Date de passage de la certification'] = certification.creationDate.substring(0, 10);
-
-      return rowItem;
-    });
-  },
-
-  _buildSessionExportFileHeaders() {
-    return _.concat(
-      [
-        'Numéro de certification', 
-        'Prénom', 
-        'Nom', 
-        'Date de naissance', 
-        'Lieu de naissance', 
-        'Identifiant Externe', 
-        'Nombre de Pix'
-      ],
-      competenceIndexes,
-      [
-        'Session', 
-        'Centre de certification', 
-        'Date de passage de la certification'
-      ]
-    );
-  },
-
-  _getSessionCertificationsToBeReviewed(certifications, attendanceSheetCandidates) {
-    const candidatesToBeReviewed = _.filter(attendanceSheetCandidates, (candidate) => {
-      const hasCommentFromManager = !!candidate.comments && candidate.comments.trim() !== '';
-      const didNotSeenEndScreen = !candidate.lastScreen || candidate.lastScreen.trim() === '';
-      return hasCommentFromManager || didNotSeenEndScreen;
-    });
-
-    const certificationIdsOfCandidatesToBeReviewed = _.map(candidatesToBeReviewed, (candidate) => candidate.certificationId.trim());
-
-    return certifications.filter((certification) => {
-      const hasInvalidCandidate = _.includes(certificationIdsOfCandidatesToBeReviewed, certification.id);
-      const hasInvalidStatus = certification.status !== 'validated';
-      return hasInvalidCandidate || hasInvalidStatus;
-    });
-  },
-
-  _buildJuryFileData(certifications, attendanceSheetCandidates) {
-    return certifications.map((certification) => {
-      const rowItem = {};
-
-      const certificationCandidate = _.find(attendanceSheetCandidates, ['certificationId', certification.id]);
-
-      rowItem['ID de session'] = this.model.id;
-      rowItem['ID de certification'] = certification.id;
-      rowItem['Statut de la certification'] = certification.status;
-      rowItem['Date de debut'] = certification.creationDate;
-      rowItem['Date de fin'] = certification.completionDate;
-      rowItem['Commentaire surveillant'] = certificationCandidate.comments;
-      rowItem['Commentaire pour le jury'] = certification.commentForJury;
-      rowItem['Note Pix'] = certification.pixScore;
-
-      const certificationIndexedCompetences = certification.indexedCompetences;
-      competenceIndexes.forEach((competence) => {
-        rowItem[competence] = certificationIndexedCompetences[competence] ? certificationIndexedCompetences[competence].level : '';
-      });
-
-      return rowItem;
-    });
-
-  },
-
-  _buildJuryFileHeaders() {
-    return _.concat(
-      [
-        'ID de session', 
-        'ID de certification', 
-        'Statut de la certification', 
-        'Date de debut', 
-        'Date de fin', 
-        'Commentaire surveillant', 
-        'Commentaire pour le jury', 
-        'Note Pix'
-      ],
-      competenceIndexes
-    );
-  },
 
   _importCertificationsData(data) {
     const dataPiece = data.splice(0, 10);
