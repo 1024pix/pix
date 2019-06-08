@@ -47,7 +47,7 @@
 
 {{certification-session-report show=displaySessionReport
                                hide=(action (mut displaySessionReport) false)
-                               getJuryFile=(action "onGetJuryFile")
+                               getJuryFile=(action "downloadGetJuryFile")
                                saveCandidates=(action "onSaveReportData")
                                candidates=importedCandidates
                                certifications=model.certifications }}

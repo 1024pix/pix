@@ -81,8 +81,7 @@ export default Controller.extend({
 
     async importAndLinkCandidatesToTheSessionCertifications(file) {
       const csvAsText = await file.readAsText();
-      // We delete the BOM UTF8 at the beginning of the CSV,
-      // otherwise the first element is wrongly parsed.
+      // XXX We delete the BOM UTF8 at the beginning of the CSV, otherwise the first element is wrongly parsed.
       const csvRawData = csvAsText.toString('utf8').replace(/^\uFEFF/, '');
       const parsedCSVData = Papa.parse(csvRawData, { header: true, skipEmptyLines: true }).data;
       const rowCount = parsedCSVData.length;
@@ -201,7 +200,7 @@ export default Controller.extend({
       }
     },
 
-    async onGetJuryFile(attendanceSheetCandidates) {
+    async downloadGetJuryFile(attendanceSheetCandidates) {
       const sessionCertifications = this.model.certifications;
       const certificationsToBeReviewed = this._getSessionCertificationsToBeReviewed(sessionCertifications, attendanceSheetCandidates);
       const dataRows = this._convertCertificationsToBeReviewedIntoJsonDataRows(certificationsToBeReviewed, attendanceSheetCandidates);
@@ -217,7 +216,7 @@ export default Controller.extend({
 
   _getSessionCertificationsToBeReviewed(certifications, attendanceSheetCandidates) {
     const candidatesToBeReviewed = _.filter(attendanceSheetCandidates, (candidate) => {
-      const hasCommentFromManager = candidate.comments && candidate.comments.trim() !== '';
+      const hasCommentFromManager = !!candidate.comments && candidate.comments.trim() !== '';
       const didNotSeenEndScreen = !candidate.lastScreen || candidate.lastScreen.trim() === '';
       return hasCommentFromManager || didNotSeenEndScreen;
     });
