@@ -15,8 +15,9 @@ const competenceIndexes = [
 
 export default Service.extend({
 
-  fileSaver: service(),
+  fileSaver: service(), // TODO ? convert into FileManager
 
+  // TODO add tests
   async readSessionAttendanceSheet(attendanceSheetFile) {
     const arrayBuffer = await attendanceSheetFile.readAsArrayBuffer();
     const data = new Uint8Array(arrayBuffer);
@@ -28,8 +29,8 @@ export default Service.extend({
       'row',
       'lastName',
       'firstName',
-      'birthDate',
-      'birthPlace',
+      'birthdate',
+      'birthplace',
       'email',
       'externalId',
       'extraTime',
@@ -44,13 +45,47 @@ export default Service.extend({
     const importedCandidates = jsonData.slice(0, lastRowIndex);
     importedCandidates.forEach((candidate) => {
       candidate.certificationId = candidate.certificationId.toString();
-      if (candidate.birthDate instanceof Date) {
-        candidate.birthDate = moment(candidate.birthDate).format('DD/MM/YYYY');
+      if (candidate.birthdate instanceof Date) {
+        candidate.birthdate = moment(candidate.birthdate).format('DD/MM/YYYY');
       } else {
-        candidate.birthDate = null;
+        candidate.birthdate = null;
       }
     });
     return importedCandidates;
+  },
+
+  async updateCertificationsStatus(certifications, isPublished) {
+    const promises = certifications.map((certification) => {
+      certification.set('isPublished', isPublished);
+      return certification.save({ adapterOptions: { updateMarks: false } });
+    });
+
+    await Promise.all(promises);
+  },
+
+  async updateCertificationsFromCandidatesData(certifications, candidatesData) {
+    const candidatesCertificationIds = _.map(candidatesData, 'certificationId');
+    const candidatesCertifications = certifications.filter((certification) => {
+      return candidatesCertificationIds.includes(certification.id);
+    });
+
+    const updateRequests = candidatesCertifications.map((certification) => {
+
+      function _updateCertificationFieldFromCandidateData(fieldName) {
+        if (!_.isEmpty(candidateData[fieldName])) {
+          certification.set(fieldName, candidateData[fieldName]);
+        }
+      }
+
+      const candidateData = _.find(candidatesData, ['certificationId', certification.id]);
+      _updateCertificationFieldFromCandidateData('firstName');
+      _updateCertificationFieldFromCandidateData('lastName');
+      _updateCertificationFieldFromCandidateData('birthdate');
+      _updateCertificationFieldFromCandidateData('birthplace');
+      _updateCertificationFieldFromCandidateData('externalId');
+      return certification.save({ adapterOptions: { updateMarks: false } });
+    });
+    await Promise.all(updateRequests);
   },
 
   downloadSessionExportFile(session) {

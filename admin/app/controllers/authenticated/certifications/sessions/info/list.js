@@ -18,25 +18,10 @@ export default Controller.extend({
 
   init() {
     this._super();
-    this._fields = {
-      id: 'ID de certification',
-      firstName: 'Prenom du candidat',
-      lastName: 'Nom du candidat',
-      birthdate: 'Date de naissance du candidat',
-      birthplace: 'Lieu de naissance du candidat',
-      externalId: 'Identifiant Externe',
-      status: 'Statut de la certification',
-      sessionId: 'ID de session',
-      creationDate: 'Date de debut',
-      completionDate: 'Date de fin',
-      commentForCandidate: 'Commentaire pour le candidat',
-      commentForOrganization: 'Commentaire pour l’organisation',
-      commentForJury: 'Commentaire pour le jury',
-      pixScore: 'Note Pix'
-    };
     this.selected = [];
     this.importedCandidates = [];
-    this.confirmAction = () => {};
+    this.confirmAction = () => {
+    };
   },
 
   actions: {
@@ -45,11 +30,34 @@ export default Controller.extend({
       const csvAsText = await file.readAsText();
       // XXX We delete the BOM UTF8 at the beginning of the CSV, otherwise the first element is wrongly parsed.
       const csvRawData = csvAsText.toString('utf8').replace(/^\uFEFF/, '');
-      const parsedCSVData = Papa.parse(csvRawData, { header: true, skipEmptyLines: true }).data;
-      const rowCount = parsedCSVData.length;
+      const fileHeaders = {
+        'ID de certification': 'certificationId',
+        'Prenom du candidat': 'firstName',
+        'Nom du candidat': 'lastName',
+        'Date de naissance du candidat': 'birthdate',
+        'Lieu de naissance du candidat': 'birthplace',
+        'Identifiant Externe': 'externalId',
+      };
+      const candidatesData = Papa.parse(csvRawData, {
+        header: true,
+        skipEmptyLines: true,
+        transformHeader: ((header) => {
+          return fileHeaders[header];
+        })
+      }).data;
       try {
-        await this._importCertificationsData(parsedCSVData);
-        this.notifications.success(rowCount + ' lignes correctement importées');
+        await this.sessionInfoService.updateCertificationsFromCandidatesData(this.model.certifications, candidatesData);
+        this.notifications.success(`${candidatesData.length} lignes correctement importé(e)s.`);
+      } catch (error) {
+        this.notifications.error(error);
+      }
+    },
+
+    async onSaveReportData(candidatesData) {
+      try {
+        await this.sessionInfoService.updateCertificationsFromCandidatesData(this.model.certifications, candidatesData);
+        this.notifications.success(`${candidatesData.length} lignes correctement importé(e)s.`);
+        this.set('displaySessionReport', false);
       } catch (error) {
         this.notifications.error(error);
       }
@@ -68,26 +76,6 @@ export default Controller.extend({
     downloadSessionResultFile() {
       try {
         this.sessionInfoService.downloadSessionExportFile(this.model);
-      } catch (error) {
-        this.notifications.error(error);
-      }
-    },
-
-    async onSaveReportData(candidatesData) {
-      const certificationData = candidatesData.map((piece) => {
-        const certificationItem = {};
-        certificationItem[this._fields.id] = piece.certificationId;
-        certificationItem[this._fields.firstName] = piece.firstName;
-        certificationItem[this._fields.lastName] = piece.lastName;
-        certificationItem[this._fields.birthdate] = piece.birthDate;
-        certificationItem[this._fields.birthplace] = piece.birthPlace;
-        certificationItem[this._fields.externalId] = piece.externalId;
-        return certificationItem;
-      });
-      try {
-        await this._importCertificationsData(certificationData);
-        this.notifications.success(candidatesData.length + ' lignes correctement importées');
-        this.set('displaySessionReport', false);
       } catch (error) {
         this.notifications.error(error);
       }
@@ -123,7 +111,12 @@ export default Controller.extend({
 
     async publishSelectedCertifications() {
       try {
-        await this._updateCertificationsStatus(this.selectedCertifications, true);
+        await this.sessionInfoService.updateCertificationsStatus(this.selectedCertifications, true);
+        if (this.selectedCertifications.length === 1) {
+          this.notifications.success('La certification a été correctement publiée.');
+        } else {
+          this.notifications.success(`Les ${this.selectedCertifications.length} certifications ont été correctement publiées.`);
+        }
         this.set('displayConfirm', false);
       } catch (error) {
         this.notifications.error(error);
@@ -132,7 +125,12 @@ export default Controller.extend({
 
     async unpublishSelectedCertifications() {
       try {
-        await this._updateCertificationsStatus(this.selectedCertifications, false);
+        await this.sessionInfoService.updateCertificationsStatus(this.selectedCertifications, false);
+        if (this.selectedCertifications.length === 1) {
+          this.notifications.success('La certification a été correctement dépubliée.');
+        } else {
+          this.notifications.success(`Les ${this.selectedCertifications.length} certifications ont été correctement dépubliées.`);
+        }
         this.set('displayConfirm', false);
       } catch (error) {
         this.notifications.error(error);
@@ -148,77 +146,6 @@ export default Controller.extend({
       this.set('showSelectedActions', e.selectedItems.length > 0);
     },
 
-  },
-
-  _importCertificationsData(data) {
-    const dataPiece = data.splice(0, 10);
-    return this._updateCertifications(dataPiece)
-      .then(() => {
-        if (data.length > 0) {
-          return this._importCertificationsData(data);
-        } else {
-          return true;
-        }
-      });
-  },
-
-  async _updateCertificationsStatus(certifications, isPublished) {
-    const promises = certifications.map((certification) => {
-      certification.set('isPublished', isPublished);
-      return certification.save({ adapterOptions: { updateMarks: false } });
-    });
-
-    const updatedCertifications = await Promise.all(promises);
-    const statusLabel = (isPublished ? 'publiée' : 'dépubliée');
-    if (updatedCertifications.length === 1) {
-      this.notifications.success(`La certification a été correctement ${statusLabel}.`);
-    } else {
-      this.notifications.success(`Les ${updatedCertifications.length} certifications ont été correctement  ${statusLabel}s.`);
-    }
-  },
-
-  _updateCertifications(data) {
-    const store = this.store;
-    const requests = [];
-    const newData = {};
-    data.forEach((piece) => {
-      const id = piece[this._fields.id];
-      newData[id] = piece;
-      requests.push(store.findRecord('certification', id));
-    });
-
-    const csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
-
-    return Promise.all(requests)
-      .then((certifications) => {
-        const updateRequests = [];
-        certifications.forEach((certification) => {
-          const id = certification.get('id');
-          const sessionId = certification.get('sessionId').toString();
-          const newDataPiece = newData[id];
-          // check that session id is correct
-          if (newDataPiece && sessionId === this.model.id) {
-            csvImportFields.forEach((key) => {
-              const fieldName = this._fields[key];
-              let fieldValue = newDataPiece[fieldName];
-              if (fieldValue) {
-                if (fieldValue.length === 0) {
-                  fieldValue = null;
-                }
-                certification.set(key, fieldValue);
-              }
-            });
-            // check that info has changed
-            if (Object.keys(certification.changedAttributes()).length > 0) {
-              updateRequests.push(certification.save({ adapterOptions: { updateMarks: false } }));
-            }
-          }
-        });
-        return Promise.all(updateRequests);
-      })
-      .then(() => {
-        return true;
-      });
   },
 
 });
