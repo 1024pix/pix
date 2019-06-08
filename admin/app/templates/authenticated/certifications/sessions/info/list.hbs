@@ -27,8 +27,8 @@
         {{#bs-dropdown as |dd|}}
           {{#dd.button type='primary'}}Avec la sélection... <span class='caret'></span>{{/dd.button}}
           {{#dd.menu as |ddm|}}
-            {{#ddm.item}}<span class='dropdown-item' {{action "onConfirmPublishSelected"}}>Publier</span>{{/ddm.item}}
-            {{#ddm.item}}<span class='dropdown-item' {{action "onConfirmUnpublishSelected"}}>Dépublier</span>{{/ddm.item}}
+            {{#ddm.item}}<span class='dropdown-item' {{action "displayCertificationStatusUpdateConfirmationModal" "publish"}}>Publier</span>{{/ddm.item}}
+            {{#ddm.item}}<span class='dropdown-item' {{action "displayCertificationStatusUpdateConfirmationModal" "unpublish"}}>Dépublier</span>{{/ddm.item}}
           {{/dd.menu}}
         {{/bs-dropdown}}
       {{/if}}
