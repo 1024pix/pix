@@ -6,6 +6,14 @@ import moment from 'moment';
 import XLSX from 'xlsx';
 import _ from 'lodash';
 
+const competenceIndexes = [
+  '1.1', '1.2', '1.3',
+  '2.1', '2.2', '2.3', '2.4',
+  '3.1', '3.2', '3.3', '3.4',
+  '4.1', '4.2', '4.3',
+  '5.1', '5.2'
+];
+
 export default Controller.extend({
 
   // DI
@@ -22,13 +30,6 @@ export default Controller.extend({
 
   init() {
     this._super();
-    this._competences = [
-      '1.1', '1.2', '1.3',
-      '2.1', '2.2', '2.3', '2.4',
-      '3.1', '3.2', '3.3', '3.4',
-      '4.1', '4.2', '4.3',
-      '5.1', '5.2'
-    ];
     this._fields = {
       id: 'ID de certification',
       firstName: 'Prenom du candidat',
@@ -45,35 +46,7 @@ export default Controller.extend({
       commentForJury: 'Commentaire pour le jury',
       pixScore: 'Note Pix'
     };
-    this._juryFields = {
-      sessionId: 'ID de session',
-      id: 'ID de certification',
-      status: 'Statut de la certification',
-      creationDate: 'Date de debut',
-      completionDate: 'Date de fin',
-      commentFromManager: 'Commentaire surveillant',
-      commentForJury: 'Commentaire pour le jury',
-      pixScore: 'Note Pix'
-    };
-    this._resultFields = {
-      id: 'Numéro de certification',
-      firstName: 'Prénom',
-      lastName: 'Nom',
-      birthdate: 'Date de naissance',
-      birthplace: 'Lieu de naissance',
-      externalId: 'Identifiant Externe',
-      pixScore: 'Nombre de Pix',
-      sessionId: 'Session',
-      certificationCenter: 'Centre de certification',
-      creationDate: 'Date de passage de la certification'
-    };
-
-    this._resultCsvHeaders = Object.values(this._resultFields).slice(0, -3).concat(this._competences).concat(Object.values(this._resultFields).slice(-3));
-
-    this._csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
-
     this.selected = [];
-
     this.importedCandidates = [];
   },
 
@@ -117,28 +90,42 @@ export default Controller.extend({
       this.set('displaySessionReport', true);
     },
 
-    async downloadResultsAfterJurysDeliberation() {
-      const dateFieldName = this._resultFields.creationDate;
-      const centerFieldName = this._resultFields.certificationCenter;
-      const centerName = this.model.certificationCenter;
-      const resultsAsJson = await this._getExportJson(this._resultFields);
-
-      resultsAsJson.forEach((certification) => {
-        this._competences.forEach((competence) => {
-          if (!certification[competence] || certification[competence] === 0 || certification[competence] === -1) {
-            certification[competence] = '-';
-          }
-        });
-        certification[dateFieldName] = certification[dateFieldName].substring(0, 10);
-        certification[centerFieldName] = centerName;
-      });
-      const csv = json2csv.parse(resultsAsJson, {
-        fields: this._resultCsvHeaders,
-        delimiter: ';',
-        withBOM: false,
-      });
+    async downloadSessionResultFile() {
+      const dataRows = this._buildSessionExportFileData();
+      const fileHeaders = this._buildSessionExportFileHeaders();
+      const csv = json2csv.parse(dataRows, { fields: fileHeaders, delimiter: ';', withBOM: true });
       const fileName = 'resultats_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
       this.fileSaver.saveAs(csv + '\n', fileName);
+    },
+
+    async onSaveReportData(candidatesData) {
+      const certificationData = candidatesData.map((piece) => {
+        const certificationItem = {};
+        certificationItem[this._fields.id] = piece.certificationId;
+        certificationItem[this._fields.firstName] = piece.firstName;
+        certificationItem[this._fields.lastName] = piece.lastName;
+        certificationItem[this._fields.birthdate] = piece.birthDate;
+        certificationItem[this._fields.birthplace] = piece.birthPlace;
+        certificationItem[this._fields.externalId] = piece.externalId;
+        return certificationItem;
+      });
+      try {
+        await this._importCertificationsData(certificationData);
+        this.notifications.success(candidatesData.length + ' lignes correctement importées');
+        this.set('displaySessionReport', false);
+      } catch (error) {
+        this.notifications.error(error);
+      }
+    },
+
+    downloadGetJuryFile(attendanceSheetCandidates) {
+      const sessionCertifications = this.model.certifications;
+      const certificationsToBeReviewed = this._getSessionCertificationsToBeReviewed(sessionCertifications, attendanceSheetCandidates);
+      const data = this._buildJuryFileData(certificationsToBeReviewed, attendanceSheetCandidates);
+      const fileHeaders = this._buildJuryFileHeaders();
+      const csv = json2csv.parse(data, { fields: fileHeaders, delimiter: ';', withBOM: true, });
+      const fileName = 'jury_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
+      this.fileSaver.saveAs(`${csv}\n`, fileName);
     },
 
     onConfirmPublishSelected() {
@@ -180,39 +167,58 @@ export default Controller.extend({
       this.set('showSelectedActions', e.selectedItems.length > 0);
     },
 
-    async onSaveReportData(candidatesData) {
-      const certificationData = candidatesData.map((piece) => {
-        const certificationItem = {};
-        certificationItem[this._fields.id] = piece.certificationId;
-        certificationItem[this._fields.firstName] = piece.firstName;
-        certificationItem[this._fields.lastName] = piece.lastName;
-        certificationItem[this._fields.birthdate] = piece.birthDate;
-        certificationItem[this._fields.birthplace] = piece.birthPlace;
-        certificationItem[this._fields.externalId] = piece.externalId;
-        return certificationItem;
-      });
-      try {
-        await this._importCertificationsData(certificationData);
-        this.notifications.success(candidatesData.length + ' lignes correctement importées');
-        this.set('displaySessionReport', false);
-      } catch (error) {
-        this.notifications.error(error);
-      }
-    },
-
-    async downloadGetJuryFile(attendanceSheetCandidates) {
-      const sessionCertifications = this.model.certifications;
-      const certificationsToBeReviewed = this._getSessionCertificationsToBeReviewed(sessionCertifications, attendanceSheetCandidates);
-      const dataRows = this._convertCertificationsToBeReviewedIntoJsonDataRows(certificationsToBeReviewed, attendanceSheetCandidates);
-      const fileHeaders = _.concat(Object.values(this._juryFields), this._competences);
-      const csv = json2csv.parse(dataRows, { fields: fileHeaders, delimiter: ';', withBOM: true, });
-      const fileName = 'jury_session_' + this.model.id + ' ' + (new Date()).toLocaleString('fr-FR') + '.csv';
-      this.fileSaver.saveAs(`${csv}\n`, fileName);
-    },
-
   },
 
   // Private methods
+
+  _buildSessionExportFileData() {
+    return this.model.certifications.map((certification) => {
+      const rowItem = {};
+
+      rowItem['Numéro de certification'] = certification.id;
+      rowItem['Prénom'] = certification.firstName;
+      rowItem['Nom'] = certification.lastName;
+      rowItem['Date de naissance'] = certification.birthdate;
+      rowItem['Lieu de naissance'] = certification.birthplace;
+      rowItem['Identifiant Externe'] = certification.externalId;
+      rowItem['Nombre de Pix'] = certification.pixScore;
+
+      const certificationIndexedCompetences = certification.indexedCompetences;
+      competenceIndexes.forEach((competence) => {
+        if (!certificationIndexedCompetences[competence] || certificationIndexedCompetences[competence].level === 0 || certificationIndexedCompetences[competence].level === -1) {
+          rowItem[competence] = '-';
+        } else {
+          rowItem[competence] = certificationIndexedCompetences[competence].level;
+        }
+      });
+
+      rowItem['Session'] = this.model.id;
+      rowItem['Centre de certification'] = this.model.certificationCenter;
+      rowItem['Date de passage de la certification'] = certification.creationDate.substring(0, 10);
+
+      return rowItem;
+    });
+  },
+
+  _buildSessionExportFileHeaders() {
+    return _.concat(
+      [
+        'Numéro de certification', 
+        'Prénom', 
+        'Nom', 
+        'Date de naissance', 
+        'Lieu de naissance', 
+        'Identifiant Externe', 
+        'Nombre de Pix'
+      ],
+      competenceIndexes,
+      [
+        'Session', 
+        'Centre de certification', 
+        'Date de passage de la certification'
+      ]
+    );
+  },
 
   _getSessionCertificationsToBeReviewed(certifications, attendanceSheetCandidates) {
     const candidatesToBeReviewed = _.filter(attendanceSheetCandidates, (candidate) => {
@@ -230,23 +236,23 @@ export default Controller.extend({
     });
   },
 
-  _convertCertificationsToBeReviewedIntoJsonDataRows(certifications, attendanceSheetCandidates) {
+  _buildJuryFileData(certifications, attendanceSheetCandidates) {
     return certifications.map((certification) => {
       const rowItem = {};
 
       const certificationCandidate = _.find(attendanceSheetCandidates, ['certificationId', certification.id]);
 
-      rowItem[this._juryFields.sessionId] = this.model.id;
-      rowItem[this._juryFields.id] = certification.id;
-      rowItem[this._juryFields.status] = certification.status;
-      rowItem[this._juryFields.creationDate] = certification.creationDate;
-      rowItem[this._juryFields.completionDate] = certification.completionDate;
-      rowItem[this._juryFields.commentFromManager] = certificationCandidate.comments;
-      rowItem[this._juryFields.commentForJury] = certification.commentForJury;
-      rowItem[this._juryFields.pixScore] = certification.pixScore;
+      rowItem['ID de session'] = this.model.id;
+      rowItem['ID de certification'] = certification.id;
+      rowItem['Statut de la certification'] = certification.status;
+      rowItem['Date de debut'] = certification.creationDate;
+      rowItem['Date de fin'] = certification.completionDate;
+      rowItem['Commentaire surveillant'] = certificationCandidate.comments;
+      rowItem['Commentaire pour le jury'] = certification.commentForJury;
+      rowItem['Note Pix'] = certification.pixScore;
 
-      const certificationIndexedCompetences = certification.get('indexedCompetences');
-      this._competences.forEach((competence) => {
+      const certificationIndexedCompetences = certification.indexedCompetences;
+      competenceIndexes.forEach((competence) => {
         rowItem[competence] = certificationIndexedCompetences[competence] ? certificationIndexedCompetences[competence].level : '';
       });
 
@@ -255,21 +261,20 @@ export default Controller.extend({
 
   },
 
-  _getExportJson(fields) {
-    const certificationIds = this.model.certifications.map((certification) => certification.id);
-    return this._getExportJsonPart(certificationIds, [], fields);
-  },
-
-  _getExportJsonPart(certificationsIds, json, fields) {
-    const ids = certificationsIds.splice(0, 10);
-    return this._getCertificationsJson(ids, fields)
-      .then((value) => {
-        if (certificationsIds.length > 0) {
-          return this._getExportJsonPart(certificationsIds, json.concat(value), fields);
-        } else {
-          return json.concat(value);
-        }
-      });
+  _buildJuryFileHeaders() {
+    return _.concat(
+      [
+        'ID de session', 
+        'ID de certification', 
+        'Statut de la certification', 
+        'Date de debut', 
+        'Date de fin', 
+        'Commentaire surveillant', 
+        'Commentaire pour le jury', 
+        'Note Pix'
+      ],
+      competenceIndexes
+    );
   },
 
   _importCertificationsData(data) {
@@ -314,39 +319,6 @@ export default Controller.extend({
       });
   },
 
-  _getCertificationsJson(certificationIds, fields) {
-    const store = this.store;
-    const requests = certificationIds.map((id) => {
-      return store.findRecord('certification', id)
-        .catch(() => {
-          // TODO: display error somehow
-          return null;
-        });
-    });
-    return Promise.all(requests)
-      .then((certifications) => {
-        return certifications.reduce((current, certification) => {
-          if (certification) {
-            current.push(this._getJsonRow(certification, fields));
-          }
-          return current;
-        }, []);
-      });
-  },
-
-  _getJsonRow(certification, fields) {
-    const data = Object.keys(fields).reduce((currentData, field) => {
-      const header = fields[field];
-      currentData[header] = certification.get(field);
-      return currentData;
-    }, {});
-    const competences = certification.get('indexedCompetences');
-    this._competences.forEach((competence) => {
-      data[competence] = (competences[competence] == null) ? '' : competences[competence].level;
-    });
-    return data;
-  },
-
   _updateCertifications(data) {
     const store = this.store;
     const requests = [];
@@ -356,6 +328,9 @@ export default Controller.extend({
       newData[id] = piece;
       requests.push(store.findRecord('certification', id));
     });
+
+    const csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
+
     return Promise.all(requests)
       .then((certifications) => {
         const updateRequests = [];
@@ -365,7 +340,7 @@ export default Controller.extend({
           const newDataPiece = newData[id];
           // check that session id is correct
           if (newDataPiece && sessionId === this.model.id) {
-            this._csvImportFields.forEach((key) => {
+            csvImportFields.forEach((key) => {
               const fieldName = this._fields[key];
               let fieldValue = newDataPiece[fieldName];
               if (fieldValue) {
