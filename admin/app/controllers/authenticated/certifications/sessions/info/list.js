@@ -1,8 +1,6 @@
 import Controller from '@ember/controller';
 import Papa from 'papaparse';
 import { inject as service } from '@ember/service';
-import moment from 'moment';
-import XLSX from 'xlsx';
 
 export default Controller.extend({
 
@@ -57,32 +55,22 @@ export default Controller.extend({
       }
     },
 
-    async displayCertificationSessionReport(file) {
-      const arrayBuffer = await file.readAsArrayBuffer();
-      const data = new Uint8Array(arrayBuffer);
-      const workbook = XLSX.read(data, { type: 'array', cellDates: true });
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-      const headerRowsNumber = 8;
-      const header = ['row', 'lastName', 'firstName', 'birthDate', 'birthPlace', 'email', 'externalId', 'extraTime', 'signature', 'certificationId', 'lastScreen', 'comments'];
-      const jsonData = XLSX.utils.sheet_to_json(worksheet, { range: headerRowsNumber, header });
-
-      const lastRowIndex = jsonData.findIndex((row) => !row.lastName);
-      const importedCandidates = jsonData.slice(0, lastRowIndex);
-      importedCandidates.forEach((candidate) => {
-        candidate.certificationId = candidate.certificationId.toString();
-        if (candidate.birthDate instanceof Date) {
-          candidate.birthDate = moment(candidate.birthDate).format('DD/MM/YYYY');
-        } else {
-          candidate.birthDate = null;
-        }
-      });
-      this.set('importedCandidates', importedCandidates);
-      this.set('displaySessionReport', true);
+    async displayCertificationSessionReportModal(file) {
+      try {
+        const attendanceSheetCandidates = await this.sessionInfoService.readSessionAttendanceSheet(file);
+        this.set('importedCandidates', attendanceSheetCandidates);
+        this.set('displaySessionReport', true);
+      } catch (error) {
+        this.notifications.error(error);
+      }
     },
 
-    async downloadSessionResultFile() {
-      this.sessionInfoService.downloadSessionExportFile(this.model);
+    downloadSessionResultFile() {
+      try {
+        this.sessionInfoService.downloadSessionExportFile(this.model);
+      } catch (error) {
+        this.notifications.error(error);
+      }
     },
 
     async onSaveReportData(candidatesData) {
@@ -105,8 +93,12 @@ export default Controller.extend({
       }
     },
 
-    downloadGetJuryFile(attendanceSheetCandidates) {
-      this.sessionInfoService.downloadGetJuryFile(this.model, attendanceSheetCandidates);
+    downloadJuryFile(attendanceSheetCandidates) {
+      try {
+        this.sessionInfoService.downloadJuryFile(this.model, attendanceSheetCandidates);
+      } catch (error) {
+        this.notifications.error(error);
+      }
     },
 
     displayCertificationStatusUpdateConfirmationModal(intention = 'publish') {
@@ -157,8 +149,6 @@ export default Controller.extend({
     },
 
   },
-
-  // Private methods
 
   _importCertificationsData(data) {
     const dataPiece = data.splice(0, 10);
