@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.48.0 (11/06/2019)
+
+- [#535](https://github.com/1024pix/pix/pull/535) [FEATURE] Afficher le nom de la compétence dans un assessement (PF-578).
+- [#547](https://github.com/1024pix/pix/pull/547) [FEATURE] Désactiver l'autocomplétion des QROC et QROCM (PF-627).
+- [#545](https://github.com/1024pix/pix/pull/545) [FEATURE] Restart d'un positionnement par compétence + migration (PF-579-5).
+- [#549](https://github.com/1024pix/pix/pull/549) [BUGFIX] Ajustements sur le CSS pour imprimer la page de résultats d'une campagne (PF-583).
+- [#551](https://github.com/1024pix/pix/pull/551) [BUGFIX] Remise en place des previews.
+- [#518](https://github.com/1024pix/pix/pull/518) [TECH] Refacto sur l'assessment coté front.
+- [#546](https://github.com/1024pix/pix/pull/546) [FEATURE] Supprimer une phrase sur la page de fin de certification (PF-611).
+
 ## v2.47.0 (07/06/2019)
 
 - [#550](https://github.com/1024pix/pix/pull/550) [FEATURE] Afficher la version de la certification dans Pix Admin (PF-577).
