@@ -36,4 +36,38 @@ module('Unit | Model | campaign-collective-results', function(hooks) {
       }
     ]);
   });
+
+  module('averageResult', function() {
+
+    test('it should return averge result', function(assert) {
+      //given
+      const store = this.owner.lookup('service:store');
+
+      const competenceCollectiveResults1 = store.createRecord('campaign-competence-collective-result', {
+        roundedAverageValidatedSkills: 12,
+        totalSkillsCount: 20
+      });
+      const competenceCollectiveResults2 = store.createRecord('campaign-competence-collective-result', {
+        roundedAverageValidatedSkills: 45,
+        totalSkillsCount: 66
+      });
+      const competenceCollectiveResults3 = store.createRecord('campaign-competence-collective-result', {
+        roundedAverageValidatedSkills: 2,
+        totalSkillsCount: 5
+      });
+
+      const model = run(()=> store.createRecord('campaign-collective-result', {}));
+      model.set(
+        'campaignCompetenceCollectiveResults',
+        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3]
+      );
+
+      //when
+      const averageResult = model.get('averageResult');
+
+      //then
+      assert.equal(averageResult, 65);
+    });
+
+  });
 });
