@@ -6,13 +6,13 @@ export default Route.extend({
   model(params) {
     const store = this.store;
 
-    const assessmentId = params.assessment_id;
+    const assessment = this.modelFor('assessments');
     const challengeId = params.challenge_id;
 
     return RSVP.hash({
-      assessment: store.findRecord('assessment', assessmentId),
+      assessment,
       challenge: store.findRecord('challenge', challengeId),
-      answer: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+      answer: store.queryRecord('answer', { assessment: assessment.id, challenge: challengeId })
     }).catch((err) => {
       const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {
@@ -41,7 +41,7 @@ export default Route.extend({
   },
 
   _findOrCreateAnswer(challenge, assessment) {
-    let answer = assessment.get('answers').findBy('challenge.id', challenge.get('id'));
+    let answer = assessment.get('answers').findBy('challenge.id', challenge.id);
     if (!answer) {
       answer = this.store.createRecord('answer', { assessment, challenge });
     }

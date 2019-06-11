@@ -36,6 +36,7 @@ class Assessment {
     // attributes
     createdAt,
     state,
+    title,
     type,
     // includes
     answers = [],
@@ -46,11 +47,13 @@ class Assessment {
     // references
     courseId,
     userId,
+    competenceId,
   } = {}) {
     this.id = id;
     // attributes
     this.createdAt = createdAt;
     this.state = state;
+    this.title = title;
     this.type = type;
     // includes
     this.answers = answers;
@@ -61,6 +64,7 @@ class Assessment {
     // references
     this.courseId = courseId;
     this.userId = userId;
+    this.competenceId = competenceId;
   }
 
   /**

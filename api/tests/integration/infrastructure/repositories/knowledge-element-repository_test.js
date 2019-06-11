@@ -102,16 +102,11 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     });
 
     it('should find the knowledge elements associated with a given assessment', async () => {
-
       // when
-      const promise = KnowledgeElementRepository.findByAssessmentId(assessmentId);
+      const knowledgeElementsFound = await KnowledgeElementRepository.findByAssessmentId(assessmentId);
 
-      // then
-      return promise
-        .then((knowledgeElementsFound) => {
-          expect(knowledgeElementsFound).have.lengthOf(2);
-          expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
-        });
+      expect(knowledgeElementsFound).have.lengthOf(2);
+      expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
     });
   });
 
@@ -129,40 +124,22 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       // given
       userId = databaseBuilder.factory.buildUser().id;
 
-      knowledgeElementsWantedWithLimitDate = [
-        databaseBuilder.factory.buildKnowledgeElement({
-          id: 1,
-          createdAt: yesterday,
-          skillId: '1',
-          userId
-        }),
-        databaseBuilder.factory.buildKnowledgeElement({
-          id: 2,
-          createdAt: yesterday,
-          skillId: '3',
-          status: 'validated',
-          userId
-        })
+      knowledgeElementsWantedWithLimitDate = _.map([
+        { id: 1, createdAt: yesterday, skillId: '1', userId },
+        { id: 2, createdAt: yesterday, skillId: '3', userId, status: 'validated' },
+      ], ((ke) => databaseBuilder.factory.buildKnowledgeElement(ke)));
+
+      knowledgeElementsWanted = [
+        ...knowledgeElementsWantedWithLimitDate,
+        databaseBuilder.factory.buildKnowledgeElement({ id: 3, createdAt: tomorrow, skillId: '2', userId }),
       ];
 
-      knowledgeElementsWanted = knowledgeElementsWantedWithLimitDate.concat([
-        databaseBuilder.factory.buildKnowledgeElement({
-          id: 3,
-          createdAt: tomorrow,
-          skillId: '2',
-          userId
-        })
-      ]);
-
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 4,
-        createdAt: dayBeforeYesterday,
-        skillId: '3',
-        status: 'invalidated'
-      });
-      databaseBuilder.factory.buildKnowledgeElement({ id: 5, createdAt: yesterday });
-      databaseBuilder.factory.buildKnowledgeElement({ id: 6, createdAt: yesterday });
-      databaseBuilder.factory.buildKnowledgeElement({ id: 7, createdAt: today });
+      _.each([
+        { id: 4, createdAt: dayBeforeYesterday, skillId: '3', userId, status: 'invalidated' },
+        { id: 5, createdAt: yesterday },
+        { id: 6, createdAt: yesterday },
+        { id: 7, createdAt: yesterday },
+      ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
 
       await databaseBuilder.commit();
     });
@@ -174,28 +151,20 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
     context('when there is no limit date', () => {
       it('should find the knowledge elements for smart placement assessment associated with a user id', async () => {
         // when
-        const promise = KnowledgeElementRepository.findUniqByUserId({ userId });
+        const knowledgeElementsFound = await KnowledgeElementRepository.findUniqByUserId({ userId });
 
-        // then
-        return promise
-          .then((knowledgeElementsFound) => {
-            expect(knowledgeElementsFound).have.lengthOf(3);
-            expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
-          });
+        expect(knowledgeElementsFound).have.lengthOf(3);
+        expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWanted);
       });
     });
 
     context('when there is a limit date', () => {
       it('should find the knowledge elements for smart placement assessment associated with a user id created before limit date', async () => {
         // when
-        const promise = KnowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
+        const knowledgeElementsFound = await KnowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
 
-        // then
-        return promise
-          .then((knowledgeElementsFound) => {
-            expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedWithLimitDate);
-            expect(knowledgeElementsFound).have.lengthOf(2);
-          });
+        expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedWithLimitDate);
+        expect(knowledgeElementsFound).have.lengthOf(2);
       });
     });
 
@@ -213,9 +182,8 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
         { id: 1, competenceId: 1, userId, skillId: 'web1' },
         { id: 2, competenceId: 1, userId, skillId: 'web2' },
         { id: 3, competenceId: 2, userId, skillId: 'url1' },
-      ], (ke) => {
-        databaseBuilder.factory.buildKnowledgeElement(ke);
-      });
+
+      ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
 
       await databaseBuilder.commit();
     });
@@ -289,48 +257,14 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       userId = databaseBuilder.factory.buildUser().id;
       const userId_tmp = databaseBuilder.factory.buildUser().id;
 
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 1,
-        skillId: 'rec1',
-        userId,
-        earnedPix: 5,
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 2,
-        skillId: 'rec2',
-        status: 'validated',
-        userId,
-        earnedPix: 10,
-        createdAt: today,
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 3,
-        skillId: 'rec2',
-        userId,
-        earnedPix: 1000,
-        createdAt: yesterday,
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 4,
-        skillId: 'rec2',
-        status: 'validated',
-        userId,
-        earnedPix: 1000,
-        createdAt: yesterday,
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 5,
-        skillId: 'rec3',
-        userId,
-        earnedPix: 3,
-      });
-      databaseBuilder.factory.buildKnowledgeElement({
-        id: 6,
-        skillId: 'rec1',
-        status: 'invalidated',
-        userId: userId_tmp,
-        earnedPix: 500,
-      });
+      _.each([
+        { id: 1, skillId: 'rec1', userId, earnedPix: 5 },
+        { id: 2, skillId: 'rec2', userId, earnedPix: 10, status: 'validated', createdAt: today },
+        { id: 3, skillId: 'rec2', userId, earnedPix: 1000, status: 'validated', createdAt: yesterday },
+        { id: 4, skillId: 'rec2', userId, earnedPix: 1000, status: 'validated', createdAt: yesterday },
+        { id: 5, skillId: 'rec3', userId, earnedPix: 3, status: 'validated' },
+        { id: 6, skillId: 'rec1', userId: userId_tmp, earnedPix: 3, status: 'invalidated' },
+      ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
 
       await databaseBuilder.commit();
     });
@@ -345,6 +279,50 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
 
       // then
       expect(earnedPix).to.equal(18);
+    });
+
+  });
+
+  describe('findUniqByUserIdAndCompetenceId', () => {
+    let wantedKnowledgeElements;
+    let userId;
+    let otherUserId;
+    let competenceId;
+    let otherCompetenceId;
+
+    beforeEach(async () => {
+      userId = 1;
+      otherUserId = 2;
+      competenceId = '3';
+      otherCompetenceId = '4';
+
+      wantedKnowledgeElements = _.map([
+        { id: 1, status: 'validated', userId, competenceId },
+        { id: 2, status: 'invalidated', userId, competenceId },
+      ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
+      
+      _.each([
+        { id: 3, status: 'invalidated', userId, competenceId: otherCompetenceId },
+        { id: 4, status: 'validated', userId: otherUserId, competenceId },
+        { id: 5, status: 'validated', userId: otherUserId, competenceId: otherCompetenceId },
+        { id: 6, status: 'validated', userId, competenceId: null },
+      ], (ke) => {
+        databaseBuilder.factory.buildKnowledgeElement(ke);
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should find only the knowledge elements matching both userId and competenceId', async () => {
+      // when
+      const actualKnowledgeElements = await KnowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
+
+      expect(actualKnowledgeElements).to.have.deep.members(wantedKnowledgeElements);
+
     });
 
   });

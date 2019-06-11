@@ -17,6 +17,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
             'certification-number': assessment.courseId.toString(),
             state: assessment.state,
             type: assessment.type,
+            title: assessment.courseId.toString(),
           },
           relationships: {
             answers: {
@@ -51,6 +52,33 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
       // then
       expect(json).to.deep.equal(expectedJson);
+    });
+
+    it('should convert an Assessment model object with type COMPETENCE_EVALUATION into JSON API data', function() {
+      //given
+      const assessment = domainBuilder.buildAssessment({
+        type: Assessment.types.COMPETENCE_EVALUATION,
+      });
+
+      assessment.title = 'Traiter des données';
+
+      const expectedProgressionJson = {
+        data: {
+          id: `progression-${assessment.id}`,
+          type: 'progressions',
+        },
+        links: {
+          related: `/api/progressions/progression-${assessment.id}`,
+        }
+      };
+
+      // when
+      const json = serializer.serialize(assessment);
+
+      // then
+      expect(json.data.relationships['progression']).to.deep.equal(expectedProgressionJson);
+      expect(json.data.attributes['certification-number']).to.be.null;
+      expect(json.data.attributes['title']).to.equal('Traiter des données');
     });
 
     it('should convert an Assessment model object with type SMARTPLACEMENT into JSON API data', function() {
