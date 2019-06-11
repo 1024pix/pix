@@ -89,6 +89,7 @@
   @include competence-card-competence;
   position: relative;
   margin: 8px 0;
+  padding: 0 4px;
 }
 
 .competence-card__body {
@@ -125,17 +126,8 @@
   transition: border 0.1s ease-in;
 }
 
-.competence-card:hover .competence-card__link-wrapper {
+.competence-card__link-wrapper:hover {
   border: 12px solid rgba($white, 0.4);
-
-  &:hover {
-    transition-delay: 0s;
-    border: 0px solid rgba($white, 0.4);
-
-    > .competence-card__link {
-      border: 20px solid $white;
-    }
-  }
 }
 
 .competence-card__level {
@@ -185,7 +177,46 @@
 
 .competence-card__button {
   text-transform: none;
+  height: 34px;
+  border-radius: 17px;
   padding-top: 8px;
   padding-bottom: 8px;
-  border-radius: 17px;
+  position: relative;
+  min-width: 140px;
+}
+
+.competence-card__button-label {
+  position: absolute;
+  top: 0;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: left 0.1s ease-out;
+}
+
+.competence-card__button-arrow {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  margin-left: 8px;
+  transition: all 0.1s linear;
+}
+
+.competence-card__button:hover
+.competence-card__button-label {
+  left: -20px;
+}
+
+.competence-card__button:hover
+.competence-card__button-arrow {
+  opacity: 1;
+  right: 28px;
 }
