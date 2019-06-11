@@ -36,6 +36,7 @@ class Assessment {
     // attributes
     createdAt,
     state,
+    title,
     type,
     // includes
     answers = [],
@@ -52,6 +53,7 @@ class Assessment {
     // attributes
     this.createdAt = createdAt;
     this.state = state;
+    this.title = title;
     this.type = type;
     // includes
     this.answers = answers;

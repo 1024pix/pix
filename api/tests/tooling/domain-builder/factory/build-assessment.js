@@ -14,6 +14,7 @@ function buildAssessment({
   courseId = 'courseId',
   createdAt = new Date('1992-06-12T01:02:03Z'),
   userId = faker.random.number(),
+  title = 'courseId',
   type = Assessment.types.CERTIFICATION,
   state = Assessment.states.COMPLETED,
   course = buildCourse({ id: 'courseId' }),
@@ -28,6 +29,7 @@ function buildAssessment({
     courseId,
     createdAt,
     userId,
+    title,
     type,
     state,
 
@@ -54,6 +56,7 @@ buildAssessment.ofTypeSmartPlacement = function({
   targetProfile = buildTargetProfile(),
   knowledgeElements = [buildKnowledgeElement()],
   campaignParticipation = buildCampaignParticipation(),
+  title = 'campaignTitle',
 } = {}) {
   return new SmartPlacementAssessment({
     // attributes
@@ -62,7 +65,44 @@ buildAssessment.ofTypeSmartPlacement = function({
     createdAt,
     userId,
     competenceId,
+    title,
     type: Assessment.types.SMARTPLACEMENT,
+    state,
+
+    // relationships
+    answers,
+    assessmentResults,
+    course,
+    targetProfile,
+    knowledgeElements,
+    campaignParticipation
+  });
+};
+
+buildAssessment.ofTypeCompetenceEvaluation = function({
+  id = faker.random.number(),
+
+  courseId = 'courseId',
+  createdAt = new Date('1992-06-12T01:02:03Z'),
+  userId = faker.random.number(),
+  state = Assessment.states.COMPLETED,
+  title = faker.lorem,
+
+  answers = [buildAnswer()],
+  assessmentResults = [buildAssessmentResult()],
+  course = buildCourse({ id: 'courseId' }),
+  targetProfile = buildTargetProfile(),
+  knowledgeElements = [buildKnowledgeElement()],
+  campaignParticipation = buildCampaignParticipation(),
+} = {}) {
+  return new Assessment({
+    // attributes
+    id,
+    courseId,
+    createdAt,
+    userId,
+    title,
+    type: Assessment.types.COMPETENCE_EVALUATION,
     state,
 
     // relationships
