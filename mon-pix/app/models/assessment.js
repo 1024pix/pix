@@ -7,25 +7,31 @@ const { attr, Model, belongsTo, hasMany } = DS;
 
 export default Model.extend({
 
+  // attributes
+  codeCampaign: attr('string'),
+  estimatedLevel: attr('number'),
+  pixScore: attr('number'),
+  state: attr('string'),
+  title: attr('string'),
+  type: attr('string'),
+  certificationNumber: attr('string'),
+  participantExternalId: attr('string'),
+
+  // includes
   answers: hasMany('answer'),
   course: belongsTo('course', { inverse: null }),
   progression: belongsTo('progression', { inverse: null }),
-  certificationNumber: attr('string'),
-  estimatedLevel: attr('number'),
-  pixScore: attr('number'),
   result: belongsTo('assessment-result'),
-  type: attr('string'),
+
+  // methods
   isCertification: equal('type', 'CERTIFICATION'),
   isCompetenceEvaluation: equal('type', 'COMPETENCE_EVALUATION'),
   isDemo: equal('type', 'DEMO'),
   isPreview: equal('type', 'PREVIEW'),
   isPlacement: equal('type', 'PLACEMENT'),
   isSmartPlacement: equal('type', 'SMART_PLACEMENT'),
-  state: attr('string'),
   isStarted: equal('state', 'started'),
   isCompleted: equal('state', 'completed'),
-  codeCampaign: attr('string'),
-  participantExternalId: attr('string'),
 
   showProgressBar: computed('isPreview', 'isPlacement', function() {
     return (this.isCompetenceEvaluation || this.isSmartPlacement || this.isDemo || this.isCertification);
