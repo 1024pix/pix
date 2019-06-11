@@ -2,6 +2,10 @@ when(`je lance le course {string}`, (courseId) => {
   cy.visit(`/courses/${courseId}`);
 });
 
+when(`je lance la preview du challenge {string}`, (challengeId) => {
+  cy.visit(`/challenges/${challengeId}/preview`);
+});
+
 then(`je suis redirigé vers une page d'épreuve`, () => {
   cy.get('.assessment-challenge').should('exist');
 });
