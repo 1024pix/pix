@@ -4,6 +4,7 @@ const { UserNotFoundError } = require('../errors');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
 const Scorecard = require('../models/Scorecard');
+const { MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION } = require('../constants');
 
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
@@ -94,7 +95,7 @@ async function _pickChallengesForUserCompetences({ userCompetences, challengeIds
   userCompetences.forEach((userCompetence) => {
     const testedSkills = [];
     userCompetence.skills.forEach((skill) => {
-      if (userCompetence.challenges.length < 3) {
+      if (userCompetence.challenges.length < MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION) {
         const challengesToValidateCurrentSkill = _findChallengeBySkill(allChallenges, skill);
         const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
