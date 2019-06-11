@@ -6,5 +6,13 @@
     "email": "daenerys.targaryen@pix.fr",
     "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true
+  },
+  {
+    "id": 2,
+    "firstName": "Samwell",
+    "lastName": "Tarly",
+    "email": "samwell.tarly@pix.fr",
+    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
+    "cgu": true
   }
 ]
