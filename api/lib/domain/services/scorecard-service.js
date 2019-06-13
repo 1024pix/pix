@@ -2,7 +2,7 @@ const CompetenceEvaluation = require('../models/CompetenceEvaluation');
 const KnowledgeElement = require('../models/KnowledgeElement');
 const _ = require('lodash');
 
-async function resetCompetenceEvaluation({
+async function resetScorecard({
   userId,
   competenceId,
   isCompetenceEvaluationExists,
@@ -46,5 +46,5 @@ function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluation
 }
 
 module.exports = {
-  resetCompetenceEvaluation,
+  resetScorecard,
 };

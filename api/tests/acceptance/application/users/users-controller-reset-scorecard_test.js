@@ -1,9 +1,9 @@
-const { knex, databaseBuilder, expect, generateValidRequestAuhorizationHeader, sinon } = require('../../../test-helper');
+const { knex, airtableBuilder, databaseBuilder, expect, generateValidRequestAuhorizationHeader, sinon } = require('../../../test-helper');
 const _ = require('lodash');
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-reset-competence-evaluation', () => {
+describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
 
   let options;
   let server;

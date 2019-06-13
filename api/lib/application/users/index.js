@@ -174,7 +174,7 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{userId}/competences/{competenceId}/reset',
       config: {
-        handler: userController.resetCompetenceEvaluation,
+        handler: userController.resetScorecard,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Cette route réinitilise l\'évaluation de compétences identifiée par **userId** et **competenceId**',

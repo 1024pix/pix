@@ -108,7 +108,7 @@ module.exports = injectDependencies({
   preloadCacheEntries: require('./preload-cache-entries'),
   reloadCacheEntry: require('./reload-cache-entry'),
   removeAllCacheEntries: require('./remove-all-cache-entries'),
-  resetCompetenceEvaluation: require('./reset-competence-evaluation'),
+  resetScorecard: require('./reset-scorecard'),
   retrieveLastOrCreateCertificationCourse : require('./retrieve-last-or-create-certification-course'),
   saveCertificationCenter: require('./save-certification-center'),
   shareCampaignResult: require('./share-campaign-result'),

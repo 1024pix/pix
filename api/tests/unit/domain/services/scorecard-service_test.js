@@ -1,9 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const CompetenceEvaluation = require('../../../../lib/domain/models/CompetenceEvaluation');
-const competenceEvaluationService = require('../../../../lib/domain/services/competence-evaluation-service');
+const scorecardService = require('../../../../lib/domain/services/scorecard-service');
 
-describe('Unit | Service | CompetenceEvaluationService', function() {
+describe('Unit | Service | ScorecardService', function() {
 
   let resetKnowledgeElements;
   let resetCompetenceEvaluation;
@@ -42,7 +42,7 @@ describe('Unit | Service | CompetenceEvaluationService', function() {
         .onFirstCall().resolves(resetKnowledgeElement1)
         .onSecondCall().resolves(resetKnowledgeElement2);
 
-      [resetCompetenceEvaluation, resetKnowledgeElements] = await competenceEvaluationService.resetCompetenceEvaluation({
+      [resetCompetenceEvaluation, resetKnowledgeElements] = await scorecardService.resetScorecard({
         userId, competenceId, isCompetenceEvaluationExists, knowledgeElementRepository, competenceEvaluationRepository,
       });
     });
@@ -76,7 +76,7 @@ describe('Unit | Service | CompetenceEvaluationService', function() {
         .onFirstCall().resolves(resetKnowledgeElement1)
         .onSecondCall().resolves(resetKnowledgeElement2);
 
-      resetKnowledgeElements = await competenceEvaluationService.resetCompetenceEvaluation({
+      resetKnowledgeElements = await scorecardService.resetScorecard({
         userId, competenceId, isCompetenceEvaluationExists, knowledgeElementRepository, competenceEvaluationRepository,
       });
     });
