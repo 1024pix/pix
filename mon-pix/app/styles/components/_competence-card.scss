@@ -121,19 +121,15 @@
 
 .competence-card__link {
   display: inline-block;
-  border-radius: 50%;
+  padding: 8px;
   background-color: $white;
-  border: 8px solid $white;
-  transition: border 0.1s ease-in;
-}
-
-.competence-card__link-wrapper {
+  background-clip: padding-box;
   border: 0px solid rgba($white, 0.4);
   border-radius: 50%;
   transition: border 0.1s ease-in;
 }
 
-.competence-card__link-wrapper:hover {
+.competence-card__link:hover {
   border: 12px solid rgba($white, 0.4);
 }
 
