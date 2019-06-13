@@ -1,25 +1,23 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
-import { run } from '@ember/runloop';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { click, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 describe('Integration | Component | certifications list item', function() {
-  setupComponentTest('certifications-list-item', {
-    integration: true,
-  });
+  setupRenderingTest();
 
   let certification;
 
-  it('renders', function() {
-    this.render(hbs`{{certifications-list-item certification=certification}}`);
-    expect(this.$()).to.have.length(1);
+  it('renders', async function() {
+    await render(hbs`{{certifications-list-item certification=certification}}`);
+    expect(find('.certifications-list-item__row-presentation')).to.exist;
   });
 
   context('when the certification is not published', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -32,24 +30,24 @@ describe('Integration | Component | certifications list item', function() {
       this.set('certification', certification);
 
       // when
-      this.render(hbs`{{certifications-list-item certification=certification}}`);
+      await render(hbs`{{certifications-list-item certification=certification}}`);
     });
 
     // then
     it('should render a certifications-list-item__unpublished-item div', function() {
-      expect(this.$('.certifications-list-item__unpublished-item')).to.have.lengthOf(1);
+      expect(find('.certifications-list-item__unpublished-item')).to.exist;
     });
 
     it('should show en attente de résultat', function() {
-      expect(this.$('img.certifications-list-item__hourglass-img')).to.have.lengthOf(1);
-      expect(this.$('.certifications-list-item').text()).to.include('En attente du résultat');
+      expect(find('img.certifications-list-item__hourglass-img')).to.exist;
+      expect(find('.certifications-list-item').textContent).to.include('En attente du résultat');
     });
   });
 
   context('when the certification is published and rejected', function() {
 
     context('without commentForCandidate', function() {
-      beforeEach(function() {
+      beforeEach(async function() {
         // given
         certification = EmberObject.create({
           id: 1,
@@ -63,28 +61,28 @@ describe('Integration | Component | certifications list item', function() {
         this.set('certification', certification);
 
         // when
-        this.render(hbs`{{certifications-list-item certification=certification}}`);
+        await render(hbs`{{certifications-list-item certification=certification}}`);
       });
 
       // then
       it('should render a certifications-list-item__published-item div', function() {
-        expect(this.$('.certifications-list-item__published-item')).to.have.lengthOf(1);
+        expect(find('.certifications-list-item__published-item')).to.exist;
       });
 
       it('should show Certification non obtenue', function() {
-        expect(this.$('img.certifications-list-item__cross-img')).to.have.lengthOf(1);
-        expect(this.$('.certifications-list-item').text()).to.include('Certification non obtenue');
+        expect(find('img.certifications-list-item__cross-img')).to.exist;
+        expect(find('.certifications-list-item').textContent).to.include('Certification non obtenue');
       });
 
       it('should not show Détail in last column', function() {
-        expect(this.$('.certifications-list-item__cell-detail-button')).to.have.lengthOf(0);
+        expect(find('.certifications-list-item__cell-detail-button')).to.not.exist;
       });
 
       it('should not show comment for candidate panel when clicked on row', async function() {
 
-        run(() => document.querySelector(('.certifications-list-item__cell')).click());
+        await click('.certifications-list-item__cell');
 
-        expect(this.$('.certifications-list-item__row-comment-cell')).to.have.lengthOf(0);
+        expect(find('.certifications-list-item__row-comment-cell')).to.not.exist;
       });
     });
 
@@ -92,7 +90,7 @@ describe('Integration | Component | certifications list item', function() {
 
       const commentForCandidate = 'Commentaire pour le candidat';
 
-      beforeEach(function() {
+      beforeEach(async function() {
         // given
         certification = EmberObject.create({
           id: 1,
@@ -106,37 +104,37 @@ describe('Integration | Component | certifications list item', function() {
         this.set('certification', certification);
 
         // when
-        this.render(hbs`{{certifications-list-item certification=certification}}`);
+        await render(hbs`{{certifications-list-item certification=certification}}`);
       });
 
       // then
       it('should render a certifications-list-item__published-item div', function() {
-        expect(this.$('.certifications-list-item__published-item')).to.have.lengthOf(1);
+        expect(find('.certifications-list-item__published-item')).to.exist;
       });
 
       it('should show Certification non obtenue', function() {
-        expect(this.$('img.certifications-list-item__cross-img')).to.have.lengthOf(1);
-        expect(this.$('.certifications-list-item').text()).to.include('Certification non obtenue');
+        expect(find('img.certifications-list-item__cross-img')).to.exist;
+        expect(find('.certifications-list-item').textContent).to.include('Certification non obtenue');
       });
 
       it('should show Détail in last column', function() {
-        expect(this.$('.certifications-list-item__cell-detail-button')).to.have.lengthOf(1);
-        expect(this.$('.certifications-list-item__cell-detail-button').text()).to.include('DÉTAIL');
+        expect(find('.certifications-list-item__cell-detail-button')).to.exist;
+        expect(find('.certifications-list-item__cell-detail-button').textContent).to.include('DÉTAIL');
       });
 
       it('should show comment for candidate panel when clicked on row', async function() {
 
-        run(() => document.querySelector(('.certifications-list-item__cell')).click());
+        await click('.certifications-list-item__cell');
 
-        expect(this.$('.certifications-list-item__row-comment-cell')).to.have.lengthOf(1);
-        expect(this.$('.certifications-list-item__row-comment-cell').text()).to.include(commentForCandidate);
+        expect(find('.certifications-list-item__row-comment-cell')).to.exist;
+        expect(find('.certifications-list-item__row-comment-cell').textContent).to.include(commentForCandidate);
       });
     });
   });
 
   context('when the certification is published and validated', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -149,27 +147,27 @@ describe('Integration | Component | certifications list item', function() {
       this.set('certification', certification);
 
       // when
-      this.render(hbs`{{certifications-list-item certification=certification}}`);
+      await render(hbs`{{certifications-list-item certification=certification}}`);
     });
 
     // then
     it('should render certifications-list-item__published-item with a link inside', function() {
-      expect(this.$('.certifications-list-item__published-item a')).to.have.lengthOf(1);
+      expect(find('.certifications-list-item__published-item a')).to.exist;
     });
 
     it('should show Certification obtenue', function() {
-      expect(this.$('img.certifications-list-item__green-check-img')).to.have.lengthOf(1);
-      expect(this.$('.certifications-list-item').text()).to.include('Certification obtenue');
+      expect(find('img.certifications-list-item__green-check-img')).to.exist;
+      expect(find('.certifications-list-item').textContent).to.include('Certification obtenue');
     });
 
     it('should show the Pix Score', function() {
-      expect(this.$('.certifications-list-item__pix-score')).to.have.lengthOf(1);
-      expect(this.$('.certifications-list-item__pix-score').text()).to.include('231');
+      expect(find('.certifications-list-item__pix-score')).to.exist;
+      expect(find('.certifications-list-item__pix-score').textContent).to.include('231');
     });
 
     it('should show link to certification page in last column', function() {
-      expect(this.$('.certifications-list-item__cell-detail-link')).to.have.lengthOf(1);
-      expect(this.$('.certifications-list-item__cell-detail-link').text()).to.include('RÉSULTATS');
+      expect(find('.certifications-list-item__cell-detail-link')).to.exist;
+      expect(find('.certifications-list-item__cell-detail-link').textContent).to.include('RÉSULTATS');
     });
   });
 });

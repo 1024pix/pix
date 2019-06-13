@@ -1,14 +1,13 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
 describe('Integration | Component | ChallengeStatement', function() {
 
-  setupComponentTest('challenge-statement', {
-    integration: true
-  });
+  setupRenderingTest();
 
   function addChallengeToContext(component, challenge) {
     component.set('challenge', challenge);
@@ -18,8 +17,8 @@ describe('Integration | Component | ChallengeStatement', function() {
     component.set('assessment', assessment);
   }
 
-  function renderChallengeStatement(component) {
-    return component.render(hbs`{{challenge-statement challenge=challenge assessment=assessment}}`);
+  function renderChallengeStatement() {
+    return render(hbs`{{challenge-statement challenge=challenge assessment=assessment}}`);
   }
 
   /*
@@ -41,31 +40,31 @@ describe('Integration | Component | ChallengeStatement', function() {
     });
 
     // Inspired from: https://github.com/emberjs/ember-mocha/blob/0790a78d7464655fee0c103d2fa960fa53a056ca/tests/setup-component-test-test.js#L118-L122
-    it('should render challenge instruction if it exists', function() {
+    it('should render challenge instruction if it exists', async function() {
       // given
       addChallengeToContext(this, {
         instruction: 'La consigne de mon test'
       });
 
       // when
-      renderChallengeStatement(this);
+      await renderChallengeStatement();
 
       // then
-      expect(this.$('.challenge-statement__instruction').text().trim()).to.equal('La consigne de mon test');
+      expect(find('.challenge-statement__instruction').textContent.trim()).to.equal('La consigne de mon test');
     });
 
-    it('should not render challenge instruction if it does not exist', function() {
+    it('should not render challenge instruction if it does not exist', async function() {
       // given
       addChallengeToContext(this, {});
 
       // when
-      renderChallengeStatement(this);
+      await renderChallengeStatement();
 
       // then
-      expect(this.$('.challenge-statement__instruction')).to.have.lengthOf(0);
+      expect(find('.challenge-statement__instruction')).to.not.exist;
     });
 
-    it('should replace ${EMAIL} by a generated email', function() {
+    it('should replace ${EMAIL} by a generated email', async function() {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -74,10 +73,10 @@ describe('Integration | Component | ChallengeStatement', function() {
       });
 
       // when
-      renderChallengeStatement(this);
+      await renderChallengeStatement();
 
       // then
-      expect(this.$('.challenge-statement__instruction').text().trim())
+      expect(find('.challenge-statement__instruction').textContent.trim())
         .to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix-infra.ovh pour valider cette épreuve');
     });
   });
@@ -88,30 +87,29 @@ describe('Integration | Component | ChallengeStatement', function() {
    */
 
   describe('Illustration section', function() {
-    it('should display challenge illustration (and alt) if it exists', function() {
+    it('should display challenge illustration (and alt) if it exists', async function() {
       // given
       addChallengeToContext(this, {
         illustrationUrl: '/images/pix-logo.svg'
       });
 
       // when
-      renderChallengeStatement(this);
+      await renderChallengeStatement();
 
       // then
-      const $illustration = this.$('.challenge-statement__illustration');
-      expect($illustration.prop('src')).to.match(/\/images\/pix-logo.svg$/);
-      expect($illustration.prop('alt')).to.equal('Illustration de l\'épreuve');
+      expect(find('.challenge-statement__illustration').src).to.match(/\/images\/pix-logo.svg$/);
+      expect(find('.challenge-statement__illustration').alt).to.equal('Illustration de l\'épreuve');
     });
 
-    it('should not display challenge illustration if it does not exist', function() {
+    it('should not display challenge illustration if it does not exist', async function() {
       // given
       addChallengeToContext(this, {});
 
       // when
-      renderChallengeStatement(this);
+      await renderChallengeStatement();
 
       // then
-      expect(this.$('.challenge-statement__illustration')).to.have.lengthOf(0);
+      expect(find('.challenge-statement__illustration')).to.not.exist;
     });
   });
 
@@ -124,23 +122,23 @@ describe('Integration | Component | ChallengeStatement', function() {
 
     describe('if challenge has no file', function() {
 
-      it('should not display attachements section', function() {
+      it('should not display attachements section', async function() {
         addChallengeToContext(this, {
           attachments: [],
           hasAttachment: false
         });
 
         // when
-        renderChallengeStatement(this);
+        await renderChallengeStatement();
 
         // then
-        expect(this.$('.challenge-statement__attachments-section')).to.have.lengthOf(0);
+        expect(find('.challenge-statement__attachments-section')).to.not.exist;
       });
     });
 
     describe('if challenge has only one file', function() {
 
-      it('should display only one link button', function() {
+      it('should display only one link button', async function() {
         // given
         addChallengeToContext(this, {
           attachments: ['http://challenge.file.url'],
@@ -150,12 +148,11 @@ describe('Integration | Component | ChallengeStatement', function() {
         });
 
         // when
-        renderChallengeStatement(this);
+        await renderChallengeStatement();
 
         // then
-        const $downloadLink = this.$('.challenge-statement__action-link');
-        expect($downloadLink).to.have.lengthOf(1);
-        expect($downloadLink.prop('href')).to.equal('http://challenge.file.url/');
+        expect(find('.challenge-statement__action-link')).to.exist;
+        expect(find('.challenge-statement__action-link').href).to.equal('http://challenge.file.url/');
       });
 
     });
@@ -180,78 +177,74 @@ describe('Integration | Component | ChallengeStatement', function() {
         attachments: ['http://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'http://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp']
       };
 
-      it('should display as many radio button as attachments', function() {
+      it('should display as many radio button as attachments', async function() {
         // given
         addChallengeToContext(this, challenge);
 
         // when
-        renderChallengeStatement(this);
+        await renderChallengeStatement();
 
         // then
-        expect(this.$('.challenge-statement__file-option_input')).to.have.lengthOf(challenge.attachments.length);
+        expect(findAll('.challenge-statement__file-option_input')).to.have.lengthOf(challenge.attachments.length);
       });
 
-      it('should display radio buttons with right label', function() {
+      it('should display radio buttons with right label', async function() {
         // given
         addChallengeToContext(this, challenge);
 
         // when
-        renderChallengeStatement(this);
+        await renderChallengeStatement();
 
         // then
-        expect(this.$('.challenge-statement__file-option-label').get(0).textContent.trim()).to.equal('fichier .docx');
-        expect(this.$('.challenge-statement__file-option-label').get(1).textContent.trim()).to.equal('fichier .odt');
+        expect(findAll('.challenge-statement__file-option-label')[0].textContent.trim()).to.equal('fichier .docx');
+        expect(findAll('.challenge-statement__file-option-label')[1].textContent.trim()).to.equal('fichier .odt');
 
       });
 
-      it('should select first attachment as default selected radio buton', function() {
+      it('should select first attachment as default selected radio button', async function() {
         // given
         addChallengeToContext(this, challenge);
 
         // when
-        renderChallengeStatement(this);
+        await renderChallengeStatement();
 
         // then
-        const $firstRadioButton = this.$('.challenge-statement__file-option_input')[0];
-        const $secondRadioButton = this.$('.challenge-statement__file-option_input')[1];
-        expect($firstRadioButton.checked).to.be.true;
-        expect($secondRadioButton.checked).to.be.false;
+        expect(findAll('.challenge-statement__file-option_input')[0].checked).to.be.true;
+        expect(findAll('.challenge-statement__file-option_input')[1].checked).to.be.false;
       });
 
-      it('should select first attachment as default selected radio button', function() {
+      it('should select first attachment as default selected radio button when QROC', async function() {
         // given
         addChallengeToContext(this, challengeQROC);
 
         // when
-        renderChallengeStatement(this);
+        await renderChallengeStatement();
 
         // then
-        const $firstRadioButton = this.$('.challenge-statement__file-option_input')[0];
-        const $secondRadioButton = this.$('.challenge-statement__file-option_input')[1];
-        expect($firstRadioButton.checked).to.be.true;
-        expect($secondRadioButton.checked).to.be.false;
+        expect(findAll('.challenge-statement__file-option_input')[0].checked).to.be.true;
+        expect(findAll('.challenge-statement__file-option_input')[1].checked).to.be.false;
       });
 
-      it('should display attachements paragraph text', function() {
+      it('should display attachements paragraph text', async function() {
         // given
         addChallengeToContext(this, challenge);
 
         // when
-        renderChallengeStatement(this);
+        await renderChallengeStatement();
 
         // then
-        expect(this.$('.challenge-statement__text-content').text().trim()).to.equal('Choisissez le type de fichier que vous voulez utiliser');
+        expect(find('.challenge-statement__text-content').textContent.trim()).to.equal('Choisissez le type de fichier que vous voulez utiliser');
       });
 
-      it('should display help icon next to attachements paragraph', function() {
+      it('should display help icon next to attachements paragraph', async function() {
         // given
         addChallengeToContext(this, challenge);
 
         // when
-        renderChallengeStatement(this);
+        await renderChallengeStatement();
 
         // then
-        expect(this.$('.challenge-statement__help-icon')).to.have.lengthOf(1);
+        expect(find('.challenge-statement__help-icon')).to.exist;
       });
 
     });
@@ -265,26 +258,26 @@ describe('Integration | Component | ChallengeStatement', function() {
 
   describe('Embed simulator section:', function() {
 
-    it('should be displayed when the challenge has a valid Embed object', function() {
+    it('should be displayed when the challenge has a valid Embed object', async function() {
       // given
       addChallengeToContext(this, { hasValidEmbedDocument: true });
 
       // when
-      renderChallengeStatement(this);
+      await renderChallengeStatement();
 
       // then
-      expect(this.$('.challenge-embed-simulator')).to.have.lengthOf(1);
+      expect(find('.challenge-embed-simulator')).to.exist;
     });
 
-    it('should not be displayed when the challenge does not have a valid Embed object', function() {
+    it('should not be displayed when the challenge does not have a valid Embed object', async function() {
       // given
       addChallengeToContext(this, { hasValidEmbedDocument: false });
 
       // when
-      renderChallengeStatement(this);
+      await renderChallengeStatement();
 
       // then
-      expect(this.$('.challenge-embed-simulator')).to.have.lengthOf(0);
+      expect(find('.challenge-embed-simulator')).to.not.exist;
     });
   });
 });

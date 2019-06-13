@@ -1,38 +1,18 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import _ from 'mon-pix/utils/lodash-custom';
-import $ from 'jquery';
-
-const RADIO_CORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(1)';
-const LABEL_CORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(1)';
-
-const LABEL_CORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(1)';
-
-const RADIO_INCORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(2)';
-const LABEL_INCORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(2)';
-
-const RADIO_INCORRECT_AND_UNCHECKED = '.picture-radio-proposal--qcu:eq(0)';
-const LABEL_INCORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(0)';
-
-const CSS_LINETHROUGH_ON = 'line-through';
-const CSS_LINETHROUGH_OFF = 'none';
 
 const assessment = {};
 let challenge = null;
 let answer = null;
 let solution = null;
 
-function charCount(str) {
-  return str.match(/[a-zA-Z]/g).length;
-}
-
 describe('Integration | Component | qcu-solution-panel.js', function() {
-  setupComponentTest('qcu-solution-panel', {
-    integration: true
-  });
+  setupRenderingTest();
 
   const correctAnswer = {
     id: 'answer_id', assessment, challenge, value: '2'
@@ -44,10 +24,10 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
   describe('#Component should renders: ', function() {
 
-    it('Should renders', function() {
-      this.render(hbs`{{qcu-solution-panel}}`);
-      expect(this.$()).to.have.lengthOf(1);
-      expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+    it('Should renders', async function() {
+      await render(hbs`{{qcu-solution-panel}}`);
+      expect(find('.qcu-solution-panel')).to.exist;
+      expect(findAll('.qcu-proposal-label__oracle')).to.have.lengthOf(0);
     });
 
     describe('Radio state', function() {
@@ -64,24 +44,21 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         answer = EmberObject.create(correctAnswer);
       });
 
-      it('QCU,la réponse correcte est cochée', function() {
+      it('QCU,la réponse correcte est cochée', async function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
         this.set('challenge', challenge);
         // When
-        this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
-        expect($(RADIO_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
-
-        expect($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
-        expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
-        expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+        expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('yes');
+        expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-goodness')).to.equal('good');
+        expect(findAll('.picture-radio-proposal--qcu')[1].classList.contains('radio-on')).to.equal(true);
       });
 
-      it('QCU, la réponse correcte n\'est pas cochée', function() {
+      it('QCU, la réponse correcte n\'est pas cochée', async function() {
         //Given
         answer = EmberObject.create(unCorrectAnswer);
 
@@ -90,31 +67,30 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-off')).to.equal(true);
-
-        expect(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
-        expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+        expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-checked')).to.equal('no');
+        expect(findAll('.qcu-proposal-label__oracle')[1].getAttribute('data-goodness')).to.equal('good');
+        expect(findAll('.picture-radio-proposal--qcu')[1].classList.contains('radio-off')).to.equal(true);
       });
 
-      it('QCU, la réponse incorrecte n\'est pas cochée', function() {
+      it('QCU, la réponse incorrecte n\'est pas cochée', async function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
         this.set('challenge', challenge);
 
         // When
-        this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(RADIO_INCORRECT_AND_UNCHECKED).hasClass('radio-off')).to.equal(true);
-        expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+        expect(findAll('.qcu-proposal-label__oracle')[0].getAttribute('data-checked')).to.equal('no');
+        expect(findAll('.qcu-proposal-label__oracle')[0].getAttribute('data-goodness')).to.equal('bad');
+        expect(findAll('.picture-radio-proposal--qcu')[0].classList.contains('radio-off')).to.equal(true);
       });
 
-      it('QCU,la réponse incorrecte est cochée', function() {
+      it('QCU,la réponse incorrecte est cochée', async function() {
         //Given
         answer = EmberObject.create(unCorrectAnswer);
 
@@ -123,27 +99,26 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         this.set('challenge', challenge);
 
         // When
-        this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        expect($(RADIO_INCORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
-        expect(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
-        expect($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
+        expect(findAll('.qcu-proposal-label__oracle')[2].getAttribute('data-checked')).to.equal('yes');
+        expect(findAll('.qcu-proposal-label__oracle')[2].getAttribute('data-goodness')).to.equal('bad');
+        expect(findAll('.picture-radio-proposal--qcu')[2].classList.contains('radio-on')).to.equal(true);
       });
 
-      it('Aucune case à cocher n\'est cliquable', function() {
+      it('Aucune case à cocher n\'est cliquable', async function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
         this.set('challenge', challenge);
 
         // When
-        this.render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qcu-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // Then
-        const size = $('.comparison-window .qcu-panel__proposal-radio').length;
-        _.times(size, function(index) {
-          expect($('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').is(':disabled')).to.equal(true);
+        _.times(findAll('.comparison-window .qcu-panel__proposal-radio').length, function(index) {
+          expect(find('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').getAttribute('disabled')).to.equal('disabled');
         });
       });
     });

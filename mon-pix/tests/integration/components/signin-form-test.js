@@ -1,63 +1,61 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { click, fillIn, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { run } from '@ember/runloop';
 
 describe('Integration | Component | signin form', function() {
 
-  setupComponentTest('signin-form', {
-    integration: true
-  });
+  setupRenderingTest();
 
-  describe('Rendering', function() {
+  describe('Rendering', async function() {
 
-    it('should display an input for email field', function() {
+    it('should display an input for email field', async function() {
       // when
-      this.render(hbs`{{signin-form}}`);
+      await render(hbs`{{signin-form}}`);
 
       // then
       expect(document.querySelector('input#email')).to.exist;
     });
 
-    it('should display an input for password field', function() {
+    it('should display an input for password field', async function() {
       // when
-      this.render(hbs`{{signin-form}}`);
+      await render(hbs`{{signin-form}}`);
 
       // then
       expect(document.querySelector('input#password')).to.exist;
     });
 
-    it('should display a submit button to authenticate', function() {
+    it('should display a submit button to authenticate', async function() {
       // when
-      this.render(hbs`{{signin-form}}`);
+      await render(hbs`{{signin-form}}`);
 
       // then
       expect(document.querySelector('button.button')).to.exist;
     });
 
-    it('should display a link to password reset view', function() {
+    it('should display a link to password reset view', async function() {
       // when
-      this.render(hbs`{{signin-form}}`);
+      await render(hbs`{{signin-form}}`);
 
       // then
       expect(document.querySelector('a.sign-form-body__forgotten-password-link')).to.exist;
     });
 
-    it('should not display any error by default', function() {
+    it('should not display any error by default', async function() {
       // when
-      this.render(hbs`{{signin-form}}`);
+      await render(hbs`{{signin-form}}`);
 
       // then
       expect(document.querySelector('div.sign-form__notification-message')).to.not.exist;
     });
 
-    it('should display an error if authentication failed', function() {
+    it('should display an error if authentication failed', async function() {
       // given
       this.set('displayErrorMessage', true);
 
       // when
-      this.render(hbs`{{signin-form displayErrorMessage=displayErrorMessage}}`);
+      await render(hbs`{{signin-form displayErrorMessage=displayErrorMessage}}`);
 
       // then
       expect(document.querySelector('div.sign-form__notification-message--error')).to.exist;
@@ -66,27 +64,27 @@ describe('Integration | Component | signin form', function() {
 
   describe('Behaviours', function() {
 
-    it('should authenticate user when she submitted sign-in form', function() {
+    it('should authenticate user when she submitted sign-in form', async function() {
       // given
       const expectedEmail = 'email@example.fr';
       const expectedPassword = 'azerty';
 
-      this.on('onSubmitAction', function(email, password) {
+      this.set('onSubmitAction', function(email, password) {
         // then
         expect(email).to.equal(expectedEmail);
         expect(password).to.equal(expectedPassword);
         return Promise.resolve();
       });
 
-      this.render(hbs`{{signin-form authenticateUser=(action 'onSubmitAction')}}`);
+      await render(hbs`{{signin-form authenticateUser=(action onSubmitAction)}}`);
 
-      this.$('input#email').val(expectedEmail);
-      this.$('input#email').change();
-      this.$('input#password').val(expectedPassword);
-      this.$('input#password').change();
+      await fillIn('input#email', expectedEmail);
+      await triggerEvent('input#email', 'change');
+      await fillIn('input#password', expectedPassword);
+      await triggerEvent('input#password', 'change');
 
       // when
-      run(() => document.querySelector('button.button').click());
+      await click('button.button');
     });
 
   });

@@ -1,17 +1,16 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 describe('Integration | Component | certifications list', function() {
-  setupComponentTest('certifications-list', {
-    integration: true
-  });
+  setupRenderingTest();
 
-  it('renders', function() {
-    this.render(hbs`{{certifications-list}}`);
-    expect(this.$()).to.have.length(1);
+  it('renders', async function() {
+    await render(hbs`{{certifications-list}}`);
+    expect(find('.certifications-list__table')).to.exist;
   });
 
   context('when there is some completed certifications', function() {
@@ -33,15 +32,15 @@ describe('Integration | Component | certifications list', function() {
       pixScore: 231
     });
 
-    it('should render two certification items when there is 2 completed certifications', function() {
+    it('should render two certification items when there is 2 completed certifications', async function() {
       const completedCertifications = [certification1, certification2];
       this.set('certifications', completedCertifications);
 
       // when
-      this.render(hbs`{{certifications-list certifications=certifications}}`);
+      await render(hbs`{{certifications-list certifications=certifications}}`);
 
       // then
-      expect(this.$('.certifications-list__table-body .certifications-list-item')).to.have.lengthOf(2);
+      expect(findAll('.certifications-list__table-body .certifications-list-item').length).to.equal(2);
     });
   });
 });
