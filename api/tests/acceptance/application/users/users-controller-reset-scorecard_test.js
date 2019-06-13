@@ -20,7 +20,8 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
   function inspectKnowledgeElementsInDb({ userId, competenceId }) {
     return knex.select('*')
       .from('knowledge-elements')
-      .where({ userId, competenceId });
+      .where({ userId, competenceId })
+      .orderBy('createdAt', 'DESC');
   }
 
   beforeEach(async () => {
@@ -155,6 +156,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
 
       afterEach(async () => {
         await databaseBuilder.clean();
+        await knex('knowledge-elements').delete();
         airtableBuilder.cleanAll();
       });
 
@@ -223,7 +225,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         const knowledgeElement = await inspectKnowledgeElementsInDb({ userId, competenceId });
         const knowledgeElementsOtherCompetence = await inspectKnowledgeElementsInDb({ userId, competenceId: otherStartedCompetenceId });
 
-        expect(knowledgeElement).to.have.length(5);
+        expect(knowledgeElement).to.have.length(10);
         expect(knowledgeElement[0].earnedPix).to.equal(0);
         expect(knowledgeElement[0].status).to.equal('reset');
         expect(knowledgeElementsOtherCompetence[0].earnedPix).to.equal(3);
