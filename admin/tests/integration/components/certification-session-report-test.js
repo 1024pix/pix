@@ -31,8 +31,8 @@ module('Integration | Component | certification-session-report', function(hooks)
 
       // given
       this.set('candidateData', [{
-        birthDate: '20/02/2000',
-        birthPlace: 'Paris',
+        birthdate: '20/02/2000',
+        birthplace: 'Paris',
         certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
@@ -40,8 +40,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         lastName: 'Le Héros',
         row: 1
       },{
-        birthDate: '20/03/2000',
-        birthPlace: 'Toulouse',
+        birthdate: '20/03/2000',
+        birthplace: 'Toulouse',
         certificationId: '33348',
         email: 'firstname.name@mail.com',
         externalId: '123456',
@@ -49,8 +49,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         lastName: 'Romi',
         row: 2
       },{
-        birthDate: '20/01/2000',
-        birthPlace: 'Bordeaux',
+        birthdate: '20/01/2000',
+        birthplace: 'Bordeaux',
         certificationId: '33349',
         email: 'firstname.name@mail.com',
         externalId: '123458',
@@ -78,8 +78,8 @@ module('Integration | Component | certification-session-report', function(hooks)
     test('it detects candidates with incomplete information and displays their certification ids', async function(assert) {
       // given
       this.set('candidateData', [{
-        birthDate: '20/02/2000',
-        birthPlace: 'Paris',
+        birthdate: '20/02/2000',
+        birthplace: 'Paris',
         certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
@@ -87,8 +87,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         lastName: '',
         row: 1
       },{
-        birthDate: '20/03/2000',
-        birthPlace: '',
+        birthdate: '20/03/2000',
+        birthplace: '',
         certificationId: '33348',
         email: 'firstname.name@mail.com',
         externalId: '123456',
@@ -96,8 +96,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         lastName: 'Romi',
         row: 2
       },{
-        birthDate: '20/01/2000',
-        birthPlace: 'Bordeaux',
+        birthdate: '20/01/2000',
+        birthplace: 'Bordeaux',
         certificationId: '33349',
         email: 'firstname.name@mail.com',
         externalId: '123458',
@@ -105,8 +105,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         lastName: 'Eyes',
         row: 3
       },{
-        birthDate: '20/01/2000',
-        birthPlace: 'Bordeaux',
+        birthdate: '20/01/2000',
+        birthplace: 'Bordeaux',
         email: 'firstname.name@mail.com',
         externalId: '123458',
         firstName: 'Cats',
@@ -132,8 +132,8 @@ module('Integration | Component | certification-session-report', function(hooks)
     test('it detects and displays duplicate certification ids', async function(assert) {
       // given
       this.set('candidateData', [{
-        birthDate: '20/02/2000',
-        birthPlace: 'Paris',
+        birthdate: '20/02/2000',
+        birthplace: 'Paris',
         certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
@@ -141,8 +141,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         lastName: 'Le Héros',
         row: 1
       },{
-        birthDate: '20/03/2000',
-        birthPlace: 'Toulouse',
+        birthdate: '20/03/2000',
+        birthplace: 'Toulouse',
         certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123456',
@@ -150,8 +150,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         lastName: 'Romi',
         row: 2
       },{
-        birthDate: '20/01/2000',
-        birthPlace: 'Bordeaux',
+        birthdate: '20/01/2000',
+        birthplace: 'Bordeaux',
         certificationId: '33349',
         email: 'firstname.name@mail.com',
         externalId: '123458',
@@ -177,8 +177,8 @@ module('Integration | Component | certification-session-report', function(hooks)
     test('it detects candidates with missing information for end screen column', async function(assert) {
       // given
       this.set('candidateData', [{
-        birthDate: '20/02/2000',
-        birthPlace: 'Paris',
+        birthdate: '20/02/2000',
+        birthplace: 'Paris',
         certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
@@ -186,8 +186,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         lastName: '',
         row: 1
       },{
-        birthDate: '20/03/2000',
-        birthPlace: '',
+        birthdate: '20/03/2000',
+        birthplace: '',
         certificationId: '33348',
         email: 'firstname.name@mail.com',
         externalId: '123456',
@@ -214,8 +214,8 @@ module('Integration | Component | certification-session-report', function(hooks)
     test('it detects provided comments and displays corresponding certification ids', async function(assert) {
       // given
       this.set('candidateData', [{
-        birthDate: '20/02/2000',
-        birthPlace: 'Paris',
+        birthdate: '20/02/2000',
+        birthplace: 'Paris',
         certificationId: '33347',
         email: 'firstname.name@mail.com',
         externalId: '123455',
@@ -224,8 +224,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         row: 1,
         comments: 'a comment'
       },{
-        birthDate: '20/03/2000',
-        birthPlace: '',
+        birthdate: '20/03/2000',
+        birthplace: '',
         certificationId: '33348',
         email: 'firstname.name@mail.com',
         externalId: '123456',
@@ -234,8 +234,8 @@ module('Integration | Component | certification-session-report', function(hooks)
         row: 2,
         lastScreen:'X'
       },{
-        birthDate: '20/01/2000',
-        birthPlace: 'Bordeaux',
+        birthdate: '20/01/2000',
+        birthplace: 'Bordeaux',
         email: 'firstname.name@mail.com',
         externalId: '123458',
         firstName: 'Cats',
@@ -266,8 +266,8 @@ module('Integration | Component | certification-session-report', function(hooks)
 
         //given
         this.set('candidateData', [{
-          birthDate: '20/02/2000',
-          birthPlace: 'Paris',
+          birthdate: '20/02/2000',
+          birthplace: 'Paris',
           certificationId: '33347',
           email: 'firstname.name@mail.com',
           externalId: '123455',
@@ -275,8 +275,8 @@ module('Integration | Component | certification-session-report', function(hooks)
           lastName: 'Le Héros',
           row: 1
         },{
-          birthDate: '20/03/2000',
-          birthPlace: 'Toulouse',
+          birthdate: '20/03/2000',
+          birthplace: 'Toulouse',
           certificationId: '33348',
           email: 'firstname.name@mail.com',
           externalId: '123456',
@@ -284,8 +284,8 @@ module('Integration | Component | certification-session-report', function(hooks)
           lastName: 'Romi',
           row: 2
         },{
-          birthDate: '20/01/2000',
-          birthPlace: 'Bordeaux',
+          birthdate: '20/01/2000',
+          birthplace: 'Bordeaux',
           certificationId: '33349',
           email: 'firstname.name@mail.com',
           externalId: '123458',
@@ -312,8 +312,8 @@ module('Integration | Component | certification-session-report', function(hooks)
 
         //given
         this.set('candidateData', [{
-          birthDate: '20/02/2000',
-          birthPlace: 'Paris',
+          birthdate: '20/02/2000',
+          birthplace: 'Paris',
           certificationId: '33347',
           email: 'firstname.name@mail.com',
           externalId: '123455',
@@ -321,8 +321,8 @@ module('Integration | Component | certification-session-report', function(hooks)
           lastName: 'Le Héros',
           row: 1
         },{
-          birthDate: '20/03/2000',
-          birthPlace: 'Toulouse',
+          birthdate: '20/03/2000',
+          birthplace: 'Toulouse',
           certificationId: '33348',
           email: 'firstname.name@mail.com',
           externalId: '123456',
@@ -330,8 +330,8 @@ module('Integration | Component | certification-session-report', function(hooks)
           lastName: 'Romi',
           row: 2
         },{
-          birthDate: '20/01/2000',
-          birthPlace: 'Bordeaux',
+          birthdate: '20/01/2000',
+          birthplace: 'Bordeaux',
           certificationId: '33349',
           email: 'firstname.name@mail.com',
           externalId: '123458',
