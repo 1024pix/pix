@@ -203,7 +203,6 @@ async function _getCertificationResult(assessment, continueOnError = false) {
   const testedCompetences = await _getTestedCompetences({
     userId: assessment.userId,
     limitDate: assessment.createdAt,
-    allCompetences
   });
 
   certificationChallenges.forEach((certifChallenge) => {
