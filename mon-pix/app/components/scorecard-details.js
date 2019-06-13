@@ -41,10 +41,7 @@ export default Component.extend({
     },
 
     reset() {
-      this.currentUser.user.save({ adapterOptions: { resetCompetence: true, competenceId: this.get('scorecard.competenceId') } })
-        .then(() => {
-          this.get('scorecard').reload();
-        });
+      this.scorecard.save({ adapterOptions: { resetCompetence: true, userId: this.currentUser.user.id, competenceId: this.get('scorecard.competenceId') } });
 
       this.set('showResetModal', false);
     }

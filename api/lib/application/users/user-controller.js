@@ -158,7 +158,11 @@ module.exports = {
     const requestedUserId = request.params.userId;
     const competenceId = request.params.competenceId;
 
-    return usecases.resetScorecard({ authenticatedUserId, requestedUserId, competenceId })
-      .then(() => null);
+    await usecases.resetScorecard({ authenticatedUserId, requestedUserId, competenceId });
+
+    const scorecardId = `${authenticatedUserId}_${competenceId}`;
+
+    return usecases.getScorecard({ authenticatedUserId, scorecardId })
+      .then(scorecardSerializer.serialize);
   }
 };

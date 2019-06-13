@@ -177,10 +177,11 @@ exports.register = async function(server) {
         handler: userController.resetScorecard,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Cette route réinitilise l\'évaluation de compétences identifiée par **userId** et **competenceId**',
+          '- Cette route réinitilise le niveau d\'un utilisateur donné (**userId**) pour une compétence donnée (**competenceId**)',
+          '- Cette route retourne les nouvelles informations de niveau de la compétence',
 
         ],
-        tags: ['api', 'competence-evaluations']
+        tags: ['api', 'scorecard']
       }
     },
   ]);
