@@ -194,27 +194,29 @@ function _buildJuryFileData(certifications, attendanceSheetCandidates) {
     const rowItem = {};
     const certificationCandidate = _.find(attendanceSheetCandidates, ['certificationId', certification.id]);
 
-    let didNotSeeEndScreen = null;
-    if (!certificationCandidate.lastScreen || certificationCandidate.lastScreen.trim() === '') {
-      didNotSeeEndScreen = 'non renseigné';
+    if (certificationCandidate) {
+      let didNotSeeEndScreen = null;
+      if (!certificationCandidate.lastScreen || certificationCandidate.lastScreen.trim() === '') {
+        didNotSeeEndScreen = 'non renseigné';
+      }
+
+      rowItem['ID de session'] = certification.sessionId;
+      rowItem['ID de certification'] = certification.id;
+      rowItem['Statut de la certification'] = certification.status;
+      rowItem['Date de debut'] = certification.creationDate;
+      rowItem['Date de fin'] = certification.completionDate;
+      rowItem['Commentaire surveillant'] = certificationCandidate.comments;
+      rowItem['Commentaire pour le jury'] = certification.commentForJury;
+      rowItem['Ecran de fin non renseigné'] = didNotSeeEndScreen;
+      rowItem['Note Pix'] = certification.pixScore;
+
+      const certificationIndexedCompetences = certification.indexedCompetences;
+      competenceIndexes.forEach((competence) => {
+        rowItem[competence] = certificationIndexedCompetences[competence] ? certificationIndexedCompetences[competence].level : '';
+      });
+
+      return rowItem;
     }
-
-    rowItem['ID de session'] = certification.sessionId;
-    rowItem['ID de certification'] = certification.id;
-    rowItem['Statut de la certification'] = certification.status;
-    rowItem['Date de debut'] = certification.creationDate;
-    rowItem['Date de fin'] = certification.completionDate;
-    rowItem['Commentaire surveillant'] = certificationCandidate.comments;
-    rowItem['Commentaire pour le jury'] = certification.commentForJury;
-    rowItem['Ecran de fin non renseigné'] = didNotSeeEndScreen;
-    rowItem['Note Pix'] = certification.pixScore;
-
-    const certificationIndexedCompetences = certification.indexedCompetences;
-    competenceIndexes.forEach((competence) => {
-      rowItem[competence] = certificationIndexedCompetences[competence] ? certificationIndexedCompetences[competence].level : '';
-    });
-
-    return rowItem;
   });
 
 }

@@ -235,6 +235,28 @@ module('Unit | Service | session-info-service', function(hooks) {
         '1;"3";"validated";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";"non renseigné";100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
         '');
     });
+
+    test('should be able to generate the file when some certifications to be reviewed cannot find their candidate in the attendance sheet', async function(assert) {
+      const session = EmberObject.create({
+        id: 5,
+        certifications: A([
+          buildCertification({ id: '1', status: 'error' }),
+          buildCertification({ id: '2', status: 'rejected' }),
+          buildCertification({ id: '3', status: 'error' }),
+        ])
+      });
+
+      const candidate = buildCandidate(1, '1', null, '  X  ');
+
+      // when
+      service.downloadJuryFile(session, [candidate]);
+
+      // then
+      assert.equal(fileSaverStub.getContent(), '\uFEFF' +
+        '"ID de session";"ID de certification";"Statut de la certification";"Date de debut";"Date de fin";"Commentaire surveillant";"Commentaire pour le jury";"Ecran de fin non renseigné";"Note Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2"\n' +
+        '1;"1";"error";"20/07/2018 14:23:56";"20/07/2018 14:23:56";;"jury";;100;1;"";"";"";"";"";"";"";"";"";"";"";"";-1;"";""\n' +
+        '');
+    });
   });
 
 });
