@@ -1,13 +1,12 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | user certifications detail competence', function() {
-  setupComponentTest('user-certifications-detail-competence', {
-    integration: true,
-  });
+  setupRenderingTest();
 
   let competence;
 
@@ -20,21 +19,21 @@ describe('Integration | Component | user certifications detail competence', func
     });
   });
 
-  it('renders', function() {
+  it('renders', async function() {
     this.set('competence', competence);
 
-    this.render(hbs`{{user-certifications-detail-competence competence=competence}}`);
-    expect(this.$()).to.have.length(1);
+    await render(hbs`{{user-certifications-detail-competence competence=competence}}`);
+    expect(find('.user-certifications-detail-competence')).to.exist;
   });
 
   context('when competence has level -1', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       this.set('competence', competence);
 
       // when
-      this.render(hbs`{{user-certifications-detail-competence competence=competence}}`);
+      await render(hbs`{{user-certifications-detail-competence competence=competence}}`);
     });
 
     // then
@@ -43,7 +42,7 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfName = '.user-certifications-detail-competence__box-name';
 
       // then
-      expect(this.$(divOfName).text()).to.include(competence.name);
+      expect(find(divOfName).textContent).to.include(competence.name);
     });
 
     it('should not show the level of competence', function() {
@@ -51,7 +50,7 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfLevel = '.user-certifications-detail-competence__box-level';
 
       // then
-      expect(this.$(divOfLevel)).to.have.lengthOf(0);
+      expect(find(divOfLevel)).to.not.exist;
     });
 
     it('should show all level bar in grey', function() {
@@ -59,13 +58,13 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfBarUnvalidatedLevel = '.user-certifications-detail-competence__not-validate-level';
 
       // then
-      expect(this.$(divOfBarUnvalidatedLevel)).to.have.lengthOf(8);
+      expect(findAll(divOfBarUnvalidatedLevel)).to.have.lengthOf(8);
     });
   });
 
   context('when competence has level 0', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       competence = EmberObject.create({
         'index': 1.2,
@@ -76,7 +75,7 @@ describe('Integration | Component | user certifications detail competence', func
       this.set('competence', competence);
 
       // when
-      this.render(hbs`{{user-certifications-detail-competence competence=competence}}`);
+      await render(hbs`{{user-certifications-detail-competence competence=competence}}`);
     });
 
     // then
@@ -85,7 +84,7 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfName = '.user-certifications-detail-competence__box-name';
 
       // then
-      expect(this.$(divOfName).text()).to.include(competence.name);
+      expect(find(divOfName).textContent).to.include(competence.name);
     });
 
     it('should not show the level of competence', function() {
@@ -93,7 +92,7 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfLevel = '.user-certifications-detail-competence__box-level';
 
       // then
-      expect(this.$(divOfLevel)).to.have.lengthOf(0);
+      expect(find(divOfLevel)).to.not.exist;
     });
 
     it('should show all level bar in grey', function() {
@@ -101,13 +100,13 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfBarUnvalidatedLevel = '.user-certifications-detail-competence__not-validate-level';
 
       // then
-      expect(this.$(divOfBarUnvalidatedLevel)).to.have.lengthOf(8);
+      expect(findAll(divOfBarUnvalidatedLevel)).to.have.lengthOf(8);
     });
   });
 
   context('when competence has level 5', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       competence = EmberObject.create({
         'index': 1.2,
@@ -118,7 +117,7 @@ describe('Integration | Component | user certifications detail competence', func
       this.set('competence', competence);
 
       // when
-      this.render(hbs`{{user-certifications-detail-competence competence=competence}}`);
+      await render(hbs`{{user-certifications-detail-competence competence=competence}}`);
     });
 
     // then
@@ -127,7 +126,7 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfName = '.user-certifications-detail-competence__box-name';
 
       // then
-      expect(this.$(divOfName).text()).to.include(competence.name);
+      expect(find(divOfName).textContent).to.include(competence.name);
     });
 
     it('should show the level of competence', function() {
@@ -135,8 +134,8 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfLevel = '.user-certifications-detail-competence__box-level';
 
       // then
-      expect(this.$(divOfLevel)).to.have.lengthOf(1);
-      expect(this.$(divOfLevel).text()).to.include(competence.level);
+      expect(find(divOfLevel)).to.exist;
+      expect(find(divOfLevel).textContent).to.include(competence.level);
 
     });
 
@@ -146,8 +145,8 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfBarUnvalidatedLevel = '.user-certifications-detail-competence__not-validate-level';
 
       // then
-      expect(this.$(divOfBarValidatedLevel)).to.have.lengthOf(5);
-      expect(this.$(divOfBarUnvalidatedLevel)).to.have.lengthOf(3);
+      expect(findAll(divOfBarValidatedLevel)).to.have.lengthOf(5);
+      expect(findAll(divOfBarUnvalidatedLevel)).to.have.lengthOf(3);
     });
   });
 });

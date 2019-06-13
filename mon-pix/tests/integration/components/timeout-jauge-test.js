@@ -1,41 +1,40 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | TimeoutJauge', function() {
 
-  setupComponentTest('timeout-jauge', {
-    integration: true
-  });
+  setupRenderingTest();
 
   /* Rendering
   ----------------------------------------------------- */
   describe('Rendering', function() {
-    it('It renders', function() {
+    it('It renders', async function() {
       // when
-      this.render(hbs`{{timeout-jauge }}`);
+      await render(hbs`{{timeout-jauge }}`);
 
       // then
-      expect(this.$('.timeout-jauge')).to.have.lengthOf(1);
+      expect(find('.timeout-jauge')).to.exist;
     });
 
-    it('It renders a red clock if time is over', function() {
+    it('It renders a red clock if time is over', async function() {
       // when
-      this.render(hbs`{{timeout-jauge allotedTime=0}}`);
+      await render(hbs`{{timeout-jauge allotedTime=0}}`);
 
       // then
-      expect(this.$('.svg-timeout-clock-black')).to.have.lengthOf(0);
-      expect(this.$('.svg-timeout-clock-red')).to.have.lengthOf(1);
+      expect(find('.svg-timeout-clock-black')).to.not.exist;
+      expect(find('.svg-timeout-clock-red')).to.exist;
     });
 
-    it('It renders a black clock if time is not over', function() {
+    it('It renders a black clock if time is not over', async function() {
       // when
-      this.render(hbs`{{timeout-jauge allotedTime=1}}`);
+      await render(hbs`{{timeout-jauge allotedTime=1}}`);
 
       // then
-      expect(this.$('.svg-timeout-clock-red')).to.have.lengthOf(0);
-      expect(this.$('.svg-timeout-clock-black')).to.have.lengthOf(1);
+      expect(find('.svg-timeout-clock-red')).to.not.exist;
+      expect(find('.svg-timeout-clock-black')).to.exist;
     });
 
   });

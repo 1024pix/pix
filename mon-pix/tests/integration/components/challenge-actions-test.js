@@ -1,7 +1,8 @@
 import RSVP from 'rsvp';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { click, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const VALIDATE_BUTTON = '.challenge-actions__action-validate';
@@ -9,79 +10,77 @@ const SKIP_BUTTON = '.challenge-actions__action-skip';
 
 describe('Integration | Component | challenge actions', function() {
 
-  setupComponentTest('challenge-actions', {
-    integration: true
-  });
+  setupRenderingTest();
 
-  it('renders', function() {
-    this.render(hbs`{{challenge-actions}}`);
-    expect(this.$()).to.have.lengthOf(1);
+  it('renders', async function() {
+    await render(hbs`{{challenge-actions}}`);
+    expect(find('.challenge-actions__action')).to.exist;
   });
 
   describe('Validate button (and placeholding loader)', function() {
 
-    it('should be displayed and enabled by default but not loader', function() {
+    it('should be displayed and enabled by default but not loader', async function() {
       // when
       this.set('isValidateButtonEnabled', true);
+      this.set('isSkipButtonEnabled', true);
       this.set('externalAction', () => {});
-      this.render(hbs`{{challenge-actions validateAnswer=(action externalAction) isValidateButtonEnabled=isValidateButtonEnabled}}`);
+      await render(hbs`{{challenge-actions validateAnswer=(action externalAction) isValidateButtonEnabled=isValidateButtonEnabled isSkipButtonEnabled=isSkipButtonEnabled}}`);
+
       // then
-      expect(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-      expect(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(0);
+      expect(find(VALIDATE_BUTTON)).to.exist;
+      expect(find('.challenge-actions__action-validate__loader-bar')).to.not.exist;
     });
 
-    it('should be replaced by a loader during treatment', function() {
+    it('should be replaced by a loader during treatment', async function() {
       // given
+      this.set('isValidateButtonEnabled', false);
+      this.set('isSkipButtonEnabled', true);
       this.set('externalAction', () => {});
-      this.render(hbs`{{challenge-actions validateAnswer=(action externalAction)}}`);
-
-      // when
-      this.$(VALIDATE_BUTTON).click();
+      await render(hbs`{{challenge-actions validateAnswer=(action externalAction) isValidateButtonEnabled=isValidateButtonEnabled isSkipButtonEnabled=isSkipButtonEnabled}}`);
 
       // then
-      expect(this.$(VALIDATE_BUTTON)).to.have.lengthOf(0);
-      expect(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(1);
+      expect(find(VALIDATE_BUTTON)).to.not.exist;
+      expect(find('.challenge-actions__action-validate__loader-bar')).to.exist;
     });
 
-    it('should be enabled again when the treatment failed', function() {
+    it('should be enabled again when the treatment failed', async function() {
       // given
       this.set('isValidateButtonEnabled', true);
       this.set('isSkipButtonEnabled', true);
       this.set('externalAction', () => RSVP.reject('Some error').catch(() => null));
       this.set('externalAction2', () => {});
-      this.render(hbs`{{challenge-actions validateAnswer=(action externalAction) skipChallenge=(action externalAction2) isValidateButtonEnabled=isValidateButtonEnabled isSkipButtonEnabled=isSkipButtonEnabled}}`);
+      await render(hbs`{{challenge-actions validateAnswer=(action externalAction) skipChallenge=(action externalAction2) isValidateButtonEnabled=isValidateButtonEnabled isSkipButtonEnabled=isSkipButtonEnabled}}`);
 
       // when
-      this.$(VALIDATE_BUTTON).click();
-      
+      await click(VALIDATE_BUTTON);
+
       // then
-      expect(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-      expect(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(0);
+      expect(find(VALIDATE_BUTTON)).to.exist;
+      expect(find('.challenge-actions__action-skip__loader-bar')).to.not.exist;
     });
   });
 
   describe('Skip button', function() {
 
-    it('should be displayed and enabled by default', function() {
+    it('should be displayed and enabled by default', async function() {
       // when
       this.set('isSkipButtonEnabled', true);
       this.set('externalAction', () => {});
-      this.render(hbs`{{challenge-actions skipChallenge=(action externalAction) isSkipButtonEnabled=isSkipButtonEnabled}}`);
+      await render(hbs`{{challenge-actions skipChallenge=(action externalAction) isSkipButtonEnabled=isSkipButtonEnabled}}`);
       // then
-      expect(this.$(SKIP_BUTTON)).to.have.lengthOf(1);
+      expect(find(SKIP_BUTTON)).to.exist;
     });
 
-    it('should be replaced by a loader during treatment', function() {
+    it('should be replaced by a loader during treatment', async function() {
       // given
+      this.set('isValidateButtonEnabled', true);
+      this.set('isSkipButtonEnabled', false);
       this.set('externalAction', () => {});
-      this.render(hbs`{{challenge-actions skipChallenge=(action externalAction)}}`);
-
-      // when
-      this.$(SKIP_BUTTON).click();
+      await render(hbs`{{challenge-actions skipChallenge=(action externalAction)}} isValidateButtonEnabled=isValidateButtonEnabled isSkipButtonEnabled=isSkipButtonEnabled`);
 
       // then
-      expect(this.$(SKIP_BUTTON)).to.have.lengthOf(0);
-      expect(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(1);
+      expect(find(SKIP_BUTTON)).to.not.exist;
+      expect(find('.challenge-actions__action-skip__loader-bar')).to.exist;
     });
 
   });

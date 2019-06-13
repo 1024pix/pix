@@ -1,52 +1,51 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | password reset demand form', function() {
-  setupComponentTest('password-reset-demand-form', {
-    integration: true
+  setupRenderingTest();
+
+  it('renders', async function() {
+    await render(hbs`{{password-reset-demand-form}}`);
+    expect(find('.sign-form__container')).to.exist;
   });
 
-  it('renders', function() {
-    this.render(hbs`{{password-reset-demand-form}}`);
-    expect(this.$()).to.have.length(1);
-  });
-
-  it('renders all the necessary elements of the form ', function() {
+  it('renders all the necessary elements of the form ', async function() {
     // when
-    this.render(hbs`{{password-reset-demand-form}}`);
+    await render(hbs`{{password-reset-demand-form}}`);
 
     // then
-    expect(this.$('.pix-logo__link')).to.have.length(1);
-    expect(this.$('.sign-form-title')).to.have.length(1);
-    expect(this.$('.sign-form-header__instruction')).to.have.length(1);
-    expect(this.$('.sign-form__body')).to.have.length(1);
-    expect(this.$('.form-textfield__label')).to.have.length(1);
-    expect(this.$('.form-textfield__input-field-container')).to.have.length(1);
-    expect(this.$('.button')).to.have.length(1);
+    expect(find('.pix-logo__link')).to.exist;
+    expect(find('.sign-form-title')).to.exist;
+    expect(find('.sign-form-header__instruction')).to.exist;
+    expect(find('.sign-form__body')).to.exist;
+    expect(find('.form-textfield__label')).to.exist;
+    expect(find('.form-textfield__input-field-container')).to.exist;
+    expect(find('.button')).to.exist;
   });
 
-  it('should display error message when there is an error on password reset demand', function() {
+  it('should display error message when there is an error on password reset demand', async function() {
     // given
     this.set('_displayErrorMessage', true);
 
     // when
-    this.render(hbs`{{password-reset-demand-form _displayErrorMessage=_displayErrorMessage}}`);
+    await render(hbs`{{password-reset-demand-form _displayErrorMessage=_displayErrorMessage}}`);
 
     // then
-    expect(this.$('.sign-form__notification-message--error')).to.have.length(1);
+    expect(find('.sign-form__notification-message--error')).to.exist;
   });
 
-  it('should display success message when there is an error on password reset demand', function() {
+  it('should display success message when there is an error on password reset demand', async function() {
     // given
     this.set('_displaySuccessMessage', true);
 
     // when
-    this.render(hbs`{{password-reset-demand-form _displaySuccessMessage=_displaySuccessMessage}}`);
+    await render(hbs`{{password-reset-demand-form _displaySuccessMessage=_displaySuccessMessage}}`);
 
     // then
-    expect(this.$('.password-reset-demand-form__body')).to.have.length(1);
+    expect(find('.password-reset-demand-form__body')).to.exist;
   });
 
 });
