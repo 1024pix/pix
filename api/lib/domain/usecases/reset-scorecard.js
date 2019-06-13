@@ -1,9 +1,9 @@
 const Scorecard = require('../models/Scorecard');
 const { UserNotAuthorizedToAccessEntity, CompetenceResetError, NotFoundError } = require('../errors');
 const _ = require('lodash');
-const competenceEvaluationService = require('../services/competence-evaluation-service');
+const scorecardService = require('../services/scorecard-service');
 
-module.exports = async function resetCompetenceEvaluation({
+module.exports = async function resetScorecard({
   authenticatedUserId,
   requestedUserId,
   competenceId,
@@ -43,7 +43,7 @@ module.exports = async function resetCompetenceEvaluation({
     }
   }
 
-  return competenceEvaluationService.resetCompetenceEvaluation({
+  return scorecardService.resetScorecard({
     competenceEvaluationRepository,
     knowledgeElementRepository,
     competenceId,
