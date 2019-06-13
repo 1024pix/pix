@@ -182,6 +182,7 @@ function _buildJuryFileHeaders() {
       'Date de fin',
       'Commentaire surveillant',
       'Commentaire pour le jury',
+      'Ecran de fin non renseigné',
       'Note Pix'
     ],
     competenceIndexes
@@ -191,8 +192,12 @@ function _buildJuryFileHeaders() {
 function _buildJuryFileData(certifications, attendanceSheetCandidates) {
   return certifications.map((certification) => {
     const rowItem = {};
-
     const certificationCandidate = _.find(attendanceSheetCandidates, ['certificationId', certification.id]);
+
+    let didNotSeeEndScreen = null;
+    if (!certificationCandidate.lastScreen || certificationCandidate.lastScreen.trim() === '') {
+      didNotSeeEndScreen = 'non renseigné';
+    }
 
     rowItem['ID de session'] = certification.sessionId;
     rowItem['ID de certification'] = certification.id;
@@ -201,6 +206,7 @@ function _buildJuryFileData(certifications, attendanceSheetCandidates) {
     rowItem['Date de fin'] = certification.completionDate;
     rowItem['Commentaire surveillant'] = certificationCandidate.comments;
     rowItem['Commentaire pour le jury'] = certification.commentForJury;
+    rowItem['Ecran de fin non renseigné'] = didNotSeeEndScreen;
     rowItem['Note Pix'] = certification.pixScore;
 
     const certificationIndexedCompetences = certification.indexedCompetences;
