@@ -34,7 +34,7 @@
   flex-direction: column;
   text-align: center;
   color: white;
-  padding: 10px 2px;
+  padding: 10px 0;
   height: 179px;
   overflow: hidden;
   position: relative;
@@ -63,23 +63,23 @@
   }
 
   &--jaffa::after {
-    background: radial-gradient(#F24645 25%, $jaffa 100%);
+    background: radial-gradient($jaffa-dark 25%, $jaffa 100%);
   }
 
   &--emerald::after {
-    background: radial-gradient(#1A8C89 25%, $emerald 100%);
+    background: radial-gradient($emerald-dark 25%, $emerald 100%);
   }
 
   &--cerulean::after {
-    background: radial-gradient(#3D68FF 25%, $cerulean 100%);
+    background: radial-gradient($cerulean-dark 25%, $cerulean 100%);
   }
 
   &--wild-strawberry::after {
-    background: radial-gradient(#AC008D 25%, $wild-strawberry 100%);
+    background: radial-gradient($wild-strawberry-dark 25%, $wild-strawberry 100%);
   }
 
   &--butterfly-bush::after {
-    background: radial-gradient(#5E2563 25%, $butterfly-bush 100%);
+    background: radial-gradient($butterfly-bush-dark 25%, $butterfly-bush 100%);
   }
 }
 
