@@ -101,4 +101,13 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
     remainingDays: 0,
     remainingHours: 1,
   });
+
+  // competence 3.1 - campaign - assessment not completed - 0 days remaining
+  buildKnowledgeElements({
+    competenceId: 'recOdC9UDVJbAXHAm',
+    challengeId: 'recQJ8lx3xyKCvFOh',
+    skillId: 'rec5V9gp65a58nnco',
+    assessmentId: assessmentIdForCampaign,
+    remainingDays: 0,
+  });
 };

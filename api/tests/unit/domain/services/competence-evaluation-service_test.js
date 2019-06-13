@@ -7,6 +7,8 @@ describe('Unit | Service | CompetenceEvaluationService', function() {
 
   let resetKnowledgeElements;
   let resetCompetenceEvaluation;
+  let knowledgeElementRepository;
+  let competenceEvaluationRepository;
 
   const userId = 1;
   const competenceId = 2;
@@ -15,40 +17,76 @@ describe('Unit | Service | CompetenceEvaluationService', function() {
   const resetKnowledgeElement2 = Symbol('reset knowledge element 2');
   const updatedCompetenceEvaluation = Symbol('updated competence evaluation');
 
-  const competenceEvaluationRepository = {
-    updateStatusByUserIdAndCompetenceId: sinon.stub(),
-  };
+  context('when competence evaluation exists', function() {
 
-  const knowledgeElementRepository = {
-    save: sinon.stub(),
-    findUniqByUserIdAndCompetenceId: sinon.stub(),
-  };
+    beforeEach(async () => {
+      // when
+      const isCompetenceEvaluationExists = true;
+      competenceEvaluationRepository = {
+        updateStatusByUserIdAndCompetenceId: sinon.stub(),
+      };
 
-  beforeEach(async () => {
-    // when
-    competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId
-      .withArgs({ userId, competenceId, status: CompetenceEvaluation.statuses.RESET })
-      .resolves(updatedCompetenceEvaluation);
+      knowledgeElementRepository = {
+        save: sinon.stub(),
+        findUniqByUserIdAndCompetenceId: sinon.stub(),
+      };
 
-    knowledgeElementRepository.findUniqByUserIdAndCompetenceId
-      .withArgs({ userId, competenceId }).resolves(knowledgeElements);
+      competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId
+        .withArgs({ userId, competenceId, status: CompetenceEvaluation.statuses.RESET })
+        .resolves(updatedCompetenceEvaluation);
 
-    knowledgeElementRepository.save
-      .onFirstCall().resolves(resetKnowledgeElement1)
-      .onSecondCall().resolves(resetKnowledgeElement2);
+      knowledgeElementRepository.findUniqByUserIdAndCompetenceId
+        .withArgs({ userId, competenceId }).resolves(knowledgeElements);
 
-    [resetCompetenceEvaluation, resetKnowledgeElements] = await competenceEvaluationService.resetCompetenceEvaluation({
-      userId, competenceId, knowledgeElementRepository, competenceEvaluationRepository,
+      knowledgeElementRepository.save
+        .onFirstCall().resolves(resetKnowledgeElement1)
+        .onSecondCall().resolves(resetKnowledgeElement2);
+
+      [resetCompetenceEvaluation, resetKnowledgeElements] = await competenceEvaluationService.resetCompetenceEvaluation({
+        userId, competenceId, isCompetenceEvaluationExists, knowledgeElementRepository, competenceEvaluationRepository,
+      });
+    });
+
+    // then
+    it('should reset each knowledge elements', async () => {
+      expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
+      expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
+      expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
+    });
+
+    it('should reset the competence evaluation', () => {
+      expect(resetCompetenceEvaluation).to.deep.equal(updatedCompetenceEvaluation);
     });
   });
 
-  // then
-  it('should reset each knowledge elements', async () => {
-    expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
-    expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
-    expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
+  context('when competence evaluation does not exists - there is only knowledge elements thanks to campaign', function() {
+
+    beforeEach(async () => {
+      // when
+      const isCompetenceEvaluationExists = false;
+      knowledgeElementRepository = {
+        save: sinon.stub(),
+        findUniqByUserIdAndCompetenceId: sinon.stub(),
+      };
+
+      knowledgeElementRepository.findUniqByUserIdAndCompetenceId
+        .withArgs({ userId, competenceId }).resolves(knowledgeElements);
+
+      knowledgeElementRepository.save
+        .onFirstCall().resolves(resetKnowledgeElement1)
+        .onSecondCall().resolves(resetKnowledgeElement2);
+
+      resetKnowledgeElements = await competenceEvaluationService.resetCompetenceEvaluation({
+        userId, competenceId, isCompetenceEvaluationExists, knowledgeElementRepository, competenceEvaluationRepository,
+      });
+    });
+
+    // then
+    it('should reset each knowledge elements', async () => {
+      expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
+      expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
+      expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
+    });
   });
-  it('should reset the competence evaluation', () => {
-    expect(resetCompetenceEvaluation).to.deep.equal(updatedCompetenceEvaluation);
-  });
+
 });

@@ -32,13 +32,14 @@ describe('Unit | UseCase | reset-competence-evaluation', () => {
     it('should reset the competenceEvaluation', async () => {
       // given
       requestedUserId = 456;
+      const isCompetenceEvaluationExists = true;
 
       competenceEvaluationRepository.getByCompetenceIdAndUserId
         .withArgs({ competenceId, userId: authenticatedUserId })
         .resolves();
 
       sinon.stub(competenceEvaluationService, 'resetCompetenceEvaluation')
-        .withArgs({ userId: authenticatedUserId, competenceId, knowledgeElementRepository, competenceEvaluationRepository })
+        .withArgs({ userId: authenticatedUserId, competenceId, isCompetenceEvaluationExists, knowledgeElementRepository, competenceEvaluationRepository })
         .resolves(resetCompetenceEvaluationResult);
 
       knowledgeElementRepository.findUniqByUserIdAndCompetenceId
@@ -60,9 +61,9 @@ describe('Unit | UseCase | reset-competence-evaluation', () => {
 
       // then
       expect(competenceEvaluationService.resetCompetenceEvaluation).to.have.been.calledWithExactly({
-        userId: authenticatedUserId, competenceId, knowledgeElementRepository, competenceEvaluationRepository
+        userId: authenticatedUserId, competenceId, isCompetenceEvaluationExists, knowledgeElementRepository, competenceEvaluationRepository
       });
-      expect(response).to.deep.equal(resetCompetenceEvaluationResult);
+      expect(response).to.equal(resetCompetenceEvaluationResult);
     });
   });
 
@@ -86,15 +87,18 @@ describe('Unit | UseCase | reset-competence-evaluation', () => {
   });
 
   context('when there is no competenceEvaluation', () => {
-    it('should do nothing', async () => {
+    it('should reset knowledge elements', async () => {
       // given
       requestedUserId = 456;
+      const isCompetenceEvaluationExists = false;
 
       knowledgeElementRepository.findUniqByUserIdAndCompetenceId
         .withArgs({ userId: authenticatedUserId, competenceId })
         .resolves(knowledgeElements);
 
-      sinon.stub(competenceEvaluationService, 'resetCompetenceEvaluation');
+      sinon.stub(competenceEvaluationService, 'resetCompetenceEvaluation')
+        .withArgs({ userId: authenticatedUserId, competenceId, isCompetenceEvaluationExists, knowledgeElementRepository, competenceEvaluationRepository })
+        .resolves(resetCompetenceEvaluationResult);
 
       competenceEvaluationRepository.getByCompetenceIdAndUserId
         .withArgs({ competenceId, userId: authenticatedUserId })
@@ -104,8 +108,8 @@ describe('Unit | UseCase | reset-competence-evaluation', () => {
       const response = await resetCompetenceEvaluation({ authenticatedUserId, requestedUserId, competenceId, competenceEvaluationRepository, knowledgeElementRepository });
 
       // then
-      sinon.assert.notCalled(competenceEvaluationService.resetCompetenceEvaluation);
-      expect(response).to.equal(null);
+      sinon.assert.called(competenceEvaluationService.resetCompetenceEvaluation);
+      expect(response).to.equal(resetCompetenceEvaluationResult);
     });
   });
 

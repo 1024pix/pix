@@ -27,6 +27,8 @@ module.exports = async function resetCompetenceEvaluation({
     throw new CompetenceResetError(remainingDaysBeforeReset);
   }
 
+  let isCompetenceEvaluationExists = true;
+
   try {
     await competenceEvaluationRepository.getByCompetenceIdAndUserId({
       competenceId, userId: authenticatedUserId
@@ -35,7 +37,7 @@ module.exports = async function resetCompetenceEvaluation({
     // If user wants to reset its knowledge elements on a competence,
     // but has only validated or invalidated them on campaigns.
     if (err instanceof NotFoundError) {
-      return null;
+      isCompetenceEvaluationExists = false;
     } else {
       throw err;
     }
@@ -46,5 +48,6 @@ module.exports = async function resetCompetenceEvaluation({
     knowledgeElementRepository,
     competenceId,
     userId: authenticatedUserId,
+    isCompetenceEvaluationExists
   });
 };
