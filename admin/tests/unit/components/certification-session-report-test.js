@@ -69,10 +69,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an empty array when there is no empty candidate', function(assert) {
       // given
       const completeCandidates = [
-        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: '123' },
-        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: '456' },
-        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: '789' },
-        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: '101112' },
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthdate: '19/02/1972', birthplace: 'Gotham City', certificationId: '123' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthdate: '1832', birthplace: 'Northwest Territories of Canada', certificationId: '456' },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthdate: '1984', birthplace: 'Stalingrad', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthdate: '20/05/1984', birthplace: 'Smallville', certificationId: '101112' },
       ];
       component.set('candidates', completeCandidates);
 
@@ -87,10 +87,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidate that miss first name', function(assert) {
       // given
       const candidatesMissingFirstName = [
-        { row: 1, lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: '123' },
-        { row: 2, firstName: null, lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: '123' },
-        { row: 3, firstName: '', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: '456' },
-        { row: 4, firstName: '   ', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: '789' },
+        { row: 1, lastName: 'Wayne', birthdate: '19/02/1972', birthplace: 'Gotham City', certificationId: '123' },
+        { row: 2, firstName: null, lastName: 'Wayne', birthdate: '19/02/1972', birthplace: 'Gotham City', certificationId: '123' },
+        { row: 3, firstName: '', lastName: 'Howlett', birthdate: '1832', birthplace: 'Northwest Territories of Canada', certificationId: '456' },
+        { row: 4, firstName: '   ', lastName: 'Romanova', birthdate: '1984', birthplace: 'Stalingrad', certificationId: '789' },
       ];
       component.set('candidates', candidatesMissingFirstName);
 
@@ -104,10 +104,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidate that miss last name', function(assert) {
       // given
       const candidatesMissingLastName = [
-        { row: 1, firstName: 'Bruce', birthDate: '19/02/1972', birthPlace: 'Gotham City', certificationId: '123' },
-        { row: 2, firstName: 'James', lastName: null, birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: '456' },
-        { row: 3, firstName: 'Natalia', lastName: '', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: '789' },
-        { row: 4, firstName: 'Clark', lastName: '    ', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: '101112' },
+        { row: 1, firstName: 'Bruce', birthdate: '19/02/1972', birthplace: 'Gotham City', certificationId: '123' },
+        { row: 2, firstName: 'James', lastName: null, birthdate: '1832', birthplace: 'Northwest Territories of Canada', certificationId: '456' },
+        { row: 3, firstName: 'Natalia', lastName: '', birthdate: '1984', birthplace: 'Stalingrad', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: '    ', birthdate: '20/05/1984', birthplace: 'Smallville', certificationId: '101112' },
       ];
       component.set('candidates', candidatesMissingLastName);
 
@@ -121,10 +121,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidate that miss birth date', function(assert) {
       // given
       const candidatesMissingBirthDate = [
-        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthPlace: 'Gotham City', certificationId: '123' },
-        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: null, birthPlace: 'Northwest Territories of Canada', certificationId: '456' },
-        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '', birthPlace: 'Stalingrad', certificationId: '789' },
-        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '    ', birthPlace: 'Smallville', certificationId: '101112' },
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthplace: 'Gotham City', certificationId: '123' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthdate: null, birthplace: 'Northwest Territories of Canada', certificationId: '456' },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthdate: '', birthplace: 'Stalingrad', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthdate: '    ', birthplace: 'Smallville', certificationId: '101112' },
       ];
       component.set('candidates', candidatesMissingBirthDate);
 
@@ -138,10 +138,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidate that miss birth place', function(assert) {
       // given
       const candidatesMissingBirthPlace = [
-        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', certificationId: '123' },
-        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: null, certificationId: '456' },
-        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: '', certificationId: '789' },
-        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: '    ', certificationId: '101112' },
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthdate: '19/02/1972', certificationId: '123' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthdate: '1832', birthplace: null, certificationId: '456' },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthdate: '1984', birthplace: '', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthdate: '20/05/1984', birthplace: '    ', certificationId: '101112' },
       ];
       component.set('candidates', candidatesMissingBirthPlace);
 
@@ -155,10 +155,10 @@ module('Unit | Components | certification-session-report', function(hooks) {
     test('should return an array with candidate that miss certification ID', function(assert) {
       // given
       const candidatesMissingBirthPlace = [
-        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City' },
-        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: null },
-        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthDate: '1984', birthPlace: 'Stalingrad', certificationId: '789' },
-        { row: 4, firstName: 'Clark', lastName: 'Kent', birthDate: '20/05/1984', birthPlace: 'Smallville', certificationId: '  101112  ' },
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthdate: '19/02/1972', birthplace: 'Gotham City' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthdate: '1832', birthplace: 'Northwest Territories of Canada', certificationId: null },
+        { row: 3, firstName: 'Natalia', lastName: 'Romanova', birthdate: '1984', birthplace: 'Stalingrad', certificationId: '789' },
+        { row: 4, firstName: 'Clark', lastName: 'Kent', birthdate: '20/05/1984', birthplace: 'Smallville', certificationId: '  101112  ' },
       ];
       component.set('candidates', candidatesMissingBirthPlace);
 
@@ -167,8 +167,8 @@ module('Unit | Components | certification-session-report', function(hooks) {
 
       // then
       const expected = [
-        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthDate: '19/02/1972', birthPlace: 'Gotham City' },
-        { row: 2, firstName: 'James', lastName: 'Howlett', birthDate: '1832', birthPlace: 'Northwest Territories of Canada', certificationId: null },
+        { row: 1, firstName: 'Bruce', lastName: 'Wayne', birthdate: '19/02/1972', birthplace: 'Gotham City' },
+        { row: 2, firstName: 'James', lastName: 'Howlett', birthdate: '1832', birthplace: 'Northwest Territories of Canada', certificationId: null },
       ];
       assert.deepEqual(incomplete, expected);
     });

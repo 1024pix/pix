@@ -15,8 +15,8 @@ export default Component.extend({
     return this.candidates.filter((candidate) => {
       return !candidate.lastName || candidate.lastName.trim() === ''
         || !candidate.firstName || candidate.firstName.trim() === ''
-        || !candidate.birthDate || candidate.birthDate.trim() === ''
-        || !candidate.birthPlace || candidate.birthPlace.trim() === ''
+        || !candidate.birthdate || candidate.birthdate.trim() === ''
+        || !candidate.birthplace || candidate.birthplace.trim() === ''
         || !candidate.certificationId || candidate.certificationId.trim() === '';
     });
   }),
