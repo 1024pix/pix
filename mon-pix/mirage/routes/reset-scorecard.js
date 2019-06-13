@@ -11,5 +11,5 @@ export default function(schema, request) {
     remainingDaysBeforeReset: null,
   });
 
-  return { data: null };
+  return scorecard;
 }

@@ -27,7 +27,7 @@ import postCampaignParticipation from './routes/post-campaign-participation';
 import postCertificationCourse from './routes/post-certification-course';
 import postCompetenceEvaluation from './routes/post-competence-evaluation';
 import postFeedbacks from './routes/post-feedbacks';
-import resetCompetenceEvaluation from './routes/reset-competence-evaluation';
+import resetScorecard from './routes/reset-scorecard';
 
 import { Response } from 'ember-cli-mirage';
 
@@ -73,7 +73,7 @@ export default function() {
   this.get('/users/:id/pixscore', getPixScore);
   this.get('/users/:id/scorecards', getScorecards);
   this.get('/users/:id/campaign-participations', getUserCampaignParticipations);
-  this.patch('/users/:userId/competences/:competenceId/reset', resetCompetenceEvaluation);
+  this.patch('/users/:userId/competences/:competenceId/reset', resetScorecard);
   this.get('/scorecards/:id', getScorecard);
   this.get('/competences/:id');
   this.get('/areas/:id');

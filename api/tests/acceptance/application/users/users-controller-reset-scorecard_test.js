@@ -92,6 +92,8 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
     describe('Success case', () => {
 
       let response;
+      let competence;
+      let area;
       const otherStartedCompetenceId = 'recBejNZgJke422G';
       const createdAt = new Date('2019-01-01');
 
@@ -103,6 +105,18 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
           now: new Date('2019-01-10'),
           toFake: ['Date'],
         });
+
+        competence = airtableBuilder.factory.buildCompetence({ id: competenceId });
+
+        area = airtableBuilder.factory.buildArea();
+
+        airtableBuilder.mockList({ tableName: 'Domaines' })
+          .returns([area])
+          .activate();
+
+        airtableBuilder.mockGet({ tableName: 'Competences' })
+          .returns(competence)
+          .activate();
 
         _.each([
           {
@@ -141,15 +155,53 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
 
       afterEach(async () => {
         await databaseBuilder.clean();
+        airtableBuilder.cleanAll();
       });
 
-      it('should return 204', async () => {
+      it('should return 200 and the updated scorecard', async () => {
+        // given
+        const expectedScorecardJSONApi = {
+          data: {
+            type: 'scorecards',
+            id: `${userId}_${competenceId}`,
+            attributes: {
+              name: competence.fields.Titre,
+              description: competence.fields.Description,
+              'competence-id': competenceId,
+              index: competence.fields['Sous-domaine'],
+              'earned-pix': 0 ,
+              level: 0,
+              'pix-score-ahead-of-next-level': 0,
+              status: 'NOT_STARTED',
+              'remaining-days-before-reset': null,
+            },
+            relationships: {
+              area: {
+                data: {
+                  id: area.id,
+                  type: 'areas'
+                }
+              },
+            },
+          },
+          included: [
+            {
+              attributes: {
+                code: area.fields.Code,
+                title: area.fields.Titre,
+              },
+              id: area.id,
+              type: 'areas'
+            }
+          ]
+        };
+
         // when
         response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(204);
-        expect(response.result).to.be.null;
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedScorecardJSONApi);
       });
 
       it('should have reset the competence evaluation', async () => {
