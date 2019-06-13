@@ -5,14 +5,19 @@ const _ = require('lodash');
 async function resetCompetenceEvaluation({
   userId,
   competenceId,
+  isCompetenceEvaluationExists,
   knowledgeElementRepository,
   competenceEvaluationRepository,
 }) {
 
-  return Promise.all([
-    _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }),
-    _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository }),
-  ]);
+  if (isCompetenceEvaluationExists) {
+    return Promise.all([
+      _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }),
+      _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository }),
+    ]);
+  }
+
+  return _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository });
 }
 
 async function _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository }) {
