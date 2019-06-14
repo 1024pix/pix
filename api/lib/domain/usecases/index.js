@@ -30,6 +30,7 @@ const dependencies = {
   resetPasswordService: require('../../domain/services/reset-password-service'),
   reCaptchaValidator: require('../../infrastructure/validators/grecaptcha-validator'),
   scoringService: require('../../domain/services/scoring/scoring-service'),
+  scorecardService: require('../../domain/services/scorecard-service'),
   settings: require('../../settings'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   smartPlacementAssessmentRepository: require('../../infrastructure/repositories/smart-placement-assessment-repository'),

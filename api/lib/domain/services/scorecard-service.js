@@ -1,16 +1,36 @@
 const CompetenceEvaluation = require('../models/CompetenceEvaluation');
 const KnowledgeElement = require('../models/KnowledgeElement');
+const Scorecard = require('../models/Scorecard');
 const _ = require('lodash');
+
+async function computeScorecard({ userId, competenceId, competenceRepository, competenceEvaluationRepository, knowledgeElementRepository }) {
+
+  const [knowledgeElements, competence, competenceEvaluations] = await Promise.all([
+    knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId }),
+    competenceRepository.get(competenceId),
+    competenceEvaluationRepository.findByUserId(userId),
+  ]);
+
+  const competenceEvaluation = _.find(competenceEvaluations, { competenceId: competence.id });
+
+  return Scorecard.buildFrom({
+    userId,
+    knowledgeElements,
+    competenceEvaluation,
+    competence,
+  });
+}
 
 async function resetScorecard({
   userId,
   competenceId,
-  isCompetenceEvaluationExists,
+  shouldResetCompetenceEvaluation,
   knowledgeElementRepository,
   competenceEvaluationRepository,
 }) {
 
-  if (isCompetenceEvaluationExists) {
+  // user can have only answered to questions in campaign, in that case, competenceEvaluation does not exists
+  if (shouldResetCompetenceEvaluation) {
     return Promise.all([
       _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }),
       _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository }),
@@ -47,4 +67,5 @@ function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluation
 
 module.exports = {
   resetScorecard,
+  computeScorecard,
 };

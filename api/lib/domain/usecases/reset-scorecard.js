@@ -1,12 +1,13 @@
 const Scorecard = require('../models/Scorecard');
-const { UserNotAuthorizedToAccessEntity, CompetenceResetError, NotFoundError } = require('../errors');
+const { UserNotAuthorizedToAccessEntity, CompetenceResetError } = require('../errors');
 const _ = require('lodash');
-const scorecardService = require('../services/scorecard-service');
 
 module.exports = async function resetScorecard({
   authenticatedUserId,
   requestedUserId,
   competenceId,
+  scorecardService,
+  competenceRepository,
   competenceEvaluationRepository,
   knowledgeElementRepository,
 }) {
@@ -14,7 +15,10 @@ module.exports = async function resetScorecard({
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId: authenticatedUserId, competenceId });
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
+    userId: authenticatedUserId,
+    competenceId
+  });
 
   const nothingToReset = _.isEmpty(knowledgeElements);
   if (nothingToReset) {
@@ -27,27 +31,25 @@ module.exports = async function resetScorecard({
     throw new CompetenceResetError(remainingDaysBeforeReset);
   }
 
-  let isCompetenceEvaluationExists = true;
+  const isCompetenceEvaluationExists = await competenceEvaluationRepository.existsByCompetenceIdAndUserId({
+    competenceId,
+    userId: authenticatedUserId
+  });
 
-  try {
-    await competenceEvaluationRepository.getByCompetenceIdAndUserId({
-      competenceId, userId: authenticatedUserId
-    });
-  } catch (err) {
-    // If user wants to reset its knowledge elements on a competence,
-    // but has only validated or invalidated them on campaigns.
-    if (err instanceof NotFoundError) {
-      isCompetenceEvaluationExists = false;
-    } else {
-      throw err;
-    }
-  }
-
-  return scorecardService.resetScorecard({
-    competenceEvaluationRepository,
-    knowledgeElementRepository,
+  await scorecardService.resetScorecard({
     competenceId,
     userId: authenticatedUserId,
-    isCompetenceEvaluationExists
+    shouldResetCompetenceEvaluation: isCompetenceEvaluationExists,
+    competenceRepository,
+    competenceEvaluationRepository,
+    knowledgeElementRepository
+  });
+
+  return scorecardService.computeScorecard({
+    userId: authenticatedUserId,
+    competenceId,
+    competenceRepository,
+    competenceEvaluationRepository,
+    knowledgeElementRepository
   });
 };

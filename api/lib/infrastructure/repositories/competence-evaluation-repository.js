@@ -71,4 +71,19 @@ module.exports = {
   find(options) {
     return queryBuilder.find(BookshelfCompetenceEvaluation, options);
   },
+
+  async existsByCompetenceIdAndUserId({ competenceId, userId }) {
+    let isCompetenceEvaluationExists = true;
+    try {
+      await this.getByCompetenceIdAndUserId({ competenceId, userId });
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        isCompetenceEvaluationExists = false;
+      } else {
+        throw err;
+      }
+    }
+
+    return isCompetenceEvaluationExists;
+  },
 };
