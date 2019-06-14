@@ -3,8 +3,6 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-const FEEDBACK_FORM = '.feedback-panel__form';
-
 describe('Acceptance | Giving feedback about a challenge', function() {
 
   let application;
@@ -14,13 +12,11 @@ describe('Acceptance | Giving feedback about a challenge', function() {
   }
 
   function assertThatFeedbackFormIsClosed() {
-    expect(find('.feedback-panel__open-link')).to.have.lengthOf(1);
-    expect(find(FEEDBACK_FORM)).to.have.lengthOf(0);
+    expect(find('.feedback-panel__form')).to.have.lengthOf(0);
   }
 
   function assertThatFeedbackFormIsOpen() {
-    expect(find('.feedback-panel__open-link')).to.have.lengthOf(0);
-    expect(find(FEEDBACK_FORM)).to.have.lengthOf(1);
+    expect(find('.feedback-panel__form')).to.have.lengthOf(1);
   }
 
   beforeEach(function() {

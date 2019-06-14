@@ -6,133 +6,34 @@ describe('Unit | Component | feedback-panel', function() {
 
   setupTest();
 
-  describe('#isFormClosed', function() {
+  describe('#toggleFeedbackForm', function() {
 
-    it('should return true by default', function() {
+    it('should open form', function() {
       // given
       const component = this.owner.lookup('component:feedback-panel');
+      component.set('_scrollToPanel', () => {});
 
       // when
-      const isFormClosed = component.get('isFormClosed');
+      component.send('toggleFeedbackForm');
 
       // then
-      expect(isFormClosed).to.be.true;
+      expect(component.isFormOpened).to.be.true;
     });
 
-    it('should return true if status equals "FORM_CLOSED"', function() {
+    it('should close and reset form', function() {
       // given
       const component = this.owner.lookup('component:feedback-panel');
-      component.set('_status', 'FORM_CLOSED');
+      component.set('isFormOpened', true);
+      component.set('_error', '10, 9, 8, ...');
+      component.set('isSubmitted', true);
 
       // when
-      const isFormClosed = component.get('isFormClosed');
+      component.send('toggleFeedbackForm');
 
       // then
-      expect(isFormClosed).to.be.true;
-    });
-
-    it('should return false if status is not equal to "FORM_CLOSED"', function() {
-      // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('_status', 'FORM_OPENED');
-
-      // when
-      const isFormClosed = component.get('isFormClosed');
-
-      // then
-      expect(isFormClosed).to.be.false;
-    });
-  });
-
-  describe('#isFormOpened', function() {
-
-    it('should return true if status equals "FORM_OPENED"', function() {
-      // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('_status', 'FORM_OPENED');
-
-      // when
-      const isFormClosed = component.get('isFormOpened');
-
-      // then
-      expect(isFormClosed).to.be.true;
-    });
-
-    it('should return false if status is not equal to "FORM_OPENED"', function() {
-      // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('_status', 'FORM_CLOSED');
-
-      // when
-      const isFormClosed = component.get('isFormOpened');
-
-      // then
-      expect(isFormClosed).to.be.false;
-    });
-
-  });
-
-  describe('#_reset', function() {
-
-    it('should return empty text, error and back to the default status', function() {
-      // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('collapsible', false);
-      component.set('_content', 'un contenu');
-      component.set('_error', 'une erreur');
-      component.set('_status', 'FORM_CLOSED');
-
-      // when
-      component._reset();
-
-      // then
-      expect(component.get('_content')).to.be.null;
-      expect(component.get('_error')).to.be.null;
-      expect(component.get('_status')).to.be.equal('FORM_OPENED');
-    });
-  });
-
-  describe('#_closeForm', function() {
-
-    it('should set status to CLOSED and set errors to null', function() {
-      // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('_error', 'une erreur');
-      component.set('_status', 'FORM_OPENED');
-
-      // when
-      component._closeForm();
-
-      // then
-      expect(component.get('_error')).to.be.null;
-      expect(component.get('_status')).to.be.equal('FORM_CLOSED');
-    });
-  });
-
-  describe('#_getDefaultStatus', function() {
-
-    it('should return FORM_CLOSED if has property collapsible at "true"', function() {
-      // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('collapsible', true);
-
-      // when
-      const defaultStatus = component._getDefaultStatus();
-
-      // then
-      expect(defaultStatus).to.equal('FORM_CLOSED');
-    });
-
-    it('should return FORM_OPENED if has property collapsible at "false"', function() {
-      // given
-      const component = this.owner.lookup('component:feedback-panel');
-      component.set('collapsible', false);
-
-      // when
-      const defaultStatus = component._getDefaultStatus();
-
-      // then
-      expect(defaultStatus).to.equal('FORM_OPENED');
+      expect(component.isFormOpened).to.be.false;
+      expect(component.isSubmitted).to.be.false;
+      expect(component._error).to.be.null;
     });
   });
 });
