@@ -3,23 +3,24 @@ import { computed } from '@ember/object';
 import _ from 'lodash';
 
 export default DS.Model.extend({
-  campaignCollectiveResult: DS.belongsTo('campaign-collective-result'),
-  totalValidatedSkills: computed.mapBy('campaignCompetenceCollectiveResults', 'totalValidatedSkills'),
 
   campaignCompetenceCollectiveResults: DS.hasMany('campaignCompetenceCollectiveResult'),
 
-  totalSkillsCounts: computed.mapBy('campaignCompetenceCollectiveResults', 'totalSkillsCount'),
-  maxTotalSkillsCountInCompetences: computed.max('totalSkillsCounts'),
+  // -- Computed properties --
 
-  averageValidatedSkills: computed('campaignCompetenceCollectiveResults', function() {
-
-    const campaignCompetenceCollectiveResults =  this.campaignCompetenceCollectiveResults;
-    return  _.sumBy(campaignCompetenceCollectiveResults.toArray(), 'roundedAverageValidatedSkills');
+  maxTotalSkillsCountInCompetences: computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount', function() {
+    return _.maxBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount').totalSkillsCount;
   }),
 
-  totalSkills: computed.sum('totalSkillsCounts'),
+  averageValidatedSkillsSum: computed('campaignCompetenceCollectiveResults.@each.averageValidatedSkills', function() {
+    return  _.sumBy(this.campaignCompetenceCollectiveResults.toArray(), 'averageValidatedSkills');
+  }),
 
-  averageResult: computed('averageValidatedSkills', 'totalSkills', function() {
-    return Math.round(this.averageValidatedSkills * 100 / this.totalSkills);
+  totalSkills: computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount', function() {
+    return _.sumBy(this.campaignCompetenceCollectiveResults.toArray(), 'totalSkillsCount');
+  }),
+
+  averageResult: computed('averageValidatedSkillsSum', 'totalSkills', function() {
+    return Math.round(this.averageValidatedSkillsSum * 100 / this.totalSkills);
   }),
 });
