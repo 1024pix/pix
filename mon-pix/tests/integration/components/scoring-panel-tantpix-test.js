@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const COMPONENT_WRAPPER = '.scoring-panel-tantpix';
@@ -22,18 +23,16 @@ const BUTTON_NEXT_CLASS = '.tantpix-panel__button';
 const BUTTON_NEXT_CONTENT = 'revenir à l\'accueil';
 
 describe('Integration | Component | scoring panel tantpix', function() {
-  setupComponentTest('scoring-panel-tantpix', {
-    integration: true
-  });
+  setupRenderingTest();
 
   describe('On Component rendering:', function() {
-    beforeEach(function() {
-      this.render(hbs`{{scoring-panel-tantpix}}`);
+    beforeEach(async function() {
+      await render(hbs`{{scoring-panel-tantpix}}`);
     });
 
     it('should render successfully component wrapper', function() {
-      expect(this.$()).to.have.lengthOf(1);
-      expect(this.$(COMPONENT_WRAPPER)).to.lengthOf(1);
+      expect(find('.scoring-panel-tantpix')).to.exist;
+      expect(find(COMPONENT_WRAPPER)).to.exist;
     });
 
     describe('wrappers rendering', function() {
@@ -68,9 +67,8 @@ describe('Integration | Component | scoring panel tantpix', function() {
 
       ].forEach(({ wrapperDescription, wrapperClass, wrapperTagName, wrapperLength }) => {
         it(`should contain: ${wrapperDescription} in scoring panel`, function() {
-          const wrapperRendered = this.$(wrapperClass);
-          expect(wrapperRendered.prop('tagName').toLowerCase()).to.equal(wrapperTagName);
-          expect(wrapperRendered).to.lengthOf(wrapperLength);
+          expect(find(wrapperClass).tagName.toLowerCase()).to.equal(wrapperTagName);
+          expect(findAll(wrapperClass)).to.lengthOf(wrapperLength);
         });
       });
 
@@ -104,18 +102,18 @@ describe('Integration | Component | scoring panel tantpix', function() {
         },
       ].forEach(({ itemDescription, itemClass, itemTagName, itemContent }) => {
         it(`should be ${itemDescription} in scoring panel`, function() {
-          const itemRendered = this.$(itemClass);
-          expect(itemRendered.prop('tagName').toLowerCase()).to.equal(itemTagName);
-          expect(itemRendered.text().trim()).to.be.equal(itemContent);
+          const itemRendered = find(itemClass);
+          expect(itemRendered.tagName.toLowerCase()).to.equal(itemTagName);
+          expect(itemRendered.textContent.trim()).to.be.equal(itemContent);
         });
       });
 
       it('should return a smiley illustration which satisfy minimals accessibilities conditions', function() {
-        const smiley = this.$(HEADING_ILLUSTRATION_CLASS);
-        expect(smiley.attr('src')).to.includes('/images/smiley.png');
-        expect(smiley.attr('srcset')).to.includes('/images/smiley@2x.png');
-        expect(smiley.attr('srcset')).to.includes('/images/smiley@3x.png');
-        expect(smiley.attr('alt')).to.includes('smiley');
+        const smiley = find(HEADING_ILLUSTRATION_CLASS);
+        expect(smiley.getAttribute('src')).to.includes('/images/smiley.png');
+        expect(smiley.getAttribute('srcset')).to.includes('/images/smiley@2x.png');
+        expect(smiley.getAttribute('srcset')).to.includes('/images/smiley@3x.png');
+        expect(smiley.getAttribute('alt')).to.includes('smiley');
       });
     });
 

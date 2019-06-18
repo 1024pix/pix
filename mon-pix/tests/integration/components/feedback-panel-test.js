@@ -3,7 +3,8 @@ import { resolve } from 'rsvp';
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { blur, click, find, fillIn, render } from '@ember/test-helpers';
 import wait from 'ember-test-helpers/wait';
 import hbs from 'htmlbars-inline-precompile';
 import _ from 'mon-pix/utils/lodash-custom';
@@ -15,67 +16,64 @@ const OPEN_LINK = '.feedback-panel__open-link';
 const BUTTON_SEND = '.feedback-panel__button--send';
 const BUTTON_CANCEL = '.feedback-panel__button--cancel';
 
-function expectLinkViewToBeVisible(component) {
-  expect(component.$(LINK_VIEW)).to.have.lengthOf(1);
-  expect(component.$(FORM_VIEW)).to.have.lengthOf(0);
-  expect(component.$(MERCIX_VIEW)).to.have.lengthOf(0);
+function expectLinkViewToBeVisible() {
+  expect(find(LINK_VIEW)).to.exist;
+  expect(find(FORM_VIEW)).to.not.exist;
+  expect(find(MERCIX_VIEW)).to.not.exist;
 }
 
-function expectFormViewToBeVisible(component) {
-  expect(component.$(LINK_VIEW)).to.have.lengthOf(0);
-  expect(component.$(FORM_VIEW)).to.have.lengthOf(1);
-  expect(component.$(MERCIX_VIEW)).to.have.lengthOf(0);
+function expectFormViewToBeVisible() {
+  expect(find(LINK_VIEW)).to.not.exist;
+  expect(find(FORM_VIEW)).to.exist;
+  expect(find(MERCIX_VIEW)).to.not.exist;
 }
 
-function expectMercixViewToBeVisible(component) {
-  expect(component.$(LINK_VIEW)).to.have.lengthOf(0);
-  expect(component.$(FORM_VIEW)).to.have.lengthOf(0);
-  expect(component.$(MERCIX_VIEW)).to.have.lengthOf(1);
+function expectMercixViewToBeVisible() {
+  expect(find(LINK_VIEW)).to.not.exist;
+  expect(find(FORM_VIEW)).to.not.exist;
+  expect(find(MERCIX_VIEW)).to.exist;
 }
 
-function setContent(component, content) {
-  const $content = component.$('.feedback-panel__field--content');
-  $content.val(content);
-  $content.change();
+async function setContent(content) {
+  await fillIn('.feedback-panel__field--content', content);
+  await blur('.feedback-panel__field--content');
 }
 
 describe('Integration | Component | feedback-panel', function() {
 
-  setupComponentTest('feedback-panel', {
-    integration: true
-  });
+  setupRenderingTest();
 
   describe('Default rendering', function() {
 
-    it('should display the feedback Panel', function() {
+    it('should display the feedback Panel', async function() {
       // when
-      this.render(hbs`{{feedback-panel}}`);
+      await render(hbs`{{feedback-panel}}`);
       // then
-      expect(this.$()).to.have.lengthOf(1);
-      expectLinkViewToBeVisible(this);
+      expect(find('.feedback-panel')).to.exist;
+      expectLinkViewToBeVisible();
     });
 
   });
 
   describe('Link view (available only when form is closed by default)', function() {
 
-    beforeEach(function() {
-      this.render(hbs`{{feedback-panel}}`);
+    beforeEach(async function() {
+      await render(hbs`{{feedback-panel}}`);
     });
 
     it('should display only the "link" view', function() {
-      expectLinkViewToBeVisible(this);
+      expectLinkViewToBeVisible();
     });
 
     it('the link label should be "Signaler un problème"', function() {
-      expect(this.$(OPEN_LINK).text()).to.contain('Signaler un problème');
+      expect(find(OPEN_LINK).textContent).to.contain('Signaler un problème');
     });
 
-    it('clicking on the open link should hide the "link" view and display the "form" view', function() {
+    it('clicking on the open link should hide the "link" view and display the "form" view', async function() {
       // when
-      this.$(OPEN_LINK).click();
+      await click(OPEN_LINK);
       // then
-      expectFormViewToBeVisible(this);
+      expectFormViewToBeVisible();
     });
 
   });
@@ -100,7 +98,7 @@ describe('Integration | Component | feedback-panel', function() {
     let saveMethodBody;
     let saveMethodUrl;
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // configure answer & cie. model object
       const assessment = EmberObject.extend({ id: 'assessment_id' }).create();
       const challenge = EmberObject.extend({ id: 'challenge_id' }).create();
@@ -114,35 +112,32 @@ describe('Integration | Component | feedback-panel', function() {
       saveMethodUrl = null;
 
       // stub store service
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
+      this.owner.register('service:store', storeStub);
 
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge collapsible=false}}`);
+      await render(hbs`{{feedback-panel assessment=assessment challenge=challenge collapsible=false}}`);
     });
 
     it('should display only the "form" view', function() {
-      expectFormViewToBeVisible(this);
+      expectFormViewToBeVisible();
     });
 
     it('should contain content textarea field', function() {
-      const $password = this.$('textarea.feedback-panel__field--content');
-      expect($password).to.have.lengthOf(1);
-      expect($password.attr('placeholder')).to.equal('Votre message');
+      expect(find('textarea.feedback-panel__field--content')).to.exist;
+      expect(find('textarea.feedback-panel__field--content').getAttribute('placeholder')).to.equal('Votre message');
     });
 
     it('should contain "send" button with label "Envoyer"', function() {
-      const $buttonSend = this.$(BUTTON_SEND);
-      expect($buttonSend).to.have.lengthOf(1);
-      expect($buttonSend.text()).to.equal('Envoyer');
+      expect(find(BUTTON_SEND)).to.exist;
+      expect(find(BUTTON_SEND).textContent).to.equal('Envoyer');
     });
 
-    it('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', function() {
+    it('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', async function() {
       // given
       const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
-      setContent(this, CONTENT_VALUE);
+      await setContent (CONTENT_VALUE);
 
       // when
-      this.$(BUTTON_SEND).click();
+      await click(BUTTON_SEND);
 
       // then
       return wait().then(() => {
@@ -152,14 +147,13 @@ describe('Integration | Component | feedback-panel', function() {
         expect(saveMethodBody.assessment).to.exist;
         expect(saveMethodBody.challenge).to.exist;
         expect(saveMethodBody.content).to.equal(CONTENT_VALUE);
-        expectMercixViewToBeVisible(this);
+        expectMercixViewToBeVisible();
       });
     });
 
     it('should not contain "cancel" button if the feedback form is opened by default', function() {
       // then
-      const $buttonCancel = this.$(BUTTON_CANCEL);
-      expect($buttonCancel).to.have.lengthOf(0);
+      expect(find(BUTTON_CANCEL)).to.not.exist;
     });
   });
 
@@ -175,113 +169,113 @@ describe('Integration | Component | feedback-panel', function() {
       this.set('challenge', challenge);
     });
 
-    it('should not be visible if feedback-panel is not collapsible', function() {
+    it('should not be visible if feedback-panel is not collapsible', async function() {
       // when
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge collapsible=false}}`);
+      await render(hbs`{{feedback-panel assessment=assessment challenge=challenge collapsible=false}}`);
 
       // then
-      expect(this.$(BUTTON_CANCEL)).to.have.lengthOf(0);
+      expect(find(BUTTON_CANCEL)).to.not.exist;
     });
 
-    it('should not be visible if status is not FORM_OPENED', function() {
+    it('should not be visible if status is not FORM_OPENED', async function() {
       // when
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge collapsible=true _status="FORM_CLOSED"}}`);
+      await render(hbs`{{feedback-panel assessment=assessment challenge=challenge collapsible=true _status="FORM_CLOSED"}}`);
 
       // then
-      expect(this.$(BUTTON_CANCEL)).to.have.lengthOf(0);
+      expect(find(BUTTON_CANCEL)).to.not.exist;
     });
 
     it('should be visible only if component is collapsible and form is opened', async function() {
       // given
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
+      await render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
 
       // when
-      this.$(OPEN_LINK).click();
+      await click(OPEN_LINK);
 
       // then
-      expect(this.$(BUTTON_CANCEL)).to.have.lengthOf(1);
+      expect(find(BUTTON_CANCEL)).to.exist;
     });
 
-    it('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function() {
+    it('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', async function() {
       // given
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
+      await render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
 
       //when
-      this.$(OPEN_LINK).click();
+      await click(OPEN_LINK);
 
       //then
-      const $buttonCancel = this.$(BUTTON_CANCEL);
-      expect($buttonCancel).to.have.lengthOf(1);
-      expect($buttonCancel.text().trim()).to.equal('Annuler');
+      expect(find(BUTTON_CANCEL)).to.exist;
+      expect(find(BUTTON_CANCEL).textContent.trim()).to.equal('Annuler');
     });
 
-    it('clicking on "cancel" button should close the "form" view and and display the "link" view', function() {
+    it('clicking on "cancel" button should close the "form" view and display the "link" view', async function() {
       // given
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
+      await render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
 
       // when
-      this.$(BUTTON_CANCEL).click();
+      await click(OPEN_LINK);
+      await click(BUTTON_CANCEL);
 
       // then
-      expectLinkViewToBeVisible(this);
+      expectLinkViewToBeVisible();
     });
 
   });
 
   describe('Error management', function() {
 
-    it('should display error if "content" is empty', function() {
+    it('should display error if "content" is empty', async function() {
       // given
-      this.render(hbs`{{feedback-panel collapsible=false}}`);
+      await render(hbs`{{feedback-panel collapsible=false}}`);
 
       // when
-      this.$(BUTTON_SEND).click();
+      await click(BUTTON_SEND);
 
       // then
-      expect(this.$('.alert')).to.have.lengthOf(1);
-      expectFormViewToBeVisible(this);
+      expect(find('.alert')).to.exist;
+      expectFormViewToBeVisible();
     });
 
-    it('should display error if "content" is blank', function() {
+    it('should display error if "content" is blank', async function() {
       // given
-      this.render(hbs`{{feedback-panel collapsible=false}}`);
-      setContent(this, '');
+      await render(hbs`{{feedback-panel collapsible=false}}`);
+      await setContent('');
 
       // when
-      this.$(BUTTON_SEND).click();
+      await click(BUTTON_SEND);
 
       // then
-      expect(this.$('.alert')).to.have.lengthOf(1);
-      expectFormViewToBeVisible(this);
+      expect(find('.alert')).to.exist;
+      expectFormViewToBeVisible();
     });
 
-    it('should not display error if "form" view (with error) was closed and re-opened', function() {
+    it('should not display error if "form" view (with error) was closed and re-opened', async function() {
       // given
-      this.render(hbs`{{feedback-panel}}`);
+      await render(hbs`{{feedback-panel}}`);
 
-      this.$(OPEN_LINK).click();
-      setContent(this, '   ');
+      await click(OPEN_LINK);
+      await setContent('   ');
 
-      this.$(BUTTON_SEND).click();
-      expect(this.$('.alert')).to.have.lengthOf(1);
+      await click(BUTTON_SEND);
+      expect(find('.alert')).to.exist;
 
       // when
-      this.$(BUTTON_CANCEL).click();
-      this.$(OPEN_LINK).click();
+      await click(BUTTON_CANCEL);
+      await click(OPEN_LINK);
 
       // then
-      expect(this.$('.alert')).to.have.lengthOf(0);
+      expect(find('.alert')).to.not.exist;
     });
 
-    it('should display an error even if the user did not focus on content', function() {
+    it('should display an error even if the user did not focus on content', async function() {
       // given
-      this.render(hbs`{{feedback-panel collapsible=false}}`);
+      await render(hbs`{{feedback-panel collapsible=false}}`);
 
       // when
-      this.$(BUTTON_SEND).click();
+      await click(BUTTON_SEND);
 
       // then
-      expect(this.$('.alert')).to.have.lengthOf(1);
+      expect(find('.alert')).to.exist;
     });
   });
 });

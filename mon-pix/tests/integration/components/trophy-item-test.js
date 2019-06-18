@@ -1,36 +1,35 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | trophy item', function() {
-  setupComponentTest('trophy-item', {
-    integration: true
+  setupRenderingTest();
+
+  it('renders', async function() {
+    await render(hbs`{{trophy-item}}`);
+    expect(find('.trophy-item')).to.exist;
   });
 
-  it('renders', function() {
-    this.render(hbs`{{trophy-item}}`);
-    expect(this.$()).to.have.lengthOf(1);
-  });
-
-  it('should contain the level passed in the component', function() {
+  it('should contain the level passed in the component', async function() {
     // given
     const level = 3;
     this.set('level', level);
 
     // when
-    this.render(hbs`{{trophy-item level=level}}`);
+    await render(hbs`{{trophy-item level=level}}`);
 
     // then
-    expect(this.$('.trophy-item__level').text()).to.contain(level.toString());
+    expect(find('.trophy-item__level').textContent).to.contain(level.toString());
   });
 
-  it('should contain an image of a trophy with the text "NIVEAU"', function() {
+  it('should contain an image of a trophy with the text "NIVEAU"', async function() {
     // when
-    this.render(hbs`{{trophy-item}}`);
+    await render(hbs`{{trophy-item}}`);
 
     // then
-    expect(this.$('.trophy-item__img').length).to.equal(1);
-    expect(this.$('.trophy-item__level').text()).to.contain('NIVEAU');
+    expect(findAll('.trophy-item__img').length).to.equal(1);
+    expect(find('.trophy-item__level').textContent).to.contain('NIVEAU');
   });
 });

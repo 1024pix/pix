@@ -1,7 +1,8 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 function getLabels(panelElement) {
@@ -28,9 +29,7 @@ const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
 describe('Integration | Component | qrocm solution panel', function() {
 
-  setupComponentTest('qrocm-ind-solution-panel', {
-    integration: true
-  });
+  setupRenderingTest();
 
   const assessment = EmberObject.create({ id: 'assessment_id' });
   const challenge = EmberObject.create({
@@ -54,17 +53,17 @@ describe('Integration | Component | qrocm solution panel', function() {
     this.set('challenge', challenge);
   });
 
-  it('should disabled all inputs', function() {
+  it('should disabled all inputs', async function() {
     // when
-    this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
+    await render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
 
     // then
     expect(document.querySelector('input')).to.have.attr('disabled');
   });
 
-  it('should contains three labels', function() {
+  it('should contains three labels', async function() {
     // when
-    this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
+    await render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
 
     const panelElement = document.querySelector(PANEL);
     const labels = getLabels(panelElement);
@@ -77,9 +76,9 @@ describe('Integration | Component | qrocm solution panel', function() {
 
     describe('right answer display', function() {
 
-      it('should display the right answer in green bold', function() {
+      it('should display the right answer in green bold', async function() {
         // when
-        this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
         const panelElement = document.querySelector(PANEL);
@@ -93,9 +92,9 @@ describe('Integration | Component | qrocm solution panel', function() {
         expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('none');
       });
 
-      it('should not display the solution', function() {
+      it('should not display the solution', async function() {
         // when
-        this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
         const solutionBlock = document.querySelectorAll(SOLUTION_BLOCK);
@@ -106,9 +105,9 @@ describe('Integration | Component | qrocm solution panel', function() {
 
     describe('wrong answer display', function() {
 
-      it('should display the wrong answer in the second div line-throughed bold', function() {
+      it('should display the wrong answer in the second div line-throughed bold', async function() {
         // when
-        this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
         const panelElement = document.querySelector(PANEL);
@@ -122,9 +121,9 @@ describe('Integration | Component | qrocm solution panel', function() {
         expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('line-through');
       });
 
-      it('should display one solution in bold green below the input', function() {
+      it('should display one solution in bold green below the input', async function() {
         // when
-        this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
         const solutionBlock = document.querySelectorAll(SOLUTION_BLOCK)[1];
@@ -140,9 +139,9 @@ describe('Integration | Component | qrocm solution panel', function() {
 
     describe('no answer display', function() {
 
-      it('should display the empty answer in the third div with "pas de réponse" in italic', function() {
+      it('should display the empty answer in the third div with "pas de réponse" in italic', async function() {
         // when
-        this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
         const panelElement = document.querySelector(PANEL);
@@ -156,9 +155,9 @@ describe('Integration | Component | qrocm solution panel', function() {
         expect(answerInputStyles.getPropertyValue('text-decoration')).to.include('none');
       });
 
-      it('should display one solution in bold green below the input', function() {
+      it('should display one solution in bold green below the input', async function() {
         // given
-        this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
+        await render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
         // then
         const solutionBlock = document.querySelectorAll(SOLUTION_BLOCK)[1];

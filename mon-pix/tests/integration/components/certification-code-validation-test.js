@@ -1,57 +1,56 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | certification-code-validation', function() {
 
-  setupComponentTest('certification-code-validation', {
-    integration: true
-  });
+  setupRenderingTest();
 
   describe('Error management', () => {
 
-    it('should not display an error message by default', function() {
+    it('should not display an error message by default', async function() {
       // when
-      this.render(hbs`{{certification-code-validation}}`);
+      await render(hbs`{{certification-code-validation}}`);
 
       // then
-      expect(this.$('.certification-course-page__errors')).to.have.length(0);
+      expect(find('.certification-course-page__errors')).to.not.exist;
     });
 
-    it('should display an error message when it exists', function() {
+    it('should display an error message when it exists', async function() {
       // given
       this.set('_errorMessage', 'Un lapin ne peut pas s’enamourer d’une belette :(');
 
       // when
-      this.render(hbs`{{certification-code-validation _errorMessage=_errorMessage}}`);
+      await render(hbs`{{certification-code-validation _errorMessage=_errorMessage}}`);
 
       // then
-      expect(this.$('.certification-course-page__errors')).to.have.length(1);
+      expect(find('.certification-course-page__errors')).to.exist;
     });
   });
 
   describe('Loading management', () => {
 
-    it('should not display any loading spinner by default', function() {
+    it('should not display any loading spinner by default', async function() {
       // when
-      this.render(hbs`{{certification-code-validation}}`);
+      await render(hbs`{{certification-code-validation}}`);
 
       // then
-      expect(this.$('.certification-course-page__field-button__loader-bar')).to.have.length(0);
-      expect(this.$('.certification-course-page__submit_button')).to.have.length(1);
+      expect(find('.certification-course-page__field-button__loader-bar')).to.not.exist;
+      expect(find('.certification-course-page__submit_button')).to.exist;
     });
 
-    it('should display a loading spinner when loading certification', function() {
+    it('should display a loading spinner when loading certification', async function() {
       // given
       this.set('_loadingCertification', true);
 
       // when
-      this.render(hbs`{{certification-code-validation _loadingCertification=_loadingCertification}}`);
+      await render(hbs`{{certification-code-validation _loadingCertification=_loadingCertification}}`);
 
       // then
-      expect(this.$('.certification-course-page__field-button__loader-bar')).to.have.length(1);
-      expect(this.$('.certification-course-page__submit_button')).to.have.length(0);
+      expect(find('.certification-course-page__field-button__loader-bar')).to.exist;
+      expect(find('.certification-course-page__submit_button')).to.not.exist;
     });
   });
 

@@ -1,16 +1,15 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const TANTPIX_CONTAINER_CLASS = '.scoring-panel-tantpix';
 
 describe('Integration | Component | scoring panel', function() {
 
-  setupComponentTest('scoring-panel', {
-    integration: true
-  });
+  setupRenderingTest();
 
   const assessmentWithTrophy = EmberObject.create({ estimatedLevel: 1, pixScore: 67, course: { isAdaptive: true } });
   const assessmentWithNoTrophyAndSomePix = EmberObject.create({
@@ -24,76 +23,76 @@ describe('Integration | Component | scoring panel', function() {
     course: { isAdaptive: true }
   });
 
-  it('renders', function() {
-    this.render(hbs`{{scoring-panel}}`);
-    expect(this.$()).to.have.lengthOf(1);
+  it('renders', async function() {
+    await render(hbs`{{scoring-panel}}`);
+    expect(find('.scoring-panel')).to.exist;
   });
 
   describe('Default display', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       this.set('assessment', assessmentWithNoTrophyAndNoPix);
-      this.render(hbs`{{scoring-panel assessment=assessment}}`);
+      await render(hbs`{{scoring-panel assessment=assessment}}`);
     });
 
     it('it should not display trophy panel', function() {
       // then
-      expect(this.$('.scoring-panel__trophy')).to.have.lengthOf(0);
-      expect(this.$('.scoring-panel__text')).to.have.lengthOf(0);
+      expect(find('.scoring-panel__trophy')).to.not.exist;
+      expect(find('.scoring-panel__text')).to.not.exist;
     });
 
     it('should display tantpix result, when user has no reward', function() {
       // then
-      expect(this.$(TANTPIX_CONTAINER_CLASS)).to.lengthOf(1);
+      expect(find(TANTPIX_CONTAINER_CLASS)).to.exist;
     });
   });
 
   describe('Display a trophy when the user won a trophy', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       this.set('assessment', assessmentWithTrophy);
-      this.render(hbs`{{scoring-panel assessment=assessment}}`);
+      await render(hbs`{{scoring-panel assessment=assessment}}`);
     });
 
     it('should display the won trophy', function() {
       // then
-      expect(this.$('.scoring-panel__reward')).to.have.lengthOf(1);
-      expect(this.$('.trophy-item')).to.have.lengthOf(1);
+      expect(find('.scoring-panel__reward')).to.exist;
+      expect(find('.trophy-item')).to.exist;
     });
 
     it('should display the congratulations', function() {
       // then
-      expect(this.$('.scoring-panel__congrats-course-name')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__congrats-felicitations')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__congrats-scoring')).to.have.lengthOf(1);
+      expect(find('.scoring-panel__congrats-course-name')).to.exist;
+      expect(find('.scoring-panel__congrats-felicitations')).to.exist;
+      expect(find('.scoring-panel__congrats-scoring')).to.exist;
     });
 
     it('should display the "back to home" button', function() {
       // then
-      expect(this.$('.scoring-panel__index-link')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__index-link-back').text()).to.be.equal('REVENIR À L\'ACCUEIL');
+      expect(find('.scoring-panel__index-link')).to.exist;
+      expect(find('.scoring-panel__index-link-back').textContent).to.be.equal('REVENIR À L\'ACCUEIL');
     });
   });
 
   describe('Display a medal when the user won some pix but not a trophy', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       this.set('assessment', assessmentWithNoTrophyAndSomePix);
-      this.render(hbs`{{scoring-panel assessment=assessment}}`);
+      await render(hbs`{{scoring-panel assessment=assessment}}`);
     });
 
     it('should display the won medal', function() {
       // then
       // then
-      expect(this.$('.scoring-panel__reward')).to.have.lengthOf(1);
-      expect(this.$('.medal-item')).to.have.lengthOf(1);
+      expect(find('.scoring-panel__reward')).to.exist;
+      expect(find('.medal-item')).to.exist;
     });
 
     it('should display the congratulations', function() {
       // then
-      expect(this.$('.scoring-panel__congrats-course-name')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__congrats-pas-mal')).to.have.lengthOf(1);
-      expect(this.$('.scoring-panel__congrats-scoring')).to.have.lengthOf(1);
+      expect(find('.scoring-panel__congrats-course-name')).to.exist;
+      expect(find('.scoring-panel__congrats-pas-mal')).to.exist;
+      expect(find('.scoring-panel__congrats-scoring')).to.exist;
     });
   });
 });

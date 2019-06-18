@@ -1,24 +1,23 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
 describe('Integration | Component | user certifications detail result', function() {
-  setupComponentTest('user-certifications-detail-result', {
-    integration: true,
-  });
+  setupRenderingTest();
 
   let certification;
 
-  it('renders', function() {
-    this.render(hbs`{{user-certifications-detail-result certification=certification}}`);
-    expect(this.$()).to.have.length(1);
+  it('renders', async function() {
+    await render(hbs`{{user-certifications-detail-result certification=certification}}`);
+    expect(find('.user-certifications-detail-result')).to.exist;
   });
 
   context('when certification is complete', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -35,24 +34,24 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      this.render(hbs`{{user-certifications-detail-result certification=certification}}`);
+      await render(hbs`{{user-certifications-detail-result certification=certification}}`);
     });
 
     // then
     it('should show the pix score', function() {
-      expect(this.$('.user-certifications-detail-result__pix-score')).to.have.lengthOf(1);
-      expect(this.$('.user-certifications-detail-result__pix-score').text()).to.include('654');
+      expect(find('.user-certifications-detail-result__pix-score')).to.exist;
+      expect(find('.user-certifications-detail-result__pix-score').textContent).to.include('654');
     });
 
     it('should show the comment for candidate', function() {
-      expect(this.$('.user-certifications-detail-result__comment-jury')).to.have.lengthOf(1);
-      expect(this.$('.user-certifications-detail-result__comment-jury').text()).to.include('Comment for candidate');
+      expect(find('.user-certifications-detail-result__comment-jury')).to.exist;
+      expect(find('.user-certifications-detail-result__comment-jury').textContent).to.include('Comment for candidate');
     });
   });
 
   context('when certification has no comment for user', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       certification = EmberObject.create({
         id: 1,
@@ -69,17 +68,17 @@ describe('Integration | Component | user certifications detail result', function
       this.set('certification', certification);
 
       // when
-      this.render(hbs`{{user-certifications-detail-result certification=certification}}`);
+      await render(hbs`{{user-certifications-detail-result certification=certification}}`);
     });
 
     // then
     it('should show the pix score', function() {
-      expect(this.$('.user-certifications-detail-result__pix-score')).to.have.lengthOf(1);
-      expect(this.$('.user-certifications-detail-result__pix-score').text()).to.include('654');
+      expect(find('.user-certifications-detail-result__pix-score')).to.exist;
+      expect(find('.user-certifications-detail-result__pix-score').textContent).to.include('654');
     });
 
     it('should not show the comment for candidate', function() {
-      expect(this.$('.user-certifications-detail-result__comment-jury')).to.have.lengthOf(0);
+      expect(find('.user-certifications-detail-result__comment-jury')).to.not.exist;
     });
   });
 

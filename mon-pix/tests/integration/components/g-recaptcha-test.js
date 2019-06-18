@@ -1,11 +1,12 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find,render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import RSVP from 'rsvp';
 
-const StubGoogleRecaptchaService = Service.extend({
+const stubGoogleRecaptchaService = Service.extend({
 
   loadScript() {
     return RSVP.resolve();
@@ -28,27 +29,28 @@ const StubGoogleRecaptchaService = Service.extend({
 
 describe('Integration | Component | g recaptcha', function() {
 
-  setupComponentTest('g-recaptcha', {
-    integration: true
-  });
+  setupRenderingTest();
 
   beforeEach(function() {
-    this.register('service:google-recaptcha', StubGoogleRecaptchaService);
-    this.inject.service('google-recaptcha', { as: 'googleRecaptchaService' });
+    this.owner.register('service:google-recaptcha', stubGoogleRecaptchaService);
   });
 
-  it('renders', function() {
-    this.render(hbs`{{g-recaptcha}}`);
-    expect(this.$()).to.have.lengthOf(1);
+  it('renders', async function() {
+    await render(hbs`{{g-recaptcha}}`);
+    expect(find('.gg-recaptcha')).to.exist;
   });
 
   // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component
-  it('should append recaptcha element to container element', function() {
+  it('should append recaptcha element to container element', async function() {
+    // given
+    const googleRecaptcha = this.owner.lookup('service:googleRecaptcha');
+
     // when
-    this.render(hbs`{{g-recaptcha}}`);
+    await render(hbs`{{g-recaptcha}}`);
+
     // then
-    expect(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
-    expect(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
+    expect(find('#g-recaptcha-container')).to.exist;
+    expect(googleRecaptcha.get('calledWithContainerId')).to.equal('g-recaptcha-container');
   });
 
 });

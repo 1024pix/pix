@@ -12,7 +12,8 @@
                       thicknessClass='circle--thick'}}
         <div class="competence-card__level">
           <span class="score-label">Niveau</span>
-          <span class="score-value competence-card-score-value">{{replace-zero-by-dash displayedLevel}}</span>
+          <span class="score-value competence-card__score-value">{{replace-zero-by-dash displayedLevel}}</span>
+          <span class="competence-card__score-details">détail</span>
         </div>
       {{/circle-chart}}
     {{/link-to}}
@@ -21,11 +22,16 @@
     {{#if (not scorecard.isFinished)}}
       {{#link-to "competences.resume" scorecard.competenceId
                  class="button button--thin button--link button--green competence-card__button"}}
-        {{#if scorecard.isStarted}}
-          Reprendre
-        {{else}}
-          Commencer
-        {{/if}}
+        <span class="competence-card__button-label">
+          {{#if scorecard.isStarted}}
+            Reprendre
+          {{else}}
+            Commencer
+          {{/if}}
+        </span>
+        <span class="competence-card__button-arrow">
+          {{fa-icon 'long-arrow-alt-right'}}
+        </span>
       {{/link-to}}
     {{/if}}
   </footer>

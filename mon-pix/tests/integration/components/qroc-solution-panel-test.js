@@ -1,7 +1,8 @@
 import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const ANSWER_BLOCK = '.correction-qroc-box__answer';
@@ -10,13 +11,11 @@ const SOLUTION_BLOCK = '.correction-qroc-box__solution';
 
 describe('Integration | Component | qroc solution panel', function() {
 
-  setupComponentTest('qroc-solution-panel', {
-    integration: true
-  });
+  setupRenderingTest();
 
-  it('should disabled all inputs', function() {
+  it('should disabled all inputs', async function() {
     // given
-    this.render(hbs`{{qroc-solution-panel}}`);
+    await render(hbs`{{qroc-solution-panel}}`);
 
     // then
     expect(document.querySelector('input')).to.have.attr('disabled');
@@ -28,10 +27,10 @@ describe('Integration | Component | qroc solution panel', function() {
     const challenge = EmberObject.create({ id: 'challenge_id' });
     const answer = EmberObject.create({ id: 'answer_id', result: 'ok', assessment, challenge });
 
-    it('should diplay the answer in bold green and not the solution', function() {
+    it('should diplay the answer in bold green and not the solution', async function() {
       // given
       this.set('answer', answer);
-      this.render(hbs`{{qroc-solution-panel answer=answer}}`);
+      await render(hbs`{{qroc-solution-panel answer=answer}}`);
 
       // when
       const answerInput = document.querySelector(ANSWER_INPUT);
@@ -50,13 +49,13 @@ describe('Integration | Component | qroc solution panel', function() {
 
   describe('comparison when the answer is false', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       const assessment = EmberObject.create({ id: 'assessment_id' });
       const challenge = EmberObject.create({ id: 'challenge_id' });
       const answer = EmberObject.create({ id: 'answer_id', result: 'ko', assessment, challenge });
 
       this.set('answer', answer);
-      this.render(hbs`{{qroc-solution-panel answer=answer}}`);
+      await render(hbs`{{qroc-solution-panel answer=answer}}`);
     });
 
     it('should display the false answer line-through', function() {
@@ -82,14 +81,14 @@ describe('Integration | Component | qroc solution panel', function() {
 
     describe('comparison when the answer was not given', function() {
 
-      beforeEach(function() {
+      beforeEach(async function() {
         const assessment = EmberObject.create({ id: 'assessment_id' });
         const challenge = EmberObject.create({ id: 'challenge_id' });
         const answer = EmberObject.create({ id: 'answer_id', result: 'aband', assessment, challenge });
 
         this.set('answer', answer);
         this.set('isResultWithoutAnswer', true);
-        this.render(hbs`{{qroc-solution-panel answer=answer}}`);
+        await render(hbs`{{qroc-solution-panel answer=answer}}`);
       });
 
       it('should display PAS DE REPONSE in italic', function() {

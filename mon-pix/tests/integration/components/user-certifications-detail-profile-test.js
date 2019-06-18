@@ -1,15 +1,13 @@
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
-
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, findAll, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | user certifications detail profile', function() {
-  setupComponentTest('user-certifications-detail-profile', {
-    integration: true,
-  });
+  setupRenderingTest();
 
   const resultCompetenceTree = EmberObject.create({
     areas: A([
@@ -37,21 +35,21 @@ describe('Integration | Component | user certifications detail profile', functio
     ]),
   });
 
-  it('renders', function() {
+  it('renders', async function() {
     this.set('resultCompetenceTree', resultCompetenceTree);
 
-    this.render(hbs`{{user-certifications-detail-profile  resultCompetenceTree=resultCompetenceTree}}`);
-    expect(this.$()).to.have.length(1);
+    await render(hbs`{{user-certifications-detail-profile resultCompetenceTree=resultCompetenceTree}}`);
+    expect(find('.user-certifications-detail-profile')).to.exist;
   });
 
   context('when are has a list of competences', function() {
 
-    beforeEach(function() {
+    beforeEach(async function() {
       // given
       this.set('resultCompetenceTree', resultCompetenceTree);
 
       // when
-      this.render(hbs`{{user-certifications-detail-profile resultCompetenceTree=resultCompetenceTree}}`);
+      await render(hbs`{{user-certifications-detail-profile resultCompetenceTree=resultCompetenceTree}}`);
     });
 
     it('should include one area detail per area', function() {
@@ -59,7 +57,7 @@ describe('Integration | Component | user certifications detail profile', functio
       const divOfArea = '.user-certifications-detail-area';
 
       // then
-      expect(this.$(divOfArea)).to.have.lengthOf(resultCompetenceTree.areas.length);
+      expect(findAll(divOfArea)).to.have.lengthOf(resultCompetenceTree.areas.length);
     });
   });
 });

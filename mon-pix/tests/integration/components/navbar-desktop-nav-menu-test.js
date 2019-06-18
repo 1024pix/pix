@@ -1,18 +1,17 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import { setupRenderingTest } from 'ember-mocha';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | navbar desktop menu', function() {
-  setupComponentTest('navbar-desktop-menu', {
-    integration: true
-  });
+  setupRenderingTest();
 
-  it('should be rendered', function() {
+  it('should be rendered', async function() {
     // when
-    this.render(hbs`{{navbar-desktop-menu}}`);
+    await render(hbs`{{navbar-desktop-menu}}`);
 
     // then
-    expect(this.$()).to.have.length(1);
+    expect(find('.navbar-desktop-menu')).to.exist;
   });
 });
