@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.49.0 (18/06/2019)
+
+- [#552](https://github.com/1024pix/pix/pull/552) [FEATURE] Ajouter des animations CSS sur competence-card (PF-586).
+- [#556](https://github.com/1024pix/pix/pull/556) [TECH] Remaniement des tests d'intégration d'assessment-repository
+- [#548](https://github.com/1024pix/pix/pull/548) [TECH] Suppression des usages dépréciés de ember-mocha pour les tests d'intégration.
+
 ## v2.48.0 (11/06/2019)
 
 - [#535](https://github.com/1024pix/pix/pull/535) [FEATURE] Afficher le nom de la compétence dans un assessement (PF-578).
