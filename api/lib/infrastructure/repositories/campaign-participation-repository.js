@@ -113,7 +113,7 @@ module.exports = {
       });
   },
 
-  updateCampaignParticipation(campaignParticipation) {
+  share(campaignParticipation) {
     return new BookshelfCampaignParticipation(campaignParticipation)
       .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true })
       .then(_toDomain)
