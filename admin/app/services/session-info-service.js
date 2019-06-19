@@ -1,9 +1,7 @@
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import json2csv from 'json2csv';
 import _ from 'lodash';
-import { inject as service } from '@ember/service';
 import moment from 'moment';
-import XLSX from 'xlsx';
 
 const competenceIndexes = [
   '1.1', '1.2', '1.3',
@@ -15,16 +13,10 @@ const competenceIndexes = [
 
 export default Service.extend({
 
+  fileReader: service(),
   fileSaver: service(), // TODO ? convert into FileManager
 
-  // TODO add tests
   async readSessionAttendanceSheet(attendanceSheetFile) {
-    const arrayBuffer = await attendanceSheetFile.readAsArrayBuffer();
-    const data = new Uint8Array(arrayBuffer);
-    const workbook = XLSX.read(data, { type: 'array', cellDates: true });
-    const firstSheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[firstSheetName];
-    const headerRowsNumber = 8;
     const header = [
       'row',
       'lastName',
@@ -39,10 +31,9 @@ export default Service.extend({
       'lastScreen',
       'comments'
     ];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet, { range: headerRowsNumber, header });
+    const jsonData = await this.fileReader.extractJSONDataFromODSFileIgnoringHeader(attendanceSheetFile, header);
 
-    const lastRowIndex = jsonData.findIndex((row) => !row.lastName);
-    const importedCandidates = jsonData.slice(0, lastRowIndex);
+    const importedCandidates = jsonData.filter((candidate) => candidate.lastName);
     importedCandidates.forEach((candidate) => {
       candidate.certificationId = candidate.certificationId.toString();
       if (candidate.birthdate instanceof Date) {

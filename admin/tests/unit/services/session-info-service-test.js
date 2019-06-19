@@ -11,6 +11,7 @@ module('Unit | Service | session-info-service', function(hooks) {
   setupTest(hooks);
 
   let fileSaverStub;
+  let fileReaderStub;
   let service;
 
   hooks.beforeEach(function() {
@@ -26,6 +27,7 @@ module('Unit | Service | session-info-service', function(hooks) {
     this.owner.register('service:file-saver', FileSaverStub);
     fileSaverStub = this.owner.lookup('service:file-saver');
 
+    fileReaderStub = this.owner.lookup('service:file-reader');
     service = this.owner.lookup('service:session-info-service');
   });
 
@@ -106,6 +108,199 @@ module('Unit | Service | session-info-service', function(hooks) {
       sinon.assert.alwaysCalledWith(Certification.prototype.save, { adapterOptions: { updateMarks: false } });
     });
 
+  });
+
+  module('#readSessionAttendanceSheet', function() {
+
+    const testCurrentDate = new Date('2018-01-10T05:00:00Z');
+
+    test('it should return an array of all candidates with formatted birthdate when the file is well formatted', async function(assert) {
+      // given
+      const jsonCandidates = [
+        {
+          birthdate: testCurrentDate,
+          birthplace: 'Gonesse',
+          certificationId: 1,
+          firstName: 'Prénom 1',
+          lastName: 'Nom 1',
+          row: 1
+        },
+        {
+          birthdate: testCurrentDate,
+          birthplace: 'Gonesse',
+          certificationId: 2,
+          firstName: 'Prénom 2',
+          lastName: 'Nom 2',
+          row: 2
+        },
+        {
+          birthdate: testCurrentDate,
+          birthplace: 'Gonesse',
+          certificationId: 3,
+          firstName: 'Prénom 3',
+          lastName: 'Nom 3',
+          row: 3
+        }
+      ];
+      sinon.stub(fileReaderStub, 'extractJSONDataFromODSFileIgnoringHeader').returns(jsonCandidates);
+
+      // when
+      const importedCandidates = await service.readSessionAttendanceSheet({});
+
+      // then
+      const expectedResult = [
+        {
+          birthdate: '10/01/2018',
+          birthplace: 'Gonesse',
+          certificationId: '1',
+          firstName: 'Prénom 1',
+          lastName: 'Nom 1',
+          row: 1
+        },
+        {
+          birthdate: '10/01/2018',
+          birthplace: 'Gonesse',
+          certificationId: '2',
+          firstName: 'Prénom 2',
+          lastName: 'Nom 2',
+          row: 2
+        },
+        {
+          birthdate: '10/01/2018',
+          birthplace: 'Gonesse',
+          certificationId: '3',
+          firstName: 'Prénom 3',
+          lastName: 'Nom 3',
+          row: 3
+        }
+      ];
+
+      assert.deepEqual(importedCandidates, expectedResult);
+
+    });
+
+    test('it should return an array removing candidates without name in the attendance sheet file', async function(assert) {
+      // given
+      const candidateWithoutName = {
+        birthdate: testCurrentDate,
+        birthplace: 'Gonesse',
+        certificationId: 3,
+        firstName: 'Prénom 3',
+        row: 3
+      };
+      const jsonCandidates = [
+        {
+          birthdate: testCurrentDate,
+          birthplace: 'Gonesse',
+          certificationId: 1,
+          firstName: 'Prénom 1',
+          lastName: 'Nom 1',
+          row: 1
+        },
+        {
+          birthdate: testCurrentDate,
+          birthplace: 'Gonesse',
+          certificationId: 2,
+          firstName: 'Prénom 2',
+          lastName: 'Nom 2',
+          row: 2
+        },
+        candidateWithoutName
+      ];
+      sinon.stub(fileReaderStub, 'extractJSONDataFromODSFileIgnoringHeader').returns(jsonCandidates);
+
+      // when
+      const importedCandidates = await service.readSessionAttendanceSheet({});
+
+      // then
+      const expectedResult = [
+        {
+          birthdate: '10/01/2018',
+          birthplace: 'Gonesse',
+          certificationId: '1',
+          firstName: 'Prénom 1',
+          lastName: 'Nom 1',
+          row: 1
+        },
+        {
+          birthdate: '10/01/2018',
+          birthplace: 'Gonesse',
+          certificationId: '2',
+          firstName: 'Prénom 2',
+          lastName: 'Nom 2',
+          row: 2
+        }
+      ];
+
+      assert.deepEqual(importedCandidates, expectedResult);
+
+    });
+
+    test('it should set the birthdate of a candidate to null if its birthdate is not a proper date in the attendance sheet file', async function(assert) {
+      // given
+      const candidateWithoutProperBirthdate = {
+        birthdate: 'blablabla',
+        birthplace: 'Gonesse',
+        certificationId: 3,
+        firstName: 'Prénom 3',
+        lastName: 'Nom 3',
+        row: 3
+      };
+      const jsonCandidates = [
+        {
+          birthdate: testCurrentDate,
+          birthplace: 'Gonesse',
+          certificationId: 1,
+          firstName: 'Prénom 1',
+          lastName: 'Nom 1',
+          row: 1
+        },
+        {
+          birthdate: testCurrentDate,
+          birthplace: 'Gonesse',
+          certificationId: 2,
+          firstName: 'Prénom 2',
+          lastName: 'Nom 2',
+          row: 2
+        },
+        candidateWithoutProperBirthdate
+      ];
+      sinon.stub(fileReaderStub, 'extractJSONDataFromODSFileIgnoringHeader').returns(jsonCandidates);
+
+      // when
+      const importedCandidates = await service.readSessionAttendanceSheet({});
+
+      // then
+      const expectedResult = [
+        {
+          birthdate: '10/01/2018',
+          birthplace: 'Gonesse',
+          certificationId: '1',
+          firstName: 'Prénom 1',
+          lastName: 'Nom 1',
+          row: 1
+        },
+        {
+          birthdate: '10/01/2018',
+          birthplace: 'Gonesse',
+          certificationId: '2',
+          firstName: 'Prénom 2',
+          lastName: 'Nom 2',
+          row: 2
+        },
+        {
+          birthdate: null,
+          birthplace: 'Gonesse',
+          certificationId: '3',
+          firstName: 'Prénom 3',
+          lastName: 'Nom 3',
+          row: 3
+        }
+      ];
+
+      assert.deepEqual(importedCandidates, expectedResult);
+
+    });
   });
 
   module('#downloadSessionExportFile', function() {
