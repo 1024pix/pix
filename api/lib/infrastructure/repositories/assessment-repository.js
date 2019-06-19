@@ -147,6 +147,13 @@ module.exports = {
       .where('type', 'IN', ['SMART_PLACEMENT', 'COMPETENCE_EVALUATION'])
       .fetchAll()
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.length > 0);
+  },
+
+  updateStateById({ id, state }) {
+    return BookshelfAssessment
+      .where({ id })
+      .save({ state }, { require: true, patch: true })
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   }
 };
 
@@ -194,8 +201,10 @@ function _selectAssessmentsHavingAnAssessmentResult(bookshelfAssessments) {
 
 function _adaptModelToDb(assessment) {
   return _.omit(assessment, [
+    'id',
     'course',
     'createdAt',
+    'updatedAt',
     'successRate',
     'answers',
     'assessmentResults',
