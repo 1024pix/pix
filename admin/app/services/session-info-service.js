@@ -35,7 +35,7 @@ export default Service.extend({
 
     const importedCandidates = jsonData.filter((candidate) => candidate.lastName);
     importedCandidates.forEach((candidate) => {
-      candidate.certificationId = candidate.certificationId.toString();
+      if (candidate.certificationId) candidate.certificationId = candidate.certificationId.toString();
       if (candidate.birthdate instanceof Date) {
         candidate.birthdate = moment(candidate.birthdate).format('DD/MM/YYYY');
       } else {
