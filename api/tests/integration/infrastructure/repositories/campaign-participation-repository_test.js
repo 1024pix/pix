@@ -405,7 +405,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#updateCampaignParticipation', () => {
+  describe('#share', () => {
 
     let campaignParticipation;
     const frozenTime = new Date('1987-09-01T00:00:00Z');
@@ -425,9 +425,9 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.clean();
     });
 
-    it('should return the shared campaign-participation of the given assessmentId', () => {
+    it('should return the shared campaign-participation', () => {
       // when
-      const promise = campaignParticipationRepository.updateCampaignParticipation(campaignParticipation);
+      const promise = campaignParticipationRepository.share(campaignParticipation);
 
       // then
       return promise.then((updatedCampaignParticipation) => {
