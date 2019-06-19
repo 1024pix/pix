@@ -135,9 +135,20 @@ module.exports = {
   findSmartPlacementAssessmentsByUserId(userId) {
     return BookshelfAssessment
       .where({ userId, type: 'SMART_PLACEMENT' })
-      .fetchAll({ withRelated: ['campaignParticipation', 'campaignParticipation.campaign'] })
-      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
-      .then(fp.map(_toDomain));
+      .fetchAll()
+      .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
+  },
+
+  findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
+    return BookshelfAssessment
+      .where({ 'assessments.userId': userId, 'assessments.type': 'SMART_PLACEMENT', 'campaigns.code': campaignCode })
+      .query((qb) => {
+        qb.innerJoin('campaign-participations', 'campaign-participations.assessmentId', 'assessments.id');
+        qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
+      })
+      .orderBy('createdAt', 'desc')
+      .fetch({ required: false, withRelated: includeCampaign ? ['campaignParticipation', 'campaignParticipation.campaign'] : [] })
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
   // TODO: maybe obsolete after v1 be finished
