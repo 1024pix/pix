@@ -10,6 +10,8 @@ module.exports = async function resetScorecard({
   competenceRepository,
   competenceEvaluationRepository,
   knowledgeElementRepository,
+  assessmentRepository,
+  campaignParticipationRepository,
 }) {
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
@@ -40,9 +42,11 @@ module.exports = async function resetScorecard({
     competenceId,
     userId: authenticatedUserId,
     shouldResetCompetenceEvaluation: isCompetenceEvaluationExists,
+    assessmentRepository,
+    campaignParticipationRepository,
     competenceRepository,
     competenceEvaluationRepository,
-    knowledgeElementRepository
+    knowledgeElementRepository,
   });
 
   return scorecardService.computeScorecard({

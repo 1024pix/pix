@@ -13,7 +13,10 @@ function buildDomainObjects(BookshelfClass, bookshelfObjects) {
 }
 
 function buildDomainObject(BookshelfClass, bookshelfObject) {
-  return _buildDomainObject(BookshelfClass.prototype, bookshelfObject.toJSON());
+  if (bookshelfObject) {
+    return _buildDomainObject(BookshelfClass.prototype, bookshelfObject.toJSON());
+  }
+  return null;
 }
 
 function _buildDomainObject(bookshelfPrototype, bookshelfObjectJson) {

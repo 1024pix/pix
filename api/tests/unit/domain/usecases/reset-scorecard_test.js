@@ -15,6 +15,8 @@ describe('Unit | UseCase | reset-scorecard', () => {
   const competenceEvaluationRepository = {};
   const knowledgeElementRepository = {};
   const competenceRepository = {};
+  const assessmentRepository = {};
+  const campaignParticipationRepository = {};
   const scorecardService = {};
   let getRemainingDaysBeforeResetStub;
 
@@ -43,7 +45,7 @@ describe('Unit | UseCase | reset-scorecard', () => {
         .resolves(true);
 
       scorecardService.resetScorecard
-        .withArgs({ userId: authenticatedUserId, competenceId, shouldResetCompetenceEvaluation, knowledgeElementRepository, competenceEvaluationRepository })
+        .withArgs({ userId: authenticatedUserId, competenceId, shouldResetCompetenceEvaluation, knowledgeElementRepository, competenceEvaluationRepository, assessmentRepository, campaignParticipationRepository })
         .resolves(resetScorecardResult);
 
       scorecardService.computeScorecard
@@ -64,6 +66,8 @@ describe('Unit | UseCase | reset-scorecard', () => {
         requestedUserId,
         competenceId,
         scorecardService,
+        assessmentRepository,
+        campaignParticipationRepository,
         competenceRepository,
         competenceEvaluationRepository,
         knowledgeElementRepository
@@ -71,7 +75,7 @@ describe('Unit | UseCase | reset-scorecard', () => {
 
       // then
       expect(scorecardService.resetScorecard).to.have.been.calledWithExactly({
-        userId: authenticatedUserId, competenceId, shouldResetCompetenceEvaluation, competenceRepository, knowledgeElementRepository, competenceEvaluationRepository
+        userId: authenticatedUserId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, campaignParticipationRepository, competenceRepository, knowledgeElementRepository, competenceEvaluationRepository
       });
       expect(response).to.equal(scorecard);
     });

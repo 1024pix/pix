@@ -251,6 +251,32 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
+  describe('#findOneByAssessmentId', () => {
+
+    const assessmentId = 12345;
+
+    beforeEach(async () => {
+      databaseBuilder.factory.buildCampaignParticipation({ assessmentId });
+      databaseBuilder.factory.buildCampaignParticipation({ assessmentId: 67890 });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the campaign-participation link to the given assessment', async () => {
+      // given
+
+      // when
+      const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentId(assessmentId);
+
+      // then
+      expect(campaignParticipationFound.assessmentId).to.deep.equal(assessmentId);
+    });
+  });
+
   describe('#find', () => {
 
     const campaignId = 'my campaign id';
@@ -435,6 +461,31 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(updatedCampaignParticipation.assessmentId).to.equal(campaignParticipation.assessmentId);
         expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
       });
+    });
+  });
+
+  describe('#updateAssessmentIdByOldAssessmentId', () => {
+
+    let campaignParticipation;
+    let assessment;
+
+    beforeEach(async () => {
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
+      assessment = databaseBuilder.factory.buildAssessment();
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the updated campaign-participation of the given assessmentId', async () => {
+      // when
+      const updatedCampaignParticipation = await campaignParticipationRepository.updateAssessmentIdByOldAssessmentId({ oldAssessmentId: campaignParticipation.assessmentId, assessmentId: assessment.id });
+
+      // then
+      expect(updatedCampaignParticipation.assessmentId).to.equal(assessment.id);
     });
   });
 });
