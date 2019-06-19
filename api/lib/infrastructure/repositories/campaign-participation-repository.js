@@ -56,6 +56,13 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
+  findOneByAssessmentId(assessmentId) {
+    return BookshelfCampaignParticipation
+      .where({ assessmentId })
+      .fetch({ required: false })
+      .then(_toDomain);
+  },
+
   find(options) {
     return queryBuilder.find(BookshelfCampaignParticipation, options);
   },
@@ -116,6 +123,14 @@ module.exports = {
   share(campaignParticipation) {
     return new BookshelfCampaignParticipation(campaignParticipation)
       .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true })
+      .then(_toDomain)
+      .catch(_checkNotFoundError);
+  },
+
+  updateAssessmentIdByOldAssessmentId({ oldAssessmentId, assessmentId }) {
+    return BookshelfCampaignParticipation
+      .where({ assessmentId: oldAssessmentId })
+      .save({ assessmentId }, { patch: true, require: true })
       .then(_toDomain)
       .catch(_checkNotFoundError);
   },
