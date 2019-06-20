@@ -1,6 +1,7 @@
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
+const Skill = require('../../domain/models/Skill');
 const User = require('../../domain/models/User');
 const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
@@ -59,8 +60,13 @@ module.exports = {
   findOneByAssessmentId(assessmentId) {
     return BookshelfCampaignParticipation
       .where({ assessmentId })
-      .fetch({ required: false })
-      .then(_toDomain);
+      .query((qb) => {
+        qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
+        qb.innerJoin('target-profiles', 'campaigns.targetProfileId', 'target-profiles.id');
+        qb.innerJoin('target-profiles_skills', 'target-profiles.id', 'target-profiles_skills.targetProfileId');
+      })
+      .fetch({ required: false, withRelated: ['campaign.targetProfile.skillIds'] })
+      .then(_convertToDomainWithSkills);
   },
 
   find(options) {
@@ -154,4 +160,18 @@ function _checkNotFoundError(err) {
     throw new NotFoundError('Participation non trouvée');
   }
   throw err;
+}
+
+function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
+  if (!bookshelfCampaignParticipation) {
+    return null;
+  }
+
+  // in database, the attribute is skillsIds in target-profiles_skills,
+  // but in domain, the attribute is skills in class TargetProfile (TargetProfileSkills does not exists)
+  const skillsObjects = bookshelfCampaignParticipation.related('campaign').related('targetProfile').related('skillIds')
+    .map((bookshelfSkillId) => new Skill({ id: bookshelfSkillId.get('skillId') }));
+  bookshelfCampaignParticipation.related('campaign').related('targetProfile').set('skills', skillsObjects);
+
+  return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, bookshelfCampaignParticipation);
 }
