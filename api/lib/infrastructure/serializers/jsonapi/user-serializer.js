@@ -74,6 +74,7 @@ module.exports = {
       cgu: json.data.attributes.cgu,
       pixOrgaTermsOfServiceAccepted: json.data.attributes['pix-orga-terms-of-service-accepted'],
       pixCertifTermsOfServiceAccepted: json.data.attributes['pix-certif-terms-of-service-accepted'],
+      hasSeenMigrationModal: json.data.attributes['has-seen-migration-modal'],
     });
   }
 

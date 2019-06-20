@@ -133,6 +133,31 @@ describe('Acceptance | Controller | users-controller', () => {
         });
       });
     });
+
+    context('with hasSeenMigrationModal field', () => {
+
+      it('should reply 204 status code', async () => {
+        // given
+        options = {
+          method: 'PATCH',
+          url: `/api/users/${userId}`,
+          payload: {
+            data: {
+              attributes: {
+                'has-seen-migration-modal': true
+              }
+            }
+          }
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
   });
 });
 
