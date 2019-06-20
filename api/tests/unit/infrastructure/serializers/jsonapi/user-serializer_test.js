@@ -35,6 +35,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
         hasSeenMigrationModal: false,
         password: '',
         organizations: [],
+        hasSeenMigration: false,
+        isMigratedToV2: false,
       });
 
       // when
