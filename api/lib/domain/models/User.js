@@ -14,6 +14,8 @@ class User {
     lastName,
     password,
     samlId,
+    isMigratedToV2,
+    hasSeenMigration,
     // includes
     memberships = [],
     certificationCenterMemberships = [],
@@ -34,7 +36,8 @@ class User {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.samlId = samlId;
-    this.knowledgeElements = knowledgeElements;
+    this.isMigratedToV2 = isMigratedToV2;
+    this.hasSeenMigration = hasSeenMigration;
     // includes
     this.pixRoles = pixRoles;
     this.pixScore = pixScore;
@@ -43,6 +46,7 @@ class User {
     this.scorecards = scorecards;
     this.campaignParticipations = campaignParticipations;
     this.organizations = organizations;
+    this.knowledgeElements = knowledgeElements;
     // references
   }
 

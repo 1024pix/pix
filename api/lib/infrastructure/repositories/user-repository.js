@@ -62,6 +62,8 @@ function _toDomain(userBookshelf) {
     memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
+    isMigratedToV2: Boolean(userBookshelf.get('isMigratedToV2')),
+    hasSeenMigration: Boolean(userBookshelf.get('hasSeenMigration')),
   });
 }
 

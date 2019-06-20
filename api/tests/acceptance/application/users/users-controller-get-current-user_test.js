@@ -42,6 +42,8 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
             'pix-orga-terms-of-service-accepted': false,
             'pix-certif-terms-of-service-accepted': false,
             'uses-profile-v2': false,
+            'is-migrated-to-v2': false,
+            'has-seen-migration': false,
           },
           relationships: {
             memberships: {

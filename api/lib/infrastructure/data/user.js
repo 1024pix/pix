@@ -49,6 +49,8 @@ module.exports = Bookshelf.model('User', {
     model.cgu = Boolean(model.cgu);
     model.pixOrgaTermsOfServiceAccepted = Boolean(model.pixOrgaTermsOfServiceAccepted);
     model.pixCertifTermsOfServiceAccepted = Boolean(model.pixCertifTermsOfServiceAccepted);
+    model.isMigratedToV2 = Boolean(model.isMigratedToV2);
+    model.hasSeenMigration = Boolean(model.hasSeenMigration);
 
     return new User(model);
   }
