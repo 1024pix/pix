@@ -32,18 +32,27 @@ async function resetScorecard({
   campaignParticipationRepository,
 }) {
 
+  const newKnowledgeElements = await _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository });
+
+  const resetSkills = _.map(newKnowledgeElements, (knowledgeElement) => knowledgeElement.skillId);
+
   // user can have only answered to questions in campaign, in that case, competenceEvaluation does not exists
   if (shouldResetCompetenceEvaluation) {
     return Promise.all([
-      _resetSmartPlacementAssessments({ userId, assessmentRepository, campaignParticipationRepository }),
+      newKnowledgeElements,
+      _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }),
       _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluationRepository }),
-      _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository }),
     ]);
   }
 
   return Promise.all([
-    _resetSmartPlacementAssessments({ userId, assessmentRepository, campaignParticipationRepository }),
-    _resetKnowledgeElements({ userId, competenceId, knowledgeElementRepository }),
+    newKnowledgeElements,
+    _resetSmartPlacementAssessments({
+      userId,
+      resetSkills,
+      assessmentRepository,
+      campaignParticipationRepository
+    })
   ]);
 }
 
@@ -72,7 +81,7 @@ function _resetCompetenceEvaluation({ userId, competenceId, competenceEvaluation
   });
 }
 
-async function _resetSmartPlacementAssessments({ userId, assessmentRepository, campaignParticipationRepository }) {
+async function _resetSmartPlacementAssessments({ userId, resetSkills, assessmentRepository, campaignParticipationRepository }) {
   const smartPlacementAssessments = await assessmentRepository.findSmartPlacementAssessmentsByUserId(userId);
 
   if (!smartPlacementAssessments) {
@@ -80,15 +89,25 @@ async function _resetSmartPlacementAssessments({ userId, assessmentRepository, c
   }
 
   const resetSmartPlacementAssessmentsPromises = _.map(smartPlacementAssessments,
-    (smartPlacementAssessment) => _resetSmartPlacementAssessment({ assessment: smartPlacementAssessment, assessmentRepository, campaignParticipationRepository })
+    (smartPlacementAssessment) => _resetSmartPlacementAssessment({
+      assessment: smartPlacementAssessment,
+      resetSkills,
+      assessmentRepository,
+      campaignParticipationRepository
+    })
   );
   return Promise.all(resetSmartPlacementAssessmentsPromises);
 }
 
-async function _resetSmartPlacementAssessment({ assessment, assessmentRepository, campaignParticipationRepository }) {
+async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessmentRepository, campaignParticipationRepository }) {
   const campaignParticipation = await campaignParticipationRepository.findOneByAssessmentId(assessment.id);
 
-  if (!campaignParticipation || campaignParticipation.isShared) {
+  const resetSkillsNotIncludedInTargetProfile = _computeResetSkillsNotIncludedInTargetProfile({
+    targetObjectSkills: campaignParticipation.campaign.targetProfile.skills,
+    resetSkills
+  });
+
+  if (!campaignParticipation || campaignParticipation.isShared || resetSkillsNotIncludedInTargetProfile) {
     return null;
   }
 
@@ -99,7 +118,7 @@ async function _resetSmartPlacementAssessment({ assessment, assessmentRepository
     courseId: 'Smart Placement Tests CourseId Not Used'
   });
 
-  const [, newAssessmentSaved ] = await Promise.all([
+  const [, newAssessmentSaved] = await Promise.all([
     assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.ABORTED }),
     assessmentRepository.save(newAssessment)
   ]);
@@ -109,7 +128,13 @@ async function _resetSmartPlacementAssessment({ assessment, assessmentRepository
   });
 }
 
+function _computeResetSkillsNotIncludedInTargetProfile({ targetObjectSkills, resetSkills }) {
+  const targetSkills = _.map(targetObjectSkills, (skill) => skill.id);
+  return _(targetSkills).intersection(resetSkills).isEmpty();
+}
+
 module.exports = {
   resetScorecard,
   computeScorecard,
+  _computeResetSkillsNotIncludedInTargetProfile,
 };
