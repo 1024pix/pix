@@ -34,6 +34,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
         pixCertifTermsOfServiceAccepted: false,
         password: '',
         organizations: [],
+        hasSeenMigration: false,
+        isMigratedToV2: false,
       });
 
       // when
@@ -48,7 +50,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             'email': 'lskywalker@deathstar.empire',
             'cgu': true,
             'pix-orga-terms-of-service-accepted': false,
-            'pix-certif-terms-of-service-accepted': false
+            'pix-certif-terms-of-service-accepted': false,
+            'has-seen-migration': false,
+            'is-migrated-to-v2': false,
           },
           id: '234567',
           type: 'users',

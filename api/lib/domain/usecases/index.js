@@ -120,6 +120,7 @@ module.exports = injectDependencies({
   updateCertification: require('./update-certification'),
   updateOrganizationInformation: require('./update-organization-information'),
   updateSession: require('./update-session'),
+  updateUserHasSeenMigration: require('./update-user-has-seen-migration'),
   updateUserPassword: require('./update-user-password'),
   writeOrganizationSharedProfilesAsCsvToStream: require('./write-organization-shared-profiles-as-csv-to-stream'),
 });

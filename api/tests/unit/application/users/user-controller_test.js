@@ -222,6 +222,33 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
     });
+
+    context('When payload has a hasSeenMigration field', () => {
+
+      it('should update hasSeenMigration', async () => {
+        // given
+        const userId = 7;
+        const request = {
+          params: {
+            id: userId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'has-seen-migration': true,
+              },
+            },
+          },
+        };
+        const usecaseStub = sinon.stub(usecases, 'updateUserHasSeenMigration');
+
+        // when
+        await userController.updateUser(request, hFake);
+
+        // then
+        expect(usecaseStub).to.have.been.calledWith({ userId });
+      });
+    });
   });
 
   describe('#getProfileToCertify', () => {

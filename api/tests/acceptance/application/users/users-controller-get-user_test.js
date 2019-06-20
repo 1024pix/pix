@@ -50,7 +50,9 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
             'email': userToInsert.email.toLowerCase(),
             'cgu': true,
             'pix-orga-terms-of-service-accepted': false,
-            'pix-certif-terms-of-service-accepted': false
+            'pix-certif-terms-of-service-accepted': false,
+            'has-seen-migration': false,
+            'is-migrated-to-v2': false,
           },
           relationships: {
             'memberships': {
