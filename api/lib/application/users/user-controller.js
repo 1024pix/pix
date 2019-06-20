@@ -80,6 +80,11 @@ module.exports = {
             userId
           });
         }
+        if (user.hasSeenMigrationModal) {
+          return usecases.updateUserHasSeenMigrationModal({
+            userId
+          });
+        }
         return Promise.reject(new BadRequestError());
       })
       .then(() => null);

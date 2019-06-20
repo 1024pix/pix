@@ -135,9 +135,10 @@ exports.register = async function(server) {
           payload: {
             data: {
               attributes: {
-                password: Joi.string().regex(XRegExp(passwordValidationPattern)),
+                password: Joi.string().regex(XRegExp(passwordValidationPattern)).allow(null),
                 'pix-orga-terms-of-service-accepted': Joi.boolean(),
-                'pix-certif-terms-of-service-accepted': Joi.boolean()
+                'pix-certif-terms-of-service-accepted': Joi.boolean(),
+                'has-seen-migration': Joi.boolean(),
               }
             }
           }
