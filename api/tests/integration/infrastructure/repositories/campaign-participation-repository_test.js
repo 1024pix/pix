@@ -518,7 +518,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     it('should return the updated campaign-participation of the given assessmentId', async () => {
       // when
-      const updatedCampaignParticipation = await campaignParticipationRepository.updateAssessmentIdByOldAssessmentId({ oldAssessmentId: campaignParticipation.assessmentId, assessmentId: assessment.id });
+      const updatedCampaignParticipation = await campaignParticipationRepository.updateAssessmentIdByOldAssessmentId({ oldAssessmentId: campaignParticipation.assessmentId, newAssessmentId: assessment.id });
 
       // then
       expect(updatedCampaignParticipation.assessmentId).to.equal(assessment.id);

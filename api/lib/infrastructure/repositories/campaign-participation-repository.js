@@ -133,10 +133,10 @@ module.exports = {
       .catch(_checkNotFoundError);
   },
 
-  updateAssessmentIdByOldAssessmentId({ oldAssessmentId, assessmentId }) {
+  updateAssessmentIdByOldAssessmentId({ oldAssessmentId, newAssessmentId }) {
     return BookshelfCampaignParticipation
       .where({ assessmentId: oldAssessmentId })
-      .save({ assessmentId }, { patch: true, require: true })
+      .save({ assessmentId: newAssessmentId }, { patch: true, require: true })
       .then(_toDomain)
       .catch(_checkNotFoundError);
   },

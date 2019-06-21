@@ -28,7 +28,6 @@ module.exports = async function resetScorecard({
   }
 
   const remainingDaysBeforeReset = Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
-
   if (remainingDaysBeforeReset > 0) {
     throw new CompetenceResetError(remainingDaysBeforeReset);
   }

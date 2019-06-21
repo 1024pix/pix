@@ -236,10 +236,10 @@ describe('Unit | Service | ScorecardService', function() {
         campaignParticipationRepository.findOneByAssessmentId.withArgs(oldAssessment2.id).resolves(campaignParticipation2);
 
         campaignParticipationRepository.updateAssessmentIdByOldAssessmentId
-          .withArgs({ oldAssessmentId: oldAssessment1.id, assessmentId: newAssessment1Saved.id })
+          .withArgs({ oldAssessmentId: oldAssessment1.id, newAssessmentId: newAssessment1Saved.id })
           .resolves(campaignParticipation1Updated);
         campaignParticipationRepository.updateAssessmentIdByOldAssessmentId
-          .withArgs({ oldAssessmentId: oldAssessment2.id, assessmentId: newAssessment2Saved.id })
+          .withArgs({ oldAssessmentId: oldAssessment2.id, newAssessmentId: newAssessment2Saved.id })
           .resolves(campaignParticipation2Updated);
 
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId
