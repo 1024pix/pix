@@ -1,13 +1,23 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
-const { attr, belongsTo } = DS;
+const { attr, hasMany } = DS;
+
+const nameToDisplayName = {
+  ADMIN: 'Administrateur',
+  MEMBER: 'Membre',
+};
 
 export default DS.Model.extend({
 
   // Attributes
   name: attr(),
 
+  displayName: computed('name', function() {
+    return nameToDisplayName[this.name];
+  }),
+
   // Relationships
-  membership: belongsTo('membership'),
+  membership: hasMany('membership'),
 
 });
