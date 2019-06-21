@@ -11,25 +11,25 @@ export default EmberObject.extend({
 
   // Data props
   assessmentType: null,
-  nbAnswers: null,
-  nbChallenges: null,
+  challengesAnsweredCount: null,
+  challengesToAnswerCount: null,
 
   // CPs
-  _currentStep: computed('assessmentType', 'nbAnswers', 'nbChallenges', function() {
+  _currentStep: computed('assessmentType', 'challengesAnsweredCount', 'challengesToAnswerCount', function() {
     const assessmentType = this.assessmentType;
-    const nbAnswers = this.nbAnswers;
+    const challengesAnsweredCount = this.challengesAnsweredCount;
     if (assessmentType === 'COMPETENCE_EVALUATION' || assessmentType === 'SMART_PLACEMENT') {
-      return FIRST_STEP_VALUE + nbAnswers % CHECKPOINTS_MAX_STEPS;
+      return FIRST_STEP_VALUE + challengesAnsweredCount % CHECKPOINTS_MAX_STEPS;
     }
-    return Math.min(FIRST_STEP_VALUE + nbAnswers, this.nbChallenges);
+    return Math.min(FIRST_STEP_VALUE + challengesAnsweredCount, this.challengesToAnswerCount);
   }),
 
-  _maxSteps: computed('assessmentType', 'nbChallenges', function() {
+  _maxSteps: computed('assessmentType', 'challengesToAnswerCount', function() {
     const assessmentType = this.assessmentType;
     if (assessmentType === 'COMPETENCE_EVALUATION' || assessmentType === 'SMART_PLACEMENT') {
       return CHECKPOINTS_MAX_STEPS;
     }
-    return this.nbChallenges;
+    return this.challengesToAnswerCount;
   }),
 
   valueNow: computed('_currentStep', '_maxSteps', function() {
