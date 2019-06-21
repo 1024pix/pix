@@ -8,7 +8,6 @@ export default Route.extend({
 
     const assessment = this.modelFor('assessments');
     const challengeId = params.challenge_id;
-
     return RSVP.hash({
       assessment,
       challenge: store.findRecord('challenge', challengeId),
@@ -26,6 +25,9 @@ export default Route.extend({
       const campaignCode = modelResult.assessment.codeCampaign;
       const campaigns = await this._findCampaigns({ campaignCode });
       modelResult.campaign = campaigns.get('firstObject');
+    }
+    if (modelResult.assessment.get('isDemo') || modelResult.assessment.get('isCertification')) {
+      await modelResult.assessment.belongsTo('course').reload();
     }
   },
 
