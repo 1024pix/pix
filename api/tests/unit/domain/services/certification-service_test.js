@@ -106,7 +106,7 @@ const competencesFromAirtable = [
   competence_6,
 ];
 
-const userCompetencesV1 = [
+const userCompetences = [
   _buildUserCompetence(competence_1, pixForCompetence1, 1),
   _buildUserCompetence(competence_2, pixForCompetence2, 2),
   _buildUserCompetence(competence_3, pixForCompetence3, 3),
@@ -196,11 +196,12 @@ describe('Unit | Service | Certification Service', function() {
       state: 'completed',
     });
 
-    const certificationCourse = new CertificationCourse({ id: 'course1', status: 'completed', completedAt: dateCreationCertif });
+    const certificationCourse = new CertificationCourse({ id: 'course1', status: 'completed', completedAt: dateCreationCertif, isV2Certification: false });
 
     beforeEach(() => {
       sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessment);
-      sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId: 'user_id', limitDate: dateCreationCertif  }).resolves(userCompetencesV1);
+      sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId: 'user_id', limitDate: dateCreationCertif  }).resolves(userCompetences);
+      sinon.stub(userService, 'getProfileToCertifyV2').withArgs({ userId: 'user_id', limitDate: dateCreationCertif  }).resolves(userCompetences);
       sinon.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
@@ -727,7 +728,7 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       sinon.stub(assessmentRepository, 'get').resolves(certificationAssessment);
-      sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId: 'user_id', limitDate: dateCreationCertif  }).resolves(userCompetencesV1);
+      sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId: 'user_id', limitDate: dateCreationCertif  }).resolves(userCompetences);
       sinon.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sinon.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sinon.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
