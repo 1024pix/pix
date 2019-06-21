@@ -13,7 +13,10 @@ export default DS.Model.extend({
   }),
 
   averageValidatedSkillsSum: computed('campaignCompetenceCollectiveResults.@each.averageValidatedSkills', function() {
-    return  _.sumBy(this.campaignCompetenceCollectiveResults.toArray(), 'averageValidatedSkills');
+    const roundedAverageResults = this.campaignCompetenceCollectiveResults.map((campaignCompetenceCollectiveResult) => {
+      return Math.round(campaignCompetenceCollectiveResult.averageValidatedSkills * 10) / 10;
+    });
+    return Math.round(_.sum(roundedAverageResults) * 10) / 10;
   }),
 
   totalSkills: computed('campaignCompetenceCollectiveResults.@each.totalSkillsCount', function() {
