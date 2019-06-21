@@ -17,6 +17,12 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       .where({ userId, competenceId });
   }
 
+  function inspectSmartPlacementAssessmentsInDb({ userId, state }) {
+    return knex.select('*')
+      .from('assessments')
+      .where({ userId, state });
+  }
+
   function inspectKnowledgeElementsInDb({ userId, competenceId }) {
     return knex.select('*')
       .from('knowledge-elements')
@@ -108,6 +114,9 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         });
 
         competence = airtableBuilder.factory.buildCompetence({ id: competenceId });
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'url1' });
+        const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
 
         area = airtableBuilder.factory.buildArea();
 
@@ -138,8 +147,8 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
             ]
           },
           {
-            assessment: { id: 3, userId, },
-            campaignParticipation: { id: 111 },
+            assessment: { id: 3, userId, type: 'SMART_PLACEMENT' },
+            campaignParticipation: { id: 111, assessmentId: 3, campaignId: campaign.id, isShared: false },
             knowledgeElements: [
               { id: 6, skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt, },
             ]
@@ -157,6 +166,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       afterEach(async () => {
         await databaseBuilder.clean();
         await knex('knowledge-elements').delete();
+        await knex('assessments').delete();
         airtableBuilder.cleanAll();
       });
 
@@ -215,6 +225,18 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         const otherCompetenceEvaluation = await inspectCompetenceEvaluationInDb({ userId, competenceId: otherStartedCompetenceId });
         expect(competenceEvaluation[0].status).to.equal('reset');
         expect(otherCompetenceEvaluation[0].status).to.equal('started');
+      });
+
+      it('should have reset the assessment of campaign participation', async () => {
+        // given
+        const state = 'aborted';
+
+        // when
+        response = await server.inject(options);
+
+        // then
+        const smartPlacementAssessments = await inspectSmartPlacementAssessmentsInDb({ userId, state });
+        expect(smartPlacementAssessments).to.have.lengthOf(1);
       });
 
       it('should have reset the knowledge elements created from both competence evaluations and campaign', async () => {
