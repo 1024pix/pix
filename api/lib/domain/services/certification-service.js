@@ -176,13 +176,17 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   });
 }
 
-async function _getTestedCompetences({ userId, limitDate }) {
-  const userCompetences = await userService.getProfileToCertifyV1({ userId, limitDate });
-  const testedCompetences = _(userCompetences)
+async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
+  let userCompetences;
+  if (isV2Certification) {
+    userCompetences = await userService.getProfileToCertifyV2({ userId, limitDate });
+  } else {
+    userCompetences = await userService.getProfileToCertifyV1({ userId, limitDate });
+  }
+  return _(userCompetences)
     .filter((uc) => uc.estimatedLevel > 0)
     .map((uc) => _.pick(uc, ['id', 'index', 'name', 'estimatedLevel', 'pixScore']))
     .value();
-  return testedCompetences;
 }
 
 async function _getCertificationResult(assessment, continueOnError = false) {
@@ -203,6 +207,7 @@ async function _getCertificationResult(assessment, continueOnError = false) {
   const testedCompetences = await _getTestedCompetences({
     userId: assessment.userId,
     limitDate: assessment.createdAt,
+    isV2Certification: certificationCourse.isV2Certification,
   });
 
   certificationChallenges.forEach((certifChallenge) => {
