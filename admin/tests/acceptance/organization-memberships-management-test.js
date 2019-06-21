@@ -47,28 +47,46 @@ module('Acceptance | organization memberships management', function(hooks) {
       assert.dom('div.member-list').includesText('Charlie');
     });
 
-    test('should display the correct user data', async function(assert) {
+    test('should display the correct user data for an ADMIN', async function(assert) {
       // given
       const organization = this.server.create('organization');
       const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
-      this.server.create('membership', { user, organization });
+      const organizationRole = this.server.create('organization-role', { name: 'ADMIN' });
+
+      this.server.create('membership', { user, organization, organizationRole });
 
       // when
       await visit(`/organizations/${organization.id}`);
 
       // then
-      assert.equal(this.element.querySelectorAll('div.member-list table > thead > tr > th ').length, 4);
+      assert.equal(this.element.querySelectorAll('div.member-list table > thead > tr > th').length, 5);
 
       assert.dom('div.member-list table > thead').includesText('Id');
       assert.dom('div.member-list table > thead').includesText('Prénom');
       assert.dom('div.member-list table > thead').includesText('Nom');
       assert.dom('div.member-list table > thead').includesText('Courriel');
+      assert.dom('div.member-list table > thead').includesText('Rôle');
 
       assert.dom('div.member-list table > tbody').includesText(user.id);
       assert.dom('div.member-list table > tbody').includesText('Denise');
       assert.dom('div.member-list table > tbody').includesText('Ter Hegg');
       assert.dom('div.member-list table > tbody').includesText('denise@example.com');
+      assert.dom('div.member-list table > tbody').includesText('Administrateur');
+    });
 
+    test('should display the correct user data for a MEMBER', async function(assert) {
+      // given
+      const organization = this.server.create('organization');
+      const user = this.server.create('user', { firstName: 'Louis', lastName: 'Ter Hegg', email: 'louis@example.com' });
+      const organizationRole = this.server.create('organization-role', { name: 'MEMBER' });
+
+      this.server.create('membership', { user, organization, organizationRole });
+
+      // when
+      await visit(`/organizations/${organization.id}`);
+
+      // then
+      assert.dom('div.member-list table > tbody').includesText('Membre');
     });
   });
 

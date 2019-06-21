@@ -9,5 +9,5 @@ export default DS.Model.extend({
   // Relationships
   organization: belongsTo('organization'),
   user: belongsTo('user'),
-
+  organizationRole: belongsTo('organization-role'),
 });

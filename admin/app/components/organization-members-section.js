@@ -17,6 +17,10 @@ const columns = [
   {
     propertyName: 'user.email',
     title: 'Courriel',
+  },
+  {
+    propertyName: 'organizationRole.displayName',
+    title: 'Rôle',
   }
 ];
 
