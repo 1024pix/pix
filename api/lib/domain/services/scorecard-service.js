@@ -124,7 +124,7 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
   ]);
 
   return campaignParticipationRepository.updateAssessmentIdByOldAssessmentId({
-    oldAssessmentId: assessment.id, assessmentId: newAssessmentSaved.id
+    oldAssessmentId: assessment.id, newAssessmentId: newAssessmentSaved.id
   });
 }
 
