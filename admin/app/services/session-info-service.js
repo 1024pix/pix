@@ -150,11 +150,15 @@ function _buildSessionExportFileData(session) {
 function _getSessionCertificationsToBeReviewed(certifications, attendanceSheetCandidates) {
   const candidatesToBeReviewed = _.filter(attendanceSheetCandidates, (candidate) => {
     const hasCommentFromManager = !!candidate.comments && candidate.comments.trim() !== '';
-    const didNotSeenEndScreen = !candidate.lastScreen || candidate.lastScreen.trim() === '';
-    return hasCommentFromManager || didNotSeenEndScreen;
+    const hasSeenEndScreen = !!candidate.lastScreen && candidate.lastScreen.trim() !== '';
+    return hasCommentFromManager || !hasSeenEndScreen;
   });
 
-  const certificationIdsOfCandidatesToBeReviewed = _.map(candidatesToBeReviewed, (candidate) => candidate.certificationId.trim());
+  const certificationIdsOfCandidatesToBeReviewed = _.map(candidatesToBeReviewed, (candidate) => {
+    if (candidate.certificationId) {
+      return candidate.certificationId.trim();
+    }
+  });
 
   return certifications.filter((certification) => {
     const hasInvalidCandidate = _.includes(certificationIdsOfCandidatesToBeReviewed, certification.id);
