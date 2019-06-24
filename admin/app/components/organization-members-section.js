@@ -19,7 +19,7 @@ const columns = [
     title: 'Courriel',
   },
   {
-    propertyName: 'organizationRole.displayName',
+    propertyName: 'organizationRole.displayedName',
     title: 'Rôle',
   }
 ];

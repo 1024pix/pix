@@ -3,7 +3,7 @@ import { computed } from '@ember/object';
 
 const { attr, hasMany } = DS;
 
-const nameToDisplayName = {
+const displayedNames = {
   ADMIN: 'Administrateur',
   MEMBER: 'Membre',
 };
@@ -13,8 +13,8 @@ export default DS.Model.extend({
   // Attributes
   name: attr(),
 
-  displayName: computed('name', function() {
-    return nameToDisplayName[this.name];
+  displayedName: computed('name', function() {
+    return displayedNames[this.name];
   }),
 
   // Relationships
