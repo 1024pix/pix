@@ -5,9 +5,6 @@ import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-const FEEDBACK_FORM = '.feedback-panel__view--form';
-const LINK_OPEN_FORM = '.feedback-panel__view--link';
-
 describe('Integration | Component | comparison-window', function() {
 
   setupRenderingTest();
@@ -110,8 +107,7 @@ describe('Integration | Component | comparison-window', function() {
       await render(hbs`{{comparison-window answer=answer closeComparisonWindow=closeComparisonWindow}}`);
       //then
       expect(find('.comparison-window__feedback-panel')).to.exist;
-      expect(find(FEEDBACK_FORM)).to.exist;
-      expect(find(LINK_OPEN_FORM)).to.not.exist;
+      expect(find('.feedback-panel__form')).to.exist;
     });
 
     [

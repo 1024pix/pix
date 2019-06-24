@@ -6,6 +6,10 @@
 /* "Link" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
+.feedback-panel__view--link {
+  margin-bottom: 10px;
+}
+
 .feedback-panel__open-link {
   cursor: pointer;
   color: inherit;
@@ -22,13 +26,6 @@
 
 /* "Form" view
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.feedback-panel__form-title {
-  font-size: 15px;
-  font-weight: $font-heavy;
-  margin: 0 0 20px;
-  line-height: 20px;
-}
 
 .feedback-panel__form-description {
   margin-bottom: 20px;
