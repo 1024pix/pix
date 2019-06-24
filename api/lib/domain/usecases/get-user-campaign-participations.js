@@ -6,6 +6,6 @@ module.exports = ({ authenticatedUserId, requestedUserId, campaignParticipationR
     return Promise.reject(new UserNotAuthorizedToAccessEntity());
   }
 
-  return campaignParticipationRepository.findByUserId(requestedUserId);
+  return campaignParticipationRepository.findByUserIdUniqByCampaignId(requestedUserId);
 
 };

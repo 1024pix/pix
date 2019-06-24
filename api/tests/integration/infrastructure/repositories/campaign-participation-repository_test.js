@@ -215,20 +215,22 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findByUserId', () => {
+  describe('#findByUserIdUniqByCampaignId', () => {
 
-    let user1;
-    let user2;
+    const user1 = 123;
+    const user2 = 456;
+    let campaign1;
+    let campaign2;
     let campaignParticipation1;
     let campaignParticipation2;
 
     beforeEach(async () => {
-      user1 = databaseBuilder.factory.buildCampaign({});
-      user2 = databaseBuilder.factory.buildCampaign({});
+      campaign1 = databaseBuilder.factory.buildCampaign({});
+      campaign2 = databaseBuilder.factory.buildCampaign({});
 
-      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ userId: user1.id });
-      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ userId: user1.id });
-      databaseBuilder.factory.buildCampaignParticipation({ userId: user2.id });
+      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ userId: user1, campaignId: campaign1.id });
+      campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({ userId: user1, campaignId: campaign2.id });
+      databaseBuilder.factory.buildCampaignParticipation({ userId: user2, campaignId: campaign1.id });
       await databaseBuilder.commit();
     });
 
@@ -238,10 +240,10 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     it('should return all the campaign-participation links to the given user', () => {
       // given
-      const userId = user1.id;
+      const userId = user1;
 
       // when
-      const promise = campaignParticipationRepository.findByUserId(userId);
+      const promise = campaignParticipationRepository.findByUserIdUniqByCampaignId(userId);
 
       // then
       return promise.then((campaignParticipationsFind) => {
@@ -249,6 +251,21 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(campaignParticipationsFind[0].userId).to.equal(campaignParticipation1.userId);
         expect(campaignParticipationsFind[1].userId).to.equal(campaignParticipation2.userId);
       });
+    });
+
+    it('should return the last campaign-participation unique by campaign', async () => {
+      // given
+      const userId = user1;
+      databaseBuilder.factory.buildCampaignParticipation({ userId: user1, campaignId: campaign2.id });
+      await databaseBuilder.commit();
+
+      // when
+      const campaignParticipationsFind = await campaignParticipationRepository.findByUserIdUniqByCampaignId(userId);
+
+      // then
+      expect(campaignParticipationsFind).to.have.a.lengthOf(2);
+      expect(campaignParticipationsFind[0].userId).to.equal(campaignParticipation1.userId);
+
     });
   });
 

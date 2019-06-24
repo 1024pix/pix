@@ -6,7 +6,7 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
 
   let authenticatedUserId;
   let requestedUserId;
-  const campaignParticipationRepository = { findByUserId: () => undefined };
+  const campaignParticipationRepository = { findByUserIdUniqByCampaignId: () => undefined };
 
   it('should reject a NotAuthorized error if authenticated user ask for another user campaign participation', () => {
     // given
@@ -25,14 +25,14 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
   context('When authenticated User is authorized to retrieve his campaign participations', () => {
 
     beforeEach(() => {
-      sinon.stub(campaignParticipationRepository, 'findByUserId');
+      sinon.stub(campaignParticipationRepository, 'findByUserIdUniqByCampaignId');
     });
 
-    it('should call findByUserId to find all campaign-participations', () => {
+    it('should call findByUserIdUniqByCampaignId to find all campaign-participations', () => {
       // given
       authenticatedUserId = 1;
       requestedUserId = 1;
-      campaignParticipationRepository.findByUserId.resolves();
+      campaignParticipationRepository.findByUserIdUniqByCampaignId.resolves();
 
       // when
       const promise = getUserCampaignParticipations({
@@ -43,15 +43,15 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
 
       // then
       return promise.then(() => {
-        expect(campaignParticipationRepository.findByUserId).to.have.been.calledWith(requestedUserId);
+        expect(campaignParticipationRepository.findByUserIdUniqByCampaignId).to.have.been.calledWith(requestedUserId);
       });
     });
 
     it('should return user with his campaign participations', () => {
       // given
-      const campaignParticipation1 = campaignParticipationRepository.findByUserId.resolves(domainBuilder.buildCampaignParticipation({ userId: requestedUserId }));
-      const campaignParticipation2 = campaignParticipationRepository.findByUserId.resolves(domainBuilder.buildCampaignParticipation({ userId: requestedUserId }));
-      campaignParticipationRepository.findByUserId.resolves([campaignParticipation1, campaignParticipation2]);
+      const campaignParticipation1 = campaignParticipationRepository.findByUserIdUniqByCampaignId.resolves(domainBuilder.buildCampaignParticipation({ userId: requestedUserId }));
+      const campaignParticipation2 = campaignParticipationRepository.findByUserIdUniqByCampaignId.resolves(domainBuilder.buildCampaignParticipation({ userId: requestedUserId }));
+      campaignParticipationRepository.findByUserIdUniqByCampaignId.resolves([campaignParticipation1, campaignParticipation2]);
 
       // when
       const promise = getUserCampaignParticipations({

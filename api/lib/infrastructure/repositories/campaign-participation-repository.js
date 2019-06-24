@@ -48,13 +48,14 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  findByUserId(userId) {
+  findByUserIdUniqByCampaignId(userId) {
     return BookshelfCampaignParticipation
       .where({ userId })
       .orderBy('createdAt', 'DESC')
       .fetchAll({ withRelated: ['campaign'] })
       .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
-      .then(fp.map(_toDomain));
+      .then(fp.map(_toDomain))
+      .then((campaignParticipations) => _.uniqBy(campaignParticipations, 'campaignId'));
   },
 
   findOneByAssessmentId(assessmentId) {
