@@ -1,3 +1,8 @@
-module.exports = function createMembership({ membershipRepository, userId, organizationId, organizationRoleId = 1 }) {
+const { roles } = require('../models/Membership');
+
+module.exports = async function createMembership({ membershipRepository, userId, organizationId }) {
+  const memberships = await membershipRepository.findByOrganizationId(organizationId);
+  const organizationRoleId =  memberships.length ? roles.MEMBER : roles.ADMIN;
+
   return membershipRepository.create(userId, organizationId, organizationRoleId);
 };

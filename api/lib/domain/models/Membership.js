@@ -1,3 +1,8 @@
+const roles = {
+  ADMIN: 1,
+  MEMBER: 2,
+};
+
 class Membership {
 
   constructor({
@@ -18,5 +23,7 @@ class Membership {
     // references
   }
 }
+
+Membership.roles = roles;
 
 module.exports = Membership;
