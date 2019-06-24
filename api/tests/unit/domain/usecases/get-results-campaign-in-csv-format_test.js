@@ -99,7 +99,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const targetProfileRepository = { get: () => undefined };
     const competenceRepository = { list: () => undefined };
     const organizationRepository = { get: () => undefined };
-    const campaignParticipationRepository = { findByCampaignId: () => undefined };
+    const campaignParticipationRepository = { findByCampaignIdUniqByUserId: () => undefined };
     const smartPlacementAssessmentRepository = { get: () => undefined };
     const knowledgeElementRepository = { findUniqByUserId: () => undefined };
 
@@ -115,7 +115,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       sinon.stub(userRepository, 'get').resolves(user);
       sinon.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
       sinon.stub(knowledgeElementRepository, 'findUniqByUserId').resolves(knowledgeElements);
-      findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findByCampaignId');
+      findCampaignParticipationStub = sinon.stub(campaignParticipationRepository, 'findByCampaignIdUniqByUserId');
     });
 
     it('should return the header in CSV styles with all competence, domain and skills', () => {

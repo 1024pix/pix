@@ -40,12 +40,14 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByCampaignId(campaignId) {
+  findByCampaignIdUniqByUserId(campaignId) {
     return BookshelfCampaignParticipation
       .where({ campaignId })
+      .orderBy('createdAt', 'DESC')
       .fetchAll({ withRelated: ['campaign'] })
       .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
-      .then(fp.map(_toDomain));
+      .then(fp.map(_toDomain))
+      .then((campaignParticipations) => _.uniqBy(campaignParticipations, 'userId'));
   },
 
   findByUserIdUniqByCampaignId(userId) {

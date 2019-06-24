@@ -169,7 +169,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findByCampaignId', () => {
+  describe('#findByCampaignIdUniqByUserId', () => {
 
     let campaign1;
     let campaign2;
@@ -181,14 +181,17 @@ describe('Integration | Repository | Campaign Participation', () => {
       campaign2 = databaseBuilder.factory.buildCampaign({});
 
       campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
+        userId: 123,
         campaignId: campaign1.id,
         isShared: true
       });
       campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
+        userId: 456,
         campaignId: campaign1.id,
         isShared: true
       });
       databaseBuilder.factory.buildCampaignParticipation({
+        userId: 123,
         campaignId: campaign2.id,
         isShared: true
       });
@@ -204,7 +207,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const campaignId = campaign1.id;
 
       // when
-      const promise = campaignParticipationRepository.findByCampaignId(campaignId);
+      const promise = campaignParticipationRepository.findByCampaignIdUniqByUserId(campaignId);
 
       // then
       return promise.then((campaignParticipationsFind) => {
@@ -212,6 +215,24 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(campaignParticipationsFind[0].campaign.id).to.equal(campaignParticipation1.campaignId);
         expect(campaignParticipationsFind[1].campaign.id).to.equal(campaignParticipation2.campaignId);
       });
+    });
+
+    it('should return the last campaign-participation unique by campaign', async () => {
+      // given
+      const campaignId = campaign1.id;
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId: 123,
+        campaignId: campaign1.id,
+        isShared: true
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const campaignParticipationsFind = await campaignParticipationRepository.findByCampaignIdUniqByUserId(campaignId);
+
+      // then
+      expect(campaignParticipationsFind.length).to.equal(2);
+      expect(campaignParticipationsFind[0].campaign.id).to.equal(campaignParticipation1.campaignId);
     });
   });
 

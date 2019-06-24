@@ -292,7 +292,7 @@ module.exports = function getResultsCampaignInCSVFormat(
         targetProfileRepository.get(campaign.targetProfileId),
         competenceRepository.list(),
         organizationRepository.get(campaign.organizationId),
-        campaignParticipationRepository.findByCampaignId(campaign.id),
+        campaignParticipationRepository.findByCampaignIdUniqByUserId(campaign.id),
       ]);
 
     }).then(([targetProfile, listAllCompetences, organizationFound, listCampaignParticipation]) => {
