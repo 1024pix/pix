@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.50.0 (24/06/2019)
+
+- [#557](https://github.com/1024pix/pix/pull/557) [FEATURE] Affichage de la moyenne des résultats d'une campagne. (PO-197)
+- [#560](https://github.com/1024pix/pix/pull/560) [FEATURE] Retouche de la fenêtre pour signaler un problème. (PF-612)
+- [#520](https://github.com/1024pix/pix/pull/520) [FEATURE] Import certification report.(PA-93)
+- [#565](https://github.com/1024pix/pix/pull/565) [TECH] Ajout du role MEMBER dans Pix Admin/Orga. (PA-95)
+- [#564](https://github.com/1024pix/pix/pull/564) [TECH] Permettre de configurer API_HOST sur mon-pix en dev.
+- [#554](https://github.com/1024pix/pix/pull/554) [TECH] Ajout d'un test cypress pour preview.
+- [#553](https://github.com/1024pix/pix/pull/553) [TECH] Corriger "npm run start:watch" pour de bon.
+
 ## v2.49.0 (18/06/2019)
 
 - [#552](https://github.com/1024pix/pix/pull/552) [FEATURE] Ajouter des animations CSS sur competence-card (PF-586).
