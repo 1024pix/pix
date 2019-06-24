@@ -5,7 +5,7 @@ const sessionRepository = require('../../infrastructure/repositories/session-rep
 module.exports = {
 
   get(sessionId) {
-    return sessionRepository.get(sessionId);
+    return sessionRepository.getWithCertificationCourses(sessionId);
   },
 
   find() {

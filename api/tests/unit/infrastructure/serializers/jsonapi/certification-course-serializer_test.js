@@ -18,6 +18,11 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         userId: 2,
         assessment: assessment,
         nbChallenges: 3,
+        birthdate: '14 Jan 2005',
+        birthplace: 'Guantanamo',
+        firstName: 'José',
+        lastName: 'Ock',
+        externalId: 5,
       });
 
       const jsonCertificationCourseWithAssessment = {
@@ -26,8 +31,13 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
           id: 'certification_id',
           attributes: {
             'user-id': '2',
-            'type': 'CERTIFICATION',
+            type: 'CERTIFICATION',
             'nb-challenges': 3,
+            birthdate: '14 Jan 2005',
+            birthplace: 'Guantanamo',
+            'first-name': 'José',
+            'last-name': 'Ock',
+            'external-id': 5,
           },
           relationships: {
             assessment: {

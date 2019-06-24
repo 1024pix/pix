@@ -65,7 +65,20 @@ exports.register = async (server) => {
         ],
         tags: ['api', 'session']
       }
-    }
+    },
+    {
+      method: 'GET',
+      path: '/api/sessions/{id}/certification-courses',
+      config: {
+        handler: sessionController.getCertificationCourses,
+        tags: ['api'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération de la liste des participants d\'une session\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la session à modifier',
+        ],
+      }
+    },
   ]);
 };
 

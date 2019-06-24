@@ -151,19 +151,11 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#get', () => {
+  describe('#getWithCertificationCourses', () => {
 
     beforeEach(() => {
       databaseBuilder.factory.buildSession({
         id: 1,
-        certificationCenter: 'Tour Gamma',
-        address: 'rue de Bercy',
-        room: 'Salle A',
-        examiner: 'Monsieur Examinateur',
-        date: '2018-02-23',
-        time: '12:00',
-        description: 'CertificationPix pour les jeunes',
-        accessCode: 'NJR10'
       });
 
       databaseBuilder.factory.buildCertificationCourse({
@@ -180,6 +172,47 @@ describe('Integration | Repository | Session', function() {
         id: 3,
         userId: 3,
         sessionId: 2
+      });
+      return databaseBuilder.commit();
+    });
+
+    it('should return associated certifications', function() {
+      // when
+      const promise = sessionRepository.getWithCertificationCourses(1);
+
+      // then
+      return promise.then((session) => {
+        expect(session.certifications).to.be.instanceOf(Array);
+        expect(session.certifications.length).to.be.equal(2);
+        expect(session.certifications[0].attributes.id).to.be.equal(1);
+        expect(session.certifications[0].attributes.userId).to.be.equal(1);
+        expect(session.certifications[1].attributes.id).to.be.equal(2);
+        expect(session.certifications[1].attributes.userId).to.be.equal(2);
+      });
+    });
+
+    it('should return a Not found error when no session was found', function() {
+      // when
+      const promise = sessionRepository.getWithCertificationCourses(2);
+
+      // then
+      return expect(promise).to.be.rejectedWith(NotFoundError);
+    });
+  });
+
+  describe('#get', () => {
+
+    beforeEach(() => {
+      databaseBuilder.factory.buildSession({
+        id: 1,
+        certificationCenter: 'Tour Gamma',
+        address: 'rue de Bercy',
+        room: 'Salle A',
+        examiner: 'Monsieur Examinateur',
+        date: '2018-02-23',
+        time: '12:00',
+        description: 'CertificationPix pour les jeunes',
+        accessCode: 'NJR10'
       });
       return databaseBuilder.commit();
     });
@@ -202,21 +235,6 @@ describe('Integration | Repository | Session', function() {
         expect(session.time).to.be.equal('12:00');
         expect(session.description).to.be.equal('CertificationPix pour les jeunes');
         expect(session.accessCode).to.be.equal('NJR10');
-      });
-    });
-
-    it('should return associated certifications', function() {
-      // when
-      const promise = sessionRepository.get(1);
-
-      // then
-      return promise.then((session) => {
-        expect(session.certifications).to.be.instanceOf(Array);
-        expect(session.certifications.length).to.be.equal(2);
-        expect(session.certifications[0].attributes.id).to.be.equal(1);
-        expect(session.certifications[0].attributes.userId).to.be.equal(1);
-        expect(session.certifications[1].attributes.id).to.be.equal(2);
-        expect(session.certifications[1].attributes.userId).to.be.equal(2);
       });
     });
 

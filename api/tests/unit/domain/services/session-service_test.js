@@ -63,14 +63,14 @@ describe('Unit | Service | session', () => {
     it('should get session informations with related certifications', () => {
       // given
       const sessionId = 'sessionId';
-      sinon.stub(sessionRepository, 'get').resolves();
+      sinon.stub(sessionRepository, 'getWithCertificationCourses').resolves();
 
       // when
       const promise = sessionService.get(sessionId);
 
       // then
       return promise.then(() => {
-        expect(sessionRepository.get).to.have.been.calledWith('sessionId');
+        expect(sessionRepository.getWithCertificationCourses).to.have.been.calledWith('sessionId');
       });
     });
   });

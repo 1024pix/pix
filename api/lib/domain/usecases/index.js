@@ -64,6 +64,7 @@ module.exports = injectDependencies({
   createUser: require('./create-user'),
   findCertificationAssessments: require('./find-certification-assessments'),
   findCertificationCenters: require('./find-certification-centers'),
+  findCertificationCourses: require('./find-certification-courses'),
   findCompetenceEvaluations: require('./find-competence-evaluations'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findOrganizations: require('./find-organizations'),

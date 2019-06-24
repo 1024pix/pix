@@ -77,6 +77,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.UserNotAuthorizedToGetCampaignResultsError) {
     return new InfraErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.UserNotAuthorizedToGetSessionCertificationCoursesError) {
+    return new InfraErrors.ForbiddenError(error.message);
+  }
   if (error instanceof DomainErrors.UserNotFoundError) {
     return new InfraErrors.NotFoundError(error.message);
   }

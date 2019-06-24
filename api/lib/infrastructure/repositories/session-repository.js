@@ -42,13 +42,26 @@ module.exports = {
   get(idSession) {
     return BookshelfSession
       .where({ id: idSession })
+      .fetch({ require: true })
+      .then(_toDomain)
+      .catch((error) => {
+        if (error instanceof BookshelfSession.NotFoundError) {
+          throw new NotFoundError();
+        }
+        throw error;
+      });
+  },
+
+  getWithCertificationCourses(idSession) {
+    return BookshelfSession
+      .where({ id: idSession })
       .fetch({ require: true, withRelated: ['certificationCourses'] })
       .then(_toDomain)
       .catch((error) => {
         if (error instanceof BookshelfSession.NotFoundError) {
-          return Promise.reject(new NotFoundError());
+          throw new NotFoundError();
         }
-        return Promise.reject(error);
+        throw error;
       });
   },
 

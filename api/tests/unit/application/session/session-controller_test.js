@@ -8,6 +8,7 @@ const sessionService = require('../../../../lib/domain/services/session-service'
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
+const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -152,7 +153,7 @@ describe('Unit | Controller | sessionController', () => {
     });
   });
 
-  describe('#update ', () => {
+  describe('#update', () => {
     let request, updatedSession, updateSessionArgs;
 
     beforeEach(() => {
@@ -177,16 +178,42 @@ describe('Unit | Controller | sessionController', () => {
       sessionSerializer.deserialize.withArgs(request.payload).returns({});
     });
 
-    it('should returns the updated session', async () => {
+    it('should return the updated session', async () => {
       // given
       usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
       sessionSerializer.serialize.withArgs(updatedSession).returns(updatedSession);
 
       // when
-      const response = await sessionController.update(request, hFake);
+      const response = await sessionController.update(request);
 
       // then
       expect(response).to.deep.equal(updatedSession);
+    });
+  });
+
+  describe('#getCertificationCourses', () => {
+    let request;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId: 1 } },
+        params: { id : 1 }
+      };
+
+      sinon.stub(usecases, 'findCertificationCourses');
+      sinon.stub(certificationCourseSerializer, 'serialize');
+    });
+
+    it('should return the certification courses related to a given session', async() => {
+      // given
+      usecases.findCertificationCourses.withArgs({ userId: 1, sessionId: 1 }).resolves([]);
+      certificationCourseSerializer.serialize.withArgs([]).returns('json');
+
+      // when
+      const response = await sessionController.getCertificationCourses(request);
+
+      // then
+      expect(response).to.be.equal('json');
     });
   });
 });

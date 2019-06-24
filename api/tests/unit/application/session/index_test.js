@@ -64,4 +64,17 @@ describe('Unit | Application | Sessions | Routes', () => {
       expect(res.statusCode).to.equal(200);
     });
   });
+
+  describe('GET /api/sessions/{id}/certification-courses', () => {
+
+    beforeEach(() => {
+      sinon.stub(sessionController, 'getCertificationCourses').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}/certification-courses' });
+      expect(res.statusCode).to.equal(200);
+    });
+  });
 });

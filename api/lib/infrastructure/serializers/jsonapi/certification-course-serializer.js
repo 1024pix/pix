@@ -9,14 +9,14 @@ module.exports = {
   serialize(certificationCourse) {
 
     return new Serializer('course', {
-      attributes: ['userId', 'assessment', 'type', 'nbChallenges'],
-      assessment: {
-        ref: 'id',
-      },
       transform(record) {
         record.userId = record.userId.toString();
         record.type = 'CERTIFICATION';
         return record;
+      },
+      attributes: ['userId', 'assessment', 'type', 'nbChallenges', 'birthplace', 'birthdate', 'firstName', 'lastName', 'externalId'],
+      assessment: {
+        ref: 'id',
       },
     }).serialize(certificationCourse);
   },

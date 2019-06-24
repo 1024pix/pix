@@ -56,6 +56,13 @@ module.exports = {
       });
   },
 
+  find(sessionId) {
+    return CertificationCourseBookshelf
+      .where({ sessionId })
+      .fetchAll()
+      .then((certificationCourses) => certificationCourses.map(_toDomain));
+  },
+
   findLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
     return CertificationCourseBookshelf
       .where({ userId, sessionId })

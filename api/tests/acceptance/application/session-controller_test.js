@@ -422,4 +422,80 @@ describe('Acceptance | Controller | session-controller', () => {
     });
   });
 
+  describe('GET /sessions/{id}/certification-courses', function() {
+    let request;
+    let certificationCourses;
+
+    beforeEach(async () => {
+      const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      const user = databaseBuilder.factory.buildUser();
+      databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId: certificationCenter.id, userId: user.id });
+      const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id });
+      certificationCourses = [
+        databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id }),
+        databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id }),
+      ];
+      request = {
+        method: 'GET',
+        url: '/api/sessions/' + session.id + '/certification-courses',
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+      };
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => await databaseBuilder.clean());
+
+    it('should return all certification courses linked to the given session', async () => {
+      // given
+      const expectedResult = {
+        data: [{
+          type: 'courses',
+          id: certificationCourses[0].id.toString(),
+          attributes: {
+            birthplace: certificationCourses[0].birthplace,
+            birthdate: certificationCourses[0].birthdate,
+            'external-id': certificationCourses[0].externalId,
+            'first-name': certificationCourses[0].firstName,
+            'last-name': certificationCourses[0].lastName,
+            type: 'CERTIFICATION',
+            'user-id': certificationCourses[0].userId.toString(),
+            'nb-challenges': undefined,
+          },
+          relationships: {
+            assessment: {
+              data: null
+            }
+          }
+        }, {
+          type: 'courses',
+          id: certificationCourses[1].id.toString(),
+          attributes: {
+            birthplace: certificationCourses[1].birthplace,
+            birthdate: certificationCourses[1].birthdate,
+            'external-id': certificationCourses[1].externalId,
+            'first-name': certificationCourses[1].firstName,
+            'last-name': certificationCourses[1].lastName,
+            type: 'CERTIFICATION',
+            'user-id': certificationCourses[1].userId.toString(),
+            'nb-challenges': undefined,
+          },
+          relationships: {
+            assessment: {
+              data: null
+            }
+          }
+        }]
+      };
+
+      // when
+      const response = await server.inject(request);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result).to.deep.equal(expectedResult);
+    });
+  });
+
 });
