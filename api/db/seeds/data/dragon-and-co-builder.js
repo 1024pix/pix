@@ -9,6 +9,15 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     cgu: true,
   });
 
+  const proUserGreyWorm = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: 8,
+    firstName: 'Thorgo',
+    lastName: 'Nudo',
+    email: 'greyworm@example.net',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
+
   const dragonAndCoCompany = databaseBuilder.factory.buildOrganization({
     id: 1,
     type: 'PRO',
@@ -22,6 +31,12 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     userId: proUserDaenerys.id,
     organizationId: dragonAndCoCompany.id,
     organizationRoleId: 1,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: proUserGreyWorm.id,
+    organizationId: dragonAndCoCompany.id,
+    organizationRoleId: 2,
   });
 
   const privateTargetProfile = databaseBuilder.factory.buildTargetProfile({
