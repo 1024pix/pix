@@ -1,28 +1,53 @@
-{{certification-list certifications=model.certifications changeAction=(action "onListSelectionChange")}}
-{{#if progress}}
-  <div class="session-list__progress">
-    {{#bs-progress as |p|}}
-      {{p.bar value=progressValue maxValue=progressMax}}
-    {{/bs-progress}}
-  </div>
-{{/if}}
-<div class="row">
-  <div class="col session-list__actions">
-    {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onExport")}}
-      Exporter{{/bs-button}}
-    {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onImport")}}
-      Importer...{{/bs-button}}
-    {{#if showSelectedActions}}
-      {{#bs-dropdown as |dd|}}
-        {{#dd.button type='primary'}}Avec la sélection... <span class='caret'></span>{{/dd.button}}
-        {{#dd.menu as |ddm|}}
-          {{#ddm.item}}<span class='dropdown-item' {{action "onConfirmPublishSelected"}}>Publier</span>{{/ddm.item}}
-          {{#ddm.item}}<span class='dropdown-item' {{action "onConfirmUnpublishSelected"}}>Dépublier</span>{{/ddm.item}}
-        {{/dd.menu}}
-      {{/bs-dropdown}}
-    {{/if}}
-    {{input type='file' id='session-list__import-file' change=(action "onImportFileSelect")}}
+<div class="certification-list-page">
+
+  <header class="certification-list-page__header">
+    <h2 class="certification-list-page__title">Certifications</h2>
+    <div class="btn-group certification-list-page__actions" role="group">
+
+      <button class="btn btn-outline-default btn--check-session-record" type="button">
+        {{#file-upload name="session-certifications-candidates" onfileadd=(action "importAndLinkCandidatesToTheSessionCertifications") accept="text/csv"}}
+          {{fa-icon "users"}}
+        {{/file-upload}}
+        {{#bs-tooltip}}Importer les données des candidats de la session pour compléter les données de certifications correspondantes (.csv){{/bs-tooltip}}
+      </button>
+
+      <button class="btn btn-outline-default btn--check-session-record" type="button">
+        {{#file-upload name="session-record-report" onfileadd=(action "displayCertificationSessionReportModal") accept="application/vnd.oasis.opendocument.spreadsheet"}}
+          {{fa-icon "clipboard-list"}}
+        {{/file-upload}}
+        {{#bs-tooltip}}Analyser le PV de session afin de détecter les cas particuliers à traiter (.ods){{/bs-tooltip}}
+      </button>
+
+      <button class="btn btn-outline-default" {{action "downloadSessionResultFile"}} type="button">
+        {{fa-icon "file-download"}}
+        {{#bs-tooltip}}Exporter les résultats après jury pour les communiquer aux prescripteurs (.csv){{/bs-tooltip}}
+      </button>
+
+      {{#if showSelectedActions}}
+        {{#bs-dropdown as |dd|}}
+          {{#dd.button type='primary'}}Avec la sélection... <span class='caret'></span>{{/dd.button}}
+          {{#dd.menu as |ddm|}}
+            {{#ddm.item}}<span class='dropdown-item' {{action "displayCertificationStatusUpdateConfirmationModal" "publish"}}>Publier</span>{{/ddm.item}}
+            {{#ddm.item}}<span class='dropdown-item' {{action "displayCertificationStatusUpdateConfirmationModal" "unpublish"}}>Dépublier</span>{{/ddm.item}}
+          {{/dd.menu}}
+        {{/bs-dropdown}}
+      {{/if}}
+    </div>
+  </header>
+
+  <div class="certification-list-page__body">
+    {{certification-list certifications=model.certifications changeAction=(action "onListSelectionChange")}}
   </div>
 </div>
-{{confirm-popup message=confirmMessage confirm=(action confirmAction) cancel=(action "onCancelConfirm")
+
+{{confirm-popup message=confirmMessage
+                confirm=(action confirmAction)
+                cancel=(action "onCancelConfirm")
                 show=displayConfirm}}
+
+{{certification-session-report show=displaySessionReport
+                               hide=(action (mut displaySessionReport) false)
+                               getJuryFile=(action "downloadJuryFile")
+                               saveCandidates=(action "onSaveReportData")
+                               candidates=importedCandidates
+                               certifications=model.certifications }}

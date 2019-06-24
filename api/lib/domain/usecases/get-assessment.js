@@ -49,11 +49,12 @@ async function _fetchAssessmentTitle({
     }
 
     case Assessment.types.DEMO :
-    case Assessment.types.PLACEMENT :
-    case Assessment.types.PREVIEW : {
+    case Assessment.types.PLACEMENT : {
       return await courseRepository.getCourseName(assessment.courseId);
     }
-
+    case Assessment.types.PREVIEW : {
+      return 'Preview';
+    }
     case Assessment.types.SMARTPLACEMENT : {
       return assessment.campaignParticipation.campaign.title;
     }

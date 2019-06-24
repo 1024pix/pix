@@ -101,7 +101,6 @@ describe('Unit | UseCase | get-assessment', () => {
 
   [
     { assessmentType: Assessment.types.DEMO },
-    { assessmentType: Assessment.types.PREVIEW },
     { assessmentType: Assessment.types.PLACEMENT },
   ].forEach(({ assessmentType }) => {
     it(`should resolve the Assessment domain object with ${assessmentType} title matching the given assessment ID`, async () => {
@@ -173,6 +172,28 @@ describe('Unit | UseCase | get-assessment', () => {
     expect(result.pixScore).to.equal(assessmentResult.pixScore);
     expect(result.estimatedLevel).to.equal(assessmentResult.level);
     expect(result.title).to.equal('');
+  });
+
+  it('should resolve the Assessment domain object with Preview title matching the given assessment ID', async () => {
+    // given
+    assessment.type = Assessment.types.PREVIEW;
+    assessmentRepository.get.resolves(assessment);
+
+    // when
+    const result = await getAssessment({
+      assessmentId: assessment.id,
+      assessmentRepository,
+      campaignRepository,
+    });
+
+    // then
+    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
+
+    expect(result).to.be.an.instanceOf(Assessment);
+    expect(result.id).to.equal(assessment.id);
+    expect(result.pixScore).to.equal(assessmentResult.pixScore);
+    expect(result.estimatedLevel).to.equal(assessmentResult.level);
+    expect(result.title).to.equal('Preview');
   });
 
   it('should reject a domain NotFoundError when there is no assessment for given ID', () => {

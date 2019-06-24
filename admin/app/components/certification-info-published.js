@@ -7,6 +7,6 @@ export default Component.extend({
 
   color: computed('record.isPublished', function() {
     const value = this.get('record.isPublished');
-    return value ? '#7F7' : '#777';
+    return value ? '#39B97A' : '#8090A5';
   })
 });

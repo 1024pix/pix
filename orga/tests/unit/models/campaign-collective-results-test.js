@@ -5,35 +5,131 @@ import { run } from '@ember/runloop';
 module('Unit | Model | campaign-collective-results', function(hooks) {
   setupTest(hooks);
 
-  test('it exists', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('campaign-collective-result', {}));
-    assert.ok(model);
+  module('averageValidatedSkillsSum', function() {
+
+    test('it should return the sum of competences average validated skills', function(assert) {
+      //given
+      const store = this.owner.lookup('service:store');
+
+      const competenceCollectiveResults1 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 12
+      });
+      const competenceCollectiveResults2 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 45
+      });
+      const competenceCollectiveResults3 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 3
+      });
+
+      const model = run(() => store.createRecord('campaign-collective-result', {}));
+      model.set(
+        'campaignCompetenceCollectiveResults',
+        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3]
+      );
+
+      //when
+      const averageValidatedSkillsSum = model.get('averageValidatedSkillsSum');
+
+      //then
+      assert.equal(averageValidatedSkillsSum, 60);
+    });
   });
 
-  test('it should return the right data in the campaign-collective-result model', function(assert) {
-    const store = this.owner.lookup('service:store');
-    const model = run(() => store.createRecord('campaign-collective-result', {
-      id: '123',
-      collectiveResultsByCompetence: [
-        {
-          'area-code': '1',
-          'competence-id': 'rec1',
-          'competence-name': 'Pocher les gambas',
-          'average-validated-skills': 2,
-          'total-skills-count': 3
-        }
-      ]
-    }));
-    assert.equal(model.id, '123');
-    assert.deepEqual(model.collectiveResultsByCompetence, [
-      {
-        'area-code': '1',
-        'competence-id': 'rec1',
-        'competence-name': 'Pocher les gambas',
-        'average-validated-skills': 2,
-        'total-skills-count': 3
-      }
-    ]);
+  module('averageResult', function() {
+
+    test('it should return average result', function(assert) {
+      //given
+      const store = this.owner.lookup('service:store');
+
+      const competenceCollectiveResults1 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 10,
+        totalSkillsCount: 20,
+      });
+      const competenceCollectiveResults2 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 20,
+        totalSkillsCount: 40,
+      });
+      const competenceCollectiveResults3 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 30,
+        totalSkillsCount: 60,
+      });
+
+      const model = run(()=> store.createRecord('campaign-collective-result', {}));
+      model.set(
+        'campaignCompetenceCollectiveResults',
+        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3]
+      );
+
+      //when
+      const averageResult = model.get('averageResult');
+
+      //then
+      assert.equal(averageResult, (10 + 20 + 30) / (20 + 40 + 60) * 100);
+    });
+  });
+
+  module('totalSkills', function() {
+
+    test('it should return total skills', function(assert) {
+      //given
+      const store = this.owner.lookup('service:store');
+
+      const competenceCollectiveResults1 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 10,
+        totalSkillsCount: 20,
+      });
+      const competenceCollectiveResults2 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 20,
+        totalSkillsCount: 40,
+      });
+      const competenceCollectiveResults3 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 30,
+        totalSkillsCount: 60,
+      });
+
+      const model = run(()=> store.createRecord('campaign-collective-result', {}));
+      model.set(
+        'campaignCompetenceCollectiveResults',
+        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3]
+      );
+
+      //when
+      const totalSkills = model.get('totalSkills');
+
+      //then
+      assert.equal(totalSkills, 20 + 40 + 60);
+    });
+
+  });
+
+  module('maxTotalSkillsCountInCompetences', function() {
+    test('it should return the highest value among the total skills counts', function(assert) {
+      //given
+      const store = this.owner.lookup('service:store');
+
+      const competenceCollectiveResults1 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 10,
+        totalSkillsCount: 20,
+      });
+      const competenceCollectiveResults2 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 20,
+        totalSkillsCount: 40,
+      });
+      const competenceCollectiveResults3 = store.createRecord('campaign-competence-collective-result', {
+        averageValidatedSkills: 30,
+        totalSkillsCount: 60,
+      });
+
+      const model = run(() => store.createRecord('campaign-collective-result', {}));
+      model.set(
+        'campaignCompetenceCollectiveResults',
+        [competenceCollectiveResults1, competenceCollectiveResults2, competenceCollectiveResults3]
+      );
+      //when
+      const maxTotalSkillsCountInCompetences = model.get('maxTotalSkillsCountInCompetences');
+
+      //then
+      assert.equal(maxTotalSkillsCountInCompetences, 60);
+    });
   });
 });
