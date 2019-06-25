@@ -290,7 +290,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findOneByAssessmentId', () => {
+  describe('#findOneByAssessmentIdWithSkillIds', () => {
 
     const assessmentId = 12345;
     const campaignId = 123;
@@ -317,7 +317,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       it('should return the campaign-participation linked to the given assessment with skills', async () => {
         // when
-        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentId(assessmentId);
+        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessmentId);
 
         // then
         expect(campaignParticipationFound.assessmentId).to.deep.equal(assessmentId);
@@ -343,7 +343,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       it('should return null', async () => {
         // when
-        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentId(assessmentId);
+        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessmentId);
 
         // then
         expect(campaignParticipationFound).to.equal(null);

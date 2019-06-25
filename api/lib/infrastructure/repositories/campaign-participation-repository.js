@@ -60,7 +60,7 @@ module.exports = {
       .then((campaignParticipations) => _.uniqBy(campaignParticipations, 'campaignId'));
   },
 
-  findOneByAssessmentId(assessmentId) {
+  findOneByAssessmentIdWithSkillIds(assessmentId) {
     return BookshelfCampaignParticipation
       .where({ assessmentId })
       .query((qb) => {
