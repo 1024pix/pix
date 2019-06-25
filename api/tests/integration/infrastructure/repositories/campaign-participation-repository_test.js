@@ -3,6 +3,7 @@ const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper')
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 
 describe('Integration | Repository | Campaign Participation', () => {
@@ -251,6 +252,67 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
+  describe('#findOneByAssessmentId', () => {
+
+    const assessmentId = 12345;
+    const campaignId = 123;
+    const targetProfileId = 456;
+    const skillId1 = 'rec1';
+    const skillId2 = 'rec2';
+
+    context('when assessment is linked', () => {
+
+      beforeEach(async () => {
+        databaseBuilder.factory.buildTargetProfile({ id: targetProfileId });
+        databaseBuilder.factory.buildTargetProfileSkill({ skillId: skillId1, targetProfileId });
+        databaseBuilder.factory.buildTargetProfileSkill({ skillId: skillId2, targetProfileId });
+        databaseBuilder.factory.buildCampaign({ id: campaignId, targetProfileId });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
+        databaseBuilder.factory.buildCampaignParticipation({ assessmentId: 67890 });
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should return the campaign-participation linked to the given assessment with skills', async () => {
+        // when
+        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentId(assessmentId);
+
+        // then
+        expect(campaignParticipationFound.assessmentId).to.deep.equal(assessmentId);
+        expect(campaignParticipationFound.campaign.targetProfile.skills).to.have.lengthOf(2);
+        expect(campaignParticipationFound.campaign.targetProfile.skills[0]).to.be.instanceOf(Skill);
+        expect(campaignParticipationFound.campaign.targetProfile.skills[0].id).to.equal(skillId1);
+        expect(campaignParticipationFound.campaign.targetProfile.skills[1]).to.be.instanceOf(Skill);
+        expect(campaignParticipationFound.campaign.targetProfile.skills[1].id).to.equal(skillId2);
+      });
+    });
+
+    context('when assessment is not linked', () => {
+
+      beforeEach(async () => {
+        databaseBuilder.factory.buildCampaignParticipation({ assessmentId: 67890 });
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should return null', async () => {
+        // when
+        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentId(assessmentId);
+
+        // then
+        expect(campaignParticipationFound).to.equal(null);
+      });
+    });
+  });
+
   describe('#find', () => {
 
     const campaignId = 'my campaign id';
@@ -405,7 +467,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#updateCampaignParticipation', () => {
+  describe('#share', () => {
 
     let campaignParticipation;
     const frozenTime = new Date('1987-09-01T00:00:00Z');
@@ -425,9 +487,9 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.clean();
     });
 
-    it('should return the shared campaign-participation of the given assessmentId', () => {
+    it('should return the shared campaign-participation', () => {
       // when
-      const promise = campaignParticipationRepository.updateCampaignParticipation(campaignParticipation);
+      const promise = campaignParticipationRepository.share(campaignParticipation);
 
       // then
       return promise.then((updatedCampaignParticipation) => {
@@ -435,6 +497,31 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(updatedCampaignParticipation.assessmentId).to.equal(campaignParticipation.assessmentId);
         expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
       });
+    });
+  });
+
+  describe('#updateAssessmentIdByOldAssessmentId', () => {
+
+    let campaignParticipation;
+    let assessment;
+
+    beforeEach(async () => {
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
+      assessment = databaseBuilder.factory.buildAssessment();
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the updated campaign-participation of the given assessmentId', async () => {
+      // when
+      const updatedCampaignParticipation = await campaignParticipationRepository.updateAssessmentIdByOldAssessmentId({ oldAssessmentId: campaignParticipation.assessmentId, newAssessmentId: assessment.id });
+
+      // then
+      expect(updatedCampaignParticipation.assessmentId).to.equal(assessment.id);
     });
   });
 });

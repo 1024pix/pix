@@ -33,5 +33,5 @@ module.exports = async function shareCampaignResult({
     throw new AssessmentNotCompletedError();
   }
 
-  return campaignParticipationRepository.updateCampaignParticipation(assessment.campaignParticipation);
+  return campaignParticipationRepository.share(assessment.campaignParticipation);
 };

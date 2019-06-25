@@ -82,7 +82,7 @@ function _saveAssessmentResult({
   return Promise.all([
     assessmentResultRepository.save(assessmentResult),
     assessmentScore.competenceMarks,
-    assessmentRepository.save(assessment),
+    assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.COMPLETED }),
   ])
     .then(([assessmentResult, competenceMarks]) => {
       const assessmentResultId = assessmentResult.id;
@@ -147,11 +147,10 @@ function _saveResultAfterComputingError({
   }
 
   const assessmentResult = AssessmentResult.BuildAlgoErrorResult(error, assessmentId);
-  assessment.setCompleted();
 
   return Promise.all([
     assessmentResultRepository.save(assessmentResult),
-    assessmentRepository.save(assessment),
+    assessmentRepository.updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }),
   ])
     .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
 }

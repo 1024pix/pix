@@ -61,7 +61,9 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
       answerId,
       source: KnowledgeElement.SourceType.INFERRED,
     });
-    databaseBuilder.factory.buildCampaignParticipation({ campaignId: 1, userId, assessmentId, participantExternalId, isShared: isShared  });
+
+    const sharedAt = isShared ? new Date() : null;
+    databaseBuilder.factory.buildCampaignParticipation({ campaignId: 1, userId, assessmentId, participantExternalId, isShared, sharedAt });
   };
 
   pixMembersNotCompleted.forEach((member) => startCampaign(member, 'STARTED', false));

@@ -26,7 +26,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
   };
   const assessmentRepository = {
     get: () => undefined,
-    save: () => undefined,
+    updateStateById: () => undefined,
   };
   const assessmentResultRepository = {
     save: () => undefined,
@@ -139,7 +139,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     };
 
     sinon.stub(scoringService, 'calculateAssessmentScore').resolves(assessmentScore);
-    sinon.stub(assessmentRepository, 'save').resolves();
+    sinon.stub(assessmentRepository, 'updateStateById').resolves({ ...assessment, state: Assessment.states.COMPLETED });
     sinon.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
     sinon.stub(assessmentRepository, 'get').resolves(assessment);
     sinon.stub(courseRepository, 'get').resolves(course);
@@ -243,7 +243,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     // then
     return expect(promise).to.have.been.rejectedWith(NotFoundError);
   });
-    
+
   it('should change the assessment status', () => {
     // when
     const promise = createAssessmentResultForCompletedAssessment({
@@ -257,8 +257,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     // then
     return promise.then(() => {
-      const savedCompetenceMark = assessmentRepository.save.firstCall.args;
-      expect(savedCompetenceMark[0].state).to.deep.equal('completed');
+      expect(assessmentRepository.updateStateById).to.have.been.calledWith({ id: assessmentId, state: Assessment.states.COMPLETED });
     });
   });
 
@@ -614,18 +613,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       });
 
       it('should save assessment with status completed', () => {
-        const expectedAssessment = domainBuilder.buildAssessment({
-          id: assessmentId,
-          courseId: assessmentCourseId,
-          userId: 5,
-          state: 'completed',
-          type: Assessment.types.CERTIFICATION,
-        });
-        expectedAssessment.campaignParticipation = undefined;
-        expectedAssessment.course = undefined;
-        expectedAssessment.answers = [];
-        expectedAssessment.assessmentResults = [];
-
         // when
         const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
@@ -638,10 +625,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
         // then
         return promise.then(() => {
-          expect(assessmentRepository.save).to.have.been.calledWith(expectedAssessment);
-
-          const savedAssessment = assessmentRepository.save.firstCall.args;
-          expect(savedAssessment[0]).to.deep.equal(expectedAssessment);
+          expect(assessmentRepository.updateStateById).to.have.been.calledWith({ id: assessmentId, state: Assessment.states.COMPLETED });
         });
       });
 
@@ -720,18 +704,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       });
 
       it('should save assessment with status completed', () => {
-        const expectedAssessment = domainBuilder.buildAssessment({
-          id: assessmentId,
-          courseId: assessmentCourseId,
-          userId: 5,
-          state: 'completed',
-          type: Assessment.types.CERTIFICATION,
-        });
-        expectedAssessment.campaignParticipation = undefined;
-        expectedAssessment.course = undefined;
-        expectedAssessment.answers = [];
-        expectedAssessment.assessmentResults = [];
-
         // when
         const promise = createAssessmentResultForCompletedAssessment({
           assessmentId,
@@ -744,10 +716,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
         // then
         return promise.then(() => {
-          expect(assessmentRepository.save).to.have.been.calledWith(expectedAssessment);
-
-          const savedAssessment = assessmentRepository.save.firstCall.args;
-          expect(savedAssessment[0]).to.deep.equal(expectedAssessment);
+          expect(assessmentRepository.updateStateById).to.have.been.calledWith({ id: assessmentId, state: Assessment.states.COMPLETED });
         });
       });
 

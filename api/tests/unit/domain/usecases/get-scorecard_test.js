@@ -1,14 +1,11 @@
-const { sinon, expect, domainBuilder } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
 
 describe('Unit | UseCase | get-scorecard', () => {
 
-  let competenceRepository;
-  let knowledgeElementRepository;
-  let competenceEvaluationRepository;
-  let buildFromStub;
+  let scorecardService;
   let scorecardId;
   let competenceId;
   let authenticatedUserId;
@@ -18,10 +15,7 @@ describe('Unit | UseCase | get-scorecard', () => {
     scorecardId = '1_1';
     competenceId = 1;
     authenticatedUserId = 1;
-    competenceRepository = { get: sinon.stub() };
-    knowledgeElementRepository = { findUniqByUserIdAndCompetenceId: sinon.stub() };
-    competenceEvaluationRepository = { findByUserId: sinon.stub() };
-    buildFromStub = sinon.stub(Scorecard, 'buildFrom');
+    scorecardService = { computeScorecard: sinon.stub() };
     parseIdStub = sinon.stub(Scorecard, 'parseId');
   });
 
@@ -39,16 +33,13 @@ describe('Unit | UseCase | get-scorecard', () => {
 
       it('should resolve', () => {
         // given
-        competenceRepository.get.resolves([]);
-        knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves({});
+        scorecardService.computeScorecard.resolves({});
 
         // when
         const promise = getScorecard({
           authenticatedUserId,
           scorecardId,
-          knowledgeElementRepository,
-          competenceRepository,
-          competenceEvaluationRepository,
+          scorecardService,
         });
 
         // then
@@ -57,55 +48,19 @@ describe('Unit | UseCase | get-scorecard', () => {
 
       it('should return the user scorecard', async () => {
         // given
-        const earnedPixForCompetenceId1 = 8;
-        const levelForCompetenceId1 = 1;
-        const pixScoreAheadOfNextLevelForCompetenceId1 = 0;
+        const scorecard = Symbol('Scorecard');
 
-        const competence = domainBuilder.buildCompetence({ id: 1 });
-
-        competenceRepository.get.resolves(competence);
-
-        const knowledgeElementList = [
-          domainBuilder.buildKnowledgeElement({ competenceId: 1 }),
-          domainBuilder.buildKnowledgeElement({ competenceId: 1 }),
-        ];
-
-        knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves(knowledgeElementList);
-
-        const assessment = domainBuilder.buildAssessment({ state: 'completed', type: 'COMPETENCE_EVALUATION' });
-        const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
-          competenceId: 1,
-          assessmentId: assessment.id,
-          assessment
-        });
-
-        competenceEvaluationRepository.findByUserId.resolves([competenceEvaluation]);
-
-        const expectedUserScorecard = domainBuilder.buildUserScorecard({
-          name: competence.name,
-          earnedPix: earnedPixForCompetenceId1,
-          level: levelForCompetenceId1,
-          pixScoreAheadOfNextLevel: pixScoreAheadOfNextLevelForCompetenceId1
-        });
-
-        buildFromStub.withArgs({
-          userId: authenticatedUserId,
-          knowledgeElements: knowledgeElementList,
-          competence,
-          competenceEvaluation
-        }).returns(expectedUserScorecard);
+        scorecardService.computeScorecard.resolves(scorecard);
 
         // when
         const userScorecard = await getScorecard({
           authenticatedUserId,
           scorecardId,
-          knowledgeElementRepository,
-          competenceRepository,
-          competenceEvaluationRepository,
+          scorecardService,
         });
 
         //then
-        expect(userScorecard).to.deep.equal(expectedUserScorecard);
+        expect(userScorecard).to.deep.equal(scorecard);
       });
     });
 
@@ -113,16 +68,13 @@ describe('Unit | UseCase | get-scorecard', () => {
       it('should reject a "UserNotAuthorizedToAccessEntity" domain error', () => {
         // given
         const unauthorizedUserId = 42;
-        competenceRepository.get.resolves([]);
-        knowledgeElementRepository.findUniqByUserIdAndCompetenceId.resolves({});
+        scorecardService.computeScorecard.resolves({});
 
         // when
         const promise = getScorecard({
           authenticatedUserId: unauthorizedUserId,
           scorecardId,
-          knowledgeElementRepository,
-          competenceRepository,
-          competenceEvaluationRepository,
+          scorecardService,
         });
 
         // then

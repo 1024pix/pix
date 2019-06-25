@@ -18,6 +18,7 @@ export default Controller.extend({
           this.set('displayLoadingButton', false);
         }.bind(this))
         .catch(() => {
+          campaignParticipation.rollbackAttributes();
           this.set('displayLoadingButton', false);
           this.set('displayErrorMessage', true);
         });

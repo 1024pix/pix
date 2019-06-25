@@ -12,6 +12,7 @@ const courseIdMessage = {
 const states = {
   COMPLETED: 'completed',
   STARTED: 'started',
+  ABORTED: 'aborted',
 };
 
 const types = {
