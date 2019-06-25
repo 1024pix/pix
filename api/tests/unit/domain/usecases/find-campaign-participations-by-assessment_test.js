@@ -1,8 +1,8 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const findCampaignParticipations = require('../../../../lib/domain/usecases/get-user-campaign-participation');
+const findCampaignParticipationsByAssessment = require('../../../../lib/domain/usecases/find-campaign-participations-by-assessment');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-user-campaign-participation', () => {
+describe('Unit | UseCase | find-campaign-participations-by-assessment', () => {
 
   let userCampaignParticipation;
   let requestErr;
@@ -32,7 +32,7 @@ describe('Unit | UseCase | get-user-campaign-participation', () => {
         smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(true);
         campaignParticipationRepository.find.resolves(campaignParticipations);
 
-        userCampaignParticipation = await findCampaignParticipations({ userId, options, campaignParticipationRepository, smartPlacementAssessmentRepository });
+        userCampaignParticipation = await findCampaignParticipationsByAssessment({ userId, options, campaignParticipationRepository, smartPlacementAssessmentRepository });
       });
       it('should check if the assessment belongs to the user', () => {
         expect(smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser).to.have.been.calledWithExactly(assessmentId, userId);
@@ -48,7 +48,7 @@ describe('Unit | UseCase | get-user-campaign-participation', () => {
       beforeEach(async () => {
         smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(false);
 
-        requestErr = await catchErr(findCampaignParticipations)({ userId, options, campaignParticipationRepository, smartPlacementAssessmentRepository });
+        requestErr = await catchErr(findCampaignParticipationsByAssessment)({ userId, options, campaignParticipationRepository, smartPlacementAssessmentRepository });
       });
       it('should throw a UserNotAuthorizedToAccessEntity error', () => {
         expect(requestErr).to.be.instanceOf(UserNotAuthorizedToAccessEntity);

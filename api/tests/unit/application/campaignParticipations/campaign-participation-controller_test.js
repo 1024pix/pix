@@ -25,7 +25,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const campaignId = 1;
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserCampaignParticipation');
+      sinon.stub(usecases, 'findCampaignParticipationsByAssessment');
       sinon.stub(tokenService, 'extractTokenFromAuthChain').withArgs(authorization).returns(token);
       sinon.stub(tokenService, 'extractUserId').withArgs(token).returns(userId);
       sinon.stub(queryParamsUtils, 'extractParameters');
@@ -39,7 +39,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         options = { filter: { assessmentId } , include: [] };
 
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(result);
+        usecases.findCampaignParticipationsByAssessment.withArgs({ userId, options }).resolves(result);
 
         // when
         const response = await campaignParticipationController.find(request, hFake);
@@ -55,7 +55,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         options = { filter: { campaignId }, include: [] };
 
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(result);
+        usecases.findCampaignParticipationsByAssessment.withArgs({ userId, options }).resolves(result);
 
         // when
         const response = await campaignParticipationController.find(request, hFake);
@@ -71,7 +71,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         options = { filter: {}, include: [] };
 
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(result);
+        usecases.findCampaignParticipationsByAssessment.withArgs({ userId, options }).resolves(result);
 
         // when
         const responseErr = await catchErr(campaignParticipationController.find)(request, hFake);
@@ -87,7 +87,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         options = { filter: { campaignId, assessmentId }, include: [] };
 
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(result);
+        usecases.findCampaignParticipationsByAssessment.withArgs({ userId, options }).resolves(result);
 
         // when
         const response = await campaignParticipationController.find(request, hFake);

@@ -41,7 +41,7 @@ module.exports = {
       return serializer.serialize(campaignParticipations, pagination, { ignoreCampaignParticipationResultsRelationshipData: false });
 
     } else {
-      const { models: campaignParticipation, pagination } = await usecases.getUserCampaignParticipation({ userId, options });
+      const { models: campaignParticipation, pagination } = await usecases.findCampaignParticipationsByAssessment({ userId, options });
       return serializer.serialize(campaignParticipation, pagination);
     }
 

@@ -1,6 +1,6 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
-module.exports = async function getCampaignParticipations({
+module.exports = async function findCampaignParticipationsByAssessment({
   userId,
   options,
   campaignParticipationRepository,
