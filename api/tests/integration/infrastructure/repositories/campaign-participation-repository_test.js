@@ -378,7 +378,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
   });
 
-  describe('#findWithCampaignParticipationResultsData', () => {
+  describe('#findPaginatedCampaignParticipations', () => {
 
     const assessmentId1 = 1;
     const assessmentId2 = 2;
@@ -392,6 +392,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       const pixMembers = [
         {
+          id: 876,
           firstName: 'Mélanie',
           lastName: 'Darboo',
           assessmentId: assessmentId2,
@@ -418,7 +419,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const insertPixMember = (member) => {
         const { id: userId } = databaseBuilder.factory.buildUser(member);
         const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId, id: member.assessmentId });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate, createdAt: oldDate });
         for (const ke of member.knowledgeElements) {
           databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, });
         }
@@ -433,11 +434,11 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.clean();
     });
 
-    it('should return paginated campaign participations including users sorted by name, lastname, their assessment and uniq knowledge elements', async () => {
+    it('should return paginated campaign participations unique by user, sorted by lastname, including their assessment and uniq knowledge elements', async () => {
       // given
       const options = { filter: { campaignId }, sort: [], include: ['user'], page: { number: 1, size: 2 } };
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findWithCampaignParticipationResultsData(options);
+      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
       const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
       const foundAssessmentIds = _(foundCampaignParticipation.models).map('assessment').map('id').value();
       const foundKnowledgeElementsSkillsIds = _(foundCampaignParticipation.models).map('user').map('knowledgeElements').flatten().map('skillId').value();
@@ -447,6 +448,21 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(foundKnowledgeElementsSkillsIds).to.have.members(['@web1', '@web2', '@web3', '@web4']);
       expect(foundCampaignParticipation.models[0].assessment).to.be.instanceOf(Assessment);
       expect(foundCampaignParticipation.models[0].user.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
+    });
+
+    it('should return paginated campaign participations unique by user', async () => {
+      // given
+      const options = { filter: { campaignId }, sort: [], include: ['user'], page: {} };
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId: 876, });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId: 876, sharedAt: recentDate, createdAt: recentDate });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
+      const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
+
+      // then
+      expect(foundUserLastNames).to.deep.equal(['Bugietta', 'Darboo', 'Lorenzio', 'Subzéro']);
     });
   });
 
