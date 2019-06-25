@@ -18,7 +18,8 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const token = 'token';
     const authorization = 'auth header';
     const request = { headers: { authorization }, query };
-    const result = { models: [], pagination: {} };
+    const resultWithPagination = { models: [], pagination: {} };
+    const result = [];
     const serialized = {};
 
     const assessmentId = 1;
@@ -29,7 +30,9 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       sinon.stub(tokenService, 'extractTokenFromAuthChain').withArgs(authorization).returns(token);
       sinon.stub(tokenService, 'extractUserId').withArgs(token).returns(userId);
       sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(serializer, 'serialize').withArgs(result.models, result.pagination).returns(serialized);
+      sinon.stub(serializer, 'serialize')
+        .withArgs(resultWithPagination.models, resultWithPagination.pagination).returns(serialized)
+        .withArgs(result).returns(serialized);
       sinon.stub(usecases, 'findCampaignParticipationsWithResults');
     });
 
@@ -103,7 +106,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         options = { filter: { campaignId, assessmentId }, include: ['campaign-participation-result'] };
 
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.findCampaignParticipationsWithResults.withArgs({ userId, options }).resolves(result);
+        usecases.findCampaignParticipationsWithResults.withArgs({ userId, options }).resolves(resultWithPagination);
 
         // when
         const response = await campaignParticipationController.find(request, hFake);

@@ -13,7 +13,7 @@ describe('Unit | UseCase | find-campaign-participations-by-assessment', () => {
   let campaignParticipations;
 
   const smartPlacementAssessmentRepository = { checkIfAssessmentBelongToUser: sinon.stub() };
-  const campaignParticipationRepository = { find: sinon.stub(), findWithUsersPaginated: sinon.stub() };
+  const campaignParticipationRepository = { findByAssessmentId: sinon.stub(), findWithUsersPaginated: sinon.stub() };
 
   beforeEach(() => {
     options = null;
@@ -30,7 +30,7 @@ describe('Unit | UseCase | find-campaign-participations-by-assessment', () => {
     context('the assessment belongs to the user', () => {
       beforeEach(async () => {
         smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(true);
-        campaignParticipationRepository.find.resolves(campaignParticipations);
+        campaignParticipationRepository.findByAssessmentId.resolves(campaignParticipations);
 
         userCampaignParticipation = await findCampaignParticipationsByAssessment({ userId, options, campaignParticipationRepository, smartPlacementAssessmentRepository });
       });
@@ -38,7 +38,7 @@ describe('Unit | UseCase | find-campaign-participations-by-assessment', () => {
         expect(smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser).to.have.been.calledWithExactly(assessmentId, userId);
       });
       it('should find the campaign participations', () => {
-        expect(campaignParticipationRepository.find).to.have.been.calledWithExactly(options);
+        expect(campaignParticipationRepository.findByAssessmentId).to.have.been.calledWithExactly(assessmentId);
       });
       it('should return the campaign participations', () => {
         expect(userCampaignParticipation).to.deep.equal(campaignParticipations);
