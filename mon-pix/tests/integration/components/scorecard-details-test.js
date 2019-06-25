@@ -156,7 +156,7 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
-      expect(this.element.querySelector('.scorecard-details__button')).to.not.exist;
+      expect(this.element.querySelector('.scorecard-details__resume-or-start-button')).to.not.exist;
     });
 
     it('should display a button stating "Commencer" if scorecard.isStarted is false', async function() {
@@ -172,7 +172,7 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
-      const element = this.element.querySelector('.scorecard-details__button');
+      const element = this.element.querySelector('.scorecard-details__resume-or-start-button');
       expect(element).to.exist;
       expect(element.textContent).to.contain('Commencer');
     });
@@ -190,7 +190,7 @@ describe('Integration | Component | scorecard-details', function() {
       await render(hbs`{{scorecard-details scorecard=scorecard}}`);
 
       // then
-      const element = this.element.querySelector('.scorecard-details__button');
+      const element = this.element.querySelector('.scorecard-details__resume-or-start-button');
       expect(element).to.exist;
       expect(element.textContent).to.contain('Reprendre');
     });

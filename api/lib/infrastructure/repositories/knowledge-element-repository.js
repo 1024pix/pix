@@ -25,7 +25,7 @@ module.exports = {
 
   save(knowledgeElement) {
 
-    return Promise.resolve(_.omit(knowledgeElement, 'createdAt'))
+    return Promise.resolve(_.omit(knowledgeElement, ['id', 'createdAt']))
       .then((knowledgeElement) => new BookshelfKnowledgeElement(knowledgeElement))
       .then((knowledgeElementBookshelf) => knowledgeElementBookshelf.save())
       .then(_toDomain);

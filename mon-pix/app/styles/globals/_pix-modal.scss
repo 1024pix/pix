@@ -16,6 +16,12 @@ $pix-modal-border-radius: 5px;
       width: 800px;
     }
 
+    &--wide {
+      @include device-is('desktop') {
+        width: 950px;
+      }
+    }
+
     .pix-modal__close-link {
       color: $white;
       text-align: right;
@@ -36,21 +42,44 @@ $pix-modal-border-radius: 5px;
       border-radius: $pix-modal-border-radius;
       background-color: $porcelain-grey;
       box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
-      font-size: 16px;
+      font-size: 1.6rem;
       position: relative;
       margin: auto;
+
+      &--white {
+        background-color: $white;
+      }
+
+      &--with-padding {
+        @include device-is('desktop') {
+          padding: 40px 0;
+        }
+      }
 
       .pix-modal-header {
         background: $white;
         border-top-left-radius: $pix-modal-border-radius;
         border-top-right-radius: $pix-modal-border-radius;
 
-        .pix-modal-header__title {
+        &__title {
           margin: 0;
           text-align: center;
           padding: 15px;
-          font-family: $font-open-sans;
+          font-family: $font-roboto;
           font-size: 2.8rem;
+
+          &--thin {
+            font-weight: $font-light;
+          }
+        }
+
+        &__subtitle {
+          margin: 0;
+          text-align: center;
+          color: $nero;
+          font-family: $font-roboto;
+          font-weight: $font-normal;
+          font-size: 1.6rem;
         }
       }
 
@@ -69,16 +98,19 @@ $pix-modal-border-radius: 5px;
         border-bottom-left-radius: $pix-modal-border-radius;
         border-bottom-right-radius: $pix-modal-border-radius;
 
-        &--with-centered--buttons {
+        &--with-centered-buttons {
           padding: 15px 0;
           display: flex;
           flex-direction: row-reverse;
           justify-content: center;
-          border-top: 1px solid $alto-grey;
 
           >.button {
             margin: 0 10px;
           }
+        }
+
+        &--border {
+          border-top: 1px solid $alto-grey;
         }
       }
     }
@@ -94,7 +126,7 @@ $pix-modal-border-radius: 5px;
   background-color: $white;
   border: 2px solid $alto-grey;
   color: $slate-grey;
-  letter-spacing: 2px;
+  letter-spacing: 0.2rem;
   box-sizing: border-box;
   margin-bottom: 5px;
   outline: none;

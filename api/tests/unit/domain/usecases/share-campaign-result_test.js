@@ -13,7 +13,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
   let campaignParticipation;
   let expectedCampaignParticipation;
   const campaignParticipationRepository = {
-    updateCampaignParticipation() {
+    share() {
     },
   };
   const smartPlacementAssessmentRepository = {
@@ -55,7 +55,7 @@ describe('Unit | UseCase | share-campaign-result', () => {
           isShared: true
         });
 
-        sinon.stub(campaignParticipationRepository, 'updateCampaignParticipation')
+        sinon.stub(campaignParticipationRepository, 'share')
           .resolves(expectedCampaignParticipation);
       });
 

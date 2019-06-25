@@ -21,15 +21,15 @@
   <footer class="competence-card__footer">
     {{#if (not scorecard.isFinished)}}
       {{#link-to "competences.resume" scorecard.competenceId
-                 class="button button--thin button--link button--green competence-card__button"}}
-        <span class="competence-card__button-label">
+                 class="button button--extra-thin button--round button--link button--green competence-card__button"}}
+        <span class="competence-card-button__label">
           {{#if scorecard.isStarted}}
             Reprendre
           {{else}}
             Commencer
           {{/if}}
         </span>
-        <span class="competence-card__button-arrow">
+        <span class="competence-card-button__arrow">
           {{fa-icon 'long-arrow-alt-right'}}
         </span>
       {{/link-to}}

@@ -39,7 +39,7 @@ module.exports = function(environment) {
       'Lato:300,400,700,900', // main font, Challenge instructions
       'Open+Sans:300,400,600', // used for ex. on buttons
       'Raleway:100,300,400,600,700,800', // used for index page titles
-      'Roboto:400,500', // used for campaign
+      'Roboto:300,400,500', // used for campaign
       'Overpass' //used on the trophy
     ],
 

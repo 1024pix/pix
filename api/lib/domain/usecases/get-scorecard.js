@@ -1,8 +1,7 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const Scorecard = require('../models/Scorecard');
-const _ = require('lodash');
 
-module.exports = async ({ authenticatedUserId, scorecardId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
+module.exports = async ({ authenticatedUserId, scorecardId, scorecardService, competenceRepository, competenceEvaluationRepository, knowledgeElementRepository }) => {
 
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
 
@@ -10,19 +9,12 @@ module.exports = async ({ authenticatedUserId, scorecardId, knowledgeElementRepo
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const [knowledgeElements, competence, competenceEvaluations] = await Promise.all([
-    knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId: authenticatedUserId, competenceId }),
-    competenceRepository.get(competenceId),
-    competenceEvaluationRepository.findByUserId(authenticatedUserId),
-  ]);
-
-  const competenceEvaluation = _.find(competenceEvaluations, { competenceId: competence.id });
-
-  return Scorecard.buildFrom({
+  return scorecardService.computeScorecard({
     userId: authenticatedUserId,
-    knowledgeElements,
-    competenceEvaluation,
-    competence,
+    competenceId,
+    competenceRepository,
+    competenceEvaluationRepository,
+    knowledgeElementRepository
   });
 };
 

@@ -32,6 +32,7 @@ export default Model.extend({
   isSmartPlacement: equal('type', 'SMART_PLACEMENT'),
   isStarted: equal('state', 'started'),
   isCompleted: equal('state', 'completed'),
+  isAborted: equal('state', 'aborted'),
 
   showProgressBar: computed('isPreview', 'isPlacement', function() {
     return (this.isCompetenceEvaluation || this.isSmartPlacement || this.isDemo || this.isCertification);

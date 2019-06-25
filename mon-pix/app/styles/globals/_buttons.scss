@@ -26,6 +26,11 @@
     }
   }
 
+  &--uppercase {
+    text-transform: uppercase;
+    font-size: 1.3rem;
+  }
+
   &--round {
     padding-left: 20px;
     padding-right: 20px;
@@ -35,8 +40,12 @@
   &--thin {
     padding-top: 11px;
     padding-bottom: 11px;
-    text-transform: uppercase;
-    font-size: 1.3rem;
+  }
+
+  &--extra-thin {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 1.5rem;
   }
 
   &--regular {
@@ -66,6 +75,15 @@
 
     &:hover, &:active, &:focus {
       background-color: $jade;
+    }
+  }
+
+  &--red {
+    background: $pomegranate;
+    color: $white;
+
+    &:hover, &:active, &:focus {
+      background-color: $monza;
     }
   }
 
@@ -120,6 +138,9 @@
 
 
 .link {
+  outline: none;
+  border: none;
+  background-color: inherit;
   color: $pix-blue;
   text-decoration: none;
 
@@ -128,6 +149,10 @@
   &:active {
     text-decoration: underline;
     color: $pix-blue-hover;
+  }
+
+  &--underline {
+    text-decoration: underline;
   }
 
   &--grey {
