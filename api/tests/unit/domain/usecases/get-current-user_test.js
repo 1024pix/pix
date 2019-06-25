@@ -10,7 +10,7 @@ describe('Unit | UseCase | get-current-user', () => {
     assessmentRepository = { hasCampaignOrCompetenceEvaluation: sinon.stub() };
   });
 
-  it('should get the current user', async () => {
+  it('should get the current user with usesProfileV2 if user has campaign or competence evaluation', async () => {
     // given
     userRepository.get.withArgs(1).resolves({ id: 1 });
     assessmentRepository.hasCampaignOrCompetenceEvaluation.withArgs(1).resolves(true);
@@ -24,5 +24,37 @@ describe('Unit | UseCase | get-current-user', () => {
 
     // then
     expect(result).to.deep.equal({ id: 1, usesProfileV2: true });
+  });
+
+  it('should get the current user with usesProfileV2 if user is migrated to V2', async () => {
+    // given
+    userRepository.get.withArgs(1).resolves({ id: 1, isMigratedToV2: true });
+    assessmentRepository.hasCampaignOrCompetenceEvaluation.withArgs(1).resolves(false);
+
+    // when
+    const result = await getCurrentUser({
+      authenticatedUserId: 1,
+      userRepository,
+      assessmentRepository,
+    });
+
+    // then
+    expect(result).to.deep.equal({ id: 1, isMigratedToV2: true, usesProfileV2: true });
+  });
+
+  it('should get the current user with falsy usesProfileV2', async () => {
+    // given
+    userRepository.get.withArgs(1).resolves({ id: 1 });
+    assessmentRepository.hasCampaignOrCompetenceEvaluation.withArgs(1).resolves(false);
+
+    // when
+    const result = await getCurrentUser({
+      authenticatedUserId: 1,
+      userRepository,
+      assessmentRepository,
+    });
+
+    // then
+    expect(result).to.deep.equal({ id: 1, usesProfileV2: false });
   });
 });
