@@ -86,6 +86,7 @@ module.exports = {
       .query((qb) => {
         qb.innerJoin('users', 'campaign-participations.userId', 'users.id');
         qb.orderBy('users.lastName', 'ASC');
+        qb.orderBy('users.firstName', 'ASC');
       })
       .fetchPage({
         page: options.page.number,
@@ -95,7 +96,7 @@ module.exports = {
       .then(({ models, pagination }) => {
         const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
         const campaignParticipationsUniqByUser = _(campaignParticipations).orderBy('createdAt', 'DESC').uniqBy('userId').value();
-        const campaignParticipationsSorted = _.orderBy(campaignParticipationsUniqByUser,'user.lastName');
+        const campaignParticipationsSorted = _.orderBy(campaignParticipationsUniqByUser,['user.lastName', 'user.firstName']);
         const campaignParticipationsWithUniqKnowledgeElements = _sortUniqKnowledgeElements(campaignParticipationsSorted);
         return { models: campaignParticipationsWithUniqKnowledgeElements, pagination };
       });
