@@ -46,6 +46,20 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       expect(currentURL()).to.equal('/compte');
     });
 
+    it('should display a modal for migration', async function() {
+      // when
+      await visit('/profilv2');
+
+      // then
+      expect(find('.pix-modal')).to.exists;
+
+      // when
+      await click('.pix-modal-footer .button');
+
+      // then
+      expect(find('.pix-modal')).to.not.exists;
+    });
+
     it('should contains references to pix.fr/actualites/votre-profil-evolue', async function() {
       // when
       await visit('/profilv2');

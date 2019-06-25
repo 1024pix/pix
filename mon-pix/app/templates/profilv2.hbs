@@ -46,3 +46,29 @@
 
   </div>
 </div>
+
+{{#if showNewProfileModal}}
+  {{#pix-modal onClose=(action "updateUserHasSeenMigration")}}
+    <div class="pix-modal__close-link">
+      <a href="#" {{action "updateUserHasSeenMigration"}}>Fermer
+        <img src="/images/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
+      </a>
+    </div>
+
+    <div class="pix-modal__container">
+      <div class="pix-modal-header">
+        <h1 class="pix-modal-header__title">Nouveau profil !</h1>
+      </div>
+
+      <div class="pix-modal-body">
+        <div class="new-profile">
+          <p>Vous avez été migré sur le tout nouveau profil de Pix.</p>
+        </div>
+      </div>
+
+      <div class="pix-modal-footer pix-modal-footer--with-centered--buttons">
+        <button class="button" {{action "updateUserHasSeenMigration"}}>Fermer</button>
+      </div>
+    </div>
+  {{/pix-modal}}
+{{/if}}
