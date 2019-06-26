@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder, domainBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
@@ -72,36 +72,38 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       let userInDb;
 
-      beforeEach(() => {
-        return _insertUser().then((insertedUser) => userInDb = insertedUser);
+      beforeEach(async () => {
+        userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        await databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return knex('users').delete();
+      afterEach(async () => {
+        await databaseBuilder.clean();
       });
 
       describe('Success management', () => {
 
-        it('should find a user by provided id', () => {
-          return userRepository.findUserById(userInDb.id)
-            .then((foundedUser) => {
-              expect(foundedUser).to.exist;
-              expect(foundedUser).to.be.an('object');
-              expect(foundedUser.attributes.email).to.equal(userInDb.email);
-              expect(foundedUser.attributes.firstName).to.equal(userInDb.firstName);
-              expect(foundedUser.attributes.lastName).to.equal(userInDb.lastName);
-            });
+        it('should find a user by provided id', async () => {
+          // when
+          const foundedUser = await userRepository.findUserById(userInDb.id);
+
+          // then
+          expect(foundedUser).to.exist;
+          expect(foundedUser).to.be.an('object');
+          expect(foundedUser.attributes.email).to.equal(userInDb.email);
+          expect(foundedUser.attributes.firstName).to.equal(userInDb.firstName);
+          expect(foundedUser.attributes.lastName).to.equal(userInDb.lastName);
         });
 
-        it('should handle a rejection, when user id is not found', () => {
+        it('should handle a rejection, when user id is not found', async () => {
           // given
           const inexistenteId = 10093;
 
           // when
-          const promise = userRepository.findUserById(inexistenteId);
+          const result = await catchErr(userRepository.findUserById)(inexistenteId);
 
           // then
-          return expect(promise).to.be.rejectedWith(NotFoundError);
+          expect(result).to.be.instanceOf(NotFoundError);
         });
       });
     });
@@ -110,12 +112,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       let userInDb;
 
-      beforeEach(() => {
-        return _insertUser().then((insertedUser) => userInDb = insertedUser);
+      beforeEach(async () => {
+        userInDb = databaseBuilder.factory.buildUser(userToInsert);
+        await databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return knex('users').delete();
+      afterEach(async () => {
+        await databaseBuilder.clean();
       });
 
       it('should be a function', () => {
@@ -123,25 +126,23 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(userRepository.findByEmail).to.be.a('function');
       });
 
-      it('should handle a rejection, when user id is not found', () => {
+      it('should handle a rejection, when user id is not found', async () => {
         // given
         const emailThatDoesNotExist = 10093;
 
         // when
-        const promise = userRepository.findByEmail(emailThatDoesNotExist);
+        const result = await catchErr(userRepository.findByEmail)(emailThatDoesNotExist);
 
         // then
-        return expect(promise).to.be.rejectedWith(NotFoundError);
+        expect(result).to.be.instanceOf(NotFoundError);
       });
 
-      it('should return a domain user when found', () => {
+      it('should return a domain user when found', async () => {
         // when
-        const promise = userRepository.findByEmail(userInDb.email);
+        const user = await userRepository.findByEmail(userInDb.email);
 
         // then
-        return promise.then((user) => {
-          expect(user.email).to.equal(userInDb.email);
-        });
+        expect(user.email).to.equal(userInDb.email);
       });
     });
 
@@ -155,78 +156,69 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         return databaseBuilder.clean();
       });
 
-      it('should return user informations for the given email', () => {
+      it('should return user informations for the given email', async () => {
         // given
         const expectedUser = new User(userInDB);
 
         // when
-        const promise = userRepository.findByEmailWithRoles(userInDB.email);
+        const user = await userRepository.findByEmailWithRoles(userInDB.email);
 
         // then
-        return promise.then((user) => {
-          expect(user).to.be.an.instanceof(User);
-          expect(user.id).to.equal(expectedUser.id);
-          expect(user.firstName).to.equal(expectedUser.firstName);
-          expect(user.lastName).to.equal(expectedUser.lastName);
-          expect(user.email).to.equal(expectedUser.email);
-          expect(user.password).to.equal(expectedUser.password);
-          expect(user.cgu).to.equal(expectedUser.cgu);
-        });
+        expect(user).to.be.an.instanceof(User);
+        expect(user.id).to.equal(expectedUser.id);
+        expect(user.firstName).to.equal(expectedUser.firstName);
+        expect(user.lastName).to.equal(expectedUser.lastName);
+        expect(user.email).to.equal(expectedUser.email);
+        expect(user.password).to.equal(expectedUser.password);
+        expect(user.cgu).to.equal(expectedUser.cgu);
       });
 
-      it('should return membership associated to the user', () => {
+      it('should return membership associated to the user', async () => {
         // when
-        const promise = userRepository.findByEmailWithRoles(userInDB.email);
+        const user = await userRepository.findByEmailWithRoles(userInDB.email);
 
         // then
-        return promise.then((user) => {
+        expect(user.memberships).to.be.an('array');
 
-          expect(user.memberships).to.be.an('array');
+        const firstMembership = user.memberships[0];
+        expect(firstMembership).to.be.an.instanceof(Membership);
+        expect(firstMembership.id).to.equal(membershipInDB.id);
 
-          const firstMembership = user.memberships[0];
-          expect(firstMembership).to.be.an.instanceof(Membership);
-          expect(firstMembership.id).to.equal(membershipInDB.id);
+        const associatedOrganization = firstMembership.organization;
+        expect(associatedOrganization).to.be.an.instanceof(Organization);
+        expect(associatedOrganization.id).to.equal(organizationInDB.id);
+        expect(associatedOrganization.code).to.equal(organizationInDB.code);
+        expect(associatedOrganization.name).to.equal(organizationInDB.name);
+        expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
-          const associatedOrganization = firstMembership.organization;
-          expect(associatedOrganization).to.be.an.instanceof(Organization);
-          expect(associatedOrganization.id).to.equal(organizationInDB.id);
-          expect(associatedOrganization.code).to.equal(organizationInDB.code);
-          expect(associatedOrganization.name).to.equal(organizationInDB.name);
-          expect(associatedOrganization.type).to.equal(organizationInDB.type);
-
-          const associatedRole = firstMembership.organizationRole;
-          expect(associatedRole).to.be.an.instanceof(OrganizationRole);
-          expect(associatedRole.id).to.equal(organizationRoleInDB.id);
-          expect(associatedRole.name).to.equal(organizationRoleInDB.name);
-        });
+        const associatedRole = firstMembership.organizationRole;
+        expect(associatedRole).to.be.an.instanceof(OrganizationRole);
+        expect(associatedRole.id).to.equal(organizationRoleInDB.id);
+        expect(associatedRole.name).to.equal(organizationRoleInDB.name);
       });
 
-      it('should return certification center membership associated to the user', () => {
+      it('should return certification center membership associated to the user', async () => {
         // when
-        const promise = userRepository.findByEmailWithRoles(userInDB.email);
+        const user = await userRepository.findByEmailWithRoles(userInDB.email);
 
         // then
-        return promise.then((user) => {
+        expect(user.certificationCenterMemberships).to.be.an('array');
 
-          expect(user.certificationCenterMemberships).to.be.an('array');
-
-          const firstMembership = user.certificationCenterMemberships[0];
-          expect(firstMembership).to.be.an.instanceof(CertificationCenterMembership);
-          expect(firstMembership.certificationCenter.id).to.equal(certificationCenterInDB.id);
-          expect(firstMembership.certificationCenter.name).to.equal(certificationCenterInDB.name);
-
-        });
+        const firstMembership = user.certificationCenterMemberships[0];
+        expect(firstMembership).to.be.an.instanceof(CertificationCenterMembership);
+        expect(firstMembership.certificationCenter.id).to.equal(certificationCenterInDB.id);
+        expect(firstMembership.certificationCenter.name).to.equal(certificationCenterInDB.name);
       });
 
-      it('should reject with a UserNotFound error when no user was found with this email', () => {
+      it('should reject with a UserNotFound error when no user was found with this email', async () => {
         // given
         const unusedEmail = 'kikou@pix.fr';
 
         // when
-        const promise = userRepository.findByEmailWithRoles(unusedEmail);
+        const result = await catchErr(userRepository.findByEmailWithRoles)(unusedEmail);
 
         // then
-        return expect(promise).to.be.rejectedWith(UserNotFoundError);
+        expect(result).to.be.instanceOf(UserNotFoundError);
       });
     });
 
@@ -382,6 +374,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       beforeEach(async () => {
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
       });
 
       it('should return user for the given id', () => {
