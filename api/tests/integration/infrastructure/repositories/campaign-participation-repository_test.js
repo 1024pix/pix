@@ -353,48 +353,6 @@ describe('Integration | Repository | Campaign Participation', () => {
 
   });
 
-  describe('#findWithUsersPaginated', () => {
-
-    const campaignId = 'my campaign id';
-    const assessmentId = 'my assessment id';
-
-    beforeEach(async () => {
-
-      const pixMembers = [
-        { firstName: 'Mélanie', lastName: 'Darboo' },
-        { firstName: 'Matteo', lastName: 'Lorenzio' },
-        { firstName: 'Jérémy', lastName: 'Bugietta' },
-        { firstName: 'Léo', lastName: 'Subzéro' },
-        { firstName: 'Forster', lastName: 'Gillet-Jaune' },
-        { firstName: 'Thierry', lastName: 'Donckele' },
-        { firstName: 'Jaune', lastName: 'Attend' },
-      ];
-
-      const insertPixMember = (member) => {
-        const { id } = databaseBuilder.factory.buildUser(member);
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId: id });
-      };
-
-      pixMembers.forEach(insertPixMember);
-
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should return paginated campaign participations including users sorted by name, lastname', async () => {
-      // given
-      const options = { filter: { campaignId }, sort: [], include: ['user'], page: { number: 1, size: 4 } };
-      // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findWithUsersPaginated(options);
-      const foundUsers = _.map(foundCampaignParticipation.models, 'user');
-      const foundUserLastNames = _.map(foundUsers, 'lastName');
-      // then
-      expect(foundUserLastNames).to.deep.equal(['Attend', 'Bugietta', 'Darboo', 'Donckele']);});
-  });
-
   describe('#findWithCampaignParticipationResultsData', () => {
 
     const assessmentId1 = 1;

@@ -73,27 +73,6 @@ module.exports = {
     return queryBuilder.find(BookshelfCampaignParticipation, options);
   },
 
-  // TODO: Replace this use-case specific version by adding inner-joins to query-builder
-  findWithUsersPaginated(options) {
-    return BookshelfCampaignParticipation
-      .where(options.filter)
-      .query((qb) => {
-        qb.innerJoin('users', 'userId', 'users.id');
-        qb.orderBy('users.lastName', 'asc');
-      })
-      .fetchPage({
-        page: options.page.number,
-        pageSize: options.page.size,
-        withRelated: ['user']
-      })
-      .then((results) => {
-        return {
-          pagination: results.pagination,
-          models: bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, results.models)
-        };
-      });
-  },
-
   findWithCampaignParticipationResultsData(options) {
     return BookshelfCampaignParticipation
       .where(options.filter)
