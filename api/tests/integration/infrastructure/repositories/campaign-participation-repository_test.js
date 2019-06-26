@@ -423,6 +423,24 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(foundCampaignParticipation.models[0].assessment).to.be.instanceOf(Assessment);
       expect(foundCampaignParticipation.models[0].user.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
     });
+
+    it('should return paginated campaign participations sorted by lastname and firstname', async () => {
+      // given
+      const options = { filter: { campaignId }, sort: [], include: ['user'], page: {} };
+      const { id: userId } = databaseBuilder.factory.buildUser({ lastName: 'Bugietta', firstName: 'Anna' });
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate, createdAt: recentDate });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
+      const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
+      const foundUserFirstNames = _(foundCampaignParticipation.models).map('user').map('firstName').value();
+
+      // then
+      expect(foundUserLastNames).to.deep.equal(['Bugietta', 'Bugietta', 'Darboo', 'Lorenzio', 'Subzéro']);
+      expect(foundUserFirstNames).to.deep.equal(['Anna', 'Jérémy', 'Mélanie', 'Matteo', 'Léo']);
+    });
   });
 
   describe('#share', () => {
