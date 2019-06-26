@@ -13,7 +13,7 @@ describe('Unit | UseCase | get-user-campaign-participation', () => {
   let campaignParticipations;
 
   const smartPlacementAssessmentRepository = { checkIfAssessmentBelongToUser: sinon.stub() };
-  const campaignParticipationRepository = { find: sinon.stub(), findWithUsersPaginated: sinon.stub() };
+  const campaignParticipationRepository = { find: sinon.stub() };
 
   beforeEach(() => {
     options = null;
