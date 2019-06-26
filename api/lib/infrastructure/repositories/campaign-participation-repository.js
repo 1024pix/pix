@@ -87,21 +87,8 @@ module.exports = {
       })
       .then(({ models, pagination }) => {
         const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
-
-        _.each(campaignParticipations, (campaignParticipation) => {
-          const sortedUniqKnowlegeElements = _(campaignParticipation.user.knowledgeElements)
-            .filter((ke) => ke.createdAt < campaignParticipation.sharedAt)
-            .orderBy('createdAt', 'desc')
-            .uniqBy('skillId')
-            .value();
-
-          campaignParticipation.user.knowledgeElements = sortedUniqKnowlegeElements;
-        });
-
-        return {
-          pagination: pagination,
-          models: campaignParticipations
-        };
+        const campaignParticipationsWithUniqKnowledgeElements = _sortUniqKnowledgeElements(campaignParticipations);
+        return { models: campaignParticipationsWithUniqKnowledgeElements, pagination };
       });
   },
 
@@ -153,4 +140,14 @@ function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
   bookshelfCampaignParticipation.related('campaign').related('targetProfile').set('skills', skillsObjects);
 
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, bookshelfCampaignParticipation);
+}
+
+function _sortUniqKnowledgeElements(campaignParticipations) {
+  return _.each(campaignParticipations, (campaignParticipation) => {
+    campaignParticipation.user.knowledgeElements = _(campaignParticipation.user.knowledgeElements)
+      .filter((ke) => ke.createdAt < campaignParticipation.sharedAt)
+      .orderBy('createdAt', 'desc')
+      .uniqBy('skillId')
+      .value();
+  });
 }
