@@ -353,7 +353,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
   });
 
-  describe('#findWithCampaignParticipationResultsData', () => {
+  describe('#findPaginatedCampaignParticipations', () => {
 
     const assessmentId1 = 1;
     const assessmentId2 = 2;
@@ -412,7 +412,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       // given
       const options = { filter: { campaignId }, sort: [], include: ['user'], page: { number: 1, size: 2 } };
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findWithCampaignParticipationResultsData(options);
+      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
       const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
       const foundAssessmentIds = _(foundCampaignParticipation.models).map('assessment').map('id').value();
       const foundKnowledgeElementsSkillsIds = _(foundCampaignParticipation.models).map('user').map('knowledgeElements').flatten().map('skillId').value();

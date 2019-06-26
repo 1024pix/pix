@@ -15,7 +15,7 @@ module.exports = async function findCampaignParticipationsWithResults({
     throw new UserNotAuthorizedToAccessEntity('User does not belong to an organization that owns the campaign');
   }
   const [ campaignParticipations, targetProfile, competences ] = await Promise.all([
-    campaignParticipationRepository.findWithCampaignParticipationResultsData(options),
+    campaignParticipationRepository.findPaginatedCampaignParticipations(options),
     targetProfileRepository.getByCampaignId(campaignId),
     competenceRepository.list(),
   ]);

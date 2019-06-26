@@ -73,7 +73,7 @@ module.exports = {
     return queryBuilder.find(BookshelfCampaignParticipation, options);
   },
 
-  findWithCampaignParticipationResultsData(options) {
+  findPaginatedCampaignParticipations(options) {
     return BookshelfCampaignParticipation
       .where(options.filter)
       .query((qb) => {
