@@ -179,6 +179,7 @@ describe('Unit | Service | ScorecardService', function() {
 
       let oldAssessment1;
       let oldAssessment2;
+      let oldAssessment3;
       let oldAssessment1Aborted;
       let oldAssessment2Aborted;
       let newAssessment1Saved;
@@ -188,6 +189,7 @@ describe('Unit | Service | ScorecardService', function() {
       let campaign;
       const assessmentId1 = 12345;
       const assessmentId2 = 56789;
+      const assessmentId3 = 492377;
       const skillId = 'recmoustache';
       const campaignParticipation1Updated = Symbol('campaign participation 1 updated');
       const campaignParticipation2Updated = Symbol('campaign participation 2 updated');
@@ -201,6 +203,7 @@ describe('Unit | Service | ScorecardService', function() {
         campaignParticipation2 = domainBuilder.buildCampaignParticipation({ assessmentId: assessmentId2, campaign, campaignId: campaign.id, isShared: false });
         oldAssessment1 = domainBuilder.buildAssessment({ id: assessmentId1 });
         oldAssessment2 = domainBuilder.buildAssessment({ id: assessmentId2 });
+        oldAssessment3 = domainBuilder.buildAssessment({ id: assessmentId3, state: Assessment.states.ABORTED });
         oldAssessment1Aborted = domainBuilder.buildAssessment({ ...oldAssessment1, state: Assessment.states.ABORTED });
         oldAssessment2Aborted = domainBuilder.buildAssessment({ ...oldAssessment2, state: Assessment.states.ABORTED });
         newAssessment1Saved = domainBuilder.buildAssessment({ id: 67890 });
@@ -223,7 +226,7 @@ describe('Unit | Service | ScorecardService', function() {
           updateAssessmentIdByOldAssessmentId: sinon.stub(),
         };
 
-        assessmentRepository.findSmartPlacementAssessmentsByUserId.withArgs(userId).resolves([oldAssessment1, oldAssessment2]);
+        assessmentRepository.findSmartPlacementAssessmentsByUserId.withArgs(userId).resolves([oldAssessment1, oldAssessment2, oldAssessment3]);
 
         assessmentRepository.updateStateById.withArgs({ id: oldAssessment1.id, state: Assessment.states.ABORTED }).resolves(oldAssessment1Aborted);
         assessmentRepository.updateStateById.withArgs({ id: oldAssessment2.id, state: Assessment.states.ABORTED }).resolves(oldAssessment2Aborted);
@@ -234,6 +237,7 @@ describe('Unit | Service | ScorecardService', function() {
 
         campaignParticipationRepository.findOneByAssessmentId.withArgs(oldAssessment1.id).resolves(campaignParticipation1);
         campaignParticipationRepository.findOneByAssessmentId.withArgs(oldAssessment2.id).resolves(campaignParticipation2);
+        campaignParticipationRepository.findOneByAssessmentId.withArgs(oldAssessment3.id).resolves(null);
 
         campaignParticipationRepository.updateAssessmentIdByOldAssessmentId
           .withArgs({ oldAssessmentId: oldAssessment1.id, newAssessmentId: newAssessment1Saved.id })
@@ -262,13 +266,13 @@ describe('Unit | Service | ScorecardService', function() {
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
       });
 
-      it('should update old assessment and save another assessment', async () => {
+      it('should update old assessment and save another assessment, and ignore old assessment already aborted', async () => {
 
         [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
           userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
         });
 
-        expect(resetCampaignParticipation).to.deep.equal([campaignParticipation1Updated, campaignParticipation2Updated]);
+        expect(resetCampaignParticipation).to.deep.equal([campaignParticipation1Updated, campaignParticipation2Updated, null]);
       });
 
       context('when campaign is already shared', function() {
@@ -285,7 +289,7 @@ describe('Unit | Service | ScorecardService', function() {
             userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
           });
           //then
-          expect(resetCampaignParticipation).to.deep.equal([null, null]);
+          expect(resetCampaignParticipation).to.deep.equal([null, null, null]);
         });
       });
 
@@ -306,7 +310,7 @@ describe('Unit | Service | ScorecardService', function() {
           });
 
           //then
-          expect(resetCampaignParticipation).to.deep.equal([null, null]);
+          expect(resetCampaignParticipation).to.deep.equal([null, null, null]);
         });
       });
 
