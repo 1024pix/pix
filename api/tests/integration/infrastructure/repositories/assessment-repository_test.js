@@ -718,7 +718,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.clean();
     });
 
-    it('should returns the assessment with campaign when it matches with userId', async () => {
+    it('should returns the assessment with campaign when it matches with userId and ignore aborted assessments', async () => {
       // when
       const assessmentsReturned = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
 
