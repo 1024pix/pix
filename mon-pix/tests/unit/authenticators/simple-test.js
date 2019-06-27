@@ -11,6 +11,7 @@ describe('Unit | Authenticator | simple', function() {
 
   setupTest();
 
+  let ajaxStub;
   const requestStub = sinon.stub().resolves({
     'data': {
       'type': 'authentication',
@@ -24,9 +25,9 @@ describe('Unit | Authenticator | simple', function() {
   });
 
   beforeEach(function() {
-    this.owner.register('service:ajax', Service.extend({
+    ajaxStub = Service.create({
       request: requestStub
-    }));
+    });
   });
 
   it('should post a request to retrieve token', function() {
@@ -34,13 +35,13 @@ describe('Unit | Authenticator | simple', function() {
     const email = 'test@example.net';
     const password = 'Hx523è9#';
     const authenticator = this.owner.lookup('authenticator:simple');
+    authenticator.set('ajax', ajaxStub);
 
     // When
     const promise = authenticator.authenticate({ email, password });
 
     // Then
     return promise.then((_) => {
-
       sinon.assert.calledWith(requestStub, '/api/authentications');
       expect(requestStub.getCall(0).args[1]).to.deep.equal({
         method: 'POST',
@@ -54,6 +55,7 @@ describe('Unit | Authenticator | simple', function() {
     const email = 'test@example.net';
     const password = 'Hx523è9#';
     const authenticator = this.owner.lookup('authenticator:simple');
+    authenticator.set('ajax', ajaxStub);
 
     // When
     const promise = authenticator.authenticate({ email, password });
@@ -71,6 +73,7 @@ describe('Unit | Authenticator | simple', function() {
     const token = expectedToken;
     const userId = expectedUserId;
     const authenticator = this.owner.lookup('authenticator:simple');
+    authenticator.set('ajax', ajaxStub);
 
     // When
     const promise = authenticator.authenticate({ token, userId });
@@ -88,6 +91,7 @@ describe('Unit | Authenticator | simple', function() {
       // given
       const token = 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb';
       const authenticator = this.owner.lookup('authenticator:simple');
+      authenticator.set('ajax', ajaxStub);
 
       // when
       const dataFromToken = authenticator.extractDataFromToken(token);

@@ -6,17 +6,20 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Route | logout', () => {
   setupTest();
 
+  let sessionStub;
+
   it('should disconnect the user', function() {
     // Given
     const invalidateStub = sinon.stub();
-    this.owner.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub, data: {
+    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub, data: {
       authenticated: {
         source: 'external'
       }
     }
-    }));
+    });
 
     const route = this.owner.lookup('route:logout');
+    route.set('session', sessionStub);
 
     // When
     route.beforeModel();
@@ -29,9 +32,10 @@ describe('Unit | Route | logout', () => {
     // Given
     const invalidateStub = sinon.stub();
 
-    this.owner.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub });
 
     const route = this.owner.lookup('route:logout');
+    route.set('session', sessionStub);
     route._redirectToHome = sinon.stub();
     route.source = 'pix';
 
@@ -46,9 +50,10 @@ describe('Unit | Route | logout', () => {
     // Given
     const invalidateStub = sinon.stub();
 
-    this.owner.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+    sessionStub = Service.create({ isAuthenticated: true, invalidate: invalidateStub });
 
     const route = this.owner.lookup('route:logout');
+    route.set('session', sessionStub);
     route._redirectToDisconnectedPage = sinon.stub();
     route.source = 'external';
 

@@ -7,17 +7,22 @@ import sinon from 'sinon';
 describe('Unit | Service | current-user', function() {
   setupTest();
 
+  let storeStub;
+  let sessionStub;
+
   describe('user is authenticated', function() {
     beforeEach(function() {
-      this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
-      this.owner.register('service:store', Service.extend({
+      sessionStub = Service.create({ isAuthenticated: true });
+      storeStub = Service.create({
         queryRecord: sinon.stub().resolves({ id: 1 })
-      }));
+      });
     });
 
     it('should load the current user', async function() {
       // Given
       const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.set('store', storeStub);
+      currentUser.set('session', sessionStub);
 
       // When
       await currentUser.load();
@@ -30,13 +35,14 @@ describe('Unit | Service | current-user', function() {
   describe('user is not authenticated', function() {
 
     beforeEach(function() {
-      this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
+      sessionStub = Service.create({ isAuthenticated: false });
     });
 
     it('should do nothing', async function() {
       // Given
       const currentUser = this.owner.lookup('service:currentUser');
-
+      currentUser.set('store', storeStub);
+      currentUser.set('session', sessionStub);
       // When
       await currentUser.load();
 
@@ -48,19 +54,20 @@ describe('Unit | Service | current-user', function() {
   describe('user token is expired', function() {
 
     beforeEach(function() {
-      this.owner.register('service:session', Service.extend({
+      sessionStub =  Service.create({
         isAuthenticated: true,
         invalidate: sinon.stub().resolves('invalidate'),
-      }));
-      this.owner.register('service:store', Service.extend({
+      });
+      storeStub = Service.create({
         queryRecord: sinon.stub().rejects({ errors: [{ code: 401 }] })
-      }));
+      });
     });
 
     it('should redirect to login', async function() {
       // Given
       const currentUser = this.owner.lookup('service:currentUser');
-
+      currentUser.set('store', storeStub);
+      currentUser.set('session', sessionStub);
       // When
       const result = await currentUser.load();
 

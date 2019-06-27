@@ -1,5 +1,4 @@
 import EmberObject from '@ember/object';
-import EmberService from '@ember/service';
 import Service from '@ember/service';
 import { A } from '@ember/array';
 import { beforeEach, describe, it } from 'mocha';
@@ -26,19 +25,15 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     });
     queryChallengeStub = sinon.stub();
     queryStub = sinon.stub();
-    storeStub = Service.extend({
+    storeStub = Service.create({
       queryRecord: queryChallengeStub, query: queryStub, createRecord: createCampaignParticipationStub
     });
-    this.owner.register('service:store', storeStub);
-    this.owner.register('service:session', EmberService.extend({
-      invalidate: sinon.stub(),
-      isAuthenticated: sinon.stub().returns(true)
-    }));
     savedAssessment = EmberObject.create({ id: 1234, codeCampaign: campaignCode, reload: sinon.stub() });
     createdCampaignParticipation = EmberObject.create({ id: 456, assessment: savedAssessment });
     campaign = EmberObject.create({ code: campaignCode });
     route = this.owner.lookup('route:campaigns/fill-in-id-pix');
-
+    route.set('store', storeStub);
+    this.owner.register('service:session', Service.extend({ invalidate: sinon.stub(), isAuthenticated: true }));
   });
 
   describe('#beforeModel', function() {
@@ -56,32 +51,28 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       route.transitionTo = sinon.stub();
     });
 
-    it('should redirect to start-or-resume when there is already an assessement', function() {
+    it('should redirect to start-or-resume when there is already an assessement', async function() {
       // given
       const assessments = A([savedAssessment]);
       queryStub.resolves(assessments);
 
       // when
-      const promise = route.beforeModel(transition);
+      await route.beforeModel(transition);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', campaignCode);
-      });
+      sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', campaignCode);
     });
 
-    it('should not redirect to start-or-resume when there is no assessement', function() {
+    it('should not redirect to start-or-resume when there is no assessement', async function() {
       // given
       const assessments = A([]);
       queryStub.resolves(assessments);
 
       // when
-      const promise = route.beforeModel(transition);
+      await route.beforeModel(transition);
 
       // then
-      return promise.then(() => {
-        sinon.assert.notCalled(route.transitionTo);
-      });
+      sinon.assert.notCalled(route.transitionTo);
     });
   });
 
