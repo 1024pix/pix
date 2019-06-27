@@ -15,10 +15,11 @@ const buildUser = function buildUser({
   email = faker.internet.exampleEmail().toLowerCase(),
   password = encrypt.hashPasswordSync(faker.internet.password()),
   cgu = true,
+  samlId = `saml-id-${faker.random.uuid()}`,
 } = {}) {
 
   const values = {
-    id, firstName, lastName, email, password, cgu,
+    id, firstName, lastName, email, password, cgu, samlId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -34,12 +35,13 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   email = faker.internet.email(),
   rawPassword = faker.internet.password(),
   cgu = true,
+  samlId = `saml-id-${faker.random.uuid()}`,
 }) {
 
   const password = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
-    id, firstName, lastName, email, password, cgu,
+    id, firstName, lastName, email, password, cgu, samlId,
   };
 
   return databaseBuffer.pushInsertable({
