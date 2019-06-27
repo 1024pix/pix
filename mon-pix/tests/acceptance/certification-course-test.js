@@ -1,21 +1,18 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { click, fillIn, currentURL } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
 import { authenticateAsSimpleUser } from '../helpers/testing';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Certification | Start Course', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   describe('Start a certification course', function() {
@@ -23,7 +20,7 @@ describe('Acceptance | Certification | Start Course', function() {
     context('When user is not logged in', function() {
 
       beforeEach(async function() {
-        await visit('/certifications');
+        await visitWithAbortedTransition('/certifications');
       });
 
       it('should redirect to login page', function() {
@@ -37,12 +34,12 @@ describe('Acceptance | Certification | Start Course', function() {
 
       beforeEach(async function() {
         await authenticateAsSimpleUser();
-        await visit('/certifications');
+        await visitWithAbortedTransition('/certifications');
       });
       context('when user enter a correct code session', function() {
         beforeEach(async function() {
           // when
-          fillIn('#session-code', 'ABCD12');
+          await fillIn('#session-code', 'ABCD12');
           await click('.certification-course-page__submit_button');
         });
 
@@ -87,15 +84,15 @@ describe('Acceptance | Certification | Start Course', function() {
       it('should be redirected on the second challenge of an assessment', async function() {
         // given
         await authenticateAsSimpleUser();
-        await visit('/certifications');
-        fillIn('#session-code', '10ue1');
+        await visitWithAbortedTransition('/certifications');
+        await fillIn('#session-code', '10ue1');
         await click('.certification-course-page__submit_button');
 
         await click('.challenge-actions__action-skip');
-        await visit('/compte');
+        await visitWithAbortedTransition('/compte');
 
         // when
-        await visit('/certifications/certification-number');
+        await visitWithAbortedTransition('/certifications/certification-number');
 
         // then
         expect(currentURL()).to.match(/assessments\/\d+\/challenges\/recLt9uwa2dR3IYpi/);

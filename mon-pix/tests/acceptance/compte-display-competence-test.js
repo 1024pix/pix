@@ -1,21 +1,18 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { find, findAll, currentURL } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateAsSimpleUser } from '../helpers/testing';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Compte | Competence profile', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   it('can visit /compte', async function() {
@@ -23,20 +20,18 @@ describe('Acceptance | Compte | Competence profile', function() {
     await authenticateAsSimpleUser();
 
     // when
-    await visit('/compte');
+    await visitWithAbortedTransition('/compte');
 
     // then
-    return andThen(() => {
-      expect(currentURL()).to.equal('/compte');
-    });
+    expect(currentURL()).to.equal('/compte');
   });
 
   it('should redirect to home, when user is not found', async function() {
     // when
-    await visit('/compte');
-    return andThen(() => {
-      expect(currentURL()).to.equal('/connexion');
-    });
+    await visitWithAbortedTransition('/compte');
+
+    // then
+    expect(currentURL()).to.equal('/connexion');
   });
 
   it('should display user competences (with level) grouped by area', async function() {
@@ -44,13 +39,11 @@ describe('Acceptance | Compte | Competence profile', function() {
     await authenticateAsSimpleUser();
 
     // when
-    visit('/compte');
+    await visitWithAbortedTransition('/compte');
 
     // then
-    return andThen(() => {
-      expect(find('.competence-by-area-item').length).to.equal(5);
-      expect(find('.competence').length).to.equal(16);
-    });
+    expect(findAll('.competence-by-area-item').length).to.equal(5);
+    expect(findAll('.competence').length).to.equal(16);
   });
 
   it('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', async function() {
@@ -58,12 +51,10 @@ describe('Acceptance | Compte | Competence profile', function() {
     await authenticateAsSimpleUser();
 
     // when
-    visit('/compte');
+    await visitWithAbortedTransition('/compte');
 
     // then
-    return andThen(() => {
-      expect(find('.competence-level-progress-bar__link-start:first').attr('href')).to.be.equal('/courses/ref_course_id');
-    });
+    expect(findAll('.competence-level-progress-bar__link-start')[0].getAttribute('href')).to.equal('/courses/ref_course_id');
   });
 
   it('should display a hero banner for logged user', async function() {
@@ -71,11 +62,9 @@ describe('Acceptance | Compte | Competence profile', function() {
     await authenticateAsSimpleUser();
 
     // when
-    visit('/compte');
+    await visitWithAbortedTransition('/compte');
 
     // then
-    return andThen(() => {
-      expect(find('.logged-user-profile-banner')).to.have.lengthOf(1);
-    });
+    expect(find('.logged-user-profile-banner')).to.exist;
   });
 });

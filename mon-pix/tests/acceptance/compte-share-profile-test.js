@@ -1,33 +1,30 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { click, fillIn, find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
 import { authenticateAsSimpleUser } from '../helpers/testing';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Sharing a Profile Snapshot with a given Organization', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   async function visitAccountPage() {
-    await visit('/compte');
+    await visitWithAbortedTransition('/compte');
   }
 
   function expectModalToBeOpened() {
-    findWithAssert('.pix-modal-dialog');
+    expect(find('.pix-modal-dialog')).to.exist;
   }
 
   function expectToBeOnOrganizationCodeEntryView() {
-    findWithAssert('.share-profile__section--organization-code-entry');
+    expect(find('.share-profile__section--organization-code-entry')).to.exist;
   }
 
   async function openShareProfileModal() {
@@ -35,7 +32,7 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   function expectToBeOnSharingConfirmationView() {
-    findWithAssert('.share-profile__section--sharing-confirmation');
+    expect(find('.share-profile__section--sharing-confirmation')).to.exist;
   }
 
   async function fillInAndSubmitOrganizationCode() {
@@ -44,14 +41,14 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   function expectOrganizationNameToBeDisplayed() {
-    expect(find('.share-profile__organization-name').text().trim()).to.equal('Mon Entreprise');
+    expect(find('.share-profile__organization-name').textContent.trim()).to.equal('Mon Entreprise');
   }
 
   function expectToBeOnSuccessNotificationView() {
-    findWithAssert('.share-profile__section--success-notification');
+    expect(find('.share-profile__section--success-notification')).to.exist;
   }
 
-  function expectSnapshotToHaveBeenCreated() {
+  function expectSnapshotToHaveBeenCreated(server) {
     expect(server.db.snapshots.length).to.equal(4);
   }
 
@@ -60,7 +57,7 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   function expectModalToBeClosed() {
-    expect(find('.pix-modal')).to.have.lengthOf(0);
+    expect(find('.pix-modal')).to.not.exist;
   }
 
   async function closeModal() {
@@ -82,7 +79,7 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
 
     await confirmProfileSnapshotSharing();
     expectToBeOnSuccessNotificationView();
-    expectSnapshotToHaveBeenCreated();
+    expectSnapshotToHaveBeenCreated(this.server);
 
     await closeModal();
     expectModalToBeClosed();

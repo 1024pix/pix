@@ -1,21 +1,18 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { click, fillIn, currentURL } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
 import { authenticateAsPrescriber, authenticateAsSimpleProfileV2User, authenticateAsSimpleUser } from '../helpers/testing';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Espace compte | Authentication', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   describe('Success cases', function() {
@@ -23,12 +20,10 @@ describe('Acceptance | Espace compte | Authentication', function() {
     describe('Accessing to the /compte page while disconnected', async function() {
       it('should redirect to the connexion page', async function() {
         // when
-        await visit('/compte');
+        await visitWithAbortedTransition('/compte');
 
         // then
-        return andThen(function() {
-          expect(currentURL()).to.equal('/connexion');
-        });
+        expect(currentURL()).to.equal('/connexion');
       });
     });
 
@@ -38,9 +33,7 @@ describe('Acceptance | Espace compte | Authentication', function() {
         await authenticateAsSimpleUser();
 
         // then
-        return andThen(function() {
-          expect(currentURL()).to.equal('/compte');
-        });
+        expect(currentURL()).to.equal('/compte');
       });
 
       it('should redirect to the /board after connexion for users with organization', async function() {
@@ -48,9 +41,7 @@ describe('Acceptance | Espace compte | Authentication', function() {
         await authenticateAsPrescriber();
 
         // then
-        return andThen(function() {
-          expect(currentURL()).to.equal('/board');
-        });
+        expect(currentURL()).to.equal('/board');
       });
 
     });
@@ -64,12 +55,10 @@ describe('Acceptance | Espace compte | Authentication', function() {
         await authenticateAsSimpleProfileV2User();
 
         // when
-        await visit('/compte');
+        await visitWithAbortedTransition('/compte');
 
         // then
-        return andThen(function() {
-          expect(currentURL()).to.equal('/profil');
-        });
+        expect(currentURL()).to.equal('/profil');
       });
     });
   });
@@ -77,17 +66,15 @@ describe('Acceptance | Espace compte | Authentication', function() {
   describe('Error case', function() {
     it('should stay in /connexion , when authentication failed', async function() {
       // given
-      await visit('/connexion');
-      fillIn('#email', 'anyone@pix.world');
-      fillIn('#password', 'Pix20!!');
+      await visitWithAbortedTransition('/connexion');
+      await fillIn('#email', 'anyone@pix.world');
+      await fillIn('#password', 'Pix20!!');
 
       // when
-      click('.button');
+      await click('.button');
 
       // then
-      return andThen(function() {
-        expect(currentURL()).to.equal('/connexion');
-      });
+      expect(currentURL()).to.equal('/connexion');
     });
   });
 });

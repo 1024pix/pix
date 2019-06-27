@@ -1,20 +1,18 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { findAll, currentURL, find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
 import { authenticateAsPrescriber } from '../helpers/testing';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Board organization', function() {
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   it('can visit /board', async function() {
@@ -22,22 +20,18 @@ describe('Acceptance | Board organization', function() {
     await authenticateAsPrescriber();
 
     // when
-    await visit('/board');
+    await visitWithAbortedTransition('/board');
 
     // then
-    andThen(() => {
-      expect(currentURL()).to.equal('/board');
-    });
+    expect(currentURL()).to.equal('/board');
   });
 
   it('should not be accessible while the user is not connected', async function() {
     // when
-    await visit('/board');
+    await visitWithAbortedTransition('/board');
 
     // then
-    andThen(() => {
-      expect(currentURL()).to.equal('/connexion');
-    });
+    expect(currentURL()).to.equal('/connexion');
   });
 
   it('should display the name and the code of my organization', async function() {
@@ -45,13 +39,13 @@ describe('Acceptance | Board organization', function() {
     await authenticateAsPrescriber();
 
     // when
-    await visit('/board');
+    await visitWithAbortedTransition('/board');
 
     // then
-    expect(find('.board-page__header-organisation__name').length).to.equal(1);
-    expect(find('.board-page__header-organisation__name').text().trim()).to.equal('Mon Entreprise');
-    expect(find('.board-page__header-code__text').length).to.equal(1);
-    expect(find('.board-page__header-code__text').text().trim()).to.equal('PRO001');
+    expect(findAll('.board-page__header-organisation__name').length).to.equal(1);
+    expect(find('.board-page__header-organisation__name').textContent.trim()).to.equal('Mon Entreprise');
+    expect(findAll('.board-page__header-code__text').length).to.equal(1);
+    expect(find('.board-page__header-code__text').textContent.trim()).to.equal('PRO001');
   });
 
   it('should display an empty list of snapshot', async function() {
@@ -59,11 +53,11 @@ describe('Acceptance | Board organization', function() {
     await authenticateAsPrescriber();
 
     // when
-    await visit('/board');
+    await visitWithAbortedTransition('/board');
 
     // then
-    expect(find('.snapshot-list').length).to.equal(1);
-    expect(find('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
+    expect(findAll('.snapshot-list').length).to.equal(1);
+    expect(find('.snapshot-list__no-profile').textContent).to.equal('Aucun profil partagé pour le moment');
 
   });
 
@@ -72,11 +66,10 @@ describe('Acceptance | Board organization', function() {
     await authenticateAsPrescriber();
 
     // when
-    await visit('/board');
+    await visitWithAbortedTransition('/board');
 
     // then
-    const $exportLink = findWithAssert('.profiles-title__export-csv');
-    expect($exportLink.text()).to.contains('Exporter (.csv)');
+    expect(find('.profiles-title__export-csv').textContent).to.contains('Exporter (.csv)');
   });
 
 });
