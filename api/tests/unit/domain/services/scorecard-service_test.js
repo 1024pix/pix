@@ -109,7 +109,7 @@ describe('Unit | Service | ScorecardService', function() {
       beforeEach(async () => {
         // when
         const shouldResetCompetenceEvaluation = true;
-        assessmentRepository = { findSmartPlacementAssessmentsByUserId: sinon.stub() };
+        assessmentRepository = { findNotAbortedSmartPlacementAssessmentsByUserId: sinon.stub() };
         competenceEvaluationRepository = { updateStatusByUserIdAndCompetenceId: sinon.stub() };
         knowledgeElementRepository = {
           save: sinon.stub(),
@@ -149,7 +149,7 @@ describe('Unit | Service | ScorecardService', function() {
       beforeEach(async () => {
         // when
         const shouldResetCompetenceEvaluation = false;
-        assessmentRepository = { findSmartPlacementAssessmentsByUserId: sinon.stub() };
+        assessmentRepository = { findNotAbortedSmartPlacementAssessmentsByUserId: sinon.stub() };
         knowledgeElementRepository = {
           save: sinon.stub(),
           findUniqByUserIdAndCompetenceId: sinon.stub(),
@@ -210,7 +210,7 @@ describe('Unit | Service | ScorecardService', function() {
 
         // when
         assessmentRepository = {
-          findSmartPlacementAssessmentsByUserId: sinon.stub(),
+          findNotAbortedSmartPlacementAssessmentsByUserId: sinon.stub(),
           save: sinon.stub(),
           updateStateById: sinon.stub(),
         };
@@ -223,7 +223,7 @@ describe('Unit | Service | ScorecardService', function() {
           updateAssessmentIdByOldAssessmentId: sinon.stub(),
         };
 
-        assessmentRepository.findSmartPlacementAssessmentsByUserId.withArgs(userId).resolves([oldAssessment1, oldAssessment2]);
+        assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId.withArgs(userId).resolves([oldAssessment1, oldAssessment2]);
 
         assessmentRepository.updateStateById.withArgs({ id: oldAssessment1.id, state: Assessment.states.ABORTED }).resolves(oldAssessment1Aborted);
         assessmentRepository.updateStateById.withArgs({ id: oldAssessment2.id, state: Assessment.states.ABORTED }).resolves(oldAssessment2Aborted);
@@ -318,7 +318,7 @@ describe('Unit | Service | ScorecardService', function() {
         // when
         const shouldResetCompetenceEvaluation = false;
         assessmentRepository = {
-          findSmartPlacementAssessmentsByUserId: sinon.stub(),
+          findNotAbortedSmartPlacementAssessmentsByUserId: sinon.stub(),
           save: sinon.stub(),
           updateStateById: sinon.stub(),
         };
@@ -327,7 +327,7 @@ describe('Unit | Service | ScorecardService', function() {
           findUniqByUserIdAndCompetenceId: sinon.stub(),
         };
 
-        assessmentRepository.findSmartPlacementAssessmentsByUserId.withArgs(userId).resolves(null);
+        assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId.withArgs(userId).resolves(null);
 
         knowledgeElementRepository.findUniqByUserIdAndCompetenceId
           .withArgs({ userId, competenceId }).resolves(knowledgeElements);

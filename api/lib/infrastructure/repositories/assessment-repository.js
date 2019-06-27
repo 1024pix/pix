@@ -132,9 +132,10 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  findSmartPlacementAssessmentsByUserId(userId) {
+  findNotAbortedSmartPlacementAssessmentsByUserId(userId) {
     return BookshelfAssessment
       .where({ userId, type: 'SMART_PLACEMENT' })
+      .where('state', '!=', 'aborted')
       .fetchAll()
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
