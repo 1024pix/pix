@@ -1,51 +1,47 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { click, currentURL, find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
 import { authenticateAsSimpleUser } from '../helpers/testing';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const START_BUTTON = '.competence-level-progress-bar__link-start';
 
 describe('Acceptance | Starting a course', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(async function() {
-    application = startApp();
-    defaultScenario(server);
+    defaultScenario(this.server);
     await authenticateAsSimpleUser();
-    await visit('/compte');
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    await visitWithAbortedTransition('/compte');
   });
 
   it('should be able to start a test directly from the course endpoint', async function() {
-    await visit('/courses/ref_course_id');
+    await visitWithAbortedTransition('/courses/ref_course_id');
     expect(currentURL()).to.be.equal(URL_OF_FIRST_TEST);
   });
 
-  it('should redirect to the first course challenge when starting a new course', function() {
-    const $startLink = findWithAssert(START_BUTTON);
-    return click($startLink).then(function() {
-      findWithAssert('.assessment-challenge');
-      expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
-    });
+  it('should redirect to the first course challenge when starting a new course', async function() {
+    await click(find(START_BUTTON));
+
+    expect(find('.assessment-challenge')).to.exist;
+    expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
   });
 
   it('should resume the assessment', async function() {
     // given
-    server.create('assessment', {
+    this.server.create('assessment', {
       id: 1,
       courseId: 'recNPB7dTNt5krlMA',
       state: 'started',
       type: 'PLACEMENT',
     });
     //when
-    await visit('/courses/recNPB7dTNt5krlMA');
+    await visitWithAbortedTransition('/courses/recNPB7dTNt5krlMA');
 
     // then
     expect(currentURL()).to.be.equal('/assessments/1/challenges/receop4TZKvtjjG0V');
@@ -53,14 +49,14 @@ describe('Acceptance | Starting a course', function() {
 
   it('should start an assessment', async function() {
     // given
-    server.create('assessment', {
+    this.server.create('assessment', {
       id: 1,
       courseId: 'recNPB7dTNt5krlMA',
       state: 'completed',
       type: 'PLACEMENT',
     });
     //when
-    await visit('/courses/recNPB7dTNt5krlMA');
+    await visitWithAbortedTransition('/courses/recNPB7dTNt5krlMA');
 
     // then
     expect(currentURL()).to.be.equal('/assessments/2/challenges/receop4TZKvtjjG0V');

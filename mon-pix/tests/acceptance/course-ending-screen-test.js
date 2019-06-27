@@ -1,19 +1,18 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { currentURL, find, findAll } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import { setupApplicationTest } from 'ember-mocha';
+import visitWithAbortedTransition from '../helpers/visit';
+import defaultScenario from '../../mirage/scenarios/default';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Course ending screen', function() {
+  setupApplicationTest();
+  setupMirage();
 
-  let application;
-
-  beforeEach(function() {
-    application = startApp();
-    visit('/assessments/ref_assessment_id/results');
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+  beforeEach(async function() {
+    defaultScenario(this.server);
+    await visitWithAbortedTransition('/assessments/ref_assessment_id/results');
   });
 
   it('should be available directly from the url', function() {
@@ -21,36 +20,34 @@ describe('Acceptance | Course ending screen', function() {
   });
 
   it('should display a summary of all the answers', function() {
-    findWithAssert('.assessment-results__list');
+    expect(find('.assessment-results__list')).to.exist;
   });
 
   it('should display the matching instructions', function() {
-    const $proposals = findWithAssert('.result-item');
-    expect($proposals.text()).to.contain('Un QCM propose plusieurs choix');
-    expect($proposals.text()).to.contain('Un QCU propose plusieurs choix');
-    expect($proposals.text()).to.contain('Un QROC est une question ouverte');
-    expect($proposals.text()).to.contain('Un QROCM est une question ouverte');
+    expect(findAll('.result-item')[0].textContent).to.contain('Un QCM propose plusieurs choix');
+    expect(findAll('.result-item')[1].textContent).to.contain('Un QCU propose plusieurs choix');
+    expect(findAll('.result-item')[2].textContent).to.contain('Un QROC est une question ouverte');
+    expect(findAll('.result-item')[3].textContent).to.contain('Un QROCM est une question ouverte');
   });
 
   it('should provide a valid answer when the user answered wrongly', function() {
-    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
-    expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
+    expect(findAll('div[data-toggle="tooltip"]')[0].getAttribute('data-original-title')).to.equal('Réponse incorrecte');
   });
 
   it('should display the course name', function() {
-    expect(findWithAssert('.course-banner__name').text()).to.contain('First Course');
+    expect(find('.course-banner__name').textContent).to.contain('First Course');
   });
 
   it('should not display the back button to return to the home page', function() {
-    expect(find('.course-banner__home-link')).to.have.lengthOf(0);
+    expect(find('.course-banner__home-link')).to.not.exist;
   });
 
   it('should display a way to come back to the test list', function() {
-    findWithAssert('.assessment-results__index-link-container');
+    expect(find('.assessment-results__index-link-container')).to.exist;
   });
 
   it('should display the course banner', function() {
-    findWithAssert('.assessment-results__course-banner');
+    expect(find('.assessment-results__course-banner')).to.exist;
   });
 
 });

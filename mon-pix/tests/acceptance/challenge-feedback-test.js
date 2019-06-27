@@ -1,42 +1,41 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { click, find } from '@ember/test-helpers';
+import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import visitWithAbortedTransition from '../helpers/visit';
+import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Giving feedback about a challenge', function() {
+  setupApplicationTest();
+  setupMirage();
 
-  let application;
+  beforeEach(function() {
+    defaultScenario(this.server);
+  });
 
   function assertThatFeedbackPanelExist() {
-    expect(find('.feedback-panel')).to.have.lengthOf(1);
+    expect(find('.feedback-panel')).to.exist;
   }
 
   function assertThatFeedbackFormIsClosed() {
-    expect(find('.feedback-panel__form')).to.have.lengthOf(0);
+    expect(find('.feedback-panel__form')).to.not.exist;
   }
 
   function assertThatFeedbackFormIsOpen() {
-    expect(find('.feedback-panel__form')).to.have.lengthOf(1);
+    expect(find('.feedback-panel__form')).to.exist;
   }
-
-  beforeEach(function() {
-    application = startApp();
-  });
-
-  afterEach(function() {
-    destroyApp(application);
-  });
 
   describe('From a challenge', function() {
 
     it('should be able to directly send a feedback', async () => {
-      await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
       assertThatFeedbackPanelExist();
     });
 
     it('should always reset the feedback form between two consecutive challenges', async () => {
       // In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
-      await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+      await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
       assertThatFeedbackFormIsClosed();
 
       await click('.feedback-panel__open-link');
@@ -51,7 +50,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
   describe('From the comparison modal', function() {
 
     it('should be able to give feedback', async () => {
-      await visit('/assessments/ref_assessment_id/results');
+      await visitWithAbortedTransition('/assessments/ref_assessment_id/results');
       await click('.result-item__correction-button');
       assertThatFeedbackFormIsOpen();
     });

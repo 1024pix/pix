@@ -1,126 +1,104 @@
-import {
-  describe,
-  it,
-  beforeEach,
-  afterEach
-} from 'mocha';
+import { click, find, findAll } from '@ember/test-helpers';
+import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
-import $ from 'jquery';
+import visitWithAbortedTransition from '../helpers/visit';
+import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
-function visitTimedChallenge() {
-  visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-  click('.challenge-item-warning button');
+async function visitTimedChallenge() {
+  await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  await click('.challenge-item-warning button');
 }
 
 describe('Acceptance | Displaying a QCM', function() {
+  setupApplicationTest();
+  setupMirage();
 
-  let application;
-
-  beforeEach(function() {
-    application = startApp();
-    visitTimedChallenge();
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+  beforeEach(async function() {
+    defaultScenario(this.server);
+    await visitTimedChallenge();
   });
 
   it('should render challenge instruction', function() {
     // Given
     const expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
 
-    // When
-    const $challengeInstruction = $('.challenge-statement__instruction');
-
     // Then
-    expect($challengeInstruction.text().trim()).to.equal(expectedInstruction);
+    expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(expectedInstruction);
   });
 
   it('should format content written as [foo](bar) as clickable link', function() {
-    // When
-    const $links = findWithAssert('.challenge-statement__instruction a');
-
-    // Then
-    expect($links.length).to.equal(1);
-    expect($links.text()).to.equal('plusieurs');
-    expect($links.attr('href')).to.equal('http://link.plusieurs.url');
+    expect(find('.challenge-statement__instruction a')).to.exist;
+    expect(find('.challenge-statement__instruction a').textContent).to.equal('plusieurs');
+    expect(find('.challenge-statement__instruction a').getAttribute('href')).to.equal('http://link.plusieurs.url');
   });
 
   it('should open the links in a new tab', function() {
-    const $links = findWithAssert('.challenge-statement__instruction a');
-    expect($links.attr('target')).to.equal('_blank');
+    expect(find('.challenge-statement__instruction a').getAttribute('target')).to.equal('_blank');
   });
 
   it('should render a list of checkboxes', function() {
-    const $proposals = $('input[type="checkbox"]');
-    expect($proposals).to.have.lengthOf(4);
+    expect(findAll('input[type="checkbox"]')).to.have.lengthOf(4);
   });
 
   it('should mark checkboxes that have been checked', async function() {
-    await click($('input:checkbox:eq(0)'));
-    await click($('input:checkbox:eq(1)'));
+    await click(findAll('input[type="checkbox"]')[0]);
+    await click(findAll('input[type="checkbox"]')[1]);
 
-    expect($('input:checkbox:checked')).to.have.lengthOf(2);
+    expect(findAll('input[type="checkbox"]')[0].checked).to.be.true;
+    expect(findAll('input[type="checkbox"]')[1].checked).to.be.false;
+    expect(findAll('input[type="checkbox"]')[3].checked).to.be.true;
   });
 
   it('should render an ordered list of instruction', function() {
-    expect($('.proposal-text:eq(0)').text().trim()).to.equal('possibilite 1, et/ou');
-    expect($('.proposal-text:eq(1)').text().trim()).to.equal('possibilite 2, et/ou');
-    expect($('.proposal-text:eq(2)').text().trim()).to.equal('possibilite 3, et/ou');
-    expect($('.proposal-text:eq(3)').text().trim()).to.equal('possibilite 4');
+    expect(findAll('.proposal-text')[0].textContent.trim()).to.equal('possibilite 1, et/ou');
+    expect(findAll('.proposal-text')[1].textContent.trim()).to.equal('possibilite 2, et/ou');
+    expect(findAll('.proposal-text')[2].textContent.trim()).to.equal('possibilite 3, et/ou');
+    expect(findAll('.proposal-text')[3].textContent.trim()).to.equal('possibilite 4');
   });
 
   it('should hide the error alert box by default', function() {
-    expect($('.alert')).to.have.lengthOf(0);
+    expect(find('.alert')).to.not.exist;
   });
 
-  it('should display the alert box if user validates without checking a checkbox', function() {
+  it('should display the alert box if user validates without checking a checkbox', async function() {
     // Given
-    const $validateLink = $('.challenge-actions__action-validate');
-    $('input:checkbox').prop('checked', false);
-    expect($('input:checkbox:checked')).to.have.lengthOf(0);
+    await click(findAll('.proposal-text')[1]);
+    await click(findAll('.proposal-text')[3]);
 
     // When
-    click($validateLink);
+    await click('.challenge-actions__action-validate');
 
-    // Then
-    andThen(() => {
-      expect($('.alert')).to.have.lengthOf(1);
-      expect($('.alert').text().trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
-    });
+    expect(find('.alert')).to.exist;
+    expect(find('.alert').textContent.trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
   });
 
-  it('should set the checkbox state as checked when user checks a checkbox', function() {
-    $('input:checkbox').prop('checked', false);
-    $('.proposal-text:eq(1)').click();
-    andThen(() => {
-      expect($('input:checkbox:checked')).to.have.lengthOf(1);
-    });
+  it('should set the checkbox state as checked when user checks a checkbox', async function() {
+    expect(findAll('input[type="checkbox"]')[0].checked).to.be.false;
+    await click(findAll('.proposal-text')[0]);
+    expect(findAll('input[type="checkbox"]')[0].checked).to.be.true;
   });
 
-  it('should not alter a checkbox state when siblings checkboxes are checked', function() {
-    $('input:checkbox').prop('checked', false);
-    $('input:checkbox:eq(1)').prop('checked', true);
-    expect($('input:checkbox:checked')).to.have.lengthOf(1);
-    $('.proposal-text:eq(2)').click();
-    andThen(() => {
-      expect($('input:checkbox:checked')).to.have.lengthOf(2);
-    });
+  it('should not alter a checkbox state when siblings checkboxes are checked', async function() {
+    expect(findAll('input[type="checkbox"]')[0].checked).to.be.false;
+    expect(findAll('input[type="checkbox"]')[1].checked).to.be.true;
+    await click(findAll('.proposal-text')[2]);
+    expect(findAll('input[type="checkbox"]')[0].checked).to.be.false;
+    expect(findAll('input[type="checkbox"]')[1].checked).to.be.true;
   });
 
   it('should only display the error alert checkbox after the user has tried to at least interact with checkboxes', async function() {
     // given
-    $('input:checkbox').prop('checked', false);
+    await click(findAll('.proposal-text')[1]);
+    await click(findAll('.proposal-text')[3]);
     await click('.challenge-actions__action-validate');
 
     // when
-    await click($('.proposal-text:eq(1)'));
+    await click(findAll('.proposal-text')[1]);
 
     // then
-    const $alert = $('.alert');
-    expect($alert).to.have.lengthOf(0);
+    expect(find('.alert')).to.not.exist;
   });
 
 });

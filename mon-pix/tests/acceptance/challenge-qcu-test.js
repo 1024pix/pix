@@ -1,17 +1,14 @@
-import {
-  describe,
-  it,
-  beforeEach,
-  afterEach
-} from 'mocha';
+import { click, find, findAll } from '@ember/test-helpers';
+import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
-import $ from 'jquery';
+import visitWithAbortedTransition from '../helpers/visit';
+import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 let assessment, challenge, answer;
 
-function insertRequiredDataForThisTest() {
+function insertRequiredDataForThisTest(server) {
   assessment = server.create('assessment');
   challenge = server.create('challenge', {
     type: 'QCU',
@@ -36,84 +33,77 @@ function insertRequiredDataForThisTest() {
 }
 
 describe('Acceptance | Displaying a QCU', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    insertRequiredDataForThisTest();
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
+    insertRequiredDataForThisTest(this.server);
   });
 
   it('should display a radio buttons list', async function() {
     // when
-    await visit('/assessments/' + assessment.id + '/challenges/' + challenge.id);
+    await visitWithAbortedTransition('/assessments/' + assessment.id + '/challenges/' + challenge.id);
 
     // then
-    const $proposals = $('input[type=radio][name="radio"]');
-    expect($proposals).to.have.lengthOf(4);
+    expect(findAll('input[type=radio][name="radio"]')).to.have.lengthOf(4);
   });
 
   it('should display the previously saved selected radio button by default', async function() {
     // when
-    await visit('/assessments/' + assessment.id + '/challenges/' + challenge.id);
+    await visitWithAbortedTransition('/assessments/' + assessment.id + '/challenges/' + challenge.id);
 
     // then
-    expect($('.proposal-paragraph input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
+    expect(findAll('.proposal-paragraph input[type=radio][name="radio"]')[1].checked).to.be.true;
   });
 
   it('should display an ordered list of instructions', async function() {
     // when
-    await visit('/assessments/' + assessment.id + '/challenges/' + challenge.id);
+    await visitWithAbortedTransition('/assessments/' + assessment.id + '/challenges/' + challenge.id);
 
     // then
-    expect($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
-    expect($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
-    expect($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
-    expect($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
+    expect(findAll('.proposal-text')[0].textContent.trim()).to.equal('1ere possibilite');
+    expect(findAll('.proposal-text')[1].textContent.trim()).to.equal('2eme possibilite');
+    expect(findAll('.proposal-text')[2].textContent.trim()).to.equal('3eme possibilite');
+    expect(findAll('.proposal-text')[3].textContent.trim()).to.equal('4eme possibilite');
   });
 
   it('should display the error alter box if users validates with no radio button selected', async function() {
     // given
-    await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-
-    $(':radio').prop('checked', false);
+    await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+    findAll('input[type=radio][name="radio"]')[1].checked = false;
 
     // when
     await click('.challenge-actions__action-validate');
 
     // then
-    const $alert = $('.alert');
-    expect($alert).to.have.lengthOf(1);
-    expect($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
+    expect(find('.alert')).to.exist;
+    expect(find('.alert').textContent.trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
   });
 
   it('should not be possible to select multiple radio buttons', async function() {
     // when
-    await visit('/assessments/' + assessment.id + '/challenges/' + challenge.id);
-    await click('input[type=radio][name="radio"]:eq(1)');
+    await visitWithAbortedTransition('/assessments/' + assessment.id + '/challenges/' + challenge.id);
+    await click(findAll('input[type=radio][name="radio"]')[1]);
 
-    expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
-    expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
-    expect($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
-    expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
+    expect(findAll('input[type=radio][name="radio"]')[0].checked).to.equal(false);
+    expect(findAll('input[type=radio][name="radio"]')[1].checked).to.equal(true);
+    expect(findAll('input[type=radio][name="radio"]')[2].checked).to.equal(false);
+    expect(findAll('input[type=radio][name="radio"]')[3].checked).to.equal(false);
 
     // When
-    await click('.label-checkbox-proposal:eq(0)'); // Click on label trigger the event.
+    await click(findAll('.label-checkbox-proposal')[0]);
 
     // Then
-    expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(true);
-    expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(false);
-    expect($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
-    expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
+    expect(findAll('input[type=radio][name="radio"]')[0].checked).to.equal(true);
+    expect(findAll('input[type=radio][name="radio"]')[1].checked).to.equal(false);
+    expect(findAll('input[type=radio][name="radio"]')[2].checked).to.equal(false);
+    expect(findAll('input[type=radio][name="radio"]')[3].checked).to.equal(false);
   });
 
   it('should send an api request to save the users answer when clicking the validate button', async function() {
     // Given
-    server.post('/answers', (schema, request) => {
+    this.server.post('/answers', (schema, request) => {
       const params = JSON.parse(request.requestBody);
 
       expect(params.data.type).to.equal('answers');
@@ -131,29 +121,27 @@ describe('Acceptance | Displaying a QCU', function() {
     });
 
     // when
-    await visit('/assessments/' + assessment.id + '/challenges/' + challenge.id);
-    await click('input[type=radio][name="radio"]:eq(1)');
+    await visitWithAbortedTransition('/assessments/' + assessment.id + '/challenges/' + challenge.id);
+    await click(findAll('input[type=radio][name="radio"]')[1]);
 
-    expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
-    expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
-    expect($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
-    expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
+    expect(findAll('input[type=radio][name="radio"]')[0].checked).to.equal(false);
+    expect(findAll('input[type=radio][name="radio"]')[1].checked).to.equal(true);
+    expect(findAll('input[type=radio][name="radio"]')[2].checked).to.equal(false);
+    expect(findAll('input[type=radio][name="radio"]')[3].checked).to.equal(false);
 
   });
 
   it('should only display an error alert if the user tries to validate after having interacting once with the page', async function() {
     // given
-    await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-    $(':radio').prop('checked', false);
+    await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+    findAll('input[type=radio][name="radio"]')[1].checked = false;
     await click('.challenge-actions__action-validate');
 
     // when
-    await click($('.label-checkbox-proposal:eq(0)'));
+    await click(findAll('.label-checkbox-proposal')[0]);
 
     // then
-    const $alert = $('.alert');
-    expect($alert).to.have.lengthOf(0);
-
+    expect(find('.alert')).to.not.exist;
   });
 
 });
