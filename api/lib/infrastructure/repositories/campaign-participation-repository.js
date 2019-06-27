@@ -69,8 +69,11 @@ module.exports = {
       .then(_convertToDomainWithSkills);
   },
 
-  find(options) {
-    return queryBuilder.find(BookshelfCampaignParticipation, options);
+  findByAssessmentId(assessmentId) {
+    return BookshelfCampaignParticipation
+      .where({ assessmentId })
+      .fetchAll({ withRelated: ['campaign', 'user'] })
+      .then((campaignParticipations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, campaignParticipations));
   },
 
   findPaginatedCampaignParticipations(options) {

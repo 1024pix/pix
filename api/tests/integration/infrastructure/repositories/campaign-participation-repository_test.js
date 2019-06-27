@@ -313,15 +313,11 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#find', () => {
+  describe('#findByAssessmentId', () => {
 
-    const campaignId = 'my campaign id';
     const assessmentId = 'my assessment id';
 
     beforeEach(async () => {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
       databaseBuilder.factory.buildCampaignParticipation({ assessmentId });
       databaseBuilder.factory.buildCampaignParticipation({ assessmentId });
       databaseBuilder.factory.buildCampaignParticipation();
@@ -337,18 +333,9 @@ describe('Integration | Repository | Campaign Participation', () => {
       // given
       const options = { filter: { assessmentId }, sort: [] };
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.find(options);
+      const foundCampaignParticipation = await campaignParticipationRepository.findByAssessmentId(options.filter.assessmentId);
       // then
-      expect(foundCampaignParticipation.models).to.have.length(4);
-    });
-
-    it('should return campaign participations that match given campaignId', async function() {
-      // given
-      const options = { filter: { campaignId }, sort: [] };
-      // when
-      const foundCampaignParticipation = await campaignParticipationRepository.find(options);
-      // then
-      expect(foundCampaignParticipation.models).to.have.length(3);
+      expect(foundCampaignParticipation).to.have.length(2);
     });
 
   });

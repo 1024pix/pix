@@ -18,7 +18,8 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const token = 'token';
     const authorization = 'auth header';
     const request = { headers: { authorization }, query };
-    const result = { models: [], pagination: {} };
+    const resultWithPagination = { models: [], pagination: {} };
+    const result = [];
     const serialized = {};
 
     const assessmentId = 1;
@@ -29,7 +30,9 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       sinon.stub(tokenService, 'extractTokenFromAuthChain').withArgs(authorization).returns(token);
       sinon.stub(tokenService, 'extractUserId').withArgs(token).returns(userId);
       sinon.stub(queryParamsUtils, 'extractParameters');
-      sinon.stub(serializer, 'serialize').withArgs(result.models, result.pagination).returns(serialized);
+      sinon.stub(serializer, 'serialize')
+        .withArgs(resultWithPagination.models, resultWithPagination.pagination).returns(serialized)
+        .withArgs(result).returns(serialized);
       sinon.stub(usecases, 'findCampaignParticipationsWithResults');
     });
 
@@ -49,29 +52,13 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       });
     });
 
-    context('when the request contains just campaignId filter', () => {
-      it('should call the usecases to get the user campaign participation', async () => {
-        // given
-        options = { filter: { campaignId }, include: [] };
-
-        queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(result);
-
-        // when
-        const response = await campaignParticipationController.find(request, hFake);
-
-        // then
-        expect(response).to.deep.equal(serialized);
-      });
-    });
-
     context('when the request does not contain any filter', () => {
       it('should throw a bad request error', async () => {
         // given
         options = { filter: {}, include: [] };
 
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(result);
+        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(resultWithPagination);
 
         // when
         const responseErr = await catchErr(campaignParticipationController.find)(request, hFake);
@@ -81,29 +68,13 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       });
     });
 
-    context('when the request contains both a campaignId and an assessmentId filter', () => {
-      it('should call the usecases to get the user campaign participation', async () => {
-        // given
-        options = { filter: { campaignId, assessmentId }, include: [] };
-
-        queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(result);
-
-        // when
-        const response = await campaignParticipationController.find(request, hFake);
-
-        // then
-        expect(response).to.deep.equal(serialized);
-      });
-    });
-
     context('when the request contains both a campaignId and an include campaigns-participation-result', () => {
       it('should call the usecases to get the user campaign participation', async () => {
         // given
         options = { filter: { campaignId, assessmentId }, include: ['campaign-participation-result'] };
 
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.findCampaignParticipationsWithResults.withArgs({ userId, options }).resolves(result);
+        usecases.findCampaignParticipationsWithResults.withArgs({ userId, options }).resolves(resultWithPagination);
 
         // when
         const response = await campaignParticipationController.find(request, hFake);
