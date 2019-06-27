@@ -19,17 +19,13 @@ describe('Unit | Route | Competence | Resume', function() {
     competenceEvaluation = EmberObject.create({ id: 123, competenceId });
 
     queryRecordStub = sinon.stub().resolves(competenceEvaluation);
-    storeStub = Service.extend({
+    storeStub = Service.create({
       queryRecord: queryRecordStub
     });
 
-    // manage dependency injection context
-    this.owner.register('service:store', storeStub);
-
-    // instance route object
     route = this.owner.lookup('route:competences.resume');
+    route.set('store', storeStub);
     route.replaceWith = sinon.stub();
-
   });
 
   describe('#model', function() {

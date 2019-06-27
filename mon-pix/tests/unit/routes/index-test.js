@@ -7,25 +7,30 @@ describe('Unit | Route | index', function() {
 
   setupTest();
 
+  let sessionStub;
+  let currentUserStub;
+
   describe('model', function() {
 
     beforeEach(function() {
-      this.owner.register('service:session', Service.extend({
+      sessionStub = Service.create({
         isAuthenticated: true,
-      }));
+      });
     });
 
     context('when user uses ProfileV2', function() {
 
       beforeEach(function() {
-        this.owner.register('service:currentUser', Service.extend({
+        currentUserStub = Service.create({
           user: { usesProfileV2: true }
-        }));
+        });
       });
 
       it('should redirect to /profil', async function() {
         // Given
         const route = this.owner.lookup('route:index');
+        route.set('session', sessionStub);
+        route.set('currentUser', currentUserStub);
         route.transitionTo = sinon.spy();
 
         // When
@@ -38,9 +43,17 @@ describe('Unit | Route | index', function() {
 
     context('when user does not use ProfileV2', function() {
 
+      beforeEach(function() {
+        currentUserStub = Service.create({
+          user: { usesProfileV2: false }
+        });
+      });
+
       it('should redirect to /compte', async function() {
         // Given
         const route = this.owner.lookup('route:index');
+        route.set('session', sessionStub);
+        route.set('currentUser', currentUserStub);
         route.transitionTo = sinon.spy();
 
         // When

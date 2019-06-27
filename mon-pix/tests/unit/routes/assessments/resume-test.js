@@ -9,7 +9,7 @@ describe('Unit | Route | Assessments | Resume', function() {
   setupTest();
 
   let route;
-  let StoreStub;
+  let storeStub;
   let findRecordStub;
   let queryRecordStub;
   let createRecordStub;
@@ -21,16 +21,14 @@ describe('Unit | Route | Assessments | Resume', function() {
     createRecordStub = sinon.stub().returns({
       save: sinon.stub().resolves()
     });
-    StoreStub = Service.extend({
+    storeStub = Service.create({
       findRecord: findRecordStub,
       queryRecord: queryRecordStub,
       createRecord: createRecordStub,
     });
 
-    // manage dependency injection context
-    this.owner.register('service:store', StoreStub);
-
     route = this.owner.lookup('route:assessments.resume');
+    route.set('store', storeStub);
     route.replaceWith = sinon.stub();
   });
 

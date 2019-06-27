@@ -9,17 +9,19 @@ describe('Unit | Route | user certifications/index', function() {
   setupTest();
 
   let route;
+  let storeStub;
   const findAll = sinon.stub();
   const unloadAll = sinon.stub();
 
   beforeEach(function() {
 
-    this.owner.register('service:store', Service.extend({
+    storeStub = Service.create({
       findAll: findAll,
       unloadAll: unloadAll
-    }));
+    });
 
     route = this.owner.lookup('route:user-certifications/index');
+    route.set('store', storeStub);
   });
 
   it('exists', function() {
