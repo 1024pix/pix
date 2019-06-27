@@ -685,12 +685,17 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#findSmartPlacementAssessmentsByUserId', () => {
+  describe('#findNotAbortedSmartPlacementAssessmentsByUserId', () => {
     let assessmentId;
     let userId;
 
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAssessment({
+        userId,
+        type: Assessment.types.SMARTPLACEMENT,
+        state: Assessment.states.ABORTED
+      });
 
       assessmentId = databaseBuilder.factory.buildAssessment({
         userId,
@@ -715,9 +720,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should returns the assessment with campaign when it matches with userId', async () => {
       // when
-      const assessmentsReturned = await assessmentRepository.findSmartPlacementAssessmentsByUserId(userId);
+      const assessmentsReturned = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
 
       // then
+      expect(assessmentsReturned.length).to.equal(1);
       expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
       expect(assessmentsReturned[0].id).to.equal(assessmentId);
     });
