@@ -15,7 +15,7 @@ const buildUser = function buildUser({
   email = faker.internet.exampleEmail().toLowerCase(),
   password = encrypt.hashPasswordSync(faker.internet.password()),
   cgu = true,
-  samlId = `saml-id-${faker.random.uuid()}`,
+  samlId,
 } = {}) {
 
   const values = {
@@ -35,7 +35,7 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   email = faker.internet.email(),
   rawPassword = faker.internet.password(),
   cgu = true,
-  samlId = `saml-id-${faker.random.uuid()}`,
+  samlId,
 }) {
 
   const password = encrypt.hashPasswordSync(rawPassword);
