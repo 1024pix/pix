@@ -57,7 +57,7 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  findOneByAssessmentId(assessmentId) {
+  findOneByAssessmentIdWithSkillIds(assessmentId) {
     return BookshelfCampaignParticipation
       .where({ assessmentId })
       .query((qb) => {

@@ -219,7 +219,7 @@ describe('Unit | Service | ScorecardService', function() {
           findUniqByUserIdAndCompetenceId: sinon.stub(),
         };
         campaignParticipationRepository = {
-          findOneByAssessmentId: sinon.stub(),
+          findOneByAssessmentIdWithSkillIds: sinon.stub(),
           updateAssessmentIdByOldAssessmentId: sinon.stub(),
         };
 
@@ -232,8 +232,8 @@ describe('Unit | Service | ScorecardService', function() {
           .onFirstCall().resolves(newAssessment1Saved)
           .onSecondCall().resolves(newAssessment2Saved);
 
-        campaignParticipationRepository.findOneByAssessmentId.withArgs(oldAssessment1.id).resolves(campaignParticipation1);
-        campaignParticipationRepository.findOneByAssessmentId.withArgs(oldAssessment2.id).resolves(campaignParticipation2);
+        campaignParticipationRepository.findOneByAssessmentIdWithSkillIds.withArgs(oldAssessment1.id).resolves(campaignParticipation1);
+        campaignParticipationRepository.findOneByAssessmentIdWithSkillIds.withArgs(oldAssessment2.id).resolves(campaignParticipation2);
 
         campaignParticipationRepository.updateAssessmentIdByOldAssessmentId
           .withArgs({ oldAssessmentId: oldAssessment1.id, newAssessmentId: newAssessment1Saved.id })
@@ -277,8 +277,8 @@ describe('Unit | Service | ScorecardService', function() {
           //given
           const campaignParticipation3 = domainBuilder.buildCampaignParticipation({ assessmentId: assessmentId1, campaign, campaignId: campaign.id, isShared: true });
           const campaignParticipation4 = domainBuilder.buildCampaignParticipation({ assessmentId: assessmentId2, campaign, campaignId: campaign.id, isShared: true });
-          campaignParticipationRepository.findOneByAssessmentId.withArgs(assessmentId1).resolves(campaignParticipation3);
-          campaignParticipationRepository.findOneByAssessmentId.withArgs(assessmentId2).resolves(campaignParticipation4);
+          campaignParticipationRepository.findOneByAssessmentIdWithSkillIds.withArgs(assessmentId1).resolves(campaignParticipation3);
+          campaignParticipationRepository.findOneByAssessmentIdWithSkillIds.withArgs(assessmentId2).resolves(campaignParticipation4);
 
           //when
           [resetKnowledgeElements, resetCampaignParticipation] =  await scorecardService.resetScorecard({

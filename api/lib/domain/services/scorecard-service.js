@@ -100,7 +100,7 @@ async function _resetSmartPlacementAssessments({ userId, resetSkills, assessment
 }
 
 async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessmentRepository, campaignParticipationRepository }) {
-  const campaignParticipation = await campaignParticipationRepository.findOneByAssessmentId(assessment.id);
+  const campaignParticipation = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessment.id);
 
   const resetSkillsNotIncludedInTargetProfile = _computeResetSkillsNotIncludedInTargetProfile({
     targetObjectSkills: _.get(campaignParticipation, 'campaign.targetProfile.skills'),
