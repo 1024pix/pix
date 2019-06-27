@@ -26,7 +26,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const campaignId = 1;
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getUserCampaignParticipation');
+      sinon.stub(usecases, 'findCampaignParticipationsRelatedToAssessment');
       sinon.stub(tokenService, 'extractTokenFromAuthChain').withArgs(authorization).returns(token);
       sinon.stub(tokenService, 'extractUserId').withArgs(token).returns(userId);
       sinon.stub(queryParamsUtils, 'extractParameters');
@@ -42,7 +42,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         options = { filter: { assessmentId } , include: [] };
 
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(result);
+        usecases.findCampaignParticipationsRelatedToAssessment.withArgs({ userId, assessmentId }).resolves(result);
 
         // when
         const response = await campaignParticipationController.find(request, hFake);
@@ -58,7 +58,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         options = { filter: {}, include: [] };
 
         queryParamsUtils.extractParameters.withArgs(query).returns(options);
-        usecases.getUserCampaignParticipation.withArgs({ userId, options }).resolves(resultWithPagination);
+        usecases.findCampaignParticipationsRelatedToAssessment.withArgs({ userId, assessmentId }).resolves(resultWithPagination);
 
         // when
         const responseErr = await catchErr(campaignParticipationController.find)(request, hFake);
