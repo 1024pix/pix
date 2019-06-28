@@ -15,23 +15,23 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
           name: 'The name of the organization',
           type: 'SUP',
           code: 'WASABI666',
-        }
+        },
+        organizationRole: Membership.roles.OWNER,
       });
 
       const expectedSerializedMembership = {
         data: {
           type: 'memberships',
           id: '5',
-          attributes: {},
+          attributes: {
+            'organization-role': Membership.roles.OWNER,
+          },
           relationships: {
             organization: {
               data:
                 {
                   type: 'organizations', id: '10293'
                 },
-            },
-            'organization-role': {
-              'data': null
             },
             user: {
               'data': null
@@ -86,22 +86,6 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
       });
     });
 
-    it('should include "organization-role"', () => {
-      // given
-      const membership = domainBuilder.buildMembership();
-
-      // when
-      const json = serializer.serialize(membership);
-
-      // then
-      expect(json.data.relationships['organization-role'].data.type).to.equal('organizationRoles');
-      expect(json.data.relationships['organization-role'].data.id).to.equal(`${membership.organizationRole.id}`);
-      expect(json.included[1].type).to.equal('organizationRoles');
-      expect(json.included[1].attributes).to.deep.equal({
-        'name': 'ADMIN',
-      });
-    });
-
     it('should include "user"', () => {
       // given
       const membership = domainBuilder.buildMembership();
@@ -112,8 +96,8 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
       // then
       expect(json.data.relationships.user.data.type).to.equal('users');
       expect(json.data.relationships.user.data.id).to.equal(`${membership.user.id}`);
-      expect(json.included[2].type).to.equal('users');
-      expect(json.included[2].attributes).to.deep.equal({
+      expect(json.included[1].type).to.equal('users');
+      expect(json.included[1].attributes).to.deep.equal({
         'first-name': 'Jean',
         'last-name': 'Dupont',
         'email': 'jean.dupont@example.net',
