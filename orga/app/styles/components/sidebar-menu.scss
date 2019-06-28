@@ -1,0 +1,25 @@
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  padding-top: 30px;
+}
+
+.sidebar-menu__item {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  color: $white;
+  font-family: $roboto;
+  font-size: 0.875rem;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+
+  &:hover {
+    background-color: $chambray;
+  }
+
+  &.active {
+    border-left: 3px solid $amber;
+    background-color: $chambray;
+  }
+}

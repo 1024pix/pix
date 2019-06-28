@@ -1,10 +1,8 @@
-<nav>
-  <ol>
-    <li>
-      {{#link-to 'authenticated.campaigns.list'}}Campagnes{{/link-to}}
-    </li>
-    <li>
-      {{#link-to 'authenticated.team'}}Équipe{{/link-to}}
-    </li>
-  </ol>
+<nav class="sidebar-menu">
+  {{#link-to 'authenticated.campaigns.list' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+    Campagnes
+  {{/link-to}}
+  {{#link-to 'authenticated.team' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+    Équipe
+  {{/link-to}}
 </nav>
