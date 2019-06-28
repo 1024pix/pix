@@ -44,12 +44,11 @@ async function _startNewCertification({
   certificationChallengesService,
   certificationCourseRepository
 }) {
-
-  const userCompetencesProfileV1 = await userService.getProfileToCertifyV1(userId, new Date());
+  const userCompetencesProfileV1 = await userService.getProfileToCertifyV1({ userId, limitDate: new Date() });
 
   let userCompetencesProfileV2;
   if (isCertificationV2Active) {
-    userCompetencesProfileV2 = await userService.getProfileToCertifyV2(userId, new Date());
+    userCompetencesProfileV2 = await userService.getProfileToCertifyV2({ userId, limitDate: new Date() });
   }
   else {
     userCompetencesProfileV2 = [];
