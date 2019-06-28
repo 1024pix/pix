@@ -81,7 +81,7 @@ module.exports = {
       .where(options.filter)
       .query((qb) => {
         qb.innerJoin('users', 'campaign-participations.userId', 'users.id');
-        qb.orderBy(['users.lastName', 'users.firstName']);
+        qb.orderByRaw('LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
       })
       .fetchPage({
         page: options.page.number,
