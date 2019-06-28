@@ -21,6 +21,7 @@ function buildAssessment({
   answers = [buildAnswer()],
   assessmentResults = [buildAssessmentResult()],
   campaignParticipation = null,
+  competenceId = null,
 } = {}) {
 
   return new Assessment({
@@ -32,6 +33,7 @@ function buildAssessment({
     title,
     type,
     state,
+    competenceId,
 
     // relationships
     answers,
@@ -47,7 +49,7 @@ buildAssessment.ofTypeSmartPlacement = function({
   courseId = 'courseId',
   createdAt = new Date('1992-06-12T01:02:03Z'),
   userId = faker.random.number(),
-  competenceId = faker.random.number(),
+  competenceId = null,
   state = Assessment.states.COMPLETED,
 
   answers = [buildAnswer()],
@@ -93,7 +95,8 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
   knowledgeElements = [buildKnowledgeElement()],
-  campaignParticipation = buildCampaignParticipation(),
+  campaignParticipation = null,
+  competenceId = faker.random.number(),
 } = {}) {
   return new Assessment({
     // attributes
@@ -101,6 +104,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
     courseId,
     createdAt,
     userId,
+    competenceId,
     title,
     type: Assessment.types.COMPETENCE_EVALUATION,
     state,

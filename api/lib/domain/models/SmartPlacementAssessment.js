@@ -3,6 +3,7 @@ const SMART_PLACEMENT_TYPE = 'SMART_PLACEMENT';
 const SmartPlacementAssessmentState = Object.freeze({
   COMPLETED: 'completed',
   STARTED: 'started',
+  ABORTED: 'aborted',
 });
 
 /**

@@ -186,7 +186,7 @@ module.exports = {
       });
   },
 
-  async getProfileToCertifyV1(userId, limitDate) {
+  async getProfileToCertifyV1({ userId, limitDate }) {
     const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV1({
       userId,
       limitDate
@@ -198,7 +198,7 @@ module.exports = {
     });
   },
 
-  async getProfileToCertifyV2(userId, limitDate) {
+  async getProfileToCertifyV2({ userId, limitDate }) {
     const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV2({
       userId,
       limitDate

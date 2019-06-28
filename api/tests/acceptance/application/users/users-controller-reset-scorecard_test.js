@@ -1,9 +1,9 @@
-const { knex, databaseBuilder, expect, generateValidRequestAuhorizationHeader, sinon } = require('../../../test-helper');
+const { knex, airtableBuilder, databaseBuilder, expect, generateValidRequestAuhorizationHeader, sinon } = require('../../../test-helper');
 const _ = require('lodash');
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-reset-competence-evaluation', () => {
+describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
 
   let options;
   let server;
@@ -17,10 +17,17 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
       .where({ userId, competenceId });
   }
 
+  function inspectSmartPlacementAssessmentsInDb({ userId, state }) {
+    return knex.select('*')
+      .from('assessments')
+      .where({ userId, state });
+  }
+
   function inspectKnowledgeElementsInDb({ userId, competenceId }) {
     return knex.select('*')
       .from('knowledge-elements')
-      .where({ userId, competenceId });
+      .where({ userId, competenceId })
+      .orderBy('createdAt', 'DESC');
   }
 
   beforeEach(async () => {
@@ -92,6 +99,8 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
     describe('Success case', () => {
 
       let response;
+      let competence;
+      let area;
       const otherStartedCompetenceId = 'recBejNZgJke422G';
       const createdAt = new Date('2019-01-01');
 
@@ -103,6 +112,21 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
           now: new Date('2019-01-10'),
           toFake: ['Date'],
         });
+
+        competence = airtableBuilder.factory.buildCompetence({ id: competenceId });
+        const targetProfile = databaseBuilder.factory.buildTargetProfile();
+        databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'url1' });
+        const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
+
+        area = airtableBuilder.factory.buildArea();
+
+        airtableBuilder.mockList({ tableName: 'Domaines' })
+          .returns([area])
+          .activate();
+
+        airtableBuilder.mockGet({ tableName: 'Competences' })
+          .returns(competence)
+          .activate();
 
         _.each([
           {
@@ -123,8 +147,8 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
             ]
           },
           {
-            assessment: { id: 3, userId, },
-            campaignParticipation: { id: 111 },
+            assessment: { id: 3, userId, type: 'SMART_PLACEMENT' },
+            campaignParticipation: { id: 111, assessmentId: 3, campaignId: campaign.id, isShared: false },
             knowledgeElements: [
               { id: 6, skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt, },
             ]
@@ -141,15 +165,55 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
 
       afterEach(async () => {
         await databaseBuilder.clean();
+        await knex('knowledge-elements').delete();
+        await knex('assessments').delete();
+        airtableBuilder.cleanAll();
       });
 
-      it('should return 204', async () => {
+      it('should return 200 and the updated scorecard', async () => {
+        // given
+        const expectedScorecardJSONApi = {
+          data: {
+            type: 'scorecards',
+            id: `${userId}_${competenceId}`,
+            attributes: {
+              name: competence.fields.Titre,
+              description: competence.fields.Description,
+              'competence-id': competenceId,
+              index: competence.fields['Sous-domaine'],
+              'earned-pix': 0 ,
+              level: 0,
+              'pix-score-ahead-of-next-level': 0,
+              status: 'NOT_STARTED',
+              'remaining-days-before-reset': null,
+            },
+            relationships: {
+              area: {
+                data: {
+                  id: area.id,
+                  type: 'areas'
+                }
+              },
+            },
+          },
+          included: [
+            {
+              attributes: {
+                code: area.fields.Code,
+                title: area.fields.Titre,
+              },
+              id: area.id,
+              type: 'areas'
+            }
+          ]
+        };
+
         // when
         response = await server.inject(options);
 
         // then
-        expect(response.statusCode).to.equal(204);
-        expect(response.result).to.be.null;
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedScorecardJSONApi);
       });
 
       it('should have reset the competence evaluation', async () => {
@@ -163,6 +227,18 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
         expect(otherCompetenceEvaluation[0].status).to.equal('started');
       });
 
+      it('should have reset the assessment of campaign participation', async () => {
+        // given
+        const state = 'aborted';
+
+        // when
+        response = await server.inject(options);
+
+        // then
+        const smartPlacementAssessments = await inspectSmartPlacementAssessmentsInDb({ userId, state });
+        expect(smartPlacementAssessments).to.have.lengthOf(1);
+      });
+
       it('should have reset the knowledge elements created from both competence evaluations and campaign', async () => {
         // when
         response = await server.inject(options);
@@ -171,7 +247,7 @@ describe('Acceptance | Controller | users-controller-reset-competence-evaluation
         const knowledgeElement = await inspectKnowledgeElementsInDb({ userId, competenceId });
         const knowledgeElementsOtherCompetence = await inspectKnowledgeElementsInDb({ userId, competenceId: otherStartedCompetenceId });
 
-        expect(knowledgeElement).to.have.length(5);
+        expect(knowledgeElement).to.have.length(10);
         expect(knowledgeElement[0].earnedPix).to.equal(0);
         expect(knowledgeElement[0].status).to.equal('reset');
         expect(knowledgeElementsOtherCompetence[0].earnedPix).to.equal(3);

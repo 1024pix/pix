@@ -45,8 +45,7 @@
   }
 }
 
-.competence-card:hover
-.competence-card__header {
+.competence-card:hover .competence-card__header {
   height: 179px;
   transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -116,8 +115,7 @@
   }
 }
 
-.competence-card:hover
-.competence-card__body {
+.competence-card:hover .competence-card__body {
   top: 32px;
 }
 
@@ -160,8 +158,7 @@
   }
 }
 
-.competence-card__link:hover
-.competence-card__score-details {
+.competence-card__link:hover .competence-card__score-details {
   opacity: 1;
 }
 
@@ -181,23 +178,18 @@
   }
 }
 
-.competence-card:hover
-.competence-card__footer {
+.competence-card:hover .competence-card__footer {
   transition-delay: 0.15s;
   bottom: 22px;
 }
 
 .competence-card__button {
-  text-transform: none;
-  height: 34px;
-  border-radius: 17px;
-  padding-top: 8px;
-  padding-bottom: 8px;
   position: relative;
+  height: 34px;
   min-width: 140px;
 }
 
-.competence-card__button-label {
+.competence-card-button__label {
   position: absolute;
   top: 0;
   bottom: 2px;
@@ -209,12 +201,11 @@
   transition: left 0.1s ease-out;
 }
 
-.competence-card__button:hover
-.competence-card__button-label {
+.competence-card__button:hover .competence-card-button__label {
   left: -20px;
 }
 
-.competence-card__button-arrow {
+.competence-card-button__arrow {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -227,8 +218,7 @@
   transition: all 0.1s linear;
 }
 
-.competence-card__button:hover
-.competence-card__button-arrow {
+.competence-card__button:hover .competence-card-button__arrow {
   opacity: 1;
   right: 24px;
 }

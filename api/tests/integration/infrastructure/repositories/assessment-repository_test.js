@@ -685,9 +685,54 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#findSmartPlacementAssessmentsByUserId', () => {
+  describe('#findNotAbortedSmartPlacementAssessmentsByUserId', () => {
     let assessmentId;
     let userId;
+
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildAssessment({
+        userId,
+        type: Assessment.types.SMARTPLACEMENT,
+        state: Assessment.states.ABORTED
+      });
+
+      assessmentId = databaseBuilder.factory.buildAssessment({
+        userId,
+        type: Assessment.types.SMARTPLACEMENT,
+      }).id;
+
+      await databaseBuilder.commit();
+    });
+
+    beforeEach(async () => {
+      databaseBuilder.factory.buildCampaignParticipation({
+        userId,
+        assessmentId,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    after(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should returns the assessment with campaign when it matches with userId and ignore aborted assessments', async () => {
+      // when
+      const assessmentsReturned = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
+
+      // then
+      expect(assessmentsReturned.length).to.equal(1);
+      expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
+      expect(assessmentsReturned[0].id).to.equal(assessmentId);
+    });
+  });
+
+  describe('#findLastSmartPlacementAssessmentByUserIdAndCampaignCode', () => {
+    let assessmentId;
+    let userId;
+    let campaign;
 
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser().id;
@@ -702,14 +747,15 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     context('when assessment do have campaign', () => {
       beforeEach(async () => {
-        const campaignId = databaseBuilder.factory.buildCampaign({
+        campaign = databaseBuilder.factory.buildCampaign({
           name: 'Campagne',
-        }).id;
+          code: 'AZERTY',
+        });
 
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
           assessmentId,
-          campaignId,
+          campaignId: campaign.id,
         });
 
         await databaseBuilder.commit();
@@ -719,30 +765,32 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.clean();
       });
 
-      it('should returns the assessment with campaign when it matches with userId', async () => {
+      it('should returns the assessment with campaign when asked', async () => {
         // when
-        const assessmentsReturned = await assessmentRepository.findSmartPlacementAssessmentsByUserId(userId);
+        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: true });
 
         // then
-        expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
-        expect(assessmentsReturned[0].id).to.equal(assessmentId);
-        expect(assessmentsReturned[0].campaignParticipation.campaign.name).to.equal('Campagne');
-      });
-    });
-
-    context('when assessment do not have campaign', () => {
-      after(async () => {
-        await databaseBuilder.clean();
+        expect(assessmentReturned).to.be.an.instanceOf(Assessment);
+        expect(assessmentReturned.id).to.equal(assessmentId);
+        expect(assessmentReturned.campaignParticipation.campaign.name).to.equal('Campagne');
       });
 
-      it('should returns the assessment without campaign when matches with userId', async () => {
+      it('should returns the assessment without campaign', async () => {
         // when
-        const assessmentsReturned = await assessmentRepository.findSmartPlacementAssessmentsByUserId(userId);
+        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: false });
 
         // then
-        expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
-        expect(assessmentsReturned[0].id).to.equal(assessmentId);
-        expect(assessmentsReturned[0].campaignParticipation).to.equal(null);
+        expect(assessmentReturned).to.be.an.instanceOf(Assessment);
+        expect(assessmentReturned.id).to.equal(assessmentId);
+        expect(assessmentReturned.campaignParticipation).to.equal(undefined);
+      });
+
+      it('should returns null', async () => {
+        // when
+        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: 'fakeCampaignCode', includeCampaign: false });
+
+        // then
+        expect(assessmentReturned).to.equal(null);
       });
     });
   });
