@@ -8,7 +8,6 @@ const Membership = require('../../domain/models/Membership');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../domain/models/CertificationCenterMembership');
 const Organization = require('../../domain/models/Organization');
-const OrganizationRole = require('../../domain/models/OrganizationRole');
 
 function _toCertificationCenterMembershipsDomain(certificationCenterMembershipBookshelf) {
   return certificationCenterMembershipBookshelf.map((bookshelf) => {
@@ -32,10 +31,6 @@ function _toMembershipsDomain(membershipsBookshelf) {
         name: membershipBookshelf.related('organization').get('name'),
         type: membershipBookshelf.related('organization').get('type'),
       }),
-      organizationRole: new OrganizationRole({
-        id: membershipBookshelf.related('organizationRole').get('id'),
-        name: membershipBookshelf.related('organizationRole').get('name')
-      })
     });
   });
 }
@@ -104,7 +99,6 @@ module.exports = {
         withRelated: [
           'memberships',
           'memberships.organization',
-          'memberships.organizationRole',
           'pixRoles',
           'certificationCenterMemberships.certificationCenter',
         ]
@@ -166,7 +160,6 @@ module.exports = {
         withRelated: [
           'memberships',
           'memberships.organization',
-          'memberships.organizationRole',
         ]
       })
       .then((foundUser) => {
