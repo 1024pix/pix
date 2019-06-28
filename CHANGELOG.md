@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.51.0 (28/06/2019)
+
+- [#571](https://github.com/1024pix/pix/pull/571) [FEATURE] Calcul du résultat et affichage de la certification V2. (PA-92)
+- [#544](https://github.com/1024pix/pix/pull/544) [FEATURE] Possibilité de remettre à zéro une compétence après 7 jours (PF-579-7).
+- [#577](https://github.com/1024pix/pix/pull/577) [BUGFIX] Fix de la disparition de la barre de progression en démo et en certification (PF-630).
+- [#583](https://github.com/1024pix/pix/pull/583) [BUGFIX] Erreur lors de la Remise à Zéro impactant plusieurs fois la même campagne (PF-717).
+- [#572](https://github.com/1024pix/pix/pull/572) [BUGFIX] Affichage des résultats collectifs sous IE (PO-212).
+- [#585](https://github.com/1024pix/pix/pull/585) [TECH] Retirer le bouton pour la remise à zéro.
+- [#579](https://github.com/1024pix/pix/pull/579) [TECH] Date de remise à zéro dans les variables d'env.
+
 ## v2.50.0 (24/06/2019)
 
 - [#557](https://github.com/1024pix/pix/pull/557) [FEATURE] Affichage de la moyenne des résultats d'une campagne. (PO-197)
