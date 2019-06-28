@@ -30,7 +30,7 @@ function _terminate(client) {
 }
 
 async function _findUser(client) {
-  const usersId = await client.query_and_log(`SELECT id FROM USERS LIMIT 10;`);
+  const usersId = await client.query_and_log(`SELECT id FROM USERS where "isMigratedToV2" = false ORDER BY "createdAt" ASC LIMIT 100;`);
   return _.map(usersId.rows, 'id');
 }
 
@@ -45,6 +45,8 @@ async function _createKnowledgeElementsForUser(client, userId, challengesWithKno
       await _createKnowledgeElements(client, knowledgeElementsToCreate);
     }
   }
+  await _indicateMigrationOk(client, userId);
+
   console.log('END FOR USER ' + userId);
 }
 
@@ -92,6 +94,12 @@ function _createKnowledgeElementObject(answer, userId, status, skillInformation)
     competenceId: skillInformation.competenceId
   };
 }
+
+async function _indicateMigrationOk(client, userId) {
+  return client.query_and_log(`UPDATE USERS SET "isMigratedToV2"=true WHERE id = ${userId}`);
+}
+
+
 
 function _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId) {
   return _.map(answersForMigration, (answer) => {
