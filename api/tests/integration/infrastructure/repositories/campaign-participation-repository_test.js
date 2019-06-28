@@ -428,6 +428,22 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(foundUserLastNames).to.deep.equal(['Bugietta', 'Bugietta', 'Darboo', 'Lorenzio', 'Subzéro']);
       expect(foundUserFirstNames).to.deep.equal(['Anna', 'Jérémy', 'Mélanie', 'Matteo', 'Léo']);
     });
+
+    it('should return paginated campaign participations sorted with no case sensitive', async () => {
+      // given
+      const options = { filter: { campaignId }, sort: [], include: ['user'], page: {} };
+      const { id: userId } = databaseBuilder.factory.buildUser({ lastName: 'BUGIETTA', firstName: 'Anna' });
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate, createdAt: recentDate });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
+      const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
+
+      // then
+      expect(foundUserLastNames).to.deep.equal(['BUGIETTA', 'Bugietta', 'Darboo', 'Lorenzio', 'Subzéro']);
+    });
   });
 
   describe('#share', () => {
