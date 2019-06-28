@@ -7,20 +7,19 @@ import ENV from 'mon-pix/config/environment';
 export default Component.extend({
 
   classNames: ['progress'],
-
-  progression: AssessmentProgression.create(),
+  progression: null,
 
   setProgression() {
-    let nbChallenges;
+    let challengesToAnswerCount;
     if (this.get('assessment.hasCheckpoints')) {
-      nbChallenges = ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
+      challengesToAnswerCount = ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
     } else {
-      nbChallenges = this.get('assessment.course.nbChallenges');
+      challengesToAnswerCount = this.get('assessment.course.nbChallenges');
     }
     this.set('progression', AssessmentProgression.create({
       assessmentType: this.get('assessment.type'),
-      nbAnswers: this.get('assessment.answers.length'),
-      nbChallenges
+      challengesAnsweredCount: this.get('assessment.answers.length'),
+      challengesToAnswerCount,
     }));
   },
 

@@ -12,8 +12,8 @@ describe('Unit | Model | assessment progress', function() {
         // given
         const model = AssessmentProgression.create({
           assessmentType: 'DEMO',
-          nbAnswers: 8,
-          nbChallenges: 10,
+          challengesAnsweredCount: 8,
+          challengesToAnswerCount: 10,
         });
 
         // when
@@ -27,8 +27,8 @@ describe('Unit | Model | assessment progress', function() {
         // given
         const model = AssessmentProgression.create({
           assessmentType: 'DEMO',
-          nbAnswers: 10,
-          nbChallenges: 10,
+          challengesAnsweredCount: 10,
+          challengesToAnswerCount: 10,
         });
         // when
         const _currentStep = model.get('_currentStep');
@@ -51,7 +51,7 @@ describe('Unit | Model | assessment progress', function() {
 
       it('should return 3 if number of answers is 2 (less than 5)', () => {
         // given
-        model.set('nbAnswers', 2);
+        model.set('challengesAnsweredCount', 2);
 
         // when
         const _currentStep = model.get('_currentStep');
@@ -62,7 +62,7 @@ describe('Unit | Model | assessment progress', function() {
 
       it('should return 4 (a modulo of 5) if number of answers is 8 (more than 5)', () => {
         // given
-        model.set('nbAnswers', 8);
+        model.set('challengesAnsweredCount', 8);
 
         // when
         const _currentStep = model.get('_currentStep');
@@ -81,7 +81,7 @@ describe('Unit | Model | assessment progress', function() {
         // given
         const model = AssessmentProgression.create({
           assessmentType: 'DEMO',
-          nbChallenges: 10
+          challengesToAnswerCount: 10
         });
 
         // when

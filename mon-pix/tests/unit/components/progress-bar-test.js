@@ -28,8 +28,8 @@ describe('Unit | Component | progress-bar', function() {
 
       // then
       expect(progression.get('assessmentType')).to.equal('DEMO');
-      expect(progression.get('nbAnswers')).to.equal(3);
-      expect(progression.get('nbChallenges')).to.equal(10);
+      expect(progression.get('challengesAnsweredCount')).to.equal(3);
+      expect(progression.get('challengesToAnswerCount')).to.equal(10);
     });
   });
 
