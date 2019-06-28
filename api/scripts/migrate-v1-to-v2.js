@@ -3,49 +3,49 @@
 const _ = require('lodash');
 const moment = require('moment');
 const PgClient = require('./PgClient');
-const findChallengesWithSkills = require('./extract-challenge-with-skills.js');
-
-function initialize() {
-  return new PgClient(process.env.DATABASE_URL);
-}
-
-function terminate(client) {
-  client.end();
-  console.log('END');
-}
+const findKnowledgeElementsToAdd = require('./extract-challenge-with-skills.js');
 
 async function main() {
 
-  const client = initialize();
-  const challengesWithSkills = await findChallengesWithSkills();
+  const client = _initialize();
+  const challengesWithKnowledgeElementsToAdd = await findKnowledgeElementsToAdd();
 
   const listOfUsers = await _findUser(client);
   const promiseToCreateKnowledgeElements = Promise.all(_.map(listOfUsers,
-    (userId) => _createKnowledgeElementsForUser(client, userId, challengesWithSkills)));
+    (userId) => _createKnowledgeElementsForUser(client, userId, challengesWithKnowledgeElementsToAdd)));
 
   return promiseToCreateKnowledgeElements
-    .then(() => terminate(client))
+    .then(() => _terminate(client))
     .then(() => process.exit(1));
 
 }
 
-async function _createKnowledgeElementsForUser(client, userId, challengesWithSkills) {
-  console.log('BEGIN FOR USER ' + userId);
-  const assessmentsId = await _getAssessmentsForUser(client, userId);
-  if(assessmentsId.length>0) {
-    const answersForMigration = await _findAnswersForMigration(client, assessmentsId);
-    if (answersForMigration.length > 0) {
-      const knowledgeElementsForEachAnswers = _createKnowledgeElementObjects(answersForMigration, challengesWithSkills, userId);
-      const knowledgeElementsToCreate = _.compact(_.flatten(knowledgeElementsForEachAnswers));
-      await _createKnowledgeElements(client, knowledgeElementsToCreate);
-    }
-  }
-  console.log('END FOR USER ' + userId);
+function _initialize() {
+  return new PgClient(process.env.DATABASE_URL);
+}
+
+function _terminate(client) {
+  client.end();
+  console.log('END');
 }
 
 async function _findUser(client) {
   const usersId = await client.query_and_log(`SELECT id FROM USERS LIMIT 10;`);
   return _.map(usersId.rows, 'id');
+}
+
+async function _createKnowledgeElementsForUser(client, userId, challengesWithKnowledgeElementsToAdd) {
+  console.log('BEGIN FOR USER ' + userId);
+  const assessmentsId = await _getAssessmentsForUser(client, userId);
+  if(assessmentsId.length>0) {
+    const answersForMigration = await _findAnswersForMigration(client, assessmentsId);
+    if (answersForMigration.length > 0) {
+      const knowledgeElementsForEachAnswers = _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId);
+      const knowledgeElementsToCreate = _.compact(_.uniqBy(_.flatten(knowledgeElementsForEachAnswers), 'skillId'));
+      await _createKnowledgeElements(client, knowledgeElementsToCreate);
+    }
+  }
+  console.log('END FOR USER ' + userId);
 }
 
 async function _getAssessmentsForUser(client, userId) {
@@ -57,8 +57,15 @@ async function _getAssessmentsForUser(client, userId) {
   return _.map(lastAssessmentsForEachCourse, 'id');
 }
 
+async function _getAssessmentsV2ForUser(client, userId) {
+  const assessmentsFromDb = await client.query_and_log(`SELECT * FROM ASSESSMENTS WHERE "userId" = ${userId} AND type='COMPETENCE_EVALUATION' ORDER BY "createdAt" DESC;`);
+  const assessmentsForUser =  assessmentsFromDb.rows;
+  return _.map(assessmentsForUser, 'id');
+}
+
+
 async function _findAnswersForMigration(client, assessmentsId) {
-  const answersFromDB = await client.query_and_log(`SELECT * FROM ANSWERS WHERE "assessmentId" IN (${assessmentsId.toString()});`);
+  const answersFromDB = await client.query_and_log(`SELECT * FROM ANSWERS WHERE "assessmentId" IN (${assessmentsId.toString()}) ORDER BY "createdAt" ASC;`);
   const answersForMigration = answersFromDB.rows;
   return _.map(answersForMigration, (answer) => _.omit(answer, 'updatedAt', 'timeout', 'elapsedTime', 'resultDetails', 'value'));
 }
@@ -86,13 +93,12 @@ function _createKnowledgeElementObject(answer, userId, status, skillInformation)
   };
 }
 
-
-function _createKnowledgeElementObjects(answersForMigration, challengesWithSkills, userId) {
+function _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId) {
   return _.map(answersForMigration, (answer) => {
     const challengeId = answer.challengeId;
     const status = answer.result === 'ok' ? 'validated' : 'invalidated';
-    if(challengesWithSkills[challengeId]) {
-      const listOfSkillsForKnowledgeElements = challengesWithSkills[challengeId][status];
+    if(challengesWithKnowledgeElementsToAdd[challengeId]) {
+      const listOfSkillsForKnowledgeElements = challengesWithKnowledgeElementsToAdd[challengeId][status];
       return _.map(listOfSkillsForKnowledgeElements, (skillInformation) => _createKnowledgeElementObject(answer, userId, status, skillInformation));
     }
   });
