@@ -1,3 +1,5 @@
+const Membership = require('../../../lib/domain/models/Membership');
+
 module.exports = function organizationsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildOrganization({
     id: 2,
@@ -10,7 +12,7 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: 3,
     organizationId: 2,
-    organizationRoleId: 1,
+    organizationRole: Membership.roles.OWNER,
   });
 
   databaseBuilder.factory.buildOrganization({
@@ -24,6 +26,6 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: 4,
     organizationId: 3,
-    organizationRoleId: 1,
+    organizationRole: Membership.roles.OWNER,
   });
 };

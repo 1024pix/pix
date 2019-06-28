@@ -1,3 +1,5 @@
+const Membership = require('../../../lib/domain/models/Membership');
+
 module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
   const proUserDaenerys = databaseBuilder.factory.buildUser.withUnencryptedPassword({
@@ -5,6 +7,15 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     firstName: 'Daenerys',
     lastName: 'Targaryen',
     email: 'pro@example.net',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
+
+  const proUserGreyWorm = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: 8,
+    firstName: 'Thorgo',
+    lastName: 'Nudo',
+    email: 'unsullied@example.net',
     rawPassword: 'pix123',
     cgu: true,
   });
@@ -21,7 +32,13 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: proUserDaenerys.id,
     organizationId: dragonAndCoCompany.id,
-    organizationRoleId: 1,
+    organizationRole: Membership.roles.OWNER,
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: proUserGreyWorm.id,
+    organizationId: dragonAndCoCompany.id,
+    organizationRole: Membership.roles.MEMBER,
   });
 
   const privateTargetProfile = databaseBuilder.factory.buildTargetProfile({
@@ -64,7 +81,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: proUserSub.id,
     organizationId: dragonAndCoSubsidiary.id,
-    organizationRoleId: 1,
+    organizationRole: Membership.roles.ADMIN,
   });
 
   databaseBuilder.factory.buildTargetProfileShare({
@@ -92,7 +109,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   databaseBuilder.factory.buildMembership({
     userId: proUserSub2.id,
     organizationId: dragonAndCoSubsidiary2.id,
-    organizationRoleId: 1,
+    organizationRole: Membership.roles.ADMIN,
   });
 
 };
