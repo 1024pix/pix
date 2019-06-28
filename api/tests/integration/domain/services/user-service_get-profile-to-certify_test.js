@@ -101,9 +101,24 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
     const assessmentResult1 = new AssessmentResult({ level: 1, pixScore: 12 });
     const assessmentResult2 = new AssessmentResult({ level: 2, pixScore: 23 });
     const assessmentResult3 = new AssessmentResult({ level: 0, pixScore: 2 });
-    const assessment1 = Assessment.fromAttributes({ id: 13, status: 'completed', courseId: 'courseId1', assessmentResults: [assessmentResult1] });
-    const assessment2 = Assessment.fromAttributes({ id: 1637, status: 'completed', courseId: 'courseId2', assessmentResults: [assessmentResult2] });
-    const assessment3 = Assessment.fromAttributes({ id: 145, status: 'completed', courseId: 'courseId3', assessmentResults: [assessmentResult3] });
+    const assessment1 = Assessment.fromAttributes({
+      id: 13,
+      status: 'completed',
+      courseId: 'courseId1',
+      assessmentResults: [assessmentResult1]
+    });
+    const assessment2 = Assessment.fromAttributes({
+      id: 1637,
+      status: 'completed',
+      courseId: 'courseId2',
+      assessmentResults: [assessmentResult2]
+    });
+    const assessment3 = Assessment.fromAttributes({
+      id: 145,
+      status: 'completed',
+      courseId: 'courseId3',
+      assessmentResults: [assessmentResult3]
+    });
 
     beforeEach(() => {
       sinon.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
@@ -113,8 +128,11 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
     });
 
     it('should load achieved assessments', () => {
+      // given
+      const limitDate = '2020-10-27 08:44:25';
+
       // when
-      const promise = userService.getProfileToCertifyV1(userId, '2020-10-27 08:44:25');
+      const promise = userService.getProfileToCertifyV1({ userId, limitDate });
 
       // then
       return promise.then(() => {
@@ -625,7 +643,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           // then
           return promise.then((skillProfile) => {
             expect(skillProfile[0].skills).to.have.members([skillCitation4, skillRecherche4, skillMoteur3, skillSearch1]);
-            expect(skillProfile[0].challenges).to.have.members([challengeForSkillCitation4AndMoteur3,challengeForSkillRecherche4, challenge2ForSkillSearch1]);
+            expect(skillProfile[0].challenges).to.have.members([challengeForSkillCitation4AndMoteur3, challengeForSkillRecherche4, challenge2ForSkillSearch1]);
           });
         });
       });
@@ -649,7 +667,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           .withArgs({ userId, limitDate: sinon.match.any }).resolves({});
 
         // when
-        const userCompetences = await userService.getProfileToCertifyV2(userId, 'salut');
+        const userCompetences = await userService.getProfileToCertifyV2({ userId, limitDate: 'salut' });
 
         // then
         expect(userCompetences).to.deep.equal([
@@ -690,7 +708,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke] });
 
           // when
-          const userCompetences = await userService.getProfileToCertifyV2(userId, 'salut');
+          const userCompetences = await userService.getProfileToCertifyV2({ userId, limitDate: 'salut' });
 
           // then
           expect(userCompetences[0]).to.include({ id: 'competenceRecordIdOne', pixScore: 0, estimatedLevel: 0 });
@@ -719,10 +737,13 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           });
 
           sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-            .withArgs({ userId, limitDate: sinon.match.any }).resolves({ 'competenceRecordIdTwo' : [inferredKe, directKe] });
+            .withArgs({
+              userId,
+              limitDate: sinon.match.any
+            }).resolves({ 'competenceRecordIdTwo': [inferredKe, directKe] });
 
           // when
-          const userCompetences = await userService.getProfileToCertifyV2(userId, 'salut');
+          const userCompetences = await userService.getProfileToCertifyV2({ userId, limitDate: 'salut' });
 
           // then
           expect(userCompetences[1].pixScore).to.equal(17);
@@ -760,7 +781,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           }).resolves({ 'competenceRecordIdTwo': [inferredKe, directKe] });
 
         // when
-        const userCompetences = await userService.getProfileToCertifyV2(userId, 'salut');
+        const userCompetences = await userService.getProfileToCertifyV2({ userId, limitDate: 'salut' });
 
         // then
         expect(userCompetences[1].challenges).to.deep.equal([challengeForSkillRemplir4]);
@@ -800,7 +821,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         answerRepositoryFindChallengeIds.withArgs([okAnswer.id]).resolves([okAnswer.challengeId]);
 
         // when
-        const userCompetences = await userService.getProfileToCertifyV2(userId, 'salut');
+        const userCompetences = await userService.getProfileToCertifyV2({ userId, limitDate: 'salut' });
 
         // then
         expect(userCompetences[1].challenges).to.deep.equal([challengeForSkillRemplir2]);
@@ -823,10 +844,13 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke] });
 
         // when
-        const userCompetences = await userService.getProfileToCertifyV2(userId, 'salut');
+        const userCompetences = await userService.getProfileToCertifyV2({ userId, limitDate: 'salut' });
 
         // then
-        expect(userCompetences[1]).to.deep.include({ id: 'competenceRecordIdTwo', challenges: [challengeForSkillRemplir2] });
+        expect(userCompetences[1]).to.deep.include({
+          id: 'competenceRecordIdTwo',
+          challenges: [challengeForSkillRemplir2]
+        });
       });
 
       context('when selecting challenges to validate the skills per competence', () => {
@@ -855,7 +879,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
               .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke] });
 
             // when
-            const promise = userService.getProfileToCertifyV2(userId, 'salut');
+            const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'salut' });
 
             // then
             return promise.then((skillProfile) => {
@@ -900,7 +924,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
               .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke] });
 
             // when
-            const promise = userService.getProfileToCertifyV2(userId, 'date');
+            const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
             // then
             return promise.then((skillProfile) => {
@@ -947,7 +971,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
               .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne: [ke] });
 
             // when
-            const promise = userService.getProfileToCertifyV2(userId, 'date');
+            const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
             // then
             return promise.then((skillProfile) => {
@@ -976,7 +1000,11 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           it('should select a challenge for every skill', () => {
             // given
             const answer = new Answer({ id: 1234, challengeId: challengeForSkillRecherche4.id, result: 'ok' });
-            const answer2 = new Answer({ id: 5678, challengeId: challengeForSkillCitation4AndMoteur3.id, result: 'ok' });
+            const answer2 = new Answer({
+              id: 5678,
+              challengeId: challengeForSkillCitation4AndMoteur3.id,
+              result: 'ok'
+            });
 
             answerRepositoryFindChallengeIds.withArgs([answer.id, answer2.id, answer2.id])
               .resolves([answer.challengeId, answer2.challengeId]);
@@ -1006,7 +1034,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
               .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne: [ke, ke2, ke3] });
 
             // when
-            const promise = userService.getProfileToCertifyV2(userId, 'date');
+            const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
             // then
             return promise.then((skillProfile) => {
@@ -1036,7 +1064,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
       it('should group skills by competence ', () => {
         // given
-        const answerA1 = new Answer({ id:123, challengeId: challengeForSkillRecherche4.id, result: 'ok' });
+        const answerA1 = new Answer({ id: 123, challengeId: challengeForSkillRecherche4.id, result: 'ok' });
         const answerCollectionA = [answerA1];
 
         const answerB1 = new Answer({ id: 456, challengeId: challengeForSkillRemplir2.id, result: 'ok' });
@@ -1045,7 +1073,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
         answerRepository.findChallengeIdsFromAnswerIds
           .withArgs(_.map(answerCollectionA.concat(answerCollectionB), 'id'))
-          .resolves([ challengeForSkillRecherche4.id, challengeForSkillRemplir2.id, challengeForSkillUrl3.id ]);
+          .resolves([challengeForSkillRecherche4.id, challengeForSkillRemplir2.id, challengeForSkillUrl3.id]);
 
         const ke = domainBuilder.buildKnowledgeElement({
           answerId: answerA1.id,
@@ -1069,10 +1097,11 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         });
 
         sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-          .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne:[ke], competenceRecordIdTwo:[ke2, ke3] });
+          .withArgs({ userId, limitDate: sinon.match.any })
+          .resolves({ competenceRecordIdOne: [ke], competenceRecordIdTwo: [ke2, ke3] });
 
         // when
-        const promise = userService.getProfileToCertifyV2(userId, 'date');
+        const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
         // then
         return promise.then((skillProfile) => {
@@ -1106,7 +1135,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
         answerRepository.findChallengeIdsFromAnswerIds
           .withArgs([answer1.id, answer2.id, answer3.id])
-          .resolves([ challengeForSkillRemplir4.id, challengeForSkillRemplir2.id, challengeForSkillUrl3.id ]);
+          .resolves([challengeForSkillRemplir4.id, challengeForSkillRemplir2.id, challengeForSkillUrl3.id]);
 
         const ke = domainBuilder.buildKnowledgeElement({
           answerId: answer1.id,
@@ -1133,7 +1162,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke, ke2, ke3] });
 
         // when
-        const promise = userService.getProfileToCertifyV2(userId);
+        const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
         // then
         return promise.then((skillProfile) => {
@@ -1169,7 +1198,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
         answerRepository.findChallengeIdsFromAnswerIds
           .withArgs([answer1.id, answer2.id, answer3.id, answer4.id])
-          .resolves([ challengeForSkillRemplir4.id, challengeForSkillRemplir2.id, challengeForSkillUrl3.id, challengeForSkillWeb1.id ]);
+          .resolves([challengeForSkillRemplir4.id, challengeForSkillRemplir2.id, challengeForSkillUrl3.id, challengeForSkillWeb1.id]);
 
         const ke = domainBuilder.buildKnowledgeElement({
           answerId: answer1.id,
@@ -1203,7 +1232,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke, ke2, ke3, ke4] });
 
         // when
-        const promise = userService.getProfileToCertifyV2(userId, 'date');
+        const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
         // then
         return promise.then((skillProfile) => {
@@ -1232,7 +1261,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
       it('should not assign skill, when the challenge id is not found', () => {
         // given
-        const answer = new Answer({ id:123, challengeId: 'challengeRecordIdThatDoesNotExist', result: 'ok' });
+        const answer = new Answer({ id: 123, challengeId: 'challengeRecordIdThatDoesNotExist', result: 'ok' });
 
         answerRepository.findChallengeIdsFromAnswerIds
           .withArgs([answer.id])
@@ -1246,10 +1275,10 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         });
 
         sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-          .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo:[ke] });
+          .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke] });
 
         // when
-        const promise = userService.getProfileToCertifyV2(userId);
+        const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
         // then
         return promise.then((skillProfile) => {
@@ -1291,10 +1320,13 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
         });
 
         sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-          .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdThatDoesNotExistAnymore: [ke] });
+          .withArgs({
+            userId,
+            limitDate: sinon.match.any
+          }).resolves({ competenceRecordIdThatDoesNotExistAnymore: [ke] });
 
         // when
-        const promise = userService.getProfileToCertifyV2(userId);
+        const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
         // then
         return promise.then((skillProfile) => {
@@ -1371,7 +1403,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke, ke2, ke3, ke4] });
 
           // when
-          const promise = userService.getProfileToCertifyV2(userId);
+          const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
           // then
           return promise.then((skillProfile) => {
@@ -1436,12 +1468,12 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke, ke2, ke3, ke4] });
 
           // when
-          const promise = userService.getProfileToCertifyV2(userId, 'date');
+          const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
 
           // then
           return promise.then((skillProfile) => {
             expect(skillProfile[0].skills).to.have.members([skillCitation4, skillRecherche4, skillMoteur3, skillSearch1]);
-            expect(skillProfile[0].challenges).to.have.members([challengeForSkillCitation4AndMoteur3,challengeForSkillRecherche4, challenge2ForSkillSearch1]);
+            expect(skillProfile[0].challenges).to.have.members([challengeForSkillCitation4AndMoteur3, challengeForSkillRecherche4, challenge2ForSkillSearch1]);
           });
         });
       });
