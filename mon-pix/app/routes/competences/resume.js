@@ -8,15 +8,17 @@ export default Route.extend(AuthenticatedRouteMixin, {
   session: service(),
   competenceId: null,
 
-  model(params) {
+  async model(params) {
     const competenceId = params.competence_id;
 
-    const competenceEvaluation = this.store.peekAll('competenceEvaluation')
-      .find((competenceEvaluation) => competenceEvaluation.get('competenceId') === competenceId);
-    if (competenceEvaluation) {
-      return competenceEvaluation;
+    const competenceEvaluation = await this.store.query('competenceEvaluation', { filter: { competenceId } });
+    if (competenceEvaluation.content.length > 0 && competenceEvaluation.get('firstObject').get('status') != 'reset') {
+      return competenceEvaluation.get('firstObject');
     }
-    return this.store.createRecord('competenceEvaluation', { competenceId }).save();
+
+    return this.store.createRecord('competenceEvaluation', { competenceId }).save()
+      .catch(() => this.store.query('competenceEvaluation', { filter: { competenceId } })
+        .then((newCompetenceEvaluation) => (newCompetenceEvaluation.get('firstObject'))));
 
   },
 
