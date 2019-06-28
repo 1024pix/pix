@@ -17,7 +17,11 @@ const columns = [
   {
     propertyName: 'user.email',
     title: 'Courriel',
-  }
+  },
+  {
+    propertyName: 'displayedOrganizationRole',
+    title: 'Rôle',
+  },
 ];
 
 export default Component.extend({
