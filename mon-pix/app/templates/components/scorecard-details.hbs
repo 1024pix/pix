@@ -57,14 +57,6 @@
       {{/link-to}}
     {{/unless}}
 
-    {{#if displayResetButton}}
-      <button class="link link--underline scorecard-details__reset-button" {{action "openModal"}}>
-        Remettre à zéro <div class="sr-only">la compétence "{{scorecard.name}}"</div>
-      </button>
-    {{else if displayWaitSentence}}
-      <p class="scorecard-details-content-right__reset-message">{{remainingDaysText}}</p>
-    {{/if}}
-
   </div>
 
 </div>
