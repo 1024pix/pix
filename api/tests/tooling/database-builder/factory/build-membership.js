@@ -4,7 +4,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 module.exports = function buildMembership(
   {
     id,
-    organizationRole = Membership.roles.OWNER,
+    organizationRole = Membership.roles.MEMBER,
     organizationId,
     userId,
   } = {}) {

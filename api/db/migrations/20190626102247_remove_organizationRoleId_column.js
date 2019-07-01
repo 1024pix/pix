@@ -1,30 +1,29 @@
 const TABLE_NAME = 'memberships';
-const TABLE_NAME_COPY = 'memberships2';
 
 exports.up = async function(knex) {
-
-  await knex.schema.createTable(TABLE_NAME_COPY, (table) => {
-    table.increments('id').primary();
-    table.bigInteger('userId').references('users.id').index();
-    table.bigInteger('organizationId').references('organizations.id').index();
-    table.unique(['userId', 'organizationId']);
-  });
-
-  const rows = await knex.select('id', 'userId', 'organizationId').from(TABLE_NAME);
-
-  await knex.batchInsert(TABLE_NAME_COPY, rows);
-
-  await knex.schema.dropTable(TABLE_NAME);
-  await knex.schema.renameTable(TABLE_NAME_COPY, TABLE_NAME);
+  const info = await knex(TABLE_NAME).columnInfo();
+  if (info.organisationRoleId) {
+    await knex.schema.alterTable(TABLE_NAME, (table) => {
+      table.dropColumn('organizationRoleId');
+    });
+  }
 
   await knex.schema.table(TABLE_NAME, (table) => {
-    table.string('organizationRole').defaultTo('OWNER');
+    table.string('organizationRole').notNullable().defaultTo('MEMBER');
   });
 };
 
-exports.down = function(knex) {
-  return knex.schema.alterTable(TABLE_NAME, (table) => {
-    table.bigInteger('organizationRoleId').references('organization-roles.id').defaultTo(1).index();
+exports.down = async function(knex) {
+  const info = await knex(TABLE_NAME).columnInfo();
+  await knex.schema.alterTable(TABLE_NAME, (table) => {
+    if (info.organisationRoleId) {
+      table.bigInteger('organizationRoleId').references('organization-roles.id').index();
+    }
     table.dropColumn('organizationRole');
   });
+
+  await knex.raw(`
+    update ${TABLE_NAME} 
+    set "organizationRoleId" = ( select id from "organization-roles" where name ='ADMIN' );
+  `);
 };

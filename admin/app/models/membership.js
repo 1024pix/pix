@@ -5,7 +5,6 @@ const { attr, belongsTo } = DS;
 
 const displayedOrganizationRoles = {
   OWNER: 'Responsable',
-  ADMIN: 'Administrateur',
   MEMBER: 'Membre',
 };
 

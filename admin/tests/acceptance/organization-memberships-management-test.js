@@ -72,7 +72,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       assert.dom('div.member-list table > tbody').includesText('Responsable');
     });
 
-    test('should display the correct user data when tthe user is a MEMBER', async function(assert) {
+    test('should display the correct user data when the user is a MEMBER', async function(assert) {
       // given
       const organization = this.server.create('organization');
       const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });

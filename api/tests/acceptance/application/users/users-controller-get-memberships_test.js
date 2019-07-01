@@ -8,7 +8,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
   let userId;
   let organizationId;
   let membershipId;
-  const organizationRole = Membership.roles.OWNER;
+  const organizationRole = Membership.roles.MEMBER;
 
   let server;
 
@@ -63,7 +63,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
         .then(([id]) => userId = id)
         .then(() => _insertOrganization(userId))
         .then(([id]) => organizationId = id)
-        .then(() => _insertMemberships(organizationId, userId, Membership.roles.OWNER))
+        .then(() => _insertMemberships(organizationId, userId, Membership.roles.MEMBER))
         .then(([id]) => membershipId = id);
     });
 
