@@ -12,7 +12,6 @@ exports.up = (knex) => {
       return knex.schema.createTable(ORGANIZATIONS_ACCESSES_TABLE, (table) => {
         table.increments('id').primary();
         table.bigInteger('userId').references('users.id').index();
-        table.bigInteger('organizationRoleId').references('organization-roles.id').index();
         table.bigInteger('organizationId').references('organizations.id').index();
       });
     })

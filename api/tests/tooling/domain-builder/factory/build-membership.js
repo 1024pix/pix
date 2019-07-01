@@ -29,7 +29,7 @@ module.exports = function buildMembership(
   {
     id = faker.random.number(),
     organization = _buildOrganization(),
-    organizationRole = Membership.roles.OWNER,
+    organizationRole = Membership.roles.MEMBER,
     user = _buildUser(),
   } = {}) {
 

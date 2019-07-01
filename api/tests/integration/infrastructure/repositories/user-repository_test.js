@@ -10,7 +10,6 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
-const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole');
 
 describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
@@ -37,8 +36,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     userInDB = databaseBuilder.factory.buildUser(userToInsert);
     organizationRoleInDB = Membership.roles.OWNER;
-
-    organizationRoleInDB = databaseBuilder.factory.buildOrganizationRole({ id: 1, name: 'ADMIN' });
 
     membershipInDB = databaseBuilder.factory.buildMembership({
       userId: userInDB.id,
@@ -181,7 +178,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(associatedOrganization.name).to.equal(organizationInDB.name);
         expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
-        expect(firstMembership.organizationRole).to.equal('OWNER');
+        expect(firstMembership.organizationRole).to.equal(Membership.roles.MEMBER);
       });
 
       it('should return certification center membership associated to the user', async () => {
@@ -330,7 +327,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(associatedOrganization.name).to.equal(organizationInDB.name);
         expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
-        expect(membership.organizationRole).to.equal('OWNER');
+        expect(membership.organizationRole).to.equal(Membership.roles.MEMBER);
       });
 
       it('should reject with a UserNotFound error when no user was found with the given id', async () => {
