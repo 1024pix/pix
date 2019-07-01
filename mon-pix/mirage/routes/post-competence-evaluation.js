@@ -1,7 +1,7 @@
 export default function(schema, request) {
   const params = JSON.parse(request.requestBody);
 
-  const competenceId = params.data.attributes['competence-id'];
+  const competenceId = params.competenceId;
 
   if (competenceId === 'wrongId') {
     return schema.competenceEvaluations.find(null);

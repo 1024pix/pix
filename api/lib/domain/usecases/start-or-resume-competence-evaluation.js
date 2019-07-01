@@ -29,19 +29,15 @@ async function _resumeCompetenceEvaluation({ userId, competenceId, assessmentRep
   if (competenceEvaluation.status === CompetenceEvaluation.statuses.RESET) {
     return _restartCompetenceEvaluation({ userId, competenceEvaluation, assessmentRepository, competenceEvaluationRepository });
   }
-  return {
-    created: false,
-    competenceEvaluation,
-  };
+
+  return { competenceEvaluation, created: false };
 }
 
 async function _startCompetenceEvaluation({ userId, competenceId, assessmentRepository, competenceEvaluationRepository }) {
   const assessment = await _createAssessment({ userId, competenceId, assessmentRepository });
   const competenceEvaluation = await _createCompetenceEvaluation(competenceId, assessment.id, userId, competenceEvaluationRepository);
-  return {
-    created: true,
-    competenceEvaluation,
-  };
+
+  return { competenceEvaluation, created: true };
 }
 
 function _createAssessment({ userId, competenceId, assessmentRepository }) {
@@ -71,8 +67,5 @@ async function _restartCompetenceEvaluation({ userId, competenceEvaluation, asse
   await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({ userId, competenceId: competenceEvaluation.competenceId, status: CompetenceEvaluation.statuses.STARTED });
   const updatedCompetenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ userId, competenceId: competenceEvaluation.competenceId });
 
-  return {
-    created: true,
-    competenceEvaluation: updatedCompetenceEvaluation,
-  };
+  return { competenceEvaluation: updatedCompetenceEvaluation, created: false };
 }

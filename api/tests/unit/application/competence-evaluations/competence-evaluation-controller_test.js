@@ -19,14 +19,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
       request = {
         headers: { authorization: 'token' },
         auth: { credentials: { userId } },
-        payload: {
-          data: {
-            type: 'competence-evaluations',
-            attributes: {
-              'competence-id': competenceId,
-            }
-          }
-        }
+        payload: { competenceId },
       };
     });
 
@@ -35,7 +28,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
       usecases.startOrResumeCompetenceEvaluation.resolves({});
 
       // when
-      await competenceEvaluationController.start(request, hFake);
+      await competenceEvaluationController.startOrResume(request, hFake);
 
       // then
       expect(usecases.startOrResumeCompetenceEvaluation).to.have.been.calledOnce;
@@ -49,7 +42,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
     it('should return the serialized competence evaluation when it has been successfully created', async () => {
       // given
       const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({ competenceId });
-      usecases.startOrResumeCompetenceEvaluation.resolves({ created: true, competenceEvaluation });
+      usecases.startOrResumeCompetenceEvaluation.resolves({ competenceEvaluation, created: true });
 
       const serializedCompetenceEvaluation = {
         id: 1,
@@ -60,10 +53,10 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
       serializer.serialize.returns(serializedCompetenceEvaluation);
 
       // when
-      const response = await competenceEvaluationController.start(request, hFake);
+      const response = await competenceEvaluationController.startOrResume(request, hFake);
 
       // then
-      expect(serializer.serialize).to.have.been.calledWith();
+      expect(serializer.serialize).to.have.been.calledWith(competenceEvaluation);
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCompetenceEvaluation);
     });

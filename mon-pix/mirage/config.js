@@ -117,5 +117,5 @@ export default function() {
   this.get('/campaign-participations/:id/campaign-participation-result', getCampaignParticipationResult);
 
   this.get('/competence-evaluations');
-  this.post('/competence-evaluations', postCompetenceEvaluation);
+  this.post('/competence-evaluations/start-or-resume', postCompetenceEvaluation);
 }
