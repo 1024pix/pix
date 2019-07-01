@@ -11,23 +11,16 @@ describe('Acceptance | API | Competence Evaluations', () => {
     server = await createServer();
   });
 
-  describe('POST /api/competence-evaluations', () => {
+  describe('POST /api/competence-evaluations/start-or-resume', () => {
     const competenceId = 'recABCD123';
 
     const options = {
       method: 'POST',
-      url: '/api/competence-evaluations',
+      url: '/api/competence-evaluations/start-or-resume',
       headers: {
         authorization: generateValidRequestAuhorizationHeader(userId)
       },
-      payload: {
-        data: {
-          type: 'competence-evaluations',
-          attributes: {
-            'competence-id': competenceId,
-          },
-        }
-      }
+      payload: { competenceId },
     };
 
     context('When user is authenticated', () => {
@@ -69,7 +62,6 @@ describe('Acceptance | API | Competence Evaluations', () => {
           await databaseBuilder.commit();
           // when
           const response = await server.inject(options);
-
           // then
           expect(response.statusCode).to.equal(200);
           expect(response.result.data.id).to.exist;
@@ -79,7 +71,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
       context('and competence does not exists', () => {
         it('should return 404 error', () => {
           // given
-          options.payload.data.attributes['competence-id'] = null;
+          options.payload.competenceId = 'WRONG_ID';
 
           // when
           const promise = server.inject(options);
