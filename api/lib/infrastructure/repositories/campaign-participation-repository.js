@@ -57,7 +57,7 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  findOneByAssessmentId(assessmentId) {
+  findOneByAssessmentIdWithSkillIds(assessmentId) {
     return BookshelfCampaignParticipation
       .where({ assessmentId })
       .query((qb) => {
@@ -69,37 +69,19 @@ module.exports = {
       .then(_convertToDomainWithSkills);
   },
 
-  find(options) {
-    return queryBuilder.find(BookshelfCampaignParticipation, options);
-  },
-
-  // TODO: Replace this use-case specific version by adding inner-joins to query-builder
-  findWithUsersPaginated(options) {
+  findByAssessmentId(assessmentId) {
     return BookshelfCampaignParticipation
-      .where(options.filter)
-      .query((qb) => {
-        qb.innerJoin('users', 'userId', 'users.id');
-        qb.orderBy('users.lastName', 'asc');
-      })
-      .fetchPage({
-        page: options.page.number,
-        pageSize: options.page.size,
-        withRelated: ['user']
-      })
-      .then((results) => {
-        return {
-          pagination: results.pagination,
-          models: bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, results.models)
-        };
-      });
+      .where({ assessmentId })
+      .fetchAll({ withRelated: ['campaign', 'user'] })
+      .then((campaignParticipations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, campaignParticipations));
   },
 
-  findWithCampaignParticipationResultsData(options) {
+  findPaginatedCampaignParticipations(options) {
     return BookshelfCampaignParticipation
       .where(options.filter)
       .query((qb) => {
         qb.innerJoin('users', 'campaign-participations.userId', 'users.id');
-        qb.orderBy('users.lastName', 'asc');
+        qb.orderByRaw('LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
       })
       .fetchPage({
         page: options.page.number,
@@ -108,21 +90,8 @@ module.exports = {
       })
       .then(({ models, pagination }) => {
         const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
-
-        _.each(campaignParticipations, (campaignParticipation) => {
-          const sortedUniqKnowlegeElements = _(campaignParticipation.user.knowledgeElements)
-            .filter((ke) => ke.createdAt < campaignParticipation.sharedAt)
-            .orderBy('createdAt', 'desc')
-            .uniqBy('skillId')
-            .value();
-
-          campaignParticipation.user.knowledgeElements = sortedUniqKnowlegeElements;
-        });
-
-        return {
-          pagination: pagination,
-          models: campaignParticipations
-        };
+        const campaignParticipationsWithUniqKnowledgeElements = _sortUniqKnowledgeElements(campaignParticipations);
+        return { models: campaignParticipationsWithUniqKnowledgeElements, pagination };
       });
   },
 
@@ -174,4 +143,14 @@ function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
   bookshelfCampaignParticipation.related('campaign').related('targetProfile').set('skills', skillsObjects);
 
   return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaignParticipation, bookshelfCampaignParticipation);
+}
+
+function _sortUniqKnowledgeElements(campaignParticipations) {
+  return _.each(campaignParticipations, (campaignParticipation) => {
+    campaignParticipation.user.knowledgeElements = _(campaignParticipation.user.knowledgeElements)
+      .filter((ke) => ke.createdAt < campaignParticipation.sharedAt)
+      .orderBy('createdAt', 'desc')
+      .uniqBy('skillId')
+      .value();
+  });
 }

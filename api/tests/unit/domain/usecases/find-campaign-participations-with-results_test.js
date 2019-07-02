@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
   const campaignParticipations = { models: [ campaignParticipation ] };
 
   const campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
-  const campaignParticipationRepository = { findWithCampaignParticipationResultsData: sinon.stub() };
+  const campaignParticipationRepository = { findPaginatedCampaignParticipations: sinon.stub() };
   const targetProfileRepository = { getByCampaignId: sinon.stub() };
   const competenceRepository = { list: sinon.stub() };
   const assessmentRepository = { get: sinon.stub() };
@@ -37,7 +37,7 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
   context('the assessment belongs to the user', () => {
     beforeEach(async () => {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
-      campaignParticipationRepository.findWithCampaignParticipationResultsData.resolves(campaignParticipations);
+      campaignParticipationRepository.findPaginatedCampaignParticipations.resolves(campaignParticipations);
       targetProfileRepository.getByCampaignId.resolves(targetProfile);
       competenceRepository.list.resolves(competences);
       assessmentRepository.get.resolves(assessment);
@@ -57,7 +57,7 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
       expect(campaignRepository.checkIfUserOrganizationHasAccessToCampaign).to.have.been.calledWithExactly(campaignId, userId);
     });
     it('should retrieve the campaign participations datas', () => {
-      expect(campaignParticipationRepository.findWithCampaignParticipationResultsData).to.have.been.calledWithExactly(options);
+      expect(campaignParticipationRepository.findPaginatedCampaignParticipations).to.have.been.calledWithExactly(options);
     });
     it('should retrieve the competences', () => {
       expect(competenceRepository.list).to.have.been.called;
