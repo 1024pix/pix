@@ -63,17 +63,26 @@ export default Service.extend({
     const updateRequests = candidatesCertifications.map((certification) => {
 
       function _updateCertificationFieldFromCandidateData(fieldName) {
-        if (!_.isEmpty(candidateData[fieldName])) {
-          certification.set(fieldName, candidateData[fieldName]);
+        const candidateValue = _.trim(candidateData[fieldName]);
+        if (_.isNil(candidateValue) || _.isEmpty(candidateValue)) {
+          return;
         }
+        certification.set(fieldName, candidateValue);
       }
 
       const candidateData = _.find(candidatesData, ['certificationId', certification.id]);
-      _updateCertificationFieldFromCandidateData('firstName');
-      _updateCertificationFieldFromCandidateData('lastName');
-      _updateCertificationFieldFromCandidateData('birthdate');
-      _updateCertificationFieldFromCandidateData('birthplace');
-      _updateCertificationFieldFromCandidateData('externalId');
+
+      _.each([
+        'firstName',
+        'lastName',
+        'birthdate',
+        'birthplace',
+        'externalId',
+
+      ], (candidateProperty) => {
+        _updateCertificationFieldFromCandidateData(candidateProperty);
+      });
+
       return certification.save({ adapterOptions: { updateMarks: false } });
     });
     await Promise.all(updateRequests);
