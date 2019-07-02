@@ -36,7 +36,7 @@ describe('Integration | Component | feedback-panel', function() {
   describe('Default rendering', function() {
 
     beforeEach(async function() {
-      await render(hbs`{{feedback-panel}}`);
+      await render(hbs`{{feedback-panel isFormOpened=false}}`);
     });
 
     it('should display the feedback panel', function() {
@@ -119,8 +119,8 @@ describe('Integration | Component | feedback-panel', function() {
         expect(saveMethodBody.assessment).to.exist;
         expect(saveMethodBody.challenge).to.exist;
         expect(saveMethodBody.content).to.equal(CONTENT_VALUE);
-        expectMercixViewToBeVisible(this);
         expectFormViewToNotBeVisible(this);
+        expectMercixViewToBeVisible(this);
       });
     });
   });
@@ -163,5 +163,25 @@ describe('Integration | Component | feedback-panel', function() {
       // then
       expect(find('.alert')).to.not.exist;
     });
+  });
+
+  it('should be reseted when challenge is changed', async function() {
+    // given
+    this.set('challenge', 1);
+    await render(hbs`{{feedback-panel challenge=challenge isFormOpened=false}}`);
+    await click(TOGGLE_LINK);
+    await setContent('TEST_CONTENT');
+
+    // when
+    this.set('challenge', 2);
+
+    // then
+    expect(find('.feedback-panel__field--content')).to.not.exist;
+
+    // when
+    await click(TOGGLE_LINK);
+
+    // then
+    expect(find('.feedback-panel__field--content').value).to.equal('');
   });
 });

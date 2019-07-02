@@ -13,11 +13,11 @@ export default Component.extend({
   assessment: null,
   challenge: null,
 
+  isFormOpened: false,
+
   _content: null,
   _error: null,
-
-  isFormOpened: false,
-  isSubmitted: false,
+  _isSubmitted: false,
 
   _scrollToPanel: function() {
     $('html,body').animate({
@@ -25,13 +25,23 @@ export default Component.extend({
     }, config.APP.SCROLL_DURATION);
   },
 
+  _resetPanel: function() {
+    this.set('_isSubmitted', false);
+    this.set('_error', null);
+  },
+
+  didReceiveAttrs: function() {
+    this._super();
+    this._resetPanel();
+    this.set('_content', null);
+  },
+
   actions: {
 
     toggleFeedbackForm() {
       if (this.isFormOpened) {
         this.set('isFormOpened', false);
-        this.set('isSubmitted', false);
-        this.set('_error', null);
+        this._resetPanel();
       } else {
         this.set('isFormOpened', true);
         this._scrollToPanel();
@@ -54,7 +64,8 @@ export default Component.extend({
 
       await feedback.save();
 
-      this.set('isSubmitted', true);
+      this.set('_content', null);
+      this.set('_isSubmitted', true);
     }
   }
 });
