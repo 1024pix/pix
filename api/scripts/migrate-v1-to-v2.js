@@ -4,8 +4,9 @@ const _ = require('lodash');
 const moment = require('moment');
 const PgClient = require('./PgClient');
 const findKnowledgeElementsToAdd = require('./extract-challenge-with-skills.js');
+const cron = require('node-cron');
 
-async function main() {
+async function migration() {
 
   const client = _initialize();
   const challengesWithKnowledgeElementsToAdd = await findKnowledgeElementsToAdd();
@@ -16,7 +17,7 @@ async function main() {
 
   return promiseToCreateKnowledgeElements
     .then(() => _terminate(client))
-    .then(() => process.exit(1));
+    .then(() => listOfUsers.length);
 
 }
 
@@ -30,7 +31,7 @@ function _terminate(client) {
 }
 
 async function _findUser(client) {
-  const usersId = await client.query_and_log(`SELECT id FROM USERS where "isMigratedToV2" = false ORDER BY "createdAt" ASC LIMIT 100;`);
+  const usersId = await client.query_and_log(`SELECT id FROM USERS where "isprofilv2" = false ORDER BY "createdAt" ASC LIMIT 1000;`);
   return _.map(usersId.rows, 'id');
 }
 
@@ -65,7 +66,6 @@ async function _getAssessmentsV2ForUser(client, userId) {
   return _.map(assessmentsForUser, 'id');
 }
 
-
 async function _findAnswersForMigration(client, assessmentsId) {
   const answersFromDB = await client.query_and_log(`SELECT * FROM ANSWERS WHERE "assessmentId" IN (${assessmentsId.toString()}) ORDER BY "createdAt" ASC;`);
   const answersForMigration = answersFromDB.rows;
@@ -96,10 +96,8 @@ function _createKnowledgeElementObject(answer, userId, status, skillInformation)
 }
 
 async function _indicateMigrationOk(client, userId) {
-  return client.query_and_log(`UPDATE USERS SET "isMigratedToV2"=true WHERE id = ${userId}`);
+  return client.query_and_log(`UPDATE USERS SET "isprofilv2"=true WHERE id = ${userId}`);
 }
-
-
 
 function _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId) {
   return _.map(answersForMigration, (answer) => {
@@ -112,6 +110,12 @@ function _createKnowledgeElementObjects(answersForMigration, challengesWithKnowl
   });
 }
 
-if (require.main === module) {
-  main();
-}
+migration();
+
+/*cron.schedule(process.env.MIGRATION_CRON_TIME, () => {
+  console.log('Starting migration');
+
+  return migration()
+    .then((numberOfUsersMigrated) => console.log(`Migrated OK for ${numberOfUsersMigrated} users`))
+    .catch(console.log);
+});*/
