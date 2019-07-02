@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const getUserCampaignParticipations = require('../../../../lib/domain/usecases/get-user-campaign-participations');
+const findCampaignParticipationsRelatedToUser = require('../../../../lib/domain/usecases/find-campaign-participations-related-to-user');
 
 describe('Unit | UseCase | get-user-campaign-participations', () => {
 
@@ -14,7 +14,7 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
     requestedUserId = 2;
 
     // when
-    const promise = getUserCampaignParticipations({ authenticatedUserId, requestedUserId, campaignParticipationRepository });
+    const promise = findCampaignParticipationsRelatedToUser({ authenticatedUserId, requestedUserId, campaignParticipationRepository });
 
     // then
     return promise.catch((err) => {
@@ -35,7 +35,7 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
       campaignParticipationRepository.findByUserId.resolves();
 
       // when
-      const promise = getUserCampaignParticipations({
+      const promise = findCampaignParticipationsRelatedToUser({
         authenticatedUserId,
         requestedUserId,
         campaignParticipationRepository,
@@ -54,7 +54,7 @@ describe('Unit | UseCase | get-user-campaign-participations', () => {
       campaignParticipationRepository.findByUserId.resolves([campaignParticipation1, campaignParticipation2]);
 
       // when
-      const promise = getUserCampaignParticipations({
+      const promise = findCampaignParticipationsRelatedToUser({
         authenticatedUserId,
         requestedUserId,
         campaignParticipationRepository,

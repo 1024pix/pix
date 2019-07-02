@@ -252,7 +252,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#findOneByAssessmentId', () => {
+  describe('#findOneByAssessmentIdWithSkillIds', () => {
 
     const assessmentId = 12345;
     const campaignId = 123;
@@ -279,7 +279,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       it('should return the campaign-participation linked to the given assessment with skills', async () => {
         // when
-        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentId(assessmentId);
+        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessmentId);
 
         // then
         expect(campaignParticipationFound.assessmentId).to.deep.equal(assessmentId);
@@ -305,7 +305,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       it('should return null', async () => {
         // when
-        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentId(assessmentId);
+        const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessmentId);
 
         // then
         expect(campaignParticipationFound).to.equal(null);
@@ -313,15 +313,11 @@ describe('Integration | Repository | Campaign Participation', () => {
     });
   });
 
-  describe('#find', () => {
+  describe('#findByAssessmentId', () => {
 
-    const campaignId = 'my campaign id';
     const assessmentId = 'my assessment id';
 
     beforeEach(async () => {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId });
       databaseBuilder.factory.buildCampaignParticipation({ assessmentId });
       databaseBuilder.factory.buildCampaignParticipation({ assessmentId });
       databaseBuilder.factory.buildCampaignParticipation();
@@ -337,65 +333,14 @@ describe('Integration | Repository | Campaign Participation', () => {
       // given
       const options = { filter: { assessmentId }, sort: [] };
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.find(options);
+      const foundCampaignParticipation = await campaignParticipationRepository.findByAssessmentId(options.filter.assessmentId);
       // then
-      expect(foundCampaignParticipation.models).to.have.length(4);
-    });
-
-    it('should return campaign participations that match given campaignId', async function() {
-      // given
-      const options = { filter: { campaignId }, sort: [] };
-      // when
-      const foundCampaignParticipation = await campaignParticipationRepository.find(options);
-      // then
-      expect(foundCampaignParticipation.models).to.have.length(3);
+      expect(foundCampaignParticipation).to.have.length(2);
     });
 
   });
 
-  describe('#findWithUsersPaginated', () => {
-
-    const campaignId = 'my campaign id';
-    const assessmentId = 'my assessment id';
-
-    beforeEach(async () => {
-
-      const pixMembers = [
-        { firstName: 'Mélanie', lastName: 'Darboo' },
-        { firstName: 'Matteo', lastName: 'Lorenzio' },
-        { firstName: 'Jérémy', lastName: 'Bugietta' },
-        { firstName: 'Léo', lastName: 'Subzéro' },
-        { firstName: 'Forster', lastName: 'Gillet-Jaune' },
-        { firstName: 'Thierry', lastName: 'Donckele' },
-        { firstName: 'Jaune', lastName: 'Attend' },
-      ];
-
-      const insertPixMember = (member) => {
-        const { id } = databaseBuilder.factory.buildUser(member);
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId: id });
-      };
-
-      pixMembers.forEach(insertPixMember);
-
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should return paginated campaign participations including users sorted by name, lastname', async () => {
-      // given
-      const options = { filter: { campaignId }, sort: [], include: ['user'], page: { number: 1, size: 4 } };
-      // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findWithUsersPaginated(options);
-      const foundUsers = _.map(foundCampaignParticipation.models, 'user');
-      const foundUserLastNames = _.map(foundUsers, 'lastName');
-      // then
-      expect(foundUserLastNames).to.deep.equal(['Attend', 'Bugietta', 'Darboo', 'Donckele']);});
-  });
-
-  describe('#findWithCampaignParticipationResultsData', () => {
+  describe('#findPaginatedCampaignParticipations', () => {
 
     const assessmentId1 = 1;
     const assessmentId2 = 2;
@@ -454,7 +399,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       // given
       const options = { filter: { campaignId }, sort: [], include: ['user'], page: { number: 1, size: 2 } };
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findWithCampaignParticipationResultsData(options);
+      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
       const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
       const foundAssessmentIds = _(foundCampaignParticipation.models).map('assessment').map('id').value();
       const foundKnowledgeElementsSkillsIds = _(foundCampaignParticipation.models).map('user').map('knowledgeElements').flatten().map('skillId').value();
@@ -464,6 +409,40 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(foundKnowledgeElementsSkillsIds).to.have.members(['@web1', '@web2', '@web3', '@web4']);
       expect(foundCampaignParticipation.models[0].assessment).to.be.instanceOf(Assessment);
       expect(foundCampaignParticipation.models[0].user.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
+    });
+
+    it('should return paginated campaign participations sorted by lastname and firstname', async () => {
+      // given
+      const options = { filter: { campaignId }, sort: [], include: ['user'], page: {} };
+      const { id: userId } = databaseBuilder.factory.buildUser({ lastName: 'Bugietta', firstName: 'Anna' });
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate, createdAt: recentDate });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
+      const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
+      const foundUserFirstNames = _(foundCampaignParticipation.models).map('user').map('firstName').value();
+
+      // then
+      expect(foundUserLastNames).to.deep.equal(['Bugietta', 'Bugietta', 'Darboo', 'Lorenzio', 'Subzéro']);
+      expect(foundUserFirstNames).to.deep.equal(['Anna', 'Jérémy', 'Mélanie', 'Matteo', 'Léo']);
+    });
+
+    it('should return paginated campaign participations sorted with no case sensitive', async () => {
+      // given
+      const options = { filter: { campaignId }, sort: [], include: ['user'], page: {} };
+      const { id: userId } = databaseBuilder.factory.buildUser({ lastName: 'BUGIETTA', firstName: 'Anna' });
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate, createdAt: recentDate });
+      await databaseBuilder.commit();
+
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
+      const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
+
+      // then
+      expect(foundUserLastNames).to.deep.equal(['BUGIETTA', 'Bugietta', 'Darboo', 'Lorenzio', 'Subzéro']);
     });
   });
 

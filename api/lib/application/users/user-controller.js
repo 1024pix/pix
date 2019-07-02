@@ -135,7 +135,7 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
-    return usecases.getUserCampaignParticipations({ authenticatedUserId, requestedUserId })
+    return usecases.findCampaignParticipationsRelatedToUser({ authenticatedUserId, requestedUserId })
       .then(campaignParticipationSerializer.serialize);
   },
 
