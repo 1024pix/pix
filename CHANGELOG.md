@@ -1,8 +1,14 @@
 # Pix Changelog
 
+## v2.51.1 (03/07/2019)
+
+- [#573](https://github.com/1024pix/pix/pull/573) [BUGFIX] Vider et replier le feedback_panel après avoir envoyé le commentaire (PF-708).
+- [#578](https://github.com/1024pix/pix/pull/578) [BUGFIX] Nettoyage des données dans la DB. Puis plus de doublon dans Campaign-participation. (PF-702).
+- [#580](https://github.com/1024pix/pix/pull/580) [BUGFIX] Trier les participants par nom puis prénom (PO-207).
+
 ## v2.51.0 (28/06/2019)
 
-- [#571](https://github.com/1024pix/pix/pull/571) [FEATURE] Calcul du résultat et affichage de la certification V2. (PA-92)
+- [#571](https://github.com/1024pix/pix/pull/571) [FEATURE] Calcul du résultat et affichage de la certification V2. (PA-92).
 - [#544](https://github.com/1024pix/pix/pull/544) [FEATURE] Possibilité de remettre à zéro une compétence après 7 jours (PF-579-7).
 - [#577](https://github.com/1024pix/pix/pull/577) [BUGFIX] Fix de la disparition de la barre de progression en démo et en certification (PF-630).
 - [#583](https://github.com/1024pix/pix/pull/583) [BUGFIX] Erreur lors de la Remise à Zéro impactant plusieurs fois la même campagne (PF-717).
