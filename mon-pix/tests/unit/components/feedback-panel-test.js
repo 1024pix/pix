@@ -25,14 +25,14 @@ describe('Unit | Component | feedback-panel', function() {
       const component = this.owner.lookup('component:feedback-panel');
       component.set('isFormOpened', true);
       component.set('_error', '10, 9, 8, ...');
-      component.set('isSubmitted', true);
+      component.set('_isSubmitted', true);
 
       // when
       component.send('toggleFeedbackForm');
 
       // then
       expect(component.isFormOpened).to.be.false;
-      expect(component.isSubmitted).to.be.false;
+      expect(component._isSubmitted).to.be.false;
       expect(component._error).to.be.null;
     });
   });
