@@ -26,6 +26,8 @@ body, html{
   height: 100%;
   font-family: $roboto;
   background-color: $porcelain;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body > .ember-view {

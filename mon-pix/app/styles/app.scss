@@ -104,6 +104,11 @@
 @import 'pages/user-certifications';
 @import 'pages/user-certifications-get';
 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   font-family: $font-lato;
   background-color: $porcelain-grey;
