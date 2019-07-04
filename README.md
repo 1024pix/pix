@@ -1,4 +1,5 @@
-[![CircleCI](https://circleci.com/gh/1024pix/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/1024pix/pix) PIX
+[![CircleCI](https://circleci.com/gh/1024pix/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/1024pix/pix) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2F1024pix%2Fpix.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2F1024pix%2Fpix?ref=badge_shield)
+PIX
 ===
 
 Présentation
@@ -72,3 +73,7 @@ Licence
 -------
 
 Ce logiciel et son code source sont distribués sous [licence AGPL](https://www.gnu.org/licenses/why-affero-gpl.fr.html).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2F1024pix%2Fpix.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2F1024pix%2Fpix?ref=badge_large)
