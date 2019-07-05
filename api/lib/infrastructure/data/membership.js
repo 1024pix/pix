@@ -1,7 +1,6 @@
 const Bookshelf = require('../bookshelf');
 
 require('./organization');
-require('./organization-role');
 
 module.exports = Bookshelf.model('Membership', {
 
@@ -13,10 +12,6 @@ module.exports = Bookshelf.model('Membership', {
 
   organization() {
     return this.belongsTo('Organization', 'organizationId');
-  },
-
-  organizationRole() {
-    return this.belongsTo('OrganizationRole', 'organizationRoleId');
   },
 
 });
