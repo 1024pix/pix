@@ -10,23 +10,17 @@ describe('Unit | Route | Competence | Resume', function() {
 
   let route;
   const competenceId = 'competenceId';
-  let competenceEvaluationFromStore, competenceEvaluationCreated, competenceEvaluationFromAnotherCompetence;
   let storeStub;
-  let peekAllStub;
-  let createRecordStub;
+  let queryRecordStub;
+  let competenceEvaluation;
 
   beforeEach(function() {
-    competenceEvaluationFromStore = EmberObject.create({ id: 123, competenceId });
-    competenceEvaluationCreated = EmberObject.create({ id: 456, competenceId });
-    competenceEvaluationFromAnotherCompetence = EmberObject.create({ id: 789, competenceId: 'other' });
 
-    peekAllStub = sinon.stub();
-    createRecordStub = sinon.stub().returns({
-      save: sinon.stub().resolves(competenceEvaluationCreated),
-    });
+    competenceEvaluation = EmberObject.create({ id: 123, competenceId });
+
+    queryRecordStub = sinon.stub().resolves(competenceEvaluation);
     storeStub = Service.extend({
-      peekAll: peekAllStub,
-      createRecord: createRecordStub
+      queryRecord: queryRecordStub
     });
 
     // manage dependency injection context
@@ -40,32 +34,15 @@ describe('Unit | Route | Competence | Resume', function() {
 
   describe('#model', function() {
 
-    it('should create the CompetenceEvaluation if it not exits', function() {
+    it('should returns the competenceEvaluation', async function() {
       // given
-      peekAllStub.returns([competenceEvaluationFromAnotherCompetence]);
-
       const params = { competence_id: competenceId };
 
       // when
-      const promise = route.model(params);
+      const model = await route.model(params);
 
       // then
-      promise.then((resultModel) => {
-        expect(resultModel).to.equal(competenceEvaluationCreated);
-      });
-
-    });
-
-    it('should return the CompetenceEvaluation in store if it exists', function() {
-      // given
-      peekAllStub.returns([competenceEvaluationFromStore]);
-      const params = { competence_id: competenceId };
-
-      // when
-      const resultModel = route.model(params);
-
-      // then
-      expect(resultModel).to.equal(competenceEvaluationFromStore);
+      expect(model).to.equal(competenceEvaluation);
     });
 
   });

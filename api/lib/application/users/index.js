@@ -171,7 +171,7 @@ exports.register = async function(server) {
       }
     },
     {
-      method: 'PATCH',
+      method: 'POST',
       path: '/api/users/{userId}/competences/{competenceId}/reset',
       config: {
         handler: userController.resetScorecard,

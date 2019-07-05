@@ -5,7 +5,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
-describe  ('Unit | UseCase | start-or-resume-competence-evaluation', () => {
+describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
 
   const userId = 123;
   const assessmentId = 456;
@@ -80,11 +80,11 @@ describe  ('Unit | UseCase | start-or-resume-competence-evaluation', () => {
           userId,
         })).resolves(competenceEvaluation);
       });
-      it('should return the created competence evaluation with created flag set to true', async () => {
+      it('should return the created competence evaluation', async () => {
         const res = await usecases.startOrResumeCompetenceEvaluation({
           competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
         });
-        expect(res).to.deep.equal({ created: true, competenceEvaluation });
+        expect(res).to.deep.equal({ competenceEvaluation, created: true });
       });
     });
 
@@ -97,7 +97,7 @@ describe  ('Unit | UseCase | start-or-resume-competence-evaluation', () => {
         const res = await usecases.startOrResumeCompetenceEvaluation({
           competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository
         });
-        expect(res).to.deep.equal({ created: false, competenceEvaluation });
+        expect(res).to.deep.equal({ competenceEvaluation, created: false });
       });
     });
 
@@ -124,7 +124,7 @@ describe  ('Unit | UseCase | start-or-resume-competence-evaluation', () => {
         });
       });
       it('should return the updated competenceEvaluation', () => {
-        expect(res).to.deep.equal({ created: true, competenceEvaluation: updatedCompetenceEvaluation });
+        expect(res).to.deep.equal({ competenceEvaluation: updatedCompetenceEvaluation, created: false });
       });
       it('should have updated the status', () => {
         expect(competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId).to.have.been
