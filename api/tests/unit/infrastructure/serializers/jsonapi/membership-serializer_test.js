@@ -56,6 +56,11 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
               links: {
                 related: '/api/organizations/10293/target-profiles'
               }
+            },
+            memberships: {
+              links: {
+                related: '/api/organizations/10293/memberships'
+              }
             }
           }
         }]
