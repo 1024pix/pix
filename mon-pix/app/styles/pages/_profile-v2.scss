@@ -1,11 +1,11 @@
-.profilv2-page {
+.profile-v2-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-rendering: optimizeLegibility;
 }
 
-.profilv2 {
+.profile-v2 {
   &__panel {
     padding-left: 30px;
     padding-right: 30px;
@@ -13,14 +13,14 @@
 
 }
 
-.profilv2-panel {
+.profile-v2-panel {
   &__link-to-compte {
     display: flex;
     justify-content: flex-end;
   }
 }
 
-.profilv2-panel-header-information {
+.profile-v2-panel-header-information {
   font-weight: $font-light;
   font-family: $font-roboto;
   color: $black;
