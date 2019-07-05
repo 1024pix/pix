@@ -155,7 +155,7 @@ module('Unit | Service | session-info-service', function(hooks) {
           certificationId: '1',
           firstName: 'Prénom 1',
           lastName: 'Nom 1',
-          row: 1
+          row: '1'
         },
         {
           birthdate: '10/01/2018',
@@ -163,7 +163,7 @@ module('Unit | Service | session-info-service', function(hooks) {
           certificationId: '2',
           firstName: 'Prénom 2',
           lastName: 'Nom 2',
-          row: 2
+          row: '2'
         },
         {
           birthdate: '10/01/2018',
@@ -171,7 +171,7 @@ module('Unit | Service | session-info-service', function(hooks) {
           certificationId: '3',
           firstName: 'Prénom 3',
           lastName: 'Nom 3',
-          row: 3
+          row: '3'
         }
       ];
 
@@ -220,7 +220,7 @@ module('Unit | Service | session-info-service', function(hooks) {
           certificationId: '1',
           firstName: 'Prénom 1',
           lastName: 'Nom 1',
-          row: 1
+          row: '1'
         },
         {
           birthdate: '10/01/2018',
@@ -228,7 +228,7 @@ module('Unit | Service | session-info-service', function(hooks) {
           certificationId: '2',
           firstName: 'Prénom 2',
           lastName: 'Nom 2',
-          row: 2
+          row: '2'
         }
       ];
 
@@ -278,7 +278,7 @@ module('Unit | Service | session-info-service', function(hooks) {
           certificationId: '1',
           firstName: 'Prénom 1',
           lastName: 'Nom 1',
-          row: 1
+          row: '1'
         },
         {
           birthdate: '10/01/2018',
@@ -286,15 +286,15 @@ module('Unit | Service | session-info-service', function(hooks) {
           certificationId: '2',
           firstName: 'Prénom 2',
           lastName: 'Nom 2',
-          row: 2
+          row: '2'
         },
         {
-          birthdate: null,
+          birthdate: '',
           birthplace: 'Gonesse',
           certificationId: '3',
           firstName: 'Prénom 3',
           lastName: 'Nom 3',
-          row: 3
+          row: '3'
         }
       ];
 
