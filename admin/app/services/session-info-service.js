@@ -32,17 +32,20 @@ export default Service.extend({
       'comments'
     ];
     const jsonData = await this.fileReader.extractJSONDataFromODSFileIgnoringHeader(attendanceSheetFile, header);
-
     const importedCandidates = jsonData.filter((candidate) => candidate.lastName);
-    importedCandidates.forEach((candidate) => {
-      if (candidate.certificationId) candidate.certificationId = candidate.certificationId.toString();
-      if (candidate.birthdate instanceof Date) {
-        candidate.birthdate = moment(candidate.birthdate).format('DD/MM/YYYY');
+
+    return _.map(importedCandidates, this.sanitizeCandidate);
+  },
+
+  sanitizeCandidate(candidate) {
+    return _.mapValues(candidate, (value, key) => {
+      if (key === 'birthdate') {
+        value = value instanceof Date ? moment(value).format('DD/MM/YYYY') : '';
       } else {
-        candidate.birthdate = null;
+        value = _.trim(value);
       }
+      return value;
     });
-    return importedCandidates;
   },
 
   async updateCertificationsStatus(certifications, isPublished) {
@@ -63,7 +66,7 @@ export default Service.extend({
     const updateRequests = candidatesCertifications.map((certification) => {
 
       function _updateCertificationFieldFromCandidateData(fieldName) {
-        const candidateValue = _.trim(candidateData[fieldName]);
+        const candidateValue = candidateData[fieldName];
         if (_.isNil(candidateValue) || _.isEmpty(candidateValue)) {
           return;
         }
