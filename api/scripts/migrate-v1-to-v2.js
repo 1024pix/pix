@@ -1,84 +1,57 @@
 #! /usr/bin/env node
 /* eslint no-console: ["off"] */
 const _ = require('lodash');
-const moment = require('moment');
-const PgClient = require('./PgClient');
 const findKnowledgeElementsToAdd = require('./extract-challenge-with-skills.js');
 const cron = require('node-cron');
+const { knex } = require('../db/knex-database-connection');
+
 
 async function migration() {
 
-  const client = _initialize();
   const challengesWithKnowledgeElementsToAdd = await findKnowledgeElementsToAdd();
 
-  const listOfUsers = await _findUser(client);
-  const promiseToCreateKnowledgeElements = Promise.all(_.map(listOfUsers,
-    (userId) => _createKnowledgeElementsForUser(client, userId, challengesWithKnowledgeElementsToAdd)));
+  const listOfUsers = await _findUsers();
+  Promise.all(_.map(listOfUsers,
+    async (userId) => await _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd)));
 
-  return promiseToCreateKnowledgeElements
-    .then(() => _terminate(client))
-    .then(() => listOfUsers.length);
-
+  console.log(`Migration de ${listOfUsers.length} utilisateurs.`);
 }
 
-function _initialize() {
-  return new PgClient(process.env.DATABASE_URL);
+async function _findUsers() {
+  const usersId = await knex('users').select('id').where('id', 1).orderBy('createdAt', 'asc').limit(process.env.MAX_USERS_MIGRATE);
+  return _.map(usersId, 'id');
 }
 
-function _terminate(client) {
-  client.end();
-  console.log('END');
-}
-
-async function _findUser(client) {
-  const usersId = await client.query_and_log(`SELECT id FROM USERS where "isprofilv2" = false ORDER BY "createdAt" ASC LIMIT 1000;`);
-  return _.map(usersId.rows, 'id');
-}
-
-async function _createKnowledgeElementsForUser(client, userId, challengesWithKnowledgeElementsToAdd) {
+async function _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd) {
   console.log('BEGIN FOR USER ' + userId);
-  const assessmentsId = await _getAssessmentsForUser(client, userId);
+  const assessmentsId = await _getAssessmentsForUser( userId);
   if(assessmentsId.length>0) {
-    const answersForMigration = await _findAnswersForMigration(client, assessmentsId);
+    const answersForMigration = await _findAnswersForMigration( assessmentsId);
     if (answersForMigration.length > 0) {
       const knowledgeElementsForEachAnswers = _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId);
       const knowledgeElementsToCreate = _.compact(_.uniqBy(_.flatten(knowledgeElementsForEachAnswers), 'skillId'));
-      await _createKnowledgeElements(client, knowledgeElementsToCreate);
+      await _createKnowledgeElements( knowledgeElementsToCreate);
     }
   }
-  await _indicateMigrationOk(client, userId);
+  await _indicateMigrationOk( userId);
 
   console.log('END FOR USER ' + userId);
 }
 
-async function _getAssessmentsForUser(client, userId) {
-  const assessmentsFromDb = await client.query_and_log(`SELECT * FROM ASSESSMENTS WHERE "userId" = ${userId} AND type='PLACEMENT' ORDER BY "createdAt" DESC;`);
-  const assessmentsForUser =  assessmentsFromDb.rows;
-  const assessmentsGroupedByCourse = _.groupBy(assessmentsForUser,
+async function _getAssessmentsForUser( userId) {
+  const assessmentsFromDb = await knex.select().from('assessments').where('userId', userId).andWhere('type', 'PLACEMENT').orderBy('createdAt', 'desc');
+  const assessmentsGroupedByCourse = _.groupBy(assessmentsFromDb,
     (assessment) => assessment.courseId);
   const lastAssessmentsForEachCourse = _.map(assessmentsGroupedByCourse, _.head);
   return _.map(lastAssessmentsForEachCourse, 'id');
 }
 
-async function _getAssessmentsV2ForUser(client, userId) {
-  const assessmentsFromDb = await client.query_and_log(`SELECT * FROM ASSESSMENTS WHERE "userId" = ${userId} AND type='COMPETENCE_EVALUATION' ORDER BY "createdAt" DESC;`);
-  const assessmentsForUser =  assessmentsFromDb.rows;
-  return _.map(assessmentsForUser, 'id');
+async function _findAnswersForMigration( assessmentsId) {
+  return knex.select('id', 'result', 'assessmentId', 'createdAt', 'challengeId').from('answers').whereIn('assessmentId', assessmentsId).orderBy('createdAt', 'asc');
 }
 
-async function _findAnswersForMigration(client, assessmentsId) {
-  const answersFromDB = await client.query_and_log(`SELECT * FROM ANSWERS WHERE "assessmentId" IN (${assessmentsId.toString()}) ORDER BY "createdAt" ASC;`);
-  const answersForMigration = answersFromDB.rows;
-  return _.map(answersForMigration, (answer) => _.omit(answer, 'updatedAt', 'timeout', 'elapsedTime', 'resultDetails', 'value'));
-}
-
-async function _createKnowledgeElements(client, knowledgeElements) {
-  let knowledgeElementsForDB = _.reduce(knowledgeElements, (textForDb, ke) => {
-    return textForDb+`('${moment(ke.createdAt).utc()}', '${ke.source}', '${ke.status}', ${ke.earnedPix}, ${ke.answerId}, '${ke.skillId}', ${ke.assessmentId}, ${ke.userId}, '${ke.competenceId}'),`;
-  }, '');
-  knowledgeElementsForDB = knowledgeElementsForDB.substring(0, knowledgeElementsForDB.length-1);
-
-  await client.query_and_log(`INSERT INTO "knowledge-elements" ("createdAt", "source", "status", "earnedPix", "answerId", "skillId", "assessmentId", "userId", "competenceId") VALUES ${knowledgeElementsForDB};`);
+async function _createKnowledgeElements( knowledgeElements) {
+  return knex('knowledge-elements').insert(knowledgeElements);
 }
 
 function _createKnowledgeElementObject(answer, userId, status, skillInformation) {
@@ -95,8 +68,8 @@ function _createKnowledgeElementObject(answer, userId, status, skillInformation)
   };
 }
 
-async function _indicateMigrationOk(client, userId) {
-  return client.query_and_log(`UPDATE USERS SET "isprofilv2"=true WHERE id = ${userId}`);
+async function _indicateMigrationOk( userId) {
+  return knex('users').where('id', userId).update('isprofilv2', true);
 }
 
 function _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId) {
