@@ -33,7 +33,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
   beforeEach(async () => {
 
     options = {
-      method: 'PATCH',
+      method: 'POST',
       url: `/api/users/${userId}/competences/${competenceId}/reset`,
       payload: {},
       headers: {},
@@ -41,7 +41,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
     server = await createServer();
   });
 
-  describe('PATCH /users/{id}/competences/{id}/reset', () => {
+  describe('POST /users/{id}/competences/{id}/reset', () => {
 
     describe('Resource access management', () => {
 
