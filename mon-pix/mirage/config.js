@@ -73,7 +73,7 @@ export default function() {
   this.get('/users/:id/pixscore', getPixScore);
   this.get('/users/:id/scorecards', getScorecards);
   this.get('/users/:id/campaign-participations', getUserCampaignParticipations);
-  this.patch('/users/:userId/competences/:competenceId/reset', resetScorecard);
+  this.post('/users/:userId/competences/:competenceId/reset', resetScorecard);
   this.get('/scorecards/:id', getScorecard);
   this.get('/competences/:id');
   this.get('/areas/:id');
