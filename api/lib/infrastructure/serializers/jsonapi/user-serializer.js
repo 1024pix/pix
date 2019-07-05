@@ -9,7 +9,7 @@ module.exports = {
         'firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted', 'usesProfileV2', 'memberships',
         'certificationCenterMemberships', 'pixScore', 'scorecards',
-        'campaignParticipations', 'organizations', 'isProfileV2'
+        'campaignParticipations', 'organizations', 'isProfileV2', 'hasSeenMigrationModal',
       ],
       memberships: {
         ref: 'id',
