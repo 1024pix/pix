@@ -5,14 +5,14 @@ const { BadRequestError } = require('../../infrastructure/errors');
 
 module.exports = {
 
-  start(request, h) {
+  async startOrResume(request, h) {
     const userId = request.auth.credentials.userId;
-    const competenceId = request.payload.data.attributes['competence-id'];
-    return usecases.startOrResumeCompetenceEvaluation({ competenceId, userId })
-      .then(({ created, competenceEvaluation }) => {
-        const serialized = serializer.serialize(competenceEvaluation);
-        return created ? h.response(serialized).created() : serialized;
-      });
+    const competenceId = request.payload.competenceId;
+
+    const { competenceEvaluation, created } = await usecases.startOrResumeCompetenceEvaluation({ competenceId, userId });
+    const serializedCompetenceEvaluation = serializer.serialize(competenceEvaluation);
+
+    return created ? h.response(serializedCompetenceEvaluation).created() : serializedCompetenceEvaluation;
   },
 
   async find(request) {
@@ -24,7 +24,7 @@ module.exports = {
     }
 
     const { models: competenceEvaluations } = await usecases.findCompetenceEvaluations({ userId, options });
-    
+
     return serializer.serialize(competenceEvaluations);
   },
 };
