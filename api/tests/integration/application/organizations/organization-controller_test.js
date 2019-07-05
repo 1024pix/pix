@@ -15,6 +15,8 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'getOrganizationMemberships');
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
+    sandbox.stub(securityController, 'checkUserIsOwnerInOrganization');
+    sandbox.stub(securityController, 'checkUserIsOwnerInOrganizationOrHasRolePixMaster');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -89,11 +91,11 @@ describe('Integration | Application | Organizations | organization-controller', 
 
   describe('#getOrganizationMemberships', () => {
 
-    beforeEach(() => {
-      securityController.checkUserHasRolePixMaster.returns(true);
-    });
-
     context('Success cases', () => {
+
+      beforeEach(() => {
+        securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster.returns(true);
+      });
 
       const membership = domainBuilder.buildMembership();
 

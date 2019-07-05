@@ -3,6 +3,7 @@ const securityController = require('../../../../lib/interfaces/controllers/secur
 const tokenService = require('../../../../lib/domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('../../../../lib/application/usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('../../../../lib/application/usecases/checkUserHasRolePixMaster');
+const checkUserIsOwnerInOrganizationUseCase = require('../../../../lib/application/usecases/checkUserIsOwnerInOrganization');
 
 describe('Unit | Interfaces | Controllers | SecurityController', () => {
 
@@ -143,6 +144,170 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
 
         // when
         const response = await securityController.checkUserHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+    });
+  });
+
+  describe('#checkUserIsOwnerInOrganization', () => {
+    let isOwnerInOrganizationStub;
+
+    beforeEach(() => {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      isOwnerInOrganizationStub = sinon.stub(checkUserIsOwnerInOrganizationUseCase, 'execute');
+    });
+
+    context('Successful case', () => {
+      const request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } }, params: { id: 5678 } };
+
+      beforeEach(() => {
+        isOwnerInOrganizationStub.resolves(true);
+      });
+
+      it('should authorize access to resource when the user is authenticated and is OWNER in Organization', async () => {
+        // given
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganization(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', () => {
+
+      const request = { auth: { credentials: { accessToken: 'valid.access.token' } }, params: { id: 5678 } };
+
+      it('should forbid resource access when user was not previously authenticated', async () => {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganization(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user is not OWNER in Organization', async () => {
+        // given
+        checkUserIsOwnerInOrganizationUseCase.execute.resolves(false);
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganization(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async () => {
+        // given
+        checkUserIsOwnerInOrganizationUseCase.execute.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganization(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+    });
+  });
+
+  describe('#checkUserIsOwnerInOrganizationOrHasRolePixMaster', () => {
+    let isOwnerInOrganizationStub;
+    let hasRolePixMasterStub;
+
+    beforeEach(() => {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      isOwnerInOrganizationStub = sinon.stub(checkUserIsOwnerInOrganizationUseCase, 'execute');
+      hasRolePixMasterStub = sinon.stub(checkUserHasRolePixMasterUseCase, 'execute');
+    });
+
+    context('Successful case', () => {
+      const request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } }, params: { id: 5678 } };
+
+      beforeEach(() => {
+        isOwnerInOrganizationStub.resolves(true);
+        hasRolePixMasterStub.resolves(true);
+      });
+
+      it('should authorize access to resource when the user is authenticated and is PIX_MASTER', async () => {
+        // given
+        checkUserIsOwnerInOrganizationUseCase.execute.resolves(false);
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+
+      it('should authorize access to resource when the user is authenticated and is OWNER in Organization', async () => {
+        // given
+        checkUserHasRolePixMasterUseCase.execute.resolves(false);
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+
+      it('should authorize access to resource when the user is authenticated and is OWNER in Organization and is PIX_MASTER', async () => {
+        // given
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', () => {
+
+      const request = { auth: { credentials: { accessToken: 'valid.access.token' } }, params: { id: 5678 } };
+
+      it('should forbid resource access when user was not previously authenticated', async () => {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user is not OWNER in Organization not PIX_MASTER', async () => {
+        // given
+        checkUserIsOwnerInOrganizationUseCase.execute.resolves(false);
+        checkUserHasRolePixMasterUseCase.execute.resolves(false);
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async () => {
+        // given
+        checkUserIsOwnerInOrganizationUseCase.execute.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, hFake);
 
         // then
         expect(response.statusCode).to.equal(403);
