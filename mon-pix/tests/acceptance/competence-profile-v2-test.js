@@ -10,7 +10,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | Profil v2 | Start competence on profilV2', function() {
+describe('Acceptance | Profile v2 | Start competence on profileV2', function() {
   let application;
 
   beforeEach(function() {
@@ -29,7 +29,7 @@ describe('Acceptance | Profil v2 | Start competence on profilV2', function() {
 
     it('can start a competence', async function() {
       // when
-      await visit('/profilv2');
+      await visit('/profil-v2');
       await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__button ');
 
       // then

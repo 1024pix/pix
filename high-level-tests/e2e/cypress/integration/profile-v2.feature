@@ -1,4 +1,4 @@
-Feature: Profilv2
+Feature: Profil-v2
 
   Background:
     Given les données de test sont chargées
