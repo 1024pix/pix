@@ -1,15 +1,11 @@
 const BookshelfMembership = require('../data/membership');
 const { MembershipCreationError } = require('../../domain/errors');
 const Membership = require('../../domain/models/Membership');
-const OrganizationRole = require('../../domain/models/OrganizationRole');
 const User = require('../../domain/models/User');
 const bookshelfUtils = require('../utils/bookshelf-utils');
 
 function _toDomain(bookshelfMembership) {
-
-  const membership = new Membership({ id: bookshelfMembership.id });
-
-  membership.organizationRole = new OrganizationRole(bookshelfMembership.relations.organizationRole.toJSON());
+  const membership = new Membership(bookshelfMembership.toJSON());
 
   membership.user = new User(bookshelfMembership.relations.user.toJSON());
 
@@ -18,10 +14,10 @@ function _toDomain(bookshelfMembership) {
 
 module.exports = {
 
-  create(userId, organizationId, organizationRoleId) {
-    return new BookshelfMembership({ userId, organizationId, organizationRoleId })
+  create(userId, organizationId, organizationRole) {
+    return new BookshelfMembership({ userId, organizationId, organizationRole })
       .save()
-      .then((bookshelfMembership) => bookshelfMembership.load(['organizationRole', 'user']))
+      .then((bookshelfMembership) => bookshelfMembership.load(['user']))
       .then(_toDomain)
       .catch((err) => {
         if (bookshelfUtils.isUniqConstraintViolated(err)) {
@@ -34,7 +30,8 @@ module.exports = {
   findByOrganizationId(organizationId) {
     return BookshelfMembership
       .where({ organizationId })
-      .fetchAll({ withRelated: ['organizationRole', 'user'] })
+      .orderBy('id', 'ASC')
+      .fetchAll({ withRelated: ['user'] })
       .then((bookshelfMembershipCollection) => bookshelfMembershipCollection.map(_toDomain));
   }
 };

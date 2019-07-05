@@ -1,12 +1,14 @@
 const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
+const Membership = require('../../../../lib/domain/models/Membership');
+
 describe('Acceptance | Controller | users-controller-get-memberships', () => {
 
   let userId;
   let organizationId;
   let membershipId;
-  let organizationRoleId;
+  const organizationRole = Membership.roles.MEMBER;
 
   let server;
 
@@ -38,22 +40,14 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
       return knex('users').insert(userRaw).returning('id');
     }
 
-    function _insertMemberships(organizationId, userId, organizationRoleId) {
+    function _insertMemberships(organizationId, userId, organizationRole) {
       const membershipRaw = {
         organizationId,
         userId,
-        organizationRoleId,
+        organizationRole,
       };
 
       return knex('memberships').insert(membershipRaw).returning('id');
-    }
-
-    function _insertOrganizationRoles() {
-      const organizationRoleRaw = {
-        name: 'ADMIN',
-      };
-
-      return knex('organization-roles').insert(organizationRoleRaw).returning('id');
     }
 
     function _options(userId) {
@@ -69,10 +63,8 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
         .then(([id]) => userId = id)
         .then(() => _insertOrganization(userId))
         .then(([id]) => organizationId = id)
-        .then(() => _insertOrganizationRoles()
-          .then(([id]) => organizationRoleId = id)
-          .then(() => _insertMemberships(organizationId, userId, organizationRoleId))
-          .then(([id]) => membershipId = id));
+        .then(() => _insertMemberships(organizationId, userId, Membership.roles.MEMBER))
+        .then(([id]) => membershipId = id);
     });
 
     afterEach(() => {
@@ -93,10 +85,11 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
             {
               type: 'memberships',
               id: membershipId.toString(),
-              attributes: {},
+              attributes: {
+                'organization-role': organizationRole,
+              },
               relationships: {
                 'organization': { data: { type: 'organizations', id: organizationId.toString() }, },
-                'organization-role': { data: { type: 'organizationRoles', id: organizationRoleId.toString() }, },
                 'user': { data: null, },
               },
             },
@@ -123,7 +116,6 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                 }
               }
             },
-            { type: 'organizationRoles', id: organizationRoleId.toString(), attributes: { name: 'ADMIN' } }
           ],
         });
       });

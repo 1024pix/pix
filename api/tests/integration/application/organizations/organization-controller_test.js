@@ -130,10 +130,8 @@ describe('Integration | Application | Organizations | organization-controller', 
         // then
         expect(response.result.included[0].type).to.equal('organizations');
         expect(response.result.included[0].id).to.equal(`${membership.organization.id}`);
-        expect(response.result.included[1].type).to.equal('organizationRoles');
-        expect(response.result.included[1].id).to.equal(`${membership.organizationRole.id}`);
-        expect(response.result.included[2].type).to.equal('users');
-        expect(response.result.included[2].id).to.equal(`${membership.user.id}`);
+        expect(response.result.included[1].type).to.equal('users');
+        expect(response.result.included[1].id).to.equal(`${membership.user.id}`);
       });
     });
   });
