@@ -3,6 +3,7 @@ const { MembershipCreationError } = require('../../domain/errors');
 const Membership = require('../../domain/models/Membership');
 const User = require('../../domain/models/User');
 const bookshelfUtils = require('../utils/bookshelf-utils');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 function _toDomain(bookshelfMembership) {
   const membership = new Membership(bookshelfMembership.toJSON());
@@ -33,5 +34,12 @@ module.exports = {
       .orderBy('id', 'ASC')
       .fetchAll({ withRelated: ['user'] })
       .then((bookshelfMembershipCollection) => bookshelfMembershipCollection.map(_toDomain));
+  },
+
+  findByUserIdAndOrganizationId(userId, organizationId) {
+    return BookshelfMembership
+      .where({ userId, organizationId })
+      .fetchAll()
+      .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   }
 };

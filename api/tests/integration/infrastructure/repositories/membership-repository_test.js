@@ -128,4 +128,26 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
     });
   });
 
+  describe('#findByUserIdAndOrganizationId', () => {
+    it('should retrieve membership with given useId and OrganizationId', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const user1 = databaseBuilder.factory.buildUser();
+      const organizationRole1 = Membership.roles.OWNER;
+      const user2 = databaseBuilder.factory.buildUser();
+      const organizationRole2 = Membership.roles.MEMBER;
+
+      databaseBuilder.factory.buildMembership({ organizationRole: organizationRole1, organizationId: organization.id, userId: user1.id });
+      const membership2 = databaseBuilder.factory.buildMembership({ organizationRole: organizationRole2, organizationId: organization.id, userId: user2.id });
+
+      await databaseBuilder.commit();
+
+      //when
+      const memberships = await membershipRepository.findByUserIdAndOrganizationId(user2.id, organization.id);
+
+      //then
+      expect(memberships).to.have.lengthOf(1);
+      expect(memberships[0].id).to.equal(membership2.id);
+    });
+  });
 });
