@@ -4,6 +4,7 @@ exports.up = async function(knex) {
   const info = await knex(TABLE_NAME).columnInfo();
   if (info.organisationRoleId) {
     await knex.schema.alterTable(TABLE_NAME, (table) => {
+      table.dropForeign('organizationRoleId');
       table.dropColumn('organizationRoleId');
     });
   }
