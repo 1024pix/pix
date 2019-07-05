@@ -14,7 +14,7 @@ describe('Unit | UseCase | get-organization-memberships', () => {
 
     // then
     return expect(promise).to.be.fulfilled.then(() => {
-      expect(membershipRepositoryStub.findByOrganizationId).to.have.been.calledWith(organizationId);
+      expect(membershipRepositoryStub.findByOrganizationId).to.have.been.calledWith({ organizationId, orderByName: true });
     });
   });
 });

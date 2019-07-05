@@ -28,10 +28,17 @@ module.exports = {
       });
   },
 
-  findByOrganizationId(organizationId) {
+  findByOrganizationId({ organizationId, orderByName = false }) {
     return BookshelfMembership
       .where({ organizationId })
-      .orderBy('id', 'ASC')
+      .query((qb) => {
+        if (orderByName) {
+          qb.innerJoin('users', 'memberships.userId', 'users.id');
+          qb.orderByRaw('LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
+        } else {
+          qb.orderBy('id', 'ASC');
+        }
+      })
       .fetchAll({ withRelated: ['user'] })
       .then((bookshelfMembershipCollection) => bookshelfMembershipCollection.map(_toDomain));
   },
