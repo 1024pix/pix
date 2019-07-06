@@ -44,16 +44,9 @@ module.exports = function(environment) {
       includeFontAwesome: true,
     },
 
-    metricsAdapters: [
-      {
-        name: 'Piwik',
-        environments: ['production'],
-        config: {
-          piwikUrl: '//stats.pix.fr',
-          siteId: 7
-        }
-      }
-    ],
+    matomo: {
+      url: 'https://stats.pix.fr/js/container_x4fRiAXl.js',
+    },
 
   };
 
@@ -64,6 +57,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
     ENV.APP.API_HOST = process.env.API_HOST || 'http://localhost:3000';
+    ENV.matomo.debug = true;
   }
 
   if (environment === 'test') {
