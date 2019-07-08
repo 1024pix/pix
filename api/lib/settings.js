@@ -79,9 +79,8 @@ module.exports = (function() {
     },
 
     features: {
-      isCertificationV2Active: process.env.FT_USE_ONLY_V1_CERTIFICATION !== 'true',
       dayBeforeCompetenceResetV2: process.env.DAY_BEFORE_COMPETENCE_RESET_V2
-    }
+    },
   };
 
   if (process.env.NODE_ENV === 'test') {
