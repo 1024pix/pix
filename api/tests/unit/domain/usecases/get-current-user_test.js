@@ -25,4 +25,36 @@ describe('Unit | UseCase | get-current-user', () => {
     // then
     expect(result).to.deep.equal({ id: 1, usesProfileV2: true });
   });
+
+  it('should get a user with profile v2', async () => {
+    // given
+    userRepository.get.withArgs(1).resolves({ id: 1, isProfileV2: true });
+    assessmentRepository.hasCampaignOrCompetenceEvaluation.withArgs(1).resolves(false);
+
+    // when
+    const result = await getCurrentUser({
+      authenticatedUserId: 1,
+      userRepository,
+      assessmentRepository,
+    });
+
+    // then
+    expect(result).to.deep.equal({ id: 1, usesProfileV2: true, isProfileV2: true });
+  });
+
+  it('should get current user with correct attributes', async () => {
+    // given
+    userRepository.get.withArgs(1).resolves({ id: 1, isProfileV2: false });
+    assessmentRepository.hasCampaignOrCompetenceEvaluation.withArgs(1).resolves(false);
+
+    // when
+    const result = await getCurrentUser({
+      authenticatedUserId: 1,
+      userRepository,
+      assessmentRepository,
+    });
+
+    // then
+    expect(result).to.deep.equal({ id: 1, usesProfileV2: false, isProfileV2: false });
+  });
 });

@@ -58,6 +58,7 @@ function _toDomain(userBookshelf) {
     memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
+    isProfileV2: Boolean(userBookshelf.get('isProfileV2')),
   });
 }
 
