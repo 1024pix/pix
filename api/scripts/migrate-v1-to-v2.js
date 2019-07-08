@@ -33,20 +33,22 @@ async function _createKnowledgeElementsForUser( userId, challengesWithKnowledgeE
   console.log('BEGIN FOR USER ' + userId);
   let knowledgeElementsToCreate = [];
   let migrationOk = true;
+  await _setProfileV2atTrue(userId);
   const assessmentsId = await _getAssessmentsForUser(userId);
   if(assessmentsId.length>0) {
     const answersForMigration = await _findAnswersForMigration(assessmentsId);
     if (answersForMigration.length > 0) {
       const knowledgeElementsForEachAnswers = _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId);
       knowledgeElementsToCreate = _.compact(_.uniqBy(_.flatten(knowledgeElementsForEachAnswers), 'skillId'));
-      migrationOk = await _createKnowledgeElements({ knowledgeElementsToCreate, numberOfCurrentAssessment: assessmentsId.length, numberOfCurrentAnswers: answersForMigration.length, userId });
+      migrationOk = await _createKnowledgeElements({ knowledgeElementsToCreate });
     }
   }
   if(migrationOk) {
-    await _indicateMigrationOk(userId);
+    await _indicatedDateOfMigration(userId);
     console.log(`END FOR USER ${userId} : STATUS : OK, KE : ${knowledgeElementsToCreate.length}.`);
     return 1;
   } else {
+    await _setProfileV2atFalse(userId);
     console.log(`END FOR USER ${userId} : STATUS : NOT MIGRATED, KE : ${knowledgeElementsToCreate.length}.`);
     return 0;
   }
@@ -64,18 +66,11 @@ async function _findAnswersForMigration( assessmentsId) {
   return knex.select('id', 'result', 'assessmentId', 'createdAt', 'challengeId').from('answers').whereIn('assessmentId', assessmentsId).orderBy('createdAt', 'asc');
 }
 
-async function _createKnowledgeElements({ knowledgeElementsToCreate, numberOfCurrentAssessment, numberOfCurrentAnswers, userId }) {
+async function _createKnowledgeElements({ knowledgeElementsToCreate }) {
   return knex.transaction(function(trx) {
     return trx
       .insert(knowledgeElementsToCreate)
-      .into('knowledge-elements')
-      .then(async function() {
-        const assessments = await _getAssessmentsForUser(userId);
-        const answers = await _findAnswersForMigration(assessments);
-        if(assessments.length != numberOfCurrentAssessment || answers.length != numberOfCurrentAnswers) {
-          throw "User still use v1";
-        }
-      });
+      .into('knowledge-elements');
   }).then(()=> {
     return true;
   }).catch(function(error) {
@@ -99,8 +94,16 @@ function _createKnowledgeElementObject(answer, userId, status, skillInformation)
   };
 }
 
-async function _indicateMigrationOk( userId) {
+async function _setProfileV2atTrue(userId) {
   return knex('users').where('id', userId).update('isprofilv2', true);
+}
+
+async function _setProfileV2atFalse(userId) {
+  return knex('users').where('id', userId).update('isprofilv2', false);
+}
+
+async function _indicatedDateOfMigration(userId) {
+  return knex('users').where('id', userId).update('migratedAt', new Date());
 }
 
 function _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId) {
@@ -115,11 +118,3 @@ function _createKnowledgeElementObjects(answersForMigration, challengesWithKnowl
 }
 
 migration();
-/*
-cron.schedule(process.env.MIGRATION_CRON_TIME, () => {
-  console.log('Starting migration');
-
-  return migration()
-    .catch(console.log);
-});
-*/
