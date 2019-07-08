@@ -46,16 +46,20 @@ describe('Acceptance | Profile v2 | Display profile v2', function() {
       expect(currentURL()).to.equal('/compte');
     });
 
-    it('should contains references to pix.fr/actualites/votre-profil-evolue', async function() {
+    it('should display new profile information', async function() {
       // when
       await visit('/profil-v2');
 
       // then
-      expect(document.querySelector('.profile-v2-panel-header-information > .link'))
-        .to.have.attr('href', 'https://pix.fr/actualites/votre-profil-evolue');
+      expect(find('.new-profile-disclaimer')).to.exists;
+      expect(find('.profile-v2-panel-header-information')).to.exists;
 
-      expect(document.querySelector('.profile-v2-panel-header-information > .link'))
-        .to.have.attr('target', 'Actualité Pix');
+      // when
+      await click('.new-profile-disclaimer__close');
+
+      // then
+      expect(find('.new-profile-disclaimer')).to.not.exists;
+      expect(find('.profile-v2-panel-header-information')).to.not.exists;
     });
 
     it('should display pixscore', async function() {

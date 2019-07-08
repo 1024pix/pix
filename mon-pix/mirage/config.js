@@ -88,6 +88,7 @@ export default function() {
   this.get('/snapshots', getSnapshots);
 
   this.post('/users');
+  this.patch('/users/:id', getAuthenticatedUser);
   this.post('/assessment-results');
 
   this.del('/cache', () => null, 204);
