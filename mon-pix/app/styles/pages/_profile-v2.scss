@@ -27,3 +27,36 @@
   font-size: 1.8rem;
   line-height: 2.1rem;
 }
+
+.new-profile-disclaimer {
+  display: flex;
+  flex-direction: column;
+  background: $pix-yellow-to-orange-gradient;
+  margin-top: 30px;
+  height: 175px;
+
+  &__close {
+    align-self: flex-end;
+    margin: 5px 10px 0 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .new-profile-disclaimer-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 100%;
+    align-items: center;
+
+    &__title {
+      display: flex;
+      flex-direction: column;
+      font-weight: 300;
+      font-size: 3.2rem;
+      line-height: 4.5rem;
+    }
+  }
+}
