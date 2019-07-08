@@ -1,49 +1,23 @@
-const settings = require('../../settings');
-
-const userService = require('../../domain/services/user-service');
-const mailService = require('../../domain/services/mail-service');
-const resetPasswordService = require('../../domain/services/reset-password-service');
-const tokenService = require('../../domain/services/token-service');
-
+const usecases = require('../../domain/usecases');
 const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
-const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
-const userRepository = require('../../infrastructure/repositories/user-repository');
-
-function _sendPasswordResetDemandUrlEmail(email, temporaryKey) {
-
-  const passwordResetDemandUrl = `http://${settings.app.domain}`;
-  return mailService
-    .sendResetPasswordDemandEmail(email, passwordResetDemandUrl, temporaryKey);
-}
+const passwordResetDemandSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-demand-serializer');
 
 module.exports = {
-  createResetDemand(request, h) {
+  createPasswordResetDemand(request, h) {
+    const { email } = request.payload.data.attributes;
 
-    const user = userSerializer.deserialize(request.payload);
-
-    let temporaryKey, passwordResetDemand;
-
-    return userService.isUserExistingByEmail(user.email)
-      .then(resetPasswordService.generateTemporaryKey)
-      .then((key) => {
-        temporaryKey = key;
-        return resetPasswordDemandRepository.create({ email: user.email, temporaryKey });
-      })
-      .then((demand) => {
-        passwordResetDemand = demand;
-        _sendPasswordResetDemandUrlEmail(user.email, temporaryKey);
-      })
-      .then(() => passwordResetSerializer.serialize(passwordResetDemand.attributes))
+    return usecases.createPasswordResetDemand({ email })
+      .then((passwordResetDemand) => passwordResetDemandSerializer.serialize(passwordResetDemand.attributes))
       .then((serializedPayload) => h.response(serializedPayload).created());
   },
 
-  checkResetDemand(request) {
-    const temporaryKey = request.params.temporaryKey;
+  createPasswordReset(request, h) {
+    const { attributes } = request.payload.data;
+    const { password } = attributes;
+    const temporaryKey = attributes['temporary-key'];
 
-    return tokenService.verifyValidity(temporaryKey)
-      .then(() => resetPasswordService.verifyDemand(temporaryKey))
-      .then((passwordResetDemand) => userRepository.findByEmail(passwordResetDemand.email))
-      .then((user) => userSerializer.serialize(user));
-  }
+    return usecases.resetPassword({ temporaryKey, password })
+      .then(() => passwordResetSerializer.serialize({ password, temporaryKey }))
+      .then((serializedPayload) => h.response(serializedPayload).created());
+  },
 };

@@ -1,8 +1,8 @@
 const faker = require('faker');
 const { expect, knex, sinon } = require('../../test-helper');
-const mailjetService = require('../../../lib/domain/services/mail-service');
-const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
-const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
+const emailService = require('../../../lib/domain/services/mail-service');
+const passwordResetService = require('../../../lib/domain/services/password-reset-service');
+const  { InvalidTemporaryKeyError } = require('../../../lib/domain/errors');
 
 const createServer = require('../../../server');
 
@@ -16,249 +16,216 @@ describe('Acceptance | Controller | password-controller', () => {
 
   describe('POST /api/password-reset-demands', () => {
 
-    let fakeUserEmail;
-    let options;
+    let email;
 
     before(() => {
-      fakeUserEmail = faker.internet.email().toLowerCase();
-      return _insertUser(fakeUserEmail);
+      email = faker.internet.email().toLowerCase();
+      return _insertUser(email);
     });
 
     after(() => {
-      return knex('reset-password-demands').delete()
-        .then(() => knex('users').delete());
+      return Promise.all([
+        knex('users').delete(),
+        knex('password-reset-demands').delete(),
+      ]);
     });
 
     describe('when email provided is unknown', () => {
-      beforeEach(() => {
-        options = {
+
+      it('should reply with 404', async () => {
+        const options = {
           method: 'POST',
           url: '/api/password-reset-demands',
           payload: {
             data: {
               attributes: {
-                email: 'uzinagaz@unknown.xh'
-              }
-            }
-          }
+                email: 'unknown@unknown.com',
+              },
+            },
+          },
         };
-      });
 
-      it('should reply with 404', () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
-        });
+        expect(response.statusCode).to.equal(404);
       });
+
     });
 
     describe('when existing email is provided and email is delivered', () => {
       beforeEach(() => {
-        options = {
+        sinon.stub(emailService, 'sendPasswordResetDemandEmail').resolves();
+      });
+
+      it('should reply with 201', async () => {
+        const options = {
           method: 'POST',
           url: '/api/password-reset-demands',
           payload: {
             data: {
               attributes: {
-                email: fakeUserEmail
-              }
-            }
-          }
-        };
-
-        sinon.stub(mailjetService, 'sendResetPasswordDemandEmail').resolves();
-      });
-
-      it('should reply with 201', () => {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(201);
-        });
-      });
-    });
-
-    describe('when existing email is provided, but some internal error has occured', () => {
-      beforeEach(() => {
-        options = {
-          method: 'POST',
-          url: '/api/password-reset-demands',
-          payload: {
-            data: {
-              attributes: {
-                email: fakeUserEmail
-              }
-            }
-          }
-        };
-
-        sinon.stub(resetPasswordDemandRepository, 'create').rejects(new Error());
-      });
-
-      it('should reply with 500', () => {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(500);
-        });
-      });
-    });
-
-    describe('When temporaryKey is valid and linked to a password reset demand', () => {
-
-      beforeEach(() => {
-        fakeUserEmail = faker.internet.email();
-      });
-
-      afterEach(() => {
-        return Promise.all([
-          knex('users').delete(),
-          knex('reset-password-demands').delete()
-        ]);
-      });
-
-      it('should reply with 200 status code', async () => {
-        // given
-        const temporaryKey = resetPasswordService.generateTemporaryKey();
-        await _insertUser(fakeUserEmail);
-        await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
-
-        options = {
-          method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`
+                email,
+              },
+            },
+          },
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
+        const createdPasswordResetDemand = response.result.data.attributes;
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(201);
+        expect(createdPasswordResetDemand.email).to.equal(email);
+        expect(createdPasswordResetDemand['temporary-key']).to.be.a('string');
       });
     });
 
   });
 
-  describe('GET /api/password-reset-demands/{temporaryKey}', () => {
-    let fakeUserEmail;
-    let options;
+  describe('POST /api/password-resets', () => {
 
-    describe('When temporaryKey is not valid', () => {
+    let userId;
+    const temporaryKey = 'temporaryKey';
+    const password = 'pix123456789';
 
-      it('should reply with 401 status code', () => {
-        // given
-        options = {
-          method: 'GET',
-          url: '/api/password-reset-demands/invalid-temporary-key'
+    before(async () => {
+      const email = faker.internet.email().toLowerCase();
+
+      userId = await _insertUser(email);
+      await _insertPasswordResetDemand(temporaryKey, email);
+    });
+
+    after(() => {
+      return Promise.all([
+        knex('users').delete(),
+        knex('password-reset-demands').delete(),
+      ]);
+    });
+
+    describe('when the temporary key provided is unknown', () => {
+
+      it('should reply with 404', async () => {
+        const options = {
+          method: 'POST',
+          url: '/api/password-resets',
+          payload: {
+            data: {
+              attributes: {
+                'temporary-key': 'unknown',
+                password,
+              },
+            },
+          },
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+
+    describe('when the password provided is invalid', () => {
+
+      it('should reply with 422', async () => {
+        const options = {
+          method: 'POST',
+          url: '/api/password-resets',
+          payload: {
+            data: {
+              attributes: {
+                'temporary-key': temporaryKey,
+                password: 'notcontainingadigit',
+              },
+            },
+          },
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(422);
+      });
+    });
+
+    describe('when the temporary key is known and the password is valid', () => {
+
+      describe('When the temporary key has expired or is already used', () => {
+
+        before(() => {
+          sinon.stub(passwordResetService, 'extractUserIdFromTemporaryKey').withArgs(temporaryKey).rejects(new InvalidTemporaryKeyError());
+        });
+
+        it('should reply with 401', async () => {
+          const options = {
+            method: 'POST',
+            url: '/api/password-resets',
+            payload: {
+              data: {
+                attributes: {
+                  'temporary-key': temporaryKey,
+                  password: 'validPassword123',
+                },
+              },
+            },
+          };
+
+          // when
+          const response = await server.inject(options);
+
+          // then
           expect(response.statusCode).to.equal(401);
         });
       });
-    });
 
-    describe('When temporaryKey is valid but not linked to a password reset demand', () => {
+      describe('when the temporary key is valid', () => {
 
-      it('should reply with 404 status code', () => {
-        // given
-        const temporaryKey = resetPasswordService.generateTemporaryKey();
-        options = {
-          method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(404);
+        before(() => {
+          sinon.stub(passwordResetService, 'extractUserIdFromTemporaryKey').withArgs(temporaryKey).resolves(userId);
         });
-      });
-    });
 
-    describe('When something going wrong', () => {
+        it('should reply with 201', async () => {
+          const password =  'validPassword123';
+          const options = {
+            method: 'POST',
+            url: '/api/password-resets',
+            payload: {
+              data: {
+                attributes: {
+                  'temporary-key': temporaryKey,
+                  password,
+                },
+              },
+            },
+          };
 
-      beforeEach(() => {
-        sinon.stub(resetPasswordService, 'verifyDemand').rejects(new Error());
-      });
+          // when
+          const response = await server.inject(options);
+          const createdPasswordReset = response.result.data.attributes;
 
-      it('should reply with 500 status code', () => {
-        // given
-        const temporaryKey = resetPasswordService.generateTemporaryKey();
-        options = {
-          method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(500);
-        });
-      });
-    });
-
-    describe('When temporaryKey is valid and linked to a password reset demand', () => {
-
-      const temporaryKey = resetPasswordService.generateTemporaryKey();
-
-      before(() => {
-        fakeUserEmail = faker.internet.email();
-        return Promise.all([
-          _insertUser(fakeUserEmail),
-          _insertPasswordResetDemand(temporaryKey, fakeUserEmail),
-        ]);
-      });
-
-      after(() => {
-        return Promise.all([
-          knex('users').delete(),
-          knex('reset-password-demands').delete()
-        ]);
-      });
-
-      it('should reply with 200 status code', () => {
-        // given
-        options = {
-          method: 'GET',
-          url: `/api/password-reset-demands/${temporaryKey}`
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
+          // then
+          expect(response.statusCode).to.equal(201);
+          expect(createdPasswordReset['temporary-key']).to.equal(temporaryKey);
+          expect(createdPasswordReset.password).to.equal(password);
         });
       });
     });
 
   });
+
 });
 
 function _insertUser(email) {
   const userRaw = {
-    'firstName': faker.name.firstName(),
-    'lastName': faker.name.lastName(),
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
     email,
-    password: 'Pix2017!'
+    password: 'pix123',
   };
 
   return knex('users').insert(userRaw).returning('id')
@@ -266,6 +233,7 @@ function _insertUser(email) {
 }
 
 function _insertPasswordResetDemand(temporaryKey, email) {
-  const resetDemandRaw = { email, temporaryKey };
-  return knex('reset-password-demands').insert(resetDemandRaw);
+  const resetDemandRaw = { email, temporaryKey, used: false };
+
+  return knex('password-reset-demands').insert(resetDemandRaw);
 }

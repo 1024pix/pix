@@ -8,7 +8,8 @@ describe('Unit | Router | Password router', () => {
 
   beforeEach(() => {
     // server dependencies must be stubbed before server registration
-    sinon.stub(passwordController, 'createResetDemand');
+    sinon.stub(passwordController, 'createPasswordResetDemand');
+    sinon.stub(passwordController, 'createPasswordReset');
 
     server = Hapi.server();
     return server.register(require('../../../../lib/application/passwords'));
@@ -20,9 +21,9 @@ describe('Unit | Router | Password router', () => {
 
   describe('POST /api/password-reset-demands', () => {
 
-    it('should exist', () => {
+    it('should exist', async () => {
       // given
-      passwordController.createResetDemand.returns('ok');
+      passwordController.createPasswordResetDemand.returns('ok');
 
       const options = {
         method: 'POST',
@@ -31,48 +32,47 @@ describe('Unit | Router | Password router', () => {
           data: {
             attributes: {
               email: 'uzinagaz@unknown.xh',
-              'temporary-key': 'clé'
+              'temporary-key': 'clé',
             },
-            type: 'password-reset'
-          }
-        }
+            type: 'password-reset-demand',
+          },
+        },
       };
 
       // when
-      const promise = server.inject(options);
+      const response = await server.inject(options);
 
       // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
+      expect(response.statusCode).to.equal(200);
     });
+  });
 
-    describe('when payload has a bad format or no email is provided', () => {
+  describe('POST /api/password-resets', () => {
 
-      it('should reply with 400', () => {
-        // given
-        const options = {
-          method: 'POST',
-          url: '/api/password-reset-demands',
-          payload: {
-            data: {
-              attributes: {}
-            }
-          }
-        };
+    it('should exist', async () => {
+      // given
+      passwordController.createPasswordReset.returns('ok');
 
-        // when
-        const promise = server.inject(options);
+      const options = {
+        method: 'POST',
+        url: '/api/password-resets',
+        payload: {
+          data: {
+            attributes: {
+              'temporary-key': 'clé',
+              password: 'password',
+            },
+            type: 'password-reset',
+          },
+        },
+      };
 
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(400);
-          expect(response.statusMessage).to.equal('Bad Request');
-        });
-      });
+      // when
+      const response = await server.inject(options);
 
+      // then
+      expect(response.statusCode).to.equal(200);
     });
-
   });
 
 });
