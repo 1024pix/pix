@@ -2,7 +2,7 @@ const TABLE_NAME = 'memberships';
 
 exports.up = async function(knex) {
   const info = await knex(TABLE_NAME).columnInfo();
-  if (info.organisationRoleId) {
+  if (info.organizationRoleId) {
     await knex.schema.alterTable(TABLE_NAME, (table) => {
       table.dropColumn('organizationRoleId');
     });
@@ -14,16 +14,11 @@ exports.up = async function(knex) {
 };
 
 exports.down = async function(knex) {
-  const info = await knex(TABLE_NAME).columnInfo();
   await knex.schema.alterTable(TABLE_NAME, (table) => {
-    if (info.organisationRoleId) {
-      table.bigInteger('organizationRoleId').references('organization-roles.id').index();
-    }
+    table.bigInteger('organizationRoleId').references('organization-roles.id').index();
     table.dropColumn('organizationRole');
   });
 
-  await knex.raw(`
-    update ${TABLE_NAME} 
-    set "organizationRoleId" = ( select id from "organization-roles" where name ='ADMIN' );
-  `);
+  await knex.raw('UPDATE ?? SET ?? = (SELECT id FROM ?? WHERE name = ?);',
+    [ TABLE_NAME, 'organizationRoleId', 'organization-roles', 'ADMIN' ]);
 };
