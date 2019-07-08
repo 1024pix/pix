@@ -25,6 +25,7 @@ function _toMembershipsDomain(membershipsBookshelf) {
   return membershipsBookshelf.map((membershipBookshelf) => {
     return new Membership({
       id: membershipBookshelf.get('id'),
+      organizationRole: membershipBookshelf.get('organizationRole'),
       organization: new Organization({
         id: membershipBookshelf.related('organization').get('id'),
         code: membershipBookshelf.related('organization').get('code'),
