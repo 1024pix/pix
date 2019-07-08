@@ -11,6 +11,7 @@ export default Model.extend({
   isProfileV2: attr('boolean'),
   password: attr('string'),
   cgu: attr('boolean'),
+  hasSeenMigrationModal: attr('boolean'),
   recaptchaToken: attr('string'),
   totalPixScore: attr('number'),
   pixScore: belongsTo('pix-score'),
