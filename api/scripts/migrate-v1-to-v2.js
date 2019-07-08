@@ -12,15 +12,13 @@ async function migration() {
   const challengesWithKnowledgeElementsToAdd = await findKnowledgeElementsToAdd();
 
   const listOfUsers = await _findUsers();
-  await Promise.all(_.map(listOfUsers,
+  const result = await Promise.all(_.map(listOfUsers,
     async (userId) => await _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd)));
 
-  console.log(`Migration de ${listOfUsers.length} utilisateurs.`);
+  console.log(`Migration réussie : ${_.sum(result)} sur ${listOfUsers.length} utilisateurs.`);
   const end = new Date();
   console.log(`Migration en ${Math.floor((end-start) / 1000)} secondes`);
   console.log(`Migration en ${Math.floor((end-start))} millisecondes`);
-
-  process.exit(1);
 }
 
 async function _findUsers() {
@@ -30,21 +28,25 @@ async function _findUsers() {
 
 async function _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd) {
   console.log('BEGIN FOR USER ' + userId);
+  let knowledgeElementsToCreate = [];
   let migrationOk = true;
   const assessmentsId = await _getAssessmentsForUser(userId);
   if(assessmentsId.length>0) {
     const answersForMigration = await _findAnswersForMigration(assessmentsId);
     if (answersForMigration.length > 0) {
       const knowledgeElementsForEachAnswers = _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId);
-      const knowledgeElementsToCreate = _.compact(_.uniqBy(_.flatten(knowledgeElementsForEachAnswers), 'skillId'));
-      console.log(`Try to add ${knowledgeElementsToCreate.length} knowledge elements for user ${userId}`);
+      knowledgeElementsToCreate = _.compact(_.uniqBy(_.flatten(knowledgeElementsForEachAnswers), 'skillId'));
       migrationOk = await _createKnowledgeElements({ knowledgeElementsToCreate, numberOfCurrentAssessment: assessmentsId.length, numberOfCurrentAnswers: answersForMigration.length, userId });
     }
   }
   if(migrationOk) {
     await _indicateMigrationOk(userId);
+    console.log(`END FOR USER ${userId} : STATUS : OK, KE : ${knowledgeElementsToCreate.length}.`);
+    return 1;
+  } else {
+    console.log(`END FOR USER ${userId} : STATUS : NOT MIGRATED, KE : ${knowledgeElementsToCreate.length}.`);
+    return 0;
   }
-  console.log(`END FOR USER ${userId} : STATUS : ${migrationOk ? 'OK' : 'NOT MIGRATED'}`);
 }
 
 async function _getAssessmentsForUser(userId) {
@@ -111,12 +113,9 @@ function _createKnowledgeElementObjects(answersForMigration, challengesWithKnowl
   });
 }
 
-migration();
-
-/*cron.schedule(process.env.MIGRATION_CRON_TIME, () => {
+cron.schedule(process.env.MIGRATION_CRON_TIME, () => {
   console.log('Starting migration');
 
   return migration()
-    .then((numberOfUsersMigrated) => console.log(`Migrated OK for ${numberOfUsersMigrated} users`))
     .catch(console.log);
-});*/
+});
