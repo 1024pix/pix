@@ -11,12 +11,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
   describe('#retrieveLastOrCreateCertificationCourse', () => {
 
-    const settings = {
-      features: {
-        isCertificationV2Active: true
-      }
-    };
-
     context('when a certification course already exists for given sessionId and userId', function() {
 
       let userId;
@@ -42,7 +36,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         const result = await retrieveLastOrCreateCertificationCourse({
           accessCode,
           userId,
-          settings,
           sessionService,
           userService,
           certificationChallengesService,
@@ -163,7 +156,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           const createNewCertificationPromise = retrieveLastOrCreateCertificationCourse({
             accessCode,
             userId,
-            settings,
             sessionService,
             userService,
             certificationChallengesService,
@@ -189,7 +181,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         const newCertification = await retrieveLastOrCreateCertificationCourse({
           accessCode,
           userId,
-          settings,
           sessionService,
           userService,
           certificationChallengesService,
@@ -219,7 +210,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           await retrieveLastOrCreateCertificationCourse({
             accessCode,
             userId,
-            settings,
             sessionService,
             userService,
             certificationChallengesService,
@@ -243,7 +233,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           await retrieveLastOrCreateCertificationCourse({
             accessCode,
             userId,
-            settings,
             sessionService,
             userService,
             certificationChallengesService,
@@ -267,7 +256,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           await retrieveLastOrCreateCertificationCourse({
             accessCode,
             userId,
-            settings,
             sessionService,
             userService,
             certificationChallengesService,
@@ -291,7 +279,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           await retrieveLastOrCreateCertificationCourse({
             accessCode,
             userId,
-            settings,
             sessionService,
             userService,
             certificationChallengesService,
@@ -303,56 +290,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             .to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0WithHigherScore, sinon.match.any);
           expect(certificationCourseRepository.save)
             .to.have.been.calledWithMatch({ isV2Certification: true });
-        });
-      });
-
-      describe('certification v2 activation', () => {
-        beforeEach(() => {
-          sinon.stub(userService, 'getProfileToCertifyV1').resolves(fiveCompetencesWithLevelHigherThan0);
-          sinon.stub(userService, 'getProfileToCertifyV2').resolves(fiveCompetencesWithLevelHigherThan0WithHigherScore);
-          sinon.stub(certificationChallengesService, 'saveChallenges').resolves();
-          sinon.stub(certificationCourseRepository, 'save').resolves();
-        });
-
-        it('should choose profile v2 when certification v2 is active', async () => {
-          // when
-          await retrieveLastOrCreateCertificationCourse({
-            accessCode,
-            userId,
-            settings,
-            sessionService,
-            userService,
-            certificationChallengesService,
-            certificationCourseRepository
-          });
-
-          // then
-          expect(certificationChallengesService.saveChallenges)
-            .to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0WithHigherScore, sinon.match.any);
-        });
-
-        it('should not choose profile v2 when certification v2 is inactive', async () => {
-          // given
-          const settings = {
-            features: {
-              isCertificationV2Active: false
-            }
-          };
-
-          // when
-          await retrieveLastOrCreateCertificationCourse({
-            accessCode,
-            userId,
-            settings,
-            sessionService,
-            userService,
-            certificationChallengesService,
-            certificationCourseRepository
-          });
-
-          // then
-          expect(certificationChallengesService.saveChallenges)
-            .to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0, sinon.match.any);
         });
       });
     });
