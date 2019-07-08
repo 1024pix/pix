@@ -14,6 +14,7 @@ class User {
     lastName,
     password,
     samlId,
+    isProfileV2 = true,
     // includes
     memberships = [],
     certificationCenterMemberships = [],
@@ -34,6 +35,7 @@ class User {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.samlId = samlId;
+    this.isProfileV2 = isProfileV2;
     this.knowledgeElements = knowledgeElements;
     // includes
     this.pixRoles = pixRoles;
