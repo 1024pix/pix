@@ -4,6 +4,7 @@ const _ = require('lodash');
 const findKnowledgeElementsToAdd = require('./extract-challenge-with-skills.js');
 const cron = require('node-cron');
 const { knex } = require('../db/knex-database-connection');
+const bluebird = require('bluebird');
 
 
 async function migration() {
@@ -12,13 +13,15 @@ async function migration() {
   const challengesWithKnowledgeElementsToAdd = await findKnowledgeElementsToAdd();
 
   const listOfUsers = await _findUsers();
-  const result = await Promise.all(_.map(listOfUsers,
-    async (userId) => await _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd)));
+  const result = await bluebird.map(listOfUsers,
+    async (userId) => await _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd),
+    { concurrency: parseInt(process.env.MIGRATE_CONCURRENCY,10) || 4 });
 
   console.log(`Migration réussie : ${_.sum(result)} sur ${listOfUsers.length} utilisateurs.`);
   const end = new Date();
-  console.log(`Migration en ${Math.floor((end-start) / 1000)} secondes`);
-  console.log(`Migration en ${Math.floor((end-start))} millisecondes`);
+  console.log(`Migration en ${_.floor((end-start)/1000, 3)} secondes`);
+
+  process.exit(1);
 }
 
 async function _findUsers() {
@@ -73,14 +76,12 @@ async function _createKnowledgeElements({ knowledgeElementsToCreate, numberOfCur
           throw "User still use v1";
         }
       });
-    })
-    .then(()=> {
-      return true;
-    })
-    .catch(function(error) {
-      console.error(error);
-      return false;
-    });
+  }).then(()=> {
+    return true;
+  }).catch(function(error) {
+    console.error(error);
+    return false;
+  });
 
 }
 
@@ -113,9 +114,12 @@ function _createKnowledgeElementObjects(answersForMigration, challengesWithKnowl
   });
 }
 
+migration();
+/*
 cron.schedule(process.env.MIGRATION_CRON_TIME, () => {
   console.log('Starting migration');
 
   return migration()
     .catch(console.log);
 });
+*/
