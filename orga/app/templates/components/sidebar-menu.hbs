@@ -2,7 +2,9 @@
   {{#link-to 'authenticated.campaigns.list' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
     Campagnes
   {{/link-to}}
-  {{#link-to 'authenticated.team' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
-    Équipe
-  {{/link-to}}
+  {{#if currentUser.isOwnerInOrganization}}
+    {{#link-to 'authenticated.team' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+      Équipe
+    {{/link-to}}
+  {{/if}}
 </nav>
