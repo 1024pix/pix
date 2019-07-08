@@ -7,39 +7,48 @@ const { knex } = require('../db/knex-database-connection');
 
 
 async function migration() {
+  const start = new Date();
 
   const challengesWithKnowledgeElementsToAdd = await findKnowledgeElementsToAdd();
 
   const listOfUsers = await _findUsers();
-  Promise.all(_.map(listOfUsers,
+  await Promise.all(_.map(listOfUsers,
     async (userId) => await _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd)));
 
   console.log(`Migration de ${listOfUsers.length} utilisateurs.`);
+  const end = new Date();
+  console.log(`Migration en ${Math.floor((end-start) / 1000)} secondes`);
+  console.log(`Migration en ${Math.floor((end-start))} millisecondes`);
+
+  process.exit(1);
 }
 
 async function _findUsers() {
-  const usersId = await knex('users').select('id').where('id', 1).orderBy('createdAt', 'asc').limit(process.env.MAX_USERS_MIGRATE);
+  const usersId = await knex('users').select('id').where('isprofilv2', false).orderBy('createdAt', 'asc').limit(process.env.MAX_USERS_MIGRATE);
   return _.map(usersId, 'id');
 }
 
 async function _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd) {
   console.log('BEGIN FOR USER ' + userId);
-  const assessmentsId = await _getAssessmentsForUser( userId);
+  let migrationOk = true;
+  const assessmentsId = await _getAssessmentsForUser(userId);
   if(assessmentsId.length>0) {
-    const answersForMigration = await _findAnswersForMigration( assessmentsId);
+    const answersForMigration = await _findAnswersForMigration(assessmentsId);
     if (answersForMigration.length > 0) {
       const knowledgeElementsForEachAnswers = _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId);
       const knowledgeElementsToCreate = _.compact(_.uniqBy(_.flatten(knowledgeElementsForEachAnswers), 'skillId'));
-      await _createKnowledgeElements( knowledgeElementsToCreate);
+      console.log(`Try to add ${knowledgeElementsToCreate.length} knowledge elements for user ${userId}`);
+      migrationOk = await _createKnowledgeElements({ knowledgeElementsToCreate, numberOfCurrentAssessment: assessmentsId.length, numberOfCurrentAnswers: answersForMigration.length, userId });
     }
   }
-  await _indicateMigrationOk( userId);
-
-  console.log('END FOR USER ' + userId);
+  if(migrationOk) {
+    await _indicateMigrationOk(userId);
+  }
+  console.log(`END FOR USER ${userId} : STATUS : ${migrationOk ? 'OK' : 'NOT MIGRATED'}`);
 }
 
-async function _getAssessmentsForUser( userId) {
-  const assessmentsFromDb = await knex.select().from('assessments').where('userId', userId).andWhere('type', 'PLACEMENT').orderBy('createdAt', 'desc');
+async function _getAssessmentsForUser(userId) {
+  const assessmentsFromDb = await knex.select('id', 'courseId', 'createdAt').from('assessments').where('userId', userId).andWhere('type', 'PLACEMENT').orderBy('createdAt', 'desc');
   const assessmentsGroupedByCourse = _.groupBy(assessmentsFromDb,
     (assessment) => assessment.courseId);
   const lastAssessmentsForEachCourse = _.map(assessmentsGroupedByCourse, _.head);
@@ -50,8 +59,27 @@ async function _findAnswersForMigration( assessmentsId) {
   return knex.select('id', 'result', 'assessmentId', 'createdAt', 'challengeId').from('answers').whereIn('assessmentId', assessmentsId).orderBy('createdAt', 'asc');
 }
 
-async function _createKnowledgeElements( knowledgeElements) {
-  return knex('knowledge-elements').insert(knowledgeElements);
+async function _createKnowledgeElements({ knowledgeElementsToCreate, numberOfCurrentAssessment, numberOfCurrentAnswers, userId }) {
+  return knex.transaction(function(trx) {
+    return trx
+      .insert(knowledgeElementsToCreate)
+      .into('knowledge-elements')
+      .then(async function() {
+        const assessments = await _getAssessmentsForUser(userId);
+        const answers = await _findAnswersForMigration(assessments);
+        if(assessments.length != numberOfCurrentAssessment || answers.length != numberOfCurrentAnswers) {
+          throw "User still use v1";
+        }
+      });
+    })
+    .then(()=> {
+      return true;
+    })
+    .catch(function(error) {
+      console.error(error);
+      return false;
+    });
+
 }
 
 function _createKnowledgeElementObject(answer, userId, status, skillInformation) {
