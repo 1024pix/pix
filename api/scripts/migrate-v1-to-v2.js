@@ -2,9 +2,9 @@
 /* eslint no-console: ["off"] */
 const _ = require('lodash');
 const findKnowledgeElementsToAdd = require('./extract-challenge-with-skills.js');
-const cron = require('node-cron');
 const { knex } = require('../db/knex-database-connection');
 const bluebird = require('bluebird');
+const logger = require('../lib/infrastructure/logger');
 
 
 async function migration() {
@@ -25,12 +25,16 @@ async function migration() {
 }
 
 async function _findUsers() {
-  const usersId = await knex('users').select('id').where('isprofilv2', false).orderBy('createdAt', 'asc').limit(process.env.MAX_USERS_MIGRATE);
+  const usersId = await knex('users').select('id').where('isProfileV2', false).orderBy('createdAt', 'asc').limit(process.env.MAX_USERS_MIGRATE);
   return _.map(usersId, 'id');
 }
 
 async function _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd) {
-  console.log('BEGIN FOR USER ' + userId);
+  const logContext = {
+    userId,
+    action: 'migrationv1v2',
+  };
+  logger.trace(logContext, 'Start migration');
   let knowledgeElementsToCreate = [];
   let migrationOk = true;
   await _setProfileV2atTrue(userId);
@@ -38,18 +42,19 @@ async function _createKnowledgeElementsForUser( userId, challengesWithKnowledgeE
   if(assessmentsId.length>0) {
     const answersForMigration = await _findAnswersForMigration(assessmentsId);
     if (answersForMigration.length > 0) {
+      logger.trace(logContext, `Answers migrated : ${_.map(answersForMigration,'id')}.`);
       const knowledgeElementsForEachAnswers = _createKnowledgeElementObjects(answersForMigration, challengesWithKnowledgeElementsToAdd, userId);
       knowledgeElementsToCreate = _.compact(_.uniqBy(_.flatten(knowledgeElementsForEachAnswers), 'skillId'));
-      migrationOk = await _createKnowledgeElements({ knowledgeElementsToCreate });
+      migrationOk = await _createKnowledgeElements({ knowledgeElementsToCreate, logContext });
     }
   }
   if(migrationOk) {
     await _indicatedDateOfMigration(userId);
-    console.log(`END FOR USER ${userId} : STATUS : OK, KE : ${knowledgeElementsToCreate.length}.`);
+    logger.trace(logContext, `END FOR USER ${userId} : STATUS : OK, KE : ${knowledgeElementsToCreate.length}.`);
     return 1;
   } else {
     await _setProfileV2atFalse(userId);
-    console.log(`END FOR USER ${userId} : STATUS : NOT MIGRATED, KE : ${knowledgeElementsToCreate.length}.`);
+    logger.trace(logContext, `END FOR USER ${userId} : STATUS : NOT MIGRATED, KE : ${knowledgeElementsToCreate.length}.`);
     return 0;
   }
 }
@@ -66,7 +71,7 @@ async function _findAnswersForMigration( assessmentsId) {
   return knex.select('id', 'result', 'assessmentId', 'createdAt', 'challengeId').from('answers').whereIn('assessmentId', assessmentsId).orderBy('createdAt', 'asc');
 }
 
-async function _createKnowledgeElements({ knowledgeElementsToCreate }) {
+async function _createKnowledgeElements({ knowledgeElementsToCreate, logContext }) {
   return knex.transaction(function(trx) {
     return trx
       .insert(knowledgeElementsToCreate)
@@ -74,7 +79,7 @@ async function _createKnowledgeElements({ knowledgeElementsToCreate }) {
   }).then(()=> {
     return true;
   }).catch(function(error) {
-    console.error(error);
+    logger.trace(logContext, `Error : ${error}.`);
     return false;
   });
 
@@ -95,11 +100,11 @@ function _createKnowledgeElementObject(answer, userId, status, skillInformation)
 }
 
 async function _setProfileV2atTrue(userId) {
-  return knex('users').where('id', userId).update('isprofilv2', true);
+  return knex('users').where('id', userId).update('isProfileV2', true);
 }
 
 async function _setProfileV2atFalse(userId) {
-  return knex('users').where('id', userId).update('isprofilv2', false);
+  return knex('users').where('id', userId).update('isProfileV2', false);
 }
 
 async function _indicatedDateOfMigration(userId) {
