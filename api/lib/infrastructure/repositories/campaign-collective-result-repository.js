@@ -66,13 +66,13 @@ function _extractParticipantsKEs(sharedParticipations, targetedSkillIds) {
     const filteredKEs = participation
       .related('user')
       .related('knowledgeElements')
-      .filter((ke) => ke.isValidated()
-        && ke.isCoveredByTargetProfile(targetedSkillIds)
+      .filter((ke) => ke.isCoveredByTargetProfile(targetedSkillIds)
         && ke.wasCreatedBefore(participation.get('sharedAt'))
       );
 
     const sortedByDateKEs = _.orderBy(filteredKEs, ((ke) => ke.get('createdAt')), 'desc');
-    return _.uniqBy(sortedByDateKEs, ((ke) => ke.get('skillId')));
+    const uniqueBySkillIdKEs = _.uniqBy(sortedByDateKEs, ((ke) => ke.get('skillId')));
+    return _.filter(uniqueBySkillIdKEs, ((ke) => ke.isValidated()));
   });
 }
 

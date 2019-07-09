@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | subscribers', function() {
+describe('Unit | Adapters | user', function() {
   setupTest();
 
   describe('#queryRecord', () => {

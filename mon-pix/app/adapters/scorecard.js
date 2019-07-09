@@ -9,5 +9,15 @@ export default ApplicationAdapter.extend({
     }
 
     return this._super(...arguments);
-  }
+  },
+
+  updateRecord(store, type, snapshot) {
+    if (snapshot.adapterOptions.resetCompetence) {
+      const url = this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord');
+
+      return this.ajax(url, 'POST');
+    }
+
+    return this._super(...arguments);
+  },
 });

@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.52.0 (09/07/2019)
+
+- [#584](https://github.com/1024pix/pix/pull/584) [FEATURE] Assigner le rôle Responsable au premier membre d'une organisation, Membre aux autres. (PA-95).
+- [#601](https://github.com/1024pix/pix/pull/601) [BUGFIX] Corrige le démarrage des certifications.
+- [#588](https://github.com/1024pix/pix/pull/588) [BUGFIX] Parsing des externalId dans l'export des résultats d'une certif (PA-97).
+- [#599](https://github.com/1024pix/pix/pull/599) [BUGFIX] Correction de la faute de frappe du nom de la colonne.
+- [#595](https://github.com/1024pix/pix/pull/595) [BUGFIX] Re-ordonne les migrations pour leurs permettre de se jouer.
+- [#589](https://github.com/1024pix/pix/pull/589) [BUGFIX] Sortir les résultats collectifs avec les bonnes statistiques (PO-214).
+- [#587](https://github.com/1024pix/pix/pull/587) [BUGFIX] La remise à zéro plante lors de la 2e raz (PF-740).
+- [#563](https://github.com/1024pix/pix/pull/563) [TECH] Supprime la bascule FT_USE_ONLY_V1_CERTIFICATION.
+- [#593](https://github.com/1024pix/pix/pull/593) [TECH] Ajout d'un script pour créer une nouvelle migration.
+- [#581](https://github.com/1024pix/pix/pull/581) [TECH] Remaniement des tests d'intégration de user-repository.
+
 ## v2.51.1 (03/07/2019)
 
 - [#573](https://github.com/1024pix/pix/pull/573) [BUGFIX] Vider et replier le feedback_panel après avoir envoyé le commentaire (PF-708).

@@ -12,7 +12,6 @@ module.exports = {
   buildCompetenceMark: require('./build-competence-mark'),
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildOrganization: require('./build-organization'),
-  buildOrganizationRole: require('./build-organization-role'),
   buildMembership: require('./build-membership'),
   buildPixRole: require('./build-pix-role'),
   buildSnapshot: require('./build-snapshot'),

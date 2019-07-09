@@ -13,16 +13,16 @@ describe('Acceptance | Controller | target-profile-controller', () => {
 
     context('when user is authenticated', () => {
 
-      let connectedUser;
-      let linkedOrganization;
+      let connectedUserId;
+      let linkedOrganizationId;
 
-      const connectedUserId = 1;
       beforeEach(async () => {
-        connectedUser = databaseBuilder.factory.buildUser({ id: connectedUserId });
-        linkedOrganization = databaseBuilder.factory.buildOrganization();
+        connectedUserId = databaseBuilder.factory.buildUser().id;
+        linkedOrganizationId = databaseBuilder.factory.buildOrganization().id;
+
         databaseBuilder.factory.buildMembership({
-          userId: connectedUser.id,
-          organizationId: linkedOrganization.id
+          userId: connectedUserId,
+          organizationId: linkedOrganizationId,
         });
 
         await databaseBuilder.commit();
@@ -32,26 +32,24 @@ describe('Acceptance | Controller | target-profile-controller', () => {
         await databaseBuilder.clean();
       });
 
-      it('should return 200', () => {
+      it('should return 200', async () => {
         const options = {
           method: 'GET',
-          url: `/api/organizations/${linkedOrganization.id}/target-profiles`,
+          url: `/api/organizations/${linkedOrganizationId}/target-profiles`,
           headers: { authorization: generateValidRequestAuhorizationHeader(connectedUserId) },
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
       });
     });
 
     context('when user is not authenticated', () => {
 
-      it('should return 401', () => {
+      it('should return 401', async () => {
         const options = {
           method: 'GET',
           url: '/api/organizations/1/target-profiles',
@@ -59,12 +57,10 @@ describe('Acceptance | Controller | target-profile-controller', () => {
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
       });
     });
   });

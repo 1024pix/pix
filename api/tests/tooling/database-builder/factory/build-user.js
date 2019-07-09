@@ -1,10 +1,10 @@
 const faker = require('faker');
 const databaseBuffer = require('../database-buffer');
+const Membership = require('../../../../lib/domain/models/Membership');
 const encrypt = require('../../../../lib/domain/services/encryption-service');
 const buildPixRole = require('./build-pix-role');
 const buildUserPixRole = require('./build-user-pix-role');
 const buildOrganization = require('./build-organization');
-const buildOrganizationRole = require('./build-organization-role');
 const buildMembership = require('./build-membership');
 const _ = require('lodash');
 
@@ -15,10 +15,11 @@ const buildUser = function buildUser({
   email = faker.internet.exampleEmail().toLowerCase(),
   password = encrypt.hashPasswordSync(faker.internet.password()),
   cgu = true,
+  samlId,
 } = {}) {
 
   const values = {
-    id, firstName, lastName, email, password, cgu,
+    id, firstName, lastName, email, password, cgu, samlId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -34,12 +35,13 @@ buildUser.withUnencryptedPassword = function buildUserWithUnencryptedPassword({
   email = faker.internet.email(),
   rawPassword = faker.internet.password(),
   cgu = true,
+  samlId,
 }) {
 
   const password = encrypt.hashPasswordSync(rawPassword);
 
   const values = {
-    id, firstName, lastName, email, password, cgu,
+    id, firstName, lastName, email, password, cgu, samlId,
   };
 
   return databaseBuffer.pushInsertable({
@@ -80,8 +82,8 @@ buildUser.withMembership = function buildUserWithMemberships({
   email = faker.internet.email(),
   password = 'encrypt.hashPasswordSync(faker.internet.password())',
   cgu = true,
+  organizationRole = Membership.roles.OWNER,
   organizationId = null,
-  organizationRoleId = null
 } = {}) {
 
   const values = {
@@ -89,7 +91,6 @@ buildUser.withMembership = function buildUserWithMemberships({
   };
 
   organizationId = _.isNil(organizationId) ? buildOrganization({ name: faker.companyName() }).id : organizationId;
-  organizationRoleId = _.isNil(organizationRoleId) ? buildOrganizationRole({ name: 'ADMIN' }).id : organizationRoleId;
 
   const user = databaseBuffer.pushInsertable({
     tableName: 'users',
@@ -99,7 +100,7 @@ buildUser.withMembership = function buildUserWithMemberships({
   buildMembership({
     userId: user.id,
     organizationId,
-    organizationRoleId
+    organizationRole,
   });
 
   return user;

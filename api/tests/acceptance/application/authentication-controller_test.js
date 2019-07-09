@@ -7,7 +7,7 @@ const querystring = require('querystring');
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('./../../../lib/settings');
 const encrypt = require('../../../lib/domain/services/encryption-service');
-
+const Membership = require('../../../lib/domain/models/Membership');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | authentication-controller', () => {
@@ -40,7 +40,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   afterEach(() => {
     return knex('memberships').delete()
-      .then(() => knex('organization-roles').delete())
       .then(() => knex('organizations').delete())
       .then(() => knex('users').delete());
   });
@@ -112,27 +111,22 @@ describe('Acceptance | Controller | authentication-controller', () => {
         name: 'Mon Entreprise',
         code: 'ABCD12'
       };
-      const organizationRole = {
-        name: 'ADMIN'
-      };
 
-      return Promise.all([
-        knex('organizations').insert(organization).returning('id'),
-        knex('organization-roles').insert(organizationRole).returning('id'),
-      ])
-        .then(([[organizationId], [organizationRoleId]]) => {
-          return {
-            userId,
-            organizationId,
-            organizationRoleId,
-          };
-        })
-        .then((membership) => knex('memberships').insert(membership));
+      return knex('organizations')
+        .insert(organization)
+        .returning('id')
+        .then(([organizationId]) => {
+          return knex('memberships')
+            .insert({
+              userId,
+              organizationId,
+              organizationRole: Membership.roles.OWNER,
+            });
+        });
     });
 
     afterEach(() => {
       return knex('memberships').delete()
-        .then(() => knex('organization-roles').delete())
         .then(() => knex('organizations').delete())
         .then(() => knex('users').delete());
     });

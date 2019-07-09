@@ -96,9 +96,8 @@ module.exports = {
         require: true,
         withRelated: [
           'memberships.user',
-          'memberships.organizationRole',
-          'targetProfileShares.targetProfile'
-        ]
+          'targetProfileShares.targetProfile',
+        ],
       })
       .then(_toDomain)
       .catch((err) => {

@@ -37,11 +37,6 @@ module.exports = {
           }
         }
       },
-      organizationRole: {
-        ref: 'id',
-        included: true,
-        attributes: ['name']
-      },
       user: {
         ref: 'id',
         included: true,
@@ -50,4 +45,3 @@ module.exports = {
     }).serialize(membership);
   }
 };
-

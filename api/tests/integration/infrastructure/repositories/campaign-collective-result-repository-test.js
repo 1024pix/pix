@@ -29,6 +29,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
       { competence: { id: 'recCompetenceC', titre: 'Competence C', sousDomaine: '1.3' }, skillIds: ['recMedia1', 'recMedia2'] },
       { competence: { id: 'recCompetenceD', titre: 'Competence D', sousDomaine: '2.1' }, skillIds: ['recAlgo1', 'recAlgo2'] },
       { competence: { id: 'recCompetenceE', titre: 'Competence E', sousDomaine: '2.2' }, skillIds: ['recBrowser1'] },
+      { competence: { id: 'recCompetenceF', titre: 'Competence F', sousDomaine: '2.3' }, skillIds: ['recComputer1'] },
 
     ], ({ competence, skillIds }) => {
       competences.push(airtableBuilder.factory.buildCompetence(competence));
@@ -70,7 +71,8 @@ describe('Integration | Repository | Service | Campaign collective result reposi
       let url1Id, url2Id, url3Id, // comp. A
         file2Id, file3Id, file5Id, text1Id, // comp. B
         media1Id, media2Id, // comp. C
-        algo1Id, algo2Id; // comp. D
+        algo1Id, algo2Id, // comp. D
+        computer1Id; // comp. F
 
       let defaultCampaignCollectiveResult;
 
@@ -102,6 +104,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         // Competence E - competence E is targeted by campaign but nobody validated its skills
         databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recBrowser1' });
+
+        // Competence F - skill is validated and then invalidated
+        computer1Id = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recComputer1' }).skillId;
 
         defaultCampaignCollectiveResult = Object.freeze(domainBuilder.buildCampaignCollectiveResult({
           id: campaignId,
@@ -137,6 +142,14 @@ describe('Integration | Repository | Service | Campaign collective result reposi
               competenceName: 'Competence E',
               competenceIndex: '2.2',
               totalSkillsCount: 1,
+            },
+            {
+              averageValidatedSkills: 0,
+              campaignId,
+              competenceId: 'recCompetenceF',
+              competenceName: 'Competence F',
+              competenceIndex: '2.3',
+              totalSkillsCount: 1,
             }
           ],
         }
@@ -157,6 +170,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
           expect(result.id).to.equal(defaultCampaignCollectiveResult.id);
           expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(defaultCampaignCollectiveResult.campaignCompetenceCollectiveResults);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(defaultCampaignCollectiveResult.campaignCompetenceCollectiveResults);
         });
       });
 
@@ -185,12 +199,14 @@ describe('Integration | Repository | Service | Campaign collective result reposi
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
           expect(result.id).to.equal(defaultCampaignCollectiveResult.id);
           expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(defaultCampaignCollectiveResult.campaignCompetenceCollectiveResults);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(defaultCampaignCollectiveResult.campaignCompetenceCollectiveResults);
         });
       });
 
       context('when there is a single participant who shared its contribution', () => {
 
         beforeEach(async () => {
+          const longTimeAgo = new Date('2018-01-01');
           const beforeCampaignParticipationShareDate = new Date('2019-01-01');
           const userWithCampaignParticipationFred = _createUserWithCampaignParticipation('Fred', campaignId, new Date());
           const fredId = userWithCampaignParticipationFred.userId;
@@ -204,6 +220,8 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             { userId: fredId, competenceId: 'recCompetenceB', skillId: file5Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: fredId, competenceId: 'recCompetenceB', skillId: text1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: fredId, competenceId: 'recCompetenceC', skillId: media1Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, competenceId: 'recCompetenceF', skillId: computer1Id, status: 'validated', campaignId, createdAt: longTimeAgo },
+            { userId: fredId, competenceId: 'recCompetenceF', skillId: computer1Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
 
           ], (knownledgeElement) => {
             databaseBuilder.factory.buildKnowledgeElement(knownledgeElement);
@@ -248,6 +266,14 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence E',
                 competenceIndex: '2.2',
                 totalSkillsCount: 1,
+              },
+              {
+                averageValidatedSkills: 0,
+                campaignId,
+                competenceId: 'recCompetenceF',
+                competenceName: 'Competence F',
+                competenceIndex: '2.3',
+                totalSkillsCount: 1,
               }
             ],
           };
@@ -259,6 +285,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
           expect(result.id).to.equal(expectedResult.id);
           expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(expectedResult.campaignCompetenceCollectiveResults);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(expectedResult.campaignCompetenceCollectiveResults);
         });
       });
 
@@ -266,6 +293,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
         beforeEach(async () => {
 
+          const longTimeAgo = new Date('2018-01-01');
           const campaignParticipationShareDate = new Date('2019-03-01');
           const beforeBeforeCampaignParticipationShareDate = new Date('2019-01-01');
           const beforeCampaignParticipationShareDate = new Date('2019-02-01');
@@ -309,6 +337,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
             { userId: aliceId, competenceId: 'recCompetenceD', skillId: algo1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: aliceId, competenceId: 'recCompetenceD', skillId: algo2Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
 
+            { userId: aliceId, competenceId: 'recCompetenceF', skillId: computer1Id, status: 'validated', campaignId, createdAt: longTimeAgo },
+            { userId: aliceId, competenceId: 'recCompetenceF', skillId: computer1Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+
             // Bob
             { userId: bobId, competenceId: 'recCompetenceA', skillId: url1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: bobId, competenceId: 'recCompetenceA', skillId: url2Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
@@ -323,6 +354,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
             { userId: bobId, competenceId: 'recCompetenceC', skillId: media1Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
 
+            { userId: bobId, competenceId: 'recCompetenceF', skillId: computer1Id, status: 'invalidated', campaignId, createdAt: longTimeAgo },
+            { userId: bobId, competenceId: 'recCompetenceF', skillId: computer1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+
             // Charlie
             { userId: charlieId, competenceId: 'recCompetenceA', skillId: url1Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: charlieId, competenceId: 'recCompetenceA', skillId: url2Id, status: 'invalidated', campaignId, createdAt: beforeCampaignParticipationShareDate },
@@ -335,6 +369,9 @@ describe('Integration | Repository | Service | Campaign collective result reposi
 
             { userId: charlieId, competenceId: 'recCompetenceC', skillId: media1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
             { userId: charlieId, competenceId: 'recCompetenceC', skillId: media2Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+
+            { userId: charlieId, competenceId: 'recCompetenceF', skillId: computer1Id, status: 'validated', campaignId, createdAt: longTimeAgo },
+            { userId: charlieId, competenceId: 'recCompetenceF', skillId: computer1Id, status: 'invalidated', campaignId, createdAt: afterCampaignParticipationShareDate },
 
             // Dan
             { userId: danId, competenceId: 'recCompetenceA', skillId: url1Id, status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
@@ -390,6 +427,14 @@ describe('Integration | Repository | Service | Campaign collective result reposi
                 competenceName: 'Competence E',
                 competenceIndex: '2.2',
                 totalSkillsCount: 1,
+              },
+              {
+                averageValidatedSkills: 2 / 3,
+                campaignId,
+                competenceId: 'recCompetenceF',
+                competenceName: 'Competence F',
+                competenceIndex: '2.3',
+                totalSkillsCount: 1,
               }
             ],
           };
@@ -401,6 +446,7 @@ describe('Integration | Repository | Service | Campaign collective result reposi
           expect(result).to.be.an.instanceof(CampaignCollectiveResult);
           expect(result.id).to.equal(expectedResult.id);
           expect(result.campaignCompetenceCollectiveResults).to.deep.include.ordered.members(expectedResult.campaignCompetenceCollectiveResults);
+          expect(result.campaignCompetenceCollectiveResults).to.deep.equal(expectedResult.campaignCompetenceCollectiveResults);
         });
       });
 

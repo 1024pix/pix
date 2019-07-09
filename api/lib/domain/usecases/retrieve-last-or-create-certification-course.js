@@ -10,49 +10,45 @@ function _canStartACertification(userCompetences) {
   return _.size(competencesWithEstimatedLevelHigherThan0) >= 5;
 }
 
-function _selectProfileToCertify(userCompetencesProfilV1, userCompetencesProfilV2) {
-  const canStartACertificationOnProfileV2 = _canStartACertification(userCompetencesProfilV2);
-  const canStartACertificationOnProfileV1 = _canStartACertification(userCompetencesProfilV1);
+function _selectProfileToCertify(userCompetencesProfileV1, userCompetencesProfileV2) {
+  const canStartACertificationOnProfileV2 = _canStartACertification(userCompetencesProfileV2);
+  const canStartACertificationOnProfileV1 = _canStartACertification(userCompetencesProfileV1);
 
   if (!canStartACertificationOnProfileV1 && !canStartACertificationOnProfileV2) {
     return null;
   }
 
   else if (canStartACertificationOnProfileV1 && !canStartACertificationOnProfileV2) {
-    return userCompetencesProfilV1;
+    return userCompetencesProfileV1;
   }
 
   else if (!canStartACertificationOnProfileV1 && canStartACertificationOnProfileV2) {
-    return userCompetencesProfilV2;
+    return userCompetencesProfileV2;
   }
 
   else {
-    const pixScoreProfilV1 = _.sumBy(userCompetencesProfilV1, 'pixScore');
-    const pixScoreProfilV2 = _.sumBy(userCompetencesProfilV2, 'pixScore');
+    const pixScoreProfileV1 = _.sumBy(userCompetencesProfileV1, 'pixScore');
+    const pixScoreProfileV2 = _.sumBy(userCompetencesProfileV2, 'pixScore');
 
-    if (pixScoreProfilV1 >= pixScoreProfilV2) return userCompetencesProfilV1;
+    if (pixScoreProfileV1 >= pixScoreProfileV2) return userCompetencesProfileV1;
 
-    return userCompetencesProfilV2;
+    return userCompetencesProfileV2;
   }
 }
 
 async function _startNewCertification({
   userId,
   sessionId,
-  isCertificationV2Active,
   userService,
   certificationChallengesService,
   certificationCourseRepository
 }) {
-  const userCompetencesProfileV1 = await userService.getProfileToCertifyV1({ userId, limitDate: new Date() });
 
-  let userCompetencesProfileV2;
-  if (isCertificationV2Active) {
-    userCompetencesProfileV2 = await userService.getProfileToCertifyV2({ userId, limitDate: new Date() });
-  }
-  else {
-    userCompetencesProfileV2 = [];
-  }
+  const now = new Date();
+  const [userCompetencesProfileV1, userCompetencesProfileV2] = await Promise.all([
+    userService.getProfileToCertifyV1({ userId, limitDate: now }),
+    userService.getProfileToCertifyV2({ userId, limitDate: now }),
+  ]);
 
   const userCompetencesToCertify = _selectProfileToCertify(userCompetencesProfileV1, userCompetencesProfileV2);
   if (!userCompetencesToCertify) {
@@ -69,7 +65,6 @@ async function _startNewCertification({
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   accessCode,
   userId,
-  settings,
   sessionService,
   userService,
   certificationChallengesService,
@@ -81,11 +76,9 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   if (_.size(certificationCourses) > 0) {
     return { created: false, certificationCourse: certificationCourses[0] };
   } else {
-    const isCertificationV2Active = settings.features.isCertificationV2Active;
     const certificationCourse = await _startNewCertification({
       userId,
       sessionId,
-      isCertificationV2Active,
       userService,
       certificationChallengesService,
       certificationCourseRepository
