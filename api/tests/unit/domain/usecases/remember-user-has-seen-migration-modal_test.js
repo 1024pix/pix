@@ -1,8 +1,8 @@
 const { expect, sinon } = require('../../../test-helper');
-const updateUserHasSeenMigrationModal = require('../../../../lib/domain/usecases/update-user-has-seen-migration-modal');
+const rememberUserHasSeenMigrationModal = require('../../../../lib/domain/usecases/remember-user-has-seen-migration-modal');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | UseCase | update-user-has-seen-migration-modal', () => {
+describe('Unit | UseCase | remember-user-has-seen-migration-modal', () => {
 
   beforeEach(() => {
     sinon.stub(userRepository, 'get');
@@ -16,7 +16,7 @@ describe('Unit | UseCase | update-user-has-seen-migration-modal', () => {
     userRepository.updateUser.withArgs({ id: 1, hasSeenMigrationModal: true }).resolves('ok');
 
     // when
-    const result = await updateUserHasSeenMigrationModal({ userId, userRepository });
+    const result = await rememberUserHasSeenMigrationModal({ userId, userRepository });
 
     // then
     expect(result).to.be.equal('ok');

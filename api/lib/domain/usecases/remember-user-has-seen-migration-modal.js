@@ -1,4 +1,4 @@
-module.exports = async function updateUserHasSeenMigrationModal({
+module.exports = async function rememberUserHasSeenMigrationModal({
   userId,
   userRepository
 }) {
