@@ -109,6 +109,7 @@ module.exports = injectDependencies({
   getUserWithMemberships: require('./get-user-with-memberships'),
   preloadCacheEntries: require('./preload-cache-entries'),
   reloadCacheEntry: require('./reload-cache-entry'),
+  rememberUserHasSeenMigrationModal: require('./remember-user-has-seen-migration-modal'),
   removeAllCacheEntries: require('./remove-all-cache-entries'),
   resetScorecard: require('./reset-scorecard'),
   retrieveLastOrCreateCertificationCourse : require('./retrieve-last-or-create-certification-course'),
@@ -121,7 +122,6 @@ module.exports = injectDependencies({
   updateCertification: require('./update-certification'),
   updateOrganizationInformation: require('./update-organization-information'),
   updateSession: require('./update-session'),
-  updateUserHasSeenMigrationModal: require('./update-user-has-seen-migration-modal'),
   updateUserPassword: require('./update-user-password'),
   writeOrganizationSharedProfilesAsCsvToStream: require('./write-organization-shared-profiles-as-csv-to-stream'),
 });

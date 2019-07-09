@@ -82,7 +82,7 @@ module.exports = {
           });
         }
         if (user.hasSeenMigrationModal) {
-          return usecases.updateUserHasSeenMigrationModal({
+          return usecases.rememberUserHasSeenMigrationModal({
             userId
           });
         }
