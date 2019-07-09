@@ -58,7 +58,7 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendResetPasswordDemandEmail', () => {
+  describe('#sendPasswordResetDemandEmail', () => {
 
     let sendEmailStub;
 
@@ -68,7 +68,7 @@ describe('Unit | Service | MailService', () => {
 
     it('should be a function', () => {
       // then
-      expect(mailService.sendResetPasswordDemandEmail).to.be.a('function');
+      expect(mailService.sendPasswordResetDemandEmail).to.be.a('function');
     });
 
     describe('when provided passwordResetDemandBaseUrl is not production', () => {
@@ -79,7 +79,7 @@ describe('Unit | Service | MailService', () => {
         const passwordResetDemandBaseUrl = 'http://dev.pix.fr';
 
         // when
-        const promise = mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseUrl, fakeTemporaryKey);
+        const promise = mailService.sendPasswordResetDemandEmail(email, fakeTemporaryKey, passwordResetDemandBaseUrl);
 
         // then
         return promise.then(() => {

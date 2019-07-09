@@ -20,19 +20,21 @@ function sendWelcomeEmail(email) {
   });
 }
 
-function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
+function sendPasswordResetDemandEmail(email, temporaryKey, baseUrl) {
   return mailJet.sendEmail({
     to: email,
     template: RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Demande de réinitialisation de mot de passe PIX',
-    variables: { resetUrl: `${baseUrl}/changer-mot-de-passe/${temporaryKey}` }
+    variables: {
+      resetUrl: `${baseUrl}/changer-mot-de-passe/${temporaryKey}`,
+    },
   });
 }
 
 module.exports = {
   sendAccountCreationEmail,
   sendWelcomeEmail,
-  sendResetPasswordDemandEmail
+  sendPasswordResetDemandEmail
 };
