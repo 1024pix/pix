@@ -6,6 +6,7 @@ import {
   currentSession
 } from 'ember-simple-auth/test-support';
 import {
+  createUserMembershipWithRole,
   createUserWithMembership,
   createUserWithMembershipAndTermsOfServiceAccepted
 } from '../helpers/test-init';
@@ -147,7 +148,62 @@ module('Acceptance | authentication', function(hooks) {
       // then
       assert.equal(currentURL(), '/campagnes');
     });
+  });
 
+  module('When user is authenticated and is MEMBER', function() {
+
+    test('should not display team menu', async function(assert) {
+      // given
+      user = createUserMembershipWithRole('MEMBER');
+      await authenticateSession({
+        user_id: user.id,
+      });
+
+      // when
+      await visit('/');
+
+      // then
+      assert.dom('.sidebar-menu a').exists({ count: 1 });
+      assert.dom('.sidebar-menu a').hasText('Campagnes');
+      assert.dom('.sidebar-menu a').hasClass('active');
+    });
+  });
+
+  module('When user is authenticated and is OWNER', function() {
+
+    test('should display team menu', async function(assert) {
+      // given
+      user = createUserMembershipWithRole('OWNER');
+      await authenticateSession({
+        user_id: user.id,
+      });
+
+      // when
+      await visit('/');
+
+      // then
+      assert.dom('.sidebar-menu a').exists({ count: 2 });
+      assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+      assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
+      assert.dom('.sidebar-menu a:first-child').hasClass('active');
+    });
+
+    test('should redirect to team page', async function(assert) {
+      // given
+      user = createUserMembershipWithRole('OWNER');
+      await authenticateSession({
+        user_id: user.id,
+      });
+      await visit('/');
+
+      // when
+      await click('.sidebar-menu a:nth-child(2)');
+
+      // then
+      assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
+      assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
+      assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+    });
   });
 
 });
