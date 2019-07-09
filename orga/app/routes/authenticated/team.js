@@ -3,9 +3,9 @@ import { inject as service } from '@ember/service';
 
 export default Route.extend({
 
-  currentOrganization: service(),
+  currentUser: service(),
 
   model() {
-    return this.currentOrganization.organization;
+    return this.currentUser.organization;
   },
 });

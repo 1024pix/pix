@@ -1,25 +1,30 @@
-import Service, { inject as service } from '@ember/service';
-import { isEmpty } from '@ember/utils';
-import { computed } from '@ember/object';
-import { resolve } from 'rsvp';
+import Service from '@ember/service';
+import { inject as service } from '@ember/service';
+import _ from 'lodash';
 
 export default Service.extend({
 
   session: service(),
   store: service(),
 
-  user: computed(function() {
-    return this._userPromise;
-  }).readOnly(),
+  async load() {
+    if (this.get('session.isAuthenticated')) {
+      try {
+        const userId = this.get('session.data.authenticated.user_id');
+        const user = await this.store.findRecord('user', userId);
+        const userMemberships = await user.get('memberships');
+        const userMembership = await userMemberships.get('firstObject');
+        const organization = await userMembership.organization;
+        const isOwnerInOrganization = userMembership.isOwner;
 
-  load() {
-    const userId = this.get('session.data.authenticated.user_id');
-
-    if (isEmpty(userId)) {
-      return resolve();
+        this.set('user', user);
+        this.set('organization', organization);
+        this.set('isOwnerInOrganization', isOwnerInOrganization);
+      } catch (error) {
+        if (_.get(error, 'errors[0].code') === 401) {
+          return this.session.invalidate();
+        }
+      }
     }
-
-    return this._userPromise = this.store.findRecord('user', userId);
   }
-
 });

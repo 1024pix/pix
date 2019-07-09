@@ -5,15 +5,13 @@ import RSVP from 'rsvp';
 export default Route.extend({
 
   store: service(),
-  currentOrganization: service(),
+  currentUser: service(),
 
   model() {
-    return this.currentOrganization.organization
-      .then((organization) => {
-        return RSVP.hash({
-          campaign: this.store.createRecord('campaign', { organizationId: organization.get('id') }),
-          targetProfiles: organization.get('targetProfiles')
-        });
-      });
+    const organization = this.currentUser.organization;
+    return RSVP.hash({
+      campaign: this.store.createRecord('campaign', { organizationId: organization.get('id') }),
+      targetProfiles: organization.get('targetProfiles')
+    });
   }
 });
