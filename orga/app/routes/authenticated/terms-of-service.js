@@ -12,11 +12,8 @@ export default Route.extend({
   },
 
   beforeModel() {
-    this.currentUser.load()
-      .then((user) => {
-        if (user.pixOrgaTermsOfServiceAccepted) {
-          return this.transitionTo('authenticated.campaigns.list');
-        }
-      });
+    if (this.currentUser.user.pixOrgaTermsOfServiceAccepted) {
+      return this.transitionTo('authenticated.campaigns.list');
+    }
   }
 });
