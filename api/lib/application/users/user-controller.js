@@ -64,12 +64,6 @@ module.exports = {
     return Promise.resolve(request.payload)
       .then(userSerializer.deserialize)
       .then((user) => {
-        if (user.password) {
-          return usecases.updateUserPassword({
-            userId,
-            password: user.password
-          });
-        }
         if (user.pixOrgaTermsOfServiceAccepted) {
           return usecases.acceptPixOrgaTermsOfService({
             userId

@@ -1,6 +1,5 @@
 const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
-const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const User = require('../../../../lib/domain/models/User');
 const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 
@@ -10,7 +9,6 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const userService = require('../../../../lib/domain/services/user-service');
 
 const usecases = require('../../../../lib/domain/usecases');
@@ -97,75 +95,6 @@ describe('Unit | Controller | user-controller', () => {
   });
 
   describe('#updateUser', () => {
-
-    context('When payload is good (with a payload and a password attribute)', () => {
-      const request = {
-        params: {
-          id: 7,
-        },
-        payload: {
-          data: {
-            attributes: {
-              password: 'Pix2017!',
-            },
-          },
-        },
-      };
-      const user = new BookshelfUser({
-        id: 7,
-        email: 'maryz@acme.xh',
-      });
-
-      beforeEach(() => {
-        sinon.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
-        sinon.stub(passwordResetService, 'invalidOldResetPasswordDemand');
-        sinon.stub(validationErrorSerializer, 'serialize');
-        sinon.stub(userRepository, 'updatePassword');
-        sinon.stub(userRepository, 'findUserById').resolves(user);
-        sinon.stub(encryptionService, 'hashPassword');
-      });
-
-      it('should reply with no content', async () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        userRepository.updatePassword.resolves();
-        passwordResetService.invalidOldResetPasswordDemand.resolves();
-
-        // when
-        const response = await userController.updateUser(request, hFake);
-
-        // then
-        expect(response).to.be.null;
-      });
-    });
-
-    context('When payload has a password field', () => {
-      it('should update password', async () => {
-        // given
-        const userId = 7;
-        const password = 'PIX123$';
-        const request = {
-          params: {
-            id: userId,
-          },
-          payload: {
-            data: {
-              attributes: {
-                password,
-              },
-            },
-          },
-        };
-        const usecaseUpdateUserPasswordStub = sinon.stub(usecases, 'updateUserPassword');
-
-        // when
-        await userController.updateUser(request, hFake);
-
-        // then
-        expect(usecaseUpdateUserPasswordStub).to.have.been.calledWith({ userId, password });
-      });
-
-    });
 
     context('When payload has a pix-orga-terms-of-service-accepted field', () => {
 
