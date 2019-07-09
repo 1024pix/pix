@@ -253,7 +253,7 @@ describe('Unit | Controller | user-controller', () => {
 
     context('When payload has a hasSeenMigrationModal field', () => {
 
-      it('should update hasSeenMigrationModal', async () => {
+      it('should remember user has seen migration modal', async () => {
         // given
         const userId = 7;
         const request = {
@@ -268,7 +268,7 @@ describe('Unit | Controller | user-controller', () => {
             },
           },
         };
-        const usecaseStub = sinon.stub(usecases, 'updateUserHasSeenMigrationModal');
+        const usecaseStub = sinon.stub(usecases, 'rememberUserHasSeenMigrationModal');
 
         // when
         await userController.updateUser(request, hFake);
