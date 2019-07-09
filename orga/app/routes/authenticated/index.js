@@ -7,7 +7,7 @@ export default Route.extend({
 
   beforeModel() {
     if (this.currentUser.user.pixOrgaTermsOfServiceAccepted) {
-      return this.transitionTo('authenticated.campaigns.list');
+      return this.transitionTo('authenticated.campaigns');
     } else {
       return this.transitionTo('authenticated.terms-of-service');
     }

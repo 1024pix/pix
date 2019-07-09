@@ -88,7 +88,7 @@ module('Acceptance | authentication', function(hooks) {
       await click('button[type=submit]');
 
       // then
-      assert.equal(currentURL(), '/campagnes/liste');
+      assert.equal(currentURL(), '/campagnes');
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
 
@@ -145,7 +145,7 @@ module('Acceptance | authentication', function(hooks) {
       await visit('/');
 
       // then
-      assert.equal(currentURL(), '/campagnes/liste');
+      assert.equal(currentURL(), '/campagnes');
     });
 
   });

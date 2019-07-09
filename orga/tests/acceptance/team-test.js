@@ -39,7 +39,7 @@ module('Acceptance | Team', function(hooks) {
         await visit('/equipe');
 
         // then
-        assert.equal(currentURL(), '/campagnes/liste');
+        assert.equal(currentURL(), '/campagnes');
       });
     });
 

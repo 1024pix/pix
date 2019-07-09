@@ -73,7 +73,7 @@ module('Acceptance | terms-of-service', function(hooks) {
     await click('button[type=submit]');
 
     // then
-    assert.equal(currentURL(), '/campagnes/liste');
+    assert.equal(currentURL(), '/campagnes');
   });
 
   test('it should logout when user clicks on cancel button', async function(assert) {
@@ -107,6 +107,6 @@ module('Acceptance | terms-of-service', function(hooks) {
     await visit('/cgu');
 
     // then
-    assert.equal(currentURL(), '/campagnes/liste');
+    assert.equal(currentURL(), '/campagnes');
   });
 });
