@@ -2,46 +2,54 @@ import Component from '@ember/component';
 import isPasswordValid from '../utils/password-validator';
 import ENV from 'mon-pix/config/environment';
 
-const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
 const VALIDATION_MAP = {
   default: {
-    status: 'default', message: null
+    status: 'default',
+    message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
-};
-
-const SUBMISSION_MAP = {
-  default: {
-    status: 'default', message: null
+    status: 'error',
+    message: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
   },
-  error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
 };
 
 export default Component.extend({
-  _displaySuccessMessage: null,
-  validation: VALIDATION_MAP['default'],
+  displaySuccessMessage: false,
+  validation: VALIDATION_MAP.default,
+  errorMessage: null,
   urlHome: ENV.APP.HOME_HOST,
 
   actions: {
     validatePassword() {
-      const password = this.get('user.password');
-      const validationStatus = (isPasswordValid(password)) ? 'default' : 'error';
-      this.set('validation', VALIDATION_MAP[validationStatus]);
+      const password = this.passwordReset.password;
+      const status = isPasswordValid(password) ? 'default' : 'error';
+
+      this.set('validation', VALIDATION_MAP[status]);
     },
 
     handleResetPassword() {
-      this.set('_displaySuccessMessage', false);
-      return this.user.save()
+      this.set('displaySuccessMessage', false);
+      this.set('errorMessage', null);
+
+      return this.passwordReset.save()
         .then(() => {
-          this.set('validation', SUBMISSION_MAP['default']);
-          this.set('_displaySuccessMessage', true);
-          this.set('user.password', null);
+          this.set('validation', VALIDATION_MAP.default);
+          this.set('displaySuccessMessage', true);
         })
-        .catch(() => this.set('validation', SUBMISSION_MAP['error']));
+        .catch((data) => {
+          const error = data.errors[0];
+
+          // Password validation error
+          if (error.status === '422') {
+            return this.set('validation', {
+              status: 'error',
+              message: error.detail,
+            });
+          }
+
+          // Token validation error
+          this.set('errorMessage', 'Le lien que vous venez d\'utiliser n\'est plus valide. Merci de refaire une demande de réinitialisation de mot de passe.');
+        });
     }
   }
 });

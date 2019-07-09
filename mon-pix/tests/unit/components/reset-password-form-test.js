@@ -5,24 +5,15 @@ import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
-
 const VALIDATION_MAP = {
   default: {
-    status: 'default', message: null
+    status: 'default',
+    message: null,
   },
   error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
-};
-
-const SUBMISSION_MAP = {
-  default: {
-    status: 'default', message: null
+    status: 'error',
+    message: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
   },
-  error: {
-    status: 'error', message: ERROR_PASSWORD_MESSAGE
-  }
 };
 
 describe('Unit | Component | reset password form', function() {
@@ -38,48 +29,47 @@ describe('Unit | Component | reset password form', function() {
   describe('#validatePassword', () => {
 
     it('should set validation status to default, when component is rendered', function() {
-      expect(component.get('validation')).to.eql(VALIDATION_MAP['default']);
+      expect(component.get('validation')).to.eql(VALIDATION_MAP.default);
     });
 
     it('should set validation status to error, when there is an validation error on password field', function() {
       //given
-      const userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix' };
-      component.set('user', userWithBadPassword);
+      const passwordReset = { temporaryKey: 'key', password: 'Pix' };
+      component.set('passwordReset', passwordReset);
 
       // when
       component.send('validatePassword');
 
       // then
-      expect(component.get('validation')).to.eql(VALIDATION_MAP['error']);
+      expect(component.get('validation')).to.eql(VALIDATION_MAP.error);
     });
 
     it('should set validation status to success, when password is valid', function() {
       //given
-      const userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #' };
-      component.set('user', userWithGoodPassword);
+      const passwordReset = { temporaryKey: 'key', password: 'Pixou123' };
+      component.set('passwordReset', passwordReset);
 
       // when
       component.send('validatePassword');
 
       // then
-      expect(component.get('validation')).to.eql(VALIDATION_MAP['default']);
+      expect(component.get('validation')).to.eql(VALIDATION_MAP.default);
     });
 
   });
 
   describe('#handleResetPassword', () => {
 
-    const userWithGoodPassword = EmberObject.create({
-      firstName: 'toto',
-      lastName: 'riri',
-      password: 'Pix123 0 #',
-      save: () => resolve()
+    const passwordReset = EmberObject.create({
+      temporaryKey: 'key',
+      password: 'Pixou123',
+      save: () => resolve(),
     });
 
     describe('When user password is saved', () => {
       it('should update validation with success data', function() {
         // given
-        component.set('user', userWithGoodPassword);
+        component.set('passwordReset', passwordReset);
 
         // when
         run(() => {
@@ -87,12 +77,12 @@ describe('Unit | Component | reset password form', function() {
         });
 
         // then
-        expect(component.get('validation')).to.eql(SUBMISSION_MAP['default']);
+        expect(component.get('validation')).to.eql(VALIDATION_MAP.default);
       });
 
-      it('should update _displaySuccessMessage', function() {
+      it('should update displaySuccessMessage', function() {
         // given
-        component.set('user', userWithGoodPassword);
+        component.set('passwordReset', passwordReset);
 
         // when
         run(() => {
@@ -100,35 +90,22 @@ describe('Unit | Component | reset password form', function() {
         });
 
         // then
-        expect(component.get('_displaySuccessMessage')).to.eql(true);
-      });
-
-      it('should reset paswword input', function() {
-        // given
-        component.set('user', userWithGoodPassword);
-
-        // when
-        run(() => {
-          component.send('handleResetPassword');
-        });
-
-        // then
-        expect(component.get('user.password')).to.eql(null);
+        expect(component.get('displaySuccessMessage')).to.eql(true);
       });
 
     });
 
     describe('When user password saving fails', () => {
 
-      it('should set validation with errors data', function() {
+      it('should set validation on invalid password', function() {
         // given
-        const userWithBadPassword = EmberObject.create({
-          firstName: 'toto',
-          lastName: 'riri',
-          password: 'Pix',
-          save: () => reject()
+        const detail = 'detail';
+        const passwordReset = EmberObject.create({
+          temporaryKey: 'key',
+          password: 'Pix123',
+          save: () => reject({ errors: [{ status: '422', detail }] }),
         });
-        component.set('user', userWithBadPassword);
+        component.set('passwordReset', passwordReset);
 
         // when
         run(() => {
@@ -136,8 +113,27 @@ describe('Unit | Component | reset password form', function() {
         });
 
         // then
-        expect(component.get('validation')).to.eql(SUBMISSION_MAP['error']);
+        expect(component.get('validation')).to.eql({ status: 'error', message: detail });
       });
+
+      it('should set errorMessage on invalid temporaryKey', function() {
+        // given
+        const passwordReset = EmberObject.create({
+          temporaryKey: 'key',
+          password: 'Pix123',
+          save: () => reject({ errors: [{ status: 401 }] }),
+        });
+        component.set('passwordReset', passwordReset);
+
+        // when
+        run(() => {
+          component.send('handleResetPassword');
+        });
+
+        // then
+        expect(component.get('errorMessage')).to.eql('Le lien que vous venez d\'utiliser n\'est plus valide. Merci de refaire une demande de réinitialisation de mot de passe.');
+      });
+
     });
 
   });

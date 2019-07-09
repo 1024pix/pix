@@ -1,9 +1,7 @@
 import XRegExp from 'xregexp';
 
+const pattern = XRegExp('^(?=.*\\p{L})(?=.*\\d).{8,}$');
+
 export default function isPasswordValid(password) {
-  if (!password) {
-    return false;
-  }
-  const pattern = XRegExp('^(?=.*\\p{L})(?=.*\\d).{8,}$');
-  return pattern.test(password);
+  return password ? pattern.test(password) : false;
 }
