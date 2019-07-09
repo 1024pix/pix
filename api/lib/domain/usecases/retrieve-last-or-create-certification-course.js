@@ -46,8 +46,8 @@ async function _startNewCertification({
 
   const now = new Date();
   const [userCompetencesProfileV1, userCompetencesProfileV2] = await Promise.all([
-    userService.getProfileToCertifyV1({ userId, now }),
-    userService.getProfileToCertifyV2({ userId, now }),
+    userService.getProfileToCertifyV1({ userId, limitDate: now }),
+    userService.getProfileToCertifyV2({ userId, limitDate: now }),
   ]);
 
   const userCompetencesToCertify = _selectProfileToCertify(userCompetencesProfileV1, userCompetencesProfileV2);
