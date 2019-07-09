@@ -168,15 +168,6 @@ async function _getUserCompetencesAndAnswersV2({ userId, limitDate }) {
 }
 
 module.exports = {
-  isUserExistingByEmail(email) {
-    return userRepository
-      .findByEmail(email)
-      .then(() => true)
-      .catch(() => {
-        throw new UserNotFoundError();
-      });
-  },
-
   isUserExistingById(id) {
     return userRepository
       .findUserById(id)
