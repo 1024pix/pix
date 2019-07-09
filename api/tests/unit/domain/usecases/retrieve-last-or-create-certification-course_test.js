@@ -84,6 +84,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       let certificationCourse;
       let certificationCourseWithNbOfChallenges;
 
+      const now = new Date('2019-01-01T05:06:07Z');
+      let clock;
+
       const noCompetences = [];
       const oneCompetenceWithLevel0 = [{ id: 'competence1', pixScore: 0, estimatedLevel: 0 }];
       const oneCompetenceWithLevel5 = [{ id: 'competence1', pixScore: 40, estimatedLevel: 5 }];
@@ -139,6 +142,12 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         sinon.stub(sessionService, 'sessionExists').resolves(sessionId);
         sinon.stub(certificationCourseRepository, 'findLastCertificationCourseByUserIdAndSessionId').resolves([]);
+
+        clock = sinon.useFakeTimers(now);
+      });
+
+      afterEach(() => {
+        clock.restore();
       });
 
       [{ label: 'User Has No AirtableCompetence', competences: noCompetences },
@@ -148,8 +157,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       ].forEach(function(testCase) {
         it(`should not create a new certification if ${testCase.label}`, function() {
           // given
-          sinon.stub(userService, 'getProfileToCertifyV1').resolves(testCase.competences);
-          sinon.stub(userService, 'getProfileToCertifyV2').resolves([]);
+          sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId, limitDate: now }).resolves(testCase.competences);
+          sinon.stub(userService, 'getProfileToCertifyV2').withArgs({ userId, limitDate: now }).resolves([]);
           sinon.stub(certificationCourseRepository, 'save');
 
           // when
@@ -172,8 +181,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       it('should create the certification course with status "started", if at least 5 competences with level higher than 0', async function() {
         // given
-        sinon.stub(userService, 'getProfileToCertifyV1').resolves(fiveCompetencesWithLevelHigherThan0);
-        sinon.stub(userService, 'getProfileToCertifyV2').resolves([]);
+        sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId, limitDate: now }).resolves(fiveCompetencesWithLevelHigherThan0);
+        sinon.stub(userService, 'getProfileToCertifyV2').withArgs({ userId, limitDate: now }).resolves([]);
         sinon.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
         sinon.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
 
@@ -195,15 +204,15 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       });
 
       describe('choice of certification profile v1 or v2', () => {
-
         beforeEach(() => {
           sinon.stub(certificationCourseRepository, 'save').resolves();
         });
 
         it('should use certifiable profil V1 even when V2 has higher score but is not certifiable', async () => {
           // given
-          sinon.stub(userService, 'getProfileToCertifyV1').resolves(fiveCompetencesWithLevelHigherThan0);
-          sinon.stub(userService, 'getProfileToCertifyV2').resolves(nonCertifiableUserCompetencesWithHigherScore);
+          //
+          sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId, limitDate: now }).resolves(fiveCompetencesWithLevelHigherThan0);
+          sinon.stub(userService, 'getProfileToCertifyV2').withArgs({ userId, limitDate: now }).resolves(nonCertifiableUserCompetencesWithHigherScore);
           sinon.stub(certificationChallengesService, 'saveChallenges').resolves();
 
           // when
@@ -225,8 +234,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         it('should use certifiable profil V2 even when V1 has higher score but is not certifiable', async () => {
           // given
-          sinon.stub(userService, 'getProfileToCertifyV1').resolves(nonCertifiableUserCompetencesWithHigherScore);
-          sinon.stub(userService, 'getProfileToCertifyV2').resolves(fiveCompetencesWithLevelHigherThan0);
+          sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId, limitDate: now }).resolves(nonCertifiableUserCompetencesWithHigherScore);
+          sinon.stub(userService, 'getProfileToCertifyV2').withArgs({ userId, limitDate: now }).resolves(fiveCompetencesWithLevelHigherThan0);
           sinon.stub(certificationChallengesService, 'saveChallenges').resolves();
 
           // when
@@ -248,8 +257,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         it('should use certification profile v1 when v1 pix score is greater than v2', async () => {
           // given
-          sinon.stub(userService, 'getProfileToCertifyV1').resolves(fiveCompetencesWithLevelHigherThan0WithHigherScore);
-          sinon.stub(userService, 'getProfileToCertifyV2').resolves(fiveCompetencesWithLevelHigherThan0);
+          sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId, limitDate: now }).resolves(fiveCompetencesWithLevelHigherThan0WithHigherScore);
+          sinon.stub(userService, 'getProfileToCertifyV2').withArgs({ userId, limitDate: now }).resolves(fiveCompetencesWithLevelHigherThan0);
           sinon.stub(certificationChallengesService, 'saveChallenges').resolves();
 
           // when
@@ -271,8 +280,8 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
         it('should use certification profile v2 when v2 pix score is greater than v1', async () => {
           // given
-          sinon.stub(userService, 'getProfileToCertifyV1').resolves(fiveCompetencesWithLevelHigherThan0);
-          sinon.stub(userService, 'getProfileToCertifyV2').resolves(fiveCompetencesWithLevelHigherThan0WithHigherScore);
+          sinon.stub(userService, 'getProfileToCertifyV1').withArgs({ userId, limitDate: now }).resolves(fiveCompetencesWithLevelHigherThan0);
+          sinon.stub(userService, 'getProfileToCertifyV2').withArgs({ userId, limitDate: now }).resolves(fiveCompetencesWithLevelHigherThan0WithHigherScore);
           sinon.stub(certificationChallengesService, 'saveChallenges').resolves();
 
           // when
