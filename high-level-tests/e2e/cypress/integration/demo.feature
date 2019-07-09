@@ -1,35 +1,19 @@
 Feature: Demo
 
-  Scenario: Je lance une démo pour Protection et sécurité
+  Scenario: Je lance une démo
     Given je vais sur Pix
-    When je lance le course "recboy5Db4p4wy6AN"
+    When je lance le course "rec5UecGJn0kr2odZ"
     Then je suis redirigé vers une page d'épreuve
-    And le titre sur l'épreuve est "Protection"
-
-  Scenario: Je lance une démo pour Création de contenu
-    Given je vais sur Pix
-    When je lance le course "recvPKiqKKHipEOjK"
-    Then je suis redirigé vers une page d'épreuve
-    And le titre sur l'épreuve est "Création"
-
-  Scenario: Je lance une démo pour Communication et collaboration
-    Given je vais sur Pix
-    When je lance le course "recq1wh5cKtibXDZu"
-    Then je suis redirigé vers une page d'épreuve
-    And le titre sur l'épreuve est "Communication"
-
-  Scenario: Je lance une démo pour Information et données
-    Given je vais sur Pix
-    When je lance le course "rec8rnpOgmfZyd2Ng"
-    Then je suis redirigé vers une page d'épreuve
-    And le titre sur l'épreuve est "Information"
-
-  Scenario: Je commence la démo Communication et collaboration
-    Given je vais sur Pix
-    When je lance le course "recq1wh5cKtibXDZu"
-    Then je suis redirigé vers une page d'épreuve
-    When l'épreuve contient le texte "émoticônes"
-    Then je clique sur "Je passe"
-    When l'épreuve contient le texte "Parmi ces démarches administratives"
-    Then je choisis la réponse "radio_3"
-    Then je clique sur "Je valide"
+    And le titre sur l'épreuve est "Démo essentiels"
+    When l'épreuve contient le texte "Combien font 2 + 2 ?"
+    And je clique sur "Je passe"
+    And l'épreuve contient le texte "Quel mot est synonyme de"
+    And je choisis la réponse "radio_3"
+    And je clique sur "Je valide"
+    And l'épreuve contient le texte "quel est le verbe ?"
+    And je saisis "manger" dans le champ
+    And je clique sur "Je valide"
+    Then je vois la page de résultats
+    And j'ai passé à "Combien font 2 + 2 ?"
+    And j'ai mal répondu à "Quel mot est synonyme de"
+    And j'ai bien répondu à "quel est le verbe ?"
