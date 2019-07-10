@@ -98,10 +98,13 @@ describe('Unit | Controller | user-controller', () => {
 
   describe('#updateUser', () => {
 
-    context('When payload is good (with a payload and a password attribute)', () => {
+    context('When payload is good (with a payload and a password attribute) and temporary key is provided', () => {
       const request = {
         params: {
           id: 7,
+        },
+        query: {
+          'temporary-key': 'good-temporary-key',
         },
         payload: {
           data: {
@@ -139,7 +142,7 @@ describe('Unit | Controller | user-controller', () => {
       });
     });
 
-    context('When payload has a password field', () => {
+    context('When payload has a password field and temporary key is provided', () => {
       it('should update password', async () => {
         // given
         const userId = 7;
@@ -147,6 +150,9 @@ describe('Unit | Controller | user-controller', () => {
         const request = {
           params: {
             id: userId,
+          },
+          query: {
+            'temporary-key': 'good-temporary-key',
           },
           payload: {
             data: {
@@ -162,7 +168,7 @@ describe('Unit | Controller | user-controller', () => {
         await userController.updateUser(request, hFake);
 
         // then
-        expect(usecaseUpdateUserPasswordStub).to.have.been.calledWith({ userId, password });
+        expect(usecaseUpdateUserPasswordStub).to.have.been.calledWith({ userId, password, temporaryKey: 'good-temporary-key' });
       });
 
     });

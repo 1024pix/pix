@@ -67,7 +67,8 @@ module.exports = {
         if (user.password) {
           return usecases.updateUserPassword({
             userId,
-            password: user.password
+            password: user.password,
+            temporaryKey: request.query['temporary-key'] || '',
           });
         }
         if (user.pixOrgaTermsOfServiceAccepted) {
