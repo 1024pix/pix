@@ -58,7 +58,7 @@ export default Component.extend({
   }),
 
   validationImplementedForChallengeType: computed('answer.challenge.type', function() {
-    const implementedTypes = [ 'QCM', 'QROC', 'QCU', 'QROCM-ind' ];
+    const implementedTypes = [ 'QCM', 'QROC', 'QCU', 'QROCM-ind', 'QROCM-dep'];
     const challengeType = this.get('answer.challenge.type');
     return implementedTypes.includes(challengeType);
   }),
