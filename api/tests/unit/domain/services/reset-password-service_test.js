@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-const { sinon } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const settings = require('../../../../lib/settings');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
@@ -49,5 +49,35 @@ describe('Unit | Service | Password Service', function() {
         sinon.assert.calledWith(resetPasswordRepository.markAsBeingUsed, userEmail);
       });
     });
+  });
+
+  describe('#hasUserAPasswordResetDemandInProgress', function() {
+    const userEmail = 'shi@fu.me';
+
+    context('when there is a password reset demand', function() {
+      beforeEach(function() {
+        sinon.stub(resetPasswordRepository, 'findByUserEmail')
+          .withArgs(userEmail)
+          .resolves();
+      });
+
+      it('resolves', async function() {
+        await resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail);
+      });
+    });
+
+    context('when there is no password reset demand', function() {
+      beforeEach(function() {
+        sinon.stub(resetPasswordRepository, 'findByUserEmail')
+          .withArgs(userEmail)
+          .rejects();
+      });
+
+      it('resolves', function() {
+        const promise = resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail);
+        return expect(promise).to.be.rejected;
+      });
+    });
+
   });
 });
