@@ -18,7 +18,6 @@ describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
           id: '1',
           attributes: {
             email: 'toto@pix.fr',
-            'temporary-key': 'one key'
           }
         }
       };
