@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.52.1 (10/07/2019)
+
+- [BUGFIX] Empêcher de modifier le mot de passe d’un utilisateur sans token de réinitialisation
+- [#559](https://github.com/1024pix/pix/pull/559) [TECH] Supprime la méthode inutile mail-service#sendWelcomeEmail
+
 ## v2.52.0 (09/07/2019)
 
 - [#584](https://github.com/1024pix/pix/pull/584) [FEATURE] Assigner le rôle Responsable au premier membre d'une organisation, Membre aux autres. (PA-95).
