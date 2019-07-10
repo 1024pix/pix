@@ -127,10 +127,10 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
       ResetPasswordDemand.where.returns({
         fetch: fetchStub
       });
-      const expectedWhereArgs = { email: 'shi@fu.me' };
+      const expectedWhereArgs = { email: 'shi@fu.me', temporaryKey: 'a-temporary-key', used: false };
 
       // when
-      const promise = ResetPasswordDemandRepository.findByUserEmail(email);
+      const promise = ResetPasswordDemandRepository.findByUserEmail(email, 'a-temporary-key');
 
       // then
       return promise.then(() => {

@@ -54,27 +54,27 @@ describe('Unit | Service | Password Service', function() {
   describe('#hasUserAPasswordResetDemandInProgress', function() {
     const userEmail = 'shi@fu.me';
 
-    context('when there is a password reset demand', function() {
-      beforeEach(function() {
-        sinon.stub(resetPasswordRepository, 'findByUserEmail')
-          .withArgs(userEmail)
-          .resolves();
-      });
+    beforeEach(function() {
+      sinon.stub(resetPasswordRepository, 'findByUserEmail').throws();
 
+      resetPasswordRepository.findByUserEmail
+        .withArgs(userEmail, 'good-temporary-key')
+        .resolves();
+
+      resetPasswordRepository.findByUserEmail
+        .withArgs(userEmail, 'bad-temporary-key')
+        .rejects();
+    });
+
+    context('when there is a matching password reset demand', function() {
       it('resolves', async function() {
-        await resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail);
+        await resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail, 'good-temporary-key');
       });
     });
 
-    context('when there is no password reset demand', function() {
-      beforeEach(function() {
-        sinon.stub(resetPasswordRepository, 'findByUserEmail')
-          .withArgs(userEmail)
-          .rejects();
-      });
-
+    context('when there is no matching password reset demand', function() {
       it('resolves', function() {
-        const promise = resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail);
+        const promise = resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail, 'bad-temporary-key');
         return expect(promise).to.be.rejected;
       });
     });

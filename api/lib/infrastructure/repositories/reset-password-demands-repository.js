@@ -24,8 +24,8 @@ module.exports = {
       });
   },
 
-  findByUserEmail(email) {
-    return ResetPasswordDemand.where({ email })
+  findByUserEmail(email, temporaryKey) {
+    return ResetPasswordDemand.where({ email, used: false, temporaryKey })
       .fetch({ require: true })
       .catch((err) => {
         if (err instanceof ResetPasswordDemand.NotFoundError) {
