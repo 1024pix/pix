@@ -8,6 +8,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
   currentOrganization: service(),
 
   model() {
-    return this.currentOrganization.organization.then((organization) => organization);
+    return this.currentOrganization.organization;
   }
 });

@@ -7,13 +7,12 @@ export default Route.extend({
   store: service(),
   currentOrganization: service(),
 
-  model() {
-    return this.currentOrganization.organization
-      .then((organization) => {
-        return RSVP.hash({
-          campaign: this.store.createRecord('campaign', { organizationId: organization.get('id') }),
-          targetProfiles: organization.get('targetProfiles')
-        });
-      });
+  async model() {
+    const organization = await this.currentOrganization.organization;
+
+    return RSVP.hash({
+      campaign: this.store.createRecord('campaign', { organizationId: organization.get('id') }),
+      targetProfiles: organization.get('targetProfiles'),
+    });
   }
 });

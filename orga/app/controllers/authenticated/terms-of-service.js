@@ -7,15 +7,14 @@ export default Controller.extend({
   store: service(),
 
   actions: {
-    submit() {
+    async submit() {
       const store = this.store;
       const userId = this.get('session.data.authenticated.user_id');
       const loggedUser = store.peekRecord('user', userId);
       loggedUser.set('pixOrgaTermsOfServiceAccepted', true);
 
-      return loggedUser.save().then(() => {
-        return this.transitionToRoute('authenticated.campaigns.list');
-      });
+      await loggedUser.save();
+      return this.transitionToRoute('authenticated.campaigns.list');
     }
   }
 });

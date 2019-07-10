@@ -2,10 +2,9 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   actions: {
-    update(campaign) {
-      return campaign.save().then(
-        (campaign) => this.transitionToRoute('authenticated.campaigns.details', campaign.id)
-      );
+    async update(campaign) {
+      const { id } = await campaign.save();
+      this.transitionToRoute('authenticated.campaigns.details', id);
     },
 
     cancel(campaignId) {

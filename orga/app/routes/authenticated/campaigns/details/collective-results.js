@@ -2,10 +2,11 @@ import Route from '@ember/routing/route';
 
 export default Route.extend({
 
-  model() {
+  async model() {
     const details = this.modelFor('authenticated.campaigns.details');
-    return details.belongsTo('campaignCollectiveResult').reload()
-      .then(() => details);
+    await details.belongsTo('campaignCollectiveResult').reload();
+
+    return details;
   }
 
 });
