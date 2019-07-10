@@ -20,9 +20,10 @@ describe('Unit | UseCase | update-user-password', () => {
     email: 'maryz@acme.xh',
   });
   const password = '123ASXCG';
+  const temporaryKey = 'good-temporary-key';
 
   beforeEach(() => {
-    sinon.stub(resetPasswordService, 'hasUserAPasswordResetDemandInProgress');
+    sinon.stub(resetPasswordService, 'hasUserAPasswordResetDemandInProgress').throws();
     sinon.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
     sinon.stub(validationErrorSerializer, 'serialize');
     sinon.stub(userRepository, 'updatePassword');
@@ -33,12 +34,15 @@ describe('Unit | UseCase | update-user-password', () => {
   it('should get user by his id', () => {
     // given
 
-    resetPasswordService.hasUserAPasswordResetDemandInProgress.resolves();
+    resetPasswordService.hasUserAPasswordResetDemandInProgress
+      .withArgs(user.get('email'), temporaryKey)
+      .resolves();
 
     // when
     const promise = updateUserPassword({
       userId,
       password,
+      temporaryKey,
       encryptionService,
       resetPasswordService,
       userRepository
@@ -53,12 +57,15 @@ describe('Unit | UseCase | update-user-password', () => {
 
   it('should check if user has a current password reset demand', () => {
     // given
-    resetPasswordService.hasUserAPasswordResetDemandInProgress.resolves();
+    resetPasswordService.hasUserAPasswordResetDemandInProgress
+      .withArgs(user.get('email'), temporaryKey)
+      .resolves();
 
     // when
     const promise = updateUserPassword({
       userId,
       password,
+      temporaryKey,
       encryptionService,
       resetPasswordService,
       userRepository
@@ -73,7 +80,9 @@ describe('Unit | UseCase | update-user-password', () => {
 
   it('should update user password with a hashed password', async () => {
     // given
-    resetPasswordService.hasUserAPasswordResetDemandInProgress.resolves();
+    resetPasswordService.hasUserAPasswordResetDemandInProgress
+      .withArgs(user.get('email'), temporaryKey)
+      .resolves();
     const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
     encryptionService.hashPassword.resolves(encryptedPassword);
 
@@ -81,6 +90,7 @@ describe('Unit | UseCase | update-user-password', () => {
     const promise = updateUserPassword({
       userId,
       password,
+      temporaryKey,
       encryptionService,
       resetPasswordService,
       userRepository
@@ -97,7 +107,9 @@ describe('Unit | UseCase | update-user-password', () => {
 
   it('should invalidate current password reset demand (mark as being used)', () => {
     // given
-    resetPasswordService.hasUserAPasswordResetDemandInProgress.resolves();
+    resetPasswordService.hasUserAPasswordResetDemandInProgress
+      .withArgs(user.get('email'), temporaryKey)
+      .resolves();
     userRepository.updatePassword.resolves();
     resetPasswordService.invalidOldResetPasswordDemand.resolves();
 
@@ -105,6 +117,7 @@ describe('Unit | UseCase | update-user-password', () => {
     const promise = updateUserPassword({
       userId,
       password,
+      temporaryKey,
       encryptionService,
       resetPasswordService,
       userRepository
@@ -121,14 +134,38 @@ describe('Unit | UseCase | update-user-password', () => {
     it('should returns PasswordResetDemandNotFoundError', () => {
       // given
       const error = new PasswordResetDemandNotFoundError();
-      const serializedError = {};
-      validationErrorSerializer.serialize.returns(serializedError);
-      resetPasswordService.hasUserAPasswordResetDemandInProgress.rejects(error);
+      resetPasswordService.hasUserAPasswordResetDemandInProgress
+        .withArgs(user.get('email'), temporaryKey)
+        .rejects(error);
 
       // when
       const promise = updateUserPassword({
         userId,
         password,
+        temporaryKey,
+        encryptionService,
+        resetPasswordService,
+        userRepository
+      });
+
+      // then
+      return expect(promise).to.have.been.rejectedWith(PasswordResetDemandNotFoundError);
+    });
+  });
+
+  describe('When user has not a matching password reset demand', () => {
+    it('should returns PasswordResetDemandNotFoundError', () => {
+      // given
+      const error = new PasswordResetDemandNotFoundError();
+      resetPasswordService.hasUserAPasswordResetDemandInProgress
+        .withArgs(user.get('email'), temporaryKey)
+        .rejects(error);
+
+      // when
+      const promise = updateUserPassword({
+        userId,
+        password,
+        temporaryKey,
         encryptionService,
         resetPasswordService,
         userRepository

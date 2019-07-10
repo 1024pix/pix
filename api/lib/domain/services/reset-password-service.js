@@ -19,7 +19,7 @@ module.exports = {
       .then((fetchedDemand) => fetchedDemand.toJSON());
   },
 
-  hasUserAPasswordResetDemandInProgress(email) {
-    return passwordResetDemandRepository.findByUserEmail(email);
+  hasUserAPasswordResetDemandInProgress(email, temporaryKey) {
+    return passwordResetDemandRepository.findByUserEmail(email, temporaryKey);
   }
 };
