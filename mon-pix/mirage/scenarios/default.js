@@ -122,6 +122,7 @@ export default function(server) {
 
   server.create('password-reset-demand', {
     temporaryKey: 'temporaryKey',
+    email: 'jane@acme.com',
   });
 
   prescriber.organization = company;

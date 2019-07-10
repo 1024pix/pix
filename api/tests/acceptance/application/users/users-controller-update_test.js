@@ -29,17 +29,41 @@ describe('Acceptance | Controller | users-controller', () => {
     });
 
     context('with a passwordResetDemand', () => {
+      let temporaryKey;
 
       beforeEach(() => {
-        const temporaryKey = passwordResetService.generateTemporaryKey();
+        temporaryKey = passwordResetService.generateTemporaryKey();
         return _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
+      });
+
+      it('should reply with an error, when temporary key is invalid', () => {
+        // given
+        options = {
+          method: 'PATCH',
+          url: `/api/users/${userId}?temporary-key=bad-temporary-key`,
+          payload: {
+            data: {
+              attributes: {
+                password: 'Pix2017!'
+              }
+            }
+          }
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(404);
+        });
       });
 
       it('should reply with 204 status code, when password is updated', () => {
         // given
         options = {
           method: 'PATCH',
-          url: `/api/users/${userId}`,
+          url: `/api/users/${userId}?temporary-key=${temporaryKey}`,
           payload: {
             data: {
               attributes: {
@@ -65,7 +89,7 @@ describe('Acceptance | Controller | users-controller', () => {
         // given
         options = {
           method: 'PATCH',
-          url: `/api/users/${userId}`,
+          url: `/api/users/${userId}?temporary-key=bad-temporary-key`,
           payload: {
             data: {
               id: '2',

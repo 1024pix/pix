@@ -104,10 +104,23 @@ export default function() {
     }
   });
 
-  this.get('/password-reset-demands/:key', (schema) => {
-    return schema.passwordResetDemands.first();
+  this.get('/password-reset-demands/:key', (schema, request) => {
+    const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.params.key });
+    const user = schema.users.findBy({ email: demand.email });
+    return user;
   });
-  this.patch('/password-reset-demands/:id');
+
+  this.patch('/users/:id', (schema, request) => {
+    const body = JSON.parse(request.requestBody);
+    const demand = schema.passwordResetDemands.findBy({ temporaryKey: request.queryParams['temporary-key'] });
+    const user =  schema.users.find(request.params.id);
+    if (user.email !== demand.email) {
+      return new Response(401);
+    } else {
+      user.update({ password: body.data.attributes.password });
+      return new Response(204);
+    }
+  });
 
   this.get('/progressions/:id');
   this.get('/campaigns', getCampaigns);

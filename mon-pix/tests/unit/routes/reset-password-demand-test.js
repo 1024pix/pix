@@ -76,8 +76,9 @@ describe('Unit | Route | changer mot de passe', function() {
         const promise = route.model(params);
 
         // then
-        return promise.then((user) => {
+        return promise.then(({ user, temporaryKey }) => {
           expect(user).to.eql(expectedUser);
+          expect(temporaryKey).to.eql(params.temporary_key);
         });
       });
     });
