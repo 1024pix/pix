@@ -19,4 +19,12 @@ export default ApplicationAdapter.extend({
 
     return this._super(...arguments);
   },
+
+  urlForUpdateRecord(id, modelName, snapshot) {
+    let url = this._super(...arguments);
+    if (snapshot && snapshot.adapterOptions && snapshot.adapterOptions.temporaryKey) {
+      url = url + `?temporary-key=${encodeURIComponent(snapshot.adapterOptions.temporaryKey)}`;
+    }
+    return url;
+  },
 });
