@@ -8,7 +8,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
-describe('Integration | Component | reset password form', function() {
+describe.only('Integration | Component | reset password form', function() {
   setupRenderingTest();
 
   describe('Component rendering', function() {
@@ -129,4 +129,3 @@ describe('Integration | Component | reset password form', function() {
   });
 
 });
-
