@@ -64,10 +64,11 @@ describe('Integration | Component | reset password form', function() {
 
       describe('Saving behavior', function() {
 
-        let isSaveMethodCalled;
+        let isSaveMethodCalled, saveMethodOptions;
 
-        const save = () => {
+        const save = (options) => {
           isSaveMethodCalled = true;
+          saveMethodOptions = options;
           return resolve();
         };
 
@@ -84,9 +85,10 @@ describe('Integration | Component | reset password form', function() {
           // given
           const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save });
           this.set('user', user);
+          this.set('temporaryKey', 'temp-key');
           const validPassword = 'Pix 1 2 3!';
 
-          await render(hbs `{{reset-password-form user=user}}`);
+          await render(hbs `{{reset-password-form user=user temporaryKey=temporaryKey}}`);
 
           // when
           await fillIn(PASSWORD_INPUT_CLASS, validPassword);
@@ -96,6 +98,7 @@ describe('Integration | Component | reset password form', function() {
 
           // then
           expect(isSaveMethodCalled).to.be.true;
+          expect(saveMethodOptions).to.eql({ adapterOptions: { temporaryKey: 'temp-key' } });
           expect(this.get('user.password')).to.eql(null);
           expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
           expect(find('.password-reset-demand-form__body')).to.exist;

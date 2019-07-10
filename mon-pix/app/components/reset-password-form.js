@@ -35,7 +35,7 @@ export default Component.extend({
 
     handleResetPassword() {
       this.set('_displaySuccessMessage', false);
-      return this.user.save()
+      return this.user.save({ adapterOptions: { temporaryKey: this.temporaryKey } })
         .then(() => {
           this.set('validation', SUBMISSION_MAP['default']);
           this.set('_displaySuccessMessage', true);
