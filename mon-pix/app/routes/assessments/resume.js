@@ -1,7 +1,9 @@
 import Route from '@ember/routing/route';
-import ENV from 'mon-pix/config/environment';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
+
+  assessmentTransition: service(),
 
   hasSeenCheckpoint: false,
   campaignCode: null,
@@ -15,20 +17,12 @@ export default Route.extend({
     return this.modelFor('assessments').reload();
   },
 
-  afterModel(assessment) {
-    return this.store
-      .queryRecord('challenge', { assessmentId: assessment.id })
-      .then((nextChallenge) => {
+  async afterModel(assessment) {
+    const nextChallenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
 
-        if (assessment.isPlacement || assessment.isDemo || assessment.isCertification || assessment.isPreview) {
-          return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
-        }
-        if (assessment.isCompetenceEvaluation || assessment.isSmartPlacement) {
-          return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
-        }
+    const nextTransition = this.assessmentTransition.getNextTransition(assessment, nextChallenge, this.hasSeenCheckpoint);
 
-        throw new Error('This transition should not be happening');
-      });
+    return this._transitionToNextRoute(nextTransition, assessment, nextChallenge);
   },
 
   actions: {
@@ -38,97 +32,36 @@ export default Route.extend({
     }
   },
 
-  _resumeAssessmentWithoutCheckpoint(assessment, nextChallenge) {
-    const {
-      nextChallengeId,
-      assessmentHasNoMoreQuestions,
-      assessmentIsCompleted
-    } = this._parseState(assessment, nextChallenge);
-
-    if (assessmentHasNoMoreQuestions || assessmentIsCompleted) {
-      return this._rateAssessment(assessment);
+  _transitionToNextRoute(nextTransition, assessment, nextChallenge) {
+    if (nextTransition === 'challenge') {
+      return this.replaceWith('assessments.challenge', assessment.id, nextChallenge.id);
     }
-    return this._routeToNextChallenge(assessment, nextChallengeId);
+
+    if (nextTransition === 'checkpoint') {
+      if (assessment.isCompetenceEvaluation) {
+        return this.replaceWith('competences.checkpoint', assessment.id);
+      }
+      return this.replaceWith('assessments.checkpoint', assessment.id);
+    }
+
+    if (nextTransition === 'finalCheckpoint') {
+      if (assessment.isCompetenceEvaluation) {
+        return this.replaceWith('competences.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
+      }
+      return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
+    }
+
+    if (nextTransition === 'results') {
+      if (assessment.isCertification) {
+        return this.replaceWith('certifications.results', assessment.certificationNumber);
+      }
+      if (assessment.isSmartPlacement) {
+        return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
+      }
+      if (assessment.isCompetenceEvaluation) {
+        return this.replaceWith('competences.results', assessment.id);
+      }
+      return this.replaceWith('assessments.results', assessment.id);
+    }
   },
-
-  _resumeAssessmentWithCheckpoint(assessment, nextChallenge) {
-    const {
-      nextChallengeId,
-      assessmentHasNoMoreQuestions,
-      assessmentIsCompleted,
-      userHasSeenCheckpoint,
-      userHasReachedCheckpoint
-    } = this._parseState(assessment, nextChallenge);
-
-    if (assessmentIsCompleted) {
-      return this._rateAssessment(assessment);
-    }
-    if (assessmentHasNoMoreQuestions && userHasSeenCheckpoint) {
-      return this._rateAssessment(assessment);
-    }
-    if (assessmentHasNoMoreQuestions && !userHasSeenCheckpoint) {
-      return this._routeToFinalCheckpoint(assessment);
-    }
-    if (userHasReachedCheckpoint && !userHasSeenCheckpoint) {
-      return this._routeToCheckpoint(assessment);
-    }
-    if (userHasReachedCheckpoint && userHasSeenCheckpoint) {
-      return this._routeToNextChallenge(assessment, nextChallengeId);
-    }
-    return this._routeToNextChallenge(assessment, nextChallengeId);
-  },
-
-  _parseState(assessment, nextChallenge) {
-    const assessmentHasNoMoreQuestions = !nextChallenge;
-    const userHasSeenCheckpoint = this.hasSeenCheckpoint;
-    const userHasReachedCheckpoint = assessment.get('answers.length') > 0 && assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS === 0;
-    const nextChallengeId = !assessmentHasNoMoreQuestions && nextChallenge.get('id');
-    const assessmentIsCompleted = assessment.get('isCompleted');
-
-    return {
-      assessmentHasNoMoreQuestions,
-      userHasSeenCheckpoint,
-      userHasReachedCheckpoint,
-      nextChallengeId,
-      nextChallenge,
-      assessmentIsCompleted
-    };
-  },
-
-  _routeToNextChallenge(assessment, nextChallengeId) {
-    return this.replaceWith('assessments.challenge', assessment.id, nextChallengeId);
-  },
-
-  _rateAssessment(assessment) {
-    return this.store
-      .createRecord('assessment-result', { assessment })
-      .save()
-      .finally(() => {
-        if (assessment.isCertification) {
-          return this.replaceWith('certifications.results', assessment.certificationNumber);
-        }
-        if (assessment.isSmartPlacement) {
-          return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
-        }
-        if (assessment.isCompetenceEvaluation) {
-          return this.replaceWith('competences.results', assessment.id);
-        }
-        return this.replaceWith('assessments.results', assessment.id);
-      });
-  },
-
-  _routeToCheckpoint(assessment) {
-    if (assessment.isCompetenceEvaluation) {
-      return this.replaceWith('competences.checkpoint', assessment.id);
-    }
-    return this.replaceWith('assessments.checkpoint', assessment.id);
-  },
-
-  _routeToFinalCheckpoint(assessment) {
-    if (assessment.isCompetenceEvaluation) {
-      return this.replaceWith('competences.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
-    }
-    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
-  },
-
 });
