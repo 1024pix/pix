@@ -70,6 +70,16 @@ module.exports = {
       .then(membershipSerializer.serialize);
   },
 
+  addOrganizationMembershipWithEmail(request, h) {
+    const organizationId = request.params.id;
+    const email = request.payload.email;
+
+    return usecases.addOrganizationMembershipWithEmail({ organizationId, email })
+      .then((membership) => {
+        return h.response(membershipSerializer.serialize(membership)).created();
+      });
+  },
+
   findTargetProfiles(request) {
     const requestedOrganizationId = parseInt(request.params.id);
 
