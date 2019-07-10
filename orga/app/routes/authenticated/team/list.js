@@ -8,4 +8,8 @@ export default Route.extend({
   model() {
     return this.currentUser.organization;
   },
+
+  afterModel(model) {
+    return model.hasMany('memberships').reload();
+  }
 });

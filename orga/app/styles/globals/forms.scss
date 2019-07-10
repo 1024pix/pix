@@ -1,3 +1,34 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+
+  @include device-is('desktop') {
+    max-width: 500px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+  }
+
+  &__validation {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__error {
+    padding-top: 4px;
+  }
+
+  &__information {
+    margin-top: 7px;
+  }
+}
+
 .label {
   display: inline-block;
   color: $tundora;
@@ -54,7 +85,7 @@
 
 .button {
   padding: 13px 20px;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.019rem;
   text-align: center;
@@ -76,6 +107,15 @@
 
     &:hover, &:active, &:focus {
       background-color: $alto;
+    }
+  }
+
+  &--grey {
+    background-color: $comet;
+    color: $white;
+
+    &:hover, &:active, &:focus {
+      background-color: $gun-powder;
     }
   }
 

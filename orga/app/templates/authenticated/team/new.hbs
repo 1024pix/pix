@@ -1,1 +1,14 @@
-HELLO
+<div class="new-campaign-page">
+  {{#if errorMessage}}
+    <div class="new-campaign-page__error error-zone">
+      {{errorMessage}}
+    </div>
+  {{/if}}
+
+  {{routes/authenticated/team/new-item
+    membership=model.membership
+    email=email
+    addTeamMember=(action 'addTeamMember')
+    cancel=(action 'cancel')
+  }}
+</div>
