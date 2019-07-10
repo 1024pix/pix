@@ -1,3 +1,4 @@
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import ENV from 'pix-orga/config/environment';
@@ -5,6 +6,8 @@ import ENV from 'pix-orga/config/environment';
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
   host: ENV.APP.API_HOST,
   namespace: 'api',
+
+  session: service(),
 
   /*
   * Appelé uniquement lorsqu'on est connecté
