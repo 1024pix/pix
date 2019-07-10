@@ -35,26 +35,31 @@
           {{/if}}
         </div>
         <div class="comparison-window__corrected-answers">
-        {{#if isAssessmentChallengeTypeQcm}}
-          {{qcm-solution-panel challenge=answer.challenge answer=answer solution=answer.correction.solution}}
-        {{/if}}
+          {{#if isAssessmentChallengeTypeQcm}}
+            {{qcm-solution-panel challenge=answer.challenge answer=answer solution=answer.correction.solution}}
+          {{/if}}
 
+          {{#if isAssessmentChallengeTypeQcu}}
+            {{qcu-solution-panel challenge=answer.challenge answer=answer solution=answer.correction.solution}}
+          {{/if}}
 
-        {{#if isAssessmentChallengeTypeQcu}}
-          {{qcu-solution-panel challenge=answer.challenge answer=answer solution=answer.correction.solution}}
-        {{/if}}
+          {{#if isAssessmentChallengeTypeQroc}}
+            <div class="comparison-window__corrected-answers--qroc">
+              {{qroc-solution-panel answer=answer solution=answer.correction.solution}}
+            </div>
+          {{/if}}
 
-        {{#if isAssessmentChallengeTypeQroc}}
-          <div class="comparison-window__corrected-answers--qroc">
-            {{qroc-solution-panel answer=answer solution=answer.correction.solution}}
-          </div>
-        {{/if}}
+          {{#if isAssessmentChallengeTypeQrocmInd}}
+            <div class="comparison-window__corrected-answers--qrocm">
+              {{qrocm-ind-solution-panel answer=answer solution=answer.correction.solution challenge=answer.challenge}}
+            </div>
+          {{/if}}
 
-        {{#if isAssessmentChallengeTypeQrocmInd}}
-          <div class="comparison-window__corrected-answers--qrocm">
-            {{qrocm-ind-solution-panel answer=answer solution=answer.correction.solution challenge=answer.challenge}}
-          </div>
-        {{/if}}
+          {{#if isAssessmentChallengeTypeQrocmDep}}
+            <div class="comparison-window__corrected-answers--qrocm">
+              {{qrocm-dep-solution-panel answer=answer solution=answer.correction.solution challenge=answer.challenge}}
+            </div>
+          {{/if}}
         </div>
 
         {{#if answer.isResultNotOk}}
