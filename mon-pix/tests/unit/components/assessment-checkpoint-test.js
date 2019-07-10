@@ -2,65 +2,67 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Controller | Assessments | Checkpoint', function() {
+describe('Unit | Component | assessment-checkpoint', function() {
 
   setupTest();
 
-  let controller;
+  let component;
 
   beforeEach(function() {
-    controller = this.owner.lookup('controller:assessments/checkpoint');
+    component = this.owner.lookup('component:assessment-checkpoint');
   });
 
   describe('#finalCheckpoint', () => {
     it('should equal false by default', function() {
       // then
-      expect(controller.finalCheckpoint).to.be.false;
+      expect(component.finalCheckpoint).to.be.false;
     });
   });
 
   describe('#completionPercentage', () => {
     it('should equal 100 if it is the final checkpoint', function() {
       // when
-      controller.set('finalCheckpoint', true);
+      component.set('finalCheckpoint', true);
 
       // then
-      expect(controller.completionPercentage).to.equal(100);
+      expect(component.completionPercentage).to.equal(100);
     });
 
     it('should equal the progression completionPercentage', function() {
       // when
-      const model = {
+      const assessment = {
         progression: {
           completionPercentage: 73,
         },
       };
-      controller.set('model', model);
+      component.set('assessment', assessment);
 
       // then
-      expect(controller.completionPercentage).to.equal(73);
+      expect(component.completionPercentage).to.equal(73);
     });
   });
 
   describe('#shouldDisplayAnswers', () => {
     it('should be true when answers are present', function() {
       // when
-      const model = {
+      const assessment = {
         answersSinceLastCheckpoints: [0, 1, 2],
       };
-      controller.set('model', model);
+      component.set('assessment', assessment);
+
       // then
-      expect(controller.shouldDisplayAnswers).to.be.true;
+      expect(component.shouldDisplayAnswers).to.be.true;
     });
 
     it('should be false when answers are absent', function() {
       // when
-      const model = {
+      const assessment = {
         answersSinceLastCheckpoints: [],
       };
-      controller.set('model', model);
+      component.set('assessment', assessment);
+
       // then
-      expect(controller.shouldDisplayAnswers).to.be.false;
+      expect(component.shouldDisplayAnswers).to.be.false;
     });
   });
 });

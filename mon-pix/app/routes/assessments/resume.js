@@ -118,10 +118,16 @@ export default Route.extend({
   },
 
   _routeToCheckpoint(assessment) {
+    if (assessment.isCompetenceEvaluation) {
+      return this.replaceWith('competences.checkpoint', assessment.id);
+    }
     return this.replaceWith('assessments.checkpoint', assessment.id);
   },
 
   _routeToFinalCheckpoint(assessment) {
+    if (assessment.isCompetenceEvaluation) {
+      return this.replaceWith('competences.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
+    }
     return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
   },
 
