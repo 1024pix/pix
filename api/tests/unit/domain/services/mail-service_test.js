@@ -32,32 +32,6 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendWelcomeEmail', () => {
-
-    let sendEmailStub;
-
-    beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
-    });
-
-    it('should use mailJet to send an email', () => {
-      // given
-      const email = 'text@example.net';
-
-      // when
-      const promise = mailService.sendWelcomeEmail(email);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.called(sendEmailStub);
-        expect(sendEmailStub.firstCall.args[0]).to.deep.equal({
-          to: email,
-          template: '129291'
-        });
-      });
-    });
-  });
-
   describe('#sendResetPasswordDemandEmail', () => {
 
     let sendEmailStub;
