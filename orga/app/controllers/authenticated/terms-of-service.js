@@ -14,7 +14,7 @@ export default Controller.extend({
       loggedUser.set('pixOrgaTermsOfServiceAccepted', true);
 
       return loggedUser.save().then(() => {
-        return this.transitionToRoute('authenticated.campaigns.list');
+        return this.transitionToRoute('authenticated.campaigns');
       });
     }
   }

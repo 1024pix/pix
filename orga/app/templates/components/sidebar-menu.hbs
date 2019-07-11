@@ -1,0 +1,10 @@
+<nav class="sidebar-menu">
+  {{#link-to 'authenticated.campaigns' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+    Campagnes
+  {{/link-to}}
+  {{#if currentUser.isOwnerInOrganization}}
+    {{#link-to 'authenticated.team' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+      Équipe
+    {{/link-to}}
+  {{/if}}
+</nav>

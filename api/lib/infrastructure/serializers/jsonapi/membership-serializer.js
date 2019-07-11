@@ -10,6 +10,7 @@ module.exports = {
         if (record.organization) {
           record.organization.campaigns = [];
           record.organization.targetProfiles = [];
+          record.organization.memberships = [];
         }
         return record;
       },
@@ -17,7 +18,7 @@ module.exports = {
       organization: {
         ref: 'id',
         included: true,
-        attributes: ['code', 'name', 'type', 'campaigns', 'targetProfiles'],
+        attributes: ['code', 'name', 'type', 'campaigns', 'targetProfiles', 'memberships'],
         campaigns: {
           ref: 'id',
           ignoreRelationshipData: true,
@@ -33,6 +34,15 @@ module.exports = {
           relationshipLinks: {
             related: function(record, current, parent) {
               return `/api/organizations/${parent.id}/target-profiles`;
+            }
+          }
+        },
+        memberships: {
+          ref: 'id',
+          ignoreRelationshipData: true,
+          relationshipLinks: {
+            related: function(record, current, parent) {
+              return `/api/organizations/${parent.id}/memberships`;
             }
           }
         }

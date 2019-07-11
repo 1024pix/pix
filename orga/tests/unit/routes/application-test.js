@@ -36,22 +36,4 @@ module('Unit | Route | application', function(hooks) {
     });
   });
 
-  test('it should load the current organization', function(assert) {
-    // given
-    const route =  this.owner.lookup('route:application');
-    const currentUserStub = createLoadServiceStub();
-    const currentOrganizationStub = createLoadServiceStub();
-
-    route.set('currentUser', currentUserStub);
-    route.set('currentOrganization', currentOrganizationStub);
-
-    // when
-    const promise = route.sessionAuthenticated();
-
-    // then
-    return promise.catch(() => {
-      assert.ok(currentOrganizationStub.called);
-    });
-  });
-
 });

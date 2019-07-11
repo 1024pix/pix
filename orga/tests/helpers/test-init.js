@@ -29,3 +29,20 @@ export function createUserWithMembershipAndTermsOfServiceAccepted() {
   user.memberships = [memberships];
   return user;
 }
+
+export function createUserMembershipWithRole(organizationRole) {
+  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
+
+  const organization = server.create('organization', {
+    name: 'BRO & Evil Associates'
+  });
+
+  const memberships = server.create('membership', {
+    userId: user.id,
+    organizationId: organization.id,
+    organizationRole,
+  });
+
+  user.memberships = [memberships];
+  return user;
+}

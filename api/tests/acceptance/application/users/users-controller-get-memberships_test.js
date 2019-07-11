@@ -109,6 +109,11 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                     related: `/api/organizations/${organizationId.toString()}/campaigns`
                   }
                 },
+                memberships: {
+                  links: {
+                    related: `/api/organizations/${organizationId.toString()}/memberships`
+                  }
+                },
                 'target-profiles': {
                   links: {
                     related: `/api/organizations/${organizationId.toString()}/target-profiles`
