@@ -122,7 +122,7 @@ module('Acceptance | Campaign Details', function(hooks) {
       await click('.campaign-details-content__return-button');
 
       // then
-      assert.equal(currentURL(), '/campagnes/liste');
+      assert.equal(currentURL(), '/campagnes');
     });
 
     test('it should display collective results tab', async function(assert) {

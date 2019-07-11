@@ -19,13 +19,16 @@ Router.map(function() {
 
   this.route('authenticated', { path: '' }, function() {
     this.route('terms-of-service', { path: '/cgu' });
+    this.route('team', { path: '/equipe' }, function() {
+      this.route('list', { path: '/' });
+    });
     this.route('campaigns', { path: '/campagnes' }, function() {
+      this.route('list', { path: '/' });
       this.route('new', { path: '/creation' });
-      this.route('list', { path: '/liste' });
       this.route('update', { path: '/:campaign_id/modification' });
       this.route('details', { path: '/:campaign_id' }, function() {
-        this.route('collective-results', { path: '/resultats-collectifs' });
         this.route('parameters', { path: '/' });
+        this.route('collective-results', { path: '/resultats-collectifs' });
         this.route('participants', { path: '/participants' }, function() {
           this.route('results', { path: '/:campaign_participation_id' });
         });

@@ -85,7 +85,7 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       await databaseBuilder.commit();
 
       // when
-      const memberships = await membershipRepository.findByOrganizationId(organization.id);
+      const memberships = await membershipRepository.findByOrganizationId({ organizationId: organization.id });
 
       // then
       const anyMembership = memberships[0];
@@ -120,12 +120,81 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
       await databaseBuilder.commit();
 
       // when
-      const memberships = await membershipRepository.findByOrganizationId(organization_1.id);
+      const memberships = await membershipRepository.findByOrganizationId({ organizationId: organization_1.id });
 
       // then
       expect(_.map(memberships, 'user.id')).to.have.members([user_1.id, user_2.id]);
+    });
 
+    it('should order memberships by id', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      const user_1 = databaseBuilder.factory.buildUser();
+      const user_2 = databaseBuilder.factory.buildUser();
+      const user_3 = databaseBuilder.factory.buildUser();
+
+      const organizationRole = Membership.roles.OWNER;
+
+      const membership_3 = databaseBuilder.factory.buildMembership({ id: 789, organizationRole, organizationId: organization.id, userId: user_3.id });
+      const membership_2 = databaseBuilder.factory.buildMembership({ id: 456, organizationRole, organizationId: organization.id, userId: user_2.id });
+      const membership_1 = databaseBuilder.factory.buildMembership({ id: 123, organizationRole, organizationId: organization.id, userId: user_1.id });
+
+      await databaseBuilder.commit();
+
+      // when
+      const memberships = await membershipRepository.findByOrganizationId({ organizationId: organization.id });
+
+      // then
+      expect(_.map(memberships, 'id')).to.deep.include.ordered.members([membership_1.id, membership_2.id, membership_3.id]);
+    });
+
+    it('should order memberships by lastName and then by firstName with no sensitive case', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      const user_1 = databaseBuilder.factory.buildUser({ lastName: 'Grenier' });
+      const user_2 = databaseBuilder.factory.buildUser({ lastName: 'Avatar', firstName: 'Xavier' });
+      const user_3 = databaseBuilder.factory.buildUser({ lastName: 'Avatar', firstName: 'Arthur' });
+      const user_4 = databaseBuilder.factory.buildUser({ lastName: 'Avatar', firstName: 'MATHURIN' });
+
+      const organizationRole = Membership.roles.OWNER;
+
+      const membership_1 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_1.id });
+      const membership_2 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_2.id });
+      const membership_3 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_3.id });
+      const membership_4 = databaseBuilder.factory.buildMembership({ organizationRole, organizationId: organization.id, userId: user_4.id });
+
+      await databaseBuilder.commit();
+
+      // when
+      const memberships = await membershipRepository.findByOrganizationId({ organizationId: organization.id, orderByName: true });
+
+      // then
+      expect(_.map(memberships, 'id')).to.deep.include.ordered.members([membership_3.id, membership_4.id, membership_2.id, membership_1.id]);
     });
   });
 
+  describe('#findByUserIdAndOrganizationId', () => {
+    it('should retrieve membership with given useId and OrganizationId', async () => {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const user1 = databaseBuilder.factory.buildUser();
+      const organizationRole1 = Membership.roles.OWNER;
+      const user2 = databaseBuilder.factory.buildUser();
+      const organizationRole2 = Membership.roles.MEMBER;
+
+      databaseBuilder.factory.buildMembership({ organizationRole: organizationRole1, organizationId: organization.id, userId: user1.id });
+      const membership2 = databaseBuilder.factory.buildMembership({ organizationRole: organizationRole2, organizationId: organization.id, userId: user2.id });
+
+      await databaseBuilder.commit();
+
+      //when
+      const memberships = await membershipRepository.findByUserIdAndOrganizationId(user2.id, organization.id);
+
+      //then
+      expect(memberships).to.have.lengthOf(1);
+      expect(memberships[0].id).to.equal(membership2.id);
+    });
+  });
 });

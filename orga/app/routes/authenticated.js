@@ -5,9 +5,9 @@ import { inject as service } from '@ember/service';
 export default Route.extend(AuthenticatedRouteMixin, {
   store: service('store'),
   session: service(),
-  currentOrganization: service(),
+  currentUser: service(),
 
   model() {
-    return this.currentOrganization.organization.then((organization) => organization);
+    return this.currentUser.organization;
   }
 });

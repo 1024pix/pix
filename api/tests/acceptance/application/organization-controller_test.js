@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
+const Membership = require('../../../lib/domain/models/Membership');
 const createServer = require('../../../server');
 const settings = require('../../../lib/settings');
 const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
@@ -354,8 +355,9 @@ describe('Acceptance | Application | organization-controller', () => {
         .then(() => _insertSnapshot(organizationId, userId));
     });
 
-    afterEach(() => {
-      return knex('snapshots').delete()
+    afterEach(async () => {
+      await databaseBuilder.clean();
+      await knex('snapshots').delete()
         .then(() => knex('organizations').delete());
     });
 
@@ -447,8 +449,8 @@ describe('Acceptance | Application | organization-controller', () => {
         return promise.then((response) => {
           const campaigns = response.result.data;
           expect(campaigns).to.have.lengthOf(2);
-          expect(_.map(campaigns, 'attributes.name')).to.have.members([ orga1Campaign1.name, orga1Campaign2.name ]);
-          expect(_.map(campaigns, 'attributes.code')).to.have.members([ orga1Campaign1.code, orga1Campaign2.code ]);
+          expect(_.map(campaigns, 'attributes.name')).to.have.members([orga1Campaign1.name, orga1Campaign2.name]);
+          expect(_.map(campaigns, 'attributes.code')).to.have.members([orga1Campaign1.code, orga1Campaign2.code]);
         });
       });
 
@@ -483,26 +485,27 @@ describe('Acceptance | Application | organization-controller', () => {
     let organization;
     let options;
 
-    beforeEach(async () => {
-      const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
-      organization = databaseBuilder.factory.buildOrganization();
-      await databaseBuilder.commit();
-
-      options = {
-        method: 'GET',
-        url: `/api/organizations/${organization.id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
-      };
-
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
     context('Expected output', () => {
 
-      it('should return the matching organization as JSON API', () => {
+      beforeEach(async () => {
+        const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+        organization = databaseBuilder.factory.buildOrganization();
+
+        await databaseBuilder.commit();
+
+        options = {
+          method: 'GET',
+          url: `/api/organizations/${organization.id}`,
+          headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
+        };
+
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should return the matching organization as JSON API', async () => {
         // given
         const expectedResult = {
           'data': {
@@ -528,12 +531,10 @@ describe('Acceptance | Application | organization-controller', () => {
         };
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.result).to.deep.equal(expectedResult);
-        });
+        expect(response.result).to.deep.equal(expectedResult);
       });
 
       it('should return a 404 error when organization was not found', () => {
@@ -587,4 +588,118 @@ describe('Acceptance | Application | organization-controller', () => {
     });
   });
 
+  describe('GET /api/organizations/{id}/memberships', () => {
+
+    let organization;
+    let options;
+
+    beforeEach(async () => {
+      const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      organization = databaseBuilder.factory.buildOrganization();
+      options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}/memberships`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
+      };
+    });
+
+    context('Expected output', () => {
+
+      let user;
+      let membershipId;
+
+      beforeEach(async () => {
+        user = databaseBuilder.factory.buildUser();
+
+        membershipId = databaseBuilder.factory.buildMembership({
+          userId: user.id,
+          organizationId: organization.id,
+        }).id;
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should return the matching organization as JSON API', async () => {
+        // given
+        const expectedResult = {
+          'data': [
+            {
+              'attributes': {
+                'organization-role': 'MEMBER',
+              },
+              'id': membershipId.toString(),
+              'relationships': {
+                'organization': {
+                  'data': null
+                },
+                'user': {
+                  'data': {
+                    'id': user.id.toString(),
+                    'type': 'users'
+                  }
+                },
+              },
+              'type': 'memberships'
+            }
+          ],
+          'included': [
+            {
+              'attributes': {
+                'email': user.email,
+                'first-name': user.firstName,
+                'last-name': user.lastName,
+              },
+              'id': user.id.toString(),
+              'type': 'users'
+            }
+          ]
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - forbidden access - if user is not OWNER in organization nor PIX_MASTER', async () => {
+        // given
+        const nonPixMasterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMasterUserId);
+
+        databaseBuilder.factory.buildUser.withMembership({
+          id: nonPixMasterUserId,
+          organizationId: organization.id,
+          organizationRole: Membership.roles.MEMBER
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
 });
