@@ -1,33 +1,3 @@
-<div class="team">
-  <div class="team__header">
-    <div class="page__title page-title">Mon équipe</div>
-  </div>
-  <div class="panel">
-    <div class="table content-text content-text--small">
-      <table>
-        <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
-        </tr>
-        </thead>
-
-        {{#if model.memberships}}
-          <tbody>
-          {{#each model.memberships as |membership|}}
-            <tr>
-              <td>{{membership.user.lastName}}</td>
-              <td>{{membership.user.firstName}}</td>
-            </tr>
-          {{/each}}
-
-          </tbody>
-        {{/if}}
-      </table>
-
-      {{#unless model.memberships}}
-        <div class="table__empty content-text">En attente de membres</div>
-      {{/unless}}
-    </div>
-  </div>
+<div class="team-layout">
+  {{outlet}}
 </div>

@@ -6,7 +6,7 @@ import { createUserMembershipWithRole } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Team', function(hooks) {
+module('Acceptance | Team List', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
