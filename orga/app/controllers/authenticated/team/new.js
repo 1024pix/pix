@@ -8,6 +8,7 @@ export default Controller.extend({
 
   actions: {
     async addTeamMember(membership) {
+      this.set('errorMessage', null);
       const organization = this.model.organization;
 
       return membership.save({ adapterOptions: { createMembershipsWithEmail: true, organizationId: organization.id, email: this.email } })
@@ -18,19 +19,21 @@ export default Controller.extend({
         .catch((errorResponse) => {
           errorResponse.errors.forEach((error) => {
             if (error.status === '421') {
-              return this.set('errorMessage', 'Ce membre existe déjà.');
+              return this.set('errorMessage', 'Ce membre a déjà été ajouté.');
             }
             if (error.status === '404') {
               return this.set('errorMessage', 'Cet email n\'appartient à aucun utilisateur.');
             }
             if (error.status === '500') {
-              return this.set('errorMessage', error.detail);
+              return this.set('errorMessage', error.title);
             }
           });
         });
     },
 
     cancel() {
+      this.set('email', null);
+      this.set('errorMessage', null);
       this.transitionToRoute('authenticated.team');
     },
   }

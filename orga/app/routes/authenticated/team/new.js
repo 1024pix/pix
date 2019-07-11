@@ -13,5 +13,11 @@ export default Route.extend({
       organization,
       membership: this.store.createRecord('membership', { organizationId: organization.get('id'), organizationRole: 'MEMBER' })
     });
-  }
+  },
+
+  setupController(controller) {
+    this._super(...arguments);
+    controller.set('email', null);
+    controller.set('errorMessage', null);
+  },
 });
