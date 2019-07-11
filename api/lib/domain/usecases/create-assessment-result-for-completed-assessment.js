@@ -84,17 +84,19 @@ function _saveAssessmentResult({
     assessmentScore.competenceMarks,
     assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.COMPLETED }),
   ])
-    .then(([assessmentResult, competenceMarks]) => {
-      const assessmentResultId = assessmentResult.id;
+    .then(([assessmentResult, competenceMarks]) => _saveCompetenceMarks({ assessmentResult, competenceMarks, assessment, competenceMarkRepository }))
+    .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate));
+}
 
-      const saveMarksPromises = competenceMarks
-        .map((mark) => _setAssessmentResultIdOnMark(mark, assessmentResultId))
-        .map((mark) => _ceilCompetenceMarkLevelForCertification(mark, assessment))
-        .map(competenceMarkRepository.save);
+function _saveCompetenceMarks({ assessmentResult, competenceMarks, assessment, competenceMarkRepository }) {
+  const assessmentResultId = assessmentResult.id;
 
-      return Promise.all(saveMarksPromises);
-    })
-    .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
+  const saveMarksPromises = competenceMarks
+    .map((mark) => _setAssessmentResultIdOnMark(mark, assessmentResultId))
+    .map((mark) => _ceilCompetenceMarkLevelForCertification(mark, assessment))
+    .map(competenceMarkRepository.save);
+
+  return Promise.all(saveMarksPromises);
 }
 
 function _getAssessmentStatus(assessment, assessmentScore) {
