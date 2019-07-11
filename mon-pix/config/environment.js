@@ -47,17 +47,6 @@ module.exports = function(environment) {
       warnIfNoIconsIncluded: false,
     },
 
-    metricsAdapters: [
-      {
-        name: 'Piwik',
-        environments: ['production'],
-        config: {
-          piwikUrl: 'https://stats.pix.fr/',
-          siteId: 4
-        }
-      }
-    ],
-
     // Set or update content security policies
     contentSecurityPolicy: {
       'default-src': "'none'",
@@ -83,6 +72,10 @@ module.exports = function(environment) {
     moment: {
       includeLocales: ['fr'],
     },
+
+    matomo: {
+      url: 'https://stats.pix.fr/js/container_jKDD76j4.js',
+    },
   };
 
   if (environment === 'development') {
@@ -95,6 +88,7 @@ module.exports = function(environment) {
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.API_HOST = process.env.API_HOST || 'http://localhost:3000';
     ENV.APP.HOME_HOST = '/';
+    ENV.matomo.debug = true;
   }
 
   if (environment === 'test') {
