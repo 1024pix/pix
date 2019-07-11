@@ -1,0 +1,10 @@
+.list-team-page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  &__header {
+    display: flex;
+    margin: 1em;
+  }
+}
