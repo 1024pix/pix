@@ -41,7 +41,8 @@ module('Integration | Component | routes/authenticated/campaign | details-item',
     const campaign = run(() => store.createRecord('campaign', {
       id: 1,
       name: 'campagne 1',
-      campaignReport
+      campaignReport,
+      code: '1234PixTest',
     }));
 
     this.set('campaign', campaign);
@@ -50,7 +51,8 @@ module('Integration | Component | routes/authenticated/campaign | details-item',
     await render(hbs`{{routes/authenticated/campaigns/details-item campaign=campaign}}`);
 
     // then
-    assert.dom('.campaign-details-header-report__participants .campaign-details-content__text').hasText('10');
+    assert.dom('.campaign-details-header-report__info:nth-child(1) .campaign-details-content__text').hasText('1234PixTest');
+    assert.dom('.campaign-details-header-report__info:nth-child(2) .campaign-details-content__text').hasText('10');
     assert.dom('.campaign-details-header-report__shared .campaign-details-content__text').hasText('4');
   });
 
@@ -73,7 +75,7 @@ module('Integration | Component | routes/authenticated/campaign | details-item',
     await render(hbs`{{routes/authenticated/campaigns/details-item campaign=campaign}}`);
 
     // then
-    assert.dom('.campaign-details-header-report__participants .campaign-details-content__text').hasText('-');
+    assert.dom('.campaign-details-header-report__info:nth-child(2) .campaign-details-content__text').hasText('-');
     assert.dom('.campaign-details-header-report__shared .campaign-details-content__text').hasText('-');
   });
 });

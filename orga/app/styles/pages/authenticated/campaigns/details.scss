@@ -34,10 +34,9 @@
 }
 
 .campaign-details-header-report {
-  &__participants {
-    padding-right: 40px;
-    margin-right: 40px;
-    border-right: 1px solid $alto;
+  &__info {
+    padding-right: 15px;
+    margin-right: 15px;
   }
 }
 
@@ -52,4 +51,3 @@
     padding-right: 10px;
   }
 }
-
