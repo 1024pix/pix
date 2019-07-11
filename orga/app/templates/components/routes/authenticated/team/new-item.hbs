@@ -1,15 +1,8 @@
-<h1 class="page__title page-title">Ajouter un membre</h1>
-
 <form {{action addTeamMember membership on='submit'}} class="form">
 
   <div class="form__field">
     <label for="email" class="label">Email</label>
-    {{input id='email'
-            name='email'
-            type='email'
-            value=email
-            class="input"
-    }}
+    {{input required id='email' name='email' type='email' value=email class="input"}}
   </div>
 
   <div class="form__validation">

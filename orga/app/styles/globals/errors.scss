@@ -1,7 +1,25 @@
-.error-zone {
+.alert-zone {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: red;
+  height: 44px;
+  width: 500px;
+  border-radius: 4px;
+  margin-bottom: 40px;
 
+  &--error {
+    background-color: $vermilion;
+    color: $white;
+  }
+
+  &--success {
+    background-color: $mountain-meadow;
+  }
+
+  &__message {
+    font-family: $open-sans;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-left: 10px;
+  }
 }

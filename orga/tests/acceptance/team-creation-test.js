@@ -78,31 +78,51 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom('.table tbody tr').exists({ count: 2 });
       });
 
+      test('should display an empty input field after cancel and before add a team member', async function(assert) {
+        // given
+        const email = 'cancel&cancel.com';
+        user = createUserMembershipWithRole('OWNER');
+        await authenticateSession({
+          user_id: user.id,
+        });
+
+        await visit('/equipe/creation');
+        await fillIn('#email', email);
+        await click('.button--no-color');
+
+        // when
+        await visit('/equipe/creation');
+
+        // then
+        assert.dom('#email').hasText('');
+      });
+
       test('it should display error on global form when error 500 is returned from backend', async function(assert) {
         // given
         user = createUserMembershipWithRole('OWNER');
         await authenticateSession({
           user_id: user.id,
         });
-        server.post('/organizations/:id/add-membership',
+        await visit('/equipe/creation');
+        await server.post('/organizations/:id/add-membership',
           {
             errors: [
               {
-                detail: 'Une erreur est survenue',
+                detail: '[Object object]',
                 status: '500',
                 title: 'Internal Server Error',
               }
             ]
           }, 500);
-        await visit('/equipe/creation');
+        await fillIn('#email', 'fake@email');
 
         // when
         await click('button[type="submit"]');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('.new-campaign-page__error').exists();
-        assert.dom('.new-campaign-page__error').hasText('Une erreur est survenue');
+        assert.dom('.alert-zone--error').exists();
+        assert.dom('.alert-zone--error').hasText('Internal Server Error');
       });
 
       test('it should display error on global form when error 421 is returned from backend', async function(assert) {
@@ -111,6 +131,7 @@ module('Acceptance | Team Creation', function(hooks) {
         await authenticateSession({
           user_id: user.id,
         });
+        await visit('/equipe/creation');
         server.post('/organizations/:id/add-membership',
           {
             errors: [
@@ -120,16 +141,16 @@ module('Acceptance | Team Creation', function(hooks) {
                 title: 'Precondition Failed',
               }
             ]
-          }, 500);
-        await visit('/equipe/creation');
+          }, 421);
+        await fillIn('#email', 'fake@email');
 
         // when
         await click('button[type="submit"]');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('.error-zone').exists();
-        assert.dom('.error-zone').hasText('Ce membre existe déjà.');
+        assert.dom('.alert-zone--error').exists();
+        assert.dom('.alert-zone--error').hasText('Ce membre a déjà été ajouté.');
       });
 
       test('it should display error on global form when error 404 is returned from backend', async function(assert) {
@@ -138,6 +159,7 @@ module('Acceptance | Team Creation', function(hooks) {
         await authenticateSession({
           user_id: user.id,
         });
+        await visit('/equipe/creation');
         server.post('/organizations/:id/add-membership',
           {
             errors: [
@@ -147,16 +169,16 @@ module('Acceptance | Team Creation', function(hooks) {
                 title: 'Not Found',
               }
             ]
-          }, 500);
-        await visit('/equipe/creation');
+          }, 404);
+        await fillIn('#email', 'fake@email');
 
         // when
         await click('button[type="submit"]');
 
         // then
         assert.equal(currentURL(), '/equipe/creation');
-        assert.dom('.error-zone').exists();
-        assert.dom('.error-zone').hasText('Cet email n\'appartient à aucun utilisateur.');
+        assert.dom('.alert-zone--error').exists();
+        assert.dom('.alert-zone--error').hasText('Cet email n\'appartient à aucun utilisateur.');
       });
     });
   });
