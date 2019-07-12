@@ -14,6 +14,20 @@ export default function(server) {
     email: 'jane@acme.com',
     password: 'Jane1234',
     cgu: true,
+    isProfileV2: false,
+    recaptchaToken: 'recaptcha-token-xxxxxx',
+    totalPixScore: 456,
+    competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+  });
+
+  server.create('user', {
+    id: 5,
+    firstName: 'Jane',
+    lastName: 'Doe v2',
+    email: 'jane-profilev2@acme.com',
+    password: 'Jane1234',
+    cgu: true,
+    isProfileV2: true,
     recaptchaToken: 'recaptcha-token-xxxxxx',
     totalPixScore: 456,
     competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
