@@ -47,15 +47,14 @@ module.exports = {
       .then(userSerializer.serialize);
   },
 
-  // FIXME: Pas de tests ?!
-  getAuthenticatedUserProfile(request) {
+  async getAuthenticatedUserProfile(request) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
-    return userRepository.findUserById(userId)
-      .then((foundUser) => {
-        return profileService.getByUserId(foundUser.id);
-      })
-      .then((buildedProfile) => profileSerializer.serialize(buildedProfile));
+
+    const foundUser = await userRepository.findUserById(userId);
+    const profile = await profileService.getByUserId(foundUser.id);
+
+    return profileSerializer.serialize(profile);
   },
 
   updateUser(request) {
