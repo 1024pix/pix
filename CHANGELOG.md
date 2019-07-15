@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v2.53.0 (15/07/2019)
+
+- [#605](https://github.com/1024pix/pix/pull/605) [FEATURE] Possibilité pour le responsable d'une organisation d'ajouter d'autres membres (PO-80).
+- [#602](https://github.com/1024pix/pix/pull/602) [FEATURE] Affichage de la liste des membres dans PIX Orga (PO-99).
+- [#598](https://github.com/1024pix/pix/pull/598) [FEATURE] Mise en place de Matomo Tag Manager pour les applications front (PF-615).
+- [#604](https://github.com/1024pix/pix/pull/604) [FEATURE] Afficher le code campagne dans Pix Orga (PO-213)
+- [#606](https://github.com/1024pix/pix/pull/606) [BUGFIX] PixOrga ne fonctionne plus sous IE11 (PO-221).
+
 ## v2.52.1 (10/07/2019)
 
 - [BUGFIX] Empêcher de modifier le mot de passe d’un utilisateur sans token de réinitialisation
