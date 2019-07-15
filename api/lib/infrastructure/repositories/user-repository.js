@@ -59,7 +59,7 @@ function _toDomain(userBookshelf) {
     certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
     isProfileV2: Boolean(userBookshelf.get('isProfileV2')),
-    hasSeenMigrationModal: Boolean(userBookshelf.get('hasSeenMigrationModal')),
+    hasSeenNewProfileInfo: Boolean(userBookshelf.get('hasSeenNewProfileInfo')),
   });
 }
 
