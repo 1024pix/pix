@@ -134,7 +134,7 @@ describe('Acceptance | Controller | users-controller', () => {
       });
     });
 
-    context('with hasSeenMigrationModal field', () => {
+    context('with hasSeenNewProfileInfo field', () => {
 
       it('should reply 204 status code', async () => {
         // given
@@ -144,7 +144,7 @@ describe('Acceptance | Controller | users-controller', () => {
           payload: {
             data: {
               attributes: {
-                'has-seen-migration-modal': true
+                'has-seen-new-profile-info': true
               }
             }
           }

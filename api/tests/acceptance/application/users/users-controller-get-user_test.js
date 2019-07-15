@@ -52,7 +52,7 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
             'is-profile-v2': false,
             'pix-orga-terms-of-service-accepted': false,
             'pix-certif-terms-of-service-accepted': false,
-            'has-seen-migration-modal': false,
+            'has-seen-new-profile-info': false,
           },
           relationships: {
             'memberships': {
