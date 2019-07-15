@@ -14,6 +14,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'getOrganizationMemberships');
+    sandbox.stub(usecases, 'addOrganizationMembershipWithEmail');
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganization');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganizationOrHasRolePixMaster');
@@ -134,6 +135,65 @@ describe('Integration | Application | Organizations | organization-controller', 
         expect(response.result.included[0].id).to.equal(`${membership.organization.id}`);
         expect(response.result.included[1].type).to.equal('users');
         expect(response.result.included[1].id).to.equal(`${membership.user.id}`);
+      });
+    });
+  });
+
+  describe('#createOrganizationMemberships', () => {
+
+    context('Success cases', () => {
+
+      const payload = {
+        data: {
+          email: 'dev@example.net',
+        }
+      };
+
+      beforeEach(() => {
+        securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster.returns(true);
+      });
+
+      const membership = domainBuilder.buildMembership();
+
+      it('should return an HTTP response with status code 200', async () => {
+        // given
+        usecases.addOrganizationMembershipWithEmail.resolves([membership]);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organizations/1234/add-membership', payload);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+      });
+
+      it('should return an HTTP response formatted as JSON:API', async () => {
+        // given
+        usecases.addOrganizationMembershipWithEmail.resolves([membership]);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organizations/1234/add-membership', payload);
+
+        // then
+        expect(response.result.data[0].type).to.equal('memberships');
+        expect(response.result.data[0].id).to.equal(membership.id.toString());
+      });
+
+      it('should return a JSON:API response including organization, organization role & user information', async () => {
+        // given
+        const expectedAttributes = {
+          'organization-role': 'MEMBER'
+        };
+        usecases.addOrganizationMembershipWithEmail.resolves([membership]);
+
+        // when
+        const response = await httpTestServer.request('POST', '/api/organizations/1234/add-membership', payload);
+
+        // then
+        expect(response.result.included[0].type).to.equal('organizations');
+        expect(response.result.included[0].id).to.equal(`${membership.organization.id}`);
+        expect(response.result.included[1].type).to.equal('users');
+        expect(response.result.included[1].id).to.equal(`${membership.user.id}`);
+        expect(response.result.data[0].attributes).to.deep.equal(expectedAttributes);
       });
     });
   });

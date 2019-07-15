@@ -51,6 +51,7 @@ function injectDependencies(usecases) {
 module.exports = injectDependencies({
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
+  addOrganizationMembershipWithEmail: require('./add-organization-membership-with-email'),
   authenticateUser: require('./authenticate-user'),
   computeCampaignCollectiveResult: require('./compute-campaign-collective-result'),
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
@@ -60,7 +61,7 @@ module.exports = injectDependencies({
   createCampaign: require('./create-campaign'),
   createCertificationCenterMembership: require('./create-certification-center-membership'),
   createMembership: require('./create-membership'),
-  createOrganization: require('./create-organization.js'),
+  createOrganization: require('./create-organization'),
   createSession: require('./create-session'),
   createUser: require('./create-user'),
   findCampaignParticipationsRelatedToAssessment: require('./find-campaign-participations-related-to-assessment'),

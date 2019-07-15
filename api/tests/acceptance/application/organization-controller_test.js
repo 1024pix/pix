@@ -702,4 +702,145 @@ describe('Acceptance | Application | organization-controller', () => {
       });
     });
   });
+
+  describe('GET /api/organizations/{id}/add-membership', () => {
+
+    let organization;
+    let options;
+
+    beforeEach(async () => {
+      const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      organization = databaseBuilder.factory.buildOrganization();
+      options = {
+        method: 'POST',
+        url: `/api/organizations/${organization.id}/add-membership`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
+        payload: {
+          email: 'dev@example.net'
+        }
+      };
+    });
+
+    context('Expected output', () => {
+
+      let user;
+
+      beforeEach(async () => {
+        const ownerUser = databaseBuilder.factory.buildUser();
+        user = databaseBuilder.factory.buildUser({ id: 123, email: options.payload.email });
+        databaseBuilder.factory.buildMembership({
+          userId: ownerUser.id,
+          organizationId: organization.id,
+          organizationRole: Membership.roles.OWNER,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await knex('memberships').delete();
+        await databaseBuilder.clean();
+      });
+
+      it('should return the matching organization as JSON API', async () => {
+        // given
+        const attributes = {
+          'organization-role': 'MEMBER'
+        };
+
+        const relationships = {
+          organization: {
+            data: null
+          },
+          user: {
+            data: {
+              id: user.id.toString(),
+              type: 'users'
+            }
+          }
+        };
+
+        const included = [{
+          attributes: {
+            email: user.email,
+            'first-name': user.firstName,
+            'last-name': user.lastName,
+          },
+          id: user.id.toString(),
+          type: 'users'
+        }];
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.result.included).to.deep.equal(included);
+        expect(response.result.data.relationships).to.deep.equal(relationships);
+        expect(response.result.data.relationships).to.deep.equal(relationships);
+        expect(response.result.data.type).to.equal('memberships');
+        expect(response.result.data.attributes).to.deep.equal(attributes);
+      });
+    });
+
+    context('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - forbidden access - if user is not OWNER in organization nor PIX_MASTER', async () => {
+        // given
+        const nonPixMasterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMasterUserId);
+
+        databaseBuilder.factory.buildUser.withMembership({
+          id: nonPixMasterUserId,
+          organizationId: organization.id,
+          organizationRole: Membership.roles.MEMBER
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should respond with a 404 - not found - if given email is not linked to an existing user', async () => {
+        // given
+        options.payload.email = 'fakeEmail';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+
+      it('should respond with a 421 - precondition failed - if user is already member of organization', async () => {
+        // given
+        const userAlreadyInDB = databaseBuilder.factory.buildUser({ id: 123, email: options.payload.email });
+        databaseBuilder.factory.buildMembership({ userId: userAlreadyInDB.id, organizationId: organization.id });
+
+        await databaseBuilder.commit();
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(421);
+      });
+    });
+  });
+
 });

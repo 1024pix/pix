@@ -1,7 +1,11 @@
 <div class="new-campaign-page">
+
+  <h1 class="page__title page-title">Création d'une campagne</h1>
+
   {{#if error500Message}}
-    <div class="new-campaign-page__error error-zone">
-      {{error500Message}}
+    <div class="alert-zone alert-zone--error" aria-live="polite">
+      {{fa-icon 'exclamation-triangle'}}
+      <p class="alert-zone__message">{{error500Message}}</p>
     </div>
   {{/if}}
 
