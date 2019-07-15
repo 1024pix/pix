@@ -21,6 +21,7 @@ Router.map(function() {
     this.route('terms-of-service', { path: '/cgu' });
     this.route('team', { path: '/equipe' }, function() {
       this.route('list', { path: '/' });
+      this.route('new', { path: '/creation' });
     });
     this.route('campaigns', { path: '/campagnes' }, function() {
       this.route('list', { path: '/' });

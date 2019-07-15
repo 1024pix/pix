@@ -84,7 +84,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
         {
           errors: [
             {
-              detail: 'Une erreur est intervenue lors de l\'enregistrement de la campagne',
+              detail: '[Object object]',
               status: '500',
               title: 'Internal Server Error',
             }
@@ -97,8 +97,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
       // then
       assert.equal(currentURL(), '/campagnes/creation');
-      assert.dom('.new-campaign-page__error').exists();
-      assert.dom('.new-campaign-page__error').hasText('Une erreur est intervenue lors de l\'enregistrement de la campagne');
+      assert.dom('.alert-zone--error').exists();
+      assert.dom('.alert-zone--error').hasText('Internal Server Error');
     });
   });
 });

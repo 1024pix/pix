@@ -3,7 +3,7 @@
   <h2 class="page-sub-title">{{campaign.name}}</h2>
 
   <form {{action update campaign on='submit'}} class="campaign-creation-form">
-    <div class="campaign-form__field">
+    <div class="form__field">
       <label for="campaign-title" class="label">Titre du parcours</label>
       {{input id='campaign-title'
               name='campaign-title'
@@ -14,7 +14,7 @@
       }}
     </div>
 
-    <div class="campaign-form__field">
+    <div class="form__field">
       <label for="campaign-custom-landing-page-text" class="label">Texte de la page d'accueil</label>
       {{textarea id='campaign-custom-landing-page-text'
               name='campaign-custom-landing-page-text'
@@ -25,7 +25,7 @@
       }}
     </div>
 
-    <div class="campaign-form__validation">
+    <div class="form__validation">
       <div class="button button--no-color" {{action cancel campaign.id}}>Annuler</div>
       <button class="button" type="submit">Modifier</button>
     </div>

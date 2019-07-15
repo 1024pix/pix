@@ -5,14 +5,11 @@ export default Route.extend({
 
   currentUser: service(),
 
-  beforeModel() {
-    this._super(...arguments);
-    if (!this.currentUser.isOwnerInOrganization) {
-      return this.replaceWith('application');
-    }
-  },
-
   model() {
     return this.currentUser.organization;
   },
+
+  afterModel(model) {
+    return model.hasMany('memberships').reload();
+  }
 });

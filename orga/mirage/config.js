@@ -47,6 +47,19 @@ export default function() {
     return schema.campaigns.all();
   });
 
+  this.get('/organizations/:id/memberships', (schema, request) => {
+    const organizationId = request.params.id;
+    return schema.memberships.where({ organizationId });
+  });
+
+  this.post('/organizations/:id/add-membership', (schema, request) => {
+    const organizationId = request.params.id;
+    const email = JSON.parse(request.requestBody).email;
+    const organization = schema.organizations.find(organizationId);
+    const user = schema.users.findBy({ email });
+    return schema.memberships.create({ userId: user.id, organizationId: organization.id, organizationRole: 'MEMBER' });
+  });
+
   this.get('/campaigns/:id');
 
   this.patch('/campaigns/:id');

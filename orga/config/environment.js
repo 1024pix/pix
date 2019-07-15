@@ -24,13 +24,13 @@ module.exports = function(environment) {
 
     googleFonts: [
       'Roboto:300,400,700,900', // main font
-      'Open+Sans:300',
+      'Open+Sans:300,600',
     ],
 
     fontawesome: {
       warnIfNoIconsIncluded: false,
     },
-    
+
     moment: {
       includeLocales: ['fr']
     },
@@ -59,7 +59,6 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.matomo.debug = true;
   }
 
   if (environment === 'test') {
