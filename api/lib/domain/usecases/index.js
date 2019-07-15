@@ -109,7 +109,7 @@ module.exports = injectDependencies({
   getUserWithMemberships: require('./get-user-with-memberships'),
   preloadCacheEntries: require('./preload-cache-entries'),
   reloadCacheEntry: require('./reload-cache-entry'),
-  rememberUserHasSeenMigrationModal: require('./remember-user-has-seen-migration-modal'),
+  rememberUserHasSeenNewProfileInfo: require('./remember-user-has-seen-new-profile-info'),
   removeAllCacheEntries: require('./remove-all-cache-entries'),
   resetScorecard: require('./reset-scorecard'),
   retrieveLastOrCreateCertificationCourse : require('./retrieve-last-or-create-certification-course'),

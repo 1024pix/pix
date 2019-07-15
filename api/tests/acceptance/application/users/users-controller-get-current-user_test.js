@@ -41,7 +41,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
             cgu: true,
             'pix-orga-terms-of-service-accepted': false,
             'pix-certif-terms-of-service-accepted': false,
-            'has-seen-migration-modal': false,
+            'has-seen-new-profile-info': false,
             'uses-profile-v2': false,
           },
           relationships: {

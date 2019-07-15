@@ -13,7 +13,7 @@ module.exports = function buildUser(
     cgu = true,
     pixOrgaTermsOfServiceAccepted = false,
     pixCertifTermsOfServiceAccepted = false,
-    hasSeenMigrationModal = false,
+    hasSeenNewProfileInfo = false,
     pixRoles = [buildPixRole()],
     memberships = [buildMembership()],
     certificationCenterMemberships = [buildCertificationCenterMembership()]
@@ -21,7 +21,7 @@ module.exports = function buildUser(
 
   return new User({
     id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenMigrationModal, pixRoles, memberships,
+    pixCertifTermsOfServiceAccepted, hasSeenNewProfileInfo, pixRoles, memberships,
     certificationCenterMemberships,
   });
 };

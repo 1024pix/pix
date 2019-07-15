@@ -51,14 +51,14 @@ describe('Acceptance | Profile v2 | Display profile v2', function() {
       await visit('/profil-v2');
 
       // then
-      expect(find('.new-profile-disclaimer')).to.exists;
+      expect(find('.new-profile-info')).to.exists;
       expect(find('.profile-v2-panel-header-information')).to.exists;
 
       // when
-      await click('.new-profile-disclaimer__close');
+      await click('.new-profile-info__close');
 
       // then
-      expect(find('.new-profile-disclaimer')).to.not.exists;
+      expect(find('.new-profile-info')).to.not.exists;
       expect(find('.profile-v2-panel-header-information')).to.not.exists;
     });
 

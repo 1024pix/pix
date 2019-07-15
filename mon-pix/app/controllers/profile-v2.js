@@ -6,10 +6,10 @@ export default Controller.extend({
   currentUser: service(),
 
   actions: {
-    updateUserHasSeenMigration() {
+    updateUserHasSeenNewProfileInfo() {
       const user = this.currentUser.user;
 
-      user.set('hasSeenMigrationModal', true);
+      user.set('hasSeenNewProfileInfo', true);
 
       return user.save();
     }

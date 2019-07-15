@@ -28,7 +28,7 @@
   line-height: 2.1rem;
 }
 
-.new-profile-disclaimer {
+.new-profile-info {
   display: flex;
   flex-direction: column;
   background: $pix-yellow-to-orange-gradient;
@@ -44,7 +44,7 @@
     }
   }
 
-  .new-profile-disclaimer-content {
+  .new-profile-info-content {
     display: flex;
     flex-direction: row;
     justify-content: space-around;

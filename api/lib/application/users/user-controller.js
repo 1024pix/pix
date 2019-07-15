@@ -81,8 +81,8 @@ module.exports = {
             userId
           });
         }
-        if (user.hasSeenMigrationModal) {
-          return usecases.rememberUserHasSeenMigrationModal({
+        if (user.hasSeenNewProfileInfo) {
+          return usecases.rememberUserHasSeenNewProfileInfo({
             userId
           });
         }

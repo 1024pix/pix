@@ -5,17 +5,17 @@
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner profile-v2__panel">
 
-    {{#unless currentUser.user.hasSeenMigrationModal}}
-      <div class="new-profile-disclaimer">
-        <div class="new-profile-disclaimer__close" {{action "updateUserHasSeenMigration"}}>
+    {{#unless currentUser.user.hasSeenNewProfileInfo}}
+      <div class="new-profile-info">
+        <div class="new-profile-info__close" {{action "updateUserHasSeenNewProfileInfo"}}>
           {{fa-icon 'times' size='lg'}}
         </div>
-        <div class="new-profile-disclaimer-content">
-          <div class="new-profile-disclaimer-content__title">
+        <div class="new-profile-info-content">
+          <div class="new-profile-info-content__title">
             <span>Le profil Pix évolue.</span>
             <span>Découvrez ce qui change.</span>
           </div>
-          <div class="new-profile-disclaimer-content__link">
+          <div class="new-profile-info-content__link">
             <a class="button button--big button--link"
                href="https://pix.fr/actualites/votre-profil-evolue"
                target="Actualité Pix">
@@ -32,7 +32,7 @@
           Vous avez 16 compétences à tester.<br>On se concentre et c'est partix !
         </h1>
 
-        {{#if currentUser.user.hasSeenMigrationModal}}
+        {{#if currentUser.user.hasSeenNewProfileInfo}}
           <h2 class="rounded-panel-header-text__content profile-v2-panel-header-information">
             Le profil Pix évolue.
             <a class="link"

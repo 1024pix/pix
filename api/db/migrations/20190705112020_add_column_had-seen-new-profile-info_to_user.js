@@ -1,5 +1,5 @@
 const TABLE_NAME = 'users';
-const COLUMN_NAME = 'hasSeenMigrationModal';
+const COLUMN_NAME = 'hasSeenNewProfileInfo';
 
 exports.up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {

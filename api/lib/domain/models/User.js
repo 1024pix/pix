@@ -14,7 +14,7 @@ class User {
     lastName,
     password,
     samlId,
-    hasSeenMigrationModal,
+    hasSeenNewProfileInfo,
     // includes
     memberships = [],
     certificationCenterMemberships = [],
@@ -35,7 +35,7 @@ class User {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.samlId = samlId;
-    this.hasSeenMigrationModal = hasSeenMigrationModal;
+    this.hasSeenNewProfileInfo = hasSeenNewProfileInfo;
     this.knowledgeElements = knowledgeElements;
     // includes
     this.pixRoles = pixRoles;

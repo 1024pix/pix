@@ -229,7 +229,7 @@ describe('Unit | Controller | user-controller', () => {
       });
     });
 
-    context('When payload has a hasSeenMigrationModal field', () => {
+    context('When payload has a hasSeenNewProfileInfo field', () => {
 
       it('should remember user has seen migration modal', async () => {
         // given
@@ -241,12 +241,12 @@ describe('Unit | Controller | user-controller', () => {
           payload: {
             data: {
               attributes: {
-                'has-seen-migration-modal': true,
+                'has-seen-new-profile-info': true,
               },
             },
           },
         };
-        const usecaseStub = sinon.stub(usecases, 'rememberUserHasSeenMigrationModal');
+        const usecaseStub = sinon.stub(usecases, 'rememberUserHasSeenNewProfileInfo');
 
         // when
         await userController.updateUser(request, hFake);
