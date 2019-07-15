@@ -40,7 +40,8 @@ module.exports = function(environment) {
       'Open+Sans:300,400,600', // used for ex. on buttons
       'Raleway:100,300,400,600,700,800', // used for index page titles
       'Roboto:300,400,500', // used for campaign
-      'Overpass' //used on the trophy
+      'Overpass', //used on the trophy
+      'Roboto+Mono' //used for monospaced needs
     ],
 
     fontawesome: {
