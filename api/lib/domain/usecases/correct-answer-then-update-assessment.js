@@ -1,4 +1,7 @@
-const { ChallengeAlreadyAnsweredError } = require('../errors');
+const {
+  ChallengeAlreadyAnsweredError,
+  UserHasBeenMigratedToV2Error,
+} = require('../errors');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/KnowledgeElement');
 
@@ -12,14 +15,25 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     skillRepository,
     smartPlacementAssessmentRepository,
     knowledgeElementRepository,
+    userRepository,
   } = {}) {
-
   const answersFind = await answerRepository.findByChallengeAndAssessment({
     assessmentId: answer.assessmentId,
     challengeId: answer.challengeId,
   });
+
   if (answersFind) {
     throw new ChallengeAlreadyAnsweredError();
+  }
+
+  const assessment = await assessmentRepository.get(answer.assessmentId);
+
+  if (assessment.isPlacement()) {
+    const user = await userRepository.get(assessment.userId);
+
+    if (user.isProfileV2) {
+      throw new UserHasBeenMigratedToV2Error();
+    }
   }
 
   const challenge = await challengeRepository.get(answer.challengeId);
@@ -27,7 +41,6 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
   const answerSaved = await answerRepository.save(correctedAnswer);
 
-  const assessment = await assessmentRepository.get(answer.assessmentId);
   if (assessment.isCompetenceEvaluation()) {
     await saveKnowledgeElementsForCompetenceEvaluation({
       assessment,
