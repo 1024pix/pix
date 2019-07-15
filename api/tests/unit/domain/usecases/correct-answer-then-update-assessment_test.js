@@ -6,7 +6,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 
 const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
 
-const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../lib/domain/errors');
+const { ChallengeAlreadyAnsweredError, NotFoundError, UserHasBeenMigratedToV2Error } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
 
@@ -23,6 +23,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     save: () => undefined,
     findUniqByUserId: () => undefined,
   };
+  const userRepository = {
+    get: () => undefined,
+  };
 
   beforeEach(() => {
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
@@ -34,6 +37,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(smartPlacementAssessmentRepository, 'get');
     sinon.stub(knowledgeElementRepository, 'save');
     sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
+    sinon.stub(userRepository, 'get');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
   });
 
@@ -511,4 +515,32 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       });
     });
   });
+
+  context('when assessment is PLACEMENT and user is profile v2', () => {
+
+    let answer;
+    let assessment;
+
+    beforeEach(() => {
+      answer = domainBuilder.buildAnswer();
+      answerRepository.findByChallengeAndAssessment.resolves(false);
+      assessment = domainBuilder.buildAssessment({ type: Assessment.types.PLACEMENT });
+      assessmentRepository.get.resolves(assessment);
+      userRepository.get.resolves({ isProfileV2: true });
+    });
+
+    it('should throw an error if no userId is passed', () => {
+      // when
+      const result = correctAnswerThenUpdateAssessment({
+        answer,
+        answerRepository,
+        assessmentRepository,
+        userRepository,
+      });
+
+      // then
+      return expect(result).to.be.rejectedWith(UserHasBeenMigratedToV2Error);
+    });
+  });
+
 });
