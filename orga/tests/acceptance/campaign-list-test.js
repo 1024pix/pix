@@ -17,7 +17,7 @@ module('Acceptance | Campaign List', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/campagnes/liste');
+      await visit('/campagnes');
 
       // then
       assert.equal(currentURL(), '/connexion');
@@ -37,10 +37,10 @@ module('Acceptance | Campaign List', function(hooks) {
       });
 
       // when
-      await visit('/campagnes/liste');
+      await visit('/campagnes');
 
       // then
-      assert.equal(currentURL(), '/campagnes/liste');
+      assert.equal(currentURL(), '/campagnes');
     });
 
     test('it should show title indicate than user can create a campaign', async function(assert) {
@@ -50,7 +50,7 @@ module('Acceptance | Campaign List', function(hooks) {
       });
 
       // when
-      await visit('/campagnes/liste');
+      await visit('/campagnes');
 
       // then
       assert.dom('.page-title').hasText('Créez votre première campagne');
@@ -64,7 +64,7 @@ module('Acceptance | Campaign List', function(hooks) {
       server.createList('campaign', 12);
 
       // when
-      await visit('/campagnes/liste');
+      await visit('/campagnes');
 
       // then
       assert.dom('.campaign-item').exists({ count: 12 });
@@ -76,7 +76,7 @@ module('Acceptance | Campaign List', function(hooks) {
         user_id: user.id,
       });
       server.create('campaign', { id: 1 });
-      await visit('/campagnes/liste');
+      await visit('/campagnes');
 
       // when
       await click('.campaign-item');

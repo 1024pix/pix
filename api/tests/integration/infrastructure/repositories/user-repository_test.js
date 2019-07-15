@@ -166,6 +166,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // then
         expect(user.memberships).to.be.an('array');
+        expect(user.memberships).to.have.lengthOf(1);
 
         const firstMembership = user.memberships[0];
         expect(firstMembership).to.be.an.instanceof(Membership);
@@ -178,7 +179,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(associatedOrganization.name).to.equal(organizationInDB.name);
         expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
-        expect(firstMembership.organizationRole).to.equal(Membership.roles.MEMBER);
+        expect(firstMembership.organizationRole).to.equal(membershipInDB.organizationRole);
       });
 
       it('should return certification center membership associated to the user', async () => {
@@ -315,6 +316,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
         // then
         expect(user.memberships).to.be.an('array');
+        expect(user.memberships).to.have.lengthOf(1);
 
         const membership = user.memberships[0];
         expect(membership).to.be.an.instanceof(Membership);
@@ -327,7 +329,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(associatedOrganization.name).to.equal(organizationInDB.name);
         expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
-        expect(membership.organizationRole).to.equal(Membership.roles.MEMBER);
+        expect(membership.organizationRole).to.equal(membershipInDB.organizationRole);
       });
 
       it('should reject with a UserNotFound error when no user was found with the given id', async () => {

@@ -51,7 +51,7 @@ function _mapToInfrastructureError(error) {
     return new InfraErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');
   }
   if (error instanceof DomainErrors.AlreadyExistingMembershipError) {
-    return new InfraErrors.BadRequestError('Ce membre est déjà lié à ce centre de certification.');
+    return new InfraErrors.PreconditionFailedError(error.message);
   }
   if (error instanceof DomainErrors.ForbiddenAccess) {
     return new InfraErrors.ForbiddenError(error.message);

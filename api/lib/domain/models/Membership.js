@@ -22,6 +22,10 @@ class Membership {
     this.user = user;
     // references
   }
+
+  get isOwner() {
+    return this.organizationRole === roles.OWNER;
+  }
 }
 
 Membership.roles = roles;

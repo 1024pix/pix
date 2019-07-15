@@ -13,14 +13,14 @@ export default Controller.extend({
         .catch((errorResponse) => {
           errorResponse.errors.forEach((error) => {
             if (error.status === '500') {
-              return this.set('error500Message', error.detail);
+              return this.set('error500Message', error.title);
             }
           });
         });
     },
 
     cancel() {
-      this.transitionToRoute('authenticated.campaigns.list');
+      this.transitionToRoute('authenticated.campaigns');
     },
   }
 });

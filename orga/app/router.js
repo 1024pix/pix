@@ -1,28 +1,17 @@
 import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
-import { scheduleOnce } from '@ember/runloop';
-import { inject as service } from '@ember/service';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
   rootURL: config.rootURL,
 
-  metrics: service(),
-
   init() {
     this._super(...arguments);
     this.on('routeDidChange', () => {
-      this._trackPage();
+      window.scrollTo(0, 0);
     });
   },
 
-  _trackPage() {
-    scheduleOnce('afterRender', this, () => {
-      const page = this.url;
-      const title = this.getWithDefault('currentRouteName', 'unknown');
-      this.metrics.trackPage({ page, title });
-    });
-  }
 });
 
 Router.map(function() {
@@ -30,13 +19,17 @@ Router.map(function() {
 
   this.route('authenticated', { path: '' }, function() {
     this.route('terms-of-service', { path: '/cgu' });
-    this.route('campaigns', { path: '/campagnes' }, function() {
+    this.route('team', { path: '/equipe' }, function() {
+      this.route('list', { path: '/' });
       this.route('new', { path: '/creation' });
-      this.route('list', { path: '/liste' });
+    });
+    this.route('campaigns', { path: '/campagnes' }, function() {
+      this.route('list', { path: '/' });
+      this.route('new', { path: '/creation' });
       this.route('update', { path: '/:campaign_id/modification' });
       this.route('details', { path: '/:campaign_id' }, function() {
-        this.route('collective-results', { path: '/resultats-collectifs' });
         this.route('parameters', { path: '/' });
+        this.route('collective-results', { path: '/resultats-collectifs' });
         this.route('participants', { path: '/participants' }, function() {
           this.route('results', { path: '/:campaign_participation_id' });
         });

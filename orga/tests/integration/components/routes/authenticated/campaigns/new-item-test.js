@@ -58,8 +58,8 @@ module('Integration | Component | routes/authenticated/campaign | new-item', fun
     await render(hbs`{{routes/authenticated/campaigns/new-item campaign=model createCampaign=(action createCampaignSpy) cancel=(action cancelSpy)}}`);
 
     // then
-    assert.dom('.campaign-form__error').exists();
-    assert.dom('.campaign-form__error').hasText('Le message d\'erreur à afficher');
+    assert.dom('.form__error').exists();
+    assert.dom('.form__error').hasText('Le message d\'erreur à afficher');
   });
 
 });

@@ -24,23 +24,13 @@ module.exports = function(environment) {
 
     googleFonts: [
       'Roboto:300,400,700,900', // main font
-      'Open+Sans:300',
+      'Open+Sans:300,600',
     ],
 
     fontawesome: {
       warnIfNoIconsIncluded: false,
     },
-    
-    metricsAdapters: [
-      {
-        name: 'Piwik',
-        environments: ['production'],
-        config: {
-          piwikUrl: 'https://stats.pix.fr/',
-          siteId: 5
-        }
-      }
-    ],
+
     moment: {
       includeLocales: ['fr']
     },
@@ -54,6 +44,10 @@ module.exports = function(environment) {
       'img-src': '\'self\'',
       'style-src': '\'self\' fonts.googleapis.com',
       'media-src': '\'self\''
+    },
+
+    matomo: {
+      url: 'https://stats.pix.fr/js/container_jKDD76j4.js',
     },
   };
 

@@ -93,8 +93,8 @@ exports.register = async (server) => {
       path: '/api/organizations/{id}/memberships',
       config: {
         pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
+          method: securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster,
+          assign: 'isOwnerInOrganizationOrHasRolePixMaster'
         }],
         handler: organisationController.getMemberships,
         tags: ['api', 'organizations'],
@@ -102,6 +102,22 @@ exports.register = async (server) => {
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle retourne les membres rattachées à l’organisation.',
         ]
+      }
+    },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/add-membership',
+      config: {
+        pre: [{
+          method: securityController.checkUserIsOwnerInOrganizationOrHasRolePixMaster,
+          assign: 'isOwnerInOrganizationOrHasRolePixMaster'
+        }],
+        handler: organisationController.addOrganizationMembershipWithEmail,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que PIX_MASTER ou responsables de l\'organisation**\n' +
+          '- Elle permet d\'associer un utilisateur à une organisation via son **email**'
+        ],
+        tags: ['api', 'memberships']
       }
     },
     {

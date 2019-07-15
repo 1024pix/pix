@@ -34,7 +34,7 @@ module.exports = {
       .then(_toDomain)
       .catch((err) => {
         if (bookshelfUtils.isUniqConstraintViolated(err)) {
-          throw new AlreadyExistingMembershipError();
+          throw new AlreadyExistingMembershipError(`User is already member of certification center ${certificationCenterId}`);
         }
         if (bookshelfUtils.foreignKeyConstraintViolated(err)) {
           throw new CertificationCenterMembershipCreationError();

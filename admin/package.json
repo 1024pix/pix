@@ -1,6 +1,6 @@
 {
   "name": "pix-admin",
-  "version": "2.52.1",
+  "version": "2.53.0",
   "private": false,
   "description": "Interface d'administration pour les Pix Masters.",
   "license": "AGPL-3.0",
@@ -50,6 +50,7 @@
     "ember-cli-htmlbars": "^3.0.1",
     "ember-cli-htmlbars-inline-precompile": "^2.1.0",
     "ember-cli-inject-live-reload": "^2.0.1",
+    "ember-cli-matomo-tag-manager": "^1.1.2",
     "ember-cli-mirage": "^0.4.15",
     "ember-cli-moment-shim": "^3.7.1",
     "ember-cli-notifications": "^4.3.3",
@@ -64,7 +65,6 @@
     "ember-file-upload": "^2.7.1",
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-metrics": "github:poteto/ember-metrics#481212408",
     "ember-modal-dialog": "^3.0.0-beta.3",
     "ember-models-table": "^2.10.1",
     "ember-moment": "^7.8.1",

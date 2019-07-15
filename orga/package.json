@@ -1,6 +1,6 @@
 {
   "name": "pix-orga",
-  "version": "2.52.1",
+  "version": "2.53.0",
   "private": false,
   "description": "Plateforme en ligne de gestion de campagne d'évaluation",
   "license": "AGPL-3.0",
@@ -47,6 +47,7 @@
     "ember-cli-htmlbars": "^3.0.1",
     "ember-cli-htmlbars-inline-precompile": "^2.1.0",
     "ember-cli-inject-live-reload": "^2.0.1",
+    "ember-cli-matomo-tag-manager": "^1.1.2",
     "ember-cli-mirage": "^0.4.15",
     "ember-cli-moment-shim": "^3.7.1",
     "ember-cli-sass": "^10.0.0",
@@ -58,7 +59,6 @@
     "ember-freestyle": "^0.10.0",
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-metrics": "poteto/ember-metrics#1963fc0",
     "ember-moment": "^7.8.1",
     "ember-qunit": "^4.4.1",
     "ember-resolver": "^5.1.3",

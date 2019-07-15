@@ -8,6 +8,9 @@ export default JSONAPISerializer.extend({
       },
       'targetProfiles': {
         related: `/api/organizations/${organization.id}/target-profiles`
+      },
+      'memberships': {
+        related: `/api/organizations/${organization.id}/memberships`
       }
     };
   }

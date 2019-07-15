@@ -2,8 +2,8 @@
 
 @import "globals/breakpoints";
 @import "globals/colors";
-@import "globals/errors";
 @import "globals/fonts";
+@import "globals/errors";
 @import "globals/forms";
 @import "globals/pages";
 @import "globals/panels";
@@ -18,6 +18,7 @@
 @import "components/current-organization";
 @import "components/pagination-control";
 @import "components/progression-gauge";
+@import "components/sidebar-menu";
 
 @import "pages/login";
 @import "pages/authenticated";
@@ -29,6 +30,9 @@
 @import "pages/authenticated/campaigns/details/parameters";
 @import "pages/authenticated/campaigns/details/participants";
 @import "pages/authenticated/campaigns/details/participants/participant-results";
+@import "pages/authenticated/team";
+@import "pages/authenticated/team/list";
+@import "pages/authenticated/team/new";
 @import "pages/authenticated/terms-of-service";
 
 body, html {

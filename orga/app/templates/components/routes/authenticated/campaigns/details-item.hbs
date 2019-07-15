@@ -1,13 +1,20 @@
 <div class="campaign-details__header">
   <div class="campaign-details-header__title">
-    {{#link-to "authenticated.campaigns.list" class="icon-button campaign-details-content__return-button"}}
+    {{#link-to "authenticated.campaigns" class="icon-button campaign-details-content__return-button"}}
       {{fa-icon 'arrow-left'}}
     {{/link-to}}
     <h1 class="page__title page-title">{{campaign.name}}</h1>
   </div>
 
   <div class="campaign-details-header__report">
-    <div class="campaign-details-header-report__participants">
+    <div class="campaign-details-header-report__info">
+      <h4 class="label-text campaign-details-content__label">Code</h4>
+      <span class="content-text content-text--big campaign-details-content__text">
+        {{campaign.code}}
+      </span>
+    </div>
+
+    <div class="campaign-details-header-report__info">
       <h4 class="label-text campaign-details-content__label">Participants</h4>
       <span class="content-text content-text--big campaign-details-content__text">
         {{participationsCount}}
@@ -15,7 +22,7 @@
     </div>
 
     <div class="campaign-details-header-report__shared">
-      <h4 class="label-text campaign-details-content__label">Résultats reçus</h4>
+      <h4 class="label-text campaign-details-content__label">Profils reçus</h4>
       <span class="content-text content-text--big campaign-details-content__text">
         {{sharedParticipationsCount}}
       </span>
