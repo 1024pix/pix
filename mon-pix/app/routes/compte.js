@@ -6,6 +6,14 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   currentUser: service(),
 
+  beforeModel() {
+    this._super(...arguments);
+
+    if (this.currentUser.user.isProfileV2) {
+      return this.transitionTo('profilv2');
+    }
+  },
+
   async model() {
     const user = this.currentUser.user;
     const organizations = await user.organizations;
