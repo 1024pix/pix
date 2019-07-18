@@ -98,6 +98,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.WrongDateFormatError) {
     return new InfraErrors.BadRequestError(error.message);
   }
+  if (error instanceof DomainErrors.UserHasBeenMigratedToV2Error) {
+    return new InfraErrors.ForbiddenError(error.message);
+  }
 
   return new InfraErrors.InfrastructureError(error.message);
 }

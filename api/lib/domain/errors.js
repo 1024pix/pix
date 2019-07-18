@@ -28,6 +28,12 @@ class AssessmentStartError extends DomainError {
   }
 }
 
+class UserHasBeenMigratedToV2Error extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToCreateCampaignError extends DomainError {
   constructor(message) {
     super(message);
@@ -308,6 +314,7 @@ module.exports = {
   ObjectValidationError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
+  UserHasBeenMigratedToV2Error,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
