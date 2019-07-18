@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-const MAX_REACHABLE_LEVEL = 5;
+import constants from 'mon-pix/static-data/constants-pix-and-level';
 
 export default Component.extend({
   scorecard: null,
@@ -9,6 +9,6 @@ export default Component.extend({
     if (this.scorecard.isNotStarted) {
       return null;
     }
-    return Math.min(this.scorecard.level, MAX_REACHABLE_LEVEL);
+    return Math.min(this.scorecard.level, constants.MAX_REACHABLE_LEVEL);
   }),
 });
