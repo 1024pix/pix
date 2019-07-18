@@ -26,6 +26,7 @@ describe('Integration | Component | certifications list item', function() {
         certificationCenter: 'Université de Paris',
         isPublished: false,
         pixScore: 231,
+        certifiedPixScore: 231,
       });
       this.set('certification', certification);
 
@@ -56,6 +57,7 @@ describe('Integration | Component | certifications list item', function() {
           certificationCenter: 'Université de Paris',
           isPublished: true,
           pixScore: 231,
+          certifiedPixScore: 231,
           commentForCandidate: null,
         });
         this.set('certification', certification);
@@ -99,6 +101,7 @@ describe('Integration | Component | certifications list item', function() {
           certificationCenter: 'Université de Paris',
           isPublished: true,
           pixScore: 231,
+          certifiedPixScore: 231,
           commentForCandidate: commentForCandidate,
         });
         this.set('certification', certification);
@@ -143,6 +146,7 @@ describe('Integration | Component | certifications list item', function() {
         certificationCenter: 'Université de Paris',
         isPublished: true,
         pixScore: 231,
+        certifiedPixScore: 231,
       });
       this.set('certification', certification);
 

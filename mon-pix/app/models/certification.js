@@ -1,6 +1,8 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
 const { Model, attr, belongsTo } = DS;
+const MAX_REACHABLE_TOTAL_PIX = 640;
 
 export default Model.extend({
   birthdate: attr('date'),
@@ -15,4 +17,8 @@ export default Model.extend({
   user: belongsTo('user'),
   commentForCandidate: attr('string'),
   resultCompetenceTree: belongsTo('resultCompetenceTree'),
+  certifiedPixScore: computed('pixScore', function() {
+    return Math.min(this.pixScore, MAX_REACHABLE_TOTAL_PIX);
+  }),
+
 });

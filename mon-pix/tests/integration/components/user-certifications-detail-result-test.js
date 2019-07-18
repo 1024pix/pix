@@ -28,6 +28,7 @@ describe('Integration | Component | user certifications detail result', function
         certificationCenter: 'Université de Lyon',
         isPublished: true,
         pixScore: 654,
+        certifiedPixScore: 640,
         status: 'validated',
         commentForCandidate: 'Comment for candidate',
       });
@@ -40,7 +41,7 @@ describe('Integration | Component | user certifications detail result', function
     // then
     it('should show the pix score', function() {
       expect(find('.user-certifications-detail-result__pix-score')).to.exist;
-      expect(find('.user-certifications-detail-result__pix-score').textContent).to.include('654');
+      expect(find('.user-certifications-detail-result__pix-score').textContent).to.include('640');
     });
 
     it('should show the comment for candidate', function() {
@@ -61,7 +62,8 @@ describe('Integration | Component | user certifications detail result', function
         date: new Date('2018-02-15T15:15:52Z'),
         certificationCenter: 'Université de Lyon',
         isPublished: true,
-        pixScore: 654,
+        pixScore: 320,
+        certifiedPixScore: 320,
         status: 'validated',
         commentForCandidate: null,
       });
@@ -74,7 +76,7 @@ describe('Integration | Component | user certifications detail result', function
     // then
     it('should show the pix score', function() {
       expect(find('.user-certifications-detail-result__pix-score')).to.exist;
-      expect(find('.user-certifications-detail-result__pix-score').textContent).to.include('654');
+      expect(find('.user-certifications-detail-result__pix-score').textContent).to.include('320');
     });
 
     it('should not show the comment for candidate', function() {
