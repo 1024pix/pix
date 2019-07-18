@@ -33,7 +33,11 @@
   flex-direction: column;
   background: $pix-yellow-to-orange-gradient;
   margin-top: 30px;
-  height: 175px;
+  height: 330px;
+
+  @include device-is('desktop') {
+    height: 175px;
+  }
 
   &__close {
     align-self: flex-end;
@@ -46,17 +50,26 @@
 
   .new-profile-info-content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
     height: 100%;
     align-items: center;
 
+    @include device-is('desktop') {
+      flex-direction: row;
+    }
+
     &__title {
       display: flex;
       flex-direction: column;
-      font-weight: 300;
+      text-align: center;
+      font-weight: $font-light;
       font-size: 3.2rem;
       line-height: 4.5rem;
+
+      @include device-is('desktop') {
+        text-align: left;
+      }
     }
   }
 }
