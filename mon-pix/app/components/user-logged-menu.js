@@ -22,7 +22,7 @@ export default Component.extend(EmberKeyboardMixin, {
     const currentRouteName = this.get('routing.currentRouteName');
 
     if (this.get('currentUser.user.usesProfileV2')) {
-      return currentRouteName !== 'profile-v2' && currentRouteName !== 'board';
+      return currentRouteName !== 'profile' && currentRouteName !== 'board';
     }
 
     return currentRouteName !== 'compte' && currentRouteName !== 'board';

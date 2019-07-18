@@ -59,7 +59,7 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
   describe('V2 Profile cases', function() {
     describe('New v2 users', function() {
-      it('should be redirected to /profil-v2 when they hit /compte', async function() {
+      it('should be redirected to /profil when they hit /compte', async function() {
         // given
         await authenticateAsSimpleProfileV2User();
 
@@ -68,7 +68,7 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
         // then
         return andThen(function() {
-          expect(currentURL()).to.equal('/profil-v2');
+          expect(currentURL()).to.equal('/profil');
         });
       });
     });

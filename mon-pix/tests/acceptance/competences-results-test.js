@@ -40,13 +40,13 @@ describe('Acceptance | competences results', function() {
       });
     });
 
-    it('should display a return link to profil-v2', async function() {
+    it('should display a return link to profil', async function() {
       // when
       await visit('/competences/resultats/111');
 
       // then
       expect(find('.scorecard-details-header__return-button')).to.have.lengthOf(1);
-      expect(find('.scorecard-details-header__return-button').attr('href')).to.equal('/profil-v2');
+      expect(find('.scorecard-details-header__return-button').attr('href')).to.equal('/profil');
     });
 
     context('When user obtained 0 pix', async function() {

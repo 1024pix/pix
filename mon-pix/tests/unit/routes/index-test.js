@@ -23,7 +23,7 @@ describe('Unit | Route | index', function() {
         }));
       });
 
-      it('should redirect to /profil-v2', async function() {
+      it('should redirect to /profil', async function() {
         // Given
         const route = this.owner.lookup('route:index');
         route.transitionTo = sinon.spy();
@@ -32,7 +32,7 @@ describe('Unit | Route | index', function() {
         await route.model();
 
         // Then
-        sinon.assert.calledWith(route.transitionTo, 'profile-v2');
+        sinon.assert.calledWith(route.transitionTo, 'profile');
       });
     });
 

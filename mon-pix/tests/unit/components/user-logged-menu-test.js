@@ -43,10 +43,10 @@ describe('Unit | Component | User logged Menu', function() {
       this.owner.register('service:current-routed-modal', Service.extend({}));
     });
 
-    it('should be false if user uses profileV2 and the current route is /profil-v2', function() {
+    it('should be false if user uses profileV2 and the current route is /profil', function() {
       // given
       this.owner.register('service:-routing', Service.extend({
-        currentRouteName: 'profile-v2'
+        currentRouteName: 'profile'
       }));
 
       this.owner.register('service:currentUser', Service.extend({

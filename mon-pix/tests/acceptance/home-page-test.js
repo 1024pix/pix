@@ -40,7 +40,7 @@ describe('Acceptance | Home page', function() {
     expect(find('.share-profile__share-button')).to.have.lengthOf(0);
   });
 
-  it('should redirect to profil-v2 when user clicks on profil-v2 link', async function() {
+  it('should redirect to profil when user clicks on profil link', async function() {
     // given
     server.create('assessment', {
       id: 2,
@@ -61,7 +61,7 @@ describe('Acceptance | Home page', function() {
     await click('.results-warning__link');
 
     // then
-    expect(currentURL()).to.equal('/profil-v2');
+    expect(currentURL()).to.equal('/profil');
   });
 
 });
