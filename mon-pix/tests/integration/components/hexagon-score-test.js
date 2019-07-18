@@ -27,12 +27,22 @@ describe('Integration | Component | hexagon-score', function() {
 
     it('should display provided score in pastille', async function() {
       // given
-      const pixScore = '777';
+      const pixScore = '240';
       this.set('pixScore', pixScore);
       // when
       await render(hbs`{{hexagon-score pixScore=pixScore}}`);
       // then
       expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal(pixScore);
+    });
+
+    it('should display provided score blocked in pastille', async function() {
+      // given
+      const pixScore = '777';
+      this.set('pixScore', pixScore);
+      // when
+      await render(hbs`{{hexagon-score pixScore=pixScore}}`);
+      // then
+      expect(this.element.querySelector('.hexagon-score-content__pix-score').innerHTML).to.equal('640');
     });
   });
 });
