@@ -10,7 +10,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | Profile v2 | Start competence on profileV2', function() {
+describe('Acceptance | Profile | Start competence', function() {
   let application;
 
   beforeEach(function() {

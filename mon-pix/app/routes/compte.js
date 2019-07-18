@@ -10,7 +10,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     this._super(...arguments);
 
     if (this.currentUser.user.isProfileV2) {
-      return this.transitionTo('profile-v2');
+      return this.transitionTo('profile');
     }
   },
 

@@ -10,7 +10,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | Profile v2 | Display profile v2', function() {
+describe('Acceptance | Profile', function() {
   let application;
 
   beforeEach(function() {
