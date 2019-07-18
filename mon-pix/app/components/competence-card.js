@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+const MAX_REACHABLE_LEVEL = 5;
 
 export default Component.extend({
   scorecard: null,
@@ -8,6 +9,6 @@ export default Component.extend({
     if (this.scorecard.isNotStarted) {
       return null;
     }
-    return this.scorecard.level;
+    return Math.min(this.scorecard.level, MAX_REACHABLE_LEVEL);
   }),
 });

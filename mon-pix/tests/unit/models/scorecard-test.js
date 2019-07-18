@@ -12,16 +12,55 @@ describe('Unit | Model | Scorecard model', function() {
     scorecard = run(() => this.owner.lookup('service:store').createRecord('scorecard'));
   });
 
+  describe('pixScoreAheadOfNextLevelBlocked', function() {
+    [
+      { earnedPix: 10, pixScoreAheadOfNextLevel: 3, expectedPixScoreAheadOfNextLevelBlocked: 3 },
+      { earnedPix: 40, pixScoreAheadOfNextLevel: 4, expectedPixScoreAheadOfNextLevelBlocked: 0 },
+      { earnedPix: 41, pixScoreAheadOfNextLevel: 3, expectedPixScoreAheadOfNextLevelBlocked: 0 }
+    ].forEach((data) => {
+      it(`should return ${data.expectedPixScoreAheadOfNextLevelBlocked} when earnedPix is ${data.earnedPix} pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function() {
+        // given
+        scorecard.set('earnedPix', data.earnedPix);
+        scorecard.set('pixScoreAheadOfNextLevel', data.pixScoreAheadOfNextLevel);
+
+        // when
+        const pixScoreAheadOfNextLevelBlocked = scorecard.pixScoreAheadOfNextLevelBlocked;
+
+        // then
+        expect(pixScoreAheadOfNextLevelBlocked).to.equal(data.expectedPixScoreAheadOfNextLevelBlocked);
+      });
+    });
+  });
+
+  describe('earnedPixBlocked', function() {
+    [
+      { earnedPix: 10, expectedEarnedPixBlocked: 10 },
+      { earnedPix: 40, expectedEarnedPixBlocked: 40 },
+      { earnedPix: 41, expectedEarnedPixBlocked: 40 }
+    ].forEach((data) => {
+      it(`should return ${data.expectedEarnedPixBlocked} when earnedPix is ${data.earnedPix}`, function() {
+        // given
+        scorecard.set('earnedPix', data.earnedPix);
+
+        // when
+        const earnedPixBlocked = scorecard.earnedPixBlocked;
+
+        // then
+        expect(earnedPixBlocked).to.equal(data.expectedEarnedPixBlocked);
+      });
+    });
+  });
+
   describe('percentageAheadOfNextLevel', function() {
     [
-      { pixScoreAheadOfNextLevel: 0, expectedPercentageAheadOfNextLevel: 0 },
-      { pixScoreAheadOfNextLevel: 4, expectedPercentageAheadOfNextLevel: 50 },
-      { pixScoreAheadOfNextLevel: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
-      { pixScoreAheadOfNextLevel: 7.8, expectedPercentageAheadOfNextLevel: 95 }
+      { pixScoreAheadOfNextLevelBlocked: 0, expectedPercentageAheadOfNextLevel: 0 },
+      { pixScoreAheadOfNextLevelBlocked: 4, expectedPercentageAheadOfNextLevel: 50 },
+      { pixScoreAheadOfNextLevelBlocked: 3.33, expectedPercentageAheadOfNextLevel: 41.625 },
+      { pixScoreAheadOfNextLevelBlocked: 7.8, expectedPercentageAheadOfNextLevel: 95 }
     ].forEach((data) => {
-      it(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevel is ${data.pixScoreAheadOfNextLevel}`, function() {
+      it(`should return ${data.expectedPercentageAheadOfNextLevel} when pixScoreAheadOfNextLevelBlocked is ${data.pixScoreAheadOfNextLevelBlocked}`, function() {
         // given
-        scorecard.set('pixScoreAheadOfNextLevel', data.pixScoreAheadOfNextLevel);
+        scorecard.set('pixScoreAheadOfNextLevelBlocked', data.pixScoreAheadOfNextLevelBlocked);
 
         // when
         const percentageAheadOfNextLevel = scorecard.percentageAheadOfNextLevel;
@@ -35,7 +74,7 @@ describe('Unit | Model | Scorecard model', function() {
   describe('remainingPixToNextLevel', function() {
     it('should return 2 remaining Pix to next level', function() {
       // given
-      scorecard.set('pixScoreAheadOfNextLevel', 3);
+      scorecard.set('pixScoreAheadOfNextLevelBlocked', 3);
 
       // when
       const remainingPixToNextLevel = scorecard.remainingPixToNextLevel;

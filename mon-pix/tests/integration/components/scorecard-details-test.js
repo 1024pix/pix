@@ -63,7 +63,7 @@ describe('Integration | Component | scorecard-details', function() {
       // given
       const scorecard = {
         level: 2,
-        earnedPix: 22,
+        earnedPixBlocked: 22,
         remainingPixToNextLevel: 2,
       };
 
@@ -74,7 +74,7 @@ describe('Integration | Component | scorecard-details', function() {
 
       // then
       expect(this.element.querySelector('.score-value').textContent).to.contain(scorecard.level);
-      expect(this.element.getElementsByClassName('score-value')[1].textContent).to.contain(scorecard.earnedPix);
+      expect(this.element.getElementsByClassName('score-value')[1].textContent).to.contain(scorecard.earnedPixBlocked);
       expect(this.element.querySelector('.scorecard-details-content-right__level-info').textContent).to.contain(`${scorecard.remainingPixToNextLevel} pix avant le niveau ${scorecard.level + 1}`);
     });
 
