@@ -142,6 +142,20 @@ describe('Unit | Domain | Models | Scorecard', () => {
       });
     });
 
+    context('when the user pix score is higher than the max', () => {
+      beforeEach(() => {
+        // given
+        const knowledgeElements = [{ earnedPix: 50 }, { earnedPix: 70 }];
+        computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+      });
+      // then
+      it('should have the competence level capped at the maximum value', () => {
+        expect(actualScorecard.earnedPix).to.equal(40);
+      });
+    });
+
     context('when there is no knowledge elements', () => {
       it('should return null', () => {
         const knowledgeElements = [];
