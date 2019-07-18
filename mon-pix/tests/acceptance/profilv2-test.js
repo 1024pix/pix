@@ -5,7 +5,7 @@ import {
   it
 } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsPrescriber, authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateAsPrescriber, authenticateAsSimpleUser, authenticateAsSimpleProfileV2User } from '../helpers/testing';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
@@ -206,6 +206,29 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
         expect(find('.resume-campaign-banner__container').text()).to.contain('Parcours "Le Titre de la campagne" terminé ! Envoyez vos résultats.');
         expect(find('.resume-campaign-banner__button').text()).to.equal('Continuer');
       });
+    });
+  });
+
+  describe('Authenticated cases as a new profile v2 user', function() {
+    beforeEach(async function() {
+      await authenticateAsSimpleProfileV2User();
+    });
+
+    it('can visit /profilv2', async function() {
+      // when
+      await visit('/profilv2');
+
+      // then
+      expect(currentURL()).to.equal('/profilv2');
+    });
+
+    it('should not display link /compte', async function() {
+      // given
+      await visit('/profilv2');
+
+      // then
+      expect(find('.rounded-panel__link')).to.have.lengthOf(0);
+
     });
   });
 

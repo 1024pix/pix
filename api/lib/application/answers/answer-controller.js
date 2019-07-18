@@ -32,17 +32,12 @@ function _updateExistingAnswer(existingAnswer, newAnswer) {
 
 module.exports = {
 
-  save(request, h) {
-    return Promise.resolve(request.payload)
-      .then(partialDeserialize)
-      .then((newAnswer) => {
-        return usecases.correctAnswerThenUpdateAssessment({
-          answer: newAnswer,
-        });
-      })
-      .then((answer) => {
-        return h.response(answerSerializer.serialize(answer)).created();
-      });
+  async save(request, h) {
+    const answer = partialDeserialize(request.payload);
+
+    const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer });
+
+    return h.response(answerSerializer.serialize(createdAnswer)).created();
   },
 
   async get(request) {

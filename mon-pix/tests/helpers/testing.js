@@ -5,6 +5,13 @@ export async function authenticateAsSimpleUser() {
   await click('.button');
 }
 
+export async function authenticateAsSimpleProfileV2User() {
+  await visit('/connexion');
+  await fillIn('#email', 'jane-profilev2@acme.com');
+  await fillIn('#password', 'Jane1234');
+  await click('.button');
+}
+
 export async function authenticateAsSimpleExternalUser() {
   await visit('/connexion?token=aaa.' + btoa('{"user_id":3,"source":"external","iat":1545321469,"exp":4702193958}') + '.bbb');
 }
