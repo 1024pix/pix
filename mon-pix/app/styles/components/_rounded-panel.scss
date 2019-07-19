@@ -1,13 +1,13 @@
 .rounded-panel {
   background-color: $white;
   border-radius: 5px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
   margin-bottom: 30px;
   overflow: hidden;
 
   &--strong {
     border-radius: 10px;
-    box-shadow: 0 50px 54px -40px rgba(0,0,0,0.4), 0 7px 14px 0 rgba(12, 22, 58, 0.1);
+    box-shadow: 0 50px 54px -40px rgba(0, 0, 0, 0.4), 0 7px 14px 0 rgba(12, 22, 58, 0.1);
   }
 
   &--over-background-banner {
