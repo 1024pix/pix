@@ -19,7 +19,7 @@ export default Router.map(function() {
   this.route('index', { path: '/' });
   this.route('inscription');
   this.route('compte');
-  this.route('profilv2');
+  this.route('profile', { path: '/profil' });
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
 

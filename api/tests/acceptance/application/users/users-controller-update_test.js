@@ -133,6 +133,31 @@ describe('Acceptance | Controller | users-controller', () => {
         });
       });
     });
+
+    context('with hasSeenNewProfileInfo field', () => {
+
+      it('should reply 204 status code', async () => {
+        // given
+        options = {
+          method: 'PATCH',
+          url: `/api/users/${userId}`,
+          payload: {
+            data: {
+              attributes: {
+                'has-seen-new-profile-info': true
+              }
+            }
+          }
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(204);
+      });
+    });
+
   });
 });
 

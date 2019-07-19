@@ -250,6 +250,33 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
     });
+
+    context('When payload has a hasSeenNewProfileInfo field', () => {
+
+      it('should remember user has seen migration modal', async () => {
+        // given
+        const userId = 7;
+        const request = {
+          params: {
+            id: userId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'has-seen-new-profile-info': true,
+              },
+            },
+          },
+        };
+        const usecaseStub = sinon.stub(usecases, 'rememberUserHasSeenNewProfileInfo');
+
+        // when
+        await userController.updateUser(request, hFake);
+
+        // then
+        expect(usecaseStub).to.have.been.calledWith({ userId });
+      });
+    });
   });
 
   describe('#getProfileToCertify', () => {

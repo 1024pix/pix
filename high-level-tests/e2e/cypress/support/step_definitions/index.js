@@ -16,8 +16,8 @@ given('je vais sur Pix', () => {
   cy.visit('/');
 });
 
-given('j\'accède à mon profil v2', () => {
-  cy.visit('/profilv2');
+given('j\'accède à mon profil', () => {
+  cy.visit('/profil');
 });
 
 given('je suis connecté à Pix', () => {
