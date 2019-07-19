@@ -317,7 +317,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           // then
           return andThen(() => {
             expect(currentURL()).to.equal('/campagnes/codefaux');
-            expect(find('.pix-panel').text()).to.contains('La campagne demandée n\'existe pas.');
+            expect(find('.title').text()).to.contains('La campagne demandée n\'existe pas.');
           });
         });
       });

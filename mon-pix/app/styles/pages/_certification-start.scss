@@ -1,32 +1,10 @@
-.certification-start-page {
-  display: flex;
-  flex-flow: column wrap;
-  align-self: center;
-  background-color: $alabaster-grey;
-  color: $charcoal-grey;
-  text-rendering: optimizeLegibility;
-  min-height: calc(100VH - 140px - #{$footer-height});
-
-}
-
-.certification-start-page__ribbon {
-  height: 180px;
-  position: absolute;
-  top: 120px;
-  @include device-is('desktop') {
-    top: 140px;
-  }
-}
-
 .certification-start-page__panel {
   display: flex;
   flex-direction: column;
-  z-index: 1;
   align-self: center;
-  margin: 50px 10px 50px 10px ;
+  text-rendering: optimizeLegibility;
 
   @include device-is('desktop') {
-    width: 940px;
     padding: 50px 70px 40px;
   }
 }
