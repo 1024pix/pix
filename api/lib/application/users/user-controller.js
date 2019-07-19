@@ -7,13 +7,13 @@ const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/sc
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 
 const profileService = require('../../domain/services/profile-service');
-const tokenService = require('../../domain/services/token-service');
 
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
 const usecases = require('../../domain/usecases');
 
 const { BadRequestError } = require('../../infrastructure/errors');
+const requestUtils = require('../../infrastructure/utils/request-utils');
 
 module.exports = {
 
@@ -47,8 +47,7 @@ module.exports = {
   },
 
   async getAuthenticatedUserProfile(request) {
-    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
-    const userId = tokenService.extractUserId(token);
+    const userId = requestUtils.extractUserIdFromRequest(request);
 
     const foundUser = await userRepository.findUserById(userId);
     const profile = await profileService.getByUserId(foundUser.id);
