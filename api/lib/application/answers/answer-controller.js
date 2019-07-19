@@ -9,6 +9,7 @@ const smartPlacementAssessmentRepository =
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
 const { NotFoundError } = require('../../domain/errors');
+const requestUtils = require('../../infrastructure/utils/request-utils');
 
 function _updateExistingAnswer(existingAnswer, newAnswer) {
   return solutionRepository
@@ -34,8 +35,8 @@ module.exports = {
 
   async save(request, h) {
     const answer = partialDeserialize(request.payload);
-
-    const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer });
+    const userId = requestUtils.extractUserIdFromRequest(request);
+    const createdAnswer = await usecases.correctAnswerThenUpdateAssessment({ answer, userId });
 
     return h.response(answerSerializer.serialize(createdAnswer)).created();
   },

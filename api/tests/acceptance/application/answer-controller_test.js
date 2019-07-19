@@ -1,4 +1,4 @@
-const { expect, knex, nock, databaseBuilder } = require('../../test-helper');
+const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 const BookshelfAnswer = require('../../../lib/infrastructure/data/answer');
 const Assessment = require('../../../lib/domain/models/Assessment');
@@ -12,22 +12,22 @@ describe('Acceptance | Controller | answer-controller-save', () => {
   });
 
   describe('POST /api/answers', () => {
-
+    let userId;
     let insertedAssessmentId;
 
     beforeEach(async () => {
-      insertedAssessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.PLACEMENT,
-      }).id;
+      const assessment = databaseBuilder.factory.buildAssessment({ type: Assessment.types.PLACEMENT });
+      insertedAssessmentId = assessment.id;
+      userId = assessment.userId;
 
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
       nock.cleanAll();
 
-      return knex('answers').delete()
-        .then(() => databaseBuilder.clean());
+      await knex('answers').delete();
+      await databaseBuilder.clean();
     });
 
     describe('when the save succeeds', () => {
@@ -53,6 +53,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         options = {
           method: 'POST',
           url: '/api/answers',
+          headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
           payload: {
             data: {
               type: 'answers',
@@ -138,6 +139,50 @@ describe('Acceptance | Controller | answer-controller-save', () => {
             .then((model) => {
               expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);
             });
+        });
+      });
+
+      context('when user is not the user of the assessment', () => {
+        beforeEach(() => {
+          // given
+          options = {
+            method: 'POST',
+            url: '/api/answers',
+            headers: { authorization: generateValidRequestAuhorizationHeader(userId + 3) },
+            payload: {
+              data: {
+                type: 'answers',
+                attributes: {
+                  value: '1',
+                  'elapsed-time': 100,
+                },
+                relationships: {
+                  assessment: {
+                    data: {
+                      type: 'assessments',
+                      id: insertedAssessmentId,
+                    },
+                  },
+                  challenge: {
+                    data: {
+                      type: 'challenges',
+                      id: challengeId,
+                    },
+                  },
+                },
+              },
+            },
+          };
+
+          // when
+          promise = server.inject(options);
+        });
+
+        it('should return 201 HTTP status code', () => {
+          // then
+          return promise.then((response) => {
+            expect(response.statusCode).to.equal(403);
+          });
         });
       });
     });

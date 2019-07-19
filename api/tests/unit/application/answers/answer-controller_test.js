@@ -7,6 +7,7 @@ const correctionSerializer = require('../../../../lib/infrastructure/serializers
 const usecases = require('../../../../lib/domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
+const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
 
 describe('Unit | Controller | answer-controller', () => {
 
@@ -16,6 +17,7 @@ describe('Unit | Controller | answer-controller', () => {
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(smartPlacementAssessmentRepository, 'get');
     sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
+    sinon.stub(requestUtils, 'extractUserIdFromRequest');
   });
 
   describe('#save', () => {
@@ -104,15 +106,15 @@ describe('Unit | Controller | answer-controller', () => {
 
       let createdAnswer;
       let response;
+      const userId = 3;
 
       beforeEach(async () => {
         // given
-
         deserializedAnswer.id = undefined;
         createdAnswer = domainBuilder.buildAnswer({ assessmentId });
-
         answerSerializer.serialize.returns(serializedAnswer);
         usecases.correctAnswerThenUpdateAssessment.resolves(createdAnswer);
+        requestUtils.extractUserIdFromRequest.returns(userId);
 
         // when
         response = await answerController.save(request, hFake);
@@ -121,7 +123,7 @@ describe('Unit | Controller | answer-controller', () => {
       it('should call the usecase to save the answer', () => {
         // then
         expect(usecases.correctAnswerThenUpdateAssessment)
-          .to.have.been.calledWith({ answer: deserializedAnswer });
+          .to.have.been.calledWith({ answer: deserializedAnswer, userId });
       });
 
       it('should serialize the answer', () => {
