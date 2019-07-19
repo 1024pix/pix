@@ -71,7 +71,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       expect(find('.scorecard-details-content-left__description').text()).to.contain(description);
     });
 
-    it('should transition to /profilv2 when the user clicks on return', async () => {
+    it('should transition to /profil when the user clicks on return', async () => {
       // given
       await visit('/competences/1_1');
 
@@ -79,7 +79,7 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
       await click('.scorecard-details-header__return-button');
 
       // then
-      expect(currentURL()).to.equal('/profilv2');
+      expect(currentURL()).to.equal('/profil');
     });
 
     context('when there is no knowledge element', () => {

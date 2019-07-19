@@ -1,0 +1,75 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-rendering: optimizeLegibility;
+}
+
+.profile {
+  &__panel {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+}
+
+.profile-panel {
+  &__link-to-compte {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.profile-panel-header-information {
+  font-weight: $font-light;
+  font-family: $font-roboto;
+  color: $black;
+  font-size: 1.8rem;
+  line-height: 2.1rem;
+}
+
+.new-profile-info {
+  display: flex;
+  flex-direction: column;
+  background: $pix-yellow-to-orange-gradient;
+  margin-top: 30px;
+  height: 330px;
+
+  @include device-is('desktop') {
+    height: 175px;
+  }
+
+  &__close {
+    align-self: flex-end;
+    margin: 5px 10px 0 0;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .new-profile-info-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    align-items: center;
+
+    @include device-is('desktop') {
+      flex-direction: row;
+    }
+
+    &__title {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      font-weight: $font-light;
+      font-size: 3.2rem;
+      line-height: 4.5rem;
+
+      @include device-is('desktop') {
+        text-align: left;
+      }
+    }
+  }
+}

@@ -80,6 +80,11 @@ module.exports = {
             userId
           });
         }
+        if (user.hasSeenNewProfileInfo) {
+          return usecases.rememberUserHasSeenNewProfileInfo({
+            userId
+          });
+        }
         return Promise.reject(new BadRequestError());
       })
       .then(() => null);

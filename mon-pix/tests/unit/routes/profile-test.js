@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | profil-v2', function() {
+describe('Unit | Route | profile', function() {
   setupTest();
 
   it('exists', function() {
-    const route = this.owner.lookup('route:profilv2');
+    const route = this.owner.lookup('route:profile');
     expect(route).to.be.ok;
   });
 });

@@ -10,7 +10,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | Profil v2 | Afficher profil v2', function() {
+describe('Acceptance | Profile v2 | Display profile v2', function() {
   let application;
 
   beforeEach(function() {
@@ -27,17 +27,17 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       await authenticateAsSimpleUser();
     });
 
-    it('can visit /profilv2', async function() {
+    it('can visit /profil', async function() {
       // when
-      await visit('/profilv2');
+      await visit('/profil');
 
       // then
-      expect(currentURL()).to.equal('/profilv2');
+      expect(currentURL()).to.equal('/profil');
     });
 
     it('should redirect to /compte', async function() {
       // given
-      await visit('/profilv2');
+      await visit('/profil');
 
       // when
       await click('.rounded-panel__link');
@@ -46,20 +46,24 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       expect(currentURL()).to.equal('/compte');
     });
 
-    it('should contains references to pix.fr/actualites/votre-profil-evolue', async function() {
+    it('should display new profile information', async function() {
       // when
-      await visit('/profilv2');
+      await visit('/profil');
 
       // then
-      expect(document.querySelector('.profilv2-panel-header-information > .link'))
-        .to.have.attr('href', 'https://pix.fr/actualites/votre-profil-evolue');
+      expect(find('.new-profile-info')).to.exists;
+      expect(find('.profile-panel-header-information')).to.exists;
 
-      expect(document.querySelector('.profilv2-panel-header-information > .link'))
-        .to.have.attr('target', 'Actualité Pix');
+      // when
+      await click('.new-profile-info__close');
+
+      // then
+      expect(find('.new-profile-info')).to.not.exists;
+      expect(find('.profile-panel-header-information')).to.not.exists;
     });
 
     it('should display pixscore', async function() {
-      await visit('/profilv2');
+      await visit('/profil');
 
       // then
       expect(find('.hexagon-score-content__pix-score').text()).to.contains('196');
@@ -67,7 +71,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
 
     it('should display first competence card of first area', async function() {
       // when
-      await visit('/profilv2');
+      await visit('/profil');
 
       // then
       expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__area-name').text()).to.equal('Information et données');
@@ -77,7 +81,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
 
     it('should display second competence card of first area', async function() {
       // when
-      await visit('/profilv2');
+      await visit('/profil');
 
       // then
       expect(find('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__area-name').text()).to.equal('Information et données');
@@ -87,7 +91,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
 
     it('should link to competence-details page on click on level circle', async function() {
       // given
-      await visit('/profilv2');
+      await visit('/profil');
 
       // when
       await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:nth-child(2) .competence-card__link');
@@ -98,7 +102,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
 
     it('should display first competence card of second area', async function() {
       // when
-      await visit('/profilv2');
+      await visit('/profil');
 
       // then
       expect(find('.rounded-panel-body__areas:nth-child(2) .rounded-panel-body__competence-card:first-child .competence-card__area-name').text()).to.equal('Communication et collaboration');
@@ -124,7 +128,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
         });
 
         // when
-        await visit('/profilv2');
+        await visit('/profil');
 
         // then
         findWithAssert('.resume-campaign-banner__container');
@@ -148,7 +152,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
         });
 
         // when
-        await visit('/profilv2');
+        await visit('/profil');
 
         // then
         findWithAssert('.resume-campaign-banner__container');
@@ -175,7 +179,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
         });
 
         // when
-        await visit('/profilv2');
+        await visit('/profil');
 
         // then
         findWithAssert('.resume-campaign-banner__container');
@@ -199,7 +203,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
         });
 
         // when
-        await visit('/profilv2');
+        await visit('/profil');
 
         // then
         findWithAssert('.resume-campaign-banner__container');
@@ -214,17 +218,17 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       await authenticateAsSimpleProfileV2User();
     });
 
-    it('can visit /profilv2', async function() {
+    it('can visit /profil', async function() {
       // when
-      await visit('/profilv2');
+      await visit('/profil');
 
       // then
-      expect(currentURL()).to.equal('/profilv2');
+      expect(currentURL()).to.equal('/profil');
     });
 
     it('should not display link /compte', async function() {
       // given
-      await visit('/profilv2');
+      await visit('/profil');
 
       // then
       expect(find('.rounded-panel__link')).to.have.lengthOf(0);
@@ -237,9 +241,9 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
       await authenticateAsPrescriber();
     });
 
-    it('can visit /profilv2', async function() {
+    it('can visit /profil', async function() {
       // when
-      await visit('/profilv2');
+      await visit('/profil');
 
       // then
       expect(currentURL()).to.equal('/board');
@@ -249,7 +253,7 @@ describe('Acceptance | Profil v2 | Afficher profil v2', function() {
   describe('Not authenticated cases', function() {
     it('should redirect to home, when user is not authenticated', async function() {
       // when
-      await visit('/profilv2');
+      await visit('/profil');
       expect(currentURL()).to.equal('/connexion');
     });
 
