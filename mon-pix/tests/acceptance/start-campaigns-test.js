@@ -27,10 +27,71 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
     context('When user is not logged in', function() {
 
+      context('When user has not given any campaign code', function() {
+
+        it('should access campaign form page', async function() {
+          // when
+          await visit('/campagnes');
+
+          // then
+          expect(find('.button').text()).to.contains('Commencer mon parcours');
+        });
+      });
+
+      context('When user want to access a campaign with only its code', function() {
+
+        it('should access presentation page', async function() {
+          // given
+          const campaignCode = 'AZERTY1';
+          await visit('/campagnes');
+
+          // when
+          await fillIn('#campaign-code', campaignCode);
+          await click('.button');
+
+          // then
+          expect(currentURL()).to.equal(`/campagnes/${campaignCode}/presentation`);
+        });
+
+        context('When campaign code does not exist', function() {
+
+          it('should display an error message on fill-in-campaign-code page', async function() {
+            // given
+            const campaignCode = 'AZERTY123';
+            await visit('/campagnes');
+
+            // when
+            await fillIn('#campaign-code', campaignCode);
+            await click('.button');
+
+            // then
+            expect(currentURL()).to.equal('/campagnes');
+            expect(find('.fill-in-campaign-code__error').text())
+              .to.contains('Votre code de parcours est erroné, veuillez vérifier ou contacter la personne organisant le parcours de test.');
+          });
+        });
+
+        context('When user validates with empty campaign code', function() {
+
+          it('should display an error', async function() {
+            // given
+            await visit('/campagnes');
+
+            // when
+            await click('.button');
+
+            // then
+            expect(currentURL()).to.equal('/campagnes');
+            expect(find('.fill-in-campaign-code__error').text()).to.contains('Merci de renseigner le code du parcours.');
+          });
+        });
+      });
+
       context('When the user has already seen the landing page', function() {
         beforeEach(async function() {
           await startCampaignByCode('AZERTY1');
         });
+
         it('should redirect to signin page', async function() {
           // then
           return andThen(() => {
