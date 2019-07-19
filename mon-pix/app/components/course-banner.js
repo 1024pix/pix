@@ -4,9 +4,6 @@ import ENV from 'mon-pix/config/environment';
 
 export default Component.extend({
 
-  // Element
-  classNames: ['course-banner'],
-
   // Data props
   course: null,
   withHomeLink: false,
