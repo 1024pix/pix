@@ -26,24 +26,8 @@
 }
 
 .certification-error-page__button {
-  background-color: $pix-blue;
-  color: $white;
-  width: 173px;
-  border-radius: 5px;
-  text-align: center;
-  font-size: 12px;
-  font-family: $font-lato;
-  text-transform: uppercase;
-  line-height: 36px;
-  letter-spacing: 1px;
-  align-self: center;
   margin-top: 20px;
   margin-bottom: 20px;
-  cursor: pointer;
-  &:hover {
-    color: $white;
-    text-decoration: none;
-  }
 }
 
 /* Specific styles */
