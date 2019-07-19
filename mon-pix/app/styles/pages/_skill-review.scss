@@ -1,11 +1,8 @@
 .skill-review {
   &__result-container {
-    max-width: 960px;
-    margin: 55px 10px 10px 10px;
     padding: 40px 10px;
 
     @include device-is('tablet') {
-      margin: 35px auto;
       padding: 60px;
     }
   }
@@ -17,16 +14,6 @@
     width: 100%;
     background-image: linear-gradient(to right, transparent 50%, #BBB 50%);
     background-size: 10px 100%;
-  }
-
-  &__gradient {
-    position: absolute;
-    z-index: -1;
-
-    height: 320px;
-    width: 100%;
-    background: $pix-blue-to-purple-gradient;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
   }
 
   &__result-text {
@@ -89,8 +76,10 @@
   }
 
   &__information {
-    margin: 10px;
+    display: flex;
+    align-items: center;
     text-align: left;
+    margin: 10px;
     max-width: 850px;
 
     @include device-is('tablet') {
@@ -107,8 +96,8 @@
     }
 
     &__text {
-      padding-left: 30px;
-      margin-top: 24px;
+      padding-left: 14px;
+      margin-top: 14px;
       color: $dove-gray;
       font-family: $font-open-sans;
       font-size: 1.4rem;

@@ -1,9 +1,7 @@
 .certification-banner {
   display: flex;
-  background: $pix-blue-to-purple-gradient;
-  color: $white;
-  box-shadow: 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
   justify-content: center;
+  height: 100px;
 }
 
 .certification-banner__container {
@@ -18,7 +16,7 @@
   padding: 18px 20px;
 
   @include device-is('desktop') {
-    padding: 0px;
+    padding: 0;
     flex-direction: row;
   }
 }

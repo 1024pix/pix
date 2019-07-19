@@ -1,28 +1,29 @@
-<div class="fill-in-id-pix__gradient" xmlns="http://www.w3.org/1999/html"></div>
-<div class="fill-in-id-pix__container">
-  <div class="fill-in-id-pix__container__start">
-    <div class="fill-in-id-pix__start__text">
-      <h1 class="fill-in-id-pix__start__text title">Avant de commencer</h1>
-      <p class="fill-in-id-pix__start__text announcement">L'organisateur de votre parcours a besoin de l'information ci-dessous pour pouvoir vous accompagner :</p>
-      <div class="fill-in-id-pix__form">
-        <div class="fill-in-id-pix__form-field">
-          <label for="id-pix-label">{{model.idPixLabel}} :</label>
-          {{input required id="id-pix-label" value=model.participantExternalId}}
-        </div>
-        {{#if model.loading}}
-          <button type="submit" class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
-        {{else}}
-          <button type="submit" class="button button--big" {{action "submit"}}>Continuer</button>
-        {{/if}}
-        {{#if model.errorMessage}}
-          <div class="fill-in-id-pix__form__error-message">{{model.errorMessage}}</div>
-        {{/if}}
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner fill-in-id-pix__container">
+    <h1 class="fill-in-id-pix-text fill-in-id-pix-text__title">Avant de commencer</h1>
+    <p class="fill-in-id-pix-text fill-in-id-pix-text__announcement">L'organisateur de votre parcours a besoin de l'information ci-dessous
+      pour pouvoir vous accompagner :</p>
+    <div class="fill-in-id-pix__form">
+      <div class="fill-in-id-pix__form-field">
+        <label for="id-pix-label">{{model.idPixLabel}} :</label>
+        {{input required id="id-pix-label" value=model.participantExternalId}}
       </div>
       {{#if model.loading}}
-        <button class="button button--regular button--no-color fill-in-id-pix__cancel-button">Annuler</button>
+        <button type="submit" class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
-        <button class="button button--regular button--no-color fill-in-id-pix__cancel-button" {{action "cancel"}}>Annuler</button>
+        <button type="submit" class="button button--big" {{action "submit"}}>Continuer</button>
+      {{/if}}
+      {{#if model.errorMessage}}
+        <div class="fill-in-id-pix__form__error-message">{{model.errorMessage}}</div>
       {{/if}}
     </div>
+    {{#if model.loading}}
+      <button class="button button--regular button--no-color fill-in-id-pix__cancel-button">Annuler</button>
+    {{else}}
+      <button class="button button--regular button--no-color fill-in-id-pix__cancel-button" {{action "cancel"}}>
+        Annuler
+      </button>
+    {{/if}}
   </div>
 </div>

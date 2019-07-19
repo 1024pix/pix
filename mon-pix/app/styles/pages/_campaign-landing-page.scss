@@ -1,25 +1,3 @@
-.campaign-landing-page__gradient {
-  z-index: -1;
-  height: 420px;
-  width: 100%;
-  background: $pix-blue-to-purple-gradient;
-  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
-}
-
-.campaign-landing-page__container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  margin: -385px 10px;
-  max-width: 850px;
-
-  @include device-is('tablet') {
-    margin: -385px auto;
-    padding: 20px;
-  }
-}
-
 .campaign-landing-page__dash-line {
   border-top: 1px dashed $dove-gray;
   width: 85%;
@@ -30,12 +8,11 @@
 /*------------------------ START ------------------------*/
 
 .campaign-landing-page__container__start {
+  display: flex;
   flex-direction: column;
+  align-items: center;
   margin-bottom: 25px;
   padding-bottom: 40px;
-  background-color: $white;
-  border-radius: 10px;
-  box-shadow: 0 0 20px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 }
 
 .campaign-landing-page__start__image__container {
@@ -117,7 +94,7 @@
 }
 
 .campaign-landing-page__start-button {
-  margin: 30px 0px;
+  margin: 30px 0;
 
   @include device-is('tablet') {
     margin: 30px;
@@ -127,16 +104,14 @@
 /*------------------------ DETAILS ------------------------*/
 
 .campaign-landing-page__container__details {
-  display: flex;
-  flex-direction: column;
   padding-bottom: 70px;
   padding-top: 60px;
-  background-color: $white;
-  border-radius: 10px;
-  box-shadow: 0 0 20px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 }
 
 .campaign-landing-page__details__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-family: $font-open-sans;
 
   .title {
