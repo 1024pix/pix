@@ -1,6 +1,7 @@
 const {
   ChallengeAlreadyAnsweredError,
   UserHasBeenMigratedToV2Error,
+  ForbiddenAccess
 } = require('../errors');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/KnowledgeElement');
@@ -8,6 +9,7 @@ const KnowledgeElement = require('../models/KnowledgeElement');
 module.exports = async function correctAnswerThenUpdateAssessment(
   {
     answer,
+    userId,
     answerRepository,
     assessmentRepository,
     challengeRepository,
@@ -27,6 +29,10 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   }
 
   const assessment = await assessmentRepository.get(answer.assessmentId);
+
+  if (assessment.userId != userId) {
+    throw new ForbiddenAccess('User is not allowed to access this area');
+  }
 
   if (assessment.isPlacement()) {
     const user = await userRepository.get(assessment.userId);
