@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: `${__dirname}/../.env` });
 
 function localPostgresEnv(databaseUrl) {
   return {
@@ -18,27 +18,11 @@ function localPostgresEnv(databaseUrl) {
   };
 }
 
-function localSQLiteEnv(databaseFileName) {
-  return {
-    client: 'sqlite3',
-    connection: {
-      filename: `${__dirname}/${databaseFileName}`,
-    },
-    migrations: {
-      directory: `${__dirname}/migrations`,
-    },
-    seeds: {
-      directory: `${__dirname}/seeds`,
-    },
-    useNullAsDefault: true,
-  };
-}
-
 module.exports = {
 
-  development: process.env.DATABASE_URL ? localPostgresEnv(process.env.DATABASE_URL) : localSQLiteEnv('dev.sqlite3'),
+  development: localPostgresEnv(process.env.DATABASE_URL),
 
-  test: process.env.TEST_DATABASE_URL ? localPostgresEnv(process.env.TEST_DATABASE_URL) : localSQLiteEnv('test.sqlite3'),
+  test: localPostgresEnv(process.env.TEST_DATABASE_URL),
 
   staging: {
     client: 'postgresql',

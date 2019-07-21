@@ -18,8 +18,8 @@
     "cy:test:open": "run-p start:api start:mon-pix cy:open",
     "cy:test:pg": "run-p start:api:pg start:mon-pix cy:run:pg",
     "cy:test:pg:open": "run-p start:api:pg start:mon-pix cy:open:pg",
-    "db:empty": "cd ../../api && npm run db:pg:empty",
-    "db:initialize": "cd ../../api && npm run db:pg:prepare",
+    "db:empty": "cd ../../api && npm run db:empty",
+    "db:initialize": "cd ../../api && npm run db:prepare",
     "start:api": "cd ../../api && npm run start:watch",
     "start:api:pg": "cd ../../api && DATABASE_URL=postgresql://postgres:mysecretpassword@localhost:6432/pix_test npm run start:watch",
     "start:mon-pix": "cd ../../mon-pix && npx ember serve --proxy"

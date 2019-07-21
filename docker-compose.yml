@@ -2,18 +2,11 @@ version: '3'
 
 services:
   postgres:
-    image: postgres:10
+    image: postgres:10-alpine
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: pix
-
-  postgres_test:
-    image: postgres:10
-    ports:
-      - "6432:5432"
-    environment:
-      POSTGRES_DB: pix_test
 
   redis:
     image: redis
