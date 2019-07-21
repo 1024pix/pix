@@ -165,7 +165,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       });
 
     });
-    
+
   });
 
 });
