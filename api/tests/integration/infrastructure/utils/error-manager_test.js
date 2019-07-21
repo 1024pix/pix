@@ -71,9 +71,9 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(422);
     });
 
-    it('should return 422 on domain InvaliOrganizationIdError', function() {
+    it('should return 422 on domain InvalidOrganizationIdError', function() {
       // given
-      const error = new DomainErrors.InvaliOrganizationIdError();
+      const error = new DomainErrors.InvalidOrganizationIdError();
 
       // when
       const result = send(hFake, error);
@@ -283,6 +283,28 @@ describe('Integration | Utils | Error Manager', function() {
     it('should return 400 on domain WrongDateFormatError', function() {
       // given
       const error = new DomainErrors.WrongDateFormatError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 on domain CertificationCandidateCreationOrUpdateError', function() {
+      // given
+      const error = new DomainErrors.CertificationCandidateCreationOrUpdateError();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
+    it('should return 400 on domain CertificationCandidateDeletionError', function() {
+      // given
+      const error = new DomainErrors.CertificationCandidateDeletionError();
 
       // when
       const result = send(hFake, error);

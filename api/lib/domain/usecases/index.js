@@ -8,6 +8,7 @@ const dependencies = {
   campaignCollectiveResultRepository: require('../../infrastructure/repositories/campaign-collective-result-repository'),
   campaignParticipationRepository: require('../../infrastructure/repositories/campaign-participation-repository'),
   campaignRepository: require('../../infrastructure/repositories/campaign-repository'),
+  certificationCandidateRepository: require('../../infrastructure/repositories/certification-candidate-repository'),
   certificationChallengesService: require('../../domain/services/certification-challenges-service'),
   certificationCenterRepository: require('../../infrastructure/repositories/certification-center-repository'),
   certificationCenterMembershipRepository: require('../../infrastructure/repositories/certification-center-membership-repository'),

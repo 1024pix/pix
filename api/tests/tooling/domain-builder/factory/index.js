@@ -16,6 +16,7 @@ module.exports = {
   buildCatCourse: require('./build-cat-course'),
   buildCatTube: require('./build-cat-tube'),
   buildCertification: require('./build-certification'),
+  buildCertificationCandidate: require('./build-certification-candidate'),
   buildCertificationCenter: require('./build-certification-center'),
   buildCertificationCenterMembership: require('./build-certification-center-membership'),
   buildCertificationChallenge: require('./build-certification-challenge'),
