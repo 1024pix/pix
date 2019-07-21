@@ -1,18 +1,16 @@
-const { knex, expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
-
-const faker = require('faker');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const _ = require('lodash');
 const querystring = require('querystring');
 
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('./../../../lib/settings');
-const encrypt = require('../../../lib/domain/services/encryption-service');
-const Membership = require('../../../lib/domain/models/Membership');
+
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 
   let userId;
+  const orgaRoleInDB = { id: 1, name: 'ADMIN' };
   const userEmail = 'emailWithSomeCamelCase@example.net';
   const userEmailSavedInDb = _.toLower(userEmail);
   const userPassword = 'A124B2C3#!';
@@ -21,27 +19,17 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   beforeEach(async () => {
     server = await createServer();
+    userId = databaseBuilder.factory.buildUser(
+      {
+        email: userEmailSavedInDb,
+        password: userPassword,
+        cgu: true,
+      }).id;
+    await databaseBuilder.commit();
   });
 
-  beforeEach(() => {
-    return encrypt.hashPassword(userPassword)
-      .then((encryptedPassword) => {
-        return {
-          firstName: faker.name.firstName(),
-          lastName: faker.name.lastName(),
-          email: userEmailSavedInDb,
-          password: encryptedPassword,
-          cgu: true
-        };
-      })
-      .then((user) => knex('users').insert(user).returning('id'))
-      .then(([id]) => userId = id);
-  });
-
-  afterEach(() => {
-    return knex('memberships').delete()
-      .then(() => knex('organizations').delete())
-      .then(() => knex('users').delete());
+  afterEach(async () => {
+    await databaseBuilder.clean();
   });
 
   describe('POST /api/authentications', () => {
@@ -105,30 +93,14 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   describe('POST /api/token', () => {
 
-    beforeEach(() => {
-      const organization = {
-        type: 'PRO',
-        name: 'Mon Entreprise',
-        code: 'ABCD12'
-      };
-
-      return knex('organizations')
-        .insert(organization)
-        .returning('id')
-        .then(([organizationId]) => {
-          return knex('memberships')
-            .insert({
-              userId,
-              organizationId,
-              organizationRole: Membership.roles.OWNER,
-            });
-        });
+    beforeEach(async () => {
+      const organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      databaseBuilder.factory.buildMembership({ userId, organizationId, organizationRoleId: orgaRoleInDB.id });
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('memberships').delete()
-        .then(() => knex('organizations').delete())
-        .then(() => knex('users').delete());
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return an 200 with accessToken when authentication is ok', () => {

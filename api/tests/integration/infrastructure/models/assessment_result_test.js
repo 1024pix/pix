@@ -1,4 +1,4 @@
-const { sinon } = require('../../../test-helper');
+const { sinon, knex } = require('../../../test-helper');
 const BookshelfAssessmentResults = require('../../../../lib/infrastructure/data/assessment-result');
 
 describe('Integration | Infrastructure | Models | BookshelfAssessmentResult', () => {
@@ -13,6 +13,8 @@ describe('Integration | Infrastructure | Models | BookshelfAssessmentResult', ()
         status: null
       };
     });
+
+    afterEach(() => knex('assessment-results').delete());
 
     describe('the status field', () => {
 

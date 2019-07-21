@@ -9,8 +9,8 @@ describe('Acceptance | Controller | answer-controller', () => {
     let options;
 
     beforeEach(async () => {
-      const userId = 1;
       server = await createServer();
+      const userId = databaseBuilder.factory.buildUser().id;
       const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
       const answer = databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok', challengeId: 'rec1' });
       await databaseBuilder.commit();

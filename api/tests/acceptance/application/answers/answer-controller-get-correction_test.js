@@ -14,7 +14,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
 
     let assessment = null;
     let answer = null;
-    const userId = 123;
+    let userId;
 
     before(() => {
       nock('https://api.airtable.com')
@@ -52,6 +52,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
     });
 
     beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
       assessment = databaseBuilder.factory.buildAssessment({
         courseId: 'adaptive_course_id',
         state: 'completed',

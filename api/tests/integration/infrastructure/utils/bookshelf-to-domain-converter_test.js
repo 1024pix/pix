@@ -21,9 +21,9 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
   describe('buildDomainObject', () => {
     it('should convert a Bookshelf object into a domain object', async () => {
       // given
-      databaseBuilder.factory.buildUser({ id: 1 });
+      const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
-      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch();
+      const bookshelfObject = await BookshelfUser.where({ id: userId }).fetch();
 
       // when
       const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, bookshelfObject);
@@ -33,9 +33,9 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     });
     it('should populate the domain object with the matching Bookshelf properties', async () => {
       // given
-      databaseBuilder.factory.buildUser({ id: 1 });
+      const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
-      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch();
+      const bookshelfObject = await BookshelfUser.where({ id: userId }).fetch();
 
       // when
       const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, bookshelfObject);
@@ -47,9 +47,9 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     });
     it('should honor the domain object constructor', async () => {
       // given
-      databaseBuilder.factory.buildUser({ id: 1 });
+      const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
-      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch();
+      const bookshelfObject = await BookshelfUser.where({ id: userId }).fetch();
 
       // when
       const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfUser, bookshelfObject);
@@ -60,11 +60,11 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     });
     it('should support has-one relationships', async () => {
       // given
-      databaseBuilder.factory.buildUser({ id: 1 });
-      databaseBuilder.factory.buildAssessment({ id: 1, userId: 1 });
-      databaseBuilder.factory.buildCampaignParticipation({ id: 1, assessmentId: 1, userId: 1 });
+      const userId = databaseBuilder.factory.buildUser().id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ assessmentId, userId });
       await databaseBuilder.commit();
-      const bookshelfObject = await BookshelfAssessment.where({ id: 1 }).fetch({
+      const bookshelfObject = await BookshelfAssessment.where({ id: assessmentId }).fetch({
         withRelated: ['campaignParticipation'],
       });
 
@@ -76,11 +76,11 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     });
     it('should support has-many relationships', async () => {
       // given
-      databaseBuilder.factory.buildUser({ id: 1 });
-      databaseBuilder.factory.buildMembership({ id: 1, userId: 1 });
-      databaseBuilder.factory.buildMembership({ id: 2, userId: 1 });
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildMembership({ userId });
+      databaseBuilder.factory.buildMembership({ userId });
       await databaseBuilder.commit();
-      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch({
+      const bookshelfObject = await BookshelfUser.where({ id: userId }).fetch({
         withRelated: ['memberships'],
       });
 
@@ -93,9 +93,9 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     });
     it('should support belongs-to relationships', async () => {
       //given
-      databaseBuilder.factory.buildCampaign({ id: 1 });
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
       await databaseBuilder.commit();
-      const bookshelfObject = await BookshelfCampaign.where({ id: 1 }).fetch({
+      const bookshelfObject = await BookshelfCampaign.where({ id: campaignId }).fetch({
         withRelated: ['targetProfile'],
       });
 
@@ -107,11 +107,11 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     });
     it('should support domain object relationship’s name not matching the corresponding Bookshelf class name', async () => {
       // given
-      databaseBuilder.factory.buildUser({ id: 1 });
-      databaseBuilder.factory.buildKnowledgeElement({ userId: 1 });
-      databaseBuilder.factory.buildKnowledgeElement({ userId: 1 });
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildKnowledgeElement({ userId });
+      databaseBuilder.factory.buildKnowledgeElement({ userId });
       await databaseBuilder.commit();
-      const bookshelfObject = await BookshelfUser.where({ id: 1 }).fetch({
+      const bookshelfObject = await BookshelfUser.where({ id: userId }).fetch({
         withRelated: 'knowledgeElements'
       });
 
@@ -124,13 +124,13 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     });
     it('should support nested relationships', async () => {
       // given
-      databaseBuilder.factory.buildCampaign({ id: 1 });
-      databaseBuilder.factory.buildUser({ id: 1 });
-      databaseBuilder.factory.buildCampaignParticipation({ id: 1, campaignId: 1, userId: 1 });
-      databaseBuilder.factory.buildKnowledgeElement({ id: 1, userId: 1 });
-      databaseBuilder.factory.buildKnowledgeElement({ id: 2, userId: 1 });
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId }).id;
+      databaseBuilder.factory.buildKnowledgeElement({ userId });
+      databaseBuilder.factory.buildKnowledgeElement({ userId });
       await databaseBuilder.commit();
-      const bookshelfObject = await BookshelfCampaignParticipation.where({ id: 1 }).fetch({
+      const bookshelfObject = await BookshelfCampaignParticipation.where({ id: campaignParticipationId }).fetch({
         withRelated: ['user.knowledgeElements'],
       });
 

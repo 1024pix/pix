@@ -15,7 +15,7 @@ describe('Acceptance | Controller | session-controller-post', () => {
     beforeEach(() => {
       const pixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Tour Gamma' }).id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId: pixMaster.id, certificationCenterId: 42 });
+      databaseBuilder.factory.buildCertificationCenterMembership({ userId: pixMaster.id, certificationCenterId });
       options = {
         method: 'POST',
         url: '/api/sessions',
