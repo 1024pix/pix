@@ -1,6 +1,8 @@
 import Component from '@ember/component';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  certificationCandidatesImporter: service(),
 
   actions: {
     uploadOdsFile(odsFile) {
@@ -10,8 +12,10 @@ export default Component.extend({
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      }).then((_response) => console.log('ok'))
-        .catch((_error) => console.log('ko'));
+      }).then((response) => this.certificationCandidatesImporter.handleCertificationCandidatesImport(this.session, response.body.data))
+        .catch((_error) => {
+          this.certificationCandidatesImporter.displayFileParsingError();
+        });
     },
   }
 });
