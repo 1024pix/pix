@@ -3,6 +3,7 @@ const _ = require('lodash');
 const BookshelfSession = require('../data/session');
 const Session = require('../../domain/models/Session');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
+const CertificationCandidate = require('../../domain/models/CertificationCandidate');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfSession) {
@@ -11,6 +12,9 @@ function _toDomain(bookshelfSession) {
     sessionReturned.certifications = bookshelfSession.related('certificationCourses').map((certificationCourse) => {
       return CertificationCourse.fromAttributes(certificationCourse);
     });
+    sessionReturned.certificationCandidates = bookshelfSession.related('certificationCandidates').map((certificationCandidate) => {
+      return new CertificationCandidate(certificationCandidate);
+    });
     return new Session(sessionReturned);
   }
   return null;
@@ -18,7 +22,7 @@ function _toDomain(bookshelfSession) {
 
 module.exports = {
   save: (sessionToBeSaved) => {
-    sessionToBeSaved = _.omit(sessionToBeSaved, ['certifications']);
+    sessionToBeSaved = _.omit(sessionToBeSaved, ['certifications', 'certificationCandidates']);
 
     return new BookshelfSession(sessionToBeSaved)
       .save()
@@ -42,7 +46,7 @@ module.exports = {
   get(idSession) {
     return BookshelfSession
       .where({ id: idSession })
-      .fetch({ require: true, withRelated: ['certificationCourses'] })
+      .fetch({ require: true, withRelated: ['certificationCourses', 'certificationCandidates'] })
       .then(_toDomain)
       .catch((error) => {
         if (error instanceof BookshelfSession.NotFoundError) {

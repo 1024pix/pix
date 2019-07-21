@@ -18,9 +18,13 @@ module.exports = {
         'time',
         'description',
         'accessCode',
-        'certifications'
+        'certifications',
+        'certificationCandidates'
       ],
       certifications : {
+        ref: ['id']
+      },
+      certificationCandidates : {
         ref: ['id']
       }
     }).serialize(sessions);

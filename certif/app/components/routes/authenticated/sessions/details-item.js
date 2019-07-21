@@ -8,9 +8,8 @@ export default Component.extend({
     clipboardSuccess() {
       this.set('tooltipText', 'Copié !');
     },
-
     clipboardOut() {
       this.set('tooltipText', 'Copier le code d\'accès');
-    }
+    },
   }
 });

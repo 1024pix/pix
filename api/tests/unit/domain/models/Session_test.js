@@ -13,11 +13,11 @@ const SESSION_PROPS = [
   'examiner',
   'room',
   'time',
-  'certifications'
+  'certifications',
+  'certificationCandidates',
 ];
 
 describe('Unit | Domain | Models | Session', () => {
-  
   let session;
 
   beforeEach(() => {
@@ -34,6 +34,7 @@ describe('Unit | Domain | Models | Session', () => {
       time: '',
       // includes
       certifications: [],
+      certificationCandidates: [],
     });
   });
 

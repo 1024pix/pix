@@ -1,4 +1,4 @@
-const { expect } = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
@@ -38,6 +38,9 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         relationships: {
           certifications: {
             data: null
+          },
+          'certification-candidates': {
+            data: null
           }
         }
       }
@@ -58,7 +61,10 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       // given
       const certification1 = CertificationCourse.fromAttributes({ id: 1 });
       const certification2 = CertificationCourse.fromAttributes({ id: 2 });
+      const certificationCandidate1 = domainBuilder.buildCertificationCandidate({ id: 1 });
+      const certificationCandidate2 = domainBuilder.buildCertificationCandidate({ id: 2 });
       const associatedCertifications = [certification1, certification2];
+      const associatedCertificationCandidates = [certificationCandidate1, certificationCandidate2];
       const session = new Session({
         id: '12',
         certificationCenter: 'Université de dressage de loutres',
@@ -70,7 +76,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         time: '14:30',
         description: '',
         accessCode: '',
-        certifications: associatedCertifications
+        certifications: associatedCertifications,
+        certificationCandidates: associatedCertificationCandidates,
       });
 
       // when
@@ -96,6 +103,12 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
               data: [
                 { type: 'certifications', id: '1' },
                 { type: 'certifications', id: '2' }
+              ]
+            },
+            'certification-candidates': {
+              data: [
+                { type: 'certificationCandidates', id: '1' },
+                { type: 'certificationCandidates', id: '2' }
               ]
             }
           }
@@ -150,7 +163,9 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         expect(session.certificationCenter).to.equal('Université de dressage de loutres');
         expect(session.certificationCenterId).to.be.null;
       });
+
     });
+    
   });
 
 });
