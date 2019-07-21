@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 module.exports = function buildAssessment({
   id,
-  courseId = 'recDefaultCourseIdValue',
+  courseId = 'recDefaultCourseId',
   userId,
   type = Assessment.types.PLACEMENT,
   state = Assessment.states.COMPLETED,
@@ -14,12 +14,20 @@ module.exports = function buildAssessment({
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
+
   if (type != 'DEMO') {
-    userId = _.isNil(userId) ? buildUser().id : userId;
+    userId = _.isUndefined(userId) ? buildUser().id : userId;
   }
 
   const values = {
-    id, courseId, userId, type, state, createdAt, updatedAt, competenceId,
+    id,
+    courseId,
+    userId,
+    type,
+    state,
+    createdAt,
+    updatedAt,
+    competenceId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'assessments',

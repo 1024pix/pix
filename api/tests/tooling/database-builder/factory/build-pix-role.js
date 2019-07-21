@@ -6,7 +6,8 @@ const buildPixRole = function buildPixRole({
 } = {}) {
 
   const values = {
-    id, name,
+    id,
+    name,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'pix_roles',
