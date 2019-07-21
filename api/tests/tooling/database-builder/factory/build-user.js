@@ -12,12 +12,15 @@ const buildUser = function buildUser({
   id,
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
-  email = faker.internet.exampleEmail().toLowerCase(),
-  password = encrypt.hashPasswordSync(faker.internet.password()),
+  email ,
+  password,
   cgu = true,
   samlId,
 } = {}) {
 
+  password = _.isUndefined(password) ? encrypt.hashPasswordSync(faker.internet.password()) : encrypt.hashPasswordSync(password);
+  email = _.isUndefined(email) ? faker.internet.exampleEmail().toLowerCase() : email.toLowerCase();
+  
   const values = {
     id, firstName, lastName, email, password, cgu, samlId,
   };
