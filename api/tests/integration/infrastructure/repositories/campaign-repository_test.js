@@ -1,4 +1,4 @@
-const { expect, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const { expect, domainBuilder, databaseBuilder, knex } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const CampaignReport = require('../../../../lib/domain/models/CampaignReport');
@@ -15,29 +15,25 @@ describe('Integration | Repository | Campaign', () => {
   describe('#isCodeAvailable', () => {
 
     beforeEach(async () => {
-      const campaign = domainBuilder.buildCampaign({ code: 'BADOIT710' });
-      databaseBuilder.factory.buildCampaign(campaign);
+      await databaseBuilder.clean();
+      databaseBuilder.factory.buildCampaign({ code: 'BADOIT710' });
       await databaseBuilder.commit();
     });
     
-    it('should resolve true if the code is available', () => {
+    it('should resolve true if the code is available', async () => {
       // when
-      const promise = campaignRepository.isCodeAvailable('FRANCE998');
+      const isCodeAvailable = await campaignRepository.isCodeAvailable('FRANCE998');
 
       // then
-      return promise.then((result) => {
-        expect(result).to.be.true;
-      });
+      expect(isCodeAvailable).to.be.true;
     });
 
-    it('should resolve false if the code is available', () => {
+    it('should resolve false if the code is not available', async () => {
       // when
-      const promise = campaignRepository.isCodeAvailable('BADOIT710');
+      const isCodeAvailable = await campaignRepository.isCodeAvailable('BADOIT710');
 
       // then
-      return promise.then((result) => {
-        expect(result).to.be.false;
-      });
+      expect(isCodeAvailable).to.be.false;
     });
 
   });
@@ -46,28 +42,29 @@ describe('Integration | Repository | Campaign', () => {
 
     let campaignToInsert;
     beforeEach(async () => {
-      campaignToInsert = domainBuilder.buildCampaign({ code: 'BADOIT710', createdAt: new Date('2018-02-06T14:12:45Z') });
-      databaseBuilder.factory.buildCampaign(campaignToInsert);
+      campaignToInsert = databaseBuilder.factory.buildCampaign(
+        {
+          code: 'BADOIT710',
+          createdAt: new Date('2018-02-06T14:12:45Z')
+        });
       await databaseBuilder.commit();
     });
 
-    it('should resolve the campaign relies to the code', () => {
+    it('should resolve the campaign relies to the code', async () => {
       // when
-      const promise = campaignRepository.getByCode('BADOIT710');
+      const actualCampaign = await campaignRepository.getByCode('BADOIT710');
 
       // then
-      return promise.then((result) => {
-        expect(result.id).to.equal(campaignToInsert.id);
-        expect(result.name).to.equal(campaignToInsert.name);
-        expect(result.code).to.equal(campaignToInsert.code);
-        expect(result.organizationId).to.equal(campaignToInsert.organizationId);
-        expect(result.creatorId).to.equal(campaignToInsert.creatorId);
-        expect(result.createdAt).to.deep.equal(campaignToInsert.createdAt);
-        expect(result.targetProfileId).to.equal(campaignToInsert.targetProfileId);
-        expect(result.customLandingPageText).to.equal(campaignToInsert.customLandingPageText);
-        expect(result.idPixLabel).to.equal(campaignToInsert.idPixLabel);
-        expect(result.title).to.equal(campaignToInsert.title);
-      });
+      expect(actualCampaign.id).to.equal(campaignToInsert.id);
+      expect(actualCampaign.name).to.equal(campaignToInsert.name);
+      expect(actualCampaign.code).to.equal(campaignToInsert.code);
+      expect(actualCampaign.organizationId).to.equal(campaignToInsert.organizationId);
+      expect(actualCampaign.creatorId).to.equal(campaignToInsert.creatorId);
+      expect(actualCampaign.createdAt).to.deep.equal(campaignToInsert.createdAt);
+      expect(actualCampaign.targetProfileId).to.equal(campaignToInsert.targetProfileId);
+      expect(actualCampaign.customLandingPageText).to.equal(campaignToInsert.customLandingPageText);
+      expect(actualCampaign.idPixLabel).to.equal(campaignToInsert.idPixLabel);
+      expect(actualCampaign.title).to.equal(campaignToInsert.title);
     });
 
     it('should resolve null if the code do not correspond to any campaign ', () => {
@@ -84,73 +81,94 @@ describe('Integration | Repository | Campaign', () => {
 
   describe('#save', () => {
 
-    it('should save the given campaign', () => {
+    let creatorId, organizationId, targetProfileId;
+    let savedCampaign, campaignToSave;
+    beforeEach(async () => {
       // given
-      const campaignToSave = new Campaign({
+      creatorId = databaseBuilder.factory.buildUser({}).id;
+      organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      targetProfileId = databaseBuilder.factory.buildTargetProfile({}).id;
+      await databaseBuilder.commit();
+      campaignToSave = domainBuilder.buildCampaign({
         name: 'Evaluation niveau 1 recherche internet',
         code: 'BCTERD153',
         title: 'Parcours recherche internet',
         customLandingPageText: 'Parcours évaluatif concernant la recherche internet',
-        creatorId: 6,
-        organizationId: 44,
+        creatorId,
+        organizationId,
+        targetProfileId,
       });
-
+      campaignToSave.id = undefined;
       // when
-      const promise = campaignRepository.save(campaignToSave);
+      savedCampaign = await campaignRepository.save(campaignToSave);
+    });
 
+    afterEach(async () => {
+      await knex('campaigns').delete();
+      await databaseBuilder.clean();
+    });
+
+    it('should save the given campaign', async () => {
       // then
-      return promise.then((savedCampaign) => {
-        expect(savedCampaign).to.be.instanceof(Campaign);
-        expect(savedCampaign.id).to.exist;
-        expect(savedCampaign.name).to.equal(campaignToSave.name);
-        expect(savedCampaign.code).to.equal(campaignToSave.code);
-        expect(savedCampaign.title).to.equal(campaignToSave.title);
-        expect(savedCampaign.customLandingPageText).to.equal(campaignToSave.customLandingPageText);
-        expect(savedCampaign.creatorId).to.equal(campaignToSave.creatorId);
-        expect(savedCampaign.organizationId).to.equal(campaignToSave.organizationId);
-      });
+      expect(savedCampaign).to.be.instanceof(Campaign);
+      expect(savedCampaign.id).to.exist;
+      expect(savedCampaign.name).to.equal(campaignToSave.name);
+      expect(savedCampaign.code).to.equal(campaignToSave.code);
+      expect(savedCampaign.title).to.equal(campaignToSave.title);
+      expect(savedCampaign.customLandingPageText).to.equal(campaignToSave.customLandingPageText);
+      expect(savedCampaign.creatorId).to.equal(campaignToSave.creatorId);
+      expect(savedCampaign.organizationId).to.equal(campaignToSave.organizationId);
     });
 
   });
 
   describe('#findByOrganizationIdWithCampaignReports', () => {
 
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
     context('when campaigns have campaignReports', async () => {
 
       it('should return the campaigns of the given organization id with campaignReports', async () => {
         // given
-        const organizationId = 1;
-
+        const organizationId = databaseBuilder.factory.buildOrganization({}).id;
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
+        const firstCampaignId = databaseBuilder.factory.buildCampaign(
+          {
+            name: 'campaign1',
+            code: 'AZERTY123',
+            organizationId,
+            targetProfileId,
+          }).id;
+        const secondCampaignId = databaseBuilder.factory.buildCampaign(
+          {
+            name: 'campaign2',
+            code: 'AZERTY456',
+            organizationId,
+            targetProfileId,
+          }).id;
         _.each([
-          { id: 1, name: 'campaign1', code: 'AZERTY123', organizationId, creatorId: 1 },
-          { id: 2, name: 'campaign2', code: 'AZERTY456', organizationId, creatorId: 2 },
-
-        ], (campaign) => {
-          databaseBuilder.factory.buildCampaign(campaign);
-        });
-
-        _.each([
-          { id: 1, campaignId: 1, isShared: true },
-          { id: 2, campaignId: 1, isShared: false },
-          { id: 3, campaignId: 1, isShared: false },
-          { id: 4, campaignId: 2, isShared: true },
-          { id: 5, campaignId: 2, isShared: true },
-
+          { campaignId: firstCampaignId, isShared: true },
+          { campaignId: firstCampaignId, isShared: false },
+          { campaignId: firstCampaignId, isShared: false },
+          { campaignId: secondCampaignId, isShared: true },
+          { campaignId: secondCampaignId, isShared: true },
         ], (campaignParticipation) => {
           databaseBuilder.factory.buildCampaignParticipation(campaignParticipation);
         });
-
         await databaseBuilder.commit();
 
         // when
         const campaignsWithReports = await campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
+        const sortedCampaignsWithReports = _.sortBy(campaignsWithReports, [(camp) => { return camp.id; }]);
 
         // then
-        expect(_.map(campaignsWithReports, 'id')).to.have.members([1, 2]);
-        expect(campaignsWithReports[0]).to.be.instanceOf(Campaign);
-        expect(campaignsWithReports[0].campaignReport).to.be.instanceOf(CampaignReport);
-        expect(campaignsWithReports[0].campaignReport).to.deep.equal({ id: 1, participationsCount: 3, sharedParticipationsCount: 1 });
-        expect(campaignsWithReports[1].campaignReport).to.deep.equal({ id: 2, participationsCount: 2, sharedParticipationsCount: 2 });
+        expect(_.map(sortedCampaignsWithReports, 'id')).to.have.members([firstCampaignId, secondCampaignId]);
+        expect(sortedCampaignsWithReports[0]).to.be.instanceOf(Campaign);
+        expect(sortedCampaignsWithReports[0].campaignReport).to.be.instanceOf(CampaignReport);
+        expect(sortedCampaignsWithReports[0].campaignReport).to.deep.equal({ id: firstCampaignId, participationsCount: '3', sharedParticipationsCount: '1' });
+        expect(sortedCampaignsWithReports[1].campaignReport).to.deep.equal({ id: secondCampaignId, participationsCount: '2', sharedParticipationsCount: '2' });
       });
     });
 
@@ -158,28 +176,39 @@ describe('Integration | Repository | Campaign', () => {
 
       it('should return the campaigns of the given organization id with campaignReports', async () => {
         // given
-        const organizationId = 1;
-        const campaign = { id: 3, name: 'campaign without participation', code: 'AZERTY789', organizationId, creatorId: 3 };
-        databaseBuilder.factory.buildCampaign(campaign);
+        const organizationId = databaseBuilder.factory.buildOrganization({}).id;
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
+        const campaignId = databaseBuilder.factory.buildCampaign(
+          {
+            name: 'campaign without participation',
+            code: 'AZERTY789',
+            organizationId,
+            targetProfileId,
+          }).id;
         await databaseBuilder.commit();
 
         // when
         const campaignsWithReports = await campaignRepository.findByOrganizationIdWithCampaignReports(organizationId);
-        // then
-        expect(campaignsWithReports[0].campaignReport).to.deep.equal({ id: 3, participationsCount: 0, sharedParticipationsCount: 0 });
 
+        // then
+        expect(campaignsWithReports[0].campaignReport.id).to.equal(campaignId);
+        expect(campaignsWithReports[0].campaignReport.participationsCount).to.equal(0);
+        expect(campaignsWithReports[0].campaignReport.sharedParticipationsCount).to.equal(0);
       });
     });
 
     it('should return the campaigns of the given organization id', async () => {
       // given
-      const organizationId = 1;
+      const organizationId = databaseBuilder.factory.buildOrganization({}).id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
+      const creatorId = databaseBuilder.factory.buildUser({}).id;
       const campaign = {
-        id: 3,
+        id: 1,
         name: 'campaign without participation',
         code: 'AZERTY789',
         organizationId,
-        creatorId: 3
+        targetProfileId,
+        creatorId,
       };
       databaseBuilder.factory.buildCampaign(campaign);
       await databaseBuilder.commit();

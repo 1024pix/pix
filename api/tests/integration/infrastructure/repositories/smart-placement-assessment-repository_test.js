@@ -32,7 +32,6 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
     beforeEach(async () => {
 
       const userId = databaseBuilder.factory.buildUser().id;
-
       assessmentId = 987654321;
       notSmartPlacementAssessmentId = 32323;
       notExistingAssessmentId = 88888;
@@ -181,7 +180,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         expect(assessmentFind.id).to.equal(assessment.id);
         expect(new Date(assessmentFind.createdAt)).to.deep.equal(assessment.createdAt);
         expect(assessmentFind.state).to.equal(assessment.state);
-        expect(assessmentFind.userId).to.equal(assessment.userId);
+        expect(parseInt(assessmentFind.userId)).to.equal(assessment.userId);
         expect(assessmentFind.answers.length).to.equal(assessment.answers.length);
         expect(assessmentFind.knowledgeElements.length).to.equal(assessment.knowledgeElements.length);
         expect(assessmentFind.targetProfile.id).to.equal(assessment.targetProfile.id);

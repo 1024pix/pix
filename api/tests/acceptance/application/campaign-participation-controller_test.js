@@ -1,8 +1,9 @@
 const _ = require('lodash');
+const faker = require('faker');
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const cache = require('../../../lib/infrastructure/caches/cache');
-const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 
 describe('Acceptance | API | Campaign Participations', () => {
 
@@ -122,7 +123,7 @@ describe('Acceptance | API | Campaign Participations', () => {
           {
             'attributes': {
               'created-at': campaignParticipation.createdAt,
-              'is-shared': Number(campaignParticipation.isShared),
+              'is-shared': campaignParticipation.isShared,
               'participant-external-id': campaignParticipation.participantExternalId,
               'shared-at': campaignParticipation.sharedAt,
             },
@@ -209,21 +210,21 @@ describe('Acceptance | API | Campaign Participations', () => {
       );
 
       // Create an organization with his owner
-      user = databaseBuilder.factory.buildUser({ id: 1 });
+      user = databaseBuilder.factory.buildUser();
       const userId = user.id;
-      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ id: 1, userId });
+      const { id: organizationId } = databaseBuilder.factory.buildOrganization({ userId });
       databaseBuilder.factory.buildMembership({ userId, organizationId });
 
       // Organization decides to start a campaign based on previous target profile
-      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ id: 1, name: 'Super camp', creatorId: userId, targetProfileId, organizationId });
+      const { id: campaignId } = databaseBuilder.factory.buildCampaign({ name: 'Super camp', creatorId: userId, targetProfileId, organizationId });
 
       // Another user starts a campaign
-      assessment = databaseBuilder.factory.buildAssessment({ id: 1 });
+      assessment = databaseBuilder.factory.buildAssessment();
       const { id: assessmentId } = assessment;
 
-      participant = databaseBuilder.factory.buildUser({ id: 2, firstName: 'Michel', lastName: 'Essentiel' });
+      participant = databaseBuilder.factory.buildUser({ firstName: 'Michel', lastName: 'Essentiel' });
       participantExternalId = '1337';
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ id: 1, assessmentId, userId: participant.id, participantExternalId, campaignId, isShared: true });
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ assessmentId, userId: participant.id, participantExternalId, campaignId, isShared: true });
 
       // And starts answering questions
       _([
@@ -236,8 +237,9 @@ describe('Acceptance | API | Campaign Participations', () => {
         { skillId: skillIds2[1], status: 'validated' },
         { skillId: skillIds2[2], status: 'invalidated' },
 
-      ]).each((ke, id) => {
-        databaseBuilder.factory.buildKnowledgeElement({ ...ke, id, userId: participant.id, assessmentId, });
+      ]).each((ke) => {
+        databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId: participant.id, assessmentId, createdAt: faker.date.past(10, campaignParticipation.sharedAt) });
+        databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId: participant.id, assessmentId, createdAt: faker.date.future(10, campaignParticipation.sharedAt) });
       });
 
       airtableBuilder.mockList({ tableName: 'Acquis' }).returns(dataSourceSkills).activate();
@@ -266,15 +268,15 @@ describe('Acceptance | API | Campaign Participations', () => {
           {
             attributes: {
               'created-at': campaignParticipation.createdAt,
-              'is-shared': 1,
+              'is-shared': true,
               'participant-external-id': participantExternalId,
               'shared-at': campaignParticipation.sharedAt,
             },
-            id: '1',
+            id: campaignParticipation.id.toString(),
             relationships: {
               assessment: {
                 links: {
-                  related: '/api/assessments/1',
+                  related: '/api/assessments/' + assessment.id.toString(),
                 }
               },
               campaign: {
@@ -286,12 +288,12 @@ describe('Acceptance | API | Campaign Participations', () => {
                   type: 'campaignParticipationResults',
                 },
                 links: {
-                  'related': '/api/campaign-participations/1/campaign-participation-result'
+                  'related': '/api/campaign-participations/' + campaignParticipation.id.toString() + '/campaign-participation-result'
                 },
               },
               user: {
                 data: {
-                  id: '2',
+                  id: participant.id.toString(),
                   type: 'users',
                 }
               }
@@ -305,7 +307,7 @@ describe('Acceptance | API | Campaign Participations', () => {
               'first-name': 'Michel',
               'last-name': 'Essentiel',
             },
-            id: '2',
+            id: participant.id.toString(),
             type: 'users'
           },
           {
@@ -328,13 +330,13 @@ describe('Acceptance | API | Campaign Participations', () => {
                   validatedSkillsCount: 2,
                 },
               ],
-              id: 1,
+              id: campaignParticipation.id,
               'is-completed': true,
               'tested-skills-count': 7,
               'total-skills-count': 7,
               'validated-skills-count': 5,
             },
-            id: '1',
+            id: campaignParticipation.id.toString(),
             type: 'campaignParticipationResults',
           }
         ],
@@ -497,7 +499,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
   describe('POST /api/campaign-participations', () => {
 
-    const campaignId = 132435;
+    let campaignId;
     const options = {
       method: 'POST',
       url: '/api/campaign-participations',
@@ -511,7 +513,7 @@ describe('Acceptance | API | Campaign Participations', () => {
           relationships: {
             'campaign': {
               data: {
-                id: campaignId,
+                id: null,
                 type: 'campaigns',
               }
             }
@@ -521,15 +523,21 @@ describe('Acceptance | API | Campaign Participations', () => {
     };
 
     beforeEach(async () => {
-      databaseBuilder.factory.buildCampaign({ id: campaignId });
+      options.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
+      campaignId = databaseBuilder.factory.buildCampaign({}).id;
       await databaseBuilder.commit();
     });
 
     afterEach(async () => {
+      await knex('campaign-participations').delete();
+      await knex('assessments').delete();
       await databaseBuilder.clean();
     });
 
     it('should return 201 and the campaign participation when it has been successfully created', async () => {
+      // given
+      options.payload.data.relationships.campaign.data.id = campaignId;
+
       // when
       const response = await server.inject(options);
 
@@ -549,6 +557,9 @@ describe('Acceptance | API | Campaign Participations', () => {
       return promise.then((response) => {
         expect(response.statusCode).to.equal(404);
       });
+
     });
+
   });
+
 });

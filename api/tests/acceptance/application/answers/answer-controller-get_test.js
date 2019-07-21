@@ -7,12 +7,13 @@ describe('Acceptance | Controller | answer-controller', () => {
 
     let server;
     let options;
-    const userId = 3;
+    let userId;
     let answer;
 
     context('when the assessment has an userId (is not a demo or preview)', () => {
       beforeEach(async () => {
         server = await createServer();
+        userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
         answer = databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok', challengeId: 'rec1' });
         await databaseBuilder.commit();
@@ -67,6 +68,7 @@ describe('Acceptance | Controller | answer-controller', () => {
     context('when the assessment has an userId but the user is not the relevant user', () => {
       beforeEach(async () => {
         server = await createServer();
+        userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
         const answer = databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok', challengeId: 'rec1' });
         await databaseBuilder.commit();

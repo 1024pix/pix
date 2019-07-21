@@ -5,15 +5,19 @@ const cache = require('../../../lib/infrastructure/caches/cache');
 describe('Acceptance | API | Competence Evaluations', () => {
 
   let server;
-  const userId = 24504875;
+  let userId;
 
   beforeEach(async () => {
+    userId = databaseBuilder.factory.buildUser().id;
+    await databaseBuilder.commit();
     server = await createServer();
   });
 
-  describe('POST /api/competence-evaluations/start-or-resume', () => {
-    const competenceId = 'recABCD123';
+  afterEach(() => databaseBuilder.clean());
 
+  describe('POST /api/competence-evaluations/start-or-resume', () => {
+
+    const competenceId = 'recABCD123';
     const options = {
       method: 'POST',
       url: '/api/competence-evaluations/start-or-resume',
@@ -43,11 +47,13 @@ describe('Acceptance | API | Competence Evaluations', () => {
           airtableBuilder.cleanAll();
           await cache.flushAll();
           await knex('competence-evaluations').delete();
+          await knex('assessments').delete();
           await databaseBuilder.clean();
         });
 
         it('should return 201 and the competence evaluation when it has been successfully created', async () => {
           // when
+          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
           const response = await server.inject(options);
 
           // then
@@ -58,10 +64,13 @@ describe('Acceptance | API | Competence Evaluations', () => {
 
         it('should return 200 and the competence evaluation when it has been successfully found', async () => {
           // given
+          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
           databaseBuilder.factory.buildCompetenceEvaluation({ competenceId, userId });
           await databaseBuilder.commit();
+
           // when
           const response = await server.inject(options);
+
           // then
           expect(response.statusCode).to.equal(200);
           expect(response.result.data.id).to.exist;
@@ -71,6 +80,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
       context('and competence does not exists', () => {
         it('should return 404 error', () => {
           // given
+          options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
           options.payload.competenceId = 'WRONG_ID';
 
           // when

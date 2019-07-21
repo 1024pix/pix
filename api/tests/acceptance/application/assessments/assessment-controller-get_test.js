@@ -1,4 +1,4 @@
-const { airtableBuilder, expect, knex, nock, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
+const { airtableBuilder, expect, nock, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const createServer = require('../../../../server');
 
@@ -11,13 +11,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
   });
 
   let userId;
-  const inserted_user = {
-    firstName: 'Jar Jar',
-    lastName: 'Binks',
-    email: 'jj.binks@save.us',
-    password: '123missa',
-    cgu: true,
-  };
   const courseId = 'adaptativeCourseId';
   const skillurl1Name = '@url1';
   const skillWeb1Name = '@web1';
@@ -77,25 +70,11 @@ describe('Acceptance | API | assessment-controller-get', () => {
     acquix: [skillWeb4.id],
   });
 
-  const inserted_assessment = {
-    courseId,
-    type: 'PLACEMENT'
-  };
-
   before(() => {
     nock.cleanAll();
-
-    return knex('answers').delete()
-      .then(() => knex('assessments').delete())
-      .then(() => knex('users').delete())
-      .then(() => knex('users').insert(inserted_user).returning('id'))
-      .then(([id]) => {
-        userId = id;
-        inserted_assessment.userId = userId;
-      });
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     airtableBuilder
       .mockGet({ tableName: 'Tests' })
       .returns(course)
@@ -136,36 +115,37 @@ describe('Acceptance | API | assessment-controller-get', () => {
       .returns([skillurl1, skillWeb1, skillWeb4, skillWeb5])
       .activate();
 
+    userId = databaseBuilder.factory.buildUser({}).id;
+    await databaseBuilder.commit();
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     airtableBuilder.cleanAll();
+    await databaseBuilder.clean();
   });
 
   after(() => {
     nock.cleanAll();
     cache.flushAll();
-    return knex('users').delete();
   });
 
   describe('(no provided answer) GET /api/assessments/:id', () => {
 
     let options;
-    let inserted_assessment_id;
+    let assessmentId;
 
-    beforeEach(() => {
-      return knex('assessments').insert(inserted_assessment).returning('id').then(([id]) => {
-        inserted_assessment_id = id;
-        options = {
-          method: 'GET',
-          url: `/api/assessments/${inserted_assessment_id}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-        };
-      });
+    beforeEach(async () => {
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, type: 'PLACEMENT', state: null }).id;
+      await databaseBuilder.commit();
+      options = {
+        method: 'GET',
+        url: `/api/assessments/${assessmentId}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
     });
 
-    afterEach(() => {
-      return knex('assessments').delete();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return 200 HTTP status code', () => {
@@ -179,19 +159,14 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
 
     it('should return application/json', () => {
-      return knex.select('id')
-        .from('assessments')
-        .limit(1)
-        .then(() => {
-          // when
-          const promise = server.inject(options);
+      // when
+      const promise = server.inject(options);
 
-          // then
-          return promise.then((response) => {
-            const contentType = response.headers['content-type'];
-            expect(contentType).to.contain('application/json');
-          });
-        });
+      // then
+      return promise.then((response) => {
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
+      });
 
     });
 
@@ -203,7 +178,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       return promise.then((response) => {
         const expectedAssessment = {
           'type': 'assessments',
-          'id': inserted_assessment_id.toString(),
+          'id': assessmentId.toString(),
           'attributes': {
             'estimated-level': null,
             'pix-score': null,
@@ -230,24 +205,23 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   describe('(when userId and assessmentId match) GET /api/assessments/:id', () => {
 
-    let inserted_assessment_id;
+    let assessmentId;
     let options;
 
-    beforeEach(function() {
-      return knex('assessments').insert([inserted_assessment]).returning('id').then(([id]) => {
-        inserted_assessment_id = id;
-        options = {
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(userId),
-          },
-          method: 'GET',
-          url: `/api/assessments/${inserted_assessment_id}`,
-        };
-      });
+    beforeEach(async() => {
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, type: 'PLACEMENT', state: null }).id;
+      await databaseBuilder.commit();
+      options = {
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(userId),
+        },
+        method: 'GET',
+        url: `/api/assessments/${assessmentId}`,
+      };
     });
 
-    afterEach(() => {
-      return knex('assessments').delete();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return 200 HTTP status code, when userId provided is linked to assessment', () => {
@@ -263,33 +237,32 @@ describe('Acceptance | API | assessment-controller-get', () => {
   });
 
   describe('(answers provided, assessment completed) GET /api/assessments/:id', () => {
+    let assessmentId, answer1, answer2;
 
-    let inserted_assessment_id, answer1, answer2;
-
-    beforeEach(() => {
-      inserted_assessment_id = databaseBuilder.factory.buildAssessment({
-        ...inserted_assessment, state: 'completed' }).id;
-
+    beforeEach(async () => {
+      const juryId = databaseBuilder.factory.buildUser({}).id;
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, type: 'PLACEMENT', state: 'completed' }).id;
       databaseBuilder.factory.buildAssessmentResult({
         level: 1,
         pixScore: 12,
-        assessmentId: inserted_assessment_id
+        assessmentId: assessmentId,
+        juryId,
       });
 
-      answer1 = databaseBuilder.factory.buildAnswer({ assessmentId: inserted_assessment_id });
-      answer2 = databaseBuilder.factory.buildAnswer({ assessmentId: inserted_assessment_id });
+      answer1 = databaseBuilder.factory.buildAnswer({ assessmentId });
+      answer2 = databaseBuilder.factory.buildAnswer({ assessmentId });
 
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return databaseBuilder.clean();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return 200 HTTP status code', () => {
       const options = {
         method: 'GET',
-        url: `/api/assessments/${inserted_assessment_id}`,
+        url: `/api/assessments/${assessmentId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
@@ -305,7 +278,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     it('should return application/json', () => {
       const options = {
         method: 'GET',
-        url: `/api/assessments/${inserted_assessment_id}`,
+        url: `/api/assessments/${assessmentId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
@@ -323,7 +296,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       // given
       const options = {
         method: 'GET',
-        url: `/api/assessments/${inserted_assessment_id}`,
+        url: `/api/assessments/${assessmentId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
@@ -334,7 +307,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       return promise.then((response) => {
         const expectedAssessment = {
           'type': 'assessments',
-          'id': inserted_assessment_id.toString(),
+          'id': assessmentId.toString(),
           'attributes': {
             'estimated-level': 1,
             'pix-score': 12,
@@ -368,27 +341,21 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   describe('GET /api/assessments/', () => {
     let assessmentId;
-    let inserted_assessment_placement;
 
-    beforeEach(() => {
-      inserted_assessment_placement = databaseBuilder.factory.buildAssessment({
-        userId,
-        courseId: 'anyFromAirTable',
-        type: 'SMART_PLACEMENT',
-      });
-      return knex('assessments').insert(inserted_assessment_placement, 'id')
-        .then(([id]) => {
-          assessmentId = id;
-          return knex('campaigns').insert({ code: 'TESTCODE', name: 'CAMPAIGN TEST' }, 'id');
-        }).then(([id]) => {
-          return knex('campaign-participations').insert({ assessmentId, campaignId: id });
-        });
+    beforeEach(async () => {
+      assessmentId = databaseBuilder.factory.buildAssessment(
+        {
+          userId,
+          courseId: 'anyFromAirTable',
+          type: 'SMART_PLACEMENT',
+        }).id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ code: 'TESTCODE', name: 'CAMPAIGN TEST' }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ assessmentId, campaignId });
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('campaign-participations').delete()
-        .then(() => knex('assessments').delete())
-        .then(() => knex('campaigns').delete());
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return 200 HTTP status code', () => {

@@ -1,5 +1,4 @@
-const faker = require('faker');
-const { expect, knex, sinon } = require('../../test-helper');
+const { expect, knex, sinon, databaseBuilder } = require('../../test-helper');
 const mailjetService = require('../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
 const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
@@ -9,24 +8,23 @@ const createServer = require('../../../server');
 describe('Acceptance | Controller | password-controller', () => {
 
   let server;
+  const fakeUserEmail = 'lebolossdu66@hotmail.com';
 
   beforeEach(async () => {
     server = await createServer();
   });
 
   describe('POST /api/password-reset-demands', () => {
-
-    let fakeUserEmail;
     let options;
 
-    before(() => {
-      fakeUserEmail = faker.internet.email().toLowerCase();
-      return _insertUser(fakeUserEmail);
+    before(async () => {
+      databaseBuilder.factory.buildUser({ email: fakeUserEmail });
+      await databaseBuilder.commit();
     });
 
-    after(() => {
-      return knex('reset-password-demands').delete()
-        .then(() => knex('users').delete());
+    after(async () => {
+      await knex('reset-password-demands').delete();
+      await databaseBuilder.clean();
     });
 
     describe('when email provided is unknown', () => {
@@ -113,21 +111,9 @@ describe('Acceptance | Controller | password-controller', () => {
 
     describe('When temporaryKey is valid and linked to a password reset demand', () => {
 
-      beforeEach(() => {
-        fakeUserEmail = faker.internet.email();
-      });
-
-      afterEach(() => {
-        return Promise.all([
-          knex('users').delete(),
-          knex('reset-password-demands').delete()
-        ]);
-      });
-
       it('should reply with 200 status code', async () => {
         // given
         const temporaryKey = resetPasswordService.generateTemporaryKey();
-        await _insertUser(fakeUserEmail);
         await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
 
         options = {
@@ -148,7 +134,6 @@ describe('Acceptance | Controller | password-controller', () => {
   });
 
   describe('GET /api/password-reset-demands/{temporaryKey}', () => {
-    let fakeUserEmail;
     let options;
 
     describe('When temporaryKey is not valid', () => {
@@ -215,22 +200,18 @@ describe('Acceptance | Controller | password-controller', () => {
     });
 
     describe('When temporaryKey is valid and linked to a password reset demand', () => {
+      let temporaryKey;
 
-      const temporaryKey = resetPasswordService.generateTemporaryKey();
-
-      before(() => {
-        fakeUserEmail = faker.internet.email();
-        return Promise.all([
-          _insertUser(fakeUserEmail),
-          _insertPasswordResetDemand(temporaryKey, fakeUserEmail),
-        ]);
+      beforeEach(async () => {
+        temporaryKey = resetPasswordService.generateTemporaryKey();
+        databaseBuilder.factory.buildUser({ email: fakeUserEmail });
+        await databaseBuilder.commit();
+        await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
       });
 
-      after(() => {
-        return Promise.all([
-          knex('users').delete(),
-          knex('reset-password-demands').delete()
-        ]);
+      afterEach(async () => {
+        await knex('reset-password-demands').delete();
+        await databaseBuilder.clean();
       });
 
       it('should reply with 200 status code', () => {
@@ -252,18 +233,6 @@ describe('Acceptance | Controller | password-controller', () => {
 
   });
 });
-
-function _insertUser(email) {
-  const userRaw = {
-    'firstName': faker.name.firstName(),
-    'lastName': faker.name.lastName(),
-    email,
-    password: 'Pix2017!'
-  };
-
-  return knex('users').insert(userRaw).returning('id')
-    .then(([id]) => id);
-}
 
 function _insertPasswordResetDemand(temporaryKey, email) {
   const resetDemandRaw = { email, temporaryKey };

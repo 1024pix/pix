@@ -1,31 +1,16 @@
-const { knex, expect, hFake } = require('../../../test-helper');
-
-const faker = require('faker');
-const _ = require('lodash');
-
+const { expect, hFake, databaseBuilder } = require('../../../test-helper');
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
-const encrypt = require('../../../../lib/domain/services/encryption-service');
 
 describe('Integration | Controller | authentication-controller', () => {
   const userPassword = 'A124B2C3#!';
   const userEmail = 'emailWithSomeCamelCase@example.net';
-  const userEmailSavedInDb = _.toLower(userEmail);
 
-  beforeEach(() => {
-    return encrypt.hashPassword(userPassword)
-      .then((encryptedPassword) => knex('users').insert({
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        email: userEmailSavedInDb,
-        password: encryptedPassword,
-        cgu: true
-      })
-      );
+  beforeEach(async () => {
+    databaseBuilder.factory.buildUser({ password: userPassword, email: userEmail });
+    await databaseBuilder.commit();
   });
 
-  afterEach(() => {
-    return knex('users').delete();
-  });
+  afterEach(() => databaseBuilder.clean());
 
   describe('#save', () => {
 

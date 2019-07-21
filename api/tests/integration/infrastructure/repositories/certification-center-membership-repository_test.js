@@ -1,5 +1,6 @@
 const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const certificationCenterMembershipRepository = require('../../../../lib/infrastructure/repositories/certification-center-membership-repository');
+const BookshelfCertificationCenterMembership = require('../../../../lib/infrastructure/data/certification-center-membership');
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 
@@ -10,32 +11,33 @@ describe('Integration | Repository | Certification Center Membership', () => {
   });
 
   describe('#create', () => {
-    let user, certificationCenter;
+    let userId, certificationCenterId;
     beforeEach(async () => {
-      user = databaseBuilder.factory.buildUser();
-      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
-      await databaseBuilder.clean();
+      userId = databaseBuilder.factory.buildUser({}).id;
+      certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('certification-center-memberships').delete();
+    afterEach(async () => {
+      await knex('certification-center-memberships').delete();
+      await databaseBuilder.clean();
     });
 
     it('should add a new membership in database', async () => {
       // given
-      const beforeNbMemberships = await knex('certification-center-memberships').count('id as count');
+      const countCertificationCenterMembershipsBeforeCreate = await BookshelfCertificationCenterMembership.count();
 
       // when
-      await certificationCenterMembershipRepository.create(user.id, certificationCenter.id);
+      await certificationCenterMembershipRepository.create(userId, certificationCenterId);
 
       // then
-      const afterNbMemberships = await knex('certification-center-memberships').count('id as count');
-      expect(afterNbMemberships[0].count).to.equal(beforeNbMemberships[0].count + 1);
+      const countCertificationCenterMembershipsAfterCreate = await BookshelfCertificationCenterMembership.count();
+      expect(countCertificationCenterMembershipsAfterCreate).to.equal(countCertificationCenterMembershipsBeforeCreate + 1);
     });
 
     it('should return the certification center membership', async () => {
       // when
-      const createdCertificationCenterMembership = await certificationCenterMembershipRepository.create(user.id, certificationCenter.id);
+      const createdCertificationCenterMembership = await certificationCenterMembershipRepository.create(userId, certificationCenterId);
 
       // then
       expect(createdCertificationCenterMembership).to.be.an.instanceOf(CertificationCenterMembership);
@@ -44,12 +46,15 @@ describe('Integration | Repository | Certification Center Membership', () => {
 
     context('Error cases', () => {
 
-      it('should throw an error when a membership already exist for user + certificationCenter', async () => {
+      beforeEach(async () => {
         // given
-        await certificationCenterMembershipRepository.create(user.id, certificationCenter.id);
+        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+        await databaseBuilder.commit();
+      });
 
+      it('should throw an error when a membership already exist for user + certificationCenter', () => {
         // when
-        const promise = certificationCenterMembershipRepository.create(user.id, certificationCenter.id);
+        const promise = certificationCenterMembershipRepository.create(userId, certificationCenterId);
 
         // then
         return expect(promise).to.have.been.rejectedWith(Error);

@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | target-profile-controller', () => {
@@ -13,30 +13,35 @@ describe('Acceptance | Controller | target-profile-controller', () => {
 
     context('when user is authenticated', () => {
 
-      let connectedUserId;
-      let linkedOrganizationId;
+      let user;
+      let linkedOrganization;
 
       beforeEach(async () => {
-        connectedUserId = databaseBuilder.factory.buildUser().id;
-        linkedOrganizationId = databaseBuilder.factory.buildOrganization().id;
-
+        nock.cleanAll();
+        nock('https://api.airtable.com')
+          .get('/v0/test-base/Acquis')
+          .query(true)
+          .reply(200, {});
+        user = databaseBuilder.factory.buildUser({});
+        linkedOrganization = databaseBuilder.factory.buildOrganization({});
         databaseBuilder.factory.buildMembership({
-          userId: connectedUserId,
-          organizationId: linkedOrganizationId,
+          userId: user.id,
+          organizationId: linkedOrganization.id,
         });
 
         await databaseBuilder.commit();
       });
 
       afterEach(async () => {
+        nock.cleanAll();
         await databaseBuilder.clean();
       });
 
       it('should return 200', async () => {
         const options = {
           method: 'GET',
-          url: `/api/organizations/${linkedOrganizationId}/target-profiles`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(connectedUserId) },
+          url: `/api/organizations/${linkedOrganization.id}/target-profiles`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         };
 
         // when
@@ -62,6 +67,9 @@ describe('Acceptance | Controller | target-profile-controller', () => {
         // then
         expect(response.statusCode).to.equal(401);
       });
+
     });
+
   });
+
 });

@@ -1,4 +1,5 @@
-const { expect, knex, domainBuilder } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const _ = require('lodash');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -9,113 +10,106 @@ describe('Integration | Repository | Certification ', () => {
 
   describe('#getCertification', () => {
 
-    const USER_ID = 1;
-    const CERTIFICATION_ID = 123;
-    const CERTIFICATION_ID_WITHOUTDATE = 456;
-
-    const session = {
-      id: 321,
-      certificationCenter: 'Université des chocolats',
-      address: '137 avenue de Bercy',
-      room: 'La grande',
-      examiner: 'Serge le Mala',
-      date: '12/02/2000',
-      time: '21:30',
-      accessCode: 'ABCD12',
-    };
-
-    const certificationCourse = {
-      id: CERTIFICATION_ID,
-      userId: USER_ID,
-      firstName: 'Jane',
-      lastName: 'Kalamity',
-      birthplace: 'Earth',
-      birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2000-02-12T01:02:03Z'),
-      sessionId: session.id,
-      isPublished: true,
-    };
-
-    const certificationCourseWithoutDate = {
-      id: CERTIFICATION_ID_WITHOUTDATE,
-      userId: USER_ID,
-      firstName: 'Jane',
-      lastName: 'Kalamity',
-      birthplace: 'Earth',
-      birthdate: null,
-      completedAt: null,
-      sessionId: session.id,
-      isPublished: true,
-    };
-
-    const assessment = {
-      id: 1000,
-      courseId: CERTIFICATION_ID,
-      userId: USER_ID,
-      type: Assessment.types.CERTIFICATION,
-      state: 'completed',
-    };
-
-    const assessmentResult = {
-      level: 1,
-      pixScore: 23,
-      emitter: 'PIX-ALGO',
-      status: 'rejected',
-      assessmentId: assessment.id,
-      commentForCandidate: 'Comment for candidate',
-    };
-
-    beforeEach(() => {
-      return knex('sessions').insert(session)
-        .then(() => knex('certification-courses').insert(certificationCourse))
-        .then(() => knex('certification-courses').insert(certificationCourseWithoutDate))
-        .then(() => knex('assessments').insert(assessment))
-        .then(() => knex('assessment-results').insert(assessmentResult));
+    let certificationCourse, certificationCourseWithoutDate;
+    let user, certificationCenter, assessment, assessmentResult;
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser({});
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+      const firstSession = databaseBuilder.factory.buildSession(
+        {
+          certificationCenter: certificationCenter.name,
+          certificationCenterId: certificationCenter.id,
+        });
+      const secondSession = databaseBuilder.factory.buildSession(
+        {
+          certificationCenter: certificationCenter.name,
+          certificationCenterId: certificationCenter.id,
+        });
+      certificationCourse = databaseBuilder.factory.buildCertificationCourse(
+        {
+          userId: user.id,
+          completedAt: new Date('2000-02-12T01:02:03Z'),
+          sessionId: firstSession.id,
+          isPublished: true,
+        });
+      certificationCourseWithoutDate = databaseBuilder.factory.buildCertificationCourse(
+        {
+          userId: user.id,
+          completedAt: null,
+          birthdate: null,
+          sessionId: secondSession.id,
+          isPublished: true,
+        });
+      assessment = databaseBuilder.factory.buildAssessment(
+        {
+          courseId: certificationCourse.id,
+          userId: user.id,
+          type: Assessment.types.CERTIFICATION,
+          state: 'completed',
+        });
+      const assessmentWithoutDate = databaseBuilder.factory.buildAssessment(
+        {
+          courseId: certificationCourseWithoutDate.id,
+          userId: user.id,
+          type: Assessment.types.CERTIFICATION,
+          state: 'completed',
+        });
+      assessmentResult = databaseBuilder.factory.buildAssessmentResult(
+        {
+          level: 1,
+          pixScore: 23,
+          emitter: 'PIX-ALGO',
+          status: 'rejected',
+          assessmentId: assessment.id,
+          commentForCandidate: 'Comment for candidate',
+        });
+      databaseBuilder.factory.buildAssessmentResult(
+        {
+          level: 1,
+          pixScore: 42,
+          emitter: 'PIX-ALGO',
+          status: 'rejected',
+          assessmentId: assessmentWithoutDate.id,
+          commentForCandidate: 'Comment for candidate',
+        });
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('assessment-results').delete()
-        .then(() => {
-          return knex('assessments').delete();
-        })
-        .then(() => {
-          return knex('certification-courses').delete();
-        })
-        .then(() => {
-          return knex('sessions').delete();
-        });
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return a certification with needed informations', () => {
       // given
-      const expectedCertification = domainBuilder.buildCertification({
-        id: 123,
-        certificationCenter: 'Université des chocolats',
-        date: new Date('2000-02-12T01:02:03Z'),
-        isPublished: true,
-        assessmentState: 'completed',
-        birthdate: new Date('1989-10-24'),
-        birthplace: 'Earth',
-        firstName: 'Jane',
-        lastName: 'Kalamity',
-        pixScore: 23,
-        status: 'rejected',
-        commentForCandidate: 'Comment for candidate',
-        certifiedProfile: null,
-      });
+      const expectedCertification = domainBuilder.buildCertification(
+        {
+          userId: user.id,
+          certificationCenter: certificationCenter.name,
+          date: certificationCourse.completedAt,
+          isPublished: true,
+          assessmentState: assessment.state,
+          birthdate: certificationCourse.birthdate,
+          birthplace: certificationCourse.birthplace,
+          firstName: certificationCourse.firstName,
+          lastName: certificationCourse.lastName,
+          pixScore: assessmentResult.pixScore,
+          status: assessmentResult.status,
+          commentForCandidate: assessmentResult.commentForCandidate,
+          certifiedProfile: null,
+        });
 
       // when
-      const promise = certificationRepository.getCertification({ id: CERTIFICATION_ID });
+      const promise = certificationRepository.getCertification({ id: certificationCourse.id });
 
       // then
       return promise.then((certification) => {
-        expect(certification).to.deep.equal(expectedCertification);
+        expect(_.omit(certification, ['date', 'birthdate', 'id'])).to.deep.equal(_.omit(expectedCertification, ['date', 'birthdate', 'id']));
       });
     });
 
     it('should not return a false birthdate or completedAt date if there are null in database', () => {
       // when
-      const promise = certificationRepository.getCertification({ id: CERTIFICATION_ID_WITHOUTDATE });
+      const promise = certificationRepository.getCertification({ id: certificationCourseWithoutDate.id });
 
       // then
       return promise.then((certification) => {
@@ -125,11 +119,8 @@ describe('Integration | Repository | Certification ', () => {
     });
 
     it('should return a not found error when certification does not exist', () => {
-      // given
-      const NO_CERTIFICATION_ID = 999;
-
       // when
-      const promise = certificationRepository.getCertification({ id: NO_CERTIFICATION_ID });
+      const promise = certificationRepository.getCertification({ id: -1 });
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);
@@ -138,161 +129,123 @@ describe('Integration | Repository | Certification ', () => {
 
   describe('#findCertificationbyUserId', () => {
 
-    const USER_ID = 1;
-
-    const certificationCourse = {
-      id: 123,
-      userId: USER_ID,
-      firstName: 'Jane',
-      lastName: 'Kalamity',
-      birthplace: 'Earth',
-      birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2000-02-12T01:02:03Z'),
-      sessionId: 321,
-      isPublished: true,
-    };
-
-    const assessmentResult = {
-      level: 1,
-      pixScore: 23,
-      emitter: 'PIX-ALGO',
-      status: 'rejected',
-      assessmentId: 1000,
-      commentForCandidate: 'Comment for candidate',
-    };
-
-    const assessment = {
-      id: 1000,
-      courseId: 123,
-      userId: USER_ID,
-      type: Assessment.types.CERTIFICATION,
-      state: 'completed',
-    };
-
-    const session = {
-      id: 321,
-      certificationCenter: 'Université des chocolats',
-      address: '137 avenue de Bercy',
-      room: 'La grande',
-      examiner: 'Serge le Mala',
-      date: '12/02/2000',
-      time: '21:30',
-      accessCode: 'ABCD12',
-    };
-
-    beforeEach(() => {
-      return knex('sessions').insert(session)
-        .then(() => knex('certification-courses').insert(certificationCourse))
-        .then(() => knex('assessments').insert(assessment))
-        .then(() => knex('assessment-results').insert(assessmentResult));
-    });
-
-    afterEach(() => {
-      return knex('assessment-results').delete()
-        .then(() => {
-          return knex('assessments').delete();
-        })
-        .then(() => {
-          return knex('certification-courses').delete();
-        })
-        .then(() => {
-          return knex('sessions').delete();
+    let user, certificationCourse, certificationCenter, assessment, assessmentResult;
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser({});
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+      const session = databaseBuilder.factory.buildSession(
+        {
+          certificationCenter: certificationCenter.name,
+          certificationCenterId: certificationCenter.id,
         });
+      certificationCourse = databaseBuilder.factory.buildCertificationCourse(
+        {
+          userId: user.id,
+          completedAt: new Date('2000-02-12T01:02:03Z'),
+          sessionId: session.id,
+          isPublished: true,
+        });
+      assessment = databaseBuilder.factory.buildAssessment(
+        {
+          courseId: certificationCourse.id,
+          userId: user.id,
+          type: Assessment.types.CERTIFICATION,
+          state: 'completed',
+        });
+      assessmentResult = databaseBuilder.factory.buildAssessmentResult(
+        {
+          level: 1,
+          pixScore: 23,
+          emitter: 'PIX-ALGO',
+          status: 'rejected',
+          assessmentId: assessment.id,
+          commentForCandidate: 'Comment for candidate',
+        });
+      await databaseBuilder.commit();
     });
 
-    it('should return an array of Certification with needed informations', () => {
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return an array of Certification with needed informations', async () => {
       // given
-      const expectedCertifications = [
-        domainBuilder.buildCertification({
-          id: 123,
-          certificationCenter: 'Université des chocolats',
-          date: new Date('2000-02-12T01:02:03Z'),
-          isPublished: true,
-          assessmentState: 'completed',
-          birthdate: new Date('1989-10-24'),
-          birthplace: 'Earth',
-          firstName: 'Jane',
-          lastName: 'Kalamity',
-          pixScore: 23,
-          status: 'rejected',
-          commentForCandidate: 'Comment for candidate',
-          certifiedProfile: null,
-        }),
-      ];
+      const expectedCertification = domainBuilder.buildCertification({
+        userId: user.id,
+        certificationCenter: certificationCenter.name,
+        date: certificationCourse.completedAt,
+        isPublished: true,
+        assessmentState: assessment.state,
+        // TODO : Handle date type correctly
+        birthdate: certificationCourse.birthdate,
+        birthplace: certificationCourse.birthplace,
+        firstName: certificationCourse.firstName,
+        lastName: certificationCourse.lastName,
+        pixScore: assessmentResult.pixScore,
+        status: assessmentResult.status,
+        commentForCandidate: assessmentResult.commentForCandidate,
+        certifiedProfile: null,
+      });
 
       // when
-      const promise = certificationRepository.findCertificationsByUserId(USER_ID);
+      const certifications = await certificationRepository.findCertificationsByUserId(user.id);
 
       // then
-      return promise.then((certifications) => {
-        expect(certifications).to.deep.equal(expectedCertifications);
-      });
+      expect(certifications).to.have.length(1);
+
+      // TODO : Handle date type correctly
+      // TODO : Handle bigint type correctly
+      expect(_.omit(certifications[0], ['birthdate', 'id'])).to.deep.equal(_.omit(expectedCertification, ['birthdate', 'id']));
+      expect(certifications[0]['birthdate'].toLocaleDateString()).to.equal(expectedCertification['birthdate'].toLocaleDateString());
     });
   });
 
   describe('#updateCertification', () => {
 
-    const USER_ID = 1;
-    const CERTIFICATION_ID = 123;
-
-    const certificationCourse = {
-      id: CERTIFICATION_ID,
-      userId: USER_ID,
-      firstName: 'Jane',
-      lastName: 'Kalamity',
-      birthplace: 'Earth',
-      birthdate: new Date('1989-10-24'),
-      completedAt: new Date('2000-02-12T01:02:03Z'),
-      sessionId: 321,
-      isPublished: true,
-    };
-
-    const assessmentResult = {
-      level: 1,
-      pixScore: 23,
-      emitter: 'PIX-ALGO',
-      status: 'rejected',
-      assessmentId: 1000,
-    };
-
-    const assessment = {
-      id: 1000,
-      courseId: CERTIFICATION_ID,
-      userId: USER_ID,
-      type: Assessment.types.CERTIFICATION,
-      state: 'completed',
-    };
-
-    const session = {
-      id: 321,
-      certificationCenter: 'Université des chocolats',
-      address: '137 avenue de Bercy',
-      room: 'La grande',
-      examiner: 'Serge le Mala',
-      date: '12/02/2000',
-      time: '21:30',
-      accessCode: 'ABCD12',
-    };
-
-    beforeEach(() => {
-      return knex('sessions').insert(session)
-        .then(() => knex('certification-courses').insert(certificationCourse))
-        .then(() => knex('assessments').insert(assessment))
-        .then(() => knex('assessment-results').insert(assessmentResult));
+    let user, certificationCourse, certificationCenter, assessment, assessmentResult;
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser({});
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+      const session = databaseBuilder.factory.buildSession(
+        {
+          certificationCenter: certificationCenter.name,
+          certificationCenterId: certificationCenter.id,
+        });
+      certificationCourse = databaseBuilder.factory.buildCertificationCourse(
+        {
+          userId: user.id,
+          completedAt: new Date('2000-02-12T01:02:03Z'),
+          sessionId: session.id,
+          isPublished: false,
+        });
+      assessment = databaseBuilder.factory.buildAssessment(
+        {
+          courseId: certificationCourse.id,
+          userId: user.id,
+          type: Assessment.types.CERTIFICATION,
+          state: 'completed',
+        });
+      assessmentResult = databaseBuilder.factory.buildAssessmentResult(
+        {
+          level: 1,
+          pixScore: 23,
+          emitter: 'PIX-ALGO',
+          status: 'rejected',
+          assessmentId: assessment.id,
+          commentForCandidate: 'Comment for candidate',
+        });
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('assessment-results').delete()
-        .then(() => knex('assessments').delete())
-        .then(() => knex('certification-courses').delete())
-        .then(() => knex('sessions').delete());
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     context('the certification does not exist', () => {
 
       it('should return a NotFoundError', () => {
         // given
-        const NON_EXISITNG_CERTIFICATION_ID = 1203;
+        const NON_EXISITNG_CERTIFICATION_ID = certificationCourse.id + 1;
 
         // when
         const promise = certificationRepository.updateCertification({
@@ -313,7 +266,7 @@ describe('Integration | Repository | Certification ', () => {
 
       beforeEach(() => {
         promise = certificationRepository.updateCertification({
-          id: CERTIFICATION_ID,
+          id: certificationCourse.id,
           attributes: { isPublished: true },
         });
       });
@@ -322,32 +275,33 @@ describe('Integration | Repository | Certification ', () => {
       it('should update the certification', () => {
 
         return promise
-          .then(() => knex('certification-courses').where('id', CERTIFICATION_ID))
-          .then((foundCertifications) => expect(foundCertifications[0].isPublished).to.be.equal(1));
+          .then(() => knex('certification-courses').where('id', certificationCourse.id))
+          .then((foundCertifications) => expect(foundCertifications[0].isPublished).to.be.true);
       });
 
       it('should return the updated certification', () => {
 
         const expectedCertification = domainBuilder.buildCertification({
-          assessmentState: 'completed',
-          certificationCenter: 'Université des chocolats',
-          firstName: 'Jane',
-          lastName: 'Kalamity',
-          birthdate: new Date('1989-10-24'),
-          birthplace: 'Earth',
-          date: new Date('2000-02-12T01:02:03Z'),
-          id: 123,
+          userId: user.id,
+          certificationCenter: certificationCenter.name,
+          date: certificationCourse.completedAt,
           isPublished: true,
-          pixScore: 23,
-          status: 'rejected',
-          commentForCandidate: null,
+          assessmentState: assessment.state,
+          birthdate: certificationCourse.birthdate,
+          birthplace: certificationCourse.birthplace,
+          firstName: certificationCourse.firstName,
+          lastName: certificationCourse.lastName,
+          pixScore: assessmentResult.pixScore,
+          status: assessmentResult.status,
+          commentForCandidate: assessmentResult.commentForCandidate,
           certifiedProfile: null,
         });
 
         return promise
           .then((certification) => {
             expect(certification).to.be.an.instanceOf(Certification);
-            expect(certification).to.be.deep.equal(expectedCertification);
+            expect(_.omit(certification, ['birthdate', 'id'])).to.deep.equal(_.omit(expectedCertification, ['birthdate', 'id']));
+            expect(certification['birthdate'].toLocaleDateString()).to.equal(expectedCertification['birthdate'].toLocaleDateString());
           });
       });
     });
