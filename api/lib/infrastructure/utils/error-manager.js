@@ -53,7 +53,7 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.ForbiddenAccess) {
     return new InfraErrors.ForbiddenError(error.message);
   }
-  if (error instanceof DomainErrors.InvaliOrganizationIdError) {
+  if (error instanceof DomainErrors.InvalidOrganizationIdError) {
     return new InfraErrors.UnprocessableEntityError('Cette organisation n’existe pas');
   }
   if (error instanceof DomainErrors.InvalidSnapshotCode) {

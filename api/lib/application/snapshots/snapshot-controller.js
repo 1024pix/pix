@@ -8,13 +8,13 @@ const profileService = require('../../domain/services/profile-service');
 const profileCompletionService = require('../../domain/services/profile-completion-service');
 const usecases = require('../../domain/usecases');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const { InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
+const { InvalidOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
 const MAX_CODE_LENGTH = 255;
 
 async function _assertThatOrganizationExists(organizationId) {
   const isOrganizationExist = await organizationRepository.isOrganizationIdExist(organizationId);
   if (!isOrganizationExist) {
-    throw new InvaliOrganizationIdError();
+    throw new InvalidOrganizationIdError();
   }
 }
 

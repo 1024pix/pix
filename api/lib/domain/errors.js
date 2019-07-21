@@ -144,7 +144,7 @@ class ForbiddenAccess extends DomainError {
   }
 }
 
-class InvaliOrganizationIdError extends DomainError {
+class InvalidOrganizationIdError extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -317,7 +317,7 @@ module.exports = {
   EntityValidationError,
   ForbiddenAccess,
   InternalError,
-  InvaliOrganizationIdError,
+  InvalidOrganizationIdError,
   InvalidRecaptchaTokenError,
   InvalidSnapshotCode,
   InvalidTemporaryKeyError,
