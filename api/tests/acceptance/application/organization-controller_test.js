@@ -703,7 +703,7 @@ describe('Acceptance | Application | organization-controller', () => {
     });
   });
 
-  describe('GET /api/organizations/{id}/add-membership', () => {
+  describe('POST /api/organizations/{id}/add-membership', () => {
 
     let organization;
     let options;
