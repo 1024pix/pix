@@ -54,6 +54,21 @@ exports.register = async (server) => {
       }
     },
     {
+      method: 'POST',
+      path: '/api/sessions/{id}/certification-candidates/parse-from-attendance-sheet',
+      config: {
+        payload: {
+          allow: 'multipart/form-data',
+        },
+        handler: sessionController.parseCertificationCandidatesFromAttendanceSheet,
+        tags: ['api', 'sessions'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et appartenant à un centre de certification ayant créé la session**\n' +
+          '- Elle permet de récupérer la liste des candidats à inscrire contenue dans le fichier ODS envoyé ainsi qu\'un compte-rendu de vérification de fichier',
+        ]
+      }
+    },
+    {
       method: 'PATCH',
       path: '/api/sessions/{id}',
       config: {
@@ -65,7 +80,7 @@ exports.register = async (server) => {
         ],
         tags: ['api', 'session']
       }
-    }
+    },
   ]);
 };
 

@@ -22,48 +22,6 @@ class AlreadyRegisteredEmailError extends DomainError {
   }
 }
 
-class AssessmentStartError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class UserHasBeenMigratedToV2Error extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class UserNotAuthorizedToCreateCampaignError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class UserNotAuthorizedToUpdateResourceError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class UserNotAuthorizedToGetCampaignResultsError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class CampaignWithoutOrganizationError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class CompetenceResetError extends DomainError {
-  constructor(remainingDaysBeforeReset) {
-    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
-  }
-}
-
 class AssessmentEndedError extends DomainError {
   constructor() {
     super();
@@ -78,19 +36,25 @@ class AssessmentEndedError extends DomainError {
   }
 }
 
+class AssessmentNotCompletedError extends DomainError {
+  constructor() {
+    super('Cette évaluation n\'est pas terminée.');
+  }
+}
+
+class AssessmentStartError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class CampaignCodeError extends DomainError {
   constructor() {
     super('Le code campagne n\'existe pas.');
   }
 }
 
-class CertificationComputeError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class CertificationCenterMembershipCreationError extends DomainError {
+class CampaignWithoutOrganizationError extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -108,9 +72,27 @@ class CertificationCandidateDeletionError extends DomainError {
   }
 }
 
+class CertificationCenterMembershipCreationError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class CertificationComputeError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class ChallengeAlreadyAnsweredError extends DomainError {
   constructor(message) {
     super(message);
+  }
+}
+
+class CompetenceResetError extends DomainError {
+  constructor(remainingDaysBeforeReset) {
+    super(`Il reste ${remainingDaysBeforeReset} jours avant de pouvoir réinitiliser la compétence.`);
   }
 }
 
@@ -144,25 +126,25 @@ class ForbiddenAccess extends DomainError {
   }
 }
 
+class InvalidCertificationCandidateData extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class InvalidOrganizationIdError extends DomainError {
   constructor(message) {
     super(message);
   }
 }
 
-class InvalidSnapshotCode extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class InvalidTokenError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
 class InvalidRecaptchaTokenError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class InvalidSnapshotCode extends DomainError {
   constructor(message) {
     super(message);
   }
@@ -182,6 +164,12 @@ class InvalidTemporaryKeyError extends DomainError {
   }
 }
 
+class InvalidTokenError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class MembershipCreationError extends DomainError {
   constructor(message) {
     super(message);
@@ -194,12 +182,6 @@ class MissingOrInvalidCredentialsError extends DomainError {
   }
 }
 
-class AssessmentNotCompletedError extends DomainError {
-  constructor() {
-    super('Cette évaluation n\'est pas terminée.');
-  }
-}
-
 class NotFoundError extends DomainError {
   constructor(message) {
     super(message);
@@ -208,6 +190,30 @@ class NotFoundError extends DomainError {
 
 class ObjectValidationError extends DomainError {
 
+}
+
+class ODSBufferReadFailedError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class ODSInvalidDataError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class ODSTableDataEmptyError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class ODSTableHeadersNotFoundError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
 }
 
 class PasswordNotMatching extends DomainError {
@@ -230,6 +236,12 @@ class PasswordResetDemandNotFoundError extends DomainError {
   }
 }
 
+class UserHasBeenMigratedToV2Error extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class UserNotAuthorizedToAccessEntity extends DomainError {
   constructor() {
     super('User is not authorized to access ressource');
@@ -247,6 +259,24 @@ class UserNotAuthorizedToCertifyError extends DomainError {
         authorization: ['Vous n’êtes pas autorisé à passer un test de certification.'],
       },
     };
+  }
+}
+
+class UserNotAuthorizedToCreateCampaignError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class UserNotAuthorizedToGetCampaignResultsError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class UserNotAuthorizedToUpdateResourceError extends DomainError {
+  constructor(message) {
+    super(message);
   }
 }
 
@@ -317,6 +347,7 @@ module.exports = {
   EntityValidationError,
   ForbiddenAccess,
   InternalError,
+  InvalidCertificationCandidateData,
   InvalidOrganizationIdError,
   InvalidRecaptchaTokenError,
   InvalidSnapshotCode,
@@ -326,6 +357,10 @@ module.exports = {
   MissingOrInvalidCredentialsError,
   NotFoundError,
   ObjectValidationError,
+  ODSBufferReadFailedError,
+  ODSInvalidDataError,
+  ODSTableDataEmptyError,
+  ODSTableHeadersNotFoundError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserHasBeenMigratedToV2Error,

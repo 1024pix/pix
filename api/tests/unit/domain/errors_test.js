@@ -11,8 +11,8 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.CertificationCandidateDeletionError).to.exist;
   });
 
-  it('should export a NotFoundError', () => {
-    expect(errors.NotFoundError).to.exist;
+  it('should export a InvalidCertificationCandidateData', () => {
+    expect(errors.InvalidCertificationCandidateData).to.exist;
   });
 
   it('should export a InvalidTokenError', () => {
@@ -21,6 +21,26 @@ describe('Unit | Domain | Errors', () => {
 
   it('should export a InvalidOrganizationIdError', () => {
     expect(errors.InvalidOrganizationIdError).to.exist;
+  });
+
+  it('should export a NotFoundError', () => {
+    expect(errors.NotFoundError).to.exist;
+  });
+
+  it('should export a ODSBufferReadFailedError', () => {
+    expect(errors.ODSBufferReadFailedError).to.exist;
+  });
+
+  it('should export a ODSInvalidDataError', () => {
+    expect(errors.ODSInvalidDataError).to.exist;
+  });
+
+  it('should export a ODSTableDataEmptyError', () => {
+    expect(errors.ODSTableDataEmptyError).to.exist;
+  });
+
+  it('should export a ODSTableHeadersNotFoundError', () => {
+    expect(errors.ODSTableHeadersNotFoundError).to.exist;
   });
 
   describe('#UserNotFoundError', () => {

@@ -30,8 +30,9 @@
     </a>
   </nav>
 
-  <div class="session-details-controls__download-button">
-    <a class="button button--link button--with-icon" href="{{session.urlToDownload}}" target="_blank" download>
+  <div class="session-details-controls__actions">
+    {{ ods-file-uploader-button session=session }}
+    <a class="button button--link button--with-icon session-details-controls__download-button" href="{{session.urlToDownload}}" target="_blank" download>
       Télécharger le PV (.ods){{fa-icon 'file-download'}}
     </a>
   </div>

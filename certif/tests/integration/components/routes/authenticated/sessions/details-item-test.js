@@ -62,6 +62,7 @@ module('Integration | Component | routes/authenticated/session | details-item', 
 
     // then
     assert.dom('.session-details-controls__download-button').hasText('Télécharger le PV (.ods)');
+    assert.dom('.session-details-controls__import-button').hasText('Importer des candidats');
   });
 
 });

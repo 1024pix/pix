@@ -23,6 +23,9 @@ function _mapToInfrastructureError(error) {
     return error;
   }
 
+  if (error instanceof DomainErrors.AlreadyExistingMembershipError) {
+    return new InfraErrors.PreconditionFailedError(error.message);
+  }
   if (error instanceof DomainErrors.AlreadyRatedAssessmentError) {
     return new InfraErrors.PreconditionFailedError('Assessment is already rated.');
   }
@@ -53,6 +56,9 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.ForbiddenAccess) {
     return new InfraErrors.ForbiddenError(error.message);
   }
+  if (error instanceof DomainErrors.InvalidCertificationCandidateData) {
+    return new InfraErrors.UnprocessableEntityError(error.message);
+  }
   if (error instanceof DomainErrors.InvalidOrganizationIdError) {
     return new InfraErrors.UnprocessableEntityError('Cette organisation n’existe pas');
   }
@@ -75,6 +81,18 @@ function _mapToInfrastructureError(error) {
     return new InfraErrors.NotFoundError(error.message);
   }
   if (error instanceof DomainErrors.ObjectValidationError) {
+    return new InfraErrors.UnprocessableEntityError(error.message);
+  }
+  if (error instanceof DomainErrors.ODSBufferReadFailedError) {
+    return new InfraErrors.UnprocessableEntityError(error.message);
+  }
+  if (error instanceof DomainErrors.ODSInvalidDataError) {
+    return new InfraErrors.UnprocessableEntityError(error.message);
+  }
+  if (error instanceof DomainErrors.ODSTableDataEmptyError) {
+    return new InfraErrors.UnprocessableEntityError(error.message);
+  }
+  if (error instanceof DomainErrors.ODSTableHeadersNotFoundError) {
     return new InfraErrors.UnprocessableEntityError(error.message);
   }
   if (error instanceof DomainErrors.PasswordResetDemandNotFoundError) {

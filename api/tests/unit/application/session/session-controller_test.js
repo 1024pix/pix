@@ -8,6 +8,7 @@ const sessionService = require('../../../../lib/domain/services/session-service'
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
+const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -189,4 +190,67 @@ describe('Unit | Controller | sessionController', () => {
       expect(response).to.deep.equal(updatedSession);
     });
   });
+
+  describe('#parseCertificationCandidatesFromAttendanceSheet', () => {
+
+    const sessionId = 2;
+    const userId = 1;
+    let request, parsedCertificationCandidates, returnedCertificationCandidates;
+    const fileBuffer = 'File Buffer';
+    beforeEach(() => {
+      // given
+      request = {
+        auth: { credentials: { userId } },
+        params: { id : sessionId },
+        payload: { file: fileBuffer }
+      };
+
+      parsedCertificationCandidates = [
+        {
+          name: 'salut',
+        },
+        {
+          name: 'au revoir',
+        },];
+
+      returnedCertificationCandidates = [
+        {
+          attributes: {
+            name: 'salut',
+          }
+        },
+        {
+          attributes: {
+            name: 'au revoir',
+          }
+        },];
+      sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(parsedCertificationCandidates).returns(returnedCertificationCandidates);
+      sinon.stub(usecases, 'parseCertificationCandidatesFromAttendanceSheet').resolves(parsedCertificationCandidates);
+    });
+
+    it('should parse certification candidates from file', async () => {
+      // when
+      await sessionController.parseCertificationCandidatesFromAttendanceSheet(request, hFake);
+
+      // then
+      expect(usecases.parseCertificationCandidatesFromAttendanceSheet).to.have.been.calledWith(
+        {
+          userId,
+          sessionId,
+          odsBuffer: fileBuffer,
+        }
+      );
+    });
+
+    it('should reply with serialized certification candidates', async () => {
+      // when
+      const response = await sessionController.parseCertificationCandidatesFromAttendanceSheet(request, hFake);
+
+      // then
+      expect(certificationCandidateSerializer.serialize).to.have.been.calledWith(parsedCertificationCandidates);
+      expect(response).to.deep.equal(returnedCertificationCandidates);
+    });
+
+  });
+
 });

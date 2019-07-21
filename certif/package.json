@@ -55,6 +55,7 @@
     "ember-cli-uglify": "^2.1.0",
     "ember-data": "~3.9.3",
     "ember-export-application-global": "^2.0.0",
+    "ember-file-upload": "^2.7.1",
     "ember-flatpickr": "^2.14.0",
     "ember-load-initializers": "^2.0.0",
     "ember-maybe-import-regenerator": "^0.1.6",

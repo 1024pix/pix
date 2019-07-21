@@ -40,8 +40,8 @@
     "hapi": "^17.8.4",
     "hapi-sentry": "^1.1.0",
     "hapi-swagger": "^9.3.1",
-    "heapdump": "^0.3.12",
     "heap-profile": "^0.3.2",
+    "heapdump": "^0.3.12",
     "inert": "^5.1.2",
     "joi": "^14.3.1",
     "json2csv": "^4.3.4",
@@ -67,6 +67,7 @@
     "samlify": "github:1024pix/samlify#no-xml-validation",
     "sqlite3": "^4.0.6",
     "vision": "^5.4.4",
+    "xlsx": "^0.14.3",
     "xml-crypto": "~1.0.2",
     "xmldom": "0.1.27",
     "xregexp": "^4.2.4",
@@ -84,7 +85,8 @@
     "nyc": "^13.2.0",
     "plop": "^2.2.0",
     "sinon": "^7.2.3",
-    "sinon-chai": "^3.3.0"
+    "sinon-chai": "^3.3.0",
+    "stream-to-promise": "^2.2.0"
   },
   "scripts": {
     "clean": "rm -rf node_modules db/*.sqlite3",

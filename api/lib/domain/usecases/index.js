@@ -108,6 +108,7 @@ module.exports = injectDependencies({
   getUserPixScore: require('./get-user-pix-score'),
   getUserScorecards: require('./get-user-scorecards'),
   getUserWithMemberships: require('./get-user-with-memberships'),
+  parseCertificationCandidatesFromAttendanceSheet: require('./parse-certification-candidates-from-attendance-sheet'),
   preloadCacheEntries: require('./preload-cache-entries'),
   reloadCacheEntry: require('./reload-cache-entry'),
   rememberUserHasSeenNewProfileInfo: require('./remember-user-has-seen-new-profile-info'),
