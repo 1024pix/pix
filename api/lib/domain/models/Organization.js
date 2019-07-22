@@ -7,6 +7,7 @@ class Organization {
     name,
     type,
     logoUrl,
+    externalId,
     // includes
     user,
     memberships = [],
@@ -19,6 +20,7 @@ class Organization {
     this.name = name;
     this.type = type;
     this.logoUrl = logoUrl;
+    this.externalId = externalId;
     // includes
     this.user = user;
     this.memberships = memberships;

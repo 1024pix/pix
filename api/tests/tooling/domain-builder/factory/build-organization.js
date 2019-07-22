@@ -20,12 +20,13 @@ function buildOrganization(
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+    externalId = 'OrganizationIdLinksToExternalSource',
     createdAt = new Date('2018-01-12T01:02:03Z'),
     user = null,
     memberships = [],
     targetProfileShares = []
   } = {}) {
-  return new Organization({ id, code, name, type, logoUrl, createdAt, user, memberships, targetProfileShares });
+  return new Organization({ id, code, name, type, logoUrl, externalId, createdAt, user, memberships, targetProfileShares });
 }
 
 buildOrganization.withUser = function(
@@ -35,11 +36,12 @@ buildOrganization.withUser = function(
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+    externalId = 'OrganizationIdLinksToExternalSource',
     createdAt = new Date('2018-01-12T01:02:03Z'),
     user = _buildMember()
   } = {}
 ) {
-  return new Organization({ id, code, name, type, logoUrl, createdAt, user });
+  return new Organization({ id, code, name, type, logoUrl, externalId, createdAt, user });
 };
 
 buildOrganization.withMembers = function(
@@ -49,6 +51,7 @@ buildOrganization.withMembers = function(
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
+    externalId = 'OrganizationIdLinksToExternalSource',
     createdAt = new Date('2018-01-12T01:02:03Z'),
     members = [
       _buildMember({ id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' }),
@@ -56,7 +59,7 @@ buildOrganization.withMembers = function(
     ]
   } = {}
 ) {
-  return new Organization({ id, code, name, type, logoUrl, createdAt, members });
+  return new Organization({ id, code, name, type, logoUrl, externalId, createdAt, members });
 };
 
 module.exports = buildOrganization;
