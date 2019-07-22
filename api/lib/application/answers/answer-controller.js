@@ -1,35 +1,8 @@
 const Answer = require('../../domain/models/Answer');
-const AnswerStatus = require('../../domain/models/AnswerStatus');
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer');
 const usecases = require('../../domain/usecases');
-const smartPlacementAssessmentRepository =
-  require('../../infrastructure/repositories/smart-placement-assessment-repository');
-const solutionRepository = require('../../infrastructure/repositories/solution-repository');
-const solutionService = require('../../domain/services/solution-service');
-const { NotFoundError } = require('../../domain/errors');
 const requestUtils = require('../../infrastructure/utils/request-utils');
-
-function _updateExistingAnswer(existingAnswer, newAnswer) {
-  return solutionRepository
-    .getByChallengeId(existingAnswer.challengeId)
-    .then((solution) => {
-      const answerCorrectness = solutionService.validate(newAnswer, solution);
-
-      return answerRepository.save({
-        id: existingAnswer.id,
-        result: AnswerStatus.from(answerCorrectness.result),
-        resultDetails: answerCorrectness.resultDetails,
-        value: newAnswer.attributes.value,
-        timeout: newAnswer.attributes.timeout,
-        elapsedTime: newAnswer.attributes['elapsed-time'],
-        challengeId: newAnswer.relationships.challenge.data.id,
-        assessmentId: newAnswer.relationships.assessment.data.id,
-      });
-    })
-    .then(answerSerializer.serialize);
-}
 
 module.exports = {
 
@@ -49,31 +22,15 @@ module.exports = {
     return h.response(answerSerializer.serialize(answer));
   },
 
-  update(request) {
+  async update(request, h) {
     const updatedAnswer = request.payload.data;
 
-    return answerRepository
-      .findByChallengeAndAssessment({
-        challengeId: updatedAnswer.relationships.challenge.data.id,
-        assessmentId: updatedAnswer.relationships.assessment.data.id
-      })
-      .then((existingAnswer) => {
+    const userId = requestUtils.extractUserIdFromRequest(request);
+    const challengeId = updatedAnswer.relationships.challenge.data.id;
+    const assessmentId = updatedAnswer.relationships.assessment.data.id;
+    const answer = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
 
-        if (!existingAnswer) {
-          throw new NotFoundError('Answer does not exit');
-        }
-
-        // XXX if assessment is a Smart Placement, then return 204 and do not update answer. If not proceed normally.
-        return isAssessmentSmartPlacement(existingAnswer.assessmentId)
-          .then((assessmentIsSmartPlacement) => {
-            if (assessmentIsSmartPlacement) {
-              return null;
-            } else {
-              return _updateExistingAnswer(existingAnswer, updatedAnswer);
-            }
-          });
-
-      });
+    return h.response(answerSerializer.serialize(answer));
   },
 
   async findByChallengeAndAssessment(request, h) {
@@ -105,21 +62,4 @@ function partialDeserialize(payload) {
     assessmentId: payload.data.relationships.assessment.data.id,
     challengeId: payload.data.relationships.challenge.data.id,
   });
-}
-
-function isAssessmentSmartPlacement(assessmentId) {
-
-  return smartPlacementAssessmentRepository.get(assessmentId)
-    .then(() => {
-      return true;
-    })
-    .catch((error) => {
-
-      if (error instanceof NotFoundError) {
-        return false;
-
-      } else {
-        throw error;
-      }
-    });
 }
