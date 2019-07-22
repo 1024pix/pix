@@ -14,8 +14,9 @@ module.exports = function buildAssessment({
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
-
-  userId = _.isNil(userId) ? buildUser().id : userId;
+  if (type != 'DEMO') {
+    userId = _.isNil(userId) ? buildUser().id : userId;
+  }
 
   const values = {
     id, courseId, userId, type, state, createdAt, updatedAt, competenceId,
