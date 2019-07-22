@@ -41,10 +41,12 @@ module.exports = {
     return h.response(answerSerializer.serialize(createdAnswer)).created();
   },
 
-  async get(request) {
-    const result = await answerRepository.get(request.params.id);
+  async get(request, h) {
+    const userId = requestUtils.extractUserIdFromRequest(request);
+    const answerId = request.params.id;
+    const answer = await usecases.getAnswerForConcernedUser({ answerId, userId });
 
-    return answerSerializer.serialize(result);
+    return h.response(answerSerializer.serialize(answer));
   },
 
   update(request) {
