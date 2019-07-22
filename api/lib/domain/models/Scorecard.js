@@ -87,7 +87,8 @@ function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
 }
 
 function _getTotalEarnedPix(knowledgeElements) {
-  return Math.min(_.floor(_(knowledgeElements).sumBy('earnedPix')), constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
+  const userTotalEarnedPix = _.floor(_(knowledgeElements).sumBy('earnedPix'));
+  return Math.min(userTotalEarnedPix, constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
 }
 
 function _getCompetenceLevel(earnedPix) {
