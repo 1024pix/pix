@@ -139,7 +139,7 @@ describe('Integration | Component | signup form', function() {
         });
       });
 
-      it('should redirect automatically to user compte', async function() {
+      it('should redirect automatically to user compte and empty the password', async function() {
         // given
         const authenticateUserStub = sinon.stub();
 
@@ -166,6 +166,7 @@ describe('Integration | Component | signup form', function() {
         return wait().then(() => {
           sinon.assert.calledOnce(authenticateUserStub);
           sinon.assert.calledWith(authenticateUserStub, { email: 'toto@pix.fr', password: 'gipix2017' });
+          expect(user.password).to.be.null;
         });
       });
     });

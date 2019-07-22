@@ -134,6 +134,7 @@ export default Component.extend({
         const credentials = { email: this.get('user.email'), password: this.get('user.password') };
         this.authenticateUser(credentials);
         this.set('_tokenHasBeenUsed', true);
+        this.set('user.password', null);
       }).catch(() => {
         this._updateInputsStatus();
         this.set('_tokenHasBeenUsed', true);
