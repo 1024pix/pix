@@ -9,6 +9,7 @@ export default DS.Model.extend({
   type: attr(),
   code: attr(),
   logoUrl: attr(),
+  externalId: attr(),
 
   // Relationships
   memberships: hasMany('membership'),
