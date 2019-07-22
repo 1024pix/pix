@@ -76,13 +76,13 @@ module.exports = {
       });
   },
 
-  findByChallengeAndAssessment(request) {
-    return answerRepository
-      .findByChallengeAndAssessment({
-        challengeId: request.url.query.challenge,
-        assessmentId: request.url.query.assessment
-      })
-      .then(answerSerializer.serialize);
+  async findByChallengeAndAssessment(request, h) {
+    const userId = requestUtils.extractUserIdFromRequest(request);
+    const challengeId = request.url.query.challenge;
+    const assessmentId = request.url.query.assessment;
+    const answer = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
+
+    return h.response(answerSerializer.serialize(answer));
   },
 
   async getCorrection(request) {
