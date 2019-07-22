@@ -4,6 +4,7 @@ import BootstrapTheme from 'ember-models-table/themes/bootstrap4';
 const columns = [
   {
     propertyName: 'id',
+    title: 'Numéro du membre',
     disableFiltering: true,
   },
   {

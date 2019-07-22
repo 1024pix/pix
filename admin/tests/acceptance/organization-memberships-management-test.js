@@ -59,7 +59,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       // then
       assert.equal(this.element.querySelectorAll('div.member-list table > thead > tr > th ').length, 5);
 
-      assert.dom('div.member-list table > thead').includesText('Id');
+      assert.dom('div.member-list table > thead').includesText('Numéro du membre');
       assert.dom('div.member-list table > thead').includesText('Prénom');
       assert.dom('div.member-list table > thead').includesText('Nom');
       assert.dom('div.member-list table > thead').includesText('Courriel');
