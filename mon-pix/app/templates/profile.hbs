@@ -32,18 +32,16 @@
           Vous avez 16 compétences à tester.<br>On se concentre et c'est partix !
         </h1>
 
-        {{#unless model.isProfileV2}}
-          {{#if currentUser.user.hasSeenNewProfileInfo}}
-            <h2 class="rounded-panel-header-text__content profile-panel-header-information">
-              Le profil Pix évolue.
-              <a class="link"
-                 href="https://pix.fr/actualites/votre-profil-evolue"
-                 target="Actualité Pix">
-                Découvrez ce qui change.
-              </a>
-            </h2>
-          {{/if}}
-        {{/unless}}
+        {{#if currentUser.user.hasSeenNewProfileInfo}}
+          <h2 class="rounded-panel-header-text__content profile-panel-header-information">
+            Le profil Pix évolue.
+            <a class="link"
+               href="https://pix.fr/actualites/votre-profil-evolue"
+               target="Actualité Pix">
+              Découvrez ce qui change.
+            </a>
+          </h2>
+        {{/if}}
       </div>
 
       <div class="rounded-panel-header__right-wrapper">
