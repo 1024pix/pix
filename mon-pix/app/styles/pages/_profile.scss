@@ -31,20 +31,25 @@
 .new-profile-info {
   display: flex;
   flex-direction: column;
-  background: $pix-yellow-to-orange-gradient;
-  margin-top: 30px;
-  height: 330px;
+  background: $pix-yellow-to-jaffa-gradient;
+  height: 345px;
+  margin: 15px -15px 0 -15px;
 
   @include device-is('desktop') {
-    height: 175px;
+    height: 190px;
   }
 
   &__close {
     align-self: flex-end;
-    margin: 5px 10px 0 0;
+    margin: 5px;
+    padding: 4px 10px;
 
-    &:hover {
-      cursor: pointer;
+    &:hover, &:active {
+      background-color: $white;
+    }
+
+    svg {
+      font-size: 1.5 rem;
     }
   }
 
@@ -57,6 +62,8 @@
 
     @include device-is('desktop') {
       flex-direction: row;
+      justify-content: space-between;
+      padding: 0 10% 25px 5%;
     }
 
     &__title {

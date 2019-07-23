@@ -6,9 +6,9 @@
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner profile__panel">
 
     {{#unless currentUser.user.hasSeenNewProfileInfo}}
-      <div class="new-profile-info">
-        <div class="new-profile-info__close" {{action "updateUserHasSeenNewProfileInfo"}}>
-          {{fa-icon 'times' size='lg'}}
+      <div class="rounded-panel new-profile-info">
+        <div class="icon-button new-profile-info__close" {{action "updateUserHasSeenNewProfileInfo"}}>
+          {{fa-icon 'times'}}
         </div>
         <div class="new-profile-info-content">
           <div class="new-profile-info-content__title">
@@ -32,18 +32,16 @@
           Vous avez 16 compétences à tester.<br>On se concentre et c'est partix !
         </h1>
 
-        {{#unless model.isProfileV2}}
-          {{#if currentUser.user.hasSeenNewProfileInfo}}
-            <h2 class="rounded-panel-header-text__content profile-panel-header-information">
-              Le profil Pix évolue.
-              <a class="link"
-                 href="https://pix.fr/actualites/votre-profil-evolue"
-                 target="Actualité Pix">
-                Découvrez ce qui change.
-              </a>
-            </h2>
-          {{/if}}
-        {{/unless}}
+        {{#if currentUser.user.hasSeenNewProfileInfo}}
+          <h2 class="rounded-panel-header-text__content profile-panel-header-information">
+            Le profil Pix évolue.
+            <a class="link"
+               href="https://pix.fr/actualites/votre-profil-evolue"
+               target="Actualité Pix">
+              Découvrez ce qui change.
+            </a>
+          </h2>
+        {{/if}}
       </div>
 
       <div class="rounded-panel-header__right-wrapper">
