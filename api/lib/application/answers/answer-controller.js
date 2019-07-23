@@ -22,15 +22,8 @@ module.exports = {
     return answerSerializer.serialize(answer);
   },
 
-  async update(request) {
-    const updatedAnswer = request.payload.data;
-
-    const userId = requestUtils.extractUserIdFromRequest(request);
-    const challengeId = updatedAnswer.relationships.challenge.data.id;
-    const assessmentId = updatedAnswer.relationships.assessment.data.id;
-    const answer = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
-
-    return answerSerializer.serialize(answer);
+  update() {
+    return null;
   },
 
   async findByChallengeAndAssessment(request) {
