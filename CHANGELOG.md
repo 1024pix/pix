@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.54.0 (23/07/2019)
+
+- [#620](https://github.com/1024pix/pix/pull/620) [FEATURE] Optimisation graphique du bandeau de nouveau profil. (PF-772)
+- [#609](https://github.com/1024pix/pix/pull/609) [FEATURE] Création de la page /campagnes permettant de rentrer un code Campagne (PF-639).
+- [#610](https://github.com/1024pix/pix/pull/610) [FEATURE] Ajout d'un bloc de présentation du profil v2. (PF-745)
+- [#611](https://github.com/1024pix/pix/pull/611) [FEATURE] Création des nouveaux comptes en profil v2 (PF-741).
+- [#616](https://github.com/1024pix/pix/pull/616) [TECH] Supprimer les fichiers profile-v2 oubliés.
+- [#590](https://github.com/1024pix/pix/pull/590) [TECH] Ajout d'une colonne pour savoir si l'utilisateur a été migré ou non.
+- [#607](https://github.com/1024pix/pix/pull/607) [TECH] Refactoring du contrôleur de `GET /api/users/me/profile`
+
 ## v2.53.0 (15/07/2019)
 
 - [#605](https://github.com/1024pix/pix/pull/605) [FEATURE] Possibilité pour le responsable d'une organisation d'ajouter d'autres membres (PO-80).
