@@ -14,15 +14,15 @@ module.exports = {
     return h.response(answerSerializer.serialize(createdAnswer)).created();
   },
 
-  async get(request, h) {
+  async get(request) {
     const userId = requestUtils.extractUserIdFromRequest(request);
     const answerId = request.params.id;
     const answer = await usecases.getAnswerForConcernedUser({ answerId, userId });
 
-    return h.response(answerSerializer.serialize(answer));
+    return answerSerializer.serialize(answer);
   },
 
-  async update(request, h) {
+  async update(request) {
     const updatedAnswer = request.payload.data;
 
     const userId = requestUtils.extractUserIdFromRequest(request);
@@ -30,16 +30,16 @@ module.exports = {
     const assessmentId = updatedAnswer.relationships.assessment.data.id;
     const answer = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
 
-    return h.response(answerSerializer.serialize(answer));
+    return answerSerializer.serialize(answer);
   },
 
-  async findByChallengeAndAssessment(request, h) {
+  async findByChallengeAndAssessment(request) {
     const userId = requestUtils.extractUserIdFromRequest(request);
     const challengeId = request.url.query.challenge;
     const assessmentId = request.url.query.assessment;
     const answer = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
 
-    return h.response(answerSerializer.serialize(answer));
+    return answerSerializer.serialize(answer);
   },
 
   async getCorrection(request) {
