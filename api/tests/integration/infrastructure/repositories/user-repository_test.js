@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
@@ -410,7 +410,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     it('should save the user', async () => {
       // given
       const email = 'my-email-to-save@example.net';
-      const user = new User({
+      const user = domainBuilder.buildUser({
+        id: null,
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: email,
@@ -429,7 +430,8 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     it('should return a Domain User object', async () => {
       // given
       const email = 'my-email-to-save@example.net';
-      const user = new User({
+      const user = domainBuilder.buildUser({
+        id: null,
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: email,

@@ -12,6 +12,8 @@ const encryptionService = require('../../../../lib/domain/services/encryption-se
 const mailService = require('../../../../lib/domain/services/mail-service');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const userService = require('../../../../lib/domain/services/user-service');
+const profileService = require('../../../../lib/domain/services/profile-service');
+const tokenService = require('../../../../lib/domain/services/token-service');
 
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -19,6 +21,7 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -90,9 +93,28 @@ describe('Unit | Controller | user-controller', () => {
   });
 
   describe('#getAuthenticatedUserProfile', () => {
-    it('should be a function', () => {
+    const expectedSerializedProfile = Symbol('a serialized profile');
+    const userId = 1234;
+
+    beforeEach(() => {
+      sinon.stub(tokenService, 'extractUserId').returns(userId);
+
+      const aUser = new User({ id: userId });
+      sinon.stub(userRepository, 'findUserById').withArgs(userId).resolves(aUser);
+
+      const aProfile = Symbol('a profile');
+      sinon.stub(profileService, 'getByUserId').withArgs(userId).resolves(aProfile);
+
+      sinon.stub(profileSerializer, 'serialize').withArgs(aProfile).resolves(expectedSerializedProfile);
+    });
+
+    it('should return a serialized profile', async () => {
+      // given
+      const request = { headers: {} };
+      // when
+      const profile = await userController.getAuthenticatedUserProfile(request);
       // then
-      expect(userController.getAuthenticatedUserProfile).to.be.a('function');
+      expect(profile).to.equal(expectedSerializedProfile);
     });
   });
 
@@ -226,6 +248,33 @@ describe('Unit | Controller | user-controller', () => {
         return promise.then(() => {
           expect(usecaseAcceptPixCertifTermsOfServiceStub).to.have.been.calledWith({ userId });
         });
+      });
+    });
+
+    context('When payload has a hasSeenNewProfileInfo field', () => {
+
+      it('should remember user has seen migration modal', async () => {
+        // given
+        const userId = 7;
+        const request = {
+          params: {
+            id: userId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'has-seen-new-profile-info': true,
+              },
+            },
+          },
+        };
+        const usecaseStub = sinon.stub(usecases, 'rememberUserHasSeenNewProfileInfo');
+
+        // when
+        await userController.updateUser(request, hFake);
+
+        // then
+        expect(usecaseStub).to.have.been.calledWith({ userId });
       });
     });
   });

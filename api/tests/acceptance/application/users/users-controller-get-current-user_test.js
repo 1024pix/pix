@@ -39,8 +39,10 @@ describe('Acceptance | Controller | users-controller-get-current-user', () => {
             'last-name': user.lastName,
             email: user.email.toLowerCase(),
             cgu: true,
+            'is-profile-v2': false,
             'pix-orga-terms-of-service-accepted': false,
             'pix-certif-terms-of-service-accepted': false,
+            'has-seen-new-profile-info': false,
             'uses-profile-v2': false,
           },
           relationships: {

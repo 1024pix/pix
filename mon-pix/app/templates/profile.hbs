@@ -1,0 +1,73 @@
+{{resume-campaign-banner campaignParticipations=model.campaignParticipations}}
+{{navbar-header class="navbar-header--white"}}
+<div class="profile-page">
+  <div class="background-banner"></div>
+
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner profile__panel">
+
+    {{#unless currentUser.user.hasSeenNewProfileInfo}}
+      <div class="rounded-panel new-profile-info">
+        <div class="icon-button new-profile-info__close" {{action "updateUserHasSeenNewProfileInfo"}}>
+          {{fa-icon 'times'}}
+        </div>
+        <div class="new-profile-info-content">
+          <div class="new-profile-info-content__title">
+            <span>Le profil Pix évolue.</span>
+            <span>Découvrez ce qui change.</span>
+          </div>
+          <div class="new-profile-info-content__link">
+            <a class="button button--big button--link"
+               href="https://pix.fr/actualites/votre-profil-evolue"
+               target="Actualité Pix">
+              En savoir plus
+            </a>
+          </div>
+        </div>
+      </div>
+    {{/unless}}
+
+    <div class="rounded-panel-header-with-components">
+      <div class="rounded-panel-header__left-wrapper">
+        <h1 class="rounded-panel-header-text__content rounded-panel-title">
+          Vous avez 16 compétences à tester.<br>On se concentre et c'est partix !
+        </h1>
+
+        {{#if currentUser.user.hasSeenNewProfileInfo}}
+          <h2 class="rounded-panel-header-text__content profile-panel-header-information">
+            Le profil Pix évolue.
+            <a class="link"
+               href="https://pix.fr/actualites/votre-profil-evolue"
+               target="Actualité Pix">
+              Découvrez ce qui change.
+            </a>
+          </h2>
+        {{/if}}
+      </div>
+
+      <div class="rounded-panel-header__right-wrapper">
+        {{hexagon-score pixScore=model.pixScore.value}}
+      </div>
+    </div>
+
+    {{#unless model.isProfileV2}}
+      <div class="profile-panel__link-to-compte">
+        {{#link-to "compte" class="link link--grey rounded-panel__link"}}Accès à l'ancien profil{{/link-to}}
+      </div>
+    {{/unless}}
+
+    <div class="rounded-panel-body">
+      {{#each model.areasCode as |areaCode|}}
+        <div class="rounded-panel-body__areas">
+          {{#each model.scorecards as |scorecard|}}
+            {{#if (eq areaCode scorecard.area.code)}}
+              <div class="rounded-panel-body__competence-card">
+                {{competence-card scorecard=scorecard}}
+              </div>
+            {{/if}}
+          {{/each}}
+        </div>
+      {{/each}}
+    </div>
+
+  </div>
+</div>

@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import { authenticateAsPrescriber, authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateAsPrescriber, authenticateAsSimpleProfileV2User, authenticateAsSimpleUser } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 
 describe('Acceptance | Espace compte | Authentication', function() {
@@ -55,6 +55,23 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
     });
 
+  });
+
+  describe('V2 Profile cases', function() {
+    describe('New v2 users', function() {
+      it('should be redirected to /profil when they hit /compte', async function() {
+        // given
+        await authenticateAsSimpleProfileV2User();
+
+        // when
+        await visit('/compte');
+
+        // then
+        return andThen(function() {
+          expect(currentURL()).to.equal('/profil');
+        });
+      });
+    });
   });
 
   describe('Error case', function() {
