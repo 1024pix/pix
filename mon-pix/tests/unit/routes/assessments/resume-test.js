@@ -252,13 +252,13 @@ describe('Unit | Route | Assessments | Resume', function() {
           assessment.isCompetenceEvaluation = true;
         });
 
-        it('should redirect to competences.results page', function() {
+        it('should redirect to competence.results page', function() {
           // when
           const promise = route.afterModel(assessment);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledWith(route.replaceWith, 'competences.results', 123);
+            sinon.assert.calledWith(route.replaceWith, 'competence.results', 123);
           });
         });
       });

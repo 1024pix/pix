@@ -27,7 +27,7 @@ describe('Unit | Route | Competence | Resume', function() {
     this.owner.register('service:store', storeStub);
 
     // instance route object
-    route = this.owner.lookup('route:competences.resume');
+    route = this.owner.lookup('route:competence.resume');
     route.replaceWith = sinon.stub();
 
   });

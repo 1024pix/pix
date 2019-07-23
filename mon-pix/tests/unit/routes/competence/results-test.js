@@ -4,7 +4,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | Competences | Results', function() {
+describe('Unit | Route | Competence | Results', function() {
 
   setupTest();
 
@@ -30,7 +30,7 @@ describe('Unit | Route | Competences | Results', function() {
 
       this.owner.register('service:store', storeStub);
 
-      route = this.owner.lookup('route:competences.results');
+      route = this.owner.lookup('route:competence.results');
       route.transitionTo = sinon.stub();
     });
 

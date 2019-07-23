@@ -56,7 +56,7 @@ export default Router.map(function() {
   });
 
   this.route('competence-details', { path: '/competences/:scorecard_id' });
-  this.route('competences', { path: '/competences' }, function() {
+  this.route('competence', { path: '/competences' }, function() {
     this.route('resume', { path: '/:competence_id/evaluer' });
     this.route('checkpoint', { path: '/checkpoint/:assessment_id' });
     this.route('results', { path: '/resultats/:assessment_id' });
