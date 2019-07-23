@@ -1,7 +1,7 @@
-const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
-const createServer = require('../../../server');
-const BookshelfAnswer = require('../../../lib/infrastructure/data/answer');
-const Assessment = require('../../../lib/domain/models/Assessment');
+const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const createServer = require('../../../../server');
+const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Acceptance | Controller | answer-controller-save', () => {
 
