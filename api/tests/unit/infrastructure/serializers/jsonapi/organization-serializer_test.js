@@ -22,6 +22,7 @@ describe('Unit | Serializer | organization-serializer', () => {
             'type': organization.type,
             'code': organization.code,
             'logo-url': organization.logoUrl,
+            'external-id': organization.externalId,
           },
           relationships: {
             user: { data: null },

@@ -14,6 +14,7 @@ function _toDomain(bookshelfOrganization) {
     name: rawOrganization.name,
     type: rawOrganization.type,
     logoUrl: rawOrganization.logoUrl,
+    externalId: rawOrganization.externalId,
   });
 
   let members = [];
