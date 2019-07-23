@@ -12,8 +12,8 @@ module.exports = async function getAnswerForConcernedUser(
 
   const answer = await answerRepository.get(answerId);
   const assessment = await assessmentRepository.get(answer.assessmentId);
-  if (assessment.userId != userId) {
-    throw new ForbiddenAccess('User is not allowed to access this area');
+  if (assessment.userId !== userId) {
+    throw new ForbiddenAccess('User is not allowed to get this answer.');
   }
   return answer;
 };
