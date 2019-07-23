@@ -20,6 +20,6 @@ function _validateCorrectionIsAccessible(assessment, userId) {
     throw new AssessmentNotCompletedError();
   }
   if (assessment.userId !== userId) {
-    throw new ForbiddenAccess('User is not allowed to access this area');
+    throw new ForbiddenAccess('User is not allowed to see correction of this assessment.');
   }
 }
