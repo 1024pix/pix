@@ -43,8 +43,11 @@ module.exports = {
   },
 
   async getCorrection(request) {
+    const userId = requestUtils.extractUserIdFromRequest(request);
+
     const correction = await usecases.getCorrectionForAnswerWhenAssessmentEnded({
-      answerId: request.params.id
+      answerId: request.params.id,
+      userId
     });
 
     return correctionSerializer.serialize(correction);

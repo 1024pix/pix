@@ -142,6 +142,7 @@ describe('Unit | Controller | answer-controller', () => {
   describe('#getCorrection', () => {
 
     const answerId = 1;
+    const userId = 'userId';
 
     beforeEach(() => {
       sinon.stub(usecases, 'getCorrectionForAnswerWhenAssessmentEnded');
@@ -150,7 +151,8 @@ describe('Unit | Controller | answer-controller', () => {
 
     it('should return ok', async () => {
       // given
-      usecases.getCorrectionForAnswerWhenAssessmentEnded.withArgs({ answerId }).resolves({});
+      requestUtils.extractUserIdFromRequest.returns(userId);
+      usecases.getCorrectionForAnswerWhenAssessmentEnded.withArgs({ answerId, userId }).resolves({});
       correctionSerializer.serialize.withArgs({}).returns('ok');
 
       // when
