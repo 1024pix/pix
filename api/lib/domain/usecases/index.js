@@ -78,7 +78,7 @@ module.exports = injectDependencies({
   findSmartPlacementAssessments: require('./find-smart-placement-assessments'),
   findSnapshots: require('./find-snapshots.js'),
   findUsers: require('./find-users.js'),
-  getAnswerForConcernedUser: require('./get-answer-for-concerned-user'),
+  getAnswerForRelevantUser: require('./get-answer-for-relevant-user'),
   getAssessment: require('./get-assessment'),
   getAttendanceSheet: require('./get-attendance-sheet'),
   getCampaign: require('./get-campaign'),
