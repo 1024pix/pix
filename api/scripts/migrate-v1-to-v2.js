@@ -49,7 +49,9 @@ async function _createKnowledgeElementsForUser( userId, challengesWithKnowledgeE
     }
   }
   if(migrationOk) {
-    await _indicatedDateOfMigration(userId);
+    if(knowledgeElementsToCreate.length > 0) {
+      await _indicatedDateOfMigration(userId);
+    }
     logger.trace(logContext, `END FOR USER ${userId} : STATUS : OK, KE : ${knowledgeElementsToCreate.length}.`);
     return 1;
   } else {
