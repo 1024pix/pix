@@ -25,11 +25,10 @@
 <div class="certification-course-page__field-button">
 
   {{#if _loadingCertification}}
-    <div class="certification-course-page__field-button__action-validate">
-      <div class="certification-course-page__field-button__loader-bar"></div>
-    </div>
+    <button class="button button--big button--thin certification-course-page__submit_button"><span
+      class="loader-in-button">&nbsp;</span></button>
   {{else}}
-    <button type="submit" class="certification-course-page__submit_button" {{ action "submit" }}>Lancer le test</button>
+    <button type="submit" class="button button--big button--thin button--uppercase certification-course-page__submit_button" {{ action "submit" }}>Lancer le test</button>
   {{/if}}
 </div>
 

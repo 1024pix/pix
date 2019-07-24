@@ -37,8 +37,7 @@ describe('Integration | Component | certification-code-validation', function() {
       await render(hbs`{{certification-code-validation}}`);
 
       // then
-      expect(find('.certification-course-page__field-button__loader-bar')).to.not.exist;
-      expect(find('.certification-course-page__submit_button')).to.exist;
+      expect(find('.certification-course-page__submit_button .loader-in-button')).to.not.exist;
     });
 
     it('should display a loading spinner when loading certification', async function() {
@@ -49,8 +48,7 @@ describe('Integration | Component | certification-code-validation', function() {
       await render(hbs`{{certification-code-validation _loadingCertification=_loadingCertification}}`);
 
       // then
-      expect(find('.certification-course-page__field-button__loader-bar')).to.exist;
-      expect(find('.certification-course-page__submit_button')).to.not.exist;
+      expect(find('.certification-course-page__submit_button .loader-in-button')).to.exist;
     });
   });
 

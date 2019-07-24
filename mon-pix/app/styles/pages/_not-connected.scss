@@ -2,14 +2,13 @@
   background: $pix-blue-to-purple-gradient;
   height: 100vh;
   padding-top: 5%;
-  padding-left: 20%;
-  padding-right: 20%;
 
-  &__white-block {
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
+  @include device-is('tablet') {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
 
+  &__container {
     text-align: center;
     padding: 15%;
   }
