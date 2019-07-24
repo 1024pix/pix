@@ -1,8 +1,8 @@
 const { expect, sinon } = require('../../../test-helper');
-const getAnswerForConcernedUser = require('../../../../lib/domain/usecases/get-answer-for-concerned-user');
+const getAnswerForRelevantUser = require('../../../../lib/domain/usecases/get-answer-for-relevant-user');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-answer-for-concerned-user', () => {
+describe('Unit | UseCase | get-answer-for-relevant-user', () => {
 
   const answerId = 1;
   const userId = 'userId';
@@ -34,7 +34,7 @@ describe('Unit | UseCase | get-answer-for-concerned-user', () => {
     it('should get the answer', () => {
 
       // when
-      const result = getAnswerForConcernedUser({ answerId, userId, answerRepository, assessmentRepository });
+      const result = getAnswerForRelevantUser({ answerId, userId, answerRepository, assessmentRepository });
 
       // then
       return result.then((resultAnswer) => {
@@ -47,7 +47,7 @@ describe('Unit | UseCase | get-answer-for-concerned-user', () => {
     it('should throw a Forbidden Access error', () => {
 
       // when
-      const result = getAnswerForConcernedUser({ answerId, userId: userId + 1 , answerRepository, assessmentRepository });
+      const result = getAnswerForRelevantUser({ answerId, userId: userId + 1 , answerRepository, assessmentRepository });
 
       // then
       return expect(result).to.be.rejectedWith(ForbiddenAccess);

@@ -65,7 +65,7 @@ describe('Acceptance | Controller | answer-controller', () => {
       });
 
     });
-    context('when the assessment has an userId but the user is not the concerned user', () => {
+    context('when the assessment has an userId but the user is not the relevant user', () => {
       beforeEach(async () => {
         server = await createServer();
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
