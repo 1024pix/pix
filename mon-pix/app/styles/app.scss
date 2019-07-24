@@ -12,13 +12,11 @@
 @import 'globals/loading';
 @import 'globals/redesign-inputs';
 @import 'globals/pix-modal';
-@import 'globals/pix-page';
 @import 'globals/buttons';
 @import 'globals/tables';
 @import 'globals/text';
 /* components */
 @import 'components/background-banner';
-@import 'components/_blue-ribbon';
 @import 'components/_campaign-banner';
 @import 'components/_certification-code-validation';
 @import 'components/certification-banner';
@@ -91,7 +89,6 @@
 @import 'pages/campaign-tutorial';
 @import 'pages/certification-course-error';
 @import 'pages/certification-start';
-@import 'pages/competence-details';
 @import 'pages/competence-results';
 @import 'pages/compte';
 @import 'pages/course-preview';

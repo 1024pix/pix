@@ -1,11 +1,10 @@
-<div class="certification-start-page">
+{{navbar-header class="navbar-header--white"}}
 
-  {{navbar-header class="navbar-header--white"}}
+<div class="background-banner-wrapper">
+  <div class="background-banner"></div>
 
-  <div class="certification-start-page__ribbon blue-ribbon" />
+  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
 
-
-  <div class="certification-start-page__panel rounded-panel">
     <h2 class="certification-start-page__title">Lancement du test de certification</h2>
 
     {{certification-code-validation onSubmit=(route-action 'submit') onError=(route-action 'error')}}

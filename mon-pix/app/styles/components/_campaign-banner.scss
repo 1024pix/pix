@@ -1,17 +1,13 @@
 .campaign-banner {
-  background: $pix-blue-to-purple-gradient;
-  color: $white;
   display: flex;
   justify-content: center;
+  height: 100px;
 }
 
 .campaign-banner__checkpoint {
-  background: $pix-blue-to-purple-gradient;
-  color: $white;
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  height: 270px;
 }
 
 .campaign-banner-container {
