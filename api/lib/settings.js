@@ -38,7 +38,9 @@ module.exports = (function() {
     mailing: {
       enabled: !!process.env.MAILJET_KEY,
       mailjetApiKey: process.env.MAILJET_KEY,
-      mailjetApiSecret: process.env.MAILJET_SECRET
+      mailjetApiSecret: process.env.MAILJET_SECRET,
+      mailjetAccountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
+      mailjetPasswordResetTemplateId: process.env.MAILJET_PASSWORD_RESET_TEMPLATE_ID,
     },
 
     captcha: {
@@ -96,7 +98,9 @@ module.exports = (function() {
     config.mailing = {
       enabled: false,
       mailjetApiKey: 'test-api-ket',
-      mailjetApiSecret: 'test-api-secret'
+      mailjetApiSecret: 'test-api-secret',
+      mailjetAccountCreationTemplateId: 'test-account-creation-template-id',
+      mailjetPasswordResetTemplateId: 'test-password-reset-template-id',
     };
 
     config.captcha = {
