@@ -33,7 +33,13 @@ function _createCampaigns(server) {
   });
 }
 
+function _createStudents(server) {
+  const organizations = server.schema.organizations.where({ name: 'BRO & MALA Corp & Associates' });
+  server.createList('students', 6, { organization: organizations.models[0] });
+}
+
 export default function(server) {
   _createSignedUpUser(server);
   _createCampaigns(server);
+  _createStudents(server);
 }

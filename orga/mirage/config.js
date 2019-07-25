@@ -60,6 +60,11 @@ export default function() {
     return schema.memberships.create({ userId: user.id, organizationId: organization.id, organizationRole: 'MEMBER' });
   });
 
+  this.get('/organizations/:id/students', (schema, request) => {
+    const organizationId = request.params.id;
+    return schema.students.where({ organizationId });
+  });
+
   this.get('/campaigns/:id');
 
   this.patch('/campaigns/:id');
