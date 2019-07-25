@@ -44,8 +44,8 @@ class Scorecard {
     return { userId: _.parseInt(userId), competenceId };
   }
 
-  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation }) {
-    const totalEarnedPix = _getTotalEarnedPix(knowledgeElements);
+  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation, blockReachablePixAndLevel }) {
+    const totalEarnedPix = _getTotalEarnedPix(knowledgeElements, blockReachablePixAndLevel);
 
     const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
 
@@ -86,9 +86,12 @@ function _getScorecardStatus(competenceEvaluation, knowledgeElements) {
   return statuses.STARTED;
 }
 
-function _getTotalEarnedPix(knowledgeElements) {
+function _getTotalEarnedPix(knowledgeElements, blockReachablePixAndLevel) {
   const userTotalEarnedPix = _.floor(_(knowledgeElements).sumBy('earnedPix'));
-  return Math.min(userTotalEarnedPix, constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
+  if (blockReachablePixAndLevel) {
+    return Math.min(userTotalEarnedPix, constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
+  }
+  return userTotalEarnedPix;
 }
 
 function _getCompetenceLevel(earnedPix) {
