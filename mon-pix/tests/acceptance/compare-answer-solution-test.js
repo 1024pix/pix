@@ -40,7 +40,7 @@ describe('Compare answers and solutions for QCM questions', function() {
       await visit(RESULT_URL);
       expect($('.comparison-window')).to.have.lengthOf(0);
 
-      await click('.result-item__correction__button');
+      await click('.result-item__correction-button');
       expect($('.comparison-window')).to.have.lengthOf(1);
     });
   });
@@ -55,7 +55,7 @@ describe('Compare answers and solutions for QCM questions', function() {
       expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.exist;
       expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.exist;
 
-      await click('.result-item__correction__button');
+      await click('.result-item__correction-button');
       expect(charCount($(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
       expect($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
     });

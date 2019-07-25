@@ -52,7 +52,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
 
     it('should be able to give feedback', async () => {
       await visit('/assessments/ref_assessment_id/results');
-      await click('.result-item__correction__button');
+      await click('.result-item__correction-button');
       assertThatFeedbackFormIsOpen();
     });
   });
