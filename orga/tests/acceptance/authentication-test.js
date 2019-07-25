@@ -163,9 +163,11 @@ module('Acceptance | authentication', function(hooks) {
       await visit('/');
 
       // then
-      assert.dom('.sidebar-menu a').exists({ count: 1 });
-      assert.dom('.sidebar-menu a').hasText('Campagnes');
-      assert.dom('.sidebar-menu a').hasClass('active');
+      assert.dom('.sidebar-menu a').exists({ count: 2 });
+      assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+      assert.dom('.sidebar-menu a:nth-child(2) ').hasText('Élèves');
+      assert.dom('.sidebar-menu a:first-child ').hasClass('active');
+
     });
   });
 
