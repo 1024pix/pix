@@ -247,22 +247,6 @@ describe('Unit | Route | Assessments | Resume', function() {
         });
       });
 
-      context('when assessment is a COMPETENCE_EVALUATION', function() {
-        beforeEach(() => {
-          assessment.isCompetenceEvaluation = true;
-        });
-
-        it('should redirect to competence.results page', function() {
-          // when
-          const promise = route.afterModel(assessment);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledWith(route.replaceWith, 'competence.results', 123);
-          });
-        });
-      });
-
       context('when assessment is a PLACEMENT', function() {
         beforeEach(() => {
           assessment.isPlacement = true;

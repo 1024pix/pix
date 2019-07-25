@@ -56,10 +56,12 @@ export default Router.map(function() {
   });
 
   this.route('competence-details', { path: '/competences/:scorecard_id' });
-  this.route('competence', { path: '/competences' }, function() {
-    this.route('resume', { path: '/:competence_id/evaluer' });
-    this.route('checkpoint', { path: '/checkpoint/:assessment_id' });
-    this.route('results', { path: '/resultats/:assessment_id' });
+  this.route('competence', { path: '/competences/:competence_id' }, function() {
+    this.route('assessment', { path: '/assessment' }, function() {
+      this.route('challenge', { path: '/challenges/:challenge_id' });
+      this.route('checkpoint', { path: '/checkpoint' });
+    });
+    this.route('results', { path: '/resultats' });
   });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE

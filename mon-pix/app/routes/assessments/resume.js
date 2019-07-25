@@ -38,16 +38,10 @@ export default Route.extend({
     }
 
     if (nextTransition === 'checkpoint') {
-      if (assessment.isCompetenceEvaluation) {
-        return this.replaceWith('competence.checkpoint', assessment.id);
-      }
       return this.replaceWith('assessments.checkpoint', assessment.id);
     }
 
     if (nextTransition === 'finalCheckpoint') {
-      if (assessment.isCompetenceEvaluation) {
-        return this.replaceWith('competence.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
-      }
       return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true } });
     }
 
@@ -57,9 +51,6 @@ export default Route.extend({
       }
       if (assessment.isSmartPlacement) {
         return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
-      }
-      if (assessment.isCompetenceEvaluation) {
-        return this.replaceWith('competence.results', assessment.id);
       }
       return this.replaceWith('assessments.results', assessment.id);
     }

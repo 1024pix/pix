@@ -23,7 +23,7 @@
 
         </div>
         <div class="checkpoint__continue-wrapper">
-          {{checkpoint-continue assessmentId=assessment.id nextPageButtonText=nextPageButtonText}}
+          {{yield}}
         </div>
       {{/if}}
     </div>
@@ -42,7 +42,7 @@
             {{result-item-campaign answer=answer correction=answer.correction openAnswerDetails=(action "openComparisonWindow")}}
           {{/each}}
         </div>
-        {{checkpoint-continue assessmentId=assessment.id nextPageButtonText=nextPageButtonText}}
+        {{yield}}
       {{else}}
         <div class="checkpoint-no-answer">
           <div class="checkpoint-no-answer__header">
@@ -51,7 +51,7 @@
           <div class="checkpoint-no-answer__info">
             Vous avez déjà répondu aux questions, lors de vos parcours précédents. Vous pouvez directement accéder à vos résultats.
           </div>
-          {{checkpoint-continue assessmentId=assessment.id nextPageButtonText=nextPageButtonText}}
+          {{yield}}
         </div>
       {{/if}}
     </div>

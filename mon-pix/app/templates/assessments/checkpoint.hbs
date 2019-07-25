@@ -1,1 +1,3 @@
-{{assessment-checkpoint assessment=model finalCheckpoint=finalCheckpoint}}
+{{#assessment-checkpoint assessment=model finalCheckpoint=finalCheckpoint}}
+  {{checkpoint-continue route='assessments.resume' modelId=model.id finalCheckpoint=finalCheckpoint}}
+{{/assessment-checkpoint}}

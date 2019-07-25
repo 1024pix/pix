@@ -8,45 +8,33 @@ describe('Unit | Route | Competence | Results', function() {
 
   setupTest();
 
+  let route;
+
   beforeEach(function() {
     this.owner.register('service:session', Service.extend({
       isAuthenticated: true,
     }));
+
+    route = this.owner.lookup('route:competence.results');
   });
 
   describe('model', function() {
 
-    const assessmentId = 'assessmentId';
-
-    let route;
-    let storeStub;
-    let queryStub;
-
-    beforeEach(function() {
-      queryStub = sinon.stub();
-      storeStub = Service.extend({
-        query: queryStub
-      });
-
-      this.owner.register('service:store', storeStub);
-
-      route = this.owner.lookup('route:competence.results');
-      route.transitionTo = sinon.stub();
-    });
-
-    it('should return the first competence-evaluation for a given assessment', async function() {
+    it('should return the scorecard of the model for route competence', async function() {
       // Given
-      const expectedCompetenceEvaluation = [{ id: 1 }];
-      queryStub.resolves(expectedCompetenceEvaluation);
+      route.modelFor = sinon.stub().returns({
+        get(parameter) {
+          if (parameter === 'scorecard') {
+            return { id: 1 };
+          }
+        }
+      });
 
       // When
-      const model = await route.model({
-        assessment_id: assessmentId,
-      });
+      const model = await route.model();
 
       // Then
-      sinon.assert.calledWith(queryStub, 'competenceEvaluation', { filter: { assessmentId } });
-      expect(model.id).to.equal(1);
+      expect(model).to.deep.equal({ id: 1 });
     });
   });
 

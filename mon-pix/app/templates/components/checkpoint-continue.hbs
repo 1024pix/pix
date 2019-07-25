@@ -1,4 +1,4 @@
-{{#link-to 'assessments.resume' assessmentId (query-params hasSeenCheckpoint=true) class="button button--link button--yellow checkpoint__continue-button"}}
+{{#link-to route modelId (query-params hasSeenCheckpoint=true reloadModel=true) class="button button--link button--yellow checkpoint__continue-button"}}
   {{nextPageButtonText}}
   {{fa-icon 'long-arrow-alt-right'}}
 {{/link-to}}

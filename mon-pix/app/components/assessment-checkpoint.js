@@ -8,10 +8,6 @@ export default Component.extend({
   answer: null,
   challenge: null,
 
-  nextPageButtonText: computed('finalCheckpoint', function() {
-    return this.finalCheckpoint ? 'Voir mes résultats' : 'Continuer mon parcours';
-  }),
-
   completionPercentage: computed('finalCheckpoint', 'assessment.progression.completionPercentage', function() {
     return this.finalCheckpoint ? 100 : this.get('assessment.progression.completionPercentage');
   }),

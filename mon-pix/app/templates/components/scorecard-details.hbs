@@ -47,7 +47,7 @@
     {{/if}}
 
     {{#unless scorecard.isFinished}}
-      {{#link-to "competence.resume" scorecard.competenceId
+      {{#link-to "competence.assessment" scorecard.competenceId
                  class=(concat "button button--big button--thin button--round button--link button--green " (if scorecard.isNotStarted "" "scorecard-details__resume-or-start-button"))}}
         {{#if scorecard.isStarted}}
           Reprendre <div class="sr-only">la compétence "{{scorecard.name}}"</div>
