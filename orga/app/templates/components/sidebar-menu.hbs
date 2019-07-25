@@ -2,12 +2,14 @@
   {{#link-to 'authenticated.campaigns' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
     Campagnes
   {{/link-to}}
-  {{#link-to 'authenticated.students' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
-    Élèves
-  {{/link-to}}
   {{#if currentUser.isOwnerInOrganization}}
     {{#link-to 'authenticated.team' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
       Équipe
+    {{/link-to}}
+  {{/if}}
+  {{#if currentUser.isManagingStudents}}
+    {{#link-to 'authenticated.students' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+      Élèves
     {{/link-to}}
   {{/if}}
 </nav>

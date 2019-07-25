@@ -114,6 +114,60 @@ module('Unit | Service | current-user', function(hooks) {
       // Then
       assert.equal(currentUser.isOwnerInOrganization, false);
     });
+
+    test('should set isManagingStudents to true', async function(assert) {
+      // Given
+      const connectedUserId = 1;
+      const organization = Object.create({ id: 9, isManagingStudents: true });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'OWNER', isOwner: true });
+      const connectedUser = Object.create({
+        id: connectedUserId,
+        memberships: [membership]
+      });
+      const storeStub = Service.create({
+        findRecord: () => resolve(connectedUser)
+      });
+      const sessionStub = Service.create({
+        isAuthenticated: true,
+        data: { authenticated: { user_id: connectedUserId } }
+      });
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.set('store', storeStub);
+      currentUser.set('session', sessionStub);
+
+      // When
+      await currentUser.load();
+
+      // Then
+      assert.equal(currentUser.isManagingStudents, true);
+    });
+
+    test('should set isManagingStudents to false', async function(assert) {
+      // Given
+      const connectedUserId = 1;
+      const organization = Object.create({ id: 9 });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'OWNER', isOwner: true });
+      const connectedUser = Object.create({
+        id: connectedUserId,
+        memberships: [membership]
+      });
+      const storeStub = Service.create({
+        findRecord: () => resolve(connectedUser)
+      });
+      const sessionStub = Service.create({
+        isAuthenticated: true,
+        data: { authenticated: { user_id: connectedUserId } }
+      });
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.set('store', storeStub);
+      currentUser.set('session', sessionStub);
+
+      // When
+      await currentUser.load();
+
+      // Then
+      assert.equal(currentUser.isManagingStudents, false);
+    });
   });
 
   module('user is not authenticated', function() {

@@ -34,8 +34,23 @@ function _createCampaigns(server) {
 }
 
 function _createStudents(server) {
-  const organizations = server.schema.organizations.where({ name: 'BRO & MALA Corp & Associates' });
-  server.createList('students', 6, { organization: organizations.models[0] });
+  const organization = server.create('organization', {
+    name: 'College Victor Hugo',
+    isManagingStudents: true
+  });
+
+  const user = server.create('user', {
+    email: 'sco@example.net',
+  });
+
+  const userMembership = server.create('membership', {
+    organizationId: organization.id,
+    userId: user.id
+  });
+
+  user.memberships = [userMembership];
+
+  server.createList('students', 6, { organizationId: organization.id });
 }
 
 export default function(server) {
