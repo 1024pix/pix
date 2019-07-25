@@ -1,0 +1,33 @@
+<div class="list-team-page__header">
+  <div class="page__title page-title">Élèves</div>
+</div>
+<div class="panel">
+  <div class="table content-text content-text--small">
+    <table>
+      <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Date de naissance</th>
+      </tr>
+      </thead>
+
+      {{#if students}}
+        <tbody>
+        {{#each students as |student|}}
+          <tr>
+            <td>{{student.lastName}}</td>
+            <td>{{student.firstName}}</td>
+            <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
+          </tr>
+        {{/each}}
+
+        </tbody>
+      {{/if}}
+    </table>
+
+    {{#unless students}}
+      <div class="table__empty content-text">En attente d'élèves</div>
+    {{/unless}}
+  </div>
+</div>
