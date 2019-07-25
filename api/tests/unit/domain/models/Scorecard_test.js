@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const moment = require('moment');
+const constants = require('../../../../lib/domain/constants');
 
 describe('Unit | Domain | Models | Scorecard', () => {
 
@@ -143,17 +144,31 @@ describe('Unit | Domain | Models | Scorecard', () => {
     });
 
     context('when the user pix score is higher than the max', () => {
+      let knowledgeElements;
       beforeEach(() => {
         // given
-        const knowledgeElements = [{ earnedPix: 50 }, { earnedPix: 70 }];
+        knowledgeElements = [{ earnedPix: 50 }, { earnedPix: 70 }];
         computeDaysSinceLastKnowledgeElementStub.withArgs(knowledgeElements).returns(0);
+      });
+      it('should have the same number of pix if blockReachablePixAndLevel is not defined', () => {
         //when
         actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence });
+        // then
+        expect(actualScorecard.earnedPix).to.equal(120);
       });
-      // then
-      it('should have the competence level capped at the maximum value', () => {
-        expect(actualScorecard.earnedPix).to.equal(40);
+      it('should have the same number of pix if blockReachablePixAndLevel is false', () => {
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, blockReachablePixAndLevel: false });
+        // then
+        expect(actualScorecard.earnedPix).to.equal(120);
       });
+      it('should have the number of pix blocked if blockReachablePixAndLevel is true', () => {
+        //when
+        actualScorecard = Scorecard.buildFrom({ userId, knowledgeElements, competenceEvaluation, competence, blockReachablePixAndLevel: true });
+        // then
+        expect(actualScorecard.earnedPix).to.equal(constants.MAX_REACHABLE_PIX_BY_COMPETENCE);
+      });
+
     });
 
     context('when there is no knowledge elements', () => {
