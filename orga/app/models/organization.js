@@ -4,5 +4,6 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   campaigns: DS.hasMany('campaign'),
   targetProfiles: DS.hasMany('target-profile'),
-  memberships: DS.hasMany('membership')
+  memberships: DS.hasMany('membership'),
+  students: DS.hasMany('student')
 });
