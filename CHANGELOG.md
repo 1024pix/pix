@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v2.55.0 (25/07/2019)
+
+- [#621](https://github.com/1024pix/pix/pull/621) [FEATURE] Ajouter des identifiants externes aux Organisations. (PA-83)
+- [#617](https://github.com/1024pix/pix/pull/617) [FEATURE] Uniformiser les styles des bannières et des panels sur Pix App (PF-768).
+
 ## v2.54.0 (23/07/2019)
 
 - [#620](https://github.com/1024pix/pix/pull/620) [FEATURE] Optimisation graphique du bandeau de nouveau profil. (PF-772)
