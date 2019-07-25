@@ -2,7 +2,10 @@ import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
-import { createUserWithMembershipAndTermsOfServiceAccepted } from '../helpers/test-init';
+import {
+  createUserWithMembershipAndTermsOfServiceAccepted,
+  createUserManagingStudents
+} from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -26,49 +29,70 @@ module('Acceptance | Student List', function(hooks) {
 
   module('When user is logged in', function() {
 
-    test('it should be accessible', async function(assert) {
-      // given
-      user = createUserWithMembershipAndTermsOfServiceAccepted();
-      await authenticateSession({
-        user_id: user.id,
+    module('When organization is not managing students or is not SCO', function() {
+
+      test('should not be accessible', async function(assert) {
+        // given
+        user = createUserWithMembershipAndTermsOfServiceAccepted();
+        await authenticateSession({
+          user_id: user.id,
+        });
+
+        // when
+        await visit('/eleves');
+
+        // then
+        assert.equal(currentURL(), '/campagnes');
       });
-
-      // when
-      await visit('/eleves');
-
-      // then
-      assert.equal(currentURL(), '/eleves');
     });
 
-    test('it should show title of team page', async function(assert) {
-      // given
-      user = createUserWithMembershipAndTermsOfServiceAccepted();
-      await authenticateSession({
-        user_id: user.id,
+    module('When organization is managing students', function() {
+
+      test('it should be accessible', async function(assert) {
+        // given
+        user = createUserManagingStudents();
+        await authenticateSession({
+          user_id: user.id,
+        });
+
+        // when
+        await visit('/eleves');
+
+        // then
+        assert.equal(currentURL(), '/eleves');
       });
 
-      // when
-      await visit('/eleves');
+      test('it should show title of team page', async function(assert) {
+        // given
+        user = createUserManagingStudents();
+        await authenticateSession({
+          user_id: user.id,
+        });
 
-      // then
-      assert.dom('.page-title').hasText('Élèves');
-    });
+        // when
+        await visit('/eleves');
 
-    test('it should list the students', async function(assert) {
-      // given
-      user = createUserWithMembershipAndTermsOfServiceAccepted();
-      await authenticateSession({
-        user_id: user.id,
+        // then
+        assert.dom('.page-title').hasText('Élèves');
       });
 
-      const organizations = server.schema.organizations.where({  });
-      server.createList('students', 6, { organization: organizations.models[0] });
+      test('it should list the students', async function(assert) {
+        // given
+        user = createUserManagingStudents();
+        await authenticateSession({
+          user_id: user.id,
+        });
 
-      // when
-      await visit('/eleves');
+        const organizations = server.schema.organizations.where({});
+        server.createList('students', 6, { organization: organizations.models[0] });
 
-      // then
-      assert.dom('.table tbody tr').exists({ count: 6 });
+        // when
+        await visit('/eleves');
+
+        // then
+        assert.dom('.table tbody tr').exists({ count: 6 });
+      });
     });
+
   });
 });

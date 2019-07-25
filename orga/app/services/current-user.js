@@ -16,10 +16,12 @@ export default Service.extend({
         const userMembership = await userMemberships.get('firstObject');
         const organization = await userMembership.organization;
         const isOwnerInOrganization = userMembership.isOwner;
+        const isManagingStudents = !!organization.isManagingStudents;
 
         this.set('user', user);
         this.set('organization', organization);
         this.set('isOwnerInOrganization', isOwnerInOrganization);
+        this.set('isManagingStudents', isManagingStudents);
       } catch (error) {
         if (_.get(error, 'errors[0].code') === 401) {
           return this.session.invalidate();
