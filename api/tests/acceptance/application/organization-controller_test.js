@@ -514,6 +514,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'name': organization.name,
               'type': organization.type,
               'logo-url': organization.logoUrl,
+              'external-id': organization.externalId,
             },
             'id': organization.id.toString(),
             'relationships': {

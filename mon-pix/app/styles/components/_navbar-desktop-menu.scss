@@ -1,6 +1,6 @@
 .navbar-desktop-menu-links {
   display: block;
-  padding: 20px 0;
+  padding: 5px 0;
 }
 
 .navbar-desktop-menu-links--user-logged {
@@ -24,9 +24,7 @@
   justify-content: center;
   height: 40px;
   margin-left: 20px;
-  padding: 20px 0 20px 48px;
   border: none;
-  padding: 0;
   color: $white;
   text-transform: uppercase;
 }
@@ -45,7 +43,7 @@
 .navbar-desktop-menu-links__link {
   text-transform: uppercase;
   font-size: 13px;
-  padding-left: 0px;
+  padding-left: 0;
   font-family: $font-lato;
   width: 100%;
   color: inherit;

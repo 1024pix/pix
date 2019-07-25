@@ -1,6 +1,5 @@
 .navbar-header {
   background-color: transparent;
-  padding: 20px 0;
   float: none;
   color: $white;
   width: 100%;
@@ -18,10 +17,11 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 10px;
+  align-items: center;
 
   @include device-is('desktop') {
     justify-content: space-between;
-    padding: 0;
+    padding: 20px;
   }
 }
 
@@ -53,18 +53,11 @@
 
 .navbar-header-logo__pix {
   float:left;
-  height: 35px;
   margin-left: 5px;
-  @include device-is('tablet') {
-    height: 45px;
-  }
 }
+
 .navbar-header-logo__marianne {
   float:right;
   margin-top: 5px;
-  height: 35px;
   margin-left: 30px;
-  @include device-is('tablet') {
-    height: 45px;
-  }
 }
