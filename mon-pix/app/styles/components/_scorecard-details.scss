@@ -63,6 +63,10 @@
     padding: 0 30px 30px 30px;
     max-width: 100%;
 
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      max-width: 70%;
+    }
+
     @include device-is('desktop') {
       padding: 0 30px;
       border-right: 2px dashed $silver-grey;
