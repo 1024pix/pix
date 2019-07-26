@@ -95,7 +95,7 @@ describe('Acceptance | Controller | users-controller', () => {
           from: 'ne-pas-repondre@pix.fr',
           fromName: 'PIX - Ne pas répondre',
           subject: 'Création de votre compte PIX',
-          template: '143620',
+          template: 'test-account-creation-template-id',
           to: 'john.dodoe@example.net',
         };
 

@@ -1,11 +1,10 @@
 const mailJet = require('../../infrastructure/mailjet');
-const ACCOUNT_CREATION_EMAIL_TEMPLATE_ID = '143620';
-const RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID = '232827';
+const settings = require('../../settings');
 
 function sendAccountCreationEmail(email) {
   return mailJet.sendEmail({
     to: email,
-    template: ACCOUNT_CREATION_EMAIL_TEMPLATE_ID,
+    template: settings.mailing.mailjetAccountCreationTemplateId,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Création de votre compte PIX'
@@ -15,7 +14,7 @@ function sendAccountCreationEmail(email) {
 function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
   return mailJet.sendEmail({
     to: email,
-    template: RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID,
+    template: settings.mailing.mailjetPasswordResetTemplateId,
     from: 'ne-pas-repondre@pix.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Demande de réinitialisation de mot de passe PIX',
