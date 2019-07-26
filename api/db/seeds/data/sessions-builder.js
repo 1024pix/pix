@@ -37,4 +37,17 @@ module.exports = function sessionsBuilder({ databaseBuilder }) {
     accessCode: 'GHI56',
     certificationCenterId: 1,
   });
+
+  databaseBuilder.factory.buildSession({
+    id: 4,
+    certificationCenter: 'Tour Alpha',
+    address: 'Rue Bikub',
+    examiner: 'Sophie',
+    date: '2018-06-10',
+    time: '15:00',
+    description: 'Session',
+    room: 'Salle Opette',
+    accessCode: 'JKL78',
+    certificationCenterId: 1,
+  });
 };

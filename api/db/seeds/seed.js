@@ -5,6 +5,7 @@ const assessmentsBuilder = require('./data/assessments-builder');
 const assessmentResultsBuilder = require('./data/assessment-results-builder');
 const campaignParticipationsBuilder = require('./data/campaign-participations-builder');
 const campaignsBuilder = require('./data/campaigns-builder');
+const certificationCandidatesBuilder = require('./data/certification-candidates-builder');
 const certificationCentersBuilder = require('./data/certification-centers-builder');
 const certificationCenterMembershipsBuilder = require('./data/certification-center-memberships-builder');
 const certificationChallengesBuilder = require('./data/certification-challenges-builder');
@@ -36,6 +37,7 @@ exports.seed = (knex) => {
   certificationCentersBuilder({ databaseBuilder });
   certificationCenterMembershipsBuilder({ databaseBuilder });
   sessionsBuilder({ databaseBuilder });
+  certificationCandidatesBuilder({ databaseBuilder });
   certificationCoursesBuilder({ databaseBuilder });
   certificationChallengesBuilder({ databaseBuilder });
   assessmentsBuilder({ databaseBuilder });
