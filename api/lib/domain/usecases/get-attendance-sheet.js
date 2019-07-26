@@ -39,6 +39,39 @@ const ATTENDANCE_SHEET_TEMPLATE_VALUES = [
   },
 ];
 
+const ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES = [
+  {
+    placeholder: 'INCREMENT',
+    propertyName: 'increment',
+  },
+  {
+    placeholder: 'LAST_NAME',
+    propertyName: 'lastName',
+  },
+  {
+    placeholder: 'FIRST_NAME',
+    propertyName: 'firstName',
+  },
+  {
+    placeholder: '01/01/2001',
+    propertyName: 'birthdate',
+  },
+  {
+    placeholder: 'BIRTH_CITY',
+    propertyName: 'birthCity',
+  },
+  {
+    placeholder: 'EXTERNAL_ID',
+    propertyName: 'externalId',
+  },
+  {
+    placeholder: '777',
+    propertyName: 'extraTimePercentage',
+  },
+];
+
+const EXTRA_EMPTY_CANDIDATE_ROWS = 15;
+
 module.exports = getAttendanceSheet;
 
 async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
@@ -49,12 +82,54 @@ async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
     throw new UserNotAuthorizedToAccessEntity(sessionId);
   }
 
-  const stringifiedXml = await odsService.getContentXml({ odsFilePath: _getAttendanceTemplatePath() });
-  const session = await sessionRepository.get(sessionId);
-  const attendanceSheetData = _.transform(session, transformSessionIntoAttendanceSheetData);
-  const stringifiedUpdatedXml = xmlService.getUpdatedXml({ stringifiedXml, dataToInject: attendanceSheetData, templateValues: ATTENDANCE_SHEET_TEMPLATE_VALUES });
+  const [ stringifiedXml, session ] = await Promise.all([
+    odsService.getContentXml({ odsFilePath: _getAttendanceTemplatePath() }),
+    sessionRepository.getWithCertificationCandidates(sessionId),
+  ]);
 
-  return await odsService.makeUpdatedOdsByContentXml({ stringifiedXml: stringifiedUpdatedXml, odsFilePath: _getAttendanceTemplatePath() });
+  const updatedStringifiedXml = _.flow(
+    _updateXmlWithSession(_.omit(session, ['certificationCandidates'])),
+    _updateXmlWithCertificationCandidates(session.certificationCandidates)
+  )(stringifiedXml);
+
+  return odsService.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getAttendanceTemplatePath() });
+}
+
+function _updateXmlWithSession(session) {
+  return (stringifiedXml) => {
+    const sessionData = _.transform(session, transformSessionIntoAttendanceSheetData);
+    return xmlService.getUpdatedXmlWithSessionData({
+      stringifiedXml,
+      dataToInject: sessionData,
+      templateValues: ATTENDANCE_SHEET_TEMPLATE_VALUES,
+    });
+  };
+}
+
+function _updateXmlWithCertificationCandidates(certificationCandidates) {
+  return (stringifiedXml) => {
+    let incrementCount = 1;
+    const candidatesAttendanceSheetData = _.map(certificationCandidates, (candidate) => {
+      const candidateAttendanceSheetData = _.transform(candidate, transformCandidateIntoAttendanceSheetData);
+      candidateAttendanceSheetData.increment = incrementCount;
+      ++incrementCount;
+      return candidateAttendanceSheetData;
+    });
+    _.times(EXTRA_EMPTY_CANDIDATE_ROWS, () => {
+      const emptyCandidateSheetData = {};
+      _.each(ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES, (templateVal) => {
+        emptyCandidateSheetData[templateVal.propertyName] = '';
+      });
+      emptyCandidateSheetData.increment = incrementCount;
+      ++incrementCount;
+      candidatesAttendanceSheetData.push(emptyCandidateSheetData);
+    });
+    return xmlService.getUpdatedXmlWithCertificationCandidatesData({
+      stringifiedXml,
+      candidatesDataToInject: candidatesAttendanceSheetData,
+      templateValues: ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+    });
+  };
 }
 
 function transformSessionIntoAttendanceSheetData(attendanceSheetData, value, prop) {
@@ -62,15 +137,27 @@ function transformSessionIntoAttendanceSheetData(attendanceSheetData, value, pro
     case 'certificationCenter':
       attendanceSheetData.certificationCenterName = value;
       break;
-    case 'date':
-      attendanceSheetData.date = moment(value).format('DD/MM/YYYY');
-      break;
     case 'time':
       attendanceSheetData.startTime = moment(value, 'HH:mm').format('HH:mm');
       attendanceSheetData.endTime = moment(value, 'HH:mm').add(moment.duration(2, 'hours')).format('HH:mm');
       break;
+    case 'date':
+      attendanceSheetData.date = moment(value, 'YYYY-MM-DD').format('DD/MM/YYYY');
+      break;
     default:
       attendanceSheetData[prop] = value;
+  }
+}
+
+function transformCandidateIntoAttendanceSheetData(attendanceSheetData, value, prop) {
+  if (prop === 'extraTimePercentage') {
+    if (value === null || value <= 0) {
+      attendanceSheetData[prop] = '';
+    } else {
+      attendanceSheetData[prop] = value;
+    }
+  } else {
+    attendanceSheetData[prop] = value;
   }
 }
 
