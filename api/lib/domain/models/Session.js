@@ -14,6 +14,7 @@ class Session {
     time,
     // includes
     certifications,
+    certificationCandidates,
     // references
   } = {}) {
     this.id = id;
@@ -29,6 +30,7 @@ class Session {
     this.time = time;
     // includes
     this.certifications = certifications;
+    this.certificationCandidates = certificationCandidates;
     // references
   }
 }
