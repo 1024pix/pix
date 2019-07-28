@@ -1,7 +1,7 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
-const getAttendanceSheet = require('../../../../lib/domain/usecases/get-attendance-sheet');
-const odsService = require('../../../../lib/domain/services/ods-service');
+const { expect, databaseBuilder } = require('../../../../test-helper');
+const sessionRepository = require('../../../../../lib/infrastructure/repositories/session-repository');
+const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
+const odsService = require('../../../../../lib/domain/services/ods-service');
 const fs = require('fs');
 const _ = require('lodash');
 
