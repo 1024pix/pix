@@ -1,5 +1,6 @@
 const Bookshelf = require('../bookshelf');
 require('./certification-course');
+require('./certification-candidate');
 
 module.exports = Bookshelf.model('Session', {
   tableName: 'sessions',
@@ -7,5 +8,9 @@ module.exports = Bookshelf.model('Session', {
 
   certificationCourses() {
     return this.hasMany('CertificationCourse', 'sessionId');
+  },
+
+  certificationCandidates() {
+    return this.hasMany('CertificationCandidate', 'sessionId');
   },
 });
