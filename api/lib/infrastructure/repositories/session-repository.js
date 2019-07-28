@@ -1,15 +1,20 @@
 const _ = require('lodash');
 
+const BookshelfCertificationCandidate = require('../data/certification-candidate');
+const BookshelfCertificationCourse = require('../data/certification-course');
 const BookshelfSession = require('../data/session');
 const Session = require('../../domain/models/Session');
-const CertificationCourse = require('../../domain/models/CertificationCourse');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfSession) {
   if (bookshelfSession) {
     const sessionReturned = bookshelfSession.toJSON();
     sessionReturned.certifications = bookshelfSession.related('certificationCourses').map((certificationCourse) => {
-      return CertificationCourse.fromAttributes(certificationCourse);
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationCourse, certificationCourse);
+    });
+    sessionReturned.certificationCandidates = bookshelfSession.related('certificationCandidates').map((certificationCandidate) => {
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationCandidate, certificationCandidate);
     });
     return new Session(sessionReturned);
   }
@@ -18,7 +23,7 @@ function _toDomain(bookshelfSession) {
 
 module.exports = {
   save: (sessionToBeSaved) => {
-    sessionToBeSaved = _.omit(sessionToBeSaved, ['certifications']);
+    sessionToBeSaved = _.omit(sessionToBeSaved, ['certifications', 'certificationCandidates']);
 
     return new BookshelfSession(sessionToBeSaved)
       .save()
@@ -46,9 +51,30 @@ module.exports = {
       .then(_toDomain)
       .catch((error) => {
         if (error instanceof BookshelfSession.NotFoundError) {
-          return Promise.reject(new NotFoundError());
+          throw new NotFoundError();
         }
-        return Promise.reject(error);
+        throw error;
+      });
+  },
+
+  getWithCertificationCandidates(idSession) {
+    return BookshelfSession
+      .where({ id: idSession })
+      .fetch({ require: true, withRelated: [
+        {
+          'certificationCandidates': function(qb) {
+            qb.orderByRaw('LOWER(lastName) asc');
+            qb.orderByRaw('LOWER(firstName) asc');
+          }
+        }
+      ]
+      })
+      .then(_toDomain)
+      .catch((error) => {
+        if (error instanceof BookshelfSession.NotFoundError) {
+          throw new NotFoundError();
+        }
+        throw error;
       });
   },
 
