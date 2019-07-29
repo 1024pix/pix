@@ -8,13 +8,16 @@ describe('Unit | Component | Navbar Header Component', function() {
   const sessionStubResolve = Service.create({ isAuthenticated: true });
   const sessionStubReject = Service.create({ isAuthenticated: false });
 
-  describe('When user is logged', function() {
-    describe('#isUserLogged', function() {
-      it('should return true', function() {
-        // when
-        const component = this.owner.lookup('component:navbar-header');
-        component.set('session', sessionStubResolve);
+  let component;
 
+  describe('When user is logged', function() {
+    beforeEach(function() {
+      component = this.owner.lookup('component:navbar-header');
+      component.set('session', sessionStubResolve);
+    });
+
+    context('#isUserLogged', function() {
+      it('should return true', function() {
         // then
         expect(component.get('isUserLogged')).to.equal(true);
       });
@@ -25,24 +28,20 @@ describe('Unit | Component | Navbar Header Component', function() {
         // given
         const expectedLoggedUserMenu = [];
 
-        // when
-        const component = this.owner.lookup('component:navbar-header');
-        component.set('session', sessionStubResolve);
-
         // then
         expect(component.get('menu')).to.deep.equal(expectedLoggedUserMenu);
       });
     });
   });
 
-  context('When user is not logged', function() {
+  describe('When user is not logged', function() {
+    beforeEach(function() {
+      component = this.owner.lookup('component:navbar-header');
+      component.set('session', sessionStubReject);
+    });
 
     context('#isUserLogged', function() {
       it('should return false, when user is unauthenticated', function() {
-        // when
-        const component = this.owner.lookup('component:navbar-header');
-        component.set('session', sessionStubReject);
-
         // then
         expect(component.get('isUserLogged')).to.equal(false);
       });
@@ -55,10 +54,6 @@ describe('Unit | Component | Navbar Header Component', function() {
           { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
           { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }
         ];
-
-        // when
-        const component = this.owner.lookup('component:navbar-header');
-        component.set('session', sessionStubReject);
 
         // then
         expect(component.get('menu')).to.deep.equal(expectedUnloggedUserMenu);
