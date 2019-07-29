@@ -61,16 +61,15 @@ describe('Integration | Component | user logged menu', function() {
       });
     });
 
-    it('should display link to user certifications and help', async function() {
+    it('should display link to user certifications', async function() {
       // when
       await render(hbs`{{user-logged-menu _canDisplayMenu=true}}`);
 
       return wait().then(() => {
         // then
         expect(find('.logged-user-menu')).to.exist;
-        expect(findAll('.user-menu-item__link')).to.have.lengthOf(2);
+        expect(findAll('.user-menu-item__link')).to.have.lengthOf(1);
         expect(findAll('.user-menu-item__link')[0].textContent.trim()).to.equal('MES CERTIFICATIONS');
-        expect(findAll('.user-menu-item__link')[1].textContent.trim()).to.equal('AIDE');
       });
     });
 

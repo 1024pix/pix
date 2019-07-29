@@ -15,7 +15,7 @@
   max-width: 1200px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   padding: 10px;
   align-items: center;
 
@@ -25,9 +25,47 @@
   }
 }
 
-.navbar-header-right {
+.navbar-header-container {
+  &__menu {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
+.navbar-header-menu {
+  &__item {
+    margin-left: 23.3px;
+    margin-right: 23.3px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 1.6rem;
+    font-family: $font-roboto;
+    color: $gray;
+    text-decoration: none;
+
+    &.active {
+      text-decoration: none;
+      color: $dogder-blue;
+      border-bottom: 2px solid $dogder-blue;
+    }
+
+    &:focus {
+      text-decoration: none;
+      color: $gray;
+    }
+
+    &:hover {
+      text-decoration: none;
+      cursor: pointer;
+      color: $dogder-blue;
+    }
+  }
+}
+
+.navbar-header-right {
   @include device-is('desktop') {
+    display: flex;
     padding: 0;
     margin: 0;
   }
@@ -37,8 +75,9 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .navbar-header-logo {
-  display: inline-block;
+  display: flex;
   position: relative;
+  width: 220px;
 }
 
 .navbar-header-logo__link {
