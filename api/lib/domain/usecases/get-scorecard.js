@@ -14,7 +14,8 @@ module.exports = async ({ authenticatedUserId, scorecardId, scorecardService, co
     competenceId,
     competenceRepository,
     competenceEvaluationRepository,
-    knowledgeElementRepository
+    knowledgeElementRepository,
+    blockReachablePixAndLevel: true,
   });
 };
 
