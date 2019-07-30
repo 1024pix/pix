@@ -6,7 +6,6 @@ const { knex } = require('../db/knex-database-connection');
 const bluebird = require('bluebird');
 const logger = require('../lib/infrastructure/logger');
 
-
 async function migration() {
   const start = new Date();
 
@@ -15,7 +14,7 @@ async function migration() {
   const listOfUsers = await _findUsers();
   const result = await bluebird.map(listOfUsers,
     async (userId) => await _createKnowledgeElementsForUser( userId, challengesWithKnowledgeElementsToAdd),
-    { concurrency: parseInt(process.env.MIGRATE_CONCURRENCY,10) || 4 });
+    { concurrency: parseInt(process.env.MIGRATE_CONCURRENCY, 10) || 4 });
 
   console.log(`Migration réussie : ${_.sum(result)} sur ${listOfUsers.length} utilisateurs.`);
   const end = new Date();
@@ -25,7 +24,9 @@ async function migration() {
 }
 
 async function _findUsers() {
-  const usersId = await knex('users').select('id').where('isProfileV2', false).orderBy('createdAt', 'asc').limit(process.env.MAX_USERS_MIGRATE);
+  const numberOfUserMigrate = parseInt(process.env.MAX_USERS_MIGRATE, 10) || 1;
+  console.log(`Migration commencée pour ${numberOfUserMigrate} personnes.`);
+  const usersId = await knex('users').select('id').where('isProfileV2', false).orderBy('createdAt', 'asc').limit(numberOfUserMigrate);
   return _.map(usersId, 'id');
 }
 
