@@ -8,6 +8,7 @@ const organizationService = require('../../../../lib/domain/services/organizatio
 const usecases = require('../../../../lib/domain/usecases');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
+const studentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-serializer');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
 
@@ -320,4 +321,56 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       });
     });
   });
+
+  describe('#findStudents', () => {
+
+    const connectedUserId = 1;
+    const organizationId = '145';
+
+    let student;
+    let serializedStudents;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId }
+      };
+
+      sinon.stub(usecases, 'findOrganizationStudents');
+      sinon.stub(studentSerializer, 'serialize');
+
+      student = domainBuilder.buildStudent();
+      serializedStudents = {
+        data: [{
+          lastName: student.lastName,
+          firstName: student.firstName,
+          birthdate: student.birthdate
+        }]
+      };
+    });
+
+    it('should call the usecase to find students with the organization id', async () => {
+      // given
+      usecases.findOrganizationStudents.resolves();
+
+      // when
+      await organizationController.findStudents(request, hFake);
+
+      // then
+      expect(usecases.findOrganizationStudents).to.have.been.calledWith({ organizationId });
+    });
+
+    it('should return the serialized students belonging to the organization', async () => {
+      // given
+      usecases.findOrganizationStudents.resolves([student]);
+      studentSerializer.serialize.returns(serializedStudents);
+
+      // when
+      const response = await organizationController.findStudents(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(serializedStudents);
+    });
+  });
+
 });
