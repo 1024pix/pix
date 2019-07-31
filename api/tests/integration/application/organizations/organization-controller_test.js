@@ -15,6 +15,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(usecases, 'updateOrganizationInformation');
     sandbox.stub(usecases, 'getOrganizationMemberships');
     sandbox.stub(usecases, 'addOrganizationMembershipWithEmail');
+    sandbox.stub(usecases, 'findOrganizationStudents');
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganization');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganizationOrHasRolePixMaster');
@@ -194,6 +195,37 @@ describe('Integration | Application | Organizations | organization-controller', 
         expect(response.result.included[1].type).to.equal('users');
         expect(response.result.included[1].id).to.equal(`${membership.user.id}`);
         expect(response.result.data[0].attributes).to.deep.equal(expectedAttributes);
+      });
+    });
+  });
+
+  describe('#findStudents', () => {
+
+    context('Success cases', () => {
+
+      const student = domainBuilder.buildStudent();
+
+      it('should return an HTTP response with status code 200', async () => {
+        // given
+        usecases.findOrganizationStudents.resolves([student]);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
+
+        // then
+        expect(response.statusCode).to.equal(200);
+      });
+
+      it('should return an HTTP response formatted as JSON:API', async () => {
+        // given
+        usecases.findOrganizationStudents.resolves([student]);
+
+        // when
+        const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
+
+        // then
+        expect(response.result.data[0].type).to.equal('students');
+        expect(response.result.data[0].id).to.equal(student.id.toString());
       });
     });
   });

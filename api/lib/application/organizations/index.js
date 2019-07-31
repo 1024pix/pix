@@ -131,6 +131,18 @@ exports.register = async (server) => {
           '- Récupération des profiles cibles utilisables par l‘organisation\n'
         ]
       }
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/students',
+      config: {
+        handler: organisationController.findStudents,
+        tags: ['api', 'students'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des élèves liés à une organisation\n'
+        ]
+      }
     }
   ]);
 };
