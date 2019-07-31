@@ -258,12 +258,14 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       const userId_tmp = databaseBuilder.factory.buildUser().id;
 
       _.each([
-        { id: 1, skillId: 'rec1', userId, earnedPix: 5 },
-        { id: 2, skillId: 'rec2', userId, earnedPix: 10, status: 'validated', createdAt: today },
-        { id: 3, skillId: 'rec2', userId, earnedPix: 1000, status: 'validated', createdAt: yesterday },
-        { id: 4, skillId: 'rec2', userId, earnedPix: 1000, status: 'validated', createdAt: yesterday },
-        { id: 5, skillId: 'rec3', userId, earnedPix: 3, status: 'validated' },
-        { id: 6, skillId: 'rec1', userId: userId_tmp, earnedPix: 3, status: 'invalidated' },
+        { skillId: 'rec1', userId, earnedPix: 5, competenceId: 1 },
+        { skillId: 'rec3', userId, earnedPix: 40, status: 'validated', competenceId: 1 },
+        { skillId: 'rec2', userId, earnedPix: 10, status: 'validated', createdAt: today, competenceId: 1 },
+        { skillId: 'rec4', userId, earnedPix: 10, status: 'validated', competenceId: 2 },
+        { skillId: 'rec5', userId, earnedPix: 10, status: 'validated', competenceId: 3 },
+        { skillId: 'rec2', userId, earnedPix: 1000, status: 'validated', createdAt: yesterday },
+        { skillId: 'rec2', userId, earnedPix: 1000, status: 'validated', createdAt: yesterday },
+        { skillId: 'rec1', userId: userId_tmp, earnedPix: 3, status: 'invalidated' },
       ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
 
       await databaseBuilder.commit();
@@ -278,7 +280,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
       const earnedPix = await KnowledgeElementRepository.getSumOfPixFromUserKnowledgeElements(userId);
 
       // then
-      expect(earnedPix).to.equal(18);
+      expect(earnedPix).to.equal(60);
     });
 
   });

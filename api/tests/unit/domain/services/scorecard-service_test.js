@@ -67,7 +67,8 @@ describe('Unit | Service | ScorecardService', function() {
           userId: authenticatedUserId,
           knowledgeElements: knowledgeElementList,
           competence,
-          competenceEvaluation
+          competenceEvaluation,
+          blockReachablePixAndLevel: false
         }).returns(expectedUserScorecard);
 
         // when

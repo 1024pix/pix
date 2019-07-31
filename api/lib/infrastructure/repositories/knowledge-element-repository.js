@@ -2,6 +2,7 @@ const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const BookshelfKnowledgeElement = require('../data/knowledge-element');
 const _ = require('lodash');
 const Bookshelf = require('../bookshelf');
+const constants = require('../../domain/constants');
 
 function _toDomain(knowledgeElementBookshelf) {
   const knowledgeElements = knowledgeElementBookshelf.toJSON();
@@ -71,15 +72,18 @@ module.exports = {
   getSumOfPixFromUserKnowledgeElements(userId) {
     return Bookshelf.knex.with('earnedPixWithRankPerSkill',
       (qb) => {
-        qb.select('earnedPix', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['skillId', 'createdAt']))
+        qb.select('earnedPix', Bookshelf.knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['skillId', 'createdAt']), 'competenceId')
           .from('knowledge-elements')
           .where({ userId });
       })
       .sum('earnedPix AS earnedPix')
       .from('earnedPixWithRankPerSkill')
       .where({ rank: 1 })
-      .then((result) => result.rows ? result.rows : result)
-      .then(([{ earnedPix }]) => earnedPix);
+      .groupBy('competenceId')
+      .then((pixEarnedByCompetence) => {
+        const pixByCompetenceLimited = _.map(pixEarnedByCompetence, (pixEarnedForOneCompetence) =>  Math.min(constants.MAX_REACHABLE_PIX_BY_COMPETENCE, pixEarnedForOneCompetence.earnedPix));
+        return _.sum(pixByCompetenceLimited);
+      });
   },
 
 };

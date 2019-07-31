@@ -24,6 +24,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, knowledgeElement
       knowledgeElements: knowledgeElementsForCompetence,
       competence,
       competenceEvaluation,
+      blockReachablePixAndLevel: true
     });
   });
 };

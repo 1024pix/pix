@@ -23,7 +23,7 @@ describe('Unit | Service | MailService', () => {
       return promise.then(() => {
         sinon.assert.calledWith(sendEmailStub, {
           to: email,
-          template: '143620',
+          template: 'test-account-creation-template-id',
           from: 'ne-pas-repondre@pix.fr',
           fromName: 'PIX - Ne pas répondre',
           subject: 'Création de votre compte PIX'
@@ -59,7 +59,7 @@ describe('Unit | Service | MailService', () => {
         return promise.then(() => {
           sinon.assert.calledWith(sendEmailStub, {
             to: email,
-            template: '232827',
+            template: 'test-password-reset-template-id',
             from: 'ne-pas-repondre@pix.fr',
             fromName: 'PIX - Ne pas répondre',
             subject: 'Demande de réinitialisation de mot de passe PIX',

@@ -136,6 +136,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           knowledgeElements: knowledgeElementGroupedByCompetenceId[1],
           competence: competenceList[0],
           competenceEvaluation: competenceEvaluationOfCompetence1,
+          blockReachablePixAndLevel: true,
         }).returns(expectedUserScorecard[0]);
 
         Scorecard.buildFrom.withArgs({
@@ -143,6 +144,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           knowledgeElements: knowledgeElementGroupedByCompetenceId[2],
           competence: competenceList[1],
           competenceEvaluation: undefined,
+          blockReachablePixAndLevel: true,
         }).returns(expectedUserScorecard[1]);
 
         Scorecard.buildFrom.withArgs({
@@ -150,6 +152,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
           knowledgeElements: undefined,
           competence: competenceList[2],
           competenceEvaluation: undefined,
+          blockReachablePixAndLevel: true,
         }).returns(expectedUserScorecard[2]);
 
         // when
