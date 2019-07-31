@@ -1,6 +1,7 @@
 const settings = require('../settings');
 module.exports = {
   MAX_REACHABLE_LEVEL: 5,
+  MAX_REACHABLE_PIX_BY_COMPETENCE: 40,
   PIX_COUNT_BY_LEVEL: 8,
   MINIMUM_DELAY_IN_DAYS_FOR_RESET: settings.features.dayBeforeCompetenceResetV2 || 7,
 
