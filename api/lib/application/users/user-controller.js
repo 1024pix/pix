@@ -90,6 +90,17 @@ module.exports = {
       .then(() => null);
   },
 
+  async rememberUserHasSeenAssessmentInstructions(request) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+
+    const updatedUser = await usecases.rememberUserHasSeenAssessmentInstructions({
+      authenticatedUserId, requestedUserId
+    });
+
+    return userSerializer.serialize(updatedUser);
+  },
+
   getProfileToCertify(request) {
     const userId = request.params.id;
     const currentDate = new Date();
