@@ -515,6 +515,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'type': organization.type,
               'logo-url': organization.logoUrl,
               'external-id': organization.externalId,
+              'is-managing-students': organization.isManagingStudents,
             },
             'id': organization.id.toString(),
             'relationships': {
@@ -524,6 +525,11 @@ describe('Acceptance | Application | organization-controller', () => {
               'memberships': {
                 'links': {
                   'related': `/api/organizations/${organization.id}/memberships`
+                }
+              },
+              'students': {
+                'links': {
+                  'related': `/api/organizations/${organization.id}/students`
                 }
               }
             },
