@@ -42,6 +42,7 @@ const dependencies = {
   sessionService: require('../../domain/services/session-service'),
   snapshotsCsvConverter: require('../../infrastructure/converter/snapshots-csv-converter'),
   snapshotRepository: require('../../infrastructure/repositories/snapshot-repository'),
+  studentRepository: require('../../infrastructure/repositories/student-repository'),
 };
 
 function injectDependencies(usecases) {
