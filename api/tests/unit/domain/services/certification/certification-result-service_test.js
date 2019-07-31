@@ -5,8 +5,6 @@ const certificationResultService = require('../../../../../lib/domain/services/c
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 
-const { CertificationComputeError } = require('../../../../../lib/domain/errors');
-
 const answersRepository = require('../../../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../../../../lib/infrastructure/repositories/certification-course-repository');
@@ -98,6 +96,8 @@ const challengesFromAirTable = _.map([
   { id: 'challenge_J_for_competence_4', competenceId: 'competence_4', type: 'QCM' },
   { id: 'challenge_K_for_competence_4', competenceId: 'competence_4', type: 'QCM' },
   { id: 'challenge_L_for_competence_4', competenceId: 'competence_4', type: 'QCM' },
+  { id: 'challenge_M_for_competence_5', competenceId: 'competence_5', type: 'QCM' },
+  { id: 'challenge_N_for_competence_6', competenceId: 'competence_6', type: 'QCM' },
 ], domainBuilder.buildChallenge);
 
 const challenges = _.map([
@@ -130,7 +130,7 @@ const userCompetences = [
   _buildUserCompetence(competence_4, pixForCompetence4, 4),
 ];
 
-describe('Unit | Service | Certification Service', function() {
+describe('Unit | Service | Certification Result Service', function() {
 
   const dateCreationCertif = new Date('2018-01-01T01:02:03Z');
 
@@ -835,17 +835,17 @@ describe('Unit | Service | Certification Service', function() {
           });
         });
 
-        it('should fail if an answer has no matching challenge', function() {
+        it('should ignore answers with no matching challenge', async function() {
           // given
+          const matchingAnswers = correctAnswersForAllChallenges();
           const answerNoMatchingChallenge = domainBuilder.buildAnswer({ challengeId: 'non_existing_challenge', result: 'ok' });
 
           // when
-          answersRepository.findByAssessment.resolves(correctAnswersForAllChallenges().concat(answerNoMatchingChallenge));
-          const promise = certificationResultService.getCertificationResult(certificationAssessment, continueOnError);
+          answersRepository.findByAssessment.resolves(matchingAnswers.concat(answerNoMatchingChallenge));
+          const result = await certificationResultService.getCertificationResult(certificationAssessment, continueOnError);
 
           // then
-          return expect(promise).to.be.rejectedWith(CertificationComputeError,
-            'Problème de chargement de la compétence pour le challenge non_existing_challenge');
+          expect(result.listChallengesAndAnswers.length).to.equal(matchingAnswers.length);
         });
 
         it('should return list of competences with all certifiedLevel equal to estimatedLevel', () => {
@@ -1134,6 +1134,48 @@ describe('Unit | Service | Certification Service', function() {
         });
       });
 
+      context('when there are challenges for non-certifiable competences', () => {
+        let challenges;
+
+        beforeEach(() => {
+          challenges = _.map([
+            { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1' },
+
+            { challengeId: 'challenge_M_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeM_5' },
+            { challengeId: 'challenge_N_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeN_6' },
+          ], domainBuilder.buildCertificationChallenge);
+
+          certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
+
+          const answers = _.map([
+            { challengeId: 'challenge_A_for_competence_1', result: 'ko' },
+
+            { challengeId: 'challenge_M_for_competence_5', result: 'ok' },
+            { challengeId: 'challenge_N_for_competence_6', result: 'ok' },
+          ], domainBuilder.buildAnswer);
+
+          answersRepository.findByAssessment.resolves(answers);
+        });
+
+        it('should not include the extra challenges when computing reproducibility', async () => {
+          // when
+          const { percentageCorrectAnswers } = await certificationResultService.getCertificationResult(certificationAssessment, continueOnError);
+
+          // then
+          expect(percentageCorrectAnswers).to.equal(0);
+        });
+
+        it('should not include the extra challenges in the result', async () => {
+          // when
+          const { listChallengesAndAnswers } = await certificationResultService.getCertificationResult(certificationAssessment, continueOnError);
+
+          // then
+          expect(_.map(listChallengesAndAnswers, 'challengeId')).to.have.members([
+            'challenge_A_for_competence_1',
+          ]);
+        });
+
+      });
     });
 
   });
