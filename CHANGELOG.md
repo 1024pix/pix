@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.56.1 (31/07/2019)
+
+- [#613](https://github.com/1024pix/pix/pull/613) [FEATURE] Recalculer le score des certifications V2 (PF-646).
+
 ## v2.56.0 (31/07/2019)
 
 - [#614](https://github.com/1024pix/pix/pull/614) [FEATURE] Limiter visuellement le nombre de Pix maximum pouvant être gagnés actuellement (PF-767).
