@@ -850,4 +850,76 @@ describe('Acceptance | Application | organization-controller', () => {
     });
   });
 
+  describe('GET /api/organizations/{id}/students', () => {
+
+    let organization;
+    let options;
+
+    beforeEach(async () => {
+      const connectedUser = databaseBuilder.factory.buildUser();
+      organization = databaseBuilder.factory.buildOrganization();
+      options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}/students`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(connectedUser.id) },
+      };
+    });
+
+    context('Expected output', () => {
+
+      let student;
+
+      beforeEach(async () => {
+        databaseBuilder.factory.buildUser();
+
+        student = databaseBuilder.factory.buildStudent({
+          organizationId: organization.id,
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      afterEach(async () => {
+        await databaseBuilder.clean();
+      });
+
+      it('should return the matching students as JSON API', async () => {
+        // given
+        const expectedResult = {
+          'data': [
+            {
+              'attributes': {
+                'last-name': student.lastName,
+                'first-name': student.firstName,
+                'birthdate': student.birthdate,
+              },
+              'id': student.id.toString(),
+              'type': 'students'
+            }
+          ],
+        };
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedResult);
+      });
+    });
+
+    context('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+    });
+  });
 });
