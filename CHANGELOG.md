@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.56.0 (31/07/2019)
+
+- [#614](https://github.com/1024pix/pix/pull/614) [FEATURE] Limiter visuellement le nombre de Pix maximum pouvant être gagnés actuellement (PF-767).
+- [#624](https://github.com/1024pix/pix/pull/624) [BUGFIX] Problème d'affichage des détails d'une compétence sous IE (PF-775).
+- [#531](https://github.com/1024pix/pix/pull/531) [TECH] Migration des données de V1 vers V2.
+- [#623](https://github.com/1024pix/pix/pull/623) [TECH] Rendre les identifiants de templates Mailjet configurables.
+
 ## v2.55.0 (25/07/2019)
 
 - [#621](https://github.com/1024pix/pix/pull/621) [FEATURE] Ajouter des identifiants externes aux Organisations. (PA-83)
