@@ -279,6 +279,37 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
+  describe('#rememberUserHasSeenAssessmentInstructions', () => {
+    let request;
+    const userId = 1;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId },
+      };
+
+      sinon.stub(usecases, 'rememberUserHasSeenAssessmentInstructions');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    it('should remember user has seen assessment instructions', async () => {
+      // given
+      usecases.rememberUserHasSeenAssessmentInstructions.withArgs({
+        authenticatedUserId: userId.toString(),
+        requestedUserId: userId,
+      }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.rememberUserHasSeenAssessmentInstructions(request);
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+
+  });
+
   describe('#getProfileToCertify', () => {
 
     const request = { params: { id: 1 } };
