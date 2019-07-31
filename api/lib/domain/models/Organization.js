@@ -8,10 +8,12 @@ class Organization {
     type,
     logoUrl,
     externalId,
+    isManagingStudents,
     // includes
     user,
     memberships = [],
     targetProfileShares = [],
+    students = [],
     // references
   } = {}) {
     this.id = id;
@@ -21,10 +23,12 @@ class Organization {
     this.type = type;
     this.logoUrl = logoUrl;
     this.externalId = externalId;
+    this.isManagingStudents = isManagingStudents;
     // includes
     this.user = user;
     this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
+    this.students = students;
     // references
   }
 }

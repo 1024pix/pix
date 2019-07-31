@@ -21,7 +21,8 @@ function _buildOrganization() {
     id: faker.random.number(),
     name: 'ACME',
     type: 'PRO',
-    code: 'ABCD12'
+    code: 'ABCD12',
+    isManagingStudents: false,
   });
 }
 
