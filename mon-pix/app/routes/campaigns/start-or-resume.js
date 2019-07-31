@@ -7,6 +7,7 @@ import { isEmpty } from '@ember/utils';
 export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
+
   campaignCode: null,
   campaign: null,
   userHasSeenLanding: false,
@@ -24,34 +25,33 @@ export default Route.extend(AuthenticatedRouteMixin, {
     this._super(...arguments);
   },
 
-  model() {
-    const store = this.store;
-    return store.query('campaign', { filter: { code: this.campaignCode } })
-      .then((campaigns) => {
-        return this.set('campaign', campaigns.get('firstObject'));
-      });
+  async model() {
+    // We don't actually use this model, this request is only made to see if
+    // the campaign exists, if not this query get a 404 error and the start-or-resume
+    // template is shown instead.
+    return this.store.query('campaign', { filter: { code: this.campaignCode } });
   },
 
-  afterModel() {
-    const store = this.store;
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.campaignCode } })
-      .then((smartPlacementAssessments) => {
+  async afterModel() {
+    const smartPlacementAssessments = await this.store.query(
+      'assessment',
+      { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.campaignCode } },
+    );
 
-        if (this._thereIsNoAssessment(smartPlacementAssessments)) {
-          if (this.userHasSeenLanding) {
-            return this.transitionTo('campaigns.fill-in-id-pix', this.campaignCode);
-          }
-          return this.transitionTo('campaigns.campaign-landing-page', this.campaignCode);
-        }
-        const assessment = smartPlacementAssessments.get('firstObject');
-        return assessment.reload();
-      })
-      .then((assessment) => {
-        if (!this.userHasJustConsultedTutorial && assessment.answers.length === 0 && !assessment.isCompleted) {
-          return this.transitionTo('campaigns.tutorial', this.campaignCode);
-        }
-        return this.transitionTo('assessments.resume', assessment.get('id'));
-      });
+    if (this._thereIsNoAssessment(smartPlacementAssessments)) {
+      if (this.userHasSeenLanding) {
+        return this.transitionTo('campaigns.fill-in-id-pix', this.campaignCode);
+      }
+      return this.transitionTo('campaigns.campaign-landing-page', this.campaignCode);
+    }
+
+    const assessment = await smartPlacementAssessments.get('firstObject').reload();
+
+    if (!this.userHasJustConsultedTutorial && assessment.answers.length === 0 && !assessment.isCompleted) {
+      return this.transitionTo('campaigns.tutorial', this.campaignCode);
+    }
+
+    return this.transitionTo('assessments.resume', assessment.get('id'));
   },
 
   _userIsUnauthenticated() {
@@ -60,6 +60,5 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   _thereIsNoAssessment(assessments) {
     return isEmpty(assessments);
-  }
-
+  },
 });
