@@ -136,6 +136,10 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/students',
       config: {
+        pre: [{
+          method: securityController.checkUserBelongsToScoOrganizationAndManagesStudents,
+          assign: 'belongsToScoOrganizationAndManageStudents'
+        }],
         handler: organisationController.findStudents,
         tags: ['api', 'students'],
         notes: [

@@ -43,10 +43,10 @@ module.exports = {
       .then((bookshelfMembershipCollection) => bookshelfMembershipCollection.map(_toDomain));
   },
 
-  findByUserIdAndOrganizationId(userId, organizationId) {
+  findByUserIdAndOrganizationId({ userId, organizationId, includeOrganization = false }) {
     return BookshelfMembership
       .where({ userId, organizationId })
-      .fetchAll()
+      .fetchAll({ withRelated: includeOrganization ? ['organization'] : [] })
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   }
 };

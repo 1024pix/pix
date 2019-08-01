@@ -19,6 +19,7 @@ describe('Integration | Application | Organizations | organization-controller', 
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganization');
     sandbox.stub(securityController, 'checkUserIsOwnerInOrganizationOrHasRolePixMaster');
+    sandbox.stub(securityController, 'checkUserBelongsToScoOrganizationAndManagesStudents');
     httpTestServer = new HttpTestServer(moduleUnderTest);
   });
 
@@ -201,6 +202,10 @@ describe('Integration | Application | Organizations | organization-controller', 
 
   describe('#findStudents', () => {
 
+    beforeEach(() => {
+      securityController.checkUserBelongsToScoOrganizationAndManagesStudents.returns(true);
+    });
+
     context('Success cases', () => {
 
       const student = domainBuilder.buildStudent();
@@ -227,6 +232,27 @@ describe('Integration | Application | Organizations | organization-controller', 
         expect(response.result.data[0].type).to.equal('students');
         expect(response.result.data[0].id).to.equal(student.id.toString());
       });
+    });
+
+    context('Error cases', () => {
+
+      context('when user is not allowed to access resource', () => {
+
+        beforeEach(() => {
+          securityController.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => {
+            return Promise.resolve(h.response().code(403).takeover());
+          });
+        });
+
+        it('should resolve a 403 HTTP response', async () => {
+          // when
+          const response = await httpTestServer.request('GET', '/api/organizations/1234/students');
+
+          // then
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+
     });
   });
 });
