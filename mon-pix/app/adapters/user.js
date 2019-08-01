@@ -20,11 +20,18 @@ export default ApplicationAdapter.extend({
     return this._super(...arguments);
   },
 
-  urlForUpdateRecord(id, modelName, snapshot) {
-    let url = this._super(...arguments);
-    if (snapshot && snapshot.adapterOptions && snapshot.adapterOptions.temporaryKey) {
-      url = url + `?temporary-key=${encodeURIComponent(snapshot.adapterOptions.temporaryKey)}`;
+  urlForUpdateRecord(id, modelName, { adapterOptions }) {
+    const url = this._super(...arguments);
+
+    if (adapterOptions && adapterOptions.rememberUserHasSeenAssessmentInstructions) {
+      delete adapterOptions.rememberUserHasSeenAssessmentInstructions;
+      return url + '/remember-user-has-seen-assessment-instructions';
     }
+
+    if (adapterOptions && adapterOptions.temporaryKey) {
+      return url + `?temporary-key=${encodeURIComponent(adapterOptions.temporaryKey)}`;
+    }
+
     return url;
   },
 });
