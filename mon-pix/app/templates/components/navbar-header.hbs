@@ -9,20 +9,24 @@
     </div>
   </div>
 
-  <div class="navbar-header-container__menu">
-    {{#link-to 'profile' class="navbar-header-menu__item"}}
-      Profil
-    {{/link-to}}
-    {{#link-to 'campaigns' class="navbar-header-menu__item"}}
-      Parcours
-    {{/link-to}}
-    {{#link-to 'certifications' class="navbar-header-menu__item"}}
-      Certification
-    {{/link-to}}
-    <a href="https://pix.fr/aide" target="_blank" class="navbar-header-menu__item">
-      Aide
-    </a>
-  </div>
+  {{#unless isInCampaignResults}}
+    {{#if isUserLogged}}
+      <div class="navbar-header-container__menu">
+        {{#link-to 'profile' class="navbar-header-menu__item"}}
+          Profil
+        {{/link-to}}
+        {{#link-to 'campaigns' class="navbar-header-menu__item"}}
+          Parcours
+        {{/link-to}}
+        {{#link-to 'certifications' class="navbar-header-menu__item"}}
+          Certification
+        {{/link-to}}
+        <a href="https://pix.fr/aide" target="_blank" class="navbar-header-menu__item">
+          Aide
+        </a>
+      </div>
+    {{/if}}
+  {{/unless}}
 
   <!-- Links (right) -->
   <div class="navbar-header-right">
