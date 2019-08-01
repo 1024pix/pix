@@ -90,7 +90,7 @@ buildUser.withMembership = function buildUserWithMemberships({
     id, firstName, lastName, email, password, cgu,
   };
 
-  organizationId = _.isNil(organizationId) ? buildOrganization({ name: faker.companyName() }).id : organizationId;
+  organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
 
   const user = databaseBuffer.pushInsertable({
     tableName: 'users',

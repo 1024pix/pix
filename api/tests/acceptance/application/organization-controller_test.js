@@ -857,7 +857,9 @@ describe('Acceptance | Application | organization-controller', () => {
 
     beforeEach(async () => {
       const connectedUser = databaseBuilder.factory.buildUser();
-      organization = databaseBuilder.factory.buildOrganization();
+      organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id });
+
       options = {
         method: 'GET',
         url: `/api/organizations/${organization.id}/students`,
@@ -870,8 +872,6 @@ describe('Acceptance | Application | organization-controller', () => {
       let student;
 
       beforeEach(async () => {
-        databaseBuilder.factory.buildUser();
-
         student = databaseBuilder.factory.buildStudent({
           organizationId: organization.id,
         });
@@ -919,6 +919,44 @@ describe('Acceptance | Application | organization-controller', () => {
 
         // then
         expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - Forbidden access - if user does not belong to Organization', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser.withMembership().id;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should respond with a 403 - Forbidden access - if Organization type is not SCO', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO', isManagingStudents: true }).id;
+        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should respond with a 403 - Forbidden access - if Organization does not manage students', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
+        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
       });
     });
   });
