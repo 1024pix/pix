@@ -7,6 +7,7 @@ import { isEmpty } from '@ember/utils';
 export default Route.extend(AuthenticatedRouteMixin, {
 
   session: service(),
+  currentUser: service(),
 
   campaignCode: null,
   campaign: null,
@@ -47,7 +48,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     const assessment = await smartPlacementAssessments.get('firstObject').reload();
 
-    if (!this.userHasJustConsultedTutorial && assessment.answers.length === 0 && !assessment.isCompleted) {
+    if (this._showTutorial(assessment)) {
       return this.transitionTo('campaigns.tutorial', this.campaignCode);
     }
 
@@ -60,5 +61,14 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   _thereIsNoAssessment(assessments) {
     return isEmpty(assessments);
+  },
+
+  _showTutorial(assessment) {
+    return (
+      !this.userHasJustConsultedTutorial
+      && assessment.answers.length === 0
+      && !assessment.isCompleted
+      && !this.currentUser.user.hasSeenAssessmentInstructions
+    );
   },
 });
