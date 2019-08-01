@@ -6,6 +6,8 @@ import { inject as service } from '@ember/service';
 export default Component.extend({
   session: service(),
   store: service(),
+  router: service(),
+
   classNames: ['navbar-header'],
   _canDisplayMenu: false,
   _menuItems: [
@@ -14,6 +16,11 @@ export default Component.extend({
   ],
 
   isUserLogged: alias('session.isAuthenticated'),
+
+  isInCampaignResults: computed(function() {
+    return (this.get('router.currentRouteName') === 'campaigns.skill-review');
+  }),
+
   menu: computed('isUserLogged', function() {
     const menuItems = this._menuItems;
     return this.isUserLogged ? menuItems.filterBy('permanent', true) : menuItems;
