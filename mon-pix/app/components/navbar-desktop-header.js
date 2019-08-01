@@ -8,7 +8,7 @@ export default Component.extend({
   session: service(),
   store: service(),
 
-  classNames: ['navbar-header'],
+  classNames: ['navbar-desktop-header'],
   _canDisplayMenu: false,
   _menuItems: [
     { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
