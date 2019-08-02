@@ -34,7 +34,7 @@ describe('Unit | Application | Controller | Saml', () => {
 
       // then
       expect(usecases.getOrCreateSamlUser).to.have.been.calledWith({ userAttributes });
-      expect(response.location).to.match(/^\/connexion\?token=dummy-token&user-id=12$/);
+      expect(response.location).to.match(/^\/\?token=dummy-token&user-id=12$/);
     });
   });
 });
