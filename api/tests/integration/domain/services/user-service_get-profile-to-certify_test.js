@@ -151,26 +151,6 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
       });
     });
 
-    it('should list right answers for every assessment fulfilled', () => {
-      // when
-      const promise = userService.getProfileToCertifyV1(userId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledTwice(answerRepository.findCorrectAnswersByAssessmentId);
-      });
-    });
-
-    it('should not list right answers for assessments that have an estimated level null or 0', () => {
-      // when
-      const promise = userService.getProfileToCertifyV1(userId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.neverCalledWith(answerRepository.findCorrectAnswersByAssessmentId, assessment3.id);
-      });
-    });
-
     it('should list available competences', () => {
       // when
       const promise = userService.getProfileToCertifyV1(userId);
