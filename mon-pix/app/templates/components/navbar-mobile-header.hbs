@@ -1,0 +1,26 @@
+<div class="navbar-mobile-header__container">
+  <span class="icon-button navbar-mobile-header__burger-icon" {{action burger.state.actions.toggle}}>
+    {{#if burger.state.open}}
+      {{fa-icon 'times'}}
+    {{else}}
+      {{fa-icon 'bars'}}
+    {{/if}}
+  </span>
+
+  <div class="navbar-mobile-header__logo">
+    <div class="navbar-mobile-header-logo__pix">
+      {{pix-logo}}
+    </div>
+    <div class="navbar-mobile-header-logo__marianne">
+      <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="Logo de la Marianne">
+    </div>
+  </div>
+
+  {{#if isUserLogged}}
+    {{#burger.menu as |menu|}}
+
+      {{navbar-burger-menu}}
+
+    {{/burger.menu}}
+  {{/if}}
+</div>
