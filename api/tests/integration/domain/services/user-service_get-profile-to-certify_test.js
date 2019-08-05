@@ -793,10 +793,62 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
       });
 
-      it('should exclude inferred KnowlegdeElements to select challenges', async () => {
+      context('when there are non-certifiable competences', async() => {
+        beforeEach(() => {
+          competenceRepository.list.resolves([
+            competenceFlipper,
+          ]);
+
+          const answerForNonCertifiableCompetence = new Answer({
+            id: 333,
+            challengeId: challengeForSkillCollaborer4.id,
+            result: 'ok'
+          });
+          const keForNonCertifiableCompetence = domainBuilder.buildKnowledgeElement({
+            userId,
+            answerId: answerForNonCertifiableCompetence.id,
+            competenceId: competenceFlipper.id,
+            skillId: skillCollaborer4.id,
+            earnedPix: 4,
+            source: KnowledgeElement.SourceType.DIRECT
+          });
+
+          answerRepository.findChallengeIdsFromAnswerIds
+            .withArgs([answerForNonCertifiableCompetence.id])
+            .resolves([answerForNonCertifiableCompetence.challengeId]);
+
+          sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
+            .withArgs({
+              userId,
+              limitDate: sinon.match.any
+            }).resolves({
+              'competenceRecordIdOne': [keForNonCertifiableCompetence],
+            });
+        });
+
+        it('should exclude challenges from non certifiable competences', async () => {
+          // when
+          const userCompetences = await userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
+
+          // then
+          expect(userCompetences).to.deep.equal([
+            {
+              id: 'competenceRecordIdOne',
+              index: '1.1',
+              name: '1.1 Construire un flipper',
+              skills: [],
+              pixScore: 4,
+              estimatedLevel: 0,
+              challenges: []
+            }]
+          );
+        });
+      });
+
+      it('should exclude inferred KnowledgeElements to select challenges', async () => {
         // given
         const answer = new Answer({ id: 1, challengeId: challengeForSkillRemplir4.id, result: 'ok' });
-        answerRepositoryFindChallengeIds.withArgs([1]).resolves([answer.challengeId]);
+        answerRepositoryFindChallengeIds.withArgs([answer.id]).resolves([answer.challengeId]);
 
         const inferredKe = domainBuilder.buildKnowledgeElement({
           userId,
@@ -1480,34 +1532,30 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
           const ke = domainBuilder.buildKnowledgeElement({
             answerId: answer1.id,
-            competenceId: 'competenceRecordIdTwo',
             skillId: skillRecherche4.id,
             earnedPix: 4
           });
 
           const ke2 = domainBuilder.buildKnowledgeElement({
             answerId: answer2.id,
-            competenceId: 'competenceRecordIdTwo',
             skillId: skillCitation4.id,
             earnedPix: 4
           });
 
           const ke3 = domainBuilder.buildKnowledgeElement({
             answerId: answer2.id,
-            competenceId: 'competenceRecordIdTwo',
             skillId: skillMoteur3.id,
             earnedPix: 4
           });
 
           const ke4 = domainBuilder.buildKnowledgeElement({
             answerId: answer4.id,
-            competenceId: 'competenceRecordIdTwo',
             skillId: skillSearch1.id,
             earnedPix: 4
           });
 
           sinon.stub(knowledgeElementRepository, 'findUniqByUserIdGroupedByCompetenceId')
-            .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdTwo: [ke, ke2, ke3, ke4] });
+            .withArgs({ userId, limitDate: sinon.match.any }).resolves({ competenceRecordIdOne: [ke, ke2, ke3, ke4] });
 
           // when
           const promise = userService.getProfileToCertifyV2({ userId, limitDate: 'date' });
