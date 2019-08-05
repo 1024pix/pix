@@ -220,6 +220,48 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
       context('when selecting challenges to validate the skills per competence', () => {
 
+        context('when competence level is less than 1', () => {
+
+          it('should select no challenge', () => {
+            // given
+            competenceRepository.list.resolves([
+              competenceFlipper,
+            ]);
+
+            const failedAssessment = Assessment.fromAttributes({
+              id: 'failed-assessment',
+              status: 'completed',
+              courseId: 'courseId1',
+              assessmentResults: [ new AssessmentResult({ level: 0, pixScore: 2 })]
+            });
+
+            answerRepository.findCorrectAnswersByAssessmentId.withArgs(failedAssessment.id).resolves([
+              new Answer({ challengeId: challengeForSkillCitation4.id, result: 'ok' })
+            ]);
+
+            assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser.resolves([
+              failedAssessment
+            ]);
+
+            // when
+            const promise = userService.getProfileToCertifyV1(userId);
+
+            // then
+            return promise.then((skillProfile) => {
+              expect(skillProfile).to.deep.equal([
+                {
+                  id: 'competenceRecordIdOne',
+                  index: '1.1',
+                  name: '1.1 Construire un flipper',
+                  skills: [],
+                  pixScore: 2,
+                  estimatedLevel: 0,
+                  challenges: []
+                }]);
+            });
+          });
+        });
+
         context('when no challenge validate the skill', () => {
 
           it('should not return the skill', () => {
