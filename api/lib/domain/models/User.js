@@ -16,6 +16,7 @@ class User {
     samlId,
     isProfileV2 = true,
     hasSeenNewProfileInfo,
+    hasSeenAssessmentInstructions,
     // includes
     memberships = [],
     certificationCenterMemberships = [],
@@ -38,6 +39,7 @@ class User {
     this.samlId = samlId;
     this.isProfileV2 = isProfileV2;
     this.hasSeenNewProfileInfo = hasSeenNewProfileInfo;
+    this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
     this.knowledgeElements = knowledgeElements;
     // includes
     this.pixRoles = pixRoles;

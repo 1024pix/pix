@@ -12,6 +12,7 @@ export default Model.extend({
   password: attr('string'),
   cgu: attr('boolean'),
   hasSeenNewProfileInfo: attr('boolean'),
+  hasSeenAssessmentInstructions: attr('boolean'),
   recaptchaToken: attr('string'),
   totalPixScore: attr('number'),
   pixScore: belongsTo('pix-score'),

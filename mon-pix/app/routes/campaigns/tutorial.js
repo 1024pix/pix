@@ -1,8 +1,11 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import campaignTutorial from 'mon-pix/static-data/campaign-tutorial';
+import { inject as service } from '@ember/service';
 
 export default Route.extend(AuthenticatedRouteMixin, {
+
+  currentUser: service(),
 
   campaignCode: null,
   tutorialPageId: 0,
@@ -27,9 +30,11 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
-    submit() {
+    async submit() {
+      await this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } });
+
       this.set('tutorialPageId', 0);
-      this.transitionTo('campaigns.start-or-resume', this.campaignCode, {
+      return this.transitionTo('campaigns.start-or-resume', this.campaignCode, {
         queryParams: {
           hasSeenLanding: true,
           hasJustConsultedTutorial: true

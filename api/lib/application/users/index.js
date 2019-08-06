@@ -138,11 +138,25 @@ exports.register = async function(server) {
                 password: Joi.string().regex(XRegExp(passwordValidationPattern)).allow(null),
                 'pix-orga-terms-of-service-accepted': Joi.boolean(),
                 'pix-certif-terms-of-service-accepted': Joi.boolean(),
-                'has-seen-migration': Joi.boolean(),
+                'has-seen-new-profile-info': Joi.boolean(),
+                'has-seen-assessment-instructions': Joi.boolean(),
               }
             }
           }
         }, tags: ['api']
+      }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/users/{id}/remember-user-has-seen-assessment-instructions',
+      config: {
+        handler: userController.rememberUserHasSeenAssessmentInstructions,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Sauvegarde le fait que l\'utilisateur ait vu le didacticiel' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+        ],
+        tags: ['api', 'user'],
       }
     },
     {

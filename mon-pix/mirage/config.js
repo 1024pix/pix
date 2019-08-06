@@ -128,6 +128,12 @@ export default function() {
     }
   });
 
+  this.patch('/users/:id/remember-user-has-seen-assessment-instructions', (schema, request) => {
+    const user =  schema.users.find(request.params.id);
+    user.hasSeenAssessmentInstructions = true;
+    return user;
+  });
+
   this.get('/progressions/:id');
   this.get('/campaigns', getCampaigns);
   this.post('/campaign-participations', postCampaignParticipation);
