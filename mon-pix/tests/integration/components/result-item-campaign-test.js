@@ -5,7 +5,7 @@ import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | result item campaign', function() {
+describe('Integration | Component | result item', function() {
 
   setupRenderingTest();
 
@@ -42,10 +42,10 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', '');
 
       // when
-      await render(hbs`{{result-item-campaign answer=answer}}`);
+      await render(hbs`{{result-item answer=answer}}`);
 
       // then
-      expect(find('.result-item-campaign')).to.exist;
+      expect(find('.result-item')).to.exist;
     });
 
     it('should render an instruction with no empty content', async function() {
@@ -53,11 +53,11 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', '');
 
       // when
-      await render(hbs`{{result-item-campaign answer=answer}}`);
+      await render(hbs`{{result-item answer=answer}}`);
 
       // then
-      expect(find('.result-item-campaign__instruction')).to.exist;
-      expect(find('.result-item-campaign__instruction').textContent).to.contain('\n');
+      expect(find('.result-item__instruction')).to.exist;
+      expect(find('.result-item__instruction').textContent).to.contain('\n');
     });
 
     it('should render the challenge instruction', async function() {
@@ -65,20 +65,20 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', answer);
 
       // when
-      await render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
+      await render(hbs`{{result-item answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
 
       // then
       const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
-      expect(find('.result-item-campaign__instruction').textContent.trim()).to.equal(expectedChallengeInstruction);
+      expect(find('.result-item__instruction').textContent.trim()).to.equal(expectedChallengeInstruction);
     });
 
     it('should render an button when QCM', async function() {
       // given
       this.set('answer', answer);
 
-      await render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
+      await render(hbs`{{result-item answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
       // Then
-      expect(find('.result-item-campaign__correction-button').textContent.trim()).to.deep.equal('Réponses et tutos');
+      expect(find('.result-item__correction-button').textContent.trim()).to.deep.equal('Réponses et tutos');
     });
 
     it('should render tooltip for the answer', async function() {
@@ -86,7 +86,7 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', answer);
 
       // when
-      await render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
+      await render(hbs`{{result-item answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
 
       // then
       expect(find('div[data-toggle="tooltip"]').getAttribute('data-original-title').trim()).to.equal('Réponse incorrecte');
@@ -97,7 +97,7 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', null);
 
       // when
-      await render(hbs`{{result-item-campaign answer=answer}}`);
+      await render(hbs`{{result-item answer=answer}}`);
 
       // then
       expect(find('div[data-toggle="tooltip"]').getAttribute('data-original-title')).to.not.exist;
@@ -106,7 +106,7 @@ describe('Integration | Component | result item campaign', function() {
     it('should update the tooltip when the answer is eventually retrieved', async function() {
       // given
       this.set('answer', null);
-      await render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
+      await render(hbs`{{result-item answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
 
       // when
       this.set('answer', answer);
@@ -120,10 +120,10 @@ describe('Integration | Component | result item campaign', function() {
       this.set('answer', answer);
 
       // when
-      await render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
+      await render(hbs`{{result-item answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
 
       // Then
-      expect(find('result-item-campaign__icon-img'));
+      expect(find('result-item__icon-img'));
     });
 
     [
@@ -140,10 +140,10 @@ describe('Integration | Component | result item campaign', function() {
         this.set('answer', answer);
 
         // when
-        await render(hbs`{{result-item-campaign answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
+        await render(hbs`{{result-item answer=answer openAnswerDetails=(action openComparisonWindow)}}`);
 
         // then
-        expect(find(`.result-item-campaign__icon--${data.color}`)).to.exist;
+        expect(find(`.result-item__icon--${data.color}`)).to.exist;
       });
     });
   });

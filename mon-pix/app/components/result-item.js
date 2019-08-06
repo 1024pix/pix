@@ -1,66 +1,56 @@
-import { computed } from '@ember/object';
 import Component from '@ember/component';
-import resultIconUrl from 'mon-pix/utils/result-icon-url';
+import { computed } from '@ember/object';
 
 const contentReference = {
   ok: {
-    status: 'ok',
+    icon: 'check-circle',
+    color: 'green',
     tooltip: 'Réponse correcte'
   },
-
   ko: {
-    status: 'ko',
+    icon: 'times-circle',
+    color: 'red',
     tooltip: 'Réponse incorrecte'
   },
-
   aband: {
-    status: 'aband',
+    icon: 'times-circle',
+    color: 'grey',
     tooltip: 'Sans réponse'
   },
-
   partially: {
-    status: 'partially',
+    icon: 'check-circle',
+    color: 'orange',
     tooltip: 'Réponse partielle'
   },
-
   timedout: {
-    status: 'timedout',
+    icon: 'times-circle',
+    color: 'red',
     tooltip: 'Temps dépassé'
-  },
-
-  default: {
-    status: 'default',
-    tooltip: 'Correction automatique en cours de développement ;)'
   }
 };
 
 export default Component.extend({
-
-  classNames: [ 'result-item' ],
-
-  attributeBindings: ['tabindex'],
-
-  tabindex: 0,
+  classNames: ['result-item'],
 
   openComparison: null,
 
   resultItem: computed('answer.result', function() {
     if (!this.get('answer.result')) return;
-    return contentReference[this.get('answer.result')] || contentReference['default'];
+    return contentReference[this.get('answer.result')];
   }),
 
   resultTooltip: computed('resultItem', function() {
     return this.resultItem ? this.resultItem.tooltip : null;
   }),
 
-  resultItemIcon: computed('resultItem', function() {
-    return resultIconUrl(this.get('resultItem.status'));
-  }),
-
   validationImplementedForChallengeType: computed('answer.challenge.type', function() {
-    const implementedTypes = [ 'QCM', 'QROC', 'QCU', 'QROCM-ind' ];
+    const implementedTypes = ['QCM', 'QROC', 'QCU', 'QROCM-ind', 'QROCM-dep'];
     const challengeType = this.get('answer.challenge.type');
     return implementedTypes.includes(challengeType);
+  }),
+
+  textLength: computed('', function() {
+    return window.innerWidth <= 767 ? 60 : 110;
   }),
 
   didRender() {

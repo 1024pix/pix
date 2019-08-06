@@ -38,7 +38,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
 
     beforeEach(async function() {
       await visit('/assessments/ref_assessment_id/results');
-      await click('.result-item:nth-child(3) .result-item__correction__button');
+      await click('.result-item:nth-child(3) .result-item__correction-button');
     });
 
     it('should be able to access the modal directly from the url', async function() {
