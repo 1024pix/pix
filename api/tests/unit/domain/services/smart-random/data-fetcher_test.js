@@ -1,4 +1,6 @@
 const { sinon, expect, domainBuilder } = require('../../../../test-helper');
+const moment = require('moment');
+const _ = require('lodash');
 const dataFetcher = require('../../../../../lib/domain/services/smart-random/data-fetcher');
 
 describe('Unit | Domain | services | smart-random | dataFetcher', () => {
@@ -18,48 +20,106 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         get: sinon.stub(),
       };
       challengeRepository = {
-        findBySkills: sinon.stub(),
+        findBySkills: sinon.stub(),answerRepository
       };
       knowledgeElementRepository = {
         findUniqByUserId: sinon.stub(),
       };
     });
 
-    it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
-      // given
-      const answers = [
-        domainBuilder.buildAnswer(),
-      ];
-      const challenges = [
-        domainBuilder.buildChallenge(),
-      ];
-      const knowledgeElements = [
-        domainBuilder.buildKnowledgeElement(),
-      ];
-      const targetProfile = domainBuilder.buildTargetProfile();
-      const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement();
+    context('when assessment is started', () => {
+      it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
+        // given
+        const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({ state: 'started' });
+        const answers = [
+          domainBuilder.buildAnswer(),
+        ];
+        const challenges = [
+          domainBuilder.buildChallenge(),
+        ];
+        const knowledgeElements = [
+          domainBuilder.buildKnowledgeElement(),
+        ];
+        const targetProfile = domainBuilder.buildTargetProfile();
 
-      assessment.campaignParticipation.getTargetProfileId = () => 1;
-      answerRepository.findByAssessment.withArgs(assessment.id).resolves(answers);
-      targetProfileRepository.get.withArgs(1).resolves(targetProfile);
-      challengeRepository.findBySkills.withArgs(targetProfile.skills).resolves(challenges);
-      knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
+        assessment.campaignParticipation.getTargetProfileId = () => 1;
+        answerRepository.findByAssessment.withArgs(assessment.id).resolves(answers);
+        targetProfileRepository.get.withArgs(1).resolves(targetProfile);
+        challengeRepository.findBySkills.withArgs(targetProfile.skills).resolves(challenges);
+        knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
 
-      // when
-      const data = await dataFetcher.fetchForCampaigns({
-        assessment,
-        answerRepository,
-        targetProfileRepository,
-        challengeRepository,
-        knowledgeElementRepository,
+        // when
+        const data = await dataFetcher.fetchForCampaigns({
+          assessment,
+          answerRepository,
+          targetProfileRepository,
+          challengeRepository,
+          knowledgeElementRepository,
+        });
+
+        // then
+        expect(data.answers).to.deep.equal(answers);
+        expect(data.targetSkills).to.deep.equal(targetProfile.skills);
+        expect(data.challenges).to.deep.equal(challenges);
+        expect(data.knowledgeElements).to.deep.equal(knowledgeElements);
       });
-
-      // then
-      expect(data.answers).to.deep.equal(answers);
-      expect(data.targetSkills).to.deep.equal(targetProfile.skills);
-      expect(data.challenges).to.deep.equal(challenges);
-      expect(data.knowledgeElements).to.deep.equal(knowledgeElements);
     });
+    context('when assessment is reattempted', () => {
+      it('fetches answers, targetsSkills challenges and knowledgeElements without knowledge elements invalidated too old', async () => {
+        // given
+        const campaignParticipation = domainBuilder.buildCampaignParticipation({ createdAt: moment().format() });
+        const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({ state: 'improving', campaignParticipation, createdAt: moment().format() });
+        const answers = [
+          domainBuilder.buildAnswer(),
+        ];
+        const challenges = [
+          domainBuilder.buildChallenge(),
+        ];
+        const oldKnowledgeElementsValidated = [
+          domainBuilder.buildKnowledgeElement({ status: 'validated', createdAt: moment().subtract(5, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'validated', createdAt: moment().subtract(5, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'validated', createdAt: moment().subtract(5, 'days').format() }),
+        ];
+
+        const oldKnowledgeElementsInvalidated = [
+          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(5, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(5, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(5, 'days').format() }),
+        ];
+        const recentKnowledgeElements = [
+          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(4, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'validated', createdAt: moment().subtract(2, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(2, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(2, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().add(6, 'days').format() }),
+        ];
+        const targetProfile = domainBuilder.buildTargetProfile();
+
+        assessment.campaignParticipation.getTargetProfileId = () => 1;
+        answerRepository.findByAssessment.withArgs(assessment.id).resolves(answers);
+        targetProfileRepository.get.withArgs(1).resolves(targetProfile);
+        challengeRepository.findBySkills.withArgs(targetProfile.skills).resolves(challenges);
+
+        knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId })
+          .resolves(_.concat(oldKnowledgeElementsInvalidated, oldKnowledgeElementsValidated, recentKnowledgeElements));
+
+        // when
+        const data = await dataFetcher.fetchForCampaigns({
+          assessment,
+          answerRepository,
+          targetProfileRepository,
+          challengeRepository,
+          knowledgeElementRepository,
+        });
+
+        // then
+        expect(data.answers).to.deep.equal(answers);
+        expect(data.targetSkills).to.deep.equal(targetProfile.skills);
+        expect(data.challenges).to.deep.equal(challenges);
+        expect(data.knowledgeElements).to.deep.equal(_.concat(oldKnowledgeElementsValidated, recentKnowledgeElements));
+      });
+    });
+
   });
 
   describe('#fetchForCompetenceEvaluations', () => {

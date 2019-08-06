@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const getNextChallengeForSmartPlacement = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
@@ -23,7 +23,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       challenges = [];
       challengeRepository = { findBySkills: sinon.stub().resolves(challenges) };
       campaignParticipation = { getTargetProfileId: sinon.stub().returns(targetProfileId) };
-      assessment = { id: assessmentId, userId, campaignParticipation };
+      assessment = domainBuilder.buildAssessment({ id: assessmentId, userId, campaignParticipation });
       skills = [];
       targetProfile = { skills };
       targetProfileRepository = { get: sinon.stub().resolves(targetProfile) };

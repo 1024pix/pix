@@ -81,6 +81,10 @@ class Assessment {
     return this.state === Assessment.states.COMPLETED;
   }
 
+  isImproving() {
+    return this.state === Assessment.states.IMPROVING;
+  }
+
   getLastAssessmentResult() {
     if (this.assessmentResults && this.assessmentResults.length > 0) {
       return _(this.assessmentResults).sortBy(['createdAt']).last();

@@ -31,6 +31,32 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   });
 
+  describe('#isImproving', () => {
+
+    it('should return true when its state is improving', () => {
+      // given
+      const assessment = Assessment.fromAttributes({ state: 'improving' });
+
+      // when
+      const isImproving = assessment.isImproving();
+
+      // then
+      expect(isImproving).to.be.true;
+    });
+
+    it('should return false when its state is not improving', () => {
+      // given
+      const assessment = Assessment.fromAttributes({ state: 'completed' });
+
+      // when
+      const isImproving = assessment.isImproving();
+
+      // then
+      expect(isImproving).to.be.false;
+    });
+
+  });
+
   describe('#getLastAssessmentResult', () => {
 
     it('should return the last assessment results', () => {

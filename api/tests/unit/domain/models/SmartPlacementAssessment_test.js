@@ -144,7 +144,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
       });
 
       // when
-      const isImproving = assessment.isImproving;
+      const isImproving = assessment.isImproving();
 
       // then
       expect(isImproving).to.be.true;
@@ -157,7 +157,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
       });
 
       // when
-      const isImproving = assessment.isImproving;
+      const isImproving = assessment.isImproving();
 
       // then
       expect(isImproving).to.be.false;

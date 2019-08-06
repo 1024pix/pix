@@ -51,7 +51,7 @@ class SmartPlacementAssessment {
     return this.state === SmartPlacementAssessmentState.STARTED;
   }
 
-  get isImproving() {
+  isImproving() {
     return this.state === SmartPlacementAssessmentState.IMPROVING;
   }
 
