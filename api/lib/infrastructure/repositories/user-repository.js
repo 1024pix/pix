@@ -60,6 +60,7 @@ function _toDomain(userBookshelf) {
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
     isProfileV2: Boolean(userBookshelf.get('isProfileV2')),
     hasSeenNewProfileInfo: Boolean(userBookshelf.get('hasSeenNewProfileInfo')),
+    hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
   });
 }
 

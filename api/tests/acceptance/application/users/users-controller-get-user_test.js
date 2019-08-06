@@ -53,6 +53,7 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
             'pix-orga-terms-of-service-accepted': false,
             'pix-certif-terms-of-service-accepted': false,
             'has-seen-new-profile-info': false,
+            'has-seen-assessment-instructions': false,
           },
           relationships: {
             'memberships': {

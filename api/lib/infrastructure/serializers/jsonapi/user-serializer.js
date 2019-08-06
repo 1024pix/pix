@@ -9,7 +9,8 @@ module.exports = {
         'firstName', 'lastName', 'email', 'cgu', 'pixOrgaTermsOfServiceAccepted',
         'pixCertifTermsOfServiceAccepted', 'usesProfileV2', 'memberships',
         'certificationCenterMemberships', 'pixScore', 'scorecards',
-        'campaignParticipations', 'organizations', 'isProfileV2', 'hasSeenNewProfileInfo',
+        'campaignParticipations', 'organizations', 'isProfileV2',
+        'hasSeenNewProfileInfo', 'hasSeenAssessmentInstructions',
       ],
       memberships: {
         ref: 'id',
@@ -75,6 +76,7 @@ module.exports = {
       pixOrgaTermsOfServiceAccepted: json.data.attributes['pix-orga-terms-of-service-accepted'],
       pixCertifTermsOfServiceAccepted: json.data.attributes['pix-certif-terms-of-service-accepted'],
       hasSeenNewProfileInfo: json.data.attributes['has-seen-new-profile-info'],
+      hasSeenAssessmentInstructions: json.data.attributes['has-seen-assessment-instructions'],
     });
   }
 

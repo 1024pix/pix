@@ -1,4 +1,6 @@
-{{resume-campaign-banner campaignParticipations=model.campaignParticipations}}
+{{#if model.campaignParticipations}}
+  {{resume-campaign-banner campaignParticipations=model.campaignParticipations}}
+{{/if}}
 {{navbar-header class="navbar-header--white"}}
 <div class="background-banner-wrapper profile-page">
   <div class="background-banner"></div>
