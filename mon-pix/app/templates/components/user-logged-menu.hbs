@@ -14,13 +14,6 @@
             <li class="logged-user-menu__item user-menu-item">
               <div class="user-menu-item__details-firstname"> {{currentUser.user.firstName}}</div>
               <div class="user-menu-item__details-email">{{currentUser.user.email}}</div>
-
-              {{#if canDisplayLinkToProfile}}
-                <div class="user-menu-item__details-account-link">
-                  {{#link-to 'index'}}Mon compte{{/link-to}}
-                </div>
-              {{/if}}
-
             </li>
 
             <li class="logged-user-menu__item">

@@ -106,66 +106,6 @@ describe('Integration | Component | user logged menu', function() {
         expect(find('.logged-user-menu')).to.not.exist;
       });
     });
-
-    describe('button rendering', function() {
-
-      context('when the user is on compte page', function() {
-        it('should not render a button link to the "profile" page', async function() {
-          this.owner.register('service:-routing', Service.extend({
-            currentRouteName: 'compte',
-            generateURL: function() {
-              return '/compte';
-            }
-          }));
-          // when
-          await render(hbs`{{user-logged-menu}}`);
-          await click('.logged-user-name');
-
-          return wait().then(() => {
-            // then
-            expect(findAll('.user-menu-item__account-link').length).to.equal(0);
-          });
-        });
-
-        it('should not render a button link to the "board" page', async function() {
-          this.owner.register('service:-routing', Service.extend({
-            currentRouteName: 'board',
-            generateURL: function() {
-              return '/board';
-            }
-          }));
-
-          // when
-          await render(hbs`{{user-logged-menu}}`);
-          await click('.logged-user-name');
-
-          return wait().then(() => {
-            // then
-            expect(findAll('.user-menu-item__account-link').length).to.equal(0);
-          });
-        });
-      });
-
-      it('should render a button link to the profile when the user is not on compte page', async function() {
-        this.owner.register('service:-routing', Service.extend({
-          generateURL: function() {
-            return '/autreRoute';
-          }
-        }));
-
-        // when
-        await render(hbs`{{user-logged-menu}}`);
-        await click('.logged-user-name__link');
-
-        return wait().then(() => {
-          // then
-          expect(find('.user-menu-item__details-account-link').textContent.trim()).to.equal('Mon compte');
-          expect(findAll('.user-menu-item__details-account-link').length).to.equal(1);
-        });
-      });
-
-    });
-
   });
 
   describe('when user is unlogged or not found', function() {
