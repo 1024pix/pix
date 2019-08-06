@@ -13,6 +13,7 @@ const states = {
   COMPLETED: 'completed',
   STARTED: 'started',
   ABORTED: 'aborted',
+  IMPROVING: 'improving',
 };
 
 const types = {

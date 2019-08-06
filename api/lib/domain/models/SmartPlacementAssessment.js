@@ -4,6 +4,7 @@ const SmartPlacementAssessmentState = Object.freeze({
   COMPLETED: 'completed',
   STARTED: 'started',
   ABORTED: 'aborted',
+  IMPROVING: 'improving',
 });
 
 /**
@@ -48,6 +49,10 @@ class SmartPlacementAssessment {
 
   get isStarted() {
     return this.state === SmartPlacementAssessmentState.STARTED;
+  }
+
+  get isImproving() {
+    return this.state === SmartPlacementAssessmentState.IMPROVING;
   }
 
   getValidatedSkills() {

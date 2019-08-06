@@ -135,6 +135,35 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
     });
   });
 
+  describe('#isImproving', () => {
+
+    it('should be true if state is improving', () => {
+      // given
+      const assessment = domainBuilder.buildSmartPlacementAssessment({
+        state: SmartPlacementAssessment.State.IMPROVING,
+      });
+
+      // when
+      const isImproving = assessment.isImproving;
+
+      // then
+      expect(isImproving).to.be.true;
+    });
+
+    it('should be false if state not improving', () => {
+      // given
+      const assessment = domainBuilder.buildSmartPlacementAssessment({
+        state: SmartPlacementAssessment.State.STARTED,
+      });
+
+      // when
+      const isImproving = assessment.isImproving;
+
+      // then
+      expect(isImproving).to.be.false;
+    });
+  });
+
   describe('#getValidatedSkills', () => {
 
     it('should return no skill if no knowledge elements', () => {
