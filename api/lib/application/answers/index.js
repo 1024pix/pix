@@ -8,7 +8,11 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: answerController.save,
-        tags: ['api']
+        tags: ['api', 'answers'],
+        notes: [
+          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
+          '- Enregistre une réponse à un challenge',
+        ]
       }
     },
     {
@@ -17,7 +21,11 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: answerController.get,
-        tags: ['api']
+        tags: ['api', 'answers'],
+        notes: [
+          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
+          '- Récupère la réponse',
+        ]
       }
     },
     {
@@ -26,7 +34,11 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: answerController.update,
-        tags: ['api']
+        tags: ['api', 'answers'],
+        notes: [
+          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
+          '- Cette route ne fait rien actuellement',
+        ],
       }
     },
     {
@@ -35,7 +47,11 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: answerController.findByChallengeAndAssessment,
-        tags: ['api']
+        tags: ['api', 'answers'],
+        notes: [
+          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
+          '- Récupère la liste des réponses par Challenge et Assessment',
+        ]
       }
     },
     {
@@ -44,7 +60,11 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: answerController.getCorrection,
-        tags: ['api']
+        tags: ['api', 'answers'],
+        notes: [
+          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
+          '- Récupère la correction à une réponse',
+        ]
       }
     },
   ]);
