@@ -14,5 +14,13 @@
     "email": "samwell.tarly@pix.fr",
     "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
     "cgu": true
+  },
+  {
+    "id": 3,
+    "firstName": "John",
+    "lastName": "Snow",
+    "email": "john.snow@pix.fr",
+    "password": "$2a$05$IP2HpgRg180EVjTnnq5yTOAW.42Bt3dIxoRMu6lV1NYHTSJeXO.U.",
+    "cgu": true
   }
 ]
