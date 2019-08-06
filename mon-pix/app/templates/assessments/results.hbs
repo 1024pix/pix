@@ -20,7 +20,7 @@
 
     <div class="assessment-results__list">
       {{#each model.answers as |answer|}}
-        {{result-item answer=answer openAnswerDetails=(action 'openComparisonWindow')}}
+        {{result-item answer=answer correction=answer.correction openAnswerDetails=(action 'openComparisonWindow')}}
       {{/each}}
     </div>
 
