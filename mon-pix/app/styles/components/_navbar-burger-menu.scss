@@ -27,27 +27,29 @@
       color: $white;
       text-decoration: none;
     }
+  }
+}
 
-    &--name {
-      font-size: 2rem;
-      font-weight: $font-semi-bold;
-    }
+.navbar-burger-menu-user-info-item {
+  &__name {
+    font-size: 2rem;
+    font-weight: $font-semi-bold;
+  }
 
-    &--email {
-      font-size: 1.2rem;
-      font-weight: $font-light;
-      padding: 0;
-    }
+  &__email {
+    font-size: 1.2rem;
+    font-weight: $font-light;
+    padding: 0;
+  }
 
-    &--link {
-      font-size: 1.5rem;
+  &__logout {
+    font-size: 1.5rem;
+    text-decoration: underline;
+    margin: 10px 0;
+
+    &:hover {
+      color: $white;
       text-decoration: underline;
-      margin: 10px 0;
-
-      &:hover {
-        color: $white;
-        text-decoration: underline;
-      }
     }
   }
 }

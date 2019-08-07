@@ -25,8 +25,8 @@ describe('Integration | Component | navbar-burger-menu', function() {
     expect(find('.navbar-burger-menu__user-info')).to.exist;
 
     expect(findAll('.navbar-burger-menu-user-info__item')).to.have.lengthOf(3);
-    expect(find('.navbar-burger-menu-user-info__item--name').textContent.trim()).to.equal('Bobby Carotte');
-    expect(find('.navbar-burger-menu-user-info__item--email').textContent.trim()).to.equal('bobby.carotte@example.net');
+    expect(find('.navbar-burger-menu-user-info-item__name').textContent.trim()).to.equal('Bobby Carotte');
+    expect(find('.navbar-burger-menu-user-info-item__email').textContent.trim()).to.equal('bobby.carotte@example.net');
     expect(findAll('.navbar-burger-menu-user-info__item')[1].textContent.trim()).to.equal('Mes certifications');
     expect(findAll('.navbar-burger-menu-user-info__item')[2].textContent.trim()).to.equal('Se déconnecter');
   });
