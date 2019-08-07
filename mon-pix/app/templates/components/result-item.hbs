@@ -1,15 +1,15 @@
 <div class="result-item__icon">
   <div data-toggle="tooltip" data-placement="top" title="{{resultItem.tooltip}}">
-    <img class="result-item__icon-img result-item__icon-img--{{resultItem.status}}" src={{resultItemIcon}} alt="">
+    {{fa-icon resultItem.icon class=(concat 'result-item__icon--' resultItem.color)}}
   </div>
 </div>
 
 <div class="result-item__instruction">
-  {{strip-instruction (convert-to-html answer.challenge.instruction)}}
+  {{strip-instruction (convert-to-html answer.challenge.instruction) textLength}}
 </div>
 
 <div class="result-item__correction">
   {{#if validationImplementedForChallengeType}}
-    <button {{action openAnswerDetails answer}} class="result-item__correction__button link js-correct-answer">Réponses et tutos</button>
+    <button {{action openAnswerDetails answer}} class="result-item__correction-button link js-correct-answer">Réponses et tutos</button>
   {{/if}}
 </div>

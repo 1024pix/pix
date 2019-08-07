@@ -39,7 +39,7 @@
 
         <div class="assessment-results__list">
           {{#each model.answersSinceLastCheckpoints as |answer|}}
-            {{result-item-campaign answer=answer correction=answer.correction openAnswerDetails=(action "openComparisonWindow")}}
+            {{result-item answer=answer correction=answer.correction openAnswerDetails=(action "openComparisonWindow")}}
           {{/each}}
         </div>
         {{checkpoint-continue assessmentId=model.id nextPageButtonText=nextPageButtonText}}

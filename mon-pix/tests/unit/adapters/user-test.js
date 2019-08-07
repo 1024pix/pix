@@ -44,11 +44,20 @@ describe('Unit | Adapters | user', function() {
   describe('#urlForUpdateRecord', () => {
     it('should build update url from user id', async function() {
       // when
-      const snapshot = {};
+      const snapshot = { adapterOptions: { } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
       expect(url).to.equal('http://localhost:3000/api/users/123');
+    });
+
+    it('should include redirect to remember-user-has-seen-assessment-instructions', async function() {
+      // when
+      const snapshot = { adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } };
+      const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
+
+      // then
+      expect(url).to.equal('http://localhost:3000/api/users/123/remember-user-has-seen-assessment-instructions');
     });
 
     it('should include temporaryKey if present in adapterOptions', async function() {

@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.57.0 (07/08/2019)
+
+- [#615](https://github.com/1024pix/pix/pull/615) [FEATURE] Afficher les bonnes réponses sur le checkpoint pour les questions de type qrocm-dep (PF-161).
+- [#631](https://github.com/1024pix/pix/pull/631) [FEATURE] Affiche le didacticiel seulement une fois. (PF-701).
+- [#625](https://github.com/1024pix/pix/pull/625) [TECH] Ajout d'un glossaire des variables d'environnement dans la documentation.
+
 ## v2.56.1 (31/07/2019)
 
 - [#613](https://github.com/1024pix/pix/pull/613) [FEATURE] Recalculer le score des certifications V2 (PF-646).

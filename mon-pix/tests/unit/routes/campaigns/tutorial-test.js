@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 describe('Unit | Route | campaigns/tutorial', function() {
 
@@ -75,14 +76,18 @@ describe('Unit | Route | campaigns/tutorial', function() {
   });
 
   describe('#submit', function() {
-    it('should transition to start-or-resume route', function() {
+    it('should transition to start-or-resume route', async function() {
       // given
+      this.owner.register('service:currentUser', Service.extend({
+        user: { save: sinon.stub() }
+      }));
       route.set('campaignCode', 'AZERTY123');
 
       // when
-      route.send('submit');
+      await route.send('submit');
 
       // then
+      sinon.assert.calledWith(route.currentUser.user.save, { adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } });
       sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', 'AZERTY123');
     });
   });

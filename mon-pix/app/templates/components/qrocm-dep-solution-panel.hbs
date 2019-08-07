@@ -1,0 +1,16 @@
+<div class="qrocm-solution-panel rounded-panel">
+  <div class="rounded-panel__row correction-qrocm__text">
+    {{#each inputFields as |field|}}
+      {{{field.label}}}
+      <div class="correction-qrocm__answer-solution">
+        <input value="{{field.answer}}" class="correction-qrocm__answer-input {{field.inputClass}}" disabled>
+      </div>
+    {{/each}}
+    {{#unless answerIsCorrect}}
+      <div class="correction-qrocm__solution">
+        <img class="correction-qrocm__solution-img" src="/images/comparison-window/icon-arrow-right.svg" alt="">
+        <div class="correction-qrocm__solution-text">{{expectedAnswers}}</div>
+      </div>
+    {{/unless}}
+  </div>
+</div>

@@ -1,48 +1,87 @@
 .result-item {
-  width: auto;
-  height: 70px;
-  background-color: $white;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  width: auto;
+  height: 110px;
   border-radius: 4px;
-
-  &:active,
-  &:hover,
-  &:focus,
-  &:focus-within {
-    border: 2px solid $pix-blue;
-  }
+  border: none;
+  outline: none;
+  padding: 8px 0;
+  background-color: $white;
 
   &:nth-child(odd) {
     background: $porcelain-grey;
   }
+
+  @include device-is('tablet') {
+    height: 70px;
+    padding: 0;
+  }
 }
 
 .result-item__instruction {
+  width: 82%;
   font-size: 1.6rem;
-  margin-left: 14px;
+  margin-left: 10px;
   overflow: hidden;
+
+  @include device-is('tablet') {
+    width: 60%;
+    margin-left: 30px;
+  }
 }
 
 .result-item__correction {
-  color: $pix-blue;
-  margin-right: 23px;
-  margin-left: auto;
-  text-align: center;
-  height: 21px; /* XXX : should be aligned with flexbox */
+  font-size: 1.2rem;
+  margin-right: 26px;
+  margin-left: 35px;
+
+  @include device-is('tablet') {
+    margin-left: auto;
+  }
 }
 
-.result-item__correction__button {
-  padding-right: 0;
-  padding-left: 0;
-  margin-left: 12px;
+.result-item__correction-button {
+  font-weight: $font-normal;
+  font-size: 1.4rem;
+  color: $pix-blue;
   border: none;
-  outline: 0;
+  outline: none;
   background-color: transparent;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $pix-blue-hover;
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
 
 .result-item__icon {
-  margin-left: 14px;
+  margin-left: 10px;
+  font-size: 1.5em;
+
+  @include device-is('tablet') {
+    margin-left: 30px;
+  }
+
+  &--green {
+    color: $mountain-meadow;
+  }
+
+  &--orange {
+    color: $dark-orange;
+  }
+
+  &--red {
+    color: $vermilion;
+  }
+
+  &--grey {
+    color: $dove-gray;
+  }
 
   /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
   .tooltip-inner {
@@ -54,7 +93,7 @@
     background-color: $mercury-grey;
     color: $charcoal-grey;
     font-family: $font-lato;
-    font-size: 14px;
+    font-size: 1.4rem;
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
     border: solid 1px $white;
   }
@@ -73,10 +112,5 @@
     left: 50%;
     margin-left: -13px;
     border-width: 10px 13px 0;
-  }
-
-  /* XXX : See https://github.com/sgmap/pix/issues/211 */
-  [data-lines="2"] + div .tooltip-inner {
-    padding-top: 3px;
   }
 }

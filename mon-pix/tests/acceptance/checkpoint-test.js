@@ -29,7 +29,7 @@ describe('Acceptance | Checkpoint', () => {
       // then
       expect(find('.checkpoint-progression-gauge-wrapper')).to.have.lengthOf(1);
       expect(find('.assessment-results__list')).to.have.lengthOf(1);
-      expect(find('.result-item-campaign')).to.have.lengthOf(4);
+      expect(find('.result-item')).to.have.lengthOf(4);
       expect(find('.checkpoint__continue').text()).to.contain('Continuer mon parcours');
       expect(find('.checkpoint-no-answer')).to.have.lengthOf(0);
     });
