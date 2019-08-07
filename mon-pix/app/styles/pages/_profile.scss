@@ -40,13 +40,11 @@
     align-self: flex-end;
     margin: 5px;
     padding: 4px 10px;
+    opacity: .5;
 
     &:hover, &:active {
-      background-color: $white;
-    }
-
-    svg {
-      font-size: 1.5 rem;
+      background-color: transparent;
+      opacity: 1;
     }
   }
 
