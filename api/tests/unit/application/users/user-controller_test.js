@@ -249,33 +249,6 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
     });
-
-    context('When payload has a hasSeenNewProfileInfo field', () => {
-
-      it('should remember user has seen migration modal', async () => {
-        // given
-        const userId = 7;
-        const request = {
-          params: {
-            id: userId,
-          },
-          payload: {
-            data: {
-              attributes: {
-                'has-seen-new-profile-info': true,
-              },
-            },
-          },
-        };
-        const usecaseStub = sinon.stub(usecases, 'rememberUserHasSeenNewProfileInfo');
-
-        // when
-        await userController.updateUser(request, hFake);
-
-        // then
-        expect(usecaseStub).to.have.been.calledWith({ userId });
-      });
-    });
   });
 
   describe('#rememberUserHasSeenAssessmentInstructions', () => {
@@ -306,7 +279,36 @@ describe('Unit | Controller | user-controller', () => {
       // then
       expect(response).to.be.equal('ok');
     });
+  });
 
+  describe('#rememberUserHasSeenNewProfileInfo', () => {
+    let request;
+    const userId = 1;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId },
+      };
+
+      sinon.stub(usecases, 'rememberUserHasSeenNewProfileInfo');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    it('should remember user has seen new profile info', async () => {
+      // given
+      usecases.rememberUserHasSeenNewProfileInfo.withArgs({
+        authenticatedUserId: userId.toString(),
+        requestedUserId: userId,
+      }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.rememberUserHasSeenNewProfileInfo(request);
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
   });
 
   describe('#getUser', () => {

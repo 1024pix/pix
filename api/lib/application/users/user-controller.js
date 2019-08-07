@@ -79,11 +79,6 @@ module.exports = {
             userId
           });
         }
-        if (user.hasSeenNewProfileInfo) {
-          return usecases.rememberUserHasSeenNewProfileInfo({
-            userId
-          });
-        }
         return Promise.reject(new BadRequestError());
       })
       .then(() => null);
@@ -94,6 +89,17 @@ module.exports = {
     const requestedUserId = request.params.id;
 
     const updatedUser = await usecases.rememberUserHasSeenAssessmentInstructions({
+      authenticatedUserId, requestedUserId
+    });
+
+    return userSerializer.serialize(updatedUser);
+  },
+
+  async rememberUserHasSeenNewProfileInfo(request) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+
+    const updatedUser = await usecases.rememberUserHasSeenNewProfileInfo({
       authenticatedUserId, requestedUserId
     });
 
