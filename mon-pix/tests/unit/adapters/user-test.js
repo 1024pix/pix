@@ -51,13 +51,22 @@ describe('Unit | Adapters | user', function() {
       expect(url).to.equal('http://localhost:3000/api/users/123');
     });
 
-    it('should include redirect to remember-user-has-seen-assessment-instructions', async function() {
+    it('should redirect to remember-user-has-seen-assessment-instructions', async function() {
       // when
       const snapshot = { adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
       expect(url).to.equal('http://localhost:3000/api/users/123/remember-user-has-seen-assessment-instructions');
+    });
+
+    it('should redirect to remember-user-has-seen-new-profile-info', async function() {
+      // when
+      const snapshot = { adapterOptions: { rememberUserHasSeenNewProfileInfo: true } };
+      const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
+
+      // then
+      expect(url).to.equal('http://localhost:3000/api/users/123/remember-user-has-seen-new-profile-info');
     });
 
     it('should include temporaryKey if present in adapterOptions', async function() {

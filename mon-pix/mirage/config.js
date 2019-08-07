@@ -134,6 +134,12 @@ export default function() {
     return user;
   });
 
+  this.patch('/users/:id/remember-user-has-seen-new-profile-info', (schema, request) => {
+    const user =  schema.users.find(request.params.id);
+    user.hasSeenNewProfileInfo = true;
+    return user;
+  });
+
   this.get('/progressions/:id');
   this.get('/campaigns', getCampaigns);
   this.post('/campaign-participations', postCampaignParticipation);
