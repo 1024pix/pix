@@ -33,7 +33,7 @@
     "sinon": "^7.2.5"
   },
   "scripts": {
-    "build": "run-s ci:front build:front",
+    "build": "run-s ci:front build:front signal-github signal-jira",
     "build:admin": "(cd admin && npm run build) && mkdir -p dist && cp -R admin/dist dist/admin",
     "build:certif": "(cd certif && npm run build) && mkdir -p dist && cp -R certif/dist dist/certif",
     "build:front": "run-p --print-label build:mon-pix build:orga build:certif build:admin",
@@ -75,7 +75,7 @@
     "preinstall": "test \"$(npm --version)\" = 6.4.1",
     "release:prepare": "./scripts/release/prepare.sh",
     "release:publish": "./scripts/release/publish.sh",
-    "scalingo-post-ra-creation": "npm run signal-github && npm run signal-jira",
+    "scalingo-post-ra-creation": "echo 'nothing to do'",
     "start": "run-p --print-label start:api start:mon-pix start:orga start:certif start:admin",
     "start:admin": "cd admin && npm start",
     "start:api": "cd api && npm run start:watch",
