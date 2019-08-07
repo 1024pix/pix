@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+[ -z $APP ] && {
+	echo 'INFO: $APP is absent. I will not post a message to github. Bye !'
+	exit 0
+}
+
 [ -z $GITHUB_USER ] && {
 	echo 'FATAL: $GITHUB_USER is absent'
 	exit 1
@@ -8,11 +13,6 @@
 [ -z $GITHUB_USER_TOKEN ] && {
 	echo 'FATAL: $GITHUB_USER_TOKEN is absent'
 	exit 1
-}
-
-[ -z $APP ] && {
-	echo 'INFO: $APP is absent. I will not post a message to github. Bye !'
-	exit 0
 }
 
 PR_NUMBER=$(echo $APP | grep -Po '(?<=integration-pr)\d+')
