@@ -17,7 +17,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
       await render(hbs`{{navbar-desktop-header media=media}}`);
     });
 
-    it('should render', function() {
+    it('should be rendered', function() {
       // then
       expect(find('.navbar-desktop-header__container')).to.exist;
     });

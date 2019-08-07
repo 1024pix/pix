@@ -10,4 +10,5 @@ export default Component.extend({
 
   isUserLogged: alias('session.isAuthenticated'),
 
+  burger: null,
 });

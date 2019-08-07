@@ -17,7 +17,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
       await render(hbs`{{navbar-mobile-header media=media}}`);
     });
 
-    it('should render', function() {
+    it('should be rendered', function() {
       // then
       expect(find('.navbar-mobile-header__container')).to.exist;
     });
@@ -48,7 +48,7 @@ describe('Integration | Component | navbar-mobile-header', function() {
         }
       }));
       setBreakpointForIntegrationTest(this, 'tablet');
-      await render(hbs`{{navbar-mobile-header media=media}}`);
+      await render(hbs`{{navbar-mobile-header media=media burger="stubbed-burger"}}`);
     });
 
     it('should be rendered', function() {
