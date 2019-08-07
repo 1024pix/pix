@@ -117,28 +117,6 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/{id}/skills', function() {
-    beforeEach(() => {
-      sinon.stub(userController, 'getProfileToCertify').returns('ok');
-      sinon.stub(userVerification, 'verifyById').returns('ok');
-      startServer();
-    });
-
-    it('should exist', () => {
-      const options = {
-        method: 'GET',
-        url: '/api/users/12/skills',
-      };
-
-      // given
-      return server.inject(options).then((_) => {
-        sinon.assert.calledOnce(userVerification.verifyById);
-        sinon.assert.calledOnce(userController.getProfileToCertify);
-        sinon.assert.callOrder(userVerification.verifyById, userController.getProfileToCertify);
-      });
-    });
-  });
-
   describe('GET /api/users/{id}/memberships', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getMemberships').returns('ok');

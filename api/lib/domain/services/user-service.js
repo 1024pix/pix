@@ -177,15 +177,6 @@ module.exports = {
       });
   },
 
-  isUserExistingById(id) {
-    return userRepository
-      .findUserById(id)
-      .then(() => true)
-      .catch(() => {
-        throw new UserNotFoundError();
-      });
-  },
-
   async getProfileToCertifyV1({ userId, limitDate }) {
     const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV1({
       userId,

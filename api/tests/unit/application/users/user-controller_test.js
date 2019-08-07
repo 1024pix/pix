@@ -11,7 +11,6 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
-const userService = require('../../../../lib/domain/services/user-service');
 const profileService = require('../../../../lib/domain/services/profile-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
@@ -308,44 +307,6 @@ describe('Unit | Controller | user-controller', () => {
       expect(response).to.be.equal('ok');
     });
 
-  });
-
-  describe('#getProfileToCertify', () => {
-
-    const request = { params: { id: 1 } };
-
-    beforeEach(() => {
-      sinon.stub(userService, 'isUserExistingById').resolves(true);
-      sinon.stub(userService, 'getProfileToCertifyV1').resolves([]);
-    });
-
-    it('should be a function', () => {
-      expect(userController).to.have.property('getProfileToCertify').and.to.be.a('function');
-    });
-
-    context('when the user exists', () => {
-
-      beforeEach(() => {
-        sinon.useFakeTimers();
-      });
-
-      it('should load his current achieved assessments', async () => {
-        // when
-        await userController.getProfileToCertify(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(userService.getProfileToCertifyV1);
-        sinon.assert.calledWith(userService.getProfileToCertifyV1, 1, new Date('1970-01-01T00:00:00Z'));
-      });
-
-      it('should reply the skillProfile', async () => {
-        // when
-        const response = await userController.getProfileToCertify(request, hFake);
-
-        // then
-        expect(response).to.deep.equal([]);
-      });
-    });
   });
 
   describe('#getUser', () => {
