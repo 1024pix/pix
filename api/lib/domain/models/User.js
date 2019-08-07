@@ -15,7 +15,7 @@ class User {
     password,
     samlId,
     isProfileV2 = true,
-    hasSeenNewProfileInfo,
+    hasSeenNewProfileInfo = true,
     hasSeenAssessmentInstructions,
     // includes
     memberships = [],
