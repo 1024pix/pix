@@ -4,20 +4,9 @@ export default Route.extend({
 
   campaignCode: null,
 
-  model(params) {
-    const store = this.store;
-    this.set('campaignCode', params.campaign_code);
-    return store.query('campaign', { filter: { code: this.campaignCode } })
-      .then((campaigns) => campaigns.get('firstObject'));
-  },
+  async model(params) {
+    const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
 
-  actions: {
-    startCampaignParticipation() {
-      this.transitionTo('campaigns.start-or-resume', this.campaignCode, {
-        queryParams: {
-          hasSeenLanding: true
-        }
-      });
-    }
-  }
+    return campaigns.get('firstObject');
+  },
 });
