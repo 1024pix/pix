@@ -34,3 +34,8 @@
 .ember-burger-menu {
   height: 100vh;
 }
+
+/* Pour faire en sorte que les pages gardent le gris car sinon c'est blanc */
+.ember-burger-menu > .bm-outlet > .bm-content {
+  background-color: transparent;
+}
