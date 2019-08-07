@@ -1,8 +1,13 @@
 #!/bin/bash -e
 
-[ -z $APP ] && {
-	echo 'INFO: $APP is absent. I will not post a message to github. Bye !'
+[ "$REVIEW_APP" != "true" ] && {
+	echo '$REVIEW_APP is not true. I will not post a message to GitHub. Bye !'
 	exit 0
+}
+
+[ -z $APP ] && {
+	echo 'FATAL: $APP is absent'
+	exit 1
 }
 
 [ -z $GITHUB_USER ] && {

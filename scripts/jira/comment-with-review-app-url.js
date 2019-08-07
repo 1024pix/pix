@@ -1,16 +1,19 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 const axios = require('axios');
 
 const JIRA_API_VERSION = '2';
 const JIRA_API_URL = `https://1024pix.atlassian.net/rest/api/${JIRA_API_VERSION}`;
 
 async function main() {
-  const appName = process.env.APP;
+  const isReviewApp = process.env.REVIEW_APP == 'true';
 
-  if (!appName) {
-    console.log('$APP is absent. I will not post a message to Jira. Bye !');
+  if (!isReviewApp) {
+    console.log('$REVIEW_APP is not true. I will not post a message to Jira. Bye !');
     return;
   }
+
+  const appName = process.env.APP;
 
   const prNumber = extractPRNumberFromAppName(appName);
 
@@ -98,8 +101,8 @@ function extractPRNumberFromAppName(appName) {
 async function getBranchNameFromPRNumber(prNumber) {
   const { data } = await axios(`https://api.github.com/repos/1024pix/pix/pulls/${prNumber}`);
 
-  if (data && data.pr && data.pr.head && data.pr.head.ref) {
-    return data.pr.head.ref;
+  if (data && data.head && data.head.ref) {
+    return data.head.ref;
   } else {
     throw new Error(`Could not find branch name in GitHub API output : ${JSON.stringify(data)}`);
   }
