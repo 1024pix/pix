@@ -25,7 +25,7 @@
     "start:mon-pix": "cd ../../mon-pix && npx ember serve --proxy"
   },
   "devDependencies": {
-    "cypress": "^3.2.0",
+    "cypress": "^3.4.1",
     "cypress-cucumber-preprocessor": "^1.11.0",
     "eslint": "^5.13.0",
     "eslint-plugin-cypress": "^2.2.0",
