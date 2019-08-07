@@ -86,7 +86,7 @@
     "ember-lodash": "^4.19.4",
     "ember-math-helpers": "^2.11.1",
     "ember-maybe-import-regenerator": "^0.1.6",
-    "ember-mocha": "^0.15.1",
+    "ember-mocha": "^0.16.0",
     "ember-modal-dialog": "^2.4.4",
     "ember-moment": "^7.8.1",
     "ember-resolver": "^5.1.3",
