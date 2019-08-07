@@ -1,4 +1,4 @@
-import { find, currentURL } from '@ember/test-helpers';
+import { click, find, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import {
@@ -60,6 +60,17 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('table tbody tr td:nth-child(2) .progression-gauge').getAttribute('style')).to.equal('width: 100%');
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: 30%');
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include('30%');
+      });
+
+      it('should share the results', async function() {
+        // when
+        await resumeCampaignByCode('AZERTY2');
+        await completeCampaignAndSeeResultsByCode('AZERTY2');
+        await click('.skill-review__share-button');
+
+        // then
+        expect(find('.skill-review__share-thanks')).to.exists;
+        expect(find('.skill-review__share-legal')).to.not.exists;
       });
     });
   });
