@@ -67,18 +67,6 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/skills',
-      config: {
-        pre: [{
-          method: userVerification.verifyById,
-          assign: 'user'
-        }],
-        handler: userController.getProfileToCertify
-        , tags: ['api']
-      }
-    },
-    {
-      method: 'GET',
       path: '/api/users/{id}/memberships',
       config: {
         handler: userController.getMemberships,

@@ -8,7 +8,6 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 
 const profileService = require('../../domain/services/profile-service');
 const tokenService = require('../../domain/services/token-service');
-const userService = require('../../domain/services/user-service');
 
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
@@ -99,13 +98,6 @@ module.exports = {
     });
 
     return userSerializer.serialize(updatedUser);
-  },
-
-  getProfileToCertify(request) {
-    const userId = request.params.id;
-    const currentDate = new Date();
-
-    return userService.getProfileToCertifyV1(userId, currentDate);
   },
 
   getMemberships(request) {
