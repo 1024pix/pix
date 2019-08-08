@@ -145,14 +145,14 @@ describe('Unit | Controller | answer-controller', () => {
     const userId = 'userId';
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getCorrectionForAnswerWhenAssessmentEnded');
+      sinon.stub(usecases, 'getCorrectionForAnswer');
       sinon.stub(correctionSerializer, 'serialize');
     });
 
     it('should return ok', async () => {
       // given
       requestUtils.extractUserIdFromRequest.returns(userId);
-      usecases.getCorrectionForAnswerWhenAssessmentEnded.withArgs({ answerId, userId }).resolves({});
+      usecases.getCorrectionForAnswer.withArgs({ answerId, userId }).resolves({});
       correctionSerializer.serialize.withArgs({}).returns('ok');
 
       // when

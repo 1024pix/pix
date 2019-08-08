@@ -1,11 +1,11 @@
-const getCorrectionForAnswerWhenAssessmentEnded = require('../../../../lib/domain/usecases/get-correction-for-answer-when-assessment-ended');
+const getCorrectionForAnswer = require('../../../../lib/domain/usecases/get-correction-for-answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Correction = require('../../../../lib/domain/models/Correction');
 const { AssessmentNotCompletedError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const { expect, sinon } = require('../../../test-helper');
 
-describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
+describe('Unit | UseCase | getCorrectionForAnswer', () => {
 
   const assessmentRepository = { get: () => undefined };
   const answerRepository = { get: () => undefined };
@@ -29,7 +29,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         answerRepository.get.resolves(answer);
 
         // when
-        const promise = getCorrectionForAnswerWhenAssessmentEnded({
+        const promise = getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
@@ -61,7 +61,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         correctionRepository.getByChallengeId.resolves(correction);
 
         // when
-        const promise = getCorrectionForAnswerWhenAssessmentEnded({
+        const promise = getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
@@ -93,7 +93,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         correctionRepository.getByChallengeId.resolves(correction);
 
         // when
-        const promise = getCorrectionForAnswerWhenAssessmentEnded({
+        const promise = getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
@@ -127,7 +127,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
       correctionRepository.getByChallengeId.resolves(correction);
 
       // when
-      const promise = getCorrectionForAnswerWhenAssessmentEnded({
+      const promise = getCorrectionForAnswer({
         assessmentRepository,
         answerRepository,
         correctionRepository,
@@ -159,7 +159,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
       correctionRepository.getByChallengeId.resolves({});
 
       // when
-      const promise = getCorrectionForAnswerWhenAssessmentEnded({
+      const promise = getCorrectionForAnswer({
         assessmentRepository,
         answerRepository,
         correctionRepository,

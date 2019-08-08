@@ -42,7 +42,7 @@ module.exports = {
   async getCorrection(request) {
     const userId = requestUtils.extractUserIdFromRequest(request);
 
-    const correction = await usecases.getCorrectionForAnswerWhenAssessmentEnded({
+    const correction = await usecases.getCorrectionForAnswer({
       answerId: request.params.id,
       userId
     });
