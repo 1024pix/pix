@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.58.0 (08/08/2019)
+
+- [#641](https://github.com/1024pix/pix/pull/641) [FEATURE] Changement du hover du bouton pour fermer la bandeau d'information nouveau profil (PF-785).
+- [#633](https://github.com/1024pix/pix/pull/633) [FEATURE] N'affiche pas les infos de nouveau profil pour les nouveaux utilisateurs. (PF-784)
+- [#636](https://github.com/1024pix/pix/pull/636) [TECH] Correction du crash de Chrome 76 sur Mac pendant les tests front.
+- [#637](https://github.com/1024pix/pix/pull/637) [TECH] Suppression de la route `/api/users/{id}/skills`
+
 ## v2.57.0 (07/08/2019)
 
 - [#615](https://github.com/1024pix/pix/pull/615) [FEATURE] Afficher les bonnes réponses sur le checkpoint pour les questions de type qrocm-dep (PF-161).
