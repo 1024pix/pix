@@ -10,7 +10,7 @@ exports.register = async function(server) {
         handler: answerController.save,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
+          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
           '- Enregistre une réponse à un challenge',
         ]
       }
@@ -23,7 +23,7 @@ exports.register = async function(server) {
         handler: answerController.get,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
+          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
           '- Récupère la réponse',
         ]
       }
@@ -36,7 +36,7 @@ exports.register = async function(server) {
         handler: answerController.update,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
+          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
           '- Cette route ne fait rien actuellement',
         ],
       }
@@ -49,8 +49,8 @@ exports.register = async function(server) {
         handler: answerController.findByChallengeAndAssessment,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
-          '- Récupère la liste des réponses par Challenge et Assessment',
+          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
+          '- Récupère la réponse correspondant à un challenge pour un assessment, ou null sinon',
         ]
       }
     },
@@ -62,7 +62,7 @@ exports.register = async function(server) {
         handler: answerController.getCorrection,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible à tous, mais vérifie que l\'answer appartient à l\'utilisateur**\n' +
+          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
           '- Récupère la correction à une réponse',
         ]
       }
