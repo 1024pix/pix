@@ -6,12 +6,22 @@ export default Route.extend(ApplicationRouteMixin, {
 
   splash: service(),
   currentUser: service(),
+  session: service(),
 
   activate() {
     this.splash.hide();
   },
 
-  beforeModel() {
+  _checkForURLAuthentication(transition) {
+    if (transition.to.queryParams && transition.to.queryParams.token) {
+      return this.session.authenticate(
+        'authenticator:simple', { token: transition.to.queryParams.token }
+      );
+    }
+  },
+
+  async beforeModel(transition) {
+    await this._checkForURLAuthentication(transition);
     return this._loadCurrentUser();
   },
 

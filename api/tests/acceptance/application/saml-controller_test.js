@@ -207,7 +207,7 @@ describe('Acceptance | Controller | saml-controller', () => {
       it('should consume valid SAML assertion and create user', () => {
         // then
         expect(firstVisitResponse.statusCode).to.equal(302);
-        expect(firstVisitResponse.headers.location).to.match(/^\/connexion\?token=[-_a-zA-Z0-9.]+&user-id=[0-9]+$/);
+        expect(firstVisitResponse.headers.location).to.match(/^\/\?token=[-_a-zA-Z0-9.]+&user-id=[0-9]+$/);
       });
 
       it('should retrieve the user on a second visit', async () => {
