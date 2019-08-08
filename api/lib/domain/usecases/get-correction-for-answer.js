@@ -1,6 +1,6 @@
 const { AssessmentNotCompletedError, ForbiddenAccess } = require('../errors');
 
-module.exports = async function getCorrectionForAnswerWhenAssessmentEnded({
+module.exports = async function getCorrectionForAnswer({
   assessmentRepository,
   answerRepository,
   correctionRepository,
