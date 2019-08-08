@@ -131,7 +131,7 @@ describe('Unit | UseCase | update-user-password', () => {
   });
 
   describe('When user has not a current password reset demand', () => {
-    it('should returns PasswordResetDemandNotFoundError', () => {
+    it('should return PasswordResetDemandNotFoundError', () => {
       // given
       const error = new PasswordResetDemandNotFoundError();
       resetPasswordService.hasUserAPasswordResetDemandInProgress
@@ -154,7 +154,7 @@ describe('Unit | UseCase | update-user-password', () => {
   });
 
   describe('When user has not a matching password reset demand', () => {
-    it('should returns PasswordResetDemandNotFoundError', () => {
+    it('should return PasswordResetDemandNotFoundError', () => {
       // given
       const error = new PasswordResetDemandNotFoundError();
       resetPasswordService.hasUserAPasswordResetDemandInProgress

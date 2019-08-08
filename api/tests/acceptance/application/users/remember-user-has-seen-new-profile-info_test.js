@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-remember-user-has-seen-assessment-instructions', () => {
+describe('Acceptance | Controller | users-controller-remember-user-has-seen-new-profile-info', () => {
 
   let server;
   let user;
@@ -9,7 +9,7 @@ describe('Acceptance | Controller | users-controller-remember-user-has-seen-asse
   beforeEach(async () => {
     server = await createServer();
 
-    user = databaseBuilder.factory.buildUser({ hasSeenAssessmentInstructions: false });
+    user = databaseBuilder.factory.buildUser({ hasSeenNewProfileInfo: false });
 
     return databaseBuilder.commit();
   });
@@ -18,11 +18,11 @@ describe('Acceptance | Controller | users-controller-remember-user-has-seen-asse
     return databaseBuilder.clean();
   });
 
-  it('should return the user with hasSeenAssessmentInstructions', async () => {
+  it('should return the user with hasSeenNewProfileInfo', async () => {
     // given
     const options = {
       method: 'PATCH',
-      url: `/api/users/${user.id}/remember-user-has-seen-assessment-instructions`,
+      url: `/api/users/${user.id}/remember-user-has-seen-new-profile-info`,
       // payload: {},
       headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
     };
@@ -31,6 +31,6 @@ describe('Acceptance | Controller | users-controller-remember-user-has-seen-asse
     const response = await server.inject(options);
 
     // then
-    expect(response.result.data.attributes['has-seen-assessment-instructions']).to.be.true;
+    expect(response.result.data.attributes['has-seen-new-profile-info']).to.be.true;
   });
 });

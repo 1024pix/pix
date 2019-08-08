@@ -26,8 +26,10 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.lastName).to.equal('Goku');
       expect(user.email).to.equal('email@example.net');
       expect(user.password).to.equal('pix123');
-      expect(user.cgu).to.equal(true);
+      expect(user.cgu).to.be.true;
       expect(user.samlId).to.equal('some-saml-id');
+      expect(user.isProfileV2).to.be.true;
+      expect(user.hasSeenNewProfileInfo).to.be.true;
     });
 
   });
