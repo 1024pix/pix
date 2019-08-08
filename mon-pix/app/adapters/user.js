@@ -12,11 +12,6 @@ export default ApplicationAdapter.extend({
       return `${this._super(...arguments)}/me`;
     }
 
-    if (query.profile) {
-      delete query.profile;
-      return `${this._super(...arguments)}/me/profile`;
-    }
-
     return this._super(...arguments);
   },
 
