@@ -22,8 +22,12 @@ module.exports = {
     return answerSerializer.serialize(answer);
   },
 
-  update() {
-    return null;
+  async update(request) {
+    const userId = requestUtils.extractUserIdFromRequest(request);
+    const answerId = request.params.id;
+    const answer = await usecases.getAnswer({ answerId, userId });
+
+    return answerSerializer.serialize(answer);
   },
 
   async findByChallengeAndAssessment(request) {
