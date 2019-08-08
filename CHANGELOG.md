@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v2.58.1 (08/08/2019)
+
+- [#632](https://github.com/1024pix/pix/pull/632) [BUGFIX] Un utilisateur doit pouvoir accéder à son profil Pix via le GAR et ne pas être bloqué (PF-774).
+
 ## v2.58.0 (08/08/2019)
 
 - [#641](https://github.com/1024pix/pix/pull/641) [FEATURE] Changement du hover du bouton pour fermer la bandeau d'information nouveau profil (PF-785).
