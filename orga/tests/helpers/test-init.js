@@ -52,6 +52,7 @@ export function createUserManagingStudents(role = 'MEMBER') {
 
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
+    type: 'SCO',
     isManagingStudents: true
   });
 
