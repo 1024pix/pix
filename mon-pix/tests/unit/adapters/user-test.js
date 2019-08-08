@@ -23,14 +23,6 @@ describe('Unit | Adapters | user', function() {
       expect(url.endsWith('/users/me')).to.be.true;
     });
 
-    it('should build /me/profile url', async function() {
-      // when
-      const url = await adapter.urlForQueryRecord({ profile: true }, 'user');
-
-      // then
-      expect(url.endsWith('/users/me/profile')).to.be.true;
-    });
-
     it('should build classic url', async function() {
       // when
       const url = await adapter.urlForQueryRecord({}, 'user');
