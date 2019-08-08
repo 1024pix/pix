@@ -89,7 +89,7 @@ describe('Acceptance | Certification | Start Course', function() {
         await click('.certification-course-page__submit_button');
 
         await click('.challenge-actions__action-skip');
-        await visitWithAbortedTransition('/compte');
+        await visitWithAbortedTransition('/profil');
 
         // when
         await visitWithAbortedTransition('/certifications/certification-number');

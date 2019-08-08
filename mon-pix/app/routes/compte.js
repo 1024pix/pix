@@ -9,9 +9,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   beforeModel() {
     this._super(...arguments);
 
-    if (this.currentUser.user.isProfileV2) {
-      return this.transitionTo('profile');
-    }
+    return this.transitionTo('profile');
   },
 
   async model() {

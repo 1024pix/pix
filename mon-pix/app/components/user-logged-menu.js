@@ -18,14 +18,10 @@ export default Component.extend(EmberKeyboardMixin, {
   _canDisplayMenu: false,
   _user: null,
 
-  canDisplayLinkToProfile: computed('currentUser.user.usesProfileV2', 'routing.currentRouteName', function() {
+  canDisplayLinkToProfile: computed('routing.currentRouteName', function() {
     const currentRouteName = this.get('routing.currentRouteName');
 
-    if (this.get('currentUser.user.usesProfileV2')) {
-      return currentRouteName !== 'profile' && currentRouteName !== 'board';
-    }
-
-    return currentRouteName !== 'compte' && currentRouteName !== 'board';
+    return currentRouteName !== 'profile' && currentRouteName !== 'board';
   }),
 
   closeOnEsc: on(keyDown('Escape'), function() {
