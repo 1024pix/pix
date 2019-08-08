@@ -20,7 +20,7 @@ describe('Unit | Adapters | competence-evaluation', function() {
       const url = await adapter.urlForQueryRecord({ startOrResume: true }, 'competenceEvaluation');
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/competence-evaluations/start-or-resume');
+      expect(url.endsWith('/competence-evaluations/start-or-resume')).to.be.true;
     });
 
     it('should build classic url', async function() {
@@ -28,7 +28,7 @@ describe('Unit | Adapters | competence-evaluation', function() {
       const url = await adapter.urlForQueryRecord({}, 'competenceEvaluation');
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/competence-evaluations');
+      expect(url.endsWith('/competence-evaluations')).to.be.true;
     });
 
   });
