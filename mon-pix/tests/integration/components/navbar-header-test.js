@@ -1,3 +1,4 @@
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
@@ -28,10 +29,11 @@ describe('Integration | Component | navbar-header', function() {
 
     it('should be rendered in mobile/tablet mode with a burger', async function() {
       // when
+      this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
       await render(hbs`{{navbar-header media=media burger="stubbed-burger"}}`);
       // then
       expect(find('.navbar-mobile-header__container')).to.exist;
-      //expect(find('.navbar-mobile-header__burger-icon')).to.exist;
+      expect(find('.navbar-mobile-header__burger-icon')).to.exist;
     });
 
     it('should be rendered in mobile/tablet mode without burger', async function() {
