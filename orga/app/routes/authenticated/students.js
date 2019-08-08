@@ -7,7 +7,7 @@ export default Route.extend({
 
   beforeModel() {
     this._super(...arguments);
-    if (!this.currentUser.isManagingStudents) {
+    if (!this.currentUser.canAccessStudentsPage) {
       return this.replaceWith('application');
     }
   },
