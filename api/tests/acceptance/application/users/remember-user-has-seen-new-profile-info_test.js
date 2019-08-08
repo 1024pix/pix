@@ -18,7 +18,7 @@ describe('Acceptance | Controller | users-controller-remember-user-has-seen-new-
     return databaseBuilder.clean();
   });
 
-  it('should returns the user with hasSeenNewProfileInfo', async () => {
+  it('should return the user with hasSeenNewProfileInfo', async () => {
     // given
     const options = {
       method: 'PATCH',

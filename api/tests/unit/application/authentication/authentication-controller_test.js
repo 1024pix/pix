@@ -46,7 +46,7 @@ describe('Unit | Application | Controller | Authentication', () => {
     /**
      * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
      */
-    it('should returns an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async () => {
+    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async () => {
       // when
       const response = await authenticationController.authenticateUser(request, hFake);
 

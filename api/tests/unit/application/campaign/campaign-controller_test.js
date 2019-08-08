@@ -189,7 +189,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       tokenService.createTokenForCampaignResults.withArgs(request.auth.credentials.userId).returns('token');
     });
 
-    it('should returns the campaign', async () => {
+    it('should return the campaign', async () => {
       // given
       const tokenForCampaignResults = 'token';
       const expectedCampaign = { ...campaign, tokenForCampaignResults };
@@ -238,7 +238,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       sinon.stub(campaignSerializer, 'serialize');
     });
 
-    it('should returns the updated campaign', async () => {
+    it('should return the updated campaign', async () => {
       // given
       usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
       campaignSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);

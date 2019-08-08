@@ -18,7 +18,7 @@ describe('Acceptance | Controller | users-controller-remember-user-has-seen-asse
     return databaseBuilder.clean();
   });
 
-  it('should returns the user with hasSeenAssessmentInstructions', async () => {
+  it('should return the user with hasSeenAssessmentInstructions', async () => {
     // given
     const options = {
       method: 'PATCH',

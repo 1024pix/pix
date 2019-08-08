@@ -116,7 +116,7 @@ describe('Unit | Controller | snapshot-controller', () => {
       sinon.stub(snapshotSerializer, 'serialize');
     });
 
-    it('should returns the snapshots with pagination', async () => {
+    it('should return the snapshots with pagination', async () => {
       // given
       queryParamsUtils.extractParameters.withArgs(query).returns(options);
       usecases.findSnapshots.withArgs({ options }).resolves(result);
