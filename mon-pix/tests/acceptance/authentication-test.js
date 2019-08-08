@@ -1,13 +1,13 @@
 import { click, fillIn, currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsPrescriber, authenticateAsSimpleProfileV2User, authenticateAsSimpleUser } from '../helpers/testing';
+import { authenticateAsPrescriber, authenticateAsSimpleUser } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Espace compte | Authentication', function() {
+describe('Acceptance | Authentication', function() {
   setupApplicationTest();
   setupMirage();
 
@@ -17,10 +17,10 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
   describe('Success cases', function() {
 
-    describe('Accessing to the /compte page while disconnected', async function() {
+    describe('Accessing to the /profil page while disconnected', async function() {
       it('should redirect to the connexion page', async function() {
         // when
-        await visitWithAbortedTransition('/compte');
+        await visitWithAbortedTransition('/profil');
 
         // then
         expect(currentURL()).to.equal('/connexion');
@@ -28,12 +28,12 @@ describe('Acceptance | Espace compte | Authentication', function() {
     });
 
     describe('Log-in phase', function() {
-      it('should redirect to the /compte after connexion for usual users', async function() {
+      it('should redirect to the /profil after connexion for usual users', async function() {
         // given
         await authenticateAsSimpleUser();
 
         // then
-        expect(currentURL()).to.equal('/compte');
+        expect(currentURL()).to.equal('/profil');
       });
 
       it('should redirect to the /board after connexion for users with organization', async function() {
@@ -42,23 +42,6 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
         // then
         expect(currentURL()).to.equal('/board');
-      });
-
-    });
-
-  });
-
-  describe('V2 Profile cases', function() {
-    describe('New v2 users', function() {
-      it('should be redirected to /profil when they hit /compte', async function() {
-        // given
-        await authenticateAsSimpleProfileV2User();
-
-        // when
-        await visitWithAbortedTransition('/compte');
-
-        // then
-        expect(currentURL()).to.equal('/profil');
       });
     });
   });
