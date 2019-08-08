@@ -1,5 +1,5 @@
 const odsService = require('../services/ods-service');
-const xmlService = require('../services/xml-service');
+const sessionXmlService = require('../services/session-xml-service');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const moment = require('moment');
 const _ = require('lodash');
@@ -52,7 +52,7 @@ async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
   const stringifiedXml = await odsService.getContentXml({ odsFilePath: _getAttendanceTemplatePath() });
   const session = await sessionRepository.get(sessionId);
   const attendanceSheetData = _.transform(session, transformSessionIntoAttendanceSheetData);
-  const stringifiedUpdatedXml = xmlService.getUpdatedXml({ stringifiedXml, dataToInject: attendanceSheetData, templateValues: ATTENDANCE_SHEET_TEMPLATE_VALUES });
+  const stringifiedUpdatedXml = sessionXmlService.getUpdatedXmlWithSessionData({ stringifiedXml, dataToInject: attendanceSheetData, templateValues: ATTENDANCE_SHEET_TEMPLATE_VALUES });
 
   return await odsService.makeUpdatedOdsByContentXml({ stringifiedXml: stringifiedUpdatedXml, odsFilePath: _getAttendanceTemplatePath() });
 }
