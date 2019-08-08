@@ -27,7 +27,7 @@ module.exports = {
 
       const token = tokenService.createTokenFromUser(user, 'external');
 
-      return h.redirect(`/connexion?token=${encodeURIComponent(token)}&user-id=${user.id}`);
+      return h.redirect(`/?token=${encodeURIComponent(token)}&user-id=${user.id}`);
     } catch (e) {
       logger.error(e);
       return h.response(e.toString()).code(500);

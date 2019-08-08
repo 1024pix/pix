@@ -8,7 +8,7 @@ given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'users_pix_roles');
 });
 
-given('le compte de "Daenerys Targaryen" est créé', () => {
+given('tous les comptes sont créés', () => {
   cy.task('db:fixture', 'users');
 });
 
@@ -20,8 +20,12 @@ given('j\'accède à mon profil', () => {
   cy.visit('/profil');
 });
 
-given('je suis connecté à Pix', () => {
-  cy.login('daenerys.targaryen@pix.fr', 'pix123');
+given('je suis connecté à Pix en tant que {string}', (user) => {
+  if(user === 'John Snow') {
+    cy.login('john.snow@pix.fr', 'pix123');
+  } else {
+    cy.login('daenerys.targaryen@pix.fr', 'pix123');
+  }
 });
 
 given('je suis connecté à Pix en tant qu\'administrateur', () => {
