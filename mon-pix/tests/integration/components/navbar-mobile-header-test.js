@@ -36,32 +36,32 @@ describe('Integration | Component | navbar-mobile-header', function() {
 
   context('When user is logged', function() {
 
-    beforeEach(async function() {
-      this.owner.register('service:session', Service.extend({
-        isAuthenticated: true,
-        data: {
-          authenticated: {
-            token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUyMTg5MDh9.bbbb',
-            userId: 1,
-            source: 'pix'
-          }
-        }
-      }));
+    beforeEach(function() {
+      this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
       setBreakpointForIntegrationTest(this, 'tablet');
-      await render(hbs`{{navbar-mobile-header media=media burger="stubbed-burger"}}`);
     });
 
-    it('should be rendered', function() {
+    it('should be rendered', async function() {
+      // when
+      await render(hbs`{{navbar-mobile-header media=media}}`);
+
+      // then
       expect(find('.navbar-mobile-header')).to.exist;
     });
 
-    it('should display the Pix logo', function() {
+    it('should display the Pix logo', async function() {
+      // when
+      await render(hbs`{{navbar-mobile-header media=media}}`);
+
       // then
-      //expect(find('.navbar-mobile-header-logo__pix')).to.exist;
-      //expect(find('.navbar-mobile-header-logo__marianne')).to.exist;
+      expect(find('.navbar-mobile-header-logo__pix')).to.exist;
+      expect(find('.navbar-mobile-header-logo__marianne')).to.exist;
     });
 
-    it('should display the burger icon', function() {
+    it('should display the burger icon', async function() {
+      // when
+      await render(hbs`{{navbar-mobile-header media=media burger="burger"}}`);
+
       // then
       expect(find('.navbar-mobile-header__burger-icon')).to.exist;
     });
