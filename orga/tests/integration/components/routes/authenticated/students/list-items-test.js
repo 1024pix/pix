@@ -41,4 +41,16 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     assert.dom('.table tbody tr:first-child td:last-child').hasText('01/02/2010');
   });
 
+  test('it should display import button', async function(assert) {
+    // given
+    this.set('importStudentsSpy', () => {});
+    this.set('students', []);
+
+    // when
+    await render(hbs`{{routes/authenticated/students/list-items students=students importStudents=(action importStudentsSpy)}}`);
+
+    // then
+    assert.dom('.button').hasText('Importer (.xml)');
+  });
+
 });
