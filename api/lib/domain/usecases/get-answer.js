@@ -2,7 +2,7 @@ const {
   ForbiddenAccess
 } = require('../errors');
 
-module.exports = async function getAnswerForRelevantUser(
+module.exports = async function getAnswer(
   {
     answerId,
     userId,
