@@ -235,7 +235,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       sinon.stub(serializer, 'serialize');
     });
 
-    it('should returns the campaignParticipation', async () => {
+    it('should return the campaignParticipation', async () => {
       // given
       queryParamsUtils.extractParameters.withArgs(query).returns(options);
       usecases.getCampaignParticipation.withArgs({ campaignParticipationId, options, userId }).resolves({});
