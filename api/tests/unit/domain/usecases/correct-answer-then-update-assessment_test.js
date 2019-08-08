@@ -51,12 +51,14 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       // given
       answer = domainBuilder.buildAnswer();
       answerRepository.findByChallengeAndAssessment.resolves(true);
+      assessmentRepository.get.resolves({ userId });
 
       // when
       result = correctAnswerThenUpdateAssessment({
         answer,
         userId,
         answerRepository,
+        assessmentRepository,
         challengeRepository,
         smartPlacementAssessmentRepository,
         knowledgeElementRepository,

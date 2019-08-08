@@ -24,14 +24,14 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     challengeId: answer.challengeId,
   });
 
-  if (answersFind) {
-    throw new ChallengeAlreadyAnsweredError();
-  }
-
   const assessment = await assessmentRepository.get(answer.assessmentId);
 
   if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');
+  }
+
+  if (answersFind) {
+    throw new ChallengeAlreadyAnsweredError();
   }
 
   if (assessment.isPlacement()) {
