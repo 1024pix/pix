@@ -8,6 +8,7 @@ const sessionService = require('../../../../lib/domain/services/session-service'
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
+const _ = require('lodash');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -188,5 +189,45 @@ describe('Unit | Controller | sessionController', () => {
       // then
       expect(response).to.deep.equal(updatedSession);
     });
+
   });
+
+  describe('#getAttendanceSheet ', () => {
+    const tokenService = { extractUserId: _.noop };
+    let request, expectedHeaders;
+    const sessionId = 1;
+    const odsBuffer = Buffer.alloc(5);
+    const accessToken = 'ABC123';
+
+    beforeEach(() => {
+      request = {
+        params: { id : sessionId },
+        payload: {},
+        query: {
+          accessToken,
+        }
+      };
+
+      expectedHeaders = {
+        'Content-Disposition': `attachment; filename=pv-session-${sessionId}.ods`,
+        'Content-Type': 'application/vnd.oasis.opendocument.spreadsheet',
+      };
+
+      sinon.stub(usecases, 'getAttendanceSheet');
+      sinon.stub(tokenService, 'extractUserId').withArgs(accessToken).returns(userId);
+    });
+
+    it('should return attendance sheet', async () => {
+      // given
+      usecases.getAttendanceSheet.withArgs({ sessionId, userId }).resolves(odsBuffer);
+
+      // when
+      const response = await sessionController.getAttendanceSheet(request, hFake);
+
+      // then
+      expect(response.headers).to.deep.equal(expectedHeaders);
+    });
+
+  });
+
 });
