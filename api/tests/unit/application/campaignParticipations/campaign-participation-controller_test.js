@@ -3,7 +3,7 @@ const { sinon, expect, domainBuilder, hFake, catchErr } = require('../../../test
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const { BadRequestError } = require('../../../../lib/infrastructure/errors');
-const tokenService = require('../../../../lib/domain/services/token-service');
+const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
@@ -15,7 +15,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     const query = 'some query';
     const userId = 1;
-    const token = 'token';
     const authorization = 'auth header';
     const request = { headers: { authorization }, query };
     const resultWithPagination = { models: [], pagination: {} };
@@ -27,8 +26,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'findCampaignParticipationsRelatedToAssessment');
-      sinon.stub(tokenService, 'extractTokenFromAuthChain').withArgs(authorization).returns(token);
-      sinon.stub(tokenService, 'extractUserId').withArgs(token).returns(userId);
+      sinon.stub(requestUtils, 'extractUserIdFromRequest').withArgs(request).returns(userId);
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(serializer, 'serialize')
         .withArgs(resultWithPagination.models, resultWithPagination.pagination).returns(serialized)
@@ -91,8 +89,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'shareCampaignResult');
-      sinon.stub(tokenService, 'extractTokenFromAuthChain').resolves();
-      sinon.stub(tokenService, 'extractUserId').resolves(userId);
+      sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
     });
 
     it('should call the use case to share campaign result', async () => {

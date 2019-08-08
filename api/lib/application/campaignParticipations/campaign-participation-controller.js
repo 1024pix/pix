@@ -1,9 +1,9 @@
 const { BadRequestError } = require('../../infrastructure/errors');
 const usecases = require('../../domain/usecases');
-const tokenService = require('../../../lib/domain/services/token-service');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
+const requestUtils = require('../../infrastructure/utils/request-utils');
 
 module.exports = {
 
@@ -28,8 +28,7 @@ module.exports = {
   },
 
   async find(request) {
-    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
-    const userId = tokenService.extractUserId(token);
+    const userId = requestUtils.extractUserIdFromRequest(request);
     const options = queryParamsUtils.extractParameters(request.query);
 
     if (!options.filter.assessmentId && !options.filter.campaignId) {
@@ -48,8 +47,7 @@ module.exports = {
   },
 
   shareCampaignResult(request) {
-    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
-    const userId = tokenService.extractUserId(token);
+    const userId = requestUtils.extractUserIdFromRequest(request);
     const campaignParticipationId = parseInt(request.params.id);
 
     return usecases.shareCampaignResult({

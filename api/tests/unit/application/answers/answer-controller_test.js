@@ -7,6 +7,7 @@ const correctionSerializer = require('../../../../lib/infrastructure/serializers
 const usecases = require('../../../../lib/domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
+const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
 
 describe('Unit | Controller | answer-controller', () => {
 
@@ -16,6 +17,7 @@ describe('Unit | Controller | answer-controller', () => {
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(smartPlacementAssessmentRepository, 'get');
     sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
+    sinon.stub(requestUtils, 'extractUserIdFromRequest');
   });
 
   describe('#save', () => {
@@ -104,15 +106,15 @@ describe('Unit | Controller | answer-controller', () => {
 
       let createdAnswer;
       let response;
+      const userId = 3;
 
       beforeEach(async () => {
         // given
-
         deserializedAnswer.id = undefined;
         createdAnswer = domainBuilder.buildAnswer({ assessmentId });
-
         answerSerializer.serialize.returns(serializedAnswer);
         usecases.correctAnswerThenUpdateAssessment.resolves(createdAnswer);
+        requestUtils.extractUserIdFromRequest.returns(userId);
 
         // when
         response = await answerController.save(request, hFake);
@@ -121,7 +123,7 @@ describe('Unit | Controller | answer-controller', () => {
       it('should call the usecase to save the answer', () => {
         // then
         expect(usecases.correctAnswerThenUpdateAssessment)
-          .to.have.been.calledWith({ answer: deserializedAnswer });
+          .to.have.been.calledWith({ answer: deserializedAnswer, userId });
       });
 
       it('should serialize the answer', () => {
@@ -137,111 +139,20 @@ describe('Unit | Controller | answer-controller', () => {
     });
   });
 
-  describe('#update', () => {
-
-    const answerId = 1212;
-    const assessmentId = 12;
-    const challengeId = 'recdTpx4c0kPPDTtf';
-    const result = null;
-    const timeout = null;
-    const resultDetails = null;
-    const value = 'NumA = "4", NumB = "1", NumC = "3", NumD = "2"';
-    const elapsedTime = 1000;
-
-    let request;
-
-    beforeEach(() => {
-      request = {
-        params: {
-          id: answerId,
-        },
-        payload: {
-          data: {
-            id: answerId,
-            attributes: {
-              value: value,
-              result: result,
-              timeout: timeout,
-              'result-details': resultDetails,
-              'elapsed-time': elapsedTime,
-            },
-            relationships: {
-              assessment: {
-                data: {
-                  type: 'assessments',
-                  id: assessmentId,
-                },
-              },
-              challenge: {
-                data: {
-                  type: 'challenges',
-                  id: challengeId,
-                },
-              },
-            },
-            type: 'answers',
-          },
-        },
-      };
-    });
-
-    context('when assessment is a SmartPlacement and Answer exists', () => {
-
-      let existingAnswer;
-      let response;
-      let assessment;
-
-      beforeEach(async () => {
-        // given
-        existingAnswer = domainBuilder.buildAnswer({
-          id: answerId,
-          value,
-          result,
-          timeout,
-          resultDetails,
-          elapsedTime,
-          assessmentId,
-          challengeId,
-        });
-        assessment = domainBuilder.buildSmartPlacementAssessment({ id: assessmentId });
-
-        answerRepository.findByChallengeAndAssessment.resolves(existingAnswer);
-        smartPlacementAssessmentRepository.get.resolves(assessment);
-
-        // when
-        response = await answerController.update(request, hFake);
-      });
-
-      it('should get existing answer', () => {
-        // then
-        return expect(answerRepository.findByChallengeAndAssessment)
-          .to.have.been.calledWith({ challengeId, assessmentId });
-      });
-
-      it('should call the smartPlacementAssessmentRepository to try and get the assessment', () => {
-        // then
-        return expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(assessmentId);
-      });
-
-      it('should return no content', () => {
-        // then
-        expect(response).to.be.null;
-      });
-    });
-  });
-
   describe('#getCorrection', () => {
 
     const answerId = 1;
+    const userId = 'userId';
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getCorrectionForAnswerWhenAssessmentEnded');
+      sinon.stub(usecases, 'getCorrectionForAnswer');
       sinon.stub(correctionSerializer, 'serialize');
     });
 
     it('should return ok', async () => {
       // given
-      usecases.getCorrectionForAnswerWhenAssessmentEnded.withArgs({ answerId }).resolves({});
+      requestUtils.extractUserIdFromRequest.returns(userId);
+      usecases.getCorrectionForAnswer.withArgs({ answerId, userId }).resolves({});
       correctionSerializer.serialize.withArgs({}).returns('ok');
 
       // when
