@@ -1,11 +1,11 @@
-const getCorrectionForAnswerWhenAssessmentEnded = require('../../../../lib/domain/usecases/get-correction-for-answer-when-assessment-ended');
+const getCorrectionForAnswer = require('../../../../lib/domain/usecases/get-correction-for-answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Correction = require('../../../../lib/domain/models/Correction');
-const { AssessmentNotCompletedError } = require('../../../../lib/domain/errors');
+const { AssessmentNotCompletedError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const { expect, sinon } = require('../../../test-helper');
 
-describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
+describe('Unit | UseCase | getCorrectionForAnswer', () => {
 
   const assessmentRepository = { get: () => undefined };
   const answerRepository = { get: () => undefined };
@@ -22,17 +22,19 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
     context('and when the assessment is not a SMART_PLACEMENT', () => {
       it('should reject with a assessment not completed error', () => {
         // given
-        const assessment = Assessment.fromAttributes({ state: 'started' });
+        const userId = 'userId';
+        const assessment = Assessment.fromAttributes({ state: 'started', userId });
         const answer = new Answer({ assessmentId: 1, challengeId: 12 });
         assessmentRepository.get.resolves(assessment);
         answerRepository.get.resolves(answer);
 
         // when
-        const promise = getCorrectionForAnswerWhenAssessmentEnded({
+        const promise = getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
           answerId: 2,
+          userId
         });
 
         // then
@@ -50,7 +52,8 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         // given
         const assessmentId = 1;
         const challengeId = 12;
-        const assessment = Assessment.fromAttributes({ state: 'started', type: Assessment.types.SMARTPLACEMENT });
+        const userId = 'userId';
+        const assessment = Assessment.fromAttributes({ state: 'started', type: Assessment.types.SMARTPLACEMENT, userId });
         const answer = new Answer({ assessmentId, challengeId });
         const correction = new Correction({ id: 123 });
         assessmentRepository.get.resolves(assessment);
@@ -58,11 +61,12 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         correctionRepository.getByChallengeId.resolves(correction);
 
         // when
-        const promise = getCorrectionForAnswerWhenAssessmentEnded({
+        const promise = getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
           answerId: 2,
+          userId
         });
 
         // then
@@ -80,7 +84,8 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         // given
         const assessmentId = 1;
         const challengeId = 12;
-        const assessment = Assessment.fromAttributes({ state: 'started', type: Assessment.types.COMPETENCE_EVALUATION });
+        const userId = 'userId';
+        const assessment = Assessment.fromAttributes({ state: 'started', type: Assessment.types.COMPETENCE_EVALUATION, userId });
         const answer = new Answer({ assessmentId, challengeId });
         const correction = new Correction({ id: 123 });
         assessmentRepository.get.resolves(assessment);
@@ -88,11 +93,12 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         correctionRepository.getByChallengeId.resolves(correction);
 
         // when
-        const promise = getCorrectionForAnswerWhenAssessmentEnded({
+        const promise = getCorrectionForAnswer({
           assessmentRepository,
           answerRepository,
           correctionRepository,
           answerId: 2,
+          userId,
         });
 
         // then
@@ -112,7 +118,8 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
       // given
       const assessmentId = 1;
       const challengeId = 12;
-      const assessment = Assessment.fromAttributes({ state: 'completed' });
+      const userId = 'userId';
+      const assessment = Assessment.fromAttributes({ state: 'completed', userId });
       const answer = new Answer({ assessmentId, challengeId });
       const correction = new Correction({ id: 123 });
       assessmentRepository.get.resolves(assessment);
@@ -120,11 +127,12 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
       correctionRepository.getByChallengeId.resolves(correction);
 
       // when
-      const promise = getCorrectionForAnswerWhenAssessmentEnded({
+      const promise = getCorrectionForAnswer({
         assessmentRepository,
         answerRepository,
         correctionRepository,
         answerId: 2,
+        userId
       });
 
       // then
@@ -136,4 +144,32 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
       });
     });
   });
+
+  context('when user ask for correction is not the user who answered the challenge', () => {
+
+    it('should throw a Forbidden Access error', () => {
+      // given
+      const assessmentId = 1;
+      const challengeId = 12;
+      const userId = 'userId';
+      const assessment = Assessment.fromAttributes({ state: 'completed', userId });
+      const answer = new Answer({ assessmentId, challengeId });
+      assessmentRepository.get.resolves(assessment);
+      answerRepository.get.resolves(answer);
+      correctionRepository.getByChallengeId.resolves({});
+
+      // when
+      const promise = getCorrectionForAnswer({
+        assessmentRepository,
+        answerRepository,
+        correctionRepository,
+        answerId: 2,
+        userId: userId + 2
+      });
+
+      // then
+      return expect(promise).to.be.rejectedWith(ForbiddenAccess);
+    });
+  });
+
 });

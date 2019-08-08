@@ -6,7 +6,7 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 
 const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
 
-const { ChallengeAlreadyAnsweredError, NotFoundError, UserHasBeenMigratedToV2Error } = require('../../../../lib/domain/errors');
+const { ChallengeAlreadyAnsweredError, NotFoundError, UserHasBeenMigratedToV2Error, ForbiddenAccess } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
 
@@ -40,6 +40,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     sinon.stub(userRepository, 'get');
     sinon.stub(KnowledgeElement, 'createKnowledgeElementsForAnswer');
   });
+  const userId = 1;
 
   context('when an answer for that challenge and that assessment already exists', () => {
 
@@ -50,11 +51,14 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       // given
       answer = domainBuilder.buildAnswer();
       answerRepository.findByChallengeAndAssessment.resolves(true);
+      assessmentRepository.get.resolves({ userId });
 
       // when
       result = correctAnswerThenUpdateAssessment({
         answer,
+        userId,
         answerRepository,
+        assessmentRepository,
         challengeRepository,
         smartPlacementAssessmentRepository,
         knowledgeElementRepository,
@@ -108,7 +112,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         solution = domainBuilder.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
         validator = domainBuilder.buildValidator.ofTypeQCU({ solution });
         challenge = domainBuilder.buildChallenge({ id: answer.challengeId, validator });
-        assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
+        assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.COMPETENCE_EVALUATION });
         competenceEvaluation = domainBuilder.buildCompetenceEvaluation();
         knowledgeElement = domainBuilder.buildKnowledgeElement();
         firstCreatedKnowledgeElement = domainBuilder.buildKnowledgeElement();
@@ -139,6 +143,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -160,6 +165,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -177,6 +183,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -196,6 +203,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         const result = await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -245,7 +253,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         savedAnswer = domainBuilder.buildAnswer(completedAnswer);
 
-        assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+        assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.SMARTPLACEMENT });
         smartPlacementAssessment = domainBuilder.buildSmartPlacementAssessment();
         firstKnowledgeElement = domainBuilder.buildKnowledgeElement();
         secondKnowledgeElement = domainBuilder.buildKnowledgeElement();
@@ -264,6 +272,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -285,6 +294,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -303,6 +313,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -321,6 +332,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -339,6 +351,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -364,6 +377,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -385,6 +399,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         const result = await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -431,7 +446,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
         savedAnswer = domainBuilder.buildAnswer(completedAnswer);
 
-        assessment = domainBuilder.buildAssessment({ type: Assessment.types.CERTIFICATION });
+        assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.CERTIFICATION });
 
         answerRepository.findByChallengeAndAssessment.resolves(false);
         assessmentRepository.get.resolves(assessment);
@@ -443,6 +458,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -464,6 +480,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -482,6 +499,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -500,6 +518,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
         // when
         const result = await correctAnswerThenUpdateAssessment({
           answer,
+          userId,
           answerRepository,
           assessmentRepository,
           challengeRepository,
@@ -524,7 +543,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     beforeEach(() => {
       answer = domainBuilder.buildAnswer();
       answerRepository.findByChallengeAndAssessment.resolves(false);
-      assessment = domainBuilder.buildAssessment({ type: Assessment.types.PLACEMENT });
+      assessment = domainBuilder.buildAssessment({ userId, type: Assessment.types.PLACEMENT });
       assessmentRepository.get.resolves(assessment);
       userRepository.get.resolves({ isProfileV2: true });
     });
@@ -533,6 +552,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       // when
       const result = correctAnswerThenUpdateAssessment({
         answer,
+        userId,
         answerRepository,
         assessmentRepository,
         userRepository,
@@ -540,6 +560,34 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
 
       // then
       return expect(result).to.be.rejectedWith(UserHasBeenMigratedToV2Error);
+    });
+  });
+
+  context('when the user which want to save the answer is not the right user', () => {
+
+    let answer;
+    let assessment;
+
+    beforeEach(() => {
+      answer = domainBuilder.buildAnswer();
+      answerRepository.findByChallengeAndAssessment.resolves(false);
+      assessment = domainBuilder.buildAssessment({ userId: (userId + 1), type: Assessment.types.PLACEMENT });
+      assessmentRepository.get.resolves(assessment);
+      userRepository.get.resolves({ isProfileV2: true });
+    });
+
+    it('should throw an error if no userId is passed', () => {
+      // when
+      const result = correctAnswerThenUpdateAssessment({
+        answer,
+        userId,
+        answerRepository,
+        assessmentRepository,
+        userRepository,
+      });
+
+      // then
+      return expect(result).to.be.rejectedWith(ForbiddenAccess);
     });
   });
 

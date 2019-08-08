@@ -1,11 +1,10 @@
-const tokenService = require('../../../lib/domain/services/token-service');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-utils');
 
 module.exports = {
   verify(request, h) {
-    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
-    const userId = tokenService.extractUserId(token);
+    const userId = extractUserIdFromRequest(request);
     const assessmentId = request.params.id;
 
     return assessmentRepository
