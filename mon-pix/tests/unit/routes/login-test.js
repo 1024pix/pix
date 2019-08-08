@@ -45,19 +45,5 @@ describe('Unit | Route | login page', function() {
         password: expectedPassword
       });
     });
-
-    it('should authenticate the user given token in URL', async function() {
-      // Given
-      authenticateStub.resolves();
-
-      const route = this.owner.lookup('route:login');
-      sinon.stub(route, 'transitionTo');
-
-      // When
-      await route.beforeModel({ to: { queryParams: { token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb' } } });
-
-      // Then
-      sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUxMjg3NzcsImV4cCI6MTU0NTczMzU3N30.bbbb' });
-    });
   });
 });

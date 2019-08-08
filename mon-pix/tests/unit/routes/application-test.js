@@ -10,7 +10,7 @@ const SplashServiceStub = EmberObject.extend({
   }
 });
 
-describe('Unit | Route | application splash', function() {
+describe('Unit | Route | application', function() {
 
   setupTest();
 
@@ -44,5 +44,4 @@ describe('Unit | Route | application splash', function() {
     // then
     expect(currentUserStub.called).to.be.true;
   });
-
 });
