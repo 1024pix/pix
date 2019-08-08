@@ -6,7 +6,7 @@ export default Route.extend({
   currentUser: service(),
 
   model() {
-    return this.currentUser.organization.students;
+    return this.currentUser.organization;
   },
 
 });

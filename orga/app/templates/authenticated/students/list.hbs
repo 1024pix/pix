@@ -1,3 +1,7 @@
 <div class="list-students-page">
-  {{routes/authenticated/students/list-items students=model}}
+  {{routes/authenticated/students/list-items
+    students=model.students
+    message=message
+    uploadStudents=(action 'uploadStudents')
+  }}
 </div>
