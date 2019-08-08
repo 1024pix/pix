@@ -28,6 +28,11 @@ export default ApplicationAdapter.extend({
       return url + '/remember-user-has-seen-assessment-instructions';
     }
 
+    if (adapterOptions && adapterOptions.rememberUserHasSeenNewProfileInfo) {
+      delete adapterOptions.rememberUserHasSeenNewProfileInfo;
+      return url + '/remember-user-has-seen-new-profile-info';
+    }
+
     if (adapterOptions && adapterOptions.temporaryKey) {
       return url + `?temporary-key=${encodeURIComponent(adapterOptions.temporaryKey)}`;
     }

@@ -11,7 +11,6 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
-const userService = require('../../../../lib/domain/services/user-service');
 const profileService = require('../../../../lib/domain/services/profile-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
@@ -250,33 +249,6 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
     });
-
-    context('When payload has a hasSeenNewProfileInfo field', () => {
-
-      it('should remember user has seen migration modal', async () => {
-        // given
-        const userId = 7;
-        const request = {
-          params: {
-            id: userId,
-          },
-          payload: {
-            data: {
-              attributes: {
-                'has-seen-new-profile-info': true,
-              },
-            },
-          },
-        };
-        const usecaseStub = sinon.stub(usecases, 'rememberUserHasSeenNewProfileInfo');
-
-        // when
-        await userController.updateUser(request, hFake);
-
-        // then
-        expect(usecaseStub).to.have.been.calledWith({ userId });
-      });
-    });
   });
 
   describe('#rememberUserHasSeenAssessmentInstructions', () => {
@@ -307,44 +279,35 @@ describe('Unit | Controller | user-controller', () => {
       // then
       expect(response).to.be.equal('ok');
     });
-
   });
 
-  describe('#getProfileToCertify', () => {
-
-    const request = { params: { id: 1 } };
+  describe('#rememberUserHasSeenNewProfileInfo', () => {
+    let request;
+    const userId = 1;
 
     beforeEach(() => {
-      sinon.stub(userService, 'isUserExistingById').resolves(true);
-      sinon.stub(userService, 'getProfileToCertifyV1').resolves([]);
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId },
+      };
+
+      sinon.stub(usecases, 'rememberUserHasSeenNewProfileInfo');
+      sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should be a function', () => {
-      expect(userController).to.have.property('getProfileToCertify').and.to.be.a('function');
-    });
+    it('should remember user has seen new profile info', async () => {
+      // given
+      usecases.rememberUserHasSeenNewProfileInfo.withArgs({
+        authenticatedUserId: userId.toString(),
+        requestedUserId: userId,
+      }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
 
-    context('when the user exists', () => {
+      // when
+      const response = await userController.rememberUserHasSeenNewProfileInfo(request);
 
-      beforeEach(() => {
-        sinon.useFakeTimers();
-      });
-
-      it('should load his current achieved assessments', async () => {
-        // when
-        await userController.getProfileToCertify(request, hFake);
-
-        // then
-        sinon.assert.calledOnce(userService.getProfileToCertifyV1);
-        sinon.assert.calledWith(userService.getProfileToCertifyV1, 1, new Date('1970-01-01T00:00:00Z'));
-      });
-
-      it('should reply the skillProfile', async () => {
-        // when
-        const response = await userController.getProfileToCertify(request, hFake);
-
-        // then
-        expect(response).to.deep.equal([]);
-      });
+      // then
+      expect(response).to.be.equal('ok');
     });
   });
 

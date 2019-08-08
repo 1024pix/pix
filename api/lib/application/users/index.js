@@ -67,18 +67,6 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/skills',
-      config: {
-        pre: [{
-          method: userVerification.verifyById,
-          assign: 'user'
-        }],
-        handler: userController.getProfileToCertify
-        , tags: ['api']
-      }
-    },
-    {
-      method: 'GET',
       path: '/api/users/{id}/memberships',
       config: {
         handler: userController.getMemberships,
@@ -138,8 +126,6 @@ exports.register = async function(server) {
                 password: Joi.string().regex(XRegExp(passwordValidationPattern)).allow(null),
                 'pix-orga-terms-of-service-accepted': Joi.boolean(),
                 'pix-certif-terms-of-service-accepted': Joi.boolean(),
-                'has-seen-new-profile-info': Joi.boolean(),
-                'has-seen-assessment-instructions': Joi.boolean(),
               }
             }
           }
@@ -155,6 +141,21 @@ exports.register = async function(server) {
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Sauvegarde le fait que l\'utilisateur ait vu le didacticiel' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+          '- Le contenu de la requête n\'est pas pris en compte.',
+        ],
+        tags: ['api', 'user'],
+      }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/users/{id}/remember-user-has-seen-new-profile-info',
+      config: {
+        handler: userController.rememberUserHasSeenNewProfileInfo,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Sauvegarde le fait que l\'utilisateur ait vu le bandeau de nouveau profil' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+          '- Le contenu de la requête n\'est pas pris en compte.',
         ],
         tags: ['api', 'user'],
       }

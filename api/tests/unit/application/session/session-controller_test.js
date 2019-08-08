@@ -177,7 +177,7 @@ describe('Unit | Controller | sessionController', () => {
       sessionSerializer.deserialize.withArgs(request.payload).returns({});
     });
 
-    it('should returns the updated session', async () => {
+    it('should return the updated session', async () => {
       // given
       usecases.updateSession.withArgs(updateSessionArgs).resolves(updatedSession);
       sessionSerializer.serialize.withArgs(updatedSession).returns(updatedSession);

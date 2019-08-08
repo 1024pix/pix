@@ -8,7 +8,6 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 
 const profileService = require('../../domain/services/profile-service');
 const tokenService = require('../../domain/services/token-service');
-const userService = require('../../domain/services/user-service');
 
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
@@ -80,11 +79,6 @@ module.exports = {
             userId
           });
         }
-        if (user.hasSeenNewProfileInfo) {
-          return usecases.rememberUserHasSeenNewProfileInfo({
-            userId
-          });
-        }
         return Promise.reject(new BadRequestError());
       })
       .then(() => null);
@@ -101,11 +95,15 @@ module.exports = {
     return userSerializer.serialize(updatedUser);
   },
 
-  getProfileToCertify(request) {
-    const userId = request.params.id;
-    const currentDate = new Date();
+  async rememberUserHasSeenNewProfileInfo(request) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
 
-    return userService.getProfileToCertifyV1(userId, currentDate);
+    const updatedUser = await usecases.rememberUserHasSeenNewProfileInfo({
+      authenticatedUserId, requestedUserId
+    });
+
+    return userSerializer.serialize(updatedUser);
   },
 
   getMemberships(request) {

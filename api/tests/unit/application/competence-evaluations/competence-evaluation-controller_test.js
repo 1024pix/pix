@@ -88,7 +88,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', () => {
       sinon.stub(serializer, 'serialize');
     });
 
-    it('should returns the competenceEvaluations', async () => {
+    it('should return the competenceEvaluations', async () => {
       // given
       queryParamsUtils.extractParameters.withArgs(query).returns(options);
       usecases.findCompetenceEvaluations.withArgs({ userId, options }).resolves(result);

@@ -576,7 +576,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.clean();
     });
 
-    it('should returns assessment results for the given certificationId', async () => {
+    it('should return assessment results for the given certificationId', async () => {
       // given
       const expectedAssessmentResult = { ...assessmentResult, competenceMarks: [] };
 
@@ -718,7 +718,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.clean();
     });
 
-    it('should returns the assessment with campaign when it matches with userId and ignore aborted assessments', async () => {
+    it('should return the assessment with campaign when it matches with userId and ignore aborted assessments', async () => {
       // when
       const assessmentsReturned = await assessmentRepository.findNotAbortedSmartPlacementAssessmentsByUserId(userId);
 
@@ -765,7 +765,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.clean();
       });
 
-      it('should returns the assessment with campaign when asked', async () => {
+      it('should return the assessment with campaign when asked', async () => {
         // when
         const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: true });
 
@@ -775,7 +775,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned.campaignParticipation.campaign.name).to.equal('Campagne');
       });
 
-      it('should returns the assessment without campaign', async () => {
+      it('should return the assessment without campaign', async () => {
         // when
         const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: false });
 
@@ -785,7 +785,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned.campaignParticipation).to.equal(undefined);
       });
 
-      it('should returns null', async () => {
+      it('should return null', async () => {
         // when
         const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: 'fakeCampaignCode', includeCampaign: false });
 
@@ -962,7 +962,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should returns the assessment with campaign when it matches with userId', async () => {
+      it('should return the assessment with campaign when it matches with userId', async () => {
         // when
         const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(userId);
 
@@ -981,7 +981,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should returns the assessment with campaign when it matches with userId', async () => {
+      it('should return the assessment with campaign when it matches with userId', async () => {
         // when
         const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(userId);
 
@@ -1000,7 +1000,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should returns the assessment with campaign when it matches with userId', async () => {
+      it('should return the assessment with campaign when it matches with userId', async () => {
         // when
         const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(userId);
 
@@ -1021,7 +1021,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         await databaseBuilder.commit();
       });
 
-      it('should returns the assessment with campaign when it matches with userId', async () => {
+      it('should return the assessment with campaign when it matches with userId', async () => {
         // when
         const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(userId);
 

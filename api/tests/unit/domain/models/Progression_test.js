@@ -11,7 +11,7 @@ describe('Unit | Domain | Models | Progression', () => {
 
       context('and there is no knowledge elements',() => {
 
-        it('should returns a completionRate of 0', () => {
+        it('should return a completionRate of 0', () => {
           // Given
           const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
           const knowledgeElements = [];
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | Progression', () => {
 
       context('and knowledge elements are present', () => {
 
-        it('should returns 1 when all targeted skills are evaluated', () => {
+        it('should return 1 when all targeted skills are evaluated', () => {
           // Given
           const targetedSkills = [skillLevel1, skillLevel2];
           const knowledgeElements = [
@@ -42,7 +42,7 @@ describe('Unit | Domain | Models | Progression', () => {
           expect(progression.completionRate).to.eq(1);
         });
 
-        it('should returns a ratio different than 1 when some targeted skills are not evaluated', () => {
+        it('should return a ratio different than 1 when some targeted skills are not evaluated', () => {
           // Given
           const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
           const knowledgeElements = [
@@ -82,7 +82,7 @@ describe('Unit | Domain | Models | Progression', () => {
 
     context('when the profile is fully evaluated', () => {
 
-      it('should returns the completionRate of 1', () => {
+      it('should return the completionRate of 1', () => {
         // Given
         const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
         const knowledgeElements = [];
@@ -100,7 +100,7 @@ describe('Unit | Domain | Models | Progression', () => {
 
   describe('#generateIdFromAssessmentId', () => {
 
-    it('should returns the id prepended with "progression-"', () => {
+    it('should return the id prepended with "progression-"', () => {
       // Given
       const assessmentId = 12345;
       const expectedProgressionId = `progression-${assessmentId}`;
@@ -115,7 +115,7 @@ describe('Unit | Domain | Models | Progression', () => {
 
   describe('#getAssessmentIdFromId', () => {
 
-    it('should returns the id without the "progression-"', () => {
+    it('should return the id without the "progression-"', () => {
       // Given
       const expectedAssessmentId = 12345;
       const progressionId = `progression-${expectedAssessmentId}`;
