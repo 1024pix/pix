@@ -7,11 +7,7 @@ export default Controller.extend({
 
   actions: {
     updateUserHasSeenNewProfileInfo() {
-      const user = this.currentUser.user;
-
-      user.set('hasSeenNewProfileInfo', true);
-
-      return user.save();
+      return this.currentUser.user.save({ adapterOptions: { rememberUserHasSeenNewProfileInfo: true } });
     }
   }
 });

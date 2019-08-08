@@ -289,7 +289,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       });
     });
 
-    it('should returns answers as domain objects', () => {
+    it('should return answers as domain objects', () => {
       // when
       const promise = AnswerRepository.findByAssessment(assessmentId);
 

@@ -20,7 +20,7 @@ describe('Unit | Adapters | user', function() {
       const url = await adapter.urlForQueryRecord({ me: true }, 'user');
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users/me');
+      expect(url.endsWith('/users/me')).to.be.true;
     });
 
     it('should build /me/profile url', async function() {
@@ -28,7 +28,7 @@ describe('Unit | Adapters | user', function() {
       const url = await adapter.urlForQueryRecord({ profile: true }, 'user');
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users/me/profile');
+      expect(url.endsWith('/users/me/profile')).to.be.true;
     });
 
     it('should build classic url', async function() {
@@ -36,7 +36,7 @@ describe('Unit | Adapters | user', function() {
       const url = await adapter.urlForQueryRecord({}, 'user');
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users');
+      expect(url.endsWith('/users')).to.be.true;
     });
 
   });
@@ -48,16 +48,25 @@ describe('Unit | Adapters | user', function() {
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users/123');
+      expect(url.endsWith('/users/123')).to.be.true;
     });
 
-    it('should include redirect to remember-user-has-seen-assessment-instructions', async function() {
+    it('should redirect to remember-user-has-seen-assessment-instructions', async function() {
       // when
       const snapshot = { adapterOptions: { rememberUserHasSeenAssessmentInstructions: true } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users/123/remember-user-has-seen-assessment-instructions');
+      expect(url.endsWith('/users/123/remember-user-has-seen-assessment-instructions')).to.be.true;
+    });
+
+    it('should redirect to remember-user-has-seen-new-profile-info', async function() {
+      // when
+      const snapshot = { adapterOptions: { rememberUserHasSeenNewProfileInfo: true } };
+      const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
+
+      // then
+      expect(url.endsWith('/users/123/remember-user-has-seen-new-profile-info')).to.be.true;
     });
 
     it('should include temporaryKey if present in adapterOptions', async function() {
@@ -66,7 +75,7 @@ describe('Unit | Adapters | user', function() {
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url).to.equal('http://localhost:3000/api/users/123?temporary-key=temp%3D%26key');
+      expect(url.endsWith('/users/123?temporary-key=temp%3D%26key')).to.be.true;
     });
 
   });
