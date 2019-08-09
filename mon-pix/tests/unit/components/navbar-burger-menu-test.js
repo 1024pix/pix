@@ -20,10 +20,10 @@ describe('Unit | Component | Navbar Burger Menu Component', function() {
         this.owner.register('service:router', routeStubNotInCampaignResults);
       });
 
-      context('#isInCampaignResults', function() {
+      context('#isInRouteWithoutLinksInHeader', function() {
         it('should return false', function() {
           // then
-          expect(component.get('isInCampaignResults')).to.equal(false);
+          expect(component.get('isInRouteWithoutLinksInHeader')).to.equal(false);
         });
       });
     });
@@ -33,10 +33,10 @@ describe('Unit | Component | Navbar Burger Menu Component', function() {
         this.owner.register('service:router', routeStubInCampaignResults);
       });
 
-      context('#isInCampaignResults', function() {
+      context('#isInRouteWithoutLinksInHeader', function() {
         it('should return true', function() {
           // then
-          expect(component.get('isInCampaignResults')).to.equal(true);
+          expect(component.get('isInRouteWithoutLinksInHeader')).to.equal(true);
         });
       });
     });

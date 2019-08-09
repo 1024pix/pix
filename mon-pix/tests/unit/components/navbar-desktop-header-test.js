@@ -22,10 +22,10 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
         component.set('router', routeStubNotInCampaignResults);
       });
 
-      context('#isInCampaignResults', function() {
+      context('#isInRouteWithoutLinksInHeader', function() {
         it('should return false', function() {
           // then
-          expect(component.get('isInCampaignResults')).to.equal(false);
+          expect(component.get('isInRouteWithoutLinksInHeader')).to.equal(false);
         });
       });
     });
@@ -35,10 +35,10 @@ describe('Unit | Component | Navbar Desktop Header Component', function() {
         component.set('router', routeStubInCampaignResults);
       });
 
-      context('#isInCampaignResults', function() {
+      context('#isInRouteWithoutLinksInHeader', function() {
         it('should return true', function() {
           // then
-          expect(component.get('isInCampaignResults')).to.equal(true);
+          expect(component.get('isInRouteWithoutLinksInHeader')).to.equal(true);
         });
       });
     });

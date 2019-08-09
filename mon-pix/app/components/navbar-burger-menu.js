@@ -7,8 +7,9 @@ export default Component.extend({
   router: service(),
   store: service(),
 
-  isInCampaignResults: computed(function() {
-    return (this.get('router.currentRouteName') === 'campaigns.skill-review');
+  isInRouteWithoutLinksInHeader: computed(function() {
+    const _routeWithoutLinksInHeader = ['campaigns.skill-review'];
+    return _routeWithoutLinksInHeader.includes(this.get('router.currentRouteName'));
   }),
 
 });
