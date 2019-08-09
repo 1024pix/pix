@@ -39,3 +39,8 @@
 .ember-burger-menu > .bm-outlet > .bm-content {
   background-color: transparent;
 }
+
+/* Pour permettre à `resume-campaign-banner.hbs` de rester sticky sur les moteurs Chrome */
+.ember-burger-menu > .bm-outlet {
+  perspective: unset;
+}
