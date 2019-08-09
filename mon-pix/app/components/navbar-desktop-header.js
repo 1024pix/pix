@@ -6,7 +6,6 @@ import { inject as service } from '@ember/service';
 export default Component.extend({
   router: service(),
   session: service(),
-  store: service(),
 
   classNames: ['navbar-desktop-header'],
   _canDisplayMenu: false,
