@@ -373,4 +373,32 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
+  describe('#importStudentsFromSIECLE', () => {
+
+    const connectedUserId = 1;
+    const organizationId = '145';
+    const buffer = null;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        payload: buffer
+      };
+
+      sinon.stub(usecases, 'importStudentsFromSIECLE');
+      sinon.stub(studentSerializer, 'serialize');
+    });
+
+    it('should call the usecase to import students', async () => {
+      // given
+      usecases.importStudentsFromSIECLE.resolves();
+
+      // when
+      await organizationController.importStudentsFromSIECLE(request);
+
+      // then
+      expect(usecases.importStudentsFromSIECLE).to.have.been.calledWith({ organizationId, buffer });
+    });
+  });
 });
