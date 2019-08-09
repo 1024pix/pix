@@ -59,4 +59,43 @@ describe('Integration | Application | Organizations | Routes', () => {
       });
     });
   });
+
+  describe('POST /api/organizations/:id/students', () => {
+
+    beforeEach(() => {
+      sinon.stub(organisationController, 'importStudents').callsFake((request, h) => h.response('ok').code(201));
+      return server.register(route);
+    });
+
+    it('should call the organization controller to import students', () => {
+      // given
+      const payload =
+        '------WebKitFormBoundaryxSSpu5dJeHVmxnBq\r\n' +
+        'Content-Disposition: form-data; name="Content-Type"\r\n' +
+        '\r\n' +
+        'text/xml\r\n' +
+        '------WebKitFormBoundaryxSSpu5dJeHVmxnBq\r\n' +
+        'Content-Disposition: form-data; name="file"; filename="file.xml"\r\n' +
+        'Content-Type: text/xml\r\n' +
+        '\r\n' +
+        '\r\n' +
+        '------WebKitFormBoundaryxSSpu5dJeHVmxnBq--';
+
+      // when
+      const promise = server.inject({
+        method: 'POST',
+        url: '/api/organizations/:id/students',
+        headers: {
+          'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryxSSpu5dJeHVmxnBq'
+        },
+        payload
+      });
+
+      // then
+      return promise.then((resp) => {
+        expect(resp.statusCode).to.equal(201);
+        expect(organisationController.importStudents).to.have.been.calledOnce;
+      });
+    });
+  });
 });

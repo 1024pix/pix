@@ -147,7 +147,26 @@ exports.register = async (server) => {
           '- Récupération des élèves liés à une organisation\n'
         ]
       }
-    }
+    },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/students',
+      config: {
+        payload: {
+          maxBytes: 1048576 * 10, // 10MB
+          output: 'stream',
+          parse: true,
+          allow: 'multipart/form-data'
+        },
+        handler: organisationController.importStudents,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
+          '- Elle permet d\'importer des élèves en masse\n' +
+          '- Elle retourne l\'ID du dernier élève importé'
+        ],
+        tags: ['api', 'students']
+      }
+    },
   ]);
 };
 
