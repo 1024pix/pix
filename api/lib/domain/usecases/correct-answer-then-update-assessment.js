@@ -26,7 +26,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
   const assessment = await assessmentRepository.get(answer.assessmentId);
 
-  if (assessment.userId !== userId) {
+  if (assessment.userId != userId) {
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');
   }
 
