@@ -112,4 +112,14 @@ module.exports = {
     return usecases.findOrganizationStudents({ organizationId })
       .then(studentSerializer.serialize);
   },
+
+  importStudents(request, h) {
+    const organizationId = request.params.id;
+    const buffer = request.payload.file._data;
+
+    return usecases.importStudents({ organizationId, buffer })
+      .then((lastStudentId) => {
+        return h.response(lastStudentId).created();
+      });
+  }
 };

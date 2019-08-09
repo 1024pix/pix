@@ -373,4 +373,44 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
+  describe('#importStudents', () => {
+
+    const connectedUserId = 1;
+    const organizationId = '145';
+    const buffer = null;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId: connectedUserId } },
+        params: { id: organizationId },
+        payload: { file: { _data : buffer } }
+      };
+
+      sinon.stub(usecases, 'importStudents');
+      sinon.stub(studentSerializer, 'serialize');
+    });
+
+    it('should call the usecase to import students', async () => {
+      // given
+      usecases.importStudents.resolves();
+
+      // when
+      await organizationController.importStudents(request, hFake);
+
+      // then
+      expect(usecases.importStudents).to.have.been.calledWith({ organizationId, buffer });
+    });
+
+    it('should return the serialized students belonging to the organization', async () => {
+      // given
+      usecases.importStudents.resolves('9686');
+
+      // when
+      const response = await organizationController.importStudents(request, hFake);
+
+      // then
+      expect(response.source).to.deep.equal('9686');
+      expect(response.statusCode).to.equal(201);
+    });
+  });
 });

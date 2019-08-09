@@ -111,6 +111,7 @@ module.exports = injectDependencies({
   getUserPixScore: require('./get-user-pix-score'),
   getUserScorecards: require('./get-user-scorecards'),
   getUserWithMemberships: require('./get-user-with-memberships'),
+  importStudents: require('./import-students'),
   preloadCacheEntries: require('./preload-cache-entries'),
   reloadCacheEntry: require('./reload-cache-entry'),
   rememberUserHasSeenAssessmentInstructions: require('./remember-user-has-seen-assessment-instructions'),
