@@ -4,7 +4,6 @@
   &__user-info {
     display: flex;
     flex-direction: column;
-    height: 200px;
     background-color: $dogder-blue;
   }
 
@@ -34,12 +33,18 @@
   &__name {
     font-size: 2rem;
     font-weight: $font-semi-bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   &__email {
     font-size: 1.2rem;
     font-weight: $font-light;
     padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   &__logout {
