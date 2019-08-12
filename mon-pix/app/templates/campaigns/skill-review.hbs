@@ -38,11 +38,25 @@
             {{/if}}
           {{/if}}
         </div>
+        {{#unless model.campaignParticipation.isShared}}
+           <div class="skill-review__dash-line"></div>
+           <div class="skill-review__start-improvement">
+             <div><h2 class="skill-review__subtitle">Envie d'améliorer vos résultats ?</h2>
+               <p class="skill-review__explain-text">Vous pouvez retenter certaines questions</p>
+             </div>
 
-        <div class="skill-review__dash-line"></div>
+             <button class="button button--dark-grey button--big skill-review__improvement-button" {{action 'improvementCampaignParticipation'}}>
+               Je retente
+             </button>
+
+           </div>
+
+        {{/unless}}
+
+    <div class="skill-review__dash-line"></div>
 
         <div class="skill-review-results__header">
-          <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
+          <h2 class="skill-review__subtitle">Vos résultats détaillés</h2>
           {{#circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
             <span class="skill-review__circle-chart-value">
         {{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%

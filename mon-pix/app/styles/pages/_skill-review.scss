@@ -87,6 +87,29 @@
     }
   }
 
+  &__subtitle {
+    font-weight: $font-light;
+  }
+
+  &__start-improvement {
+    padding: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__explain-text {
+    font-size: 2.4rem;
+    color: $dove-gray;
+    line-height: 33px;
+    font-weight: $font-light;
+  }
+
+  &__improvement-button {
+    height: 50px;
+  }
+
   &-information {
 
     &__info-icon {
