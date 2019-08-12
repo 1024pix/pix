@@ -12,6 +12,41 @@
       padding: 60px;
     }
   }
+
+  &__information {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin: 10px;
+    max-width: 850px;
+
+    @include device-is('tablet') {
+      margin: auto;
+    }
+  }
+
+  &__subtitle {
+    font-weight: $font-light;
+  }
+
+  &__start-improvement {
+    padding: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__explain-text {
+    font-size: 2.4rem;
+    color: $dove-gray;
+    line-height: 33px;
+    font-weight: $font-light;
+  }
+
+  &__improvement-button {
+    height: 50px;
+  }
 }
 
 .skill-review-information {
