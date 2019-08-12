@@ -106,9 +106,9 @@ describe('Unit | Service | ImprovmentService', () => {
       beforeEach(() => {
         assessment = domainBuilder.buildAssessment({ state: 'completed' });
         listOfSkillsTested = [
-          domainBuilder.buildSkill({ id: 'skill1' }),
-          domainBuilder.buildSkill({ id: 'skill2' }),
-          domainBuilder.buildSkill({ id: 'skill3' }),
+          domainBuilder.buildSkill({ id: 'skill1', name: '@skill1' }),
+          domainBuilder.buildSkill({ id: 'skill2', name: '@skill2' }),
+          domainBuilder.buildSkill({ id: 'skill3', name: '@skill3' }),
         ];
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({ skillId: 'skill1' }),
@@ -124,7 +124,32 @@ describe('Unit | Service | ImprovmentService', () => {
         // then
         expect(shouldBeImproved).to.equal(true);
       });
+    });
 
+    context('when assessment is completed but the level of user is too low for answer the skills', () => {
+      let knowledgeElements, listOfSkillsTested, assessment;
+      beforeEach(() => {
+        assessment = domainBuilder.buildAssessment({ state: 'completed' });
+        listOfSkillsTested = [
+          domainBuilder.buildSkill({ id: 'skill1', name: '@skill1' }),
+          domainBuilder.buildSkill({ id: 'skill2', name: '@skill2' }),
+          domainBuilder.buildSkill({ id: 'skill3', name: '@skill3' }),
+          domainBuilder.buildSkill({ id: 'skill7', name: '@skillHigh7' }),
+        ];
+        knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: 'validated' }),
+          domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: 'invalidated' }),
+          domainBuilder.buildKnowledgeElement({ skillId: 'skill3', status: 'invalidated' }),
+        ];
+      });
+
+      it('should return true', () => {
+        // when
+        const shouldBeImproved = improvmentService.verifyIfAssessmentCouldBeImproved({ assessment, listOfSkillsTested, knowledgeElements });
+
+        // then
+        expect(shouldBeImproved).to.equal(false);
+      });
     });
 
     context('when we can retry a skill', () => {

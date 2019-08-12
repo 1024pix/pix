@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const { pipe } = require('lodash/fp');
+const constants = require('../../constants');
 
 const MAX_LEVEL_TO_BE_AN_EASY_TUBE = 3;
 const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
@@ -42,7 +43,7 @@ function _removeTooHardChallenges(predictedLevel, challenges) {
 }
 
 function _isChallengeTooHard(challenge, predictedLevel) {
-  return challenge.hardestSkill.difficulty - predictedLevel > 2;
+  return challenge.hardestSkill.difficulty - predictedLevel > constants.MAX_DIFF_LEVEL_BETWEEN_USER_AND_SKILL;
 }
 
 function _removeTimedChallengesIfLastOneWasAlsoTimed(lastChallenge, challenges) {

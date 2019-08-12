@@ -1,6 +1,7 @@
 const constants = require('../constants');
 const _ = require('lodash');
 const moment = require('moment');
+const catAlgorithm = require('../services/smart-random/cat-algorithm');
 
 function _removeOldAndInvalidatedKnowledgeElements({ knowledgeElements, assessment }) {
   const startedDateOfAssessment = assessment.createdAt;
@@ -14,19 +15,6 @@ function _removeOldAndInvalidatedKnowledgeElements({ knowledgeElements, assessme
 
 function _removeUntargetedKnowledgeElements(knowledgeElements, listOfSkillsTested) {
   return _.filter(knowledgeElements, (ke) => listOfSkillsTested.some((skill) => skill.id === ke.skillId));
-}
-
-function _userCanHaveQuestion({ knowledgeElements, targetSkills }) {
-  const course = new Course();
-  course.competenceSkills = targetSkills;
-  const courseTubes =  course.computeTubes(targetSkills);
-  const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
-
-  const availableSkills = getFilteredSkills({ knowledgeElements, courseTubes, predictedLevel, targetSkills });
-  if (availableSkills.length === 0) {
-    return false;
-  }
-  return true;
 }
 
 function filterKnowledgeElementsToRemoveThoseWhichCanBeImproved({ knowledgeElements, assessment }) {
