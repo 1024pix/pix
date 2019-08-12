@@ -11,10 +11,10 @@
       {{certification-banner certificationNumber=model.assessment.certificationNumber}}
     {{/if}}
     {{#if model.assessment.isSmartPlacement}}
-      {{campaign-banner title=model.assessment.title returnTo="index"}}
+      {{assessment-banner title=model.assessment.title}}
     {{/if}}
     {{#if model.assessment.isCompetenceEvaluation}}
-      {{campaign-banner title=model.assessment.title returnTo="profile"}}
+      {{assessment-banner title=model.assessment.title}}
     {{/if}}
   </div>
 
