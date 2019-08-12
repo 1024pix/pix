@@ -41,6 +41,18 @@
 
         <div class="skill-review__dash-line"></div>
 
+        <div class="skill-review__start-improvment">
+          Envie d'améliorer vos résultats ?
+          Vous pouvez retenter certaines questions
+
+          <button class="button button--extra-big skill-review__share-button" {{action 'improvmentCampaignParticipationResult'}}>
+            Je retente
+          </button>
+
+        </div>
+
+        <div class="skill-review__dash-line"></div>
+
         <div class="skill-review-results__header">
           <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
           {{#circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage}}

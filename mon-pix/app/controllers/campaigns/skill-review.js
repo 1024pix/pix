@@ -21,5 +21,11 @@ export default Controller.extend({
           this.set('displayErrorMessage', true);
         });
     },
+
+    async improvmentCampaignParticipationResult() {
+      const assessment = this.get('model.assessment');
+      await assessment.save({ adapterOptions: { improvmentCampaignParticipationResult: true } });
+      return this.transitionToRoute('assessments.resume', assessment.get('id'));
+    },
   }
 });

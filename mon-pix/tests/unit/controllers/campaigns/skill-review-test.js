@@ -18,8 +18,16 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
         isShared: false,
         set: setStub,
         save: sinon.stub().resolves({})
+      },
+      assessment: {
+        id: 'assessmentId',
+        get: sinon.stub().withArgs('id').resolves('assessmentId'),
+        state: 'completed',
+        save: sinon.stub().resolves({})
       }
     });
+    controller.set('showButtonToShareResult', true);
+    controller.transitionToRoute = sinon.stub();
   });
 
   describe('#shareCampaignParticipation', function() {
@@ -29,6 +37,24 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
 
       // then
       sinon.assert.calledWith(controller.get('model.campaignParticipation.set'), 'isShared', true);
+    });
+  });
+
+  describe('#improvmentCampaignParticipationResult', function() {
+    it('should save the assessment to start the improvment', async function() {
+      // when
+      await controller.actions.improvmentCampaignParticipationResult.call(controller);
+
+      // then
+      sinon.assert.calledWith(controller.get('model.assessment.save'), { adapterOptions: { improvmentCampaignParticipationResult: true } });
+    });
+
+    it('should redirect to assessments.resume', async function() {
+      // when
+      await controller.actions.improvmentCampaignParticipationResult.call(controller);
+
+      // then
+      sinon.assert.calledWith(controller.transitionToRoute, 'assessments.resume');
     });
   });
 });
