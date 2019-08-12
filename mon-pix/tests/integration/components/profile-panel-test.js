@@ -2,19 +2,12 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
-import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | profile panel', function() {
   setupRenderingTest();
 
   describe('(Rendering behavior) Component: ', function() {
-
-    beforeEach(function() {
-      this.owner.register('service:session', Service.extend({
-        data: { authenticated: { userId: 123, source: 'pix' } }
-      }));
-    });
 
     it('should be rendered', async function() {
       // when

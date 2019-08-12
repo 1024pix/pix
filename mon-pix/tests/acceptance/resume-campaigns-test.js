@@ -1,27 +1,24 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { click, fillIn, currentURL, find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
 import {
   authenticateAsSimpleUser,
   completeCampaignAndSeeResultsByCode,
   completeCampaignByCode,
   resumeCampaignByCode
 } from '../helpers/testing';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
-import { invalidateSession } from 'mon-pix/tests/helpers/ember-simple-auth';
+import { invalidateSession } from 'ember-simple-auth/test-support';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Campaigns | Resume Campaigns', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   describe('Resume 1 campaign', function() {
@@ -34,16 +31,13 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
     context('When the user is not logged', function() {
 
       beforeEach(async function() {
-        invalidateSession(application);
-        await visit('/campagnes/AZERTY1');
+        await invalidateSession();
+        await visitWithAbortedTransition('/campagnes/AZERTY1');
         await click('.campaign-landing-page__start-button');
       });
 
       it('should propose to signup', async function() {
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.contains('/inscription');
-        });
+        expect(currentURL()).to.contains('/inscription');
       });
 
       it('should redirect to assessment when user is signing up', async function() {
@@ -57,11 +51,8 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         // when
         await click('.button');
 
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.contains('/assessments/');
-          expect(find('.progress-bar-info').text()).to.contains('2/5');
-        });
+        expect(currentURL()).to.contains('/assessments/');
+        expect(find('.progress-bar-info').textContent).to.contains('2/5');
       });
 
     });
@@ -72,13 +63,10 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
         it('should redirect directly in assessment', async function() {
           // given
-          await visit('/campagnes/AZERTY1');
+          await visitWithAbortedTransition('/campagnes/AZERTY1');
 
-          // then
-          return andThen(() => {
-            expect(currentURL()).to.contains('/assessments/');
-            expect(find('.progress-bar-info').text()).to.contains('2/5');
-          });
+          expect(currentURL()).to.contains('/assessments/');
+          expect(find('.progress-bar-info').textContent).to.contains('2/5');
         });
       });
 
@@ -89,27 +77,21 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
           await completeCampaignByCode('AZERTY1');
 
           // when
-          await visit('/campagnes/AZERTY1');
+          await visitWithAbortedTransition('/campagnes/AZERTY1');
 
-          // then
-          return andThen(() => {
-            expect(currentURL()).to.contains('checkpoint?finalCheckpoint=true');
-            expect(find('.checkpoint__continue-button').text()).to.contains('Voir mes résultats');
-          });
+          expect(currentURL()).to.contains('checkpoint?finalCheckpoint=true');
+          expect(find('.checkpoint__continue-button').textContent).to.contains('Voir mes résultats');
         });
 
         it('should show the results page when user clicks on "voir mes résultats"', async function() {
           // given
           await completeCampaignByCode('AZERTY1');
-          await visit('/campagnes/AZERTY1');
+          await visitWithAbortedTransition('/campagnes/AZERTY1');
 
           // when
           await click('.checkpoint__continue-button');
 
-          // then
-          return andThen(() => {
-            expect(currentURL()).to.contains('resultats');
-          });
+          expect(currentURL()).to.contains('resultats');
         });
 
         context('When user has not shared his results', async function() {
@@ -118,10 +100,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
             // when
             await completeCampaignAndSeeResultsByCode('AZERTY1');
 
-            // then
-            return andThen(() => {
-              findWithAssert('.skill-review__share-button');
-            });
+            expect(find('.skill-review__share-button')).to.exist;
           });
 
           it('should thank the user when he clicks on the share button', async function() {
@@ -129,10 +108,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
             await completeCampaignAndSeeResultsByCode('AZERTY1');
             await click('.skill-review__share-button');
 
-            // then
-            return andThen(() => {
-              findWithAssert('.skill-review__share-thanks');
-            });
+            expect(find('.skill-review__share-thanks')).to.exist;
           });
         });
 
@@ -144,12 +120,9 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
             await click('.skill-review__share-button');
 
             // when
-            await visit('/campagnes/AZERTY1/resultats/1');
+            await visitWithAbortedTransition('/campagnes/AZERTY1/resultats/1');
 
-            // then
-            return andThen(() => {
-              findWithAssert('.skill-review__share-thanks');
-            });
+            expect(find('.skill-review__share-thanks')).to.exist;
           });
         });
       });
@@ -159,28 +132,28 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
   describe('Resume 2 campaigns', function() {
     beforeEach(async function() {
 
-      server.create('assessment', {
+      this.server.create('assessment', {
         id: 1,
         type: 'SMART_PLACEMENT',
         codeCampaign: 'AZERTY1',
         state: 'completed',
       });
 
-      server.create('assessment', {
+      this.server.create('assessment', {
         id: 2,
         type: 'SMART_PLACEMENT',
         codeCampaign: 'AZERTY2',
         state: 'completed',
       });
 
-      server.create('campaignParticipation', {
+      this.server.create('campaignParticipation', {
         id: 1,
         isShared: false,
         campaignId: 1,
         assessmentId: 1,
       });
 
-      server.create('campaignParticipation', {
+      this.server.create('campaignParticipation', {
         id: 2,
         isShared: false,
         campaignId: 2,
@@ -195,61 +168,48 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       it('should suggest to share his results for the first campaign', async function() {
         // when
-        await visit('/campagnes/AZERTY1');
+        await visitWithAbortedTransition('/campagnes/AZERTY1');
 
-        // then
-        return andThen(() => {
-          findWithAssert('.skill-review__share-button');
-        });
+        expect(find('.skill-review__share-button')).to.exist;
       });
 
       it('should suggest to share his results for the second campaign', async function() {
         // when
-        await visit('/campagnes/AZERTY2');
+        await visitWithAbortedTransition('/campagnes/AZERTY2');
 
-        // then
-        return andThen(() => {
-          findWithAssert('.skill-review__share-button');
-        });
+        expect(find('.skill-review__share-button')).to.exist;
       });
     });
 
     context('When user has finished both campaigns but shared only 1 campaign', function() {
 
       beforeEach(async function() {
-        await visit('/campagnes/AZERTY1');
+        await visitWithAbortedTransition('/campagnes/AZERTY1');
         await click('.skill-review__share-button');
       });
 
       it('should show thanks message for the first campaign', async function() {
-
-        // then
-        return andThen(() => {
-          findWithAssert('.skill-review__share-thanks');
-        });
+        expect(find('.skill-review__share-thanks')).to.exist;
       });
 
       it('should suggest to share his results for the second campaign', async function() {
         // when
-        await visit('/campagnes/AZERTY2');
+        await visitWithAbortedTransition('/campagnes/AZERTY2');
 
-        // then
-        return andThen(() => {
-          findWithAssert('.skill-review__share-button');
-        });
+        expect(find('.skill-review__share-button')).to.exist;
       });
     });
 
     context('When user has finished and shared both campaigns', function() {
 
       beforeEach(async function() {
-        server.create('campaignParticipation', {
+        this.server.create('campaignParticipation', {
           id: 1,
           isShared: true,
           campaignId: 1,
           assessmentId: 1,
         });
-        server.create('campaignParticipation', {
+        this.server.create('campaignParticipation', {
           id: 2,
           isShared: true,
           campaignId: 2,
@@ -259,22 +219,16 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       it('should show thanks message for the first campaign', async function() {
         // when
-        await visit('/campagnes/AZERTY1');
+        await visitWithAbortedTransition('/campagnes/AZERTY1');
 
-        // then
-        return andThen(() => {
-          findWithAssert('.skill-review__share-thanks');
-        });
+        expect(find('.skill-review__share-thanks')).to.exist;
       });
 
       it('should show thanks message for the second campaign', async function() {
         // when
-        await visit('/campagnes/AZERTY2');
+        await visitWithAbortedTransition('/campagnes/AZERTY2');
 
-        // then
-        return andThen(() => {
-          findWithAssert('.skill-review__share-thanks');
-        });
+        expect(find('.skill-review__share-thanks')).to.exist;
       });
     });
   });

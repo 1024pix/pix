@@ -1,25 +1,18 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it
-} from 'mocha';
+import { click, currentURL, find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateAsSimpleUser } from '../helpers/testing';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Profile | Start competence', function() {
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   describe('Authenticated cases as simple user', function() {
@@ -29,12 +22,12 @@ describe('Acceptance | Profile | Start competence', function() {
 
     it('can start a competence', async function() {
       // when
-      await visit('/profil');
+      await visitWithAbortedTransition('/profil');
       await click('.rounded-panel-body__areas:first-child .rounded-panel-body__competence-card:first-child .competence-card__button ');
 
       // then
       expect(currentURL()).to.contains('/assessments/');
-      findWithAssert('.assessment-challenge__content');
+      expect(find('.assessment-challenge__content')).to.exist;
     });
   });
 });

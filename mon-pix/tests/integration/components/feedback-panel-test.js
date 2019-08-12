@@ -5,9 +5,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { blur, click, find, fillIn, render } from '@ember/test-helpers';
-import wait from 'ember-test-helpers/wait';
 import hbs from 'htmlbars-inline-precompile';
-import _ from 'mon-pix/utils/lodash-custom';
 
 const TOGGLE_LINK = '.feedback-panel__open-link';
 const BUTTON_SEND = '.feedback-panel__button--send';
@@ -48,30 +46,22 @@ describe('Integration | Component | feedback-panel', function() {
       await click(TOGGLE_LINK);
 
       // then
-      expectFormViewToBeVisible(this);
+      expectFormViewToBeVisible();
 
       // then when
       await click(TOGGLE_LINK);
 
       // then
-      expectFormViewToNotBeVisible(this);
+      expectFormViewToNotBeVisible();
     });
   });
 
   describe('Form view', function() {
 
-    let isSaveMethodCalled;
-    let saveMethodBody;
-    let saveMethodUrl;
-
     const storeStub = Service.extend({
       createRecord() {
-        const createRecordArgs = arguments;
         return Object.create({
           save() {
-            isSaveMethodCalled = true;
-            saveMethodUrl = createRecordArgs[0];
-            saveMethodBody = createRecordArgs[1];
             return resolve();
           }
         });
@@ -79,49 +69,35 @@ describe('Integration | Component | feedback-panel', function() {
     });
 
     beforeEach(async function() {
-      // configure answer & cie. model object
       const assessment = EmberObject.extend({ id: 'assessment_id' }).create();
       const challenge = EmberObject.extend({ id: 'challenge_id' }).create();
 
-      // render component
       this.set('assessment', assessment);
       this.set('challenge', challenge);
 
-      isSaveMethodCalled = false;
-      saveMethodBody = null;
-      saveMethodUrl = null;
-
-      // stub store service
+      this.owner.unregister('service:store');
       this.owner.register('service:store', storeStub);
 
       await render(hbs`{{feedback-panel assessment=assessment challenge=challenge isFormOpened=true}}`);
     });
 
     it('should display the "form" view', function() {
-      expectFormViewToBeVisible(this);
+      expectFormViewToBeVisible();
       expect(find('textarea.feedback-panel__field--content')).to.exist;
       expect(find(BUTTON_SEND)).to.exist;
     });
 
-    it('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', async function() {
+    it('clicking on "send" button should display the "mercix" view', async function() {
       // given
       const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
-      await setContent (CONTENT_VALUE);
+      await setContent(CONTENT_VALUE);
 
       // when
       await click(BUTTON_SEND);
 
       // then
-      return wait().then(() => {
-        expect(isSaveMethodCalled).to.be.true;
-        expect(saveMethodUrl).to.equal('feedback');
-        expect(_.isObject(saveMethodBody)).to.equal(true);
-        expect(saveMethodBody.assessment).to.exist;
-        expect(saveMethodBody.challenge).to.exist;
-        expect(saveMethodBody.content).to.equal(CONTENT_VALUE);
-        expectFormViewToNotBeVisible(this);
-        expectMercixViewToBeVisible(this);
-      });
+      expectFormViewToNotBeVisible();
+      expectMercixViewToBeVisible();
     });
   });
 

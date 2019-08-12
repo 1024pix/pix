@@ -9,53 +9,56 @@ describe('Unit | Route | board', function() {
   setupTest();
 
   let route;
+  let storeStub;
+  let currentUserStub;
 
   context('is organization user', function() {
 
     beforeEach(function() {
-      this.owner.register('service:store', Service.extend({
+      storeStub = Service.create({
         query: sinon.stub().resolves([{ id: 1 }, { id: 2 }])
-      }));
+      });
 
-      this.owner.register('service:currentUser', Service.extend({
+      currentUserStub = Service.create({
         user: { organizations: [{ id: 1 }, { id: 2 }] }
-      }));
+      });
 
       route = this.owner.lookup('route:board');
+      route.set('store', storeStub);
+      route.set('currentUser', currentUserStub);
+
       route.transitionTo = sinon.spy();
     });
 
-    it('should return user first organization and snapshots', function() {
+    it('should return user first organization and snapshots', async function() {
       // when
-      const result = route.model();
+      const model = await route.model();
 
       // then
-      return result.then((model) => {
-        expect(model.organization.id).to.equal(1);
-        expect(model.snapshots.length).to.equal(2);
-      });
+      expect(model.organization.id).to.equal(1);
+      expect(model.snapshots.length).to.equal(2);
     });
   });
 
   context('is regular user', function() {
 
     beforeEach(function() {
-      this.owner.register('service:currentUser', Service.extend({
+      currentUserStub = Service.create({
         user: { organizations: [] }
-      }));
+      });
 
       route = this.owner.lookup('route:board');
+      route.set('currentUser', currentUserStub);
+
       route.transitionTo = sinon.spy();
     });
 
-    it('should return to index', function() {
+    it('should return to index', async function() {
       // when
-      const result = route.model();
+      await route.model();
 
       // then
-      return result.then((_) => {
-        sinon.assert.calledWith(route.transitionTo, 'index');
-      });
+      sinon.assert.calledWith(route.transitionTo, 'index');
     });
   });
 

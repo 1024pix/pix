@@ -1,21 +1,18 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { click, currentURL, find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { authenticateAsSimpleExternalUser, authenticateAsSimpleUser } from '../helpers/testing';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Home page', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   it('should show shared profile button when user is not external user', async function() {
@@ -23,10 +20,10 @@ describe('Acceptance | Home page', function() {
     await authenticateAsSimpleUser();
 
     // when
-    await visit('/compte');
+    await visitWithAbortedTransition('/compte');
 
     // then
-    findWithAssert('.share-profile__share-button');
+    expect(find('.share-profile__share-button')).to.exist;
   });
 
   it('should not show the shared profile button when user is external user', async function() {
@@ -34,20 +31,20 @@ describe('Acceptance | Home page', function() {
     await authenticateAsSimpleExternalUser();
 
     // when
-    await visit('/compte');
+    await visitWithAbortedTransition('/compte');
 
     // then
-    expect(find('.share-profile__share-button')).to.have.lengthOf(0);
+    expect(find('.share-profile__share-button')).to.not.exist;
   });
 
   it('should redirect to profil when user clicks on profil link', async function() {
     // given
-    server.create('assessment', {
+    this.server.create('assessment', {
       id: 2,
       type: 'SMART_PLACEMENT',
       state: 'completed',
     });
-    server.create('campaign-participation', {
+    this.server.create('campaign-participation', {
       id: 1,
       isShared: false,
       campaignId: 1,
@@ -55,7 +52,7 @@ describe('Acceptance | Home page', function() {
       userId: 1,
     });
     await authenticateAsSimpleUser();
-    await visit('/compte');
+    await visitWithAbortedTransition('/compte');
 
     // when
     await click('.results-warning__link');
