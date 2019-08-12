@@ -1,9 +1,6 @@
 <div class="background-banner-wrapper assessment-challenge">
 
   <div class="assessment-challenge__course-banner">
-    {{#if model.assessment.isPlacement}}
-      {{placement-banner competenceName=model.assessment.course.name}}
-    {{/if}}
     {{#if model.assessment.isDemo}}
       {{course-banner course=model.assessment.course withHomeLink=true}}
     {{/if}}
