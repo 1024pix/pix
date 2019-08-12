@@ -11,6 +11,7 @@ module.exports = async function getCampaignParticipationResult(
     assessmentRepository,
     targetProfileRepository,
     knowledgeElementRepository,
+    improvmentService,
   }
 ) {
   const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
@@ -22,8 +23,8 @@ module.exports = async function getCampaignParticipationResult(
     assessmentRepository.get(campaignParticipation.assessmentId),
     knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   ]);
-
-  return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements });
+  const couldBeImprove = improvmentService.verifyIfAssessmentCouldBeImproved({ assessment, knowledgeElements, listOfSkillsTested: targetProfile.skills });
+  return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, couldBeImprove });
 };
 
 async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {

@@ -20,7 +20,8 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     targetProfileRepository,
     competenceRepository,
     assessmentRepository,
-    knowledgeElementRepository;
+    knowledgeElementRepository,
+    improvmentService;
 
   beforeEach(() => {
     campaignParticipationRepository = { get: sinon.stub() };
@@ -29,6 +30,8 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     competenceRepository = { list: sinon.stub() };
     assessmentRepository = { get: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
+    improvmentService = { verifyIfAssessmentCouldBeImproved: sinon.stub() };
+
     sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
   });
 
@@ -38,6 +41,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(true);
+      targetProfileRepository.getByCampaignId.resolves({ skills: [] });
 
       // when
       const actualCampaignParticipationResult = await getCampaignParticipationResult({
@@ -49,6 +53,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         competenceRepository,
         assessmentRepository,
         knowledgeElementRepository,
+        improvmentService,
       });
 
       // then
@@ -61,7 +66,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     it('should get the campaignParticipationResult', async () => {
       // given
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
-
+      targetProfileRepository.getByCampaignId.resolves({ skills: [] });
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, otherUserId).resolves(false);
 
       // when
@@ -74,6 +79,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
         competenceRepository,
         assessmentRepository,
         knowledgeElementRepository,
+        improvmentService,
       });
 
       // then

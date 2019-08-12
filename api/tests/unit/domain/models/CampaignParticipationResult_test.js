@@ -37,7 +37,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
 
     it('should add the campaign participation results', () => {
 
-      const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements });
+      const result = CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, couldBeImprove:true });
 
       expect(result).to.be.an.instanceOf(CampaignParticipationResult);
       expect(result).to.deep.equal({
@@ -46,6 +46,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', () => {
         totalSkillsCount: 4,
         testedSkillsCount: 2,
         validatedSkillsCount: 1,
+        couldBeImprove: true,
         competenceResults: [{
           id: 1,
           name: 'Economie symbiotique',
