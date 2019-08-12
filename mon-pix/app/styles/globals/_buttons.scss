@@ -100,6 +100,16 @@
     }
   }
 
+  &--dark-grey {
+    background-color: $dove-gray;
+    color: $white;
+    font-weight: $font-bold;
+    font-size: 1.5rem;
+    &:hover, &:active, &:focus {
+      background-color: $charcoal-grey;
+    }
+  }
+
   &--no-color {
     background-color: transparent;
     color: $nero;
