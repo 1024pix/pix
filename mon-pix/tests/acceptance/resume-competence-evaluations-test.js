@@ -52,7 +52,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
         it('should redirect to assessment', async function() {
           // then
           expect(currentURL()).to.contains(/assessments/);
-          expect(find('.campaign-banner')).to.exist;
+          expect(find('.assessment-banner')).to.exist;
           expect(find('.assessment-challenge__progress-bar')).to.exist;
         });
       });
