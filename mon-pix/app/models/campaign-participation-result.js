@@ -7,6 +7,7 @@ export default DS.Model.extend({
   testedSkillsCount: DS.attr('number'),
   validatedSkillsCount: DS.attr('number'),
   competenceResults: DS.hasMany('competenceResult'),
+  couldBeImprove: DS.attr('boolean'),
 
   totalSkillsCounts: computed.mapBy('competenceResults', 'totalSkillsCount'),
   maxTotalSkillsCountInCompetences: computed.max('totalSkillsCounts'),
