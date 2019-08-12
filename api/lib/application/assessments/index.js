@@ -47,6 +47,23 @@ exports.register = async function(server) {
         handler: assessmentController.get,
         tags: ['api']
       }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/assessments/{id}/start-improvment',
+      config: {
+        pre: [{
+          method: assessmentAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
+        handler: assessmentController.startImprovment,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Passe l\'assessment en cours comme étant en progression ' +
+          '- Le contenu de la requête n\'est pas pris en compte.',
+        ],
+        tags: ['api'],
+      }
     }
   ]);
 };

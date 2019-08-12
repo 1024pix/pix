@@ -130,5 +130,13 @@ module.exports = {
 
         throw error;
       });
+  },
+
+  async startImprovment(request) {
+    const updatedAssessment = await useCases.startImprovmentOfAssessment({
+      assessmentId: request.params.id
+    });
+
+    return assessmentSerializer.serialize(updatedAssessment);
   }
 };
