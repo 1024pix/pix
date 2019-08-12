@@ -1,13 +1,10 @@
-const constants = require('../../constants');
-const _ = require('lodash');
-const moment = require('moment');
-
 async function fetchForCampaigns({
   assessment,
   answerRepository,
   targetProfileRepository,
   challengeRepository,
   knowledgeElementRepository,
+  improvmentService
 }) {
   const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
 
@@ -20,7 +17,7 @@ async function fetchForCampaigns({
     ],
   ] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
-    _fetchKnowledgeElementsForCampaign({ assessment, knowledgeElementRepository }),
+    _fetchKnowledgeElementsForCampaign({ assessment, knowledgeElementRepository, improvmentService }),
     _fetchSkillsAndChallenges({ targetProfileId, targetProfileRepository, challengeRepository })
   ]);
 
@@ -34,17 +31,10 @@ async function fetchForCampaigns({
 async function _fetchKnowledgeElementsForCampaign({
   assessment,
   knowledgeElementRepository,
+  improvmentService
 }) {
-  let knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId });
-  if (assessment.isImproving()) {
-    const startedDateOfCampaignParticipation = assessment.createdAt;
-    knowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => {
-      const isNotOldEnoughToBeRetry = moment(startedDateOfCampaignParticipation).diff(knowledgeElement.createdAt, 'days') <= parseInt(constants.DAYS_BEFORE_IMPROVING);
-      const isFromThisAssessment = knowledgeElement.assessmentId === assessment.id;
-      return knowledgeElement.isValidated || isNotOldEnoughToBeRetry || isFromThisAssessment;
-    });
-  }
-  return knowledgeElements;
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId });
+  return improvmentService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved({ knowledgeElements, assessment });
 }
 
 async function _fetchSkillsAndChallenges({

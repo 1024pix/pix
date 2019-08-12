@@ -22,6 +22,7 @@ const dependencies = {
   correctionRepository: require('../../infrastructure/repositories/correction-repository'),
   courseRepository: require('../../infrastructure/repositories/course-repository'),
   encryptionService: require('../../domain/services/encryption-service'),
+  improvmentService: require('../../domain/services/improvment-service'),
   knowledgeElementRepository: require('../../infrastructure/repositories/knowledge-element-repository'),
   mailService: require('../../domain/services/mail-service'),
   membershipRepository: require('../../infrastructure/repositories/membership-repository'),

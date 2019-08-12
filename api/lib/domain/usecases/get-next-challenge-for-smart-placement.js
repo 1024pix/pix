@@ -9,6 +9,7 @@ async function getNextChallengeForSmartPlacement({
   challengeRepository,
   answerRepository,
   assessment,
+  improvmentService,
 }) {
 
   const inputValues = await dataFetcher.fetchForCampaigns(...arguments);

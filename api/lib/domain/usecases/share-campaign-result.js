@@ -12,6 +12,7 @@ module.exports = async function shareCampaignResult({
   smartPlacementAssessmentRepository,
   knowledgeElementRepository,
   targetProfileRepository,
+  improvmentService,
 }) {
   const assessment = await assessmentRepository.getByCampaignParticipationId(campaignParticipationId);
 
@@ -25,6 +26,7 @@ module.exports = async function shareCampaignResult({
     targetProfileRepository,
     challengeRepository,
     knowledgeElementRepository,
+    improvmentService,
   });
 
   const { hasAssessmentEnded } = smartRandom.getNextChallenge(getNextChallengeData);
