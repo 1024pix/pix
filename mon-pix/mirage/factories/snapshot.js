@@ -1,4 +1,5 @@
-import { Factory, faker } from 'ember-cli-mirage';
+import { Factory } from 'ember-cli-mirage';
+import faker from 'faker';
 
 export default Factory.extend({
 
@@ -7,7 +8,7 @@ export default Factory.extend({
   creationDate : faker.date.recent(),
 
   testsFinished : () => {
-    return faker.list.random(2, 3, 4, 8, 10, 12)();
+    return faker.random.arrayElement([2, 3, 4, 8, 10, 12]);
   }
 
 });

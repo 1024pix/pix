@@ -21,11 +21,10 @@ describe('Unit | Component | password-reset-demand-form', function() {
         save: saveStub
       });
 
-      this.owner.register('service:store', Service.extend({
+      component = this.owner.lookup('component:password-reset-demand-form');
+      component.set('store', Service.create({
         createRecord: createRecordStub
       }));
-
-      component = this.owner.lookup('component:password-reset-demand-form');
       component.set('email', sentEmail);
     });
 

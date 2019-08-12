@@ -10,7 +10,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
   setupTest();
 
   let route;
-  let StoreStub;
+  let storeStub;
   let createRecordStub;
   let queryRecordStub;
   let findRecordStub;
@@ -36,16 +36,14 @@ describe('Unit | Route | Assessments | Challenge', function() {
     createRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
     findRecordStub = sinon.stub();
-    StoreStub = EmberService.extend({
+    storeStub = EmberService.create({
       createRecord: createRecordStub,
       queryRecord: queryRecordStub,
       findRecord: findRecordStub
     });
 
-    // manage dependency injection context
-    this.owner.register('service:store', StoreStub);
-
     route = this.owner.lookup('route:assessments.challenge');
+    route.set('store', storeStub);
     route.transitionTo = sinon.stub();
     route.modelFor = sinon.stub().returns(assessment);
   });

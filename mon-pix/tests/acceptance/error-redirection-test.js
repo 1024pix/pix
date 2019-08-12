@@ -1,30 +1,27 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { currentURL, find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { authenticateAsSimpleUser } from '../helpers/testing';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Error page', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   it('should redirect to route /connexion when the api returned a 401 error', async function() {
     // given
     await authenticateAsSimpleUser();
-    server.get('/certifications', { errors: [{ code: 401 }] }, 401);
+    this.server.get('/certifications', { errors: [{ code: 401 }] }, 401);
 
     // when
-    await visit('/mes-certifications');
+    await visitWithAbortedTransition('/mes-certifications');
 
     // then
     expect(currentURL()).to.equal('/connexion');
@@ -33,14 +30,14 @@ describe('Acceptance | Error page', function() {
   it('should display the error page when the api returned an error which is not 401', async function() {
     // given
     await authenticateAsSimpleUser();
-    server.get('/certifications', { errors: [{ code: 500 }] }, 500);
+    this.server.get('/certifications', { errors: [{ code: 500 }] }, 500);
 
     // when
-    await visit('/mes-certifications');
+    await visitWithAbortedTransition('/mes-certifications');
 
     // then
     expect(currentURL()).to.equal('/mes-certifications');
-    findWithAssert('.error-page');
+    expect(find('.error-page')).to.exist;
   });
 
 });

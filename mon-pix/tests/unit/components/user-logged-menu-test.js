@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 import { expect } from 'chai';
-import { beforeEach, describe, it } from 'mocha';
+import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | User logged Menu', function() {
@@ -39,21 +39,16 @@ describe('Unit | Component | User logged Menu', function() {
 
   describe('canDisplayLinkToProfile', function() {
 
-    beforeEach(function() {
-      this.owner.register('service:current-routed-modal', Service.extend({}));
-    });
-
-    it('should be false if user uses profileV2 and the current route is /profil', function() {
+    it('should be false if user uses profilV2 and the current route is /profil', function() {
       // given
-      this.owner.register('service:-routing', Service.extend({
-        currentRouteName: 'profile'
-      }));
-
-      this.owner.register('service:currentUser', Service.extend({
+      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('currentUser', Service.create({
         user: { usesProfileV2: true }
       }));
-
-      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('routing', Service.create({
+        currentRouteName: 'profile'
+      }));
+      component.set('current-routed-modal', Service.create({}));
 
       // when
       const result = component.get('canDisplayLinkToProfile');
@@ -64,10 +59,11 @@ describe('Unit | Component | User logged Menu', function() {
 
     it('should be false if user does not use profileV2 and the current route is /compte', function() {
       // given
-      this.owner.register('service:-routing', Service.extend({
+      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('routing', Service.create({
         currentRouteName: 'compte'
       }));
-      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('current-routed-modal', Service.create({}));
 
       // when
       const result = component.get('canDisplayLinkToProfile');
@@ -78,10 +74,11 @@ describe('Unit | Component | User logged Menu', function() {
 
     it('should be false if the current route is /board', function() {
       // given
-      this.owner.register('service:-routing', Service.extend({
+      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('routing', Service.create({
         currentRouteName: 'board'
       }));
-      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('current-routed-modal', Service.create({}));
 
       // when
       const result = component.get('canDisplayLinkToProfile');
@@ -92,10 +89,11 @@ describe('Unit | Component | User logged Menu', function() {
 
     it('should be true otherwise', function() {
       // given
-      this.owner.register('service:-routing', Service.extend({
+      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('routing', Service.create({
         currentRouteName: 'other'
       }));
-      const component = this.owner.lookup('component:user-logged-menu');
+      component.set('current-routed-modal', Service.create({}));
 
       // when
       const result = component.get('canDisplayLinkToProfile');

@@ -1,42 +1,37 @@
-import {
-  describe,
-  it,
-  beforeEach,
-  afterEach
-} from 'mocha';
+import { click, fillIn, find, findAll } from '@ember/test-helpers';
+import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
-import $ from 'jquery';
+import visitWithAbortedTransition from '../helpers/visit';
+import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Displaying un QROCM', function() {
+  setupApplicationTest();
+  setupMirage();
 
-  let application;
-
-  beforeEach(function() {
-    application = startApp();
-    visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+  beforeEach(async function() {
+    defaultScenario(this.server);
+    await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
   });
 
   it('should render the challenge instruction', function() {
-    const $challengeInstruction = $('.challenge-statement__instruction');
-    const instructiontext = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
-    expect($challengeInstruction.text().trim()).to.equal(instructiontext);
+    const instructionText = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
+    expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(instructionText);
   });
 
   it('should display only one input text as proposal to user', function() {
-    expect($('.challenge-response__proposal-input')).to.have.lengthOf(3);
+    expect(findAll('.challenge-response__proposal-input')).to.have.lengthOf(3);
   });
 
   it('should display an error alert if the user tried to validate without checking anything first', async function() {
-    $(':input').val('');
-    await click($('.challenge-actions__action-validate'));
+    await fillIn(findAll('input')[0], '');
+    await fillIn(findAll('input')[1], '');
+    await fillIn(findAll('input')[2], '');
 
-    expect($('.alert')).to.have.lengthOf(1);
-    expect($('.alert').text().trim()).to.equal('Pour valider, saisir au moins une réponse. Sinon, passer.');
+    await click(find('.challenge-actions__action-validate'));
+
+    expect(find('.alert')).to.exist;
+    expect(find('.alert').textContent.trim()).to.equal('Pour valider, saisir au moins une réponse. Sinon, passer.');
   });
 });

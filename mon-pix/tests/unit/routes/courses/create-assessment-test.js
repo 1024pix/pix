@@ -32,11 +32,10 @@ describe('Unit | Route | Courses | Create Assessment', function() {
       get: getAssessmentStub,
     }),
 
-    storeStub = Service.extend({
+    storeStub = Service.create({
       queryRecord: queryRecordStub, query: queryStub, createRecord: createRecordStub });
-    this.owner.register('service:store', storeStub);
     route = this.owner.lookup('route:courses.create-assessment');
-
+    route.set('store', storeStub);
     route.replaceWith = sinon.stub();
   });
 

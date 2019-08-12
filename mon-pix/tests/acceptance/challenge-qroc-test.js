@@ -1,45 +1,35 @@
-import {
-  describe,
-  it,
-  beforeEach,
-  afterEach
-} from 'mocha';
+import { click, find, findAll, fillIn } from '@ember/test-helpers';
+import { describe, it, beforeEach } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
-import $ from 'jquery';
+import visitWithAbortedTransition from '../helpers/visit';
+import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Displaying a QROC', function() {
+  setupApplicationTest();
+  setupMirage();
 
-  let application;
-
-  beforeEach(function() {
-    application = startApp();
-    visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+  beforeEach(async function() {
+    defaultScenario(this.server);
+    await visitWithAbortedTransition('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
   });
 
   it('should render the challenge instruction', function() {
-    const $challengeInstruction = $('.challenge-statement__instruction');
-    const instructiontext = 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre';
-    expect($challengeInstruction.text().trim()).to.equal(instructiontext);
+    const instructionText = 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre';
+    expect(find('.challenge-statement__instruction').textContent.trim()).to.equal(instructionText);
   });
 
   it('should display only one input text as proposal to user', function() {
-    expect($('.challenge-response__proposal-input')).to.have.lengthOf(1);
+    expect(findAll('.challenge-response__proposal-input')).to.have.lengthOf(1);
   });
 
-  it('should display the error alert if the users tries to validate an empty answer', function() {
-    fillIn('input[data-uid="qroc-proposal-uid"]', '');
-    expect($('.alert')).to.have.lengthOf(0);
-    click(findWithAssert('.challenge-actions__action-validate'));
-    andThen(() => {
-      // assertions for after async behavior
-      expect($('.alert')).to.have.lengthOf(1);
-      expect($('.alert').text().trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
-    });
+  it('should display the error alert if the users tries to validate an empty answer', async function() {
+    await fillIn('input[data-uid="qroc-proposal-uid"]', '');
+    expect(find('.alert')).to.not.exist;
+    await click(find('.challenge-actions__action-validate'));
+
+    expect(find('.alert')).to.exist;
+    expect(find('.alert').textContent.trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
   });
 });

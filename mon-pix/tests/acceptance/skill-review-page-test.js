@@ -1,25 +1,22 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { find, currentURL } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
 import {
   authenticateAsSimpleUser,
   completeCampaignAndSeeResultsByCode,
   resumeCampaignByCode
 } from '../helpers/testing';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Campaigns | Campaigns Result', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   describe('Display campaign results', function() {
@@ -28,14 +25,12 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
       beforeEach(async function() {
         // when
-        await visit('/campagnes/1/resultats/1');
+        await visitWithAbortedTransition('/campagnes/1/resultats/1');
       });
 
       it('should be redirect to connexion page', async function() {
         // then
-        return andThen(() => {
-          expect(currentURL()).to.equal('/connexion');
-        });
+        expect(currentURL()).to.equal('/connexion');
       });
 
     });
@@ -47,14 +42,12 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
       beforeEach(async function() {
         await authenticateAsSimpleUser();
-        await visit(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
+        await visitWithAbortedTransition(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
       });
 
       it('should access to the page', async function() {
         // then
-        return andThen(() => {
-          expect(currentURL()).to.equal(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
-        });
+        expect(currentURL()).to.equal(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
       });
 
       it('should display results', async function() {
@@ -63,10 +56,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await completeCampaignAndSeeResultsByCode('AZERTY2');
 
         // then
-        expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').text()).to.equal('Compétence 1.1');
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge').attr('style')).to.equal('width: 100%');
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').attr('style')).to.equal('width: 30%');
-        expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').text()).to.include('30%');
+        expect(find('table tbody tr td:nth-child(1) span:nth-child(2)').textContent).to.equal('Compétence 1.1');
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge').getAttribute('style')).to.equal('width: 100%');
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge__marker').getAttribute('style')).to.equal('width: 30%');
+        expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include('30%');
       });
     });
   });
