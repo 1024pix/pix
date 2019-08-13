@@ -1,13 +1,18 @@
-{{navbar-header class="navbar-header--white"}}
+{{#burger-menu animation="push" translucentOverlay=true as |burger|}}
+  {{#burger.outlet}}
 
-<div class="background-banner-wrapper">
-  <div class="background-banner"></div>
+    {{navbar-header class="navbar-header--white" burger=burger}}
+    <div class="background-banner-wrapper">
+      <div class="background-banner"></div>
 
-  <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
+      <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner certification-start-page__panel">
 
-    <h2 class="certification-start-page__title">Lancement du test de certification</h2>
+        <h2 class="certification-start-page__title">Lancement du test de certification</h2>
 
-    {{certification-code-validation onSubmit=(route-action 'submit') onError=(route-action 'error')}}
+        {{certification-code-validation onSubmit=(route-action 'submit') onError=(route-action 'error')}}
 
-  </div>
-</div>
+      </div>
+    </div>
+
+  {{/burger.outlet}}
+{{/burger-menu}}

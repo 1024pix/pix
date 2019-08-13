@@ -4,98 +4,44 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { setBreakpointForIntegrationTest } from 'mon-pix/tests/helpers/responsive';
+import { setBreakpointForIntegrationTest } from '../../helpers/responsive';
 
 describe('Integration | Component | navbar-header', function() {
 
   setupRenderingTest();
 
-  context('when user is not logged', function() {
-    beforeEach(function() {
-      this.owner.register('service:session', Service.extend({ isAuthenticated: false }));
+  context('when user is on desktop', function() {
+    beforeEach(async function() {
+      setBreakpointForIntegrationTest(this, 'desktop');
+      await render(hbs`{{navbar-header media=media}}`);
     });
 
-    it('should be rendered', async function() {
-      // when
-      await render(hbs`{{navbar-header}}`);
-
+    it('should be rendered in desktop mode', function() {
       // then
-      expect(find('.navbar-header')).to.exist;
+      expect(find('.navbar-desktop-header__container')).to.exist;
     });
-
-    it('should display the Pix logo', async function() {
-      // when
-      await render(hbs`{{navbar-header}}`);
-
-      // then
-      expect(find('.navbar-header-logo')).to.exist;
-      expect(find('.pix-logo')).to.exist;
-    });
-
-    context('when screen has a desktop size', function() {
-      it('should display a desktop menu', async function() {
-        // given
-        setBreakpointForIntegrationTest(this, 'desktop');
-
-        // when
-        await render(hbs`{{navbar-header media=media}}`);
-
-        // then
-        expect(find('.navbar-desktop-menu')).to.exist;
-        expect(find('.navbar-mobile-menu')).to.not.exist;
-      });
-    });
-
   });
 
-  context('When user is logged', function() {
-
-    beforeEach(async function() {
-      this.owner.register('service:session', Service.extend({
-        isAuthenticated: true,
-        data: {
-          authenticated: {
-            token: 'aaa.eyJ1c2VyX2lkIjoxLCJzb3VyY2UiOiJwaXgiLCJpYXQiOjE1NDUyMTg5MDh9.bbbb',
-            userId: 1,
-            source: 'pix'
-          }
-        }
-      }));
-
-      await render(hbs`{{navbar-header}}`);
+  context('When user is not on desktop ', function() {
+    beforeEach(function() {
+      setBreakpointForIntegrationTest(this, 'tablet');
     });
 
-    it('should display logged user details informations', function() {
+    it('should be rendered in mobile/tablet mode with a burger', async function() {
+      // when
+      this.owner.register('service:session', Service.extend({ isAuthenticated: true }));
+      await render(hbs`{{navbar-header media=media burger="stubbed-burger"}}`);
       // then
-      expect(find('.logged-user-details')).to.exist;
+      expect(find('.navbar-mobile-header__container')).to.exist;
+      expect(find('.navbar-mobile-header__burger-icon')).to.exist;
     });
 
-    it('should not display link to inscription page', function() {
+    it('should be rendered in mobile/tablet mode without burger', async function() {
+      // when
+      await render(hbs`{{navbar-header media=media}}`);
       // then
-      expect(find('.navbar-menu-signup-link')).to.not.exist;
+      expect(find('.navbar-mobile-header__container')).to.exist;
+      expect(find('.navbar-mobile-header__burger-icon')).to.not.exist;
     });
-
-    it('should not display link to connection page', function() {
-      // then
-      expect(find('.navbar-menu-signin-link')).to.not.exist;
-    });
-
-    it('should be rendered', function() {
-      expect(find('.navbar-header')).to.exist;
-    });
-
-    context('when screen has a desktop size', function() {
-      it('should display a desktop menu', async function() {
-        // given
-        setBreakpointForIntegrationTest(this, 'desktop');
-
-        // when
-        await render(hbs`{{navbar-header media=media}}`);
-
-        // then
-        expect(find('.navbar-desktop-menu')).to.exist;
-      });
-    });
-
   });
 });

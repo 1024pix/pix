@@ -1,22 +1,5 @@
-<div class="navbar-header__container">
-  <!-- Logo (left) -->
-  <div class="navbar-header-logo">
-    <div class="navbar-header-logo__pix">
-      {{pix-logo}}
-    </div>
-    <div class="navbar-header-logo__marianne">
-      <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="Logo de la Marianne">
-    </div>
-  </div>
-
-  <!-- Links (right) -->
-  <div class="navbar-header-right">
-    {{#if media.isDesktop}}
-      {{navbar-desktop-menu menu=menu}}
-    {{/if}}
-
-    {{#if isUserLogged}}
-      {{user-logged-menu}}
-    {{/if}}
-  </div>
-</div>
+{{#if media.isDesktop}}
+  {{navbar-desktop-header}}
+{{else}}
+  {{navbar-mobile-header burger=burger}}
+{{/if}}

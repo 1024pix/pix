@@ -14,23 +14,11 @@
             <li class="logged-user-menu__item user-menu-item">
               <div class="user-menu-item__details-firstname"> {{currentUser.user.firstName}}</div>
               <div class="user-menu-item__details-email">{{currentUser.user.email}}</div>
-
-              {{#if canDisplayLinkToProfile}}
-                <div class="user-menu-item__details-account-link">
-                  {{#link-to 'index'}}Mon compte{{/link-to}}
-                </div>
-              {{/if}}
-
             </li>
 
             <li class="logged-user-menu__item">
               <div class="user-menu-item__link user-menu-item__link--first user-menu-item" >
                 {{#link-to 'user-certifications'}}MES CERTIFICATIONS{{/link-to}}
-              </div>
-            </li>
-            <li class="logged-user-menu__item">
-              <div class="user-menu-item__link user-menu-item" >
-                <a href="https://pix.fr/aide" title="Aide pour Pix" target="_blank">AIDE</a>
               </div>
             </li>
             <li class="logged-user-menu__item user-menu-item__logout">

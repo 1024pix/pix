@@ -1,0 +1,39 @@
+<div class="navbar-desktop-header__container">
+  <!-- Logo (left) -->
+  <div class="navbar-desktop-header-logo">
+    <div class="navbar-desktop-header-logo__pix">
+      {{pix-logo}}
+    </div>
+    <div class="navbar-desktop-header-logo__marianne">
+      <img src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="Logo de la Marianne">
+    </div>
+  </div>
+
+  {{#unless isInRouteWithoutLinksInHeader}}
+    {{#if isUserLogged}}
+      <div class="navbar-desktop-header-container__menu">
+        {{#link-to 'profile' class="navbar-desktop-header-menu__item"}}
+          Profil
+        {{/link-to}}
+        {{#link-to 'campaigns' class="navbar-desktop-header-menu__item"}}
+          Parcours
+        {{/link-to}}
+        {{#link-to 'certifications' class="navbar-desktop-header-menu__item"}}
+          Certification
+        {{/link-to}}
+        <a href="https://pix.fr/aide" target="_blank" class="navbar-desktop-header-menu__item">
+          Aide
+        </a>
+      </div>
+    {{/if}}
+  {{/unless}}
+
+  <!-- Links (right) -->
+  <div class="navbar-desktop-header-right">
+    {{navbar-desktop-menu menu=menu}}
+
+    {{#if isUserLogged}}
+      {{user-logged-menu}}
+    {{/if}}
+  </div>
+</div>
