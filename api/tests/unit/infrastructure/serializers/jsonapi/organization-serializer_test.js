@@ -23,12 +23,18 @@ describe('Unit | Serializer | organization-serializer', () => {
             'code': organization.code,
             'logo-url': organization.logoUrl,
             'external-id': organization.externalId,
+            'is-managing-students': organization.isManagingStudents,
           },
           relationships: {
             user: { data: null },
             memberships: {
               links: {
                 related: `/api/organizations/${organization.id}/memberships`
+              }
+            },
+            students: {
+              links: {
+                related: `/api/organizations/${organization.id}/students`
               }
             }
           }
@@ -64,6 +70,17 @@ describe('Unit | Serializer | organization-serializer', () => {
           }
         },
       ]);
+    });
+
+    it('should include serialized student data when organization has student', () => {
+      // given
+      const organization = domainBuilder.buildOrganization.withStudents();
+
+      // when
+      const serializedOrganization = serializer.serialize(organization);
+
+      // then
+      expect(serializedOrganization.data.relationships.students).to.be.ok;
     });
   });
 });

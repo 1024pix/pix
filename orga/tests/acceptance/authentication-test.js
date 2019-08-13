@@ -8,7 +8,8 @@ import {
 import {
   createUserMembershipWithRole,
   createUserWithMembership,
-  createUserWithMembershipAndTermsOfServiceAccepted
+  createUserWithMembershipAndTermsOfServiceAccepted,
+  createUserManagingStudents
 } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -17,8 +18,6 @@ module('Acceptance | authentication', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
-
-  let user;
 
   module('When user is not logged in', function() {
 
@@ -33,6 +32,8 @@ module('Acceptance | authentication', function(hooks) {
   });
 
   module('When user is logging in but has not accepted terms of service yet', function(hooks) {
+
+    let user;
 
     hooks.beforeEach(() => {
       user = createUserWithMembership();
@@ -72,6 +73,7 @@ module('Acceptance | authentication', function(hooks) {
   });
 
   module('When user is logging in and has accepted terms of service', function(hooks) {
+    let user;
 
     hooks.beforeEach(() => {
       user = createUserWithMembershipAndTermsOfServiceAccepted();
@@ -112,6 +114,7 @@ module('Acceptance | authentication', function(hooks) {
   });
 
   module('When user is already authenticated and has accepted terms of service', function(hooks) {
+    let user;
 
     hooks.beforeEach(async () => {
       user = createUserWithMembershipAndTermsOfServiceAccepted();
@@ -150,11 +153,74 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
+  module('When user is authenticated and his organization is managing students', function() {
+
+    module('When user is owner', function() {
+
+      test('should display team and students menu', async function(assert) {
+        // given
+        const user = createUserManagingStudents('OWNER');
+        await authenticateSession({
+          user_id: user.id,
+        });
+
+        // when
+        await visit('/');
+
+        // then
+        assert.dom('.sidebar-menu a').exists({ count: 3 });
+        assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+        assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
+        assert.dom('.sidebar-menu a:nth-child(3)').hasText('Élèves');
+        assert.dom('.sidebar-menu a:first-child ').hasClass('active');
+      });
+
+      test('should redirect to students page', async function(assert) {
+        // given
+        const user = createUserManagingStudents('OWNER');
+        await authenticateSession({
+          user_id: user.id,
+        });
+        await visit('/');
+
+        // when
+        await click('.sidebar-menu a:nth-child(3)');
+
+        // then
+        assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+        assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
+        assert.dom('.sidebar-menu a:nth-child(3)').hasText('Élèves');
+        assert.dom('.sidebar-menu a:nth-child(3)').hasClass('active');
+        assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+      });
+    });
+
+    module('When user is member', function() {
+
+      test('should display students menu', async function(assert) {
+        // given
+        const user = createUserManagingStudents();
+        await authenticateSession({
+          user_id: user.id,
+        });
+
+        // when
+        await visit('/');
+
+        // then
+        assert.dom('.sidebar-menu a').exists({ count: 2 });
+        assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+        assert.dom('.sidebar-menu a:nth-child(2)').hasText('Élèves');
+        assert.dom('.sidebar-menu a:first-child ').hasClass('active');
+      });
+    });
+  });
+
   module('When user is authenticated and is MEMBER', function() {
 
     test('should not display team menu', async function(assert) {
       // given
-      user = createUserMembershipWithRole('MEMBER');
+      const user = createUserMembershipWithRole('MEMBER');
       await authenticateSession({
         user_id: user.id,
       });
@@ -164,8 +230,8 @@ module('Acceptance | authentication', function(hooks) {
 
       // then
       assert.dom('.sidebar-menu a').exists({ count: 1 });
-      assert.dom('.sidebar-menu a').hasText('Campagnes');
-      assert.dom('.sidebar-menu a').hasClass('active');
+      assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+      assert.dom('.sidebar-menu a:first-child ').hasClass('active');
     });
   });
 
@@ -173,7 +239,7 @@ module('Acceptance | authentication', function(hooks) {
 
     test('should display team menu', async function(assert) {
       // given
-      user = createUserMembershipWithRole('OWNER');
+      const user = createUserMembershipWithRole('OWNER');
       await authenticateSession({
         user_id: user.id,
       });
@@ -190,7 +256,7 @@ module('Acceptance | authentication', function(hooks) {
 
     test('should redirect to team page', async function(assert) {
       // given
-      user = createUserMembershipWithRole('OWNER');
+      const user = createUserMembershipWithRole('OWNER');
       await authenticateSession({
         user_id: user.id,
       });
@@ -200,6 +266,7 @@ module('Acceptance | authentication', function(hooks) {
       await click('.sidebar-menu a:nth-child(2)');
 
       // then
+      assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
       assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
       assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
       assert.dom('.sidebar-menu a:first-child').hasNoClass('active');

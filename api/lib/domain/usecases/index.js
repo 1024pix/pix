@@ -42,6 +42,7 @@ const dependencies = {
   sessionService: require('../../domain/services/session-service'),
   snapshotsCsvConverter: require('../../infrastructure/converter/snapshots-csv-converter'),
   snapshotRepository: require('../../infrastructure/repositories/snapshot-repository'),
+  studentRepository: require('../../infrastructure/repositories/student-repository'),
 };
 
 function injectDependencies(usecases) {
@@ -73,6 +74,7 @@ module.exports = injectDependencies({
   findCompetenceEvaluations: require('./find-competence-evaluations'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findOrganizations: require('./find-organizations'),
+  findOrganizationStudents: require('./find-organization-students'),
   findPlacementAssessments: require('./find-placement-assessments'),
   findSessionsForCertificationCenter: require('./find-sessions-for-certification-center'),
   findSmartPlacementAssessments: require('./find-smart-placement-assessments'),

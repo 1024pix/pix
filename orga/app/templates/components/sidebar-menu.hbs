@@ -7,4 +7,9 @@
       Équipe
     {{/link-to}}
   {{/if}}
+  {{#if currentUser.canAccessStudentsPage}}
+    {{#link-to 'authenticated.students' class="sidebar-menu__item sidebar--padding-left sidebar--padding-right"}}
+      Élèves
+    {{/link-to}}
+  {{/if}}
 </nav>

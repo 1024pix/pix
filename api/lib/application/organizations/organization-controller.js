@@ -6,6 +6,7 @@ const campaignSerializer = require('../../infrastructure/serializers/jsonapi/cam
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
+const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
@@ -103,5 +104,12 @@ module.exports = {
     });
 
     return stream;
-  }
+  },
+
+  findStudents: async (request) => {
+    const organizationId = request.params.id;
+
+    return usecases.findOrganizationStudents({ organizationId })
+      .then(studentSerializer.serialize);
+  },
 };

@@ -1,0 +1,11 @@
+.list-students-page {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: 100%;
+
+  &__header {
+    display: flex;
+    margin: 1em;
+  }
+}

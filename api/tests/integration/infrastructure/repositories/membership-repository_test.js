@@ -3,6 +3,7 @@ const _ = require('lodash');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 const { MembershipCreationError } = require('../../../../lib/domain/errors');
 const Membership = require('../../../../lib/domain/models/Membership');
+const Organization = require('../../../../lib/domain/models/Organization');
 const User = require('../../../../lib/domain/models/User');
 
 describe('Integration | Infrastructure | Repository | membership-repository', () => {
@@ -176,25 +177,52 @@ describe('Integration | Infrastructure | Repository | membership-repository', ()
   });
 
   describe('#findByUserIdAndOrganizationId', () => {
-    it('should retrieve membership with given useId and OrganizationId', async () => {
-      // given
-      const organization = databaseBuilder.factory.buildOrganization();
-      const user1 = databaseBuilder.factory.buildUser();
-      const organizationRole1 = Membership.roles.OWNER;
-      const user2 = databaseBuilder.factory.buildUser();
-      const organizationRole2 = Membership.roles.MEMBER;
 
-      databaseBuilder.factory.buildMembership({ organizationRole: organizationRole1, organizationId: organization.id, userId: user1.id });
-      const membership2 = databaseBuilder.factory.buildMembership({ organizationRole: organizationRole2, organizationId: organization.id, userId: user2.id });
+    context('When organization is not required', () => {
 
-      await databaseBuilder.commit();
+      it('should retrieve membership with given useId and OrganizationId', async () => {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+        const user1 = databaseBuilder.factory.buildUser();
+        const organizationRole1 = Membership.roles.OWNER;
+        const user2 = databaseBuilder.factory.buildUser();
+        const organizationRole2 = Membership.roles.MEMBER;
 
-      //when
-      const memberships = await membershipRepository.findByUserIdAndOrganizationId(user2.id, organization.id);
+        databaseBuilder.factory.buildMembership({ organizationRole: organizationRole1, organizationId: organization.id, userId: user1.id });
+        const membership2 = databaseBuilder.factory.buildMembership({ organizationRole: organizationRole2, organizationId: organization.id, userId: user2.id });
 
-      //then
-      expect(memberships).to.have.lengthOf(1);
-      expect(memberships[0].id).to.equal(membership2.id);
+        await databaseBuilder.commit();
+
+        //when
+        const memberships = await membershipRepository.findByUserIdAndOrganizationId({ userId: user2.id, organizationId: organization.id });
+
+        //then
+        expect(memberships).to.have.lengthOf(1);
+        expect(memberships[0].id).to.equal(membership2.id);
+      });
     });
+
+    context('When organization is required', () => {
+
+      it('should retrieve membership and organization with given userId and organizationId', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const userId = databaseBuilder.factory.buildUser().id;
+
+        databaseBuilder.factory.buildMembership({ organizationId, userId });
+
+        await databaseBuilder.commit();
+
+        //when
+        const includeOrganization = true;
+        const memberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId, includeOrganization });
+
+        //then
+        expect(memberships).to.have.lengthOf(1);
+        const organization = memberships[0].organization;
+        expect(organization).to.be.instanceOf(Organization);
+      });
+    });
+
   });
 });

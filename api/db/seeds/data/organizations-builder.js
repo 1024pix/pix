@@ -19,13 +19,22 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     id: 3,
     userId: 4,
     type: 'SCO',
-    name: 'SCOw',
-    code: 'SCO12'
+    name: 'The Night Watch',
+    code: 'SCO12',
+    isManagingStudents: true,
   });
 
   databaseBuilder.factory.buildMembership({
     userId: 4,
     organizationId: 3,
     organizationRole: Membership.roles.OWNER,
+  });
+
+  databaseBuilder.factory.buildStudent({
+    id: 1,
+    firstName: 'Eddison',
+    lastName: 'Tollett',
+    organizationId: 3,
+    userId: null
   });
 };
