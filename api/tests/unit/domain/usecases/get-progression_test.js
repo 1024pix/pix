@@ -16,6 +16,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
   const assessmentRepository = { getByAssessmentIdAndUserId: () => undefined };
   const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
   const skillRepository = { findByCompetenceId: () => undefined };
+  const improvmentService = { filterKnowledgeElementsToRemoveThoseWhichCanBeImproved: () => undefined };
 
   let sandbox;
 
@@ -35,6 +36,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
       const assessment = domainBuilder.buildAssessment({
         id: assessmentId,
         userId,
+        state: 'completed',
         type: Assessment.types.SMARTPLACEMENT,
       });
 
@@ -90,6 +92,71 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
         return promise.then((progression) => {
           expect(progression).to.deep.equal(expectedProgression);
         });
+      });
+
+      context('when the assessment is improving', () => {
+        let knowledgeElements, knowledgeElementsFiltered;
+        beforeEach(() => {
+          assessment.state = 'improving';
+          knowledgeElements = [
+            domainBuilder.buildKnowledgeElement(),
+            domainBuilder.buildKnowledgeElement()
+          ];
+          knowledgeElementsFiltered = [knowledgeElements[0]];
+          knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
+
+          sandbox.stub(improvmentService, 'filterKnowledgeElementsToRemoveThoseWhichCanBeImproved')
+            .withArgs({ knowledgeElements, assessment }).returns(knowledgeElementsFiltered);
+        });
+
+        it('should filter the kowledgeElements', () => {
+          // when
+          const promise = getProgression({
+            userId,
+            progressionId,
+            assessmentRepository,
+            competenceEvaluationRepository,
+            smartPlacementAssessmentRepository,
+            knowledgeElementRepository,
+            skillRepository,
+            improvmentService,
+          });
+
+          // then
+          return promise.then(() => {
+            expect(improvmentService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved)
+              .to.have.been.calledWith({ knowledgeElements, assessment });
+          });
+        });
+
+        it('should return the progression associated to the assessment', () => {
+          // given
+          const expectedProgression = domainBuilder.buildProgression({
+            id: progressionId,
+            targetedSkills: smartPlacementAssessment.targetProfile.skills,
+            knowledgeElements: knowledgeElementsFiltered,
+            isProfileCompleted: smartPlacementAssessment.isCompleted
+          });
+
+          // when
+          const promise = getProgression({
+            userId,
+            progressionId,
+            assessmentRepository,
+            competenceEvaluationRepository,
+            smartPlacementAssessmentRepository,
+            knowledgeElementRepository,
+            skillRepository,
+            improvmentService,
+
+          });
+
+          // then
+          return promise.then((progression) => {
+            expect(progression).to.deep.equal(expectedProgression);
+          });
+        });
+
       });
     });
 
