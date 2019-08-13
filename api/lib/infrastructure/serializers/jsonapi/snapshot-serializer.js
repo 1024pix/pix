@@ -1,4 +1,4 @@
-const { Serializer, Deserializer } = require('jsonapi-serializer');
+const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
@@ -18,18 +18,4 @@ module.exports = {
       meta
     }).serialize(snapshots);
   },
-
-  deserialize(json) {
-    return new Deserializer({ keyForAttribute: 'camelCase' })
-      .deserialize(json)
-      .then(((snapshot) => {
-        snapshot.studentCode = snapshot.studentCode || '';
-        snapshot.campaignCode = snapshot.campaignCode || '';
-        snapshot.organization = {
-          id: json.data.relationships.organization.data.id
-        };
-        return snapshot;
-      }));
-  }
-
 };

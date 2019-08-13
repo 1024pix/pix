@@ -71,28 +71,6 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(422);
     });
 
-    it('should return 422 on domain InvaliOrganizationIdError', function() {
-      // given
-      const error = new DomainErrors.InvaliOrganizationIdError();
-
-      // when
-      const result = send(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(422);
-    });
-
-    it('should return 422 on domain InvalidSnapshotCode', function() {
-      // given
-      const error = new DomainErrors.InvalidSnapshotCode();
-
-      // when
-      const result = send(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(422);
-    });
-
     it('should return 421 on domain AlreadyRatedAssessmentError', function() {
       // given
       const error = new DomainErrors.AlreadyRatedAssessmentError();
@@ -179,17 +157,6 @@ describe('Integration | Utils | Error Manager', function() {
 
       // then
       expect(result.statusCode).to.equal(404);
-    });
-
-    it('should return 401 on domain InvalidTokenError', function() {
-      // given
-      const error = new DomainErrors.InvalidTokenError();
-
-      // when
-      const result = send(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(401);
     });
 
     it('should return 401 on domain InvalidTemporaryKeyError', function() {

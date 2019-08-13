@@ -84,13 +84,6 @@ module.exports = {
       });
   },
 
-  isOrganizationIdExist(id) {
-    return BookshelfOrganization
-      .where({ id })
-      .fetch()
-      .then((organizations) => !!organizations);
-  },
-
   get(id) {
     return BookshelfOrganization
       .where({ id })

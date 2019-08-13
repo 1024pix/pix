@@ -132,24 +132,6 @@ class ForbiddenAccess extends DomainError {
   }
 }
 
-class InvaliOrganizationIdError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class InvalidSnapshotCode extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
-class InvalidTokenError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
 class InvalidRecaptchaTokenError extends DomainError {
   constructor(message) {
     super(message);
@@ -303,11 +285,8 @@ module.exports = {
   EntityValidationError,
   ForbiddenAccess,
   InternalError,
-  InvaliOrganizationIdError,
   InvalidRecaptchaTokenError,
-  InvalidSnapshotCode,
   InvalidTemporaryKeyError,
-  InvalidTokenError,
   MembershipCreationError,
   MissingOrInvalidCredentialsError,
   NotFoundError,

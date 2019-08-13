@@ -163,46 +163,6 @@ describe('Integration | Repository | Organization', function() {
     });
   });
 
-  describe('#isOrganizationIdExist', () => {
-
-    const organization = {
-      type: 'PRO',
-      name: faker.name.firstName(),
-      code: 'ABCD01'
-    };
-
-    let organizationId;
-
-    before(() => {
-      return knex('organizations')
-        .insert(organization)
-        .returning('id')
-        .then((id) => {
-          organizationId = id.shift();
-        });
-    });
-
-    after(() => {
-      return knex('organizations').delete();
-    });
-
-    it('should return true when an organization id is found', async () => {
-      // when
-      const result = await organizationRepository.isOrganizationIdExist(organizationId);
-
-      // then
-      expect(result).to.equal(true);
-    });
-
-    it('should return false when the organization id is not found', async () => {
-      // when
-      const result = await organizationRepository.isOrganizationIdExist(6);
-
-      // then
-      expect(result).to.equal(false);
-    });
-  });
-
   describe('#get', () => {
 
     describe('success management', function() {
@@ -656,5 +616,5 @@ describe('Integration | Repository | Organization', function() {
       });
     });
   });
-  
+
 });
