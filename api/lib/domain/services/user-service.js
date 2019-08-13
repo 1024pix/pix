@@ -71,8 +71,8 @@ function _getChallengeById(challenges, id) {
   return _(challenges).find({ id });
 }
 
-function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
-  return _(assessments).filter((assessment) => assessment.getLastAssessmentResult().level >= 1).values();
+function _isCompetenceCertifiable(userCompetence) {
+  return userCompetence.estimatedLevel >= 1;
 }
 
 async function _pickChallengesForUserCompetences({ userCompetences, challengeIdsCorrectlyAnswered }) {
@@ -80,13 +80,19 @@ async function _pickChallengesForUserCompetences({ userCompetences, challengeIds
   const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => _getChallengeById(allChallenges, challengeId));
 
   challengesAlreadyAnswered.forEach((challenge) => {
+    if (!challenge) {
+      return;
+    }
+
     const userCompetence = _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge);
 
-    if (challenge && userCompetence) {
-      challenge.skills
-        .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, allChallenges))
-        .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
+    if (!userCompetence || !_isCompetenceCertifiable(userCompetence)) {
+      return;
     }
+
+    challenge.skills
+      .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, allChallenges))
+      .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
   });
 
   userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
@@ -120,8 +126,7 @@ async function _getUserCompetencesAndAnswersV1({ userId, limitDate }) {
   ]);
   const userLastAssessments = await assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
   const userCompetences = _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLastAssessments });
-  const filteredAssessments = _filterAssessmentWithEstimatedLevelGreaterThanZero(userLastAssessments);
-  const correctAnswers = await _findCorrectAnswersByAssessments(filteredAssessments);
+  const correctAnswers = await _findCorrectAnswersByAssessments(userLastAssessments);
   const challengeIdsCorrectlyAnswered = _.map(correctAnswers, 'challengeId');
 
   return { userCompetences, challengeIdsCorrectlyAnswered };
