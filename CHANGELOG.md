@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.59.0 (13/08/2019)
+
+- [#628](https://github.com/1024pix/pix/pull/628) [FEATURE] Ajout du menu de navigation (PF-754).
+- [#622](https://github.com/1024pix/pix/pull/622) [FEATURE] Afficher la liste des élèves dans PixOrga (PO-218).
+- [#634](https://github.com/1024pix/pix/pull/634) [BUGFIX] Empêcher de poser des questions en trop en certification (PF-781)
+- [#639](https://github.com/1024pix/pix/pull/639) [TECH] Associer l'affichage des liens de RA à la création des RA (PF-788)
+
 ## v2.58.2 (13/08/2019)
 
 - [#644](https://github.com/1024pix/pix/pull/644) [BUGFIX] Répare les routes de réponses.

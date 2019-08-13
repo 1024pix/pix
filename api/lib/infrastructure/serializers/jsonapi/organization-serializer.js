@@ -4,7 +4,7 @@ module.exports = {
 
   serialize(organizations, meta) {
     return new Serializer('organizations', {
-      attributes: ['name', 'type', 'code', 'logoUrl', 'externalId', 'user', 'memberships'],
+      attributes: ['name', 'type', 'code', 'logoUrl', 'externalId', 'isManagingStudents', 'user', 'memberships', 'students'],
       user: {
         ref: 'id',
         attributes: ['firstName', 'lastName', 'email'],
@@ -15,6 +15,15 @@ module.exports = {
         relationshipLinks: {
           related(record, current, parent) {
             return `/api/organizations/${parent.id}/memberships`;
+          }
+        }
+      },
+      students: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/organizations/${parent.id}/students`;
           }
         }
       },

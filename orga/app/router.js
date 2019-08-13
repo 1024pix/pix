@@ -19,6 +19,9 @@ Router.map(function() {
 
   this.route('authenticated', { path: '' }, function() {
     this.route('terms-of-service', { path: '/cgu' });
+    this.route('students', { path: 'eleves' }, function() {
+      this.route('list', { path: '/' });
+    });
     this.route('team', { path: '/equipe' }, function() {
       this.route('list', { path: '/' });
       this.route('new', { path: '/creation' });

@@ -59,7 +59,7 @@ module.exports = {
       },
       organizations: {
         ref: 'id',
-        attributes: ['name', 'type', 'code', 'logoUrl'],
+        attributes: ['name', 'type', 'code', 'logoUrl', 'isManagingStudents'],
       },
       meta,
     }).serialize(users);

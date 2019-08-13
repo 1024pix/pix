@@ -46,3 +46,22 @@ export function createUserMembershipWithRole(organizationRole) {
   user.memberships = [memberships];
   return user;
 }
+
+export function createUserManagingStudents(role = 'MEMBER') {
+  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
+
+  const organization = server.create('organization', {
+    name: 'BRO & Evil Associates',
+    type: 'SCO',
+    isManagingStudents: true
+  });
+
+  const memberships = server.create('membership', {
+    userId: user.id,
+    organizationId: organization.id,
+    organizationRole: role
+  });
+
+  user.memberships = [memberships];
+  return user;
+}

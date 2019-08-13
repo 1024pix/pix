@@ -59,19 +59,6 @@ workflows:
           requires:
             - checkout
 
-      - signal_ci_ok:
-          requires:
-            - api_build_and_test
-            - mon_pix_build_and_test
-            - orga_build_and_test
-            - certif_build_and_test
-            - admin_build_and_test
-            - e2e_test
-          filters:
-            branches:
-              ignore:
-                - dev
-
 jobs:
   checkout:
     docker:
@@ -254,23 +241,3 @@ jobs:
             wget --retry-connrefused -T 60 -qO- http://localhost:4200
             wget --retry-connrefused -T 60 -qO- http://localhost:3000/api
             npm run cy:run
-
-  signal_ci_ok:
-    docker:
-      - image: circleci/node:10.15
-    working_directory: ~/pix
-    steps:
-      - attach_workspace:
-          at: ~/pix
-      - run: cat package*.json > cachekey
-      - restore_cache:
-          keys:
-            - v7-root-npm-{{ checksum "cachekey" }}
-      - run: npm ci
-      - save_cache:
-          key: v7-root-npm-{{ checksum "cachekey" }}
-          paths:
-            - ~/.npm
-      - run: sudo apt-get install -y jq
-      - run: npm run ci:signal-jira
-      - run: ~/pix/scripts/signal_deploy_to_pr.sh

@@ -45,7 +45,7 @@ describe('Acceptance | User certifications page', function() {
       await visitWithAbortedTransition('/mes-certifications');
 
       // then
-      expect(find('.navbar-header__container')).to.exist;
+      expect(find('.navbar-desktop-header__container')).to.exist;
     });
 
     it('should render a title for the page', async function() {
