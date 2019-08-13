@@ -2,18 +2,12 @@ const campaignParticipationSerializer = require('../../infrastructure/serializer
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix-score-serializer');
-const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-
-const profileService = require('../../domain/services/profile-service');
-
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
 const usecases = require('../../domain/usecases');
 
 const { BadRequestError } = require('../../infrastructure/errors');
-const requestUtils = require('../../infrastructure/utils/request-utils');
 
 module.exports = {
 
@@ -44,15 +38,6 @@ module.exports = {
 
     return usecases.getCurrentUser({ authenticatedUserId })
       .then(userSerializer.serialize);
-  },
-
-  async getAuthenticatedUserProfile(request) {
-    const userId = requestUtils.extractUserIdFromRequest(request);
-
-    const foundUser = await userRepository.findUserById(userId);
-    const profile = await profileService.getByUserId(foundUser.id);
-
-    return profileSerializer.serialize(profile);
   },
 
   updateUser(request) {
