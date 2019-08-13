@@ -33,11 +33,11 @@ describe('Unit | Service | ImprovmentService', () => {
 
         oldKnowledgeElementsInvalidated = [
           domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(5, 'days').format() }),
-          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(5, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(4, 'days').format() }),
           domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(5, 'days').format() }),
         ];
         recentKnowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(4, 'days').format() }),
+          domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(3, 'days').format() }),
           domainBuilder.buildKnowledgeElement({ status: 'validated', createdAt: moment().subtract(2, 'days').format() }),
           domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(2, 'days').format() }),
           domainBuilder.buildKnowledgeElement({ status: 'invalidated', createdAt: moment().subtract(2, 'days').format() }),
