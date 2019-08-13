@@ -8,29 +8,27 @@ describe('Unit | Route | Competences | Results', function() {
 
   setupTest();
 
-  beforeEach(function() {
-    this.owner.register('service:session', Service.extend({
-      isAuthenticated: true,
-    }));
-  });
-
   describe('model', function() {
 
     const assessmentId = 'assessmentId';
 
     let route;
     let storeStub;
+    let sessionStub;
     let queryStub;
 
     beforeEach(function() {
       queryStub = sinon.stub();
-      storeStub = Service.extend({
+      storeStub = Service.create({
         query: queryStub
       });
-
-      this.owner.register('service:store', storeStub);
+      sessionStub = Service.create({
+        isAuthenticated: true,
+      });
 
       route = this.owner.lookup('route:competences.results');
+      route.set('store', storeStub);
+      route.set('session', sessionStub);
       route.transitionTo = sinon.stub();
     });
 

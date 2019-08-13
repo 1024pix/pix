@@ -1,27 +1,23 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { currentURL } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import visitWithAbortedTransition from '../helpers/visit';
+import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Page | Not Found Redirection', () => {
+  setupApplicationTest();
+  setupMirage();
 
-  let application;
-
-  beforeEach(() => {
-    application = startApp();
+  beforeEach(function() {
+    defaultScenario(this.server);
   });
 
-  afterEach(() => {
-    destroyApp(application);
-  });
+  it('should redirect to home page when URL is a nonexistant page', async () => {
+    await visitWithAbortedTransition('/plop');
 
-  it('should redirect to home page when URL is a nonexistant page', () => {
-
-    visit('/plop');
-
-    return andThen(() => {
-      expect(currentURL()).to.eq('/connexion');
-    });
+    expect(currentURL()).to.eq('/connexion');
   });
 
 });

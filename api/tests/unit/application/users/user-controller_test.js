@@ -12,7 +12,7 @@ const encryptionService = require('../../../../lib/domain/services/encryption-se
 const mailService = require('../../../../lib/domain/services/mail-service');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const profileService = require('../../../../lib/domain/services/profile-service');
-const tokenService = require('../../../../lib/domain/services/token-service');
+const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
 
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -96,7 +96,7 @@ describe('Unit | Controller | user-controller', () => {
     const userId = 1234;
 
     beforeEach(() => {
-      sinon.stub(tokenService, 'extractUserId').returns(userId);
+      sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
 
       const aUser = new User({ id: userId });
       sinon.stub(userRepository, 'findUserById').withArgs(userId).resolves(aUser);

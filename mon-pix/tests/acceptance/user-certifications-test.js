@@ -1,28 +1,25 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { currentURL, find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | User certifications page', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   describe('Access to the user certifications page', function() {
 
     it('should not be accessible when user is not connected', async function() {
       // when
-      await visit('/mes-certifications');
+      await visitWithAbortedTransition('/mes-certifications');
 
       // then
       expect(currentURL()).to.equal('/connexion');
@@ -33,7 +30,7 @@ describe('Acceptance | User certifications page', function() {
       await authenticateAsSimpleUser();
 
       // when
-      await visit('/mes-certifications');
+      await visitWithAbortedTransition('/mes-certifications');
 
       // then
       expect(currentURL()).to.equal('/mes-certifications');
@@ -45,28 +42,28 @@ describe('Acceptance | User certifications page', function() {
     it('should render the banner', async function() {
       // when
       await authenticateAsSimpleUser();
-      await visit('/mes-certifications');
+      await visitWithAbortedTransition('/mes-certifications');
 
       // then
-      findWithAssert('.navbar-header__container');
+      expect(find('.navbar-header__container')).to.exist;
     });
 
     it('should render a title for the page', async function() {
       // when
       await authenticateAsSimpleUser();
-      await visit('/mes-certifications');
+      await visitWithAbortedTransition('/mes-certifications');
 
       // then
-      findWithAssert('.user-certifications-page__title');
+      expect(find('.user-certifications-page__title')).to.exist;
     });
 
     it('should render the panel which contains informations about certifications of the connected user', async function() {
       // when
       await authenticateAsSimpleUser();
-      await visit('/mes-certifications');
+      await visitWithAbortedTransition('/mes-certifications');
 
       // then
-      findWithAssert('.user-certifications-panel');
+      expect(find('.user-certifications-panel')).to.exist;
     });
 
   });

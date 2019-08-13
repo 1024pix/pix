@@ -1,6 +1,8 @@
-import resolver from './helpers/resolver';
-import { setResolver } from 'ember-mocha';
+import Application from '../app';
+import config from '../config/environment';
+import { setApplication } from '@ember/test-helpers';
 import { mocha } from 'mocha';
+import { start } from 'ember-mocha';
 import loadEmberExam from 'ember-exam/test-support/load';
 
 loadEmberExam();
@@ -21,4 +23,5 @@ mocha.setup({
   slow: 500,
 });
 
-setResolver(resolver);
+setApplication(Application.create(config.APP));
+start();

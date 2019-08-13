@@ -1,28 +1,23 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import visitWithAbortedTransition from '../helpers/visit';
+import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Page | Inscription', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
+    defaultScenario(this.server);
   });
 
-  afterEach(function() {
-    destroyApp(application);
-  });
+  it('should contain a link to "Terms of service" page', async function() {
+    await visitWithAbortedTransition('/inscription');
 
-  it('should contain a link to "Terms of service" page', function() {
-
-    visit('/inscription');
-
-    andThen(() => {
-      const $termsOfServiceLink = findWithAssert('.signup-form__cgu .link');
-      return expect($termsOfServiceLink.attr('href').trim()).to.equal('https://pix.fr/conditions-generales-d-utilisation');
-    });
+    return expect(find('.signup-form__cgu .link').getAttribute('href').trim()).to.equal('https://pix.fr/conditions-generales-d-utilisation');
   });
 
 });

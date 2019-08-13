@@ -18,16 +18,15 @@ describe('Unit | Route | changer mot de passe', function() {
 
     beforeEach(function() {
       findRecordStub = sinon.stub();
-      storeStub = Service.extend({
+      storeStub = Service.create({
         findRecord: findRecordStub
       });
-
-      this.owner.register('service:store', storeStub);
     });
 
     it('should exists', function() {
       // when
       const route = this.owner.lookup('route:reset-password');
+      route.set('store', storeStub);
 
       // then
       expect(route).to.be.ok;
@@ -37,6 +36,7 @@ describe('Unit | Route | changer mot de passe', function() {
       // given
       findRecordStub.resolves();
       const route = this.owner.lookup('route:reset-password');
+      route.set('store', storeStub);
 
       // when
       const promise = route.model(params);
@@ -71,6 +71,7 @@ describe('Unit | Route | changer mot de passe', function() {
 
         findRecordStub.resolves(fetchedOwnerDetails);
         const route = this.owner.lookup('route:reset-password');
+        route.set('store', storeStub);
 
         // when
         const promise = route.model(params);

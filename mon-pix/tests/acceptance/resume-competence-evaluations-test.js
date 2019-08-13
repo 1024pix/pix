@@ -1,21 +1,18 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import { click, fillIn, currentURL, find } from '@ember/test-helpers';
+import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
 import { authenticateAsSimpleUser } from '../helpers/testing';
+import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
+import { setupApplicationTest } from 'ember-mocha';
+import { setupMirage } from 'ember-cli-mirage/test-support';
 
 describe('Acceptance | Competence Evaluations | Resume Competence Evaluations', function() {
-
-  let application;
+  setupApplicationTest();
+  setupMirage();
 
   beforeEach(function() {
-    application = startApp();
-    defaultScenario(server);
-  });
-
-  afterEach(function() {
-    destroyApp(application);
+    defaultScenario(this.server);
   });
 
   describe('Resume a competence evaluation', function() {
@@ -23,14 +20,11 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
     context('When user is not logged in', function() {
 
       beforeEach(async function() {
-        await visit('/competences/1/evaluer');
+        await visitWithAbortedTransition('/competences/1/evaluer');
       });
 
       it('should redirect to signin page', async function() {
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.equal('/connexion');
-        });
+        expect(currentURL()).to.equal('/connexion');
       });
 
       it('should redirect to assessment after signin', async function() {
@@ -39,10 +33,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
         await fillIn('#password', 'Jane1234');
         await click('.button');
 
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.contains('/assessments');
-        });
+        expect(currentURL()).to.contains('/assessments');
       });
 
     });
@@ -55,27 +46,24 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
       context('When competence evaluation exists', function() {
 
         beforeEach(async function() {
-          await visit('/competences/1/evaluer');
+          await visitWithAbortedTransition('/competences/1/evaluer');
         });
 
         it('should redirect to assessment', async function() {
           // then
           expect(currentURL()).to.contains(/assessments/);
-          expect(find('.course-banner__name').text()).to.equal('');
-          findWithAssert('.assessment-challenge__progress-bar');
+          expect(find('.campaign-banner')).to.exist;
+          expect(find('.assessment-challenge__progress-bar')).to.exist;
         });
       });
 
       context('When competence evaluation does not exist', function() {
         beforeEach(async function() {
-          await visit('/competences/wrongId/evaluer');
+          await visitWithAbortedTransition('/competences/wrongId/evaluer');
         });
 
         it('should show an error message', async function() {
-          // then
-          return andThen(() => {
-            findWithAssert('.error-page__main-content');
-          });
+          expect(find('.error-page__main-content')).to.exist;
         });
       });
 

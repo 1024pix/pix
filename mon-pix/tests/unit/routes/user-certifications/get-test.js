@@ -10,26 +10,23 @@ describe('Unit | Route | user certifications/get', function() {
   setupTest();
 
   let route;
-  let StoreStub;
+  let storeStub;
   let findRecordStub;
   const certificationId = 'certification_id';
 
   beforeEach(function() {
     // define stubs
     findRecordStub = sinon.stub();
-    StoreStub = Service.extend({
+    storeStub = Service.create({
       findRecord: findRecordStub,
     });
 
-    // manage dependency injection context
-    this.owner.register('service:store', StoreStub);
-
     route = this.owner.lookup('route:user-certifications/get');
+    route.set('store', storeStub);
     route.replaceWith = sinon.stub().resolves();
   });
 
   it('exists', function() {
-    route = this.owner.lookup('route:user-certifications/get');
     expect(route).to.be.ok;
   });
 
@@ -39,7 +36,7 @@ describe('Unit | Route | user certifications/get', function() {
       // given
       const params = { id: certificationId };
       const retreivedCertification = [EmberObject.create({ id: certificationId })];
-      route.get('store').findRecord.resolves(retreivedCertification);
+      findRecordStub.resolves(retreivedCertification);
 
       // when
       const promise = route.model(params);
@@ -62,7 +59,7 @@ describe('Unit | Route | user certifications/get', function() {
         isPublished: true,
         pixScore: 231
       });
-      route.get('store').findRecord.resolves(retreivedCertification);
+      findRecordStub.resolves(retreivedCertification);
 
       // when
       const promise = route.model(params);
@@ -84,7 +81,7 @@ describe('Unit | Route | user certifications/get', function() {
         isPublished: false,
         pixScore: 231
       });
-      route.get('store').findRecord.resolves(retreivedCertification);
+      findRecordStub.resolves(retreivedCertification);
 
       // when
       const promise = route.model(params);
@@ -107,7 +104,7 @@ describe('Unit | Route | user certifications/get', function() {
         isPublished: true,
         pixScore: 231
       });
-      route.get('store').findRecord.resolves(retreivedCertification);
+      findRecordStub.resolves(retreivedCertification);
 
       // when
       const promise = route.model(params);

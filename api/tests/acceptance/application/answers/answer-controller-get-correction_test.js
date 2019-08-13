@@ -1,4 +1,4 @@
-const { expect, knex, nock } = require('../../../test-helper');
+const { expect, generateValidRequestAuhorizationHeader, nock, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 
@@ -12,8 +12,9 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
 
   describe('GET /api/answers/{id}/correction', function() {
 
-    let insertedAssessmentId = null;
-    let insertedAnswerId = null;
+    let assessment = null;
+    let answer = null;
+    const userId = 123;
 
     before(() => {
       nock('https://api.airtable.com')
@@ -50,37 +51,33 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       cache.flushAll();
     });
 
-    beforeEach(() => {
-      const completedAssessment = {
+    beforeEach(async () => {
+      assessment = databaseBuilder.factory.buildAssessment({
         courseId: 'adaptive_course_id',
-        state: 'completed'
-      };
-      return knex('assessments')
-        .insert(completedAssessment).returning('id')
-        .then(([id]) => {
-          insertedAssessmentId = id;
+        state: 'completed',
+        userId
+      });
 
-          const inserted_answer = {
-            value: 'any good answer',
-            result: 'ok',
-            challengeId: 'q_first_challenge',
-            assessmentId: insertedAssessmentId
-          };
+      answer = databaseBuilder.factory.buildAnswer({
+        value: 'any good answer',
+        result: 'ok',
+        challengeId: 'q_first_challenge',
+        assessmentId: assessment.id
+      });
 
-          return knex('answers').insert(inserted_answer).returning('id');
-        }).then(([id]) => insertedAnswerId = id);
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('answers').delete()
-        .then(() => knex('assessments').delete());
+    afterEach(async() => {
+      await databaseBuilder.clean();
     });
 
     it('should return the answer correction', async () => {
       // given
       const options = {
         method: 'GET',
-        url: `/api/answers/${insertedAnswerId}/correction`
+        url: `/api/answers/${answer.id}/correction`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
       };
 
       const expectedBody = {
@@ -108,6 +105,21 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal(expectedBody);
+    });
+
+    it('should return 403 when user does not has access to this answer', async () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/answers/${answer.id}/correction`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId + 3) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
     });
   });
 });
