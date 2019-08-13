@@ -3,6 +3,7 @@ const tokenService = require('../../domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('../../application/usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('../../application/usecases/checkUserHasRolePixMaster');
 const checkUserIsOwnerInOrganizationUseCase = require('../../application/usecases/checkUserIsOwnerInOrganization');
+const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase  = require('../../application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 
 const JSONAPIError = require('jsonapi-serializer').Error;
 
@@ -118,9 +119,33 @@ async function checkUserIsOwnerInOrganizationOrHasRolePixMaster(request, h) {
   return _replyWithAuthorizationError(h);
 }
 
+async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyWithAuthorizationError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const organizationId = request.params.id;
+
+  let belongsToScoOrganizationAndManageStudents;
+  try {
+    belongsToScoOrganizationAndManageStudents = await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
+  } catch (err) {
+    logger.error(err);
+    return _replyWithAuthorizationError(h);
+  }
+
+  if (belongsToScoOrganizationAndManageStudents) {
+    return h.response(true);
+  }
+
+  return _replyWithAuthorizationError(h);
+}
+
 module.exports = {
   checkUserIsAuthenticated,
   checkUserHasRolePixMaster,
   checkUserIsOwnerInOrganization,
-  checkUserIsOwnerInOrganizationOrHasRolePixMaster
+  checkUserIsOwnerInOrganizationOrHasRolePixMaster,
+  checkUserBelongsToScoOrganizationAndManagesStudents
 };

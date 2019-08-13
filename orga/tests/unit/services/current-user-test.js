@@ -114,6 +114,87 @@ module('Unit | Service | current-user', function(hooks) {
       // Then
       assert.equal(currentUser.isOwnerInOrganization, false);
     });
+
+    test('should set canAccessStudentsPage to true', async function(assert) {
+      // Given
+      const connectedUserId = 1;
+      const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: true, isSco: true });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'OWNER', isOwner: true });
+      const connectedUser = Object.create({
+        id: connectedUserId,
+        memberships: [membership]
+      });
+      const storeStub = Service.create({
+        findRecord: () => resolve(connectedUser)
+      });
+      const sessionStub = Service.create({
+        isAuthenticated: true,
+        data: { authenticated: { user_id: connectedUserId } }
+      });
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.set('store', storeStub);
+      currentUser.set('session', sessionStub);
+
+      // When
+      await currentUser.load();
+
+      // Then
+      assert.equal(currentUser.canAccessStudentsPage, true);
+    });
+
+    test('should set canAccessStudentsPage to false when type is PRO', async function(assert) {
+      // Given
+      const connectedUserId = 1;
+      const organization = Object.create({ id: 9, type: 'PRO', isManagingStudents: true, isSco: false });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'OWNER', isOwner: true });
+      const connectedUser = Object.create({
+        id: connectedUserId,
+        memberships: [membership]
+      });
+      const storeStub = Service.create({
+        findRecord: () => resolve(connectedUser)
+      });
+      const sessionStub = Service.create({
+        isAuthenticated: true,
+        data: { authenticated: { user_id: connectedUserId } }
+      });
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.set('store', storeStub);
+      currentUser.set('session', sessionStub);
+
+      // When
+      await currentUser.load();
+
+      // Then
+      assert.equal(currentUser.canAccessStudentsPage, false);
+    });
+
+    test('should set canAccessStudentsPage to false when isManagingStudents is false', async function(assert) {
+      // Given
+      const connectedUserId = 1;
+      const organization = Object.create({ id: 9, type: 'SCO', isManagingStudents: false, isSco: true });
+      const membership = Object.create({ userId: connectedUserId, organization, organizationRole: 'OWNER', isOwner: true });
+      const connectedUser = Object.create({
+        id: connectedUserId,
+        memberships: [membership]
+      });
+      const storeStub = Service.create({
+        findRecord: () => resolve(connectedUser)
+      });
+      const sessionStub = Service.create({
+        isAuthenticated: true,
+        data: { authenticated: { user_id: connectedUserId } }
+      });
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.set('store', storeStub);
+      currentUser.set('session', sessionStub);
+
+      // When
+      await currentUser.load();
+
+      // Then
+      assert.equal(currentUser.canAccessStudentsPage, false);
+    });
   });
 
   module('user is not authenticated', function() {

@@ -4,6 +4,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('../../../../lib/application/usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('../../../../lib/application/usecases/checkUserHasRolePixMaster');
 const checkUserIsOwnerInOrganizationUseCase = require('../../../../lib/application/usecases/checkUserIsOwnerInOrganization');
+const checkUserBelongsToScoOrganizationAndManagesStudentsUseCase = require('../../../../lib/application/usecases/checkUserBelongsToScoOrganizationAndManagesStudents');
 
 describe('Unit | Interfaces | Controllers | SecurityController', () => {
 
@@ -313,7 +314,84 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         expect(response.statusCode).to.equal(403);
         expect(response.isTakeOver).to.be.true;
       });
+    });
+  });
 
+  describe('#checkUserBelongsToScoOrganizationAndManagesStudents', () => {
+
+    let belongToScoOrganizationAndManageStudentsStub;
+
+    beforeEach(() => {
+      belongToScoOrganizationAndManageStudentsStub = sinon.stub(checkUserBelongsToScoOrganizationAndManagesStudentsUseCase, 'execute');
+    });
+
+    context('Successful case', () => {
+      const request = {
+        auth: {
+          credentials: {
+            accessToken: 'valid.access.token',
+            userId: 1234
+          }
+        },
+        params: { id: 5678 } };
+
+      it('should authorize access to resource when the user is authenticated, belongs to SCO Organization and manages students', async () => {
+        // given
+        belongToScoOrganizationAndManageStudentsStub.resolves(true);
+
+        // when
+        const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', () => {
+      const request = {
+        auth: {
+          credentials: {
+            accessToken: 'valid.access.token',
+            userId: 1234
+          }
+        },
+        params: { id: 5678 } };
+
+      it('should forbid resource access when user was not previously authenticated', async () => {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user does not belong to SCO Organization or manage students', async () => {
+        // given
+        belongToScoOrganizationAndManageStudentsStub.resolves(false);
+
+        // when
+        const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async () => {
+        // given
+        belongToScoOrganizationAndManageStudentsStub.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityController.checkUserBelongsToScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
     });
   });
 

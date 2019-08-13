@@ -61,6 +61,11 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
               links: {
                 related: '/api/organizations/10293/memberships'
               }
+            },
+            students: {
+              links: {
+                related: '/api/organizations/10293/students'
+              }
             }
           }
         }]
@@ -88,6 +93,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', () => {
         'name': 'ACME',
         'type': 'PRO',
         'code': 'ABCD12',
+        'is-managing-students': false
       });
     });
 

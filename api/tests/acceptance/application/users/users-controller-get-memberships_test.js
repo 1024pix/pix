@@ -23,6 +23,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
         name: 'The name of the organization',
         type: 'SUP',
         code: 'AAA111',
+        'isManagingStudents': false,
         userId,
       };
 
@@ -102,6 +103,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                 name: 'The name of the organization',
                 type: 'SUP',
                 code: 'AAA111',
+                'is-managing-students': false,
               },
               relationships: {
                 campaigns: {
@@ -118,7 +120,12 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                   links: {
                     related: `/api/organizations/${organizationId.toString()}/target-profiles`
                   }
-                }
+                },
+                students: {
+                  links: {
+                    related: `/api/organizations/${organizationId.toString()}/students`
+                  }
+                },
               }
             },
           ],
