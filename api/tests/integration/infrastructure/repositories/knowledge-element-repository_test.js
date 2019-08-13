@@ -302,7 +302,7 @@ describe('Integration | Repository | KnowledgeElementRepository', () => {
         { id: 1, status: 'validated', userId, competenceId },
         { id: 2, status: 'invalidated', userId, competenceId },
       ], (ke) => databaseBuilder.factory.buildKnowledgeElement(ke));
-      
+
       _.each([
         { id: 3, status: 'invalidated', userId, competenceId: otherCompetenceId },
         { id: 4, status: 'validated', userId: otherUserId, competenceId },
