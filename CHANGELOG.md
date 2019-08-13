@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.58.2 (13/08/2019)
+
+- [#644](https://github.com/1024pix/pix/pull/644) [BUGFIX] Répare les routes de réponses.
+- [#642](https://github.com/1024pix/pix/pull/642) [TECH] Mise à jour de Cypress.
+- [#638](https://github.com/1024pix/pix/pull/638) [TECH] Mise à jour de ember-mocha dans Pix App.
+- (https://github.com/1024pix/pix/security/advisories/GHSA-ppw7-whcc-c7cj) [SECURITY] Sécurité des routes answers.
+
 ## v2.58.1 (08/08/2019)
 
 - [#632](https://github.com/1024pix/pix/pull/632) [BUGFIX] Un utilisateur doit pouvoir accéder à son profil Pix via le GAR et ne pas être bloqué (PF-774).
@@ -384,20 +391,20 @@
 - [#339](https://github.com/1024pix/pix/pull/339) [BUGFIX] Déconnecter l'utilisateur et le rediriger si besoin avant de commencer une campagne (PF-490).
 - [#342](https://github.com/1024pix/pix/pull/342) [BUGFIX] Arrêter d'utiliser les colonnes non-renseigné d'AirTable (PF-503).
 
-## v2.23.0 (05/02/2019) 
+## v2.23.0 (05/02/2019)
 
 - [#346](https://github.com/1024pix/pix/pull/346) [FEATURE] Les tokens de reset password restent valides même si un nouveau est créé. (PF-505)
 - [#332](https://github.com/1024pix/pix/pull/332) [FEATURE] Ajout du nouveau design de la page des résultats intermédiaires lors d'une campagne (PF-485).
 - [#341](https://github.com/1024pix/pix/pull/341) [BUGFIX] Les acquis des anciennes campagnes ne remontent pas dans le CSV (PO-186).
 - [#343](https://github.com/1024pix/pix/pull/343) [TECH] Correction des stack trace des tests API.
 
-## v2.22.0 (31/01/2019) 
+## v2.22.0 (31/01/2019)
 
 - [#329](https://github.com/1024pix/pix/pull/329) [FEATURE] Pouvoir accéder à pix certif en tant que membre de centre de certification (PC-15).
 - [#331](https://github.com/1024pix/pix/pull/331) [FEATURE] Permettre à un Pix Master de lister et ajouter des membres à une Organisation dans Pix Admin (PA-52).
 - [#335](https://github.com/1024pix/pix/pull/335) [BUGFIX] Problème de style sous IE (PF-440).
 - [#337](https://github.com/1024pix/pix/pull/337) [BUGFIX] Correction de la page de résultat de certif sous IE (PF-499).
-- [#327](https://github.com/1024pix/pix/pull/327) [TECH] Mutualiser la reprise d'évaluation (PF-496). 
+- [#327](https://github.com/1024pix/pix/pull/327) [TECH] Mutualiser la reprise d'évaluation (PF-496).
 
 ## v2.21.0 (29/01/2019)
 
@@ -415,7 +422,7 @@
 - [#328](https://github.com/1024pix/pix/pull/328) [TECH] Ne pas répéter le message de déploiement sur les PR.
 - [#330](https://github.com/1024pix/pix/pull/330) [BSR] Fix a randomly failing test.
 
-## v2.20.2 (18/01/2019) 
+## v2.20.2 (18/01/2019)
 
 - [#311](https://github.com/1024pix/pix/pull/311) [BUGFIX] Une seule évaluation pour une certification (PF-143).
 - [#319](https://github.com/1024pix/pix/pull/319) [BUGFIX] Changement de l'état d'une évaluation avant la création des résultats (PF-143).
@@ -461,7 +468,7 @@
 - [#301](https://github.com/1024pix/pix/pull/301) [TECH] Utilisation des Knowledge-Elements dans l'algo SmartRandom (PF-437).
 - [#294](https://github.com/1024pix/pix/pull/294) [BUGFIX] Le CSV des snapshots doit refléter les profils utilisateurs (PF-358).
 
-## v2.14.0 (13/12/2018) 
+## v2.14.0 (13/12/2018)
 
 - [#290](https://github.com/1024pix/pix/pull/290) [FEATURE] Affichage de la liste des sessions de certification dans Pix Certif (PC-5).
 
@@ -470,7 +477,7 @@
 - [#297](https://github.com/1024pix/pix/pull/297) [FEATURE] Suppression du champs email dans les formulaires de feedback. (PF-454)
 - [#293](https://github.com/1024pix/pix/pull/293) [BUGFIX] Affiche correctement la progression d'une certification. (PF-457)
 
-## v2.12.0 (07/12/2018) 
+## v2.12.0 (07/12/2018)
 
 - [#282](https://github.com/1024pix/pix/pull/282) [FEATURE] Mise à jour de la gestion de la première question posée à l'utilisateur (PF-436).
 - [#287](https://github.com/1024pix/pix/pull/287) [FEATURE] Bouton "Retenter" afin de pouvoir relancer un test de positionnement tous les 7 jours (PF-422).
