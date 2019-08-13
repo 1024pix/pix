@@ -1,6 +1,9 @@
 @charset 'utf-8';
 
 /* 3rd-party */
+@import 'ember-burger-menu/variables';
+@import 'ember-burger-menu/structure';
+@import 'ember-burger-menu/animations/push';
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
 /* globals */
@@ -42,8 +45,11 @@
 @import 'components/logged-user-profile-banner';
 @import 'components/medal-item';
 @import 'components/modal-mobile';
+@import 'components/navbar-burger-menu';
 @import 'components/navbar-desktop-menu';
+@import 'components/navbar-desktop-header';
 @import 'components/navbar-header';
+@import 'components/navbar-mobile-header';
 @import 'components/no-certification-panel';
 @import 'components/password-reset-demand-form';
 @import 'components/pix-logo';
