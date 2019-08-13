@@ -86,15 +86,6 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.InvalidTemporaryKeyError) {
     return new InfraErrors.UnauthorizedError(error.message);
   }
-  if (error instanceof DomainErrors.InvalidTokenError) {
-    return new InfraErrors.UnauthorizedError('Le token n’est pas valide');
-  }
-  if (error instanceof DomainErrors.InvaliOrganizationIdError) {
-    return new InfraErrors.UnprocessableEntityError('Cette organisation n’existe pas');
-  }
-  if (error instanceof DomainErrors.InvalidSnapshotCode) {
-    return new InfraErrors.UnprocessableEntityError('Les codes de partage du profil sont trop longs');
-  }
   if (error instanceof DomainErrors.WrongDateFormatError) {
     return new InfraErrors.BadRequestError(error.message);
   }

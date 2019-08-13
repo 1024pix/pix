@@ -4,14 +4,6 @@ const snapshotsAuthorization = require('../../application/preHandlers/snapshot-a
 exports.register = async function(server) {
   server.route([
     {
-      method: 'POST',
-      path: '/api/snapshots',
-      config: {
-        handler: snapshotController.create,
-        tags: ['api', 'snapshots'],
-      },
-    },
-    {
       method: 'GET',
       path: '/api/snapshots',
       config: {
