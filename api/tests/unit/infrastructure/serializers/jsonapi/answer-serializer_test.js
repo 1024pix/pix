@@ -15,6 +15,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
         timeout: 8,
         'elapsed-time': 30,
         result: 'result_value',
+        'created-at': '2019',
       },
       relationships: {
         assessment: {
@@ -55,6 +56,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
         value: answerValue,
         assessmentId,
         challengeId,
+        createdAt: '2019',
       });
       const expectedJSON = {
         data: {
@@ -66,6 +68,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
             timeout: timeout,
             'elapsed-time': elapsedTime,
             result: answerStatusJSONAPIAdapter.adapt(result),
+            'created-at': '2019',
           },
           relationships: {
             assessment: {

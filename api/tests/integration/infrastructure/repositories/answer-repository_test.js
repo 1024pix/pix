@@ -396,7 +396,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       expect(savedAnswer.id).to.not.equal(undefined);
       expect(savedAnswer).to.be.an.instanceOf(Answer);
       // XXX text fields are saved with a \n at the end, so the test fails for that reason
-      expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
+      expect(_.omit(savedAnswer, ['id', 'resultDetails', 'createdAt'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails', 'createdAt']));
     });
   });
 });

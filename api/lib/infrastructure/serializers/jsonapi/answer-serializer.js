@@ -13,7 +13,7 @@ module.exports = {
         answer.result = answerStatusJSONAPIAdapter.adapt(untouchedAnswer.result);
         return answer;
       },
-      attributes: ['value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment', 'challenge', 'correction'],
+      attributes: ['value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment', 'challenge', 'correction', 'createdAt'],
       assessment: {
         ref: 'id',
         includes: false,

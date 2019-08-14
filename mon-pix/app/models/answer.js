@@ -11,6 +11,7 @@ export default Model.extend(ValueAsArrayOfString, {
   resultDetails: attr('string'),
   timeout: attr('number'),
   elapsedTime: attr('number'),
+  createdAt: attr('date'),
   assessment: belongsTo('assessment'),
   challenge: belongsTo('challenge'),
   correction: belongsTo('correction'),

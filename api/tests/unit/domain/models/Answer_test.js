@@ -18,7 +18,8 @@ describe('Unit | Domain | Models | Answer', () => {
         timeout: 0,
         challengeId: 'redRecordId',
         assessmentId: 82,
-        correction: 'OK'
+        correction: 'OK',
+        createdAt: '2019'
       };
 
       const expectedAnswer = {
@@ -31,6 +32,7 @@ describe('Unit | Domain | Models | Answer', () => {
         challengeId: 'redRecordId',
         assessmentId: 82,
         correction: 'OK',
+        createdAt: '2019',
       };
 
       // when

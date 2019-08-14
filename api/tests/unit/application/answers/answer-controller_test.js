@@ -100,6 +100,7 @@ describe('Unit | Controller | answer-controller', () => {
         challengeId,
       });
       deserializedAnswer.id = undefined;
+      deserializedAnswer.createdAt = undefined;
     });
 
     context('when answer does not exist', async () => {

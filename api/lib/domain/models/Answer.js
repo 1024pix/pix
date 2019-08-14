@@ -11,6 +11,7 @@ class Answer {
     resultDetails,
     timeout,
     value,
+    createdAt,
     // includes
     correction,
     // references
@@ -25,6 +26,7 @@ class Answer {
     this.resultDetails = resultDetails;
     this.timeout = timeout;
     this.value = value;
+    this.createdAt = createdAt;
     // includes
     this.correction = correction;
     // references

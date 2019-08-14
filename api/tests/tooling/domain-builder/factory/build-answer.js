@@ -11,6 +11,7 @@ function buildAnswer({
   value = '1',
   assessmentId = faker.random.number(),
   challengeId = faker.random.uuid(),
+  createdAt = faker.date.recent(),
 } = {}) {
   return new Answer({
     id,
@@ -21,6 +22,7 @@ function buildAnswer({
     value,
     assessmentId,
     challengeId,
+    createdAt
   });
 }
 
@@ -30,6 +32,7 @@ buildAnswer.uncorrected = function({
   value = '1',
   assessmentId = faker.random.number(),
   challengeId = faker.random.uuid(),
+  createdAt = faker.date.recent(),
 } = {}) {
   return new Answer({
     elapsedTime,
@@ -37,6 +40,7 @@ buildAnswer.uncorrected = function({
     value,
     assessmentId,
     challengeId,
+    createdAt,
   });
 };
 

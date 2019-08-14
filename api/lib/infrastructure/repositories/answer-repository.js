@@ -30,6 +30,7 @@ function _toDomain(bookshelfAnswer) {
       value: bookshelfAnswer.get('value'),
       assessmentId: bookshelfAnswer.get('assessmentId'),
       challengeId: bookshelfAnswer.get('challengeId'),
+      createdAt: bookshelfAnswer.get('createdAt'),
     });
   }
   return null;
