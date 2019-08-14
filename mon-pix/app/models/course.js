@@ -9,7 +9,6 @@ export default Model.extend({
   description: attr('string'),
   duration: attr('number'),
   imageUrl: attr('string'),
-  isAdaptive: attr('boolean'),
   nbChallenges: attr('number'),
   type: attr('string'),
   accessCode : attr('string'),

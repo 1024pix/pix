@@ -9,102 +9,6 @@ describe('Acceptance | API | Courses', () => {
     server = await createServer();
   });
 
-  describe('GET /api/courses', () => {
-
-    before(() => {
-      nock.cleanAll();
-
-      nock('https://api.airtable.com')
-        .get('/v0/test-base/Tests')
-        .query(true)
-        .times(3)
-        .reply(200, {
-          'records': [{
-            'id': 'course_1',
-            'fields': {
-              'Adaptatif ?': true,
-              'Défi de la semaine ?': false,
-              'Statut': 'Publié',
-              'Épreuves': []
-            }
-          }, {
-            'id': 'course_2',
-            'fields': {
-              'Adaptatif ?': true,
-              'Défi de la semaine ?': true,
-              'Statut': 'Publié',
-              'Épreuves': []
-            },
-          }, {
-            'id': 'course_3',
-            'fields': {
-              'Adaptatif ?': false,
-              'Défi de la semaine ?': false,
-              'Statut': 'Publié',
-              'Épreuves': []
-            },
-          }, {
-            'id': 'course_4',
-            'fields': {
-              'Adaptatif ?': false,
-              'Défi de la semaine ?': false,
-              'Statut': 'Proposé',
-              'Épreuves': []
-            },
-          }, {
-            'id': 'course_5',
-            'fields': {
-              'Adaptatif ?': false,
-              'Défi de la semaine ?': true,
-              'Statut': 'Proposé',
-              'Épreuves': []
-            },
-          }]
-        });
-    });
-
-    after(() => {
-      nock.cleanAll();
-    });
-
-    const options = {
-      method: 'GET',
-      url: '/api/courses',
-    };
-
-    it('should return 200 HTTP status code', () => {
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-
-    it('should return application/json', () => {
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-      });
-    });
-
-    it('should return progression courses from the tests referential', () => {
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        const courses = response.result.data;
-        expect(courses.map((c) => c.id)).to.have.members(['course_3']);
-      });
-    });
-  });
-
   describe('GET /api/courses/:course_id', () => {
 
     before(() => {
@@ -126,7 +30,6 @@ describe('Acceptance | API | Courses', () => {
               'type': 'image/jpeg'
             }],
             'Durée': 13,
-            'Adaptatif ?': true,
             'Épreuves': [
               'k_challenge_id',
             ],
@@ -188,7 +91,6 @@ describe('Acceptance | API | Courses', () => {
         expect(course.id).to.equal('rec_course_id');
         expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
         expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
-        expect(course.attributes['is-adaptive']).to.equal(true);
       });
     });
   });
