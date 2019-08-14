@@ -105,36 +105,6 @@ describe('Unit | Repository | course-repository', function() {
 
   });
 
-  describe('#getProgressionCourses', () => {
-
-    it('should return Course domain objects matching progression course criteria', () => {
-      // when
-      const promise = courseRepository.getProgressionCourses();
-
-      // then
-      return promise.then((courses) => {
-        expect(_.map(courses, 'id')).to.have.members(['recTestNonAdaptative']);
-        expect(courses[0]).to.be.an.instanceOf(Course);
-      });
-    });
-
-  });
-
-  describe('#getCoursesOfTheWeek', () => {
-
-    it('should return Course domain objects matching course of the week criteria', () => {
-      // when
-      const promise = courseRepository.getCoursesOfTheWeek();
-
-      // then
-      return promise.then((courses) => {
-        expect(_.map(courses, 'id')).to.have.members(['recTestCourseOfTheWeek']);
-        expect(courses[0]).to.be.an.instanceOf(Course);
-      });
-    });
-
-  });
-
   describe('#getAdaptiveCourses', () => {
 
     it('should return Course domain objects matching adaptative criteria', () => {

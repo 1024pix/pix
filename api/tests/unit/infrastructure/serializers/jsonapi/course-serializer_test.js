@@ -11,7 +11,6 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
         id: 'course_id',
         name: 'Name of the course',
         description: 'Description of the course',
-        isAdaptive: false,
         imageUrl: 'http://image.url',
         type: 'DEMO',
         challenges: [
@@ -36,7 +35,6 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
           'id': course.id,
           'attributes': {
             'name': course.name,
-            'is-adaptive': course.isAdaptive,
             'description': course.description,
             'image-url': 'http://image.url',
             'nb-challenges': 5,
