@@ -7,6 +7,7 @@ const CampaignParticipation = require('../../domain/models/CampaignParticipation
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { groupBy, map, head, _ } = require('lodash');
 const fp = require('lodash/fp');
+const moment = require('moment');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
@@ -136,6 +137,13 @@ module.exports = {
       .where({ id })
       .save({ state }, { require: true, patch: true })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
+  },
+
+  startImprovingAssessment({ id }) {
+    return BookshelfAssessment
+      .where({ id })
+      .save({ state: Assessment.states.IMPROVING, improvingAt: moment().format() }, { require: true, patch: true })
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   }
 };
 
@@ -187,6 +195,7 @@ function _adaptModelToDb(assessment) {
     'course',
     'createdAt',
     'updatedAt',
+    'improvingAt',
     'successRate',
     'answers',
     'assessmentResults',

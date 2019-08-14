@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
             state: assessment.state,
             type: assessment.type,
             title: assessment.courseId.toString(),
+            'improving-at': null
           },
           relationships: {
             answers: {

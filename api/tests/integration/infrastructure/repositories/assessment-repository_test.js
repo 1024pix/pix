@@ -274,6 +274,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           courseId: johnAssessmentToRemember.courseId,
           state: Assessment.states.COMPLETED,
           createdAt: johnAssessmentToRemember.createdAt,
+          improvingAt: null,
           type: Assessment.types.PLACEMENT,
           competenceId: johnAssessmentToRemember.competenceId,
           campaignParticipation: null,
@@ -829,6 +830,38 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(result).to.be.true;
       });
     });
+  });
+
+  describe('#startImprovingAssessment', () => {
+    let assessment;
+    beforeEach(async () => {
+      assessment = databaseBuilder.factory.buildAssessment({ state: 'completed', improvingAt: null });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the assessment with new improving state and improvingAt', async () => {
+      // when
+      const assessmentUpdated = await assessmentRepository.startImprovingAssessment({ id: assessment.id });
+
+      expect(assessmentUpdated.state).to.equal('improving');
+      expect(assessmentUpdated.improvingAt).to.not.equal(null);
+
+    });
+
+    it('should return an error when the assessment does not exist', async () => {
+      // when
+      const errorCatched = await catchErr(assessmentRepository.startImprovingAssessment)({ id: 0 });
+
+      // then
+      expect(errorCatched).to.be.instanceof(Error);
+      expect(errorCatched.message).to.equal('No Rows Updated');
+
+    });
+
   });
 
 });

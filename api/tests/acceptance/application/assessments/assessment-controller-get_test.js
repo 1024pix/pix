@@ -211,6 +211,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'title': '3.4 niveau 1 et 2',
             'type': 'PLACEMENT',
             'certification-number': null,
+            'improving-at': null
           },
           'relationships': {
             'course': {
@@ -342,6 +343,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'title': '3.4 niveau 1 et 2',
             'type': 'PLACEMENT',
             'certification-number': null,
+            'improving-at': null,
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': courseId } },
@@ -443,6 +445,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'type': 'SMART_PLACEMENT',
           'certification-number': null,
           'code-campaign': 'TESTCODE',
+          'improving-at': null,
         },
         'relationships': {
           'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },

@@ -2,13 +2,13 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const startImprovmentOfAssessment = require('../../../../lib/domain/usecases/start-improvment-of-assessment');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Unit | UseCase | start-placement-assessment', () => {
+describe('Unit | UseCase | start-improvment-of-assessment', () => {
   const assessmentRepository = {
-    updateStateById: () => undefined,
+    startImprovingAssessment: () => undefined,
   };
 
   beforeEach(() => {
-    sinon.stub(assessmentRepository, 'updateStateById');
+    sinon.stub(assessmentRepository, 'startImprovingAssessment');
   });
 
   it('should return the assessment repository with updated state at Improving', async () => {
@@ -17,7 +17,7 @@ describe('Unit | UseCase | start-placement-assessment', () => {
     const updatedAssessment = givenAssessment;
     updatedAssessment.state = Assessment.states.IMPROVING;
 
-    assessmentRepository.updateStateById.withArgs({ id: givenAssessment.id, state: Assessment.states.IMPROVING })
+    assessmentRepository.startImprovingAssessment.withArgs({ id: givenAssessment.id })
       .resolves(updatedAssessment);
 
     // when

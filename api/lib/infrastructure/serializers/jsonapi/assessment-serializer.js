@@ -45,7 +45,8 @@ module.exports = {
         'codeCampaign',
         'certificationNumber',
         'course',
-        'progression'
+        'progression',
+        'improvingAt'
       ],
       answers: {
         ref: 'id',
