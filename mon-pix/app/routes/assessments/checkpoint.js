@@ -7,6 +7,7 @@ export default Route.extend({
   },
 
   async afterModel(assessment) {
+    await assessment.answers.reload();
 
     if (assessment.isCompetenceEvaluation || assessment.isSmartPlacement) {
       await assessment.belongsTo('progression').reload();

@@ -77,7 +77,7 @@ export default Route.extend({
   _parseState(assessment, nextChallenge) {
     const assessmentHasNoMoreQuestions = !nextChallenge;
     const userHasSeenCheckpoint = this.hasSeenCheckpoint;
-    const userHasReachedCheckpoint = assessment.get('answers.length') > 0 && assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS === 0;
+    const userHasReachedCheckpoint = assessment.get('answersForProgressBar.length') > 0 && assessment.get('answersForProgressBar.length') % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS === 0;
     const nextChallengeId = !assessmentHasNoMoreQuestions && nextChallenge.get('id');
     const assessmentIsCompleted = assessment.get('isCompleted');
 
@@ -114,7 +114,7 @@ export default Route.extend({
   },
 
   _routeToCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.id);
+    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: false } });
   },
 
   _routeToFinalCheckpoint(assessment) {

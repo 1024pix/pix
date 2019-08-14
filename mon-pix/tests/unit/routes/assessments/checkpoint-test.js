@@ -11,6 +11,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
     let assessment;
 
     let reloadStub;
+    let reloadAnswerStub;
     let storeStub;
     let getCampaignStub;
 
@@ -18,6 +19,7 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       route = this.owner.lookup('route:assessments/checkpoint');
 
       reloadStub = sinon.stub();
+      reloadAnswerStub = sinon.stub();
       getCampaignStub = sinon.stub();
       storeStub = {
         query: sinon.stub().returns({ get: getCampaignStub }),
@@ -28,12 +30,13 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
         isSmartPlacement: true,
         isCompetenceEvaluation: false,
         set: sinon.stub(),
+        answers: { reload: reloadAnswerStub },
         belongsTo: sinon.stub().returns({ reload: reloadStub })
       };
       route.set('store', storeStub);
     });
 
-    it('should force the progression reload (that has certainly changed since last time)', function() {
+    it('should force the progression and answers reload (that has certainly changed since last time)', function() {
       // when
       const promise = route.afterModel(assessment);
 
@@ -41,6 +44,8 @@ describe('Unit | Route | Assessments | Checkpoint', function() {
       return promise.then(() => {
         sinon.assert.calledWith(assessment.belongsTo, 'progression');
         sinon.assert.calledOnce(reloadStub);
+        sinon.assert.calledOnce(reloadAnswerStub);
+
       });
     });
 

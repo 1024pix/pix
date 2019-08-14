@@ -24,7 +24,7 @@ describe('Unit | Model | Assessment', function() {
     it('should return an empty array when no answers has been given', function() {
       // given
       const assessment = store.createRecord('assessment');
-      assessment.set('answers', []);
+      assessment.set('answersForProgressBar', []);
 
       // when
       const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
@@ -38,7 +38,7 @@ describe('Unit | Model | Assessment', function() {
       const answer = run(() => store.createRecord('answer'));
       const assessment = store.createRecord('assessment');
       const answers = [answer];
-      run(() => assessment.set('answers', answers));
+      run(() => assessment.set('answersForProgressBar', answers));
 
       // when
       const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
@@ -52,7 +52,7 @@ describe('Unit | Model | Assessment', function() {
       const answers = newAnswers(store, 7);
       const [answer6, answer7] = answers.slice(5);
       const assessment = store.createRecord('assessment');
-      run(() => assessment.set('answers', answers));
+      run(() => assessment.set('answersForProgressBar', answers));
 
       // when
       const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
@@ -66,7 +66,7 @@ describe('Unit | Model | Assessment', function() {
       const answers = newAnswers(store, 10);
       const [answer6, answer7, answer8, answer9, answer10] = answers.slice(5);
       const assessment = store.createRecord('assessment');
-      run(() => assessment.set('answers', answers));
+      run(() => assessment.set('answersForProgressBar', answers));
 
       // when
       const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
@@ -80,13 +80,41 @@ describe('Unit | Model | Assessment', function() {
       const answers = newAnswers(store, 11);
       const answer11 = answers[10];
       const assessment = store.createRecord('assessment');
-      run(() => assessment.set('answers', answers));
+      run(() => assessment.set('answersForProgressBar', answers));
 
       // when
       const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer11]);
+    });
+
+  });
+
+  describe('@answersForProgressBar', function() {
+
+    it('should return an array of answers without previous answers before improving date', function() {
+      // given
+      const assessment = store.createRecord('assessment');
+      assessment.set('state','improving');
+      assessment.set('improvingAt','2019-08-10');
+      const answersBefore = _.times(5, () => {
+        const newAnswer = store.createRecord('answer');
+        newAnswer.set('createdAt', '2019-08-09');
+        return newAnswer;
+      });
+      const answersAfter = _.times(3, () => {
+        const newAnswer = store.createRecord('answer');
+        newAnswer.set('createdAt', '2019-08-11');
+        return newAnswer;
+      });
+      assessment.set('answers', answersBefore.concat(answersAfter));
+
+      // when
+      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+
+      // then
+      expect(answersSinceLastCheckpoints).to.deep.equal(answersAfter);
     });
   });
 

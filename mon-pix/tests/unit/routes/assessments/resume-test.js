@@ -79,7 +79,7 @@ describe('Unit | Route | Assessments | Resume', function() {
         context('when checkpoint is reached', function() {
 
           beforeEach(function() {
-            assessment.answers = [{}, {}, {}, {}, {}];
+            assessment.answersForProgressBar = [{}, {}, {}, {}, {}];
           });
 
           context('when user has seen checkpoint', function() {

@@ -18,7 +18,7 @@ export default Component.extend({
     }
     this.set('progression', AssessmentProgression.create({
       assessmentType: this.get('assessment.type'),
-      challengesAnsweredCount: this.get('assessment.answers.length'),
+      challengesAnsweredCount: this.get('assessment.answersForProgressBar.length'),
       challengesToAnswerCount,
     }));
   },

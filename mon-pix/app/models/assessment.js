@@ -16,6 +16,7 @@ export default Model.extend({
   type: attr('string'),
   certificationNumber: attr('string'),
   participantExternalId: attr('string'),
+  improvingAt: attr('date'),
 
   // includes
   answers: hasMany('answer'),
@@ -32,13 +33,22 @@ export default Model.extend({
   isStarted: equal('state', 'started'),
   isCompleted: equal('state', 'completed'),
   isAborted: equal('state', 'aborted'),
+  isImproving: equal('state', 'improving'),
 
   showProgressBar: or('isCompetenceEvaluation', 'isSmartPlacement', 'isDemo', 'isCertification'),
 
   hasCheckpoints: or('isCompetenceEvaluation', 'isSmartPlacement'),
 
-  answersSinceLastCheckpoints: computed('answers.[]', function() {
-    const answers = this.answers.toArray();
+  answersForProgressBar: computed('answers.[]', 'improvingAt', 'isImproving', function() {
+    let answers = this.answers.toArray();
+    if (this.isImproving) {
+      answers = answers.filter((answer) => answer.createdAt > this.improvingAt);
+    }
+    return answers;
+  }),
+
+  answersSinceLastCheckpoints: computed('answersForProgressBar', function() {
+    const answers = this.answersForProgressBar;
     const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
     const sliceAnswersFrom = (howManyAnswersSinceTheLastCheckpoint === 0)
       ? -ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS

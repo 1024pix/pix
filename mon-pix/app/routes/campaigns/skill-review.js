@@ -13,4 +13,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
       assessment: store.findRecord('assessment', assessmentId)
     });
   },
+
+  async afterModel(model) {
+    await model.campaignParticipation.campaignParticipationResult.reload();
+  },
 });
