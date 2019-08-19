@@ -1,10 +1,3 @@
-const STATUSES = {
-  NOT_ASSESSED: 'notAssessed',
-  ASSESSMENT_NOT_COMPLETED: 'assessmentNotCompleted',
-  ASSESSED: 'assessed',
-  UNKNOWN: 'unknown',
-};
-
 class Competence {
 
   constructor({
@@ -26,7 +19,6 @@ class Competence {
     this.index = index;
     this.description = description;
     this.level = -1;
-    this.status = STATUSES.NOT_ASSESSED;
     // includes
     this.skills = skills; // TODO remplacer par un vrai tableau de SKills
     // references
@@ -38,7 +30,5 @@ class Competence {
   }
 
 }
-
-Competence.STATUSES = STATUSES;
 
 module.exports = Competence;

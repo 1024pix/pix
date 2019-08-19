@@ -258,48 +258,4 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
     });
 
   });
-
-  describe('#deserialize', () => {
-
-    it('should convert a JSON:API object into an object literal', () => {
-      // given
-      const jsonApiObject = {
-        data: {
-          type: 'snapshots',
-          id: '1',
-          attributes: {
-            'tests-finished': '20',
-            'created-at': new Date('2017-10-06T09:33:00Z'),
-            'score': '10',
-            'student-code': 'ABCD-1234',
-            'campaign-code': 'EFGH-5678',
-          },
-          relationships: {
-            organization: { data: { id: '3', type: 'organizations' } }
-          }
-        }
-      };
-
-      const expectedObjectLiteral = {
-        id: '1',
-        score: '10',
-        createdAt: new Date('2017-10-06T09:33:00Z'),
-        testsFinished: '20',
-        studentCode: 'ABCD-1234',
-        campaignCode: 'EFGH-5678',
-        organization: {
-          id: '3'
-        }
-      };
-
-      // when
-      const promise = serializer.deserialize(jsonApiObject);
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.deep.equal(expectedObjectLiteral);
-      });
-    });
-  });
-
 });
