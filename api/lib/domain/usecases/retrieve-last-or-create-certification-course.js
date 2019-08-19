@@ -1,14 +1,7 @@
-const _ = require('lodash');
-
 const CertificationCourse = require('../models/CertificationCourse');
+const UserCompetence = require('../models/UserCompetence');
 const { UserNotAuthorizedToCertifyError } = require('../errors');
-
-function _canStartACertification(userCompetences) {
-  const competencesWithEstimatedLevelHigherThan0 = userCompetences
-    .filter((competence) => competence.estimatedLevel > 0);
-
-  return _.size(competencesWithEstimatedLevelHigherThan0) >= 5;
-}
+const _ = require('lodash');
 
 async function _startNewCertification({
   userId,
@@ -21,7 +14,7 @@ async function _startNewCertification({
   const now = new Date();
   const userCompetencesProfile = await userService.getProfileToCertifyV2({ userId, limitDate: now });
 
-  if (!_canStartACertification(userCompetencesProfile)) {
+  if (!UserCompetence.isCertifiable(userCompetencesProfile)) {
     throw new UserNotAuthorizedToCertifyError();
   }
 
