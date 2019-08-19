@@ -19,15 +19,11 @@ export default Route.extend({
     return this.store
       .queryRecord('challenge', { assessmentId: assessment.id })
       .then((nextChallenge) => {
-
-        if (assessment.isPlacement || assessment.isDemo || assessment.isCertification || assessment.isPreview) {
+        if (assessment.hasCheckpoints) {
+          return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
+        } else {
           return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
         }
-        if (assessment.isCompetenceEvaluation || assessment.isSmartPlacement) {
-          return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
-        }
-
-        throw new Error('This transition should not be happening');
       });
   },
 

@@ -1,16 +1,16 @@
-.campaign-banner {
+.assessment-banner {
   display: flex;
   justify-content: center;
   height: 100px;
 }
 
-.campaign-banner__checkpoint {
+.assessment-banner__checkpoint {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
 }
 
-.campaign-banner-container {
+.assessment-banner-container {
   display: flex;
   align-items: center;
   min-height: 80px;
@@ -24,7 +24,7 @@
   }
 }
 
-.campaign-banner__title {
+.assessment-banner__title {
   font-size: 1.4rem;
   font-family: $font-open-sans;
 
@@ -33,7 +33,7 @@
   }
 }
 
-.campaign-banner__title h1 {
+.assessment-banner__title h1 {
   margin: 0;
   font-size: 1.4rem;
   font-weight: $font-light;
@@ -44,20 +44,20 @@
   }
 }
 
-.campaign-banner__pix-logo {
+.assessment-banner__pix-logo {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 70px;
 }
 
-.campaign-banner__pix-logo img {
+.assessment-banner__pix-logo img {
   position: relative;
   top: 4px;
   right: -8px;
 }
 
-.campaign-banner__splitter {
+.assessment-banner__splitter {
   width: 1px;
   background: $mercury-grey;
   height: 40px;
@@ -68,7 +68,7 @@
   }
 }
 
-.campaign-banner__home-link {
+.assessment-banner__home-link {
   font-family: $font-roboto;
   font-size: 1.3rem;
   font-weight: $font-normal;
