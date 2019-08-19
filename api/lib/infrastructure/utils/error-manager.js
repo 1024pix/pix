@@ -59,9 +59,6 @@ function _mapToInfrastructureError(error) {
   if (error instanceof DomainErrors.MembershipCreationError) {
     return new InfraErrors.BadRequestError(error.message);
   }
-  if (error instanceof DomainErrors.AssessmentStartError) {
-    return new InfraErrors.ConflictError(error.message);
-  }
   if (error instanceof DomainErrors.ObjectValidationError) {
     return new InfraErrors.UnprocessableEntityError(error.message);
   }
