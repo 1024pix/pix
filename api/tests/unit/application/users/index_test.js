@@ -96,27 +96,6 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/me/profile', function() {
-
-    beforeEach(() => {
-      sinon.stub(userController, 'getAuthenticatedUserProfile').returns('ok');
-      startServer();
-    });
-
-    it('should exist', () => {
-      // given
-      const options = { method: 'GET', url: '/api/users/me/profile' };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-      });
-    });
-  });
-
   describe('GET /api/users/{id}/memberships', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getMemberships').returns('ok');

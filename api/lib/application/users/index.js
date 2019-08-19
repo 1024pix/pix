@@ -59,14 +59,6 @@ exports.register = async function(server) {
     },
     {
       method: 'GET',
-      path: '/api/users/me/profile',
-      config: {
-        handler: userController.getAuthenticatedUserProfile,
-        tags: ['api']
-      }
-    },
-    {
-      method: 'GET',
       path: '/api/users/{id}/memberships',
       config: {
         handler: userController.getMemberships,

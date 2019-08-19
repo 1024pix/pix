@@ -11,8 +11,6 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
-const profileService = require('../../../../lib/domain/services/profile-service');
-const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
 
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -20,7 +18,6 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -88,32 +85,6 @@ describe('Unit | Controller | user-controller', () => {
         // then
         expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
       });
-    });
-  });
-
-  describe('#getAuthenticatedUserProfile', () => {
-    const expectedSerializedProfile = Symbol('a serialized profile');
-    const userId = 1234;
-
-    beforeEach(() => {
-      sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
-
-      const aUser = new User({ id: userId });
-      sinon.stub(userRepository, 'findUserById').withArgs(userId).resolves(aUser);
-
-      const aProfile = Symbol('a profile');
-      sinon.stub(profileService, 'getByUserId').withArgs(userId).resolves(aProfile);
-
-      sinon.stub(profileSerializer, 'serialize').withArgs(aProfile).resolves(expectedSerializedProfile);
-    });
-
-    it('should return a serialized profile', async () => {
-      // given
-      const request = { headers: {} };
-      // when
-      const profile = await userController.getAuthenticatedUserProfile(request);
-      // then
-      expect(profile).to.equal(expectedSerializedProfile);
     });
   });
 
