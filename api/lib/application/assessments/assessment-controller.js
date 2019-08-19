@@ -25,8 +25,6 @@ module.exports = {
             codeCampaign,
             participantExternalId
           });
-        } else if (assessment.isPlacement()) {
-          return useCases.startPlacementAssessment({ assessment });
         } else {
           assessment.state = 'started';
           return assessmentRepository.save(assessment);

@@ -1,9 +1,6 @@
 const _ = require('lodash');
-const moment = require('moment');
 
 const { ObjectValidationError } = require('../errors');
-
-const MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = 7;
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
@@ -147,27 +144,10 @@ class Assessment {
   isCertifiable() {
     return this.getLastAssessmentResult().level >= 1;
   }
-
-  canStartNewAttemptOnCourse() {
-    if (!this.isPlacement()) throw new Error('Only available for a placement assessment');
-
-    return this.isCompleted() && this.getRemainingDaysBeforeNewAttempt() <= 0;
-  }
-
-  getRemainingDaysBeforeNewAttempt() {
-    const lastResult = this.getLastAssessmentResult();
-    const daysSinceLastCompletedAssessment = moment.utc().diff(lastResult.createdAt, 'days', true);
-
-    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS - daysSinceLastCompletedAssessment);
-
-    return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
-  }
-
 }
 
 Assessment.courseIdMessage = courseIdMessage;
 Assessment.states = states;
 Assessment.types = types;
-Assessment.MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS;
 
 module.exports = Assessment;

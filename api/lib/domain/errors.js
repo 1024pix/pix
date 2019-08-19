@@ -22,12 +22,6 @@ class AlreadyRegisteredEmailError extends DomainError {
   }
 }
 
-class AssessmentStartError extends DomainError {
-  constructor(message) {
-    super(message);
-  }
-}
-
 class UserHasBeenMigratedToV2Error extends DomainError {
   constructor(message) {
     super(message);
@@ -275,7 +269,6 @@ module.exports = {
   AlreadyRegisteredEmailError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
-  AssessmentStartError,
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CompetenceResetError,

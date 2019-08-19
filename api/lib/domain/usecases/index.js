@@ -120,7 +120,6 @@ module.exports = injectDependencies({
   shareCampaignResult: require('./share-campaign-result'),
   startCampaignParticipation: require('./start-campaign-participation'),
   startOrResumeCompetenceEvaluation: require('./start-or-resume-competence-evaluation'),
-  startPlacementAssessment: require('./start-placement-assessment'),
   updateCampaign: require('./update-campaign'),
   updateCertification: require('./update-certification'),
   updateOrganizationInformation: require('./update-organization-information'),
