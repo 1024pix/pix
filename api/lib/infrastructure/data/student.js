@@ -1,3 +1,4 @@
+const moment = require('moment');
 const Bookshelf = require('../bookshelf');
 
 require('./user');
@@ -18,7 +19,7 @@ module.exports = Bookshelf.model('Student', {
 
   parse(rawAttributes) {
     if (rawAttributes && rawAttributes.birthdate) {
-      rawAttributes.birthdate = new Date(rawAttributes.birthdate);
+      rawAttributes.birthdate = moment(rawAttributes.birthdate).format('YYYY-MM-DD');
     }
 
     return rawAttributes;
