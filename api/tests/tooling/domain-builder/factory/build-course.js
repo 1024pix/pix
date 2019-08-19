@@ -7,7 +7,6 @@ module.exports = function buildCourse({
   // attributes
   description = faker.lorem.sentence(),
   imageUrl = faker.internet.url(),
-  isAdaptive = true,
   name = faker.lorem.word(),
   type = 'PLACEMENT',
 
@@ -23,7 +22,6 @@ module.exports = function buildCourse({
     // attributes
     description,
     imageUrl,
-    isAdaptive,
     name,
     type,
     // relations

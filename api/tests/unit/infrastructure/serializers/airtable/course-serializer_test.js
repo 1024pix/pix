@@ -28,7 +28,6 @@ describe('Unit | Serializer | course-serializer', () => {
         id: 'recNPB7dTNt5krlMA',
         name: 'Test de positionnement 1.1',
         description: 'A single line of text.',
-        isAdaptive: true,
         type: 'PLACEMENT',
         competences: ['recsvLz0W2ShyfD63'],
         challenges: ['recPHXe5p4ip95Bc6', 'reclvHn6Bg3FyfwuL']
