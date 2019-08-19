@@ -139,7 +139,7 @@ describe('Integration | Component | signup form', function() {
         });
       });
 
-      it('should redirect automatically to user compte and empty the password', async function() {
+      it('should authenticate the user and empty the password', async function() {
         // given
         const authenticateUserStub = sinon.stub();
 

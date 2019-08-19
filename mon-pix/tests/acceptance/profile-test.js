@@ -1,7 +1,7 @@
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsPrescriber, authenticateAsSimpleUser, authenticateAsSimpleProfileV2User } from '../helpers/testing';
+import { authenticateAsPrescriber, authenticateAsSimpleUser } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -26,17 +26,6 @@ describe('Acceptance | Profile', function() {
 
       // then
       expect(currentURL()).to.equal('/profil');
-    });
-
-    it('should redirect to /compte', async function() {
-      // given
-      await visitWithAbortedTransition('/profil');
-
-      // when
-      await click('.rounded-panel__link');
-
-      // then
-      expect(currentURL()).to.equal('/compte');
     });
 
     it('should display new profile information', async function() {
@@ -139,7 +128,7 @@ describe('Acceptance | Profile', function() {
         });
 
         // when
-        await visitWithAbortedTransition('/profil');
+        await visitWithAbortedTransition('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
@@ -163,7 +152,7 @@ describe('Acceptance | Profile', function() {
         });
 
         // when
-        await visitWithAbortedTransition('/profil');
+        await visitWithAbortedTransition('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
@@ -190,7 +179,7 @@ describe('Acceptance | Profile', function() {
         });
 
         // when
-        await visitWithAbortedTransition('/profil');
+        await visitWithAbortedTransition('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
@@ -214,36 +203,13 @@ describe('Acceptance | Profile', function() {
         });
 
         // when
-        await visitWithAbortedTransition('/profil');
+        await visitWithAbortedTransition('/');
 
         // then
         expect(find('.resume-campaign-banner__container')).to.exist;
         expect(find('.resume-campaign-banner__container').textContent).to.contain('Parcours "Le Titre de la campagne" terminé ! Envoyez vos résultats.');
         expect(find('.resume-campaign-banner__button').textContent).to.equal('Continuer');
       });
-    });
-  });
-
-  describe('Authenticated cases as a new profile v2 user', function() {
-    beforeEach(async function() {
-      await authenticateAsSimpleProfileV2User();
-    });
-
-    it('can visit /profil', async function() {
-      // when
-      await visitWithAbortedTransition('/profil');
-
-      // then
-      expect(currentURL()).to.equal('/profil');
-    });
-
-    it('should not display link /compte', async function() {
-      // given
-      await visitWithAbortedTransition('/profil');
-
-      // then
-      expect(find('.rounded-panel__link')).to.not.exist;
-
     });
   });
 

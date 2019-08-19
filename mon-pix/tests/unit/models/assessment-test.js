@@ -13,11 +13,6 @@ describe('Unit | Model | Assessment', function() {
     store = this.owner.lookup('service:store');
   });
 
-  it('exists', function() {
-    const model = store.createRecord('assessment');
-    expect(model).to.be.ok;
-  });
-
   describe('@answersSinceLastCheckpoints', function() {
 
     function newAnswers(store, nbAnswers) {
@@ -92,29 +87,6 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer11]);
-    });
-  });
-
-  describe('#isPlacement', function() {
-    it('should return true when the assessment type is placement', function() {
-      // given
-      const model = store.createRecord('assessment');
-
-      // when
-      model.set('type', 'PLACEMENT');
-
-      //then
-      expect(model.isPlacement).to.be.true;
-    });
-    it('should return false when the assessment type is not placement', function() {
-      // given
-      const model = store.createRecord('assessment');
-
-      // when
-      model.set('type', '_');
-
-      //then
-      expect(model.isPlacement).to.be.false;
     });
   });
 
