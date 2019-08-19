@@ -96,44 +96,19 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
         sinon.assert.calledWith(queryStub, 'campaign', { filter: { code: campaignCode } });
       });
     });
+  });
 
-    it('should redirect to campaign when id pix is not required', function() {
+  describe('#afterModel', function() {
+
+    it('should start the campaign when there is no idPixLabel', async function() {
       // given
-      const params = {
-        campaign_code: campaignCode
-      };
-
-      const campaigns = A([campaign]);
-      queryStub.resolves(campaigns);
-      route.transitionTo = sinon.stub();
       route.start = sinon.stub();
 
       // when
-      const promise = route.model(params);
+      await route.afterModel({ idPixLabel: undefined });
 
       // then
-      return promise.then(() => {
-        sinon.assert.called(route.start);
-      });
-    });
-
-    it('should not redirect to campaign when id pix is not required', function() {
-      // given
-      const params = {
-        campaign_code: campaignCode
-      };
-      campaign.set('idPixLabel', 'email');
-      const campaigns = A([campaign]);
-      queryStub.resolves(campaigns);
-      route.transitionTo = sinon.stub();
-
-      // when
-      const promise = route.model(params);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.notCalled(route.transitionTo);
-      });
+      sinon.assert.called(route.start);
     });
   });
 
