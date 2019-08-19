@@ -18,21 +18,6 @@ function _getCourses(filter) {
 
 module.exports = {
 
-  getProgressionCourses() {
-    return _getCourses({
-      'Adaptatif ?': false,
-      'Défi de la semaine ?': false,
-      'Statut': 'Publié',
-    });
-  },
-
-  getCoursesOfTheWeek() {
-    return _getCourses({
-      'Défi de la semaine ?': true,
-      'Statut': 'Publié',
-    });
-  },
-
   getAdaptiveCourses() {
     return _getCourses({
       'Adaptatif ?': true,

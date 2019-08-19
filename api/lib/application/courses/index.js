@@ -4,14 +4,6 @@ exports.register = async function(server) {
   server.route([
     {
       method: 'GET',
-      path: '/api/courses',
-      config: {
-        auth: false,
-        handler: courseController.list,
-        tags: ['api']
-      }
-    }, {
-      method: 'GET',
       path: '/api/courses/{id}',
       config: {
         auth: false,
