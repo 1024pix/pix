@@ -27,7 +27,7 @@ module.exports = function sessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: 3,
-    certificationCenter: 'Tour Alpha',
+    certificationCenter: 'Tour Gamma',
     address: 'Rue Bikub',
     examiner: 'Sophie',
     date: '2028-05-27',
@@ -40,7 +40,7 @@ module.exports = function sessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildSession({
     id: 4,
-    certificationCenter: 'Tour Alpha',
+    certificationCenter: 'Tour Gamma',
     address: 'Rue Bikub',
     examiner: 'Sophie',
     date: '2018-06-10',
