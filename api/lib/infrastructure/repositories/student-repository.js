@@ -1,5 +1,7 @@
 const BookshelfStudent = require('../data/student');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const Bookshelf = require('../bookshelf');
+const _ = require('lodash');
 
 module.exports = {
 
@@ -13,7 +15,9 @@ module.exports = {
       .then((students) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, students));
   },
 
-  saveStudents() {
-
+  batchSave(studentsToSave) {
+    const bookshelfStudents = studentsToSave.map((studentToSave) => _.omit(studentToSave, ['id']));
+    return Bookshelf.knex.batchInsert('students', bookshelfStudents)
+      .returning('id');
   }
 };

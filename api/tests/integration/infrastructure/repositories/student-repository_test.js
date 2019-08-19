@@ -1,4 +1,4 @@
-const { expect, databaseBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, knex } = require('../../../test-helper');
 const _ = require('lodash');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 const Student = require('../../../../lib/domain/models/Student');
@@ -73,6 +73,38 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
 
       // then
       expect(_.map(students, 'id')).to.deep.include.ordered.members([student_3.id, student_4.id, student_2.id, student_1.id]);
+    });
+  });
+
+  describe('#batchSave', () => {
+
+    afterEach(() => {
+      return knex('students').delete();
+    });
+
+    it('should save all students', async function() {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+
+      const student_1 = { firstName: 'Handmade', lastName: 'Luciole', birthdate: '01/01/1990', organizationId: organization.id };
+      const student_2 = { firstName: 'Harry', lastName: 'Covert', birthdate: '01/01/1990', organizationId: organization.id };
+      const studentsToSave = [ student_1, student_2 ];
+
+      // when
+      const lastStudentId = await studentRepository.batchSave(studentsToSave);
+
+      // then
+      const students = await knex('students').where({ organizationId: organization.id });
+      expect(students).to.have.lengthOf(2);
+      expect(students[0].id).to.not.be.undefined;
+      expect(students[0].firstName).to.equal(student_1.firstName);
+      expect(students[0].lastName).to.equal(student_1.lastName);
+      expect(students[0].birthdate).to.equal(student_1.birthdate);
+      expect(students[1].id).to.not.be.undefined;
+      expect(students[1].firstName).to.equal(student_2.firstName);
+      expect(students[1].lastName).to.equal(student_2.lastName);
+      expect(students[1].birthdate).to.equal(student_2.birthdate);
+      expect(lastStudentId[0]).to.equal(students[1].id);
     });
   });
 });
