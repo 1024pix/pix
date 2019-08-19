@@ -1,6 +1,6 @@
 const Course = require('../../models/Course');
 const catAlgorithm = require('./cat-algorithm');
-const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge } = require('./challenges-filter');
+const { getFilteredChallengesForAnyChallenge, getFilteredChallengesForFirstChallenge, getFilteredSkills } = require('./challenges-filter');
 const _ = require('lodash');
 
 const UNEXISTING_ITEM = null;
@@ -52,7 +52,8 @@ function _filterSkillsByChallenges(skills, challenges) {
 
 function _findAnyChallenge({ challenges, knowledgeElements, targetSkills, courseTubes, lastChallenge }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
-  const availableChallenges = getFilteredChallengesForAnyChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills });
+  const availableSkills = getFilteredSkills({ knowledgeElements, courseTubes, predictedLevel, targetSkills });
+  const availableChallenges = getFilteredChallengesForAnyChallenge({ challenges, lastChallenge, availableSkills });
   const maxRewardingChallenges = catAlgorithm.findMaxRewardingChallenges({ availableChallenges, predictedLevel, courseTubes, knowledgeElements });
   return _pickRandomChallenge(maxRewardingChallenges);
 }

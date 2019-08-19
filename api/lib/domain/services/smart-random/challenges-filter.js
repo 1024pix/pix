@@ -7,7 +7,8 @@ const DEFAULT_LEVEL_FOR_FIRST_CHALLENGE = 2;
 
 module.exports = {
   getFilteredChallengesForFirstChallenge,
-  getFilteredChallengesForAnyChallenge
+  getFilteredChallengesForAnyChallenge,
+  getFilteredSkills
 };
 
 function getFilteredChallengesForFirstChallenge({ challenges, knowledgeElements, courseTubes, targetSkills }) {
@@ -20,30 +21,44 @@ function getFilteredChallengesForFirstChallenge({ challenges, knowledgeElements,
   )(challenges);
 }
 
-function getFilteredChallengesForAnyChallenge({ challenges, knowledgeElements, courseTubes, predictedLevel, lastChallenge, targetSkills }) {
+function getFilteredChallengesForAnyChallenge({ challenges, lastChallenge, availableSkills }) {
   return pipe(
     _removeUnpublishedChallenges,
-    _removeChallengesThatAlreadyFullyTested.bind(null, knowledgeElements, targetSkills),
-    _removeTooHardChallenges.bind(null, predictedLevel),
+    _keepChallengesFromAvailableSkills.bind(null, availableSkills),
     _removeTimedChallengesIfLastOneWasAlsoTimed.bind(null, lastChallenge),
-    _removeChallengesFromLowPriorityTubes.bind(null, courseTubes, knowledgeElements)
   )(challenges);
+}
+
+function getFilteredSkills({ knowledgeElements, courseTubes, predictedLevel, targetSkills }) {
+  return pipe(
+    _removeSkillsThatAlreadyFullyTested.bind(null, knowledgeElements),
+    _remoteTooHardSkills.bind(null, predictedLevel),
+    _removeSkillsFromLowPriorityTubes.bind(null, courseTubes, knowledgeElements)
+  )(targetSkills);
+}
+
+function _keepChallengesFromAvailableSkills(availableSkills, challenges) {
+  return _.filter(challenges, (challenge) => _.map(availableSkills, 'id').includes(challenge.skills[0].id));
+}
+
+function _removeSkillsThatAlreadyFullyTested(knowledgeElements, availableSkills) {
+  return _.filter(availableSkills, (skill) => !_.map(knowledgeElements, 'skillId').includes(skill.id));
 }
 
 function _removeUnpublishedChallenges(challenges) {
   return _.filter(challenges, (challenge) => challenge.isPublished());
 }
 
-function _removeChallengesThatAlreadyFullyTested(knowledgeElements, targetSkills, challenges) {
-  return _.filter(challenges, (challenge) => !challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, targetSkills));
+function _removeChallengesThatAlreadyFullyTested(knowledgeElements, availableSkills, challenges) {
+  return _.filter(challenges, (challenge) => !challenge.haveAllSkillsAlreadyBeenTested(knowledgeElements, availableSkills));
 }
 
-function _removeTooHardChallenges(predictedLevel, challenges) {
-  return _.filter(challenges, (challenge) => !_isChallengeTooHard(challenge, predictedLevel));
+function _remoteTooHardSkills(predictedLevel, targetSkills) {
+  return _.filter(targetSkills, (skill) => !_isSkillTooHard(skill, predictedLevel));
 }
 
-function _isChallengeTooHard(challenge, predictedLevel) {
-  return challenge.hardestSkill.difficulty - predictedLevel > constants.MAX_DIFF_LEVEL_BETWEEN_USER_AND_SKILL;
+function _isSkillTooHard(skill, predictedLevel) {
+  return skill.difficulty - predictedLevel > constants.MAX_DIFF_LEVEL_BETWEEN_USER_AND_SKILL;
 }
 
 function _removeTimedChallengesIfLastOneWasAlsoTimed(lastChallenge, challenges) {
@@ -69,6 +84,14 @@ function _removeChallengesFromLowPriorityTubes(courseTubes, knowledgeElements, c
     }
   }
   return challenges;
+}
+
+function _removeSkillsFromLowPriorityTubes(courseTubes, knowledgeElements, targetSkills) {
+  const prioritySkills = _getPrioritySkills(courseTubes, knowledgeElements);
+  if (prioritySkills.length > 0) {
+    return prioritySkills;
+  }
+  return targetSkills;
 }
 
 function _getPrioritySkills(courseTubes, knowledgeElements) {

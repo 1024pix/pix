@@ -112,24 +112,54 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
   });
 
   describe('#getFilteredChallengesForAnyChallenge', function() {
+    describe('Verify rules 1 : remove challenges not linked to available skills', () => {
+
+      it('should not ask a question that targets a skill not available', function() {
+        // given
+        const [skill1, skill2, skill3, skill4] = domainBuilder.buildSkillCollection({ name: 'skill', minLevel:1, maxLevel:4 });
+
+        const availableSkills = [skill2, skill3];
+
+        const challengeAssessingSkill1 = domainBuilder.buildChallenge({ skills: [skill1] });
+        const challengeAssessingSkill2 = domainBuilder.buildChallenge({ skills: [skill2] });
+        const anotherChallengeAssessingSkill2 = domainBuilder.buildChallenge({ skills: [skill2] });
+        const challengeAssessingSkill3 = domainBuilder.buildChallenge({ skills: [skill3] });
+        const challengeAssessingSkill4 = domainBuilder.buildChallenge({ skills: [skill4] });
+        const lastChallenge = domainBuilder.buildChallenge({ skills: [skill1] });
+
+        const challenges = [
+          challengeAssessingSkill1,
+          challengeAssessingSkill2,
+          anotherChallengeAssessingSkill2,
+          challengeAssessingSkill3,
+          challengeAssessingSkill4
+        ];
+
+        // when
+        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
+          challenges,
+          lastChallenge,
+          availableSkills
+        });
+
+        // then
+        expect(result).to.deep.equal([challengeAssessingSkill2, anotherChallengeAssessingSkill2, challengeAssessingSkill3]);
+      });
+
+    });
+
     describe('Verify rules 1 : published and valid challenges', () => {
 
       it('should not ask a question that targets a skill already assessed', function() {
         // given
         const [skill1, skill2, skill3] = domainBuilder.buildSkillCollection();
-
-        const targetProfile = new TargetProfile({ skills: [skill1, skill2, skill3] });
+        const availableSkills = [skill3];
 
         const challengeAssessingSkill1 = domainBuilder.buildChallenge({ skills: [skill1] });
         const challengeAssessingSkill2 = domainBuilder.buildChallenge({ skills: [skill2] });
         const anotherChallengeAssessingSkill2 = domainBuilder.buildChallenge({ skills: [skill2] });
         const challengeAssessingSkill3 = domainBuilder.buildChallenge({ skills: [skill3] });
         const lastChallenge = domainBuilder.buildChallenge();
-
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
-          domainBuilder.buildKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
-        ];
 
         const challenges = [
           challengeAssessingSkill1,
@@ -141,10 +171,8 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         // when
         const result = filterChallenge.getFilteredChallengesForAnyChallenge({
           challenges,
-          knowledgeElements,
-          predictedLevel: 3,
           lastChallenge,
-          targetSkills: targetProfile.skills
+          availableSkills,
         });
 
         // then
@@ -156,16 +184,12 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
       it('should return the not timed challenge if last one was timed', () => {
         // given
         const [skill1, skill2] = domainBuilder.buildSkillCollection();
-
-        const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2] });
+        const availableSkills = [skill2];
 
         const lastChallenge = domainBuilder.buildChallenge({ skills: [skill1], timer: 34 });
         const challengeNotTimed = domainBuilder.buildChallenge({ skills: [skill2], timer: null });
         const challengeTimed = domainBuilder.buildChallenge({ skills: [skill2], timer: 23 });
 
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
-        ];
         const challenges = [
           lastChallenge,
           challengeNotTimed,
@@ -175,9 +199,7 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         // when
         const result = filterChallenge.getFilteredChallengesForAnyChallenge({
           challenges,
-          knowledgeElements,
-          predictedLevel: 2,
-          targetSkills: targetProfile.skills,
+          availableSkills,
           lastChallenge
         });
 
@@ -188,16 +210,12 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
       it('should return timed challenges if last one was timed but we dont have not timed challenge', () => {
         // given
         const [skill1, skill2] = domainBuilder.buildSkillCollection();
-
-        const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2] });
+        const availableSkills = [skill2];
 
         const lastChallenge = domainBuilder.buildChallenge({ skills: [skill1], timer: 34 });
         const challengeNotTimed = domainBuilder.buildChallenge({ skills: [skill2], timer: 45 });
         const challengeTimed = domainBuilder.buildChallenge({ skills: [skill2], timer: 23 });
 
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
-        ];
         const challenges = [
           lastChallenge,
           challengeNotTimed,
@@ -207,9 +225,7 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
         // when
         const result = filterChallenge.getFilteredChallengesForAnyChallenge({
           challenges,
-          knowledgeElements,
-          predictedLevel: 2,
-          targetSkills: targetProfile.skills,
+          availableSkills,
           lastChallenge
         });
 
@@ -218,6 +234,140 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
       });
     });
 
+    context('when the selected challenges cover more skills than the defined target profile', () => {
+      it('should ignore the already answered challenges, even if they have non evaluated skills', function() {
+        // given
+        const [skill1, skill2] = domainBuilder.buildSkillCollection();
+        const availableSkills = [skill2];
+
+        const lastChallenge = domainBuilder.buildChallenge();
+        const challengeAssessingSkill1 = domainBuilder.buildChallenge({ skills: [skill1, skill2] });
+
+        const challenges = [
+          challengeAssessingSkill1,
+        ];
+
+        // when
+        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
+          challenges,
+          lastChallenge,
+          availableSkills
+        });
+
+        // then
+        expect(result).to.deep.equal([]);
+      });
+    });
+
+  });
+
+  describe('#getFilteredSkills', () => {
+    describe('Verify rules : Remove skills already seen', () => {
+      it('should return skills seen in knowledge-elements', () => {
+        // given
+        const [skill1, skill2, skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 1, maxLevel: 6 });
+        const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] });
+        const knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        ];
+        const tubes =  [
+          new Tube({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] })
+        ];
+
+        // when
+        const result = filterChallenge.getFilteredSkills({
+          knowledgeElements,
+          predictedLevel: 4,
+          targetSkills: targetProfile.skills,
+          courseTubes: tubes,
+        });
+
+        // then
+        expect(result).to.deep.equal([skill3, skill4, skill5, skill6]);
+      });
+    });
+
+    describe('Verify rules : Remove challenge too difficult', () => {
+      it('should return skills with maximum level +2', () => {
+        // given
+        const [skill1, skill2, skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 1, maxLevel: 6 });
+        const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] });
+        const knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'indirect' }),
+          domainBuilder.buildKnowledgeElement({ skillId: skill2.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        ];
+        const tubes =  [
+          new Tube({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] })
+        ];
+
+        // when
+        const result = filterChallenge.getFilteredSkills({
+          knowledgeElements,
+          predictedLevel: 1,
+          targetSkills: targetProfile.skills,
+          courseTubes: tubes,
+        });
+
+        // then
+        expect(result).to.deep.equal([skill3]);
+      });
+    });
+
+    describe('Verify rules : Focus on easy tubes first', () => {
+      it('should return skills  from tubes of max level 3', () => {
+        // given
+        const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 3, maxLevel: 6 });
+        const [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] = domainBuilder.buildSkillCollection({ name:'url', minLevel: 1, maxLevel: 3 });
+        const targetProfile = domainBuilder.buildTargetProfile({ skills: [ skill3, skill4, skill5, skill6, easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] });
+        const knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({ skillId: easyTubeSkill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        ];
+        const tubes =  [
+          new Tube({ skills: [skill3, skill4, skill5, skill6] }),
+          new Tube({ skills: [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] })
+        ];
+
+        // when
+        const result = filterChallenge.getFilteredSkills({
+          knowledgeElements,
+          predictedLevel: 5,
+          targetSkills: targetProfile.skills,
+          courseTubes: tubes,
+        });
+
+        // then
+        expect(result).to.deep.equal([easyTubeSkill2, easyTubeSkill3]);
+
+      });
+
+      it('should return challenges from all tubes if there is not easy tubes', () => {
+        // given
+        const [skill3, skill4, skill5, skill6] = domainBuilder.buildSkillCollection({ name:'web', minLevel: 3, maxLevel: 6 });
+        const targetProfile = domainBuilder.buildTargetProfile({ skills: [ skill3, skill4, skill5, skill6] });
+
+        const knowledgeElements = [
+          domainBuilder.buildKnowledgeElement({ skillId: skill3.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
+        ];
+        const tubes =  [
+          new Tube({ skills: [skill3, skill4, skill5, skill6] })
+        ];
+
+        // when
+        const result = filterChallenge.getFilteredSkills({
+          knowledgeElements,
+          predictedLevel: 5,
+          targetSkills: targetProfile.skills,
+          courseTubes: tubes,
+        });
+        // then
+        expect(result).to.deep.equal([skill4, skill5, skill6]);
+      });
+    });
+
+  });
+
+  describe('Choice of challenge', () => {
     describe('Verify rules : Remove challenge too difficult', () => {
       it('should return challenges with level maximum of user level + 2', () => {
         // given
@@ -243,17 +393,15 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
           challengeLevel5,
           challengeLevel6
         ];
-        const tubes =  [
+        const courseTubes =  [
           new Tube({ skills: [skill1, skill2, skill3, skill4, skill5, skill6] })
         ];
-
+        const predictedLevel = 2;
         // when
+        const availableSkills = filterChallenge.getFilteredSkills({ knowledgeElements, courseTubes, predictedLevel, targetSkills: targetProfile.skills });
         const result = filterChallenge.getFilteredChallengesForAnyChallenge({
           challenges,
-          knowledgeElements,
-          predictedLevel: 2,
-          targetSkills: targetProfile.skills,
-          courseTubes: tubes,
+          availableSkills,
           lastChallenge
         });
 
@@ -290,18 +438,17 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
           challengeLevel2,
           challengeLevel3EasyTube,
         ];
-        const tubes =  [
+        const courseTubes =  [
           new Tube({ skills: [skill3, skill4, skill5, skill6] }),
           new Tube({ skills: [easyTubeSkill1, easyTubeSkill2, easyTubeSkill3] })
         ];
+        const predictedLevel = 5;
 
         // when
+        const availableSkills = filterChallenge.getFilteredSkills({ knowledgeElements, courseTubes, predictedLevel, targetSkills: targetProfile.skills });
         const result = filterChallenge.getFilteredChallengesForAnyChallenge({
           challenges,
-          knowledgeElements,
-          predictedLevel: 5,
-          targetSkills: targetProfile.skills,
-          courseTubes: tubes,
+          availableSkills,
           lastChallenge
         });
 
@@ -329,17 +476,16 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
           challengeLevel5,
           challengeLevel6
         ];
-        const tubes =  [
+        const courseTubes =  [
           new Tube({ skills: [skill3, skill4, skill5, skill6] })
         ];
+        const predictedLevel = 5;
 
         // when
+        const availableSkills = filterChallenge.getFilteredSkills({ knowledgeElements, courseTubes, predictedLevel, targetSkills: targetProfile.skills });
         const result = filterChallenge.getFilteredChallengesForAnyChallenge({
           challenges,
-          knowledgeElements,
-          predictedLevel: 5,
-          targetSkills: targetProfile.skills,
-          courseTubes: tubes,
+          availableSkills,
           lastChallenge
         });
 
@@ -348,36 +494,6 @@ describe('Unit | Domain | services | smart-random | filterChallenge', () => {
       });
     });
 
-    context('when the selected challenges cover more skills than the defined target profile', () => {
-      it('should ignore the already answered challenges, even if they have non evaluated skills', function() {
-        // given
-        const [skill1, skill2] = domainBuilder.buildSkillCollection();
-
-        const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill1] });
-
-        const lastChallenge = domainBuilder.buildChallenge();
-        const challengeAssessingSkill1 = domainBuilder.buildChallenge({ skills: [skill1, skill2] });
-
-        const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ skillId: skill1.id, status: KNOWLEDGE_ELEMENT_STATUS.VALIDATED, source: 'direct' }),
-        ];
-        const challenges = [
-          challengeAssessingSkill1,
-        ];
-
-        // when
-        const result = filterChallenge.getFilteredChallengesForAnyChallenge({
-          challenges,
-          knowledgeElements,
-          predictedLevel: 2,
-          lastChallenge,
-          targetSkills: targetProfile.skills
-        });
-
-        // then
-        expect(result).to.deep.equal([]);
-      });
-    });
-
   });
+
 });
