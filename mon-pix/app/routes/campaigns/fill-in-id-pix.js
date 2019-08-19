@@ -5,32 +5,29 @@ import { inject as service } from '@ember/service';
 import _ from 'lodash';
 
 export default Route.extend({
-  campaignCode: null,
+
   session: service(),
 
-  beforeModel(transition) {
-    this.set('campaignCode',transition.to.params.campaign_code);
-    const store = this.store;
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.campaignCode } })
-      .then((smartPlacementAssessments) => {
-        if (!isEmpty(smartPlacementAssessments)) {
-          return this.transitionTo('campaigns.start-or-resume', this.campaignCode);
-        }
-      });
+  async beforeModel(transition) {
+    const campaignCode = transition.to.params.campaign_code;
+
+    const assessments = await this.store.query('assessment', { filter: { codeCampaign: campaignCode } });
+
+    if (!isEmpty(assessments)) {
+      return this.transitionTo('campaigns.start-or-resume', campaignCode);
+    }
   },
 
-  model(params) {
-    this.set('campaignCode', params.campaign_code);
+  async model(params) {
+    const campaigns = await this.store.query('campaign', { filter: { code: params.campaign_code } });
 
-    const store = this.store;
-    return store.query('campaign', { filter: { code: this.campaignCode } })
-      .then((campaigns) => campaigns.get('firstObject'))
-      .then((campaign) => {
-        if (!campaign.get('idPixLabel')) {
-          return this.start(campaign);
-        }
-        return { campaign , idPixLabel: campaign.get('idPixLabel'), campaignCode: this.campaignCode };
-      });
+    return campaigns.get('firstObject');
+  },
+
+  afterModel(campaign) {
+    if (!campaign.idPixLabel) {
+      return this.start(campaign);
+    }
   },
 
   setupController(controller) {
@@ -39,8 +36,7 @@ export default Route.extend({
   },
 
   start(campaign, participantExternalId = null) {
-    const store = this.store;
-    return store.createRecord('campaign-participation', { campaign, participantExternalId })
+    return this.store.createRecord('campaign-participation', { campaign, participantExternalId })
       .save()
       .catch((err) => {
         if (_.get(err, 'errors[0].status') === 403) {
@@ -49,7 +45,7 @@ export default Route.extend({
         return this.send('error');
       })
       .then(() => {
-        return this.transitionTo('campaigns.start-or-resume', this.campaignCode);
+        return this.transitionTo('campaigns.start-or-resume', campaign.code);
       });
   },
 }, AuthenticatedRouteMixin);

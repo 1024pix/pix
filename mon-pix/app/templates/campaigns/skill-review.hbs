@@ -15,7 +15,9 @@
         </h1>
 
         <div class="skill-review__share-container">
-          {{#if showButtonToShareResult}}
+          {{#if model.campaignParticipation.isShared}}
+            <p class="skill-review__share-thanks">Merci, vos résultats ont bien été envoyés !</p>
+          {{else}}
             <p class="skill-review__share-legal">
               Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
             </p>
@@ -34,9 +36,6 @@
                 J'envoie mes résultats
               </button>
             {{/if}}
-
-          {{else}}
-            <p class="skill-review__share-thanks">Merci, vos résultats ont bien été envoyés !</p>
           {{/if}}
         </div>
 
