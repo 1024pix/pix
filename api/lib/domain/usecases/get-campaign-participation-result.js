@@ -23,8 +23,8 @@ module.exports = async function getCampaignParticipationResult(
     assessmentRepository.get(campaignParticipation.assessmentId),
     knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   ]);
-  const couldBeImprove = improvmentService.verifyIfAssessmentCouldBeImproved({ assessment, knowledgeElements, listOfSkillsTested: targetProfile.skills });
-  return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, couldBeImprove });
+  const canBeImproved = improvmentService.verifyIfAssessmentCanBeImproved({ assessment, knowledgeElements, listOfSkillsTested: targetProfile.skills });
+  return CampaignParticipationResult.buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, canBeImproved });
 };
 
 async function _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository) {

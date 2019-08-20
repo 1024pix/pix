@@ -59,7 +59,7 @@ describe('Unit | Service | ImprovmentService', () => {
 
   });
 
-  describe('#verifyIfAssessmentCouldBeImproved', () => {
+  describe('#verifyIfAssessmentCanBeImproved', () => {
 
     context('when assessment is not finished', () => {
 
@@ -68,10 +68,10 @@ describe('Unit | Service | ImprovmentService', () => {
         const assessment = domainBuilder.buildAssessment({ state: 'started' });
 
         // when
-        const shouldBeImproved = improvmentService.verifyIfAssessmentCouldBeImproved({ assessment });
+        const canBeImproved = improvmentService.verifyIfAssessmentCanBeImproved({ assessment });
 
         // then
-        expect(shouldBeImproved).to.equal(false);
+        expect(canBeImproved).to.equal(false);
       });
     });
 
@@ -93,10 +93,10 @@ describe('Unit | Service | ImprovmentService', () => {
 
       it('should return false', () => {
         // when
-        const shouldBeImproved = improvmentService.verifyIfAssessmentCouldBeImproved({ assessment, listOfSkillsTested, knowledgeElements });
+        const canBeImproved = improvmentService.verifyIfAssessmentCanBeImproved({ assessment, listOfSkillsTested, knowledgeElements });
 
         // then
-        expect(shouldBeImproved).to.equal(false);
+        expect(canBeImproved).to.equal(false);
       });
 
     });
@@ -119,10 +119,10 @@ describe('Unit | Service | ImprovmentService', () => {
 
       it('should return true', () => {
         // when
-        const shouldBeImproved = improvmentService.verifyIfAssessmentCouldBeImproved({ assessment, listOfSkillsTested, knowledgeElements });
+        const canBeImproved = improvmentService.verifyIfAssessmentCanBeImproved({ assessment, listOfSkillsTested, knowledgeElements });
 
         // then
-        expect(shouldBeImproved).to.equal(true);
+        expect(canBeImproved).to.equal(true);
       });
     });
 
@@ -145,10 +145,10 @@ describe('Unit | Service | ImprovmentService', () => {
 
       it('should return true', () => {
         // when
-        const shouldBeImproved = improvmentService.verifyIfAssessmentCouldBeImproved({ assessment, listOfSkillsTested, knowledgeElements });
+        const canBeImproved = improvmentService.verifyIfAssessmentCanBeImproved({ assessment, listOfSkillsTested, knowledgeElements });
 
         // then
-        expect(shouldBeImproved).to.equal(false);
+        expect(canBeImproved).to.equal(false);
       });
     });
 
@@ -170,10 +170,10 @@ describe('Unit | Service | ImprovmentService', () => {
 
       it('should return true', () => {
         // when
-        const shouldBeImproved = improvmentService.verifyIfAssessmentCouldBeImproved({ assessment, listOfSkillsTested, knowledgeElements });
+        const canBeImproved = improvmentService.verifyIfAssessmentCanBeImproved({ assessment, listOfSkillsTested, knowledgeElements });
 
         // then
-        expect(shouldBeImproved).to.equal(true);
+        expect(canBeImproved).to.equal(true);
       });
 
     });

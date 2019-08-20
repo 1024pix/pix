@@ -39,7 +39,7 @@ function filterKnowledgeElementsToRemoveThoseWhichCanBeImproved({ knowledgeEleme
   return knowledgeElements;
 }
 
-function verifyIfAssessmentCouldBeImproved({ assessment, knowledgeElements, listOfSkillsTested }) {
+function verifyIfAssessmentCanBeImproved({ assessment, knowledgeElements, listOfSkillsTested }) {
   const assessmentCanBeImproved = assessment.isCompleted() || assessment.isImproving();
 
   if (!assessmentCanBeImproved) {
@@ -58,6 +58,6 @@ function verifyIfAssessmentCouldBeImproved({ assessment, knowledgeElements, list
 
 module.exports = {
   filterKnowledgeElementsToRemoveThoseWhichCanBeImproved,
-  verifyIfAssessmentCouldBeImproved,
+  verifyIfAssessmentCanBeImproved,
 };
 

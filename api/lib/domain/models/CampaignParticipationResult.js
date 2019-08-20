@@ -9,7 +9,7 @@ class CampaignParticipationResult {
     totalSkillsCount,
     testedSkillsCount,
     validatedSkillsCount,
-    couldBeImprove = false,
+    canBeImproved = false,
     // relationships
     competenceResults = [],
   } = {}) {
@@ -19,12 +19,12 @@ class CampaignParticipationResult {
     this.totalSkillsCount = totalSkillsCount;
     this.testedSkillsCount = testedSkillsCount;
     this.validatedSkillsCount = validatedSkillsCount;
-    this.couldBeImprove = couldBeImprove;
+    this.canBeImproved = canBeImproved;
     // relationships
     this.competenceResults = competenceResults;
   }
 
-  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, couldBeImprove }) {
+  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, canBeImproved }) {
     const targetProfileSkillsIds = _.map(targetProfile.skills, 'id');
     let targetedCompetences = _removeUntargetedSkillsFromCompetences(competences, targetProfileSkillsIds);
     targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
@@ -38,7 +38,7 @@ class CampaignParticipationResult {
       validatedSkillsCount: _.sumBy(targetedCompetenceResults, 'validatedSkillsCount'),
       isCompleted: assessment.isCompleted(),
       competenceResults: targetedCompetenceResults,
-      couldBeImprove
+      canBeImproved
     });
   }
 }

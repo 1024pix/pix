@@ -30,7 +30,7 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
     competenceRepository = { list: sinon.stub() };
     assessmentRepository = { get: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserId: sinon.stub() };
-    improvmentService = { verifyIfAssessmentCouldBeImproved: sinon.stub() };
+    improvmentService = { verifyIfAssessmentCanBeImproved: sinon.stub() };
 
     sinon.stub(CampaignParticipationResult, 'buildFrom').returns(campaignParticipationResult);
   });

@@ -142,7 +142,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
             'tested-skills-count': 5,
             'validated-skills-count': 3,
             'is-completed': true,
-            'could-be-improve': true,
+            'can-be-improved': true,
           },
           relationships: {
             'competence-results': {
