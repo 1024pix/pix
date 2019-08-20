@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 const _ = require('lodash');
 const moment = require('moment');
 
