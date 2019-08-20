@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class CertificationCandidate {
   constructor(
     {
@@ -22,7 +24,7 @@ class CertificationCandidate {
     this.externalId = externalId;
     this.birthdate = birthdate;
     this.createdAt = createdAt;
-    this.extraTimePercentage = extraTimePercentage;
+    this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : null;
     // includes
     // references
     this.sessionId = sessionId;
