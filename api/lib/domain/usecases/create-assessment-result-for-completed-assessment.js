@@ -118,11 +118,6 @@ function _setAssessmentResultIdOnMark(mark, assessmentResultId) {
 }
 
 function _ceilCompetenceMarkLevelForCertification(mark, assessment) {
-  /*
-   * XXX une certification ne peut pas avoir une compétence en base au dessus de niveau 5;
-   * par contre le reste de l'algorithme peut avoir des niveaux au-dessus, et l'on ne plafonnera pas pour les
-   * autres Assessments (par exemple Placements).
-   */
   if (assessment.type === Assessment.types.CERTIFICATION) {
     mark.level = Math.min(mark.level, COMPETENCE_MAX_LEVEL_FOR_CERTIFICATION);
   }
