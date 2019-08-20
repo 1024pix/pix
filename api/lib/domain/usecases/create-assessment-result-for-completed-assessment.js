@@ -1,15 +1,12 @@
-const Assessment = require('../models/Assessment');
 const AssessmentResult = require('../models/AssessmentResult');
 const Promise = require('bluebird');
+const { UNCERTIFIED_LEVEL } = require('../constants');
 
 const {
   AlreadyRatedAssessmentError,
   CertificationComputeError,
   NotFoundError,
 } = require('../errors');
-
-const COMPETENCE_MAX_LEVEL_FOR_CERTIFICATION = 5;
-const NOT_VALIDATED_LEVEL = -1;
 
 module.exports = function createAssessmentResultForCompletedAssessment({
   // Parameters
@@ -88,12 +85,11 @@ async function _saveAssessmentResult({
   return _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate);
 }
 
-function _saveCompetenceMarks({ assessmentResult, competenceMarks, assessment, competenceMarkRepository }) {
+function _saveCompetenceMarks({ assessmentResult, competenceMarks, competenceMarkRepository }) {
   const assessmentResultId = assessmentResult.id;
 
   const saveMarksPromises = competenceMarks
     .map((mark) => _setAssessmentResultIdOnMark(mark, assessmentResultId))
-    .map((mark) => _ceilCompetenceMarkLevelForCertification(mark, assessment))
     .map(competenceMarkRepository.save);
 
   return Promise.all(saveMarksPromises);
@@ -108,7 +104,7 @@ function _createAssessmentResult({ assessment, assessmentScore, assessmentResult
 
 function _getAssessmentStatus(assessment, assessmentScore) {
   if (assessmentScore.nbPix === 0 && assessment.isCertification()) {
-    assessmentScore.level = NOT_VALIDATED_LEVEL;
+    assessmentScore.level = UNCERTIFIED_LEVEL;
     return AssessmentResult.status.REJECTED;
   } else {
     return AssessmentResult.status.VALIDATED;
@@ -117,13 +113,6 @@ function _getAssessmentStatus(assessment, assessmentScore) {
 
 function _setAssessmentResultIdOnMark(mark, assessmentResultId) {
   mark.assessmentResultId = assessmentResultId;
-  return mark;
-}
-
-function _ceilCompetenceMarkLevelForCertification(mark, assessment) {
-  if (assessment.type === Assessment.types.CERTIFICATION) {
-    mark.level = Math.min(mark.level, COMPETENCE_MAX_LEVEL_FOR_CERTIFICATION);
-  }
   return mark;
 }
 

@@ -101,8 +101,8 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       domainBuilder.buildCompetenceMark({
         competence_code: '3.1',
         area_code: '3',
-        level: 6,
-        score: 52,
+        level: 5,
+        score: 42,
       }),
     ];
 
@@ -575,7 +575,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
             assessmentResultId: assessmentResultId,
             competence_code: '3.1',
             level: 5,
-            score: 52,
+            score: 42,
           });
         });
       });
