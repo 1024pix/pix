@@ -70,7 +70,8 @@
     "xml-crypto": "~1.0.2",
     "xmldom": "0.1.27",
     "xregexp": "^4.2.4",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "xml-buffer-tostring": "^0.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
