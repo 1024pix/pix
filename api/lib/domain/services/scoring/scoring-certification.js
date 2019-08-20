@@ -24,12 +24,8 @@ async function calculate({ competenceRepository }, assessment) {
     });
   });
 
-  const competencesPixScore = competenceMarks.map((competenceMark) => competenceMark.score);
-
-  const nbPix = _.sum(competencesPixScore);
-
   return new AssessmentScore({
-    nbPix,
+    nbPix: _.sumBy(competenceMarks, 'score'),
     competenceMarks,
   });
 }
