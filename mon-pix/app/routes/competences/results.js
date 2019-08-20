@@ -11,4 +11,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
     });
     return competenceEvaluations.firstObject;
   },
+
+  afterModel(competenceEvaluation) {
+    return competenceEvaluation.belongsTo('scorecard').reload();
+  },
 });
