@@ -1,5 +1,6 @@
 const Assessment = require('../models/Assessment');
 const AssessmentResult = require('../models/AssessmentResult');
+const Promise = require('bluebird');
 
 const {
   AlreadyRatedAssessmentError,
@@ -68,7 +69,7 @@ module.exports = function createAssessmentResultForCompletedAssessment({
     }));
 };
 
-function _saveAssessmentResult({
+async function _saveAssessmentResult({
   // Parameters
   assessment,
   assessmentScore,
@@ -80,16 +81,16 @@ function _saveAssessmentResult({
   competenceMarkRepository,
   // Services
 }) {
-  const status = _getAssessmentStatus(assessment, assessmentScore);
-  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(assessmentScore.level, assessmentScore.nbPix, status, assessment.id);
+  const assessmentResult = await _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository });
 
-  return Promise.all([
+  const [savedAssessmentResult, competenceMarks] = await Promise.all([
     assessmentResultRepository.save(assessmentResult),
     assessmentScore.competenceMarks,
     assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.COMPLETED }),
-  ])
-    .then(([assessmentResult, competenceMarks]) => _saveCompetenceMarks({ assessmentResult, competenceMarks, assessment, competenceMarkRepository }))
-    .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate));
+  ]);
+
+  await _saveCompetenceMarks({ assessmentResult: savedAssessmentResult, competenceMarks, assessment, competenceMarkRepository });
+  return _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate);
 }
 
 function _saveCompetenceMarks({ assessmentResult, competenceMarks, assessment, competenceMarkRepository }) {
@@ -101,6 +102,13 @@ function _saveCompetenceMarks({ assessmentResult, competenceMarks, assessment, c
     .map(competenceMarkRepository.save);
 
   return Promise.all(saveMarksPromises);
+}
+
+function _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository }) {
+  const assessmentStatus = _getAssessmentStatus(assessment, assessmentScore);
+  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(assessmentScore.level, assessmentScore.nbPix, assessmentStatus, assessment.id);
+
+  return assessmentResultRepository.save(assessmentResult);
 }
 
 function _getAssessmentStatus(assessment, assessmentScore) {
