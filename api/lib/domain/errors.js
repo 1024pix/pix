@@ -168,6 +168,18 @@ class ObjectValidationError extends DomainError {
 
 }
 
+class FileValidationError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class ObjectAlreadyExisting extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class PasswordNotMatching extends DomainError {
   constructor(message) {
     super(message);
@@ -270,6 +282,7 @@ module.exports = {
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,
   EntityValidationError,
+  FileValidationError,
   ForbiddenAccess,
   InternalError,
   InvalidRecaptchaTokenError,
@@ -277,6 +290,7 @@ module.exports = {
   MembershipCreationError,
   MissingOrInvalidCredentialsError,
   NotFoundError,
+  ObjectAlreadyExisting,
   ObjectValidationError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,

@@ -12,4 +12,8 @@ module.exports = {
       .fetchAll()
       .then((students) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStudent, students));
   },
+
+  saveStudents() {
+
+  }
 };
