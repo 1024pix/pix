@@ -92,12 +92,6 @@ module.exports = {
           });
         }
 
-        if (assessment.isPlacement()) {
-          return useCases.getNextChallengeForPlacement({
-            assessment,
-          });
-        }
-
         if (assessment.isSmartPlacement()) {
           return useCases.getNextChallengeForSmartPlacement({
             assessment,
