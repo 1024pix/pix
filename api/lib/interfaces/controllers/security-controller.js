@@ -153,6 +153,26 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
   return _replyWithAuthorizationError(h);
 }
 
+async function checkUserIsOwnerInScoOrganizationAndManagesStudents(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyWithAuthorizationError(h);
+  }
+
+  const userId = request.auth.credentials.userId;
+  const organizationId = request.params.id;
+
+  const belongsToScoOrganizationAndManageStudents = await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
+  if (belongsToScoOrganizationAndManageStudents) {
+
+    const isOwnerInOrganization = await checkUserIsOwnerInOrganizationUseCase.execute(userId, organizationId);
+    if (isOwnerInOrganization) {
+      return h.response(true);
+    }
+  }
+
+  return _replyWithAuthorizationError(h);
+}
+
 module.exports = {
   checkRequestedUserIsAuthenticatedUser,
   checkUserBelongsToScoOrganizationAndManagesStudents,
@@ -160,4 +180,5 @@ module.exports = {
   checkUserIsAuthenticated,
   checkUserIsOwnerInOrganization,
   checkUserIsOwnerInOrganizationOrHasRolePixMaster,
+  checkUserIsOwnerInScoOrganizationAndManagesStudents,
 };
