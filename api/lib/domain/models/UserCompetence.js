@@ -1,3 +1,8 @@
+const {
+  MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY,
+  MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
+} = require('../constants');
+
 const _ = require('lodash');
 
 class UserCompetence {
@@ -34,6 +39,14 @@ class UserCompetence {
     if (!hasAlreadyChallenge) {
       this.challenges.push(newChallenge);
     }
+  }
+
+  static isCertifiable(userCompetences) {
+    const certifiableCompetences = _(userCompetences)
+      .filter((userCompetence) => userCompetence.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY)
+      .size();
+
+    return certifiableCompetences >= MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY;
   }
 }
 
