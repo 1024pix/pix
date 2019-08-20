@@ -4,7 +4,7 @@ const {
   EXTRA_EMPTY_CANDIDATE_ROWS,
   ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES
-} = require('./attendance-sheet-placeholders');
+} = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const moment = require('moment');
 const _ = require('lodash');
@@ -98,7 +98,7 @@ function _transformCandidateIntoAttendanceSheetCandidateData(attendanceSheetData
 }
 
 function _getAttendanceTemplatePath() {
-  return __dirname + '/../files/attendance_sheet_template.ods';
+  return __dirname + '/../../infrastructure/files/attendance-sheet/attendance_sheet_template.ods';
 }
 
 module.exports = getAttendanceSheet;

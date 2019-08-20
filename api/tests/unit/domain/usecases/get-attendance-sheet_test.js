@@ -4,7 +4,7 @@ const {
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
   ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   EXTRA_EMPTY_CANDIDATE_ROWS
-} = require('../../../../lib/domain/usecases/attendance-sheet-placeholders');
+} = require('../../../../lib/infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
 const odsService = require('../../../../lib/domain/services/ods-service');
 const sessionXmlService = require('../../../../lib/domain/services/session-xml-service');
 const _ = require('lodash');
