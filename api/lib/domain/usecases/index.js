@@ -74,7 +74,6 @@ module.exports = injectDependencies({
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findOrganizationStudents: require('./find-organization-students'),
   findOrganizations: require('./find-organizations'),
-  findPlacementAssessments: require('./find-placement-assessments'),
   findSessionsForCertificationCenter: require('./find-sessions-for-certification-center'),
   findSmartPlacementAssessments: require('./find-smart-placement-assessments'),
   findSnapshots: require('./find-snapshots'),

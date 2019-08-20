@@ -54,8 +54,6 @@ module.exports = {
         assessmentsPromise = useCases.findSmartPlacementAssessments({ userId, filters });
       } else if (filters.type === 'CERTIFICATION') {
         assessmentsPromise = useCases.findCertificationAssessments({ userId, filters });
-      } else if (filters.type === 'PLACEMENT') {
-        assessmentsPromise = useCases.findPlacementAssessments({ userId, filters });
       }
     }
 
