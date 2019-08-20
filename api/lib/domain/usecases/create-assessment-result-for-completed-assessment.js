@@ -82,14 +82,9 @@ async function _saveAssessmentResult({
   // Services
 }) {
   const assessmentResult = await _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository });
+  await assessmentRepository.completeByAssessmentId(assessment.id);
+  await _saveCompetenceMarks({ assessmentResult, competenceMarks: assessmentScore.competenceMarks, assessment, competenceMarkRepository });
 
-  const [savedAssessmentResult, competenceMarks] = await Promise.all([
-    assessmentResultRepository.save(assessmentResult),
-    assessmentScore.competenceMarks,
-    assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.COMPLETED }),
-  ]);
-
-  await _saveCompetenceMarks({ assessmentResult: savedAssessmentResult, competenceMarks, assessment, competenceMarkRepository });
   return _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate);
 }
 
@@ -160,7 +155,7 @@ function _saveResultAfterComputingError({
 
   return Promise.all([
     assessmentResultRepository.save(assessmentResult),
-    assessmentRepository.updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }),
+    assessmentRepository.completeByAssessmentId(assessmentId),
   ])
     .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate));
 }
