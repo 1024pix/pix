@@ -1,4 +1,5 @@
 const AssessmentResult = require('../models/AssessmentResult');
+const CompetenceMark = require('../models/CompetenceMark');
 const Promise = require('bluebird');
 const { UNCERTIFIED_LEVEL } = require('../constants');
 
@@ -80,19 +81,13 @@ async function _saveAssessmentResult({
 }) {
   const assessmentResult = await _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository });
   await assessmentRepository.completeByAssessmentId(assessment.id);
-  await _saveCompetenceMarks({ assessmentResult, competenceMarks: assessmentScore.competenceMarks, assessment, competenceMarkRepository });
+
+  await Promise.map(assessmentScore.competenceMarks, (competenceMark) => {
+    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
+    return competenceMarkRepository.save(competenceMarkDomain);
+  });
 
   return _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate);
-}
-
-function _saveCompetenceMarks({ assessmentResult, competenceMarks, competenceMarkRepository }) {
-  const assessmentResultId = assessmentResult.id;
-
-  const saveMarksPromises = competenceMarks
-    .map((mark) => _setAssessmentResultIdOnMark(mark, assessmentResultId))
-    .map(competenceMarkRepository.save);
-
-  return Promise.all(saveMarksPromises);
 }
 
 function _createAssessmentResult({ assessment, assessmentScore, assessmentResultRepository }) {
@@ -111,11 +106,6 @@ function _getAssessmentStatus(assessment, assessmentScore) {
   }
 }
 
-function _setAssessmentResultIdOnMark(mark, assessmentResultId) {
-  mark.assessmentResultId = assessmentResultId;
-  return mark;
-}
-
 function _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate) {
   if (assessment.isCertification() && updateCertificationCompletionDate) {
     return certificationCourseRepository.changeCompletionDate(
@@ -127,7 +117,7 @@ function _updateCompletedDateOfCertification(assessment, certificationCourseRepo
   }
 }
 
-function _saveResultAfterComputingError({
+async function _saveResultAfterComputingError({
   assessment,
   assessmentId,
   updateCertificationCompletionDate,
@@ -142,9 +132,10 @@ function _saveResultAfterComputingError({
 
   const assessmentResult = AssessmentResult.BuildAlgoErrorResult(error, assessmentId);
 
-  return Promise.all([
+  await Promise.all([
     assessmentResultRepository.save(assessmentResult),
     assessmentRepository.completeByAssessmentId(assessmentId),
-  ])
-    .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate));
+  ]);
+
+  return _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate);
 }
