@@ -115,12 +115,12 @@ const challenges = _.map([
   { challengeId: 'challenge_L_for_competence_4', competenceId: 'competence_4', associatedSkillName: '@skillChallengeL_4' },
 ], domainBuilder.buildCertificationChallenge);
 
-const competence_1 = domainBuilder.buildCompetence({ id: 'competence_1', index: '1.1', name: 'Mener une recherche', courseId: 'competence_1' });
-const competence_2 = domainBuilder.buildCompetence({ id: 'competence_2', index: '2.2', name: 'Partager', courseId: 'competence_2' });
-const competence_3 = domainBuilder.buildCompetence({ id: 'competence_3', index: '3.3', name: 'Adapter', courseId: 'competence_3' });
-const competence_4 = domainBuilder.buildCompetence({ id: 'competence_4', index: '4.4', name: 'Résoudre', courseId: 'competence_4' });
-const competence_5 = domainBuilder.buildCompetence({ id: 'competence_5', index: '5.5', name: 'Chercher', courseId: 'competence_5' });
-const competence_6 = domainBuilder.buildCompetence({ id: 'competence_6', index: '6.6', name: 'Trouver', courseId: 'competence_6' });
+const competence_1 = domainBuilder.buildCompetence({ id: 'competence_1', index: '1.1', area: { code: '1' }, name: 'Mener une recherche', courseId: 'competence_1' });
+const competence_2 = domainBuilder.buildCompetence({ id: 'competence_2', index: '2.2', area: { code: '2' }, name: 'Partager', courseId: 'competence_2' });
+const competence_3 = domainBuilder.buildCompetence({ id: 'competence_3', index: '3.3', area: { code: '3' }, name: 'Adapter', courseId: 'competence_3' });
+const competence_4 = domainBuilder.buildCompetence({ id: 'competence_4', index: '4.4', area: { code: '4' }, name: 'Résoudre', courseId: 'competence_4' });
+const competence_5 = domainBuilder.buildCompetence({ id: 'competence_5', index: '5.5', area: { code: '5' }, name: 'Chercher', courseId: 'competence_5' });
+const competence_6 = domainBuilder.buildCompetence({ id: 'competence_6', index: '6.6', area: { code: '6' }, name: 'Trouver', courseId: 'competence_6' });
 const competencesFromAirtable = [ competence_1, competence_2, competence_3, competence_4, competence_5, competence_6 ];
 
 const userCompetences = [
@@ -258,6 +258,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
           const expectedCertifiedCompetences = [{
             index: '1.1',
+            area_code: '1',
             id: 'competence_1',
             name: 'Mener une recherche',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -266,6 +267,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 0,
           }, {
             index: '2.2',
+            area_code: '2',
             id: 'competence_2',
             name: 'Partager',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -274,6 +276,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 0,
           }, {
             index: '3.3',
+            area_code: '3',
             id: 'competence_3',
             name: 'Adapter',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -282,6 +285,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 0,
           }, {
             index: '4.4',
+            area_code: '4',
             id: 'competence_4',
             name: 'Résoudre',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -332,6 +336,7 @@ describe('Unit | Service | Certification Result Service', function() {
           const expectedCertifiedCompetences = [
             {
               index: '1.1',
+              area_code: '1',
               id: 'competence_1',
               name: 'Mener une recherche',
               obtainedLevel: 1,
@@ -340,6 +345,7 @@ describe('Unit | Service | Certification Result Service', function() {
               obtainedScore: pixForCompetence1,
             }, {
               index: '2.2',
+              area_code: '2',
               id: 'competence_2',
               name: 'Partager',
               obtainedLevel: 2,
@@ -348,6 +354,7 @@ describe('Unit | Service | Certification Result Service', function() {
               obtainedScore: pixForCompetence2,
             }, {
               index: '3.3',
+              area_code: '3',
               id: 'competence_3',
               name: 'Adapter',
               obtainedLevel: 3,
@@ -356,6 +363,7 @@ describe('Unit | Service | Certification Result Service', function() {
               obtainedScore: pixForCompetence3,
             }, {
               index: '4.4',
+              area_code: '4',
               id: 'competence_4',
               name: 'Résoudre',
               obtainedLevel: 4,
@@ -392,6 +400,7 @@ describe('Unit | Service | Certification Result Service', function() {
           answersRepository.findByAssessment.resolves(answersToHaveOnlyTheLastCompetenceFailed());
           const expectedCertifiedCompetences = [{
             index: '1.1',
+            area_code: '1',
             id: 'competence_1',
             name: 'Mener une recherche',
             obtainedLevel: 1,
@@ -400,6 +409,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence1,
           }, {
             index: '2.2',
+            area_code: '2',
             id: 'competence_2',
             name: 'Partager',
             obtainedLevel: 2,
@@ -408,6 +418,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence2,
           }, {
             index: '3.3',
+            area_code: '3',
             id: 'competence_3',
             name: 'Adapter',
             obtainedLevel: 3,
@@ -416,6 +427,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence3,
           }, {
             index: '4.4',
+            area_code: '4',
             id: 'competence_4',
             name: 'Résoudre',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -459,6 +471,7 @@ describe('Unit | Service | Certification Result Service', function() {
           const malusForFalseAnswer = 8;
           const expectedCertifiedCompetences = [{
             index: '1.1',
+            area_code: '1',
             id: 'competence_1',
             name: 'Mener une recherche',
             obtainedLevel: 0,
@@ -467,6 +480,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence1 - malusForFalseAnswer,
           }, {
             index: '2.2',
+            area_code: '2',
             id: 'competence_2',
             name: 'Partager',
             obtainedLevel: 2,
@@ -475,6 +489,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence2,
           }, {
             index: '3.3',
+            area_code: '3',
             id: 'competence_3',
             name: 'Adapter',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -484,6 +499,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 0,
           }, {
             index: '4.4',
+            area_code: '4',
             id: 'competence_4',
             name: 'Résoudre',
             obtainedLevel: 3,
@@ -506,6 +522,7 @@ describe('Unit | Service | Certification Result Service', function() {
           const malusForFalseAnswer = 8;
           const expectedCertifiedCompetences = [{
             index: '1.1',
+            area_code: '1',
             id: 'competence_1',
             name: 'Mener une recherche',
             obtainedLevel: 0,
@@ -514,6 +531,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence1 - malusForFalseAnswer,
           }, {
             index: '2.2',
+            area_code: '2',
             id: 'competence_2',
             name: 'Partager',
             obtainedLevel: 2,
@@ -522,6 +540,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence2,
           }, {
             index: '3.3',
+            area_code: '3',
             id: 'competence_3',
             name: 'Adapter',
             positionedLevel: 3,
@@ -531,6 +550,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 0,
           }, {
             index: '4.4',
+            area_code: '4',
             id: 'competence_4',
             name: 'Résoudre',
             obtainedLevel: 3,
@@ -773,6 +793,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
           const expectedCertifiedCompetences = [{
             index: '1.1',
+            area_code: '1',
             id: 'competence_1',
             name: 'Mener une recherche',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -782,6 +803,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 0,
           }, {
             index: '2.2',
+            area_code: '2',
             id: 'competence_2',
             name: 'Partager',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -791,6 +813,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 0,
           }, {
             index: '3.3',
+            area_code: '3',
             id: 'competence_3',
             name: 'Adapter',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -800,6 +823,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 0,
           }, {
             index: '4.4',
+            area_code: '4',
             id: 'competence_4',
             name: 'Résoudre',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -854,6 +878,7 @@ describe('Unit | Service | Certification Result Service', function() {
           const expectedCertifiedCompetences = [
             {
               index: '1.1',
+              area_code: '1',
               id: 'competence_1',
               name: 'Mener une recherche',
               obtainedLevel: 1,
@@ -862,6 +887,7 @@ describe('Unit | Service | Certification Result Service', function() {
               obtainedScore: pixForCompetence1,
             }, {
               index: '2.2',
+              area_code: '2',
               id: 'competence_2',
               name: 'Partager',
               obtainedLevel: 2,
@@ -870,6 +896,7 @@ describe('Unit | Service | Certification Result Service', function() {
               obtainedScore: pixForCompetence2,
             }, {
               index: '3.3',
+              area_code: '3',
               id: 'competence_3',
               name: 'Adapter',
               obtainedLevel: 3,
@@ -878,6 +905,7 @@ describe('Unit | Service | Certification Result Service', function() {
               obtainedScore: pixForCompetence3,
             }, {
               index: '4.4',
+              area_code: '4',
               id: 'competence_4',
               name: 'Résoudre',
               obtainedLevel: 4,
@@ -914,6 +942,7 @@ describe('Unit | Service | Certification Result Service', function() {
           answersRepository.findByAssessment.resolves(answersToHaveOnlyTheLastCompetenceFailed());
           const expectedCertifiedCompetences = [{
             index: '1.1',
+            area_code: '1',
             id: 'competence_1',
             name: 'Mener une recherche',
             obtainedLevel: 1,
@@ -922,6 +951,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence1,
           }, {
             index: '2.2',
+            area_code: '2',
             id: 'competence_2',
             name: 'Partager',
             obtainedLevel: 2,
@@ -930,6 +960,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence2,
           }, {
             index: '3.3',
+            area_code: '3',
             id: 'competence_3',
             name: 'Adapter',
             obtainedLevel: 3,
@@ -938,6 +969,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence3,
           }, {
             index: '4.4',
+            area_code: '4',
             id: 'competence_4',
             name: 'Résoudre',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -981,6 +1013,7 @@ describe('Unit | Service | Certification Result Service', function() {
           const malusForFalseAnswer = 8;
           const expectedCertifiedCompetences = [{
             index: '1.1',
+            area_code: '1',
             id: 'competence_1',
             name: 'Mener une recherche',
             obtainedLevel: 0,
@@ -989,6 +1022,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence1 - malusForFalseAnswer,
           }, {
             index: '2.2',
+            area_code: '2',
             id: 'competence_2',
             name: 'Partager',
             obtainedLevel: 2,
@@ -997,6 +1031,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: pixForCompetence2,
           }, {
             index: '3.3',
+            area_code: '3',
             id: 'competence_3',
             name: 'Adapter',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -1005,6 +1040,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 0,
           }, {
             index: '4.4',
+            area_code: '4',
             id: 'competence_4',
             name: 'Résoudre',
             obtainedLevel: 3,
@@ -1070,6 +1106,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
           const expectedCertifiedCompetences = [{
             index: '5.5',
+            area_code: '5',
             id: 'competence_5',
             name: 'Chercher',
             obtainedLevel: 5,
@@ -1078,6 +1115,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 50,
           }, {
             index: '6.6',
+            area_code: '6',
             id: 'competence_6',
             name: 'Trouver',
             obtainedLevel: UNCERTIFIED_LEVEL,
@@ -1108,6 +1146,7 @@ describe('Unit | Service | Certification Result Service', function() {
 
           const expectedCertifiedCompetences = [{
             index: '5.5',
+            area_code: '5',
             id: 'competence_5',
             name: 'Chercher',
             obtainedLevel: 4,
@@ -1116,6 +1155,7 @@ describe('Unit | Service | Certification Result Service', function() {
             obtainedScore: 42,
           }, {
             index: '6.6',
+            area_code: '6',
             id: 'competence_6',
             name: 'Trouver',
             obtainedLevel: 2,

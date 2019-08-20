@@ -67,7 +67,7 @@ describe('Unit | Service | scoring-service', () => {
         await scoringService.calculateAssessmentScore(dependencies, assessment);
 
         // then
-        expect(scoringCertification.calculate).to.have.been.calledWith(dependencies, assessment);
+        expect(scoringCertification.calculate).to.have.been.calledWith(assessment);
       });
     });
   });

@@ -14,6 +14,7 @@ class UserCompetence {
     // attributes
     index,
     name,
+    area,
     // includes
     // references
   } = {}) {
@@ -21,6 +22,7 @@ class UserCompetence {
     // attributes
     this.index = index;
     this.name = name;
+    this.area = area;
     // includes
     this.skills = [];
     this.challenges = [];
