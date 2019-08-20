@@ -63,6 +63,7 @@ describe('Integration | Application | Organizations | Routes', () => {
   describe('POST /api/organizations/:id/students', () => {
 
     beforeEach(() => {
+      sinon.stub(securityController, 'checkUserIsOwnerInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
       sinon.stub(organisationController, 'importStudents').callsFake((request, h) => h.response('ok').code(201));
       return server.register(route);
     });

@@ -859,12 +859,17 @@ describe('Acceptance | Application | organization-controller', () => {
       const connectedUser = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id });
+      await databaseBuilder.commit();
 
       options = {
         method: 'GET',
         url: `/api/organizations/${organization.id}/students`,
         headers: { authorization: generateValidRequestAuthorizationHeader(connectedUser.id) },
       };
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     context('Expected output', () => {
@@ -877,10 +882,6 @@ describe('Acceptance | Application | organization-controller', () => {
         });
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return the matching students as JSON API', async () => {
@@ -924,6 +925,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should respond with a 403 - Forbidden access - if user does not belong to Organization', async () => {
         // given
         const userId = databaseBuilder.factory.buildUser.withMembership().id;
+        await databaseBuilder.commit();
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         // when
@@ -937,7 +939,10 @@ describe('Acceptance | Application | organization-controller', () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO', isManagingStudents: true }).id;
         const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
+        await databaseBuilder.commit();
+
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+        options.url = `/api/organizations/${organizationId}/students`;
 
         // when
         const response = await server.inject(options);
@@ -950,7 +955,202 @@ describe('Acceptance | Application | organization-controller', () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
         const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
+        await databaseBuilder.commit();
+
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+        options.url = `/api/organizations/${organizationId}/students`;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+  });
+
+  describe('POST /api/organizations/{id}/students', () => {
+
+    let organization;
+    let options;
+
+    const file = '<?xml version="1.0" encoding="ISO-8859-15"?>' +
+      '<BEE_ELEVES VERSION="2.1">' +
+      '<DONNEES>' +
+      '<ELEVES>' +
+      '<ELEVE ELEVE_ID="0001">' +
+      '<ID_NATIONAL>0000000001X</ID_NATIONAL>' +
+      '<INE_RNIE>00000000123</INE_RNIE>' +
+      '<NOM_DE_FAMILLE>HANDMADE</NOM_DE_FAMILLE>' +
+      '<NOM_USAGE></NOM_USAGE>' +
+      '<PRENOM>Luciole</PRENOM>' +
+      '<PRENOM2>Léa</PRENOM2>' +
+      '<PRENOM3>Lucy</PRENOM3>' +
+      '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
+      '<CODE_PAYS>100</CODE_PAYS>' +
+      '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+      '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+      '<CODE_MEF>123456789</CODE_MEF>' +
+      '<CODE_STATUT>AP</CODE_STATUT>' +
+      '</ELEVE>' +
+      '<ELEVE ELEVE_ID="0002">' +
+      '<ID_NATIONAL>0000000001X</ID_NATIONAL>' +
+      '<INE_RNIE>00000000124</INE_RNIE>' +
+      '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+      '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
+      '<PRENOM>Harry</PRENOM>' +
+      '<PRENOM2>Coco</PRENOM2>' +
+      '<PRENOM3></PRENOM3>' +
+      '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+      '<CODE_PAYS>132</CODE_PAYS>' +
+      '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
+      '<CODE_MEF>12341234</CODE_MEF>' +
+      '<CODE_STATUT>ST</CODE_STATUT>' +
+      '</ELEVE>' +
+      '</ELEVES>' +
+      '<STRUCTURES>' +
+      '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+      '<STRUCTURE>' +
+      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+      '</STRUCTURE>' +
+      '</STRUCTURES_ELEVE>' +
+      '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+      '<STRUCTURE>' +
+      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+      '</STRUCTURE>' +
+      '</STRUCTURES_ELEVE>' +
+      '</STRUCTURES>' +
+      '</DONNEES>' +
+      '</BEE_ELEVES>';
+
+    beforeEach(async () => {
+      const connectedUser = databaseBuilder.factory.buildUser();
+      organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
+      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.OWNER });
+      await databaseBuilder.commit();
+
+      const payload = Buffer.from(
+        '------WebKitFormBoundaryxSSpu5dJeHVmxnBq\r\n' +
+        'Content-Disposition: form-data; name="Content-Type"\r\n' +
+        '\r\n' +
+        'text/xml\r\n' +
+        '------WebKitFormBoundaryxSSpu5dJeHVmxnBq\r\n' +
+        'Content-Disposition: form-data; name="file"; filename="file.xml"\r\n' +
+        'Content-Type: text/xml\r\n' +
+        '\r\n' +
+        file + '\r\r\n' +
+        '------WebKitFormBoundaryxSSpu5dJeHVmxnBq--', 'latin1');
+
+      options = {
+        method: 'POST',
+        url: `/api/organizations/${organization.id}/students`,
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
+          'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryxSSpu5dJeHVmxnBq'
+        },
+        payload
+      };
+    });
+
+    afterEach(async () => {
+      await knex('students').delete();
+      await databaseBuilder.clean();
+    });
+
+    context('Expected output', () => {
+
+      it('should return the last student id', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(201);
+        expect(response.result).to.be.a('number');
+      });
+
+      it('should save all students', async () => {
+        // when
+        await server.inject(options);
+
+        // then
+        const students = await knex('students').where({ organizationId: organization.id });
+        expect(students).to.have.lengthOf(2);
+        expect(students[0].firstName).to.equal('Luciole');
+        expect(students[0].middleName).to.equal('Léa');
+        expect(students[0].lastName).to.equal('HANDMADE');
+        expect(students[0].birthdate).to.equal('1994-12-31');
+      });
+    });
+
+    context('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - Forbidden access - if user does not belong to Organization', async () => {
+        // given
+        const userId = databaseBuilder.factory.buildUser.withMembership().id;
+        await databaseBuilder.commit();
+
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should respond with a 403 - Forbidden access - if Organization type is not SCO', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO', isManagingStudents: true }).id;
+        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId, organizationRole: Membership.roles.OWNER }).id;
+        await databaseBuilder.commit();
+
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+        options.url = `/api/organizations/${organizationId}/students`;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should respond with a 403 - Forbidden access - if Organization does not manage students', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
+        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId, organizationRole: Membership.roles.OWNER }).id;
+        await databaseBuilder.commit();
+
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+        options.url = `/api/organizations/${organizationId}/students`;
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+
+      it('should respond with a 403 - Forbidden access - if user is not OWNER', async () => {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+        const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId, organizationRole: Membership.roles.MEMBER }).id;
+        await databaseBuilder.commit();
+
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
+        options.url = `/api/organizations/${organizationId}/students`;
 
         // when
         const response = await server.inject(options);

@@ -152,6 +152,10 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/organizations/{id}/students',
       config: {
+        pre: [{
+          method: securityController.checkUserIsOwnerInScoOrganizationAndManagesStudents,
+          assign: 'isOwnerInScoOrganizationAndManagesStudents'
+        }],
         payload: {
           maxBytes: 1048576 * 10, // 10MB
           output: 'stream',
