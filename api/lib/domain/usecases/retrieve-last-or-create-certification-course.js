@@ -1,66 +1,7 @@
-const _ = require('lodash');
-
 const CertificationCourse = require('../models/CertificationCourse');
+const UserCompetence = require('../models/UserCompetence');
 const { UserNotAuthorizedToCertifyError } = require('../errors');
-
-function _canStartACertification(userCompetences) {
-  const competencesWithEstimatedLevelHigherThan0 = userCompetences
-    .filter((competence) => competence.estimatedLevel > 0);
-
-  return _.size(competencesWithEstimatedLevelHigherThan0) >= 5;
-}
-
-function _selectProfileToCertify(userCompetencesProfileV1, userCompetencesProfileV2) {
-  const canStartACertificationOnProfileV2 = _canStartACertification(userCompetencesProfileV2);
-  const canStartACertificationOnProfileV1 = _canStartACertification(userCompetencesProfileV1);
-
-  if (!canStartACertificationOnProfileV1 && !canStartACertificationOnProfileV2) {
-    return null;
-  }
-
-  else if (canStartACertificationOnProfileV1 && !canStartACertificationOnProfileV2) {
-    return userCompetencesProfileV1;
-  }
-
-  else if (!canStartACertificationOnProfileV1 && canStartACertificationOnProfileV2) {
-    return userCompetencesProfileV2;
-  }
-
-  else {
-    const pixScoreProfileV1 = _.sumBy(userCompetencesProfileV1, 'pixScore');
-    const pixScoreProfileV2 = _.sumBy(userCompetencesProfileV2, 'pixScore');
-
-    if (pixScoreProfileV1 >= pixScoreProfileV2) return userCompetencesProfileV1;
-
-    return userCompetencesProfileV2;
-  }
-}
-
-async function _startNewCertification({
-  userId,
-  sessionId,
-  userService,
-  certificationChallengesService,
-  certificationCourseRepository
-}) {
-
-  const now = new Date();
-  const [userCompetencesProfileV1, userCompetencesProfileV2] = await Promise.all([
-    userService.getProfileToCertifyV1({ userId, limitDate: now }),
-    userService.getProfileToCertifyV2({ userId, limitDate: now }),
-  ]);
-
-  const userCompetencesToCertify = _selectProfileToCertify(userCompetencesProfileV1, userCompetencesProfileV2);
-  if (!userCompetencesToCertify) {
-    throw new UserNotAuthorizedToCertifyError();
-  }
-
-  const isV2Certification = userCompetencesToCertify === userCompetencesProfileV2;
-
-  const newCertificationCourse = new CertificationCourse({ userId, sessionId, isV2Certification });
-  const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
-  return certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse);
-}
+const _ = require('lodash');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   accessCode,
@@ -74,7 +15,10 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   const certificationCourses = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
 
   if (_.size(certificationCourses) > 0) {
-    return { created: false, certificationCourse: certificationCourses[0] };
+    return {
+      created: false,
+      certificationCourse: certificationCourses[0],
+    };
   } else {
     const certificationCourse = await _startNewCertification({
       userId,
@@ -86,3 +30,23 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     return { created: true, certificationCourse };
   }
 };
+
+async function _startNewCertification({
+  userId,
+  sessionId,
+  userService,
+  certificationChallengesService,
+  certificationCourseRepository
+}) {
+  const now = new Date();
+  const userCompetencesProfile = await userService.getProfileToCertifyV2({ userId, limitDate: now });
+
+  if (!UserCompetence.isCertifiable(userCompetencesProfile)) {
+    throw new UserNotAuthorizedToCertifyError();
+  }
+  const newCertificationCourse = new CertificationCourse({ userId, sessionId, isV2Certification: true });
+  const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
+
+  return certificationChallengesService.saveChallenges(userCompetencesProfile, savedCertificationCourse);
+}
+
