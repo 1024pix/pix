@@ -24,7 +24,6 @@ describe('Unit | Controller | assessment-controller', function() {
     beforeEach(() => {
 
       sinon.stub(useCases, 'findCertificationAssessments');
-      sinon.stub(useCases, 'findPlacementAssessments');
       sinon.stub(useCases, 'findSmartPlacementAssessments');
       sinon.stub(assessmentSerializer, 'serialize');
     });
@@ -32,31 +31,17 @@ describe('Unit | Controller | assessment-controller', function() {
     it('should serialize assessment to JSON API', async function() {
       // given
       const request = {
-        query: { 'filter[type]': 'PLACEMENT' },
+        query: { 'filter[type]': 'CERTIFICATION' },
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
-      useCases.findPlacementAssessments.resolves(assessments);
-
-      // when
-      await assessmentController.findByFilters(request, hFake);
-
-      // then
-      expect(assessmentSerializer.serialize).to.have.been.calledWithExactly(assessments);
-    });
-
-    it('should reply the serialized assessments', async function() {
-      // given
-      const request = {
-        query: { 'filter[type]': 'PLACEMENT' },
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
-      };
-      useCases.findPlacementAssessments.resolves(assessments);
+      useCases.findCertificationAssessments.resolves(assessments);
       assessmentSerializer.serialize.returns(assessmentsInJSONAPI);
 
       // when
       const response = await assessmentController.findByFilters(request, hFake);
 
       // then
+      expect(assessmentSerializer.serialize).to.have.been.calledWithExactly(assessments);
       expect(response).to.deep.equal(assessmentsInJSONAPI);
     });
 
@@ -78,28 +63,6 @@ describe('Unit | Controller | assessment-controller', function() {
         expect(useCases.findSmartPlacementAssessments).to.have.been.calledWithExactly({
           userId,
           filters: { codeCampaign: 'Code' },
-        });
-      });
-    });
-
-    context('GET assessments with type PLACEMENT filter', () => {
-
-      const request = {
-        query: { 'filter[type]': 'PLACEMENT', 'filter[courseId]': 'courseId1' },
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
-      };
-
-      it('should call assessment service with query filters', async function() {
-        // given
-        useCases.findPlacementAssessments.resolves();
-
-        // when
-        await assessmentController.findByFilters(request, hFake);
-
-        // then
-        expect(useCases.findPlacementAssessments).to.have.been.calledWithExactly({
-          userId,
-          filters: { type: 'PLACEMENT', courseId: 'courseId1' },
         });
       });
     });
