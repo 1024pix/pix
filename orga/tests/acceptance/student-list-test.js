@@ -92,6 +92,40 @@ module('Acceptance | Student List', function(hooks) {
         // then
         assert.dom('.table tbody tr').exists({ count: 6 });
       });
+
+      module('When user is owner in organization', function() {
+
+        test('it should display import button', async function(assert) {
+          // given
+          user = createUserManagingStudents('OWNER');
+          await authenticateSession({
+            user_id: user.id,
+          });
+
+          // when
+          await visit('/eleves');
+          
+          // then
+          assert.dom('.button').hasText('Importer');
+        });
+      });
+
+      module('When user is not owner in organization', function() {
+
+        test('it should not display import button', async function(assert) {
+          // given
+          user = createUserManagingStudents('MEMBER');
+          await authenticateSession({
+            user_id: user.id,
+          });
+
+          // when
+          await visit('/eleves');
+
+          // then
+          assert.dom('.button').doesNotExist();
+        });
+      });
     });
 
   });

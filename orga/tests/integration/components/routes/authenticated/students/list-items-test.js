@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
+import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | routes/authenticated/students | list-items', function(hooks) {
@@ -41,16 +42,37 @@ module('Integration | Component | routes/authenticated/students | list-items', f
     assert.dom('.table tbody tr:first-child td:last-child').hasText('01/02/2010');
   });
 
-  test('it should display import button', async function(assert) {
-    // given
-    this.set('uploadStudentsSpy', () => {});
-    this.set('students', []);
+  module('when user is owner in organization', (hooks) => {
 
-    // when
-    await render(hbs`{{routes/authenticated/students/list-items students=students uploadStudents=(action uploadStudentsSpy)}}`);
+    hooks.beforeEach(function() {
+      this.set('uploadStudentsSpy', () => {});
+      this.owner.register('service:current-user', Service.extend({ isOwnerInOrganization: true }));
+      this.set('students', []);
+    });
 
-    // then
-    assert.dom('.button').hasText('Importer');
+    test('it should display import button', async function(assert) {
+      // when
+      await render(hbs`{{routes/authenticated/students/list-items students=students uploadStudents=(action uploadStudentsSpy)}}`);
+
+      // then
+      assert.dom('.button').hasText('Importer');
+    });
+  });
+
+  module('when user is not owner in organization', () => {
+
+    test('it should not display import button', async function(assert) {
+      // given
+      this.owner.register('service:current-user', Service.extend({ isOwnerInOrganization: false }));
+
+      this.set('students', []);
+
+      // when
+      await render(hbs`{{routes/authenticated/students/list-items students=students}}`);
+
+      // then
+      assert.dom('.button').doesNotExist();
+    });
   });
 
 });
