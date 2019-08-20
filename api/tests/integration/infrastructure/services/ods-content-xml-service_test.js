@@ -1,7 +1,7 @@
 const { expect } = require('../../../test-helper');
-const xmlService = require('../../../../lib/domain/services/xml-service');
+const odsContentXmlService = require('../../../../lib/infrastructure/services/ods-content-xml-service');
 
-describe('Integration | Services | get-attendance-sheet | xml-service', () => {
+describe('Integration | Services | get-attendance-sheet | ods-content-xml-service', () => {
 
   describe('#updateXmlSparseValues', () => {
 
@@ -47,7 +47,7 @@ describe('Integration | Services | get-attendance-sheet | xml-service', () => {
 
     it('should transform an xml by replacing templatized cells and data to inject', () => {
       // when
-      const result = xmlService.updateXmlSparseValues({
+      const result = odsContentXmlService.updateXmlSparseValues({
         stringifiedXml,
         templateValues,
         dataToInject,
@@ -146,7 +146,7 @@ describe('Integration | Services | get-attendance-sheet | xml-service', () => {
 
     it('should transform an xml given a templatized row, a starting position and data to inject', () => {
       // when
-      const result = xmlService.updateXmlRows({
+      const result = odsContentXmlService.updateXmlRows({
         stringifiedXml,
         rowMarkerPlaceholder,
         rowTemplateValues,
