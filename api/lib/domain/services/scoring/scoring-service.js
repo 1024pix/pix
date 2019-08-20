@@ -13,7 +13,7 @@ async function calculateAssessmentScore(dependencies, assessment) {
   }
 
   if (assessment.isCertification()) {
-    return scoringCertification.calculate(dependencies, assessment);
+    return scoringCertification.calculate(assessment);
   }
 }
 
