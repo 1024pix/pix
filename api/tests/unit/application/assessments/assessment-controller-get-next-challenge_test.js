@@ -6,7 +6,6 @@ const certificationChallengeRepository = require('../../../../lib/infrastructure
 const usecases = require('../../../../lib/domain/usecases');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const Skill = require('../../../../lib/cat/skill');
 
 describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
@@ -14,12 +13,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     let assessmentWithoutScore;
     let assessmentWithScore;
     let scoredAsssessment;
-
-    const assessmentSkills = {
-      assessmentId: 1,
-      validatedSkills: _generateValidatedSkills(),
-      failedSkills: _generateFailedSkills(),
-    };
 
     beforeEach(() => {
 
@@ -39,7 +32,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       scoredAsssessment = {
         assessmentPix: assessmentWithScore,
-        skills: assessmentSkills,
       };
 
       sinon.stub(assessmentRepository, 'get');
@@ -207,23 +199,3 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     });
   });
 });
-
-function _generateValidatedSkills() {
-  const url2 = new Skill('@url2');
-  const web3 = new Skill('@web3');
-  const skills = new Set();
-  skills.add(url2);
-  skills.add(web3);
-
-  return skills;
-}
-
-function _generateFailedSkills() {
-  const recherche2 = new Skill('@recherch2');
-  const securite3 = new Skill('@securite3');
-  const skill = new Set();
-  skill.add(recherche2);
-  skill.add(securite3);
-
-  return skill;
-}
