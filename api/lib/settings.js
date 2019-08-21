@@ -92,34 +92,22 @@ module.exports = (function() {
 
     config.app.domain = 'localhost';
 
-    config.airtable = {
-      apiKey: 'test-api-key',
-      base: 'test-base',
-    };
+    config.airtable.apiKey = 'test-api-key';
+    config.airtable.base = 'test-base';
 
-    config.mailing = {
-      enabled: false,
-      mailjetApiKey: 'test-api-ket',
-      mailjetApiSecret: 'test-api-secret',
-      mailjetAccountCreationTemplateId: 'test-account-creation-template-id',
-      mailjetPasswordResetTemplateId: 'test-password-reset-template-id',
-    };
+    config.mailing.enabled = false;
+    config.mailing.mailjetApiKey = 'test-api-ket';
+    config.mailing.mailjetApiSecret = 'test-api-secret';
+    config.mailing.mailjetAccountCreationTemplateId = 'test-account-creation-template-id';
+    config.mailing.mailjetPasswordResetTemplateId = 'test-password-reset-template-id';
 
-    config.captcha = {
-      enabled: false,
-      googleRecaptchaSecret: 'test-recaptcha-key'
-    };
+    config.captcha.enabled = false;
+    config.captcha.googleRecaptchaSecret = 'test-recaptcha-key';
 
-    config.authentication = {
-      secret: 'test-jwt-key',
-      tokenLifespan: '1d',
-      tokenForCampaignResultLifespan: '1h',
-    };
+    config.authentication.secret = 'test-jwt-key';
+    config.authentication.tokenLifespan = '1d';
 
-    config.temporaryKey = {
-      secret: 'test-jwt-key',
-      tokenLifespan: '1d',
-    };
+    config.temporaryKey.secret = 'test-jwt-key';
 
     config.logging.enabled = false;
 
