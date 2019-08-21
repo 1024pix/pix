@@ -44,7 +44,7 @@ class UserCompetence {
   }
 
   hasEnoughChallenges() {
-    return this.challenges.length < MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION
+    return this.challenges.length < MAX_CHALLENGES_PER_SKILL_FOR_CERTIFICATION;
   }
 
   static isCertifiable(userCompetences) {

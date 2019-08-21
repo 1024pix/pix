@@ -8,7 +8,6 @@ const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
 const Challenge = require('../models/Challenge');
 const Scorecard = require('../models/Scorecard');
-const Skill = require('../models/Skill');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
@@ -17,7 +16,7 @@ const knowledgeElementRepository = require('../../../lib/infrastructure/reposito
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 
 async function getProfileToCertifyV1({ userId, limitDate }) {
-  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV1({
+  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({
     userId,
     limitDate
   });
@@ -29,7 +28,7 @@ async function getProfileToCertifyV1({ userId, limitDate }) {
 }
 
 async function getProfileToCertifyV2({ userId, limitDate }) {
-  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV2({
+  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({
     userId,
     limitDate
   });
@@ -117,7 +116,7 @@ async function _pickChallengesForUserCompetences({ userCompetences, challengeIds
   return userCompetences;
 }
 
-async function _getUserCompetencesAndAnswersV1({ userId, limitDate }) {
+async function _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({ userId, limitDate }) {
   const [allCompetences, allAdaptativeCourses] = await Promise.all([
     competenceRepository.list(),
     courseRepository.getAdaptiveCourses()
@@ -165,6 +164,6 @@ module.exports = {
   getProfileToCertifyV1,
   getProfileToCertifyV2,
   _pickChallengesForUserCompetences,
-  _getUserCompetencesAndAnswersV1,
-  _getUserCompetencesAndAnswersV2,
+  _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV1,
+  _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2,
 };
