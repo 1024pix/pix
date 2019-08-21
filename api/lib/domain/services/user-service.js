@@ -3,8 +3,9 @@ const _ = require('lodash');
 const { UserNotFoundError } = require('../errors');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
+const Challenge = require('../models/Challenge');
 const Scorecard = require('../models/Scorecard');
-
+const Skill = require('../models/Skill');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
@@ -26,14 +27,8 @@ function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {
   return challenge ? userCompetences.find((userCompetence) => userCompetence.id === challenge.competenceId) : null;
 }
 
-function _findChallengeBySkill(challenges, skill) {
-  return _(challenges).filter((challenge) => {
-    return challenge.hasSkill(skill) && challenge.isPublished();
-  }).value();
-}
-
 function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
-  const challengesBySkill = _findChallengeBySkill(challenges, skill);
+  const challengesBySkill = Challenge.findPublishedBySkill(challenges, skill);
   return challengesBySkill.length > 0;
 }
 
@@ -42,33 +37,10 @@ function _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLa
     const userCompetence = new UserCompetence(competence);
     const currentCourse = allAdaptativeCourses.find((course) => course.competences[0] === userCompetence.id);
     const assessment = userLastAssessments.find((assessment) => currentCourse.id === assessment.courseId);
-    if (assessment) {
-      userCompetence.pixScore = assessment.getPixScore();
-      userCompetence.estimatedLevel = assessment.getLevel();
-    } else {
-      userCompetence.pixScore = 0;
-      userCompetence.estimatedLevel = 0;
-    }
+    userCompetence.pixScore = assessment && assessment.getPixScore() || 0;
+    userCompetence.estimatedLevel = assessment && assessment.getLevel() || 0;
     return userCompetence;
   });
-}
-
-function _sortByDifficultyDesc(skills) {
-  return _(skills)
-    .sortBy('difficulty')
-    .reverse()
-    .value();
-}
-
-function _orderSkillsOfCompetenceByDifficulty(competences) {
-  competences.forEach((competence) => {
-    competence.skills = _sortByDifficultyDesc(competence.skills);
-  });
-  return competences;
-}
-
-function _getChallengeById(challenges, id) {
-  return _(challenges).find({ id });
 }
 
 function _isCompetenceCertifiable(userCompetence) {
@@ -77,7 +49,7 @@ function _isCompetenceCertifiable(userCompetence) {
 
 async function _pickChallengesForUserCompetences({ userCompetences, challengeIdsCorrectlyAnswered }) {
   const allChallenges = await challengeRepository.list();
-  const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => _getChallengeById(allChallenges, challengeId));
+  const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => Challenge.findById(allChallenges, challengeId));
 
   challengesAlreadyAnswered.forEach((challenge) => {
     if (!challenge) {
@@ -95,13 +67,13 @@ async function _pickChallengesForUserCompetences({ userCompetences, challengeIds
       .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
   });
 
-  userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
+  userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(userCompetences);
 
   userCompetences.forEach((userCompetence) => {
     const testedSkills = [];
     userCompetence.skills.forEach((skill) => {
-      if (userCompetence.challenges.length < 3) {
-        const challengesToValidateCurrentSkill = _findChallengeBySkill(allChallenges, skill);
+      if (userCompetence.hasEnoughChallenges()) {
+        const challengesToValidateCurrentSkill = Challenge.findPublishedBySkill(allChallenges, skill);
         const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
         const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
@@ -149,22 +121,13 @@ function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCo
   });
 }
 
-function _getDirectlyValidatedKnowledgeElements(knowledgeElementsByCompetence) {
-  return _(knowledgeElementsByCompetence)
-    .values()
-    .flatten()
-    .filter({ status: KnowledgeElement.StatusType.VALIDATED })
-    .filter({ source: KnowledgeElement.SourceType.DIRECT })
-    .value();
-}
-
-async function _getUserCompetencesAndAnswersV2({ userId, limitDate }) {
+async function _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ userId, limitDate }) {
   const allCompetences = await competenceRepository.list();
 
   const knowledgeElementsByCompetence = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId, limitDate });
   const userCompetences = _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences });
 
-  const knowledgeElements = _getDirectlyValidatedKnowledgeElements(knowledgeElementsByCompetence);
+  const knowledgeElements = KnowledgeElement.findDirectlyValidatedFromGroups(knowledgeElementsByCompetence);
   const answerIds = _.map(knowledgeElements, 'answerId');
 
   const challengeIdsCorrectlyAnswered = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
