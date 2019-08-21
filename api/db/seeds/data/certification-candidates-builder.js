@@ -1,3 +1,7 @@
+const moment = require('moment');
+const faker = require('faker');
+const CANDIDATE_COUNT = 300;
+
 module.exports = function sessionsBuilder({ databaseBuilder }) {
 
   databaseBuilder.factory.buildCertificationCandidate({
@@ -21,25 +25,21 @@ module.exports = function sessionsBuilder({ databaseBuilder }) {
     extraTimePercentage: 0.3,
     sessionId: 1,
   });
-  databaseBuilder.factory.buildCertificationCandidate({
-    id: 3,
-    firstName: 'Octave',
-    lastName: 'Mouret',
-    birthplace: 'Céret',
-    birthdate: '1925-08-05',
-    externalId: 'OMOU789',
-    extraTimePercentage: null,
-    sessionId: 4,
-  });
 
-  databaseBuilder.factory.buildCertificationCandidate({
-    id: 4,
-    firstName: 'Jeanlin',
-    lastName: 'Maheu',
-    birthplace: 'Paris',
-    birthdate: '1958-04-01',
-    externalId: 'JMAH456',
-    extraTimePercentage: 1,
-    sessionId: 4,
-  });
+  const originLocale = faker.locale;
+  faker.locale = 'fr';
+  for (let i = 0; i < CANDIDATE_COUNT; ++i) {
+    const extraTimePercentage = i % 2 === 0 ? null : (faker.random.number(99) / 100);
+    databaseBuilder.factory.buildCertificationCandidate({
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      birthplace: faker.address.city(),
+      birthdate: moment(faker.date.past(90)).format('YYYY-MM-DD'),
+      externalId: faker.random.alphaNumeric(6),
+      extraTimePercentage,
+      sessionId: 4,
+    });
+  }
+
+  faker.locale = originLocale;
 };
