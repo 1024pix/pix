@@ -72,9 +72,11 @@ module.exports = (function() {
 
     passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
 
-    redisUrl: process.env.REDIS_URL,
-    redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
-    redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
+    caching: {
+      redisUrl: process.env.REDIS_URL,
+      redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
+      redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
+    },
 
     system: {
       samplingHeapProfilerEnabled: (process.env.SYSTEM_SAMPLING_HEAP_PROFILER_ENABLED === 'true'),
@@ -121,9 +123,9 @@ module.exports = (function() {
 
     config.logging.enabled = false;
 
-    config.redisUrl = null;
-    config.redisCacheKeyLockTTL = 0;
-    config.redisCacheLockedWaitBeforeRetry = 0;
+    config.caching.redisUrl = null;
+    config.caching.redisCacheKeyLockTTL = 0;
+    config.caching.redisCacheLockedWaitBeforeRetry = 0;
   }
 
   return config;

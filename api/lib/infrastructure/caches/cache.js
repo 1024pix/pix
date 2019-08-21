@@ -5,8 +5,8 @@ const settings = require('../../settings');
 class Cache {
 
   constructor() {
-    if (settings.redisUrl) {
-      this._cache = new RedisCache(settings.redisUrl);
+    if (settings.caching.redisUrl) {
+      this._cache = new RedisCache(settings.caching.redisUrl);
     } else {
       this._cache = new InMemoryCache();
     }

@@ -34,13 +34,13 @@ class RedisCache {
     const unlockErrorHandler = (err) => logger.error({ key }, 'Error while trying to unlock Redis key', err);
 
     try {
-      const locker = this._client.lockDisposer(keyToLock, settings.redisCacheKeyLockTTL, unlockErrorHandler);
+      const locker = this._client.lockDisposer(keyToLock, settings.caching.redisCacheKeyLockTTL, unlockErrorHandler);
       const value = await using(locker, retrieveAndSetValue);
       return value;
     } catch (err) {
       if (err instanceof Redlock.LockError) {
         logger.trace({ keyToLock }, 'Could not lock Redis key, waiting');
-        await new Promise((resolve) => setTimeout(resolve, settings.redisCacheLockedWaitBeforeRetry));
+        await new Promise((resolve) => setTimeout(resolve, settings.caching.redisCacheLockedWaitBeforeRetry));
         return this.get(key, generator);
       }
       logger.error({ err }, 'Error while trying to update value in Redis cache');
