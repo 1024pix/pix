@@ -57,7 +57,7 @@ describe('Unit | Controller | PasswordController', () => {
       resetPasswordService.generateTemporaryKey.returns(generatedToken);
       mailService.sendResetPasswordDemandEmail.resolves(resolvedPasswordReset);
       resetPasswordRepository.create.resolves(resolvedPasswordReset);
-      passwordResetSerializer.serialize.resolves();
+      passwordResetSerializer.serialize.returns();
 
       // when
       await passwordController.createResetDemand(request, hFake);
