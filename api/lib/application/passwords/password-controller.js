@@ -24,7 +24,7 @@ module.exports = {
 
     let temporaryKey, passwordResetDemand;
 
-    return userService.isUserExistingByEmail(user.email)
+    return userRepository.isUserExistingByEmail(user.email)
       .then(resetPasswordService.generateTemporaryKey)
       .then((key) => {
         temporaryKey = key;
