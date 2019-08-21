@@ -17,12 +17,7 @@
     "test": "tests"
   },
   "scripts": {
-    "ci:test": "COVERAGE=true ember test --reporter dot",
     "clean": "rm -rf tmp dist node_modules",
-    "coverage": "npm run coverage:check && npm run coverage:convert && npm run coverage:rename",
-    "coverage:check": "COVERAGE=true ember test --reporter dot",
-    "coverage:convert": "node ../scripts/lcov-path-converter $PWD",
-    "coverage:rename": "mv coverage/lcov.info ../coverage/mon-pix_lcov.info",
     "dev": "ember server",
     "lint": "eslint app mirage tests",
     "lint:fix": "npm run lint -- --fix",
@@ -57,7 +52,6 @@
     "ember-cli-babel": "^7.7.3",
     "ember-cli-chai": "^0.4.3",
     "ember-cli-circleci": "^0.1.0",
-    "ember-cli-code-coverage": "^0.4.2",
     "ember-cli-dependency-checker": "^3.1.0",
     "ember-cli-eslint": "^5.1.0",
     "ember-cli-google-fonts": "^2.16.2",
