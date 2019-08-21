@@ -1,5 +1,9 @@
 const _ = require('lodash');
 
+const {
+  MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
+} = require('../constants');
+
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
 const Challenge = require('../models/Challenge');
@@ -66,7 +70,7 @@ function _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLa
 }
 
 function _isCompetenceCertifiable(userCompetence) {
-  return userCompetence.estimatedLevel >= 1;
+  return userCompetence.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY;
 }
 
 async function _pickChallengesForUserCompetences({ userCompetences, challengeIdsCorrectlyAnswered }) {
