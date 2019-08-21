@@ -25,7 +25,6 @@ module.exports = function(defaults) {
 
   app.import('node_modules/bootstrap/dist/js/bootstrap.js');
   app.import('node_modules/bootstrap/dist/css/bootstrap.css');
-  app.import('node_modules/js-yaml/dist/js-yaml.js', { using: [{ transformation: 'amd', as: 'js-yaml' }] });
 
   return app.toTree();
 };
