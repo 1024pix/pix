@@ -84,7 +84,6 @@
     "ember-group-by": "^0.0.6",
     "ember-keyboard": "^4.0.0",
     "ember-load-initializers": "^2.0.0",
-    "ember-lodash": "^4.19.4",
     "ember-math-helpers": "^2.11.1",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-mocha": "^0.16.0",
@@ -105,6 +104,7 @@
     "faker": "^4.1.0",
     "js-yaml": "^3.13.1",
     "loader.js": "^4.7.0",
+    "lodash": "^4.17.15",
     "sass": "^1.20.1",
     "showdown": "^1.9.0"
   }
