@@ -34,8 +34,7 @@ const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
 const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
-const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' +
-  ' 8 caractères.';
+const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.';
 
 const userEmpty = EmberObject.create({});
 const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
@@ -397,7 +396,7 @@ describe('Integration | Component | signup form', function() {
         await render(hbs`{{signup-form user=user}}`);
 
         // when
-        await fillIn('#password', 'mypassword1');
+        await fillIn('#password', 'Mypassword1');
         await triggerEvent('#password', 'blur');
 
         // then
