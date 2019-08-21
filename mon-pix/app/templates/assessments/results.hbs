@@ -1,17 +1,8 @@
 <div class="assessment-results">
 
-  {{#if model.course.isAdaptive}}
-    <div class="assessment-results__logo-banner">
-      {{pix-logo}}
-    </div>
-    <div class="assessment-results__scoring">
-      {{scoring-panel assessment=model}}
-    </div>
-  {{else}}
-    <div class="assessment-results__course-banner">
-      {{course-banner course=model.course}}
-    </div>
-  {{/if}}
+  <div class="assessment-results__course-banner">
+    {{course-banner course=model.course}}
+  </div>
 
   <div class="assessment-results__content">
     <p class="assessment-results__title">

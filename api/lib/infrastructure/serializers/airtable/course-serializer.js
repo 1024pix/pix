@@ -19,7 +19,6 @@ class CourseSerializer {
       id: airtableRecord.getId(),
       name: airtableRecord.get('Nom'),
       description: airtableRecord.get('Description'),
-      isAdaptive: airtableRecord.get('Adaptatif ?') ,
       type: airtableRecord.get('Adaptatif ?') ? 'PLACEMENT' : 'DEMO',
       competences: airtableRecord.get('Competence'),
       imageUrl,

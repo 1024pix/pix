@@ -8,12 +8,12 @@ when('je vais sur Pix via un organisme externe', () => {
   cy.loginToken('daenerys.targaryen@pix.fr', 'pix123');
 });
 
-then(`je suis redirigé vers le compte de {string}`, (fullName) => {
-  cy.url().should('include', '/compte');
+then(`je suis redirigé vers le profil de {string}`, (fullName) => {
+  cy.url().should('include', '/profil');
   cy.get('.logged-user-name').should((userName) => {
     expect(userName.text()).to.contains(fullName);
   });
-  cy.get('.profile-banner__title').should((title) => {
-    expect(title.text()).to.contains('Bienvenue');
+  cy.get('.rounded-panel-title').should((title) => {
+    expect(title.text()).to.contains('Vous avez 16 compétences à tester.');
   });
 });

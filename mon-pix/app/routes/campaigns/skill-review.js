@@ -13,17 +13,4 @@ export default Route.extend(AuthenticatedRouteMixin, {
       assessment: store.findRecord('assessment', assessmentId)
     });
   },
-
-  afterModel(model) {
-    if (model.campaignParticipation.isShared) {
-      this.controllerFor('campaigns.skill-review').send('hideShareButton');
-    }
-  },
-
-  setupController(controller, model) {
-    this._super(...arguments);
-    if (!model.campaignParticipation.isShared) {
-      controller.set('showButtonToShareResult', true);
-    }
-  },
 });

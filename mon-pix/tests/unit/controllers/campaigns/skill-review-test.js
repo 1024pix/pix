@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
@@ -21,7 +20,6 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
         save: sinon.stub().resolves({})
       }
     });
-    controller.set('showButtonToShareResult', true);
   });
 
   describe('#shareCampaignParticipation', function() {
@@ -32,24 +30,5 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
       // then
       sinon.assert.calledWith(controller.get('model.campaignParticipation.set'), 'isShared', true);
     });
-
-    it('should set showButtonToShareResult to false', async function() {
-      // when
-      await controller.actions.shareCampaignParticipation.call(controller);
-
-      // then
-      expect(controller.get('showButtonToShareResult')).to.equal(false);
-    });
   });
-
-  describe('#hideShareButton', function() {
-    it('should set showButtonToShareResult to false', async function() {
-      // when
-      await controller.actions.shareCampaignParticipation.call(controller);
-
-      // then
-      expect(controller.get('showButtonToShareResult')).to.equal(false);
-    });
-  });
-
 });

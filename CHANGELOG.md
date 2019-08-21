@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v2.60.0 (21/08/2019)
+
+- [#651](https://github.com/1024pix/pix/pull/651) [FEATURE] Empêcher de certifier un profil V1 (PC-67).
+- [#630](https://github.com/1024pix/pix/pull/630) [FEATURE] Le membre d'un centre de certification veut pouvoir télécharger un PV de session contenant la liste des candidats inscrits à celle-ci (PC-61-1)
+- [#650](https://github.com/1024pix/pix/pull/650) [FEATURE] Mettre à jour le texte sur la page d'inscription (PF-797).
+- [#646](https://github.com/1024pix/pix/pull/646) [FEATURE] Obliger le code campagne à s'afficher sur une seule ligne (PO-222).
+- [#657](https://github.com/1024pix/pix/pull/657) [BUGFIX] Corrige le format de date du PV de session (PC-70)
+- [#655](https://github.com/1024pix/pix/pull/655) [BUGFIX] La page de résultats d'un parcours par compétence n'affiche pas le nombre de Pix.
+- [#647](https://github.com/1024pix/pix/pull/647) [BUGFIX] Les liens vers les RAs ne s'affichent plus dans Github & Jira
+- [#645](https://github.com/1024pix/pix/pull/645) [TECH] Suppression de V1 dans le back.
+- [#648](https://github.com/1024pix/pix/pull/648) [TECH] Suppression de code lié à "isAdaptive".
+- [#643](https://github.com/1024pix/pix/pull/643) [TECH] Suppression de V1 dans le front.
+- [#640](https://github.com/1024pix/pix/pull/640) [TECH] Réécriture de certaines routes des campagnes.
+
 ## v2.59.0 (13/08/2019)
 
 - [#628](https://github.com/1024pix/pix/pull/628) [FEATURE] Ajout du menu de navigation (PF-754).

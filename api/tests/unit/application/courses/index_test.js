@@ -9,31 +9,11 @@ describe('Integration | Router | course-router', () => {
 
   beforeEach(() => {
     sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-    sinon.stub(courseController, 'list').returns('ok');
     sinon.stub(courseController, 'get').returns('ok');
     sinon.stub(courseController, 'save').returns('ok');
 
     server = this.server = Hapi.server();
     return server.register(require('../../../../lib/application/courses'));
-  });
-
-  describe('GET /api/courses', () => {
-
-    it('should exist', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/courses'
-      };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
-      });
-    });
   });
 
   describe('GET /api/courses/{id}', () => {

@@ -35,7 +35,7 @@ describe('Acceptance | Challenge page banner', function() {
       await startCampaign();
 
       // then
-      find('.campaign-banner');
+      find('.assessment-banner');
     });
 
     it('should display the campaign name in the banner', async function() {
@@ -67,7 +67,7 @@ describe('Acceptance | Challenge page banner', function() {
       await startCampaign();
 
       // then
-      expect(find('.campaign-banner__title h1').textContent).to.equal(campaignTitle);
+      expect(find('.assessment-banner__title h1').textContent).to.equal(campaignTitle);
     });
   });
 });

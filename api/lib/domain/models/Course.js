@@ -8,7 +8,6 @@ class Course {
     // attributes
     description,
     imageUrl,
-    isAdaptive,
     name,
     type,
     // includes
@@ -24,7 +23,6 @@ class Course {
     this.name = name;
     this.description = description;
     this.imageUrl = imageUrl;
-    this.isAdaptive = isAdaptive;
     this.type = type;
     // includes
     this.assessment = assessment;

@@ -26,36 +26,6 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findCompletedAssessmentsByUserId(userId) {
-    return BookshelfAssessment
-      .query((qb) => {
-        qb.where({ userId });
-        qb.where('state', '=', 'completed');
-        qb.andWhere(function() {
-          this.where({ type: 'PLACEMENT' });
-        });
-      })
-      .fetchAll({ withRelated: ['assessmentResults'] })
-      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
-      .then(fp.map(_toDomain));
-  },
-
-  findLastAssessmentsForEachCoursesByUser(userId) {
-    return BookshelfAssessment
-      .collection()
-      .query((qb) => {
-        qb.where({ userId })
-          .where(function() {
-            this.where({ type: 'PLACEMENT' });
-          })
-          .orderBy('createdAt', 'desc');
-      })
-      .fetch({ withRelated: ['assessmentResults'] })
-      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
-      .then(_selectLastAssessmentForEachCourse)
-      .then(fp.map(_toDomain));
-  },
-
   findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
     return BookshelfAssessment
       .collection()

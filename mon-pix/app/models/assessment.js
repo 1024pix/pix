@@ -1,4 +1,4 @@
-import { equal } from '@ember/object/computed';
+import { equal, or } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import DS from 'ember-data';
 import ENV from 'mon-pix/config/environment';
@@ -28,19 +28,14 @@ export default Model.extend({
   isCompetenceEvaluation: equal('type', 'COMPETENCE_EVALUATION'),
   isDemo: equal('type', 'DEMO'),
   isPreview: equal('type', 'PREVIEW'),
-  isPlacement: equal('type', 'PLACEMENT'),
   isSmartPlacement: equal('type', 'SMART_PLACEMENT'),
   isStarted: equal('state', 'started'),
   isCompleted: equal('state', 'completed'),
   isAborted: equal('state', 'aborted'),
 
-  showProgressBar: computed('isPreview', 'isPlacement', function() {
-    return (this.isCompetenceEvaluation || this.isSmartPlacement || this.isDemo || this.isCertification);
-  }),
+  showProgressBar: or('isCompetenceEvaluation', 'isSmartPlacement', 'isDemo', 'isCertification'),
 
-  hasCheckpoints: computed('isCompetenceEvaluation', 'isSmartPlacement', function() {
-    return (this.isCompetenceEvaluation || this.isSmartPlacement);
-  }),
+  hasCheckpoints: or('isCompetenceEvaluation', 'isSmartPlacement'),
 
   answersSinceLastCheckpoints: computed('answers.[]', function() {
     const answers = this.answers.toArray();

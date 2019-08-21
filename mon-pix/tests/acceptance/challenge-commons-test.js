@@ -52,7 +52,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
     // when
     await click('.course-banner__home-link');
 
-    expect(currentURL()).to.equal('/compte');
+    expect(currentURL()).to.equal('/profil');
   });
 
   it('should be able to send a feedback about the current challenge', () => {

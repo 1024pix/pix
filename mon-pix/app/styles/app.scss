@@ -20,7 +20,7 @@
 @import 'globals/text';
 /* components */
 @import 'components/background-banner';
-@import 'components/_campaign-banner';
+@import 'components/assessment-banner';
 @import 'components/_certification-code-validation';
 @import 'components/certification-banner';
 @import 'components/certification-result';
@@ -33,17 +33,13 @@
 @import 'components/checkpoint';
 @import 'components/circle-chart';
 @import 'components/comparison-window';
-@import 'components/competence-by-area-item';
 @import 'components/competence-card';
-@import 'components/competence-level-progress-bar';
 @import 'components/corner-ribbon';
 @import 'components/course-banner';
 @import 'components/feedback-panel';
 @import 'components/form-textfield';
 @import 'components/hexagon-score';
 @import 'components/learning-more-tutorial-panel';
-@import 'components/logged-user-profile-banner';
-@import 'components/medal-item';
 @import 'components/modal-mobile';
 @import 'components/navbar-burger-menu';
 @import 'components/navbar-desktop-menu';
@@ -53,8 +49,6 @@
 @import 'components/no-certification-panel';
 @import 'components/password-reset-demand-form';
 @import 'components/pix-logo';
-@import 'components/placement-banner';
-@import 'components/profile-panel';
 @import 'components/progression-gauge';
 @import 'components/qcm-solution-panel';
 @import 'components/qcu-solution-panel';
@@ -65,17 +59,11 @@
 @import 'components/reset-password-form';
 @import 'components/resume-campaign-banner';
 @import 'components/result-item';
-@import 'components/results-warning';
 @import 'components/rounded-panel';
-@import 'components/score-pastille';
-@import 'components/scoring-panel';
-@import 'components/scoring-panel-tantpix';
 @import 'components/scorecard-details';
-@import 'components/share-profile';
 @import 'components/signup-form';
 @import 'components/snapshot-list';
 @import 'components/timeout-jauge';
-@import 'components/trophy-item';
 @import 'components/tutorial-item';
 @import 'components/tutorial-panel';
 @import 'components/user-certifications-detail-area';
@@ -95,7 +83,6 @@
 @import 'pages/certification-course-error';
 @import 'pages/certification-start';
 @import 'pages/competence-results';
-@import 'pages/compte';
 @import 'pages/course-preview';
 @import 'pages/error';
 @import 'pages/fill-in-campaign-code';

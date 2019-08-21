@@ -7,14 +7,6 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.NotFoundError).to.exist;
   });
 
-  it('should export a InvalidTokenError', () => {
-    expect(errors.InvalidTokenError).to.exist;
-  });
-
-  it('should export a InvaliOrganizationIdError', () => {
-    expect(errors.InvaliOrganizationIdError).to.exist;
-  });
-
   describe('#UserNotFoundError', () => {
     it('should export a UserNotFoundError', () => {
       expect(errors.UserNotFoundError).to.exist;

@@ -7,20 +7,18 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
 
   setupTest();
 
-  const campaign = { id: 1243 };
-  const campaignCode = 'CODECAMPAIGN';
+  const model = {
+    id: 1243,
+    code: 'CODECAMPAIGN',
+    idPixLabel: 'Identifiant professionnel',
+  };
   const participantExternalId = 'matricule123';
+
   let controller;
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:campaigns/fill-in-id-pix');
-    controller.set('model', {
-      campaign,
-      campaignCode,
-      participantExternalId,
-      idPixLabel: 'Identifiant professionnel',
-      errorMessage: '',
-    });
+    controller.set('model', model);
   });
 
   describe('#submit', () => {
@@ -33,22 +31,25 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
     });
 
     it('should call start when participant external id is fulfilled', () => {
+      // given
+      controller.set('participantExternalId', participantExternalId);
+
       // when
       controller.actions.submit.call(controller);
 
       // then
-      sinon.assert.calledWith(startStub, campaign, participantExternalId);
+      sinon.assert.calledWith(startStub, model, participantExternalId);
     });
 
     it('should display error when participant external id is empty', () => {
       // given
-      controller.set('model.participantExternalId', '');
+      controller.set('participantExternalId', '');
 
       // when
       controller.actions.submit.call(controller);
 
       // then
-      expect(controller.get('model.errorMessage')).to.equal(`Merci de renseigner votre ${controller.get('model.idPixLabel')}.`);
+      expect(controller.get('errorMessage')).to.equal(`Merci de renseigner votre ${controller.get('model.idPixLabel')}.`);
     });
   });
 
@@ -63,7 +64,7 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
       controller.actions.cancel.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.campaign-landing-page', controller.get('model.campaignCode'));
+      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.campaign-landing-page', controller.get('model.code'));
     });
   });
 });

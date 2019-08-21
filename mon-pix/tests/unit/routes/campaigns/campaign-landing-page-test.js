@@ -47,25 +47,5 @@ describe('Unit | Route | campaigns/campaign-landing-page', function() {
         expect(campaign).to.deep.equal(currentCampaign);
       });
     });
-
-  });
-
-  describe('#startCampaignParticipation', function() {
-
-    it('should redirect to "fill in id pix" page', function() {
-      // given
-      const campaignParticipation = { save: sinon.stub() };
-      campaignParticipation.save.resolves();
-      const route = this.owner.lookup('route:campaigns/campaign-landing-page');
-      route.set('store', storeStub);
-      route.transitionTo = sinon.stub();
-
-      // when
-      route.send('startCampaignParticipation', campaignParticipation);
-
-      // then
-      return sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', null, { queryParams : { hasSeenLanding: true } });
-
-    });
   });
 });

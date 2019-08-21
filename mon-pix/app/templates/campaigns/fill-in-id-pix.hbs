@@ -7,18 +7,18 @@
     <div class="fill-in-id-pix__form">
       <div class="fill-in-id-pix__form-field">
         <label for="id-pix-label">{{model.idPixLabel}} :</label>
-        {{input required id="id-pix-label" value=model.participantExternalId}}
+        {{input required id="id-pix-label" value=participantExternalId}}
       </div>
-      {{#if model.loading}}
+      {{#if loading}}
         <button type="submit" class="button button--big"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
         <button type="submit" class="button button--big" {{action "submit"}}>Continuer</button>
       {{/if}}
-      {{#if model.errorMessage}}
-        <div class="fill-in-id-pix__form__error-message">{{model.errorMessage}}</div>
+      {{#if errorMessage}}
+        <div class="fill-in-id-pix__form__error-message">{{errorMessage}}</div>
       {{/if}}
     </div>
-    {{#if model.loading}}
+    {{#if loading}}
       <button class="button button--regular button--no-color fill-in-id-pix__cancel-button">Annuler</button>
     {{else}}
       <button class="button button--regular button--no-color fill-in-id-pix__cancel-button" {{action "cancel"}}>

@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "2.59.0",
+  "version": "2.60.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "license": "AGPL-3.0",
@@ -46,8 +46,8 @@
     "ci:front": "run-p --print-label ci:mon-pix ci:orga ci:certif ci:admin",
     "ci:mon-pix": "cd mon-pix && npm ci",
     "ci:orga": "cd orga && npm ci",
-    "signal-github": "scripts/signal_deploy_to_pr.sh",
-    "signal-jira": "node scripts/jira/comment-with-review-app-url.js",
+    "signal-github": "./scripts/signal_deploy_to_pr.sh",
+    "signal-jira": "node ./scripts/jira/comment-with-review-app-url.js",
     "clean": "run-p --print-label clean:api clean:mon-pix clean:orga clean:certif clean:admin clean:coverage && npm run clean:root",
     "clean:admin": "cd admin && npm run clean",
     "clean:api": "cd api && npm run clean",
