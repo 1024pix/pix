@@ -14,6 +14,39 @@ const competenceRepository = require('../../../lib/infrastructure/repositories/c
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 
+function isUserExistingByEmail(email) {
+  return userRepository
+    .findByEmail(email)
+    .then(() => true)
+    .catch(() => {
+      throw new UserNotFoundError();
+    });
+}
+
+async function getProfileToCertifyV1({ userId, limitDate }) {
+  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV1({
+    userId,
+    limitDate
+  });
+
+  return _pickChallengesForUserCompetences({
+    userCompetences,
+    challengeIdsCorrectlyAnswered,
+  });
+}
+
+async function getProfileToCertifyV2({ userId, limitDate }) {
+  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV2({
+    userId,
+    limitDate
+  });
+
+  return _pickChallengesForUserCompetences({
+    userCompetences,
+    challengeIdsCorrectlyAnswered,
+  });
+}
+
 async function _findCorrectAnswersByAssessments(assessments) {
   const answersByAssessmentsPromises = assessments.map((assessment) =>
     answerRepository.findCorrectAnswersByAssessmentId(assessment.id));
@@ -136,39 +169,9 @@ async function _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ userId, l
 }
 
 module.exports = {
-  isUserExistingByEmail(email) {
-    return userRepository
-      .findByEmail(email)
-      .then(() => true)
-      .catch(() => {
-        throw new UserNotFoundError();
-      });
-  },
-
-  async getProfileToCertifyV1({ userId, limitDate }) {
-    const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV1({
-      userId,
-      limitDate
-    });
-
-    return _pickChallengesForUserCompetences({
-      userCompetences,
-      challengeIdsCorrectlyAnswered,
-    });
-  },
-
-  async getProfileToCertifyV2({ userId, limitDate }) {
-    const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV2({
-      userId,
-      limitDate
-    });
-
-    return _pickChallengesForUserCompetences({
-      userCompetences,
-      challengeIdsCorrectlyAnswered,
-    });
-  },
-
+  isUserExistingByEmail,
+  getProfileToCertifyV1,
+  getProfileToCertifyV2,
   _pickChallengesForUserCompetences,
   _getUserCompetencesAndAnswersV1,
   _getUserCompetencesAndAnswersV2,
