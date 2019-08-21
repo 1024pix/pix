@@ -29,6 +29,7 @@
 
 .feedback-panel__form-description {
   margin-bottom: 20px;
+  font-size: 20px;
 }
 
 .feedback-panel__form-description p {
@@ -42,9 +43,6 @@
 .feedback-panel__form {
   width: 100%;
   margin-bottom: 20px;
-  @include device-is('desktop') {
-    width: 50%;
-  }
 }
 
 .feedback-panel__group {
@@ -61,8 +59,29 @@
   font-size: 14px;
 }
 
+.feedback-panel__category-selection {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback-panel__dropdown {
+  margin: 5px 0;
+  width: 40%;
+  @include device-is('tablet') {
+    width: 100%;
+  }
+}
+
 .feedback-panel__field--content {
   resize: none;
+}
+
+.feedback-panel__tutorial-content {
+  font-size: 18px;
+  margin: 20px 0;
+  font-weight: bold;
+  text-align: justify;
+  word-break: break-word;
 }
 
 .feedback-panel__button {
@@ -72,11 +91,24 @@
   background-color: $alto-grey;
   border: 1px solid $raven-grey;
   margin-right: 10px;
+
+  &[disabled] {
+    opacity: 0.3;
+  }
 }
 
 .feedback-panel__button--send {
   background-color: $raven-grey;
   color: white;
+}
+
+.feedback-panel__form-legal-notice {
+  padding-top: 15px;
+  border-top: 1px solid $alto-grey;
+
+  & p {
+    font-size: 12px;
+  }
 }
 
 /* "Mercix" view
