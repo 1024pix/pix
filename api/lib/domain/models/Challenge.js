@@ -151,6 +151,14 @@ class Challenge {
         return new Validator({ solution });
     }
   }
+
+  static findById(challenges, id) {
+    return _(challenges).find({ id });
+  }
+
+  static findPublishedBySkill(challenges, skill) {
+    return _.filter(challenges, (challenge) => challenge.hasSkill(skill) && challenge.isPublished());
+  }
 }
 
 Challenge.Type = ChallengeType;

@@ -3,6 +3,7 @@ const {
   MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
 } = require('../constants');
 
+const Skill = require('./Skill');
 const _ = require('lodash');
 
 class UserCompetence {
@@ -47,6 +48,13 @@ class UserCompetence {
       .size();
 
     return certifiableCompetences >= MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY;
+  }
+
+  static orderSkillsOfCompetenceByDifficulty(userCompetences) {
+    return _.map(userCompetences, (userCompetence) => {
+      userCompetence.skills = Skill.sortByDecreasingDifficulty(userCompetence.skills);
+      return userCompetence;
+    });
   }
 }
 
