@@ -2,13 +2,12 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
-const userService = require('../../../../lib/domain/services/user-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
 
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
-const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 const passwordResetSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
@@ -32,7 +31,7 @@ describe('Unit | Controller | PasswordController', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(userService, 'isUserExistingByEmail');
+      sinon.stub(userRepository, 'isUserExistingByEmail');
       sinon.stub(mailService, 'sendResetPasswordDemandEmail');
       sinon.stub(resetPasswordService, 'generateTemporaryKey');
       sinon.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
@@ -54,7 +53,7 @@ describe('Unit | Controller | PasswordController', () => {
         }
       };
 
-      userService.isUserExistingByEmail.resolves();
+      userRepository.isUserExistingByEmail.resolves();
       resetPasswordService.generateTemporaryKey.returns(generatedToken);
       mailService.sendResetPasswordDemandEmail.resolves(resolvedPasswordReset);
       resetPasswordRepository.create.resolves(resolvedPasswordReset);
@@ -64,7 +63,7 @@ describe('Unit | Controller | PasswordController', () => {
       await passwordController.createResetDemand(request, hFake);
 
       // then
-      sinon.assert.calledWith(userService.isUserExistingByEmail, userEmail);
+      sinon.assert.calledWith(userRepository.isUserExistingByEmail, userEmail);
       sinon.assert.calledOnce(resetPasswordService.generateTemporaryKey);
       sinon.assert.calledWith(resetPasswordRepository.create, demand);
       sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.data.attributes.email, hostBaseUrl, generatedToken);
@@ -91,7 +90,7 @@ describe('Unit | Controller | PasswordController', () => {
       sinon.stub(resetPasswordService, 'verifyDemand');
       sinon.stub(tokenService, 'verifyValidity').resolves({});
       sinon.stub(errorSerializer, 'serialize');
-      sinon.stub(UserRepository, 'findByEmail').resolves(fetchedUser);
+      sinon.stub(userRepository, 'findByEmail').resolves(fetchedUser);
       sinon.stub(userSerializer, 'serialize');
     });
 
@@ -130,15 +129,15 @@ describe('Unit | Controller | PasswordController', () => {
         await passwordController.checkResetDemand(request, hFake);
 
         // then
-        sinon.assert.calledOnce(UserRepository.findByEmail);
-        sinon.assert.calledWith(UserRepository.findByEmail, fetchedPasswordResetDemand.email);
+        sinon.assert.calledOnce(userRepository.findByEmail);
+        sinon.assert.calledWith(userRepository.findByEmail, fetchedPasswordResetDemand.email);
       });
 
       it('should reply with a serialized user with some fields', async () => {
         // given
         const serializedUser = {};
         resetPasswordService.verifyDemand.resolves(fetchedPasswordResetDemand);
-        UserRepository.findByEmail.resolves(fetchedUser);
+        userRepository.findByEmail.resolves(fetchedUser);
         userSerializer.serialize.returns(serializedUser);
 
         // when

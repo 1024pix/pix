@@ -1,27 +1,16 @@
 const _ = require('lodash');
 
-const { UserNotFoundError } = require('../errors');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
 const Challenge = require('../models/Challenge');
 const Scorecard = require('../models/Scorecard');
 const Skill = require('../models/Skill');
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
-
-function isUserExistingByEmail(email) {
-  return userRepository
-    .findByEmail(email)
-    .then(() => true)
-    .catch(() => {
-      throw new UserNotFoundError();
-    });
-}
 
 async function getProfileToCertifyV1({ userId, limitDate }) {
   const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV1({
@@ -169,7 +158,6 @@ async function _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ userId, l
 }
 
 module.exports = {
-  isUserExistingByEmail,
   getProfileToCertifyV1,
   getProfileToCertifyV2,
   _pickChallengesForUserCompetences,
