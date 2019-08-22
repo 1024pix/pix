@@ -53,7 +53,20 @@
   @include device-is('desktop') {
     height: 48px;
   }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-ms-clear, &::-ms-reveal {
+    display: none;
+  }
 }
+
 
 .form-textfield__message {
   position: absolute;
@@ -70,15 +83,31 @@
   color: $caribbean-green;
 }
 
-.form-textfield__message--error.form-textfield__message-password, .form-textfield__message--error.form-textfield__message-email {
+.form-textfield__message--error.form-textfield__message-password, .form-textfield__message--error.form-textfield__message-email, .form-textfield__message--error.form-textfield__message-text {
   position: relative;
   text-align: right;
   margin-top: -5px;
   margin-bottom: 5px;
 }
 
-.form-textfield__icon {
-  width: 20px;
+.form-textfield__icons {
   height: 20px;
   margin: 6px 8px;
+  border: none;
+
+  &:focus {
+    border-radius: 10px;
+  }
+}
+
+.form-textfield__icon {
+  color: $dove-gray;
+  transition: .5s;
+  font-size: 1.8rem;
+  margin-top: 1px;
+
+  &:hover {
+    color: $nero;
+    cursor: pointer;
+  }
 }

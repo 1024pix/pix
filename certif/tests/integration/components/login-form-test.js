@@ -47,7 +47,7 @@ module('Integration | Component | login-form', function(hooks) {
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await click('button');
+    await click('.button');
 
     // then
     assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
@@ -64,11 +64,21 @@ module('Integration | Component | login-form', function(hooks) {
     await fillIn('#login-password', 'Mauvais mot de passe');
 
     //  when
-    await click('button');
+    await click('.button');
 
     // then
     assert.dom('#login-form-error-message').exists();
     assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+  });
+
+  test('it should display password when user click', async function(assert) {
+    // given
+    await render(hbs`{{login-form}});`);
+
+    // when
+    assert.dom('#login-password').hasAttribute('type','password');
+    await click('.login-form__icon');
+    assert.dom('#login-password').hasAttribute('type', 'text');
   });
 
 });
