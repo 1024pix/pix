@@ -1,5 +1,5 @@
 const XRegExp = require('xregexp');
-const { passwordValidationPattern } = require('../../settings');
+const { passwordValidationPattern } = require('../../settings').account;
 
 module.exports = (password) => {
   if (!password) {
