@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const {
-  expect, generateValidRequestAuhorizationHeader, cleanupUsersAndPixRolesTables,
+  expect, generateValidRequestAuthorizationHeader, cleanupUsersAndPixRolesTables,
   insertUserWithRolePixMaster, databaseBuilder
 } = require('../../test-helper');
 const createServer = require('../../../server');
@@ -35,7 +35,7 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is Pix Master', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader() };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
       it('should return 200 HTTP status', () => {
@@ -61,7 +61,7 @@ describe('Acceptance | API | Certification Center', () => {
     });
     context('when user is not PixMaster', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader(1111) };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
       it('should return 403 HTTP status code ', () => {
@@ -106,7 +106,7 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is Pix Master', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader() };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
       it('should return 200 HTTP status', () => {
@@ -134,7 +134,7 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is not PixMaster', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader(1111) };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
       it('should return 403 HTTP status code ', () => {
@@ -181,7 +181,7 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is Pix Master', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader() };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
       it('should return 200 HTTP status', () => {
@@ -224,7 +224,7 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is not PixMaster', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader(1111) };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
       it('should return 403 HTTP status code ', () => {
@@ -279,7 +279,7 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is linked to the certification center', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader(user.id) };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader(user.id) };
       });
 
       it('should return 200 HTTP status', () => {
@@ -308,7 +308,7 @@ describe('Acceptance | API | Certification Center', () => {
 
     context('when user is not linked to certification center', () => {
       beforeEach(async () => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader(otherUser.id) };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader(otherUser.id) };
       });
 
       it('should return 403 HTTP status code ', () => {

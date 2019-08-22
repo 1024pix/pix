@@ -1,6 +1,6 @@
 const faker = require('faker');
 const bcrypt = require('bcrypt');
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | snapshot-controller', () => {
@@ -136,7 +136,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
       const options = {
         method: 'GET',
         url: `/api/snapshots?filter[organizationId]=${organizationId}&page[number]=1&page[size]=200&sort=-createdAt&include=user`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when

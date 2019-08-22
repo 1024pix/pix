@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 const Feedback = require('../../../lib/infrastructure/data/feedback');
 
@@ -46,7 +46,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
                 }
               }
             },
-            headers: { authorization: generateValidRequestAuhorizationHeader() },
+            headers: { authorization: generateValidRequestAuthorizationHeader() },
           };
         });
     });
@@ -157,7 +157,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
         const promise = server.inject(options);

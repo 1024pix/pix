@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | users-controller-find-users', () => {
@@ -21,7 +21,7 @@ describe('Acceptance | users-controller-find-users', () => {
       method: 'GET',
       url: '/api/users',
       payload: { },
-      headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
+      headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
     };
 
     return databaseBuilder.commit();
@@ -51,7 +51,7 @@ describe('Acceptance | users-controller-find-users', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
         const promise = server.inject(options);

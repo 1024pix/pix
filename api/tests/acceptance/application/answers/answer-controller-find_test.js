@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | answer-controller', () => {
@@ -20,7 +20,7 @@ describe('Acceptance | Controller | answer-controller', () => {
         options = {
           method: 'GET',
           url: `/api/answers?challenge=${challengeId}&assessment=${assessment.id}`,
-          headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
       });
 
@@ -74,7 +74,7 @@ describe('Acceptance | Controller | answer-controller', () => {
         options = {
           method: 'GET',
           url: `/api/answers?challenge=${challengeId}&assessment=${assessment.id}`,
-          headers: { authorization: generateValidRequestAuhorizationHeader(userId + 3) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId + 3) },
         };
       });
 

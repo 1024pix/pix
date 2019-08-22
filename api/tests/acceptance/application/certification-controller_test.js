@@ -1,5 +1,5 @@
 const {
-  expect, generateValidRequestAuhorizationHeader, cleanupUsersAndPixRolesTables,
+  expect, generateValidRequestAuthorizationHeader, cleanupUsersAndPixRolesTables,
   insertUserWithRolePixMaster, insertUserWithStandardRole, knex, nock,
 } = require('../../test-helper');
 const createServer = require('../../../server');
@@ -80,7 +80,7 @@ describe('Acceptance | API | Certifications', () => {
       options = {
         method: 'GET',
         url: '/api/certifications',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
       // when
       const promise = server.inject(options);
@@ -415,7 +415,7 @@ describe('Acceptance | API | Certifications', () => {
       options = {
         method: 'GET',
         url: `/api/certifications/${JOHN_CERTIFICATION_ID}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(JOHN_USERID) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(JOHN_USERID) },
       };
 
       // when
@@ -538,7 +538,7 @@ describe('Acceptance | API | Certifications', () => {
       options = {
         method: 'GET',
         url: `/api/certifications/${JOHN_CERTIFICATION_ID}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(NOT_JOHN_USERID) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(NOT_JOHN_USERID) },
       };
 
       // when
@@ -615,7 +615,7 @@ describe('Acceptance | API | Certifications', () => {
       options = {
         method: 'PATCH',
         url: `/api/certifications/${JOHN_CERTIFICATION_ID}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
         payload: {
           data: {
             type: 'certifications',
@@ -666,7 +666,7 @@ describe('Acceptance | API | Certifications', () => {
       options = {
         method: 'PATCH',
         url: `/api/certifications/${JOHN_CERTIFICATION_ID}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(4444) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(4444) },
         payload: {
           data: {
             attributes: {

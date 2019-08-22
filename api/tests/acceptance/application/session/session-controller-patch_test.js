@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | session-controller-path', () => {
@@ -62,7 +62,7 @@ describe('Acceptance | Controller | session-controller-path', () => {
       const options = {
         method: 'PATCH',
         url: `/api/sessions/${session.id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload
       };
 
@@ -85,7 +85,7 @@ describe('Acceptance | Controller | session-controller-path', () => {
       const promise = server.inject({
         method: 'PATCH',
         url: '/api/sessions/2',
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload
       });
 
@@ -99,7 +99,7 @@ describe('Acceptance | Controller | session-controller-path', () => {
       const options = {
         method: 'PATCH',
         url: `/api/sessions/${session.id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(unauthorizedUser.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(unauthorizedUser.id) },
         payload
       };
 
