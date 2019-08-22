@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | session-controller-post', () => {
@@ -34,7 +34,7 @@ describe('Acceptance | Controller | session-controller-post', () => {
             }
           }
         },
-        headers: { authorization: generateValidRequestAuhorizationHeader(pixMaster.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
       };
       return databaseBuilder.commit();
     });

@@ -1,4 +1,4 @@
-const { sinon, expect, hFake, domainBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { sinon, expect, hFake, domainBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -193,7 +193,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       it('should call the usecase getNextChallengeForCompetenceEvaluation', async () => {
         const request = {
           params: { id: 1 },
-          headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
         };
         // when
         await assessmentController.getNextChallenge(request, hFake);
