@@ -16,14 +16,11 @@ describe('Integration | Domain | services | scoring | scoring-certification', ()
 
     const assessment = domainBuilder.buildAssessment({ id: assessmentId, type: Assessment.types.PLACEMENT, courseId });
 
-    beforeEach(() => {
-      sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark });
-    });
-
     context('when an error occurred', () => {
 
       it('should rejects an error when certification service failed', () => {
         // given
+        sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark });
         certificationService.calculateCertificationResultByAssessmentId.rejects(new Error('Error from certificationService'));
 
         // when
@@ -34,35 +31,58 @@ describe('Integration | Domain | services | scoring | scoring-certification', ()
       });
     });
 
-    it('should resolve an AssessmentScore domain object', async function() {
-      // given
-      const expectedAssessmentScore = {
-        level: null,
-        nbPix: 12,
-        validatedSkills: [],
-        failedSkills: [],
-        competenceMarks: [{
-          id: undefined,
-          assessmentResultId: undefined,
-          'area_code': '1',
-          'competence_code': '1.1',
-          level: 0,
-          score: 4
-        }, {
-          id: undefined,
-          assessmentResultId: undefined,
-          'area_code': '2',
-          'competence_code': '1.2',
-          level: 1,
-          score: 8
-        }],
-      };
+    context('when no error occured', () => {
 
-      // when
-      const assessmentScore = await scoringCertification.calculate(assessment);
+      it('should resolve an AssessmentScore domain object', async function() {
+        // given
+        sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark });
+        const expectedAssessmentScore = {
+          level: null,
+          nbPix: 12,
+          validatedSkills: [],
+          failedSkills: [],
+          competenceMarks: [{
+            id: undefined,
+            assessmentResultId: undefined,
+            'area_code': '1',
+            'competence_code': '1.1',
+            level: 0,
+            score: 4
+          }, {
+            id: undefined,
+            assessmentResultId: undefined,
+            'area_code': '2',
+            'competence_code': '1.2',
+            level: 1,
+            score: 8
+          }],
+        };
 
-      // then
-      expect(assessmentScore).to.deep.equal(expectedAssessmentScore);
+        // when
+        const assessmentScore = await scoringCertification.calculate(assessment);
+
+        // then
+        expect(assessmentScore).to.deep.equal(expectedAssessmentScore);
+      });
+
+      it('should ceil the level and the score to a maximum threshold', async () => {
+        // given
+        const MAX_REACHABLE_LEVEL = 5;
+        const MAX_REACHABLE_PIX_BY_COMPETENCE = 40;
+        const competenceWithMarkAboveThreshold = { index: '1.1', obtainedLevel: 6, obtainedScore: 50, area_code: '1', };
+        const assessment = domainBuilder.buildAssessment({ id: assessmentId, type: Assessment.types.PLACEMENT, courseId });
+
+        sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark: [competenceWithMarkAboveThreshold] });
+
+        // when
+        const assessmentScore = await scoringCertification.calculate(assessment);
+
+        // then
+        expect(assessmentScore.nbPix).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
+        expect(assessmentScore.competenceMarks[0].level).to.equal(MAX_REACHABLE_LEVEL);
+        expect(assessmentScore.competenceMarks[0].score).to.equal(MAX_REACHABLE_PIX_BY_COMPETENCE);
+      });
     });
+
   });
 });
