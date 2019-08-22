@@ -6,10 +6,10 @@
   width: 500px;
   border-radius: 4px;
   margin-bottom: 40px;
+  color: $white;
 
   &--error {
     background-color: $vermilion;
-    color: $white;
   }
 
   &--success {

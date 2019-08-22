@@ -6,6 +6,7 @@ export default Route.extend({
   currentUser: service(),
 
   model() {
+    this.set('message', null);
     return this.currentUser.organization;
   },
 

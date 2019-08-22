@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { currentURL, visit } from '@ember/test-helpers';
+import { currentURL, triggerEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import {
@@ -104,9 +104,32 @@ module('Acceptance | Student List', function(hooks) {
 
           // when
           await visit('/eleves');
-          
+
           // then
           assert.dom('.button').hasText('Importer');
+        });
+
+        test('it should display success message and reload students', async function(assert) {
+          // given
+          user = createUserManagingStudents('OWNER');
+          await authenticateSession({
+            user_id: user.id,
+          });
+          await visit('/eleves');
+
+          // when
+          await triggerEvent(
+            'input[type=file]',
+            'change',
+            { files: [new Blob(['validFile'])] }
+          );
+
+          // then
+          assert.dom('.alert-zone--success').exists();
+          assert.dom('.alert-zone--success').hasText('Les élèves ont été importés avec succès.');
+          assert.dom('.table tbody tr').exists({ count: 1 });
+          assert.dom('.table tbody tr td:first-child').hasText('Cover');
+          assert.dom('.table tbody tr td:nth-child(2)').hasText('Harry');
         });
       });
 

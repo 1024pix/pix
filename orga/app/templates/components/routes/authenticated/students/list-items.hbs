@@ -13,6 +13,20 @@
     </div>
   {{/if}}
 </div>
+
+{{#if message}}
+  <div class={{concat "alert-zone alert-zone--" message}} aria-live="polite">
+    {{fa-icon (if isErrorMessage 'exclamation-triangle' 'check-circle')}}
+    <p class="alert-zone__message">
+      {{#if isErrorMessage}}
+        Quelque chose s'est mal passé. Veuillez réessayer.
+      {{else}}
+        Les élèves ont été importés avec succès.
+      {{/if}}
+    </p>
+  </div>
+{{/if}}
+
 <div class="panel">
   <div class="table content-text content-text--small">
     <table>

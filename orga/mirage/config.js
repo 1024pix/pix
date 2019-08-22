@@ -65,6 +65,11 @@ export default function() {
     return schema.students.where({ organizationId });
   });
 
+  this.post('/organizations/:id/students', (schema, request) => {
+    const organizationId = request.params.id;
+    return schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
+  });
+
   this.get('/campaigns/:id');
 
   this.patch('/campaigns/:id');
