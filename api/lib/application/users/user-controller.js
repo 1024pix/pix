@@ -91,10 +91,9 @@ module.exports = {
   },
 
   getMemberships(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
+    return usecases.getUserWithMemberships({ userId: authenticatedUserId })
       .then((user) => membershipSerializer.serialize(user.memberships));
   },
 

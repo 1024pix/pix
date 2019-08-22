@@ -61,13 +61,17 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/memberships',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.getMemberships,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des accès utilisateurs à partir de l’id\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api']
+        tags: ['api', 'user', 'membership']
       }
     },
     {
