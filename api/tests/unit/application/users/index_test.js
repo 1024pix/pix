@@ -99,6 +99,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}/memberships', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getMemberships').returns('ok');
+      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
 
