@@ -9,4 +9,8 @@ export default Route.extend({
     return this.currentUser.organization.students;
   },
 
+  deactivate() {
+    this.controller.set('message', null);
+  },
+
 });
