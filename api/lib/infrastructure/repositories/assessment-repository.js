@@ -142,7 +142,7 @@ module.exports = {
   startImprovingAssessment({ id }) {
     return BookshelfAssessment
       .where({ id })
-      .save({ state: Assessment.states.IMPROVING, improvingAt: moment().format() }, { require: true, patch: true })
+      .save({ state: Assessment.states.IMPROVING, completedAt: moment().format() }, { require: true, patch: true })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   }
 };
@@ -195,7 +195,7 @@ function _adaptModelToDb(assessment) {
     'course',
     'createdAt',
     'updatedAt',
-    'improvingAt',
+    'completedAt',
     'successRate',
     'answers',
     'assessmentResults',

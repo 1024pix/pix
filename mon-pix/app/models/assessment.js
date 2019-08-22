@@ -16,7 +16,7 @@ export default Model.extend({
   type: attr('string'),
   certificationNumber: attr('string'),
   participantExternalId: attr('string'),
-  improvingAt: attr('date'),
+  completedAt: attr('date'),
 
   // includes
   answers: hasMany('answer'),
@@ -39,10 +39,10 @@ export default Model.extend({
 
   hasCheckpoints: or('isCompetenceEvaluation', 'isSmartPlacement'),
 
-  answersForProgressBar: computed('answers.[]', 'improvingAt', 'isImproving', function() {
+  answersForProgressBar: computed('answers.[]', 'completedAt', 'isImproving', function() {
     let answers = this.answers.toArray();
     if (this.isImproving) {
-      answers = answers.filter((answer) => answer.createdAt > this.improvingAt);
+      answers = answers.filter((answer) => answer.createdAt > this.completedAt);
     }
     return answers;
   }),

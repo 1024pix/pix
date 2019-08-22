@@ -1,5 +1,5 @@
 const TABLE_NAME = 'assessments';
-const COLUMN_NAME = 'improvingAt';
+const COLUMN_NAME = 'completedAt';
 
 exports.up = function(knex) {
   return knex.schema.table(TABLE_NAME, (table) => {

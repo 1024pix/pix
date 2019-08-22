@@ -37,7 +37,7 @@ class Assessment {
     id,
     // attributes
     createdAt,
-    improvingAt,
+    completedAt,
     state,
     title,
     type,
@@ -55,7 +55,7 @@ class Assessment {
     this.id = id;
     // attributes
     this.createdAt = createdAt;
-    this.improvingAt = improvingAt;
+    this.completedAt = completedAt;
     this.state = state;
     this.title = title;
     this.type = type;

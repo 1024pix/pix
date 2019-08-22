@@ -46,7 +46,7 @@ module.exports = {
         'certificationNumber',
         'course',
         'progression',
-        'improvingAt'
+        'completedAt'
       ],
       answers: {
         ref: 'id',

@@ -13,14 +13,14 @@ module.exports = function buildAssessment({
   competenceId = null,
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
-  improvingAt = null,
+  completedAt = null,
 } = {}) {
   if (type != 'DEMO') {
     userId = _.isNil(userId) ? buildUser().id : userId;
   }
 
   const values = {
-    id, courseId, userId, type, state, createdAt, updatedAt, improvingAt, competenceId,
+    id, courseId, userId, type, state, createdAt, updatedAt, completedAt, competenceId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'assessments',

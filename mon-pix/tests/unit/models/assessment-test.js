@@ -97,7 +97,7 @@ describe('Unit | Model | Assessment', function() {
       // given
       const assessment = store.createRecord('assessment');
       assessment.set('state','improving');
-      assessment.set('improvingAt','2019-08-10');
+      assessment.set('completedAt','2019-08-10');
       const answersBefore = _.times(5, () => {
         const newAnswer = store.createRecord('answer');
         newAnswer.set('createdAt', '2019-08-09');
