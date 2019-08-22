@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { find, findAll, fillIn, triggerEvent, render } from '@ember/test-helpers';
+import { click, find, findAll, fillIn, triggerEvent, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 
@@ -177,6 +177,25 @@ describe('Integration | Component | form textfield', function() {
         // then
         expect(find(itemSelector).getAttribute('class')).to.contain(expectedClass);
       });
+    });
+  });
+
+  describe('#When type is password it\'s possible to show this', function() {
+    this.beforeEach(async function() {
+      this.set('label', 'Mot de passe');
+      this.set('validationStatus', 'default');
+      this.set('validationMessage', '');
+      this.set('textfieldName', 'password');
+
+      // When
+      await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName value=inputValue}}`);
+    });
+
+    it('should change type when user click on eye icon', async function() {
+      //then
+      expect(find('input').getAttribute('type')).to.equal('password');
+      await click('.form-textfield__icon');
+      expect(find('input').getAttribute('type')).to.equal('text');
     });
   });
 });

@@ -17,7 +17,7 @@
     margin-bottom: 10px;
   }
 
-  &__input-field {
+  &__input-container {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -35,4 +35,56 @@
       }
     }
   }
+
+
+  &__input-field {
+    display: flex;
+    height: 42px;
+    border-radius: 3px;
+    align-items: center;
+    background-color: white;
+    border: 2px solid $alto;
+
+    &:hover {
+      border: 2px solid $dodger-blue;
+    }
+
+    input {
+      height: 40px;
+      flex-grow: 1;
+      border: none;
+      border-radius: 3px;
+      outline: none;
+      padding: 1px 10px;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::-ms-clear, &::-ms-reveal {
+        display: none;
+      }
+    }
+  }
+
+  &__icon {
+    height: 20px;
+    margin: 6px 10px;
+    border: none;
+
+    &-eye {
+      color: $dove-gray;
+      transition: .5s;
+      font-size: 1.1rem;
+      margin-top: 2px;
+
+      &:hover {
+        color: $nero;
+        cursor: pointer;
+      }
+    }
+  }
 }
+
+

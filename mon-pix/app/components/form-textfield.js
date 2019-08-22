@@ -31,6 +31,8 @@ export default Component.extend({
   label: '',
   textfieldName: '',
   validationMessage: '',
+  isPassword: computed.equal('textfieldName','password'),
+  isPasswordVisible: false,
 
   onValidate: () => {},
 
@@ -71,4 +73,11 @@ export default Component.extend({
     const inputValidationStatus = this.validationStatus;
     return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
   }),
+
+  actions: {
+    togglePasswordVisibility() {
+      this.toggleProperty('isPasswordVisible');
+      this.set('textfieldType', this.textfieldType === 'password' ? 'text' : 'password');
+    }
+  }
 });
