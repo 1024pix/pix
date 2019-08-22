@@ -7,6 +7,10 @@ function parseJSONEnv(varName) {
   return undefined;
 }
 
+function isFeatureEnabled(environmentVariable) {
+  return environmentVariable === 'true';
+}
+
 module.exports = (function() {
 
   const config = {
@@ -30,13 +34,13 @@ module.exports = (function() {
     },
 
     logging: {
-      enabled: (process.env.LOG_ENABLED === 'true'),
+      enabled: isFeatureEnabled(process.env.LOG_ENABLED),
       colorEnabled: (process.env.NODE_ENV === 'development'),
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
     mailing: {
-      enabled: !!process.env.MAILJET_KEY,
+      enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
       mailjetApiKey: process.env.MAILJET_KEY,
       mailjetApiSecret: process.env.MAILJET_SECRET,
       mailjetAccountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
@@ -44,7 +48,7 @@ module.exports = (function() {
     },
 
     captcha: {
-      enabled: !!process.env.RECAPTCHA_KEY,
+      enabled: isFeatureEnabled(process.env.RECAPTCHA_ENABLED),
       googleRecaptchaSecret: process.env.RECAPTCHA_KEY
     },
 
