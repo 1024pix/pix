@@ -22,9 +22,9 @@ export default Controller.extend({
         });
     },
 
-    async improvmentCampaignParticipationResult() {
+    async improvingAssessment() {
       const assessment = this.get('model.assessment');
-      await assessment.save({ adapterOptions: { improvmentCampaignParticipationResult: true } });
+      await assessment.save({ adapterOptions: { improvingAssessment: true } });
       return this.transitionToRoute('assessments.resume', assessment.get('id'));
     },
   }

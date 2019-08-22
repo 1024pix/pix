@@ -40,18 +40,18 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
     });
   });
 
-  describe('#improvmentCampaignParticipationResult', function() {
+  describe('#improvingAssessment', function() {
     it('should save the assessment to start the improvment', async function() {
       // when
-      await controller.actions.improvmentCampaignParticipationResult.call(controller);
+      await controller.actions.improvingAssessment.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.get('model.assessment.save'), { adapterOptions: { improvmentCampaignParticipationResult: true } });
+      sinon.assert.calledWith(controller.get('model.assessment.save'), { adapterOptions: { improvingAssessment: true } });
     });
 
     it('should redirect to assessments.resume', async function() {
       // when
-      await controller.actions.improvmentCampaignParticipationResult.call(controller);
+      await controller.actions.improvingAssessment.call(controller);
 
       // then
       sinon.assert.calledWith(controller.transitionToRoute, 'assessments.resume');

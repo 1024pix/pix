@@ -23,9 +23,9 @@ describe('Unit | Adapters | assessment', function() {
       expect(url.endsWith('/assessments/123')).to.be.true;
     });
 
-    it('should redirect to improvmentCampaignParticipationResult', async function() {
+    it('should redirect to improvingAssessment', async function() {
       // when
-      const options = { adapterOptions: { improvmentCampaignParticipationResult: true } };
+      const options = { adapterOptions: { improvingAssessment: true } };
       const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
 
       // then

@@ -139,10 +139,10 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  startImprovingAssessment({ id }) {
+  setAtCompleted({ id }) {
     return BookshelfAssessment
       .where({ id })
-      .save({ state: Assessment.states.IMPROVING, completedAt: moment().format() }, { require: true, patch: true })
+      .save({ state: Assessment.states.COMPLETED, completedAt: moment().format() }, { require: true, patch: true })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   }
 };

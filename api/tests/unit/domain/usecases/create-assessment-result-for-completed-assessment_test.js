@@ -26,7 +26,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
   };
   const assessmentRepository = {
     get: () => undefined,
-    updateStateById: () => undefined,
+    setAtCompleted: () => undefined,
   };
   const assessmentResultRepository = {
     save: () => undefined,
@@ -139,7 +139,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     };
 
     sinon.stub(scoringService, 'calculateAssessmentScore').resolves(assessmentScore);
-    sinon.stub(assessmentRepository, 'updateStateById').resolves({ ...assessment, state: Assessment.states.COMPLETED });
+    sinon.stub(assessmentRepository, 'setAtCompleted').resolves({ ...assessment });
     sinon.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
     sinon.stub(assessmentRepository, 'get').resolves(assessment);
     sinon.stub(courseRepository, 'get').resolves(course);
@@ -257,7 +257,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     // then
     return promise.then(() => {
-      expect(assessmentRepository.updateStateById).to.have.been.calledWith({ id: assessmentId, state: Assessment.states.COMPLETED });
+      expect(assessmentRepository.setAtCompleted).to.have.been.calledWith({ id: assessmentId });
     });
   });
 
@@ -625,7 +625,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
         // then
         return promise.then(() => {
-          expect(assessmentRepository.updateStateById).to.have.been.calledWith({ id: assessmentId, state: Assessment.states.COMPLETED });
+          expect(assessmentRepository.setAtCompleted).to.have.been.calledWith({ id: assessmentId });
         });
       });
 
@@ -716,7 +716,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
         // then
         return promise.then(() => {
-          expect(assessmentRepository.updateStateById).to.have.been.calledWith({ id: assessmentId, state: Assessment.states.COMPLETED });
+          expect(assessmentRepository.setAtCompleted).to.have.been.calledWith({ id: assessmentId });
         });
       });
 

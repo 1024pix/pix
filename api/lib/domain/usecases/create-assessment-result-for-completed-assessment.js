@@ -86,7 +86,7 @@ function _saveAssessmentResult({
   return Promise.all([
     assessmentResultRepository.save(assessmentResult),
     assessmentScore.competenceMarks,
-    assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.COMPLETED }),
+    assessmentRepository.setAtCompleted({ id: assessment.id }),
   ])
     .then(([assessmentResult, competenceMarks]) => _saveCompetenceMarks({ assessmentResult, competenceMarks, assessment, competenceMarkRepository }))
     .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate));
@@ -157,7 +157,7 @@ function _saveResultAfterComputingError({
 
   return Promise.all([
     assessmentResultRepository.save(assessmentResult),
-    assessmentRepository.updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }),
+    assessmentRepository.setAtCompleted({ id: assessment.id }),
   ])
     .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository, updateCertificationCompletionDate));
 }

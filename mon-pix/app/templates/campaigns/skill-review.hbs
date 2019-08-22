@@ -39,20 +39,22 @@
           {{/if}}
         </div>
 
-        {{#if model.campaignParticipation.campaignParticipationResult.canBeImproved}}
-          <div class="skill-review__dash-line"></div>
-          <div class="skill-review__start-improvment">
-            <div><h2 class="skill-review__subtitle">Envie d'améliorer vos résultats ?</h2>
-              <p class="skill-review__explain-text">Vous pouvez retenter certaines questions</p>
-            </div>
+        {{#unless model.campaignParticipation.isShared}}
+            {{#if model.campaignParticipation.campaignParticipationResult.canBeImproved}}
+              <div class="skill-review__dash-line"></div>
+              <div class="skill-review__start-improvment">
+                <div><h2 class="skill-review__subtitle">Envie d'améliorer vos résultats ?</h2>
+                  <p class="skill-review__explain-text">Vous pouvez retenter certaines questions</p>
+                </div>
 
-            <button class="button button--dark-grey button--big skill-review__improvment-button" {{action 'improvmentCampaignParticipationResult'}}>
-              Je retente
-            </button>
+                <button class="button button--dark-grey button--big skill-review__improvment-button" {{action 'improvingAssessment'}}>
+                  Je retente
+                </button>
 
-          </div>
+              </div>
 
-        {{/if}}
+            {{/if}}
+        {{/unless}}
 
         <div class="skill-review__dash-line"></div>
 

@@ -8,6 +8,7 @@ describe('Acceptance | API | assessment-controller-start-improvment', () => {
   beforeEach(async () => {
     user = databaseBuilder.factory.buildUser();
     assessment = databaseBuilder.factory.buildAssessment({ userId: user.id, state: 'completed' });
+    databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, isShared: 'false', assessmentId: assessment.id });
     await databaseBuilder.commit();
     server = await createServer();
   });

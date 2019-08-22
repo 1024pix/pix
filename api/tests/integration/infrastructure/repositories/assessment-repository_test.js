@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, catchErr, sinon } = require('../../../test-helper');
 const _ = require('lodash');
 const moment = require('moment');
 
@@ -832,29 +832,33 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#startImprovingAssessment', () => {
+  describe('#setAtCompleted', () => {
     let assessment;
+    let clock, currentTime;
     beforeEach(async () => {
-      assessment = databaseBuilder.factory.buildAssessment({ state: 'completed', completedAt: null });
+      assessment = databaseBuilder.factory.buildAssessment({ state: 'started', completedAt: null });
+      currentTime = new Date();
+      clock = sinon.useFakeTimers(currentTime);
       await databaseBuilder.commit();
     });
 
     afterEach(async () => {
+      clock.restore();
       await databaseBuilder.clean();
     });
 
-    it('should return the assessment with new improving state and completedAt', async () => {
+    it('should return the assessment with new completed state and completedAt', async () => {
       // when
-      const assessmentUpdated = await assessmentRepository.startImprovingAssessment({ id: assessment.id });
+      const assessmentUpdated = await assessmentRepository.setAtCompleted({ id: assessment.id });
 
-      expect(assessmentUpdated.state).to.equal('improving');
-      expect(assessmentUpdated.completedAt).to.not.equal(null);
+      expect(assessmentUpdated.state).to.equal('completed');
+      expect(assessmentUpdated.completedAt).to.equal(moment(currentTime).format());
 
     });
 
     it('should return an error when the assessment does not exist', async () => {
       // when
-      const errorCatched = await catchErr(assessmentRepository.startImprovingAssessment)({ id: 0 });
+      const errorCatched = await catchErr(assessmentRepository.setAtCompleted)({ id: 0 });
 
       // then
       expect(errorCatched).to.be.instanceof(Error);
