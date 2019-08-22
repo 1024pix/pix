@@ -77,6 +77,17 @@ function checkUserHasRolePixMaster(request, h) {
     });
 }
 
+function checkRequestedUserIsAuthenticatedUser(request, h) {
+  if (!request.auth.credentials || !request.auth.credentials.userId) {
+    return _replyWithAuthorizationError(h);
+  }
+
+  const authenticatedUserId = request.auth.credentials.userId.toString();
+  const requestedUserId = request.params.id;
+
+  return authenticatedUserId === requestedUserId ? h.response(true) : _replyWithAuthorizationError(h);
+}
+
 function checkUserIsOwnerInOrganization(request, h) {
   if (!request.auth.credentials || !request.auth.credentials.userId) {
     return _replyWithAuthorizationError(h);
@@ -143,9 +154,10 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
 }
 
 module.exports = {
-  checkUserIsAuthenticated,
+  checkRequestedUserIsAuthenticatedUser,
+  checkUserBelongsToScoOrganizationAndManagesStudents,
   checkUserHasRolePixMaster,
+  checkUserIsAuthenticated,
   checkUserIsOwnerInOrganization,
   checkUserIsOwnerInOrganizationOrHasRolePixMaster,
-  checkUserBelongsToScoOrganizationAndManagesStudents
 };

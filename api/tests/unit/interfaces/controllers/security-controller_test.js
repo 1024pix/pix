@@ -154,6 +154,56 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
     });
   });
 
+  describe('#checkRequestedUserIsAuthenticatedUser', () => {
+
+    beforeEach(() => {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+    });
+
+    context('Successful case', () => {
+      const request = { params: { id: '1234' }, auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
+
+      it('should authorize access to resource when the authenticated user is the same as the requested user', async () => {
+        // given
+
+        // when
+        const response = await securityController.checkRequestedUserIsAuthenticatedUser(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', () => {
+
+      const request = { params: { id: '1234' }, auth: { credentials: { accessToken: 'valid.access.token' } } };
+
+      it('should forbid resource access when user was not previously authenticated', async () => {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityController.checkRequestedUserIsAuthenticatedUser(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when requested user is not the same as authenticated user', async () => {
+        // given
+        request.params.id = '5678';
+
+        // when
+        const response = await securityController.checkRequestedUserIsAuthenticatedUser(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
   describe('#checkUserIsOwnerInOrganization', () => {
     let isOwnerInOrganizationStub;
 
@@ -394,5 +444,4 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
       });
     });
   });
-
 });
