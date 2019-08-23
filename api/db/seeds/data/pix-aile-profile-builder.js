@@ -1,5 +1,6 @@
 const Assessment = require('../../../lib/domain/models/Assessment');
 const CompetenceEvaluation = require('../../../lib/domain/models/CompetenceEvaluation');
+const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const moment = require('moment');
 const _ = require('lodash');
 
@@ -7,7 +8,7 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
 
   const userId = 1;
 
-  const buildKnowledgeElements = ({ competenceId, challengeId, skillId, assessmentId, remainingDays, remainingHours }) => {
+  const buildKnowledgeElements = ({ competenceId, challengeId, skillId, assessmentId, keSource, remainingDays, remainingHours }) => {
     const { id: answerId } = databaseBuilder.factory.buildAnswer({
       result: 'ok',
       assessmentId,
@@ -17,6 +18,7 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
     const delay = 7 - remainingDays;
 
     databaseBuilder.factory.buildKnowledgeElement({
+      source: keSource,
       skillId,
       assessmentId,
       userId,
@@ -65,115 +67,91 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
     return { assessmentId };
   };
 
-  // competence 1.1 - competenceEvaluation - assessment not completed - 4 days remaining
-  const { assessmentId: assessmentIdForCompetenceEvaluation1 } = buildCompetenceEvaluation({
+  const buildCompetencePlacement = ({ competenceId, assessmentState, challengeSkillMap, remainingDays, remainingHours }) => {
+    const { assessmentId } = buildCompetenceEvaluation({
+      competenceId,
+      assessmentState,
+    });
+    _.map(challengeSkillMap, (challengeSkill) => {
+      buildKnowledgeElements({
+        competenceId,
+        challengeId: challengeSkill.challengeId,
+        skillId: challengeSkill.skillId,
+        assessmentId,
+        remainingDays,
+        remainingHours,
+        keSource: KnowledgeElement.SourceType.DIRECT,
+      });
+      _.map(challengeSkill.inferredSkillIds, (inferredSkillId) => {
+        buildKnowledgeElements({
+          competenceId,
+          challengeId: challengeSkill.challengeId,
+          skillId: inferredSkillId,
+          assessmentId,
+          remainingDays,
+          remainingHours,
+          keSource: KnowledgeElement.SourceType.INFERRED,
+        });
+      });
+    });
+  };
+
+  // competence 1.1 - assessment not completed - 4 days remaining
+  buildCompetencePlacement({
     competenceId: 'recsvLz0W2ShyfD63',
     assessmentState: Assessment.states.STARTED,
-  });
-  const challengeSkillMapCompetenceEvaluation1 = [
-    { challengeId: 'rec4mYfhm45A222ab', skillId: 'recybd8jWDNiFpbgq' },
-    { challengeId: 'recwWzTquPlvIl4So', skillId: 'recUDrCWD76fp5MsE' },
-    { challengeId: 'rec6ZOkRMNlJNAKgl', skillId: 'recYLxHqrLVUBjF2a' },
-    { challengeId: 'recig28tbjrFTKhsJ', skillId: 'recbtdpzdLz6ZqURl' },
-    { challengeId: 'recQ8Q3Qyoi4t1WdL', skillId: 'reciDyXWqxp7ypbWu' },
-  ];
-  _.map(challengeSkillMapCompetenceEvaluation1, (challengeSkill) => {
-    buildKnowledgeElements({
-      competenceId: 'recsvLz0W2ShyfD63',
-      challengeId: challengeSkill.challengeId,
-      skillId: challengeSkill.skillId,
-      assessmentId: assessmentIdForCompetenceEvaluation1,
-      remainingDays: 4,
-    });
+    remainingDays: 4,
+    challengeSkillMap: [
+      { challengeId: 'rec4mYfhm45A222ab', skillId: 'recybd8jWDNiFpbgq', inferredSkillIds: [] },
+      { challengeId: 'recwWzTquPlvIl4So', skillId: 'recUDrCWD76fp5MsE', inferredSkillIds: ['rec4Gvnh9kV1NeMsw'] },
+      { challengeId: 'rec6ZOkRMNlJNAKgl', skillId: 'recYLxHqrLVUBjF2a', inferredSkillIds: ['recRPl7tXR8n2D5xU']  },
+    ],
   });
 
-  // competence 1.3 - competenceEvaluation - assessment completed - 0 days remaining
-  const { assessmentId: assessmentIdForCompetenceEvaluation2 } = buildCompetenceEvaluation({
+  // competence 1.3 - assessment completed - 0 days remaining
+  buildCompetencePlacement({
     competenceId: 'recNv8qhaY887jQb2',
     assessmentState: Assessment.states.COMPLETED,
-  });
-  const challengeSkillMapCompetenceEvaluation2 = [
-    { challengeId: 'recPVnm4VSMQUJmq3', skillId: 'recJKLhRCjl9zizHr' },
-    { challengeId: 'rec7b0FTFINsQ5u6t', skillId: 'recPiCGFhfgervqr5' },
-    { challengeId: 'recTRFWrqvpWTLciu', skillId: 'reciVlfNtTgkQJCHt' },
-    { challengeId: 'recPxi2BSGvZlYwBG', skillId: 'recPLREwTLP8MZ7Ib' },
-    { challengeId: 'recpalexhqUwZcNYs', skillId: 'recPc4uMolcbvwXzr' },
-  ];
-  _.map(challengeSkillMapCompetenceEvaluation2, (challengeSkill) => {
-    buildKnowledgeElements({
-      competenceId: 'recNv8qhaY887jQb2',
-      challengeId: challengeSkill.challengeId,
-      skillId: challengeSkill.skillId,
-      assessmentId: assessmentIdForCompetenceEvaluation2,
-      remainingDays: 0,
-    });
+    remainingDays: 0,
+    challengeSkillMap: [
+      { challengeId: 'recPVnm4VSMQUJmq3', skillId: 'recJKLhRCjl9zizHr', inferredSkillIds: ['recdmDASRPMTzOmVc'] },
+      { challengeId: 'rec7b0FTFINsQ5u6t', skillId: 'recPiCGFhfgervqr5', inferredSkillIds: ['reckyBHOf8yIl2UGq', 'recfRe4luCCP8GoVA', 'recmMMVns3LEFkHeO'] },
+    ],
   });
 
-  // competence 2.1 - competenceEvaluation - assessment completed - 0 days remaining
-  const { assessmentId: assessmentIdForCompetenceEvaluation3 } = buildCompetenceEvaluation({
+  // competence 2.1 - assessment completed - 0 days remaining
+  buildCompetencePlacement({
     competenceId: 'recDH19F7kKrfL3Ii',
     assessmentState: Assessment.states.COMPLETED,
-  });
-  const challengeSkillMapCompetenceEvaluation3 = [
-    { challengeId: 'reczK5XPKm5CKImGj', skillId: 'recUDrhjEYqmfahRX' },
-    { challengeId: 'recChtlIRd8xOz3aP', skillId: 'rec0tk8dZWOzSQbaQ' },
-    { challengeId: 'rec9e4StT33VC0V6M', skillId: 'rec1TZRdq2lKyLEaR' },
-    { challengeId: 'rec1OlfvEmdcxtWIq', skillId: 'recPGDVdX0LSOWQQC' },
-    { challengeId: 'recf7KX7ZWNOwspjG', skillId: 'reciF9dxvDfMUuFcb' },
-  ];
-  _.map(challengeSkillMapCompetenceEvaluation3, (challengeSkill) => {
-    buildKnowledgeElements({
-      competenceId: 'recDH19F7kKrfL3Ii',
-      challengeId: challengeSkill.challengeId,
-      skillId: challengeSkill.skillId,
-      assessmentId: assessmentIdForCompetenceEvaluation3,
-      remainingDays: 0,
-    });
+    remainingDays: 0,
+    challengeSkillMap: [
+      { challengeId: 'reczK5XPKm5CKImGj', skillId: 'recUDrhjEYqmfahRX', inferredSkillIds: [] },
+      { challengeId: 'recChtlIRd8xOz3aP', skillId: 'rec0tk8dZWOzSQbaQ', inferredSkillIds: ['recPGDVdX0LSOWQQC'] },
+      { challengeId: 'rec9e4StT33VC0V6M', skillId: 'rec1TZRdq2lKyLEaR', inferredSkillIds: ['recTR73NgMRmrKRhT', 'recl2LAo6vB6BOgUd'] },
+    ],
   });
 
-  // competence 2.4 - competenceEvaluation - assessment completed - 0 days remaining
-  const { assessmentId: assessmentIdForCompetenceEvaluation4 } = buildCompetenceEvaluation({
+  // competence 2.4 - assessment completed - 0 days remaining
+  buildCompetencePlacement({
     competenceId: 'recFpYXCKcyhLI3Nu',
     assessmentState: Assessment.states.COMPLETED,
-  });
-  const challengeSkillMapCompetenceEvaluation4 = [
-    { challengeId: 'recXN6TmIEgv2w6EC', skillId: 'recZLbpY9xhnR1XaX' },
-    { challengeId: 'recZVmpmCSMBpxPzl', skillId: 'recdY2TTdWEFz59T1' },
-    { challengeId: 'recPHnFaHMzesamFh', skillId: 'rec5jAYpcEr4Ad3kV' },
-    { challengeId: 'recfUTaFMKo7zRZgg', skillId: 'recrFCl1Ng8YUaba2' },
-    { challengeId: 'recH8tN3Da1FGQweV', skillId: 'recMG1dWPxaQ3OeZ8' },
-    { challengeId: 'rec28EDEVRU6ZoybB', skillId: 'recJ8Zi62i43AQqYI' },
-  ];
-  _.map(challengeSkillMapCompetenceEvaluation4, (challengeSkill) => {
-    buildKnowledgeElements({
-      competenceId: 'recFpYXCKcyhLI3Nu',
-      challengeId: challengeSkill.challengeId,
-      skillId: challengeSkill.skillId,
-      assessmentId: assessmentIdForCompetenceEvaluation4,
-      remainingDays: 0,
-    });
+    remainingDays: 0,
+    challengeSkillMap: [
+      { challengeId: 'recXN6TmIEgv2w6EC', skillId: 'recZLbpY9xhnR1XaX', inferredSkillIds: [] },
+      { challengeId: 'recZVmpmCSMBpxPzl', skillId: 'recdY2TTdWEFz59T1', inferredSkillIds: ['recMG1dWPxaQ3OeZ8', 'recMG1uOZwLGuVyxP', 'recKWLJSisAK7f0Cy'] },
+    ],
   });
 
-  // competence 3.3 - competenceEvaluation - assessment completed - 0 days remaining
-  const { assessmentId: assessmentIdForCompetenceEvaluation5 } = buildCompetenceEvaluation({
+  // competence 3.3 - assessment completed - 0 days remaining
+  buildCompetencePlacement({
     competenceId: 'recHmIWG6D0huq6Kx',
-    assessmentState: Assessment.states.STARTED,
-  });
-  const challengeSkillMapCompetenceEvaluation5 = [
-    { challengeId: 'recaYeYSVtmPVYCYe', skillId: 'recTmjG8ygtFjGfP9' },
-    { challengeId: 'rec6fKT1tmlqI6AT6', skillId: 'rectVTDWtVIT59Dy1' },
-    { challengeId: 'recijE4sMaS0mkjVu', skillId: 'recGHY2N1qq1FYH4J' },
-    { challengeId: 'recZjuf1caEli6BHp', skillId: 'recW0pab7QV7dlB97' },
-    { challengeId: 'rec4TJEBRLtr6O3Aw', skillId: 'recBeo3fIb35FXtmF' },
-  ];
-  _.map(challengeSkillMapCompetenceEvaluation5, (challengeSkill) => {
-    buildKnowledgeElements({
-      competenceId: 'recHmIWG6D0huq6Kx',
-      challengeId: challengeSkill.challengeId,
-      skillId: challengeSkill.skillId,
-      assessmentId: assessmentIdForCompetenceEvaluation5,
-      remainingDays: 0,
-    });
+    assessmentState: Assessment.states.COMPLETED,
+    remainingDays: 0,
+    challengeSkillMap: [
+      { challengeId: 'rec6fKT1tmlqI6AT6', skillId: 'rectVTDWtVIT59Dy1', inferredSkillIds: ['recXSjRtUP31qRvun', 'recBeo3fIb35FXtmF', 'recipfF8DQqJjv9pI'] },
+      { challengeId: 'recijE4sMaS0mkjVu', skillId: 'recGHY2N1qq1FYH4J', inferredSkillIds: ['recTmjG8ygtFjGfP9', 'rechLuj5ydZs48koG', 'recjaPxapJkF1cx5k', 'recRJyPT0FBEeVkzR'] },
+      { challengeId: 'recZjuf1caEli6BHp', skillId: 'recW0pab7QV7dlB97', inferredSkillIds: [] },
+    ],
   });
 
   const { assessmentId: assessmentIdForCampaign } = buildCampaignParticipation();
