@@ -24,7 +24,7 @@ describe('Acceptance | Controller | users-controller', () => {
               'first-name': 'John',
               'last-name': 'DoDoe',
               'email': 'john.dodoe@example.net',
-              'password': 'A124B2C3#!',
+              'password': 'Ab124B2C3#!',
               'cgu': true,
               'recaptcha-token': 'reCAPTCHAToken',
             },
