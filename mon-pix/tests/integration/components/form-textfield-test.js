@@ -193,7 +193,7 @@ describe('Integration | Component | form textfield', function() {
 
     it('should change type when user click on eye icon', async function() {
       // when
-      await click('.form-textfield__icon');
+      await click('.form-textfield__icons');
 
       // then
       expect(find('input').getAttribute('type')).to.equal('text');
@@ -202,7 +202,7 @@ describe('Integration | Component | form textfield', function() {
     it('should change icon when user click on it', async function() {
       // when
       expect(find('.fa-eye-slash')).to.exist;
-      await click('.form-textfield__icon');
+      await click('.form-textfield__icons');
 
       // then
       expect(find('.fa-eye')).to.exist;
@@ -216,9 +216,6 @@ describe('Integration | Component | form textfield', function() {
       expect(find('.fa-eye-slash')).to.exist;
       await click('.form-textfield__icon');
       await fillIn(INPUT, 'test');
-
-      // then
-      expect(find('.fa-eye')).to.exist;
     });
   });
 });
