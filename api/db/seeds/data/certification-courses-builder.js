@@ -4,6 +4,7 @@ module.exports = function certificationCoursesBuilder({ databaseBuilder }) {
     id: 1,
     userId: 1,
     completedAt: new Date('2018-02-15T15:15:52Z'),
+    updatedAt: new Date('2018-02-15T15:14:48Z'),
     createdAt: new Date('2018-02-15T15:14:46Z'),
     firstName: 'Pix',
     lastName: 'Aile',
