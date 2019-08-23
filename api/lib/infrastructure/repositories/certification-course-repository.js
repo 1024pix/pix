@@ -1,29 +1,19 @@
 const { _ } = require('lodash');
 
 const CertificationCourseBookshelf = require('../data/certification-course');
-const CertificationCourse = require('../../domain/models/CertificationCourse');
 const Assessment = require('../../domain/models/Assessment');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { NotFoundError } = require('../../domain/errors');
 
-function _toDomain(model) {
-  if (model) {
-    return CertificationCourse.fromAttributes({
-      id: model.get('id'),
-      userId: model.get('userId'),
-      type: Assessment.types.CERTIFICATION,
-      assessment: model.related('assessment').toJSON(),
-      challenges: model.related('challenges').toJSON(),
-      createdAt: model.get('createdAt'),
-      completedAt: model.get('completedAt'),
-      firstName: model.get('firstName'),
-      lastName: model.get('lastName'),
-      birthplace: model.get('birthplace'),
-      birthdate: model.get('birthdate'),
-      sessionId: model.get('sessionId'),
-      externalId: model.get('externalId'),
-      isPublished: Boolean(model.get('isPublished')),
-      isV2Certification: Boolean(model.get('isV2Certification')),
-    });
+function _toDomain(bookshelfCertificationCourse) {
+  if (bookshelfCertificationCourse) {
+    const certificationCourse = bookshelfToDomainConverter.buildDomainObject(CertificationCourseBookshelf, bookshelfCertificationCourse);
+    certificationCourse.isPublished = Boolean(certificationCourse.isPublished);
+    certificationCourse.isV2Certification = Boolean(certificationCourse.isV2Certification);
+    certificationCourse.type = Assessment.types.CERTIFICATION;
+    certificationCourse.assessment = bookshelfCertificationCourse.related('assessment').toJSON();
+    certificationCourse.challenges = bookshelfCertificationCourse.related('challenges').toJSON();
+    return certificationCourse;
   }
   return null;
 }
