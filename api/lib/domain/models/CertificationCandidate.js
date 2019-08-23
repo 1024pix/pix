@@ -24,7 +24,7 @@ class CertificationCandidate {
     this.externalId = externalId;
     this.birthdate = birthdate;
     this.createdAt = createdAt;
-    this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : null;
+    this.extraTimePercentage = !_.isNil(extraTimePercentage) ? parseFloat(extraTimePercentage) : extraTimePercentage;
     // includes
     // references
     this.sessionId = sessionId;
