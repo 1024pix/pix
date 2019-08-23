@@ -97,7 +97,8 @@
   background: none;
 
   &:focus {
-    border-radius: 10px;
+    outline: 1px solid $pix-blue;
+    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
   }
 }
 
