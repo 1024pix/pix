@@ -41,6 +41,26 @@ module('Acceptance | Campaign Creation', function(hooks) {
       assert.dom('.page__title').hasText('Création d\'une campagne');
     });
 
+    test('it should not display gdpr footnote', async function(assert) {
+      // when
+      await visit('/campagnes/creation');
+
+      // then
+      assert.dom('.new-item-form__gdpr-information').isNotVisible();
+    });
+
+    test('it should display gdpr footnote', async function(assert) {
+      // when
+      await visit('/campagnes/creation');
+      await click('#askLabelIdPix');
+
+      // then
+      assert.dom('.new-item-form__gdpr-information').isVisible();
+      assert.dom('.new-item-form__gdpr-information').hasText(
+        '* En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.'
+      );
+    });
+
     test('it should allow to create a campaign and redirect to the newly created campaign', async function(assert) {
       // given
       const expectedTargetProfileId = availableTargetProfiles[1].id;
