@@ -70,7 +70,7 @@ module.exports = (function() {
       payload: 'PixResetPassword'
     },
 
-    passwordValidationPattern: '^(?=.*\\p{L})(?=.*\\d).{8,}$',
+    passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
 
     redisUrl: process.env.REDIS_URL,
     redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,

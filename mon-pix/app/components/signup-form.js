@@ -9,7 +9,7 @@ const ERROR_INPUT_MESSAGE_MAP = {
   firstName: 'Votre prénom n’est pas renseigné.',
   lastName: 'Votre nom n’est pas renseigné.',
   email: 'Votre email n’est pas valide.',
-  password: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.'
+  password: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
 };
 const TEMPORARY_DIV_CLASS_MAP = {
   error: 'signup-form__temporary-msg--error',

@@ -20,7 +20,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.net',
-      password: 'password1234',
+      password: 'Password1234',
       cgu: true,
     });
   });
@@ -95,7 +95,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // given
         const expectedError = {
           attribute: 'password',
-          message: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.'
+          message: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.'
         };
         user.password = 'invalid';
 
