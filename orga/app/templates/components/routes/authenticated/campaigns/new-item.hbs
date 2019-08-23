@@ -68,7 +68,7 @@
           </div>
         {{/each}}
         <div class="form__information help-text">
-          Exemple: "Numéro de l'étudiant" ou "Adresse mail professionnelle"
+          Exemple: "Numéro de l'étudiant" ou "Adresse mail professionnelle" *
         </div>
 
       </div>
@@ -101,5 +101,11 @@
     <div class="button button--no-color" {{action cancel}}>Annuler</div>
     <button class="button" type="submit">Créer la campagne</button>
   </div>
+
+ {{#if wantIdPix}}
+   <div class="new-item-form__gdpr-information help-text">
+    * En vertu de la loi Informatique et libertés, et en tant que responsable de traitement, soyez attentifs à ne pas demander de donnée particulièrement identifiante ou signifiante si ce n’est pas absolument indispensable. Le numéro de sécurité sociale (NIR) est à proscrire ainsi que toute donnée sensible.
+   </div>
+ {{/if}}
 
 </form>
