@@ -236,6 +236,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}/pixscore', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getPixScore').returns('ok');
+      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
 

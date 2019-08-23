@@ -584,17 +584,16 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should return the user Pix score', async () => {
       // given
-      const authenticatedUserId = '76';
-      const requestedUserId = '76';
+      const userId = '76';
 
       const request = {
         auth: {
           credentials: {
-            userId: authenticatedUserId
+            userId
           }
         },
         params: {
-          id: requestedUserId
+          id: userId
         }
       };
 
@@ -602,7 +601,7 @@ describe('Unit | Controller | user-controller', () => {
       await userController.getPixScore(request);
 
       // then
-      expect(usecases.getUserPixScore).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
+      expect(usecases.getUserPixScore).to.have.been.calledWith({ userId });
     });
   });
 

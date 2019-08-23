@@ -127,9 +127,9 @@ module.exports = {
   },
 
   getPixScore(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
-    return usecases.getUserPixScore({ authenticatedUserId, requestedUserId })
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    return usecases.getUserPixScore({ userId: authenticatedUserId })
       .then(pixScoreSerializer.serialize);
   },
 
