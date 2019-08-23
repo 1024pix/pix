@@ -240,10 +240,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should remember user has seen assessment instructions', async () => {
       // given
-      usecases.rememberUserHasSeenAssessmentInstructions.withArgs({
-        authenticatedUserId: userId.toString(),
-        requestedUserId: userId,
-      }).resolves({});
+      usecases.rememberUserHasSeenAssessmentInstructions.withArgs({ userId }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when

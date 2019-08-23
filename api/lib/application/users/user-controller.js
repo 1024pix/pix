@@ -69,13 +69,9 @@ module.exports = {
   },
 
   async rememberUserHasSeenAssessmentInstructions(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    const updatedUser = await usecases.rememberUserHasSeenAssessmentInstructions({
-      authenticatedUserId, requestedUserId
-    });
-
+    const updatedUser = await usecases.rememberUserHasSeenAssessmentInstructions({ userId: authenticatedUserId });
     return userSerializer.serialize(updatedUser);
   },
 

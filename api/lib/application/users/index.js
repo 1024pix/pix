@@ -140,6 +140,10 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/remember-user-has-seen-assessment-instructions',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.rememberUserHasSeenAssessmentInstructions,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
