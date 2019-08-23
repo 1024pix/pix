@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
@@ -20,7 +20,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
       return {
         method: 'GET',
         url: `/api/users/${userId}/campaign-participations`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
     }
 

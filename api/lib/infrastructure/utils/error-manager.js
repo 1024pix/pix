@@ -39,7 +39,7 @@ function _mapToInfrastructureError(error) {
     return new InfraErrors.NotFoundError(error.message);
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToAccessEntity) {
-    return new InfraErrors.ForbiddenError('Utilisateur non authorisé à accéder à la ressource');
+    return new InfraErrors.ForbiddenError('Utilisateur non autorisé à accéder à la ressource');
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToUpdateResourceError) {
     return new InfraErrors.ForbiddenError(error.message);

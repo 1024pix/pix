@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader, nock, databaseBuilder } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Progressions', () => {
@@ -102,7 +102,7 @@ describe('Acceptance | API | Progressions', () => {
             method: 'GET',
             url: `/api/progressions/${progressionId}`,
             headers: {
-              authorization: generateValidRequestAuhorizationHeader(userIdOfUserWithoutAssessment)
+              authorization: generateValidRequestAuthorizationHeader(userIdOfUserWithoutAssessment)
             }
           };
 
@@ -125,7 +125,7 @@ describe('Acceptance | API | Progressions', () => {
             method: 'GET',
             url: `/api/progressions/${progressionId}`,
             headers: {
-              authorization: generateValidRequestAuhorizationHeader(userIdOfUserWithAssessment)
+              authorization: generateValidRequestAuthorizationHeader(userIdOfUserWithAssessment)
             }
           };
 

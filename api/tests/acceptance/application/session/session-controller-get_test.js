@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | session-controller-get', () => {
@@ -121,7 +121,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
       request = {
         method: 'GET',
         url: '/api/sessions',
-        headers: { authorization: generateValidRequestAuhorizationHeader(pixMaster.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
         payload: {},
       };
 

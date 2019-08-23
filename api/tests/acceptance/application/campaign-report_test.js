@@ -1,5 +1,5 @@
 const createServer = require('../../../server');
-const { expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const _ = require('lodash');
 
 describe('Acceptance | API | Campaign Report', () => {
@@ -42,7 +42,7 @@ describe('Acceptance | API | Campaign Report', () => {
       options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/campaign-report`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     });
 

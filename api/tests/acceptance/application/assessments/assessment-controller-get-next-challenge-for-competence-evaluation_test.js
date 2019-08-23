@@ -1,4 +1,4 @@
-const { airtableBuilder, expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { airtableBuilder, expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const createServer = require('../../../../server');
 
@@ -159,7 +159,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         const options = {
           method: 'GET',
           url: `/api/assessments/${assessmentId}/next`,
-          headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
         };
 
         // when
@@ -216,7 +216,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         const options = {
           method: 'GET',
           url: `/api/assessments/${assessmentId}/next`,
-          headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
         };
 
         // when

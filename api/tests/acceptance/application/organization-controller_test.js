@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
+const { expect, knex, nock, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const Membership = require('../../../lib/domain/models/Membership');
 const createServer = require('../../../server');
 const settings = require('../../../lib/settings');
@@ -187,7 +187,7 @@ describe('Acceptance | Application | organization-controller', () => {
         method: 'POST',
         url: '/api/organizations',
         payload,
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
     });
 
@@ -270,7 +270,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
         const promise = server.inject(options);
@@ -294,7 +294,7 @@ describe('Acceptance | Application | organization-controller', () => {
     beforeEach(() => {
       return _insertUser()
         .then(({ id }) => userId = id)
-        .then(() => options.headers.authorization = generateValidRequestAuhorizationHeader(userId))
+        .then(() => options.headers.authorization = generateValidRequestAuthorizationHeader(userId))
         .then(() => _insertOrganization(userId));
     });
 
@@ -438,7 +438,7 @@ describe('Acceptance | Application | organization-controller', () => {
           method: 'GET',
           url: '/api/organizations/' + organizationId + '/campaigns',
           headers: {
-            authorization: generateValidRequestAuhorizationHeader()
+            authorization: generateValidRequestAuthorizationHeader()
           },
         };
 
@@ -461,7 +461,7 @@ describe('Acceptance | Application | organization-controller', () => {
           method: 'GET',
           url: '/api/organizations/' + organizationId + '/campaigns',
           headers: {
-            authorization: generateValidRequestAuhorizationHeader()
+            authorization: generateValidRequestAuthorizationHeader()
           },
         };
 
@@ -496,7 +496,7 @@ describe('Acceptance | Application | organization-controller', () => {
         options = {
           method: 'GET',
           url: `/api/organizations/${organization.id}`,
-          headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
         };
 
       });
@@ -582,7 +582,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
         const promise = server.inject(options);
@@ -606,7 +606,7 @@ describe('Acceptance | Application | organization-controller', () => {
       options = {
         method: 'GET',
         url: `/api/organizations/${organization.id}/memberships`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
       };
     });
 
@@ -691,7 +691,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should respond with a 403 - forbidden access - if user is not OWNER in organization nor PIX_MASTER', async () => {
         // given
         const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMasterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
 
         databaseBuilder.factory.buildUser.withMembership({
           id: nonPixMasterUserId,
@@ -721,7 +721,7 @@ describe('Acceptance | Application | organization-controller', () => {
       options = {
         method: 'POST',
         url: `/api/organizations/${organization.id}/add-membership`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userPixMaster.id) },
         payload: {
           email: 'dev@example.net'
         }
@@ -806,7 +806,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should respond with a 403 - forbidden access - if user is not OWNER in organization nor PIX_MASTER', async () => {
         // given
         const nonPixMasterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMasterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
 
         databaseBuilder.factory.buildUser.withMembership({
           id: nonPixMasterUserId,
@@ -863,7 +863,7 @@ describe('Acceptance | Application | organization-controller', () => {
       options = {
         method: 'GET',
         url: `/api/organizations/${organization.id}/students`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(connectedUser.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(connectedUser.id) },
       };
     });
 
@@ -924,7 +924,7 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should respond with a 403 - Forbidden access - if user does not belong to Organization', async () => {
         // given
         const userId = databaseBuilder.factory.buildUser.withMembership().id;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         // when
         const response = await server.inject(options);
@@ -937,7 +937,7 @@ describe('Acceptance | Application | organization-controller', () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'PRO', isManagingStudents: true }).id;
         const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         // when
         const response = await server.inject(options);
@@ -950,7 +950,7 @@ describe('Acceptance | Application | organization-controller', () => {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
         const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         // when
         const response = await server.inject(options);
