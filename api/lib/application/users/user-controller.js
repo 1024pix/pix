@@ -98,10 +98,9 @@ module.exports = {
   },
 
   getCertificationCenterMemberships(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUserCertificationCenterMemberships({ authenticatedUserId, requestedUserId })
+    return usecases.getUserCertificationCenterMemberships({ userId: authenticatedUserId })
       .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships));
   },
 

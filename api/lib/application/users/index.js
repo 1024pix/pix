@@ -78,13 +78,17 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/certification-center-memberships',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.getCertificationCenterMemberships,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des accès utilisateurs pour les centres de certifs à partir de l’id\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api']
+        tags: ['api', 'user', 'certification-membership']
       }
     },
     {
