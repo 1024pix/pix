@@ -83,7 +83,7 @@ function checkRequestedUserIsAuthenticatedUser(request, h) {
   }
 
   const authenticatedUserId = request.auth.credentials.userId.toString();
-  const requestedUserId = request.params.id;
+  const requestedUserId = request.params.userId || request.params.id;
 
   return authenticatedUserId === requestedUserId ? h.response(true) : _replyWithAuthorizationError(h);
 }

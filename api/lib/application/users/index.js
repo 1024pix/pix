@@ -210,14 +210,18 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/users/{userId}/competences/{competenceId}/reset',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.resetScorecard,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Cette route réinitilise le niveau d\'un utilisateur donné (**userId**) pour une compétence donnée (**competenceId**)',
           '- Cette route retourne les nouvelles informations de niveau de la compétence',
-
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api', 'scorecard']
+        tags: ['api', 'user', 'scorecard']
       }
     },
   ]);

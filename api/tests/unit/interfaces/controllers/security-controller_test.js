@@ -161,10 +161,21 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
     });
 
     context('Successful case', () => {
-      const request = { params: { id: '1234' }, auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
 
-      it('should authorize access to resource when the authenticated user is the same as the requested user', async () => {
+      it('should authorize access to resource when the authenticated user is the same as the requested user (id)', async () => {
         // given
+        const request = { params: { id: '1234' }, auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
+
+        // when
+        const response = await securityController.checkRequestedUserIsAuthenticatedUser(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+
+      it('should authorize access to resource when the authenticated user is the same as the requested user (userId)', async () => {
+        // given
+        const request = { params: { userId: '1234' }, auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
 
         // when
         const response = await securityController.checkRequestedUserIsAuthenticatedUser(request, hFake);
