@@ -158,6 +158,10 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/remember-user-has-seen-new-profile-info',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.rememberUserHasSeenNewProfileInfo,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

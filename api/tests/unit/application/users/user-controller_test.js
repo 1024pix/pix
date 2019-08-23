@@ -267,10 +267,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should remember user has seen new profile info', async () => {
       // given
-      usecases.rememberUserHasSeenNewProfileInfo.withArgs({
-        authenticatedUserId: userId.toString(),
-        requestedUserId: userId,
-      }).resolves({});
+      usecases.rememberUserHasSeenNewProfileInfo.withArgs({ userId }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
