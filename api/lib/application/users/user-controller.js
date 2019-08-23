@@ -128,10 +128,9 @@ module.exports = {
   },
 
   getCampaignParticipations(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.findCampaignParticipationsRelatedToUser({ authenticatedUserId, requestedUserId })
+    return usecases.findCampaignParticipationsRelatedToUser({ userId: authenticatedUserId })
       .then(campaignParticipationSerializer.serialize);
   },
 

@@ -14,6 +14,7 @@ const passwordResetService = require('../../../../lib/domain/services/reset-pass
 
 const usecases = require('../../../../lib/domain/usecases');
 
+const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
@@ -546,6 +547,38 @@ describe('Unit | Controller | user-controller', () => {
       // then
       const expectedPagination = { page: 1, pageSize: 10 };
       expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
+    });
+  });
+
+  describe('#getCampaignParticipations', () => {
+    const userId = '1';
+
+    const request = {
+      auth: {
+        credentials: {
+          userId: userId
+        }
+      },
+      params: {
+        id: userId
+      }
+    };
+
+    beforeEach(() => {
+      sinon.stub(campaignParticipationSerializer, 'serialize');
+      sinon.stub(usecases, 'findCampaignParticipationsRelatedToUser');
+    });
+
+    it('should return serialized Memberships', async function() {
+      // given
+      usecases.findCampaignParticipationsRelatedToUser.withArgs({ userId }).resolves([]);
+      campaignParticipationSerializer.serialize.withArgs([]).returns({});
+
+      // when
+      const response = await userController.getCampaignParticipations(request, hFake);
+
+      // then
+      expect(response).to.deep.equal({});
     });
   });
 
