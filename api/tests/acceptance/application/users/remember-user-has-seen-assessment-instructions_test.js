@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | users-controller-remember-user-has-seen-assessment-instructions', () => {
@@ -24,7 +24,7 @@ describe('Acceptance | Controller | users-controller-remember-user-has-seen-asse
       method: 'PATCH',
       url: `/api/users/${user.id}/remember-user-has-seen-assessment-instructions`,
       // payload: {},
-      headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+      headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
     };
 
     // when

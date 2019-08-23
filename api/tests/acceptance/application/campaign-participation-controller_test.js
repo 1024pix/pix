@@ -2,7 +2,7 @@ const _ = require('lodash');
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const cache = require('../../../lib/infrastructure/caches/cache');
-const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 
 describe('Acceptance | API | Campaign Participations', () => {
 
@@ -46,7 +46,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       options = {
         method: 'GET',
         url: `/api/campaign-participations/${campaignParticipation.id}?include=user`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
       const expectedCampaignParticipation = {
         id: campaignParticipation.id.toString(),
@@ -112,7 +112,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         options = {
           method: 'GET',
           url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}&include=campaign,user`,
-          headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         };
       });
 
@@ -249,7 +249,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       options = {
         method: 'GET',
         url: `/api/campaign-participations?filter[campaignId]=${campaignId}&include=user,campaign-participation-result&page[number]=1&page[size]=10`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
     });
 
@@ -383,7 +383,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       options = {
         method: 'PATCH',
         url: `/api/campaign-participations/${campaignParticipationId}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload: {
           data: {
             isShared: true
@@ -501,7 +501,7 @@ describe('Acceptance | API | Campaign Participations', () => {
     const options = {
       method: 'POST',
       url: '/api/campaign-participations',
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
+      headers: { authorization: generateValidRequestAuthorizationHeader() },
       payload: {
         data: {
           type: 'campaign-participations',

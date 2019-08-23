@@ -1,4 +1,4 @@
-const { airtableBuilder, expect, knex, nock, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
+const { airtableBuilder, expect, knex, nock, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const createServer = require('../../../../server');
 
@@ -159,7 +159,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
         options = {
           method: 'GET',
           url: `/api/assessments/${inserted_assessment_id}`,
-          headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
         };
       });
     });
@@ -238,7 +238,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
         inserted_assessment_id = id;
         options = {
           headers: {
-            authorization: generateValidRequestAuhorizationHeader(userId),
+            authorization: generateValidRequestAuthorizationHeader(userId),
           },
           method: 'GET',
           url: `/api/assessments/${inserted_assessment_id}`,
@@ -290,7 +290,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       const options = {
         method: 'GET',
         url: `/api/assessments/${inserted_assessment_id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when
@@ -306,7 +306,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       const options = {
         method: 'GET',
         url: `/api/assessments/${inserted_assessment_id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when
@@ -324,7 +324,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       const options = {
         method: 'GET',
         url: `/api/assessments/${inserted_assessment_id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when
@@ -396,7 +396,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       const options = {
         method: 'GET',
         url: '/api/assessments/',
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when
@@ -414,7 +414,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       const options = {
         method: 'GET',
         url: '/api/assessments/',
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       // when
@@ -432,7 +432,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       const options = {
         method: 'GET',
         url: '/api/assessments?filter[codeCampaign]=TESTCODE',
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
       const expectedFirstAssessment = {
         'type': 'assessment',

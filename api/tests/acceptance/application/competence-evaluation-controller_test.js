@@ -1,5 +1,5 @@
 const createServer = require('../../../server');
-const { expect, generateValidRequestAuhorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, airtableBuilder, databaseBuilder, knex } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/caches/cache');
 
 describe('Acceptance | API | Competence Evaluations', () => {
@@ -18,7 +18,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
       method: 'POST',
       url: '/api/competence-evaluations/start-or-resume',
       headers: {
-        authorization: generateValidRequestAuhorizationHeader(userId)
+        authorization: generateValidRequestAuthorizationHeader(userId)
       },
       payload: { competenceId },
     };
@@ -118,7 +118,7 @@ describe('Acceptance | API | Competence Evaluations', () => {
       options = {
         method: 'GET',
         url: `/api/competence-evaluations?filter[assessmentId]=${assessment.id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
     });
 

@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const faker = require('faker');
 const createServer = require('../../../../server');
 
@@ -12,7 +12,7 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
       method: 'GET',
       url: '/api/users/1234',
       payload: { },
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
+      headers: { authorization: generateValidRequestAuthorizationHeader() },
     };
     server = await createServer();
   });

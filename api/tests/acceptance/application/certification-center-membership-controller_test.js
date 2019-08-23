@@ -1,5 +1,5 @@
 const {
-  expect, generateValidRequestAuhorizationHeader, cleanupUsersAndPixRolesTables,
+  expect, generateValidRequestAuthorizationHeader, cleanupUsersAndPixRolesTables,
   insertUserWithRolePixMaster, databaseBuilder
 } = require('../../test-helper');
 const createServer = require('../../../server');
@@ -39,7 +39,7 @@ describe('Acceptance | API | Certification Center Membership', () => {
 
     context('when user is Pix Master', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader() };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
       it('should return 201 HTTP status', () => {
@@ -55,7 +55,7 @@ describe('Acceptance | API | Certification Center Membership', () => {
 
     context('when user is not PixMaster', () => {
       beforeEach(() => {
-        options.headers = { authorization: generateValidRequestAuhorizationHeader(1111) };
+        options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
       it('should return 403 HTTP status code ', () => {

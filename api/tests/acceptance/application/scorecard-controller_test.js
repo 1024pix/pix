@@ -1,4 +1,4 @@
-const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/caches/cache');
 
 const createServer = require('../../../server');
@@ -60,7 +60,7 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       const competenceReference = '1.1 Mener une recherche et une veille d’information';
 
       beforeEach(async () => {
-        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         competence = airtableBuilder.factory.buildCompetence({
           id: competenceId,

@@ -1,4 +1,4 @@
-const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, knex, nock, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -53,7 +53,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         options = {
           method: 'POST',
           url: '/api/answers',
-          headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           payload: {
             data: {
               type: 'answers',
@@ -148,7 +148,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
           options = {
             method: 'POST',
             url: '/api/answers',
-            headers: { authorization: generateValidRequestAuhorizationHeader(userId + 3) },
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId + 3) },
             payload: {
               data: {
                 type: 'answers',

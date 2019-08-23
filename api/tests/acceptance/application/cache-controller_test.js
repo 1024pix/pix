@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | cache-controller', () => {
@@ -37,7 +37,7 @@ describe('Acceptance | Controller | cache-controller', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
         const response = await server.inject(options);
@@ -76,7 +76,7 @@ describe('Acceptance | Controller | cache-controller', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
         const response = await server.inject(options);
@@ -115,7 +115,7 @@ describe('Acceptance | Controller | cache-controller', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
         const response = await server.inject(options);

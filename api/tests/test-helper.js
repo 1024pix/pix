@@ -35,7 +35,7 @@ const tokenService = require('../lib/domain/services/token-service');
 /**
  * @returns string
  */
-function generateValidRequestAuhorizationHeader(userId = 1234) {
+function generateValidRequestAuthorizationHeader(userId = 1234) {
   const user = {
     id: userId,
   };
@@ -148,7 +148,7 @@ module.exports = {
   expect,
   domainBuilder: require('./tooling/domain-builder/factory'),
   databaseBuilder,
-  generateValidRequestAuhorizationHeader,
+  generateValidRequestAuthorizationHeader,
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertUserWithRolePixMaster,

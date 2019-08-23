@@ -1,5 +1,5 @@
 const createServer = require('../../../server');
-const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder, airtableBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/caches/cache');
 const _ = require('lodash');
 
@@ -127,7 +127,7 @@ describe('Acceptance | API | Campaign Participation Result', () => {
       options = {
         method: 'GET',
         url: `/api/campaign-participations/${campaignParticipation.id}/campaign-participation-result`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     });
 
