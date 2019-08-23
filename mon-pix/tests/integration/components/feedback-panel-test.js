@@ -4,11 +4,19 @@ import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
-import { blur, click, find, fillIn, render } from '@ember/test-helpers';
+import { blur, click, find, findAll, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 const TOGGLE_LINK = '.feedback-panel__open-link';
 const BUTTON_SEND = '.feedback-panel__button--send';
+
+const TEXTAREA = 'textarea.feedback-panel__field--content';
+const DROPDOWN = '.feedback-panel__dropdown';
+const TUTORIAL_AREA = '.feedback-panel__tutorial-content';
+
+const PICK_CATEGORY_WITH_NESTED_LEVEL = 'instructions';
+const PICK_CATEGORY_WITH_TEXTAREA = 'link';
+const PICK_CATEGORY_WITH_TUTORIAL = 'picture';
 
 function expectFormViewToBeVisible() {
   expect(find('.feedback-panel__view--form')).to.exist;
@@ -23,8 +31,9 @@ function expectMercixViewToBeVisible() {
 }
 
 async function setContent(content) {
-  await fillIn('.feedback-panel__field--content', content);
-  await blur('.feedback-panel__field--content');
+  await fillIn(DROPDOWN, PICK_CATEGORY_WITH_TEXTAREA);
+  await fillIn(TEXTAREA, content);
+  await blur(TEXTAREA);
 }
 
 describe('Integration | Component | feedback-panel', function() {
@@ -83,8 +92,7 @@ describe('Integration | Component | feedback-panel', function() {
 
     it('should display the "form" view', function() {
       expectFormViewToBeVisible();
-      expect(find('textarea.feedback-panel__field--content')).to.exist;
-      expect(find(BUTTON_SEND)).to.exist;
+      expect(findAll(DROPDOWN).length).to.equal(1);
     });
 
     it('clicking on "send" button should display the "mercix" view', async function() {
@@ -99,6 +107,62 @@ describe('Integration | Component | feedback-panel', function() {
       expectFormViewToNotBeVisible();
       expectMercixViewToBeVisible();
     });
+
+    context('selecting a category', function() {
+      it('should display a second dropdown with the list of questions', async function() {
+        // when
+        await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_NESTED_LEVEL);
+
+        // then
+        expect(findAll(DROPDOWN).length).to.equal(2);
+        expect(find(TEXTAREA)).to.not.exist;
+        expect(find(BUTTON_SEND)).to.not.exist;
+      });
+
+      it('with no further questions should directly display the message box and the submit button', async function() {
+        // when
+        await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TEXTAREA);
+
+        // then
+        expect(findAll(DROPDOWN).length).to.equal(1);
+        expect(findAll(BUTTON_SEND).length).to.equal(1);
+      });
+
+      it('with a tuto should directly display the tuto without the textbox nor the send button', async function() {
+        // when
+        await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TUTORIAL);
+
+        // then
+        expect(findAll(DROPDOWN).length).to.equal(1);
+        expect(find(BUTTON_SEND)).to.not.exist;
+        expect(find(TEXTAREA)).to.not.exist;
+      });
+
+      it('selecting another category should show the correct feedback action', async function() {
+        // when
+        await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TUTORIAL);
+        await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TEXTAREA);
+
+        // then
+        expect(findAll(DROPDOWN).length).to.equal(1);
+        expect(find(TUTORIAL_AREA)).to.not.exist;
+        expect(find(BUTTON_SEND)).to.exist;
+        expect(find(TEXTAREA)).to.exist;
+      });
+
+      it('with fewer levels after a deeper category should hide the second dropdown', async function() {
+        // when
+        await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_NESTED_LEVEL);
+        await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TEXTAREA);
+
+        // then
+        expect(findAll(DROPDOWN).length).to.equal(1);
+        expect(find(TUTORIAL_AREA)).to.not.exist;
+        expect(find(BUTTON_SEND)).to.exist;
+        expect(find(TEXTAREA)).to.exist;
+      });
+    });
+
   });
 
   describe('Error management', function() {
@@ -106,6 +170,7 @@ describe('Integration | Component | feedback-panel', function() {
     it('should display error if "content" is empty', async function() {
       // given
       await render(hbs`{{feedback-panel isFormOpened=true}}`);
+      await fillIn('.feedback-panel__dropdown', PICK_CATEGORY_WITH_TEXTAREA);
 
       // when
       await click(BUTTON_SEND);
@@ -152,12 +217,12 @@ describe('Integration | Component | feedback-panel', function() {
     this.set('challenge', 2);
 
     // then
-    expect(find('.feedback-panel__field--content')).to.not.exist;
+    expect(find(TEXTAREA)).to.not.exist;
 
     // when
     await click(TOGGLE_LINK);
 
     // then
-    expect(find('.feedback-panel__field--content').value).to.equal('');
+    expect(find(TEXTAREA).value).to.equal('');
   });
 });
