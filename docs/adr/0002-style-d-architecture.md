@@ -1,4 +1,4 @@
-# 1. Enregistrer les décisions concernant l'architecture
+# 2. Style d'architecture
 
 Date : 2019-08-22
 
@@ -17,7 +17,7 @@ Pour accomplir cet objectif ambitieux, Pix table sur une stratégie à 3 dimensi
 
 Une partie du premier axe d'action est adressée à travers le développement d'une "plateforme numérique en ligne".
 
-De part l'aspect très grand public du projet, la plateforme doit répondre aux exigences de qualité suivantes :
+Étant donné l'aspect très grand public du projet, la plateforme doit répondre aux exigences de qualité suivantes :
 - innovante,
 - moderne,
 - fiable
@@ -42,8 +42,8 @@ Le style d'architecture retenue pour la mise en œuvre de la plateforme Pix et d
 
 - 1 API métier (back) sécurisée, fiable et performante
 - gérant l'accès et la manipulation de différents référentiels de données 
-- afin de désservir plusieurs applications clients (front) dédiées et optimisées pour un usage et une audience particulières 
-     
+- afin d'alimenter plusieurs applications clients (front) dédiées et optimisées pour un usage et une audience particulières 
+
 Tout accès ou manipulation d'un référentiel de données (base de données, service en ligne, cache applicatif, etc.) DOIT être effectué et restreint à l'API. 
 
 Une application front NE DOIT PAS accéder directement un référentiel de données, afin de diminuer le risque lié à la sécurisation des données personnelles ou business.
