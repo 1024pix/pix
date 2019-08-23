@@ -636,4 +636,38 @@ describe('Unit | Controller | user-controller', () => {
       expect(usecases.getUserScorecards).to.have.been.calledWith({ userId });
     });
   });
+
+  describe('#resetScorecard', () => {
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'resetScorecard').resolves({
+        name:'Comp1',
+      });
+      sinon.stub(scorecardSerializer, 'serialize').resolves();
+    });
+
+    it('should call the expected usecase', async () => {
+      // given
+      const userId = '12';
+      const competenceId = '875432';
+
+      const request = {
+        auth: {
+          credentials: {
+            userId
+          }
+        },
+        params: {
+          userId,
+          competenceId
+        }
+      };
+
+      // when
+      await userController.resetScorecard(request);
+
+      // then
+      expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId });
+    });
+  });
 });
