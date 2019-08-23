@@ -7,6 +7,7 @@ class CertificationCourse {
       birthdate,
       completedAt,
       createdAt,
+      updatedAt,
       externalId,
       firstName,
       isPublished = false,
@@ -23,6 +24,7 @@ class CertificationCourse {
     this.birthplace = birthplace;
     this.birthdate = birthdate;
     this.completedAt = completedAt;
+    this.updatedAt = updatedAt;
     this.createdAt = createdAt;
     this.externalId = externalId;
     this.firstName = firstName;

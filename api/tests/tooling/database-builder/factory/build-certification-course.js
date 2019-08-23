@@ -7,7 +7,6 @@ const _ = require('lodash');
 module.exports = function buildCertificationCourse({
   id,
   userId,
-  completedAt = faker.date.recent(),
   firstName = faker.name.firstName(),
   lastName = faker.name.lastName(),
   birthdate = faker.date.past(12),
@@ -17,6 +16,8 @@ module.exports = function buildCertificationCourse({
   isPublished = faker.random.boolean(),
   isV2Certification = false,
   createdAt = faker.date.past(),
+  updatedAt = faker.date.recent(),
+  completedAt = faker.date.recent(),
 } = {}) {
 
   userId = _.isNil(userId) ? buildUser().id : userId;
@@ -24,17 +25,18 @@ module.exports = function buildCertificationCourse({
 
   const values = {
     id,
+    userId,
+    firstName,
+    lastName,
     birthdate,
     birthplace,
-    completedAt,
-    createdAt,
-    externalId,
-    firstName,
-    isPublished,
-    lastName,
     sessionId,
-    userId,
+    externalId,
+    isPublished,
     isV2Certification,
+    createdAt,
+    updatedAt,
+    completedAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-courses',
