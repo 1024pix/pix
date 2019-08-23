@@ -36,9 +36,9 @@ export default Component.extend({
 
   onValidate: () => {},
 
-  textfieldType: computed('textfieldName', function() {
+  textfieldType: computed('textfieldName', 'isPasswordVisible',  function() {
     if (this.textfieldName === 'password') {
-      return 'password';
+      return this.isPasswordVisible ? 'text' : 'password';
     }
     if (this.textfieldName === 'email') {
       return 'email';
@@ -77,7 +77,6 @@ export default Component.extend({
   actions: {
     togglePasswordVisibility() {
       this.toggleProperty('isPasswordVisible');
-      this.set('textfieldType', this.textfieldType === 'password' ? 'text' : 'password');
     }
   }
 });
