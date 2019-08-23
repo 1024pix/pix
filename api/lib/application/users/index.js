@@ -95,6 +95,10 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/campaign-participations',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.getCampaignParticipations,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +

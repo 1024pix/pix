@@ -8,6 +8,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
   let campaign2;
   let campaignParticipation1;
   let campaignParticipation2;
+  let options;
   let server;
 
   beforeEach(async () => {
@@ -15,14 +16,6 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
   });
 
   describe('GET /users/:id/campaign-participations', () => {
-
-    function _options(userId) {
-      return {
-        method: 'GET',
-        url: `/api/users/${userId}/campaign-participations`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-    }
 
     beforeEach(() => {
       const user = databaseBuilder.factory.buildUser();
@@ -43,6 +36,13 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
         campaignId: campaign2.id,
         createdAt: recentDate,
       });
+
+      options = {
+        method: 'GET',
+        url: `/api/users/${userId}/campaign-participations`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
       return databaseBuilder.commit();
     });
 
@@ -50,12 +50,39 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
       return databaseBuilder.clean();
     });
 
-    it('should return found campaign-participations with 200 HTTP status code', () => {
-      // when
-      const promise = server.inject(_options(userId));
+    describe('Resource access management', () => {
 
-      // then
-      return promise.then((response) => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+        // given
+        const otherUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('Success case', () => {
+
+      it('should return found campaign-participations with 200 HTTP status code', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
           data: [
