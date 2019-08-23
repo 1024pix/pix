@@ -76,13 +76,9 @@ module.exports = {
   },
 
   async rememberUserHasSeenNewProfileInfo(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    const updatedUser = await usecases.rememberUserHasSeenNewProfileInfo({
-      authenticatedUserId, requestedUserId
-    });
-
+    const updatedUser = await usecases.rememberUserHasSeenNewProfileInfo({ userId: authenticatedUserId });
     return userSerializer.serialize(updatedUser);
   },
 
