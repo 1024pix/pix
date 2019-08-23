@@ -616,17 +616,16 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should call the expected usecase', async () => {
       // given
-      const authenticatedUserId = '12';
-      const requestedUserId = '12';
+      const userId = '12';
 
       const request = {
         auth: {
           credentials: {
-            userId: authenticatedUserId
+            userId
           }
         },
         params: {
-          id: requestedUserId
+          id: userId
         }
       };
 
@@ -634,8 +633,7 @@ describe('Unit | Controller | user-controller', () => {
       await userController.getScorecards(request);
 
       // then
-      expect(usecases.getUserScorecards).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
-
+      expect(usecases.getUserScorecards).to.have.been.calledWith({ userId });
     });
   });
 });

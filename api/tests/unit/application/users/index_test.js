@@ -258,6 +258,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}/scorecards', function() {
     beforeEach(() => {
       sinon.stub(userController, 'getScorecards').returns('ok');
+      sinon.stub(securityController, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       startServer();
     });
 

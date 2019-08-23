@@ -134,9 +134,9 @@ module.exports = {
   },
 
   getScorecards(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
-    return usecases.getUserScorecards({ authenticatedUserId, requestedUserId })
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    return usecases.getUserScorecards({ userId: authenticatedUserId })
       .then(scorecardSerializer.serialize);
   },
 
