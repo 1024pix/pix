@@ -193,13 +193,17 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/scorecards',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.getScorecards,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des niveaux par compétences de l\'utilisateur\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api']
+        tags: ['api', 'user', 'scorecard']
       }
     },
     {
