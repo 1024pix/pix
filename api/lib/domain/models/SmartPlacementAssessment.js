@@ -6,6 +6,7 @@ const SmartPlacementAssessmentState = Object.freeze({
   ABORTED: 'aborted',
 });
 
+const courseIdMessage = 'Smart Placement Tests CourseId Not Used';
 /**
  * Traduction: Évaluation
  * Context: Objet existant dans le cadre d'un smart placement hors calcul de la réponse suivante
@@ -73,5 +74,6 @@ class SmartPlacementAssessment {
 }
 
 SmartPlacementAssessment.State = SmartPlacementAssessmentState;
+SmartPlacementAssessment.CourseIdMessage = courseIdMessage;
 
 module.exports = SmartPlacementAssessment;
