@@ -49,6 +49,19 @@ exports.register = async function(server) {
         ],
         tags: ['api', 'campaign-participation']
       }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/campaign-participations/{id}/start-improvement',
+      config: {
+        handler: campaignParticipationController.startImprovement,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Elle permet de progresser à la fin d\'une participation à une campagne' +
+          '- Le contenu de la requête n\'est pas pris en compte.',
+        ],
+        tags: ['api', 'campaign-participation']
+      }
     }
   ]);
 };
