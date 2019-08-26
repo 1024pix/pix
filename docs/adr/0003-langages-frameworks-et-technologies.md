@@ -22,8 +22,6 @@ Sur la base de ces convictions et selon l'approche de *design émergent*, nous d
 
 En phase avec le proverbe *less is more*, nous pensons que la simplicité d'un SI découle (entre autres) de la réduction des ressources impliquées et de leur bon usage, aux justes fins.
 
-L'ajout d'un langage, d'un frameworks ou de tout autre brique logicielle au sein du SI et de l'architecture de la plateforme Pix DOIT faire l'objet d'une étude approfondie. Le but de cette étude est de contrôler la complexité liée au nombre et à la nature des composants du SI ainsi qu'à leurs interactions ou interdépendances.
-
 Par ailleurs, limiter les technologies permet de limiter les expertises requises pour développer de façon autonome, productive et confortable le projet ; et ainsi :
 
 - faciliter le recrutement
@@ -68,4 +66,4 @@ On PEUT toutefois utiliser des technologies ou services propriétaires si c'est 
 
 ## Conséquences
 
-A4H
+L'ajout d'un langage, d'un framework ou de toute autre brique logicielle au sein du SI et de l'architecture de la plateforme Pix DOIT faire l'objet d'une étude approfondie. Le but de cette étude est de contrôler la complexité liée au nombre et à la nature des composants du SI ainsi qu'à leurs interactions ou interdépendances.
