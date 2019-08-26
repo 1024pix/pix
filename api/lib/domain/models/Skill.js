@@ -53,6 +53,13 @@ class Skill {
 
     return oneSkill.id === otherSkill.id;
   }
+
+  static sortByDecreasingDifficulty(skills) {
+    return _(skills)
+      .sortBy('difficulty')
+      .reverse()
+      .value();
+  }
 }
 
 module.exports = Skill;
