@@ -17,6 +17,7 @@ class SmartPlacementAssessment {
     // attributes
     state,
     createdAt,
+    isImproving,
     // includes
     answers = [],
     knowledgeElements = [],
@@ -30,6 +31,7 @@ class SmartPlacementAssessment {
     // attributes
     this.state = state;
     this.createdAt = createdAt;
+    this.isImproving = isImproving;
     // includes
     this.answers = answers;
     this.knowledgeElements = knowledgeElements;
