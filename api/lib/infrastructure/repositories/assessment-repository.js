@@ -146,6 +146,7 @@ module.exports = {
 function _toDomain(bookshelfAssessment) {
   if (bookshelfAssessment !== null) {
     const modelObjectInJSON = bookshelfAssessment.toJSON();
+    modelObjectInJSON.isImproving = Boolean(modelObjectInJSON.isImproving);
 
     const answers = bookshelfAssessment.related('answers')
       .map((bookshelfAnswer) => new Answer(bookshelfAnswer.toJSON()));
