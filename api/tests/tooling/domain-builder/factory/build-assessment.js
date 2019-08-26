@@ -94,6 +94,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   state = Assessment.states.COMPLETED,
   title = faker.lorem,
   isImproving = false,
+  campaignParticipationId = null,
 
   answers = [buildAnswer()],
   assessmentResults = [buildAssessmentResult()],
@@ -103,6 +104,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   campaignParticipation = null,
   competenceId = faker.random.number(),
 } = {}) {
+
   return new Assessment({
     // attributes
     id,
@@ -110,6 +112,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
     createdAt,
     userId,
     competenceId,
+    campaignParticipationId,
     title,
     type: Assessment.types.COMPETENCE_EVALUATION,
     state,
