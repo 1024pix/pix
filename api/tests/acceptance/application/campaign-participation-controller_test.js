@@ -551,4 +551,80 @@ describe('Acceptance | API | Campaign Participations', () => {
       });
     });
   });
+
+  describe('PATH /api/campaign-participations/{id}/start-improvement', () => {
+    let user, campaignParticipation;
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser();
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, isShared: false });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    context('when user is connected', () => {
+      beforeEach(() => {
+        options = {
+          method: 'PATCH',
+          url: `/api/campaign-participations/${campaignParticipation.id}/start-improvement`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        };
+      });
+
+      it('should return 200 HTTP status code with updatedAssessment', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+    });
+
+    context('when user is not connected', () => {
+      beforeEach(() => {
+        options = {
+          method: 'PATCH',
+          url: `/api/campaign-participations/${campaignParticipation.id}/start-improvement`,
+        };
+      });
+
+      it('should return 401 HTTP status code', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+    });
+
+    context('when user is connected but does not owned the assessment', () => {
+      beforeEach(async () => {
+        const otherUser = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+
+        options = {
+          method: 'PATCH',
+          url: `/api/campaign-participations/${campaignParticipation.id}/start-improvement`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(otherUser.id) },
+        };
+      });
+
+      it('should return 403 HTTP status code', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+  });
+
 });
