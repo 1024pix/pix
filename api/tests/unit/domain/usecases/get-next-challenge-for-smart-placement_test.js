@@ -10,7 +10,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     let userId, assessmentId, targetProfileId, campaignParticipation,
       assessment, answers, answerRepository, challengeRepository, challenges,
       knowledgeElementRepository, recentKnowledgeElements,
-      targetProfileRepository, targetProfile, skills, expectedNextChallenge, actualNextChallenge;
+      targetProfileRepository, targetProfile, skills, expectedNextChallenge, actualNextChallenge,
+      improvementService;
 
     beforeEach(async () => {
 
@@ -27,6 +28,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       skills = [];
       targetProfile = { skills };
       targetProfileRepository = { get: sinon.stub().resolves(targetProfile) };
+      improvementService = { filterKnowledgeElementsToRemoveThoseWhichCanBeImproved: sinon.stub().returns(recentKnowledgeElements) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
       knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
@@ -42,7 +44,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
         answerRepository,
         challengeRepository,
         knowledgeElementRepository,
-        targetProfileRepository
+        targetProfileRepository,
+        improvementService
       });
     });
 
