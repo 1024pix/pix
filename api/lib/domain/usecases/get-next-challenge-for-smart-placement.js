@@ -8,6 +8,7 @@ async function getNextChallengeForSmartPlacement({
   targetProfileRepository,
   challengeRepository,
   answerRepository,
+  improvementService,
   assessment,
 }) {
 
