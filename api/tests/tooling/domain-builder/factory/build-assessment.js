@@ -17,6 +17,7 @@ function buildAssessment({
   title = 'courseId',
   type = Assessment.types.CERTIFICATION,
   state = Assessment.states.COMPLETED,
+  isImproving = false,
   course = buildCourse({ id: 'courseId' }),
   answers = [buildAnswer()],
   assessmentResults = [buildAssessmentResult()],
@@ -33,6 +34,7 @@ function buildAssessment({
     title,
     type,
     state,
+    isImproving,
     competenceId,
 
     // relationships
@@ -51,6 +53,7 @@ buildAssessment.ofTypeSmartPlacement = function({
   userId = faker.random.number(),
   competenceId = null,
   state = Assessment.states.COMPLETED,
+  isImproving = false,
 
   answers = [buildAnswer()],
   assessmentResults = [buildAssessmentResult()],
@@ -70,6 +73,7 @@ buildAssessment.ofTypeSmartPlacement = function({
     title,
     type: Assessment.types.SMARTPLACEMENT,
     state,
+    isImproving,
 
     // relationships
     answers,
@@ -89,6 +93,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   userId = faker.random.number(),
   state = Assessment.states.COMPLETED,
   title = faker.lorem,
+  isImproving = false,
 
   answers = [buildAnswer()],
   assessmentResults = [buildAssessmentResult()],
@@ -108,6 +113,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
     title,
     type: Assessment.types.COMPETENCE_EVALUATION,
     state,
+    isImproving,
 
     // relationships
     answers,
