@@ -39,6 +39,7 @@ class Assessment {
     state,
     title,
     type,
+    isImproving,
     // includes
     answers = [],
     assessmentResults = [],
@@ -56,6 +57,7 @@ class Assessment {
     this.state = state;
     this.title = title;
     this.type = type;
+    this.isImproving = isImproving;
     // includes
     this.answers = answers;
     this.assessmentResults = assessmentResults;
