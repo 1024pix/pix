@@ -8,7 +8,8 @@ module.exports = async function getProgression(
     competenceEvaluationRepository,
     smartPlacementAssessmentRepository,
     knowledgeElementRepository,
-    skillRepository
+    skillRepository,
+    improvementService,
   }) {
 
   const assessmentId = Progression.getAssessmentIdFromId(progressionId);
@@ -19,11 +20,15 @@ module.exports = async function getProgression(
   if (assessment.isSmartPlacement()) {
     const smartPlacementAssessment = await smartPlacementAssessmentRepository.get(assessmentId);
     const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: smartPlacementAssessment.campaignParticipation.sharedAt });
+    const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved({
+      knowledgeElements: knowledgeElementsBeforeSharedDate,
+      assessment
+    });
 
     progression = new Progression({
       id: progressionId,
       targetedSkills: smartPlacementAssessment.targetProfile.skills,
-      knowledgeElements: knowledgeElementsBeforeSharedDate,
+      knowledgeElements: knowledgeElementsForProgression,
       isProfileCompleted: smartPlacementAssessment.isCompleted
     });
   }
