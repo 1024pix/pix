@@ -11,7 +11,7 @@ Accepté
 La mission de Pix est d'accompagner la société et les citoyens à prendre le train du numérique dans les meilleures conditions et délais.
 
 Pour accomplir cet objectif ambitieux, Pix table sur une stratégie à 3 dimensions :
-- fournir un (bouquet de) service(s) de qualité accesible au plus grand nombre
+- fournir un (bouquet de) service(s) de qualité accessible au plus grand nombre
 - co-construire un standard reconnu et validé par tous (établissements et structures scolaires ou d'enseignement supérieur, organisations profesionnelles / publiques / privées, administrations, associations, etc.)
 - développer une communauté et une culture Pix
 
@@ -20,7 +20,7 @@ Une partie du premier axe d'action est adressée à travers le développement d'
 Étant donné l'aspect très grand public du projet, la plateforme doit répondre aux exigences de qualité suivantes :
 - innovante,
 - moderne,
-- fiable
+- fiable,
 - accessible, 
 - sécurisée,
 - performante 
@@ -28,7 +28,7 @@ Une partie du premier axe d'action est adressée à travers le développement d'
 Par ailleurs, la plateforme doit respecter les caractéristiques suivantes :
 - réactive par rapport au marché de l'évaluation et de la certification des compétences numériques en ligne, et à une approche "Lean Product Management"  
 - évolutive selon la couverture de marché et la complexité grandissante du métier
-- ouverte (i.e. intéropérable) des SI tiers ou externes, en lecture/écriture, avec des flux entrant/sortant
+- ouverte (i.e. interopérable) des SI tiers ou externes, en lecture/écriture, avec des flux entrant/sortant
 
 Enfin, la plateforme doit permettre simplement, rapidement et à moindre coût l'émergence, l'ajout, la suppression, la mise à jour et la maintenance de services SI de différente sorte, en fonction des besoins métier ou technique.
 
@@ -42,7 +42,7 @@ Le style d'architecture retenue pour la mise en œuvre de la plateforme Pix et d
 
 - 1 API métier (back) sécurisée, fiable et performante
 - gérant l'accès et la manipulation de différents référentiels de données 
-- afin d'alimenter plusieurs applications clients (front) dédiées et optimisées pour un usage et une audience particulières 
+- afin d'alimenter plusieurs applications clients (front) dédiées et optimisées pour un usage et une audience particuliers 
 
 Tout accès ou manipulation d'un référentiel de données (base de données, service en ligne, cache applicatif, etc.) DOIT être effectué et restreint à l'API. 
 
@@ -60,6 +60,6 @@ Toute application front DOIT permettre aux utilisateurs un usage confortable et 
 
 Ce style d'architecture nécessite de gérer plusieurs projets / applications.
 
-Par ailleurs, afin de proposer une expérience utilisateur optimale, certaines règles métier peuvent être codées plusieurs fois (dans l'API et dans le·s front·s correspondant).
+Par ailleurs, afin de proposer une expérience utilisateur optimale, certaines règles métier peuvent être codées plusieurs fois (dans l'API et dans le·s front·s correspondant·s).
 
 Enfin, certaines fonctionnalités techniques basiques peuvent être dupliquées entre plusieurs applications front.
