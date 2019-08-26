@@ -180,22 +180,45 @@ describe('Integration | Component | form textfield', function() {
     });
   });
 
-  describe('#When type is password it\'s possible to show this', function() {
+  describe('#When password is hidden', function() {
     this.beforeEach(async function() {
       this.set('label', 'Mot de passe');
       this.set('validationStatus', 'default');
       this.set('validationMessage', '');
       this.set('textfieldName', 'password');
 
-      // When
+      // given
       await render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName value=inputValue}}`);
     });
 
     it('should change type when user click on eye icon', async function() {
-      //then
-      expect(find('input').getAttribute('type')).to.equal('password');
+      // when
       await click('.form-textfield__icon');
+
+      // then
       expect(find('input').getAttribute('type')).to.equal('text');
+    });
+
+    it('should change icon when user click on it', async function() {
+      // when
+      expect(find('.fa-eye-slash')).to.exist;
+      await click('.form-textfield__icon');
+
+      // then
+      expect(find('.fa-eye')).to.exist;
+    });
+
+    it('should not change icon when user keeps typing his password', async function() {
+      // given
+      await fillIn(INPUT, 'test');
+
+      // when
+      expect(find('.fa-eye-slash')).to.exist;
+      await click('.form-textfield__icon');
+      await fillIn(INPUT, 'test');
+
+      // then
+      expect(find('.fa-eye')).to.exist;
     });
   });
 });
