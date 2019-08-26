@@ -12,6 +12,7 @@ module.exports = function buildAssessment({
   state = Assessment.states.COMPLETED,
   isImproving = false,
   competenceId = null,
+  campaignParticipationId = null,
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
