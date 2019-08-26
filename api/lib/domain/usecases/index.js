@@ -123,6 +123,7 @@ module.exports = injectDependencies({
   saveCertificationCenter: require('./save-certification-center'),
   shareCampaignResult: require('./share-campaign-result'),
   startCampaignParticipation: require('./start-campaign-participation'),
+  startImprovingCampaignParticipation: require('./start-improving-campaign-participation'),
   startOrResumeCompetenceEvaluation: require('./start-or-resume-competence-evaluation'),
   updateCampaign: require('./update-campaign'),
   updateCertificationPublicationStatus: require('./update-certification-publication-status'),
