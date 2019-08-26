@@ -12,6 +12,7 @@ module.exports = function buildAssessment({
   state = Assessment.states.COMPLETED,
   isImproving = false,
   competenceId = null,
+  campaignParticipationId = null,
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
@@ -20,7 +21,7 @@ module.exports = function buildAssessment({
   }
 
   const values = {
-    id, courseId, userId, type, state, isImproving, createdAt, updatedAt, competenceId,
+    id, courseId, userId, type, state, isImproving, createdAt, updatedAt, competenceId, campaignParticipationId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'assessments',

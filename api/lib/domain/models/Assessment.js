@@ -7,6 +7,7 @@ const MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = 7;
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
+  SMART_PLACEMENT: 'Smart Placement Tests CourseId Not Used',
 };
 
 const states = {
@@ -50,6 +51,7 @@ class Assessment {
     courseId,
     userId,
     competenceId,
+    campaignParticipationId,
   } = {}) {
     this.id = id;
     // attributes
@@ -68,6 +70,7 @@ class Assessment {
     this.courseId = courseId;
     this.userId = userId;
     this.competenceId = competenceId;
+    this.campaignParticipationId = campaignParticipationId;
   }
 
   /**

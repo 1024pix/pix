@@ -11,11 +11,16 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
   const availableCampaignCode = 'ABCDEF123';
   const campaignRepository = { getByCode: () => undefined };
   const campaignParticipationRepository = { save: () => undefined };
-  const assessmentRepository = { save: () => undefined };
+  const assessmentRepository = {
+    save: () => undefined,
+    updateCampaignParticipationId: () => undefined,
+    get:  () => undefined };
 
   beforeEach(() => {
     sinon.stub(campaignRepository, 'getByCode');
     sinon.stub(assessmentRepository, 'save');
+    sinon.stub(assessmentRepository, 'updateCampaignParticipationId');
+    sinon.stub(assessmentRepository, 'get');
     sinon.stub(campaignParticipationRepository, 'save');
   });
 
@@ -65,7 +70,9 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       });
 
       campaignRepository.getByCode.resolves(campaign);
-      assessmentRepository.save.resolves(assessment);
+      assessmentRepository.save.resolves({ id: assessment.id });
+      assessmentRepository.get.resolves(assessment);
+      assessmentRepository.updateCampaignParticipationId.resolves({});
       campaignParticipationRepository.save.resolves({});
     });
 

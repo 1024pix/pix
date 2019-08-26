@@ -276,6 +276,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           createdAt: johnAssessmentToRemember.createdAt,
           type: Assessment.types.PLACEMENT,
           isImproving: false,
+          campaignParticipationId: null,
           competenceId: johnAssessmentToRemember.competenceId,
           campaignParticipation: null,
           assessmentResults: [
@@ -829,6 +830,32 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         // then
         expect(result).to.be.true;
       });
+    });
+  });
+
+  describe('#updateCampaignParticipationId', () => {
+
+    let assessment, campaignParticipation;
+    before(async () => {
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({  });
+      assessment = databaseBuilder.factory.buildAssessment({ campaignParticipationId: null });
+      await databaseBuilder.commit();
+    });
+
+    after(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should updated the campaignParticipationId', async () => {
+      // when
+      await assessmentRepository.updateCampaignParticipationId({
+        id: assessment.id,
+        campaignParticipationId: campaignParticipation.id,
+      });
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('id', 'campaignParticipationId');
+      expect(parseInt(assessmentsInDb.campaignParticipationId)).to.equal(parseInt(campaignParticipation.id));
     });
   });
 
