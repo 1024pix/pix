@@ -224,6 +224,16 @@ module.exports = {
       });
   },
 
+  isUserExistingByEmail(email) {
+    return BookshelfUser
+      .where({ email })
+      .fetch({ require: true })
+      .then(() => true)
+      .catch(() => {
+        throw new UserNotFoundError();
+      });
+  },
+
   updatePassword(id, hashedPassword) {
     return BookshelfUser.where({ id })
       .save({ password: hashedPassword }, {
