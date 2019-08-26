@@ -10,12 +10,13 @@ describe('Unit | UseCase | start-campaign-participation', () => {
   const campaignParticipation = domainBuilder.buildCampaignParticipation({});
   const campaignRepository = { get: () => undefined };
   const campaignParticipationRepository = { save: () => undefined };
-  const assessmentRepository = { save: () => undefined };
+  const assessmentRepository = { save: () => undefined, updateCampaignParticipationId: () => undefined };
 
   beforeEach(() => {
     sinon.stub(campaignRepository, 'get');
     sinon.stub(campaignParticipationRepository, 'save');
     sinon.stub(assessmentRepository, 'save');
+    sinon.stub(assessmentRepository, 'updateCampaignParticipationId');
 
     campaignRepository.get.resolves(domainBuilder.buildCampaign());
   });
@@ -34,6 +35,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
   it('should create a smart placement assessment', () => {
     // given
     assessmentRepository.save.resolves({});
+    campaignParticipationRepository.save.resolves({ id: 1 });
 
     // when
     const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
@@ -67,6 +69,24 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       expect(campaignParticipationToSave.userId).to.equal(userId);
       expect(campaignParticipationToSave.assessmentId).to.equal(assessmentId);
       expect(campaignParticipationToSave).to.deep.equal(campaignParticipation);
+    });
+  });
+
+  it('should updated the assessment with campaignParticipationId', () => {
+    // given
+    const assessmentId = 987654321;
+    assessmentRepository.save.resolves({ id: assessmentId });
+    campaignParticipationRepository.save.resolves({ id : 'idCampaignParticipation' });
+
+    // when
+    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+
+    // then
+    return promise.then(() => {
+      expect(assessmentRepository.updateCampaignParticipationId).to.have.been.calledWith({
+        id: assessmentId,
+        campaignParticipationId: 'idCampaignParticipation'
+      });
     });
   });
 
