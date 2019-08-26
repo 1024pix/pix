@@ -55,5 +55,17 @@ module.exports = {
       campaignParticipationId,
     })
       .then(() => null);
+  },
+
+  async startImprovement(request) {
+    const userId = requestUtils.extractUserIdFromRequest(request);
+    const campaignParticipationId = parseInt(request.params.id);
+
+    const campaignParticipation = await usecases.startImprovingCampaignParticipation({
+      campaignParticipationId,
+      userId,
+    });
+    return serializer.serialize(campaignParticipation);
+
   }
 };
