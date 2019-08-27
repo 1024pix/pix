@@ -101,10 +101,10 @@ function _getSumScoreFromCertifiedCompetences(listCompetences) {
 function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, reproductibilityRate, certificationChallenges, continueOnError) {
   return listCompetences.map((competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answers, competence, certificationChallenges, continueOnError);
-    // TODO: Convertir ça en Mark ?
     return {
       name: competence.name,
       index: competence.index,
+      area_code: competence.area.code,
       id: competence.id,
       positionedLevel: competence.estimatedLevel,
       positionedScore: competence.pixScore,
@@ -117,10 +117,10 @@ function _getCompetencesWithCertifiedLevelAndScore(answers, listCompetences, rep
 
 function _getCompetenceWithFailedLevel(listCompetences) {
   return listCompetences.map((competence) => {
-    // TODO: Convertir ça en Mark ?
     return {
       name: competence.name,
       index: competence.index,
+      area_code: competence.area.code,
       id: competence.id,
       positionedLevel: competence.estimatedLevel,
       positionedScore: competence.pixScore,
@@ -183,7 +183,7 @@ async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
   }
   return _(userCompetences)
     .filter((uc) => uc.estimatedLevel > 0)
-    .map((uc) => _.pick(uc, ['id', 'index', 'name', 'estimatedLevel', 'pixScore']))
+    .map((uc) => _.pick(uc, ['id', 'area', 'index', 'name', 'estimatedLevel', 'pixScore']))
     .value();
 }
 
