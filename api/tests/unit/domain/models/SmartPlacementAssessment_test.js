@@ -1,5 +1,5 @@
 const { expect, domainBuilder } = require('../../../test-helper');
-const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
+const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
@@ -22,7 +22,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
 }) {
   function answerStatusForKnowledgeElementStatus(knowledgeElementStatus) {
     return knowledgeElementStatus === KnowledgeElement.StatusType.VALIDATED ?
-      SmartPlacementAnswer.ResultType.OK : SmartPlacementAnswer.ResultType.KO;
+      AnswerStatus.OK : AnswerStatus.KO;
   }
 
   const skillsFromOneTube = domainBuilder.buildSkillCollection();
@@ -34,7 +34,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
 
   const targetProfile = domainBuilder.buildTargetProfile({ skills });
 
-  const answer1 = domainBuilder.buildSmartPlacementAnswer({
+  const answer1 = domainBuilder.buildAnswer({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement1Status),
   });
   const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
@@ -43,7 +43,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
     status: knowledgeElement1Status,
   });
 
-  const answer2 = domainBuilder.buildSmartPlacementAnswer({
+  const answer2 = domainBuilder.buildAnswer({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement2Status),
   });
 
@@ -53,7 +53,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
     status: knowledgeElement2Status,
   });
 
-  const answer3 = domainBuilder.buildSmartPlacementAnswer({
+  const answer3 = domainBuilder.buildAnswer({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement3Status),
   });
   const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
