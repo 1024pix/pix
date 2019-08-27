@@ -1,4 +1,4 @@
-const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
+const { sinon, expect, hFake } = require('../../../test-helper');
 
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const User = require('../../../../lib/domain/models/User');
@@ -275,77 +275,6 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       expect(response).to.be.equal('ok');
-    });
-  });
-
-  describe('#getUser', () => {
-    let requestedUserId;
-    let authenticatedUserId;
-    let request;
-
-    beforeEach(() => {
-      authenticatedUserId = requestedUserId = 72;
-      request = {
-        auth: {
-          credentials: {
-            userId: authenticatedUserId
-          }
-        },
-        params: {
-          id: requestedUserId
-        }
-      };
-
-      sinon.stub(usecases, 'getUser').resolves();
-      sinon.stub(userSerializer, 'serialize');
-    });
-
-    it('should retrieve user informations from user Id', async () => {
-      // when
-      await userController.getUser(request, hFake);
-
-      // then
-      expect(usecases.getUser).to.have.been.calledWith({
-        authenticatedUserId: authenticatedUserId.toString(),
-        requestedUserId,
-      });
-    });
-
-    it('should serialize the authenticated user', async () => {
-      // given
-      const foundUser = domainBuilder.buildUser();
-      usecases.getUser.resolves(foundUser);
-
-      // when
-      await userController.getUser(request, hFake);
-
-      // then
-      expect(userSerializer.serialize).to.have.been.calledWith(foundUser);
-    });
-
-    it('should return the user found based on the given userId', async () => {
-      // given
-      const foundUser = domainBuilder.buildUser();
-      const serializedUser = {
-        data: {
-          type: 'users',
-          id: foundUser.id,
-          attributes: {
-            'first-name': foundUser.firstName,
-            'last-name': foundUser.lastName,
-            'email': foundUser.email,
-            'cgu': foundUser.cgu
-          }
-        }
-      };
-      usecases.getUser.resolves(foundUser);
-      userSerializer.serialize.returns(serializedUser);
-
-      // when
-      const response = await userController.getUser(request, hFake);
-
-      // then
-      expect(response).to.deep.equal(serializedUser);
     });
   });
 
