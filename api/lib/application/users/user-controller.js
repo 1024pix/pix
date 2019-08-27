@@ -25,14 +25,6 @@ module.exports = {
       });
   },
 
-  getUser(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
-
-    return usecases.getUser({ authenticatedUserId, requestedUserId })
-      .then(userSerializer.serialize);
-  },
-
   getCurrentUser(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
