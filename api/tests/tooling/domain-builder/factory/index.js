@@ -40,7 +40,6 @@ module.exports = {
   buildSkillCollection: require('./build-skill-collection'),
   buildProgression: require('./build-progression'),
   buildSolution: require('./build-solution'),
-  buildSmartPlacementAnswer: require('./build-smart-placement-answer'),
   buildSmartPlacementAssessment: require('./build-smart-placement-assessment'),
   buildStudent: require('./build-student'),
   buildKnowledgeElement: require('./build-knowledge-element'),
