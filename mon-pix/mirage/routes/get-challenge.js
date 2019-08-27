@@ -8,7 +8,6 @@ import refTimedChallengeFull from '../data/challenges/ref-timed-challenge';
 import refTimedChallengeBisFull from '../data/challenges/ref-timed-challenge-bis';
 
 export default function(schema, request) {
-
   const challengeId = request.params.id;
 
   const allChallenges = [

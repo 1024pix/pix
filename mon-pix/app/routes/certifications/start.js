@@ -13,7 +13,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
     },
 
     submit(certificationCourse) {
-      return this.replaceWith('courses.create-assessment', certificationCourse.id);
+      const store = this.store;
+      return store.query('assessment', { filter: { type: certificationCourse.get('type'), courseId: certificationCourse.id, resumable: true } })
+        .then((assessments) => {
+          const assessment = assessments.get('firstObject');
+          return this.replaceWith('assessments.resume', assessment.get('id'));
+        });
     }
   }
 });
