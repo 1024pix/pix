@@ -42,29 +42,18 @@ module.exports = {
       lastAssessmentResultFull = await assessmentResultRepository.get(lastAssessmentResult.id);
     }
 
+    // TODO: Back this unnamed composite object with a real domain object
+    // TODO: model and do the necessary adjustements in PixAdmin.
     return {
-      level: lastAssessmentResultFull.level,
-      certificationId: certification.id,
-      assessmentId: assessment ? assessment.id : null,
-      emitter: lastAssessmentResultFull.emitter,
-      commentForJury: lastAssessmentResultFull.commentForJury,
-      commentForCandidate: lastAssessmentResultFull.commentForCandidate,
-      commentForOrganization: lastAssessmentResultFull.commentForOrganization,
-      status: lastAssessmentResultFull.status,
-      pixScore: lastAssessmentResultFull.pixScore,
-      createdAt: certification.createdAt,
-      juryId: lastAssessmentResultFull.juryId,
-      resultCreatedAt: lastAssessmentResultFull.createdAt,
-      completedAt: certification.completedAt,
-      competencesWithMark: lastAssessmentResultFull.competenceMarks,
-      firstName: certification.firstName,
-      lastName: certification.lastName,
-      birthdate: certification.birthdate,
-      birthplace: certification.birthplace,
-      sessionId: certification.sessionId,
-      externalId: certification.externalId,
-      isPublished: certification.isPublished,
-      isV2Certification: certification.isV2Certification,
+      ...certification,
+      ...lastAssessmentResultFull,
+      ...{
+        assessmentId: assessment.id,
+        certificationId: certification.id,
+        createdAt: certification.createdAt,
+        resultCreatedAt: lastAssessmentResultFull.createdAt,
+        competencesWithMark: lastAssessmentResultFull.competenceMarks,
+      },
     };
 
   },
