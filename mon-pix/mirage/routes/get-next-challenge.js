@@ -3,6 +3,7 @@ import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
+import { challengeIds } from '../data/challenges/challenge-ids';
 
 function getNextChallengeForDynamicAssessment(assessment, challenges) {
   const answers = assessment.answers.models;
@@ -37,13 +38,10 @@ function getNextChallengeForTestingAssessment(assessmentId, currentChallengeId) 
 }
 
 export default function(schema, request) {
-
   const assessmentId = request.params.assessmentId;
-
   // dynamic assessment
   const assessment = schema.assessments.find(assessmentId);
   if (assessment) {
-    const challengeIds = ['receop4TZKvtjjG0V', 'recLt9uwa2dR3IYpi', 'recn7XhSDTWo0Zzep'];
     const challenges = schema.challenges.find(challengeIds).models;
     return getNextChallengeForDynamicAssessment(assessment, challenges);
   }
