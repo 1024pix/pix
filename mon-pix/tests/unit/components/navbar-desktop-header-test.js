@@ -5,44 +5,10 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Component | Navbar Desktop Header Component', function() {
   setupTest();
-  const routeStubInCampaignResults = Service.create({ currentRouteName: 'campaigns.skill-review' });
-  const routeStubNotInCampaignResults = Service.create({ currentRouteName: 'profil' });
   const sessionStubResolve = Service.create({ isAuthenticated: true });
   const sessionStubReject = Service.create({ isAuthenticated: false });
 
   let component;
-
-  describe('When user has any login status', function() {
-    beforeEach(function() {
-      component = this.owner.lookup('component:navbar-desktop-header');
-    });
-
-    context('and is not in the campaign results page', function() {
-      beforeEach(function() {
-        component.set('router', routeStubNotInCampaignResults);
-      });
-
-      context('#isInRouteWithoutLinksInHeader', function() {
-        it('should return false', function() {
-          // then
-          expect(component.get('isInRouteWithoutLinksInHeader')).to.equal(false);
-        });
-      });
-    });
-
-    context('and is in the campaign results page', function() {
-      beforeEach(function() {
-        component.set('router', routeStubInCampaignResults);
-      });
-
-      context('#isInRouteWithoutLinksInHeader', function() {
-        it('should return true', function() {
-          // then
-          expect(component.get('isInRouteWithoutLinksInHeader')).to.equal(true);
-        });
-      });
-    });
-  });
 
   describe('When user is logged', function() {
     beforeEach(function() {

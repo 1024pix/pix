@@ -86,7 +86,7 @@ describe('Integration | Component | navbar-desktop-header', function() {
       expect(find('.navbar-menu-signin-link')).to.not.exist;
     });
 
-    it('should display the navigation menu with expected elements outside of campaign results', function() {
+    it('should display the navigation menu with expected elements', function() {
       // then
       expect(find('.navbar-desktop-header-container__menu')).to.exist;
       expect(findAll('.navbar-desktop-header-menu__item')).to.have.lengthOf(4);
