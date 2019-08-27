@@ -19,11 +19,11 @@ export default function() {
     const params = parseQueryString(request.requestBody);
     const foundUser = schema.users.findBy({ email: params.username });
 
-    if (foundUser && params.password == 'secret') {
+    if (foundUser && params.password === 'secret') {
       return {
         token_type: '',
         expires_in: '',
-        access_token: 'token',
+        access_token: 'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
         user_id: foundUser.id
       };
     } else {
@@ -34,7 +34,12 @@ export default function() {
   this.post('/revoke', () => {
   });
 
-  this.get('/users/:id');
+  this.get('/users/me', (schema, request) => {
+    const userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
+    const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
+
+    return schema.users.find(userId);
+  });
 
   this.patch('/users/:id');
 

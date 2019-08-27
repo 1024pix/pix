@@ -23,15 +23,20 @@ module('Acceptance | Team Creation', function(hooks) {
 
     let user;
 
-    module('When user is a member', function() {
+    module('When user is a member', function(hooks) {
 
-      test('it should not be accessible', async function(assert) {
-        // given
+      hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('MEMBER');
+
         await authenticateSession({
           user_id: user.id,
+          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          expires_in: 3600,
+          token_type: 'Bearer token type',
         });
+      });
 
+      test('it should not be accessible', async function(assert) {
         // when
         await visit('/equipe/creation');
 
@@ -40,15 +45,20 @@ module('Acceptance | Team Creation', function(hooks) {
       });
     });
 
-    module('When user is an owner', function() {
+    module('When user is an owner', function(hooks) {
 
-      test('it should be accessible', async function(assert) {
-        // given
+      hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('OWNER');
+
         await authenticateSession({
           user_id: user.id,
+          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          expires_in: 3600,
+          token_type: 'Bearer token type',
         });
+      });
 
+      test('it should be accessible', async function(assert) {
         // when
         await visit('/equipe/creation');
 
@@ -60,10 +70,6 @@ module('Acceptance | Team Creation', function(hooks) {
         // given
         const email = 'gigi@labrochette.com';
         const addedMember = server.create('user', { firstName: 'Gigi', lastName: 'La Brochette', email, 'pixOrgaTermsOfServiceAccepted': true });
-        user = createUserMembershipWithRole('OWNER');
-        await authenticateSession({
-          user_id: user.id,
-        });
 
         await visit('/equipe/creation');
         await fillIn('#email', email);
@@ -81,10 +87,6 @@ module('Acceptance | Team Creation', function(hooks) {
       test('should display an empty input field after cancel and before add a team member', async function(assert) {
         // given
         const email = 'cancel&cancel.com';
-        user = createUserMembershipWithRole('OWNER');
-        await authenticateSession({
-          user_id: user.id,
-        });
 
         await visit('/equipe/creation');
         await fillIn('#email', email);
@@ -99,10 +101,6 @@ module('Acceptance | Team Creation', function(hooks) {
 
       test('it should display error on global form when error 500 is returned from backend', async function(assert) {
         // given
-        user = createUserMembershipWithRole('OWNER');
-        await authenticateSession({
-          user_id: user.id,
-        });
         await visit('/equipe/creation');
         await server.post('/organizations/:id/add-membership',
           {
@@ -127,10 +125,6 @@ module('Acceptance | Team Creation', function(hooks) {
 
       test('it should display error on global form when error 421 is returned from backend', async function(assert) {
         // given
-        user = createUserMembershipWithRole('OWNER');
-        await authenticateSession({
-          user_id: user.id,
-        });
         await visit('/equipe/creation');
         server.post('/organizations/:id/add-membership',
           {
@@ -155,10 +149,6 @@ module('Acceptance | Team Creation', function(hooks) {
 
       test('it should display error on global form when error 404 is returned from backend', async function(assert) {
         // given
-        user = createUserMembershipWithRole('OWNER');
-        await authenticateSession({
-          user_id: user.id,
-        });
         await visit('/equipe/creation');
         server.post('/organizations/:id/add-membership',
           {
