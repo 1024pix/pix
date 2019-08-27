@@ -27,8 +27,6 @@ module.exports = {
           });
         } else if (assessment.isPlacement()) {
           return useCases.startPlacementAssessment({ assessment });
-        } else if (assessment.isCertification()) {
-          return useCases.createAssessmentForCertification({ assessment });
         } else {
           assessment.state = 'started';
           return assessmentRepository.save(assessment);
