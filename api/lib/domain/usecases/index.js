@@ -31,7 +31,7 @@ const dependencies = {
   reCaptchaValidator: require('../../infrastructure/validators/grecaptcha-validator'),
   scoringService: require('../../domain/services/scoring/scoring-service'),
   scorecardService: require('../../domain/services/scorecard-service'),
-  settings: require('../../settings'),
+  settings: require('../../config'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   smartPlacementAssessmentRepository: require('../../infrastructure/repositories/smart-placement-assessment-repository'),
   targetProfileRepository: require('../../infrastructure/repositories/target-profile-repository'),

@@ -1,5 +1,5 @@
 const request = require('request');
-const captchaConfig = require('../../settings').captcha;
+const captchaConfig = require('../../config').captcha;
 const logger = require('../logger');
 const { InvalidRecaptchaTokenError } = require('../../domain/errors');
 

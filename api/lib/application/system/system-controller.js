@@ -2,7 +2,7 @@ const os = require('os');
 const util = require('util');
 const heapdump = require('heapdump');
 const heapProfile = require('heap-profile');
-const { system } = require('../../settings');
+const { system } = require('../../config');
 
 module.exports = {
 

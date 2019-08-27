@@ -2,7 +2,7 @@ const os = require('os');
 const heapdump = require('heapdump');
 const heapProfile = require('heap-profile');
 const systemController = require('../../../../lib/application/system/system-controller');
-const { system } = require('../../../../lib/settings');
+const { system } = require('../../../../lib/config');
 
 const { expect, sinon, hFake } = require('../../../test-helper');
 

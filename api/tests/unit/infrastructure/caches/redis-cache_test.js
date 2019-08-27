@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const settings = require('../../../../lib/settings');
+const settings = require('../../../../lib/config');
 const Redlock = require('redlock');
 const RedisCache = require('../../../../lib/infrastructure/caches/redis-cache');
 
