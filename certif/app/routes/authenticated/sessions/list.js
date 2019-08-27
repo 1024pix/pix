@@ -2,10 +2,9 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default Route.extend({
-  currentCertificationCenter: service(),
+  currentUser: service(),
 
   model() {
-    return this.currentCertificationCenter.certificationCenter
-      .then((certificationCenter) => certificationCenter.get('sessions'));
+    return this.currentUser.certificationCenter.get('sessions');
   },
 });

@@ -2,12 +2,10 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default Route.extend({
-  currentCertificationCenter: service(),
+  currentUser: service(),
 
-  async model() {
-    const certificationCenter = await this.currentCertificationCenter.certificationCenter;
-
-    return this.store.createRecord('session', { certificationCenter });
+  model() {
+    return this.store.createRecord('session', { certificationCenter: this.currentUser.certificationCenter });
   },
 
   deactivate: function() {

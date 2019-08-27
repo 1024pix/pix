@@ -12,11 +12,8 @@ export default Route.extend({
   },
 
   beforeModel() {
-    this.currentUser.load()
-      .then((user) => {
-        if (user.pixCertifTermsOfServiceAccepted) {
-          return this.transitionTo('authenticated.sessions.list');
-        }
-      });
+    if (this.currentUser.user.pixCertifTermsOfServiceAccepted) {
+      return this.transitionTo('authenticated.sessions.list');
+    }
   }
 });
