@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const mailingConfig = require('../settings').mailing;
+const mailingConfig = require('../config').mailing;
 const nodeMailjet = require('node-mailjet');
 const logger = require('./logger');
 const mailCheck = require('./mail-check');

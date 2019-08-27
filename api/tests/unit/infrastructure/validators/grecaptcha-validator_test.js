@@ -3,7 +3,7 @@ const { expect, sinon } = require('../../../test-helper');
 const gRecaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const { InvalidRecaptchaTokenError } = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
-const { captcha } = require('../../../../lib/settings');
+const { captcha } = require('../../../../lib/config');
 
 const INVALID_OR_UNKNOW_RECAPTCHA = 'INVALID_RECAPTCHA';
 const RECAPTCHA_TOKEN = 'a-valid-recaptch-token-should-be-a-string-of-512-numalpha-characters';

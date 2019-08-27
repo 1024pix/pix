@@ -1,4 +1,4 @@
-const settings = require('../settings');
+const settings = require('../config');
 module.exports = {
   MAX_REACHABLE_LEVEL: 5,
   MAX_REACHABLE_PIX_BY_COMPETENCE: 40,

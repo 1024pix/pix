@@ -1,6 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
 const { InvalidTemporaryKeyError } = require('../../domain/errors');
-const settings = require('../../settings');
+const settings = require('../../config');
 
 function createTokenFromUser(user, source) {
   return jsonwebtoken.sign({

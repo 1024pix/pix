@@ -93,12 +93,10 @@ export default Route.extend({
 
 ### Options d'environnement
 
-Toute option de configuration de l'API susceptible de dépendre d'un environnement particulier (production, intégration, développement ou test), qu'elle soit fonctionnelle ou technique, DOIT être définie dans le fichier `/api/lib/settings.js`.
+Toute option de configuration de l'API susceptible de dépendre d'un environnement particulier (production, intégration, développement ou test), qu'elle soit fonctionnelle ou technique, DOIT être définie dans le fichier `/api/lib/config.js`.
 
 ```javascript
-// lib/settings.js
-
-module.exports = (function() {
+config.config.jsexports = (function() {
 
   const config = {
     
@@ -119,9 +117,7 @@ module.exports = (function() {
 
 ```
 
-L'accès à une variable d'environnement NE DOIT PAS être effectué en dehors des fichiers `/api/lib/settings.js`.
-
-```javascript
+L'accès à une variable d'environnement NE DOIT PAS être effectué en dehors des fichiers `/api/lib/settings.config.jsvascript
 // BAD
 
 /* lib/plugins.js */
@@ -133,8 +129,8 @@ if (process.env.LOG_ENABLED === 'true') {
 ```javascript
 // GOOD
 
-/* lib/settings.js */
-module.exports = (function() {
+config.js
+moduleconfig.js(function() {
   const config = {
     logging: {
       enabled: (process.env.LOG_ENABLED === 'true'),
