@@ -10,8 +10,7 @@ export default Service.extend({
   async load() {
     if (this.get('session.isAuthenticated')) {
       try {
-        const userId = this.get('session.data.authenticated.user_id');
-        const user = await this.store.findRecord('user', userId);
+        const user = await this.store.queryRecord('user', { me: true });
         const userMemberships = await user.get('memberships');
         const userMembership = await userMemberships.get('firstObject');
         const organization = await userMembership.organization;
