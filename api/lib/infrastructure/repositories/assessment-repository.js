@@ -131,6 +131,10 @@ module.exports = {
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.length > 0);
   },
 
+  completeByAssessmentId(assessmentId) {
+    return this.updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED });
+  },
+
   updateStateById({ id, state }) {
     return BookshelfAssessment
       .where({ id })

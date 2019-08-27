@@ -1,35 +1,28 @@
-const _ = require('lodash');
+const {
+  MAX_REACHABLE_LEVEL,
+  MAX_REACHABLE_PIX_BY_COMPETENCE,
+} = require('../../constants');
+
 const AssessmentScore = require('../../models/AssessmentScore');
 const CompetenceMark = require('../../models/CompetenceMark');
 const certificationService = require('../../services/certification-service');
+const _ = require('lodash');
 
-async function calculate({ competenceRepository }, assessment) {
+async function calculate(assessment) {
 
-  const [competences, { competencesWithMark }] = await Promise.all([
-    competenceRepository.list(),
-    certificationService.calculateCertificationResultByAssessmentId(assessment.id)
-  ]);
+  const { competencesWithMark } = await certificationService.calculateCertificationResultByAssessmentId(assessment.id);
 
   const competenceMarks = competencesWithMark.map((certifiedCompetence) => {
-
-    const area_code = competences.find((competence) => {
-      return competence.index === certifiedCompetence.index;
-    }).area.code;
-
     return new CompetenceMark({
-      level: certifiedCompetence.obtainedLevel,
-      score: certifiedCompetence.obtainedScore,
-      area_code,
+      level: Math.min(certifiedCompetence.obtainedLevel, MAX_REACHABLE_LEVEL),
+      score: Math.min(certifiedCompetence.obtainedScore, MAX_REACHABLE_PIX_BY_COMPETENCE),
+      area_code: certifiedCompetence.area_code,
       competence_code: certifiedCompetence.index,
     });
   });
 
-  const competencesPixScore = competenceMarks.map((competenceMark) => competenceMark.score);
-
-  const nbPix = _.sum(competencesPixScore);
-
   return new AssessmentScore({
-    nbPix,
+    nbPix: _.sumBy(competenceMarks, 'score'),
     competenceMarks,
   });
 }

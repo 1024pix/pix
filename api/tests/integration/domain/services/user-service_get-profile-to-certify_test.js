@@ -23,11 +23,12 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
 
   const answerCollectionWithEmptyData = [];
 
-  function _createCompetence(id, index, name) {
+  function _createCompetence(id, index, name, areaCode) {
     const competence = new Competence();
     competence.id = id;
     competence.index = index;
     competence.name = name;
+    competence.area = { code: areaCode };
 
     return competence;
   }
@@ -53,8 +54,8 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
   const skillSearch1 = new Skill({ id: 90, name: '@url1' });
   const skillWithoutChallenge = new Skill({ id: 100, name: '@oldSKill8' });
 
-  const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper');
-  const competenceDauphin = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin');
+  const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper', '1');
+  const competenceDauphin = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin', '1');
 
   const challengeForSkillCollaborer4 = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [skillCollaborer4], '@collaborer4');
 
@@ -180,6 +181,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
@@ -189,6 +191,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir2],
               pixScore: 23,
@@ -232,6 +235,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
+                  area: { code: '1' },
                   name: '1.1 Construire un flipper',
                   skills: [],
                   pixScore: 2,
@@ -263,6 +267,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
               expect(skillProfile).to.deep.equal([{
                 id: 'competenceRecordIdOne',
                 index: '1.1',
+                area: { code: '1' },
                 name: '1.1 Construire un flipper',
                 pixScore: 12,
                 estimatedLevel: 1,
@@ -271,6 +276,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
               }, {
                 id: 'competenceRecordIdTwo',
                 index: '1.2',
+                area: { code: '1' },
                 name: '1.2 Adopter un dauphin',
                 pixScore: 23,
                 estimatedLevel: 2,
@@ -300,6 +306,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
+                  area: { code: '1' },
                   name: '1.1 Construire un flipper',
                   skills: [],
                   pixScore: 12,
@@ -309,6 +316,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdTwo',
                   index: '1.2',
+                  area: { code: '1' },
                   name: '1.2 Adopter un dauphin',
                   skills: [skillRemplir2],
                   pixScore: 23,
@@ -338,6 +346,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
+                  area: { code: '1' },
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4],
                   pixScore: 12,
@@ -347,6 +356,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdTwo',
                   index: '1.2',
+                  area: { code: '1' },
                   name: '1.2 Adopter un dauphin',
                   skills: [],
                   pixScore: 23,
@@ -374,6 +384,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
+                  area: { code: '1' },
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4, skillRecherche4, skillMoteur3],
                   pixScore: 12,
@@ -383,6 +394,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdTwo',
                   index: '1.2',
+                  area: { code: '1' },
                   name: '1.2 Adopter un dauphin',
                   skills: [],
                   pixScore: 23,
@@ -415,6 +427,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [skillRecherche4],
               pixScore: 12,
@@ -424,6 +437,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [skillUrl3, skillRemplir2],
               pixScore: 23,
@@ -452,6 +466,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
@@ -461,6 +476,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
               pixScore: 23,
@@ -491,6 +507,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
@@ -500,6 +517,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
               pixScore: 23,
@@ -527,6 +545,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
@@ -536,6 +555,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir2],
               pixScore: 23,
@@ -562,6 +582,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
@@ -571,6 +592,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [],
               pixScore: 23,
@@ -597,6 +619,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
@@ -606,6 +629,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [],
               pixScore: 23,
@@ -696,6 +720,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           {
             id: 'competenceRecordIdOne',
             index: '1.1',
+            area: { code: '1' },
             name: '1.1 Construire un flipper',
             skills: [],
             pixScore: 0,
@@ -705,6 +730,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
           {
             id: 'competenceRecordIdTwo',
             index: '1.2',
+            area: { code: '1' },
             name: '1.2 Adopter un dauphin',
             skills: [],
             pixScore: 0,
@@ -815,6 +841,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 4,
@@ -960,6 +987,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
               expect(skillProfile).to.deep.equal([{
                 id: 'competenceRecordIdOne',
                 index: '1.1',
+                area: { code: '1' },
                 name: '1.1 Construire un flipper',
                 pixScore: 0,
                 estimatedLevel: 0,
@@ -968,6 +996,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
               }, {
                 id: 'competenceRecordIdTwo',
                 index: '1.2',
+                area: { code: '1' },
                 name: '1.2 Adopter un dauphin',
                 pixScore: 23,
                 estimatedLevel: 2,
@@ -1006,6 +1035,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
+                  area: { code: '1' },
                   name: '1.1 Construire un flipper',
                   skills: [],
                   pixScore: 0,
@@ -1015,6 +1045,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdTwo',
                   index: '1.2',
+                  area: { code: '1' },
                   name: '1.2 Adopter un dauphin',
                   skills: [skillRemplir2],
                   pixScore: 23,
@@ -1053,6 +1084,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
+                  area: { code: '1' },
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4],
                   pixScore: 12,
@@ -1062,6 +1094,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdTwo',
                   index: '1.2',
+                  area: { code: '1' },
                   name: '1.2 Adopter un dauphin',
                   skills: [],
                   pixScore: 0,
@@ -1116,6 +1149,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
+                  area: { code: '1' },
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4, skillRecherche4, skillMoteur3],
                   pixScore: 12,
@@ -1125,6 +1159,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
                 {
                   id: 'competenceRecordIdTwo',
                   index: '1.2',
+                  area: { code: '1' },
                   name: '1.2 Adopter un dauphin',
                   skills: [],
                   pixScore: 0,
@@ -1183,6 +1218,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [skillRecherche4],
               pixScore: 12,
@@ -1192,6 +1228,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [skillUrl3, skillRemplir2],
               pixScore: 8,
@@ -1244,6 +1281,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 0,
@@ -1253,6 +1291,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
               pixScore: 23,
@@ -1314,6 +1353,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 0,
@@ -1323,6 +1363,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
               pixScore: 16,
@@ -1360,6 +1401,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 0,
@@ -1369,6 +1411,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [],
               pixScore: 4,
@@ -1408,6 +1451,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
+              area: { code: '1' },
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 0,
@@ -1417,6 +1461,7 @@ describe('Integration | Service | User Service | #getProfileToCertify', function
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
+              area: { code: '1' },
               name: '1.2 Adopter un dauphin',
               skills: [],
               pixScore: 0,
