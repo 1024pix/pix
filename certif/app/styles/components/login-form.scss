@@ -54,7 +54,7 @@
       border: none;
       border-radius: 3px;
       outline: none;
-      padding: 1px 10px;
+      padding: 0 10px;
       font-size: 1rem;
 
       &:focus {
@@ -69,11 +69,15 @@
 
   &__icon {
     height: 20px;
-    margin: 6px 10px;
+    width: 38px;
+    display: flex;
     border: none;
     background: none;
+    padding: 0;
+  }
 
-    &-eye {
+  &-icon {
+    &__eye {
       color: $dove-gray;
       transition: .5s;
       font-size: 1.1rem;
