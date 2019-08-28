@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v2.61.0 (28/08/2019)
+
+- [#663](https://github.com/1024pix/pix/pull/663) [FEATURE] Plafonner le score et le niveau lors d'une certification (PF-773).
+- [#675](https://github.com/1024pix/pix/pull/675) [FEATURE] Améliorer l'affichage des champs de formulaire (PF-114).
+- [#672](https://github.com/1024pix/pix/pull/672) [FEATURE] Afficher une information RGPD lors de la création d'une Campagne avec Identifiant externe (PO-223).
+- [#662](https://github.com/1024pix/pix/pull/662) [FEATURE] Modifier le format des mots de passe (PF-748).
+- [#652](https://github.com/1024pix/pix/pull/652) [FEATURE] Possibilité d'afficher le mot de passe dans les formulaires (PF-116).
+- [#671](https://github.com/1024pix/pix/pull/671) [BUGFIX] Problème quand l'utilisateur appuie sur la touche entrer après avoir rempli un formulaire d'authentification (PF-808).
+- [#669](https://github.com/1024pix/pix/pull/669) [BUGFIX] Problème d'affichage de l'oeil lorsque l'utilisateur souhaite continuer d'écrire (PF-807).
+- [#659](https://github.com/1024pix/pix/pull/659) [TECH] Refactoring du user-service
+- [#665](https://github.com/1024pix/pix/pull/665) [TECH] Rendre l'utilisateur PixAile (seeds) certifiable
+- [#656](https://github.com/1024pix/pix/pull/656) [TECH] Génération d'une importante quantité de candidats de certification dans les seeds
+- [#654](https://github.com/1024pix/pix/pull/654) [DOC] Ajouter la notion de feature toggle dans la doc de l'API
+- [#674](https://github.com/1024pix/pix/pull/674) [DOC] Ajout d'une ADR à propos du choix des langages, frameworks et technologies sur Pix.
+- [#667](https://github.com/1024pix/pix/pull/667) [DOC] Ajout de l'ADR documentant le style d'architecture de la plateforme Pix.
+- [#666](https://github.com/1024pix/pix/pull/666) [BSR] Le diable est dans les détails…
+
 ## v2.60.0 (21/08/2019)
 
 - [#651](https://github.com/1024pix/pix/pull/651) [FEATURE] Empêcher de certifier un profil V1 (PC-67).
