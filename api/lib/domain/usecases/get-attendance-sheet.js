@@ -9,7 +9,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const moment = require('moment');
 const _ = require('lodash');
 
-async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
+module.exports = async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
 
   try {
     await sessionRepository.ensureUserHasAccessToSession(userId, sessionId);
@@ -25,7 +25,7 @@ async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
   const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session);
 
   return odsService.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getAttendanceTemplatePath() });
-}
+};
 
 function _updateXmlWithSession(stringifiedXml, session) {
   const sessionData = _.transform(session, _transformSessionIntoAttendanceSheetSessionData);
@@ -100,5 +100,3 @@ function _transformCandidateIntoAttendanceSheetCandidateData(attendanceSheetData
 function _getAttendanceTemplatePath() {
   return __dirname + '/../../infrastructure/files/attendance-sheet/attendance_sheet_template.ods';
 }
-
-module.exports = getAttendanceSheet;

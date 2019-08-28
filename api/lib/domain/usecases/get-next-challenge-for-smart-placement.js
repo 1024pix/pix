@@ -3,7 +3,7 @@ const { AssessmentEndedError } = require('../errors');
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
 
-async function getNextChallengeForSmartPlacement({
+module.exports = async function getNextChallengeForSmartPlacement({
   knowledgeElementRepository,
   targetProfileRepository,
   challengeRepository,
@@ -23,6 +23,4 @@ async function getNextChallengeForSmartPlacement({
   }
 
   return nextChallenge;
-}
-
-module.exports = getNextChallengeForSmartPlacement;
+};

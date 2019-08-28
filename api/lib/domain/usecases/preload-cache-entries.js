@@ -1,4 +1,4 @@
-module.exports = ({ preloader, logger }) => {
+module.exports = function preloadCacheEntries({ preloader, logger }) {
 
   logger.info('Start');
 
