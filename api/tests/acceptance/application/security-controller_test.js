@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | Interface | Controller | SecurityController', function() {
@@ -44,7 +44,7 @@ describe('Acceptance | Interface | Controller | SecurityController', function() 
       const options = {
         method: 'GET',
         url: '/api/feedbacks',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
       };
 
       // when

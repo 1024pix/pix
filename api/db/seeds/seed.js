@@ -14,7 +14,7 @@ const competenceMarksBuilder = require('./data/competence-marks-builder');
 const dragonAndCoBuilder = require('./data/dragon-and-co-builder');
 const organizationsBuilder = require('./data/organizations-builder');
 const pixAileBuilder = require('./data/pix-aile-builder');
-const buildPixAileProfilev2 = require('./data/pix-aile-profilev2-builder');
+const buildPixAileProfile = require('./data/pix-aile-profile-builder');
 const sessionsBuilder = require('./data/sessions-builder');
 const snapshotsBuilder = require('./data/snapshots-builder');
 const usersBuilder = require('./data/users-builder');
@@ -44,7 +44,7 @@ exports.seed = (knex) => {
   answersBuilder({ databaseBuilder });
   assessmentResultsBuilder({ databaseBuilder });
   competenceMarksBuilder({ databaseBuilder });
-  buildPixAileProfilev2({ databaseBuilder });
+  buildPixAileProfile({ databaseBuilder });
 
   return databaseBuilder.commit()
     .then(() => alterSequenceIfPG(knex));

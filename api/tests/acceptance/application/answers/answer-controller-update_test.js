@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | answer-controller', () => {
@@ -18,7 +18,7 @@ describe('Acceptance | Controller | answer-controller', () => {
         method: 'PATCH',
         url: '/api/answers/' + answer.id,
         payload: {},
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
     });
 

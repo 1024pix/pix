@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const createServer = require('../../../server');
 
 const Assessment = require('../../../lib/domain/models/Assessment');
@@ -44,7 +44,7 @@ describe('Acceptance | API | Certification Course', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
         const promise = server.inject(options);
@@ -111,7 +111,7 @@ describe('Acceptance | API | Certification Course', () => {
             method: 'GET',
             url: `/api/admin/certifications/${certificationCourseId}`,
             headers: {
-              authorization: generateValidRequestAuhorizationHeader()
+              authorization: generateValidRequestAuthorizationHeader()
             }
           };
         });
@@ -182,7 +182,7 @@ describe('Acceptance | API | Certification Course', () => {
       const options = {
         method: 'GET',
         url: '/api/admin/certifications/200',
-        headers: { authorization: generateValidRequestAuhorizationHeader() }
+        headers: { authorization: generateValidRequestAuthorizationHeader() }
       };
 
       // when
@@ -212,7 +212,7 @@ describe('Acceptance | API | Certification Course', () => {
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
         const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
         // when
         const promise = server.inject(options);
@@ -238,7 +238,7 @@ describe('Acceptance | API | Certification Course', () => {
       ).then((certification) => {
 
         options = {
-          headers: { authorization: generateValidRequestAuhorizationHeader() },
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
           method: 'PATCH',
           url: `/api/certification-courses/${certification.id}`, payload: {
             data: {

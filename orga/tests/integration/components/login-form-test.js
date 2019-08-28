@@ -47,7 +47,7 @@ module('Integration | Component | login-form', function(hooks) {
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await click('button');
+    await click('.button');
 
     // then
     assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
@@ -64,11 +64,46 @@ module('Integration | Component | login-form', function(hooks) {
     await fillIn('#login-password', 'Mauvais mot de passe');
 
     //  when
-    await click('button');
+    await click('.button');
 
     // then
     assert.dom('#login-form-error-message').exists();
     assert.dom('#login-form-error-message').hasText('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
   });
 
+  module('when password is hidden', function(hooks) {
+
+    hooks.beforeEach(async function() {
+      // given
+      await render(hbs`{{login-form}});`);
+    });
+
+    test('it should display password when user click', async function(assert) {
+      // when
+      await click('.login-form__icon');
+
+      // then
+      assert.dom('#login-password').hasAttribute('type', 'text');
+    });
+
+    test('it should change icon when user click on it', async function(assert) {
+      // when
+      await click('.login-form__icon');
+
+      // then
+      assert.dom('.fa-eye').exists();
+    });
+
+    test('it should not change icon when user keeps typing his password', async function(assert) {
+      // given
+      await fillIn('#login-password', 'début du mot de passe');
+
+      // when
+      await click('.login-form__icon');
+      await fillIn('#login-password', 'fin du mot de passe');
+
+      // then
+      assert.dom('.fa-eye').exists();
+    });
+  });
 });

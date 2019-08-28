@@ -1,4 +1,4 @@
-const { knex, expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { knex, expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 
 const faker = require('faker');
 const _ = require('lodash');
@@ -59,7 +59,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           relationships: {}
         }
       },
-      headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+      headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
     };
 
     it('should return 201 HTTP status code', () => {

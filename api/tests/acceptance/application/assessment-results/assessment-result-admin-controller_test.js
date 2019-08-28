@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -15,7 +15,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
 
       options = {
         method: 'POST', url: '/api/admin/assessment-results',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
         payload: {
           data: {
             type: 'assessment-results',
@@ -84,7 +84,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
     it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
       // given
       const nonPixMAsterUserId = 9999;
-      options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+      options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
 
       // when
       const promise = server.inject(options);
@@ -167,7 +167,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
 
         const options = {
           method: 'POST', url: '/api/admin/assessment-results',
-          headers: { authorization: generateValidRequestAuhorizationHeader() },
+          headers: { authorization: generateValidRequestAuthorizationHeader() },
           payload: {
             data: {
               type: 'assessment-results',

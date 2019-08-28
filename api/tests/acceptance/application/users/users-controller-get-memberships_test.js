@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 const Membership = require('../../../../lib/domain/models/Membership');
@@ -55,7 +55,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
       return {
         method: 'GET',
         url: `/api/users/${userId}/memberships`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
     }
 

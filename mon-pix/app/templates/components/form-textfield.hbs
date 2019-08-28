@@ -11,13 +11,21 @@
           class= 'form-textfield__input'
           classBinding="inputValidationStatus"
           autocomplete=autocomplete}}
-
+  {{#if isPassword}}
+    <button type="button" aria-label="rendre le mot de passe lisible" class="form-textfield__icons"  {{action 'togglePasswordVisibility'}}>
+      {{#if isPasswordVisible}}
+        <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye' class="form-textfield__icon"}}</div>
+      {{else}}
+        <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye-slash' class="form-textfield__icon"}}</div>
+      {{/if}}
+    </button>
+  {{/if}}
   {{#if hasIcon}}
     {{#if (eq validationStatus 'error') }}
-      <img src="/images/icons/icon-error.svg" class="form-textfield__icon form-textfield__icon--error">
+      <img src="/images/icons/icon-error.svg" class="form-textfield__icons form-textfield__icon--error">
     {{else}}
       <img src="/images/icons/icon-success.svg"
-           class="form-textfield__icon form-textfield__icon--success validation-icon-success">
+           class="form-textfield__icons form-textfield__icon--success validation-icon-success">
     {{/if}}
   {{/if}}
 </div>

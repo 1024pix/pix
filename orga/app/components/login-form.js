@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 import { inject } from '@ember/service';
 
 export default Component.extend({
@@ -7,6 +8,10 @@ export default Component.extend({
 
   email: null,
   password: null,
+  isPasswordVisible: false,
+  passwordInputType: computed('isPasswordVisible', function() {
+    return this.isPasswordVisible ? 'text' : 'password';
+  }),
 
   isErrorMessagePresent: false,
 
@@ -20,6 +25,10 @@ export default Component.extend({
         .catch(() => {
           this.set('isErrorMessagePresent', true);
         });
+    },
+
+    togglePasswordVisibility() {
+      this.toggleProperty('isPasswordVisible');
     }
 
   }

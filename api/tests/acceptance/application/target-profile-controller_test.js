@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | Controller | target-profile-controller', () => {
@@ -36,7 +36,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
         const options = {
           method: 'GET',
           url: `/api/organizations/${linkedOrganizationId}/target-profiles`,
-          headers: { authorization: generateValidRequestAuhorizationHeader(connectedUserId) },
+          headers: { authorization: generateValidRequestAuthorizationHeader(connectedUserId) },
         };
 
         // when

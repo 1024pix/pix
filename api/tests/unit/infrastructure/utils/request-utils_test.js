@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const { extractUserIdFromRequest } = require('../../../../lib/infrastructure/utils/request-utils');
 
 describe('Unit | Utils | Request Utils', function() {
@@ -9,7 +9,7 @@ describe('Unit | Utils | Request Utils', function() {
       // given
       const userId = 4;
       const request = {
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
       // when
       const result = extractUserIdFromRequest(request);

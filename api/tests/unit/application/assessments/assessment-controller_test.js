@@ -1,4 +1,4 @@
-const { sinon, expect, generateValidRequestAuhorizationHeader, hFake } = require('../../../test-helper');
+const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const useCases = require('../../../../lib/domain/usecases');
 
@@ -33,7 +33,7 @@ describe('Unit | Controller | assessment-controller', function() {
       // given
       const request = {
         query: { 'filter[type]': 'PLACEMENT' },
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
       useCases.findPlacementAssessments.resolves(assessments);
 
@@ -48,7 +48,7 @@ describe('Unit | Controller | assessment-controller', function() {
       // given
       const request = {
         query: { 'filter[type]': 'PLACEMENT' },
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
       useCases.findPlacementAssessments.resolves(assessments);
       assessmentSerializer.serialize.returns(assessmentsInJSONAPI);
@@ -64,7 +64,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[codeCampaign]': 'Code' },
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
 
       it('should call assessment service with query filters', async function() {
@@ -86,7 +86,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'PLACEMENT', 'filter[courseId]': 'courseId1' },
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
 
       it('should call assessment service with query filters', async function() {
@@ -108,7 +108,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'CERTIFICATION' },
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
 
       it('should call assessment service with query filters', async () => {
@@ -131,7 +131,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'DEMO' },
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) }
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) }
       };
 
       it('should resolve []', async () => {

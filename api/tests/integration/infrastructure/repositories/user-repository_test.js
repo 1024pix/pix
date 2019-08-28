@@ -555,18 +555,33 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
+  describe('#isUserExistingByEmail', () => {
+    const email = 'shi@fu.fr';
+    beforeEach(async () => {
+      await databaseBuilder.clean();
+      databaseBuilder.factory.buildUser({ email }).id;
+      databaseBuilder.factory.buildUser();
+      await databaseBuilder.commit();
+    });
+    it('should return true when the user exists by email', async () => {
+      const userExists = await userRepository.isUserExistingByEmail(email);
+      expect(userExists).to.be.true;
+    });
+    it('should throw an error when the user does not exist by email', async () => {
+      const err = await catchErr(userRepository.isUserExistingByEmail)('none');
+      expect(err).to.be.instanceOf(NotFoundError);
+    });
+  });
+
   describe('#find', () => {
 
     context('when there are users in the database', () => {
 
       beforeEach(async () => {
+        await databaseBuilder.clean();
         _.times(3, databaseBuilder.factory.buildUser);
 
         await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
       });
 
       it('should return an Array of Users', async () => {

@@ -1,17 +1,43 @@
 const _ = require('lodash');
 
-const { UserNotFoundError } = require('../errors');
+const {
+  MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
+} = require('../constants');
+
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
+const Challenge = require('../models/Challenge');
 const Scorecard = require('../models/Scorecard');
-
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
 const knowledgeElementRepository = require('../../../lib/infrastructure/repositories/knowledge-element-repository');
 const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
+
+async function getProfileToCertifyV1({ userId, limitDate }) {
+  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({
+    userId,
+    limitDate
+  });
+
+  return _pickChallengesForUserCompetences({
+    userCompetences,
+    challengeIdsCorrectlyAnswered,
+  });
+}
+
+async function getProfileToCertifyV2({ userId, limitDate }) {
+  const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({
+    userId,
+    limitDate
+  });
+
+  return _pickChallengesForUserCompetences({
+    userCompetences,
+    challengeIdsCorrectlyAnswered,
+  });
+}
 
 async function _findCorrectAnswersByAssessments(assessments) {
   const answersByAssessmentsPromises = assessments.map((assessment) =>
@@ -26,14 +52,8 @@ function _getUserCompetenceByChallengeCompetenceId(userCompetences, challenge) {
   return challenge ? userCompetences.find((userCompetence) => userCompetence.id === challenge.competenceId) : null;
 }
 
-function _findChallengeBySkill(challenges, skill) {
-  return _(challenges).filter((challenge) => {
-    return challenge.hasSkill(skill) && challenge.isPublished();
-  }).value();
-}
-
 function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
-  const challengesBySkill = _findChallengeBySkill(challenges, skill);
+  const challengesBySkill = Challenge.findPublishedBySkill(challenges, skill);
   return challengesBySkill.length > 0;
 }
 
@@ -42,42 +62,19 @@ function _createUserCompetencesV1({ allCompetences, allAdaptativeCourses, userLa
     const userCompetence = new UserCompetence(competence);
     const currentCourse = allAdaptativeCourses.find((course) => course.competences[0] === userCompetence.id);
     const assessment = userLastAssessments.find((assessment) => currentCourse.id === assessment.courseId);
-    if (assessment) {
-      userCompetence.pixScore = assessment.getPixScore();
-      userCompetence.estimatedLevel = assessment.getLevel();
-    } else {
-      userCompetence.pixScore = 0;
-      userCompetence.estimatedLevel = 0;
-    }
+    userCompetence.pixScore = assessment && assessment.getPixScore() || 0;
+    userCompetence.estimatedLevel = assessment && assessment.getLevel() || 0;
     return userCompetence;
   });
 }
 
-function _sortByDifficultyDesc(skills) {
-  return _(skills)
-    .sortBy('difficulty')
-    .reverse()
-    .value();
-}
-
-function _orderSkillsOfCompetenceByDifficulty(competences) {
-  competences.forEach((competence) => {
-    competence.skills = _sortByDifficultyDesc(competence.skills);
-  });
-  return competences;
-}
-
-function _getChallengeById(challenges, id) {
-  return _(challenges).find({ id });
-}
-
 function _isCompetenceCertifiable(userCompetence) {
-  return userCompetence.estimatedLevel >= 1;
+  return userCompetence.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY;
 }
 
 async function _pickChallengesForUserCompetences({ userCompetences, challengeIdsCorrectlyAnswered }) {
   const allChallenges = await challengeRepository.list();
-  const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => _getChallengeById(allChallenges, challengeId));
+  const challengesAlreadyAnswered = challengeIdsCorrectlyAnswered.map((challengeId) => Challenge.findById(allChallenges, challengeId));
 
   challengesAlreadyAnswered.forEach((challenge) => {
     if (!challenge) {
@@ -95,13 +92,13 @@ async function _pickChallengesForUserCompetences({ userCompetences, challengeIds
       .forEach((publishedSkill) => userCompetence.addSkill(publishedSkill));
   });
 
-  userCompetences = _orderSkillsOfCompetenceByDifficulty(userCompetences);
+  userCompetences = UserCompetence.orderSkillsOfCompetenceByDifficulty(userCompetences);
 
   userCompetences.forEach((userCompetence) => {
     const testedSkills = [];
     userCompetence.skills.forEach((skill) => {
-      if (userCompetence.challenges.length < 3) {
-        const challengesToValidateCurrentSkill = _findChallengeBySkill(allChallenges, skill);
+      if (userCompetence.hasEnoughChallenges()) {
+        const challengesToValidateCurrentSkill = Challenge.findPublishedBySkill(allChallenges, skill);
         const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
         const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
@@ -119,7 +116,7 @@ async function _pickChallengesForUserCompetences({ userCompetences, challengeIds
   return userCompetences;
 }
 
-async function _getUserCompetencesAndAnswersV1({ userId, limitDate }) {
+async function _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV1({ userId, limitDate }) {
   const [allCompetences, allAdaptativeCourses] = await Promise.all([
     competenceRepository.list(),
     courseRepository.getAdaptiveCourses()
@@ -149,22 +146,13 @@ function _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCo
   });
 }
 
-function _getDirectlyValidatedKnowledgeElements(knowledgeElementsByCompetence) {
-  return _(knowledgeElementsByCompetence)
-    .values()
-    .flatten()
-    .filter({ status: KnowledgeElement.StatusType.VALIDATED })
-    .filter({ source: KnowledgeElement.SourceType.DIRECT })
-    .value();
-}
-
-async function _getUserCompetencesAndAnswersV2({ userId, limitDate }) {
+async function _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2({ userId, limitDate }) {
   const allCompetences = await competenceRepository.list();
 
   const knowledgeElementsByCompetence = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId, limitDate });
   const userCompetences = _createUserCompetencesV2({ userId, knowledgeElementsByCompetence, allCompetences });
 
-  const knowledgeElements = _getDirectlyValidatedKnowledgeElements(knowledgeElementsByCompetence);
+  const knowledgeElements = KnowledgeElement.findDirectlyValidatedFromGroups(knowledgeElementsByCompetence);
   const answerIds = _.map(knowledgeElements, 'answerId');
 
   const challengeIdsCorrectlyAnswered = await answerRepository.findChallengeIdsFromAnswerIds(answerIds);
@@ -173,40 +161,9 @@ async function _getUserCompetencesAndAnswersV2({ userId, limitDate }) {
 }
 
 module.exports = {
-  isUserExistingByEmail(email) {
-    return userRepository
-      .findByEmail(email)
-      .then(() => true)
-      .catch(() => {
-        throw new UserNotFoundError();
-      });
-  },
-
-  async getProfileToCertifyV1({ userId, limitDate }) {
-    const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV1({
-      userId,
-      limitDate
-    });
-
-    return _pickChallengesForUserCompetences({
-      userCompetences,
-      challengeIdsCorrectlyAnswered,
-    });
-  },
-
-  async getProfileToCertifyV2({ userId, limitDate }) {
-    const { userCompetences, challengeIdsCorrectlyAnswered } = await _getUserCompetencesAndAnswersV2({
-      userId,
-      limitDate
-    });
-
-    return _pickChallengesForUserCompetences({
-      userCompetences,
-      challengeIdsCorrectlyAnswered,
-    });
-  },
-
+  getProfileToCertifyV1,
+  getProfileToCertifyV2,
   _pickChallengesForUserCompetences,
-  _getUserCompetencesAndAnswersV1,
-  _getUserCompetencesAndAnswersV2,
+  _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV1,
+  _getUserCompetencesAndCorrectlyAnsweredChallengeIdsV2,
 };

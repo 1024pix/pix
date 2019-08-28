@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Controller | session-controller-get-attendance-sheet', () => {
@@ -30,7 +30,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', ()
 
     it('should respond with a 200 when session can be found', async () => {
       // when
-      const authHeader = generateValidRequestAuhorizationHeader(user.id);
+      const authHeader = generateValidRequestAuthorizationHeader(user.id);
       const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',
@@ -48,7 +48,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', ()
 
     it('should respond with a 403 when user cant access the session', async () => {
       // when
-      const authHeader = generateValidRequestAuhorizationHeader(user.id);
+      const authHeader = generateValidRequestAuthorizationHeader(user.id);
       const token = authHeader.replace('Bearer ', '');
       const options = {
         method: 'GET',

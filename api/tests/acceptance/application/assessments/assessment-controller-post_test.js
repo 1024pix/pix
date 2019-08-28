@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithStandardRole } = require('../../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithStandardRole } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
@@ -48,7 +48,7 @@ describe('Acceptance | API | Assessments POST', () => {
                 }
               }
             },
-            headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+            headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           };
         });
     });

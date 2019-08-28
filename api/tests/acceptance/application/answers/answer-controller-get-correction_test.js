@@ -1,4 +1,4 @@
-const { expect, generateValidRequestAuhorizationHeader, nock, databaseBuilder } = require('../../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 
@@ -77,7 +77,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       const options = {
         method: 'GET',
         url: `/api/answers/${answer.id}/correction`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
       const expectedBody = {
@@ -112,7 +112,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', () => {
       const options = {
         method: 'GET',
         url: `/api/answers/${answer.id}/correction`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(userId + 3) },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId + 3) },
       };
 
       // when

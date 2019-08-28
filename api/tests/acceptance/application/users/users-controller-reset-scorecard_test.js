@@ -1,4 +1,4 @@
-const { knex, airtableBuilder, databaseBuilder, expect, generateValidRequestAuhorizationHeader, sinon } = require('../../../test-helper');
+const { knex, airtableBuilder, databaseBuilder, expect, generateValidRequestAuthorizationHeader, sinon } = require('../../../test-helper');
 const _ = require('lodash');
 
 const createServer = require('../../../../server');
@@ -64,7 +64,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       const competenceEvaluationId = 111;
 
       beforeEach(async () => {
-        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         databaseBuilder.factory.buildCompetenceEvaluation({
           id: competenceEvaluationId,
@@ -105,7 +105,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       const createdAt = new Date('2019-01-01');
 
       beforeEach(async () => {
-        options.headers.authorization = generateValidRequestAuhorizationHeader(userId);
+        options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         databaseBuilder.factory.buildUser({ id: userId });
 
         sinon.useFakeTimers({

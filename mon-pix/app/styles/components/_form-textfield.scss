@@ -12,16 +12,16 @@
 
 .form-textfield__input-field-container {
   display: flex;
-  height: 40px;
+  height: 46px;
   border-radius: 3px;
   margin-bottom: 20px;
   align-items: center;
-  border: 1px solid $alto-grey;
+  border: 2px solid $alto-grey;
   background-color: $white;
   width: 100%;
+
   &:hover {
-    border: 1px solid $pix-blue;
-    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
+    border: 2px solid $dogder-blue;
   }
 
   @include device-is('desktop') {
@@ -30,19 +30,19 @@
 }
 
 .form-textfield__input-container--default {
-  border: 1px solid $alto-grey;
+  border: 2px solid $alto-grey;
 }
 
 .form-textfield__input-container--error {
-  border: 1px solid $pure-orange;
+  border: 2px solid $pure-orange;
 }
 
 .form-textfield__input-container--success {
-  border: 1px solid $caribbean-green;
+  border: 2px solid $caribbean-green;
 }
 
 .form-textfield__input-field-container input {
-  height: 38px;
+  height: 40px;
   flex-grow: 1;
   border: none;
   border-radius: 3px;
@@ -50,10 +50,15 @@
   color: $slate-grey;
   padding: 0 10px;
 
-  @include device-is('desktop') {
-    height: 48px;
+  &:focus {
+    outline: none;
+  }
+
+  &::-ms-clear, &::-ms-reveal {
+    display: none;
   }
 }
+
 
 .form-textfield__message {
   position: absolute;
@@ -70,15 +75,33 @@
   color: $caribbean-green;
 }
 
-.form-textfield__message--error.form-textfield__message-password, .form-textfield__message--error.form-textfield__message-email {
+.form-textfield__message--error.form-textfield__message-password, .form-textfield__message--error.form-textfield__message-email, .form-textfield__message--error.form-textfield__message-text {
   position: relative;
   text-align: right;
   margin-top: -5px;
   margin-bottom: 5px;
 }
 
-.form-textfield__icon {
-  width: 20px;
+.form-textfield__icons {
   height: 20px;
   margin: 6px 8px;
+  border: none;
+  background: none;
+
+  &:focus {
+    outline: 1px solid $pix-blue;
+    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
+  }
+}
+
+.form-textfield__icon {
+  color: $dove-gray;
+  transition: .5s;
+  font-size: 1.8rem;
+  margin-top: 1px;
+
+  &:hover {
+    color: $nero;
+    cursor: pointer;
+  }
 }
