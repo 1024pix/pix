@@ -186,7 +186,7 @@ describe('Integration | Component | signup form', function() {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(EMPTY_FIRSTNAME_ERROR_MESSAGE);
           expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield__icon--error')).to.exist;
+          expect(find('.form-textfield-icon__state--error')).to.exist;
         });
       });
 
@@ -204,7 +204,7 @@ describe('Integration | Component | signup form', function() {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(EMPTY_LASTNAME_ERROR_MESSAGE);
           expect(find('#lastName').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield__icon--error')).to.exist;
+          expect(find('.form-textfield-icon__state--error')).to.exist;
         });
       });
 
@@ -222,7 +222,7 @@ describe('Integration | Component | signup form', function() {
           expect(find('.form-textfield__message-email').getAttribute('class')).to.contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
           expect(find('#email').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield__icon--error')).to.exist;
+          expect(find('.form-textfield-icon__state--error')).to.exist;
         });
       });
 
@@ -240,7 +240,7 @@ describe('Integration | Component | signup form', function() {
           expect(find('.form-textfield__message-password').getAttribute('class')).to.contain('form-textfield__message--error');
           expect(find('.form-textfield__message--error').textContent.trim()).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
           expect(find('#password').getAttribute('class')).to.contain('form-textfield__input--error');
-          expect(find('.form-textfield__icon--error')).to.exist;
+          expect(find('.form-textfield-icon__state--error')).to.exist;
         });
       });
 
@@ -350,7 +350,7 @@ describe('Integration | Component | signup form', function() {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--success');
           expect(find('.form-textfield__message--error')).not.to.exist;
           expect(find('#firstName').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield__icon--success')).to.exist;
+          expect(find('.form-textfield-icon__state--success')).to.exist;
         });
       });
 
@@ -368,7 +368,7 @@ describe('Integration | Component | signup form', function() {
           expect(find('.form-textfield__message-text').getAttribute('class')).to.contain('form-textfield__message--success');
           expect(find('.form-textfield__message--error')).not.to.exist;
           expect(find('#lastName').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield__icon--success')).to.exist;
+          expect(find('.form-textfield-icon__state--success')).to.exist;
         });
       });
 
@@ -386,7 +386,7 @@ describe('Integration | Component | signup form', function() {
           expect(find('.form-textfield__message-email').getAttribute('class')).to.contain('form-textfield__message--success');
           expect(find('.form-textfield__message--error')).not.to.exist;
           expect(find('#email').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield__icon--success')).to.exist;
+          expect(find('.form-textfield-icon__state--success')).to.exist;
         });
       });
 
@@ -404,7 +404,7 @@ describe('Integration | Component | signup form', function() {
           expect(find('.form-textfield__message-password').getAttribute('class')).to.contain('form-textfield__message--success');
           expect(find('.form-textfield__message--error')).not.to.exist;
           expect(find('#password').getAttribute('class')).to.contain('form-textfield__input--success');
-          expect(find('.form-textfield__icon--success')).to.exist;
+          expect(find('.form-textfield-icon__state--success')).to.exist;
         });
       });
 

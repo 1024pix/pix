@@ -133,7 +133,7 @@ describe('Integration | Component | form textfield', function() {
       // then
       return wait().then(() => {
         expect(findAll('img')).to.have.lengthOf(1);
-        expect(find('img').getAttribute('class')).to.contain('form-textfield__icon--error');
+        expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--error');
       });
     });
 
@@ -165,7 +165,7 @@ describe('Integration | Component | form textfield', function() {
     it('return true if any img does exist', function() {
       // then
       expect(findAll('img')).to.have.lengthOf(1);
-      expect(find('img').getAttribute('class')).to.contain('form-textfield__icon--success');
+      expect(find('img').getAttribute('class')).to.contain('form-textfield-icon__state--success');
     });
 
     [
@@ -193,7 +193,7 @@ describe('Integration | Component | form textfield', function() {
 
     it('should change type when user click on eye icon', async function() {
       // when
-      await click('.form-textfield__icons');
+      await click('.form-textfield-icon__button');
 
       // then
       expect(find('input').getAttribute('type')).to.equal('text');
@@ -202,7 +202,7 @@ describe('Integration | Component | form textfield', function() {
     it('should change icon when user click on it', async function() {
       // when
       expect(find('.fa-eye-slash')).to.exist;
-      await click('.form-textfield__icons');
+      await click('.form-textfield-icon__button');
 
       // then
       expect(find('.fa-eye')).to.exist;
@@ -214,7 +214,7 @@ describe('Integration | Component | form textfield', function() {
 
       // when
       expect(find('.fa-eye-slash')).to.exist;
-      await click('.form-textfield__icon');
+      await click('.form-textfield-icon__button');
       await fillIn(INPUT, 'test');
     });
   });

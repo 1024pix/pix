@@ -82,26 +82,45 @@
   margin-bottom: 5px;
 }
 
-.form-textfield__icons {
-  height: 20px;
-  margin: 6px 8px;
-  border: none;
-  background: none;
-
-  &:focus {
-    outline: 1px solid $pix-blue;
-    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
-  }
-}
-
 .form-textfield__icon {
-  color: $dove-gray;
-  transition: .5s;
-  font-size: 1.8rem;
-  margin-top: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
 
-  &:hover {
-    color: $nero;
-    cursor: pointer;
+
+}
+
+.form-textfield-icon {
+  &__button {
+    display: flex;
+    border: none;
+    padding: 0;
+    background: none;
+    margin-right: 10px;
+
+    &:focus {
+      outline: 1px solid $pix-blue;
+      box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5);
+    }
+  }
+
+  &__state {
+    margin-right: 10px;
   }
 }
+
+.form-textfield-icon-button {
+  &__eye {
+    color: $dove-gray;
+    transition: .5s;
+    font-size: 1.8rem;
+    margin-top: 1px;
+
+    &:hover {
+      color: $nero;
+      cursor: pointer;
+    }
+  }
+}
+

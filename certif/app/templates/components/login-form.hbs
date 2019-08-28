@@ -32,9 +32,9 @@
                   value=password}}
           <button type="button" aria-label="rendre le mot de passe lisible" class="login-form__icon" {{action 'togglePasswordVisibility'}} >
             {{#if isPasswordVisible}}
-              <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye' class="login-form__icon-eye"}}</div>
+              <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye' class="fa-fw login-form-icon__eye"}}</div>
             {{else}}
-              <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye-slash' class="login-form__icon-eye"}}</div>
+              <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye-slash' class="fa-fw login-form-icon__eye"}}</div>
             {{/if}}
           </button>
         </div>
