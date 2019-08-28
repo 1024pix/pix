@@ -3,14 +3,14 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Component | certification-code-value', function() {
+describe('Unit | Component | certification-starter', function() {
 
   setupTest();
 
   let component;
 
   beforeEach(function() {
-    component = this.owner.lookup('component:certification-code-validation');
+    component = this.owner.lookup('component:certification-starter');
   });
 
   describe('#submit', function() {

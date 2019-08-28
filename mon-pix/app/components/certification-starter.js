@@ -4,7 +4,7 @@ import Component from '@ember/component';
 export default Component.extend({
 
   // Element
-  classNames: ['certification-code-validation'],
+  classNames: ['certification-starter'],
 
   // Dependency injection
   store: service(),
