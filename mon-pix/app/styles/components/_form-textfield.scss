@@ -82,11 +82,11 @@
   margin-bottom: 5px;
 }
 
-.form-textfield__icons {
-  height: 20px;
-  margin: 6px 8px;
-  border: none;
-  background: none;
+.form-textfield__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2px;
 
   &:focus {
     outline: 1px solid $pix-blue;
@@ -94,14 +94,31 @@
   }
 }
 
-.form-textfield__icon {
-  color: $dove-gray;
-  transition: .5s;
-  font-size: 1.8rem;
-  margin-top: 1px;
+.form-textfield-icon {
+  &__button {
+    display: flex;
+    border: none;
+    padding: 0;
+    background: none;
+    margin-right: 10px;
+  }
 
-  &:hover {
-    color: $nero;
-    cursor: pointer;
+  &__state {
+    margin-right: 10px;
   }
 }
+
+.form-textfield-icon-button {
+  &__eye {
+    color: $dove-gray;
+    transition: .5s;
+    font-size: 1.8rem;
+    margin-top: 1px;
+
+    &:hover {
+      color: $nero;
+      cursor: pointer;
+    }
+  }
+}
+
