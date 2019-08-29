@@ -1,6 +1,15 @@
 .skill-review {
+  &__banner {
+    width: 100%;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+
   &__result-container {
     padding: 40px 10px;
+    margin-top: -160px;
 
     @include device-is('tablet') {
       padding: 60px;
