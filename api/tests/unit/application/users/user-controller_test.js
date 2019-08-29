@@ -14,6 +14,8 @@ const passwordResetService = require('../../../../lib/domain/services/reset-pass
 
 const usecases = require('../../../../lib/domain/usecases');
 
+const campaignParticipationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
+const certificationCenterMembershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const membershipSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
@@ -238,10 +240,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should remember user has seen assessment instructions', async () => {
       // given
-      usecases.rememberUserHasSeenAssessmentInstructions.withArgs({
-        authenticatedUserId: userId.toString(),
-        requestedUserId: userId,
-      }).resolves({});
+      usecases.rememberUserHasSeenAssessmentInstructions.withArgs({ userId }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
@@ -268,10 +267,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should remember user has seen new profile info', async () => {
       // given
-      usecases.rememberUserHasSeenNewProfileInfo.withArgs({
-        authenticatedUserId: userId.toString(),
-        requestedUserId: userId,
-      }).resolves({});
+      usecases.rememberUserHasSeenNewProfileInfo.withArgs({ userId }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
 
       // when
@@ -396,16 +392,45 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(usecases, 'getUserWithMemberships');
     });
 
-    it('should return serialized Organizations Accesses', async function() {
+    it('should return serialized Memberships', async function() {
       // given
-      usecases.getUserWithMemberships.withArgs({
-        requestedUserId: userId,
-        authenticatedUserId: userId,
-      }).resolves({ memberships: [] });
+      usecases.getUserWithMemberships.withArgs({ userId }).resolves({ memberships: [] });
       membershipSerializer.serialize.withArgs([]).returns({});
 
       // when
       const response = await userController.getMemberships(request, hFake);
+
+      // then
+      expect(response).to.deep.equal({});
+    });
+  });
+
+  describe('#getCertificationCenterMemberships', () => {
+    const userId = '1';
+
+    const request = {
+      auth: {
+        credentials: {
+          userId: userId
+        }
+      },
+      params: {
+        id: userId
+      }
+    };
+
+    beforeEach(() => {
+      sinon.stub(certificationCenterMembershipSerializer, 'serialize');
+      sinon.stub(usecases, 'getUserCertificationCenterMemberships');
+    });
+
+    it('should return serialized CertificationCenterMemberships', async function() {
+      // given
+      usecases.getUserCertificationCenterMemberships.withArgs({ userId }).resolves([]);
+      certificationCenterMembershipSerializer.serialize.withArgs([]).returns({});
+
+      // when
+      const response = await userController.getCertificationCenterMemberships(request, hFake);
 
       // then
       expect(response).to.deep.equal({});
@@ -519,6 +544,38 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
+  describe('#getCampaignParticipations', () => {
+    const userId = '1';
+
+    const request = {
+      auth: {
+        credentials: {
+          userId: userId
+        }
+      },
+      params: {
+        id: userId
+      }
+    };
+
+    beforeEach(() => {
+      sinon.stub(campaignParticipationSerializer, 'serialize');
+      sinon.stub(usecases, 'findCampaignParticipationsRelatedToUser');
+    });
+
+    it('should return serialized Memberships', async function() {
+      // given
+      usecases.findCampaignParticipationsRelatedToUser.withArgs({ userId }).resolves([]);
+      campaignParticipationSerializer.serialize.withArgs([]).returns({});
+
+      // when
+      const response = await userController.getCampaignParticipations(request, hFake);
+
+      // then
+      expect(response).to.deep.equal({});
+    });
+  });
+
   describe('#getPixScore', () => {
 
     beforeEach(() => {
@@ -527,17 +584,16 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should return the user Pix score', async () => {
       // given
-      const authenticatedUserId = '76';
-      const requestedUserId = '76';
+      const userId = '76';
 
       const request = {
         auth: {
           credentials: {
-            userId: authenticatedUserId
+            userId
           }
         },
         params: {
-          id: requestedUserId
+          id: userId
         }
       };
 
@@ -545,7 +601,7 @@ describe('Unit | Controller | user-controller', () => {
       await userController.getPixScore(request);
 
       // then
-      expect(usecases.getUserPixScore).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
+      expect(usecases.getUserPixScore).to.have.been.calledWith({ userId });
     });
   });
 
@@ -560,17 +616,16 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should call the expected usecase', async () => {
       // given
-      const authenticatedUserId = '12';
-      const requestedUserId = '12';
+      const userId = '12';
 
       const request = {
         auth: {
           credentials: {
-            userId: authenticatedUserId
+            userId
           }
         },
         params: {
-          id: requestedUserId
+          id: userId
         }
       };
 
@@ -578,8 +633,41 @@ describe('Unit | Controller | user-controller', () => {
       await userController.getScorecards(request);
 
       // then
-      expect(usecases.getUserScorecards).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
+      expect(usecases.getUserScorecards).to.have.been.calledWith({ userId });
+    });
+  });
 
+  describe('#resetScorecard', () => {
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'resetScorecard').resolves({
+        name:'Comp1',
+      });
+      sinon.stub(scorecardSerializer, 'serialize').resolves();
+    });
+
+    it('should call the expected usecase', async () => {
+      // given
+      const userId = '12';
+      const competenceId = '875432';
+
+      const request = {
+        auth: {
+          credentials: {
+            userId
+          }
+        },
+        params: {
+          userId,
+          competenceId
+        }
+      };
+
+      // when
+      await userController.resetScorecard(request);
+
+      // then
+      expect(usecases.resetScorecard).to.have.been.calledWith({ userId, competenceId });
     });
   });
 });

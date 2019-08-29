@@ -45,17 +45,27 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
 
     describe('Resource access management', () => {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
         // given
         options.headers.authorization = 'invalid.access.token';
 
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+        // given
+        const otherUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
       });
     });
 
@@ -85,14 +95,12 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
         await databaseBuilder.clean();
       });
 
-      it('should respond with a 421 - precondition failed - if last knowledge element date is not old enough', () => {
+      it('should respond with a 421 - precondition failed - if last knowledge element date is not old enough', async () => {
         // when
-        const promise = server.inject(options);
+        const response = await server.inject(options);
 
         // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(421);
-        });
+        expect(response.statusCode).to.equal(421);
       });
     });
 

@@ -1,10 +1,9 @@
 const Scorecard = require('../models/Scorecard');
-const { UserNotAuthorizedToAccessEntity, CompetenceResetError } = require('../errors');
+const { CompetenceResetError } = require('../errors');
 const _ = require('lodash');
 
 module.exports = async function resetScorecard({
-  authenticatedUserId,
-  requestedUserId,
+  userId,
   competenceId,
   scorecardService,
   competenceRepository,
@@ -13,12 +12,8 @@ module.exports = async function resetScorecard({
   assessmentRepository,
   campaignParticipationRepository,
 }) {
-  if (authenticatedUserId !== requestedUserId) {
-    throw new UserNotAuthorizedToAccessEntity();
-  }
-
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({
-    userId: authenticatedUserId,
+    userId,
     competenceId
   });
 
@@ -34,12 +29,12 @@ module.exports = async function resetScorecard({
 
   const isCompetenceEvaluationExists = await competenceEvaluationRepository.existsByCompetenceIdAndUserId({
     competenceId,
-    userId: authenticatedUserId
+    userId
   });
 
   await scorecardService.resetScorecard({
     competenceId,
-    userId: authenticatedUserId,
+    userId,
     shouldResetCompetenceEvaluation: isCompetenceEvaluationExists,
     assessmentRepository,
     campaignParticipationRepository,
@@ -49,7 +44,7 @@ module.exports = async function resetScorecard({
   });
 
   return scorecardService.computeScorecard({
-    userId: authenticatedUserId,
+    userId,
     competenceId,
     competenceRepository,
     competenceEvaluationRepository,
