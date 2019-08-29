@@ -1,16 +1,8 @@
-const { UserNotAuthorizedToAccessEntity } = require('../errors');
-
 module.exports = async function rememberUserHasSeenNewProfileInfo({
-  authenticatedUserId,
-  requestedUserId,
+  userId,
   userRepository
 }) {
-  if (authenticatedUserId !== requestedUserId) {
-    throw new UserNotAuthorizedToAccessEntity();
-  }
-
-  const user = await userRepository.get(requestedUserId);
-  
+  const user = await userRepository.get(userId);
   user.hasSeenNewProfileInfo = true;
 
   return userRepository.updateUser(user);

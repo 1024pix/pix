@@ -61,32 +61,44 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/memberships',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.getMemberships,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des accès utilisateurs à partir de l’id\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api']
+        tags: ['api', 'user', 'membership']
       }
     },
     {
       method: 'GET',
       path: '/api/users/{id}/certification-center-memberships',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.getCertificationCenterMemberships,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des accès utilisateurs pour les centres de certifs à partir de l’id\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api']
+        tags: ['api', 'user', 'certification-membership']
       }
     },
     {
       method: 'GET',
       path: '/api/users/{id}/campaign-participations',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.getCampaignParticipations,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -128,6 +140,10 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/remember-user-has-seen-assessment-instructions',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.rememberUserHasSeenAssessmentInstructions,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -142,6 +158,10 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/remember-user-has-seen-new-profile-info',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.rememberUserHasSeenNewProfileInfo,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
@@ -156,40 +176,52 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/pixscore',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.getPixScore,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération du nombre total de Pix de l\'utilisateur\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api']
+        tags: ['api', 'user']
       }
     },
     {
       method: 'GET',
       path: '/api/users/{id}/scorecards',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.getScorecards,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des niveaux par compétences de l\'utilisateur\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api']
+        tags: ['api', 'user', 'scorecard']
       }
     },
     {
       method: 'POST',
       path: '/api/users/{userId}/competences/{competenceId}/reset',
       config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
         handler: userController.resetScorecard,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Cette route réinitilise le niveau d\'un utilisateur donné (**userId**) pour une compétence donnée (**competenceId**)',
           '- Cette route retourne les nouvelles informations de niveau de la compétence',
-
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
-        tags: ['api', 'scorecard']
+        tags: ['api', 'user', 'scorecard']
       }
     },
   ]);

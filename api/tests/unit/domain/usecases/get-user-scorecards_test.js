@@ -1,5 +1,4 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const getUserScorecards = require('../../../../lib/domain/usecases/get-user-scorecards');
 
@@ -29,11 +28,10 @@ describe('Unit | UseCase | get-user-scorecard', () => {
   });
 
   context('When user is authenticated', () => {
-    const authenticatedUserId = 2;
+    const userId = 2;
     const earnedPixDefaultValue = 4;
 
     context('And user asks for his own scorecards', () => {
-      const requestedUserId = 2;
 
       it('should resolve', () => {
         // given
@@ -43,8 +41,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
 
         // when
         const promise = getUserScorecards({
-          authenticatedUserId,
-          requestedUserId,
+          userId,
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
@@ -132,7 +129,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         competenceEvaluationRepository.findByUserId.resolves([competenceEvaluationOfCompetence1]);
 
         Scorecard.buildFrom.withArgs({
-          userId: authenticatedUserId,
+          userId,
           knowledgeElements: knowledgeElementGroupedByCompetenceId[1],
           competence: competenceList[0],
           competenceEvaluation: competenceEvaluationOfCompetence1,
@@ -140,7 +137,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         }).returns(expectedUserScorecard[0]);
 
         Scorecard.buildFrom.withArgs({
-          userId: authenticatedUserId,
+          userId,
           knowledgeElements: knowledgeElementGroupedByCompetenceId[2],
           competence: competenceList[1],
           competenceEvaluation: undefined,
@@ -148,7 +145,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         }).returns(expectedUserScorecard[1]);
 
         Scorecard.buildFrom.withArgs({
-          userId: authenticatedUserId,
+          userId,
           knowledgeElements: undefined,
           competence: competenceList[2],
           competenceEvaluation: undefined,
@@ -157,8 +154,7 @@ describe('Unit | UseCase | get-user-scorecard', () => {
 
         // when
         const userScorecard = await getUserScorecards({
-          authenticatedUserId,
-          requestedUserId,
+          userId,
           knowledgeElementRepository,
           competenceRepository,
           competenceEvaluationRepository,
@@ -168,27 +164,6 @@ describe('Unit | UseCase | get-user-scorecard', () => {
         assertScorecard(userScorecard[0], expectedUserScorecard[0]);
         assertScorecard(userScorecard[1], expectedUserScorecard[1]);
         assertScorecard(userScorecard[2], expectedUserScorecard[2]);
-      });
-    });
-
-    context('And user asks for scorecards that do not belongs to him', () => {
-      it('should reject a "UserNotAuthorizedToAccessEntity" domain error', () => {
-        // given
-        const requestedUserId = 34;
-
-        competenceRepository.list.resolves([]);
-        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
-
-        // when
-        const promise = getUserScorecards({
-          authenticatedUserId,
-          requestedUserId,
-          knowledgeElementRepository,
-          competenceRepository,
-        });
-
-        // then
-        return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
       });
     });
   });

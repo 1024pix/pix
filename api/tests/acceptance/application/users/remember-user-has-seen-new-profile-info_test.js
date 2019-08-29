@@ -5,11 +5,18 @@ describe('Acceptance | Controller | users-controller-remember-user-has-seen-new-
 
   let server;
   let user;
+  let options;
 
   beforeEach(async () => {
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser({ hasSeenNewProfileInfo: false });
+
+    options = {
+      method: 'PATCH',
+      url: `/api/users/${user.id}/remember-user-has-seen-new-profile-info`,
+      headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+    };
 
     return databaseBuilder.commit();
   });
@@ -18,19 +25,40 @@ describe('Acceptance | Controller | users-controller-remember-user-has-seen-new-
     return databaseBuilder.clean();
   });
 
-  it('should return the user with hasSeenNewProfileInfo', async () => {
-    // given
-    const options = {
-      method: 'PATCH',
-      url: `/api/users/${user.id}/remember-user-has-seen-new-profile-info`,
-      // payload: {},
-      headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-    };
+  describe('Resource access management', () => {
 
-    // when
-    const response = await server.inject(options);
+    it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+      // given
+      options.headers.authorization = 'invalid.access.token';
 
-    // then
-    expect(response.result.data.attributes['has-seen-new-profile-info']).to.be.true;
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(401);
+    });
+
+    it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+      // given
+      const otherUserId = 9999;
+      options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(403);
+    });
+  });
+
+  describe('Success case', () => {
+
+    it('should return the user with hasSeenNewProfileInfo', async () => {
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.result.data.attributes['has-seen-new-profile-info']).to.be.true;
+    });
   });
 });
