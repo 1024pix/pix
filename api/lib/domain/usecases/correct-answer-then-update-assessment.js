@@ -1,6 +1,5 @@
 const {
   ChallengeAlreadyAnsweredError,
-  UserHasBeenMigratedToV2Error,
   ForbiddenAccess
 } = require('../errors');
 const Examiner = require('../models/Examiner');
@@ -17,7 +16,6 @@ module.exports = async function correctAnswerThenUpdateAssessment(
     skillRepository,
     smartPlacementAssessmentRepository,
     knowledgeElementRepository,
-    userRepository,
   } = {}) {
   const answersFind = await answerRepository.findByChallengeAndAssessment({
     assessmentId: answer.assessmentId,
@@ -32,14 +30,6 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
   if (answersFind) {
     throw new ChallengeAlreadyAnsweredError();
-  }
-
-  if (assessment.isPlacement()) {
-    const user = await userRepository.get(assessment.userId);
-
-    if (user.isProfileV2) {
-      throw new UserHasBeenMigratedToV2Error();
-    }
   }
 
   const challenge = await challengeRepository.get(answer.challengeId);
