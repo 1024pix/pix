@@ -15,8 +15,8 @@ const states = {
 const types = {
   CERTIFICATION: 'CERTIFICATION',
   COMPETENCE_EVALUATION: 'COMPETENCE_EVALUATION',
-  DEMO: 'DEMO',
   PLACEMENT: 'PLACEMENT',
+  DEMO: 'DEMO',
   PREVIEW: 'PREVIEW',
   SMARTPLACEMENT: 'SMART_PLACEMENT',
 };
@@ -133,12 +133,8 @@ class Assessment {
     return this.type === types.COMPETENCE_EVALUATION;
   }
 
-  isPlacement() {
-    return this.type === types.PLACEMENT;
-  }
-
   canBeScored() {
-    return (this.isPlacement() || this.isCertification()) && this.isCompleted();
+    return this.isCertification() && this.isCompleted();
   }
 
   isCertifiable() {
