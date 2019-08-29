@@ -191,28 +191,6 @@ describe('Unit | Domain | Models | Assessment', () => {
       return expect(promise).to.be.fulfilled;
     });
 
-    it('should return resolved promise when Placement assessment is valid', () => {
-      //given
-      assessment = Assessment.fromAttributes({ userId: 3, type: 'PLACEMENT' });
-
-      // when
-      const promise = assessment.validate();
-
-      // then
-      return expect(promise).to.be.fulfilled;
-    });
-
-    it('should return rejected promise when Placement assessment has no userId', () => {
-      //given
-      assessment = Assessment.fromAttributes({ type: 'PLACEMENT' });
-
-      // when
-      const promise = assessment.validate();
-
-      // then
-      return expect(promise).to.be.rejected;
-    });
-
     it('should return rejected promise when Certification assessment has no userId', () => {
       //given
       assessment = Assessment.fromAttributes({ type: 'CERTIFICATION' });
@@ -245,18 +223,6 @@ describe('Unit | Domain | Models | Assessment', () => {
       // then
       return expect(promise).to.be.rejected;
     });
-
-    it('should return rejected promise when userId is null for placement', () => {
-      //given
-      assessment = Assessment.fromAttributes({ userId: null, type: 'PLACEMENT' });
-
-      // when
-      const promise = assessment.validate();
-
-      // then
-      return expect(promise).to.be.rejected;
-    });
-
   });
 
   describe('#isSmartPlacement', () => {
@@ -326,33 +292,6 @@ describe('Unit | Domain | Models | Assessment', () => {
 
       // then
       expect(isCertificationAssessment).to.be.false;
-    });
-  });
-
-  describe('#isPlacement', () => {
-
-    it('should return true when the assessment is a placement', () => {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.PLACEMENT });
-
-      // when/then
-      expect(assessment.isPlacement()).to.be.true;
-    });
-
-    it('should return false when the assessment is not a placement', () => {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
-
-      // when/then
-      expect(assessment.isPlacement()).to.be.false;
-    });
-
-    it('should return false when the assessment has no type', () => {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: null });
-
-      // when/then
-      expect(assessment.isPlacement()).to.be.false;
     });
   });
 
@@ -442,8 +381,6 @@ describe('Unit | Domain | Models | Assessment', () => {
     [
       { type: Assessment.types.CERTIFICATION,  state: Assessment.states.STARTED,   expected: false },
       { type: Assessment.types.CERTIFICATION,  state: Assessment.states.COMPLETED, expected: true  },
-      { type: Assessment.types.PLACEMENT,      state: Assessment.states.STARTED,   expected: false },
-      { type: Assessment.types.PLACEMENT,      state: Assessment.states.COMPLETED, expected: true  },
       { type: Assessment.types.DEMO,           state: Assessment.states.COMPLETED, expected: false },
       { type: Assessment.types.PREVIEW,        state: Assessment.states.COMPLETED, expected: false },
       { type: Assessment.types.SMARTPLACEMENT, state: Assessment.states.COMPLETED, expected: false },

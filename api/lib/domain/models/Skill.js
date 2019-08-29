@@ -31,13 +31,6 @@ class Skill {
     return this.name.slice(0, -1);
   }
 
-  computeMaxReachablePixScoreForSkill(competenceSkills) {
-    const skillsOfThisDifficulty = _.filter(competenceSkills, (skill) => skill.difficulty === this.difficulty);
-    const numberOfSkillsOfThisDifficulty = skillsOfThisDifficulty.length;
-
-    return Math.min(4, 8 / numberOfSkillsOfThisDifficulty);
-  }
-
   static areEqual(oneSkill, otherSkill) {
     if (oneSkill == null || otherSkill == null) {
       return false;
