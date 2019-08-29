@@ -4,48 +4,49 @@
   </div>
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner skill-review__result-container">
-    <h1 class="skill-review__result-text rounded-panel-title">
+    <h1 class="rounded-panel-title skill-review-result__abstract">
       Vous maîtrisez
-      <span
-              class="skill-review__result-text__percentage">{{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
-        %</span>
+      <span class="skill-review-result-abstract__percentage">
+        {{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
+      </span>
       <br> des compétences testées.
     </h1>
 
-    <div class="skill-review__share-container">
+    <div class="skill-review-result__share-container">
       {{#if model.campaignParticipation.isShared}}
         <p class="skill-review__share-thanks">Merci, vos résultats ont bien été envoyés !</p>
         {{link-to 'Continuez votre expérience Pix' 'index' class="skill-review__back-to-home link"}}
       {{else}}
-        <p class="skill-review__share-legal">
+        <p class="skill-review-share__legal">
           Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
         </p>
 
         {{#if displayErrorMessage}}
-          <div class="skill-review__share-error" aria-live="polite">
+          <div class="skill-review-share__error" aria-live="polite">
             Vous ne pouvez pas encore envoyer vos résultats, nous avons encore quelques questions à vous poser.
           </div>
         {{/if}}
 
         {{#if displayLoadingButton}}
-          <button class="button button--extra-big skill-review__share-button"><span
-                  class="loader-in-button">&nbsp;</span></button>
+          <button class="button button--extra-big skill-review-share__button">
+            <span class="loader-in-button">&nbsp;</span>
+          </button>
         {{else}}
-          <button class="button button--extra-big skill-review__share-button" {{action 'shareCampaignParticipation'}}>
+          <button class="button button--extra-big skill-review-share__button" {{action 'shareCampaignParticipation'}}>
             J'envoie mes résultats
           </button>
         {{/if}}
       {{/if}}
     </div>
 
-    <div class="skill-review__dash-line"></div>
+    <div class="skill-review-result__dash-line"></div>
 
-    <div class="skill-review-results__header">
+    <div class="skill-review-result__table-header">
       <h2 class="rounded-panel-subtitle">Vos résultats détaillés</h2>
       {{#circle-chart value=model.campaignParticipation.campaignParticipationResult.masteryPercentage}}
-        <span class="skill-review__circle-chart-value">
-        {{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
-      </span>
+        <span class="skill-review-table-header__circle-chart-value">
+          {{model.campaignParticipation.campaignParticipationResult.masteryPercentage}}%
+        </span>
       {{/circle-chart}}
     </div>
 
@@ -76,7 +77,7 @@
       </tbody>
     </table>
 
-    <div class="skill-review__information">
+    <div class="skill-review-result__information">
       {{fa-icon 'info-circle' class='skill-review-information__info-icon'}}
       <div class="skill-review-information__text">
         Si vous avez déjà effectué des parcours sur Pix, les questions auxquelles vous aviez répondu ne vous ont pas été
