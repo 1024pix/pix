@@ -15,6 +15,7 @@
     <div class="skill-review__share-container">
       {{#if model.campaignParticipation.isShared}}
         <p class="skill-review__share-thanks">Merci, vos résultats ont bien été envoyés !</p>
+        {{link-to 'Continuez votre expérience Pix' 'index' class="skill-review__back-to-home link"}}
       {{else}}
         <p class="skill-review__share-legal">
           Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.

@@ -84,6 +84,13 @@
     padding-bottom: 10px;
   }
 
+  &__back-to-home {
+    font-size: 1.6rem;
+    font-weight: $font-bold;
+    font-family: $font-open-sans;
+    text-align: center;
+  }
+
   &__information {
     display: flex;
     align-items: center;
