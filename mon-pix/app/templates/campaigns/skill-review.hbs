@@ -38,7 +38,8 @@
         {{/if}}
       {{/if}}
     </div>
-    {{#unless model.campaignParticipation.isShared}}
+    {{#if displayImprovementButton}}
+      {{#unless model.campaignParticipation.isShared}}
        <div class="skill-review__dash-line"></div>
        <div class="skill-review__start-improvement">
          <div><h2 class="skill-review__subtitle">Envie d'améliorer vos résultats ?</h2>
@@ -47,8 +48,9 @@
          <button class="button button--dark-grey button--big skill-review__improvement-button" {{action 'improvementCampaignParticipation'}}>
            Je retente
          </butt
-       </d
-    {{/unless}}
+       </div>
+      {{/unless}}
+    {{/if}}
 
     <div class="skill-review-result__dash-line"></div>
 
