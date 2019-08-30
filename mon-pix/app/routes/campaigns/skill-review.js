@@ -13,4 +13,9 @@ export default Route.extend(AuthenticatedRouteMixin, {
       assessment: store.findRecord('assessment', assessmentId)
     });
   },
+
+  async afterModel(model) {
+    const canFindANextChallenge = await this.store.queryRecord('challenge', { assessmentId: model.assessment.id, tryIfCanImprove: true });
+    model.showImprovementButton = (canFindANextChallenge) ? true : false;
+  },
 });
