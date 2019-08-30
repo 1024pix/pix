@@ -590,6 +590,7 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
 
     afterEach(async () => {
+      await knex('assessments').delete();
       await databaseBuilder.clean();
     });
 
