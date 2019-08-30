@@ -107,6 +107,7 @@ module.exports = {
         if (assessment.isSmartPlacement()) {
           return useCases.getNextChallengeForSmartPlacement({
             assessment,
+            tryImproving: request.query.tryImproving
           });
         }
 
