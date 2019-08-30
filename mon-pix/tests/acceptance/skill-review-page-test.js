@@ -62,6 +62,16 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('table tbody tr td:nth-child(2) .progression-gauge__tooltip').textContent).to.include('30%');
       });
 
+      it('should display the button to retry', async function() {
+        // when
+        await resumeCampaignByCode('AZERTY2');
+        await completeCampaignAndSeeResultsByCode('AZERTY2');
+        await click('.skill-review__share-button');
+
+        // then
+        expect(find('.skill-review__improvement-button')).to.exists;
+      });
+
       it('should share the results', async function() {
         // when
         await resumeCampaignByCode('AZERTY2');
@@ -72,6 +82,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(find('.skill-review-share__thanks')).to.exists;
         expect(find('.skill-review-share__back-to-home')).to.exists;
         expect(find('.skill-review-share__legal')).to.not.exists;
+        expect(find('.skill-review__improvement-button')).to.not.exists;
       });
 
       it('should redirect to home/profil page on click', async function() {
