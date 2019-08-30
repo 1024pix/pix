@@ -24,7 +24,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       challenges = [];
       challengeRepository = { findBySkills: sinon.stub().resolves(challenges) };
       campaignParticipation = { getTargetProfileId: sinon.stub().returns(targetProfileId) };
-      assessment = { id: assessmentId, userId, campaignParticipation };
+      assessment = { id: assessmentId, userId, campaignParticipation, isImproving: false };
       skills = [];
       targetProfile = { skills };
       targetProfileRepository = { get: sinon.stub().resolves(targetProfile) };
@@ -45,12 +45,24 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
         challengeRepository,
         knowledgeElementRepository,
         targetProfileRepository,
-        improvementService
+        improvementService,
+        tryImproving: true
       });
     });
 
     it('should have fetched the answers', () => {
       expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(assessmentId);
+    });
+
+    it('should have filter the knowledge elements with an assessment improving', () => {
+      // given
+      const expectedAssessment = assessment;
+      expectedAssessment.isImproving = true;
+
+      expect(improvementService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved).to.have.been.calledWithExactly(({
+        knowledgeElements: recentKnowledgeElements,
+        assessment: expectedAssessment
+      }));
     });
 
     it('should have fetched the target profile', () => {
@@ -74,7 +86,6 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     it('should have returned the next challenge', () => {
       expect(actualNextChallenge).to.deep.equal(expectedNextChallenge);
     });
-
   });
 
 });
