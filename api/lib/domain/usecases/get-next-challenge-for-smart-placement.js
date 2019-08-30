@@ -10,7 +10,11 @@ module.exports = async function getNextChallengeForSmartPlacement({
   answerRepository,
   improvementService,
   assessment,
+  tryImproving
 }) {
+  if (tryImproving) {
+    assessment.isImproving = true;
+  }
 
   const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
 
