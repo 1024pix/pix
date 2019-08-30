@@ -53,6 +53,7 @@ export default function() {
   this.post('/assessments', postAssessments);
   this.get('/assessments/:id', getAssessment);
   this.get('/assessments/:assessmentId/next', getNextChallenge);
+  this.get('/assessments/:assessmentId/next?tryImproving', getNextChallenge);
   this.get('/assessments', findAssessments);
   this.patch('/assessments/:id/complete-assessment', getAssessment);
 
