@@ -52,9 +52,9 @@ exports.register = async function(server) {
     },
     {
       method: 'PATCH',
-      path: '/api/campaign-participations/{id}/start-improvement',
+      path: '/api/campaign-participations/{id}/begin-improvement',
       config: {
-        handler: campaignParticipationController.startImprovement,
+        handler: campaignParticipationController.beginImprovement,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Elle permet de progresser à la fin d\'une participation à une campagne' +

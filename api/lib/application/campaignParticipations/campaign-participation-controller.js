@@ -57,7 +57,7 @@ module.exports = {
       .then(() => null);
   },
 
-  async startImprovement(request) {
+  async beginImprovement(request) {
     const userId = requestUtils.extractUserIdFromRequest(request);
     const campaignParticipationId = parseInt(request.params.id);
 

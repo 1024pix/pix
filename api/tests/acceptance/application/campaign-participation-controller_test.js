@@ -562,7 +562,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
   });
 
-  describe('PATH /api/campaign-participations/{id}/start-improvement', () => {
+  describe('PATH /api/campaign-participations/{id}/begin-improvement', () => {
     let user, campaignParticipation;
     beforeEach(async () => {
       user = databaseBuilder.factory.buildUser();
@@ -578,7 +578,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       beforeEach(() => {
         options = {
           method: 'PATCH',
-          url: `/api/campaign-participations/${campaignParticipation.id}/start-improvement`,
+          url: `/api/campaign-participations/${campaignParticipation.id}/begin-improvement`,
           headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         };
       });
@@ -598,7 +598,7 @@ describe('Acceptance | API | Campaign Participations', () => {
       beforeEach(() => {
         options = {
           method: 'PATCH',
-          url: `/api/campaign-participations/${campaignParticipation.id}/start-improvement`,
+          url: `/api/campaign-participations/${campaignParticipation.id}/begin-improvement`,
         };
       });
 
@@ -620,7 +620,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
         options = {
           method: 'PATCH',
-          url: `/api/campaign-participations/${campaignParticipation.id}/start-improvement`,
+          url: `/api/campaign-participations/${campaignParticipation.id}/begin-improvement`,
           headers: { authorization: generateValidRequestAuthorizationHeader(otherUser.id) },
         };
       });

@@ -25,11 +25,11 @@ describe('Unit | Adapters | campaign-participation', function() {
 
     it('should redirect to start-improvement', async function() {
       // when
-      const options = { adapterOptions: { startImprovement: true } };
+      const options = { adapterOptions: { beginImprovement: true } };
       const url = await adapter.urlForUpdateRecord(123, 'campaign-participation', options);
 
       // then
-      expect(url.endsWith('/campaign-participations/123/start-improvement')).to.be.true;
+      expect(url.endsWith('/campaign-participations/123/begin-improvement')).to.be.true;
     });
 
   });
