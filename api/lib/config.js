@@ -89,7 +89,7 @@ module.exports = (function() {
     },
 
     features: {
-      dayBeforeImproving: process.env.DAYS_BEFORE_IMPROVING,
+      dayBeforeImproving: process.env.DAY_BEFORE_IMPROVING,
       dayBeforeCompetenceResetV2: process.env.DAY_BEFORE_COMPETENCE_RESET_V2
     },
   };

@@ -5,7 +5,7 @@ const moment = require('moment');
 function _removeOldAndInvalidatedKnowledgeElements({ knowledgeElements, assessment }) {
   const startedDateOfAssessment = assessment.createdAt;
   knowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => {
-    const isNotOldEnoughToBeImproved = moment(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days') < parseInt(constants.DAYS_BEFORE_IMPROVING);
+    const isNotOldEnoughToBeImproved = moment(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days') < parseInt(constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING);
     const isFromThisAssessment = knowledgeElement.assessmentId === assessment.id;
     return knowledgeElement.isValidated || isNotOldEnoughToBeImproved || isFromThisAssessment;
   });
