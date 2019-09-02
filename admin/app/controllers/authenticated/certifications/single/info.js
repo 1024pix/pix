@@ -8,12 +8,17 @@ import { cloneDeep } from 'lodash';
 
 export default Controller.extend({
 
+  // Domain constants
+  MAX_REACHABLE_LEVEL: 5,
+  MAX_REACHABLE_PIX_BY_COMPETENCE: 40,
+
   // Properties
   certification: alias('model'),
   edition: false,
   notifications: service('notification-messages'),
   displayConfirm: false,
   confirmMessage: '',
+  confirmErrorMessage: '',
   confirmAction: 'onSave',
 
   // private properties
@@ -39,7 +44,12 @@ export default Controller.extend({
       }
     },
     onSaveConfirm() {
-      this.set('confirmMessage', 'Souhaitez-vous mettre à jour cette certification ?');
+      const confirmMessage = 'Souhaitez-vous mettre à jour cette certification ?';
+      const errors = this._getCertificationErrorsAfterJuryUpdateIfAny();
+      const confirmErrorMessage = this._formatErrorsToHtmlString(errors);
+
+      this.set('confirmMessage', confirmMessage);
+      this.set('confirmErrorMessage', confirmErrorMessage);
       this.set('confirmAction', 'onSave');
       this.set('displayConfirm', true);
     },
@@ -47,14 +57,12 @@ export default Controller.extend({
       this.set('displayConfirm', false);
     },
     onSave() {
+      const markUpdatedRequired = this._isMarksUpdatedRequired();
       this.set('displayConfirm', false);
-      const certification = this.certification;
-      const changedAttributes = certification.changedAttributes();
-      const marksUpdateRequired = (changedAttributes.status || changedAttributes.pixScore || changedAttributes.competencesWithMark || changedAttributes.commentForCandidate || changedAttributes.commentForOrganization || changedAttributes.commentForJury) ? true : false;
-      return certification.save({ adapterOptions: { updateMarks: false } })
+      return this.certification.save({ adapterOptions: { updateMarks: false } })
         .then(() => {
-          if (marksUpdateRequired) {
-            return certification.save({ adapterOptions: { updateMarks: true } });
+          if (markUpdatedRequired) {
+            return this.certification.save({ adapterOptions: { updateMarks: true } });
           } else {
             return Promise.resolve(true);
           }
@@ -185,5 +193,43 @@ export default Controller.extend({
       const current = this.get('certification.competencesWithMark');
       this.set('_competencesCopy', cloneDeep(current));
     }
+  },
+
+  _isMarksUpdatedRequired() {
+    const {
+      status, pixScore, competencesWithMark, commentForCandidate, commentForOrganization, commentForJury
+    } = this.certification.changedAttributes();
+    return (
+      status || pixScore || competencesWithMark || commentForCandidate || commentForOrganization || commentForJury
+    );
+  },
+
+  _getCertificationErrorsAfterJuryUpdateIfAny() {
+    return this._getCertificationErrorsAfterJuryUpdate(this.certification.competencesWithMark);
+  },
+
+  _getCertificationErrorsAfterJuryUpdate(competencesWithMark) {
+    const errors = [];
+    for (const [index, { level, score }] of competencesWithMark.entries()) {
+      if (level > this.MAX_REACHABLE_LEVEL) {
+        errors.push({
+          type: 'level',
+          message: 'Le niveau de la compétence ' + competencesWithMark[index]['competence-code'] + ' dépasse ' + this.MAX_REACHABLE_LEVEL,
+        });
+      }
+      if (score > this.MAX_REACHABLE_PIX_BY_COMPETENCE) {
+        errors.push({
+          type: 'score',
+          message: 'Le nombre de pix de la compétence ' + competencesWithMark[index]['competence-code'] + ' dépasse ' + this.MAX_REACHABLE_PIX_BY_COMPETENCE,
+        });
+      }
+    }
+
+    return errors;
+  },
+
+  _formatErrorsToHtmlString(errors) {
+    return errors && errors.map((err) => `${err.message}\n`).join('');
   }
+
 });
