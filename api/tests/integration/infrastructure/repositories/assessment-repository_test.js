@@ -139,6 +139,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     let johnAssessmentToRemember;
     let johnAssessmentResultToRemember;
 
+    const PLACEMENT = 'PLACEMENT';
+
     const limitDate = moment.utc().toDate();
     const afterLimiteDate = moment(limitDate).add(1, 'day').toDate();
 
@@ -169,7 +171,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         courseId: 'courseId1',
         state: Assessment.states.COMPLETED,
         createdAt: johnAssessmentDateToRemember,
-        type: Assessment.types.PLACEMENT,
+        type: 'PLACEMENT',
       });
 
       johnAssessmentResultToRemember = databaseBuilder.factory.buildAssessmentResult({
@@ -186,7 +188,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId1',
             createdAt: dateAssessmentBefore1,
             state: Assessment.states.COMPLETED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultBefore1,
@@ -200,7 +202,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId2',
             createdAt: dateAssessmentBefore2,
             state: Assessment.states.COMPLETED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultAfter1,
@@ -214,7 +216,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId3',
             createdAt: dateAssessmentBefore3,
             state: Assessment.states.STARTED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultBefore2,
@@ -228,7 +230,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId1',
             createdAt: dateAssessmentAfter,
             state: Assessment.states.COMPLETED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultAfter2,
@@ -242,7 +244,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId1',
             createdAt: dateAssessmentBefore1,
             state: Assessment.states.COMPLETED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultBefore3,
@@ -271,7 +273,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           courseId: johnAssessmentToRemember.courseId,
           state: Assessment.states.COMPLETED,
           createdAt: johnAssessmentToRemember.createdAt,
-          type: Assessment.types.PLACEMENT,
+          type: PLACEMENT,
           competenceId: johnAssessmentToRemember.competenceId,
           campaignParticipation: null,
           assessmentResults: [
