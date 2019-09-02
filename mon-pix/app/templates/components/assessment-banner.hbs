@@ -7,8 +7,10 @@
       <div class="assessment-banner__splitter"></div>
       <div class="assessment-banner__title"><h1>{{title}}</h1></div>
     {{/if}}
-    <div class="assessment-banner__home-link">
-      {{#link-to 'index' class="assessment-banner__home-link"}}‹ Quitter{{/link-to}}
-    </div>
+    {{#if displayHomeLink}}
+      <div class="assessment-banner__home-link">
+        {{#link-to 'index' class="assessment-banner__home-link"}}‹ Quitter{{/link-to}}
+      </div>
+    {{/if}}
   </div>
 </div>
