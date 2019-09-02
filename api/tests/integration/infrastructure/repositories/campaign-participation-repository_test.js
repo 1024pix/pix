@@ -498,4 +498,34 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(updatedCampaignParticipation.assessmentId).to.equal(assessment.id);
     });
   });
+
+  describe('#updateAssessmentId', () => {
+
+    let campaignParticipation;
+    let assessment;
+
+    beforeEach(async () => {
+      const oldAssessment = databaseBuilder.factory.buildAssessment();
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ assessmentId: oldAssessment.id });
+      assessment = databaseBuilder.factory.buildAssessment();
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the updated campaign-participation of the given assessmentId', async () => {
+      // when
+      const updatedCampaignParticipation = await campaignParticipationRepository.updateAssessmentId({
+        id: campaignParticipation.id,
+        assessmentId: assessment.id
+      });
+
+      // then
+      expect(updatedCampaignParticipation.assessmentId).to.equal(assessment.id);
+    });
+  });
+
 });

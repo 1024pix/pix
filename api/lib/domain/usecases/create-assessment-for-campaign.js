@@ -21,23 +21,24 @@ module.exports = async function createAssessmentForCampaign(
     campaignRepository,
     campaignParticipationRepository
   }) {
-  assessment.state = Assessment.states.STARTED;
 
   const campaign = await _getCampaignFromCode(codeCampaign, campaignRepository);
-  assessment.courseId = 'Smart Placement Tests CourseId Not Used';
 
-  const assessmentCreated = await assessmentRepository.save(assessment);
   const campaignParticipation = new CampaignParticipation({
     userId,
-    assessmentId: assessmentCreated.id,
     campaignId: campaign.id,
     participantExternalId
   });
-  const campaignParticipationCreated = await campaignParticipationRepository.save(campaignParticipation);
-  await assessmentRepository.updateCampaignParticipationId({
-    id: assessment.id,
-    campaignParticipationId: campaignParticipationCreated.id
-  });
 
-  return assessmentRepository.get(assessment.id);
+  const campaignParticipationCreated = await campaignParticipationRepository.save(campaignParticipation);
+
+  assessment.state = Assessment.states.STARTED;
+  assessment.courseId = Assessment.courseIdMessage.SMART_PLACEMENT;
+  assessment.campaignParticipationId = campaignParticipation.id;
+
+  const assessmentCreated = await assessmentRepository.save(assessment);
+
+  await campaignParticipationRepository.updateAssessmentId({ id: campaignParticipationCreated.id, assessmentId: assessmentCreated.id });
+
+  return assessmentCreated;
 };
