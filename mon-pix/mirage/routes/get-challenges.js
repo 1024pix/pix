@@ -6,7 +6,6 @@ import refTimedChallengeFull from '../data/challenges/ref-timed-challenge';
 import refTimedChallengeBisFull from '../data/challenges/ref-timed-challenge-bis';
 
 export default function() {
-
   return {
     data: [
       refQcmChallengeFull.data,

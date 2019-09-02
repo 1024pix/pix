@@ -4,7 +4,7 @@ import Component from '@ember/component';
 export default Component.extend({
 
   // Element
-  classNames: ['certification-code-validation'],
+  classNames: ['certification-starter'],
 
   // Dependency injection
   store: service(),
@@ -30,7 +30,7 @@ export default Component.extend({
           .save()
           .then((certificationCourse) => {
             this.set('_loadingCertification', false);
-            this.onSubmit(certificationCourse);
+            this.onSubmit(certificationCourse.id);
           })
           .catch((error) => {
             this.set('_loadingCertification', false);

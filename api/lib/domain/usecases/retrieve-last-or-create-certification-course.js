@@ -1,5 +1,6 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const UserCompetence = require('../models/UserCompetence');
+const Assessment = require('../models/Assessment');
 const { UserNotAuthorizedToCertifyError } = require('../errors');
 const _ = require('lodash');
 
@@ -9,7 +10,8 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   sessionService,
   userService,
   certificationChallengesService,
-  certificationCourseRepository
+  certificationCourseRepository,
+  assessmentRepository,
 }) {
   const sessionId = await sessionService.sessionExists(accessCode);
   const certificationCourses = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
@@ -25,7 +27,8 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
       sessionId,
       userService,
       certificationChallengesService,
-      certificationCourseRepository
+      certificationCourseRepository,
+      assessmentRepository,
     });
     return { created: true, certificationCourse };
   }
@@ -36,7 +39,8 @@ async function _startNewCertification({
   sessionId,
   userService,
   certificationChallengesService,
-  certificationCourseRepository
+  certificationCourseRepository,
+  assessmentRepository,
 }) {
   const now = new Date();
   const userCompetencesProfile = await userService.getProfileToCertifyV2({ userId, limitDate: now });
@@ -46,7 +50,18 @@ async function _startNewCertification({
   }
   const newCertificationCourse = new CertificationCourse({ userId, sessionId, isV2Certification: true });
   const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
-
+  await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
   return certificationChallengesService.saveChallenges(userCompetencesProfile, savedCertificationCourse);
+}
+
+function _createAssessmentForCertificationCourse({ userId, certificationCourseId, assessmentRepository }) {
+  const assessment = new Assessment({
+    userId,
+    courseId: certificationCourseId,
+    state: Assessment.states.STARTED,
+    type: Assessment.types.CERTIFICATION,
+  });
+
+  return assessmentRepository.save(assessment);
 }
 

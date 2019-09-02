@@ -43,12 +43,6 @@ describe('Acceptance | Certification | Start Course', function() {
           await click('.certification-course-page__submit_button');
         });
 
-        it('should propose to enter the session Code', async function() {
-          // then
-          expect(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
-
-        });
-
         it('should be redirected on the first challenge of an assessment', function() {
           // then
           expect(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
@@ -74,7 +68,7 @@ describe('Acceptance | Certification | Start Course', function() {
             await click('.challenge-actions__action-skip');
 
             // then
-            expect(currentURL()).to.equal('/certifications/certification-number/results');
+            expect(currentURL()).to.equal('/certifications/certification-course-id/results');
           });
         });
       });
@@ -90,9 +84,8 @@ describe('Acceptance | Certification | Start Course', function() {
 
         await click('.challenge-actions__action-skip');
         await visitWithAbortedTransition('/profil');
-
         // when
-        await visitWithAbortedTransition('/certifications/certification-number');
+        await visitWithAbortedTransition('/certifications/certification-course-id');
 
         // then
         expect(currentURL()).to.match(/assessments\/\d+\/challenges\/recLt9uwa2dR3IYpi/);
