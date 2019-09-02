@@ -16,7 +16,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
   const assessmentRepository = { getByAssessmentIdAndUserId: () => undefined };
   const competenceEvaluationRepository = { getByAssessmentId: () => undefined };
   const skillRepository = { findByCompetenceId: () => undefined };
-  const improvementService = { filterKnowledgeElementsToRemoveThoseWhichCanBeImproved: () => undefined };
+  const improvementService = { filterKnowledgeElementsIfImproving: () => undefined };
 
   let sandbox;
 
@@ -107,7 +107,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
           knowledgeElementsFiltered = [knowledgeElements[0]];
           knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
 
-          sandbox.stub(improvementService, 'filterKnowledgeElementsToRemoveThoseWhichCanBeImproved')
+          sandbox.stub(improvementService, 'filterKnowledgeElementsIfImproving')
             .withArgs({ knowledgeElements, assessment }).returns(knowledgeElementsFiltered);
         });
 
@@ -126,7 +126,7 @@ describe('Unit | Domain | Use Cases | get-progression', () => {
 
           // then
           return promise.then(() => {
-            expect(improvementService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved)
+            expect(improvementService.filterKnowledgeElementsIfImproving)
               .to.have.been.calledWith({ knowledgeElements, assessment });
           });
         });
