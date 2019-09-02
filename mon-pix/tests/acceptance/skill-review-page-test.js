@@ -81,7 +81,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await click('.skill-review-share__button');
 
         // when
-        await click('.skill-review__back-to-home');
+        await click('.skill-review-share__back-to-home');
 
         // then
         expect(currentURL()).to.equal('/profil');

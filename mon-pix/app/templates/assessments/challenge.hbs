@@ -11,10 +11,10 @@
       {{certification-banner certificationNumber=model.assessment.certificationNumber}}
     {{/if}}
     {{#if model.assessment.isSmartPlacement}}
-      {{assessment-banner title=model.assessment.title}}
+      {{assessment-banner title=model.assessment.title checkpoint=false displayHomeLink=true}}
     {{/if}}
     {{#if model.assessment.isCompetenceEvaluation}}
-      {{assessment-banner title=model.assessment.title}}
+      {{assessment-banner title=model.assessment.title checkpoint=false displayHomeLink=true}}
     {{/if}}
   </div>
 

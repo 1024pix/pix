@@ -1,6 +1,6 @@
 <div class="background-banner-wrapper">
-  <div class="background-banner skill-review__banner">
-    {{banner-brand title=model.assessment.title}}
+  <div class="skill-review__banner">
+    {{assessment-banner title=model.assessment.title checkpoint=true displayHomeLink=false}}
   </div>
 
   <div class="rounded-panel rounded-panel--strong rounded-panel--over-background-banner skill-review__result-container">
@@ -14,8 +14,8 @@
 
     <div class="skill-review-result__share-container">
       {{#if model.campaignParticipation.isShared}}
-        <p class="skill-review__share-thanks">Merci, vos résultats ont bien été envoyés !</p>
-        {{link-to 'Continuez votre expérience Pix' 'index' class="skill-review__back-to-home link"}}
+        <p class="skill-review-share__thanks">Merci, vos résultats ont bien été envoyés !</p>
+        {{link-to 'Continuez votre expérience Pix' 'index' class="skill-review-share__back-to-home link"}}
       {{else}}
         <p class="skill-review-share__legal">
           Envoyez vos résultats à l'organisateur du parcours pour qu'il puisse vous accompagner.
