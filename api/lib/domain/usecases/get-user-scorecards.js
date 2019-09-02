@@ -1,8 +1,7 @@
 const _ = require('lodash');
 const Scorecard = require('../models/Scorecard');
 
-module.exports = async ({ userId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
-
+module.exports = async function getUserScorecards({ userId, knowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) {
   const [knowledgeElementsGroupedByCompetenceId, competencesWithArea, competenceEvaluations] = await Promise.all([
     knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId }),
     competenceRepository.list(),

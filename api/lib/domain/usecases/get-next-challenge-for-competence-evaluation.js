@@ -3,7 +3,7 @@ const { AssessmentEndedError, UserNotAuthorizedToAccessEntity } = require('../er
 const smartRandom = require('../services/smart-random/smart-random');
 const dataFetcher = require('../services/smart-random/data-fetcher');
 
-async function getNextChallengeForCompetenceEvaluation({
+module.exports = async function getNextChallengeForCompetenceEvaluation({
   knowledgeElementRepository,
   challengeRepository,
   answerRepository,
@@ -25,12 +25,10 @@ async function getNextChallengeForCompetenceEvaluation({
   }
 
   return nextChallenge;
-}
+};
 
 function _checkIfAssessmentBelongsToUser(assessment, userId) {
   if (assessment.userId != userId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 }
-
-module.exports = getNextChallengeForCompetenceEvaluation;

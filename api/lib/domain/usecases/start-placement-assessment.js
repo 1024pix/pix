@@ -1,6 +1,6 @@
 const { AssessmentStartError } = require('../../domain/errors');
 
-module.exports = async function startAssessmentForPlacement({ assessment, assessmentRepository }) {
+module.exports = async function startPlacementAssessment({ assessment, assessmentRepository }) {
 
   const lastPlacement = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(assessment.userId, assessment.courseId);
 
