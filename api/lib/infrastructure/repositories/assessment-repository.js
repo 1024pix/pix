@@ -141,13 +141,6 @@ module.exports = {
       .save({ state }, { require: true, patch: true })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
-
-  updateCampaignParticipationId({ id, campaignParticipationId }) {
-    return BookshelfAssessment
-      .where({ id })
-      .save({ campaignParticipationId }, { require: true, patch: true })
-      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
-  }
 };
 
 function _toDomain(bookshelfAssessment) {

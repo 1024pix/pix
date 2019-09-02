@@ -110,6 +110,14 @@ module.exports = {
       .catch(_checkNotFoundError);
   },
 
+  updateAssessmentId({ id, assessmentId }) {
+    return BookshelfCampaignParticipation
+      .where({ id })
+      .save({ assessmentId }, { patch: true, require: true })
+      .then(_toDomain)
+      .catch(_checkNotFoundError);
+  },
+
   count(filters = {}) {
     return BookshelfCampaignParticipation.where(filters).count();
   },
