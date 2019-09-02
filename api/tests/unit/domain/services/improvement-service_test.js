@@ -6,7 +6,7 @@ const improvementService = require('../../../../lib/domain/services/improvement-
 
 describe('Unit | Service | ImprovementService', () => {
 
-  describe('#filterKnowledgeElementsToRemoveThoseWhichCanBeImproved', () => {
+  describe('#filterKnowledgeElementsIfImproving', () => {
 
     context('when assessment is not improving', () => {
       it('should return the same list of knowledge-elements if assessment is not improving', () => {
@@ -14,7 +14,7 @@ describe('Unit | Service | ImprovementService', () => {
         const assessment = domainBuilder.buildAssessment({ state: 'started', isImproving: false });
         const knowledgeElements = [domainBuilder.buildKnowledgeElement()];
         // when
-        const listOfKnowledgeElements = improvementService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved({ assessment, knowledgeElements });
+        const listOfKnowledgeElements = improvementService.filterKnowledgeElementsIfImproving({ assessment, knowledgeElements });
 
         // then
         expect(listOfKnowledgeElements).to.equal(knowledgeElements);
@@ -49,7 +49,7 @@ describe('Unit | Service | ImprovementService', () => {
         // given
         const knowledgeElements = _.concat(oldKnowledgeElementsValidated, oldKnowledgeElementsInvalidated, recentKnowledgeElements);
         // when
-        const listOfKnowledgeElements = improvementService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved({ assessment, knowledgeElements });
+        const listOfKnowledgeElements = improvementService.filterKnowledgeElementsIfImproving({ assessment, knowledgeElements });
 
         // then
         expect(listOfKnowledgeElements).to.deep.equal(_.concat(oldKnowledgeElementsValidated, recentKnowledgeElements));

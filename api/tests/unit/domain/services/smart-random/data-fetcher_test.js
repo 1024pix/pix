@@ -25,7 +25,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         findUniqByUserId: sinon.stub(),
       };
       improvementService = {
-        filterKnowledgeElementsToRemoveThoseWhichCanBeImproved: sinon.stub(),
+        filterKnowledgeElementsIfImproving: sinon.stub(),
       };
     });
 
@@ -48,7 +48,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       targetProfileRepository.get.withArgs(1).resolves(targetProfile);
       challengeRepository.findBySkills.withArgs(targetProfile.skills).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
-      improvementService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved.resolves(knowledgeElements);
+      improvementService.filterKnowledgeElementsIfImproving.resolves(knowledgeElements);
 
       // when
       const data = await dataFetcher.fetchForCampaigns({
