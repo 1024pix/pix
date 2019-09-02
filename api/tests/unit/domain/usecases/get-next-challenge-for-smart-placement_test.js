@@ -28,7 +28,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       skills = [];
       targetProfile = { skills };
       targetProfileRepository = { get: sinon.stub().resolves(targetProfile) };
-      improvementService = { filterKnowledgeElementsToRemoveThoseWhichCanBeImproved: sinon.stub().returns(recentKnowledgeElements) };
+      improvementService = { filterKnowledgeElementsIfImproving: sinon.stub().returns(recentKnowledgeElements) };
 
       recentKnowledgeElements = [{ createdAt: 4, skillId: 'url2' }, { createdAt: 2, skillId: 'web1' }];
       knowledgeElementRepository = { findUniqByUserId: sinon.stub().resolves(recentKnowledgeElements) };
@@ -59,7 +59,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       const expectedAssessment = assessment;
       expectedAssessment.isImproving = true;
 
-      expect(improvementService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved).to.have.been.calledWithExactly(({
+      expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWithExactly(({
         knowledgeElements: recentKnowledgeElements,
         assessment: expectedAssessment
       }));
