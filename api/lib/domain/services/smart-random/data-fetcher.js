@@ -35,7 +35,7 @@ async function _fetchKnowledgeElementsForCampaign({
   improvementService,
 }) {
   const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId });
-  return improvementService.filterKnowledgeElementsToRemoveThoseWhichCanBeImproved({ knowledgeElements, assessment });
+  return improvementService.filterKnowledgeElementsIfImproving({ knowledgeElements, assessment });
 }
 
 async function _fetchSkillsAndChallenges({
