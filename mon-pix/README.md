@@ -2,7 +2,7 @@
 mon-pix
 ========
 
-[![CircleCI](https://circleci.com/gh/1024pix/pix/tree/master.svg?style=svg)](https://circleci.com/gh/1024pix/pix/tree/master) [![Coverage Status](https://coveralls.io/repos/github/1024pix/pix/badge.svg?branch=master)](https://coveralls.io/github/1024pix/pix?branch=master) [![Code Climate](https://codeclimate.com/github/1024pix/pix/badges/gpa.svg)](https://codeclimate.com/github/1024pix/pix) [![Issue Count](https://codeclimate.com/github/1024pix/pix/badges/issue_count.svg)](https://codeclimate.com/github/1024pix/pix)
+[![CircleCI](https://circleci.com/gh/1024pix/pix/tree/master.svg?style=svg)](https://circleci.com/gh/1024pix/pix/tree/master)
 
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
