@@ -12,8 +12,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
       }
     },
 
-    submit(certificationCourse) {
-      return this.replaceWith('courses.create-assessment', certificationCourse.id);
+    submit(certificationCourseId) {
+      return this.replaceWith('certifications.resume', certificationCourseId);
     }
-  }
+  },
 });

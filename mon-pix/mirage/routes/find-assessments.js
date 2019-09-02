@@ -1,7 +1,5 @@
 export default function(schema, request) {
-
   const campaignCode = request.queryParams['filter[codeCampaign]'];
-
   if (campaignCode) {
     const campaign = schema.campaigns.findBy({ code: campaignCode });
 
@@ -17,7 +15,6 @@ export default function(schema, request) {
   const type = request.queryParams['filter[type]'];
   const courseId = request.queryParams['filter[courseId]'];
   const resumable = request.queryParams['filter[resumable]'];
-
   if (type === 'CERTIFICATION' && courseId && resumable === 'true') {
     return schema.assessments.where({ courseId, type });
   }

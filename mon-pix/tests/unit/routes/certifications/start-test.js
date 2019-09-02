@@ -1,11 +1,10 @@
-import { describe, it } from 'mocha';
+import EmberObject from '@ember/object';
+import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | Certification | Start', function() {
-
   setupTest();
-
   let route;
 
   describe('#error', function() {
@@ -42,18 +41,22 @@ describe('Unit | Route | Certification | Start', function() {
   });
 
   describe('#submit', function() {
+    let certificationCourse;
+    let storeStub;
 
-    it('should replace current route with courses.create-assessment', function() {
-      // given
+    beforeEach(function() {
+      certificationCourse = EmberObject.create({ id: 1 });
       route = this.owner.lookup('route:certifications.start');
+      route.set('store', storeStub);
       route.replaceWith = sinon.stub();
+    });
 
+    it('should redirect to certifications.resume', function() {
       // when
-      route.send('submit', { id: 1 });
+      route.send('submit', certificationCourse.get('id'));
 
       // then
-      sinon.assert.called(route.replaceWith);
-      sinon.assert.calledWith(route.replaceWith, 'courses.create-assessment', 1);
+      sinon.assert.calledWith(route.replaceWith, 'certifications.resume', certificationCourse.get('id'));
     });
 
   });

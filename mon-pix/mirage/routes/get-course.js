@@ -6,7 +6,6 @@ import courseWithTimedChallenge from '../data/courses/ref-course-timed-challenge
 import campaignCourse from '../data/courses/campaign-course';
 
 export default function(schema, request) {
-
   const id = request.params.id;
 
   const allCourses = [
