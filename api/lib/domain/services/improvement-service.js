@@ -2,23 +2,24 @@ const constants = require('../constants');
 const _ = require('lodash');
 const moment = require('moment');
 
-function _removeOldAndInvalidatedKnowledgeElements({ knowledgeElements, assessment }) {
+function _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements, assessment }) {
   const startedDateOfAssessment = assessment.createdAt;
-  knowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => {
-    const isNotOldEnoughToBeImproved = moment(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days') < parseInt(constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING);
-    const isFromThisAssessment = knowledgeElement.assessmentId === assessment.id;
-    return knowledgeElement.isValidated || isNotOldEnoughToBeImproved || isFromThisAssessment;
+
+  const retriableKnowledgeElements = _.filter(currentUserKnowledgeElements, (knowledgeElement) => {
+    const isOldEnoughToBeImproved = moment(startedDateOfAssessment).diff(knowledgeElement.createdAt, 'days', true) >= parseInt(constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING);
+    return knowledgeElement.isInvalidated && isOldEnoughToBeImproved;
   });
-  return knowledgeElements;
+  const knowledgeElementsRecentAndValidated = _.difference(currentUserKnowledgeElements, retriableKnowledgeElements);
+  return knowledgeElementsRecentAndValidated;
 }
 
-function filterKnowledgeElementsToRemoveThoseWhichCanBeImproved({ knowledgeElements, assessment }) {
+function filterKnowledgeElementsIfImproving({ knowledgeElements, assessment }) {
   if (assessment.isImproving) {
-    return _removeOldAndInvalidatedKnowledgeElements({ knowledgeElements, assessment });
+    return _keepKnowledgeElementsRecentOrValidated({ currentUserKnowledgeElements: knowledgeElements, assessment });
   }
   return knowledgeElements;
 }
 
 module.exports = {
-  filterKnowledgeElementsToRemoveThoseWhichCanBeImproved,
+  filterKnowledgeElementsIfImproving,
 };
