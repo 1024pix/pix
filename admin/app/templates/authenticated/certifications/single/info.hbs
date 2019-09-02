@@ -97,6 +97,11 @@
       </div>
     </div>
   {{/if}}
-  {{confirm-popup message=confirmMessage confirm=(action confirmAction) cancel=(action "onCancelConfirm")
-                  show=displayConfirm}}
+  {{confirm-popup
+    message=confirmMessage
+    error=confirmErrorMessage
+    confirm=(action confirmAction)
+    cancel=(action "onCancelConfirm")
+    show=displayConfirm
+  }}
 </div>
