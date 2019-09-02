@@ -47,7 +47,7 @@ describe('Unit | Controller | Campaigns | Skill Review', function() {
       await controller.actions.improvementCampaignParticipation.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.get('model.campaignParticipation.save'), { adapterOptions: { startImprovement: true } });
+      sinon.assert.calledWith(controller.get('model.campaignParticipation.save'), { adapterOptions: { beginImprovement: true } });
     });
 
     it('should redirect to campaigns.start-or-resume', async function() {
