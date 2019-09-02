@@ -9,9 +9,7 @@ const {
   NotFoundError,
 } = require('../errors');
 
-module.exports = createAssessmentResultForCompletedAssessment;
-
-async function createAssessmentResultForCompletedAssessment({
+module.exports = async function createAssessmentResultForCompletedAssessment({
   // Parameters
   assessmentId,
   forceRecomputeResult = false,
@@ -69,7 +67,7 @@ async function createAssessmentResultForCompletedAssessment({
     });
     return assessmentResult;
   }
-}
+};
 
 async function _saveAssessmentResult({
   // Parameters

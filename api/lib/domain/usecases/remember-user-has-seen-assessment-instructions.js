@@ -1,4 +1,4 @@
-module.exports = async function rememberUserHasSeenNewProfileInfo({
+module.exports = async function rememberUserHasSeenAssessmentInstructions({
   userId,
   userRepository
 }) {

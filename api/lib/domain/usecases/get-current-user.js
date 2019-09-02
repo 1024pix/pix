@@ -1,4 +1,4 @@
-module.exports = async ({ authenticatedUserId, userRepository, assessmentRepository }) => {
+module.exports = async function getCurrentUser({ authenticatedUserId, userRepository, assessmentRepository }) {
   const user = await userRepository.get(authenticatedUserId);
   const usesProfileV2 = await assessmentRepository.hasCampaignOrCompetenceEvaluation(authenticatedUserId);
 
