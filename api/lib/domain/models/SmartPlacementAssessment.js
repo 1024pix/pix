@@ -18,7 +18,7 @@ class SmartPlacementAssessment {
     state,
     createdAt,
     // includes
-    answers = [], // of type SmartPlacementAnswers
+    answers = [],
     knowledgeElements = [],
     campaignParticipation,
     targetProfile,
