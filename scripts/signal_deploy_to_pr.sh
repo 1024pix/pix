@@ -25,7 +25,7 @@ RA_APP_URL="https://app-pr$PR_NUMBER.review.pix.fr"
 RA_ORGA_URL="https://orga-pr$PR_NUMBER.review.pix.fr"
 RA_CERTIF_URL="https://certif-pr$PR_NUMBER.review.pix.fr"
 RA_ADMIN_URL="https://admin-pr$PR_NUMBER.review.pix.fr"
-RA_API_URL="https://pix-api-integration-pr$PR_NUMBER.scalingo.io"
+RA_API_URL="https://api-pr$PR_NUMBER.review.pix.fr"
 
 MESSAGE_PREFIX="I'm deploying this PR to these urls:"
 
