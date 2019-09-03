@@ -18,14 +18,6 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
       pixScore: 23,
       status: 'rejected'
     });
-    const toFilterCertifications = new Certification({
-      id: 123,
-      certificationCenter: 'Université des chocolats',
-      date: '12/02/2000',
-      isPublished: true,
-      assessmentState: 'started',
-      assessmentResults: [assessmentResult]
-    });
     const completedCertifications = new Certification({
       id: 1000,
       certificationCenter: 'Université des chocolats',
@@ -34,7 +26,7 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
       assessmentState: 'completed',
       assessmentResults: [assessmentResult]
     });
-    certificationRepository.findCertificationsByUserId.resolves([toFilterCertifications, completedCertifications]);
+    certificationRepository.findCertificationsByUserId.resolves([completedCertifications]);
 
     // when
     const promise = findCompletedUserCertifications({ userId, certificationRepository });

@@ -1,6 +1,8 @@
+const Assessment = require('../../domain/models/Assessment');
 const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
+const Bookshelf = require('../bookshelf');
 const Certification = require('../../../lib/domain/models/Certification');
 const { NotFoundError } = require('../../../lib/domain/errors');
 
@@ -8,7 +10,6 @@ function _certificationToDomain(certificationCourseBookshelf) {
   const assessmentResultsBookshelf = certificationCourseBookshelf
     .related('assessment')
     .related('assessmentResults');
-
   const assessmentResults = bookshelfToDomainConverter.buildDomainObjects(AssessmentResultBookshelf, assessmentResultsBookshelf);
 
   return _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults });
@@ -34,12 +35,18 @@ module.exports = {
 
   getCertification({ id }) {
     return CertificationCourseBookshelf
-      .where({ id })
+      .query((qb) => {
+        qb.innerJoin(
+          Bookshelf.knex.raw('"assessments" ON "assessments"."courseId" = CAST("certification-courses"."id" as varchar)')
+        );
+        qb.where('certification-courses.id', id);
+        qb.where('assessments.state', Assessment.states.COMPLETED);
+      })
       .fetch({
         require: true,
         withRelated: [
           'session',
-          'assessment',
+          { 'assessment': (qb) => qb.where('assessments.state', Assessment.states.COMPLETED) },
           'assessment.assessmentResults',
         ],
       })
@@ -52,14 +59,20 @@ module.exports = {
         }
       });
   },
-
   findCertificationsByUserId(userId) {
     return CertificationCourseBookshelf
-      .where({ userId })
+      .query((qb) => {
+        qb.innerJoin(
+          Bookshelf.knex.raw('"assessments" ON "assessments"."courseId" = CAST("certification-courses"."id" as varchar)')
+        );
+        qb.where('certification-courses.userId', userId);
+        qb.where('assessments.state', Assessment.states.COMPLETED);
+      })
       .fetchAll({
+        required: false,
         withRelated: [
           'session',
-          'assessment',
+          { 'assessment': (qb) => qb.where('assessments.state', Assessment.states.COMPLETED) },
           'assessment.assessmentResults',
         ],
       })
@@ -76,24 +89,15 @@ module.exports = {
         method: 'update',
         require: true,
       })
-      .then(() => {
-        return CertificationCourseBookshelf
-          .where({ id })
-          .fetch({
-            withRelated: [
-              'session',
-              'assessment',
-              'assessment.assessmentResults',
-            ],
-          });
-      })
-      .then(_certificationToDomain)
       .catch((err) => {
         if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
           throw new NotFoundError(`Not found certification for ID ${id}`);
         } else {
           throw err;
         }
+      })
+      .then(() => {
+        return module.exports.getCertification({ id });
       });
   },
 };
