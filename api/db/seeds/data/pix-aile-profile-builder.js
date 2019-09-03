@@ -8,15 +8,8 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
 
   const userId = 1;
 
-  const buildKnowledgeElements = ({ competenceId, challengeId, skillId, assessmentId, keSource, remainingDays, remainingHours }) => {
-    const { id: answerId } = databaseBuilder.factory.buildAnswer({
-      result: 'ok',
-      assessmentId,
-      challengeId,
-    });
-
+  const _buildKnowledgeElement = ({ competenceId, answerId, skillId, assessmentId, keSource, remainingDays, remainingHours }) => {
     const delay = 7 - remainingDays;
-
     databaseBuilder.factory.buildKnowledgeElement({
       source: keSource,
       skillId,
@@ -73,19 +66,27 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
       assessmentState,
     });
     _.map(challengeSkillMap, (challengeSkill) => {
-      buildKnowledgeElements({
-        competenceId,
+
+      const { id: answerId } = databaseBuilder.factory.buildAnswer({
+        result: 'ok',
+        assessmentId,
         challengeId: challengeSkill.challengeId,
+      });
+
+      _buildKnowledgeElement({
+        competenceId,
+        answerId,
         skillId: challengeSkill.skillId,
         assessmentId,
         remainingDays,
         remainingHours,
         keSource: KnowledgeElement.SourceType.DIRECT,
       });
+
       _.map(challengeSkill.inferredSkillIds, (inferredSkillId) => {
-        buildKnowledgeElements({
+        _buildKnowledgeElement({
           competenceId,
-          challengeId: challengeSkill.challengeId,
+          answerId,
           skillId: inferredSkillId,
           assessmentId,
           remainingDays,
@@ -157,9 +158,17 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
   const { assessmentId: assessmentIdForCampaign } = buildCampaignParticipation();
 
   // competence 1.2 - campaign - assessment not completed - 0.1 days remaining
-  buildKnowledgeElements({
+  const CHALLENGE_ID_1_2 = 'recilaoo1zSM4U7nM';
+  const { id: answerId_1_2 } = databaseBuilder.factory.buildAnswer({
+    assessmentId: assessmentIdForCampaign,
+    challengeId: CHALLENGE_ID_1_2,
+    result: 'ok',
+  });
+
+  _buildKnowledgeElement({
+    answerId: answerId_1_2,
     competenceId: 'recIkYm646lrGvLNT',
-    challengeId: 'recilaoo1zSM4U7nM',
+    challengeId: CHALLENGE_ID_1_2,
     skillId: 'recagUd44RPEWti0X',
     assessmentId: assessmentIdForCampaign,
     remainingDays: 0,
@@ -167,9 +176,17 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
   });
 
   // competence 3.1 - campaign - assessment not completed - 0 days remaining
-  buildKnowledgeElements({
+  const CHALLENGE_ID_3_1 = 'recQJ8lx3xyKCvFOh';
+  const { id: answerId_3_1 } = databaseBuilder.factory.buildAnswer({
+    assessmentId: assessmentIdForCampaign,
+    challengeId: CHALLENGE_ID_3_1,
+    result: 'ok',
+  });
+
+  _buildKnowledgeElement({
+    answerId: answerId_3_1,
     competenceId: 'recOdC9UDVJbAXHAm',
-    challengeId: 'recQJ8lx3xyKCvFOh',
+    challengeId: CHALLENGE_ID_3_1,
     skillId: 'rec5V9gp65a58nnco',
     assessmentId: assessmentIdForCampaign,
     remainingDays: 0,
