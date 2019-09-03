@@ -8,6 +8,7 @@ describe('Integration | Repository | Certification ', () => {
   let user;
   let session;
   let certificationCourse;
+  let incompleteCertificationCourse;
   let expectedCertification;
   let assessment;
   let assessmentResult;
@@ -54,6 +55,17 @@ describe('Integration | Repository | Certification ', () => {
       status: 'rejected',
       commentForCandidate: assessmentResult.commentForCandidate,
       userId: user.id,
+    });
+    incompleteCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+      userId: user.id,
+      sessionId: session.id,
+      isPublished: true,
+    });
+    databaseBuilder.factory.buildAssessment({
+      courseId: incompleteCertificationCourse.id,
+      userId: user.id,
+      type: Assessment.types.CERTIFICATION,
+      state: 'started',
     });
 
     await databaseBuilder.commit();
@@ -132,11 +144,19 @@ describe('Integration | Repository | Certification ', () => {
       // then
       expect(result).to.be.instanceOf(NotFoundError);
     });
+
+    it('should return a not found error when certification does not reference a completed assessment', async () => {
+      // when
+      const result = await catchErr(certificationRepository.getCertification)({ id: incompleteCertificationCourse.id });
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
+    });
   });
 
   describe('#findCertificationbyUserId', () => {
 
-    it('should return an array of Certification with needed informations', async () => {
+    it('should return an array of Certification related to completed assessment with needed informations', async () => {
       // when
       const certifications = await certificationRepository.findCertificationsByUserId(user.id);
 
