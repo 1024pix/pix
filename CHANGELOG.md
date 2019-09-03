@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.62.0 (03/09/2019)
+
+- [#686](https://github.com/1024pix/pix/pull/686) [BUGFIX] Corrige les seeds du profile de Pix Aile
+- [#678](https://github.com/1024pix/pix/pull/678) [BUGFIX] Plusieurs assessments pouvaient être créés au lancement d'une session de certification (PF-747)
+- [#684](https://github.com/1024pix/pix/pull/684) [TECH] Suppression des dernières références à coveralls et codeclimate dans le dossier mon-pix.
+- [#660](https://github.com/1024pix/pix/pull/660) [TECH] Supprimer les dépendances inutilisées sur mon-pix.
+- [#681](https://github.com/1024pix/pix/pull/681) [TECH] Normalisation de la structure des modules usecases
+- [#680](https://github.com/1024pix/pix/pull/680) [TECH] Suppression de la classe SmartPlacementAnswer
+- [#683](https://github.com/1024pix/pix/pull/683) [DOC] Supprimer la convention @exemplary
+
 ## v2.61.0 (28/08/2019)
 
 - [#663](https://github.com/1024pix/pix/pull/663) [FEATURE] Plafonner le score et le niveau lors d'une certification (PF-773).
