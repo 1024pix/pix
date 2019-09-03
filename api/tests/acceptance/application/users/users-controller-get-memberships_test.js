@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 const Membership = require('../../../../lib/domain/models/Membership');
@@ -6,8 +6,9 @@ const Membership = require('../../../../lib/domain/models/Membership');
 describe('Acceptance | Controller | users-controller-get-memberships', () => {
 
   let userId;
-  let organizationId;
+  let organization;
   let membershipId;
+  let options;
   const organizationRole = Membership.roles.MEMBER;
 
   let server;
@@ -18,68 +19,56 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
 
   describe('GET /users/:id/memberships', () => {
 
-    function _insertOrganization(userId) {
-      const organizationRaw = {
-        name: 'The name of the organization',
-        type: 'SUP',
-        code: 'AAA111',
-        'isManagingStudents': false,
-        userId,
-      };
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser().id;
+      organization = databaseBuilder.factory.buildOrganization();
+      membershipId = databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId, organizationRole }).id;
+      await databaseBuilder.commit();
 
-      return knex('organizations').insert(organizationRaw).returning('id');
-    }
-
-    function _insertUser() {
-      const userRaw = {
-        'firstName': 'john',
-        'lastName': 'Doe',
-        'email': 'john.Doe@internet.fr',
-        password: 'Pix2017!',
-      };
-
-      return knex('users').insert(userRaw).returning('id');
-    }
-
-    function _insertMemberships(organizationId, userId, organizationRole) {
-      const membershipRaw = {
-        organizationId,
-        userId,
-        organizationRole,
-      };
-
-      return knex('memberships').insert(membershipRaw).returning('id');
-    }
-
-    function _options(userId) {
-      return {
+      options = {
         method: 'GET',
         url: `/api/users/${userId}/memberships`,
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
-    }
-
-    beforeEach(() => {
-      return _insertUser()
-        .then(([id]) => userId = id)
-        .then(() => _insertOrganization(userId))
-        .then(([id]) => organizationId = id)
-        .then(() => _insertMemberships(organizationId, userId, Membership.roles.MEMBER))
-        .then(([id]) => membershipId = id);
     });
 
-    afterEach(() => {
-      return knex('users').delete()
-        .then(() => knex('organizations').delete())
-        .then(() => knex('memberships').delete());
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
-    it('should return found accesses with 200 HTTP status code', () => {
-      // when
-      const promise = server.inject(_options(userId));
+    describe('Resource access management', () => {
 
-      // then
-      return promise.then((response) => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(401);
+      });
+
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+        // given
+        const otherUserId = 9999;
+        options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
+
+        // when
+        const response = await server.inject(options);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('Success case', () => {
+
+      it('should return found memberships with 200 HTTP status code', async () => {
+        // when
+        const response = await server.inject(options);
+
+        // then
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
           data: [
@@ -90,7 +79,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                 'organization-role': organizationRole,
               },
               relationships: {
-                'organization': { data: { type: 'organizations', id: organizationId.toString() }, },
+                'organization': { data: { type: 'organizations', id: organization.id.toString() }, },
                 'user': { data: null, },
               },
             },
@@ -98,32 +87,32 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
           included: [
             {
               type: 'organizations',
-              id: organizationId.toString(),
+              id: organization.id.toString(),
               attributes: {
-                name: 'The name of the organization',
-                type: 'SUP',
-                code: 'AAA111',
-                'is-managing-students': false,
+                name: organization.name,
+                type: organization.type,
+                code: organization.code,
+                'is-managing-students': organization.isManagingStudents,
               },
               relationships: {
                 campaigns: {
                   links: {
-                    related: `/api/organizations/${organizationId.toString()}/campaigns`
+                    related: `/api/organizations/${organization.id.toString()}/campaigns`
                   }
                 },
                 memberships: {
                   links: {
-                    related: `/api/organizations/${organizationId.toString()}/memberships`
+                    related: `/api/organizations/${organization.id.toString()}/memberships`
                   }
                 },
                 'target-profiles': {
                   links: {
-                    related: `/api/organizations/${organizationId.toString()}/target-profiles`
+                    related: `/api/organizations/${organization.id.toString()}/target-profiles`
                   }
                 },
                 students: {
                   links: {
-                    related: `/api/organizations/${organizationId.toString()}/students`
+                    related: `/api/organizations/${organization.id.toString()}/students`
                   }
                 },
               }

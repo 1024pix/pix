@@ -58,49 +58,6 @@ describe('Unit | Controller | assessment-controller-save', () => {
       });
     });
 
-    context('when the assessment saved is a certification test', () => {
-
-      const request = {
-        headers: {
-          authorization: 'Bearer my-token',
-        },
-        payload: {
-          data: {
-            attributes: {
-              'type': 'CERTIFICATION',
-            },
-            relationships: {
-              course: {
-                data: {
-                  id: 'courseId',
-                },
-              },
-            },
-          },
-        },
-      };
-
-      beforeEach(() => {
-        sinon.stub(tokenService, 'extractUserId').returns('userId');
-        sinon.stub(usecases, 'createAssessmentForCertification').resolves({});
-      });
-
-      it('should call createAssessmentForCertification usecase', async function() {
-        // given
-        const expected = Assessment.fromAttributes({
-          type: Assessment.types.CERTIFICATION,
-          courseId: 'courseId',
-          userId: 'userId',
-        });
-
-        // when
-        await controller.save(request, hFake);
-
-        // then
-        expect(usecases.createAssessmentForCertification).to.have.been.calledWith({ assessment: expected });
-      });
-    });
-
     context('when the assessment saved is a preview test', () => {
       const request = {
         headers: {

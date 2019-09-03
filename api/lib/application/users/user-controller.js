@@ -69,40 +69,30 @@ module.exports = {
   },
 
   async rememberUserHasSeenAssessmentInstructions(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    const updatedUser = await usecases.rememberUserHasSeenAssessmentInstructions({
-      authenticatedUserId, requestedUserId
-    });
-
+    const updatedUser = await usecases.rememberUserHasSeenAssessmentInstructions({ userId: authenticatedUserId });
     return userSerializer.serialize(updatedUser);
   },
 
   async rememberUserHasSeenNewProfileInfo(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    const updatedUser = await usecases.rememberUserHasSeenNewProfileInfo({
-      authenticatedUserId, requestedUserId
-    });
-
+    const updatedUser = await usecases.rememberUserHasSeenNewProfileInfo({ userId: authenticatedUserId });
     return userSerializer.serialize(updatedUser);
   },
 
   getMemberships(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUserWithMemberships({ authenticatedUserId, requestedUserId })
+    return usecases.getUserWithMemberships({ userId: authenticatedUserId })
       .then((user) => membershipSerializer.serialize(user.memberships));
   },
 
   getCertificationCenterMemberships(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUserCertificationCenterMemberships({ authenticatedUserId, requestedUserId })
+    return usecases.getUserCertificationCenterMemberships({ userId: authenticatedUserId })
       .then((certificationCenterMemberships) => certificationCenterMembershipSerializer.serialize(certificationCenterMemberships));
   },
 
@@ -130,33 +120,31 @@ module.exports = {
   },
 
   getCampaignParticipations(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
+    const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.findCampaignParticipationsRelatedToUser({ authenticatedUserId, requestedUserId })
+    return usecases.findCampaignParticipationsRelatedToUser({ userId: authenticatedUserId })
       .then(campaignParticipationSerializer.serialize);
   },
 
   getPixScore(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
-    return usecases.getUserPixScore({ authenticatedUserId, requestedUserId })
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    return usecases.getUserPixScore({ userId: authenticatedUserId })
       .then(pixScoreSerializer.serialize);
   },
 
   getScorecards(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.id;
-    return usecases.getUserScorecards({ authenticatedUserId, requestedUserId })
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    return usecases.getUserScorecards({ userId: authenticatedUserId })
       .then(scorecardSerializer.serialize);
   },
 
-  async resetScorecard(request) {
-    const authenticatedUserId = request.auth.credentials.userId.toString();
-    const requestedUserId = request.params.userId;
+  resetScorecard(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
     const competenceId = request.params.competenceId;
 
-    return usecases.resetScorecard({ authenticatedUserId, requestedUserId, competenceId })
+    return usecases.resetScorecard({ userId: authenticatedUserId, competenceId })
       .then(scorecardSerializer.serialize);
   }
 };

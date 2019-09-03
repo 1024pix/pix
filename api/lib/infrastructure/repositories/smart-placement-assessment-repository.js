@@ -5,7 +5,7 @@ const BookshelfAssessment = require('../data/assessment');
 const { NotFoundError } = require('../../domain/errors');
 const Assessment = require('../../domain/models/Assessment');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
-const SmartPlacementAnswer = require('../../domain/models/SmartPlacementAnswer');
+const Answer = require('../../domain/models/Answer');
 const SmartPlacementAssessment = require('../../domain/models/SmartPlacementAssessment');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 
@@ -84,13 +84,7 @@ function _toDomain({ bookshelfAssessment, bookshelfTargetProfile, bookshelfCampa
 
   const answers = bookshelfAssessment
     .related('answers')
-    .map((bookshelfAnswer) => {
-      return new SmartPlacementAnswer({
-        id: bookshelfAnswer.get('id'),
-        result: bookshelfAnswer.get('result'),
-        challengeId: bookshelfAnswer.get('challengeId'),
-      });
-    });
+    .map((bookshelfAnswer) => new Answer(bookshelfAnswer.toJSON()));
 
   const knowledgeElements = bookshelfAssessment
     .related('knowledgeElements')
