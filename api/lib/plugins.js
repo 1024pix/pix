@@ -61,7 +61,7 @@ const plugins = [
       }
     }
   },
-  ...(isProduction ? [
+  ...(isProduction && process.env.SENTRY_DSN ? [
     {
       plugin: require('hapi-sentry'),
       options: {
