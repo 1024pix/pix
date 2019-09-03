@@ -88,7 +88,7 @@ function extractIssueCodeFromBranchName(branchName) {
 }
 
 function extractPRNumberFromAppName(appName) {
-  const PRnumberRegex = new RegExp(/integration-pr(\d+)/);
+  const PRnumberRegex = new RegExp(/-pr(\d+)/);
   const regexMatches = appName.match(PRnumberRegex);
 
   if (regexMatches) {
