@@ -20,7 +20,7 @@
 	exit 1
 }
 
-PR_NUMBER=$(echo $APP | grep -Po '(?<=integration-pr)\d+')
+PR_NUMBER=$(echo $APP | grep -Po '(?<=-pr)\d+')
 RA_APP_URL="https://app-pr$PR_NUMBER.review.pix.fr"
 RA_ORGA_URL="https://orga-pr$PR_NUMBER.review.pix.fr"
 RA_CERTIF_URL="https://certif-pr$PR_NUMBER.review.pix.fr"
