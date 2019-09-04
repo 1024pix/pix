@@ -9,6 +9,10 @@
   "scripts": {
     "first-deploy": "npm run scalingo-post-ra-creation"
   },
+  "addons": [
+    "postgresql:postgresql-sandbox",
+    "redis:redis-sandbox"
+  ],
   "formation": {
     "web": {
       "amount": 1,
