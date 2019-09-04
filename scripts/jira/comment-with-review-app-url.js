@@ -28,7 +28,7 @@ async function main() {
   const raOrgaURL = `https://orga-pr${prNumber}.review.pix.fr`;
   const raCertifURL = `https://certif-pr${prNumber}.review.pix.fr`;
   const raAdminURL = `https://admin-pr${prNumber}.review.pix.fr`;
-  const raAPIURL = `https://api-pr${prNumber}.review.pix.fr`;
+  const raAPIURL = `https://api-pr${prNumber}.review.pix.fr/api/`;
 
   const scalingoCommentRegex = new RegExp(raAppURL, 'i');
 
