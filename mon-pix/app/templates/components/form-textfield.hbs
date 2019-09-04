@@ -1,4 +1,9 @@
-<label for="{{textfieldName}}" class="form-textfield__label">{{label}}</label>
+{{#if require}}
+  <label for="{{textfieldName}}" class="form-textfield__label"><abbr title="obligatoire">*</abbr> {{label}}</label>
+{{else}}
+  <label for="{{textfieldName}}" class="form-textfield__label">{{label}}</label>
+{{/if}}
+
 {{#if hasIcon}}
   <div class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}" role="alert">{{validationMessage}}</div>
 {{/if}}
