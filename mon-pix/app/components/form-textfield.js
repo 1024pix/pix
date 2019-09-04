@@ -32,8 +32,10 @@ export default Component.extend({
   textfieldName: '',
   validationMessage: '',
   isPassword: computed.equal('textfieldName','password'),
+  isEmail: computed.equal('textfieldName','email'),
   isPasswordVisible: false,
   require: false,
+  help: '',
 
   onValidate: () => {},
 

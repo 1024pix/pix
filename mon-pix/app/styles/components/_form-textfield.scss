@@ -4,10 +4,14 @@
 
 .form-textfield__label {
   font-family: $font-lato;
-  font-size: 12px;
+  font-size: 1.2rem;
   font-weight: bold;
   color: $charcoal-grey;
   text-transform: uppercase;
+}
+
+.form-textfield__help {
+  text-transform: none;
 }
 
 .form-textfield__input-field-container {
