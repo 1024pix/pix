@@ -110,6 +110,10 @@
 
 .sign-form-body{
 
+  &__instruction {
+    margin: 10px 0;
+  }
+
   &__input {
     max-width: 449px;
     width: 100%;
