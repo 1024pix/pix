@@ -12,12 +12,13 @@ describe('Integration | Repository | Target-profile', () => {
     let targetProfile;
     let targetProfileFirstSkill;
     let skillAssociatedToTargetProfile;
+    let organizationId;
 
     beforeEach(async () => {
-
+      organizationId = databaseBuilder.factory.buildOrganization({}).id;
       targetProfile = databaseBuilder.factory.buildTargetProfile({});
       targetProfileFirstSkill = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id });
-      databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfile.id, organizationId: 2 });
+      databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfile.id, organizationId });
       await databaseBuilder.commit();
 
       skillAssociatedToTargetProfile = new SkillDataObject({ id: targetProfileFirstSkill.skillId, name: '@Acquis2' });
@@ -46,19 +47,21 @@ describe('Integration | Repository | Target-profile', () => {
 
         expect(foundTargetProfile.sharedWithOrganizationIds).to.be.an('array');
         expect(foundTargetProfile.sharedWithOrganizationIds.length).to.equal(1);
-        expect(foundTargetProfile.sharedWithOrganizationIds[0]).to.equal(2);
+        expect(foundTargetProfile.sharedWithOrganizationIds[0]).to.equal(organizationId);
       });
     });
   });
 
   describe('#findPublicTargetProfiles', () => {
 
-    let publicTargetProfile = domainBuilder.buildTargetProfile({ isPublic: true });
+    let publicTargetProfile = domainBuilder.buildTargetProfile({ isPublic: true, });
     let privateTargetProfile = domainBuilder.buildTargetProfile({ isPublic: false, });
     let publicProfileSkillAssociation;
     let targetProfileSkill;
 
     beforeEach(async () => {
+      publicTargetProfile.organizationId = null;
+      privateTargetProfile.organizationId = null;
       publicTargetProfile = databaseBuilder.factory.buildTargetProfile(publicTargetProfile);
       publicProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: publicTargetProfile.id });
       privateTargetProfile = databaseBuilder.factory.buildTargetProfile(privateTargetProfile);
@@ -89,9 +92,10 @@ describe('Integration | Repository | Target-profile', () => {
 
       // then
       return promise.then((targetProfiles) => {
-        expect(targetProfiles).to.have.lengthOf(1);
+        expect(targetProfiles).to.have.lengthOf(2); // There is one public target profile in database migrations already
         expect(targetProfiles[0]).to.be.an.instanceOf(TargetProfile);
         expect(targetProfiles[0].isPublic).to.be.true;
+        expect(targetProfiles[1].isPublic).to.be.true;
       });
     });
 
@@ -115,25 +119,18 @@ describe('Integration | Repository | Target-profile', () => {
 
   describe('#findTargetProfileByOrganizationId', () => {
 
-    let theRequestedOrganization = domainBuilder.buildOrganization();
-    let anotherOrganization = domainBuilder.buildOrganization();
-    let requestedOrganizationTargetProfile = domainBuilder.buildTargetProfile({
-      organizationId: theRequestedOrganization.id
-    });
-    let anotherOrganizationTargetProfile = domainBuilder.buildTargetProfile({
-      organizationId: anotherOrganization.id
-    });
-    let targetProfileSkillAssociation;
+    let organizationId;
     let targetProfileSkill;
 
     beforeEach(async () => {
-      theRequestedOrganization = databaseBuilder.factory.buildOrganization(theRequestedOrganization);
-      anotherOrganization = databaseBuilder.factory.buildOrganization(anotherOrganization);
+      organizationId = databaseBuilder.factory.buildOrganization().id;
+      const requestedOrganizationTargetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId });
+      const targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill(
+        {
+          targetProfileId: requestedOrganizationTargetProfile.id
+        });
 
-      requestedOrganizationTargetProfile = databaseBuilder.factory.buildTargetProfile(requestedOrganizationTargetProfile);
-      targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: requestedOrganizationTargetProfile.id });
-
-      anotherOrganizationTargetProfile = databaseBuilder.factory.buildTargetProfile(anotherOrganizationTargetProfile);
+      databaseBuilder.factory.buildTargetProfile();
 
       await databaseBuilder.commit();
 
@@ -147,7 +144,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return an Array', () => {
       // when
-      const promise = targetProfileRepository.findTargetProfilesOwnedByOrganizationId(theRequestedOrganization.id);
+      const promise = targetProfileRepository.findTargetProfilesOwnedByOrganizationId(organizationId);
 
       // then
       return promise.then((foundTargetProfiles) => {
@@ -157,19 +154,19 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return target profiles linked to the organization', () => {
       // when
-      const promise = targetProfileRepository.findTargetProfilesOwnedByOrganizationId(theRequestedOrganization.id);
+      const promise = targetProfileRepository.findTargetProfilesOwnedByOrganizationId(organizationId);
 
       // then
       return promise.then((foundTargetProfiles) => {
         expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
         expect(foundTargetProfiles).to.have.lengthOf(1);
-        expect(foundTargetProfiles[0].organizationId).to.equal(theRequestedOrganization.id);
+        expect(foundTargetProfiles[0].organizationId).to.equal(organizationId);
       });
     });
 
     it('should contain skills linked to every target profiles', () => {
       // when
-      const promise = targetProfileRepository.findTargetProfilesOwnedByOrganizationId(theRequestedOrganization.id);
+      const promise = targetProfileRepository.findTargetProfilesOwnedByOrganizationId(organizationId);
 
       // then
       return promise.then((targetProfiles) => {

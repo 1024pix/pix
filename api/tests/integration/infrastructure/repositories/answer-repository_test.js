@@ -7,12 +7,14 @@ const _ = require('lodash');
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | AnswerRepository', () => {
-  const assessmentId = 1234;
-  const otherAssessmentId = 5678;
+  let assessmentId, otherAssessmentId;
+  const challengeId = 'challenge_1234';
+  const otherChallengeId = 'challenge_4567';
 
   beforeEach(() => {
-    databaseBuilder.factory.buildAssessment({ id: assessmentId });
-    databaseBuilder.factory.buildAssessment({ id: otherAssessmentId });
+    assessmentId = databaseBuilder.factory.buildAssessment().id;
+    otherAssessmentId = databaseBuilder.factory.buildAssessment().id;
+    return databaseBuilder.commit();
   });
 
   afterEach(() => {
@@ -36,12 +38,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       let answerId;
 
       beforeEach(() => {
-        answerId = databaseBuilder.factory.buildAnswer({
-          value: '1,2',
-          result: 'ko',
-          challengeId: 'challenge_1234',
-          assessmentId: assessmentId,
-        }).id;
+        answerId = databaseBuilder.factory.buildAnswer({ assessmentId: assessmentId }).id;
         return databaseBuilder.commit();
       });
 
@@ -60,82 +57,39 @@ describe('Integration | Repository | AnswerRepository', () => {
 
   describe('#findByChallengeAndAssessment', () => {
 
-    // nominal case
-    const wrongAnswer = {
-      value: '1,2',
-      result: 'ko',
-      challengeId: 'challenge_1234',
-      assessmentId: assessmentId,
-    };
-
-    // same assessmentId, different challengeId
-    const correctAnswer = {
-      value: '1,2,4',
-      result: 'ok',
-      challengeId: 'challenge_000',
-      assessmentId: assessmentId,
-    };
-
-    // different assessmentId, same challengeId
-    const partiallyCorrectAnswer = {
-      value: '3',
-      result: 'partially',
-      challengeId: 'challenge_1234',
-      assessmentId: otherAssessmentId,
-    };
-
     beforeEach(() => {
-      databaseBuilder.factory.buildAnswer(wrongAnswer);
-      databaseBuilder.factory.buildAnswer(correctAnswer);
-      databaseBuilder.factory.buildAnswer(partiallyCorrectAnswer);
+      _.each([
+        { value: 'answer value', challengeId, assessmentId, }, // nominal case
+        { challengeId: otherChallengeId, assessmentId, }, // same assessmentId, different challengeId
+        { challengeId, assessmentId: otherAssessmentId, }, // different assessmentId, same challengeId
+      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
       return databaseBuilder.commit();
     });
 
     it('should find the answer by challenge and assessment and return its in an object', () => {
       // when
       const promise = AnswerRepository.findByChallengeAndAssessment({
-        challengeId: 'challenge_1234',
-        assessmentId: assessmentId
+        challengeId,
+        assessmentId
       });
 
       // then
       return promise.then((foundAnswers) => {
         expect(foundAnswers).to.exist;
         expect(foundAnswers).to.be.an.instanceOf(Answer);
-        expect(foundAnswers.value).to.equal(wrongAnswer.value);
+        expect(foundAnswers.value).to.equal('answer value');
       });
     });
   });
 
   describe('#findByChallenge', () => {
 
-    const wrongAnswerForAssessment1234 = {
-      value: '1',
-      result: 'ko',
-      challengeId: 'challenge_1234',
-      assessmentId: assessmentId,
-    };
-
-    // same challenge different assessment
-    const wrongAnswerForAssessment1 = {
-      value: '1,2',
-      result: 'ko',
-      challengeId: 'challenge_1234',
-      assessmentId: otherAssessmentId,
-    };
-
-    //different challenge different assessment
-    const timedOutAnswerForAssessment1 = {
-      value: '1,2,3',
-      result: 'timedout',
-      challengeId: 'challenge_000',
-      assessmentId: otherAssessmentId,
-    };
-
     beforeEach(() => {
-      databaseBuilder.factory.buildAnswer(wrongAnswerForAssessment1234);
-      databaseBuilder.factory.buildAnswer(wrongAnswerForAssessment1);
-      databaseBuilder.factory.buildAnswer(timedOutAnswerForAssessment1);
+      _.each([
+        { value: '1,2', challengeId, assessmentId, }, // nominal case
+        { value: '1', challengeId, assessmentId: otherAssessmentId, }, // same challenge different assessment
+        { value: '1,2,3', challengeId: otherChallengeId, assessmentId: otherAssessmentId, }, //different challenge different assessment
+      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
       return databaseBuilder.commit();
     });
 
@@ -154,8 +108,8 @@ describe('Integration | Repository | AnswerRepository', () => {
         expect(values).to.include.members(['1', '1,2']);
 
         const challengeIds = _.map(foundAnswers, 'challengeId');
-        expect(challengeIds).to.include('challenge_1234');
-        expect(challengeIds).to.not.include('challenge_000');
+        expect(challengeIds).to.include(challengeId);
+        expect(challengeIds).to.not.include(otherChallengeId);
       });
     });
   });
@@ -164,10 +118,7 @@ describe('Integration | Repository | AnswerRepository', () => {
     it('should return a list of corresponding challenge ids', async () => {
       // given
       const answerIds = [1, 2, 3, 4];
-
-      answerIds.forEach((id) => {
-        databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id });
-      });
+      _.each(answerIds, (id) => (databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id })));
       await databaseBuilder.commit();
 
       const expectedChallengeIds = ['rec1', 'rec2', 'rec3', 'rec4'];
@@ -193,10 +144,7 @@ describe('Integration | Repository | AnswerRepository', () => {
     it('should ignore a non existing answer', async () => {
       // given
       const answerIds = [1, 2, 3, 4];
-
-      answerIds.forEach((id) => {
-        databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id });
-      });
+      _.each(answerIds, (id) => (databaseBuilder.factory.buildAnswer({ id, challengeId: 'rec' + id })));
       await databaseBuilder.commit();
 
       const nonExistingAnswerId = 1234;
@@ -231,10 +179,7 @@ describe('Integration | Repository | AnswerRepository', () => {
     it('should return only once a challengeId answered twice', async () => {
       // given
       const answerIds = [1, 2];
-
-      answerIds.forEach((id) => {
-        databaseBuilder.factory.buildAnswer({ id, challengeId: 'recChallenge10' });
-      });
+      _.each(answerIds, (id) => (databaseBuilder.factory.buildAnswer({ id, challengeId: 'recChallenge10' })));
       await databaseBuilder.commit();
 
       const expectedChallengeIds = ['recChallenge10'];
@@ -249,31 +194,12 @@ describe('Integration | Repository | AnswerRepository', () => {
 
   describe('#findByAssessment', () => {
 
-    const answer1 = {
-      value: 'Un pancake Tabernacle',
-      result: 'ko',
-      challengeId: 'challenge_tabernacle',
-      assessmentId: otherAssessmentId,
-    };
-
-    const answer2 = {
-      value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
-      result: 'ko',
-      challengeId: 'challenge_tabernacle',
-      assessmentId: assessmentId,
-    };
-
-    const answer3 = {
-      value: 'la réponse D',
-      result: 'timedout',
-      challengeId: 'challenge_D',
-      assessmentId: assessmentId,
-    };
-
     beforeEach(() => {
-      databaseBuilder.factory.buildAnswer(answer1);
-      databaseBuilder.factory.buildAnswer(answer2);
-      databaseBuilder.factory.buildAnswer(answer3);
+      _.each([
+        { challengeId, assessmentId, },
+        { challengeId, assessmentId: otherAssessmentId, },
+        { challengeId: otherChallengeId, assessmentId, },
+      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
       return databaseBuilder.commit();
     });
 
@@ -303,31 +229,12 @@ describe('Integration | Repository | AnswerRepository', () => {
 
   describe('#findCorrectAnswersByAssessmentId', () => {
 
-    const answer1 = {
-      value: 'Un pancake Tabernacle',
-      result: 'ok',
-      challengeId: 'challenge_tabernacle',
-      assessmentId: otherAssessmentId,
-    };
-
-    const answer2 = {
-      value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
-      result: 'ok',
-      challengeId: 'challenge_tabernacle',
-      assessmentId: assessmentId,
-    };
-
-    const answer3 = {
-      value: 'la réponse D',
-      result: 'ko',
-      challengeId: 'challenge_D',
-      assessmentId: assessmentId,
-    };
-
     beforeEach(() => {
-      databaseBuilder.factory.buildAnswer(answer1);
-      databaseBuilder.factory.buildAnswer(answer2);
-      databaseBuilder.factory.buildAnswer(answer3);
+      _.each([
+        { result: 'ok', challengeId, assessmentId, },
+        { result: 'ok', challengeId, assessmentId: otherAssessmentId, },
+        { result: 'ko', challengeId: otherChallengeId, assessmentId, },
+      ], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
       return databaseBuilder.commit();
     });
 
@@ -365,7 +272,6 @@ describe('Integration | Repository | AnswerRepository', () => {
       answer.id = undefined;
 
       // when
-      await databaseBuilder.commit();
       savedAnswer = await AnswerRepository.save(answer);
     });
 

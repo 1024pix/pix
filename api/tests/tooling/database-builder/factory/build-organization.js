@@ -7,15 +7,28 @@ const buildOrganization = function buildOrganization({
   id,
   type = 'PRO',
   name = faker.company.companyName(),
-  code = 'ABCD12',
+  code = faker.random.alphaNumeric(6),
   logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
   externalId = faker.lorem.word(),
   isManagingStudents = false,
   userId = null,
-  createdAt = faker.date.recent()
+  createdAt = faker.date.recent(),
+  updatedAt = faker.date.recent(),
 } = {}) {
 
-  const values = { id, type, name, code, logoUrl, externalId, isManagingStudents, createdAt, userId };
+  const values = {
+    id,
+    type,
+    name,
+    code,
+    logoUrl,
+    createdAt,
+    externalId,
+    isManagingStudents,
+    userId,
+    updatedAt
+  };
+
   return databaseBuffer.pushInsertable({
     tableName: 'organizations',
     values,

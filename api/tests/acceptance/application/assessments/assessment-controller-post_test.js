@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithStandardRole } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithStandardRole } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
@@ -12,8 +12,10 @@ describe('Acceptance | API | Assessments POST', () => {
 
   describe('POST /api/assessments', () => {
 
-    afterEach(() => {
-      return knex('assessments').delete();
+    afterEach(async () => {
+      await knex('assessments').delete();
+      await knex('users').delete();
+      await databaseBuilder.clean();
     });
 
     let options;
@@ -51,10 +53,6 @@ describe('Acceptance | API | Assessments POST', () => {
             headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
           };
         });
-    });
-
-    afterEach(() => {
-      return knex('users').delete();
     });
 
     it('should return 201 HTTP status code', () => {

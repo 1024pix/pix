@@ -14,7 +14,7 @@ module.exports = function buildCertificationChallenge({
   updatedAt = faker.date.recent(),
 } = {}) {
 
-  courseId = _.isNil(courseId) ? buildCertificationCourse().id : courseId;
+  courseId = _.isUndefined(courseId) ? buildCertificationCourse().id : courseId;
 
   const values = {
     id,

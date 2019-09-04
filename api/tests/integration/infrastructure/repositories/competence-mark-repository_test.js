@@ -1,4 +1,5 @@
-const { expect, knex, domainBuilder } = require('../../../test-helper');
+const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
+const _ = require('lodash');
 
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const CompetenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
@@ -6,22 +7,24 @@ const CompetenceMarkRepository = require('../../../../lib/infrastructure/reposit
 describe('Integration | Repository | CompetenceMark', () => {
 
   describe('#save', () => {
-
-    before(() => knex('competence-marks').delete());
-
-    afterEach(() => knex('competence-marks').delete());
-
-    it('should persist the mark in db', () => {
+    let competenceMark;
+    beforeEach(async () => {
       // given
-      const mark = domainBuilder.buildCompetenceMark({
+      competenceMark = domainBuilder.buildCompetenceMark({
         score: 13,
         level: 1,
         area_code: '4',
         competence_code: '4.2',
       });
+    });
 
+    afterEach(async () => {
+      await knex('competence-marks').delete();
+    });
+
+    it('should persist the mark in db', () => {
       // when
-      const promise = CompetenceMarkRepository.save(mark);
+      const promise = CompetenceMarkRepository.save(competenceMark);
 
       // then
       return promise.then(() => knex('competence-marks').select())
@@ -89,38 +92,25 @@ describe('Integration | Repository | CompetenceMark', () => {
   });
 
   describe('#findByAssessmentResultId', () => {
-    const assessmentResultId = 1;
 
-    const competenceMark1 = {
-      id: 1,
-      score: 13,
-      level: 2,
-      area_code: '4',
-      competence_code: '4.2',
-      assessmentResultId,
-    };
+    let assessmentResultId, competenceMarkIds;
+    beforeEach(async () => {
+      assessmentResultId = databaseBuilder.factory.buildAssessmentResult({}).id;
+      const anotherAssessmentResultId = databaseBuilder.factory.buildAssessmentResult({}).id;
+      competenceMarkIds = _.map([
+        { score: 13, level: 2, area_code: '4', competence_code: '4.2', assessmentResultId },
+        { score: 10, level: 1, area_code: '3', competence_code: '3.1', assessmentResultId: anotherAssessmentResultId },
+        { score: 24, level: 3, area_code: '3', competence_code: '3.1', assessmentResultId },
+      ], (mark) => {
+        return databaseBuilder.factory.buildCompetenceMark(mark).id;
+      });
 
-    const competenceMark2 = {
-      id: 2,
-      score: 24,
-      level: 3,
-      area_code: '3',
-      competence_code: '3.1',
-      assessmentResultId,
-    };
+      await databaseBuilder.commit();
+    });
 
-    const competenceMark3 = {
-      id: 3,
-      score: 10,
-      level: 1,
-      area_code: '3',
-      competence_code: '3.1',
-      assessmentResultId: 2,
-    };
-
-    before(() => knex('competence-marks').insert([competenceMark1, competenceMark2, competenceMark3]));
-
-    afterEach(() => knex('competence-marks').delete());
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
 
     it('should return all competence-marks for one assessmentResult', () => {
       // when
@@ -128,9 +118,10 @@ describe('Integration | Repository | CompetenceMark', () => {
 
       // then
       return promise.then((competenceMarks) => {
-        expect(competenceMarks[0].id).to.equal(competenceMark1.id);
-        expect(competenceMarks[1].id).to.equal(competenceMark2.id);
-        expect(competenceMarks.length).to.equal(2);
+        const sortedCompetenceMarks = _.sortBy(competenceMarks, [(mark) => { return mark.id; }]);
+        expect(sortedCompetenceMarks[0].id).to.equal(competenceMarkIds[0]);
+        expect(sortedCompetenceMarks[1].id).to.equal(competenceMarkIds[2]);
+        expect(sortedCompetenceMarks.length).to.equal(2);
       });
     });
   });

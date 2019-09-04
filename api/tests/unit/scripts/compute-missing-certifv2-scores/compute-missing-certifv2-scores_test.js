@@ -29,7 +29,7 @@ describe('Compute missing certification v2 scores', () => {
       domainBuilder.buildCompetenceMark({ area_code: '42' }),
     ],
   };
-  
+
   function testRecomputeCertificationCoursesV2() {
     return recomputeCertificationCoursesV2({
       assessmentRepository,
@@ -43,7 +43,7 @@ describe('Compute missing certification v2 scores', () => {
 
   let candidatId;
   let juryId;
-  
+
   beforeEach(async () => {
     await databaseBuilder.clean();
 
@@ -117,7 +117,7 @@ describe('Compute missing certification v2 scores', () => {
     await testRecomputeCertificationCoursesV2();
 
     // then
-    const assessmentResults = (await knex('assessment-results').where({ assessmentId }));
+    const assessmentResults = (await knex('assessment-results').where({ assessmentId }).orderBy('status'));
     expect(assessmentResults).to.have.lengthOf(2);
     expect(assessmentResults[0].id).to.equal(assessmentResultId);
     expect(assessmentResults[0].status).to.equal('error');

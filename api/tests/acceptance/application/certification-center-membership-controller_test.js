@@ -1,6 +1,6 @@
 const {
   expect, generateValidRequestAuthorizationHeader, cleanupUsersAndPixRolesTables,
-  insertUserWithRolePixMaster, databaseBuilder
+  insertUserWithRolePixMaster, databaseBuilder, knex
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
@@ -20,8 +20,9 @@ describe('Acceptance | API | Certification Center Membership', () => {
   describe('POST /api/certification-center-memberships', () => {
     let user, certificationCenter;
     beforeEach(async() => {
-      user = await databaseBuilder.factory.buildUser();
-      certificationCenter = await databaseBuilder.factory.buildCertificationCenter();
+      user = databaseBuilder.factory.buildUser();
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter();
+      await databaseBuilder.commit();
       options = {
         method: 'POST',
         url: '/api/certification-center-memberships',
@@ -35,6 +36,10 @@ describe('Acceptance | API | Certification Center Membership', () => {
           }
         }
       };
+    });
+
+    afterEach(async () => {
+      await knex('certification-center-memberships').delete();
     });
 
     context('when user is Pix Master', () => {

@@ -411,13 +411,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // given
       const email = 'my-email-to-save@example.net';
       const user = domainBuilder.buildUser({
-        id: null,
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: email,
         password: 'Pix1024#',
         cgu: true,
       });
+      user.id = undefined;
 
       // when
       await userRepository.create(user);
@@ -431,13 +431,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // given
       const email = 'my-email-to-save@example.net';
       const user = domainBuilder.buildUser({
-        id: null,
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: email,
         password: 'Pix1024#',
         cgu: true,
       });
+      user.id = undefined;
 
       // when
       const userSaved = await userRepository.create(user);
