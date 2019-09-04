@@ -15,8 +15,9 @@
           focus-out=(action onValidate textfieldName)
           class= 'form-textfield__input'
           classBinding="inputValidationStatus"
-          autocomplete=autocomplete}}
-  <div class="form-textfield__icon">
+          autocomplete=autocomplete
+          required=require}}
+    <div class="form-textfield__icon">
     {{#if isPassword}}
       <button type="button" aria-label="rendre le mot de passe lisible" class="form-textfield-icon__button" {{action 'togglePasswordVisibility'}}>
         {{#if isPasswordVisible}}
