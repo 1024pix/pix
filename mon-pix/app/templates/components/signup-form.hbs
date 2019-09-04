@@ -28,7 +28,8 @@
         onValidate=(action "validateInput")
         validationStatus=validation.firstName.status
         validationMessage=validation.firstName.message
-        autocomplete="given-name"}}
+        autocomplete="given-name"
+        require=true}}
     </div>
 
     <div class="sign-form-body__input">
@@ -39,7 +40,8 @@
         onValidate=(action "validateInput")
         validationStatus=validation.lastName.status
         validationMessage=validation.lastName.message
-        autocomplete="family-name"}}
+        autocomplete="family-name"
+        require=true}}
     </div>
 
     <div class="sign-form-body__input">
@@ -50,7 +52,8 @@
         onValidate=(action "validateInputEmail")
         inputBindingValue=user.email
         validationMessage=validation.email.message
-        autocomplete="email"}}
+        autocomplete="email"
+        require=true}}
     </div>
 
     <div class="sign-form-body__input">
@@ -61,7 +64,8 @@
         onValidate=(action "validateInputPassword")
         inputBindingValue=user.password
         validationMessage=validation.password.message
-        autocomplete="new-password"}}
+        autocomplete="new-password"
+        require=true}}
     </div>
 
     <div class="signup-form__cgu-container">
@@ -75,7 +79,7 @@
       <label for="pix-cgu" class="signup-form__cgu-label">
         {{input type="checkbox" id='pix-cgu' checked=user.cgu}}
         <span class="signup-form__cgu">
-        J'​accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions d'​utilisation de Pix</a>
+        <abbr title="obligatoire">*</abbr> J'​accepte les <a href="https://pix.fr/conditions-generales-d-utilisation" class="link" target="_blank">conditions d'​utilisation de Pix</a>
       </span>
       </label>
     </div>
