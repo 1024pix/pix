@@ -91,15 +91,12 @@ jobs:
           key: v7-api-npm-{{ checksum "cachekey" }}
           paths:
             - ~/.npm
-      - run: |
-          npm run lint
-          npm test
       - run:
           command: |
-            npm run db:pg:reset
+            npm run lint
+            npm test
           environment:
             TEST_DATABASE_URL: postgres://circleci@localhost:5432/circleci
-            NODE_ENV: test
 
   mon_pix_build_and_test:
     docker:

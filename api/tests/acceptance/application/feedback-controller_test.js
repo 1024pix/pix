@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 const Feedback = require('../../../lib/infrastructure/data/feedback');
 
@@ -13,46 +13,42 @@ describe('Acceptance | Controller | feedback-controller', () => {
   describe('POST /api/feedbacks', () => {
 
     let options;
-    const assessment = {
-      userId: null,
-      courseId: 'rec'
-    };
 
-    beforeEach(() => {
-      return knex('assessments').insert(assessment).returning('id')
-        .then(([assessmentId]) => {
-          options = {
-            method: 'POST',
-            url: '/api/feedbacks',
-            payload: {
-              data: {
-                type: 'feedbacks',
-                attributes: {
-                  content: 'Some content'
-                },
-                relationships: {
-                  assessment: {
-                    data: {
-                      type: 'assessment',
-                      id: assessmentId
-                    }
-                  },
-                  challenge: {
-                    data: {
-                      type: 'challenge',
-                      id: 'challenge_id'
-                    }
-                  }
+    beforeEach(async () => {
+      const assessmentId = databaseBuilder.factory.buildAssessment({ userId: null, courseId: 'rec' }).id;
+      await databaseBuilder.commit();
+      options = {
+        method: 'POST',
+        url: '/api/feedbacks',
+        payload: {
+          data: {
+            type: 'feedbacks',
+            attributes: {
+              content: 'Some content'
+            },
+            relationships: {
+              assessment: {
+                data: {
+                  type: 'assessment',
+                  id: assessmentId
+                }
+              },
+              challenge: {
+                data: {
+                  type: 'challenge',
+                  id: 'challenge_id'
                 }
               }
-            },
-            headers: { authorization: generateValidRequestAuthorizationHeader() },
-          };
-        });
+            }
+          }
+        },
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+      };
     });
 
-    afterEach(() => {
-      return knex('feedbacks').delete();
+    afterEach(async () => {
+      await knex('feedbacks').delete();
+      await databaseBuilder.clean();
     });
 
     it('should return 201 HTTP status code', () => {

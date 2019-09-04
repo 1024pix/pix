@@ -40,7 +40,8 @@ module.exports = {
 
   changeCompletionDate(certificationCourseId, completedAt = null) {
     const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, completedAt });
-    return certificationCourseBookshelf.save();
+    return certificationCourseBookshelf.save()
+      .then(_toDomain);
   },
 
   get(id) {

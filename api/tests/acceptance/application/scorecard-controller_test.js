@@ -7,11 +7,14 @@ describe('Acceptance | Controller | scorecard-controller', () => {
 
   let options;
   let server;
-  const userId = 1234;
+  let userId;
   const competenceId = 'recCompetence';
 
   beforeEach(async () => {
     cache.flushAll();
+    server = await createServer();
+    userId = databaseBuilder.factory.buildUser({}).id;
+    await databaseBuilder.commit();
 
     options = {
       method: 'GET',
@@ -19,7 +22,6 @@ describe('Acceptance | Controller | scorecard-controller', () => {
       payload: {},
       headers: {},
     };
-    server = await createServer();
   });
 
   afterEach(() => {

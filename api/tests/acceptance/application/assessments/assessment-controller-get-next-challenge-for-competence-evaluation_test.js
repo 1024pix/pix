@@ -135,7 +135,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
     context('When there is still challenges to answer', () =>  {
       beforeEach(async () => {
-        databaseBuilder.factory.buildUser({ userId });
+        databaseBuilder.factory.buildUser({ id: userId });
         databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId });
         const { id: answerId } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
         databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId, competenceId, userId });
@@ -174,7 +174,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
 
     context('When there is no more challenges to answer', () =>  {
       beforeEach(async () => {
-        databaseBuilder.factory.buildUser({ userId });
+        databaseBuilder.factory.buildUser({ id: userId });
         databaseBuilder.factory.buildAssessment({ id: assessmentId, type: Assessment.types.COMPETENCE_EVALUATION, userId, competenceId });
         const { id: answerId1 } = databaseBuilder.factory.buildAnswer({ challengeId: firstChallengeId, assessmentId, value: 'any good answer', result: 'ok' });
         const { id: answerId2 } = databaseBuilder.factory.buildAnswer({ challengeId: secondChallengeId, assessmentId, value: 'any bad answer', result: 'ko' });

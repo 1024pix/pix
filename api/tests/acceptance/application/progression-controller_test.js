@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('../../test-helper');
+const { expect, generateValidRequestAuthorizationHeader, nock, databaseBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
 describe('Acceptance | API | Progressions', () => {
@@ -9,37 +9,10 @@ describe('Acceptance | API | Progressions', () => {
     server = await createServer();
   });
 
-  before(() => {
-    return knex('target-profiles').delete();
-  });
-
   describe('GET /api/progressions/:id', () => {
 
-    const userIdOfUserWithAssessment = 9999;
-    const insertedAssessment = {
-      id: 12,
-      courseId: 1,
-      userId: userIdOfUserWithAssessment,
-      type: 'SMART_PLACEMENT',
-      state: 'completed',
-    };
-    const insertedCampaign = {
-      id: 14,
-      name: 'Campaign',
-      organizationId: null,
-      targetProfileId:1
-    };
-    const insertedCampaignParticipation = {
-      campaignId: insertedCampaign.id,
-      assessmentId: insertedAssessment.id
-    };
-    const insertedTargetProfile = {
-      id: 1,
-      name: 'PIC Diagnostic',
-      isPublic: true
-    };
-
     let assessmentId;
+    let userId;
 
     beforeEach(async () => {
       nock.cleanAll();
@@ -55,11 +28,23 @@ describe('Acceptance | API | Progressions', () => {
         .query(true)
         .reply(200, {});
 
-      const assessment = databaseBuilder.factory.buildAssessment(insertedAssessment);
-      assessmentId = assessment.id;
-      databaseBuilder.factory.buildTargetProfile(insertedTargetProfile);
-      databaseBuilder.factory.buildCampaign(insertedCampaign);
-      databaseBuilder.factory.buildCampaignParticipation(insertedCampaignParticipation);
+      userId = databaseBuilder.factory.buildUser({}).id;
+      assessmentId = databaseBuilder.factory.buildAssessment(
+        {
+          userId: userId,
+          type: 'SMART_PLACEMENT',
+          state: 'completed',
+        }).id;
+      const campaignId = databaseBuilder.factory.buildCampaign(
+        {
+          name: 'Campaign',
+          targetProfileId: 1
+        }).id;
+      databaseBuilder.factory.buildCampaignParticipation(
+        {
+          campaignId,
+          assessmentId,
+        });
       await databaseBuilder.commit();
     });
 
@@ -96,13 +81,12 @@ describe('Acceptance | API | Progressions', () => {
       context('when the assessment does not exists', () => {
         it('should respond with a 404', () => {
           // given
-          const userIdOfUserWithoutAssessment = 8888;
-          const progressionId = -1;
+          const progressionId = assessmentId + 1;
           const options = {
             method: 'GET',
             url: `/api/progressions/${progressionId}`,
             headers: {
-              authorization: generateValidRequestAuthorizationHeader(userIdOfUserWithoutAssessment)
+              authorization: generateValidRequestAuthorizationHeader(userId)
             }
           };
 
@@ -125,7 +109,7 @@ describe('Acceptance | API | Progressions', () => {
             method: 'GET',
             url: `/api/progressions/${progressionId}`,
             headers: {
-              authorization: generateValidRequestAuthorizationHeader(userIdOfUserWithAssessment)
+              authorization: generateValidRequestAuthorizationHeader(userId)
             }
           };
 

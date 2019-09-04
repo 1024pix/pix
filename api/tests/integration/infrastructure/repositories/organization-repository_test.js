@@ -1,27 +1,23 @@
 const { expect, knex, domainBuilder, databaseBuilder } = require('../../../test-helper');
-
-const faker = require('faker');
-const bcrypt = require('bcrypt');
-const _ = require('lodash');
-
 const Organization = require('../../../../lib/domain/models/Organization');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const _ = require('lodash');
 
 describe('Integration | Repository | Organization', function() {
 
-  beforeEach(() => {
-    return databaseBuilder.clean();
+  beforeEach(async () => {
+    await databaseBuilder.clean();
   });
 
-  afterEach(() => {
-    return databaseBuilder.clean();
+  afterEach(async () => {
+    await databaseBuilder.clean();
   });
 
   describe('#create', () => {
 
-    afterEach(() => {
-      return knex('organizations').delete();
+    afterEach(async () => {
+      await knex('organizations').delete();
     });
 
     it('should return an Organization domain object', async () => {
@@ -69,15 +65,14 @@ describe('Integration | Repository | Organization', function() {
 
     let organization;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       const bookshelfOrganization = databaseBuilder.factory.buildOrganization({ id: 1, code: organizationCode });
       organization = domainBuilder.buildOrganization(bookshelfOrganization);
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     afterEach(async () => {
       await databaseBuilder.clean();
-      await knex('organizations').delete();
     });
 
     it('should return an Organization domain object', async () => {
@@ -131,19 +126,18 @@ describe('Integration | Repository | Organization', function() {
   });
 
   describe('#isCodeAvailable', () => {
-
-    const organization = {
-      type: 'PRO',
-      name: faker.name.firstName(),
-      code: 'ABCD01'
-    };
-
-    before(() => {
-      return knex('organizations').insert(organization);
+    beforeEach(async () => {
+      // given
+      databaseBuilder.factory.buildOrganization(
+        {
+          type: 'PRO',
+          code: 'ABCD01',
+        });
+      await databaseBuilder.commit();
     });
 
-    after(() => {
-      return knex('organizations').delete();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return the code when the code is not already used', async () => {
@@ -169,27 +163,25 @@ describe('Integration | Repository | Organization', function() {
 
       let insertedOrganization;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         insertedOrganization = databaseBuilder.factory.buildOrganization();
-        return databaseBuilder.commit();
+        await databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return databaseBuilder.clean();
+      afterEach(async () => {
+        await databaseBuilder.clean();
       });
 
-      it('should return a organization by provided id', function() {
+      it('should return a organization by provided id', async () => {
         // when
-        const promise = organizationRepository.get(insertedOrganization.id);
+        const foundOrganization = await organizationRepository.get(insertedOrganization.id);
 
         // then
-        return promise.then((foundOrganization) => {
-          expect(foundOrganization).to.be.an.instanceof(Organization);
-          expect(foundOrganization.type).to.equal(insertedOrganization.type);
-          expect(foundOrganization.name).to.equal(insertedOrganization.name);
-          expect(foundOrganization.logoUrl).to.equal(insertedOrganization.logoUrl);
-          expect(foundOrganization.id).to.equal(insertedOrganization.id);
-        });
+        expect(foundOrganization).to.be.an.instanceof(Organization);
+        expect(foundOrganization.type).to.equal(insertedOrganization.type);
+        expect(foundOrganization.name).to.equal(insertedOrganization.name);
+        expect(foundOrganization.logoUrl).to.equal(insertedOrganization.logoUrl);
+        expect(foundOrganization.id).to.equal(insertedOrganization.id);
       });
 
       it('should return a rejection when organization id is not found', function() {
@@ -214,160 +206,112 @@ describe('Integration | Repository | Organization', function() {
       let insertedOrganization;
       let sharedProfile;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         insertedOrganization = databaseBuilder.factory.buildOrganization();
         sharedProfile = databaseBuilder.factory.buildTargetProfile({
-          isPublic: 0
+          isPublic: false
         });
         databaseBuilder.factory.buildTargetProfileShare({
           organizationId: insertedOrganization.id,
           targetProfileId: sharedProfile.id,
         });
 
-        return databaseBuilder.commit();
+        await databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return databaseBuilder.clean();
+      afterEach(async () => {
+        await databaseBuilder.clean();
       });
 
-      it('should return an list of profile containing the shared profile', () => {
+      it('should return an list of profile containing the shared profile', async () => {
         // when
-        const promise = organizationRepository.get(insertedOrganization.id);
+        const organization = await organizationRepository.get(insertedOrganization.id);
 
         // then
-        return promise.then((organization) => {
-          const firstTargetProfileShare = organization.targetProfileShares[0];
-          expect(firstTargetProfileShare.targetProfileId).to.deep.equal(sharedProfile.id);
-          expect(firstTargetProfileShare.organizationId).to.deep.equal(insertedOrganization.id);
+        const firstTargetProfileShare = organization.targetProfileShares[0];
+        expect(firstTargetProfileShare.targetProfileId).to.deep.equal(sharedProfile.id);
+        expect(firstTargetProfileShare.organizationId).to.deep.equal(insertedOrganization.id);
 
-          const profileWithoutCreatedAt = _.omit(firstTargetProfileShare.targetProfile, 'createdAt');
-          expect(profileWithoutCreatedAt).to.deep.equal(sharedProfile);
-        });
+        expect(firstTargetProfileShare.targetProfile).to.deep.equal(sharedProfile);
       });
     });
   });
 
   describe('#getByUserId', () => {
+    let userId, anotherUserId, notUsedUserId;
+    let organizations;
 
-    const firstInsertedOrganization = {
-      type: 'PRO',
-      name: 'organization 1',
-      userId: 1,
-      id: 1,
-      code: 'ABCD12'
-    };
+    beforeEach(async () => {
+      userId = databaseBuilder.factory.buildUser({}).id;
+      anotherUserId = databaseBuilder.factory.buildUser({}).id;
+      notUsedUserId = databaseBuilder.factory.buildUser({}).id;
+      organizations = _.map([
+        { type: 'PRO', name: 'organization 1', userId: anotherUserId, code: 'ABCD12' },
+        { type: 'SCO', name: 'organization 2', userId, code: 'EFGH34' },
+        { type: 'SUP', name: 'organization 3', userId: anotherUserId, code: 'IJKL56' },
+      ], (organization) => {
+        return databaseBuilder.factory.buildOrganization(organization);
+      });
 
-    const secondInsertedOrganization = {
-      type: 'SCO',
-      name: 'organization 2',
-      userId: 2,
-      id: 2,
-      code: 'EFGH34'
-    };
-
-    const thirdInsertedOrganization = {
-      type: 'SUP',
-      name: 'organization 3',
-      userId: 1,
-      id: 3,
-      code: 'IJKL56'
-    };
-
-    const organizations = [firstInsertedOrganization, secondInsertedOrganization, thirdInsertedOrganization];
-
-    before(() => {
-      return knex('organizations')
-        .then(() => {
-          return knex('organizations').insert(organizations);
-        });
+      await databaseBuilder.commit();
     });
 
-    after(() => {
-      return knex('organizations').delete();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     describe('success management', function() {
 
-      it('should return an organization by provided userId', function() {
-        // given
-        const userId = 2;
-
-        // then
-        return organizationRepository.findByUserId(userId)
-          .then((foundOrganizations) => {
-            expect(foundOrganizations).to.exist;
-            expect(foundOrganizations).to.be.an('array');
-            expect(foundOrganizations[0].type).to.equal(secondInsertedOrganization.type);
-            expect(foundOrganizations[0].name).to.equal(secondInsertedOrganization.name);
-            expect(foundOrganizations[0].id).to.equal(secondInsertedOrganization.id);
-            expect(foundOrganizations[0].code).to.equal(secondInsertedOrganization.code);
-          });
-      });
-
-      it('should return all organizations when provided userId has multiple organizations', function() {
-        // given
-        const userId = 1;
-
+      it('should return an organization by provided userId', async () => {
         // when
-        const promise = organizationRepository.findByUserId(userId);
+        const actualOrganizations = await organizationRepository.findByUserId(userId);
 
         // then
-        return promise.then((foundOrganizations) => {
-          expect(foundOrganizations).to.exist;
-          expect(foundOrganizations).to.be.an('array');
-          expect(foundOrganizations).to.have.lengthOf(2);
-        });
-
+        expect(actualOrganizations).to.be.an('array');
+        expect(actualOrganizations).to.have.lengthOf(1);
+        expect(actualOrganizations[0].type).to.equal(organizations[1].type);
+        expect(actualOrganizations[0].name).to.equal(organizations[1].name);
+        expect(actualOrganizations[0].code).to.equal(organizations[1].code);
+        expect(actualOrganizations[0].id).to.equal(organizations[1].id);
       });
 
-      it('should return an empty Array, when organization id is not found', function() {
-        const userId = 10083;
-        return organizationRepository.findByUserId(userId)
-          .then((organization) => {
-            expect(organization).to.deep.equal([]);
-          });
+      it('should return all organizations when provided userId has multiple organizations', async () => {
+        // when
+        const actualOrganizations = await organizationRepository.findByUserId(anotherUserId);
+
+        // then
+        expect(actualOrganizations).to.be.an('array');
+        expect(actualOrganizations).to.have.lengthOf(2);
       });
 
+      it('should return an empty Array, when organization id is not found', async () => {
+        // when
+        const actualOrganizations = await organizationRepository.findByUserId(notUsedUserId);
+
+        // then
+        expect(actualOrganizations).to.deep.equal([]);
+      });
     });
   });
 
   describe('#findBy', () => {
+    let organizations;
 
-    const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
-    const associatedUser = {
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      email: faker.internet.email(),
-      password: userPassword,
-      cgu: true
-    };
+    beforeEach(async () => {
+      const userId = databaseBuilder.factory.buildUser({}).id;
+      organizations = _.map([
+        { type: 'PRO', name: 'organization 1', userId, code: 'ABCD12' },
+        { type: 'SCO', name: 'organization 2', userId, code: 'EFGH34' },
+        { type: 'SUP', name: 'organization 3', userId, code: 'IJKL56' },
+      ], (organization) => {
+        return databaseBuilder.factory.buildOrganization(organization);
+      });
 
-    const insertedOrganization1 = {
-      type: 'PRO',
-      name: faker.name.firstName(),
-      code: 'ABCD01',
-    };
-    const insertedOrganization2 = {
-      type: 'SCO',
-      name: faker.name.firstName(),
-      code: 'ABCD02',
-    };
-
-    beforeEach(() => {
-      return knex('users').returning('id').insert(associatedUser)
-        .then((userIdArray) => {
-          insertedOrganization1.userId = userIdArray[0];
-          insertedOrganization2.userId = userIdArray[0];
-          return knex('organizations').insert([insertedOrganization1, insertedOrganization2]);
-        });
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('users').delete()
-        .then(() => {
-          return knex('organizations').delete();
-        });
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return the organizations that matches the filters', async () => {
@@ -375,27 +319,27 @@ describe('Integration | Repository | Organization', function() {
       const filters = { type: 'PRO' };
 
       // when
-      const organizations = await organizationRepository.findBy(filters);
-
+      const actualOrganizations = await organizationRepository.findBy(filters);
+      
       // then
-      expect(organizations).to.have.lengthOf(1);
-
-      const foundOrganization = organizations[0];
-
-      expect(foundOrganization).to.be.an.instanceof(Organization);
-      expect(foundOrganization.code).to.equal(insertedOrganization1.code);
-      expect(foundOrganization.type).to.equal('PRO');
-      expect(foundOrganization.user).to.be.undefined;
+      expect(actualOrganizations).to.have.lengthOf(1);
+      expect(actualOrganizations[0]).to.be.an.instanceof(Organization);
+      expect(actualOrganizations[0].code).to.equal(organizations[0].code);
+      expect(actualOrganizations[0].type).to.equal('PRO');
+      expect(actualOrganizations[0].type).to.equal(organizations[0].type);
     });
   });
 
   describe('#find', () => {
+    after(async () => {
+      await databaseBuilder.clean();
+    });
 
     context('when there are Organizations in the database', () => {
 
-      beforeEach(() => {
+      beforeEach(async () => {
         _.times(3, databaseBuilder.factory.buildOrganization);
-        return databaseBuilder.commit();
+        await databaseBuilder.commit();
       });
 
       it('should return an Array of Organizations', async () => {

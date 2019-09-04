@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const {
   expect, generateValidRequestAuthorizationHeader, cleanupUsersAndPixRolesTables,
-  insertUserWithRolePixMaster, databaseBuilder
+  insertUserWithRolePixMaster, databaseBuilder, knex
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
@@ -104,6 +104,10 @@ describe('Acceptance | API | Certification Center', () => {
       };
     });
 
+    afterEach(async () => {
+      await knex('certification-centers').delete();
+    });
+
     context('when user is Pix Master', () => {
       beforeEach(() => {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
@@ -163,16 +167,15 @@ describe('Acceptance | API | Certification Center', () => {
   });
 
   describe('GET /api/certification-centers/{id}', () => {
-    const expectedCertificationCenterId = 1;
     let expectedCertificationCenter;
     beforeEach(async() => {
+      expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+      databaseBuilder.factory.buildCertificationCenter({});
+      await databaseBuilder.commit();
       options = {
         method: 'GET',
-        url: '/api/certification-centers/' + expectedCertificationCenterId,
+        url: '/api/certification-centers/' + expectedCertificationCenter.id,
       };
-      expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({ id: expectedCertificationCenterId });
-      databaseBuilder.factory.buildCertificationCenter({ id: expectedCertificationCenterId + 1 });
-      await databaseBuilder.commit();
     });
 
     afterEach(async () => {
@@ -200,7 +203,7 @@ describe('Acceptance | API | Certification Center', () => {
 
         // then
         return promise.then((response) => {
-          expect(response.result.data.id).to.equal('1');
+          expect(response.result.data.id).to.equal(expectedCertificationCenter.id.toString());
           expect(response.result.data.attributes.name).to.equal(expectedCertificationCenter.name);
         });
       });
@@ -252,25 +255,25 @@ describe('Acceptance | API | Certification Center', () => {
   });
 
   describe('GET /api/certification-centers/{id}/sessions', () => {
-    const certificationCenterId = 1;
+    let certificationCenter;
     let expectedSessions;
     let user, otherUser;
 
     beforeEach(async() => {
+      certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
+      user = databaseBuilder.factory.buildUser({});
+      otherUser = databaseBuilder.factory.buildUser({});
+      databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId: certificationCenter.id, userId: user.id });
+      expectedSessions = [
+        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id }),
+        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenter.id })
+      ];
+      databaseBuilder.factory.buildSession({});
+      await databaseBuilder.commit();
       options = {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenterId + '/sessions',
+        url: '/api/certification-centers/' + certificationCenter.id + '/sessions',
       };
-      databaseBuilder.factory.buildCertificationCenter({ id: certificationCenterId });
-      user = databaseBuilder.factory.buildUser();
-      otherUser = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildCertificationCenterMembership({ certificationCenterId: certificationCenterId, userId: user.id });
-      expectedSessions = [
-        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenterId }),
-        databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenterId })
-      ];
-      databaseBuilder.factory.buildSession({ certificationCenterId: null });
-      await databaseBuilder.commit();
     });
 
     afterEach(async () => {

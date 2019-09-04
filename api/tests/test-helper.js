@@ -5,17 +5,18 @@ const chai = require('chai');
 const expect = chai.expect;
 chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
-
 // Sinon
 const sinon = require('sinon');
 chai.use(require('sinon-chai'));
+// Other
+const _ = require('lodash');
 
 afterEach(function() {
   sinon.restore();
 });
 
 // Knex
-const { knex } = require('../db/knex-database-connection');
+const { knex, listAllTableNames } = require('../db/knex-database-connection');
 
 // DatabaseBuilder
 const DatabaseBuilder = require('./tooling/database-builder/database-builder');
@@ -41,6 +42,20 @@ function generateValidRequestAuthorizationHeader(userId = 1234) {
   };
   const accessToken = tokenService.createTokenFromUser(user, 'pix');
   return `Bearer ${accessToken}`;
+}
+
+async function getCountOfAllRowsInDatabase()
+{
+  const results = [];
+  const tableNames = await listAllTableNames();
+  const promises = _.map(tableNames, (tableName) => {
+    return knex.raw('SELECT COUNT(*) FROM public."' + tableName + '"').then((result) => {
+      results.push({ table : tableName, countRows: _.toInteger(result.rows[0].count) });
+    });
+  });
+  await Promise.all(promises);
+
+  return _.sortBy(results, 'table');
 }
 
 async function insertUserWithRolePixMaster() {
@@ -149,6 +164,7 @@ module.exports = {
   domainBuilder: require('./tooling/domain-builder/factory'),
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
+  getCountOfAllRowsInDatabase,
   hFake,
   HttpTestServer: require('./tooling/server/http-test-server'),
   insertUserWithRolePixMaster,

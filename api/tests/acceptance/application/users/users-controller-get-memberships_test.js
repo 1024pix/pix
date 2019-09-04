@@ -10,13 +10,12 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
   let membershipId;
   let options;
   const organizationRole = Membership.roles.MEMBER;
-
   let server;
 
   beforeEach(async () => {
     server = await createServer();
   });
-
+  
   describe('GET /users/:id/memberships', () => {
 
     beforeEach(async () => {
