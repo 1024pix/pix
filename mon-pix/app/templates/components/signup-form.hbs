@@ -47,6 +47,7 @@
     <div class="sign-form-body__input">
       {{form-textfield
         label="Adresse Email"
+        help="(ex: nom@exemple.fr)"
         textfieldName="email"
         validationStatus=validation.email.status
         onValidate=(action "validateInputEmail")
@@ -59,6 +60,7 @@
     <div class="sign-form-body__input">
       {{form-textfield
         label="Mot de passe"
+        help="(8 caractères, dont une majuscule, une minuscule et un chiffre)"
         textfieldName="password"
         validationStatus=validation.password.status
         onValidate=(action "validateInputPassword")

@@ -1,7 +1,7 @@
 {{#if require}}
-  <label for="{{textfieldName}}" class="form-textfield__label"><abbr title="obligatoire">*</abbr> {{label}}</label>
+  <label for="{{textfieldName}}" class="form-textfield__label"><abbr title="obligatoire">*</abbr> {{label}} <span class="form-textfield__help">{{help}}</span></label>
 {{else}}
-  <label for="{{textfieldName}}" class="form-textfield__label">{{label}}</label>
+  <label for="{{textfieldName}}" class="form-textfield__label">{{label}}<span class="form-textfield__help">{{help}}</span></label>
 {{/if}}
 
 {{#if hasIcon}}
