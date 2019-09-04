@@ -38,7 +38,7 @@
 }
 
 .form-textfield__input-container--error {
-  border: 2px solid $pure-orange;
+  border: 2px solid $red-error;
 }
 
 .form-textfield__input-container--success {
@@ -72,7 +72,7 @@
 }
 
 .form-textfield__message--error {
-  color: $pure-orange;
+  color: $red-error;
 }
 
 .form-textfield__message--success {
