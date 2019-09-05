@@ -12,7 +12,13 @@ module('Acceptance | Session Update', function(hooks) {
 
   hooks.beforeEach(async () => {
     const user = createUserWithMembership();
-    await authenticateSession({ user_id: user.id });
+
+    await authenticateSession({
+      user_id: user.id,
+      access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+      expires_in: 3600,
+      token_type: 'Bearer token type',
+    });
   });
 
   test('it should allow to update a session and redirect to the session #1 details', async function(assert) {
