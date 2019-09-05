@@ -2,14 +2,14 @@ const TABLE_NAME = 'answers';
 
 exports.up = (knex) => {
 
-  knex.schema.alterTable(TABLE_NAME, (t) => {
+  return knex.schema.alterTable(TABLE_NAME, (t) => {
     t.text('value').alter();
   });
 };
 
-exports.down = function(knex) {
+exports.down = (knex) => {
 
-  knex.schema.alterTable(TABLE_NAME, (t) => {
+  return knex.schema.alterTable(TABLE_NAME, (t) => {
     t.text('string').alter();
   });
 };
