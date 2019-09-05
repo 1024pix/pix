@@ -61,8 +61,9 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
     it('should support has-one relationships', async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ assessmentId, userId });
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId });
+      const assessmentId = databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId: campaignParticipation.id }).id;
+
       await databaseBuilder.commit();
       const bookshelfObject = await BookshelfAssessment.where({ id: assessmentId }).fetch({
         withRelated: ['campaignParticipation'],

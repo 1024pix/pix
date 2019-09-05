@@ -5,8 +5,7 @@ const { NotFoundError } = require('../../domain/errors');
 module.exports = async function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository }) {
   await _checkCampaignExists(campaignParticipation.campaignId, campaignRepository);
   const campaignParticipationCreated = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository);
-  const assessment = await _createSmartPlacementAssessment(userId, assessmentRepository, campaignParticipationCreated);
-  await _updateCampaignParticipation(campaignParticipationRepository, assessment, campaignParticipationCreated);
+  await _createSmartPlacementAssessment(userId, assessmentRepository, campaignParticipationCreated);
   return campaignParticipationCreated;
 };
 
@@ -36,9 +35,3 @@ async function _saveCampaignParticipation(campaignParticipation, userId, campaig
   return campaignParticipationRepository.save(campaignParticipation);
 }
 
-async function _updateCampaignParticipation(campaignParticipationRepository, assessment, campaignParticipationCreated) {
-  return campaignParticipationRepository.updateAssessmentId({
-    id: campaignParticipationCreated.id,
-    assessmentId: assessment.id
-  });
-}

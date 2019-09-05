@@ -30,15 +30,13 @@ module.exports = async function createAssessmentForCampaign(
     participantExternalId
   });
 
-  const campaignParticipationCreated = await campaignParticipationRepository.save(campaignParticipation);
+  await campaignParticipationRepository.save(campaignParticipation);
 
   assessment.state = Assessment.states.STARTED;
   assessment.courseId = Assessment.courseIdMessage.SMART_PLACEMENT;
   assessment.campaignParticipationId = campaignParticipation.id;
 
   const assessmentCreated = await assessmentRepository.save(assessment);
-
-  await campaignParticipationRepository.updateAssessmentId({ id: campaignParticipationCreated.id, assessmentId: assessmentCreated.id });
 
   return assessmentCreated;
 };
