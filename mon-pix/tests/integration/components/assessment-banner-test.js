@@ -12,6 +12,18 @@ describe('Integration | Component | assessment-banner', function() {
     expect(find('.assessment-banner')).to.exist;
   });
 
+  it('should not display home link button if not requested', async function() {
+    this.set('assessmentTitle', 'My assessment');
+    await render(hbs`{{assessment-banner title=assessmentTitle}}`);
+    expect(find('.assessment-banner__home-link')).to.not.exist;
+  });
+
+  it('should display home link button if requested', async function() {
+    this.set('assessmentTitle', 'My assessment');
+    await render(hbs`{{assessment-banner title=assessmentTitle displayHomeLink=true}}`);
+    expect(find('.assessment-banner__home-link')).to.exist;
+  });
+
   context('When assessment has a title', function() {
 
     beforeEach(async function() {
@@ -27,7 +39,6 @@ describe('Integration | Component | assessment-banner', function() {
     it('should render the banner with a splitter', function() {
       expect(find('.assessment-banner__splitter')).to.exist;
     });
-
   });
 
   context('When assessment doesn\'t have a title', function() {
@@ -43,7 +54,5 @@ describe('Integration | Component | assessment-banner', function() {
     it('should not render the banner with a splitter', function() {
       expect(find('.assessment-banner__splitter')).to.not.exist;
     });
-
   });
-
 });

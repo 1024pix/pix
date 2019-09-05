@@ -1,22 +1,72 @@
 .skill-review {
+  &__banner {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
   &__result-container {
     padding: 40px 10px;
+    margin-top: -160px;
 
     @include device-is('tablet') {
       padding: 60px;
     }
   }
+}
 
-  &__dash-line {
-    height: 1px;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-image: linear-gradient(to right, transparent 50%, #BBB 50%);
-    background-size: 10px 100%;
+.skill-review-information {
+  &__info-icon {
+    float: left;
+    color: $dove-gray;
+    font-size: 1.5em;
   }
 
-  &__result-text {
+  &__text {
+    padding-left: 14px;
+    margin-top: 14px;
+    color: $dove-gray;
+    font-family: $font-open-sans;
+    font-size: 1.4rem;
+  }
+}
+
+.skill-review-competence {
+  &__bullet {
+    font-size: 1.8rem;
+    margin-right: 12px;
+
+    &--jaffa {
+      color: $jaffa;
+    }
+
+    &--emerald {
+      color: $emerald;
+    }
+
+    &--cerulean {
+      color: $cerulean;
+    }
+
+    &--wild-strawberry {
+      color: $wild-strawberry;
+    }
+
+    &--butterfly-bush {
+      color: $butterfly-bush;
+    }
+  }
+}
+
+.skill-review-table-header {
+  &__circle-chart-value {
+    color: $nero;
+    font-family: $font-roboto;
+    font-size: 3.1rem;
+  }
+}
+
+.skill-review-result {
+  &__abstract {
     text-align: center;
     font-size: 2.8rem;
     line-height: 38px;
@@ -27,52 +77,15 @@
       font-size: 4.2rem;
       line-height: 48px;
     }
-
-    &__percentage {
-      color: $pix-blue;
-      display: inline-block;
-    }
   }
 
-  &__share-container {
-    padding-bottom: 20px;
-    text-align: center;
-
-    @include device-is('tablet') {
-      padding: 60px;
-    }
-  }
-
-  &__share-button {
-    text-transform: uppercase;
-    letter-spacing: 0.05rem;
-  }
-
-  &__share-legal {
-    text-align: center;
-    font-size: 2.4rem;
-    color: $dove-gray;
-    line-height: 33px;
-    font-weight: $font-light;
-    margin: 0 10px 30px 10px;
-
-    @include device-is('tablet') {
-      font-size: 3rem;
-      margin: 0 20px 60px 20px;
-    }
-  }
-
-  &__share-thanks {
-    font-family: $font-open-sans;
-    font-weight: $font-light;
-    font-size: 2.4rem;
-    padding-top: 20px;
-  }
-
-  &__share-error {
-    color: $pure-orange;
-    font-size: 1.5rem;
-    padding-bottom: 10px;
+  &__dash-line {
+    height: 1px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-image: linear-gradient(to right, transparent 50%, #BBB 50%);
+    background-size: 10px 100%;
   }
 
   &__information {
@@ -87,66 +100,75 @@
     }
   }
 
-  &-information {
+  &__share-container {
+    padding-bottom: 20px;
+    text-align: center;
 
-    &__info-icon {
-      float: left;
-      color: $dove-gray;
-      font-size: 1.5em;
-    }
-
-    &__text {
-      padding-left: 14px;
-      margin-top: 14px;
-      color: $dove-gray;
-      font-family: $font-open-sans;
-      font-size: 1.4rem;
+    @include device-is('tablet') {
+      padding: 60px;
     }
   }
-}
 
-.skill-review-competence__bullet {
-  font-size: 1.8rem;
-  margin-right: 12px;
+  &__table-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
 
-  &--jaffa {
-    color: $jaffa;
-  }
-
-  &--emerald {
-    color: $emerald;
-  }
-
-  &--cerulean {
-    color: $cerulean;
-  }
-
-  &--wild-strawberry {
-    color: $wild-strawberry;
-  }
-
-  &--butterfly-bush {
-    color: $butterfly-bush;
+    @include device-is('tablet') {
+      flex-direction: row;
+    }
   }
 }
 
-.skill-review-results__header {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-
-  @include device-is('tablet') {
-    flex-direction: row;
+.skill-review-result-abstract {
+  &__percentage {
+    color: $pix-blue;
+    display: inline-block;
   }
 }
 
-.skill-review__circle-chart-value {
-  color: $nero;
-  font-family: $font-roboto;
-  font-size: 3.1rem;
+.skill-review-share {
+  &__button {
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+  }
+
+  &__legal {
+    text-align: center;
+    font-size: 2.4rem;
+    color: $dove-gray;
+    line-height: 33px;
+    font-weight: $font-light;
+    margin: 0 10px 30px 10px;
+
+    @include device-is('tablet') {
+      font-size: 3rem;
+      margin: 0 20px 60px 20px;
+    }
+  }
+
+  &__thanks {
+    font-family: $font-open-sans;
+    font-weight: $font-light;
+    font-size: 2.4rem;
+    padding-top: 20px;
+  }
+
+  &__error {
+    color: $pure-orange;
+    font-size: 1.5rem;
+    padding-bottom: 10px;
+  }
+
+  &__back-to-home {
+    font-size: 1.6rem;
+    font-weight: $font-bold;
+    font-family: $font-open-sans;
+    text-align: center;
+  }
 }
 
 @media print {
