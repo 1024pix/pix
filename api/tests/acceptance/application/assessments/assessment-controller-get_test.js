@@ -343,14 +343,16 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let assessmentId;
 
     beforeEach(async () => {
+      const campaignId = databaseBuilder.factory.buildCampaign({ code: 'TESTCODE', name: 'CAMPAIGN TEST' }).id;
+      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({  campaignId });
       assessmentId = databaseBuilder.factory.buildAssessment(
         {
           userId,
           courseId: 'anyFromAirTable',
           type: 'SMART_PLACEMENT',
+          campaignParticipationId: campaignParticipation.id
         }).id;
-      const campaignId = databaseBuilder.factory.buildCampaign({ code: 'TESTCODE', name: 'CAMPAIGN TEST' }).id;
-      databaseBuilder.factory.buildCampaignParticipation({ assessmentId, campaignId });
+
       await databaseBuilder.commit();
     });
 

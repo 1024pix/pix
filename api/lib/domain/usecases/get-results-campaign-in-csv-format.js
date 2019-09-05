@@ -135,12 +135,12 @@ function _createOneLineOfCSV(
 ) {
   let line = headers.map(() => '"NA"');
 
-  return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
+  return smartPlacementAssessmentRepository.get(campaignParticipation.assessment.id)
     .then((assessment) => {
       return Promise.all([
         assessment,
         userRepository.get(assessment.userId),
-        knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, limitDate: assessment.campaignParticipation.sharedAt })
+        knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId, limitDate: campaignParticipation.sharedAt })
       ]);
     })
     .then(([assessment, user, allKnowledgeElements]) => {

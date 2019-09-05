@@ -23,19 +23,19 @@ module.exports = function buildPixAileProfilev2({ databaseBuilder }) {
 
   const buildCampaignParticipation = () => {
 
-    const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
-      userId,
-      type: Assessment.types.SMARTPLACEMENT,
-      state: Assessment.states.STARTED
-    });
-
-    databaseBuilder.factory.buildCampaignParticipation({
+    const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
       id: 1,
       campaignId: 3,
       userId,
-      assessmentId,
       isShared: false,
       sharedAt: null,
+    });
+
+    const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
+      userId,
+      type: Assessment.types.SMARTPLACEMENT,
+      state: Assessment.states.STARTED,
+      campaignParticipationId: campaignParticipation.id,
     });
 
     return { assessmentId };

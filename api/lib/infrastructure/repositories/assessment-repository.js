@@ -85,7 +85,7 @@ module.exports = {
     return BookshelfAssessment
       .where({ 'campaign-participations.id': campaignParticipationId, 'assessments.type': 'SMART_PLACEMENT' })
       .query((qb) => {
-        qb.innerJoin('campaign-participations', 'campaign-participations.assessmentId', 'assessments.id');
+        qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
       })
       .fetch({ require: true, withRelated: ['campaignParticipation.campaign'] })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
@@ -103,7 +103,7 @@ module.exports = {
     return BookshelfAssessment
       .where({ 'assessments.userId': userId, 'assessments.type': 'SMART_PLACEMENT', 'campaigns.code': campaignCode })
       .query((qb) => {
-        qb.innerJoin('campaign-participations', 'campaign-participations.assessmentId', 'assessments.id');
+        qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
         qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
       })
       .orderBy('createdAt', 'desc')
