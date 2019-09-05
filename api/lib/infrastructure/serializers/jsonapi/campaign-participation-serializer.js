@@ -21,7 +21,7 @@ module.exports = {
         ignoreRelationshipData: true,
         relationshipLinks: {
           related(record) {
-            return `/api/assessments/${record.assessmentId}`;
+            return `/api/assessments/${record.assessment.id}`;
           }
         },
       },

@@ -122,10 +122,7 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
     assessmentRepository.updateStateById({ id: assessment.id, state: Assessment.states.ABORTED }),
     assessmentRepository.save(newAssessment)
   ]);
-
-  return campaignParticipationRepository.updateAssessmentIdByOldAssessmentId({
-    oldAssessmentId: assessment.id, newAssessmentId: newAssessmentSaved.id
-  });
+  return newAssessmentSaved;
 }
 
 function _computeResetSkillsNotIncludedInTargetProfile({ targetObjectSkills, resetSkills }) {

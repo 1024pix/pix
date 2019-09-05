@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const moment = require('moment');
 const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
@@ -10,7 +11,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
   describe('#get', () => {
 
-    let campaignId;
+    let campaignId, recentAssessmentId;
     let campaignParticipationId, campaignParticipationNotSharedId;
 
     beforeEach(async () => {
@@ -20,6 +21,18 @@ describe('Integration | Repository | Campaign Participation', () => {
         campaignId,
         isShared: false,
         sharedAt: null
+      }).id;
+
+      databaseBuilder.factory.buildAssessment({
+        type: 'SMART_PLACEMENT',
+        campaignParticipationId,
+        createdAt: moment().subtract(1, 'month').toDate()
+      });
+
+      recentAssessmentId = databaseBuilder.factory.buildAssessment({
+        type: 'SMART_PLACEMENT',
+        campaignParticipationId,
+        createdAt: moment().toDate()
       }).id;
 
       await databaseBuilder.commit();
@@ -45,16 +58,23 @@ describe('Integration | Repository | Campaign Participation', () => {
       expect(foundCampaignParticipation.sharedAt).to.be.null;
     });
 
+    it('should return the campaign participation with its last assessment', async () => {
+      // when
+      const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+
+      // then
+      expect(foundCampaignParticipation.assessment.id).to.be.equal(recentAssessmentId);
+    });
+
   });
 
   describe('#save', () => {
 
-    let campaignId, assessmentId, userId;
+    let campaignId, userId;
     beforeEach(async () => {
+      await knex('campaign-participations').delete();
+      userId = databaseBuilder.factory.buildUser({}).id;
       campaignId = databaseBuilder.factory.buildCampaign({}).id;
-      const assessment = databaseBuilder.factory.buildAssessment({});
-      assessmentId = assessment.id;
-      userId = assessment.userId;
 
       await databaseBuilder.commit();
     });
@@ -67,7 +87,6 @@ describe('Integration | Repository | Campaign Participation', () => {
     it('should return the given campaign participation', async () => {
       // given
       const campaignParticipationToSave = new CampaignParticipation({
-        assessmentId,
         campaignId,
         userId,
       });
@@ -78,7 +97,6 @@ describe('Integration | Repository | Campaign Participation', () => {
       // then
       expect(savedCampaignParticipation).to.be.instanceof(CampaignParticipation);
       expect(savedCampaignParticipation.id).to.exist;
-      expect(savedCampaignParticipation.assessmentId).to.equal(campaignParticipationToSave.assessmentId);
       expect(savedCampaignParticipation.campaignId).to.equal(campaignParticipationToSave.campaignId);
       expect(savedCampaignParticipation.userId).to.equal(campaignParticipationToSave.userId);
     });
@@ -86,7 +104,6 @@ describe('Integration | Repository | Campaign Participation', () => {
     it('should save the given campaign participation', async () => {
       // given
       const campaignParticipationToSave = new CampaignParticipation({
-        assessmentId,
         campaignId,
         userId,
         participantExternalId: '034516273645RET'
@@ -96,12 +113,11 @@ describe('Integration | Repository | Campaign Participation', () => {
       const savedCampaignParticipation = await campaignParticipationRepository.save(campaignParticipationToSave);
 
       // then
-      const campaignParticipationInDB = await knex.select('id', 'assessmentId', 'campaignId', 'participantExternalId', 'userId')
+      const campaignParticipationInDB = await knex.select('id', 'campaignId', 'participantExternalId', 'userId')
         .from('campaign-participations')
         .where({ id: savedCampaignParticipation.id });
       expect(campaignParticipationInDB).to.have.length(1);
       expect(campaignParticipationInDB[0].id).to.equal(savedCampaignParticipation.id);
-      expect(campaignParticipationInDB[0].assessmentId).to.equal(savedCampaignParticipation.assessmentId);
       expect(campaignParticipationInDB[0].campaignId).to.equal(campaignParticipationToSave.campaignId);
       expect(campaignParticipationInDB[0].participantExternalId).to.equal(savedCampaignParticipation.participantExternalId);
       expect(campaignParticipationInDB[0].userId).to.equal(savedCampaignParticipation.userId);
@@ -253,14 +269,15 @@ describe('Integration | Repository | Campaign Participation', () => {
     context('when assessment is linked', () => {
 
       beforeEach(async () => {
-        databaseBuilder.factory.buildAssessment({ id: assessmentId });
-        databaseBuilder.factory.buildAssessment({ id: 67890 });
+
         databaseBuilder.factory.buildTargetProfile({ id: targetProfileId });
         databaseBuilder.factory.buildTargetProfileSkill({ skillId: skillId1, targetProfileId });
         databaseBuilder.factory.buildTargetProfileSkill({ skillId: skillId2, targetProfileId });
         databaseBuilder.factory.buildCampaign({ id: campaignId, targetProfileId });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId });
-        databaseBuilder.factory.buildCampaignParticipation({ assessmentId: 67890 });
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+        const otherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ });
+        databaseBuilder.factory.buildAssessment({ id: assessmentId, campaignParticipationId: campaignParticipation.id, createdAt: moment().toDate() });
+        databaseBuilder.factory.buildAssessment({ id: 67890, campaignParticipationId: otherCampaignParticipation.id, createdAt: moment().subtract(1, 'month').toDate() });
 
         await databaseBuilder.commit();
       });
@@ -274,7 +291,7 @@ describe('Integration | Repository | Campaign Participation', () => {
         const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessmentId);
 
         // then
-        expect(campaignParticipationFound.assessmentId).to.deep.equal(assessmentId);
+        expect(campaignParticipationFound.assessment.id).to.deep.equal(assessmentId);
         expect(campaignParticipationFound.campaign.targetProfile.skills).to.have.lengthOf(2);
         expect(campaignParticipationFound.campaign.targetProfile.skills[0]).to.be.instanceOf(Skill);
         expect(campaignParticipationFound.campaign.targetProfile.skills[0].id).to.equal(skillId1);
@@ -308,13 +325,15 @@ describe('Integration | Repository | Campaign Participation', () => {
 
   describe('#findByAssessmentId', () => {
 
-    let assessmentId;
+    let assessmentId, wantedCampaignParticipation;
 
     beforeEach(async () => {
-      assessmentId = databaseBuilder.factory.buildAssessment().id;
-      databaseBuilder.factory.buildCampaignParticipation({ assessmentId });
-      databaseBuilder.factory.buildCampaignParticipation({ assessmentId });
-      databaseBuilder.factory.buildCampaignParticipation();
+      wantedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ });
+      const otherCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
+
+      assessmentId = databaseBuilder.factory.buildAssessment({ campaignParticipationId: wantedCampaignParticipation.id }).id;
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId: wantedCampaignParticipation.id });
+      databaseBuilder.factory.buildAssessment({ campaignParticipationId: otherCampaignParticipation.id });
 
       await databaseBuilder.commit();
     });
@@ -323,13 +342,12 @@ describe('Integration | Repository | Campaign Participation', () => {
       await databaseBuilder.clean();
     });
 
-    it('should return campaign participations that match given assessmentId', async function() {
-      // given
-      const options = { filter: { assessmentId }, sort: [] };
+    it('should return campaign participation that match given assessmentId', async function() {
       // when
-      const foundCampaignParticipation = await campaignParticipationRepository.findByAssessmentId(options.filter.assessmentId);
+      const foundCampaignParticipation = await campaignParticipationRepository.findByAssessmentId(assessmentId);
       // then
-      expect(foundCampaignParticipation).to.have.length(2);
+      expect(foundCampaignParticipation).to.have.length(1);
+      expect(foundCampaignParticipation[0].id).to.equal(wantedCampaignParticipation.id);
     });
 
   });
@@ -374,8 +392,8 @@ describe('Integration | Repository | Campaign Participation', () => {
       campaignId = databaseBuilder.factory.buildCampaign().id;
       const insertPixMember = (member) => {
         const { id: userId } = databaseBuilder.factory.buildUser(member);
-        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId, id: member.assessmentId });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, sharedAt: recentDate });
+        databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, id: member.assessmentId });
         for (const ke of member.knowledgeElements) {
           databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, });
         }
@@ -471,60 +489,6 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(updatedCampaignParticipation.assessmentId).to.equal(campaignParticipation.assessmentId);
         expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
       });
-    });
-  });
-
-  describe('#updateAssessmentIdByOldAssessmentId', () => {
-
-    let campaignParticipation;
-    let assessment;
-
-    beforeEach(async () => {
-      assessment = databaseBuilder.factory.buildAssessment();
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
-
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should return the updated campaign-participation of the given assessmentId', async () => {
-      // when
-      const updatedCampaignParticipation = await campaignParticipationRepository.updateAssessmentIdByOldAssessmentId({ oldAssessmentId: campaignParticipation.assessmentId, newAssessmentId: assessment.id });
-
-      // then
-      expect(updatedCampaignParticipation.assessmentId).to.equal(assessment.id);
-    });
-  });
-
-  describe('#updateAssessmentId', () => {
-
-    let campaignParticipation;
-    let assessment;
-
-    beforeEach(async () => {
-      const oldAssessment = databaseBuilder.factory.buildAssessment();
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ assessmentId: oldAssessment.id });
-      assessment = databaseBuilder.factory.buildAssessment();
-
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should return the updated campaign-participation of the given assessmentId', async () => {
-      // when
-      const updatedCampaignParticipation = await campaignParticipationRepository.updateAssessmentId({
-        id: campaignParticipation.id,
-        assessmentId: assessment.id
-      });
-
-      // then
-      expect(updatedCampaignParticipation.assessmentId).to.equal(assessment.id);
     });
   });
 
