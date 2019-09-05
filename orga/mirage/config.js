@@ -43,6 +43,12 @@ export default function() {
 
   this.patch('/users/:id');
 
+  this.patch('/users/:id/accept-pix-orga-terms-of-service', (schema, request) => {
+    const user =  schema.users.find(request.params.id);
+    user.pixOrgaTermsOfServiceAccepted = true;
+    return user;
+  });
+
   this.get('/users/:id/memberships', (schema, request) => {
     const userId = request.params.id;
     return schema.memberships.where({ userId });
