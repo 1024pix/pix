@@ -9,13 +9,12 @@ describe('Unit | UseCase | start-campaign-participation', () => {
   const userId = 19837482;
   const campaignParticipation = domainBuilder.buildCampaignParticipation({});
   const campaignRepository = { get: () => undefined };
-  const campaignParticipationRepository = { save: () => undefined, updateAssessmentId: () => undefined };
+  const campaignParticipationRepository = { save: () => undefined };
   const assessmentRepository = { save: () => undefined };
 
   beforeEach(() => {
     sinon.stub(campaignRepository, 'get');
     sinon.stub(campaignParticipationRepository, 'save');
-    sinon.stub(campaignParticipationRepository, 'updateAssessmentId');
     sinon.stub(assessmentRepository, 'save');
 
     campaignRepository.get.resolves(domainBuilder.buildCampaign());
@@ -68,25 +67,6 @@ describe('Unit | UseCase | start-campaign-participation', () => {
       expect(assessmentToSave.userId).to.equal(userId);
       expect(assessmentToSave.courseId).to.equal('Smart Placement Tests CourseId Not Used');
       expect(assessmentToSave.campaignParticipationId).to.equal(campaignParticipation.id);
-    });
-  });
-
-  it('should updated the assessmentId of campaignParticipation', () => {
-    // given
-    const assessmentId = 987654321;
-    assessmentRepository.save.resolves({ id: assessmentId });
-    campaignParticipationRepository.save.resolves(campaignParticipation);
-    campaignParticipationRepository.updateAssessmentId.resolves({ });
-
-    // when
-    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
-
-    // then
-    return promise.then(() => {
-      expect(campaignParticipationRepository.updateAssessmentId).to.have.been.calledWith({
-        id: campaignParticipation.id,
-        assessmentId: assessmentId
-      });
     });
   });
 

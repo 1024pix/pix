@@ -15,7 +15,6 @@ class CampaignParticipation {
     campaignParticipationResult,
     user,
     // references
-    assessmentId,
     campaignId,
     userId,
   } = {}) {
@@ -28,7 +27,6 @@ class CampaignParticipation {
     this.campaign = campaign;
     this.campaignParticipationResult = campaignParticipationResult;
     this.user = user;
-    this.assessmentId = assessmentId;
     this.campaignId = campaignId;
     this.userId = userId;
   }

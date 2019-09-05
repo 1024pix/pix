@@ -11,16 +11,14 @@ describe('Unit | UseCase | start-improving-campaign-participation', () => {
   const newAssessmentId = 2;
   const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId, isShared: false, assessmentId: oldAssessmentId });
   const campaignParticipationId = campaignParticipation.id;
-  const campaignParticipationRepository = { get: () => undefined, updateAssessmentIdByOldAssessmentId: () => undefined };
+  const campaignParticipationRepository = { get: () => undefined };
   const assessmentRepository = { save: () => undefined };
 
   beforeEach(() => {
     sinon.stub(campaignParticipationRepository, 'get');
-    sinon.stub(campaignParticipationRepository, 'updateAssessmentIdByOldAssessmentId');
     sinon.stub(assessmentRepository, 'save');
 
     campaignParticipationRepository.get.resolves(campaignParticipation);
-    campaignParticipationRepository.updateAssessmentIdByOldAssessmentId.resolves({});
     assessmentRepository.save.resolves({ id: newAssessmentId });
   });
 
@@ -64,18 +62,5 @@ describe('Unit | UseCase | start-improving-campaign-participation', () => {
       expect(assessmentToSave.isImproving).to.be.ok;
     });
   });
-
-  it('should updated the campaign participation with new assessmentId', () => {
-    // when
-    const promise = usecases.startImprovingCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository });
-
-    // then
-    return promise.then(() => {
-      expect(campaignParticipationRepository.updateAssessmentIdByOldAssessmentId).to.have.been.calledWith({
-        oldAssessmentId,
-        newAssessmentId
-      });
-    });
-  });
-
+  
 });
