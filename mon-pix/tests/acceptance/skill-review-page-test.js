@@ -66,11 +66,25 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         // when
         await resumeCampaignByCode('AZERTY2');
         await completeCampaignAndSeeResultsByCode('AZERTY2');
-        await click('.skill-review__share-button');
+        await click('.skill-review-share__button');
 
         // then
-        expect(find('.skill-review__share-thanks')).to.exists;
-        expect(find('.skill-review__share-legal')).to.not.exists;
+        expect(find('.skill-review-share__thanks')).to.exists;
+        expect(find('.skill-review-share__back-to-home')).to.exists;
+        expect(find('.skill-review-share__legal')).to.not.exists;
+      });
+
+      it('should redirect to home/profil page on click', async function() {
+        // given
+        await resumeCampaignByCode('AZERTY2');
+        await completeCampaignAndSeeResultsByCode('AZERTY2');
+        await click('.skill-review-share__button');
+
+        // when
+        await click('.skill-review-share__back-to-home');
+
+        // then
+        expect(currentURL()).to.equal('/profil');
       });
     });
   });

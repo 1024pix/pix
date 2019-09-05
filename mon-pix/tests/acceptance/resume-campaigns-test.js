@@ -100,15 +100,15 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
             // when
             await completeCampaignAndSeeResultsByCode('AZERTY1');
 
-            expect(find('.skill-review__share-button')).to.exist;
+            expect(find('.skill-review-share__button')).to.exist;
           });
 
           it('should thank the user when he clicks on the share button', async function() {
             // when
             await completeCampaignAndSeeResultsByCode('AZERTY1');
-            await click('.skill-review__share-button');
+            await click('.skill-review-share__button');
 
-            expect(find('.skill-review__share-thanks')).to.exist;
+            expect(find('.skill-review-share__thanks')).to.exist;
           });
         });
 
@@ -117,12 +117,12 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
           it('should still display thank message when reloading the page', async function() {
             // given
             await completeCampaignAndSeeResultsByCode('AZERTY1');
-            await click('.skill-review__share-button');
+            await click('.skill-review-share__button');
 
             // when
             await visitWithAbortedTransition('/campagnes/AZERTY1/resultats/1');
 
-            expect(find('.skill-review__share-thanks')).to.exist;
+            expect(find('.skill-review-share__thanks')).to.exist;
           });
         });
       });
@@ -170,14 +170,14 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         // when
         await visitWithAbortedTransition('/campagnes/AZERTY1');
 
-        expect(find('.skill-review__share-button')).to.exist;
+        expect(find('.skill-review-share__button')).to.exist;
       });
 
       it('should suggest to share his results for the second campaign', async function() {
         // when
         await visitWithAbortedTransition('/campagnes/AZERTY2');
 
-        expect(find('.skill-review__share-button')).to.exist;
+        expect(find('.skill-review-share__button')).to.exist;
       });
     });
 
@@ -185,18 +185,18 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       beforeEach(async function() {
         await visitWithAbortedTransition('/campagnes/AZERTY1');
-        await click('.skill-review__share-button');
+        await click('.skill-review-share__button');
       });
 
       it('should show thanks message for the first campaign', async function() {
-        expect(find('.skill-review__share-thanks')).to.exist;
+        expect(find('.skill-review-share__thanks')).to.exist;
       });
 
       it('should suggest to share his results for the second campaign', async function() {
         // when
         await visitWithAbortedTransition('/campagnes/AZERTY2');
 
-        expect(find('.skill-review__share-button')).to.exist;
+        expect(find('.skill-review-share__button')).to.exist;
       });
     });
 
@@ -221,14 +221,14 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         // when
         await visitWithAbortedTransition('/campagnes/AZERTY1');
 
-        expect(find('.skill-review__share-thanks')).to.exist;
+        expect(find('.skill-review-share__thanks')).to.exist;
       });
 
       it('should show thanks message for the second campaign', async function() {
         // when
         await visitWithAbortedTransition('/campagnes/AZERTY2');
 
-        expect(find('.skill-review__share-thanks')).to.exist;
+        expect(find('.skill-review-share__thanks')).to.exist;
       });
     });
   });

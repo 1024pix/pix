@@ -16,11 +16,6 @@ export default Component.extend({
 
   isUserLogged: alias('session.isAuthenticated'),
 
-  isInRouteWithoutLinksInHeader: computed(function() {
-    const _routeWithoutLinksInHeader = ['campaigns.skill-review'];
-    return _routeWithoutLinksInHeader.includes(this.get('router.currentRouteName'));
-  }),
-
   menu: computed('isUserLogged', function() {
     const menuItems = this._menuItems;
     return this.isUserLogged ? menuItems.filterBy('permanent', true) : menuItems;
