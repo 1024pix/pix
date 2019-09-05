@@ -168,34 +168,6 @@ describe('Unit | Controller | user-controller', () => {
 
     });
 
-    context('When payload has a pix-orga-terms-of-service-accepted field', () => {
-
-      it('should accept pix orga terms of service', async () => {
-        // given
-        const userId = 7;
-        sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
-        const request = {
-          params: {
-            id: userId.toString(),
-          },
-          payload: {
-            data: {
-              attributes: {
-                'pix-orga-terms-of-service-accepted': true,
-              },
-            },
-          },
-        };
-        const usecaseAcceptPixOrgaTermsOfServiceStub = sinon.stub(usecases, 'acceptPixOrgaTermsOfService');
-
-        // when
-        await userController.updateUser(request, hFake);
-
-        // then
-        expect(usecaseAcceptPixOrgaTermsOfServiceStub).to.have.been.calledWith({ authenticatedUserId: userId, requestedUserId: userId });
-      });
-    });
-
     context('When payload has a pix-certif-terms-of-service-accepted field', () => {
 
       it('should accept pix certif terms of service', () => {
@@ -224,6 +196,33 @@ describe('Unit | Controller | user-controller', () => {
           expect(usecaseAcceptPixCertifTermsOfServiceStub).to.have.been.calledWith({ authenticatedUserId: userId, requestedUserId: userId });
         });
       });
+    });
+  });
+
+  describe('#acceptPixOrgaTermsOfService', () => {
+    let request;
+    const userId = 1;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId },
+      };
+
+      sinon.stub(usecases, 'acceptPixOrgaTermsOfService');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    it('should accept pix orga terms of service', async () => {
+      // given
+      usecases.acceptPixOrgaTermsOfService.withArgs({ userId }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.acceptPixOrgaTermsOfService(request);
+
+      // then
+      expect(response).to.be.equal('ok');
     });
   });
 

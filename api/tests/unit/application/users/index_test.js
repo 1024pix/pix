@@ -157,35 +157,6 @@ describe('Unit | Router | user-router', () => {
         });
       });
 
-      describe('pix-orga-terms-of-service-accepted validation', () => {
-
-        it('should return 200 when pix-orga-terms-of-service-accepted field is a boolean', () => {
-          // given
-          const payloadAttributes = {
-            'pix-orga-terms-of-service-accepted': true
-          };
-
-          // when
-          return server.inject(request(payloadAttributes)).then((res) => {
-            // then
-            expect(res.statusCode).to.equal(200);
-          });
-        });
-
-        it('should return 400 when pix-orga-terms-of-service-accepted field is not a boolean', () => {
-          // given
-          const payloadAttributes = {
-            'pix-orga-terms-of-service-accepted': 'yolo'
-          };
-
-          // when
-          return server.inject(request(payloadAttributes)).then((res) => {
-            // then
-            expect(res.statusCode).to.equal(400);
-          });
-        });
-      });
-
       describe('pix-certif-terms-of-service-accepted validation', () => {
 
         it('should return 200 when pix-certif-terms-of-service-accepted field is a boolean', () => {

@@ -10,4 +10,15 @@ export default ApplicationAdapter.extend({
 
     return this._super(...arguments);
   },
+
+  urlForUpdateRecord(id, modelName, { adapterOptions }) {
+    const url = this._super(...arguments);
+
+    if (adapterOptions && adapterOptions.acceptPixOrgaTermsOfService) {
+      delete adapterOptions.acceptPixOrgaTermsOfService;
+      return url + '/accept-pix-orga-terms-of-service';
+    }
+
+    return url;
+  },
 });

@@ -46,13 +46,6 @@ module.exports = {
             temporaryKey: request.query['temporary-key'] || '',
           });
         }
-        if (user.pixOrgaTermsOfServiceAccepted) {
-          const authenticatedUserId = requestUtils.extractUserIdFromRequest(request);
-          return usecases.acceptPixOrgaTermsOfService({
-            authenticatedUserId,
-            requestedUserId
-          });
-        }
         if (user.pixCertifTermsOfServiceAccepted) {
           const authenticatedUserId = requestUtils.extractUserIdFromRequest(request);
           return usecases.acceptPixCertifTermsOfService({
@@ -63,6 +56,16 @@ module.exports = {
         return Promise.reject(new BadRequestError());
       })
       .then(() => null);
+  },
+
+  async acceptPixOrgaTermsOfService(request) {
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    const updatedUser = await usecases.acceptPixOrgaTermsOfService({
+      userId: authenticatedUserId
+    });
+
+    return userSerializer.serialize(updatedUser);
   },
 
   async rememberUserHasSeenAssessmentInstructions(request) {

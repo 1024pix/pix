@@ -106,56 +106,6 @@ describe('Acceptance | Controller | users-controller', () => {
         expect(response.statusCode).to.equal(404);
       });
     });
-
-    context('with a terms of service acceptation', () => {
-
-      it('should reply 204 status code, when user accepts pix-orga terms of service', () => {
-        // given
-        options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}`,
-          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-          payload: {
-            data: {
-              attributes: {
-                'pix-orga-terms-of-service-accepted': true
-              }
-            }
-          }
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(204);
-        });
-      });
-
-      it('should reply 403 status code, when user is not authenticated', () => {
-        // given
-        options = {
-          method: 'PATCH',
-          url: `/api/users/${user.id}`,
-          payload: {
-            data: {
-              attributes: {
-                'pix-orga-terms-of-service-accepted': true
-              }
-            }
-          }
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-    });
   });
 });
 

@@ -45,10 +45,15 @@ module('Acceptance | terms-of-service', function(hooks) {
     test('it should send request for saving Pix-orga terms of service acceptation when submitting', async function(assert) {
       // given
       let pixOrgaTermsOfServiceAccepted = null;
-      server.patch('/users/:id', (schema, request) => {
-        const requestBodyParams = JSON.parse(request.requestBody);
-        pixOrgaTermsOfServiceAccepted = requestBodyParams.data.attributes['pix-orga-terms-of-service-accepted'];
-        return new Response(204);
+      server.patch('/users/:id/accept-pix-orga-terms-of-service', () => {
+        pixOrgaTermsOfServiceAccepted = true;
+        return new Response(200, { some: 'header' }, {
+          data: [{
+            type: 'users',
+            id: user.id,
+            attributes: { 'pix-orga-terms-of-service-accepted': pixOrgaTermsOfServiceAccepted }
+          }]
+        });
       });
 
       await visit('/cgu');
@@ -62,8 +67,6 @@ module('Acceptance | terms-of-service', function(hooks) {
 
     test('it should redirect to campaign list after saving terms of service acceptation', async function(assert) {
       // given
-      server.patch('/users/:id', new Response(204));
-
       await visit('/cgu');
 
       // when
