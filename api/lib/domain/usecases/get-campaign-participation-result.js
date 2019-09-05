@@ -13,13 +13,13 @@ module.exports = async function getCampaignParticipationResult(
     knowledgeElementRepository,
   }
 ) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
+  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, {});
   await _checkIfUserHasAccessToThisCampaignParticipation(userId, campaignParticipation, campaignRepository);
 
   const [ targetProfile, competences, assessment, knowledgeElements ] = await Promise.all([
     targetProfileRepository.getByCampaignId(campaignParticipation.campaignId),
     competenceRepository.list(),
-    assessmentRepository.get(campaignParticipation.assessmentId),
+    assessmentRepository.get(campaignParticipation.assessment.id),
     knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt }),
   ]);
 

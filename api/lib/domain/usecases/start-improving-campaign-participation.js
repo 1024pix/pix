@@ -16,12 +16,9 @@ module.exports = async function startImprovingCampaignParticipation({
   if (campaignParticipation.isShared) {
     throw new AlreadySharedCampaignParticipationError();
   }
-  const newAssessment = await _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository });
+  await _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository });
 
-  return campaignParticipationRepository.updateAssessmentIdByOldAssessmentId({
-    oldAssessmentId: campaignParticipation.assessmentId,
-    newAssessmentId: newAssessment.id
-  });
+  return campaignParticipation;
 };
 
 function _createImprovingAssessment({ userId, campaignParticipationId, assessmentRepository }) {

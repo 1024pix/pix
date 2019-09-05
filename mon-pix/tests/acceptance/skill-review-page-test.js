@@ -66,7 +66,6 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         // when
         await resumeCampaignByCode('AZERTY2');
         await completeCampaignAndSeeResultsByCode('AZERTY2');
-        await click('.skill-review__share-button');
 
         // then
         expect(find('.skill-review__improvement-button')).to.exists;

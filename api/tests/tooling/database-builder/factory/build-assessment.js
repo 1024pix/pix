@@ -31,6 +31,7 @@ module.exports = function buildAssessment({
     createdAt,
     updatedAt,
     competenceId,
+    campaignParticipationId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'assessments',
