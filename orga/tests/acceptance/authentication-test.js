@@ -113,95 +113,59 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When user is already authenticated and has accepted terms of service', function(hooks) {
-    let user;
+  module('When user is already authenticated', function() {
 
-    hooks.beforeEach(async () => {
-      user = createUserWithMembershipAndTermsOfServiceAccepted();
+    module('When user has already accepted terms of service', function(hooks) {
 
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'access token',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
+      let user;
+
+      hooks.beforeEach(async () => {
+        user = createUserWithMembershipAndTermsOfServiceAccepted();
+
+        await authenticateSession({
+          user_id: user.id,
+          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          expires_in: 3600,
+          token_type: 'Bearer token type',
+        });
+      });
+
+      test('it should let user access requested page', async function(assert) {
+        // when
+        await visit('/campagnes/creation');
+
+        // then
+        assert.equal(currentURL(), '/campagnes/creation');
+        assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
+      });
+
+      test('it should display the organization linked to the connected user', async function(assert) {
+        // when
+        await visit('/');
+
+        // then
+        assert.dom('.current-organization-panel__name').hasText('BRO & Evil Associates');
+      });
+
+      test('it should redirect user to the campaigns list on root url', async function(assert) {
+        // when
+        await visit('/');
+
+        // then
+        assert.equal(currentURL(), '/campagnes');
       });
     });
-
-    test('it should let user access requested page', async function(assert) {
-      // when
-      await visit('/campagnes/creation');
-
-      // then
-      assert.equal(currentURL(), '/campagnes/creation');
-      assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
-    });
-
-    test('it should display the organization linked to the connected user', async function(assert) {
-      // when
-      await visit('/');
-
-      // then
-      assert.dom('.current-organization-panel__name').hasText('BRO & Evil Associates');
-    });
-
-    test('it should redirect user to the campaigns list on root url', async function(assert) {
-      // when
-      await visit('/');
-
-      // then
-      assert.equal(currentURL(), '/campagnes');
-    });
-  });
-
-  module('When user is authenticated and his organization is managing students', function() {
 
     module('When user is owner', function() {
 
-      test('should display team and students menu', async function(assert) {
+      test('should display team menu', async function(assert) {
         // given
-        const user = createUserManagingStudents('OWNER');
+        const user = createUserMembershipWithRole('OWNER');
         await authenticateSession({
           user_id: user.id,
-        });
-
-        // when
-        await visit('/');
-
-        // then
-        assert.dom('.sidebar-menu a').exists({ count: 3 });
-        assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
-        assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
-        assert.dom('.sidebar-menu a:nth-child(3)').hasText('Élèves');
-        assert.dom('.sidebar-menu a:first-child ').hasClass('active');
-      });
-
-      test('should redirect to students page', async function(assert) {
-        // given
-        const user = createUserManagingStudents('OWNER');
-        await authenticateSession({
-          user_id: user.id,
-        });
-        await visit('/');
-
-        // when
-        await click('.sidebar-menu a:nth-child(3)');
-
-        // then
-        assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
-        assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
-        assert.dom('.sidebar-menu a:nth-child(3)').hasText('Élèves');
-        assert.dom('.sidebar-menu a:nth-child(3)').hasClass('active');
-        assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
-      });
-    });
-
-    module('When user is member', function() {
-
-      test('should display students menu', async function(assert) {
-        // given
-        const user = createUserManagingStudents();
-        await authenticateSession({
-          user_id: user.id,
+          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          expires_in: 3600,
+          token_type: 'Bearer token type',
         });
 
         // when
@@ -210,67 +174,119 @@ module('Acceptance | authentication', function(hooks) {
         // then
         assert.dom('.sidebar-menu a').exists({ count: 2 });
         assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
-        assert.dom('.sidebar-menu a:nth-child(2)').hasText('Élèves');
+        assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
+        assert.dom('.sidebar-menu a:first-child').hasClass('active');
+      });
+
+      test('should redirect to team page', async function(assert) {
+        // given
+        const user = createUserMembershipWithRole('OWNER');
+        await authenticateSession({
+          user_id: user.id,
+          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          expires_in: 3600,
+          token_type: 'Bearer token type',
+        });
+        await visit('/');
+
+        // when
+        await click('.sidebar-menu a:nth-child(2)');
+
+        // then
+        assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+        assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
+        assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
+        assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+      });
+
+      module('When user belongs to an organization that is managing students', function(hooks) {
+        let user;
+
+        hooks.beforeEach(async () => {
+          user = createUserManagingStudents('OWNER');
+
+          await authenticateSession({
+            user_id: user.id,
+            access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+            expires_in: 3600,
+            token_type: 'Bearer token type',
+          });
+        });
+
+        test('should display team and students menu', async function(assert) {
+          // when
+          await visit('/');
+
+          // then
+          assert.dom('.sidebar-menu a').exists({ count: 3 });
+          assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+          assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
+          assert.dom('.sidebar-menu a:nth-child(3)').hasText('Élèves');
+          assert.dom('.sidebar-menu a:first-child ').hasClass('active');
+        });
+
+        test('should redirect to students page', async function(assert) {
+          await visit('/');
+
+          // when
+          await click('.sidebar-menu a:nth-child(3)');
+
+          // then
+          assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+          assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
+          assert.dom('.sidebar-menu a:nth-child(3)').hasText('Élèves');
+          assert.dom('.sidebar-menu a:nth-child(3)').hasClass('active');
+          assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
+        });
+      });
+    });
+
+    module('When user is member', function() {
+
+      test('should not display team menu', async function(assert) {
+        // given
+        const user = createUserMembershipWithRole('MEMBER');
+        await authenticateSession({
+          user_id: user.id,
+          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          expires_in: 3600,
+          token_type: 'Bearer token type',
+        });
+
+        // when
+        await visit('/');
+
+        // then
+        assert.dom('.sidebar-menu a').exists({ count: 1 });
+        assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
         assert.dom('.sidebar-menu a:first-child ').hasClass('active');
       });
+
+      module('When user belongs to an organization that is managing students', function(hooks) {
+        let user;
+
+        hooks.beforeEach(async () => {
+          user = createUserManagingStudents('MEMBER');
+
+          await authenticateSession({
+            user_id: user.id,
+            access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+            expires_in: 3600,
+            token_type: 'Bearer token type',
+          });
+        });
+
+        test('should display students menu', async function(assert) {
+          // when
+          await visit('/');
+
+          // then
+          assert.dom('.sidebar-menu a').exists({ count: 2 });
+          assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
+          assert.dom('.sidebar-menu a:nth-child(2)').hasText('Élèves');
+          assert.dom('.sidebar-menu a:first-child ').hasClass('active');
+        });
+      });
     });
   });
-
-  module('When user is authenticated and is MEMBER', function() {
-
-    test('should not display team menu', async function(assert) {
-      // given
-      const user = createUserMembershipWithRole('MEMBER');
-      await authenticateSession({
-        user_id: user.id,
-      });
-
-      // when
-      await visit('/');
-
-      // then
-      assert.dom('.sidebar-menu a').exists({ count: 1 });
-      assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
-      assert.dom('.sidebar-menu a:first-child ').hasClass('active');
-    });
-  });
-
-  module('When user is authenticated and is OWNER', function() {
-
-    test('should display team menu', async function(assert) {
-      // given
-      const user = createUserMembershipWithRole('OWNER');
-      await authenticateSession({
-        user_id: user.id,
-      });
-
-      // when
-      await visit('/');
-
-      // then
-      assert.dom('.sidebar-menu a').exists({ count: 2 });
-      assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
-      assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
-      assert.dom('.sidebar-menu a:first-child').hasClass('active');
-    });
-
-    test('should redirect to team page', async function(assert) {
-      // given
-      const user = createUserMembershipWithRole('OWNER');
-      await authenticateSession({
-        user_id: user.id,
-      });
-      await visit('/');
-
-      // when
-      await click('.sidebar-menu a:nth-child(2)');
-
-      // then
-      assert.dom('.sidebar-menu a:first-child').hasText('Campagnes');
-      assert.dom('.sidebar-menu a:nth-child(2)').hasText('Équipe');
-      assert.dom('.sidebar-menu a:nth-child(2)').hasClass('active');
-      assert.dom('.sidebar-menu a:first-child').hasNoClass('active');
-    });
-  });
-
 });

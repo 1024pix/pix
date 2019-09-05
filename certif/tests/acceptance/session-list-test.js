@@ -26,18 +26,20 @@ module('Acceptance | Session List', function(hooks) {
 
   });
 
-  module('When user is authenticated', function() {
+  module('When user is authenticated', function(hooks) {
 
     hooks.beforeEach(async () => {
       user = createUserWithMembership();
+
+      await authenticateSession({
+        user_id: user.id,
+        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+        expires_in: 3600,
+        token_type: 'Bearer token type',
+      });
     });
 
     test('it should be accessible', async function(assert) {
-      // given
-      await authenticateSession({
-        user_id: user.id,
-      });
-
       // when
       await visit('/sessions/liste');
 
@@ -46,11 +48,6 @@ module('Acceptance | Session List', function(hooks) {
     });
 
     test('it should show title indicating that the user can create a session', async function(assert) {
-      // given
-      await authenticateSession({
-        user_id: user.id,
-      });
-
       // when
       await visit('/sessions/liste');
 
@@ -62,10 +59,6 @@ module('Acceptance | Session List', function(hooks) {
       // given
       server.createList('session', 12);
 
-      await authenticateSession({
-        user_id: user.id,
-      });
-
       // when
       await visit('/sessions/liste');
 
@@ -75,12 +68,7 @@ module('Acceptance | Session List', function(hooks) {
 
     test('it should redirect to detail page of session id 1 on click on first row', async function(assert) {
       // given
-      const user = createUserWithMembership();
       server.createList('session', 2);
-
-      await authenticateSession({
-        user_id: user.id,
-      });
 
       await visit('/sessions/liste');
       await waitFor('table tbody tr');

@@ -75,16 +75,16 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/{id}', function() {
+  describe('GET /api/users/me', function() {
 
     beforeEach(() => {
-      sinon.stub(userController, 'getUser').returns('ok');
+      sinon.stub(userController, 'getCurrentUser').returns('ok');
       startServer();
     });
 
     it('should exist', () => {
       // given
-      const options = { method: 'GET', url: '/api/users/1234' };
+      const options = { method: 'GET', url: '/api/users/me' };
 
       // when
       const promise = server.inject(options);

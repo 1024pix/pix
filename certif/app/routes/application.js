@@ -6,14 +6,13 @@ export default Route.extend(ApplicationRouteMixin, {
 
   routeAfterAuthentication: 'authenticated',
   currentUser: service(),
-  currentCertificationCenter: service(),
 
   beforeModel() {
-    return this._loadInitialData();
+    return this._loadCurrentUser();
   },
 
   sessionAuthenticated() {
-    return this._loadInitialData()
+    return this._loadCurrentUser()
       .then(() => {
         // Because ember-simple-auth does not support calling this._super() asynchronously,
         // we have to do this hack to call the original "sessionAuthenticated"
@@ -22,21 +21,7 @@ export default Route.extend(ApplicationRouteMixin, {
       });
   },
 
-  _loadInitialData() {
-    return this._loadCurrentUser()
-      .then((user) => this._loadCurrentCertificationCenter(user));
-  },
-
   _loadCurrentUser() {
-    return this.currentUser.load()
-      .catch((error) => {
-        this.session.invalidate();
-        throw error;
-      });
+    return this.currentUser.load();
   },
-
-  _loadCurrentCertificationCenter(user) {
-    return this.currentCertificationCenter.load(user);
-  }
-
 });

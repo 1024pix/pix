@@ -69,7 +69,6 @@ export default function() {
 
   this.post('/authentications', postAuthentications);
   this.get('/users/me', getAuthenticatedUser);
-  this.get('/users/me/profile', getAuthenticatedUser);
   this.get('/users/:id/pixscore', getPixScore);
   this.get('/users/:id/scorecards', getScorecards);
   this.get('/users/:id/campaign-participations', getUserCampaignParticipations);

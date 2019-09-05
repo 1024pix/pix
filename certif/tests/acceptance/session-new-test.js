@@ -22,13 +22,17 @@ module('Acceptance | Session creation', function(hooks) {
     assert.equal(currentURL(), '/connexion');
   });
 
-  module('when the user is authenticated', ({ beforeEach }) => {
+  module('when the user is authenticated', (hooks) => {
     let user;
 
-    beforeEach(async function() {
+    hooks.beforeEach(async () => {
       user = createUserWithMembership();
+
       await authenticateSession({
         user_id: user.id,
+        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+        expires_in: 3600,
+        token_type: 'Bearer token type',
       });
     });
 
