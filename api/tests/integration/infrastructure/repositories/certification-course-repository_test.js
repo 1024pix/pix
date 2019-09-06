@@ -106,62 +106,6 @@ describe('Integration | Repository | Certification Course', function() {
 
   });
 
-  describe('#findLastCertificationCourseByUserIdAndSessionId', function() {
-
-    let userId, yetAnotherUserId;
-    let sessionId, yetAnotherSessionId;
-    let expectedCertificationCourse;
-
-    beforeEach(async () => {
-      // given
-      userId = databaseBuilder.factory.buildUser({}).id;
-      const anotherUserId = databaseBuilder.factory.buildUser({}).id;
-      yetAnotherUserId = databaseBuilder.factory.buildUser({}).id;
-      sessionId = databaseBuilder.factory.buildSession({}).id;
-      const anotherSessionId = databaseBuilder.factory.buildSession({}).id;
-      yetAnotherSessionId = databaseBuilder.factory.buildSession({}).id;
-      _.each([
-        { userId: anotherUserId, sessionId, completedAt: null, createdAt: new Date('2018-12-21T01:02:03Z') },
-        { userId, sessionId: anotherSessionId, completedAt: null, createdAt: new Date('2018-12-21T01:02:03Z') },
-        { userId, sessionId, createdAt: new Date('2018-12-11T01:02:03Z') },
-        { userId, sessionId, completedAt: null, createdAt: new Date('2018-11-11T01:02:03Z') },
-      ], (certificationCourse) => {
-        databaseBuilder.factory.buildCertificationCourse(certificationCourse);
-      });
-      expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, completedAt: null, createdAt: new Date('2018-12-12T01:02:03Z') });
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should retrieve certification course with given userId, sessionId and with value null as completedAt', async () => {
-      // when
-      const certificationCourses = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
-      // then
-      expect(certificationCourses).to.have.lengthOf(1);
-      expect(_.omit(certificationCourses[0], [
-        'assessment',
-        'challenges',
-        'type',
-        'nbChallenges',
-        // TODO : Handle date type correctly
-        'birthdate',
-        'updatedAt'
-      ])).to.deep.equal(_.omit(expectedCertificationCourse, ['birthdate', 'updatedAt']));
-      expect(certificationCourses[0]['birthdate'].toLocaleDateString()).to.equal(expectedCertificationCourse['birthdate'].toLocaleDateString());
-    });
-
-    it('should retrieve empty array when none of certification courses matches', async () => {
-      // when
-      const certificationCourses = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(yetAnotherUserId, yetAnotherSessionId);
-
-      // then
-      expect(certificationCourses).to.deep.equal([]);
-    });
-  });
-
   describe('#getLastCertificationCourseByUserIdAndSessionId', function() {
 
     const createdAt = new Date('2018-12-11T01:02:03Z');
