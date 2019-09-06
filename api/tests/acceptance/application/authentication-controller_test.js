@@ -1,9 +1,6 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
+const { expect, databaseBuilder } = require('../../test-helper');
 const _ = require('lodash');
 const querystring = require('querystring');
-
-const jsonwebtoken = require('jsonwebtoken');
-const settings = require('./../../../lib/settings');
 
 const createServer = require('../../../server');
 
@@ -30,65 +27,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   afterEach(async () => {
     await databaseBuilder.clean();
-  });
-
-  describe('POST /api/authentications', () => {
-
-    const options = {
-      method: 'POST',
-      url: '/api/authentications',
-      payload: {
-        data: {
-          type: 'user',
-          attributes: {
-            email: userEmail,
-            password: userPassword,
-          },
-          relationships: {}
-        }
-      },
-      headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-    };
-
-    it('should return 201 HTTP status code', () => {
-      // given
-      const expectedToken = jsonwebtoken.sign({
-        user_id: userId,
-        source: 'pix'
-      }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(201);
-        expect(response.result).to.deep.equal({
-          data: {
-            id: userId.toString(),
-            type: 'authentications',
-            attributes: {
-              'user-id': userId.toString(),
-              token: expectedToken,
-              password: ''
-            }
-          }
-        });
-      });
-    });
-
-    it('should return 201 HTTP status code when missing authorization header', () => {
-      // given
-      options.headers = {};
-
-      // when
-      const promise = server.inject(options);
-
-      // given
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(201);
-      });
-    });
   });
 
   describe('POST /api/token', () => {
@@ -133,8 +71,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
         expect(result.user_id).to.equal(userId);
       });
     });
-
   });
 
-})
-;
+});
