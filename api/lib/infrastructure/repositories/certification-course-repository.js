@@ -57,15 +57,6 @@ module.exports = {
       });
   },
 
-  findLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
-    return CertificationCourseBookshelf
-      .where({ userId, sessionId })
-      .orderBy('createdAt', 'desc')
-      .query((qb) => qb.limit(1))
-      .fetchAll()
-      .then((certificationCourses) => certificationCourses.map(_toDomain));
-  },
-
   getLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
     return CertificationCourseBookshelf
       .where({ userId, sessionId })
