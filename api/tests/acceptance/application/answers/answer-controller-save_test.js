@@ -14,6 +14,9 @@ describe('Acceptance | Controller | answer-controller-save', () => {
   describe('POST /api/answers', () => {
     let userId;
     let insertedAssessmentId;
+    let options;
+    let promise;
+    const challengeId = 'a_challenge_id';
 
     beforeEach(async () => {
       const assessment = databaseBuilder.factory.buildAssessment({ type: Assessment.types.PLACEMENT });
@@ -30,11 +33,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
       await databaseBuilder.clean();
     });
 
-    describe('when the save succeeds', () => {
-
-      let options;
-      let promise;
-      const challengeId = 'a_challenge_id';
+    context('when the user is linked to the assessment', () => {
 
       beforeEach(() => {
         // given
@@ -141,50 +140,53 @@ describe('Acceptance | Controller | answer-controller-save', () => {
             });
         });
       });
+    });
 
-      context('when user is not the user of the assessment', () => {
-        beforeEach(() => {
-          // given
-          options = {
-            method: 'POST',
-            url: '/api/answers',
-            headers: { authorization: generateValidRequestAuthorizationHeader(userId + 3) },
-            payload: {
-              data: {
-                type: 'answers',
-                attributes: {
-                  value: '1',
-                  'elapsed-time': 100,
-                },
-                relationships: {
-                  assessment: {
-                    data: {
-                      type: 'assessments',
-                      id: insertedAssessmentId,
-                    },
+    context('when user is not the user of the assessment', () => {
+      beforeEach(() => {
+        // given
+        options = {
+          method: 'POST',
+          url: '/api/answers',
+          headers: { authorization: generateValidRequestAuthorizationHeader(userId + 3) },
+          payload: {
+            data: {
+              type: 'answers',
+              attributes: {
+                value: '1',
+                'elapsed-time': 100,
+              },
+              relationships: {
+                assessment: {
+                  data: {
+                    type: 'assessments',
+                    id: insertedAssessmentId,
                   },
-                  challenge: {
-                    data: {
-                      type: 'challenges',
-                      id: challengeId,
-                    },
+                },
+                challenge: {
+                  data: {
+                    type: 'challenges',
+                    id: challengeId,
                   },
                 },
               },
             },
-          };
+          },
+        };
 
-          // when
-          promise = server.inject(options);
-        });
+        // when
+        promise = server.inject(options);
+      });
 
-        it('should return 201 HTTP status code', () => {
-          // then
-          return promise.then((response) => {
-            expect(response.statusCode).to.equal(403);
-          });
+      it('should return 403 HTTP status code', () => {
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
         });
       });
+
     });
+
   });
+
 });
