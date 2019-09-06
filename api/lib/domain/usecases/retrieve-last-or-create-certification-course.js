@@ -13,7 +13,7 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   certificationCourseRepository,
   assessmentRepository,
 }) {
-  const sessionId = await sessionService.sessionExists(accessCode);
+  const sessionId = await sessionService.getSessionIdByAccessCode(accessCode);
   const certificationCourses = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
 
   if (_.size(certificationCourses) > 0) {
