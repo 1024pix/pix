@@ -6,37 +6,44 @@ const CampaignParticipation = require('../../../domain/models/CampaignParticipat
 module.exports = {
 
   serialize(campaignParticipation, meta, { ignoreCampaignParticipationResultsRelationshipData = true } = {}) {
-    return new Serializer('campaign-participation', {
-      attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult', 'assessment'],
-      campaign: {
-        ref: 'id',
-        attributes: ['code', 'title']
-      },
-      user: {
-        ref: 'id',
-        attributes: ['firstName', 'lastName'],
-      },
-      assessment: {
-        ref: 'id',
-        ignoreRelationshipData: true,
-        relationshipLinks: {
-          related(record) {
-            return `/api/assessments/${record.assessment.id}`;
-          }
+    return new Serializer('campaign-participation',
+      {
+        transform: (campaignParticipation) => {
+          const campaignParticipationForSerialization = Object.assign({}, campaignParticipation);
+          campaignParticipationForSerialization.assessment = { id: campaignParticipation.assessmentId };
+          return campaignParticipationForSerialization;
         },
-      },
-      campaignParticipationResult: {
-        ref: 'id',
-        ignoreRelationshipData: ignoreCampaignParticipationResultsRelationshipData,
-        relationshipLinks: {
-          related(record, current, parent) {
-            return `/api/campaign-participations/${parent.id}/campaign-participation-result`;
-          }
+
+        attributes: ['isShared', 'sharedAt', 'createdAt', 'participantExternalId',  'campaign', 'user', 'campaignParticipationResult', 'assessment'],
+        campaign: {
+          ref: 'id',
+          attributes: ['code', 'title']
         },
-        attributes: ['id', 'isCompleted', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'competenceResults'],
-      },
-      meta
-    }).serialize(campaignParticipation);
+        user: {
+          ref: 'id',
+          attributes: ['firstName', 'lastName'],
+        },
+        assessment: {
+          ref: 'id',
+          ignoreRelationshipData: true,
+          relationshipLinks: {
+            related(record) {
+              return `/api/assessments/${record.assessmentId}`;
+            }
+          },
+        },
+        campaignParticipationResult: {
+          ref: 'id',
+          ignoreRelationshipData: ignoreCampaignParticipationResultsRelationshipData,
+          relationshipLinks: {
+            related(record, current, parent) {
+              return `/api/campaign-participations/${parent.id}/campaign-participation-result`;
+            }
+          },
+          attributes: ['id', 'isCompleted', 'totalSkillsCount', 'testedSkillsCount', 'validatedSkillsCount', 'competenceResults'],
+        },
+        meta
+      }).serialize(campaignParticipation);
   },
 
   deserialize(json) {

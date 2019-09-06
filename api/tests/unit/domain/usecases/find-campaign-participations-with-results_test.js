@@ -51,6 +51,7 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
         competenceRepository,
         targetProfileRepository,
         campaignParticipationRepository,
+        assessmentRepository
       });
     });
     it('should check if the user organization has access to the campaign', () => {
@@ -85,6 +86,7 @@ describe('Unit | UseCase | get-campaign-participations-with-results', () => {
         competenceRepository,
         targetProfileRepository,
         campaignParticipationRepository,
+        assessmentRepository
       });
     });
     it('should throw a UserNotAuthorizedToAccessEntity error', () => {

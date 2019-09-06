@@ -13,9 +13,11 @@ module.exports = function buildCampaignParticipation(
     createdAt = faker.date.recent(),
     participantExternalId = 'Mon mail pro',
     campaignId = campaign.id,
+    assessmentId = null,
     userId = faker.random.number(2),
     campaignParticipationResult = buildCampaignParticipationResult()
   } = {}) {
+
   return new CampaignParticipation({
     id,
     campaign,
@@ -24,6 +26,7 @@ module.exports = function buildCampaignParticipation(
     createdAt,
     participantExternalId,
     campaignId,
+    assessmentId,
     userId,
     campaignParticipationResult
   });
