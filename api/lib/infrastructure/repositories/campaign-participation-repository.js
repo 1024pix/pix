@@ -1,4 +1,5 @@
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
+const Bookshelf = require('../bookshelf');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
 const Skill = require('../../domain/models/Skill');
@@ -10,11 +11,9 @@ const fp = require('lodash/fp');
 const _ = require('lodash');
 
 function _toDomain(bookshelfCampaignParticipation) {
-  const assessments = _.map(bookshelfCampaignParticipation.related('assessments').models, (assessment) => assessment.toJSON());
-  const recentAssessment = _.orderBy(assessments, 'createdAt', 'desc')[0];
   return new CampaignParticipation({
     id: bookshelfCampaignParticipation.get('id'),
-    assessmentId: _.get(recentAssessment, 'id'),
+    assessmentId: _.get(bookshelfCampaignParticipation.related('assessments'), 'models[0].attributes.id'),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     campaignId: bookshelfCampaignParticipation.get('campaignId'),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
@@ -33,7 +32,12 @@ module.exports = {
 
     if (!_.get(optionsForQueryBuilder, 'include', []).includes['assessments']) {
       const optionInclude = optionsForQueryBuilder.include || [];
-      optionInclude.push('assessments');
+      optionInclude.push({
+        'assessments': (qb) => {
+          qb.select(Bookshelf.knex.raw('*'));
+          qb.orderBy('createdAt', 'DESC');
+        }
+      });
       optionsForQueryBuilder.include = optionInclude;
     }
     const campaignParticipation = await queryBuilder.get(BookshelfCampaignParticipation, id, optionsForQueryBuilder, false);
@@ -73,7 +77,14 @@ module.exports = {
         qb.innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id');
         qb.where('assessments.id', '=', assessmentId);
       })
-      .fetch({ required: false, withRelated: ['campaign.targetProfile.skillIds', 'assessments'] })
+      .fetch({ required: false, withRelated: ['campaign.targetProfile.skillIds',
+        {
+          'assessments': (qb) => {
+            qb.select(Bookshelf.knex.raw('*'));
+            qb.orderBy('createdAt', 'DESC');
+          }
+        }
+      ] })
       .then(_convertToDomainWithSkills);
   },
 
@@ -99,13 +110,18 @@ module.exports = {
       .fetchPage({
         page: options.page.number,
         pageSize: options.page.size,
-        withRelated: ['user', 'assessments', 'user.knowledgeElements']
+        withRelated: ['user',
+          {
+            'assessments': (qb) => {
+              qb.select(Bookshelf.knex.raw('*'));
+              qb.orderBy('createdAt', 'DESC');
+            }
+          }
+          , 'user.knowledgeElements']
       })
       .then(({ models, pagination }) => {
         _.map(models, (campaignParticipation) => {
-          const assessments = _.map(campaignParticipation.related('assessments').models, (assessment) => assessment.toJSON());
-          const recentAssessment = _.orderBy(assessments, 'createdAt', 'desc')[0];
-          campaignParticipation.attributes.assessmentId = recentAssessment.id;
+          campaignParticipation.attributes.assessmentId = campaignParticipation.related('assessments').models[0].attributes.id;
         });
 
         const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
@@ -148,10 +164,7 @@ function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
 
   // in database, the attribute is skillsIds in target-profiles_skills,
   // but in domain, the attribute is skills in class TargetProfile (TargetProfileSkills does not exists)
-
-  const assessments = _.map(bookshelfCampaignParticipation.related('assessments').models, (assessment) => assessment.toJSON());
-  const recentAssessment = _.orderBy(assessments, 'createdAt', 'desc')[0];
-  bookshelfCampaignParticipation.attributes.assessmentId = recentAssessment.id;
+  bookshelfCampaignParticipation.attributes.assessmentId = bookshelfCampaignParticipation.related('assessments').models[0].attributes.id;
 
   const skillsObjects = bookshelfCampaignParticipation.related('campaign').related('targetProfile').related('skillIds')
     .map((bookshelfSkillId) => new Skill({ id: bookshelfSkillId.get('skillId') }));
