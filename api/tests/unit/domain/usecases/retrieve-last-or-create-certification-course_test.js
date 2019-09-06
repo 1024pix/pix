@@ -12,61 +12,100 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
   describe('#retrieveLastOrCreateCertificationCourse', () => {
 
-    context('when a certification course already exists for given sessionId and userId', function() {
+    const fiveCompetencesWithLevelHigherThan0 = [
+      { id: 'competence1', pixScore: 8, estimatedLevel: 1 },
+      { id: 'competence2', pixScore: 0, estimatedLevel: 0 },
+      { id: 'competence3', pixScore: 24, estimatedLevel: 3 },
+      { id: 'competence4', pixScore: 32, estimatedLevel: 4 },
+      { id: 'competence5', pixScore: 40, estimatedLevel: 5 },
+      { id: 'competence6', pixScore: 48, estimatedLevel: 6 },
+    ];
+
+    context('when a certification course already exists for given sessionId and userId', () => {
 
       let userId;
       let sessionId;
       let accessCode;
       let certificationCourse;
-      let oldCertificationCourse;
 
       beforeEach(() => {
         userId = 12345;
         sessionId = 23;
         accessCode = 'ABCD12';
         certificationCourse = domainBuilder.buildCertificationCourse({ id: 'newlyCreatedCertificationCourse', sessionId, userId, createdAt: new Date('2018-12-12T01:02:03Z') });
-        oldCertificationCourse = domainBuilder.buildCertificationCourse({ id: 'oldCertificationCourse', sessionId, userId, createdAt: new Date('2018-11-11T01:02:03Z') });
 
         sinon.stub(sessionService, 'getSessionIdByAccessCode').resolves(sessionId);
-        sinon.stub(certificationCourseRepository, 'findLastCertificationCourseByUserIdAndSessionId').resolves([certificationCourse, oldCertificationCourse]);
         sinon.stub(certificationCourseRepository, 'save').resolves();
       });
 
-      it('should get last started certification course for given sessionId and userId', async function() {
-        // when
-        const result = await retrieveLastOrCreateCertificationCourse({
-          accessCode,
-          userId,
-          sessionService,
-          userService,
-          certificationChallengesService,
-          certificationCourseRepository,
-          assessmentRepository,
+      context('when a certification course already exists from the beginning', () => {
+
+        beforeEach(() => {
+          sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId').resolves(certificationCourse);
         });
 
-        // then
-        expect(result).to.deep.equal({
-          created: false,
-          certificationCourse
+        it('should get last started certification course for given sessionId and userId', async function() {
+          // when
+          const result = await retrieveLastOrCreateCertificationCourse({
+            accessCode,
+            userId,
+            sessionService,
+            userService,
+            certificationChallengesService,
+            certificationCourseRepository,
+            assessmentRepository,
+          });
+
+          // then
+          expect(result).to.deep.equal({
+            created: false,
+            certificationCourse
+          });
         });
+
       });
+
+      context('when a certification course has been created meanwhile', () => {
+
+        beforeEach(() => {
+          sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId')
+            .onFirstCall().rejects(new NotFoundError())
+            .onSecondCall().resolves(certificationCourse);
+          sinon.stub(userService, 'getProfileToCertifyV2').resolves(fiveCompetencesWithLevelHigherThan0);
+        });
+
+        it('should get last started certification course for given sessionId and userId', async function() {
+          // when
+          const result = await retrieveLastOrCreateCertificationCourse({
+            accessCode,
+            userId,
+            sessionService,
+            userService,
+            certificationChallengesService,
+            certificationCourseRepository,
+            assessmentRepository,
+          });
+
+          // then
+          expect(result).to.deep.equal({
+            created: false,
+            certificationCourse
+          });
+        });
+
+      });
+
     });
 
     context('when the session does not exist', function() {
       let userId;
-      let sessionId;
       let accessCode;
-      let certificationCourse;
 
       beforeEach(() => {
         userId = 12345;
-        sessionId = 23;
         accessCode = 'ABCD12';
-        certificationCourse = domainBuilder.buildCertificationCourse({ id: 'newlyCreatedCertificationCourse', sessionId, userId, createdAt: new Date('2018-12-12T01:02:03Z') });
 
         sinon.stub(sessionService, 'getSessionIdByAccessCode').rejects(new NotFoundError());
-        sinon.stub(certificationCourseRepository, 'findLastCertificationCourseByUserIdAndSessionId').resolves(certificationCourse);
-        sinon.stub(certificationCourseRepository, 'save').resolves();
       });
 
       it('should rejects an error when the session does not exist',  async function() {
@@ -107,14 +146,6 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         { id: 'competence4', pixScore: 32, estimatedLevel: 4 },
         { id: 'competence5', pixScore: 40, estimatedLevel: 5 },
       ];
-      const fiveCompetencesWithLevelHigherThan0 = [
-        { id: 'competence1', pixScore: 8, estimatedLevel: 1 },
-        { id: 'competence2', pixScore: 0, estimatedLevel: 0 },
-        { id: 'competence3', pixScore: 24, estimatedLevel: 3 },
-        { id: 'competence4', pixScore: 32, estimatedLevel: 4 },
-        { id: 'competence5', pixScore: 40, estimatedLevel: 5 },
-        { id: 'competence6', pixScore: 48, estimatedLevel: 6 },
-      ];
 
       beforeEach(() => {
         userId = 12345;
@@ -137,7 +168,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         });
 
         sinon.stub(sessionService, 'getSessionIdByAccessCode').resolves(sessionId);
-        sinon.stub(certificationCourseRepository, 'findLastCertificationCourseByUserIdAndSessionId').resolves([]);
+        sinon.stub(certificationCourseRepository, 'getLastCertificationCourseByUserIdAndSessionId').rejects(new NotFoundError());
 
         clock = sinon.useFakeTimers(now);
       });
@@ -204,5 +235,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       });
 
     });
+
   });
+
 });
