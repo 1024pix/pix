@@ -171,7 +171,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       it('should return the complete line with user results for her participation', () => {
         // given
         const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: true, sharedAt: new Date('2019-03-01T23:04:05Z') });
-        factoryCampaignParticipation.assessment = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id });
+        factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
         const csvSecondLine = `"${organization.name}";` +
@@ -225,7 +225,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         // given
 
         const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false });
-        factoryCampaignParticipation.assessment = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id });
+        factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;
 
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
@@ -278,7 +278,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
       beforeEach(() => {
         const factoryCampaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false });
-        factoryCampaignParticipation.assessment = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id });
+        factoryCampaignParticipation.assessmentId = domainBuilder.buildAssessment({ campaignParticipationId: factoryCampaignParticipation.id }).id;
 
         findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 

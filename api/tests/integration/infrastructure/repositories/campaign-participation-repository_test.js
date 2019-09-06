@@ -3,7 +3,6 @@ const moment = require('moment');
 const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 const Skill = require('../../../../lib/domain/models/Skill');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 
@@ -35,6 +34,12 @@ describe('Integration | Repository | Campaign Participation', () => {
         createdAt: moment().toDate()
       }).id;
 
+      databaseBuilder.factory.buildAssessment({
+        type: 'SMART_PLACEMENT',
+        campaignParticipationId: campaignParticipationNotSharedId,
+        createdAt: moment().toDate()
+      });
+
       await databaseBuilder.commit();
     });
 
@@ -63,7 +68,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const foundCampaignParticipation = await campaignParticipationRepository.get(campaignParticipationId);
 
       // then
-      expect(foundCampaignParticipation.assessment.id).to.be.equal(recentAssessmentId);
+      expect(foundCampaignParticipation.assessmentId).to.be.equal(recentAssessmentId);
     });
 
   });
@@ -291,7 +296,7 @@ describe('Integration | Repository | Campaign Participation', () => {
         const campaignParticipationFound = await campaignParticipationRepository.findOneByAssessmentIdWithSkillIds(assessmentId);
 
         // then
-        expect(campaignParticipationFound.assessment.id).to.deep.equal(assessmentId);
+        expect(campaignParticipationFound.assessmentId).to.deep.equal(assessmentId);
         expect(campaignParticipationFound.campaign.targetProfile.skills).to.have.lengthOf(2);
         expect(campaignParticipationFound.campaign.targetProfile.skills[0]).to.be.instanceOf(Skill);
         expect(campaignParticipationFound.campaign.targetProfile.skills[0].id).to.equal(skillId1);
@@ -414,13 +419,13 @@ describe('Integration | Repository | Campaign Participation', () => {
       // when
       const foundCampaignParticipation = await campaignParticipationRepository.findPaginatedCampaignParticipations(options);
       const foundUserLastNames = _(foundCampaignParticipation.models).map('user').map('lastName').value();
-      const foundAssessmentIds = _(foundCampaignParticipation.models).map('assessment').map('id').value();
+      const foundAssessmentIds = _.map(foundCampaignParticipation.models, 'assessmentId');
       const foundKnowledgeElementsSkillsIds = _(foundCampaignParticipation.models).map('user').map('knowledgeElements').flatten().map('skillId').value();
       // then
       expect(foundUserLastNames).to.deep.equal(['Bugietta', 'Darboo']);
       expect(foundAssessmentIds).to.deep.equal([assessmentId1, assessmentId2]);
       expect(foundKnowledgeElementsSkillsIds).to.have.members(['@web1', '@web2', '@web3', '@web4']);
-      expect(foundCampaignParticipation.models[0].assessment).to.be.instanceOf(Assessment);
+      expect(foundCampaignParticipation.models[0].assessmentId).to.equal(assessmentId1);
       expect(foundCampaignParticipation.models[0].user.knowledgeElements[0]).to.be.instanceOf(KnowledgeElement);
     });
 
@@ -428,8 +433,9 @@ describe('Integration | Repository | Campaign Participation', () => {
       // given
       const options = { filter: { campaignId }, sort: [], include: ['user'], page: {} };
       const { id: userId } = databaseBuilder.factory.buildUser({ lastName: 'Bugietta', firstName: 'Anna' });
-      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate, createdAt: recentDate });
+
+      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, sharedAt: recentDate, createdAt: recentDate });
+      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId });
       await databaseBuilder.commit();
 
       // when
@@ -446,8 +452,9 @@ describe('Integration | Repository | Campaign Participation', () => {
       // given
       const options = { filter: { campaignId }, sort: [], include: ['user'], page: {} };
       const { id: userId } = databaseBuilder.factory.buildUser({ lastName: 'BUGIETTA', firstName: 'Anna' });
-      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ userId });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, assessmentId, userId, sharedAt: recentDate, createdAt: recentDate });
+      const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, sharedAt: recentDate, createdAt: recentDate });
+      databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId });
+
       await databaseBuilder.commit();
 
       // when
