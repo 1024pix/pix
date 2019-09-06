@@ -66,6 +66,21 @@ module.exports = {
       .then((certificationCourses) => certificationCourses.map(_toDomain));
   },
 
+  getLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
+    return CertificationCourseBookshelf
+      .where({ userId, sessionId })
+      .orderBy('createdAt', 'desc')
+      .query((qb) => qb.limit(1))
+      .fetch({ require: true })
+      .then(_toDomain)
+      .catch((error) => {
+        if (error instanceof CertificationCourseBookshelf.NotFoundError) {
+          throw new NotFoundError();
+        }
+        throw error;
+      });
+  },
+
   update(certificationCourse) {
     const certificationCourseData = _adaptModelToDb(certificationCourse);
     const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseData);
