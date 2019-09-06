@@ -135,7 +135,7 @@ function _createOneLineOfCSV(
 ) {
   let line = headers.map(() => '"NA"');
 
-  return smartPlacementAssessmentRepository.get(campaignParticipation.assessment.id)
+  return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
     .then((assessment) => {
       return Promise.all([
         assessment,
