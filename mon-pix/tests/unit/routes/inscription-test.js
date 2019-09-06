@@ -11,10 +11,12 @@ describe('Unit | Route | inscription', function() {
     expect(route).to.be.ok;
   });
 
-  it('should automatically authenticated user', function() {
+  it('should automatically authenticated user', async function() {
     // Given
+    const expectedAuthenticator = 'authenticator:oauth2';
     const expectedEmail = 'email@example.net';
     const expectedPassword = 'Azertya1!';
+    const expectedScope = 'mon-pix';
     const authenticateStub = sinon.stub().resolves();
     const queryRecordStub = sinon.stub().resolves();
     const sessionStub = { authenticate: authenticateStub };
@@ -26,14 +28,14 @@ describe('Unit | Route | inscription', function() {
     route.set('store', storeStub);
 
     // When
-    const promise = route.actions.authenticateUser.call(route, {
+    await route.actions.authenticateUser.call(route, {
       email: expectedEmail,
       password: expectedPassword
     });
 
-    return promise.then(() => {
-      // Then
-      sinon.assert.calledWith(authenticateStub, 'authenticator:simple', { email: expectedEmail, password: expectedPassword });
-    });
+    // Then
+    sinon.assert.calledWith(authenticateStub,
+      expectedAuthenticator, expectedEmail, expectedPassword, expectedScope
+    );
   });
 });
