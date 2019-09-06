@@ -408,7 +408,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       }).id;
 
       _.each([
-        { userId, courseId, type: Assessment.types.PLACEMENT },
+        { userId, courseId, type: Assessment.types.DEMO },
         { userId, type: Assessment.types.CERTIFICATION },
         { courseId, type: Assessment.types.CERTIFICATION },
       ], (assessment) => {
@@ -609,17 +609,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.clean();
     });
 
-    context('when user has only PLACEMENT assessment', () => {
-      beforeEach(async () => {
-        databaseBuilder.factory.buildAssessment({
-          userId,
-          type: Assessment.types.PLACEMENT,
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      it('should return the assessment with campaign when it matches with userId', async () => {
+    context('when user does not have campaign or competenceEvaluation', () => {
+      it('should return false', async () => {
         // when
         const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(userId);
 

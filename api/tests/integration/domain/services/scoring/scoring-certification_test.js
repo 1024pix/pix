@@ -1,5 +1,4 @@
 const { expect, domainBuilder, sinon } = require('../../../../test-helper');
-const Assessment = require('../../../../../lib/domain/models/Assessment');
 const certificationService = require('../../../../../lib/domain/services/certification-service');
 const scoringCertification = require('../../../../../lib/domain/services/scoring/scoring-certification');
 
@@ -14,7 +13,7 @@ describe('Integration | Domain | services | scoring | scoring-certification', ()
     const competenceWithMark_1_2 = { index: '1.2', obtainedLevel: 1, obtainedScore: 8, area_code: '2', };
     const competencesWithMark = [competenceWithMark_1_1, competenceWithMark_1_2];
 
-    const assessment = domainBuilder.buildAssessment({ id: assessmentId, type: Assessment.types.PLACEMENT, courseId });
+    const assessment = domainBuilder.buildAssessment({ id: assessmentId, courseId });
 
     context('when an error occurred', () => {
 
@@ -70,7 +69,7 @@ describe('Integration | Domain | services | scoring | scoring-certification', ()
         const MAX_REACHABLE_LEVEL = 5;
         const MAX_REACHABLE_PIX_BY_COMPETENCE = 40;
         const competenceWithMarkAboveThreshold = { index: '1.1', obtainedLevel: 6, obtainedScore: 50, area_code: '1', };
-        const assessment = domainBuilder.buildAssessment({ id: assessmentId, type: Assessment.types.PLACEMENT, courseId });
+        const assessment = domainBuilder.buildAssessment({ id: assessmentId, courseId });
 
         sinon.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({ competencesWithMark: [competenceWithMarkAboveThreshold] });
 

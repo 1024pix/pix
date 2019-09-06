@@ -305,17 +305,9 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.isPreview()).to.be.true;
     });
 
-    it('should return false when the assessment is not a placement', () => {
+    it('should return false when the assessment is not a preview', () => {
       // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
-
-      // when/then
-      expect(assessment.isPreview()).to.be.false;
-    });
-
-    it('should return false when the assessment has no type', () => {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: null });
+      const assessment = domainBuilder.buildAssessment({ type: 'otherType' });
 
       // when/then
       expect(assessment.isPreview()).to.be.false;
@@ -324,7 +316,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   describe('#isDemo', () => {
 
-    it('should return true when the assessment is a preview', () => {
+    it('should return true when the assessment is a demo', () => {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.DEMO });
 
@@ -332,17 +324,9 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.isDemo()).to.be.true;
     });
 
-    it('should return false when the assessment is not a placement', () => {
+    it('should return false when the assessment is not a demo', () => {
       // given
-      const assessment = domainBuilder.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
-
-      // when/then
-      expect(assessment.isDemo()).to.be.false;
-    });
-
-    it('should return false when the assessment has no type', () => {
-      // given
-      const assessment = domainBuilder.buildAssessment({ type: null });
+      const assessment = domainBuilder.buildAssessment({ type: 'otherType' });
 
       // when/then
       expect(assessment.isDemo()).to.be.false;

@@ -83,7 +83,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
       databaseBuilder.factory.buildAssessment({
         id: notSmartPlacementAssessment,
-        type: Assessment.types.PLACEMENT,
+        type: Assessment.types.DEMO,
       });
 
       databaseBuilder.factory.buildAnswer({
