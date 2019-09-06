@@ -97,7 +97,7 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "node ./scripts/git-hook/prepend-commit-message.js"
+      "commit-msg": "node ./scripts/git-hook/prepend-commit-subject.js"
     }
   }
 }
