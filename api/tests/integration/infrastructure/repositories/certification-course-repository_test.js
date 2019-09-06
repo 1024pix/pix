@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -159,6 +159,46 @@ describe('Integration | Repository | Certification Course', function() {
 
       // then
       expect(certificationCourses).to.deep.equal([]);
+    });
+  });
+
+  describe('#getLastCertificationCourseByUserIdAndSessionId', function() {
+
+    const createdAt = new Date('2018-12-11T01:02:03Z');
+    const createdAtLater = new Date('2018-12-12T01:02:03Z');
+    let userId;
+    let sessionId;
+
+    beforeEach(async () => {
+      // given
+      await databaseBuilder.clean();
+      userId = databaseBuilder.factory.buildUser({}).id;
+      sessionId = databaseBuilder.factory.buildSession({}).id;
+      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt });
+      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt: createdAtLater });
+
+      databaseBuilder.factory.buildCertificationCourse({ sessionId });
+      databaseBuilder.factory.buildCertificationCourse({ userId });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(() => databaseBuilder.clean());
+
+    it('should retrieve the last certification course with given userId, sessionId', async () => {
+      // when
+      const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
+
+      // then
+      expect(certificationCourse.createdAt).to.deep.equal(createdAtLater);
+    });
+
+    it('should throw not found error when no certification course found', async () => {
+      // when
+      const result = await catchErr(certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId)(userId + 1, sessionId + 1);
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
     });
   });
 
