@@ -539,7 +539,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
     beforeEach(() => {
       answer = domainBuilder.buildAnswer();
       answerRepository.findByChallengeAndAssessment.resolves(false);
-      assessment = domainBuilder.buildAssessment({ userId: (userId + 1), type: Assessment.types.PLACEMENT });
+      assessment = domainBuilder.buildAssessment({ userId: (userId + 1) });
       assessmentRepository.get.resolves(assessment);
     });
 

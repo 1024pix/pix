@@ -316,7 +316,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     });
   });
 
-  context('when the assessment is a PLACEMENT', () => {
+  context('when the assessment is a not a certification assessment', () => {
 
     it('should save the evaluated competence', () => {
       // when
