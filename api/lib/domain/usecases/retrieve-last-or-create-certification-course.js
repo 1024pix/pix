@@ -1,8 +1,7 @@
 const CertificationCourse = require('../models/CertificationCourse');
 const UserCompetence = require('../models/UserCompetence');
 const Assessment = require('../models/Assessment');
-const { UserNotAuthorizedToCertifyError } = require('../errors');
-const _ = require('lodash');
+const { UserNotAuthorizedToCertifyError, NotFoundError } = require('../errors');
 
 module.exports = async function retrieveLastOrCreateCertificationCourse({
   accessCode,
@@ -14,23 +13,26 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   assessmentRepository,
 }) {
   const sessionId = await sessionService.getSessionIdByAccessCode(accessCode);
-  const certificationCourses = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
-
-  if (_.size(certificationCourses) > 0) {
+  try {
+    const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
     return {
       created: false,
-      certificationCourse: certificationCourses[0],
+      certificationCourse,
     };
-  }
+  } catch (err) {
+    if (err instanceof NotFoundError) {
+      return _startNewCertification({
+        userId,
+        sessionId,
+        userService,
+        certificationChallengesService,
+        certificationCourseRepository,
+        assessmentRepository,
+      });
+    }
 
-  return _startNewCertification({
-    userId,
-    sessionId,
-    userService,
-    certificationChallengesService,
-    certificationCourseRepository,
-    assessmentRepository,
-  });
+    throw err;
+  }
 };
 
 async function _startNewCertification({
@@ -48,20 +50,25 @@ async function _startNewCertification({
     throw new UserNotAuthorizedToCertifyError();
   }
 
-  const certificationCourses = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
-  if (_.size(certificationCourses) > 0) {
+  try {
+    const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
     return {
       created: false,
-      certificationCourse: certificationCourses[0],
+      certificationCourse,
     };
+  } catch (err) {
+    if (err instanceof NotFoundError) {
+      const newCertificationCourse = new CertificationCourse({ userId, sessionId, isV2Certification: true });
+      const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
+      await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
+      return {
+        created: true,
+        certificationCourse: await certificationChallengesService.saveChallenges(userCompetencesProfile, savedCertificationCourse),
+      };
+    }
+
+    throw err;
   }
-  const newCertificationCourse = new CertificationCourse({ userId, sessionId, isV2Certification: true });
-  const savedCertificationCourse = await certificationCourseRepository.save(newCertificationCourse);
-  await _createAssessmentForCertificationCourse({ userId, certificationCourseId: savedCertificationCourse.id, assessmentRepository });
-  return {
-    created: true,
-    certificationCourse: await certificationChallengesService.saveChallenges(userCompetencesProfile, savedCertificationCourse),
-  };
 }
 
 function _createAssessmentForCertificationCourse({ userId, certificationCourseId, assessmentRepository }) {
