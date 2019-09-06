@@ -27,7 +27,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         certificationCourse = domainBuilder.buildCertificationCourse({ id: 'newlyCreatedCertificationCourse', sessionId, userId, createdAt: new Date('2018-12-12T01:02:03Z') });
         oldCertificationCourse = domainBuilder.buildCertificationCourse({ id: 'oldCertificationCourse', sessionId, userId, createdAt: new Date('2018-11-11T01:02:03Z') });
 
-        sinon.stub(sessionService, 'sessionExists').resolves(sessionId);
+        sinon.stub(sessionService, 'getSessionIdByAccessCode').resolves(sessionId);
         sinon.stub(certificationCourseRepository, 'findLastCertificationCourseByUserIdAndSessionId').resolves([certificationCourse, oldCertificationCourse]);
         sinon.stub(certificationCourseRepository, 'save').resolves();
       });
@@ -64,7 +64,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
         accessCode = 'ABCD12';
         certificationCourse = domainBuilder.buildCertificationCourse({ id: 'newlyCreatedCertificationCourse', sessionId, userId, createdAt: new Date('2018-12-12T01:02:03Z') });
 
-        sinon.stub(sessionService, 'sessionExists').rejects(new NotFoundError());
+        sinon.stub(sessionService, 'getSessionIdByAccessCode').rejects(new NotFoundError());
         sinon.stub(certificationCourseRepository, 'findLastCertificationCourseByUserIdAndSessionId').resolves(certificationCourse);
         sinon.stub(certificationCourseRepository, 'save').resolves();
       });
@@ -136,7 +136,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           nbChallenges: 3
         });
 
-        sinon.stub(sessionService, 'sessionExists').resolves(sessionId);
+        sinon.stub(sessionService, 'getSessionIdByAccessCode').resolves(sessionId);
         sinon.stub(certificationCourseRepository, 'findLastCertificationCourseByUserIdAndSessionId').resolves([]);
 
         clock = sinon.useFakeTimers(now);
