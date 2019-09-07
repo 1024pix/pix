@@ -86,7 +86,8 @@
     "nyc": "^14.1.1",
     "plop": "^2.4.0",
     "sinon": "^7.4.2",
-    "sinon-chai": "^3.3.0"
+    "sinon-chai": "^3.3.0",
+    "stream-to-promise": "^2.2.0"
   },
   "scripts": {
     "clean": "rm -rf node_modules db/*.sqlite3",

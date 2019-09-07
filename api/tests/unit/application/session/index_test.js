@@ -3,6 +3,9 @@ const Hapi = require('hapi');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const route = require('../../../../lib/application/sessions');
+const fs = require('fs');
+const FormData = require('form-data');
+const streamToPromise = require('stream-to-promise');
 
 describe('Unit | Application | Sessions | Routes', () => {
   let server;
@@ -61,7 +64,45 @@ describe('Unit | Application | Sessions | Routes', () => {
 
     it('should exist', async () => {
       const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}/attendance-sheet' });
+
       expect(res.statusCode).to.equal(200);
     });
   });
+
+  describe('POST /api/sessions/{id}/certification-candidates/import', () => {
+
+    const testFilePath = `${__dirname}/testFile_temp.ods`;
+    let options;
+    beforeEach(async () => {
+      // given
+      sinon.stub(sessionController, 'importCertificationCandidatesFromAttendanceSheet').returns('ok');
+      fs.writeFileSync(testFilePath, Buffer.alloc(0));
+      const form = new FormData();
+      form.append('file', fs.createReadStream(testFilePath), { knownLength: fs.statSync(testFilePath).size });
+      const payload = await streamToPromise(form);
+      options = {
+        method: 'POST',
+        url: '/api/sessions/{id}/certification-candidates/import',
+        headers: form.getHeaders(),
+        payload,
+      };
+
+      await server.register(route);
+    });
+
+    afterEach(() => {
+      fs.unlinkSync(testFilePath);
+    });
+
+    // TODO LAURA FAIRE RETOURNER 204
+    it('should exist', async () => {
+      // when
+      const res = await server.inject(options);
+
+      // then
+      expect(res.statusCode).to.equal(200);
+    });
+
+  });
+
 });
