@@ -192,6 +192,24 @@ class ObjectAlreadyExisting extends DomainError {
   }
 }
 
+class ODSBufferReadFailedError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class ODSTableDataEmptyError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class ODSTableHeadersNotFoundError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class PasswordNotMatching extends DomainError {
   constructor(message) {
     super(message);
@@ -306,6 +324,9 @@ module.exports = {
   NotFoundError,
   ObjectAlreadyExisting,
   ObjectValidationError,
+  ODSBufferReadFailedError,
+  ODSTableDataEmptyError,
+  ODSTableHeadersNotFoundError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToAccessEntity,

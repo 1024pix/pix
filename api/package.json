@@ -66,6 +66,7 @@
     "request-promise-native": "^1.0.7",
     "samlify": "github:1024pix/samlify#no-xml-validation",
     "vision": "^5.4.4",
+    "xlsx": "^0.14.4",
     "xml-crypto": "~1.0.2",
     "xmldom": "0.1.27",
     "xregexp": "^4.2.4",
