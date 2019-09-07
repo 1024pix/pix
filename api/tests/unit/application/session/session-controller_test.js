@@ -1,7 +1,6 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 
 const sessionController = require('../../../../lib/application/sessions/session-controller');
-
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
 const sessionService = require('../../../../lib/domain/services/session-service');
@@ -226,6 +225,40 @@ describe('Unit | Controller | sessionController', () => {
 
       // then
       expect(response.headers).to.deep.equal(expectedHeaders);
+    });
+
+  });
+
+  describe('#importCertificationCandidatesFromAttendanceSheet', () => {
+
+    const sessionId = 2;
+    const userId = 1;
+    let request;
+    const odsBuffer = 'File Buffer';
+    beforeEach(() => {
+      // given
+      request = {
+        auth: { credentials: { userId } },
+        params: { id : sessionId },
+        payload: { file: odsBuffer },
+      };
+
+      sinon.stub(usecases, 'importCertificationCandidatesFromAttendanceSheet').resolves();
+    });
+
+    it('should call the usecase to import certification candidates', async () => {
+      // given
+      usecases.importCertificationCandidatesFromAttendanceSheet.resolves();
+
+      // when
+      await sessionController.importCertificationCandidatesFromAttendanceSheet(request);
+
+      // then
+      expect(usecases.importCertificationCandidatesFromAttendanceSheet).to.have.been.calledWith({
+        userId,
+        sessionId,
+        odsBuffer,
+      });
     });
 
   });
