@@ -1,4 +1,5 @@
 import Response from 'ember-cli-mirage/response';
+import { upload } from 'ember-file-upload/mirage';
 
 function parseQueryString(queryString) {
   const result = Object.create(null);
@@ -55,4 +56,16 @@ export default function() {
 
   this.get('/sessions/:id');
   this.patch('/sessions/:id');
+  this.post('/sessions/:id/certification-candidates/import-certification-candidates', upload(function(_schema, request) {
+    const { name } = request.requestBody.file;
+    if (name === 'invalid-file') {
+      return new Promise((resolve) => {
+        resolve(new Response(422, { }));
+      });
+    } else {
+      return new Promise((resolve) => {
+        resolve(new Response(204, { }));
+      });
+    }
+  }));
 }
