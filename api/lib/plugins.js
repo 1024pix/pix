@@ -38,7 +38,7 @@ if (settings.logging.enabled) {
 
 const plugins = [
   Metrics,
-  require('inert'),
+  require('@hapi/inert'),
   require('vision'),
   require('blipp'),
   {
