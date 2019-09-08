@@ -37,7 +37,7 @@
     "good": "^8.1.2",
     "good-console": "^8.0.0",
     "good-squeeze": "^5.1.0",
-    "hapi": "^17.8.4",
+    "hapi": "^18.1.0",
     "hapi-sentry": "^1.1.0",
     "hapi-swagger": "^9.3.1",
     "heapdump": "^0.3.12",
