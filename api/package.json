@@ -63,7 +63,7 @@
     "redis": "^2.8.0",
     "redlock": "^3.1.2",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5",
+    "request-promise-native": "^1.0.7",
     "samlify": "github:1024pix/samlify#no-xml-validation",
     "vision": "^5.4.4",
     "xml-crypto": "~1.0.2",
