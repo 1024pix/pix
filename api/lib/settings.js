@@ -86,7 +86,7 @@ module.exports = (function() {
   };
 
   if (process.env.NODE_ENV === 'test') {
-    config.port = null;
+    config.port = 0;
 
     config.app.domain = 'localhost';
 
