@@ -21,7 +21,7 @@
   "dependencies": {
     "airtable": "^0.7.1",
     "bcrypt": "^3.0.6",
-    "blipp": "^3.1.2",
+    "blipp": "^4.0.0",
     "bluebird": "^3.5.3",
     "bookshelf": "^0.14.2",
     "bookshelf-page": "^0.3.2",
