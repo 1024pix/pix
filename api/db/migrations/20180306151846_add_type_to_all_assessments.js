@@ -23,7 +23,7 @@ const TYPE_CERTIFICATION = 'CERTIFICATION';
 const TYPE_DEMO = 'DEMO';
 const TYPE_PREVIEW = 'PREVIEW';
 
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
 
   // XXX : Modify PREVIEW assessments
   return knex(TABLE_NAME_ASSESSMENTS)
@@ -96,5 +96,5 @@ exports.up = function(knex, Promise) {
 
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
 };

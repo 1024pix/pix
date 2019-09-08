@@ -23,7 +23,7 @@ exports.up = function(knex) {
   });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   return knex.schema.table(TABLE_NAME_MARKS, function(table) {
     table.dropColumn('assessmentResultId');
     console.log('Column assessmentResultId remove from Marks');

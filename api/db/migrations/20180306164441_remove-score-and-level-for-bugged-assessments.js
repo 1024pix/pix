@@ -2,7 +2,7 @@ const { batch } = require('../batchTreatment');
 
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
   return knex(TABLE_NAME_ASSESSMENTS)
     .select('id', 'estimatedLevel', 'pixScore', 'type')
     .where('type', '=', 'PLACEMENT')
@@ -22,6 +22,6 @@ exports.up = function(knex, Promise) {
     });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
 
 };

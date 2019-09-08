@@ -1,6 +1,6 @@
 const TABLE_NAME = 'certification-challenges';
 
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
   function table(t) {
     t.increments().primary();
     t.string('challengeId');
@@ -18,7 +18,7 @@ exports.up = function(knex, Promise) {
     });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   return knex.schema
     .dropTable(TABLE_NAME)
     .then(() => {
