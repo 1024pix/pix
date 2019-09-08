@@ -23,7 +23,7 @@
     "bcrypt": "^3.0.6",
     "blipp": "^4.0.0",
     "bluebird": "^3.5.5",
-    "bookshelf": "^0.14.2",
+    "bookshelf": "^0.15.1",
     "bookshelf-page": "^0.3.2",
     "bookshelf-validate": "^2.0.3",
     "boom": "^7.3.0",
