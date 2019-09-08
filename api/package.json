@@ -51,7 +51,7 @@
     "knex": "^0.19.3",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.23",
+    "moment-timezone": "^0.5.26",
     "node-cache": "^4.2.0",
     "node-cron": "^2.0.3",
     "node-mailjet": "^3.3.1",
