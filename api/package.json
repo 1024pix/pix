@@ -19,7 +19,7 @@
   "main": "server.js",
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {
-    "airtable": "^0.5.9",
+    "airtable": "^0.7.1",
     "bcrypt": "^3.0.4",
     "blipp": "^3.1.2",
     "bluebird": "^3.5.3",
