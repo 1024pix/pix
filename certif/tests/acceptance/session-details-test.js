@@ -3,6 +3,7 @@ import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
 import { createUserWithMembership } from '../helpers/test-init';
+import { upload } from 'ember-file-upload/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -69,5 +70,51 @@ module('Acceptance | Session Details', function(hooks) {
       // then
       assert.equal(currentURL(), '/sessions/liste');
     });
+
+    test('it should display a download button', async function(assert) {
+      // when
+      await visit('/sessions/1');
+
+      // then
+      assert.dom('.session-details-controls__download-button').hasText('Télécharger le PV (.ods)');
+    });
+
+    test('it should display an import button', async function(assert) {
+      // when
+      await visit('/sessions/1');
+
+      // then
+      assert.dom('.session-details-controls__import-button').hasText('Importer des candidats (.ods)');
+    });
+
+    test('it should display an error message when uploading an invalid file', async function(assert) {
+      // given
+      await visit('/sessions/1');
+
+      const file = new File(['foo'], 'invalid-file');
+
+      // when
+      await upload('#upload-attendance-sheet', file);
+
+      // then
+      assert.dom('.alert-zone--error').exists();
+      assert.dom('.alert-zone--error').hasText('Une erreur s\'est produite lors de l\'import de la liste de candidats');
+    });
+
+    test('it should display a success message when uploading a valid file', async function(assert) {
+      // given
+      await visit('/sessions/1');
+
+      const file = new File(['foo'], 'valid-file');
+
+      // when
+      await upload('#upload-attendance-sheet', file);
+
+      // then
+      assert.dom('.alert-zone--success').exists();
+      assert.dom('.alert-zone--success').hasText('La liste des candidats a été importée avec succès');
+    });
+
   });
+
 });

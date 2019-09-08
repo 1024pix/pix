@@ -1,8 +1,12 @@
 import Component from '@ember/component';
+import { equal } from '@ember/object/computed';
 
 export default Component.extend({
 
   tooltipText: 'Copier le lien direct',
+
+  isSuccessMessage: equal('message.type', 'success'),
+  isErrorMessage: equal('message.type', 'error'),
 
   actions: {
     clipboardSuccess() {

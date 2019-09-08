@@ -30,12 +30,32 @@
     </a>
   </nav>
 
-  <div class="session-details-controls__download-button">
-    <a class="button button--link button--with-icon" href="{{session.urlToDownload}}" target="_blank" download>
+  <div class="session-details-controls__actions">
+    {{#file-upload name="file-upload"
+                   for="upload-attendance-sheet"
+                   accept=".ods"
+                   multiple=false
+                   onfileadd=(action uploadCertificationCandidates)}}
+        <a class="button session-details-controls__import-button">Importer des candidats (.ods)</a>
+    {{/file-upload}}
+    <a class="button button--link button--with-icon session-details-controls__download-button" href="{{session.urlToDownload}}" target="_blank" download>
       Télécharger le PV (.ods){{fa-icon 'file-download'}}
     </a>
   </div>
 </div>
+
+{{#if message}}
+    <div class={{concat "alert-zone alert-zone--" message.type}} aria-live="polite">
+      {{fa-icon (if isErrorMessage 'exclamation-triangle' 'check-circle') class="alert-zone__icon"}}
+        <p class="alert-zone__message">
+          {{#if isSuccessMessage}}
+              La liste des candidats a été importée avec succès
+          {{else}}
+            {{if message.detail message.detail 'Une erreur s\'est produite lors de l\'import de la liste de candidats'}}
+          {{/if}}
+        </p>
+    </div>
+{{/if}}
 
 <div class="panel panel--strong-shadow session-details-container">
   <div class="session-details-row">
