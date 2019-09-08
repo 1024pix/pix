@@ -49,7 +49,7 @@
     "jsonwebtoken": "^8.5.1",
     "jszip": "3.2.2",
     "knex": "^0.19.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
     "node-cache": "^4.2.0",
