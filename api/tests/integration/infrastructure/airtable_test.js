@@ -19,7 +19,6 @@ describe('Integration | Infrastructure | airtable', () => {
   beforeEach(() => {
     sinon.stub(cache, 'get');
     sinon.stub(cache, 'set');
-    sinon.stub(Airtable.prototype, 'init').returns();
     sinon.stub(Airtable.prototype, 'base').returns({
       table() {
         return {
