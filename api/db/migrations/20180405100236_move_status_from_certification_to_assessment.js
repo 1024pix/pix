@@ -50,7 +50,7 @@ exports.up = function(knex) {
     });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   // Add Column
   return knex.schema.table(TABLE_NAME_CERTIFICATION, function(table) {
     table.text('status');

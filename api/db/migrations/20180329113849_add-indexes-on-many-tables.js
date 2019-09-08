@@ -1,3 +1,5 @@
+const Promise = require('bluebird');
+
 const indexes = {
   answers : ['assessmentId'],
   assessments : ['type'],
@@ -6,7 +8,7 @@ const indexes = {
   marks : ['assessmentId'],
   snapshots : ['organizationId'],
 };
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
   const promises = Object.keys(indexes).map((tableForIndexes) => {
     return knex.schema.table(tableForIndexes, (table) => {
       indexes[tableForIndexes].forEach((column) => table.index(column));
@@ -15,7 +17,7 @@ exports.up = function(knex, Promise) {
   return Promise.all(promises);
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   const promises = Object.keys(indexes).map((tableForIndexes) => {
     return knex.schema.table(tableForIndexes, (table) => {
       indexes[tableForIndexes].forEach((column) => table.dropIndex(column));
