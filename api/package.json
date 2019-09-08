@@ -19,6 +19,7 @@
   "main": "server.js",
   "homepage": "https://github.com/1024pix/pix#readme",
   "dependencies": {
+    "@hapi/inert": "^5.2.1",
     "airtable": "^0.7.1",
     "bcrypt": "^3.0.6",
     "blipp": "^4.0.0",
@@ -40,9 +41,8 @@
     "hapi": "^18.1.0",
     "hapi-sentry": "^2.0.3",
     "hapi-swagger": "^9.3.1",
-    "heapdump": "^0.3.14",
     "heap-profile": "^0.3.2",
-    "inert": "^5.1.2",
+    "heapdump": "^0.3.14",
     "joi": "^14.3.1",
     "json2csv": "^4.3.4",
     "jsonapi-serializer": "^3.6.4",
