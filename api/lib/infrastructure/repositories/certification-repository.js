@@ -83,10 +83,10 @@ module.exports = {
       });
   },
 
-  updateCertification({ id, attributes }) {
+  updatePublicationStatus({ id, isPublished }) {
     return CertificationCourseBookshelf
       .where({ id })
-      .save(attributes, {
+      .save({ isPublished }, {
         patch: true,
         method: 'update',
         require: true,

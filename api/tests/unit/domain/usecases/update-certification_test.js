@@ -25,12 +25,12 @@ describe('Unit | UseCase | update-certification', () => {
   });
 
   beforeEach(() => {
-    certificationRepository.updateCertification = sinon.stub();
+    certificationRepository.updatePublicationStatus = sinon.stub();
   });
 
   it('should call the repository to update the certification', () => {
     // given
-    certificationRepository.updateCertification.resolves(certification);
+    certificationRepository.updatePublicationStatus.resolves(certification);
 
     // when
     const promise = updateCertification({
@@ -41,9 +41,9 @@ describe('Unit | UseCase | update-certification', () => {
 
     // then
     return promise.then((result) => {
-      expect(certificationRepository.updateCertification).to.have.been.calledWith({
+      expect(certificationRepository.updatePublicationStatus).to.have.been.calledWith({
         id: '23',
-        attributes: { isPublished: true }
+        isPublished: true,
       });
       expect(result).to.equal(certification);
     });

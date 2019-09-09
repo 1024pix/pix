@@ -3,8 +3,8 @@ module.exports = function updateCertification({
   attributesToUpdate: { isPublished },
   certificationRepository
 }) {
-  return certificationRepository.updateCertification({
+  return certificationRepository.updatePublicationStatus({
     id: certificationId,
-    attributes: { isPublished }
+    isPublished,
   });
 };
