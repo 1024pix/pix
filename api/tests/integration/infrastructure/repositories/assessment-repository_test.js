@@ -272,6 +272,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           state: Assessment.states.COMPLETED,
           createdAt: johnAssessmentToRemember.createdAt,
           type: Assessment.types.PLACEMENT,
+          isImproving: false,
+          campaignParticipationId: null,
           competenceId: johnAssessmentToRemember.competenceId,
           campaignParticipation: null,
           assessmentResults: [
@@ -450,13 +452,12 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   describe('#getByCampaignParticipationId', () => {
 
-    let assessmentId;
     let campaignParticipationId;
 
     before(async () => {
-      assessmentId = databaseBuilder.factory.buildAssessment({ type: Assessment.types.SMARTPLACEMENT }).id;
-      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ assessmentId }).id;
 
+      campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ }).id;
+      databaseBuilder.factory.buildAssessment({ type: Assessment.types.SMARTPLACEMENT, campaignParticipationId }).id;
       const otherAssessmentId = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.SMARTPLACEMENT
       }).id;
@@ -478,7 +479,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       expect(assessmentsReturned).to.be.an.instanceOf(Assessment);
       expect(assessmentsReturned.campaignParticipation).to.be.an.instanceOf(CampaignParticipation);
       expect(assessmentsReturned.campaignParticipation.id).to.equal(campaignParticipationId);
-      expect(assessmentsReturned.campaignParticipation.assessmentId).to.equal(assessmentId);
     });
 
   });
@@ -535,11 +535,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     beforeEach(async () => {
       userId = databaseBuilder.factory.buildUser().id;
 
-      assessmentId = databaseBuilder.factory.buildAssessment({
-        userId,
-        type: Assessment.types.SMARTPLACEMENT,
-      }).id;
-
       await databaseBuilder.commit();
     });
 
@@ -550,11 +545,15 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           code: 'AZERTY',
         });
 
-        databaseBuilder.factory.buildCampaignParticipation({
+        const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
           userId,
-          assessmentId,
           campaignId: campaign.id,
         });
+        assessmentId = databaseBuilder.factory.buildAssessment({
+          userId,
+          type: Assessment.types.SMARTPLACEMENT,
+          campaignParticipationId: campaignParticipation.id
+        }).id;
 
         await databaseBuilder.commit();
       });

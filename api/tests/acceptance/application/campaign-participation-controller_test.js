@@ -19,10 +19,6 @@ describe('Acceptance | API | Campaign Participations', () => {
   beforeEach(async () => {
     server = await createServer();
     user = databaseBuilder.factory.buildUser();
-    assessment = databaseBuilder.factory.buildAssessment({
-      userId: user.id,
-      type: Assessment.types.SMARTPLACEMENT,
-    });
   });
 
   describe('GET /api/campaign-participations/{id}', () => {
@@ -30,11 +26,16 @@ describe('Acceptance | API | Campaign Participations', () => {
     beforeEach(async () => {
       campaign = databaseBuilder.factory.buildCampaign();
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        assessmentId: assessment.id,
         campaign,
         campaignId: campaign.id,
         userId: user.id
       });
+      assessment = databaseBuilder.factory.buildAssessment({
+        campaignParticipationId: campaignParticipation.id,
+        userId: user.id,
+        type: Assessment.types.SMARTPLACEMENT,
+      });
+
       await databaseBuilder.commit();
     });
 
@@ -96,10 +97,15 @@ describe('Acceptance | API | Campaign Participations', () => {
       campaign = databaseBuilder.factory.buildCampaign();
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         isShared: true,
-        assessmentId: assessment.id,
         campaignId: campaign.id,
         userId: user.id,
       });
+      assessment = databaseBuilder.factory.buildAssessment({
+        campaignParticipationId: campaignParticipation.id,
+        userId: user.id,
+        type: Assessment.types.SMARTPLACEMENT,
+      });
+
       await databaseBuilder.commit();
     });
 
@@ -224,7 +230,12 @@ describe('Acceptance | API | Campaign Participations', () => {
 
       participant = databaseBuilder.factory.buildUser({ firstName: 'Michel', lastName: 'Essentiel' });
       participantExternalId = '1337';
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ assessmentId, userId: participant.id, participantExternalId, campaignId, isShared: true });
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId: participant.id, participantExternalId, campaignId, isShared: true });
+      assessment = databaseBuilder.factory.buildAssessment({
+        campaignParticipationId: campaignParticipation.id,
+        userId: user.id,
+        type: Assessment.types.SMARTPLACEMENT,
+      });
 
       // And starts answering questions
       _([
@@ -433,8 +444,12 @@ describe('Acceptance | API | Campaign Participations', () => {
           id: campaignParticipationId,
           isShared: false,
           sharedAt: null,
-          assessmentId: assessment.id,
           campaignId: campaign.id,
+        });
+        assessment = databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation.id,
+          userId: user.id,
+          type: Assessment.types.SMARTPLACEMENT,
         });
 
         _([
@@ -475,8 +490,12 @@ describe('Acceptance | API | Campaign Participations', () => {
           id: campaignParticipationId,
           isShared: false,
           sharedAt: null,
-          assessmentId: assessment.id,
           campaignId: campaign.id,
+        });
+        assessment = databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation.id,
+          userId: user.id,
+          type: Assessment.types.SMARTPLACEMENT,
         });
 
         await databaseBuilder.commit();
@@ -529,8 +548,8 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
 
     afterEach(async () => {
-      await knex('campaign-participations').delete();
       await knex('assessments').delete();
+      await knex('campaign-participations').delete();
       await databaseBuilder.clean();
     });
 
@@ -560,6 +579,89 @@ describe('Acceptance | API | Campaign Participations', () => {
 
     });
 
+  });
+
+  describe('PATH /api/campaign-participations/{id}/begin-improvement', () => {
+    let user, campaignParticipation, campaign;
+    beforeEach(async () => {
+      user = databaseBuilder.factory.buildUser();
+      campaign = databaseBuilder.factory.buildCampaign({ });
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, isShared: false, campaignId: campaign.id });
+      assessment = databaseBuilder.factory.buildAssessment({
+        campaignParticipationId: campaignParticipation.id,
+        userId: user.id,
+        type: Assessment.types.SMARTPLACEMENT,
+      });
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await knex('assessments').delete();
+      await databaseBuilder.clean();
+    });
+
+    context('when user is connected', () => {
+      beforeEach(() => {
+        options = {
+          method: 'PATCH',
+          url: `/api/campaign-participations/${campaignParticipation.id}/begin-improvement`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        };
+      });
+
+      it('should return 200 HTTP status code with updatedAssessment', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+    });
+
+    context('when user is not connected', () => {
+      beforeEach(() => {
+        options = {
+          method: 'PATCH',
+          url: `/api/campaign-participations/${campaignParticipation.id}/begin-improvement`,
+        };
+      });
+
+      it('should return 401 HTTP status code', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+    });
+
+    context('when user is connected but does not owned the assessment', () => {
+      beforeEach(async () => {
+        const otherUser = databaseBuilder.factory.buildUser();
+        await databaseBuilder.commit();
+
+        options = {
+          method: 'PATCH',
+          url: `/api/campaign-participations/${campaignParticipation.id}/begin-improvement`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(otherUser.id) },
+        };
+      });
+
+      it('should return 403 HTTP status code', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
   });
 
 });

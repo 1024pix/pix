@@ -1,9 +1,9 @@
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
+const Bookshelf = require('../bookshelf');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
 const Skill = require('../../domain/models/Skill');
 const User = require('../../domain/models/User');
-const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 const queryBuilder = require('../utils/query-builder');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
@@ -13,8 +13,7 @@ const _ = require('lodash');
 function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
     id: bookshelfCampaignParticipation.get('id'),
-    assessmentId: bookshelfCampaignParticipation.get('assessmentId'),
-    assessment: new Assessment(bookshelfCampaignParticipation.related('assessment').toJSON()),
+    assessmentId: _.get(bookshelfCampaignParticipation.related('assessments'), 'models[0].attributes.id'),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     campaignId: bookshelfCampaignParticipation.get('campaignId'),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
@@ -29,7 +28,19 @@ function _toDomain(bookshelfCampaignParticipation) {
 module.exports = {
 
   async get(id, options) {
-    const campaignParticipation = await queryBuilder.get(BookshelfCampaignParticipation, id, options, false);
+    const optionsForQueryBuilder = options || {};
+
+    if (!_.get(optionsForQueryBuilder, 'include', []).includes['assessments']) {
+      const optionInclude = optionsForQueryBuilder.include || [];
+      optionInclude.push({
+        'assessments': (qb) => {
+          qb.select(Bookshelf.knex.raw('*'));
+          qb.orderBy('createdAt', 'DESC');
+        }
+      });
+      optionsForQueryBuilder.include = optionInclude;
+    }
+    const campaignParticipation = await queryBuilder.get(BookshelfCampaignParticipation, id, optionsForQueryBuilder, false);
 
     return _toDomain(campaignParticipation);
   },
@@ -43,7 +54,7 @@ module.exports = {
   findByCampaignId(campaignId) {
     return BookshelfCampaignParticipation
       .where({ campaignId })
-      .fetchAll({ withRelated: ['campaign'] })
+      .fetchAll({ withRelated: ['campaign', 'assessments'] })
       .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
       .then(fp.map(_toDomain));
   },
@@ -52,28 +63,40 @@ module.exports = {
     return BookshelfCampaignParticipation
       .where({ userId })
       .orderBy('createdAt', 'DESC')
-      .fetchAll({ withRelated: ['campaign'] })
+      .fetchAll({ withRelated: ['campaign', 'assessments'] })
       .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
       .then(fp.map(_toDomain));
   },
 
   findOneByAssessmentIdWithSkillIds(assessmentId) {
     return BookshelfCampaignParticipation
-      .where({ assessmentId })
       .query((qb) => {
         qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
         qb.innerJoin('target-profiles', 'campaigns.targetProfileId', 'target-profiles.id');
         qb.innerJoin('target-profiles_skills', 'target-profiles.id', 'target-profiles_skills.targetProfileId');
+        qb.innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id');
+        qb.where('assessments.id', '=', assessmentId);
       })
-      .fetch({ required: false, withRelated: ['campaign.targetProfile.skillIds'] })
+      .fetch({ required: false, withRelated: ['campaign.targetProfile.skillIds',
+        {
+          'assessments': (qb) => {
+            qb.select(Bookshelf.knex.raw('*'));
+            qb.orderBy('createdAt', 'DESC');
+          }
+        }
+      ] })
       .then(_convertToDomainWithSkills);
   },
 
   findByAssessmentId(assessmentId) {
     return BookshelfCampaignParticipation
-      .where({ assessmentId })
-      .fetchAll({ withRelated: ['campaign', 'user'] })
-      .then((campaignParticipations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, campaignParticipations));
+      .query((qb) => {
+        qb.innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id');
+        qb.where('assessments.id', '=', assessmentId);
+      })
+      .fetchAll({ withRelated: ['campaign', 'user', 'assessments'] })
+      .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
+      .then(fp.map(_toDomain));
   },
 
   findPaginatedCampaignParticipations(options) {
@@ -82,13 +105,25 @@ module.exports = {
       .query((qb) => {
         qb.innerJoin('users', 'campaign-participations.userId', 'users.id');
         qb.orderByRaw('LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
+
       })
       .fetchPage({
         page: options.page.number,
         pageSize: options.page.size,
-        withRelated: ['user', 'assessment', 'user.knowledgeElements']
+        withRelated: ['user',
+          {
+            'assessments': (qb) => {
+              qb.select(Bookshelf.knex.raw('*'));
+              qb.orderBy('createdAt', 'DESC');
+            }
+          }
+          , 'user.knowledgeElements']
       })
       .then(({ models, pagination }) => {
+        _.map(models, (campaignParticipation) => {
+          campaignParticipation.attributes.assessmentId = campaignParticipation.related('assessments').models[0].attributes.id;
+        });
+
         const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
         const campaignParticipationsWithUniqKnowledgeElements = _sortUniqKnowledgeElements(campaignParticipations);
         return { models: campaignParticipationsWithUniqKnowledgeElements, pagination };
@@ -102,14 +137,6 @@ module.exports = {
       .catch(_checkNotFoundError);
   },
 
-  updateAssessmentIdByOldAssessmentId({ oldAssessmentId, newAssessmentId }) {
-    return BookshelfCampaignParticipation
-      .where({ assessmentId: oldAssessmentId })
-      .save({ assessmentId: newAssessmentId }, { patch: true, require: true })
-      .then(_toDomain)
-      .catch(_checkNotFoundError);
-  },
-
   count(filters = {}) {
     return BookshelfCampaignParticipation.where(filters).count();
   },
@@ -117,7 +144,6 @@ module.exports = {
 
 function _adaptModelToDb(campaignParticipation) {
   return {
-    assessmentId: campaignParticipation.assessmentId,
     campaignId: campaignParticipation.campaignId,
     participantExternalId: campaignParticipation.participantExternalId,
     userId: campaignParticipation.userId,
@@ -138,6 +164,8 @@ function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
 
   // in database, the attribute is skillsIds in target-profiles_skills,
   // but in domain, the attribute is skills in class TargetProfile (TargetProfileSkills does not exists)
+  bookshelfCampaignParticipation.attributes.assessmentId = bookshelfCampaignParticipation.related('assessments').models[0].attributes.id;
+
   const skillsObjects = bookshelfCampaignParticipation.related('campaign').related('targetProfile').related('skillIds')
     .map((bookshelfSkillId) => new Skill({ id: bookshelfSkillId.get('skillId') }));
   bookshelfCampaignParticipation.related('campaign').related('targetProfile').set('skills', skillsObjects);

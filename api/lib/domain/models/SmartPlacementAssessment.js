@@ -6,6 +6,7 @@ const SmartPlacementAssessmentState = Object.freeze({
   ABORTED: 'aborted',
 });
 
+const courseIdMessage = 'Smart Placement Tests CourseId Not Used';
 /**
  * Traduction: Évaluation
  * Context: Objet existant dans le cadre d'un smart placement hors calcul de la réponse suivante
@@ -17,6 +18,7 @@ class SmartPlacementAssessment {
     // attributes
     state,
     createdAt,
+    isImproving,
     // includes
     answers = [],
     knowledgeElements = [],
@@ -24,11 +26,13 @@ class SmartPlacementAssessment {
     targetProfile,
     // references
     userId,
+    campaignParticipationId,
   }) {
     this.id = id;
     // attributes
     this.state = state;
     this.createdAt = createdAt;
+    this.isImproving = isImproving;
     // includes
     this.answers = answers;
     this.knowledgeElements = knowledgeElements;
@@ -36,6 +40,7 @@ class SmartPlacementAssessment {
     this.targetProfile = targetProfile;
     // references
     this.userId = userId;
+    this.campaignParticipationId = campaignParticipationId;
   }
 
   get type() {
@@ -69,5 +74,6 @@ class SmartPlacementAssessment {
 }
 
 SmartPlacementAssessment.State = SmartPlacementAssessmentState;
+SmartPlacementAssessment.CourseIdMessage = courseIdMessage;
 
 module.exports = SmartPlacementAssessment;
