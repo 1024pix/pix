@@ -164,15 +164,15 @@ describe('Integration | Repository | Certification ', () => {
 
   });
 
-  describe('#updateCertification', () => {
+  describe('#updatePublicationStatus', () => {
 
     context('the certification does not exist', () => {
 
       it('should return a NotFoundError', async () => {
         // when
-        const result = await catchErr(certificationRepository.updateCertification)({
+        const result = await catchErr(certificationRepository.updatePublicationStatus)({
           id: -1,
-          attributes: { isPublished: true },
+          isPublished: true,
         });
 
         // then
@@ -184,9 +184,9 @@ describe('Integration | Repository | Certification ', () => {
 
       let certification;
       beforeEach(async () => {
-        certification = await certificationRepository.updateCertification({
+        certification = await certificationRepository.updatePublicationStatus({
           id: certificationCourse.id,
-          attributes: { isPublished: false },
+          isPublished: false,
         });
       });
 
@@ -194,7 +194,7 @@ describe('Integration | Repository | Certification ', () => {
         const expectedUpdatedCertification = expectedCertification;
         expectedUpdatedCertification.isPublished = false;
         // TODO : Handle date type correctly
-        expect(_.omit(certification, 'birthdate')).to.be.deep.equal(expectedUpdatedCertification, 'birthdate');
+        expect(_.omit(certification, 'birthdate')).to.deep.equal(expectedUpdatedCertification);
       });
 
     });
