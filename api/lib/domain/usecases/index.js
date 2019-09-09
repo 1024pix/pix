@@ -121,7 +121,7 @@ module.exports = injectDependencies({
   startCampaignParticipation: require('./start-campaign-participation'),
   startOrResumeCompetenceEvaluation: require('./start-or-resume-competence-evaluation'),
   updateCampaign: require('./update-campaign'),
-  updateCertification: require('./update-certification'),
+  updateCertificationPublicationStatus: require('./update-certification-publication-status'),
   updateOrganizationInformation: require('./update-organization-information'),
   updateSession: require('./update-session'),
   updateUserPassword: require('./update-user-password'),

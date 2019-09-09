@@ -33,9 +33,11 @@ module.exports = {
     return Promise.resolve(request.payload)
       .then(_deserializePayload)
       .then((payload) => {
-        return usecases.updateCertification({
+        const isPublished = payload.isPublished;
+
+        return usecases.updateCertificationPublicationStatus({
           certificationId: request.params.id,
-          attributesToUpdate: payload,
+          isPublished,
         });
       })
       .then((certification) => certificationSerializer.serialize(certification));

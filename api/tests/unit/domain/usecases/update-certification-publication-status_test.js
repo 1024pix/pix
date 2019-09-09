@@ -1,15 +1,13 @@
 const { expect, sinon } = require('../../../test-helper');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Certification = require('../../../../lib/domain/models/Certification');
-const updateCertification = require('../../../../lib/domain/usecases/update-certification');
+const updateCertificationPublicationStatus = require('../../../../lib/domain/usecases/update-certification-publication-status');
 
-describe('Unit | UseCase | update-certification', () => {
+describe('Unit | UseCase | update-certification-publication-status', () => {
 
   const certificationId = '23';
   const certificationRepository = {};
-  const attributesToUpdate = {
-    isPublished: true
-  };
+  const isPublished = true;
 
   const assessmentResult = new AssessmentResult({
     pixScore: 23,
@@ -33,9 +31,9 @@ describe('Unit | UseCase | update-certification', () => {
     certificationRepository.updatePublicationStatus.resolves(certification);
 
     // when
-    const promise = updateCertification({
+    const promise = updateCertificationPublicationStatus({
       certificationId,
-      attributesToUpdate,
+      isPublished,
       certificationRepository
     });
 
