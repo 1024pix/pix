@@ -115,6 +115,7 @@ async function _resetSmartPlacementAssessment({ assessment, resetSkills, assessm
     userId: assessment.userId,
     state: Assessment.states.STARTED,
     type: Assessment.types.SMARTPLACEMENT,
+    campaignParticipationId: assessment.campaignParticipationId,
     courseId: 'Smart Placement Tests CourseId Not Used'
   });
 
