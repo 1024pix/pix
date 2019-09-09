@@ -43,6 +43,12 @@ export default function() {
 
   this.patch('/users/:id');
 
+  this.patch('/users/:id/accept-pix-certif-terms-of-service', (schema, request) => {
+    const user =  schema.users.find(request.params.id);
+    user.pixCertifTermsOfServiceAccepted = true;
+    return user;
+  });
+
   this.get('/users/:id/certification-center-memberships', (schema, request) => {
     const userId = request.params.id;
     return schema.certificationCenterMemberships.where({ userId });

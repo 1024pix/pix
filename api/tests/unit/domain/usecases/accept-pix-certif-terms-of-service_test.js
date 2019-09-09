@@ -11,27 +11,26 @@ describe('Unit | UseCase | accept-pix-certif-terms-of-service', () => {
   });
 
   context('when user has already accepted pix-certif terms of service', () => {
-    it('should not update terms of service validation', () => {
+
+    it('should not update terms of service validation', async () => {
       // given
       const userId = 1;
       const user = domainBuilder.buildUser({
         pixCertifTermsOfServiceAccepted: true
       });
-      userRepository.get.resolves(user);
+      userRepository.get.withArgs(userId).resolves(user);
 
       // when
-      const promise = acceptPixCertifTermsOfService({ authenticatedUserId: userId, requestedUserId: userId, userRepository });
+      await acceptPixCertifTermsOfService({ userId, userRepository });
 
       // then
-      return promise.then(() => {
-        expect(userRepository.updateUser).to.not.have.been.called;
-      });
+      expect(userRepository.updateUser).to.not.have.been.called;
     });
   });
 
   context('when user has not accepted pix certif terms of service yet', () => {
 
-    it('should accept terms of service of pix-certif', () => {
+    it('should accept terms of service of pix-certif', async () => {
       // given
       const userId = 1;
       const user = domainBuilder.buildUser({
@@ -41,12 +40,10 @@ describe('Unit | UseCase | accept-pix-certif-terms-of-service', () => {
       const expectedUser = new User({ ...user, pixCertifTermsOfServiceAccepted: true });
 
       // when
-      const promise = acceptPixCertifTermsOfService({ authenticatedUserId: userId, requestedUserId: userId, userRepository });
+      await acceptPixCertifTermsOfService({ authenticatedUserId: userId, requestedUserId: userId, userRepository });
 
       // then
-      return promise.then(() => {
-        expect(userRepository.updateUser).to.have.been.calledWith(expectedUser);
-      });
+      expect(userRepository.updateUser).to.have.been.calledWith(expectedUser);
     });
 
   });

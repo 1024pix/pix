@@ -115,7 +115,6 @@ exports.register = async function(server) {
             data: {
               attributes: {
                 password: Joi.string().regex(XRegExp(passwordValidationPattern)).allow(null),
-                'pix-certif-terms-of-service-accepted': Joi.boolean(),
               }
             }
           }
@@ -134,6 +133,24 @@ exports.register = async function(server) {
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Sauvegarde le fait que l\'utilisateur a accepté les Conditions Générales d\'Utilisation de Pix Orga\n' +
+          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+          '- Le contenu de la requête n\'est pas pris en compte.',
+        ],
+        tags: ['api', 'user'],
+      }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/users/{id}/accept-pix-certif-terms-of-service',
+      config: {
+        pre: [{
+          method: securityController.checkRequestedUserIsAuthenticatedUser,
+          assign: 'requestedUserIsAuthenticatedUser'
+        }],
+        handler: userController.acceptPixCertifTermsOfService,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Sauvegarde le fait que l\'utilisateur a accepté les Conditions Générales d\'Utilisation de Pix Certif\n' +
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
           '- Le contenu de la requête n\'est pas pris en compte.',
         ],

@@ -20,7 +20,6 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -167,36 +166,6 @@ describe('Unit | Controller | user-controller', () => {
       });
 
     });
-
-    context('When payload has a pix-certif-terms-of-service-accepted field', () => {
-
-      it('should accept pix certif terms of service', () => {
-        // given
-        const userId = 7;
-        sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
-        const request = {
-          params: {
-            id: userId.toString(),
-          },
-          payload: {
-            data: {
-              attributes: {
-                'pix-certif-terms-of-service-accepted': true,
-              },
-            },
-          },
-        };
-        const usecaseAcceptPixCertifTermsOfServiceStub = sinon.stub(usecases, 'acceptPixCertifTermsOfService');
-
-        // when
-        const promise = userController.updateUser(request, hFake);
-
-        // then
-        return promise.then(() => {
-          expect(usecaseAcceptPixCertifTermsOfServiceStub).to.have.been.calledWith({ authenticatedUserId: userId, requestedUserId: userId });
-        });
-      });
-    });
   });
 
   describe('#acceptPixOrgaTermsOfService', () => {
@@ -220,6 +189,33 @@ describe('Unit | Controller | user-controller', () => {
 
       // when
       const response = await userController.acceptPixOrgaTermsOfService(request);
+
+      // then
+      expect(response).to.be.equal('ok');
+    });
+  });
+
+  describe('#acceptPixCertifTermsOfService', () => {
+    let request;
+    const userId = 1;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId } },
+        params: { id: userId },
+      };
+
+      sinon.stub(usecases, 'acceptPixCertifTermsOfService');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    it('should accept pix certif terms of service', async () => {
+      // given
+      usecases.acceptPixCertifTermsOfService.withArgs({ userId }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
+
+      // when
+      const response = await userController.acceptPixCertifTermsOfService(request);
 
       // then
       expect(response).to.be.equal('ok');
