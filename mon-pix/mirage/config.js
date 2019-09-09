@@ -50,6 +50,7 @@ export default function() {
   this.post('/assessments', postAssessments);
   this.get('/assessments/:id', getAssessment);
   this.get('/assessments/:assessmentId/next', getNextChallenge);
+  this.get('/assessments/:assessmentId/next?tryImproving', getNextChallenge);
 
   this.post('/answers', postAnswers);
   this.get('/answers/:id', getAnswer);

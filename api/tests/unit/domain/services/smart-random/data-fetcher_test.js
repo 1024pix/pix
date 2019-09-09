@@ -9,6 +9,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
     let targetProfileRepository;
     let challengeRepository;
     let knowledgeElementRepository;
+    let improvementService;
 
     beforeEach(() => {
       answerRepository = {
@@ -18,15 +19,19 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         get: sinon.stub(),
       };
       challengeRepository = {
-        findBySkills: sinon.stub(),
+        findBySkills: sinon.stub(),answerRepository
       };
       knowledgeElementRepository = {
         findUniqByUserId: sinon.stub(),
+      };
+      improvementService = {
+        filterKnowledgeElementsIfImproving: sinon.stub(),
       };
     });
 
     it('fetches answers, targetsSkills challenges and knowledgeElements', async () => {
       // given
+      const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement({ state: 'started' });
       const answers = [
         domainBuilder.buildAnswer(),
       ];
@@ -37,13 +42,13 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         domainBuilder.buildKnowledgeElement(),
       ];
       const targetProfile = domainBuilder.buildTargetProfile();
-      const assessment = domainBuilder.buildAssessment.ofTypeSmartPlacement();
 
       assessment.campaignParticipation.getTargetProfileId = () => 1;
       answerRepository.findByAssessment.withArgs(assessment.id).resolves(answers);
       targetProfileRepository.get.withArgs(1).resolves(targetProfile);
       challengeRepository.findBySkills.withArgs(targetProfile.skills).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
+      improvementService.filterKnowledgeElementsIfImproving.resolves(knowledgeElements);
 
       // when
       const data = await dataFetcher.fetchForCampaigns({
@@ -52,6 +57,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
         targetProfileRepository,
         challengeRepository,
         knowledgeElementRepository,
+        improvementService,
       });
 
       // then
@@ -60,6 +66,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', () => {
       expect(data.challenges).to.deep.equal(challenges);
       expect(data.knowledgeElements).to.deep.equal(knowledgeElements);
     });
+
   });
 
   describe('#fetchForCompetenceEvaluations', () => {

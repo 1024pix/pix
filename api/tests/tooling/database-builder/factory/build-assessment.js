@@ -10,7 +10,9 @@ module.exports = function buildAssessment({
   userId,
   type = Assessment.types.PLACEMENT,
   state = Assessment.states.COMPLETED,
+  isImproving = false,
   competenceId = null,
+  campaignParticipationId = null,
   createdAt = faker.date.past(),
   updatedAt = faker.date.past(),
 } = {}) {
@@ -24,10 +26,12 @@ module.exports = function buildAssessment({
     courseId,
     userId,
     type,
+    isImproving,
     state,
     createdAt,
     updatedAt,
     competenceId,
+    campaignParticipationId,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'assessments',
