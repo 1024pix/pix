@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v2.63.0 (09/09/2019)
+
+- [#682](https://github.com/1024pix/pix/pull/682) [FEATURE] Offrir une navigation après le partage des résultats d'une campagne (PF-716).
+- [#691](https://github.com/1024pix/pix/pull/691) [BUGFIX] Empêcher la création de plus d'un certification-course pour un même utilisateur dans une session (PF-814)
+- [#679](https://github.com/1024pix/pix/pull/679) [BUGFIX] Problème de taille des icônes d'œil pour les champs mot de passe.
+- [#693](https://github.com/1024pix/pix/pull/693) [BUGFIX] Empêche plusieurs tests API liés à answers d'échouer
+- [#690](https://github.com/1024pix/pix/pull/690) [BUGFIX] Une migration de mise à jour de la table answers n'était pas bloquante
+- [#619](https://github.com/1024pix/pix/pull/619) [TECH] Définir PostgreSQL comme système de BDD par défaut et unique pour les tests et le développement
+
 ## v2.62.0 (03/09/2019)
 
 - [#686](https://github.com/1024pix/pix/pull/686) [BUGFIX] Corrige les seeds du profile de Pix Aile
