@@ -7,10 +7,12 @@ export default Controller.extend({
   session: service(),
   currentUser: service(),
   message: null,
+  isLoading: false,
 
   actions: {
     async importStudents(file) {
       this.set('message', null);
+      this.set('isLoading', true);
       const { access_token } = this.get('session.data.authenticated');
 
       try {
@@ -20,9 +22,11 @@ export default Controller.extend({
           }
         });
         await this.model.reload();
+        this.set('isLoading', false);
         this.set('message', { type: 'success' });
 
       } catch (errorResponse) {
+        this.set('isLoading', false);
 
         if (!errorResponse.body.errors) {
           return this.set('message', { type: 'error' });
