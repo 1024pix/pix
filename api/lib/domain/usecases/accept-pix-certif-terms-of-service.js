@@ -1,15 +1,8 @@
-const { UserNotAuthorizedToUpdateResourceError } = require('../../domain/errors');
-
 module.exports = function acceptPixCertifTermsOfService({
-  authenticatedUserId,
-  requestedUserId,
+  userId,
   userRepository
 }) {
-  if (authenticatedUserId !== requestedUserId) {
-    throw new UserNotAuthorizedToUpdateResourceError();
-  }
-
-  return userRepository.get(requestedUserId)
+  return userRepository.get(userId)
     .then((user) => {
       if (user.pixCertifTermsOfServiceAccepted) {
         return user;
@@ -18,5 +11,4 @@ module.exports = function acceptPixCertifTermsOfService({
         return userRepository.updateUser(user);
       }
     });
-
 };
