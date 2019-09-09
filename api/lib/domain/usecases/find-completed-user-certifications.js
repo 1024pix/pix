@@ -1,3 +1,3 @@
 module.exports = function findCompletedUserCertifications({ userId, certificationRepository }) {
-  return certificationRepository.findCertificationsByUserId(userId);
+  return certificationRepository.findByUserId(userId);
 };

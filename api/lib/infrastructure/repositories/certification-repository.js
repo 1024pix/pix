@@ -1,3 +1,4 @@
+
 const Assessment = require('../../domain/models/Assessment');
 const AssessmentResultBookshelf = require('../data/assessment-result');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
@@ -33,7 +34,7 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
 
 module.exports = {
 
-  getCertification({ id }) {
+  getByCertificationCourseId({ id }) {
     return CertificationCourseBookshelf
       .query((qb) => {
         qb.innerJoin(
@@ -59,7 +60,8 @@ module.exports = {
         }
       });
   },
-  findCertificationsByUserId(userId) {
+
+  findByUserId(userId) {
     return CertificationCourseBookshelf
       .query((qb) => {
         qb.innerJoin(
@@ -97,7 +99,7 @@ module.exports = {
         }
       })
       .then(() => {
-        return module.exports.getCertification({ id });
+        return module.exports.getByCertificationCourseId({ id });
       });
   },
 };
