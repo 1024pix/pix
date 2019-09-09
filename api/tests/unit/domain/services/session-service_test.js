@@ -6,7 +6,7 @@ const sessionRepository = require('../../../../lib/infrastructure/repositories/s
 
 describe('Unit | Service | session', () => {
 
-  describe('#sessionExists', () => {
+  describe('#getSessionIdByAccessCode', () => {
 
     beforeEach(() => {
       sinon.stub(sessionCodeService, 'getSessionByAccessCode');
@@ -18,7 +18,7 @@ describe('Unit | Service | session', () => {
         sessionCodeService.getSessionByAccessCode.resolves(null);
 
         // when
-        const promise = sessionService.sessionExists(null);
+        const promise = sessionService.getSessionIdByAccessCode(null);
 
         // then
         return promise.catch((result) => {
@@ -33,7 +33,7 @@ describe('Unit | Service | session', () => {
         sessionCodeService.getSessionByAccessCode.resolves(null);
 
         // when
-        const promise = sessionService.sessionExists('1234');
+        const promise = sessionService.getSessionIdByAccessCode('1234');
 
         // then
         return promise.catch((result) => {
@@ -48,7 +48,7 @@ describe('Unit | Service | session', () => {
         sessionCodeService.getSessionByAccessCode.resolves({ id: 12 });
 
         // when
-        const promise = sessionService.sessionExists('ABCD12');
+        const promise = sessionService.getSessionIdByAccessCode('ABCD12');
 
         // then
         return promise.then((result) => {

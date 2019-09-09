@@ -57,13 +57,19 @@ module.exports = {
       });
   },
 
-  findLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
+  getLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
     return CertificationCourseBookshelf
       .where({ userId, sessionId })
       .orderBy('createdAt', 'desc')
       .query((qb) => qb.limit(1))
-      .fetchAll()
-      .then((certificationCourses) => certificationCourses.map(_toDomain));
+      .fetch({ require: true })
+      .then(_toDomain)
+      .catch((error) => {
+        if (error instanceof CertificationCourseBookshelf.NotFoundError) {
+          throw new NotFoundError();
+        }
+        throw error;
+      });
   },
 
   update(certificationCourse) {
