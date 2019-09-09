@@ -1,6 +1,6 @@
-module.exports = function updateCertification({
+module.exports = function updateCertificationPublicationStatus({
   certificationId,
-  attributesToUpdate: { isPublished },
+  isPublished,
   certificationRepository
 }) {
   return certificationRepository.updatePublicationStatus({

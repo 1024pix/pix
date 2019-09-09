@@ -72,10 +72,7 @@ describe('Unit | Controller | certifications-controller', () => {
   describe('#updateCertification', () => {
 
     const certificationId = '28';
-    const attributesToUpdate = {
-      id: certificationId,
-      isPublished: true,
-    };
+    const isPublished = true;
     const updatedCertification = {};
     const serializedCertification = {};
 
@@ -95,21 +92,22 @@ describe('Unit | Controller | certifications-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'updateCertification');
+      sinon.stub(usecases, 'updateCertificationPublicationStatus');
       sinon.stub(certificationSerializer, 'serialize');
     });
 
     it('should return a serialized certification when update was successful', async () => {
       // given
-      usecases.updateCertification.resolves(updatedCertification);
+      usecases.updateCertificationPublicationStatus.resolves(updatedCertification);
       certificationSerializer.serialize.returns(serializedCertification);
 
       // when
       const response = await certificationController.updateCertification(request, hFake);
 
       // then
-      expect(usecases.updateCertification).to.have.been.calledWith({
-        certificationId, attributesToUpdate,
+      expect(usecases.updateCertificationPublicationStatus).to.have.been.calledWith({
+        certificationId,
+        isPublished,
       });
       expect(certificationSerializer.serialize).to.have.been.calledWith(updatedCertification);
       expect(response).to.deep.equal(serializedCertification);
