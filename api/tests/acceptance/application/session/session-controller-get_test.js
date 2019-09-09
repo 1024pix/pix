@@ -1,5 +1,6 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const _ = require('lodash');
 
 describe('Acceptance | Controller | session-controller-get', () => {
 
@@ -63,7 +64,7 @@ describe('Acceptance | Controller | session-controller-get', () => {
       });
     });
 
-    it('should return sessions information with related certifications', () => {
+    it('should return sessions information with related certification', () => {
       // when
       const promise = server.inject({
         method: 'GET',
@@ -90,13 +91,16 @@ describe('Acceptance | Controller | session-controller-get', () => {
     let request;
 
     beforeEach(() => {
+      const certifCenter1Id = databaseBuilder.factory.buildCertificationCenter({ name: 'Centre 1' }).id;
+      const certifCenter2Id = databaseBuilder.factory.buildCertificationCenter({ name: 'Centre 2' }).id;
       databaseBuilder.factory.buildSession({
         id: 1,
         certificationCenter: 'Centre 1',
+        certificationCenterId: certifCenter1Id,
         address: 'Paris',
         room: 'Salle 1',
         examiner: 'Bernard',
-        date: '2017-12-08',
+        date: new Date('2017-12-08'),
         time: '14:30',
         accessCode: 'ABC123',
         description: '',
@@ -106,10 +110,11 @@ describe('Acceptance | Controller | session-controller-get', () => {
       databaseBuilder.factory.buildSession({
         id: 2,
         certificationCenter: 'Centre 2',
+        certificationCenterId: certifCenter2Id,
         address: 'Lyon',
         room: 'Salle 2',
         examiner: 'Bernard',
-        date: '2017-12-08',
+        date: new Date('2017-12-08'),
         time: '14:30',
         accessCode: 'DEF456',
         description: '',
@@ -150,16 +155,15 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'access-code': 'ABC123',
             'address': 'Paris',
             'certification-center': 'Centre 1',
-            'date': '2017-12-08',
             'description': '',
             'examiner': 'Bernard',
             'room': 'Salle 1',
-            'time': '14:30'
+            'time': '14:30:00'
           },
           'relationships': {
             'certifications': {
               'data': []
-            },
+            }
           }
         }, {
           'type': 'sessions',
@@ -168,16 +172,15 @@ describe('Acceptance | Controller | session-controller-get', () => {
             'access-code': 'DEF456',
             'address': 'Lyon',
             'certification-center': 'Centre 2',
-            'date': '2017-12-08',
             'description': '',
             'examiner': 'Bernard',
             'room': 'Salle 2',
-            'time': '14:30'
+            'time': '14:30:00'
           },
           'relationships': {
             'certifications': {
               'data': []
-            },
+            }
           }
         }]
       };
@@ -187,7 +190,10 @@ describe('Acceptance | Controller | session-controller-get', () => {
 
       // then
       return promise.then((response) => {
-        expect(response.result).to.deep.equal(expectedResult);
+        const result = {};
+        // TODO : Handle date type correctly
+        result.data = _.map(response.result.data, (item) => _.omit(item, ['attributes.date']));
+        expect(result).to.deep.equal(expectedResult);
       });
     });
   });

@@ -18,7 +18,7 @@ module('Unit | Service | current-user', function(hooks) {
         memberships: [{ organization: [] }]
       });
       const storeStub = Service.create({
-        findRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser)
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
@@ -44,7 +44,7 @@ module('Unit | Service | current-user', function(hooks) {
         memberships: [{ organization }]
       });
       const storeStub = Service.create({
-        findRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser)
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
@@ -71,7 +71,7 @@ module('Unit | Service | current-user', function(hooks) {
         memberships: [membership]
       });
       const storeStub = Service.create({
-        findRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser)
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
@@ -98,7 +98,7 @@ module('Unit | Service | current-user', function(hooks) {
         memberships: [membership]
       });
       const storeStub = Service.create({
-        findRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser)
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
@@ -125,7 +125,7 @@ module('Unit | Service | current-user', function(hooks) {
         memberships: [membership]
       });
       const storeStub = Service.create({
-        findRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser)
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
@@ -152,7 +152,7 @@ module('Unit | Service | current-user', function(hooks) {
         memberships: [membership]
       });
       const storeStub = Service.create({
-        findRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser)
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
@@ -179,7 +179,7 @@ module('Unit | Service | current-user', function(hooks) {
         memberships: [membership]
       });
       const storeStub = Service.create({
-        findRecord: () => resolve(connectedUser)
+        queryRecord: () => resolve(connectedUser)
       });
       const sessionStub = Service.create({
         isAuthenticated: true,
@@ -221,7 +221,7 @@ module('Unit | Service | current-user', function(hooks) {
       // Given
       const connectedUserId = 1;
       const storeStub = Service.create({
-        findRecord: () => reject({ errors: [{ code: 401 }] })
+        queryRecord: () => reject({ errors: [{ code: 401 }] })
       });
       const sessionStub = Service.create({
         isAuthenticated: true,

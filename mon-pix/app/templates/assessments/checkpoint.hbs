@@ -2,10 +2,10 @@
 
   <div class="assessment-challenge__course-banner">
     {{#if model.isSmartPlacement}}
-      {{assessment-banner title=model.title checkpoint='true'}}
+      {{assessment-banner title=model.title checkpoint=true displayHomeLink=true}}
     {{/if}}
     {{#if model.isCompetenceEvaluation}}
-      {{assessment-banner title=model.title checkpoint='true'}}
+      {{assessment-banner title=model.title checkpoint=true displayHomeLink=true}}
     {{/if}}
   </div>
 

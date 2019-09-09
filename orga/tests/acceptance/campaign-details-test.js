@@ -27,17 +27,21 @@ module('Acceptance | Campaign Details', function(hooks) {
     });
   });
 
-  module('When user is logged in', function() {
+  module('When user is logged in', function(hooks) {
 
     hooks.beforeEach(async () => {
       user = createUserWithMembership();
+
+      await authenticateSession({
+        user_id: user.id,
+        access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+        expires_in: 3600,
+        token_type: 'Bearer token type',
+      });
     });
 
     test('it should be accessible for an authenticated user', async function(assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
       server.create('campaign', { id: 1 });
 
       // when
@@ -49,9 +53,6 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should display by default parameters tab', async function(assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
       server.create('campaign', { id: 1 });
 
       // when
@@ -64,10 +65,6 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should display participants tab', async function(assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
-
       server.create('campaign-report', { id: 1, participationsCount: 2 });
       server.create('campaign', { id: 1, campaignReportId: 1 });
 
@@ -80,9 +77,6 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should redirect to participants page on click on participants tab', async function(assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
       server.create('campaign-report', { id: 1, participationsCount: 2 });
       server.create('campaign', { id: 1, campaignReportId: 1 });
 
@@ -97,9 +91,6 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should redirect to update page on click on update button', async function(assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
       server.create('campaign', { id: 1 });
       await visit('/campagnes/1');
 
@@ -112,9 +103,6 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should redirect to update page on click on return button', async function(assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
       server.create('campaign', { id: 1 });
       await visit('/campagnes/1');
 
@@ -127,10 +115,6 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should display collective results tab', async function(assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
-
       server.create('campaign', { id: 1 });
 
       // when
@@ -142,9 +126,6 @@ module('Acceptance | Campaign Details', function(hooks) {
 
     test('it should redirect to collective results page on click on collective results tab', async function(assert) {
       // given
-      await authenticateSession({
-        user_id: user.id,
-      });
       const campaignCollectiveResult = server.create('campaign-collective-result', 'withCompetenceCollectiveResults');
       server.create('campaign', { id: 1, campaignCollectiveResult });
 

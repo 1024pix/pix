@@ -1,129 +1,103 @@
-const _ = require('lodash');
-
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+const _ = require('lodash');
 
 describe('Integration | Repository | Certification Course', function() {
 
-  const courseId = 20;
-  const associatedAssessment = {
-    id: 7,
-    courseId: courseId,
-    userId: 1
-  };
-
-  const certificationCourse = {
-    id: courseId,
-    userId: 1,
-    completedAt: null,
-    firstName: 'Timon',
-    lastName: 'De La Havane',
-    birthdate: '1993-08-14',
-    birthplace: 'Cuba',
-    sessionId: 'HakunaMatata',
-    isPublished: true,
-  };
-
-  const certificationChallenges = [
-    {
-      id: 1,
-      courseId: courseId,
-      challengeId: 'recChallenge1'
-    },
-    {
-      id: 2,
-      courseId: courseId,
-      challengeId: 'recChallenge2'
-    },
-    {
-      id: 3,
-      courseId: 19,
-      challengeId: 'recChallenge3'
-    }
-  ];
-
   describe('#changeCompletionDate', () => {
+    let courseId;
 
-    before(() => {
-      return knex('certification-courses').delete();
+    beforeEach(async () => {
+      courseId = databaseBuilder.factory.buildCertificationCourse({}).id;
+      await databaseBuilder.commit();
     });
 
-    beforeEach(() => {
-      return knex('certification-courses').insert(certificationCourse);
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
-    afterEach(() => {
-      return knex('certification-courses').delete();
-    });
-
-    it('should update completedAt of the certificationCourse if one date is passed', () => {
+    it('should update completedAt of the certificationCourse if one date is passed', async () => {
       // when
-      const promise = certificationCourseRepository.changeCompletionDate(courseId, new Date('2018-01-01T06:07:08Z'));
+      const completionDate = new Date('2018-01-01T06:07:08Z');
+      const updatedCertificationCourse = await certificationCourseRepository.changeCompletionDate(courseId, completionDate);
 
       // then
-      return promise.then(() => knex('certification-courses').first('id', 'completedAt'))
-        .then((certificationCourse) => {
-          expect(new Date(certificationCourse.completedAt)).to.deep.equal(new Date('2018-01-01T06:07:08Z'));
-        });
+      expect(updatedCertificationCourse).to.be.instanceOf(CertificationCourse);
+      expect(new Date(updatedCertificationCourse.completedAt)).to.deep.equal(completionDate);
     });
   });
 
   describe('#get', function() {
+    let courseId;
+    let anotherCourseId;
+    let sessionId;
+    let assessmentId;
 
-    beforeEach(() => {
-      return Promise.all([
-        knex('certification-courses').insert(certificationCourse),
-        knex('assessments').insert(associatedAssessment),
-        knex('certification-challenges').insert(certificationChallenges),
-      ]);
+    beforeEach(async () => {
+      const userId = databaseBuilder.factory.buildUser({}).id;
+      sessionId = databaseBuilder.factory.buildSession({}).id;
+      courseId = databaseBuilder.factory.buildCertificationCourse(
+        {
+          userId,
+          sessionId,
+          completedAt: null,
+          firstName: 'Timon',
+          lastName: 'De La Havane',
+          birthdate: '1993-08-14',
+          birthplace: 'Cuba',
+          isPublished: true,
+        }).id;
+      anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+      assessmentId = databaseBuilder.factory.buildAssessment({ courseId: courseId, userId }).id;
+      _.each([
+        { courseId: courseId },
+        { courseId: courseId },
+        { courseId: anotherCourseId },
+      ], (certificationChallenge) => {
+        databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
+      });
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return Promise.all([
-        knex('certification-courses').delete(),
-        knex('assessments').delete(),
-        knex('certification-challenges').delete()
-      ]);
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     context('When the certification course exists', () => {
-      it('should retrieve certification course informations', function() {
+      it('should retrieve certification course informations', async () => {
         // when
-        const promise = certificationCourseRepository.get(courseId);
+        const thisCertificationCourse = await certificationCourseRepository.get(courseId);
 
         // then
-        return promise.then((certificationCourse) => {
-          expect(certificationCourse.id).to.equal(courseId);
-          expect(certificationCourse.type).to.equal('CERTIFICATION');
-          expect(certificationCourse.completedAt).to.equal(null);
-          expect(certificationCourse.firstName).to.equal('Timon');
-          expect(certificationCourse.lastName).to.equal('De La Havane');
-          expect(certificationCourse.birthdate).to.deep.equal(new Date('1993-08-14'));
-          expect(certificationCourse.birthplace).to.equal('Cuba');
-          expect(certificationCourse.sessionId).to.equal('HakunaMatata');
-          expect(certificationCourse.isPublished).to.be.ok;
-        });
+        expect(thisCertificationCourse.id).to.equal(courseId);
+        expect(thisCertificationCourse.type).to.equal('CERTIFICATION');
+        expect(thisCertificationCourse.completedAt).to.equal(null);
+        expect(thisCertificationCourse.firstName).to.equal('Timon');
+        expect(thisCertificationCourse.lastName).to.equal('De La Havane');
+        expect(thisCertificationCourse.birthdate.toDateString()).to.equal(new Date('1993-08-14').toDateString());
+        expect(thisCertificationCourse.birthplace).to.equal('Cuba');
+        expect(thisCertificationCourse.sessionId).to.equal(sessionId);
+        expect(thisCertificationCourse.isPublished).to.be.ok;
       });
 
-      it('should retrieve associated assessment and challenges with the certification course', function() {
+      it('should retrieve associated assessment and challenges with the certification course', async () => {
         // when
-        const promise = certificationCourseRepository.get(20);
+        const thisCertificationCourse = await certificationCourseRepository.get(courseId);
 
         // then
-        return promise.then((certificationCourse) => {
-          expect(certificationCourse.assessment.id).to.equal(7);
-          expect(certificationCourse.challenges.length).to.equal(2);
-        });
+        expect(thisCertificationCourse.assessment.id).to.equal(assessmentId);
+        expect(thisCertificationCourse.challenges.length).to.equal(2);
       });
     });
 
     context('When the certification course does not exist', () => {
       it('should retrieve a NotFoundError Error', function() {
         // when
-        const promise = certificationCourseRepository.get(4);
+        const promise = certificationCourseRepository.get(3);
 
         // then
         return expect(promise).to.be.rejectedWith(NotFoundError);
@@ -132,141 +106,107 @@ describe('Integration | Repository | Certification Course', function() {
 
   });
 
-  describe('#findLastCertificationCourseByUserIdAndSessionId', function() {
+  describe('#getLastCertificationCourseByUserIdAndSessionId', function() {
 
+    const createdAt = new Date('2018-12-11T01:02:03Z');
+    const createdAtLater = new Date('2018-12-12T01:02:03Z');
     let userId;
     let sessionId;
-    let certificationCourses;
 
-    beforeEach(() => {
-      userId = 1;
-      sessionId = 'ABCD12';
-      certificationCourses = [
-        databaseBuilder.factory.buildCertificationCourse({ id: 1, userId: 2, sessionId, completedAt: null, createdAt: new Date('2018-12-21T01:02:03Z') }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 2, userId, sessionId: 'ABCD21', completedAt: null, createdAt: new Date('2018-12-21T01:02:03Z') }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 3, userId, sessionId, createdAt: new Date('2018-12-11T01:02:03Z') }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 4, userId, sessionId, completedAt: null, createdAt: new Date('2018-11-11T01:02:03Z') }),
-        databaseBuilder.factory.buildCertificationCourse({ id: 5, userId, sessionId, completedAt: null, createdAt: new Date('2018-12-12T01:02:03Z') }),
-      ];
-      return databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
-
-    it('should retrieve certification course with given userId, sessionId and with value null as completedAt', async function() {
+    beforeEach(async () => {
       // given
-      const expectedCertificationCourse = certificationCourses[4];
+      await databaseBuilder.clean();
+      userId = databaseBuilder.factory.buildUser({}).id;
+      sessionId = databaseBuilder.factory.buildSession({}).id;
+      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt });
+      databaseBuilder.factory.buildCertificationCourse({ userId, sessionId, createdAt: createdAtLater });
 
-      // when
-      const result = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
+      databaseBuilder.factory.buildCertificationCourse({ sessionId });
+      databaseBuilder.factory.buildCertificationCourse({ userId });
 
-      // then
-      expect(result).to.have.lengthOf(1);
-      expect(_.omit(result[0], ['assessment', 'challenges', 'type', 'nbChallenges'])).to.deep.equal(expectedCertificationCourse);
+      await databaseBuilder.commit();
     });
 
-    it('should retrieve empty array when none of certification courses matches', async function() {
+    afterEach(() => databaseBuilder.clean());
+
+    it('should retrieve the last certification course with given userId, sessionId', async () => {
       // when
-      const certificationCourse = await certificationCourseRepository.findLastCertificationCourseByUserIdAndSessionId(999, 'wrongSessionId');
+      const certificationCourse = await certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId(userId, sessionId);
 
       // then
-      expect(certificationCourse).to.deep.equal([]);
+      expect(certificationCourse.createdAt).to.deep.equal(createdAtLater);
+    });
+
+    it('should throw not found error when no certification course found', async () => {
+      // when
+      const result = await catchErr(certificationCourseRepository.getLastCertificationCourseByUserIdAndSessionId)(userId + 1, sessionId + 1);
+
+      // then
+      expect(result).to.be.instanceOf(NotFoundError);
     });
   });
 
-  describe('#update', function() {
+  describe('#update', () => {
+    let certificationCourse;
 
-    const certificationCourse = {
-      id: 1,
-      firstName: 'Freezer',
-      lastName: 'The all mighty',
-      birthplace: 'Namek',
-      birthdate: '24/10/1989',
-      externalId: 'xenoverse2'
-    };
-
-    beforeEach(() => {
-      return knex('certification-courses').insert(certificationCourse);
-    });
-
-    afterEach(() => {
-      return knex('certification-courses').delete();
-    });
-
-    it('should insert in the certification course table', function() {
+    beforeEach(async () => {
       // given
-      const modifiedCertifcationCourse = {
-        id: 1,
-        completedAt: null,
-        updatedAt: '2018-03-07 14:38:11',
-        userId: null,
-        firstName: 'Freezer',
-        lastName: 'The all mighty',
-        birthplace: 'Namek',
-        birthdate: '24/10/1989',
-        sessionId: null,
-        isPublished: 0,
-        isV2Certification: 0,
-        externalId: ''
-      };
+      const userId = databaseBuilder.factory.buildUser({}).id;
+      const bookshelfCertificationCourse = databaseBuilder.factory.buildCertificationCourse({ userId });
+      certificationCourse = domainBuilder.buildCertificationCourse(bookshelfCertificationCourse);
+      await databaseBuilder.commit();
+    });
 
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return a certification course domain object', async () => {
       // when
-      const promise = certificationCourseRepository.update(modifiedCertifcationCourse);
+      const updatedCertificationCourse = await certificationCourseRepository.update(certificationCourse);
 
       // then
-      return promise.then(() => knex('certification-courses').where({ id: 1 }).first())
-        .then((certificationCourseInDatabase) => {
-          const certificationCourseInDatabaseWithoutCreationDate = _.omit(certificationCourseInDatabase, ['createdAt']);
-          expect(certificationCourseInDatabaseWithoutCreationDate).to.be.deep.equal(modifiedCertifcationCourse);
-        });
+      expect(updatedCertificationCourse).to.be.an.instanceof(CertificationCourse);
     });
 
-    it('should assert the certification course has been updated', function() {
+    it('should not add row in table "certification-courses"', async () => {
       // given
-      const modifiedCertifcationCourse = {
-        id: 1,
-        firstName: 'Freezer',
-        lastName: 'The all mighty',
-        birthplace: 'Namek',
-        birthdate: '24/10/1989',
-        externalId: 'Death Beam'
-      };
+      const countCertificationCoursesBeforeUpdate = await BookshelfCertificationCourse.count();
 
       // when
-      const promise = certificationCourseRepository.update(modifiedCertifcationCourse);
+      await certificationCourseRepository.update(certificationCourse);
 
       // then
-      return promise.then((certificationCourseUpdated) => {
-        expect(certificationCourseUpdated).to.be.instanceOf(CertificationCourse);
-        expect(certificationCourseUpdated.id).to.equal(1);
-        expect(certificationCourseUpdated.firstName).to.equal('Freezer');
-        expect(certificationCourseUpdated.lastName).to.equal('The all mighty');
-        expect(certificationCourseUpdated.birthplace).to.equal('Namek');
-        expect(certificationCourseUpdated.birthdate).to.equal('24/10/1989');
-        expect(certificationCourseUpdated.externalId).to.equal('Death Beam');
-      });
+      const countCertificationCoursesAfterUpdate = await BookshelfCertificationCourse.count();
+      expect(countCertificationCoursesAfterUpdate).to.equal(countCertificationCoursesBeforeUpdate);
+    });
+
+    it('should update model in database', async () => {
+      // given
+      certificationCourse.firstName = 'Jean-Pix';
+      certificationCourse.lastName = 'Compétan';
+
+      // when
+      const certificationCourseUpdated = await certificationCourseRepository.update(certificationCourse);
+
+      // then
+      expect(certificationCourseUpdated.id).to.equal(certificationCourse.id);
+      expect(certificationCourseUpdated.firstName).to.equal(certificationCourse.firstName);
+      expect(certificationCourseUpdated.lastName).to.equal(certificationCourse.lastName);
     });
 
     it('should return a NotFoundError when ID doesnt exist', function() {
       // given
-      const modifiedCertifcationCourse = {
-        id: 2,
-        firstName: 'Freezer',
-        lastName: 'The all mighty',
-        birthplace: 'Namek',
-        birthdate: '24/10/1989',
-      };
+      certificationCourse.id += 1;
+      certificationCourse.firstName = 'Jean-Pix';
+      certificationCourse.lastName = 'Compétan';
 
       // when
-      const promise = certificationCourseRepository.update(modifiedCertifcationCourse);
+      const promise = certificationCourseRepository.update(certificationCourse);
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);
-
     });
-
   });
 });
 

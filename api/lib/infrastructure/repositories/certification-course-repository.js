@@ -40,7 +40,8 @@ module.exports = {
 
   changeCompletionDate(certificationCourseId, completedAt = null) {
     const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, completedAt });
-    return certificationCourseBookshelf.save();
+    return certificationCourseBookshelf.save()
+      .then(_toDomain);
   },
 
   get(id) {
@@ -56,13 +57,19 @@ module.exports = {
       });
   },
 
-  findLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
+  getLastCertificationCourseByUserIdAndSessionId(userId, sessionId) {
     return CertificationCourseBookshelf
       .where({ userId, sessionId })
       .orderBy('createdAt', 'desc')
       .query((qb) => qb.limit(1))
-      .fetchAll()
-      .then((certificationCourses) => certificationCourses.map(_toDomain));
+      .fetch({ require: true })
+      .then(_toDomain)
+      .catch((error) => {
+        if (error instanceof CertificationCourseBookshelf.NotFoundError) {
+          throw new NotFoundError();
+        }
+        throw error;
+      });
   },
 
   update(certificationCourse) {

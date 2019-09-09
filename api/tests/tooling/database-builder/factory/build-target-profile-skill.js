@@ -9,7 +9,7 @@ module.exports = function buildTargetProfileSkill({
   skillId = `rec${faker.random.uuid()}`,
 } = {}) {
 
-  targetProfileId = _.isNil(targetProfileId) ? buildTargetProfile().id : targetProfileId;
+  targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile().id : targetProfileId;
 
   const values = {
     id,

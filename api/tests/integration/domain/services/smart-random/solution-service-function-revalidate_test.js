@@ -1,45 +1,44 @@
-const { expect, knex, sinon } = require('../../../../test-helper');
+const { domainBuilder, databaseBuilder, expect, sinon } = require('../../../../test-helper');
 
 const service = require('../../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../../lib/infrastructure/data/answer');
 const solutionRepository = require('../../../../../lib/infrastructure/repositories/solution-repository');
+const _ = require('lodash');
 
 describe('Integration | Service | SolutionService', function() {
 
   describe('#revalidate', function() {
 
-    const ko_answer = {
-      id: 1,
-      value: '1,2,3',
-      result: 'ko',
-      challengeId: 'any_challenge_id'
-    };
+    let ko_answer, ok_answer, unimplemented_answer;
 
-    const ok_answer = {
-      id: 2,
-      value: '1, 2, 3',
-      result: 'partially',
-      challengeId: 'any_challenge_id'
-    };
-
-    const unimplemented_answer = {
-      id: 4,
-      value: '1,2,3',
-      result: 'unimplemented',
-      challengeId: 'any_challenge_id'
-    };
-
-    before(function(done) {
-      knex('answers').delete().then(() => {
-        knex('answers').insert([ko_answer, ok_answer, unimplemented_answer]).then(() => {
-          done();
+    before(async () => {
+      const assessmentId = databaseBuilder.factory.buildAssessment().id;
+      ko_answer = domainBuilder.buildAnswer(
+        { id: 1,
+          value: '1,2,3',
+          result: 'ko',
+          challengeId: 'any_challenge_id',
+          assessmentId,
         });
+      ok_answer = domainBuilder.buildAnswer(
+        { id: 2,
+          value: '1, 2, 3',
+          result: 'partially',
+          challengeId: 'any_challenge_id',
+          assessmentId,
+        });
+      unimplemented_answer = domainBuilder.buildAnswer({
+        id: 4,
+        value: '1,2,3',
+        result: 'unimplemented',
+        challengeId: 'any_challenge_id',
+        assessmentId,
       });
+      _.each([ ko_answer, ok_answer, unimplemented_answer], (answer) => (databaseBuilder.factory.buildAnswer(answer)));
+      await databaseBuilder.commit();
     });
 
-    after(function() {
-      return knex('answers').delete();
-    });
+    after(() => databaseBuilder.clean());
 
     it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', function(done) {
 

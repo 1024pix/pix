@@ -1,7 +1,11 @@
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import defaultScenario from '../../mirage/scenarios/default';
-import { authenticateAsSimpleUser } from '../helpers/testing';
+import {
+  authenticateAsSimpleUser,
+  completeCampaignAndSeeResultsByCode,
+  resumeCampaignByCode
+} from '../helpers/testing';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import visitWithAbortedTransition from '../helpers/visit';
@@ -46,6 +50,16 @@ describe('Acceptance | Navbar', function() {
         expect(currentURL()).to.equal(usecase.expectedRoute);
         expect(find(usecase.targetedNavigationItem).getAttribute('class')).to.contain('active');
       });
+    });
+
+    it('should not display in skill review page', async function() {
+      // when
+      await resumeCampaignByCode('AZERTY2');
+      await completeCampaignAndSeeResultsByCode('AZERTY2');
+
+      // then
+      expect(find('.navbar-desktop-header')).to.not.exist;
+      expect(find('.navbar-mobile-header')).to.not.exist;
     });
 
     it('should contain link to pix.fr/aide', async function() {

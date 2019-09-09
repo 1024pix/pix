@@ -26,15 +26,20 @@ module('Acceptance | Team List', function(hooks) {
 
   module('When user is logged in', function() {
 
-    module('When user is a member', function() {
+    module('When user is a member', function(hooks) {
 
-      test('it should not be accessible', async function(assert) {
-        // given
+      hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('MEMBER');
+
         await authenticateSession({
           user_id: user.id,
+          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          expires_in: 3600,
+          token_type: 'Bearer token type',
         });
+      });
 
+      test('it should not be accessible', async function(assert) {
         // when
         await visit('/equipe');
 
@@ -43,15 +48,20 @@ module('Acceptance | Team List', function(hooks) {
       });
     });
 
-    module('When user is an owner', function() {
+    module('When user is an owner', function(hooks) {
 
-      test('it should be accessible', async function(assert) {
-        // given
+      hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('OWNER');
+
         await authenticateSession({
           user_id: user.id,
+          access_token: 'aaa.' + btoa(`{"user_id":${user.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+          expires_in: 3600,
+          token_type: 'Bearer token type',
         });
+      });
 
+      test('it should be accessible', async function(assert) {
         // when
         await visit('/equipe');
 
@@ -60,12 +70,6 @@ module('Acceptance | Team List', function(hooks) {
       });
 
       test('it should show title of team page', async function(assert) {
-        // given
-        user = createUserMembershipWithRole('OWNER');
-        await authenticateSession({
-          user_id: user.id,
-        });
-
         // when
         await visit('/equipe');
 
@@ -74,12 +78,6 @@ module('Acceptance | Team List', function(hooks) {
       });
 
       test('it should list the team members', async function(assert) {
-        // given
-        user = createUserMembershipWithRole('OWNER');
-        await authenticateSession({
-          user_id: user.id,
-        });
-
         // when
         await visit('/equipe');
 

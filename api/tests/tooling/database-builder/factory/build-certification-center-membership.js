@@ -1,19 +1,24 @@
-const buildUser = require('./build-user');
 const buildCertficationCenter = require('./build-certification-center');
+const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
+const faker = require('faker');
 
 module.exports = function buildCertificationCenterMembership({
   id,
   userId,
   certificationCenterId,
+  createdAt = faker.date.past(),
 } = {}) {
 
-  userId = _.isNil(userId) ? buildUser().id : userId;
-  certificationCenterId = _.isNil(certificationCenterId) ? buildCertficationCenter().id : certificationCenterId;
+  userId = _.isUndefined(userId) ? buildUser().id : userId;
+  certificationCenterId = _.isUndefined(certificationCenterId) ? buildCertficationCenter().id : certificationCenterId;
 
   const values = {
-    id, userId, certificationCenterId
+    id,
+    userId,
+    certificationCenterId,
+    createdAt,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'certification-center-memberships',
