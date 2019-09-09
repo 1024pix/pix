@@ -12,7 +12,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
     getByCertificationCourseId: () => undefined,
   };
   const certificationRepository = {
-    getCertification: () => undefined,
+    getByCertificationCourseId: () => undefined,
   };
   const competenceMarkRepository = {
     findByAssessmentResultId: () => undefined,
@@ -23,7 +23,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
   beforeEach(() => {
     assessmentRepository.getByCertificationCourseId = sinon.stub();
-    certificationRepository.getCertification = sinon.stub();
+    certificationRepository.getByCertificationCourseId = sinon.stub();
     competenceMarkRepository.findByAssessmentResultId = sinon.stub();
     competenceTreeRepository.get = sinon.stub();
   });
@@ -37,7 +37,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
     beforeEach(() => {
       // given
       certification = domainBuilder.buildCertification({ userId: randomOtherUserId });
-      certificationRepository.getCertification.resolves(certification);
+      certificationRepository.getByCertificationCourseId.resolves(certification);
 
       // when
       promise = getUserCertificationWithResultTree({
@@ -53,7 +53,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
     it('should get the certification from the repository', () => {
       // then
       return promise.catch(() => {
-        expect(certificationRepository.getCertification).to.have.been.calledWith({ id: certificationId });
+        expect(certificationRepository.getByCertificationCourseId).to.have.been.calledWith({ id: certificationId });
       });
     });
 
@@ -77,7 +77,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
       assessmentRepository.getByCertificationCourseId.resolves(assessment);
 
       certification = domainBuilder.buildCertification({ userId: parseInt(userId, 10) });
-      certificationRepository.getCertification.resolves(certification);
+      certificationRepository.getByCertificationCourseId.resolves(certification);
 
       competenceMarks = [domainBuilder.buildCompetenceMark()];
       competenceMarkRepository.findByAssessmentResultId.resolves(competenceMarks);
@@ -99,7 +99,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
     it('should get the certification from the repository', () => {
       // then
       return promise.then(() => {
-        expect(certificationRepository.getCertification).to.have.been.calledWith({ id: certificationId });
+        expect(certificationRepository.getByCertificationCourseId).to.have.been.calledWith({ id: certificationId });
       });
     });
 

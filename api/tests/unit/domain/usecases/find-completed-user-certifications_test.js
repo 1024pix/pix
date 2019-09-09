@@ -8,7 +8,7 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
   const certificationRepository = {};
 
   beforeEach(() => {
-    certificationRepository.findCertificationsByUserId = sinon.stub();
+    certificationRepository.findByUserId = sinon.stub();
   });
 
   it('should return all the needed informations about certifications', function() {
@@ -26,14 +26,14 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
       assessmentState: 'completed',
       assessmentResults: [assessmentResult]
     });
-    certificationRepository.findCertificationsByUserId.resolves([completedCertifications]);
+    certificationRepository.findByUserId.resolves([completedCertifications]);
 
     // when
     const promise = findCompletedUserCertifications({ userId, certificationRepository });
 
     // then
     return promise.then((certifications) => {
-      expect(certificationRepository.findCertificationsByUserId).to.have.been.calledWith(userId);
+      expect(certificationRepository.findByUserId).to.have.been.calledWith(userId);
       expect(certifications).to.have.lengthOf(1);
       expect(certifications[0].id).to.equal(1000);
     });

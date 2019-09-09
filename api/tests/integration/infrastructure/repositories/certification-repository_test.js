@@ -114,11 +114,11 @@ describe('Integration | Repository | Certification ', () => {
 
   afterEach(() => databaseBuilder.clean());
 
-  describe('#getCertification', () => {
+  describe('#getByCertificationCourseId', () => {
 
     it('should return a certification with needed informations', async () => {
       // when
-      const actualCertification = await certificationRepository.getCertification({ id: certificationCourse.id });
+      const actualCertification = await certificationRepository.getByCertificationCourseId({ id: certificationCourse.id });
 
       // then
       // TODO : Handle date type correctly
@@ -127,7 +127,7 @@ describe('Integration | Repository | Certification ', () => {
 
     it('should not return a false birthdate or completedAt date if there are null in database', async () => {
       // when
-      const actualCertification = await certificationRepository.getCertification({ id: certificationCourseWithoutDate.id });
+      const actualCertification = await certificationRepository.getByCertificationCourseId({ id: certificationCourseWithoutDate.id });
 
       // then
       // TODO : Handle date type correctly
@@ -136,7 +136,7 @@ describe('Integration | Repository | Certification ', () => {
 
     it('should return a not found error when certification does not exist', async () => {
       // when
-      const result = await catchErr(certificationRepository.getCertification)({ id: -1 });
+      const result = await catchErr(certificationRepository.getByCertificationCourseId)({ id: -1 });
 
       // then
       expect(result).to.be.instanceOf(NotFoundError);
@@ -144,18 +144,18 @@ describe('Integration | Repository | Certification ', () => {
 
     it('should return a not found error when certification does not reference a completed assessment', async () => {
       // when
-      const result = await catchErr(certificationRepository.getCertification)({ id: incompleteCertificationCourse.id });
+      const result = await catchErr(certificationRepository.getByCertificationCourseId)({ id: incompleteCertificationCourse.id });
 
       // then
       expect(result).to.be.instanceOf(NotFoundError);
     });
   });
 
-  describe('#findCertificationbyUserId', () => {
+  describe('#findByUserId', () => {
 
     it('should return an array of Certifications related to completed assessment with needed informations', async () => {
       // when
-      const certifications = await certificationRepository.findCertificationsByUserId(userId);
+      const certifications = await certificationRepository.findByUserId(userId);
 
       // then
       expect(_.map(certifications, (certification) => _.omit(certification, 'birthdate')))
