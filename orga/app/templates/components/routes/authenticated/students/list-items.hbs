@@ -56,3 +56,9 @@
     {{/unless}}
   </div>
 </div>
+
+{{#if isLoading}}
+  {{#modal-dialog translucentOverlay=true containerClass="pix-modal__translucent"}}
+    <img src="/images/interwind.gif" alt="Chargement…">
+  {{/modal-dialog}}
+{{/if}}
