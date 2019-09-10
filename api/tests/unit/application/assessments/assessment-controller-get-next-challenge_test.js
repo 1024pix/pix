@@ -165,25 +165,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentRepository.get.resolves(assessment);
       });
 
-      it('should call the usecase getNextChallengeForSmartPlacement with tryImproving at false when the query not exists', async () => {
+      it('should call the usecase getNextChallengeForSmartPlacement', async () => {
         // when
-        await assessmentController.getNextChallenge({ params: { id: 1 }, query: { } }, hFake);
+        await assessmentController.getNextChallenge({ params: { id: 1 } }, hFake);
 
         // then
         expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
           assessment,
-          tryImproving: false
-        });
-      });
-
-      it('should call the usecase getNextChallengeForSmartPlacement with the query tryImproving', async () => {
-        // when
-        await assessmentController.getNextChallenge({ params: { id: 1 }, query: { tryImproving: true } }, hFake);
-
-        // then
-        expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
-          assessment,
-          tryImproving: true
         });
       });
     });

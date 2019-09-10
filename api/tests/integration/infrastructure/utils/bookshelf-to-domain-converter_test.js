@@ -4,11 +4,13 @@ const bookshelfToDomainConverter = require('../../../../lib/infrastructure/utils
 const User = require('../../../../lib/domain/models/User');
 const Membership = require('../../../../lib/domain/models/Membership');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const BookshelfCampaign = require('../../../../lib/infrastructure/data/campaign');
 const BookshelfCampaignParticipation = require('../../../../lib/infrastructure/data/campaign-participation');
+const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
 describe('Integration | Infrastructure | Utils | Bookshelf to domain converter', function() {
 
@@ -56,11 +58,22 @@ describe('Integration | Infrastructure | Utils | Bookshelf to domain converter',
       expect(domainObject.scorecards).to.deep.equal([]);
 
     });
-
     it('should support has-one relationships', async () => {
-      // TODO : Il n'y a pas d'exemple d'objet du Domain qui récupère un autre objet du Domain via hasOne.
-    });
+      // given
+      const userId = databaseBuilder.factory.buildUser().id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ assessmentId, userId });
+      await databaseBuilder.commit();
+      const bookshelfObject = await BookshelfAssessment.where({ id: assessmentId }).fetch({
+        withRelated: ['campaignParticipation'],
+      });
 
+      // when
+      const domainObject = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfObject);
+
+      // then
+      expect(domainObject.campaignParticipation).to.be.instanceOf(CampaignParticipation);
+    });
     it('should support has-many relationships', async () => {
       // given
       const userId = databaseBuilder.factory.buildUser().id;

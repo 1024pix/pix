@@ -9,6 +9,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
     it('should convert a CampaignParticipation model object into JSON API data', function() {
       // given
       const campaign = { id: 1, code: 'LJA123', title: 'Désobéir' };
+      const assessment = { id: 1 };
       const user = { id: 1, firstName: 'Michel', lastName: 'Essentiel' };
       const campaignParticipationResult = {
         id: 1, isCompleted: true, totalSkillsCount: 10, testedSkillsCount: 5, validatedSkillsCount: 4,
@@ -22,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
         sharedAt: new Date('2018-02-06T14:12:44Z'),
         createdAt: new Date('2018-02-05T14:12:44Z'),
         campaign,
-        assessmentId: 4,
+        assessment,
         campaignParticipationResult,
         user,
       };

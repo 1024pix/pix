@@ -198,10 +198,10 @@ describe('Unit | Service | ScorecardService', function() {
         const skill = domainBuilder.buildSkill({ id: skillId });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
         campaign = domainBuilder.buildCampaign({ targetProfileId: targetProfile.id, targetProfile });
-        campaignParticipation1 = domainBuilder.buildCampaignParticipation({ campaign, campaignId: campaign.id, isShared: false });
-        campaignParticipation2 = domainBuilder.buildCampaignParticipation({ campaign, campaignId: campaign.id, isShared: false });
-        oldAssessment1 = domainBuilder.buildAssessment({ id: assessmentId1, campaignParticipationId: campaignParticipation1.id });
-        oldAssessment2 = domainBuilder.buildAssessment({ id: assessmentId2, campaignParticipationId: campaignParticipation2.id });
+        campaignParticipation1 = domainBuilder.buildCampaignParticipation({ assessmentId: assessmentId1, campaign, campaignId: campaign.id, isShared: false });
+        campaignParticipation2 = domainBuilder.buildCampaignParticipation({ assessmentId: assessmentId2, campaign, campaignId: campaign.id, isShared: false });
+        oldAssessment1 = domainBuilder.buildAssessment({ id: assessmentId1 });
+        oldAssessment2 = domainBuilder.buildAssessment({ id: assessmentId2 });
         oldAssessment1Aborted = domainBuilder.buildAssessment({ ...oldAssessment1, state: Assessment.states.ABORTED });
         oldAssessment2Aborted = domainBuilder.buildAssessment({ ...oldAssessment2, state: Assessment.states.ABORTED });
         newAssessment1Saved = domainBuilder.buildAssessment({ id: 67890 });
@@ -261,6 +261,15 @@ describe('Unit | Service | ScorecardService', function() {
         expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
         expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
+      });
+
+      it('should update old assessment and save another assessment', async () => {
+
+        [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
+          userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
+        });
+
+        expect(resetCampaignParticipation).to.deep.equal([campaignParticipation1Updated, campaignParticipation2Updated]);
       });
 
       context('when campaign is already shared', function() {

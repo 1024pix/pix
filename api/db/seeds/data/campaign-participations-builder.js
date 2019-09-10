@@ -27,18 +27,12 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
 
   const startCampaign = (member, state, isShared) => {
     const { id: userId } = databaseBuilder.factory.buildUser(member);
-
-    const sharedAt = isShared ? new Date() : null;
-    const participantExternalId = member.firstName.toLowerCase() + member.lastName.toLowerCase();
-
-    const { id: campaignParticipationId } =  databaseBuilder.factory.buildCampaignParticipation({ campaignId: 1, userId, participantExternalId, isShared, sharedAt });
-
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
       userId,
       type: Assessment.types.SMARTPLACEMENT,
-      state: Assessment.states[state],
-      campaignParticipationId
+      state: Assessment.states[state]
     });
+    const participantExternalId = member.firstName.toLowerCase() + member.lastName.toLowerCase();
     const { id: answerId } = databaseBuilder.factory.buildAnswer({
       result: 'ok',
       assessmentId,
@@ -67,6 +61,9 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
       answerId,
       source: KnowledgeElement.SourceType.INFERRED,
     });
+
+    const sharedAt = isShared ? new Date() : null;
+    databaseBuilder.factory.buildCampaignParticipation({ campaignId: 1, userId, assessmentId, participantExternalId, isShared, sharedAt });
   };
 
   pixMembersNotCompleted.forEach((member) => startCampaign(member, 'STARTED', false));

@@ -64,25 +64,6 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         skills: [firstSkill, secondSkill, thirdSkill],
       });
 
-      const organization = databaseBuilder.factory.buildOrganization({ id: targetProfile.organizationId });
-
-      databaseBuilder.factory.buildTargetProfile({
-        id: targetProfile.id,
-        name: targetProfile.name,
-        isPublic: targetProfile.isPublic,
-        organizationId: targetProfile.organizationId,
-      });
-
-      const campaign = databaseBuilder.factory.buildCampaign({
-        organizationId: organization.id,
-        targetProfileId: targetProfile.id,
-      });
-
-      const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        isShared: true,
-        campaignId: campaign.id,
-      });
-
       assessment = domainBuilder.buildSmartPlacementAssessment({
         id: assessmentId,
         answers: [firstAnswer, secondAnswer],
@@ -90,8 +71,6 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         createdAt: new Date('2017-10-02T09:10:12Z'),
         userId,
         targetProfile,
-        campaignParticipationId: campaignParticipation.id,
-        campaignParticipation: campaignParticipation
       });
 
       databaseBuilder.factory.buildAssessment({
@@ -100,7 +79,6 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         type: Assessment.types.SMARTPLACEMENT,
         state: Assessment.states.COMPLETED,
         createdAt: assessment.createdAt,
-        campaignParticipationId: campaignParticipation.id,
       });
 
       databaseBuilder.factory.buildAssessment({
@@ -142,6 +120,26 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         assessmentId: secondKnowledgeElement.assessmentId,
         skillId: secondKnowledgeElement.skillId,
         userId
+      });
+
+      const organization = databaseBuilder.factory.buildOrganization({ id: targetProfile.organizationId });
+
+      databaseBuilder.factory.buildTargetProfile({
+        id: targetProfile.id,
+        name: targetProfile.name,
+        isPublic: targetProfile.isPublic,
+        organizationId: targetProfile.organizationId,
+      });
+
+      const campaign = databaseBuilder.factory.buildCampaign({
+        organizationId: organization.id,
+        targetProfileId: targetProfile.id,
+      });
+
+      databaseBuilder.factory.buildCampaignParticipation({
+        isShared: true,
+        assessmentId: assessment.id,
+        campaignId: campaign.id,
       });
 
       databaseBuilder.factory.buildTargetProfileSkill({

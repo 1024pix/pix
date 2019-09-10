@@ -3,15 +3,18 @@ const { CampaignCodeError } = require('../errors');
 const CampaignParticipation = require('../models/CampaignParticipation');
 const Assessment = require('../models/Assessment');
 
-async function _getCampaignFromCode(codeCampaign, campaignRepository) {
-  const campaign = await campaignRepository.getByCode(codeCampaign);
-  if (campaign) {
-    return campaign;
-  }
-  throw new CampaignCodeError();
+function _getCampaignFromCode(codeCampaign, campaignRepository) {
+  return campaignRepository.getByCode(codeCampaign)
+    .then((campaign) => {
+      if (campaign) {
+        return Promise.resolve(campaign);
+      }
+
+      return Promise.reject(new CampaignCodeError());
+    });
 }
 
-module.exports = async function createAssessmentForCampaign(
+module.exports = function createAssessmentForCampaign(
   {
     userId,
     assessment,
@@ -22,21 +25,27 @@ module.exports = async function createAssessmentForCampaign(
     campaignParticipationRepository
   }) {
 
-  const campaign = await _getCampaignFromCode(codeCampaign, campaignRepository);
-
-  const campaignParticipation = new CampaignParticipation({
-    userId,
-    campaignId: campaign.id,
-    participantExternalId
-  });
-
-  await campaignParticipationRepository.save(campaignParticipation);
-
+  let assessmentCreated;
+  let campaign;
   assessment.state = Assessment.states.STARTED;
-  assessment.courseId = Assessment.courseIdMessage.SMART_PLACEMENT;
-  assessment.campaignParticipationId = campaignParticipation.id;
 
-  const assessmentCreated = await assessmentRepository.save(assessment);
-
-  return assessmentCreated;
+  return _getCampaignFromCode(codeCampaign, campaignRepository)
+    .then((campaignFound) => {
+      campaign = campaignFound;
+      assessment.courseId = 'Smart Placement Tests CourseId Not Used';
+      return assessmentRepository.save(assessment);
+    })
+    .then((assessmentCreatedInDb) => {
+      assessmentCreated = assessmentCreatedInDb;
+      const campaignParticipation = new CampaignParticipation({
+        userId,
+        assessmentId: assessmentCreated.id,
+        campaignId: campaign.id,
+        participantExternalId
+      });
+      return campaignParticipationRepository.save(campaignParticipation);
+    })
+    .then(() => {
+      return assessmentCreated;
+    });
 };

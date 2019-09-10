@@ -28,17 +28,17 @@ describe('Acceptance | API | Campaign Participation Result', () => {
     campaign = databaseBuilder.factory.buildCampaign({
       targetProfileId: targetProfile.id,
     });
-    campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-      campaignId: campaign.id,
-      userId: user.id,
-      sharedAt: recentDate,
-      isShared: true,
-    });
     assessment = databaseBuilder.factory.buildAssessment({
-      campaignParticipationId: campaignParticipation.id,
       userId: user.id,
       type: 'SMART_PLACEMENT',
       state: 'completed',
+    });
+    campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+      campaignId: campaign.id,
+      assessmentId: assessment.id,
+      userId: user.id,
+      sharedAt: recentDate,
+      isShared: true,
     });
 
     targetProfileSkills = _.times(8, () => {

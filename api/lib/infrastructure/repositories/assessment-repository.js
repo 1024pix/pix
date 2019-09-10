@@ -96,7 +96,7 @@ module.exports = {
     return BookshelfAssessment
       .where({ 'campaign-participations.id': campaignParticipationId, 'assessments.type': 'SMART_PLACEMENT' })
       .query((qb) => {
-        qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
+        qb.innerJoin('campaign-participations', 'campaign-participations.assessmentId', 'assessments.id');
       })
       .fetch({ require: true, withRelated: ['campaignParticipation.campaign'] })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
@@ -114,7 +114,7 @@ module.exports = {
     return BookshelfAssessment
       .where({ 'assessments.userId': userId, 'assessments.type': 'SMART_PLACEMENT', 'campaigns.code': campaignCode })
       .query((qb) => {
-        qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
+        qb.innerJoin('campaign-participations', 'campaign-participations.assessmentId', 'assessments.id');
         qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
       })
       .orderBy('createdAt', 'desc')
@@ -140,13 +140,12 @@ module.exports = {
       .where({ id })
       .save({ state }, { require: true, patch: true })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
-  },
+  }
 };
 
 function _toDomain(bookshelfAssessment) {
   if (bookshelfAssessment !== null) {
     const modelObjectInJSON = bookshelfAssessment.toJSON();
-    modelObjectInJSON.isImproving = Boolean(modelObjectInJSON.isImproving);
 
     const answers = bookshelfAssessment.related('answers')
       .map((bookshelfAnswer) => new Answer(bookshelfAnswer.toJSON()));

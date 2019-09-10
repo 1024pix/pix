@@ -22,12 +22,6 @@ class AlreadyRegisteredEmailError extends DomainError {
   }
 }
 
-class AlreadySharedCampaignParticipationError extends DomainError {
-  constructor() {
-    super('Ces résultats de campagne ont déjà été partagé.');
-  }
-}
-
 class AssessmentStartError extends DomainError {
   constructor(message) {
     super(message);
@@ -279,7 +273,6 @@ module.exports = {
   AlreadyExistingMembershipError,
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
-  AlreadySharedCampaignParticipationError,
   AssessmentEndedError,
   AssessmentNotCompletedError,
   AssessmentStartError,

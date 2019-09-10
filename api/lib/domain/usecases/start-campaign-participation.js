@@ -2,14 +2,13 @@ const Assessment = require('../models/Assessment');
 
 const { NotFoundError } = require('../../domain/errors');
 
-module.exports = async function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository }) {
-  await _checkCampaignExists(campaignParticipation.campaignId, campaignRepository);
-  const campaignParticipationCreated = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository);
-  await _createSmartPlacementAssessment(userId, assessmentRepository, campaignParticipationCreated);
-  return campaignParticipationCreated;
+module.exports = function startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository }) {
+  return _checkCampaignExists(campaignParticipation.campaignId, campaignRepository)
+    .then(() => _createSmartPlacementAssessment(userId, assessmentRepository))
+    .then((assessment) => _saveCampaignParticipation(campaignParticipation, assessment, userId, campaignParticipationRepository));
 };
 
-async function _checkCampaignExists(campaignId, campaignRepository) {
+function _checkCampaignExists(campaignId, campaignRepository) {
   return campaignRepository.get(campaignId)
     .then((campaign) => {
       if (campaign === null) {
@@ -19,19 +18,18 @@ async function _checkCampaignExists(campaignId, campaignRepository) {
     });
 }
 
-async function _createSmartPlacementAssessment(userId, assessmentRepository, campaignParticipationCreated) {
+function _createSmartPlacementAssessment(userId, assessmentRepository) {
   const assessment = new Assessment({
     userId,
     state: Assessment.states.STARTED,
     type: Assessment.types.SMARTPLACEMENT,
-    courseId: Assessment.courseIdMessage.SMART_PLACEMENT,
-    campaignParticipationId: campaignParticipationCreated.id
+    courseId: 'Smart Placement Tests CourseId Not Used'
   });
   return assessmentRepository.save(assessment);
 }
 
-async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository) {
+function _saveCampaignParticipation(campaignParticipation, assessment, userId, campaignParticipationRepository) {
   campaignParticipation.userId = userId;
+  campaignParticipation.assessmentId = assessment.id;
   return campaignParticipationRepository.save(campaignParticipation);
 }
-
