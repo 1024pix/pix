@@ -1,4 +1,5 @@
 const faker = require('faker');
+const _ = require('lodash');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 
@@ -36,7 +37,6 @@ function buildAssessment({
     state,
     isImproving,
     competenceId,
-
     // relationships
     answers,
     assessmentResults,
@@ -61,8 +61,11 @@ buildAssessment.ofTypeSmartPlacement = function({
   targetProfile = buildTargetProfile(),
   knowledgeElements = [buildKnowledgeElement()],
   campaignParticipation = buildCampaignParticipation(),
+  campaignParticipationId = null,
   title = 'campaignTitle',
 } = {}) {
+  campaignParticipationId = _.isNil(campaignParticipationId) ? _.get(campaignParticipation, 'id') : campaignParticipationId;
+
   return new SmartPlacementAssessment({
     // attributes
     id,
@@ -74,6 +77,7 @@ buildAssessment.ofTypeSmartPlacement = function({
     type: Assessment.types.SMARTPLACEMENT,
     state,
     isImproving,
+    campaignParticipationId,
 
     // relationships
     answers,
