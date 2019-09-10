@@ -3,6 +3,14 @@ const errors = require('../../../lib/domain/errors');
 
 describe('Unit | Domain | Errors', () => {
 
+  it('should export a CertificationCandidateCreationOrUpdateError', () => {
+    expect(errors.CertificationCandidateCreationOrUpdateError).to.exist;
+  });
+
+  it('should export a CertificationCandidateDeletionError', () => {
+    expect(errors.CertificationCandidateDeletionError).to.exist;
+  });
+
   it('should export a NotFoundError', () => {
     expect(errors.NotFoundError).to.exist;
   });
