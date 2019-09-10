@@ -96,21 +96,23 @@ export default Route.extend({
   },
 
   _rateAssessment(assessment) {
-    return this.store
-      .createRecord('assessment-result', { assessment })
-      .save()
+    return assessment.save({ adapterOptions: { completeAssessment: true } })
       .finally(() => {
-        if (assessment.isCertification) {
-          return this.replaceWith('certifications.results', assessment.certificationNumber);
-        }
-        if (assessment.isSmartPlacement) {
-          return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
-        }
-        if (assessment.isCompetenceEvaluation) {
-          return this.replaceWith('competences.results', assessment.id);
-        }
-        return this.replaceWith('assessments.results', assessment.id);
+        return this._routeToResults(assessment);
       });
+  },
+
+  _routeToResults(assessment) {
+    if (assessment.isCertification) {
+      return this.replaceWith('certifications.results', assessment.certificationNumber);
+    }
+    if (assessment.isSmartPlacement) {
+      return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
+    }
+    if (assessment.isCompetenceEvaluation) {
+      return this.replaceWith('competences.results', assessment.id);
+    }
+    return this.replaceWith('assessments.results', assessment.id);
   },
 
   _routeToCheckpoint(assessment) {
