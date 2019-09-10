@@ -47,7 +47,6 @@ describe('Unit | Controller | assessment-results', () => {
       // then
       expect(usecases.createAssessmentResultForCompletedAssessment).to.have.been.calledWith({
         assessmentId: '22',
-        forceRecomputeResult: false,
       });
       expect(response).to.be.null;
     });

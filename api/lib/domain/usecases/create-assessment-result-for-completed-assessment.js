@@ -12,7 +12,6 @@ const {
 module.exports = async function createAssessmentResultForCompletedAssessment({
   // Parameters
   assessmentId,
-  forceRecomputeResult = false,
   updateCertificationCompletionDate = true,
   // Repositories
   answerRepository,
@@ -33,7 +32,7 @@ module.exports = async function createAssessmentResultForCompletedAssessment({
     throw new NotFoundError();
   }
 
-  if (assessment.isCompleted() && !forceRecomputeResult) {
+  if (assessment.isCompleted()) {
     throw new AlreadyRatedAssessmentError();
   }
 
