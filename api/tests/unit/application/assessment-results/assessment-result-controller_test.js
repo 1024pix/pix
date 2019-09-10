@@ -5,52 +5,8 @@ const assessmentResultService = require('../../../../lib/domain/services/assessm
 
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
-const usecases = require('../../../../lib/domain/usecases');
-
-const logger = require('../../../../lib/infrastructure/logger');
-const errorManager = require('../../../../lib/infrastructure/utils/error-manager');
 
 describe('Unit | Controller | assessment-results', () => {
-
-  describe('#evaluate', () => {
-
-    const request = {
-      payload: {
-        data: {
-          attributes: {
-            'estimated-level': null,
-            'pix-score': null
-          },
-          relationships: {
-            assessment: {
-              data: {
-                type: 'assessments',
-                id: '22'
-              }
-            }
-          },
-          type: 'assessment-results'
-        }
-      }
-    };
-
-    beforeEach(() => {
-      sinon.stub(usecases, 'createAssessmentResultForCompletedAssessment').resolves();
-      sinon.stub(errorManager, 'send').resolves();
-      sinon.stub(logger, 'error');
-    });
-
-    it('should evaluate the assessment', async () => {
-      // when
-      const response = await assessmentResultController.evaluate(request, hFake);
-
-      // then
-      expect(usecases.createAssessmentResultForCompletedAssessment).to.have.been.calledWith({
-        assessmentId: '22',
-      });
-      expect(response).to.be.null;
-    });
-  });
 
   describe('#save', () => {
 

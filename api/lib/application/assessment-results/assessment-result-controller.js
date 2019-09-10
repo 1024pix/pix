@@ -1,8 +1,6 @@
-const usecases = require('../../domain/usecases');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const assessmentResultService = require('../../domain/services/assessment-result-service');
-const assessmentResultsSerializer = require('../../infrastructure/serializers/jsonapi/assessment-result-serializer');
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {
@@ -38,15 +36,4 @@ module.exports = {
     return assessmentResultService.save(assessmentResult, competenceMarks)
       .then(() => null);
   },
-
-  async evaluate(request) {
-    const assessmentRating = assessmentResultsSerializer.deserialize(request.payload);
-
-    await usecases.createAssessmentResultForCompletedAssessment({
-      assessmentId: assessmentRating.assessmentId,
-    });
-
-    return null;
-  }
-
 };
