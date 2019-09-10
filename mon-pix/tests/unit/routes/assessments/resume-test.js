@@ -35,6 +35,14 @@ describe('Unit | Route | Assessments | Resume', function() {
       assessment.save = sinon.stub().resolves();
     });
 
+    it('should not query next challenge if assessment is completed', function() {
+      assessment.isCompleted = true;
+
+      route.afterModel(assessment);
+
+      sinon.assert.notCalled(queryRecordStub);
+    });
+
     it('should get the next challenge of the assessment', function() {
       // given
       queryRecordStub.resolves();
@@ -208,12 +216,10 @@ describe('Unit | Route | Assessments | Resume', function() {
 
           it('should redirect to campaigns.skill-review page', function() {
             // when
-            const promise = route.afterModel(assessment);
+            route.afterModel(assessment);
 
             // then
-            return promise.then(() => {
-              sinon.assert.calledWith(route.replaceWith, 'campaigns.skill-review', 'konami', 123);
-            });
+            sinon.assert.calledWith(route.replaceWith, 'campaigns.skill-review', 'konami', 123);
           });
         });
       });

@@ -15,16 +15,18 @@ export default Route.extend({
     return this.modelFor('assessments').reload();
   },
 
-  afterModel(assessment) {
-    return this.store
-      .queryRecord('challenge', { assessmentId: assessment.id })
-      .then((nextChallenge) => {
-        if (assessment.hasCheckpoints) {
-          return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
-        } else {
-          return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
-        }
-      });
+  async afterModel(assessment) {
+    if (assessment.isCompleted) {
+      return this._routeToResults(assessment);
+    }
+
+    const nextChallenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
+
+    if (assessment.hasCheckpoints) {
+      return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
+    } else {
+      return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
+    }
   },
 
   actions: {
@@ -95,11 +97,10 @@ export default Route.extend({
     return this.replaceWith('assessments.challenge', assessment.id, nextChallengeId);
   },
 
-  _rateAssessment(assessment) {
-    return assessment.save({ adapterOptions: { completeAssessment: true } })
-      .finally(() => {
-        return this._routeToResults(assessment);
-      });
+  async _rateAssessment(assessment) {
+    await assessment.save({ adapterOptions: { completeAssessment: true } });
+    
+    return this._routeToResults(assessment);
   },
 
   _routeToResults(assessment) {
