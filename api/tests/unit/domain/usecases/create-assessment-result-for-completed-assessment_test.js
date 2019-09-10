@@ -196,34 +196,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       // then
       return expect(promise).to.be.rejectedWith(AlreadyRatedAssessmentError);
     });
-
-    it('should not reject an AlreadyRatedAssessmentError if forceRecomputeResult at true', () => {
-      // given
-      const alreadyEvaluatedAssessment = domainBuilder.buildAssessment({
-        id: assessmentId,
-        courseId: assessmentCourseId,
-        userId: 5,
-        state: 'completed',
-        type: 'PLACEMENT',
-      });
-      const forceRecomputeResult = true;
-      assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
-
-      // when
-      const promise = createAssessmentResultForCompletedAssessment({
-        assessmentId,
-        forceRecomputeResult,
-        assessmentResultRepository,
-        assessmentRepository,
-        certificationCourseRepository,
-        competenceMarkRepository,
-        scoringService,
-      });
-
-      // then
-      return expect(promise).to.not.be.rejectedWith(AlreadyRatedAssessmentError);
-    });
-
   });
 
   it('should reject a not found error when calculateAssessmentScore raise a notFoundError because the assessment does not exist', () => {

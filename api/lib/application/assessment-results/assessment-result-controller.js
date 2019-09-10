@@ -39,15 +39,14 @@ module.exports = {
       .then(() => null);
   },
 
-  evaluate(request) {
+  async evaluate(request) {
     const assessmentRating = assessmentResultsSerializer.deserialize(request.payload);
-    const forceRecomputeResult = (request.query) ? request.query.recompute : false;
 
-    return usecases.createAssessmentResultForCompletedAssessment({
+    await usecases.createAssessmentResultForCompletedAssessment({
       assessmentId: assessmentRating.assessmentId,
-      forceRecomputeResult,
-    })
-      .then(() => null);
+    });
+
+    return null;
   }
 
 };
