@@ -72,6 +72,18 @@ class CampaignCodeError extends DomainError {
   }
 }
 
+class CertificationCandidateCreationOrUpdateError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class CertificationCandidateDeletionError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class CertificationComputeError extends DomainError {
   constructor(message) {
     super(message);
@@ -278,6 +290,8 @@ module.exports = {
   CampaignCodeError,
   CampaignWithoutOrganizationError,
   CompetenceResetError,
+  CertificationCandidateCreationOrUpdateError,
+  CertificationCandidateDeletionError,
   CertificationCenterMembershipCreationError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,
