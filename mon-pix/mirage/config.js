@@ -50,6 +50,8 @@ export default function() {
   this.post('/assessments', postAssessments);
   this.get('/assessments/:id', getAssessment);
   this.get('/assessments/:assessmentId/next', getNextChallenge);
+  this.get('/assessments', findAssessments);
+  this.patch('/assessments/:id/complete-assessment', getAssessment);
 
   this.post('/answers', postAnswers);
   this.get('/answers/:id', getAnswer);
@@ -57,10 +59,6 @@ export default function() {
   this.patch('/answers/:id', patchAnswer);
 
   this.post('/feedbacks', postFeedbacks);
-
-  //Nouveau Mirage
-
-  this.get('/assessments', findAssessments);
 
   this.get('/courses/:id', getCourse);
   this.post('/courses', postCertificationCourse);
@@ -88,7 +86,6 @@ export default function() {
 
   this.post('/users');
   this.patch('/users/:id', getAuthenticatedUser);
-  this.post('/assessment-results');
 
   this.del('/cache', () => null, 204);
 

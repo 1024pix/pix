@@ -130,12 +130,14 @@ describe('Unit | Controller | assessment-controller', function() {
     const assessmentId = 1;
 
     beforeEach(() => {
-      sinon.stub(usecases, 'createAssessmentResultForCompletedAssessment');
+      sinon.stub(usecases, 'completeAssessment');
+      sinon.stub(assessmentSerializer, 'serialize');
     });
 
     it('should return ok', async () => {
       // given
-      usecases.createAssessmentResultForCompletedAssessment.withArgs({ assessmentId }).resolves('ok');
+      usecases.completeAssessment.withArgs({ assessmentId }).resolves({});
+      assessmentSerializer.serialize.withArgs({}).returns('ok');
 
       // when
       const response = await assessmentController.completeAssessment({
@@ -143,7 +145,7 @@ describe('Unit | Controller | assessment-controller', function() {
       });
 
       // then
-      expect(response).to.be.null;
+      expect(response).to.be.equal('ok');
     });
   });
 });

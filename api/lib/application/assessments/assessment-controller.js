@@ -123,8 +123,8 @@ module.exports = {
   async completeAssessment(request) {
     const assessmentId = request.params.id;
 
-    await usecases.createAssessmentResultForCompletedAssessment({ assessmentId });
+    const completedAssessment = await usecases.completeAssessment({ assessmentId });
 
-    return null;
+    return assessmentSerializer.serialize(completedAssessment);
   },
 };
