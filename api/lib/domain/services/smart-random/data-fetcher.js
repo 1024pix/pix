@@ -4,7 +4,6 @@ async function fetchForCampaigns({
   targetProfileRepository,
   challengeRepository,
   knowledgeElementRepository,
-  improvementService,
 }) {
   const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
 
@@ -17,7 +16,7 @@ async function fetchForCampaigns({
     ],
   ] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
-    _fetchKnowledgeElementsForCampaign({ assessment, knowledgeElementRepository, improvementService }),
+    knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId }),
     _fetchSkillsAndChallenges({ targetProfileId, targetProfileRepository, challengeRepository })
   ]);
 
@@ -27,15 +26,6 @@ async function fetchForCampaigns({
     challenges,
     knowledgeElements,
   };
-}
-
-async function _fetchKnowledgeElementsForCampaign({
-  assessment,
-  knowledgeElementRepository,
-  improvementService,
-}) {
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: assessment.userId });
-  return improvementService.filterKnowledgeElementsIfImproving({ knowledgeElements, assessment });
 }
 
 async function _fetchSkillsAndChallenges({

@@ -6,7 +6,6 @@ const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/erro
 describe('Unit | UseCase | get-campaign-participation-result', () => {
 
   const campaignParticipationId = 1;
-  const assessmentId = 4;
   const userId = 2;
   const campaignId = 'campaignId';
   const otherUserId = 3;
@@ -14,7 +13,6 @@ describe('Unit | UseCase | get-campaign-participation-result', () => {
   const campaignParticipation = {
     campaignId,
     userId,
-    assessment: { id: assessmentId }
   };
 
   let campaignParticipationRepository,

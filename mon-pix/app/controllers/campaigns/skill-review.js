@@ -4,7 +4,6 @@ export default Controller.extend({
 
   displayLoadingButton: false,
   displayErrorMessage: false,
-  displayImprovementButton: false,
 
   actions: {
     shareCampaignParticipation() {
@@ -22,13 +21,5 @@ export default Controller.extend({
           this.set('displayErrorMessage', true);
         });
     },
-
-    async improvementCampaignParticipation() {
-      const assessment = this.get('model.assessment');
-      const campaignParticipation = this.get('model.campaignParticipation');
-      await campaignParticipation.save({ adapterOptions: { beginImprovement: true } });
-      return this.transitionToRoute('campaigns.start-or-resume', assessment.get('codeCampaign'));
-    },
-
   }
 });
