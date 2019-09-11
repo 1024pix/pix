@@ -42,9 +42,6 @@ export default function() {
   this.namespace = 'api';
   this.timing = 0; // response delay
 
-  this.post('/token',postAuthentications);
-  this.post('/revoke', () => {});
-
   this.get('/courses', getCourses);
 
   this.get('/challenges', getChallenges);
@@ -70,6 +67,7 @@ export default function() {
 
   this.get('/certifications');
 
+  this.post('/authentications', postAuthentications);
   this.get('/users/me', getAuthenticatedUser);
   this.get('/users/:id/pixscore', getPixScore);
   this.get('/users/:id/scorecards', getScorecards);

@@ -8,6 +8,9 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
   let server;
 
   beforeEach(() => {
+    // stub dependencies
+    sinon.stub(authenticationController, 'save').returns('ok');
+
     // configure and start server
     server = Hapi.server();
 
@@ -16,6 +19,23 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
   afterEach(() => {
     server.stop();
+  });
+
+  describe('POST /api/authentications', () => {
+
+    it('should exist', async () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/authentications'
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
   });
 
   describe('POST /api/token', () => {

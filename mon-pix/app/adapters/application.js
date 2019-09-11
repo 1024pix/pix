@@ -1,16 +1,25 @@
+import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
-import { isPresent } from '@ember/utils';
-import ENV from 'mon-pix/config/environment';
+import config from '../config/environment';
 
-export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-  host: ENV.APP.API_HOST,
+export default DS.JSONAPIAdapter.extend({
+
+  host: config.APP.API_HOST,
   namespace: 'api',
 
-  authorize(xhr) {
-    const { access_token } = this.get('session.data.authenticated');
-    if (isPresent(access_token)) {
-      xhr.setRequestHeader('Authorization', `Bearer ${access_token}`);
+  session: service(),
+
+  headers: computed('session.data.authenticated.token', function() {
+
+    let tokenBearer = '';
+    if (this.get('session.data.authenticated.token')) {
+      tokenBearer = `Bearer ${this.get('session.data.authenticated.token')}`;
     }
-  }
+
+    return {
+      'Authorization': tokenBearer
+    };
+  })
+
 });

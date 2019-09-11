@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { it, describe } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import sinon from 'sinon';
 
 describe('Unit | Route | subscribers', function() {
   setupTest();
@@ -16,34 +15,24 @@ describe('Unit | Route | subscribers', function() {
 
   it('should add header with authentication token ', function() {
     // Given
-    const xhr = {
-      setRequestHeader: sinon.stub()
-    };
-    const access_token = '23456789';
+    const expectedToken = '23456789';
     const applicationAdapter = this.owner.lookup('adapter:application');
 
     // When
-    applicationAdapter.set('session', { data: { authenticated: { access_token } } });
-    applicationAdapter.authorize(xhr);
+    applicationAdapter.set('session', { data: { authenticated: { token: expectedToken } } });
 
-    // Then
-    sinon.assert.calledWith(xhr.setRequestHeader, 'Authorization', `Bearer ${access_token}`);
+    expect(applicationAdapter.get('headers')).to.deep.equal({
+      'Authorization': `Bearer ${expectedToken}`
+    });
   });
 
-  it('should not set Authorization header without token ', function() {
+  it('should allow to logout ', function() {
     // Given
-    const xhr = {
-      setRequestHeader: sinon.stub()
-    };
-    const access_token = '';
     const applicationAdapter = this.owner.lookup('adapter:application');
 
-    // When
-    applicationAdapter.set('session', { data: { authenticated: { access_token } } });
-    applicationAdapter.authorize(xhr);
-
     // Then
-    sinon.assert.notCalled (xhr.setRequestHeader);
+    expect(applicationAdapter.get('headers')).to.deep.equal({
+      'Authorization': ''
+    });
   });
-
 });

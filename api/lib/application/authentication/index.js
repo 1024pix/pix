@@ -6,6 +6,16 @@ exports.register = async (server) => {
   server.route([
     {
       method: 'POST',
+      path: '/api/authentications',
+      config: {
+        auth: false,
+        handler: AuthenticationController.save,
+        tags: ['api']
+      }
+    },
+
+    {
+      method: 'POST',
       path: '/api/token',
       config: {
         auth: false,
