@@ -57,7 +57,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       await visit(`/organizations/${organization.id}`);
 
       // then
-      assert.equal(this.element.querySelectorAll('div.member-list table > thead > tr > th ').length, 5);
+      assert.equal(this.element.querySelectorAll('div.member-list table > thead > tr > th ').length, 10);
 
       assert.dom('div.member-list table > thead').includesText('Numéro du membre');
       assert.dom('div.member-list table > thead').includesText('Prénom');
