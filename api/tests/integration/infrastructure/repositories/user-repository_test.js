@@ -55,46 +55,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   describe('find user', () => {
 
-    describe('#findUserById', () => {
-
-      let userInDb;
-
-      beforeEach(async () => {
-        userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        await databaseBuilder.commit();
-      });
-
-      afterEach(async () => {
-        await databaseBuilder.clean();
-      });
-
-      describe('Success management', () => {
-
-        it('should find a user by provided id', async () => {
-          // when
-          const foundUser = await userRepository.findUserById(userInDb.id);
-
-          // then
-          expect(foundUser).to.exist;
-          expect(foundUser).to.be.an('object');
-          expect(foundUser.attributes.email).to.equal(userInDb.email);
-          expect(foundUser.attributes.firstName).to.equal(userInDb.firstName);
-          expect(foundUser.attributes.lastName).to.equal(userInDb.lastName);
-        });
-
-        it('should handle a rejection, when user id is not found', async () => {
-          // given
-          const inexistenteId = 10093;
-
-          // when
-          const result = await catchErr(userRepository.findUserById)(inexistenteId);
-
-          // then
-          expect(result).to.be.instanceOf(NotFoundError);
-        });
-      });
-    });
-
     describe('#findByEmail', () => {
 
       let userInDb;

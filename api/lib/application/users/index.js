@@ -99,14 +99,14 @@ exports.register = async function(server) {
     },
     {
       method: 'PATCH',
-      path: '/api/users/{id}',
+      path: '/api/users/{id}/update-password',
       config: {
         auth: false,
         pre: [{
           method: userVerification.verifyById,
           assign: 'user'
         }],
-        handler: userController.updateUser,
+        handler: userController.updatePassword,
         validate: {
           options: {
             allowUnknown: true
@@ -114,11 +114,16 @@ exports.register = async function(server) {
           payload: {
             data: {
               attributes: {
-                password: Joi.string().regex(XRegExp(passwordValidationPattern)).allow(null),
+                password: Joi.string().regex(XRegExp(passwordValidationPattern)).required(),
               }
             }
           }
-        }, tags: ['api']
+        },
+        notes : [
+          '- Met à jour le mot de passe d\'un utilisateur identifié par son id\n' +
+          '- Une clé d\'identification temporaire permet de vérifier l\'identité du demandeur'
+        ],
+        tags: ['api', 'user'],
       }
     },
     {

@@ -8,9 +8,10 @@ module.exports = async function updateUserPassword({
 }) {
 
   const hashedPassword = await encryptionService.hashPassword(password);
-  const user = (await userRepository.findUserById(userId)).toJSON();
+  const user = await userRepository.get(userId);
 
   await resetPasswordService.hasUserAPasswordResetDemandInProgress(user.email, temporaryKey);
-  await userRepository.updatePassword(user.id, hashedPassword);
-  return resetPasswordService.invalidOldResetPasswordDemand(user.email);
+  const updatedUser = await userRepository.updatePassword(user.id, hashedPassword);
+  await resetPasswordService.invalidOldResetPasswordDemand(user.email);
+  return updatedUser;
 };

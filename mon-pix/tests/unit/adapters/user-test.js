@@ -63,11 +63,11 @@ describe('Unit | Adapters | user', function() {
 
     it('should include temporaryKey if present in adapterOptions', async function() {
       // when
-      const snapshot = { adapterOptions: { temporaryKey: 'temp=&key' } };
+      const snapshot = { adapterOptions: { updatePassword: true, temporaryKey: 'temp=&key' } };
       const url = await adapter.urlForUpdateRecord(123, 'user', snapshot);
 
       // then
-      expect(url.endsWith('/users/123?temporary-key=temp%3D%26key')).to.be.true;
+      expect(url.endsWith('/users/123/update-password?temporary-key=temp%3D%26key')).to.be.true;
     });
 
   });

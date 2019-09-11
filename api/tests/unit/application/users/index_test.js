@@ -118,58 +118,73 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('PATCH /api/users/{id}', function() {
+  describe('PATCH /api/users/{id}/update-password', function() {
 
     const userId = '12344';
     const request = (payloadAttributes) => ({
       method: 'PATCH',
-      url: `/api/users/${userId}`,
+      url: `/api/users/${userId}/update-password`,
       payload: { data: { attributes: payloadAttributes } },
     });
 
     beforeEach(() => {
-      sinon.stub(userController, 'updateUser').returns('ok');
+      sinon.stub(userController, 'updatePassword').returns('ok');
       sinon.stub(userVerification, 'verifyById').returns('ok');
       startServer();
     });
 
-    it('should exist and pass through user verification pre-handler', () => {
+    it('should exist and pass through user verification pre-handler', async () => {
       // given
-      return server.inject(request({})).then((res) => {
-        // then
-        expect(res.statusCode).to.equal(200);
-        sinon.assert.calledOnce(userVerification.verifyById);
-      });
+      const payloadAttributes = { password: 'Pix2019!' };
+
+      // when
+      const result = await server.inject(request(payloadAttributes));
+
+      // then
+      expect(result.statusCode).to.equal(200);
+      sinon.assert.calledOnce(userVerification.verifyById);
     });
 
     describe('Payload schema validation', () => {
 
-      it('should have a payload', () => {
+      it('should have a payload', async () => {
         // given
         const requestWithoutPayload = {
           method: 'PATCH',
-          url: `/api/users/${userId}`,
+          url: `/api/users/${userId}/update-password`,
         };
 
+        // when
+        const result = await server.inject(requestWithoutPayload);
+
         // then
-        return server.inject(requestWithoutPayload).then((res) => {
-          expect(res.statusCode).to.equal(400);
-        });
+        expect(result.statusCode).to.equal(400);
+      });
+
+      it('should have a password attribute in payload', async () => {
+        // given
+        const payloadAttributes = {};
+
+        // when
+        const result = await server.inject(request(payloadAttributes));
+
+        // then
+        expect(result.statusCode).to.equal(400);
       });
 
       describe('password validation', () => {
 
-        it('should have a valid password format in payload', () => {
+        it('should have a valid password format in payload', async () => {
           // given
           const payloadAttributes = {
             'password': 'Mot de passe mal formé'
           };
 
           // when
-          return server.inject(request(payloadAttributes)).then((res) => {
-            // then
-            expect(res.statusCode).to.equal(400);
-          });
+          const result = await server.inject(request(payloadAttributes));
+
+          // then
+          expect(result.statusCode).to.equal(400);
         });
       });
     });

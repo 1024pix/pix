@@ -1,6 +1,5 @@
 const { sinon, expect, hFake } = require('../../../test-helper');
 
-const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const User = require('../../../../lib/domain/models/User');
 const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 
@@ -10,7 +9,6 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -90,81 +88,45 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#updateUser', () => {
+  describe('#updatePassword', () => {
 
-    context('When payload is good (with a payload and a password attribute) and temporary key is provided', () => {
-      const request = {
-        params: {
-          id: 7,
+    const userId = 7;
+    const userPassword = 'Pix2017!';
+    const userTemporaryKey = 'good-temporary-key';
+    const payload = {
+      data: {
+        attributes: {
+          password: userPassword,
         },
-        query: {
-          'temporary-key': 'good-temporary-key',
-        },
-        payload: {
-          data: {
-            attributes: {
-              password: 'Pix2017!',
-            },
-          },
-        },
-      };
-      const user = new BookshelfUser({
-        id: 7,
-        email: 'maryz@acme.xh',
-      });
+      },
+    };
+    const request = {
+      params: {
+        id: userId,
+      },
+      query: {
+        'temporary-key': userTemporaryKey,
+      },
+      payload
+    };
 
-      beforeEach(() => {
-        sinon.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
-        sinon.stub(passwordResetService, 'invalidOldResetPasswordDemand');
-        sinon.stub(validationErrorSerializer, 'serialize');
-        sinon.stub(userRepository, 'updatePassword');
-        sinon.stub(userRepository, 'findUserById').resolves(user);
-        sinon.stub(encryptionService, 'hashPassword');
-      });
-
-      it('should reply with no content', async () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        userRepository.updatePassword.resolves();
-        passwordResetService.invalidOldResetPasswordDemand.resolves();
-
-        // when
-        const response = await userController.updateUser(request, hFake);
-
-        // then
-        expect(response).to.be.null;
-      });
+    beforeEach(() => {
+      sinon.stub(usecases, 'updateUserPassword');
+      sinon.stub(userSerializer, 'serialize');
+      sinon.stub(userSerializer, 'deserialize');
     });
 
-    context('When payload has a password field and temporary key is provided', () => {
-      it('should update password', async () => {
-        // given
-        const userId = 7;
-        const password = 'PIX123$';
-        const request = {
-          params: {
-            id: userId,
-          },
-          query: {
-            'temporary-key': 'good-temporary-key',
-          },
-          payload: {
-            data: {
-              attributes: {
-                password,
-              },
-            },
-          },
-        };
-        const usecaseUpdateUserPasswordStub = sinon.stub(usecases, 'updateUserPassword');
+    it('should update password', async () => {
+      // given
+      userSerializer.deserialize.withArgs(payload).returns({ password: userPassword, temporaryKey: userTemporaryKey });
+      usecases.updateUserPassword.withArgs({ userId, password: userPassword, temporaryKey: userTemporaryKey }).resolves({});
+      userSerializer.serialize.withArgs({}).returns('ok');
 
-        // when
-        await userController.updateUser(request, hFake);
+      // when
+      const response = await userController.updatePassword(request);
 
-        // then
-        expect(usecaseUpdateUserPasswordStub).to.have.been.calledWith({ userId, password, temporaryKey: 'good-temporary-key' });
-      });
-
+      // then
+      expect(response).to.be.equal('ok');
     });
   });
 
