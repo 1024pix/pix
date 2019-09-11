@@ -13,7 +13,7 @@ import { invalidateSession } from 'ember-simple-auth/test-support';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
-describe('Acceptance | Campaigns | Resume Campaigns', function() {
+describe('Acceptance | Campaigns | Resume Campaigns', function() {
   setupApplicationTest();
   setupMirage();
 

@@ -7,9 +7,8 @@ export default Route.extend(UnauthenticatedRouteMixin, {
   session: service(),
 
   actions: {
-    authenticate(email, password) {
-      const scope = 'mon-pix';
-      return this.session.authenticate('authenticator:oauth2', email, password, scope);
+    signin(email, password) {
+      return this.session.authenticate('authenticator:simple', { email, password });
     }
   }
 });
