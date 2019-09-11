@@ -8,6 +8,11 @@ export default Route.extend({
 
   session: service(),
 
+  deactivate: function() {
+    this.controller.set('participantExternalId', null);
+    this.controller.set('loading', false);
+  },
+
   async beforeModel(transition) {
     const campaignCode = transition.to.params.campaign_code;
 
