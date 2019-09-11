@@ -8,7 +8,7 @@ module.exports = function buildAssessment({
   id,
   courseId = 'recDefaultCourseId',
   userId,
-  type = Assessment.types.PLACEMENT,
+  type = null,
   state = Assessment.states.COMPLETED,
   competenceId = null,
   createdAt = faker.date.past(),
@@ -34,4 +34,3 @@ module.exports = function buildAssessment({
     values,
   });
 };
-

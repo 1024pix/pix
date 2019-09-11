@@ -1,9 +1,6 @@
 const _ = require('lodash');
-const moment = require('moment');
 
 const { ObjectValidationError } = require('../errors');
-
-const MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = 7;
 
 const courseIdMessage = {
   COMPETENCE_EVALUATION: '[NOT USED] CompetenceId is in Competence Evaluation.',
@@ -19,13 +16,11 @@ const types = {
   CERTIFICATION: 'CERTIFICATION',
   COMPETENCE_EVALUATION: 'COMPETENCE_EVALUATION',
   DEMO: 'DEMO',
-  PLACEMENT: 'PLACEMENT',
   PREVIEW: 'PREVIEW',
   SMARTPLACEMENT: 'SMART_PLACEMENT',
 };
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = [
-  types.PLACEMENT,
   types.CERTIFICATION,
   types.COMPETENCE_EVALUATION,
   types.SMARTPLACEMENT,
@@ -136,38 +131,17 @@ class Assessment {
     return this.type === types.COMPETENCE_EVALUATION;
   }
 
-  isPlacement() {
-    return this.type === types.PLACEMENT;
-  }
-
   canBeScored() {
-    return (this.isPlacement() || this.isCertification()) && this.isCompleted();
+    return this.isCertification() && this.isCompleted();
   }
 
   isCertifiable() {
     return this.getLastAssessmentResult().level >= 1;
   }
-
-  canStartNewAttemptOnCourse() {
-    if (!this.isPlacement()) throw new Error('Only available for a placement assessment');
-
-    return this.isCompleted() && this.getRemainingDaysBeforeNewAttempt() <= 0;
-  }
-
-  getRemainingDaysBeforeNewAttempt() {
-    const lastResult = this.getLastAssessmentResult();
-    const daysSinceLastCompletedAssessment = moment.utc().diff(lastResult.createdAt, 'days', true);
-
-    const remainingDaysToWait = Math.ceil(MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS - daysSinceLastCompletedAssessment);
-
-    return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
-  }
-
 }
 
 Assessment.courseIdMessage = courseIdMessage;
 Assessment.states = states;
 Assessment.types = types;
-Assessment.MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS = MINIMUM_DELAY_IN_DAYS_BETWEEN_TWO_PLACEMENTS;
 
 module.exports = Assessment;
