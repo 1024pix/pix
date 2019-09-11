@@ -11,42 +11,39 @@ describe('Unit | UseCase | accept-pix-orga-terms-of-service', () => {
   });
 
   context('when user has already accepted pix-orga terms of service', () => {
-    it('should not update terms of service validation', () => {
+
+    it('should not update terms of service validation', async () => {
       // given
       const userId = 1;
       const user = domainBuilder.buildUser({
         pixOrgaTermsOfServiceAccepted: true
       });
-      userRepository.get.resolves(user);
+      userRepository.get.withArgs(userId).resolves(user);
 
       // when
-      const promise = acceptPixOrgaTermsOfService({ authenticatedUserId: userId, requestedUserId: userId, userRepository });
+      await acceptPixOrgaTermsOfService({ userId, userRepository });
 
       // then
-      return promise.then(() => {
-        expect(userRepository.updateUser).to.not.have.been.called;
-      });
+      expect(userRepository.updateUser).to.not.have.been.called;
     });
   });
 
   context('when user has not accepted pix orga terms of service yet', () => {
 
-    it('should accept terms of service of pix-orga', () => {
+    it('should accept terms of service of pix-orga', async () => {
       // given
       const userId = 1;
       const user = domainBuilder.buildUser({
         pixOrgaTermsOfServiceAccepted: false
       });
-      userRepository.get.resolves(user);
+      userRepository.get.withArgs(userId).resolves(user);
       const expectedUser = new User({ ...user, pixOrgaTermsOfServiceAccepted: true });
 
       // when
-      const promise = acceptPixOrgaTermsOfService({ authenticatedUserId: userId, requestedUserId: userId, userRepository });
+      await acceptPixOrgaTermsOfService({ userId, userRepository });
 
       // then
-      return promise.then(() => {
-        expect(userRepository.updateUser).to.have.been.calledWith(expectedUser);
-      });
+      expect(userRepository.updateUser).to.have.been.calledWith(expectedUser);
     });
 
   });
