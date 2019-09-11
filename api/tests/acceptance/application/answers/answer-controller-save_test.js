@@ -1,7 +1,6 @@
 const { expect, knex, nock, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Acceptance | Controller | answer-controller-save', () => {
 
@@ -19,7 +18,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
     const challengeId = 'a_challenge_id';
 
     beforeEach(async () => {
-      const assessment = databaseBuilder.factory.buildAssessment({ type: Assessment.types.PLACEMENT });
+      const assessment = databaseBuilder.factory.buildAssessment();
       insertedAssessmentId = assessment.id;
       userId = assessment.userId;
 

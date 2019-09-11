@@ -25,8 +25,6 @@ module.exports = {
             codeCampaign,
             participantExternalId
           });
-        } else if (assessment.isPlacement()) {
-          return useCases.startPlacementAssessment({ assessment });
         } else {
           assessment.state = 'started';
           return assessmentRepository.save(assessment);
@@ -56,8 +54,6 @@ module.exports = {
         assessmentsPromise = useCases.findSmartPlacementAssessments({ userId, filters });
       } else if (filters.type === 'CERTIFICATION') {
         assessmentsPromise = useCases.findCertificationAssessments({ userId, filters });
-      } else if (filters.type === 'PLACEMENT') {
-        assessmentsPromise = useCases.findPlacementAssessments({ userId, filters });
       }
     }
 
@@ -92,12 +88,6 @@ module.exports = {
 
         if (assessment.isDemo()) {
           return useCases.getNextChallengeForDemo({
-            assessment,
-          });
-        }
-
-        if (assessment.isPlacement()) {
-          return useCases.getNextChallengeForPlacement({
             assessment,
           });
         }

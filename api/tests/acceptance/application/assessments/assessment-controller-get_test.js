@@ -135,7 +135,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let assessmentId;
 
     beforeEach(async () => {
-      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, type: 'PLACEMENT', state: null }).id;
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: null }).id;
       await databaseBuilder.commit();
       options = {
         method: 'GET',
@@ -183,8 +183,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'estimated-level': null,
             'pix-score': null,
             'state': null,
-            'title': '3.4 niveau 1 et 2',
-            'type': 'PLACEMENT',
+            'title': '',
+            'type': null,
             'certification-number': null,
           },
           'relationships': {
@@ -209,7 +209,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let options;
 
     beforeEach(async() => {
-      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, type: 'PLACEMENT', state: null }).id;
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: null }).id;
       await databaseBuilder.commit();
       options = {
         headers: {
@@ -241,7 +241,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
     beforeEach(async () => {
       const juryId = databaseBuilder.factory.buildUser({}).id;
-      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, type: 'PLACEMENT', state: 'completed' }).id;
+      assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: 'completed' }).id;
       databaseBuilder.factory.buildAssessmentResult({
         level: 1,
         pixScore: 12,
@@ -312,8 +312,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
             'estimated-level': 1,
             'pix-score': 12,
             'state': 'completed',
-            'title': '3.4 niveau 1 et 2',
-            'type': 'PLACEMENT',
+            'title': '',
+            'type': null,
             'certification-number': null,
           },
           'relationships': {

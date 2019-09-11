@@ -139,6 +139,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     let johnAssessmentToRemember;
     let johnAssessmentResultToRemember;
 
+    const PLACEMENT = 'PLACEMENT';
+
     const limitDate = moment.utc().toDate();
     const afterLimiteDate = moment(limitDate).add(1, 'day').toDate();
 
@@ -169,7 +171,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         courseId: 'courseId1',
         state: Assessment.states.COMPLETED,
         createdAt: johnAssessmentDateToRemember,
-        type: Assessment.types.PLACEMENT,
+        type: 'PLACEMENT',
       });
 
       johnAssessmentResultToRemember = databaseBuilder.factory.buildAssessmentResult({
@@ -186,7 +188,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId1',
             createdAt: dateAssessmentBefore1,
             state: Assessment.states.COMPLETED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultBefore1,
@@ -200,7 +202,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId2',
             createdAt: dateAssessmentBefore2,
             state: Assessment.states.COMPLETED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultAfter1,
@@ -214,7 +216,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId3',
             createdAt: dateAssessmentBefore3,
             state: Assessment.states.STARTED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultBefore2,
@@ -228,7 +230,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId1',
             createdAt: dateAssessmentAfter,
             state: Assessment.states.COMPLETED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultAfter2,
@@ -242,7 +244,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
             courseId: 'courseId1',
             createdAt: dateAssessmentBefore1,
             state: Assessment.states.COMPLETED,
-            type: Assessment.types.PLACEMENT
+            type: PLACEMENT,
           },
           assessmentResult: {
             createdAt: dateAssessmentResultBefore3,
@@ -271,7 +273,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           courseId: johnAssessmentToRemember.courseId,
           state: Assessment.states.COMPLETED,
           createdAt: johnAssessmentToRemember.createdAt,
-          type: Assessment.types.PLACEMENT,
+          type: PLACEMENT,
           competenceId: johnAssessmentToRemember.competenceId,
           campaignParticipation: null,
           assessmentResults: [
@@ -406,7 +408,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       }).id;
 
       _.each([
-        { userId, courseId, type: Assessment.types.PLACEMENT },
+        { userId, courseId, type: Assessment.types.DEMO },
         { userId, type: Assessment.types.CERTIFICATION },
         { courseId, type: Assessment.types.CERTIFICATION },
       ], (assessment) => {
@@ -593,149 +595,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#findOneLastPlacementAssessmentByUserIdAndCourseId', () => {
-
-    const courseId = 'rec23kfr5hfD54f';
-    let userId;
-
-    beforeEach(async () => {
-      userId = databaseBuilder.factory.buildUser().id;
-      await databaseBuilder.commit();
-    });
-
-    afterEach(async () => {
-      await databaseBuilder.clean();
-    });
-
-    it('should return null if nothing found', async () => {
-      // when
-      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
-
-      // then
-      expect(foundAssessment).to.be.null;
-    });
-
-    it('should return a placement regarding the given userId', async () => {
-      // given
-      const assessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.PLACEMENT,
-        userId,
-        courseId,
-      }).id;
-
-      databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.PLACEMENT,
-        courseId,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
-
-      // then
-      expect(foundAssessment.id).to.equal(assessmentId);
-    });
-
-    it('should return a placement concerning the given courseId', async () => {
-      // given
-      const assessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.PLACEMENT,
-        userId,
-        courseId,
-      }).id;
-
-      databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.PLACEMENT,
-        userId,
-        courseId: 'wrongRec',
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
-
-      // then
-      expect(foundAssessment.id).to.equal(assessmentId);
-    });
-
-    it('should return an assessment of type placement', async () => {
-      // given
-      const assessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.PLACEMENT,
-        userId,
-        courseId,
-      }).id;
-
-      databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.SMARTPLACEMENT,
-        userId,
-        courseId,
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
-
-      // then
-      expect(foundAssessment.id).to.equal(assessmentId);
-    });
-
-    it('should return the last placement concerning the userId and courseId', async () => {
-      // given
-      const today = moment.utc().toDate();
-      const pastDate1 = moment(today).subtract(1, 'day').toDate();
-      const pastDate2 = moment(today).subtract(2, 'day').toDate();
-
-      const assessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.PLACEMENT,
-        userId,
-        courseId,
-        createdAt: today,
-      }).id;
-
-      _.each([
-        { userId, courseId, type: Assessment.types.PLACEMENT, createdAt: pastDate1 },
-        { userId, courseId, type: Assessment.types.PLACEMENT, createdAt: pastDate2 },
-      ], (assessment) => {
-        databaseBuilder.factory.buildAssessment(assessment);
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
-
-      // then
-      expect(foundAssessment.id).to.deep.equal(assessmentId);
-    });
-
-    it('should fetch the related assessment results', async () => {
-      // given
-      const assessmentId = databaseBuilder.factory.buildAssessment({
-        type: Assessment.types.PLACEMENT,
-        userId,
-        courseId,
-      }).id;
-
-      _.each([
-        { assessmentId }, { assessmentId },
-      ], (assessmentResult) => {
-        databaseBuilder.factory.buildAssessmentResult(assessmentResult);
-      });
-
-      await databaseBuilder.commit();
-
-      // when
-      const foundAssessment = await assessmentRepository.findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId);
-
-      // then
-      expect(foundAssessment.assessmentResults).to.have.length.of(2);
-    });
-  });
-
   describe('#hasCampaignOrCompetenceEvaluation', () => {
 
     let userId;
@@ -750,17 +609,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       await databaseBuilder.clean();
     });
 
-    context('when user has only PLACEMENT assessment', () => {
-      beforeEach(async () => {
-        databaseBuilder.factory.buildAssessment({
-          userId,
-          type: Assessment.types.PLACEMENT,
-        });
-
-        await databaseBuilder.commit();
-      });
-
-      it('should return the assessment with campaign when it matches with userId', async () => {
+    context('when user does not have campaign or competenceEvaluation', () => {
+      it('should return false', async () => {
         // when
         const result = await assessmentRepository.hasCampaignOrCompetenceEvaluation(userId);
 

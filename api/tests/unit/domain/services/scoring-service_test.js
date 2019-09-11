@@ -2,7 +2,6 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const scoringService = require('../../../../lib/domain/services/scoring/scoring-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentScore = require('../../../../lib/domain/models/AssessmentScore');
-const scoringPlacement = require('../../../../lib/domain/services/scoring/scoring-placement');
 const scoringCertification = require('../../../../lib/domain/services/scoring/scoring-certification');
 
 describe('Unit | Service | scoring-service', () => {
@@ -10,7 +9,6 @@ describe('Unit | Service | scoring-service', () => {
   describe('#calculateAssessmentScore', () => {
 
     beforeEach(() => {
-      sinon.stub(scoringPlacement, 'calculate').resolves();
       sinon.stub(scoringCertification, 'calculate').resolves();
     });
 
@@ -41,21 +39,6 @@ describe('Unit | Service | scoring-service', () => {
       });
     });
 
-    context('when assessment has type "placement"', () => {
-
-      it('should call "placement" scoring strategy', async () => {
-        // given
-        const dependencies = {};
-        const assessment = domainBuilder.buildAssessment({ type: Assessment.types.PLACEMENT });
-
-        // when
-        await scoringService.calculateAssessmentScore(dependencies, assessment);
-
-        // then
-        expect(scoringPlacement.calculate).to.have.been.calledWith(dependencies, assessment);
-      });
-    });
-
     context('when assessment has type "certification"', () => {
 
       it('should call "certification" scoring strategy', async () => {
@@ -71,5 +54,4 @@ describe('Unit | Service | scoring-service', () => {
       });
     });
   });
-
 });

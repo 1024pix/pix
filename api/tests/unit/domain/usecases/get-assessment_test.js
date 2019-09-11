@@ -99,33 +99,28 @@ describe('Unit | UseCase | get-assessment', () => {
     expect(result.title).to.equal(course.id);
   });
 
-  [
-    { assessmentType: Assessment.types.DEMO },
-    { assessmentType: Assessment.types.PLACEMENT },
-  ].forEach(({ assessmentType }) => {
-    it(`should resolve the Assessment domain object with ${assessmentType} title matching the given assessment ID`, async () => {
-      // given
-      assessment.type = assessmentType;
-      assessmentRepository.get.resolves(assessment);
-      courseRepository.getCourseName.resolves(course.name);
+  it('should resolve the Assessment domain object with DEMO title matching the given assessment ID', async () => {
+    // given
+    assessment.type = Assessment.types.DEMO;
+    assessmentRepository.get.resolves(assessment);
+    courseRepository.getCourseName.resolves(course.name);
 
-      // when
-      const result = await getAssessment({
-        assessmentId: assessment.id,
-        assessmentRepository,
-        courseRepository,
-      });
-
-      // then
-      expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
-      expect(courseRepository.getCourseName).to.have.been.calledWithExactly(assessment.courseId);
-
-      expect(result).to.be.an.instanceOf(Assessment);
-      expect(result.id).to.equal(assessment.id);
-      expect(result.pixScore).to.equal(assessmentResult.pixScore);
-      expect(result.estimatedLevel).to.equal(assessmentResult.level);
-      expect(result.title).to.equal(expectedCourseName);
+    // when
+    const result = await getAssessment({
+      assessmentId: assessment.id,
+      assessmentRepository,
+      courseRepository,
     });
+
+    // then
+    expect(assessmentRepository.get).to.have.been.calledWithExactly(assessment.id);
+    expect(courseRepository.getCourseName).to.have.been.calledWithExactly(assessment.courseId);
+
+    expect(result).to.be.an.instanceOf(Assessment);
+    expect(result.id).to.equal(assessment.id);
+    expect(result.pixScore).to.equal(assessmentResult.pixScore);
+    expect(result.estimatedLevel).to.equal(assessmentResult.level);
+    expect(result.title).to.equal(course.name);
   });
 
   it('should resolve the Assessment domain object with SMARTPLACEMENT title matching the given assessment ID', async () => {
