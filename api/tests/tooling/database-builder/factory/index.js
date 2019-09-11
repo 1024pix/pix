@@ -13,6 +13,7 @@ module.exports = {
   buildCompetenceMark: require('./build-competence-mark'),
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildOrganization: require('./build-organization'),
+  buildOrganizationInvitation: require('./build-organization-invitation'),
   buildMembership: require('./build-membership'),
   buildPixRole: require('./build-pix-role'),
   buildSession: require('./build-session'),
