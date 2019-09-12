@@ -17,26 +17,53 @@
       <div class="feedback-panel__form-wrapper">
         <form class="feedback-panel__form">
           <div class="feedback-panel__group">
-            {{textarea class="feedback-panel__field feedback-panel__field--content" value=_content placeholder="Votre message" rows=6}}
-          </div>
-
-          {{#if _error}}
-            <div class="alert alert-danger" role="alert">
-              {{_error}}
+            <div class="feedback-panel__category-selection">
+              <select class="feedback-panel__dropdown" {{action "displayCategoryOptions" on="change"}}>
+                <option value="" disabled selected>J’ai un problème avec</option>
+                {{#each categories as |category|}}
+                  <option value={{category.value}}>{{category.name}}</option>
+                {{/each}}
+              </select>
+              {{#if displayQuestionDropdown}}
+                <select class="feedback-panel__dropdown" {{action "showFeedback" on="change"}}>
+                  <option value="default" selected>Précisez</option>
+                  {{#each nextCategory as |question index|}}
+                    <option value={{index}}>{{question.name}}</option>
+                  {{/each}}
+                </select>
+              {{/if}}
+              {{#if quickHelpInstructions}}
+                <div class="feedback-panel__quick-help">
+                  {{fa-icon 'exclamation-circle' class="tuto-icon__warning"}}
+                  <p>{{{quickHelpInstructions}}}</p>
+                </div>
+              {{/if}}
             </div>
+          </div>
+          {{#if displayTextBox}}
+            <div class="feedback-panel__group">
+              {{textarea class="feedback-panel__field feedback-panel__field--content" value=_content placeholder="Précisez" rows=3}}
+            </div>
+            {{#if _error}}
+              <div class="alert alert-danger" role="alert">
+                {{_error}}
+              </div>
+            {{/if}}
+            <button class="feedback-panel__button feedback-panel__button--send" {{action "sendFeedback"}}>Envoyer</button>
           {{/if}}
-          <button class="feedback-panel__button feedback-panel__button--send" {{action "sendFeedback"}}>Envoyer</button>
         </form>
       </div>
 
-      <div class="feedback-panel__form-description">
-        <p>* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.</p>
-        <p>Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.</p>
-      </div>
+      <div class="feedback-panel__form-legal-notice">
+        <div class="feedback-panel__form-description">
+          <p>* Soyez attentifs à ce que vous écrivez dans cette zone : restez objectif et factuel pour votre intérêt et celui des autres.</p>
+          <p>Notamment, ne saisissez aucune information, vous concernant ou concernant des tiers, sur la santé, la religion, les opinions politiques, syndicales et philosophiques, les origines ethniques, ainsi que sur les sanctions et condamnations.</p>
+        </div>
 
-      <div class="feedback-panel__form-description">
-        <p>Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de <a href="mailto:dpo@pix.fr" class="link">dpo@pix.fr</a>.</p>
-        <p><a href="https://pix.fr/dp-formulaire-signalement-epreuve" target="_blank" class="link">Pour en savoir plus sur la protection de vos données et sur vos droits.</a></p>
+        <div class="feedback-panel__form-description">
+          <p>Pix traite les données de cette zone pour gérer et analyser la difficulté rencontrée et bénéficier de votre retour d'expérience. Vous disposez de droits sur vos données qui peuvent être exercés auprès de <a href="mailto:dpo@pix.fr" class="link">dpo@pix.fr</a>.</p>
+          <p><a href="https://pix.fr/dp-formulaire-signalement-epreuve" target="_blank" class="link">Pour en savoir plus sur la protection de vos données et sur vos droits.</a></p>
+        </div>
       </div>
 
     </div>

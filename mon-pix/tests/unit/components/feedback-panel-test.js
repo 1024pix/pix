@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import sinon from 'sinon';
 
 describe('Unit | Component | feedback-panel', function() {
 
@@ -35,5 +36,36 @@ describe('Unit | Component | feedback-panel', function() {
       expect(component._isSubmitted).to.be.false;
       expect(component._error).to.be.null;
     });
+  });
+
+  describe('#sendFeedback', function() {
+    let feedback;
+    let store;
+
+    beforeEach(() => {
+      feedback = {
+        save: sinon.stub().resolves(null),
+      };
+      store = {
+        createRecord: sinon.stub().returns(feedback)
+      };
+    });
+
+    it('should re-initialise the form correctly', async function() {
+      // given
+      const component = this.owner.lookup('component:feedback-panel');
+      component.set('_category', 'CATEGORY');
+      component.set('_content', 'TEXT');
+      component.set('store', store);
+
+      // when
+      await component.send('sendFeedback');
+
+      // then
+      expect(component._category).to.be.null;
+      expect(component._content).to.be.null;
+      expect(component.nextCategory).to.be.null;
+    });
+
   });
 });

@@ -1,6 +1,6 @@
 .feedback-panel {
   color: $charcoal-grey;
-  font-size: 15px;
+  font-size: 1.5rem;
 }
 
 /* "Link" view
@@ -14,7 +14,7 @@
   cursor: pointer;
   color: inherit;
   font-weight: $font-heavy;
-  font-size: 15px;
+  font-size: 1.5rem;
   line-height: 20px;
 }
 
@@ -29,6 +29,7 @@
 
 .feedback-panel__form-description {
   margin-bottom: 20px;
+  font-size: 2rem;
 }
 
 .feedback-panel__form-description p {
@@ -42,9 +43,6 @@
 .feedback-panel__form {
   width: 100%;
   margin-bottom: 20px;
-  @include device-is('desktop') {
-    width: 50%;
-  }
 }
 
 .feedback-panel__group {
@@ -58,11 +56,47 @@
   border: solid 1px $alto-grey;
   box-sizing: border-box;
   padding: 8px;
-  font-size: 14px;
+  font-size: 1.4rem;
+}
+
+.feedback-panel__category-selection {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback-panel__dropdown {
+  margin: 5px 0;
+  width: 100%;
+  @include device-is('desktop') {
+    width: 40%;
+  }
 }
 
 .feedback-panel__field--content {
   resize: none;
+}
+
+.feedback-panel__quick-help {
+  font-size: 1.8rem;
+  margin: 20px 0;
+  font-weight: bold;
+  text-align: justify;
+  word-break: break-word;
+
+  & .tuto-icon {
+    width: 15px;
+
+    &__warning {
+      float: left;
+      width: 30px;
+      height: 30px;
+      margin: 5px 0;
+    }
+  }
+
+  & p {
+    margin-left: 50px;
+  }
 }
 
 .feedback-panel__button {
@@ -72,11 +106,24 @@
   background-color: $alto-grey;
   border: 1px solid $raven-grey;
   margin-right: 10px;
+
+  &[disabled] {
+    opacity: 0.3;
+  }
 }
 
 .feedback-panel__button--send {
   background-color: $raven-grey;
   color: white;
+}
+
+.feedback-panel__form-legal-notice {
+  padding-top: 15px;
+  border-top: 1px solid $alto-grey;
+
+  & p {
+    font-size: 1.2rem;
+  }
 }
 
 /* "Mercix" view
@@ -85,7 +132,7 @@
 .feedback-panel__view--mercix {
   text-align: center;
   font-family: $font-lato;
-  font-size: 18px;
+  font-size: 1.8rem;
   color: $charcoal-grey;
   padding-top: 20px;
   padding-bottom: 10px;
