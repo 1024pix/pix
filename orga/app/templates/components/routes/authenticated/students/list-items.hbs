@@ -1,6 +1,31 @@
 <div class="list-students-page__header">
   <div class="page__title page-title">Élèves</div>
+  {{#if currentUser.isOwnerInOrganization}}
+    <div class="list-students-page__import-students-button">
+      {{#file-upload name="file-upload"
+                     for="students-file-upload"
+                     accept=".xml"
+                     multiple=false
+                     onfileadd=(action importStudents)}}
+        <span class="button" role="button" tabindex=0>Importer (.xml)</span>
+      {{/file-upload}}
+    </div>
+  {{/if}}
 </div>
+
+{{#if message}}
+  <div class={{concat "alert-zone alert-zone--" message.type}} aria-live="polite">
+    {{fa-icon (if isSuccessMessage 'check-circle' 'exclamation-triangle') class="alert-zone__icon"}}
+    <p class="alert-zone__message">
+      {{#if isSuccessMessage}}
+        La liste a été importée avec succès.
+      {{else}}
+        {{if message.detail message.detail 'Quelque chose s\'est mal passé. Veuillez réessayer.'}}
+      {{/if}}
+    </p>
+  </div>
+{{/if}}
+
 <div class="panel">
   <div class="table content-text content-text--small">
     <table>
@@ -31,3 +56,9 @@
     {{/unless}}
   </div>
 </div>
+
+{{#if isLoading}}
+  {{#modal-dialog translucentOverlay=true containerClass="pix-modal__translucent"}}
+    <img src="/images/interwind.gif" alt="Chargement…">
+  {{/modal-dialog}}
+{{/if}}
