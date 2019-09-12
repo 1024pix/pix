@@ -112,4 +112,12 @@ module.exports = {
     return usecases.findOrganizationStudents({ organizationId })
       .then(studentSerializer.serialize);
   },
+
+  importStudentsFromSIECLE(request) {
+    const organizationId = request.params.id;
+    const buffer = request.payload;
+
+    return usecases.importStudentsFromSIECLE({ organizationId, buffer })
+      .then(() => null);
+  }
 };

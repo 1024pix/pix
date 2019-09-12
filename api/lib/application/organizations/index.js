@@ -147,7 +147,28 @@ exports.register = async (server) => {
           '- Récupération des élèves liés à une organisation\n'
         ]
       }
-    }
+    },
+    {
+      method: 'POST',
+      path: '/api/organizations/{id}/import-students',
+      config: {
+        pre: [{
+          method: securityController.checkUserIsOwnerInScoOrganizationAndManagesStudents,
+          assign: 'isOwnerInScoOrganizationAndManagesStudents'
+        }],
+        payload: {
+          maxBytes: 1048576 * 10, // 10MB
+          parse: 'gunzip',
+        },
+        handler: organisationController.importStudentsFromSIECLE,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
+          '- Elle permet d\'importer des élèves en masse depuis un fichier au format SIECLE\n' +
+          '- Elle ne retourne aucune valeur de retour'
+        ],
+        tags: ['api', 'students']
+      }
+    },
   ]);
 };
 

@@ -1,15 +1,18 @@
 .alert-zone {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
   height: 44px;
-  width: 500px;
   border-radius: 4px;
   margin-bottom: 40px;
+  padding-right: 10px;
+  color: $white;
 
   &--error {
     background-color: $vermilion;
-    color: $white;
+  }
+
+  &--warning {
+    background-color: $amber;
   }
 
   &--success {
@@ -21,5 +24,9 @@
     font-size: 1rem;
     font-weight: 700;
     margin-left: 10px;
+  }
+
+  &__icon {
+    padding-left: 10px;
   }
 }

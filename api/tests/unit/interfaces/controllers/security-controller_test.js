@@ -455,4 +455,90 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
       });
     });
   });
+
+  describe('#checkUserIsOwnerInScoOrganizationAndManagesStudents', () => {
+    let isOwnerInOrganizationStub;
+    let belongsToScoOrganizationAndManagesStudentsStub;
+
+    beforeEach(() => {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
+      isOwnerInOrganizationStub = sinon.stub(checkUserIsOwnerInOrganizationUseCase, 'execute');
+      belongsToScoOrganizationAndManagesStudentsStub = sinon.stub(checkUserBelongsToScoOrganizationAndManagesStudentsUseCase, 'execute');
+    });
+
+    context('Successful case', () => {
+      const request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } }, params: { id: 5678 } };
+
+      beforeEach(() => {
+        isOwnerInOrganizationStub.resolves(true);
+        belongsToScoOrganizationAndManagesStudentsStub.resolves(true);
+      });
+
+      it('should authorize access to resource when the user is authenticated and is OWNER in Organization and belongs to a SCO Organization that manages students', async () => {
+        // given
+
+        // when
+        const response = await securityController.checkUserIsOwnerInScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.source).to.equal(true);
+      });
+    });
+
+    context('Error cases', () => {
+
+      const request = { auth: { credentials: { accessToken: 'valid.access.token' } }, params: { id: 5678 } };
+
+      it('should forbid resource access when user was not previously authenticated', async () => {
+        // given
+        delete request.auth.credentials;
+
+        // when
+        const response = await securityController.checkUserIsOwnerInScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user is not OWNER in Organization', async () => {
+        // given
+        checkUserIsOwnerInOrganizationUseCase.execute.resolves(false);
+        checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute.resolves(true);
+
+        // when
+        const response = await securityController.checkUserIsOwnerInScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when user does not belong to a SCO Organization or does not manage students', async () => {
+        // given
+        checkUserIsOwnerInOrganizationUseCase.execute.resolves(true);
+        checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute.resolves(false);
+
+        // when
+        const response = await securityController.checkUserIsOwnerInScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+
+      it('should forbid resource access when an error is thrown by use case', async () => {
+        // given
+        checkUserIsOwnerInOrganizationUseCase.execute.rejects(new Error('Some error'));
+
+        // when
+        const response = await securityController.checkUserIsOwnerInScoOrganizationAndManagesStudents(request, hFake);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+        expect(response.isTakeOver).to.be.true;
+      });
+    });
+  });
+
 });
