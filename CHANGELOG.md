@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v2.64.0 (12/09/2019)
+
+- [#673](https://github.com/1024pix/pix/pull/673) [FEATURE] Rajouter la catégorisation aux signalements envoyés par les users (PF-782).
+- [#697](https://github.com/1024pix/pix/pull/697) [FEATURE] Augmenter la liste de membre d'une organisation (PA-108).
+- [#677](https://github.com/1024pix/pix/pull/677) [FEATURE] Afficher un warning lorsqu'une modification jury est illégale (PF-811).
+- [#699](https://github.com/1024pix/pix/pull/699) [BUGFIX] Activer la pagination sur la page de membre (PA-108).
+- [#700](https://github.com/1024pix/pix/pull/700) [BUGFIX] Lancer consécutivement deux campagnes avec demande ID (PF-825).
+- [#653](https://github.com/1024pix/pix/pull/653) [TECH] Suppression des positionnements V1 (`PLACEMENT`) côté serveur.
+- [#695](https://github.com/1024pix/pix/pull/695) [TECH] Refacto du hook pre-commit.
+
 ## v2.63.0 (09/09/2019)
 
 - [#682](https://github.com/1024pix/pix/pull/682) [FEATURE] Offrir une navigation après le partage des résultats d'une campagne (PF-716).
