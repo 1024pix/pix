@@ -23,33 +23,6 @@ describe('Unit | Domain | Models | Skill', () => {
     });
   });
 
-  describe('#computeMaxReachablePixScoreForSkill()', function() {
-
-    it('should return the pixScore gained by the skill', function() {
-      // given
-      const skillNames = ['@web1', '@chi1', '@fou1', '@mis1', '@web3', '@url3', '@web4', '@chi5', '@fou5', '@mis5'];
-      const competenceSkills = skillNames.map((skillName) => new Skill({ name: skillName }));
-      const skillWeb1 = new Skill({ name: '@web1' });
-      const skillWeb3 = new Skill({ name: '@web3' });
-      const skillWeb4 = new Skill({ name: '@web4' });
-      const skillChi5 = new Skill({ name: '@chi5' });
-
-      // when
-      const pixScoreWeb1 = skillWeb1.computeMaxReachablePixScoreForSkill(competenceSkills);
-      const pixScoreWeb3 = skillWeb3.computeMaxReachablePixScoreForSkill(competenceSkills);
-      const pixScoreWeb4 = skillWeb4.computeMaxReachablePixScoreForSkill(competenceSkills);
-      const pixScoreChi5 = skillChi5.computeMaxReachablePixScoreForSkill(competenceSkills);
-
-      // then
-      expect(pixScoreWeb1).to.equal(2);
-      expect(pixScoreWeb3).to.equal(4);
-      expect(pixScoreWeb4).to.equal(4);
-      expect(pixScoreChi5).to.equal(2.6666666666666665);
-
-    });
-
-  });
-
   describe('#tubeNameWithAt', () => {
     it('should have a property fromListOfSkill', () => {
       // when

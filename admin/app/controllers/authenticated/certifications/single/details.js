@@ -33,30 +33,10 @@ export default Controller.extend({
 
     onUpdateRate() {
       const competences = this.get('details.competences');
-      let jury = false;
-      const answersData = competences.reduce((data, competence) => {
-        if (competence.answers) {
-          competence.answers.forEach((answer) => {
-            if (answer.jury) {
-              if (answer.jury === 'ok') {
-                data.good++;
-              }
-              if (answer.jury !== 'skip') {
-                data.count++;
-              }
-              jury = true;
-            } else {
-              data.count++;
-              if (answer.result === 'ok') {
-                data.good++;
-              }
-            }
-          });
-        }
-        return data;
-      }, { count: 0, good: 0 });
+      const { good, count, jury } = _getCertificationResultsAfterJuryUpdate(competences);
+
       if (jury) {
-        this.set('juryRate', Math.round(answersData.good * 10000 / answersData.count) / 100);
+        this.set('juryRate', Math.round(good * 10000 / count) / 100);
       } else {
         this.set('juryRate', false);
       }
@@ -90,3 +70,27 @@ export default Controller.extend({
     }
   }
 });
+
+function _getCertificationResultsAfterJuryUpdate(competences) {
+  return competences.reduce((data, competence) => {
+    if (competence.answers) {
+      competence.answers.forEach((answer) => {
+        if (answer.jury) {
+          if (answer.jury === 'ok') {
+            data.good++;
+          }
+          if (answer.jury !== 'skip') {
+            data.count++;
+          }
+          data.jury = true;
+        } else {
+          data.count++;
+          if (answer.result === 'ok') {
+            data.good++;
+          }
+        }
+      });
+    }
+    return data;
+  }, { count: 0, good: 0, jury: false });
+}

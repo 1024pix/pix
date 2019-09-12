@@ -48,8 +48,7 @@ async function _fetchAssessmentTitle({
       return await competenceRepository.getCompetenceName(assessment.competenceId);
     }
 
-    case Assessment.types.DEMO :
-    case Assessment.types.PLACEMENT : {
+    case Assessment.types.DEMO : {
       return await courseRepository.getCourseName(assessment.courseId);
     }
     case Assessment.types.PREVIEW : {

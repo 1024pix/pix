@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "2.63.0",
+  "version": "2.64.0",
   "private": false,
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "license": "AGPL-3.0",
@@ -27,7 +27,7 @@
     "coveralls": "^3.0.0",
     "eslint": "^5.16.0",
     "eslint-plugin-mocha": "^5.3.0",
-    "husky": "^0.14.3",
+    "husky": "3.0.5",
     "lcov-result-merger": "^1.2.0",
     "mocha": "^6.0.2",
     "sinon": "^7.2.5"
@@ -56,7 +56,6 @@
     "clean:mon-pix": "cd mon-pix && npm run clean",
     "clean:orga": "cd orga && npm run clean",
     "clean:root": "rm -rf node_modules && rm -rf tmp",
-    "commitmsg": "node ./scripts/git-hook/prepend-commit-message.js",
     "configure": "npm install && run-s ci:all test configure:api",
     "configure:api": "cd api && npm run db:migrate",
     "coverage": "run-s coverage:clean coverage:api coverage:merge coverage:coveralls coverage:codeclimate",
@@ -95,5 +94,10 @@
     "eslint-plugin-ember": "^5.2.0",
     "moment": "^2.24.0",
     "npm-run-all": "^4.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "node ./scripts/git-hook/prepend-commit-subject.js"
+    }
   }
 }

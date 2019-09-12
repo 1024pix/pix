@@ -49,14 +49,6 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  findOneLastPlacementAssessmentByUserIdAndCourseId(userId, courseId) {
-    return BookshelfAssessment
-      .where({ userId, courseId, type: 'PLACEMENT' })
-      .orderBy('createdAt', 'desc')
-      .fetch({ require: false, withRelated: ['assessmentResults'] })
-      .then(_toDomain);
-  },
-
   getByAssessmentIdAndUserId(assessmentId, userId) {
     return BookshelfAssessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })

@@ -93,17 +93,6 @@ describe('Integration | Utils | Error Manager', function() {
       expect(result.statusCode).to.equal(409);
     });
 
-    it('should return 409 on domain AssessmentStartError', function() {
-      // given
-      const error = new DomainErrors.AssessmentStartError();
-
-      // when
-      const result = send(hFake, error);
-
-      // then
-      expect(result.statusCode).to.equal(409);
-    });
-
     it('should return 409 on domain AssessmentNotCompletedError', function() {
       // given
       const error = new DomainErrors.AssessmentNotCompletedError();
