@@ -36,7 +36,7 @@ const associatedSkills = [
   { skillId: 'recgOc2OreHCosoRp' },
 ];
 
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
   return knex.schema
     .createTable(TABLE_NAME_TARGET_PROFILES, (t) => {
       t.increments().primary();
@@ -82,7 +82,7 @@ exports.up = function(knex, Promise) {
     });
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
   return knex.schema.table(TABLE_NAME_CAMPAIGNS, function(table) {
     table.dropColumn('targetProfileId');
   })

@@ -32,8 +32,8 @@ module.exports = {
 
   async findByChallengeAndAssessment(request) {
     const userId = requestUtils.extractUserIdFromRequest(request);
-    const challengeId = request.url.query.challenge;
-    const assessmentId = request.url.query.assessment;
+    const challengeId = request.query.challenge;
+    const assessmentId = request.query.assessment;
     const answer = await usecases.findAnswerByChallengeAndAssessment({ challengeId, assessmentId, userId });
 
     return answerSerializer.serialize(answer);
