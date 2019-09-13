@@ -1,7 +1,7 @@
 import { click, fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { authenticateAsSimpleUser, startCampaignByCode } from '../helpers/testing';
+import { authenticateAsSimpleUser, startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/testing';
 import visitWithAbortedTransition from '../helpers/visit';
 import defaultScenario from '../../mirage/scenarios/default';
 import { setupApplicationTest } from 'ember-mocha';
@@ -136,8 +136,54 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       });
 
       context('When campaign has external id', function() {
+
+        context('When participant external id is not set in the url', function() {
+          beforeEach(async function() {
+            await startCampaignByCode('AZERTY1');
+            await fillIn('#firstName', 'Jane');
+            await fillIn('#lastName', 'Acme');
+            await fillIn('#email', 'jane@acme.com');
+            await fillIn('#password', 'Jane1234');
+            await click('#pix-cgu');
+            await click('.button');
+          });
+
+          it('should redirect to fill-in-id-pix page after signup', async function() {
+            // then
+            expect(currentURL()).to.contains('/campagnes/AZERTY1/identifiant');
+          });
+
+          it('should redirect to assessment after completion of external id', async function() {
+            // when
+            await fillIn('#id-pix-label', 'monmail@truc.fr');
+            await click('.button');
+
+            // then
+            expect(currentURL()).to.contains('/didacticiel');
+          });
+        });
+
+        context('When participant external id is set in the url', function() {
+          beforeEach(async function() {
+            await startCampaignByCodeAndExternalId('AZERTY1');
+            await fillIn('#firstName', 'Jane');
+            await fillIn('#lastName', 'Acme');
+            await fillIn('#email', 'jane@acme.com');
+            await fillIn('#password', 'Jane1234');
+            await click('#pix-cgu');
+            await click('.button');
+          });
+
+          it('should redirect to assessment', async function() {
+            // then
+            expect(currentURL()).to.contains('/didacticiel');
+          });
+        });
+      });
+
+      context('When campaign does not have external id', function() {
         beforeEach(async function() {
-          await startCampaignByCode('AZERTY1');
+          await startCampaignByCode('AZERTY2');
           await fillIn('#firstName', 'Jane');
           await fillIn('#lastName', 'Acme');
           await fillIn('#email', 'jane@acme.com');
@@ -146,24 +192,15 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           await click('.button');
         });
 
-        it('should redirect to fill-in-id-pix page after signup', async function() {
-          // then
-          expect(currentURL()).to.contains('/campagnes/AZERTY1/identifiant');
-        });
-
-        it('should redirect to assessment after completion of external id', async function() {
-          // when
-          await fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.button');
-
+        it('should redirect to assessment after signup', async function() {
           // then
           expect(currentURL()).to.contains('/didacticiel');
         });
       });
 
-      context('When campaign does not have external id', function() {
+      context('When campaign does not have external id but a participant external id is set in the url', function() {
         beforeEach(async function() {
-          await startCampaignByCode('AZERTY2');
+          await startCampaignByCodeAndExternalId('AZERTY2');
           await fillIn('#firstName', 'Jane');
           await fillIn('#lastName', 'Acme');
           await fillIn('#email', 'jane@acme.com');
@@ -193,18 +230,102 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         find('.campaign-landing-page__logo');
       });
 
-      context('When campaign have external id', function() {
+      context('When campaign has external id', function() {
+
+        context('When participant external id is not set in the url', function() {
+
+          beforeEach(async function() {
+            await startCampaignByCode('AZERTY1');
+          });
+
+          it('should show the identifiant page after clicking on start button in landing page', async function() {
+            expect(currentURL()).to.contains('/campagnes/AZERTY1/identifiant');
+          });
+
+          it('should save the external id when user fill in his id', async function() {
+            // given
+            const participantExternalId = 'monmail@truc.fr';
+            let receivedParticipantExternalId;
+            this.server.post('/campaign-participations', (schema, request) => {
+              const params = JSON.parse(request.requestBody);
+
+              receivedParticipantExternalId = params.data.attributes['participant-external-id'];
+
+              return _buildCampaignParticipation(schema);
+            });
+
+            // when
+            await fillIn('#id-pix-label', participantExternalId);
+            await click('.button');
+
+            // then
+            expect(receivedParticipantExternalId).to.equal(participantExternalId);
+          });
+
+          it('should go to the tutorial when the user fill in his id', async function() {
+            // when
+            await fillIn('#id-pix-label', 'monmail@truc.fr');
+            await click('.button');
+
+            // then
+            expect(currentURL()).to.contains('campagnes/AZERTY1/didacticiel');
+          });
+
+          it('should start the assessment when the user has seen tutorial', async function() {
+            // when
+            await fillIn('#id-pix-label', 'monmail@truc.fr');
+            await click('.button');
+            await click('.campaign-tutorial__next-page-tutorial');
+            await click('.campaign-tutorial__next-page-tutorial');
+            await click('.campaign-tutorial__next-page-tutorial');
+            await click('.campaign-tutorial__start-campaign-button');
+
+            // then
+            expect(currentURL()).to.contains(/assessments/);
+            expect(find('.assessment-challenge__progress-bar')).to.exist;
+          });
+        });
+
+        context('When participant external id is set in the url', function() {
+          beforeEach(async function() {
+            await startCampaignByCodeAndExternalId('AZERTY1');
+          });
+
+          it('should redirect to assessment', async function() {
+            // then
+            expect(currentURL()).to.contains('/didacticiel');
+          });
+
+          it('should start the assessment when the user has seen tutorial', async function() {
+            // when
+            await click('.campaign-tutorial__next-page-tutorial');
+            await click('.campaign-tutorial__next-page-tutorial');
+            await click('.campaign-tutorial__next-page-tutorial');
+            await click('.campaign-tutorial__start-campaign-button');
+
+            // then
+            expect(currentURL()).to.contains(/assessments/);
+            expect(find('.assessment-challenge__progress-bar')).to.exist;
+          });
+        });
+      });
+
+      context('When campaign does not have external id', function() {
+
         beforeEach(async function() {
-          await startCampaignByCode('AZERTY1');
+          await visitWithAbortedTransition('/campagnes/AZERTY2');
         });
 
-        it('should show the identifiant page after clicking on start button in landing page', async function() {
-          expect(currentURL()).to.contains('/campagnes/AZERTY1/identifiant');
+        it('should redirect to tutorial after clicking on start button in landing page', async function() {
+          // when
+          await click('.campaign-landing-page__start-button');
+
+          // then
+          expect(currentURL()).to.contains('campagnes/AZERTY2/didacticiel');
         });
 
-        it('should save the external id when user fill in his id', async function() {
+        it('should not save any external id after clicking on start button in landing page', async function() {
           // given
-          const participantExternalId = 'monmail@truc.fr';
           let receivedParticipantExternalId;
           this.server.post('/campaign-participations', (schema, request) => {
             const params = JSON.parse(request.requestBody);
@@ -213,43 +334,17 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
             return _buildCampaignParticipation(schema);
           });
-
           // when
-          await fillIn('#id-pix-label', participantExternalId);
-          await click('.button');
+          await click('.campaign-landing-page__start-button');
 
           // then
-          expect(receivedParticipantExternalId).to.equal(participantExternalId);
-        });
-
-        it('should go to the tutorial when the user fill in his id', async function() {
-          // when
-          await fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.button');
-
-          // then
-          expect(currentURL()).to.contains('campagnes/AZERTY1/didacticiel');
-        });
-
-        it('should start the assessment when the user has seen tutorial', async function() {
-          // when
-          await fillIn('#id-pix-label', 'monmail@truc.fr');
-          await click('.button');
-          await click('.campaign-tutorial__next-page-tutorial');
-          await click('.campaign-tutorial__next-page-tutorial');
-          await click('.campaign-tutorial__next-page-tutorial');
-          await click('.campaign-tutorial__start-campaign-button');
-
-          // then
-          expect(currentURL()).to.contains(/assessments/);
-          expect(find('.assessment-challenge__progress-bar')).to.exist;
+          expect(receivedParticipantExternalId).to.equal(null);
         });
       });
 
-      context('When campaign does not have external id', function() {
-
+      context('When campaign does not have external id but a participant external id is set in the url', function() {
         beforeEach(async function() {
-          await visitWithAbortedTransition('/campagnes/AZERTY2');
+          await visitWithAbortedTransition('/campagnes/AZERTY2?participantExternalId=a73at01r3');
         });
 
         it('should redirect to tutorial after clicking on start button in landing page', async function() {
