@@ -38,9 +38,10 @@ Cypress.Commands.add('login', (username, password) => {
   }).then((response) => {
     window.localStorage.setItem('ember_simple_auth-session', JSON.stringify({
       authenticated: {
-        authenticator: 'authenticator:simple',
-        token: response.body.access_token,
-        userId: '1'
+        authenticator: 'authenticator:oauth2',
+        token_type: 'bearer',
+        access_token: response.body.access_token,
+        user_id: 1
       }
     }));
   });
@@ -61,9 +62,10 @@ Cypress.Commands.add('loginAdmin', (username, password) => {
   }).then((response) => {
     window.localStorage.setItem('ember_simple_auth-session', JSON.stringify({
       authenticated: {
-        authenticator: 'authenticator:simple',
-        token: response.body.access_token,
-        userId: '2'
+        authenticator: 'authenticator:oauth2',
+        token_type: 'bearer',
+        access_token: response.body.access_token,
+        user_id: 2
       }
     }));
   });
