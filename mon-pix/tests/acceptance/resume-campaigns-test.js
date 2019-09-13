@@ -59,12 +59,25 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
     context('When user is logged', async function() {
 
-      context('When user has started his assessment', async function() {
+      context('When user has started his assessment and came back', async function() {
 
         it('should redirect directly in assessment', async function() {
-          // given
+          // when
           await visitWithAbortedTransition('/campagnes/AZERTY1');
 
+          // then
+          expect(currentURL()).to.contains('/assessments/');
+          expect(find('.progress-bar-info').textContent).to.contains('2/5');
+        });
+      });
+
+      context('When user has started his assessment and came back with query params', function() {
+
+        it('should redirect to assessment', async function() {
+          // when
+          await visitWithAbortedTransition('/campagnes/AZERTY1?participantExternalId=a7Eat01r3');
+
+          // then
           expect(currentURL()).to.contains('/assessments/');
           expect(find('.progress-bar-info').textContent).to.contains('2/5');
         });

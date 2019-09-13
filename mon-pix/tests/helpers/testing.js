@@ -28,6 +28,11 @@ export async function startCampaignByCode(campaignCode) {
   await click('.campaign-landing-page__start-button');
 }
 
+export async function startCampaignByCodeAndExternalId(campaignCode) {
+  await visitWithAbortedTransition(`/campagnes/${campaignCode}?participantExternalId=a73at01r3`);
+  await click('.campaign-landing-page__start-button');
+}
+
 export async function resumeCampaignByCode(campaignCode, hasExternalParticipantId) {
   await visitWithAbortedTransition(`/campagnes/${campaignCode}`);
   await click('.campaign-landing-page__start-button');
