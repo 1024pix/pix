@@ -89,4 +89,3 @@ function _validateFilters(filters) {
     throw new infraErrors.MissingQueryParamError('filter.code');
   }
 }
-
