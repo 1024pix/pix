@@ -56,8 +56,7 @@ describe('Integration | Repository | CompetenceMark', () => {
     context('when competenceMark is not validated', () => {
       it('should return an error', () => {
         // given
-        const expectedValidationErrorMessage = 'ValidationError: child "level" fails because' +
-                                               ' ["level" must be less than or equal to 8]';
+        const expectedValidationErrorMessage = 'ValidationError: "level" must be less than or equal to 8';
         const markWithLevelGreaterThanEight = domainBuilder.buildCompetenceMark({
           score: 13,
           level: 10,

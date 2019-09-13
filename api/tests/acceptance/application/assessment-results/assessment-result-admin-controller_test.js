@@ -213,7 +213,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             expect(response.statusCode).to.equal(422);
             expect(response.result.errors[0]).to.deep.equal({
               'title': 'Unprocessable entity',
-              'detail': 'ValidationError: child "score" fails because ["score" must be less than or equal to 64]',
+              'detail': 'ValidationError: "score" must be less than or equal to 64',
               'status': '422'
             });
           });
