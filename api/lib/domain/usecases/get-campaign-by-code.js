@@ -1,22 +1,21 @@
 const { NotFoundError, InternalError } = require('../../domain/errors');
 
-module.exports = function getCampaignByCode({ code, campaignRepository, organizationRepository }) {
-  let campaign;
-  let organizationId;
-  return campaignRepository.getByCode(code)
-    .then((foundCampaign) => {
-      if (foundCampaign === null) {
-        return Promise.reject(new NotFoundError(`Campaign with code ${code} not found`));
-      }
-      campaign = foundCampaign;
-      organizationId = campaign.organizationId;
-      return organizationRepository.get(organizationId);
-    })
-    .then((foundOrganization) => {
-      if (foundOrganization === null) {
-        return Promise.reject(new InternalError(`Organization ${organizationId} not found`));
-      }
-      campaign.organizationLogoUrl = foundOrganization.logoUrl;
-      return campaign;
-    });
+module.exports = async function getCampaignByCode({
+  code,
+  campaignRepository,
+  organizationRepository
+}) {
+  const foundCampaign = await campaignRepository.getByCode(code);
+  if (foundCampaign === null) {
+    return Promise.reject(new NotFoundError(`Campaign with code ${code} not found`));
+  }
+
+  const organizationId = foundCampaign.organizationId;
+  const foundOrganization = await organizationRepository.get(organizationId);
+  if (foundOrganization === null) {
+    return Promise.reject(new InternalError(`Organization ${organizationId} not found`));
+  }
+
+  foundCampaign.organizationLogoUrl = foundOrganization.logoUrl;
+  return foundCampaign;
 };
