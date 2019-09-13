@@ -25,11 +25,14 @@ module.exports = {
       });
   },
 
-  async getByCode (request) {
+  async getByCode(request) {
     const filters = queryParamsUtils.extractParameters(request.query).filter;
-    await _validateFilters(filters)
+    await _validateFilters(filters);
+
     const campaign = await usecases.getCampaignByCode({ code: filters.code });
-    return campaignSerializer.serialize([campaign]);
+    const campaignWithLogo = await usecases.addOrganizationLogoToCampaign({ campaign });
+
+    return campaignSerializer.serialize([campaignWithLogo]);
   },
 
   getById(request) {

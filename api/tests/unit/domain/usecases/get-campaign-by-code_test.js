@@ -1,112 +1,76 @@
 const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
-const { NotFoundError, InternalError } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-campaign-by-code', () => {
-
-  let requestErr;
-  let requestResult;
 
   const organizationId = 'organizationId';
   const campaignCode = 'QWERTY123';
   const campaign = { code: campaignCode, organizationId };
-  const organization = { id: organizationId, logoUrl: 'a logo url' };
   const campaignRepository = {};
-  const organizationRepository = {};
-  const augmentedCampaign = Object.assign({}, campaign, { organizationLogoUrl: organization.logoUrl });
   const testError = 'some error';
 
   beforeEach(() => {
     campaignRepository.getByCode = sinon.stub();
-    organizationRepository.get = sinon.stub();
-    requestErr = null;
-    requestResult = null;
   });
-  
+
   context('the campaign was retrieved by code', () => {
     context('the campaign exists', () => {
       beforeEach(() => {
-        // Given
         campaignRepository.getByCode.returns(Promise.resolve(campaign));
       });
-      context('the related organization was retrieved', () => {
-        context('the relation organization did exist', () => {
-          beforeEach(() => {
-            // Given
-            organizationRepository.get.returns(Promise.resolve(organization));
 
-            // When
-            return usecases.getCampaignByCode({ code: campaignCode, campaignRepository, organizationRepository })
-              .then((res) => requestResult = res);
-          });
-          it('should return the campaign augmented with organization logo', function() {
-            expect(requestResult).to.deep.equal(augmentedCampaign);
-          });
-          it('should have fetched the campaign by code', () => {
-            expect(campaignRepository.getByCode).to.have.been.calledWithExactly(campaignCode);
-          });
-          it('should have fetched the organization by id', () => {
-            expect(organizationRepository.get).to.have.been.calledWithExactly(organizationId);
-          });
-        });
+      it('should return the campaign ', async () => {
+        // when
+        const res = await usecases.getCampaignByCode({ code: campaignCode, campaignRepository });
+
+        // then
+        expect(res).to.deep.equal(campaign);
       });
-      context('the related organization did not exist', () => {
-        beforeEach(() => {
-          // Given
-          organizationRepository.get.returns(Promise.resolve(null));
 
-          // When
-          return usecases.getCampaignByCode({ code: campaignCode, campaignRepository, organizationRepository })
-            .catch((err) => requestErr = err);
-        });
-        it('should throw an Internal error', () => {
-          // Then
-          expect(requestErr).to.be.instanceOf(InternalError);
-        });
-      });
-      context('the related organization could not be retrieved', () => {
-        beforeEach(() => {
-          // Given
-          organizationRepository.get.returns(Promise.reject(testError));
+      it('should have fetched the campaign by code', async () => {
+        // when
+        await usecases.getCampaignByCode({ code: campaignCode, campaignRepository });
 
-          // When
-          return usecases.getCampaignByCode({ code: campaignCode, campaignRepository, organizationRepository })
-            .catch((err) => requestErr = err);
-        });
-        it('should forward the error', () => {
-          // Then
-          expect(requestErr).to.deep.equal(testError);
-        });
+        // then
+        expect(campaignRepository.getByCode).to.have.been.calledWithExactly(campaignCode);
       });
     });
-    context('the campaign does not exist', () => {
-      beforeEach(() => {
-        // Given
-        campaignRepository.getByCode.returns(Promise.resolve(null));
 
-        // When
-        return usecases.getCampaignByCode({ code: campaignCode, campaignRepository, organizationRepository })
-          .catch((err) => requestErr = err);
+    context('the campaign does not exist', async () => {
+      beforeEach(() => {
+        campaignRepository.getByCode.returns(Promise.resolve(null));
       });
-      it('should throw a NotFound error', () => {
-        // Then
-        expect(requestErr).to.be.instanceOf(NotFoundError);
+
+      it('should throw a NotFound error', async () => {
+        // when
+        try {
+          await usecases.getCampaignByCode({ code: campaignCode, campaignRepository });
+        }
+
+        // then
+        catch (error) {
+          expect(error).to.be.instanceOf(NotFoundError);
+        }
       });
     });
   });
+
   context('the campaign couldn\'t be retrieved', () => {
     beforeEach(() => {
-      // Given
       campaignRepository.getByCode.returns(Promise.reject(testError));
-
-      // When
-      return usecases.getCampaignByCode({ code: campaignCode, campaignRepository, organizationRepository })
-        .catch((err) => requestErr = err);
     });
-    it('should throw an Internal error', () => {
-      // Then
-      expect(requestErr).to.deep.equal(testError);
+
+    it('should throw an Internal error', async () => {
+      // when
+      try {
+        await usecases.getCampaignByCode({ code: campaignCode, campaignRepository });
+      }
+
+      // then
+      catch (error) {
+        expect(error).to.be.deep.equal(testError);
+      }
     });
   });
-
 });

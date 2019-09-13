@@ -115,7 +115,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('#findByCode ', () => {
+  describe('#getByCode ', () => {
 
     const campaignCode = 'AZERTY123';
     let request;
@@ -125,10 +125,11 @@ describe('Unit | Application | Controller | Campaign', () => {
         query: { 'filter[code]': campaignCode }
       };
       sinon.stub(usecases, 'getCampaignByCode');
+      sinon.stub(usecases, 'addOrganizationLogoToCampaign');
       sinon.stub(campaignSerializer, 'serialize');
     });
 
-    it('should call the use case to retrieve the campaign with the expected code', async () => {
+    it('should call getCampaignByCode usecase to retrieve the campaign by code', async () => {
       // given
       const createdCampaign = domainBuilder.buildCampaign();
       usecases.getCampaignByCode.resolves(createdCampaign);
@@ -143,19 +144,36 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(usecases.getCampaignByCode).to.have.been.calledWith({ code: campaignCode });
     });
 
+    it('should call addOrganizationLogoToCampaign usecase', async () => {
+      // given
+      const createdCampaign = domainBuilder.buildCampaign();
+      usecases.getCampaignByCode.resolves(createdCampaign);
+      usecases.addOrganizationLogoToCampaign.resolves(createdCampaign);
+
+      // when
+      await campaignController.getByCode(request, hFake);
+
+      // then
+      expect(usecases.addOrganizationLogoToCampaign).to.have.been.calledWith({ campaign: createdCampaign });
+    });
+
     it('should return the serialized campaign found by the use case', async () => {
       // given
       const createdCampaign = domainBuilder.buildCampaign();
       usecases.getCampaignByCode.resolves(createdCampaign);
 
-      const serializedCampaign = { name: createdCampaign.name };
+      const organizationLogoUrl = 'url for the orga logo';
+      const augmentedCampaign = Object.assign({}, createdCampaign, organizationLogoUrl);
+      usecases.addOrganizationLogoToCampaign.resolves(augmentedCampaign);
+
+      const serializedCampaign = { name: augmentedCampaign.name };
       campaignSerializer.serialize.returns(serializedCampaign);
 
       // when
       const response = await campaignController.getByCode(request, hFake);
 
       // then
-      expect(campaignSerializer.serialize).to.have.been.calledWith([createdCampaign]);
+      expect(campaignSerializer.serialize).to.have.been.calledWith([augmentedCampaign]);
       expect(response).to.deep.equal(serializedCampaign);
     });
   });
@@ -210,7 +228,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     beforeEach(() => {
       request = {
         auth: { credentials: { userId: 1 } },
-        params: { id : 1 },
+        params: { id: 1 },
         payload: {
           data: {
             attributes: {
