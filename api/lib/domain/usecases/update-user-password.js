@@ -12,6 +12,6 @@ module.exports = async function updateUserPassword({
 
   await resetPasswordService.hasUserAPasswordResetDemandInProgress(user.email, temporaryKey);
   const updatedUser = await userRepository.updatePassword(user.id, hashedPassword);
-  await resetPasswordService.invalidOldResetPasswordDemand(user.email);
+  await resetPasswordService.invalidateOldResetPasswordDemand(user.email);
   return updatedUser;
 };

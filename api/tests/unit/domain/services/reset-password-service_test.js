@@ -29,7 +29,7 @@ describe('Unit | Service | Password Service', function() {
     });
   });
 
-  describe('#invalidOldResetPasswordDemand', function() {
+  describe('#invalidateOldResetPasswordDemand', function() {
 
     beforeEach(() => {
       sinon.stub(resetPasswordRepository, 'markAsBeingUsed');
@@ -41,7 +41,7 @@ describe('Unit | Service | Password Service', function() {
       resetPasswordRepository.markAsBeingUsed.resolves();
 
       // when
-      const promise = resetPasswordService.invalidOldResetPasswordDemand(userEmail);
+      const promise = resetPasswordService.invalidateOldResetPasswordDemand(userEmail);
 
       // then
       return promise.then(() => {
