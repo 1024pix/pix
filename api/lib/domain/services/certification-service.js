@@ -48,7 +48,7 @@ module.exports = {
       ...certification,
       ...lastAssessmentResultFull,
       ...{
-        assessmentId: assessment.id,
+        assessmentId: assessment ? assessment.id : null,
         certificationId: certification.id,
         createdAt: certification.createdAt,
         resultCreatedAt: lastAssessmentResultFull.createdAt,
