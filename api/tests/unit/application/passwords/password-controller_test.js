@@ -34,7 +34,7 @@ describe('Unit | Controller | PasswordController', () => {
       sinon.stub(userRepository, 'isUserExistingByEmail');
       sinon.stub(mailService, 'sendResetPasswordDemandEmail');
       sinon.stub(resetPasswordService, 'generateTemporaryKey');
-      sinon.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
+      sinon.stub(resetPasswordService, 'invalidateOldResetPasswordDemand');
       sinon.stub(resetPasswordRepository, 'create');
       sinon.stub(errorSerializer, 'serialize');
       sinon.stub(passwordResetSerializer, 'serialize');

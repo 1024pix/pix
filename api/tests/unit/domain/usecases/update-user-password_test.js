@@ -24,7 +24,7 @@ describe('Unit | UseCase | update-user-password', () => {
 
   beforeEach(() => {
     sinon.stub(resetPasswordService, 'hasUserAPasswordResetDemandInProgress').throws();
-    sinon.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
+    sinon.stub(resetPasswordService, 'invalidateOldResetPasswordDemand');
     sinon.stub(validationErrorSerializer, 'serialize');
     sinon.stub(userRepository, 'updatePassword');
     sinon.stub(userRepository, 'get').resolves(user);
@@ -111,7 +111,7 @@ describe('Unit | UseCase | update-user-password', () => {
       .withArgs(user.email, temporaryKey)
       .resolves();
     userRepository.updatePassword.resolves();
-    resetPasswordService.invalidOldResetPasswordDemand.resolves();
+    resetPasswordService.invalidateOldResetPasswordDemand.resolves();
 
     // when
     const promise = updateUserPassword({
@@ -125,8 +125,8 @@ describe('Unit | UseCase | update-user-password', () => {
 
     // then
     return promise.then(() => {
-      sinon.assert.calledOnce(resetPasswordService.invalidOldResetPasswordDemand);
-      sinon.assert.calledWith(resetPasswordService.invalidOldResetPasswordDemand, user.email);
+      sinon.assert.calledOnce(resetPasswordService.invalidateOldResetPasswordDemand);
+      sinon.assert.calledWith(resetPasswordService.invalidateOldResetPasswordDemand, user.email);
     });
   });
 
