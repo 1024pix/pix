@@ -47,6 +47,15 @@ exports.register = async function(server) {
         handler: assessmentController.get,
         tags: ['api']
       }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/assessments/{id}/complete-assessment',
+      config: {
+        auth: false,
+        handler: assessmentController.completeAssessment,
+        tags: ['api']
+      }
     }
   ]);
 };
