@@ -19,9 +19,11 @@
 
     {{component (get-challenge-component-class model.challenge)
                 challenge=model.challenge
-                assessment=model.assessment
                 answer=model.answer
-                answerValidated=(route-action "saveAnswerAndNavigate")}}
+                assessment=model.assessment
+                answerValidated=(route-action "saveAnswerAndNavigate")
+                resumeAssessment=(route-action "resumeAssessment")
+    }}
   </div>
 </div>
 

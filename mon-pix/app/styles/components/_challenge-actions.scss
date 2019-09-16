@@ -46,7 +46,7 @@
 .challenge-actions__action-skip-text {
   text-align: center;
   flex-grow: 1;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: $font-semi-bold;
   color: $slate-grey;
   text-transform: uppercase;
@@ -87,6 +87,7 @@
     text-decoration: none;
 
   }
+
   &:active,
   &:visited,
   &:focus {
@@ -98,7 +99,7 @@
 .challenge-actions__action-validate-text {
   width: 76px;
   flex-grow: 1;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: $font-semi-bold;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -125,4 +126,48 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.challenge-actions__already-answered {
+  font-family: $font-roboto;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: $tundora-grey;
+  letter-spacing: 0.5px;
+  margin-right: 20px;
+}
+
+.challenge-actions__action-continue {
+  order: 1;
+  width: 150px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: $pix-blue;
+  font-family: $font-roboto;
+  color: $white;
+  @include button-background-transition();
+  text-decoration: none;
+
+  &:hover{
+    background: $pix-blue-hover;
+    text-decoration: none;
+  }
+
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.challenge-actions__action-continue-text {
+  width: 76px;
+  line-height: 46px;
+  font-family: $font-roboto;
+  font-size: 1.6rem;
+  font-weight: $font-semi-bold;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: white;
+  text-decoration: none;
 }
