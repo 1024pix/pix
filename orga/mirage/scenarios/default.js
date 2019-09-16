@@ -36,6 +36,7 @@ function _createCampaigns(server) {
 function _createStudents(server) {
   const organization = server.create('organization', {
     name: 'College Victor Hugo',
+    type: 'SCO',
     isManagingStudents: true
   });
 
@@ -45,7 +46,8 @@ function _createStudents(server) {
 
   const userMembership = server.create('membership', {
     organizationId: organization.id,
-    userId: user.id
+    userId: user.id,
+    organizationRole: 'OWNER'
   });
 
   user.memberships = [userMembership];

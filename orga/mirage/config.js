@@ -70,6 +70,27 @@ export default function() {
     return schema.students.where({ organizationId });
   });
 
+  this.post('/organizations/:id/import-students', (schema, request) => {
+    const type = request.requestBody.type;
+
+    if (type === 'invalid-file') {
+      return new Promise((resolve) => {
+        resolve(new Response(422, {}, { errors: [ { status: '422', detail: '422 - Le détail affiché est envoyé par le back' } ] }));
+      });
+    } else if (type === 'already-imported-file') {
+      return new Promise((resolve) => {
+        resolve(new Response(409, {}, { errors: [ { status: '409', detail: '409 - Le détail affiché est envoyé par le back' } ] }));
+      });
+    } else if (type === 'valid-file') {
+      const organizationId = request.params.id;
+      return schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
+    } else {
+      return new Promise((resolve) => {
+        resolve(new Response(500, {}, { errors: [ { status: '500', detail: 'error 500' } ] }));
+      });
+    }
+  });
+
   this.get('/campaigns/:id');
 
   this.patch('/campaigns/:id');

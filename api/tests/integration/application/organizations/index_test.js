@@ -59,4 +59,28 @@ describe('Integration | Application | Organizations | Routes', () => {
       });
     });
   });
+
+  describe('POST /api/organizations/:id/import-students', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserIsOwnerInScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
+      sinon.stub(organisationController, 'importStudentsFromSIECLE').callsFake((request, h) => h.response('ok').code(201));
+      return server.register(route);
+    });
+
+    it('should call the organization controller to import students', () => {
+      // when
+      const promise = server.inject({
+        method: 'POST',
+        url: '/api/organizations/:id/import-students',
+        payload: {}
+      });
+
+      // then
+      return promise.then((resp) => {
+        expect(resp.statusCode).to.equal(201);
+        expect(organisationController.importStudentsFromSIECLE).to.have.been.calledOnce;
+      });
+    });
+  });
 });

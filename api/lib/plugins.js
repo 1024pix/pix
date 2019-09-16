@@ -38,7 +38,7 @@ if (settings.logging.enabled) {
 
 const plugins = [
   Metrics,
-  require('inert'),
+  require('@hapi/inert'),
   require('vision'),
   require('blipp'),
   {
@@ -61,7 +61,7 @@ const plugins = [
       }
     }
   },
-  ...(isProduction ? [
+  ...(isProduction && process.env.SENTRY_DSN ? [
     {
       plugin: require('hapi-sentry'),
       options: {

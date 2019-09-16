@@ -16,8 +16,6 @@ exports.up = function(knex) {
       console.log('organizations table is created!');
     });};
 
-exports.down = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.dropTable('organizations')
-  ]);
+exports.down = function(knex) {
+  return knex.schema.dropTable('organizations');
 };

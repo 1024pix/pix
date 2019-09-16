@@ -30,6 +30,12 @@ module.exports = function organizationsBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.OWNER,
   });
 
+  databaseBuilder.factory.buildMembership({
+    userId: 9,
+    organizationId: 3,
+    organizationRole: Membership.roles.MEMBER,
+  });
+
   databaseBuilder.factory.buildStudent({
     id: 1,
     firstName: 'Eddison',
