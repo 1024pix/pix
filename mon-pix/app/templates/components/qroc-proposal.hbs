@@ -12,7 +12,8 @@
            placeholder={{block.placeholder}}
            autocomplete="off"
            value="{{userAnswer}}"
-           data-uid="qroc-proposal-uid">
+           data-uid="qroc-proposal-uid"
+           disabled={{if answer true}}>
   {{/if}}
 
   {{#if block.breakline}}

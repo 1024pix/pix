@@ -42,33 +42,26 @@ export default Route.extend({
     return this.store.query('campaign', { filter: { code: campaignCode } });
   },
 
-  _findOrCreateAnswer(challenge, assessment) {
-    let answer = assessment.get('answers').findBy('challenge.id', challenge.id);
-    if (!answer) {
-      answer = this.store.createRecord('answer', { assessment, challenge });
-    }
-    return answer;
-  },
-
   actions: {
 
-    saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
-      const answer = this._findOrCreateAnswer(challenge, assessment);
-      answer.setProperties({
+    async saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
+      const answer = this.store.createRecord('answer', {
         value: answerValue,
         timeout: answerTimeout,
-        elapsedTime: answerElapsedTime
+        elapsedTime: answerElapsedTime,
+        assessment,
+        challenge,
       });
 
-      return answer.save()
-        .then(
-          () => this.transitionTo('assessments.resume', assessment.get('id')),
-          () => {
-            answer.rollbackAttributes();
-            return this.send('error');
-          }
-        );
+      await answer.save();
+
+      return this.transitionTo('assessments.resume', assessment.id);
     },
+
+    resumeAssessment(assessment) {
+      return this.transitionTo('assessments.resume', assessment.id);
+    },
+
     error() {
       return true;
     }

@@ -8,11 +8,12 @@
   <form {{action "validateAnswer" on="submit"}}>
     {{challenge-statement challenge=challenge assessment=assessment}}
 
-    <div class="rounded-panel challenge-response">
+    <div class="rounded-panel challenge-response {{if answer 'challenge-response--locked'}}">
       <div class="rounded-panel__row challenge-proposals">
         {{qrocm-proposal
           proposals=challenge.proposals
           answersValue=answer._valuesAsMap
+          answer=answer
           answerChanged=(action 'answerChanged') }}
       </div>
       {{#if challenge.timer}}
@@ -21,6 +22,12 @@
             {{timeout-jauge allotedTime=challenge.timer}}
           </div>
         {{/if}}
+      {{/if}}
+
+      {{#if answer}}
+        <div class="challenge-response__locked-overlay">
+          {{fa-icon 'lock' class='challenge-response-locked__icon'}}
+        </div>
       {{/if}}
     </div>
 
@@ -33,8 +40,11 @@
     {{#if assessment}}
       {{challenge-actions
         challenge=challenge
+        answer=answer
+        assessment=assessment
         validateAnswer=(action "validateAnswer")
         skipChallenge=(action "skipChallenge")
+        resumeAssessment=resumeAssessment
         isValidateButtonEnabled=isValidateButtonEnabled
         isSkipButtonEnabled=isSkipButtonEnabled
       }}

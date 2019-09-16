@@ -11,7 +11,8 @@
            name={{block.input}}
            placeholder={{block.placeholder}}
            autocomplete="off"
-           value={{property-of answersValue block.input}}>
+           value={{property-of answersValue block.input}}
+           disabled={{if answer true}}>
   {{/if}}
 
   {{#if block.breakline}}
