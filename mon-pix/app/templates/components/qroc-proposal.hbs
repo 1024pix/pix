@@ -13,7 +13,8 @@
                 placeholder={{block.placeholder}}
                 autocomplete="off"
                 value="{{userAnswer}}"
-                data-uid="qroc-proposal-uid">
+                data-uid="qroc-proposal-uid"
+                disabled={{if answer true}}>
       </textarea>
     {{else if (eq format 'phrase')}}
       <input class="challenge-response__proposal challenge-response__proposal--sentence"
@@ -23,7 +24,8 @@
              placeholder={{block.placeholder}}
              autocomplete="off"
              value="{{userAnswer}}"
-             data-uid="qroc-proposal-uid">
+             data-uid="qroc-proposal-uid"
+             disabled={{if answer true}}>
     {{else}}
       <input class="challenge-response__proposal"
              size="{{get-qroc-input-size format}}"
@@ -33,7 +35,8 @@
              placeholder={{block.placeholder}}
              autocomplete="off"
              value="{{userAnswer}}"
-             data-uid="qroc-proposal-uid">
+             data-uid="qroc-proposal-uid"
+             disabled={{if answer true}}>
     {{/if}}
   {{/if}}
 

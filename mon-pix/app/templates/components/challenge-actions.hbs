@@ -1,18 +1,25 @@
-{{#if isValidateButtonEnabled}}
-  <a class="challenge-actions__action challenge-actions__action-validate" {{action validateAnswer}} href="#">
-    <span class="challenge-actions__action-validate-text">Je valide</span>
+{{#if answer}}
+  <span class="challenge-actions__already-answered">Vous avez déjà répondu à cette question</span>
+  <a class="challenge-actions__action challenge-actions__action-continue" {{action resumeAssessment assessment}} href="#">
+    <span class="challenge-actions__action-continue-text">Poursuivre</span>
   </a>
 {{else}}
-  <div class="challenge-actions__action challenge-actions__action-validate__loader">
-    <div class="challenge-actions__action-validate__loader-bar"></div>
-  </div>
-{{/if}}
-{{#if isSkipButtonEnabled}}
-  <a class="challenge-actions__action challenge-actions__action-skip" {{action skipChallenge}} href="#">
-    <span class="challenge-actions__action-skip-text">Je passe</span>
-  </a>
-{{else}}
-  <div class="challenge-actions__action challenge-actions__action-skip__loader">
-    <div class="challenge-actions__action-skip__loader-bar"></div>
-  </div>
+  {{#if isValidateButtonEnabled}}
+    <a class="challenge-actions__action challenge-actions__action-validate" {{action validateAnswer}} href="#">
+      <span class="challenge-actions__action-validate-text">Je valide</span>
+    </a>
+  {{else}}
+    <div class="challenge-actions__action challenge-actions__action-validate__loader">
+      <div class="challenge-actions__action-validate__loader-bar"></div>
+    </div>
+  {{/if}}
+  {{#if isSkipButtonEnabled}}
+    <a class="challenge-actions__action challenge-actions__action-skip" {{action skipChallenge}} href="#">
+      <span class="challenge-actions__action-skip-text">Je passe</span>
+    </a>
+  {{else}}
+    <div class="challenge-actions__action challenge-actions__action-skip__loader">
+      <div class="challenge-actions__action-skip__loader-bar"></div>
+    </div>
+  {{/if}}
 {{/if}}
