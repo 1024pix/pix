@@ -1,5 +1,5 @@
 const { AssessmentEndedError } = require('../../domain/errors');
-const useCases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -20,7 +20,7 @@ module.exports = {
         if (assessment.isSmartPlacement()) {
           const codeCampaign = request.payload.data.attributes['code-campaign'];
           const participantExternalId = request.payload.data.attributes['participant-external-id'];
-          return useCases.createAssessmentForCampaign({
+          return usecases.createAssessmentForCampaign({
             assessment,
             codeCampaign,
             participantExternalId
@@ -38,7 +38,7 @@ module.exports = {
   async get(request) {
     const assessmentId = request.params.id;
 
-    const assessment = await useCases.getAssessment({ assessmentId });
+    const assessment = await usecases.getAssessment({ assessmentId });
 
     return assessmentSerializer.serialize(assessment);
   },
@@ -51,9 +51,9 @@ module.exports = {
       const filters = extractParameters(request.query).filter;
 
       if (filters.codeCampaign) {
-        assessmentsPromise = useCases.findSmartPlacementAssessments({ userId, filters });
+        assessmentsPromise = usecases.findSmartPlacementAssessments({ userId, filters });
       } else if (filters.type === 'CERTIFICATION') {
-        assessmentsPromise = useCases.findCertificationAssessments({ userId, filters });
+        assessmentsPromise = usecases.findCertificationAssessments({ userId, filters });
       }
     }
 
@@ -77,30 +77,30 @@ module.exports = {
         logger.trace(logContext, 'assessment loaded');
 
         if (assessment.isPreview()) {
-          return useCases.getNextChallengeForPreview({});
+          return usecases.getNextChallengeForPreview({});
         }
 
         if (assessment.isCertification()) {
-          return useCases.getNextChallengeForCertification({
+          return usecases.getNextChallengeForCertification({
             assessment
           });
         }
 
         if (assessment.isDemo()) {
-          return useCases.getNextChallengeForDemo({
+          return usecases.getNextChallengeForDemo({
             assessment,
           });
         }
 
         if (assessment.isSmartPlacement()) {
-          return useCases.getNextChallengeForSmartPlacement({
+          return usecases.getNextChallengeForSmartPlacement({
             assessment,
           });
         }
 
         if (assessment.isCompetenceEvaluation()) {
           const userId = extractUserIdFromRequest(request);
-          return useCases.getNextChallengeForCompetenceEvaluation({
+          return usecases.getNextChallengeForCompetenceEvaluation({
             assessment,
             userId
           });
@@ -118,5 +118,13 @@ module.exports = {
 
         throw error;
       });
-  }
+  },
+
+  async completeAssessment(request) {
+    const assessmentId = request.params.id;
+
+    const completedAssessment = await usecases.completeAssessment({ assessmentId });
+
+    return assessmentSerializer.serialize(completedAssessment);
+  },
 };

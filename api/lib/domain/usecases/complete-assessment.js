@@ -9,10 +9,9 @@ const {
   NotFoundError,
 } = require('../errors');
 
-module.exports = async function createAssessmentResultForCompletedAssessment({
+module.exports = async function completeAssessment({
   // Parameters
   assessmentId,
-  forceRecomputeResult = false,
   updateCertificationCompletionDate = true,
   // Repositories
   answerRepository,
@@ -33,7 +32,7 @@ module.exports = async function createAssessmentResultForCompletedAssessment({
     throw new NotFoundError();
   }
 
-  if (assessment.isCompleted() && !forceRecomputeResult) {
+  if (assessment.isCompleted()) {
     throw new AlreadyRatedAssessmentError();
   }
 
@@ -44,7 +43,7 @@ module.exports = async function createAssessmentResultForCompletedAssessment({
   let assessmentScore;
   try {
     assessmentScore = await scoringService.calculateAssessmentScore(dependencies, assessment);
-    const assessmentResult = await _saveAssessmentResult({
+    await _saveAssessmentResult({
       assessment,
       assessmentScore,
       updateCertificationCompletionDate,
@@ -53,10 +52,11 @@ module.exports = async function createAssessmentResultForCompletedAssessment({
       certificationCourseRepository,
       competenceMarkRepository,
     });
-    return assessmentResult;
 
-  } catch (error) {
-    const assessmentResult = await _saveResultAfterComputingError({
+    return assessment;
+  }
+  catch (error) {
+    await _saveResultAfterComputingError({
       assessment,
       assessmentId,
       updateCertificationCompletionDate,
@@ -65,7 +65,8 @@ module.exports = async function createAssessmentResultForCompletedAssessment({
       certificationCourseRepository,
       error,
     });
-    return assessmentResult;
+
+    return assessment;
   }
 };
 

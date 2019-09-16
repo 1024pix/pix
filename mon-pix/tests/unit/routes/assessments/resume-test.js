@@ -1,6 +1,5 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
-import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
@@ -12,29 +11,19 @@ describe('Unit | Route | Assessments | Resume', function() {
   let storeStub;
   let findRecordStub;
   let queryRecordStub;
-  let createRecordStub;
 
   beforeEach(function() {
     // define stubs
     findRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
-    createRecordStub = sinon.stub().returns({
-      save: sinon.stub().resolves()
-    });
     storeStub = Service.create({
       findRecord: findRecordStub,
       queryRecord: queryRecordStub,
-      createRecord: createRecordStub,
     });
 
     route = this.owner.lookup('route:assessments.resume');
     route.set('store', storeStub);
     route.replaceWith = sinon.stub();
-  });
-
-  it('exists', function() {
-    route = this.owner.lookup('route:assessments.resume');
-    expect(route).to.be.ok;
   });
 
   describe('#afterModel', function() {
@@ -43,6 +32,15 @@ describe('Unit | Route | Assessments | Resume', function() {
 
     beforeEach(function() {
       assessment = EmberObject.create({ id: 123, isDemo: true });
+      assessment.save = sinon.stub().resolves();
+    });
+
+    it('should not query next challenge if assessment is completed', function() {
+      assessment.isCompleted = true;
+
+      route.afterModel(assessment);
+
+      sinon.assert.notCalled(queryRecordStub);
     });
 
     it('should get the next challenge of the assessment', function() {
@@ -218,12 +216,10 @@ describe('Unit | Route | Assessments | Resume', function() {
 
           it('should redirect to campaigns.skill-review page', function() {
             // when
-            const promise = route.afterModel(assessment);
+            route.afterModel(assessment);
 
             // then
-            return promise.then(() => {
-              sinon.assert.calledWith(route.replaceWith, 'campaigns.skill-review', 'konami', 123);
-            });
+            sinon.assert.calledWith(route.replaceWith, 'campaigns.skill-review', 'konami', 123);
           });
         });
       });
@@ -261,17 +257,13 @@ describe('Unit | Route | Assessments | Resume', function() {
         });
       });
 
-      context('when assessment is a PLACEMENT', function() {
-        beforeEach(() => {
-          assessment.isPlacement = true;
-        });
+      context('when assessment is a DEMO', function() {
         it('should redirect to assessments.results page', function() {
           // when
           const promise = route.afterModel(assessment);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledWith(createRecordStub, 'assessment-result', { assessment });
             sinon.assert.calledWith(route.replaceWith, 'assessments.results', 123);
           });
         });

@@ -15,15 +15,6 @@ exports.register = async function(server) {
         tags: ['api']
       }
     },
-    {
-      method: 'POST',
-      path: '/api/assessment-results',
-      config: {
-        auth: false,
-        handler: AssessmentResultController.evaluate,
-        tags: ['api']
-      }
-    }
   ]);
 };
 
