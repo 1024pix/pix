@@ -7,11 +7,13 @@ const {
   AlreadyRatedAssessmentError,
   CertificationComputeError,
   NotFoundError,
+  ForbiddenAccess,
 } = require('../errors');
 
 module.exports = async function completeAssessment({
   // Parameters
   assessmentId,
+  userId,
   updateCertificationCompletionDate = true,
   // Repositories
   answerRepository,
@@ -30,6 +32,10 @@ module.exports = async function completeAssessment({
 
   if (!assessment) {
     throw new NotFoundError();
+  }
+
+  if (assessment.userId != userId) {
+    throw new ForbiddenAccess('User is not allowed to complete this assessment.');
   }
 
   if (assessment.isCompleted()) {
