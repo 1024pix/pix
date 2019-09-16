@@ -28,7 +28,7 @@ async function main() {
   const raOrgaURL = `https://orga-pr${prNumber}.review.pix.fr`;
   const raCertifURL = `https://certif-pr${prNumber}.review.pix.fr`;
   const raAdminURL = `https://admin-pr${prNumber}.review.pix.fr`;
-  const raAPIURL = `https://pix-api-integration-pr${prNumber}.scalingo.io`;
+  const raAPIURL = `https://api-pr${prNumber}.review.pix.fr/api/`;
 
   const scalingoCommentRegex = new RegExp(raAppURL, 'i');
 
@@ -52,7 +52,7 @@ async function main() {
   if (hasAlreadyScalingoComment) {
     console.log('Review apps urls already found in issue comments. No need to add it again');
   } else {
-    const text = `Je viens de déployer la Review App. Elle sera consultable sur les URL suivantes :\n` +
+    const text = 'Je viens de déployer la Review App. Elle sera consultable sur les URL suivantes :\n' +
       `- App : ${raAppURL}\n` +
       `- Orga : ${raOrgaURL}\n` +
       `- Certif : ${raCertifURL}\n` +
@@ -88,7 +88,7 @@ function extractIssueCodeFromBranchName(branchName) {
 }
 
 function extractPRNumberFromAppName(appName) {
-  const PRnumberRegex = new RegExp(/integration-pr(\d+)/);
+  const PRnumberRegex = new RegExp(/-pr(\d+)/);
   const regexMatches = appName.match(PRnumberRegex);
 
   if (regexMatches) {
