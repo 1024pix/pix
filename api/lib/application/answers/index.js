@@ -29,19 +29,6 @@ exports.register = async function(server) {
       }
     },
     {
-      method: 'PATCH',
-      path: '/api/answers/{id}',
-      config: {
-        auth: false,
-        handler: answerController.update,
-        tags: ['api', 'answers'],
-        notes: [
-          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
-          '- Cette route ne fait rien actuellement',
-        ],
-      }
-    },
-    {
       method: 'GET',
       path: '/api/answers',
       config: {

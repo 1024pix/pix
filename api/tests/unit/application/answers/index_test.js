@@ -11,7 +11,6 @@ describe('Unit | Router | answer-router', function() {
     sinon.stub(AnswerController, 'save').callsFake((request, h) => h.response().code(201));
     sinon.stub(AnswerController, 'get').callsFake((request, h) => h.response().code(200));
     sinon.stub(AnswerController, 'findByChallengeAndAssessment').callsFake((request, h) => h.response().code(200));
-    sinon.stub(AnswerController, 'update').callsFake((request, h) => h.response().code(204));
 
     server = Hapi.server();
 
@@ -70,23 +69,6 @@ describe('Unit | Router | answer-router', function() {
 
       // then
       expect(result.statusCode).to.equal(200);
-    });
-  });
-
-  describe('PATCH /api/answers/{id}', function() {
-
-    it('should exist', async () => {
-      // given
-      const options = {
-        method: 'PATCH',
-        url: '/api/answers/answer_id'
-      };
-
-      // when
-      const result = await server.inject(options);
-
-      // then
-      expect(result.statusCode).to.equal(204);
     });
   });
 
