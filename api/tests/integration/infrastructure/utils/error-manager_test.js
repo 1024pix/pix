@@ -279,5 +279,17 @@ describe('Integration | Utils | Error Manager', function() {
       // then
       expect(result.statusCode).to.equal(400);
     });
+
+    it('should return 400 on domain InvalidCertificationCandidate', function() {
+      // given
+      const error = new DomainErrors.InvalidCertificationCandidate();
+
+      // when
+      const result = send(hFake, error);
+
+      // then
+      expect(result.statusCode).to.equal(400);
+    });
+
   });
 });

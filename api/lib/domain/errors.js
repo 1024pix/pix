@@ -132,6 +132,12 @@ class ForbiddenAccess extends DomainError {
   }
 }
 
+class InvalidCertificationCandidate extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class InvalidRecaptchaTokenError extends DomainError {
   constructor(message) {
     super(message);
@@ -317,6 +323,7 @@ module.exports = {
   FileValidationError,
   ForbiddenAccess,
   InternalError,
+  InvalidCertificationCandidate,
   InvalidRecaptchaTokenError,
   InvalidTemporaryKeyError,
   MembershipCreationError,

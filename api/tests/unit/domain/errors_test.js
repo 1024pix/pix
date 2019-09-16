@@ -15,6 +15,10 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.NotFoundError).to.exist;
   });
 
+  it('should export a InvalidCertificationCandidate', () => {
+    expect(errors.InvalidCertificationCandidate).to.exist;
+  });
+
   it('should export a ODSBufferReadFailedError', () => {
     expect(errors.ODSBufferReadFailedError).to.exist;
   });
