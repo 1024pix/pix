@@ -2,7 +2,14 @@
 
   <div class="form__field">
     <label for="email" class="label">Email</label>
-    {{input required id='email' name='email' type='email' value=email class="input"}}
+    <Input
+      @required="true"
+      @type="email"
+      @id="email"
+      @name="email"
+      @class="input"
+      @value={{email}}
+    />
   </div>
 
   <div class="form__validation">

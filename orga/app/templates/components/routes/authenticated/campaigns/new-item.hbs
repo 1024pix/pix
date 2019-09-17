@@ -2,13 +2,15 @@
 
   <div class="form__field">
     <label for="campaign-name" class="label">Nom de la campagne</label>
-    {{input id='campaign-name'
-            name='campaign-name'
-            type='text'
-            maxlength='255'
-            value=campaign.name
-            class="input"
-    }}
+    <Input
+      @id="campaign-name"
+      @name="campaign-name"
+      @type="text"
+      @class="input"
+      @maxlength="255"
+      @value={{campaign.name}}
+    />
+
     {{#each campaign.errors.name as |error|}}
       <div class='form__error error-message'>
         {{error.message}}
@@ -53,15 +55,17 @@
     {{#if wantIdPix}}
 
       <div class="form__field">
-        {{input class="input"
-                id='id-pix-label'
-                name='id-pix-label'
-                type='text'
-                maxlength='255'
-                value=campaign.idPixLabel
-                label='Libellé de l\'identifiant'
-                aria-required='true'
-                placeholder="Libellé de l'identifiant"}}
+        <Input
+          @id="id-pix-label"
+          @name="id-pix-label"
+          @type="text"
+          @class="input"
+          @maxlength="255"
+          @label="Libellé de l’identifiant"
+          @aria-required="true"
+          @placeholder="Libellé de l’identifiant"
+          @value={{campaign.idPixLabel}}
+        />
         {{#each campaign.errors.idPixLabel as |error|}}
           <div class='form__error error-message'>
             {{error.message}}
@@ -77,13 +81,14 @@
 
   <div class="form__field">
     <label for="campaign-title" class="label">Titre du parcours</label>
-    {{input id='campaign-title'
-            name='campaign-title'
-            type='text'
-            maxlength='50'
-            value=campaign.title
-            class="input"
-    }}
+    <Input
+      @id="campaign-title"
+      @name="campaign-title"
+      @type="text"
+      @class="input"
+      @maxlength="50"
+      @value={{campaign.title}}
+    />
   </div>
 
   <div class="form__field">
