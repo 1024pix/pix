@@ -20,7 +20,7 @@ describe('Unit | UseCase | accept-pix-orga-terms-of-service', () => {
       userRepository.get.resolves(user);
 
       // when
-      const promise = acceptPixOrgaTermsOfService({ userId, userRepository });
+      const promise = acceptPixOrgaTermsOfService({ authenticatedUserId: userId, requestedUserId: userId, userRepository });
 
       // then
       return promise.then(() => {
@@ -41,7 +41,7 @@ describe('Unit | UseCase | accept-pix-orga-terms-of-service', () => {
       const expectedUser = new User({ ...user, pixOrgaTermsOfServiceAccepted: true });
 
       // when
-      const promise = acceptPixOrgaTermsOfService({ userId, userRepository });
+      const promise = acceptPixOrgaTermsOfService({ authenticatedUserId: userId, requestedUserId: userId, userRepository });
 
       // then
       return promise.then(() => {
