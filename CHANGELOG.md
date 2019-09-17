@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v2.66.0 (17/09/2019)
+
+- [#702](https://github.com/1024pix/pix/pull/702) [FEATURE] Accéder à un parcours prescrit avec l'identifiant externe dans l'URL (PF-824).
+- [#703](https://github.com/1024pix/pix/pull/703) [BUGFIX]  Corrige l'affichage des certifications d'une session (PA-109)
+- [#707](https://github.com/1024pix/pix/pull/707) [TECH] Éviter les plantages de Redis causés par une accumulation de requêtes
+- [#701](https://github.com/1024pix/pix/pull/701) [TECH] Refactorisation et nettoyage du code de création d'assessment-results.
+
 ## v2.65.0 (16/09/2019)
 
 - [#664](https://github.com/1024pix/pix/pull/664) [FEATURE] Import des élèves via un fichier XML (SIECLE) dans Pix Orga (PO-217).
