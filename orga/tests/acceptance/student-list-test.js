@@ -83,7 +83,7 @@ module('Acceptance | Student List', function(hooks) {
       test('it should list the students', async function(assert) {
         // given
         const organizations = server.schema.organizations.where({});
-        server.createList('students', 6, { organization: organizations.models[0] });
+        server.createList('student', 6, { organization: organizations.models[0] });
 
         // when
         await visit('/eleves');
