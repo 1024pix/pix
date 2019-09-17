@@ -57,7 +57,7 @@ export default function() {
   this.get('/sessions/:id');
 
   this.patch('/sessions/:id');
-
+  
   this.post('/sessions/:id/certification-candidates/import', upload(function(_, request) {
     const { name } = request.requestBody.file;
     return name === 'invalid-file'
