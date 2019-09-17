@@ -6,14 +6,14 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
-const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-utils');
+const requestUtils = require('../../infrastructure/utils/request-utils');
 
 module.exports = {
 
   save(request, h) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
-    assessment.userId = extractUserIdFromRequest(request);
+    assessment.userId = requestUtils.extractUserIdFromRequest(request);
 
     return Promise.resolve()
       .then(() => {
@@ -45,7 +45,7 @@ module.exports = {
 
   findByFilters(request) {
     let assessmentsPromise = Promise.resolve([]);
-    const userId = extractUserIdFromRequest(request);
+    const userId = requestUtils.extractUserIdFromRequest(request);
 
     if (userId) {
       const filters = extractParameters(request.query).filter;
@@ -99,7 +99,7 @@ module.exports = {
         }
 
         if (assessment.isCompetenceEvaluation()) {
-          const userId = extractUserIdFromRequest(request);
+          const userId = requestUtils.extractUserIdFromRequest(request);
           return usecases.getNextChallengeForCompetenceEvaluation({
             assessment,
             userId
@@ -122,8 +122,9 @@ module.exports = {
 
   async completeAssessment(request) {
     const assessmentId = request.params.id;
+    const userId = requestUtils.extractUserIdFromRequest(request);
 
-    const completedAssessment = await usecases.completeAssessment({ assessmentId });
+    const completedAssessment = await usecases.completeAssessment({ userId, assessmentId });
 
     return assessmentSerializer.serialize(completedAssessment);
   },

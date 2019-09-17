@@ -1,7 +1,7 @@
 const { sinon, expect, generateValidRequestAuthorizationHeader, hFake } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const usecases = require('../../../../lib/domain/usecases');
-
+const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 
 describe('Unit | Controller | assessment-controller', function() {
@@ -127,16 +127,19 @@ describe('Unit | Controller | assessment-controller', function() {
   });
 
   describe('#completeAssessment', () => {
-    const assessmentId = 1;
+    const userId = 1;
+    const assessmentId = 2;
 
     beforeEach(() => {
+      sinon.stub(requestUtils, 'extractUserIdFromRequest');
       sinon.stub(usecases, 'completeAssessment');
       sinon.stub(assessmentSerializer, 'serialize');
     });
 
     it('should return ok', async () => {
       // given
-      usecases.completeAssessment.withArgs({ assessmentId }).resolves({});
+      requestUtils.extractUserIdFromRequest.returns(userId);
+      usecases.completeAssessment.withArgs({ userId, assessmentId }).resolves({});
       assessmentSerializer.serialize.withArgs({}).returns('ok');
 
       // when
