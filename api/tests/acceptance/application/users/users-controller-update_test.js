@@ -1,5 +1,4 @@
-const { expect, knex } = require('../../../test-helper');
-const faker = require('faker');
+const { databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
@@ -13,19 +12,19 @@ describe('Acceptance | Controller | users-controller', () => {
   });
 
   describe('Patch /api/users/{id}', () => {
-    let userId;
+    let user;
     let options;
-    let fakeUserEmail;
 
-    beforeEach(() => {
-      fakeUserEmail = faker.internet.email();
-      return _insertUser(fakeUserEmail)
-        .then(([id]) => userId = id);
+    beforeEach(async () => {
+      server = await createServer();
+
+      user = databaseBuilder.factory.buildUser({ password: 'Pix2017!' });
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('reset-password-demands').delete()
-        .then(() => knex('users').delete());
+    afterEach(async () => {
+      await knex('reset-password-demands').delete();
+      await databaseBuilder.clean();
     });
 
     context('with a passwordResetDemand', () => {
@@ -33,14 +32,14 @@ describe('Acceptance | Controller | users-controller', () => {
 
       beforeEach(() => {
         temporaryKey = passwordResetService.generateTemporaryKey();
-        return _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
+        return _insertPasswordResetDemand(temporaryKey, user.email);
       });
 
       it('should reply with an error, when temporary key is invalid', () => {
         // given
         options = {
           method: 'PATCH',
-          url: `/api/users/${userId}?temporary-key=bad-temporary-key`,
+          url: `/api/users/${user.id}?temporary-key=bad-temporary-key`,
           payload: {
             data: {
               attributes: {
@@ -63,7 +62,7 @@ describe('Acceptance | Controller | users-controller', () => {
         // given
         options = {
           method: 'PATCH',
-          url: `/api/users/${userId}?temporary-key=${temporaryKey}`,
+          url: `/api/users/${user.id}?temporary-key=${temporaryKey}`,
           payload: {
             data: {
               attributes: {
@@ -89,7 +88,7 @@ describe('Acceptance | Controller | users-controller', () => {
         // given
         options = {
           method: 'PATCH',
-          url: `/api/users/${userId}?temporary-key=bad-temporary-key`,
+          url: `/api/users/${user.id}?temporary-key=bad-temporary-key`,
           payload: {
             data: {
               id: '2',
@@ -114,7 +113,8 @@ describe('Acceptance | Controller | users-controller', () => {
         // given
         options = {
           method: 'PATCH',
-          url: `/api/users/${userId}`,
+          url: `/api/users/${user.id}`,
+          headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
           payload: {
             data: {
               attributes: {
@@ -132,20 +132,32 @@ describe('Acceptance | Controller | users-controller', () => {
           expect(response.statusCode).to.equal(204);
         });
       });
+
+      it('should reply 403 status code, when user is not authenticated', () => {
+        // given
+        options = {
+          method: 'PATCH',
+          url: `/api/users/${user.id}`,
+          payload: {
+            data: {
+              attributes: {
+                'pix-orga-terms-of-service-accepted': true
+              }
+            }
+          }
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
     });
   });
 });
-
-function _insertUser(email) {
-  const userRaw = {
-    'firstName': faker.name.firstName(),
-    'lastName': faker.name.lastName(),
-    email,
-    password: 'Pix2017!'
-  };
-
-  return knex('users').insert(userRaw).returning('id');
-}
 
 function _insertPasswordResetDemand(temporaryKey, email) {
   const resetDemandRaw = { email, temporaryKey };

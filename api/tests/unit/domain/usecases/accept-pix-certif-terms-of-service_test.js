@@ -20,7 +20,7 @@ describe('Unit | UseCase | accept-pix-certif-terms-of-service', () => {
       userRepository.get.resolves(user);
 
       // when
-      const promise = acceptPixCertifTermsOfService({ userId, userRepository });
+      const promise = acceptPixCertifTermsOfService({ authenticatedUserId: userId, requestedUserId: userId, userRepository });
 
       // then
       return promise.then(() => {
@@ -41,7 +41,7 @@ describe('Unit | UseCase | accept-pix-certif-terms-of-service', () => {
       const expectedUser = new User({ ...user, pixCertifTermsOfServiceAccepted: true });
 
       // when
-      const promise = acceptPixCertifTermsOfService({ userId, userRepository });
+      const promise = acceptPixCertifTermsOfService({ authenticatedUserId: userId, requestedUserId: userId, userRepository });
 
       // then
       return promise.then(() => {

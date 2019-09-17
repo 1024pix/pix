@@ -20,6 +20,7 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const requestUtils = require('../../../../lib/infrastructure/utils/request-utils');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -172,9 +173,10 @@ describe('Unit | Controller | user-controller', () => {
       it('should accept pix orga terms of service', async () => {
         // given
         const userId = 7;
+        sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
         const request = {
           params: {
-            id: userId,
+            id: userId.toString(),
           },
           payload: {
             data: {
@@ -190,7 +192,7 @@ describe('Unit | Controller | user-controller', () => {
         await userController.updateUser(request, hFake);
 
         // then
-        expect(usecaseAcceptPixOrgaTermsOfServiceStub).to.have.been.calledWith({ userId });
+        expect(usecaseAcceptPixOrgaTermsOfServiceStub).to.have.been.calledWith({ authenticatedUserId: userId, requestedUserId: userId });
       });
     });
 
@@ -199,9 +201,10 @@ describe('Unit | Controller | user-controller', () => {
       it('should accept pix certif terms of service', () => {
         // given
         const userId = 7;
+        sinon.stub(requestUtils, 'extractUserIdFromRequest').returns(userId);
         const request = {
           params: {
-            id: userId,
+            id: userId.toString(),
           },
           payload: {
             data: {
@@ -218,7 +221,7 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         return promise.then(() => {
-          expect(usecaseAcceptPixCertifTermsOfServiceStub).to.have.been.calledWith({ userId });
+          expect(usecaseAcceptPixCertifTermsOfServiceStub).to.have.been.calledWith({ authenticatedUserId: userId, requestedUserId: userId });
         });
       });
     });
