@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
+const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
 const createServer = require('../../../server');
 
 const Assessment = require('../../../lib/domain/models/Assessment');
@@ -21,9 +21,6 @@ describe('Acceptance | API | Certification Course', () => {
         url: '/api/admin/certifications/1234/details',
         headers: {}
       };
-    });
-    afterEach(() => {
-      return knex('certification-courses').delete();
     });
 
     describe('Resource access management', () => {
@@ -58,171 +55,222 @@ describe('Acceptance | API | Certification Course', () => {
   });
 
   describe('GET /api/admin/certifications/{id}', () => {
-
     let options;
+    let certificationCourseId;
 
-    beforeEach(() => {
-      let certificationCourseId;
-      return insertUserWithRolePixMaster()
-        .then(() => {
-          return knex('certification-courses').insert({
-            createdAt: new Date('2017-12-21T15:44:38Z'),
-            completedAt: new Date('2017-12-21T15:48:38Z'),
-            isPublished: false,
-          }, 'id');
-        })
-        .then(([id]) => certificationCourseId = id)
-        .then(() => {
-          return knex('assessments').insert({
-            courseId: certificationCourseId.toString(),
-            state: 'completed',
-            type: Assessment.types.CERTIFICATION
-          }, 'id');
-        })
-        .then(([assessmentId]) => {
-          return knex('assessment-results').insert({
-            level: 2,
-            pixScore: 42,
-            createdAt: new Date('2017-12-21T16:44:38Z'),
-            status: 'validated',
-            emitter: 'PIX-ALGO',
-            commentForJury: 'Computed',
-            assessmentId
-          }, 'id');
-        })
-        .then(([assessmentResultId]) => {
-          return knex('competence-marks').insert([{
-            level: 2,
-            score: 20,
-            area_code: 4,
-            competence_code: 4.3,
-            assessmentResultId
-          }, {
-            level: 4,
-            score: 35,
-            area_code: 2,
-            competence_code: 2.1,
-            assessmentResultId
+    context('when certification course has no assessment', () => {
+
+      beforeEach(async () => {
+        await insertUserWithRolePixMaster();
+        ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
+          createdAt: new Date('2017-12-21T15:44:38Z'),
+          completedAt: new Date('2017-12-21T15:48:38Z'),
+          isPublished: false,
+        }));
+        options = {
+          method: 'GET',
+          url: `/api/admin/certifications/${certificationCourseId}`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader()
           }
-          ]);
-        })
-        .then(() => {
-          options = {
-            method: 'GET',
-            url: `/api/admin/certifications/${certificationCourseId}`,
-            headers: {
-              authorization: generateValidRequestAuthorizationHeader()
-            }
-          };
-        });
-    });
-
-    afterEach(() => {
-      return cleanupUsersAndPixRolesTables()
-        .then(() => knex('competence-marks').delete())
-        .then(() => knex('assessment-results').delete())
-        .then(() => knex('assessments').delete())
-        .then(() => knex('certification-courses').delete());
-    });
-
-    it('should return 200 HTTP status code', () => {
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
+        };
+        return databaseBuilder.commit();
       });
-    });
 
-    it('should return application/json', () => {
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
+      afterEach(() => {
+        return databaseBuilder.clean();
       });
-    });
 
-    it('should retrieve the certification total pix score and certified competences levels', () => {
-      // given
-      const expectedCreatedAt = new Date('2017-12-21T15:44:38Z');
-      const expectedResultCreatedAt = new Date('2017-12-21T16:44:38Z');
-      const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
+      it('should return 200 HTTP status code', () => {
+        // when
+        const promise = server.inject(options);
 
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
         // then
-        const result = response.result.data;
-
-        expect(result.attributes['pix-score']).to.equal(42);
-        expect(result.attributes['created-at']).to.deep.equal(expectedCreatedAt);
-        expect(result.attributes['result-created-at']).to.deep.equal(expectedResultCreatedAt);
-        expect(result.attributes['completed-at']).to.deep.equal(expectedCompletedAt);
-        expect(result.attributes['is-published']).to.not.be.ok;
-        expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
-
-        const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
-        expect(firstCertifiedCompetence.level).to.equal(2);
-        expect(firstCertifiedCompetence['competence-code']).to.equal('4.3');
-
-        const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
-        expect(secondCertifiedCompetence.level).to.equal(4);
-        expect(secondCertifiedCompetence['competence-code']).to.equal('2.1');
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
       });
+
+      it('should return application/json', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          const contentType = response.headers['content-type'];
+          expect(contentType).to.contain('application/json');
+        });
+      });
+
+      it('should retrieve the certification total pix score and certified competences levels', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          // then
+          const result = response.result.data;
+          expect(result.attributes['competences-with-mark']).to.have.lengthOf(0);
+          expect(result.attributes['assessment-id']).to.be.null;
+          expect(result.attributes['status']).to.equal('missing-assessment');
+        });
+      });
+
     });
 
-    it('should return 404 HTTP status code if certification not found', () => {
-      // given
-      const options = {
-        method: 'GET',
-        url: '/api/admin/certifications/200',
-        headers: { authorization: generateValidRequestAuthorizationHeader() }
-      };
+    context('when certification course has an assessment', () => {
 
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(404);
+      beforeEach(async () => {
+        await insertUserWithRolePixMaster();
+        ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
+          createdAt: new Date('2017-12-21T15:44:38Z'),
+          completedAt: new Date('2017-12-21T15:48:38Z'),
+          isPublished: false,
+        }));
+        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
+          courseId: certificationCourseId.toString(),
+          state: 'completed',
+          type: Assessment.types.CERTIFICATION,
+        });
+        const { id: assessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
+          level: 2,
+          pixScore: 42,
+          createdAt: new Date('2017-12-21T16:44:38Z'),
+          status: 'validated',
+          emitter: 'PIX-ALGO',
+          commentForJury: 'Computed',
+          assessmentId,
+        });
+        databaseBuilder.factory.buildCompetenceMark({
+          level: 2,
+          score: 20,
+          area_code: 4,
+          competence_code: 4.3,
+          assessmentResultId,
+        });
+        databaseBuilder.factory.buildCompetenceMark({
+          level: 4,
+          score: 35,
+          area_code: 2,
+          competence_code: 2.1,
+          assessmentResultId,
+        });
+        options = {
+          method: 'GET',
+          url: `/api/admin/certifications/${certificationCourseId}`,
+          headers: {
+            authorization: generateValidRequestAuthorizationHeader()
+          }
+        };
+        return databaseBuilder.commit();
       });
-    });
 
-    describe('Resource access management', () => {
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+      it('should return 200 HTTP status code', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
+      it('should return application/json', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          const contentType = response.headers['content-type'];
+          expect(contentType).to.contain('application/json');
+        });
+      });
+
+      it('should retrieve the certification total pix score and certified competences levels', () => {
         // given
-        options.headers.authorization = 'invalid.access.token';
+        const expectedCreatedAt = new Date('2017-12-21T15:44:38Z');
+        const expectedResultCreatedAt = new Date('2017-12-21T16:44:38Z');
+        const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
 
         // when
         const promise = server.inject(options);
 
         // then
         return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
+          // then
+          const result = response.result.data;
+
+          expect(result.attributes['pix-score']).to.equal(42);
+          expect(result.attributes['created-at']).to.deep.equal(expectedCreatedAt);
+          expect(result.attributes['result-created-at']).to.deep.equal(expectedResultCreatedAt);
+          expect(result.attributes['completed-at']).to.deep.equal(expectedCompletedAt);
+          expect(result.attributes['is-published']).to.not.be.ok;
+          expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
+
+          const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
+          expect(firstCertifiedCompetence.level).to.equal(2);
+          expect(firstCertifiedCompetence['competence-code']).to.equal('4.3');
+
+          const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
+          expect(secondCertifiedCompetence.level).to.equal(4);
+          expect(secondCertifiedCompetence['competence-code']).to.equal('2.1');
         });
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+      it('should return 404 HTTP status code if certification not found', () => {
         // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+        const options = {
+          method: 'GET',
+          url: '/api/admin/certifications/200',
+          headers: { authorization: generateValidRequestAuthorizationHeader() }
+        };
 
         // when
         const promise = server.inject(options);
 
         // then
         return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
+          expect(response.statusCode).to.equal(404);
         });
       });
+
+      describe('Resource access management', () => {
+
+        it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+          // given
+          options.headers.authorization = 'invalid.access.token';
+
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise.then((response) => {
+            expect(response.statusCode).to.equal(401);
+          });
+        });
+
+        it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+          // given
+          const nonPixMAsterUserId = 9999;
+          options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
+
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise.then((response) => {
+            expect(response.statusCode).to.equal(403);
+          });
+        });
+
+      });
+
     });
+
   });
 
   describe('PATCH /api/certification-courses/{id}', () => {
@@ -230,35 +278,33 @@ describe('Acceptance | API | Certification Course', () => {
     let options;
 
     beforeEach(() => {
-      return knex('certification-courses').insert(
-        {
-          createdAt: new Date('2019-12-21T15:44:38Z'),
-          completedAt: new Date('2017-12-21T15:48:38Z')
-        }
-      ).then((certification) => {
-
-        options = {
-          headers: { authorization: generateValidRequestAuthorizationHeader() },
-          method: 'PATCH',
-          url: `/api/certification-courses/${certification.id}`, payload: {
-            data: {
-              type: 'certifications',
-              id: certification.id,
-              attributes: {
-                'first-name': 'Freezer',
-                'last-name': 'The all mighty',
-                'birthplace': 'Namek',
-                'birthdate': '24/10/1989',
-                'external-id': 'xenoverse2'
-              }
+      const { id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
+        createdAt: new Date('2019-12-21T15:44:38Z'),
+        completedAt: new Date('2017-12-21T15:48:38Z')
+      });
+      options = {
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+        method: 'PATCH',
+        url: `/api/certification-courses/${certificationCourseId}`, payload: {
+          data: {
+            type: 'certifications',
+            id: certificationCourseId,
+            attributes: {
+              'first-name': 'Freezer',
+              'last-name': 'The all mighty',
+              'birthplace': 'Namek',
+              'birthdate': '24/10/1989',
+              'external-id': 'xenoverse2'
             }
           }
-        };
-      });
+        }
+      };
+
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
-      return knex('certification-courses').delete();
+      return databaseBuilder.clean();
     });
 
     it('should update the certification course', () => {
@@ -289,5 +335,7 @@ describe('Acceptance | API | Certification Course', () => {
         expect(err.statusCode).to.be.equal(400);
       });
     });
+
   });
+
 });
