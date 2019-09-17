@@ -13,21 +13,26 @@ function assertAirtableRecordToEqualExpected(actualRecord, expectedRecord) {
 
 describe('Integration | Infrastructure | airtable', () => {
 
-  const findStub = sinon.stub();
-  const allStub = sinon.stub();
+  let allStub;
+  let findStub;
+  let selectStub;
 
   beforeEach(() => {
+    allStub = sinon.stub();
+    findStub = sinon.stub();
+    selectStub = sinon.stub().callsFake(() => {
+      return {
+        all: allStub
+      };
+    });
+
     sinon.stub(cache, 'get');
     sinon.stub(cache, 'set');
     sinon.stub(Airtable.prototype, 'base').returns({
       table() {
         return {
           find: findStub,
-          select() {
-            return {
-              all: allStub
-            };
-          },
+          select: selectStub,
         };
       }
     });
@@ -71,6 +76,7 @@ describe('Integration | Infrastructure | airtable', () => {
         const cachedValue = airtableRecord._rawJson;
         cache.get.resolves(cachedValue);
         cache.set.resolves();
+
         findStub.resolves(airtableRecord);
 
         // when
@@ -161,50 +167,63 @@ describe('Integration | Infrastructure | airtable', () => {
       });
     });
 
-    context('when the response was previously cached but we do not want to use case', () => {
-
-      it('should Airtable fetched record and store it in cache', () => {
+    context('when the response was previously cached but we do not want to use cache', () => {
+      beforeEach(() => {
         // given
         const cachedValue = null;
         cache.get.resolves(cachedValue);
         cache.set.resolves();
         allStub.resolves(airtableRecords);
-
+      });
+      it('should fetch Airtable record and store it in cache', async () => {
         // when
-        const promise = airtable.findRecordsSkipCache(tableName);
+        const records = await airtable.findRecordsSkipCache(tableName);
 
         // then
-        return promise.then((records) => {
-          expect(cache.get).to.have.not.been.called;
+        expect(cache.get).to.have.not.been.called;
 
-          records.forEach((record, index) => {
-            const expectedRecord = airtableRecords[index];
-            assertAirtableRecordToEqualExpected(record, expectedRecord);
-          });
-          expect(cache.set).to.have.been.calledWith('Tests', airtableRecords.map((airtableRecord) => airtableRecord._rawJson));
+        records.forEach((record, index) => {
+          const expectedRecord = airtableRecords[index];
+          assertAirtableRecordToEqualExpected(record, expectedRecord);
         });
+        expect(cache.set).to.have.been.calledWith('Tests', airtableRecords.map((airtableRecord) => airtableRecord._rawJson));
       });
+
+      it('should allow to fetch Airtable record with specific fields and store it in cache', async () => {
+        // when
+        await airtable.findRecordsSkipCache(tableName, ['toto', 'tata']);
+
+        // then
+        expect(selectStub).to.have.been.calledWithExactly({ fields : ['toto', 'tata'] });
+      });
+
     });
 
     context('when the response was not previously cached', () => {
-
-      it('should query for records and resolve with value now in cache', () => {
+      beforeEach(function() {
         // given
-        cache.get.withArgs(cacheKey)
-          .callsFake((_key, generator) => Promise.resolve(generator()));
-
+        cache.get.withArgs(cacheKey).callsFake(async (_key, generator) => generator());
         allStub.resolves(airtableRecords);
+      });
 
+      it('should query for records and resolve with value now in cache', async () => {
         // when
-        const promise = airtable.findRecords(tableName);
+        const records = await airtable.findRecords(tableName);
 
         // then
-        return promise.then((records) => {
-          records.forEach((record, index) => {
-            const expectedRecord = airtableRecords[index];
-            assertAirtableRecordToEqualExpected(record, expectedRecord);
-          });
+        expect(selectStub).to.have.been.calledWithExactly({});
+        records.forEach((record, index) => {
+          const expectedRecord = airtableRecords[index];
+          assertAirtableRecordToEqualExpected(record, expectedRecord);
         });
+      });
+
+      it('should allow query for records with specific fields and resolve with value now in cache', async () => {
+        // when
+        await airtable.findRecords(tableName, ['toto', 'tata']);
+
+        // then
+        expect(selectStub).to.have.been.calledWithExactly({ fields : ['toto', 'tata'] });
       });
 
     });
