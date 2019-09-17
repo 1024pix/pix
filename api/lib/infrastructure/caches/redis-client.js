@@ -4,10 +4,13 @@ const logger = require('../logger');
 const { promisify } = require('util');
 
 const REDIS_CLIENT_OPTIONS = {
-  // All commands that were unfulfilled while the connection is lost will be
-  // retried after the connection has been reestablished.
-  // Note that this is safe because all of our commands are idempotent.
-  retry_unfulfilled_commands: true
+  // To avoid a "thundering herd" effect on the Redis server when it comes back
+  // up after a crash or connection loss, which can cause Redis to use more
+  // memory (for client buffers) than the OS allows and get killed, causing
+  // more Redis queries to get backed up, do not store a backlog of Redis
+  // queries. Errors will be reported immediately if the Redis server is not
+  // available.
+  enable_offline_queue: false,
 };
 
 module.exports = class RedisClient {
