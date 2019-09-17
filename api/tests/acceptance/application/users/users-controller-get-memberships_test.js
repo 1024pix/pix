@@ -5,7 +5,7 @@ const Membership = require('../../../../lib/domain/models/Membership');
 
 describe('Acceptance | Controller | users-controller-get-memberships', () => {
 
-  let userId;
+  let user;
   let organization;
   let membershipId;
   let options;
@@ -15,19 +15,23 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
   beforeEach(async () => {
     server = await createServer();
   });
-  
+
   describe('GET /users/:id/memberships', () => {
 
     beforeEach(async () => {
-      userId = databaseBuilder.factory.buildUser().id;
+      user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
-      membershipId = databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId, organizationRole }).id;
+      membershipId = databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: user.id,
+        organizationRole
+      }).id;
       await databaseBuilder.commit();
 
       options = {
         method: 'GET',
-        url: `/api/users/${userId}/memberships`,
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+        url: `/api/users/${user.id}/memberships`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     });
 
@@ -79,7 +83,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
               },
               relationships: {
                 'organization': { data: { type: 'organizations', id: organization.id.toString() }, },
-                'user': { data: null, },
+                'user': { data: { type: 'users', id: user.id.toString() }, },
               },
             },
           ],
@@ -104,16 +108,25 @@ describe('Acceptance | Controller | users-controller-get-memberships', () => {
                     related: `/api/organizations/${organization.id.toString()}/memberships`
                   }
                 },
-                'target-profiles': {
-                  links: {
-                    related: `/api/organizations/${organization.id.toString()}/target-profiles`
-                  }
-                },
                 students: {
                   links: {
                     related: `/api/organizations/${organization.id.toString()}/students`
                   }
                 },
+                'target-profiles': {
+                  links: {
+                    related: `/api/organizations/${organization.id.toString()}/target-profiles`
+                  }
+                },
+              }
+            },
+            {
+              type: 'users',
+              id: user.id.toString(),
+              attributes: {
+                email: user.email,
+                'first-name': user.firstName,
+                'last-name': user.lastName,
               }
             },
           ],

@@ -330,6 +330,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(associatedOrganization.type).to.equal(organizationInDB.type);
 
         expect(membership.organizationRole).to.equal(membershipInDB.organizationRole);
+        expect(membership.user).to.equal(user);
       });
 
       it('should reject with a UserNotFound error when no user was found with the given id', async () => {

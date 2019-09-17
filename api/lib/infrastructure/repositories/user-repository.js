@@ -47,7 +47,7 @@ function _toPixRolesDomain(pixRolesBookshelf) {
 }
 
 function _toDomain(userBookshelf) {
-  return new User({
+  const user = new User({
     id: userBookshelf.get('id'),
     firstName: userBookshelf.get('firstName'),
     lastName: userBookshelf.get('lastName'),
@@ -63,6 +63,8 @@ function _toDomain(userBookshelf) {
     hasSeenNewProfileInfo: Boolean(userBookshelf.get('hasSeenNewProfileInfo')),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
   });
+  user.memberships.forEach((membership) => membership.user = user);
+  return user;
 }
 
 function _setSearchFiltersForQueryBuilder(filters, qb) {
