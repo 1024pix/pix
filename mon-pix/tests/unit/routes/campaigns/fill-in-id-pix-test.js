@@ -1,6 +1,7 @@
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { A } from '@ember/array';
+import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
@@ -48,7 +49,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
           }
         }
       };
-      route.transitionTo = sinon.stub();
+      route.replaceWith = sinon.stub();
     });
 
     it('should redirect to start-or-resume when there is already an assessement', async function() {
@@ -60,7 +61,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       await route.beforeModel(transition);
 
       // then
-      sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', campaignCode);
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume', campaignCode);
     });
 
     it('should not redirect to start-or-resume when there is no assessement', async function() {
@@ -72,7 +73,32 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       await route.beforeModel(transition);
 
       // then
-      sinon.assert.notCalled(route.transitionTo);
+      sinon.assert.notCalled(route.replaceWith);
+    });
+
+    context('When participant external id is set in the url', function() {
+
+      it('should save participant external id as a property', async function() {
+        // given
+        transition = {
+          to: {
+            params: {
+              campaign_code: campaignCode,
+            },
+            queryParams: {
+              givenParticipantExternalId: 'a7Eat01r3'
+            }
+          }
+        };
+        const assessments = A([]);
+        queryStub.resolves(assessments);
+
+        // when
+        await route.beforeModel(transition);
+
+        // then
+        expect(route.get('givenParticipantExternalId')).to.be.defined;
+      });
     });
   });
 
@@ -102,13 +128,28 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
     it('should start the campaign when there is no idPixLabel', async function() {
       // given
+      const campaignWithoutIdPixLabel = { idPixLabel: undefined };
       route.start = sinon.stub();
 
       // when
-      await route.afterModel({ idPixLabel: undefined });
+      await route.afterModel(campaignWithoutIdPixLabel);
 
       // then
-      sinon.assert.called(route.start);
+      sinon.assert.calledWith(route.start, campaignWithoutIdPixLabel);
+    });
+
+    it('should start the campaign when participant external id is set in the url', async function() {
+      // given
+      const campaignWithIdPixLabel =  { idPixLabel: 'some label' };
+      const participantExternalId = 'a73at01r3';
+      route.start = sinon.stub();
+      route.set('givenParticipantExternalId', participantExternalId);
+
+      // when
+      await route.afterModel(campaignWithIdPixLabel);
+
+      // then
+      sinon.assert.calledWith(route.start, campaignWithIdPixLabel, participantExternalId);
     });
   });
 

@@ -6,5 +6,13 @@
     "organizationId": 1,
     "creatorId": 1,
     "targetProfileId": 1
+  }, {
+    "id": 2,
+    "name": "Campagne du Mur",
+    "code": "WALL",
+    "idPixLabel": "Numéro de bataillon",
+    "organizationId": 1,
+    "creatorId": 1,
+    "targetProfileId": 1
   }
 ]
