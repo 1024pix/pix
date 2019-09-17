@@ -35,3 +35,7 @@ given('je suis connecté à Pix en tant qu\'administrateur', () => {
 when(`je clique sur {string}`, (label) => {
   cy.contains(label).click();
 });
+
+when(`je saisis {string} dans le champ`, (value) => {
+  cy.get('input').type(value);
+});
