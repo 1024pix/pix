@@ -21,11 +21,11 @@ async function _queryAirtableRecord(tableName, recordId) {
   return record._rawJson;
 }
 
-async function _queryAirtableRecords(tableName) {
+async function _queryAirtableRecords(tableName, fields) {
   logger.info({ tableName }, 'Querying Airtable');
   const records = await _airtableClient()
     .table(tableName)
-    .select()
+    .select(fields ? { fields } : {})
     .all();
 
   return records.map((record) => record._rawJson);
@@ -47,16 +47,16 @@ async function getRecordSkipCache(tableName, recordId) {
   return new AirtableRecord(tableName, recordAsJson.id, recordAsJson);
 }
 
-async function findRecords(tableName) {
+async function findRecords(tableName, fields) {
   const cacheKey = generateCacheKey(tableName);
-  const cachedArrayOfRawJson = await cache.get(cacheKey, () => _queryAirtableRecords(tableName));
+  const cachedArrayOfRawJson = await cache.get(cacheKey, () => _queryAirtableRecords(tableName, fields));
 
   return cachedArrayOfRawJson.map((rawJson) => new AirtableRecord(tableName, rawJson.id, rawJson));
 }
 
-async function findRecordsSkipCache(tableName) {
+async function findRecordsSkipCache(tableName, fields) {
   const cacheKey = generateCacheKey(tableName);
-  const recordsAsJson = await _queryAirtableRecords(tableName);
+  const recordsAsJson = await _queryAirtableRecords(tableName, fields);
 
   await cache.set(cacheKey, recordsAsJson);
 
