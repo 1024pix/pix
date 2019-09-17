@@ -11,17 +11,19 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   campaignCode: null,
   campaign: null,
+  givenParticipantExternalId: null,
   userHasSeenLanding: false,
   userHasJustConsultedTutorial: false,
   authenticationRoute: 'inscription',
 
   beforeModel(transition) {
     this.set('campaignCode', transition.to.params.campaign_code);
+    this.set('givenParticipantExternalId', transition.to.queryParams.participantExternalId);
     this.set('userHasSeenLanding', transition.to.queryParams.hasSeenLanding);
     this.set('userHasJustConsultedTutorial', transition.to.queryParams.hasJustConsultedTutorial);
 
     if (this._userIsUnauthenticated() && !this.userHasSeenLanding) {
-      return this.transitionTo('campaigns.campaign-landing-page', this.campaignCode);
+      return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: transition.to.queryParams });
     }
     this._super(...arguments);
   },
@@ -41,18 +43,18 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
     if (this._thereIsNoAssessment(smartPlacementAssessments)) {
       if (this.userHasSeenLanding) {
-        return this.transitionTo('campaigns.fill-in-id-pix', this.campaignCode);
+        return this.replaceWith('campaigns.fill-in-id-pix', this.campaignCode, { queryParams: { givenParticipantExternalId: this.givenParticipantExternalId } });
       }
-      return this.transitionTo('campaigns.campaign-landing-page', this.campaignCode);
+      return this.replaceWith('campaigns.campaign-landing-page', this.campaignCode, { queryParams: { givenParticipantExternalId: this.givenParticipantExternalId } });
     }
 
     const assessment = await smartPlacementAssessments.get('firstObject').reload();
 
     if (this._showTutorial(assessment)) {
-      return this.transitionTo('campaigns.tutorial', this.campaignCode);
+      return this.replaceWith('campaigns.tutorial', this.campaignCode);
     }
 
-    return this.transitionTo('assessments.resume', assessment.get('id'));
+    return this.replaceWith('assessments.resume', assessment.get('id'));
   },
 
   _userIsUnauthenticated() {

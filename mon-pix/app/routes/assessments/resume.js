@@ -15,16 +15,18 @@ export default Route.extend({
     return this.modelFor('assessments').reload();
   },
 
-  afterModel(assessment) {
-    return this.store
-      .queryRecord('challenge', { assessmentId: assessment.id })
-      .then((nextChallenge) => {
-        if (assessment.hasCheckpoints) {
-          return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
-        } else {
-          return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
-        }
-      });
+  async afterModel(assessment) {
+    if (assessment.isCompleted) {
+      return this._routeToResults(assessment);
+    }
+
+    const nextChallenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
+
+    if (assessment.hasCheckpoints) {
+      return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
+    } else {
+      return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
+    }
   },
 
   actions: {
@@ -95,22 +97,23 @@ export default Route.extend({
     return this.replaceWith('assessments.challenge', assessment.id, nextChallengeId);
   },
 
-  _rateAssessment(assessment) {
-    return this.store
-      .createRecord('assessment-result', { assessment })
-      .save()
-      .finally(() => {
-        if (assessment.isCertification) {
-          return this.replaceWith('certifications.results', assessment.certificationNumber);
-        }
-        if (assessment.isSmartPlacement) {
-          return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
-        }
-        if (assessment.isCompetenceEvaluation) {
-          return this.replaceWith('competences.results', assessment.id);
-        }
-        return this.replaceWith('assessments.results', assessment.id);
-      });
+  async _rateAssessment(assessment) {
+    await assessment.save({ adapterOptions: { completeAssessment: true } });
+    
+    return this._routeToResults(assessment);
+  },
+
+  _routeToResults(assessment) {
+    if (assessment.isCertification) {
+      return this.replaceWith('certifications.results', assessment.certificationNumber);
+    }
+    if (assessment.isSmartPlacement) {
+      return this.replaceWith('campaigns.skill-review', assessment.codeCampaign, assessment.id);
+    }
+    if (assessment.isCompetenceEvaluation) {
+      return this.replaceWith('competences.results', assessment.id);
+    }
+    return this.replaceWith('assessments.results', assessment.id);
   },
 
   _routeToCheckpoint(assessment) {

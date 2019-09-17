@@ -1,26 +1,26 @@
 const { AssessmentEndedError } = require('../../domain/errors');
-const useCases = require('../../domain/usecases');
+const usecases = require('../../domain/usecases');
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const { extractParameters } = require('../../infrastructure/utils/query-params-utils');
-const { extractUserIdFromRequest } = require('../../infrastructure/utils/request-utils');
+const requestUtils = require('../../infrastructure/utils/request-utils');
 
 module.exports = {
 
   save(request, h) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
-    assessment.userId = extractUserIdFromRequest(request);
+    assessment.userId = requestUtils.extractUserIdFromRequest(request);
 
     return Promise.resolve()
       .then(() => {
         if (assessment.isSmartPlacement()) {
           const codeCampaign = request.payload.data.attributes['code-campaign'];
           const participantExternalId = request.payload.data.attributes['participant-external-id'];
-          return useCases.createAssessmentForCampaign({
+          return usecases.createAssessmentForCampaign({
             assessment,
             codeCampaign,
             participantExternalId
@@ -38,22 +38,22 @@ module.exports = {
   async get(request) {
     const assessmentId = request.params.id;
 
-    const assessment = await useCases.getAssessment({ assessmentId });
+    const assessment = await usecases.getAssessment({ assessmentId });
 
     return assessmentSerializer.serialize(assessment);
   },
 
   findByFilters(request) {
     let assessmentsPromise = Promise.resolve([]);
-    const userId = extractUserIdFromRequest(request);
+    const userId = requestUtils.extractUserIdFromRequest(request);
 
     if (userId) {
       const filters = extractParameters(request.query).filter;
 
       if (filters.codeCampaign) {
-        assessmentsPromise = useCases.findSmartPlacementAssessments({ userId, filters });
+        assessmentsPromise = usecases.findSmartPlacementAssessments({ userId, filters });
       } else if (filters.type === 'CERTIFICATION') {
-        assessmentsPromise = useCases.findCertificationAssessments({ userId, filters });
+        assessmentsPromise = usecases.findCertificationAssessments({ userId, filters });
       }
     }
 
@@ -77,30 +77,30 @@ module.exports = {
         logger.trace(logContext, 'assessment loaded');
 
         if (assessment.isPreview()) {
-          return useCases.getNextChallengeForPreview({});
+          return usecases.getNextChallengeForPreview({});
         }
 
         if (assessment.isCertification()) {
-          return useCases.getNextChallengeForCertification({
+          return usecases.getNextChallengeForCertification({
             assessment
           });
         }
 
         if (assessment.isDemo()) {
-          return useCases.getNextChallengeForDemo({
+          return usecases.getNextChallengeForDemo({
             assessment,
           });
         }
 
         if (assessment.isSmartPlacement()) {
-          return useCases.getNextChallengeForSmartPlacement({
+          return usecases.getNextChallengeForSmartPlacement({
             assessment,
           });
         }
 
         if (assessment.isCompetenceEvaluation()) {
-          const userId = extractUserIdFromRequest(request);
-          return useCases.getNextChallengeForCompetenceEvaluation({
+          const userId = requestUtils.extractUserIdFromRequest(request);
+          return usecases.getNextChallengeForCompetenceEvaluation({
             assessment,
             userId
           });
@@ -118,5 +118,14 @@ module.exports = {
 
         throw error;
       });
-  }
+  },
+
+  async completeAssessment(request) {
+    const assessmentId = request.params.id;
+    const userId = requestUtils.extractUserIdFromRequest(request);
+
+    const completedAssessment = await usecases.completeAssessment({ userId, assessmentId });
+
+    return assessmentSerializer.serialize(completedAssessment);
+  },
 };

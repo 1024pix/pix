@@ -42,4 +42,19 @@ module.exports = function certificationCoursesBuilder({ databaseBuilder }) {
     externalId: 'L\'élève',
     isPublished: false
   });
+
+  databaseBuilder.factory.buildCertificationCourse({
+    id: 4,
+    userId: 1,
+    completedAt: new Date('2018-02-15T15:15:52Z'),
+    createdAt: new Date('2018-02-15T15:14:46Z'),
+    firstName: 'Pix',
+    lastName: 'Aile',
+    birthdate: '1960-12-12',
+    birthplace: 'Paris',
+    sessionId: 1,
+    externalId: 'Certification course without assessment',
+    isPublished: true
+  });
+
 };

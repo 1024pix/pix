@@ -7,19 +7,21 @@ import _ from 'lodash';
 export default Route.extend({
 
   session: service(),
+  givenParticipantExternalId: null,
 
-  deactivate: function() {
+  deactivate() {
     this.controller.set('participantExternalId', null);
     this.controller.set('loading', false);
   },
 
   async beforeModel(transition) {
     const campaignCode = transition.to.params.campaign_code;
+    this.set('givenParticipantExternalId', transition.to.queryParams && transition.to.queryParams.givenParticipantExternalId);
 
     const assessments = await this.store.query('assessment', { filter: { codeCampaign: campaignCode } });
 
     if (!isEmpty(assessments)) {
-      return this.transitionTo('campaigns.start-or-resume', campaignCode);
+      return this.replaceWith('campaigns.start-or-resume', campaignCode);
     }
   },
 
@@ -32,6 +34,10 @@ export default Route.extend({
   afterModel(campaign) {
     if (!campaign.idPixLabel) {
       return this.start(campaign);
+    }
+
+    if (this.givenParticipantExternalId) {
+      return this.start(campaign, this.givenParticipantExternalId);
     }
   },
 
