@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v2.65.0 (16/09/2019)
+
+- [#664](https://github.com/1024pix/pix/pull/664) [FEATURE] Import des élèves via un fichier XML (SIECLE) dans Pix Orga (PO-217).
+- [#694](https://github.com/1024pix/pix/pull/694) [TECH] Mise à jour des dépendances de l'API.
+- [#692](https://github.com/1024pix/pix/pull/692) [TECH] Changer le type des colonnes de BIGINT à INTEGER.
+
 ## v2.64.0 (12/09/2019)
 
 - [#673](https://github.com/1024pix/pix/pull/673) [FEATURE] Rajouter la catégorisation aux signalements envoyés par les users (PF-782).
