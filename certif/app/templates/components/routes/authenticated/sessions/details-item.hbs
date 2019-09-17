@@ -31,90 +31,19 @@
   </nav>
 
   <div class="session-details-controls__actions">
+    <a class="button button--link button--with-icon session-details-controls__download-button" href="{{session.urlToDownload}}" target="_blank" download>
+      Télécharger le PV (.ods){{fa-icon 'file-download'}}
+    </a>
     {{#file-upload name="file-upload"
                    for="upload-attendance-sheet"
                    accept=".ods"
                    multiple=false
                    onfileadd=(action uploadCertificationCandidates)}}
-        <a class="button session-details-controls__import-button">Importer des candidats (.ods)</a>
+      <span class="button session-details-controls__import-button" role="button" tabindex=0>Importer des candidats (.ods)</span>
     {{/file-upload}}
-    <a class="button button--link button--with-icon session-details-controls__download-button" href="{{session.urlToDownload}}" target="_blank" download>
-      Télécharger le PV (.ods){{fa-icon 'file-download'}}
-    </a>
   </div>
 </div>
 
-{{#if message}}
-    <div class={{concat "alert-zone alert-zone--" message.type}} aria-live="polite">
-      {{fa-icon (if isErrorMessage 'exclamation-triangle' 'check-circle') class="alert-zone__icon"}}
-        <p class="alert-zone__message">
-          {{#if isSuccessMessage}}
-              La liste des candidats a été importée avec succès
-          {{else}}
-            {{if message.detail message.detail 'Une erreur s\'est produite lors de l\'import de la liste de candidats'}}
-          {{/if}}
-        </p>
-    </div>
-{{/if}}
+{{notification-container position="bottom-right"}}
 
-<div class="panel panel--strong-shadow session-details-container">
-  <div class="session-details-row">
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">ID session</h4>
-      <span class="content-text session-details-content__text">{{session.id}}</span>
-    </div>
-
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">Nom du site</h4>
-      <span class="content-text session-details-content__text">{{session.address}}</span>
-    </div>
-
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">Salle</h4>
-      <span class="content-text session-details-content__text">{{session.room}}</span>
-    </div>
-
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">Surveillant(s)</h4>
-      <span class="content-text session-details-content__text">{{session.examiner}}</span>
-    </div>
-
-    <div class="session-details-content session-details-content--multiple">
-      <h4 class="label-text session-details-content__label">Code d'accès</h4>
-      <div class="session-details-content__clipboard">
-        <span class="content-text content-text--bold session-details-content__text">{{session.accessCode}}</span>
-
-        {{#if (is-clipboard-supported)}}
-          <div class="tooltip">
-            <span class="tooltip__text tooltip-text session-details-content__tooltip-text">{{this.tooltipText}}</span>
-            {{#copy-button clipboardText=session.accessCode
-                           success=(action 'clipboardSuccess')
-                           mouseLeave=(action 'clipboardOut')
-                           classNames="icon-button session-details-content__clipboard-button"}}
-              {{fa-icon 'copy' prefix='far'}}
-            {{/copy-button}}
-          </div>
-        {{/if}}
-      </div>
-    </div>
-  </div>
-
-  <div class="session-details-row">
-    <div class="session-details-content session-details-content--single">
-      <h4 class="label-text session-details-content__label">Observations</h4>
-      <p class="content-text session-details-content__text">
-        {{session.description}}
-      </p>
-    </div>
-  </div>
-
-  <div class="session-details-row">
-    <div class="session-details-content">
-      {{#link-to "authenticated.sessions.update" session.id
-                 class="button button--regular button--link session-details-content__update-button"}}
-        Modifier
-      {{/link-to}}
-    </div>
-  </div>
-
-</div>
+{{outlet}}
