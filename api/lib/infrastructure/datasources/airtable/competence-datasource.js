@@ -1,17 +1,15 @@
 const airtable = require('../../airtable');
-const { Competence: { fromAirTableObject } } = require('./objects');
-
-const AIRTABLE_TABLE_NAME = 'Competences';
+const { Competence } = require('./objects');
 
 module.exports = {
   list() {
-    return airtable.findRecords(AIRTABLE_TABLE_NAME)
-      .then((airtableRawObjects) => airtableRawObjects.map(fromAirTableObject));
+    return airtable.findRecords(Competence.getAirtableName(), Competence.getUsedAirtableFields())
+      .then((airtableRawObjects) => airtableRawObjects.map(Competence.fromAirTableObject));
   },
 
   get(id) {
-    return airtable.getRecord(AIRTABLE_TABLE_NAME, id)
-      .then(fromAirTableObject);
+    return airtable.getRecord(Competence.getAirtableName(), id)
+      .then(Competence.fromAirTableObject);
   }
 };
 
