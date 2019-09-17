@@ -50,7 +50,7 @@
     "ember-cli-matomo-tag-manager": "^1.1.2",
     "ember-cli-mirage": "^1.1.1",
     "ember-cli-moment-shim": "^3.7.1",
-    "ember-cli-sass": "^10.0.0",
+    "ember-cli-sass": "^10.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-template-lint": "^0.7.6",
     "ember-cli-uglify": "^3.0.0",
@@ -74,6 +74,6 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.11",
     "qunit-dom": "^0.8.5",
-    "sass": "^1.20.1"
+    "sass": "^1.22.12"
   }
 }
