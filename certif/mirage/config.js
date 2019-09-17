@@ -56,7 +56,7 @@ export default function() {
 
   this.get('/sessions/:id');
   this.patch('/sessions/:id');
-  this.post('/sessions/:id/certification-candidates/import-certification-candidates', upload(function(_schema, request) {
+  this.post('/sessions/:id/certification-candidates/import-certification-candidates', upload(function(_, request) {
     const { name } = request.requestBody.file;
     if (name === 'invalid-file') {
       return new Promise((resolve) => {

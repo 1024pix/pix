@@ -44,18 +44,7 @@
   </div>
 </div>
 
-{{#if message}}
-    <div class={{concat "alert-zone alert-zone--" message.type}} aria-live="polite">
-      {{fa-icon (if isErrorMessage 'exclamation-triangle' 'check-circle') class="alert-zone__icon"}}
-        <p class="alert-zone__message">
-          {{#if isSuccessMessage}}
-              La liste des candidats a été importée avec succès
-          {{else}}
-            {{if message.detail message.detail 'Une erreur s\'est produite lors de l\'import de la liste de candidats'}}
-          {{/if}}
-        </p>
-    </div>
-{{/if}}
+{{notification-container position="bottom-right"}}
 
 <div class="panel panel--strong-shadow session-details-container">
   <div class="session-details-row">

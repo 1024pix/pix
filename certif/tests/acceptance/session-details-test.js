@@ -14,9 +14,14 @@ module('Acceptance | Session Details', function(hooks) {
 
   let user;
 
-  hooks.beforeEach(() => {
+  hooks.beforeEach(function() {
     user = createUserWithMembership();
     server.create('session', { id: 1 });
+  });
+
+  hooks.afterEach(function() {
+    const notificationMessagesService = this.owner.lookup('service:notification-messages');
+    notificationMessagesService.clearAll();
   });
 
   module('When user is not logged in', function() {
@@ -87,32 +92,32 @@ module('Acceptance | Session Details', function(hooks) {
       assert.dom('.session-details-controls__import-button').hasText('Importer des candidats (.ods)');
     });
 
-    test('it should display an error message when uploading an invalid file', async function(assert) {
-      // given
-      await visit('/sessions/1');
+    module('notifications', function() {
 
-      const file = new File(['foo'], 'invalid-file');
+      test('it should display a success message when uploading a valid file', async function(assert) {
+        // given
+        await visit('/sessions/1');
+        const file = new File(['foo'], 'valid-file');
 
-      // when
-      await upload('#upload-attendance-sheet', file);
+        // when
+        await upload('#upload-attendance-sheet', file);
 
-      // then
-      assert.dom('.alert-zone--error').exists();
-      assert.dom('.alert-zone--error').hasText('Une erreur s\'est produite lors de l\'import de la liste de candidats');
-    });
+        // then
+        assert.dom('[data-test-notification-message="success"]').exists();
+      });
 
-    test('it should display a success message when uploading a valid file', async function(assert) {
-      // given
-      await visit('/sessions/1');
+      test('it should display an error message when uploading an invalid file', async function(assert) {
+        // given
+        await visit('/sessions/1');
+        const file = new File(['foo'], 'invalid-file');
 
-      const file = new File(['foo'], 'valid-file');
+        // when
+        await upload('#upload-attendance-sheet', file);
 
-      // when
-      await upload('#upload-attendance-sheet', file);
+        // then
+        assert.dom('[data-test-notification-message="error"]').exists();
+      });
 
-      // then
-      assert.dom('.alert-zone--success').exists();
-      assert.dom('.alert-zone--success').hasText('La liste des candidats a été importée avec succès');
     });
 
   });
