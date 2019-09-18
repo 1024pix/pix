@@ -19,7 +19,7 @@ Router.map(function() {
 
   this.route('authenticated', { path: '' }, function() {
     this.route('terms-of-service', { path: '/cgu' });
-    this.route('sessions', { path: '/sessions' }, function() {
+    this.route('sessions', function() {
       this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
       this.route('update', { path: '/:session_id/modification' });
