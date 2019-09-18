@@ -496,6 +496,7 @@ describe('Acceptance | Application | organization-controller', () => {
               'type': organization.type,
               'logo-url': organization.logoUrl,
               'external-id': organization.externalId,
+              'province-code': organization.provinceCode,
               'is-managing-students': organization.isManagingStudents,
             },
             'id': organization.id.toString(),

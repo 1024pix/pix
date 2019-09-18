@@ -4,7 +4,7 @@ module.exports = {
 
   serialize(organizations, meta) {
     return new Serializer('organizations', {
-      attributes: ['name', 'type', 'code', 'logoUrl', 'externalId', 'isManagingStudents', 'user', 'memberships', 'students'],
+      attributes: ['name', 'type', 'code', 'logoUrl', 'externalId', 'provinceCode', 'isManagingStudents', 'user', 'memberships', 'students'],
       user: {
         ref: 'id',
         attributes: ['firstName', 'lastName', 'email'],
