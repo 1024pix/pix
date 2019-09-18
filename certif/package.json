@@ -58,7 +58,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-flatpickr": "^2.14.3",
     "ember-load-initializers": "^2.1.0",
-    "ember-moment": "^7.8.1",
+    "ember-moment": "^8.0.0",
     "ember-qunit": "^4.4.1",
     "ember-resolver": "^5.1.3",
     "ember-simple-auth": "^1.8.2",
