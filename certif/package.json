@@ -68,7 +68,7 @@
     "eslint-plugin-mocha": "^6.1.1",
     "faker": "^4.1.0",
     "loader.js": "^4.7.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "qunit-dom": "^0.9.0",
     "sass": "^1.22.12"
   }
