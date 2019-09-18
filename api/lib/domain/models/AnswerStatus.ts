@@ -7,12 +7,14 @@ const PARTIALLY = 'partially';
 const UNIMPLEMENTED = 'unimplemented';
 
 class AnswerStatus {
+  public status: string;
+
   constructor({
     // attributes
     status
     // includes
     // references
-  } = {}) {
+  }) {
     // attributes
     // TODO: throw a BadAnswerStatus error if the status is bad + adapt the tests
     this.status = status;
@@ -55,4 +57,4 @@ class AnswerStatus {
   }
 }
 
-module.exports = AnswerStatus;
+export = AnswerStatus;
