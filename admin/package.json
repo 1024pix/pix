@@ -64,7 +64,7 @@
     "ember-load-initializers": "^2.1.0",
     "ember-modal-dialog": "^3.0.0-beta.4",
     "ember-models-table": "^2.10.1",
-    "ember-moment": "^7.8.1",
+    "ember-moment": "^8.0.0",
     "ember-native-dom-helpers": "^0.6.2",
     "ember-power-select": "^2.3.2",
     "ember-qunit": "^4.4.1",
