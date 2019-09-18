@@ -20,6 +20,10 @@ export default function(schema, request) {
   const answer = JSON.parse(request.requestBody);
   const challengeId = answer.data.relationships.challenge.data.id;
 
+  if (challengeId.includes('_not_yet_answered')) {
+    return answer;
+  }
+
   const allChallenges = [
     refQcmChallengeFull,
     refQcuChallengeFull,

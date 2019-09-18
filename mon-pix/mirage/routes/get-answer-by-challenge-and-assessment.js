@@ -12,6 +12,10 @@ export default function(schema, request) {
   const assessmentId = request.queryParams.assessment;
   const challengeId = request.queryParams.challenge;
 
+  if (challengeId.includes('_not_yet_answered')) {
+    return { data: null };
+  }
+
   let answers;
 
   answers = schema.answers.where({ assessmentId, challengeId });
@@ -55,6 +59,5 @@ export default function(schema, request) {
       }
     }
   };
-
   return schema.answers.first() || validJSONAPI;
 }
