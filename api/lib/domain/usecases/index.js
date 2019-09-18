@@ -59,6 +59,7 @@ module.exports = injectDependencies({
   acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
   addOrganizationLogoToCampaign: require('./add-organization-logo-to-campaign'),
   addOrganizationMembershipWithEmail: require('./add-organization-membership-with-email'),
+  assertUserBelongToOrganization: require('./assert-user-belong-to-organization'),
   authenticateUser: require('./authenticate-user'),
   beginCampaignParticipationImprovement: require('./begin-campaign-participation-improvement'),
   completeAssessment: require('./complete-assessment'),
