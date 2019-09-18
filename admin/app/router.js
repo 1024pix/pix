@@ -39,7 +39,7 @@ Router.map(function() {
       });
       this.route('sessions', function() {
         this.route('info', { path: '/:session_id' }, function() {
-          this.route('list', { path: '/list' });
+          this.route('list');
         });
       });
     });

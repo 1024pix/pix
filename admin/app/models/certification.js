@@ -18,8 +18,6 @@ export default DS.Model.extend({
   completionDate: computed('completedAt', function() {
     return (new Date(this.completedAt)).toLocaleString('fr-FR');
   }),
-  resultsCreationDate: computed('resultCreatedAt', function() {
-  }),
   status: DS.attr(),
   juryId: DS.attr(),
   commentForCandidate: DS.attr(),
