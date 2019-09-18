@@ -34,13 +34,14 @@ function buildOrganization(
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     externalId = 'OrganizationIdLinksToExternalSource',
+    provinceCode = '2A',
     isManagingStudents = false,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     user = null,
     memberships = [],
     targetProfileShares = []
   } = {}) {
-  return new Organization({ id, code, name, type, logoUrl, externalId, isManagingStudents, createdAt, user, memberships, targetProfileShares });
+  return new Organization({ id, code, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, user, memberships, targetProfileShares });
 }
 
 buildOrganization.withUser = function(
@@ -51,12 +52,13 @@ buildOrganization.withUser = function(
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     externalId = 'OrganizationIdLinksToExternalSource',
+    provinceCode = '2A',
     isManagingStudents = false,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     user = _buildMember()
   } = {}
 ) {
-  return new Organization({ id, code, name, type, logoUrl, externalId, isManagingStudents, createdAt, user });
+  return new Organization({ id, code, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, user });
 };
 
 buildOrganization.withMembers = function(
@@ -67,6 +69,7 @@ buildOrganization.withMembers = function(
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     externalId = 'OrganizationIdLinksToExternalSource',
+    provinceCode = '2A',
     isManagingStudents = false,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     members = [
@@ -75,7 +78,7 @@ buildOrganization.withMembers = function(
     ]
   } = {}
 ) {
-  return new Organization({ id, code, name, type, logoUrl, externalId, isManagingStudents, createdAt, members });
+  return new Organization({ id, code, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, members });
 };
 
 buildOrganization.withStudents = function(
@@ -86,12 +89,13 @@ buildOrganization.withStudents = function(
     type = 'SCO',
     logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
     externalId = 'OrganizationIdLinksToExternalSource',
+    provinceCode = '2A',
     isManagingStudents = true,
     createdAt = new Date('2018-01-12T01:02:03Z'),
     students = []
   } = {}
 ) {
-  const organization = new Organization({ id, code, name, type, logoUrl, externalId, isManagingStudents, createdAt, students });
+  const organization = new Organization({ id, code, name, type, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, students });
 
   organization.students = [
     _buildStudent({ id: 1, lastName: 'Doe', firstName: 'John', organization }),
