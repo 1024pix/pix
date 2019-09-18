@@ -89,7 +89,7 @@ export default Route.extend({
 });
 ```
 
-## Paramétrage
+## Configuration
 
 ### Options d'environnement
 
@@ -117,7 +117,9 @@ config.config.jsexports = (function() {
 
 ```
 
-L'accès à une variable d'environnement NE DOIT PAS être effectué en dehors des fichiers `/api/lib/settings.config.jsvascript
+L'accès à une variable d'environnement NE DOIT PAS être effectué en dehors des fichiers `/api/lib/settings.config.
+
+```javascript
 // BAD
 
 /* lib/plugins.js */
@@ -129,8 +131,8 @@ if (process.env.LOG_ENABLED === 'true') {
 ```javascript
 // GOOD
 
-config.js
-moduleconfig.js(function() {
+/* lib/config.js */
+module.exports = (function() {
   const config = {
     logging: {
       enabled: (process.env.LOG_ENABLED === 'true'),
@@ -150,7 +152,7 @@ Toute variable d'environnement DOIT être définie dans la page du wiki concern�
 
 ### Surcharge d'une option par environnement
 
-La surcharge d'une option pour un environnement dédié DOIT se faire par modification de la valeur plutôt que par instanciation d'un nouvel objet associé à la catégorie ,afin de permettre le mécanisme de "valeur par défaut" et d'éviter la duplication de code inutile.
+La surcharge d'une option pour un environnement dédié DOIT se faire par modification de la valeur plutôt que par instanciation d'un nouvel objet associé à la catégorie, afin de permettre le mécanisme de "valeur par défaut" et d'éviter la duplication de code inutile.
 
 Soit la configuration par défaut suivante :
 
@@ -196,7 +198,7 @@ Dans le cas de fonctionnalités activables/désactivables, l'activation DOIT êt
 
 mailing: {
   enabled: !!process.env.MAILJET_KEY,
-},
+}
 ```
 
 ```javascript
@@ -204,7 +206,7 @@ mailing: {
 
 mailing: {
   enabled: (process.env.MAILING_ENABLED === 'true'),
-},
+}
 ```
 
 ### Catégorisation des options
