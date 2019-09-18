@@ -78,7 +78,7 @@
     "eslint-plugin-ember": "^7.0.0",
     "eslint-plugin-mocha": "^6.1.1",
     "file-saver": "^2.0.2",
-    "json2csv": "^4.5.1",
+    "json2csv": "^4.5.3",
     "loader.js": "^4.7.0",
     "lodash": "^4.17.11",
     "papaparse": "^5.0.0",
