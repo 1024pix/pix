@@ -52,7 +52,7 @@
     "ember-cli-mirage": "^1.1.1",
     "ember-cli-moment-shim": "^3.7.1",
     "ember-cli-notifications": "^4.3.3",
-    "ember-cli-sass": "^10.0.0",
+    "ember-cli-sass": "^10.0.1",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-template-lint": "^0.7.6",
     "ember-cli-uglify": "^2.1.0",
@@ -85,7 +85,7 @@
     "papaparse": "^5.0.0",
     "popper.js": "^1.15.0",
     "qunit-dom": "^0.8.5",
-    "sass": "^1.20.1",
+    "sass": "^1.22.12",
     "xlsx": "^0.14.3"
   }
 }
