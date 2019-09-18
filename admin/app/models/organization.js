@@ -10,6 +10,7 @@ export default DS.Model.extend({
   code: attr(),
   logoUrl: attr(),
   externalId: attr(),
+  provinceCode: attr(),
 
   // Relationships
   memberships: hasMany('membership'),
