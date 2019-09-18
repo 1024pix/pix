@@ -11,7 +11,7 @@ export default Route.extend({
     const session = this.session;
     this.source = session.data.authenticated.source;
     if (session.get('isAuthenticated')) {
-      session.invalidate();
+      return session.invalidate();
     }
   },
 
@@ -30,5 +30,5 @@ export default Route.extend({
   _redirectToHome() {
     return window.location.replace(ENV.APP.HOME_HOST);
   },
-  
+
 });
