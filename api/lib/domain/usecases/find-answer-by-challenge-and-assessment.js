@@ -11,7 +11,7 @@ module.exports = async function findAnswerByChallengeAndAssessment(
     assessmentRepository,
   } = {}) {
   const assessment = await assessmentRepository.get(assessmentId);
-  if (assessment.userId != userId) {
+  if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to see this assessment.');
   }
 
