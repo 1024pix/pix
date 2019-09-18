@@ -1,5 +1,9 @@
 extends: '../.eslintrc.yaml'
 
+parser: '@typescript-eslint/parser'
+parserOptions:
+  sourceType: module
+
 globals:
   include: true
 

@@ -76,3 +76,6 @@ api/scripts/extractions
 
 # Visual regression snapshots
 high-level-tests/e2e/cypress/snapshots/actual/**
+
+# Temporary TypeScript compiler outputs
+api/tsc-out/
