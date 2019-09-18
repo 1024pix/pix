@@ -11,7 +11,7 @@ module.exports = {
 
     return organizationRepository
       .findByUserId(userId)
-      .then((organizations) => organizations.some((organization) => organization.id == organizationId))
+      .then((organizations) => organizations.some((organization) => organization.id === organizationId))
       .then((organizationFound) => organizationFound ? null : Promise.reject())
       .catch(() => {
         const buildedError = _dataAuthorizationPayload('Vous n’êtes pas autorisé à accéder à ces profils partagés');

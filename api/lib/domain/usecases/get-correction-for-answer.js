@@ -16,7 +16,7 @@ module.exports = async function getCorrectionForAnswer({
 };
 
 function _validateCorrectionIsAccessible(assessment, userId) {
-  if (assessment.userId != userId) {
+  if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to see correction of this assessment.');
   }
   if (!assessment.isCompleted() && !assessment.isSmartPlacement() && !assessment.isCompetenceEvaluation()) {
