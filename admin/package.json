@@ -19,7 +19,6 @@
   "scripts": {
     "build": "ember build --environment $BUILD_ENVIRONMENT",
     "clean": "rm -rf tmp dist node_modules",
-    "coverage": "COVERAGE=true ember test",
     "dev": "ember serve",
     "lint": "eslint .",
     "preinstall": "test \"$(npm --version)\" = 6.4.1",
@@ -43,7 +42,6 @@
     "ember-cli": "~3.9.0",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-babel": "^7.11.0",
-    "ember-cli-code-coverage": "^0.4.2",
     "ember-cli-dependency-checker": "^3.1.0",
     "ember-cli-eslint": "^5.1.0",
     "ember-cli-google-fonts": "^2.16.2",
