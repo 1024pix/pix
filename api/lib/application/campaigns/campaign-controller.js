@@ -7,6 +7,7 @@ const campaignReportSerializer = require('../../infrastructure/serializers/jsona
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const requestUtils = require('../../infrastructure/utils/request-utils');
 const infraErrors = require('../../infrastructure/errors');
 
 module.exports = {
@@ -27,9 +28,11 @@ module.exports = {
 
   async getByCode(request) {
     const filters = queryParamsUtils.extractParameters(request.query).filter;
+    const userId = requestUtils.extractUserIdFromRequest(request);
     await _validateFilters(filters);
 
     const campaign = await usecases.getCampaignByCode({ code: filters.code });
+    await usecases.assertUserBelongToOrganization({ userId, campaign });
     const campaignWithLogo = await usecases.addOrganizationLogoToCampaign({ campaign });
 
     return campaignSerializer.serialize([campaignWithLogo]);
