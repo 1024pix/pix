@@ -5,7 +5,7 @@ const { extractUserIdFromRequest } = require('../../infrastructure/utils/request
 module.exports = {
   verify(request, h) {
     const userId = extractUserIdFromRequest(request);
-    const assessmentId = request.params.id;
+    const assessmentId = parseInt(request.params.id);
 
     return assessmentRepository
       .getByAssessmentIdAndUserId(assessmentId, userId)

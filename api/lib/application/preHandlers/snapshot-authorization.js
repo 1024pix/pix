@@ -7,7 +7,7 @@ module.exports = {
   verify(request, h) {
     const token = request.query.userToken || tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
-    const organizationId = request.params.id || extractParameters(request.query).filter.organizationId;
+    const organizationId = parseInt(request.params.id) || parseInt(extractParameters(request.query).filter.organizationId);
 
     return organizationRepository
       .findByUserId(userId)

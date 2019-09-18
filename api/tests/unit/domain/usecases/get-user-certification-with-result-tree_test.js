@@ -5,7 +5,7 @@ const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompet
 
 describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
-  const userId = '2';
+  const userId = 2;
   const certificationId = '23';
 
   const assessmentRepository = {
@@ -76,7 +76,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
       assessment = domainBuilder.buildAssessment();
       assessmentRepository.getByCertificationCourseId.resolves(assessment);
 
-      certification = domainBuilder.buildCertification({ userId: parseInt(userId, 10) });
+      certification = domainBuilder.buildCertification({ userId });
       certificationRepository.getByCertificationCourseId.resolves(certification);
 
       competenceMarks = [domainBuilder.buildCompetenceMark()];
