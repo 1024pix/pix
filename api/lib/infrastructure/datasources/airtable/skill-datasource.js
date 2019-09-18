@@ -1,26 +1,25 @@
 const airtable = require('../../airtable');
-const { Skill: { fromAirTableObject } } = require('./objects');
+const { Skill } = require('./objects');
 
 const _ = require('lodash');
 
-const AIRTABLE_TABLE_NAME = 'Acquis';
 const ACTIVATED_STATUS = ['actif'];
 
 function _doQuery(filter) {
-  return airtable.findRecords(AIRTABLE_TABLE_NAME)
+  return airtable.findRecords(Skill.getAirtableName(), Skill.getUsedAirtableFields())
     .then((rawSkills) => {
       return _(rawSkills)
         .filter(filter)
         .filter((rawSkill) => _.includes(rawSkill.fields['Status'], ACTIVATED_STATUS))
-        .map(fromAirTableObject)
+        .map(Skill.fromAirTableObject)
         .value();
     });
 }
 
 module.exports = {
   get(id) {
-    return airtable.getRecord(AIRTABLE_TABLE_NAME, id)
-      .then(fromAirTableObject);
+    return airtable.getRecord(Skill.getAirtableName(), id)
+      .then(Skill.fromAirTableObject);
   },
 
   findByRecordIds(skillRecordIds) {
