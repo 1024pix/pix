@@ -1,6 +1,8 @@
-const _ = require('lodash');
+import * as _ from 'lodash';
 
 class Tube {
+  public name;
+  public skills;
 
   constructor({
     // attributes
@@ -55,4 +57,4 @@ class Tube {
 
 }
 
-module.exports = Tube;
+export = Tube;

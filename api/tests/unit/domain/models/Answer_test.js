@@ -1,5 +1,6 @@
 const Answer = require('../../../../lib/domain/models/Answer');
 const Skill = require('../../../../lib/domain/models/Skill');
+
 const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Answer', () => {
@@ -20,12 +21,11 @@ describe('Unit | Domain | Models | Answer', () => {
         levelup: {},
       };
 
-      const expectedAnswer = {
+      const expectedProperties = {
         id: 2,
-        value: 'Avast, Norton',
+        elapsedTime: 100,
         result: { status: 'ok' },
         resultDetails: 'champs1 : ok \n champs2 : ko',
-        elapsedTime: 100,
         timeout: 0,
         challengeId: 'redRecordId',
         assessmentId: 82,
@@ -36,7 +36,7 @@ describe('Unit | Domain | Models | Answer', () => {
       const answer = new Answer(rawData);
 
       // then
-      expect(answer).to.deep.equal(expectedAnswer);
+      expect(answer).to.deep.include(expectedProperties);
     });
   });
 
