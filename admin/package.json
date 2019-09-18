@@ -62,7 +62,6 @@
     "ember-export-application-global": "^2.0.0",
     "ember-file-upload": "^2.7.1",
     "ember-load-initializers": "^2.1.0",
-    "ember-maybe-import-regenerator": "^0.1.6",
     "ember-modal-dialog": "^3.0.0-beta.4",
     "ember-models-table": "^2.10.1",
     "ember-moment": "^7.8.1",
