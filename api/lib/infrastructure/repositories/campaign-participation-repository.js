@@ -13,7 +13,7 @@ const _ = require('lodash');
 function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
     id: bookshelfCampaignParticipation.get('id'),
-    assessmentId: _.get(bookshelfCampaignParticipation.related('assessments'), 'models[0].attributes.id'),
+    assessmentId: _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     campaignId: bookshelfCampaignParticipation.get('campaignId'),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
@@ -121,7 +121,7 @@ module.exports = {
       })
       .then(({ models, pagination }) => {
         _.map(models, (campaignParticipation) => {
-          campaignParticipation.attributes.assessmentId = campaignParticipation.related('assessments').models[0].attributes.id;
+          campaignParticipation.attributes.assessmentId = _getLastAssessmentIdForCampaignParticipation(campaignParticipation);
         });
 
         const campaignParticipations = bookshelfToDomainConverter.buildDomainObjects(BookshelfCampaignParticipation, models);
@@ -164,7 +164,7 @@ function _convertToDomainWithSkills(bookshelfCampaignParticipation) {
 
   // in database, the attribute is skillsIds in target-profiles_skills,
   // but in domain, the attribute is skills in class TargetProfile (TargetProfileSkills does not exists)
-  bookshelfCampaignParticipation.attributes.assessmentId = bookshelfCampaignParticipation.related('assessments').models[0].attributes.id;
+  bookshelfCampaignParticipation.attributes.assessmentId = _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation);
 
   const skillsObjects = bookshelfCampaignParticipation.related('campaign').related('targetProfile').related('skillIds')
     .map((bookshelfSkillId) => new Skill({ id: bookshelfSkillId.get('skillId') }));
@@ -181,4 +181,8 @@ function _sortUniqKnowledgeElements(campaignParticipations) {
       .uniqBy('skillId')
       .value();
   });
+}
+
+function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation) {
+  return _.get(bookshelfCampaignParticipation.related('assessments'), 'models[0].attributes.id');
 }
