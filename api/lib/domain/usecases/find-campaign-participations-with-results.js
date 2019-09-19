@@ -1,6 +1,5 @@
 const CampaignParticipationResult = require('../../domain/models/CampaignParticipationResult');
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
-const _ = require('lodash');
 
 module.exports = async function findCampaignParticipationsWithResults({
   userId,
@@ -22,13 +21,16 @@ module.exports = async function findCampaignParticipationsWithResults({
     competenceRepository.list(),
   ]);
 
-  campaignParticipations.models = await Promise.all(_.map(campaignParticipations.models, (campaignParticipation) => _getAssessmentForCampaignParticipation(campaignParticipation, assessmentRepository)));
-
   for (const campaignParticipation of campaignParticipations.models) {
     const { user: { knowledgeElements } } = campaignParticipation;
+    const assessment = await assessmentRepository.get(campaignParticipation.assessmentId);
 
     const campaignParticipationResult = CampaignParticipationResult.buildFrom({
-      campaignParticipationId: campaignParticipation.id, competences, targetProfile, assessment: campaignParticipation.assessment, knowledgeElements
+      campaignParticipationId: campaignParticipation.id,
+      competences,
+      targetProfile,
+      assessment,
+      knowledgeElements
     });
 
     campaignParticipation.campaignParticipationResult = campaignParticipationResult;
@@ -37,8 +39,3 @@ module.exports = async function findCampaignParticipationsWithResults({
   return campaignParticipations;
 
 };
-
-async function _getAssessmentForCampaignParticipation(campaignParticipation, assessmentRepository) {
-  campaignParticipation.assessment = await assessmentRepository.get(campaignParticipation.assessmentId);
-  return campaignParticipation;
-}
