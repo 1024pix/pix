@@ -2,9 +2,11 @@ const { PassThrough } = require('stream');
 
 const organizationService = require('../../domain/services/organization-service');
 const usecases = require('../../domain/usecases');
+
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const membershipSerializer = require('../../infrastructure/serializers/jsonapi/membership-serializer');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
+const organizationInvitationSerializer = require('../../infrastructure/serializers/jsonapi/organization-invitation-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const studentSerializer = require('../../infrastructure/serializers/jsonapi/student-serializer');
 
@@ -71,16 +73,6 @@ module.exports = {
       .then(membershipSerializer.serialize);
   },
 
-  addOrganizationMembershipWithEmail(request, h) {
-    const organizationId = request.params.id;
-    const email = request.payload.email;
-
-    return usecases.addOrganizationMembershipWithEmail({ organizationId, email })
-      .then((membership) => {
-        return h.response(membershipSerializer.serialize(membership)).created();
-      });
-  },
-
   findTargetProfiles(request) {
     const requestedOrganizationId = parseInt(request.params.id);
 
@@ -119,5 +111,20 @@ module.exports = {
 
     return usecases.importStudentsFromSIECLE({ organizationId, buffer })
       .then(() => null);
-  }
+  },
+
+  async sendInvitation(request, h) {
+    const organizationId = request.params.id;
+    const email = request.payload.data.attributes.email;
+
+    const organizationInvitation = await usecases.createOrganizationInvitation({ organizationId, email });
+    const organizationInvitationId = organizationInvitation.id;
+
+    const invitationAccepted = await usecases.acceptOrganizationInvitation({ organizationInvitationId });
+
+    await usecases.addOrganizationMembershipWithEmail({ organizationId, email });
+
+    return h.response(organizationInvitationSerializer.serialize(invitationAccepted)).created();
+  },
+
 };

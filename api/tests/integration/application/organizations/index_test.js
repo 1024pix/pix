@@ -83,4 +83,35 @@ describe('Integration | Application | Organizations | Routes', () => {
       });
     });
   });
+
+  describe('POST /api/organizations/:id/invitations', () => {
+
+    beforeEach(() => {
+      sinon.stub(securityController, 'checkUserIsOwnerInOrganization').callsFake((request, h) => h.response(true));
+      sinon.stub(organisationController, 'sendInvitation').callsFake((request, h) => h.response().created());
+
+      return server.register(route);
+    });
+
+    it('should call the organization controller to send invitation', async () => {
+      // when
+      const response = await server.inject({
+        method: 'POST',
+        url: '/api/organizations/:id/invitations',
+        payload: {
+          data: {
+            type: 'organization-invitations',
+            attributes: {
+              email: 'member@organization.org'
+            },
+          }
+        }
+      });
+
+      // then
+      expect(response.statusCode).to.equal(201);
+      expect(organisationController.sendInvitation).to.have.been.calledOnce;
+    });
+  });
+
 });
