@@ -5,13 +5,14 @@
   <form {{action update campaign on='submit'}} class="campaign-creation-form">
     <div class="form__field">
       <label for="campaign-title" class="label">Titre du parcours</label>
-      {{input id='campaign-title'
-              name='campaign-title'
-              type='text'
-              maxlength='50'
-              value=campaign.title
-              class="input"
-      }}
+      <Input
+        @id="campaign-title"
+        @name="campaign-title"
+        @type="text"
+        @class="input"
+        @maxlength="50"
+        @value={{campaign.title}}
+      />
     </div>
 
     <div class="form__field">
