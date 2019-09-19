@@ -104,6 +104,7 @@ module.exports = injectDependencies({
   getProgression: require('./get-progression'),
   getResultsCampaignInCSVFormat: require('./get-results-campaign-in-csv-format'),
   getScorecard: require('./get-scorecard'),
+  getSessionCertificationCandidates: require('./get-session-certification-candidates'),
   getUser: require('./get-user'),
   getUserCertificationCenterMemberships: require('./get-user-certification-center-memberships'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),
