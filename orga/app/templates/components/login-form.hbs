@@ -24,14 +24,29 @@
 
       <div class="login-form__input-container">
         <label for="login-email" class="label">E-mail</label>
-        {{input required id='login-email' class="input" name='email' type='email' value=email }}
+        <Input
+          @id="login-email"
+          @name="email"
+          @type="email"
+          @required="true"
+          @class="input"
+          @value={{email}}
+          @autocomplete="username"
+        />
       </div>
 
       <div class="login-form__input-container">
         <label for="login-password" class="label">Mot de passe</label>
         <div class="login-form__input-field">
-          {{input required id='login-password' name='password' type=passwordInputType
-                value=password}}
+          <Input
+            @id="login-password"
+            @name="password"
+            @type={{passwordInputType}}
+            @required="true"
+            @class="input"
+            @value={{password}}
+            @autocomplete="current-password"
+          />
           <button type="button" aria-label="rendre le mot de passe lisible" class="login-form__icon" {{action 'togglePasswordVisibility'}} >
              {{#if isPasswordVisible}}
                <div tabindex="-1" onmousedown={{action 'togglePasswordVisibility'}}>{{fa-icon 'eye' class="fa-fw login-form-icon__eye"}}</div>
