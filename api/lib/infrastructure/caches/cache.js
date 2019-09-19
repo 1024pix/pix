@@ -1,12 +1,12 @@
 const InMemoryCache = require('./in-memory-cache');
 const RedisCache = require('./redis-cache');
-const settings = require('../../settings');
+const settings = require('../../config');
 
 class Cache {
 
   constructor() {
-    if (settings.redisUrl) {
-      this._cache = new RedisCache(settings.redisUrl);
+    if (settings.caching.redisUrl) {
+      this._cache = new RedisCache(settings.caching.redisUrl);
     } else {
       this._cache = new InMemoryCache();
     }

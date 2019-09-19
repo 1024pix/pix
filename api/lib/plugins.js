@@ -1,6 +1,6 @@
 const Pack = require('../package');
 const Metrics = require('./infrastructure/plugins/metrics');
-const settings = require('./settings');
+const settings = require('./config');
 
 const isProduction = ['production', 'staging'].includes(process.env.NODE_ENV);
 

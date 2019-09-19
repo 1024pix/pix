@@ -1,4 +1,4 @@
-const settings = require('../../settings');
+const settings = require('../../config');
 
 const mailService = require('../../domain/services/mail-service');
 const resetPasswordService = require('../../domain/services/reset-password-service');

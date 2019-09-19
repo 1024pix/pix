@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const settings = require('../../../../lib/settings');
+const settings = require('../../../../lib/config');
 const Redlock = require('redlock');
 const RedisCache = require('../../../../lib/infrastructure/caches/redis-cache');
 
@@ -68,7 +68,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
         // then
         return promise.then(() => {
-          return expect(stubbedClient.lockDisposer).to.have.been.calledWith(expectedLockedKey, settings.redisCacheKeyLockTTL);
+          return expect(stubbedClient.lockDisposer).to.have.been.calledWith(expectedLockedKey, settings.caching.redisCacheKeyLockTTL);
         });
       });
 

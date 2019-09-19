@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-const settings = require('../../settings');
+const settings = require('../../config');
 const passwordResetDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
 
 module.exports = {

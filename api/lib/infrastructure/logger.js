@@ -1,5 +1,5 @@
 const bunyan = require('bunyan');
-const settings = require('../settings');
+const settings = require('../config');
 
 const logger = bunyan.createLogger({ name: 'pix-api', streams: [] });
 

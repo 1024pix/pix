@@ -80,13 +80,155 @@ export default Route.extend({
   model() {
     return this.store.findRecord('user', this.get('session.data.authenticated.userId'));
   },
-
+  
   afterModel(model) {
     if (model.get('organizations.length') > 0) {
       return this.transitionTo('board');
     }
   }
 });
+```
+
+## Configuration
+
+### Options d'environnement
+
+Toute option de configuration de l'API susceptible de dépendre d'un environnement particulier (production, intégration, développement ou test), qu'elle soit fonctionnelle ou technique, DOIT être définie dans le fichier `/api/lib/config.js`.
+
+```javascript
+config.config.jsexports = (function() {
+
+  const config = {
+    
+    // some options…
+    
+    someCategory: {
+      optionA: 'valueA',
+      optionB: 'valueB',
+    },
+
+    // yet other options…
+    
+  };
+  
+  return config;
+})();
+
+
+```
+
+L'accès à une variable d'environnement NE DOIT PAS être effectué en dehors des fichiers `/api/lib/settings.config.
+
+```javascript
+// BAD
+
+/* lib/plugins.js */
+if (process.env.LOG_ENABLED === 'true') {
+  consoleReporters.push('stdout');
+}
+```
+
+```javascript
+// GOOD
+
+/* lib/config.js */
+module.exports = (function() {
+  const config = {
+    logging: {
+      enabled: (process.env.LOG_ENABLED === 'true'),
+    },  
+  };
+  return config;
+})();
+
+/* lib/plugins.js */
+const settings = require('./settings');
+if (settings.logging.enabled) {
+  consoleReporters.push('stdout');
+}
+```
+
+Toute variable d'environnement DOIT être définie dans la page du wiki concernée.
+
+### Surcharge d'une option par environnement
+
+La surcharge d'une option pour un environnement dédié DOIT se faire par modification de la valeur plutôt que par instanciation d'un nouvel objet associé à la catégorie, afin de permettre le mécanisme de "valeur par défaut" et d'éviter la duplication de code inutile.
+
+Soit la configuration par défaut suivante :
+
+```javascript
+const config = {
+  someCategory: {
+    optionA: 'valueA',
+    optionB: 'valueB',
+    optionC: 'valueC',
+  },
+};
+```
+
+
+```javascript
+// BAD
+
+if (process.env.NODE_ENV === 'test') {
+  config.someCategory = {
+    optionA: 'test_valueA',
+    optionB: 'test_valueB',
+    optionC: 'test_valueC',
+  };
+}
+```
+
+```javascript
+// GOOD
+
+if (process.env.NODE_ENV === 'test') {
+  config.someCategory.optionA = 'test_valueA';
+  config.someCategory.optionB = 'test_valueB';
+  config.someCategory.optionC = 'test_valueC';
+}
+```
+  
+### Activation / désactivation des fonctionnalités
+
+Dans le cas de fonctionnalités activables/désactivables, l'activation DOIT être gérée via une option booléenne `enabled`. 
+
+```javascript
+// BAD
+
+mailing: {
+  enabled: !!process.env.MAILJET_KEY,
+}
+```
+
+```javascript
+// GOOD
+
+mailing: {
+  enabled: (process.env.MAILING_ENABLED === 'true'),
+}
+```
+
+### Catégorisation des options
+
+Toute option DEVRAIT être classée dans une catégorie spécifique afin d'aider à comprendre la finalité, l'usage ou le contexte d'exécution de celle-ci.
+
+```javascript
+// BAD
+
+const config = {
+  passwordValidationPattern: '^(?=.*\\p{L})(?=.*\\d).{8,}$',
+};
+```
+
+```javascript
+// GOOD
+
+const config = {
+  account: {
+    passwordValidationPattern: '^(?=.*\\p{L})(?=.*\\d).{8,}$',
+  },
+};
 ```
 
 ## Feature Toggles

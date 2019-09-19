@@ -1,6 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
 const { sinon, expect } = require('../../../test-helper');
-const settings = require('../../../../lib/settings');
+const settings = require('../../../../lib/config');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
 
