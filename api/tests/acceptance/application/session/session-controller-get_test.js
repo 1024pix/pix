@@ -163,7 +163,12 @@ describe('Acceptance | Controller | session-controller-get', () => {
           'relationships': {
             'certifications': {
               'data': []
-            }
+            },
+            'certification-candidates': {
+              'links': {
+                'related': '/api/sessions/1/certification-candidates',
+              }
+            },
           }
         }, {
           'type': 'sessions',
@@ -180,7 +185,12 @@ describe('Acceptance | Controller | session-controller-get', () => {
           'relationships': {
             'certifications': {
               'data': []
-            }
+            },
+            'certification-candidates': {
+              'links': {
+                'related': '/api/sessions/2/certification-candidates',
+              }
+            },
           }
         }]
       };

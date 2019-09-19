@@ -18,11 +18,21 @@ module.exports = {
         'time',
         'description',
         'accessCode',
-        'certifications'
+        'certifications',
+        'certificationCandidates',
       ],
       certifications : {
         ref: ['id']
-      }
+      },
+      certificationCandidates: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related(record, current, parent) {
+            return `/api/sessions/${parent.id}/certification-candidates`;
+          }
+        }
+      },
     }).serialize(sessions);
   },
 
