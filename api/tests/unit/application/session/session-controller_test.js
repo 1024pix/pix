@@ -7,6 +7,7 @@ const sessionService = require('../../../../lib/domain/services/session-service'
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
+const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const _ = require('lodash');
 
 describe('Unit | Controller | sessionController', () => {
@@ -239,7 +240,7 @@ describe('Unit | Controller | sessionController', () => {
       // given
       request = {
         auth: { credentials: { userId } },
-        params: { id : sessionId },
+        params: { id: sessionId },
         payload: { file: odsBuffer },
       };
 
@@ -259,6 +260,36 @@ describe('Unit | Controller | sessionController', () => {
         sessionId,
         odsBuffer,
       });
+    });
+  });
+
+  describe('#getCertificationCandidates ', () => {
+    let request;
+    const sessionId = 1;
+    const userId = 2;
+    const certificationCandidates = 'candidates';
+    const certificationCandidatesJsonApi = 'candidatesJSONAPI';
+
+    beforeEach(() => {
+      // given
+      request = {
+        params: { id : sessionId },
+        auth: {
+          credentials : {
+            userId,
+          }
+        },
+      };
+      sinon.stub(usecases, 'getSessionCertificationCandidates').withArgs({ userId, sessionId }).resolves(certificationCandidates);
+      sinon.stub(certificationCandidateSerializer, 'serialize').withArgs(certificationCandidates).returns(certificationCandidatesJsonApi);
+    });
+
+    it('should return certification candidates', async () => {
+      // when
+      const response = await sessionController.getCertificationCandidates(request, hFake);
+
+      // then
+      expect(response).to.deep.equal(certificationCandidatesJsonApi);
     });
 
   });
