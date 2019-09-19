@@ -37,11 +37,11 @@ function _openOdsFile(odsFilePath) {
   return util.promisify(fs.readFile)(odsFilePath);
 }
 
-async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderPropertyMap }) {
+async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropertyMap }) {
   const sheetDataRows = await _getSheetDataRowsFromOdsBuffer(odsBuffer);
-  const sheetHeaderRow = _getHeaderRow(sheetDataRows, tableHeaderPropertyMap);
+  const sheetHeaderRow = _getHeaderRow(sheetDataRows, tableHeaderTargetPropertyMap);
   const sheetDataRowsBelowHeader = _extractRowsBelowHeader(sheetHeaderRow, sheetDataRows);
-  const sheetHeaderPropertyMap = _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderPropertyMap);
+  const sheetHeaderPropertyMap = _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropertyMap);
 
   const data = _transformSheetDataRows(sheetDataRowsBelowHeader, sheetHeaderPropertyMap);
   if (_.isEmpty(data)) {
@@ -70,8 +70,13 @@ function _extractRowsBelowHeader(sheetHeaderRow, sheetDataRows) {
   return _takeRightUntilIndex({ array: sheetDataRows, index: headerIndex + 1 });
 }
 
-function _getHeaderRow(sheetDataRows, tableHeaderPropertyMap) {
-  const headers = _.map(tableHeaderPropertyMap, (item) => item.header);
+function _takeRightUntilIndex({ array, index }) {
+  const countElementsToTake = _.size(array) - index;
+  return _.takeRight(array, countElementsToTake);
+}
+
+function _getHeaderRow(sheetDataRows, tableHeaderTargetPropertyMap) {
+  const headers = _.map(tableHeaderTargetPropertyMap, (item) => item.header);
   const sheetHeaderRow = _.find(sheetDataRows, (row) => _allHeadersValuesAreInTheRow(row, headers));
   if (!sheetHeaderRow) {
     throw new ODSTableHeadersNotFoundError();
@@ -85,25 +90,21 @@ function _allHeadersValuesAreInTheRow(row, headers) {
   return headersInRow.length === headers.length;
 }
 
-function _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderPropertyMap) {
-  const sheetHeaderPropertyMap = [];
-  _.each(sheetHeaderRow, (columnName, sheetHeaderLabel) => {
-    const colIndex = _.findIndex(tableHeaderPropertyMap, (column_property) => column_property.header === columnName);
-    if (colIndex !== -1) {
-      sheetHeaderPropertyMap.push({
-        header: sheetHeaderLabel,
-        property: tableHeaderPropertyMap[colIndex].property,
-        transformFn: tableHeaderPropertyMap[colIndex].transformFn,
-      });
-    }
-  });
-
-  return sheetHeaderPropertyMap;
+function _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropertyMap) {
+  return _(sheetHeaderRow)
+    .map(addTargetDatas(tableHeaderTargetPropertyMap))
+    .compact()
+    .value();
 }
 
-function _takeRightUntilIndex({ array, index }) {
-  const countElementsToTake = _.size(array) - index;
-  return _.takeRight(array, countElementsToTake);
+function addTargetDatas(tableHeaderTargetPropertyMap) {
+  return (header, columnName) => {
+    const targetProperties = _.find(tableHeaderTargetPropertyMap, { header });
+    if (targetProperties) {
+      const { property: targetProperty, transformFn } = targetProperties;
+      return { columnName, targetProperty, transformFn };
+    }
+  };
 }
 
 function _transformSheetDataRows(sheetDataRows, sheetHeaderPropertyMap) {
@@ -111,9 +112,9 @@ function _transformSheetDataRows(sheetDataRows, sheetHeaderPropertyMap) {
 }
 
 function _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap) {
-  return _.reduce(sheetHeaderPropertyMap, (dataRow, { header, property, transformFn }) => {
-    const cellValue = sheetDataRow[header];
-    dataRow[property] = transformFn(cellValue);
-    return dataRow;
+  return _.reduce(sheetHeaderPropertyMap, (target, { columnName, targetProperty, transformFn }) => {
+    const cellValue = sheetDataRow[columnName];
+    target[targetProperty] = transformFn(cellValue);
+    return target;
   }, {});
 }
