@@ -499,7 +499,6 @@ describe('Integration | Repository | Campaign Participation', () => {
       // then
       return promise.then((updatedCampaignParticipation) => {
         expect(updatedCampaignParticipation.isShared).to.be.true;
-        expect(updatedCampaignParticipation.assessmentId).to.equal(campaignParticipation.assessmentId);
         expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
       });
     });

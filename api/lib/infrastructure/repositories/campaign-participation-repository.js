@@ -1,5 +1,4 @@
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
-const Bookshelf = require('../bookshelf');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
 const Skill = require('../../domain/models/Skill');
@@ -27,20 +26,14 @@ function _toDomain(bookshelfCampaignParticipation) {
 
 module.exports = {
 
-  async get(id, options) {
-    const optionsForQueryBuilder = options || {};
-
-    if (!_.get(optionsForQueryBuilder, 'include', []).includes['assessments']) {
-      const optionInclude = optionsForQueryBuilder.include || [];
-      optionInclude.push({
-        'assessments': (qb) => {
-          qb.select(Bookshelf.knex.raw('*'));
-          qb.orderBy('createdAt', 'DESC');
-        }
-      });
-      optionsForQueryBuilder.include = optionInclude;
+  async get(id, options = {}) {
+    if (options.include) {
+      options.include = _.union(options.include, ['assessments']);
+    } else {
+      options.include = ['assessments'];
     }
-    const campaignParticipation = await queryBuilder.get(BookshelfCampaignParticipation, id, optionsForQueryBuilder, false);
+
+    const campaignParticipation = await queryBuilder.get(BookshelfCampaignParticipation, id, options, false);
 
     return _toDomain(campaignParticipation);
   },
@@ -77,14 +70,10 @@ module.exports = {
         qb.innerJoin('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id');
         qb.where('assessments.id', '=', assessmentId);
       })
-      .fetch({ required: false, withRelated: ['campaign.targetProfile.skillIds',
-        {
-          'assessments': (qb) => {
-            qb.select(Bookshelf.knex.raw('*'));
-            qb.orderBy('createdAt', 'DESC');
-          }
-        }
-      ] })
+      .fetch({
+        required: false,
+        withRelated: ['campaign.targetProfile.skillIds', 'assessments']
+      })
       .then(_convertToDomainWithSkills);
   },
 
@@ -110,14 +99,7 @@ module.exports = {
       .fetchPage({
         page: options.page.number,
         pageSize: options.page.size,
-        withRelated: ['user',
-          {
-            'assessments': (qb) => {
-              qb.select(Bookshelf.knex.raw('*'));
-              qb.orderBy('createdAt', 'DESC');
-            }
-          }
-          , 'user.knowledgeElements']
+        withRelated: ['user', 'assessments', 'user.knowledgeElements']
       })
       .then(({ models, pagination }) => {
         _.map(models, (campaignParticipation) => {
@@ -184,5 +166,10 @@ function _sortUniqKnowledgeElements(campaignParticipations) {
 }
 
 function _getLastAssessmentIdForCampaignParticipation(bookshelfCampaignParticipation) {
-  return _.get(bookshelfCampaignParticipation.related('assessments'), 'models[0].attributes.id');
+  const assessmentModels = bookshelfCampaignParticipation.related('assessments').models;
+  if (assessmentModels.length) {
+    const sortedAssessments = _.orderBy(assessmentModels, 'attributes.createdAt', 'desc');
+    return sortedAssessments[0].attributes.id;
+  }
+  return null;
 }
