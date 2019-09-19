@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
 const knexConfigs = require('./knexfile');
-const { environment } = require('../lib/settings');
+const { environment } = require('../lib/config');
 
 const knexConfig = knexConfigs[environment];
 const knex = require('knex')(knexConfig);

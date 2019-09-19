@@ -1,6 +1,6 @@
 const Airtable = require('airtable');
 const AirtableRecord = Airtable.Record;
-const airtableSettings = require('../settings').airtable;
+const airtableSettings = require('../config').airtable;
 const cache = require('./caches/cache');
 const logger = require('./logger');
 

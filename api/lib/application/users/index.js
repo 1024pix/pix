@@ -2,7 +2,7 @@ const securityController = require('../../interfaces/controllers/security-contro
 const userController = require('./user-controller');
 const Joi = require('joi');
 const userVerification = require('../preHandlers/user-existence-verification');
-const { passwordValidationPattern } = require('../../settings');
+const { passwordValidationPattern } = require('../../config').account;
 const XRegExp = require('xregexp');
 
 exports.register = async function(server) {

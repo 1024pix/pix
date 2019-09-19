@@ -1,7 +1,7 @@
 const { expect, knex, sinon } = require('../../test-helper');
 const samlify = require('samlify');
 const createServer = require('../../../server');
-const settings = require('../../../lib/settings');
+const settings = require('../../../lib/config');
 const _ = require('lodash');
 
 const testCertificate = `MIICCzCCAXQCCQD2MlHh/QmGmjANBgkqhkiG9w0BAQsFADBKMQswCQYDVQQGEwJG

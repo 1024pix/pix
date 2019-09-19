@@ -1,5 +1,5 @@
 const packageJSON = require('../../../package.json');
-const settings = require('../../../lib/settings');
+const settings = require('../../config');
 const Boom = require('boom');
 const healthcheckRepository = require('../../infrastructure/repositories/healthcheck-repository');
 

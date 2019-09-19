@@ -1,5 +1,5 @@
 const mailJet = require('../../infrastructure/mailjet');
-const settings = require('../../settings');
+const settings = require('../../config');
 
 function sendAccountCreationEmail(email) {
   return mailJet.sendEmail({

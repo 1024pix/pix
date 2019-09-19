@@ -1,6 +1,6 @@
 const samlify = require('samlify');
 const logger = require('./logger');
-const samlSettings = require('../settings').saml;
+const samlSettings = require('../config').saml;
 
 let _serviceProvider, _identityProvider;
 
