@@ -8,6 +8,8 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
   let campaign2;
   let campaignParticipation1;
   let campaignParticipation2;
+  let assessment1;
+  let assessment2;
   let options;
   let server;
 
@@ -36,6 +38,9 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
         campaignId: campaign2.id,
         createdAt: recentDate,
       });
+
+      assessment1 = databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation1.id });
+      assessment2 = databaseBuilder.factory.buildAssessment({ campaignParticipationId: campaignParticipation2.id });
 
       options = {
         method: 'GET',
@@ -105,7 +110,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 },
                 assessment: {
                   links: {
-                    related: `/api/assessments/${campaignParticipation2.assessmentId}`
+                    related: `/api/assessments/${assessment2.id}`
                   }
                 },
                 'campaign-participation-result': {
@@ -134,7 +139,7 @@ describe('Acceptance | Route | GET /user/id/campaign-participations', () => {
                 },
                 assessment: {
                   links: {
-                    related: `/api/assessments/${campaignParticipation1.assessmentId}`
+                    related: `/api/assessments/${assessment1.id}`
                   }
                 },
                 'campaign-participation-result': {
