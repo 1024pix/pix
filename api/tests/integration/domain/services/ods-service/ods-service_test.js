@@ -109,7 +109,7 @@ describe('ods-service', () => {
           // when
           const result = await catchErr(odsService.extractTableDataFromOdsFile)({
             odsBuffer: alteredBuffer,
-            tableHeaderPropertyMap: [],
+            tableHeaderTargetPropertyMap: [],
           });
 
           // then
@@ -152,7 +152,7 @@ describe('ods-service', () => {
           // when
           const result = await catchErr(odsService.extractTableDataFromOdsFile)({
             odsBuffer,
-            tableHeaderPropertyMap: NONEXISTANT_TABLEHEADER_PROPERTY_MAP,
+            tableHeaderTargetPropertyMap: NONEXISTANT_TABLEHEADER_PROPERTY_MAP,
           });
 
           // then
@@ -170,7 +170,7 @@ describe('ods-service', () => {
           // when
           const result = await catchErr(odsService.extractTableDataFromOdsFile)({
             odsBuffer: emptyOdsBuffer,
-            tableHeaderPropertyMap: TABLEHEADER_PROPERTY_MAP,
+            tableHeaderTargetPropertyMap: TABLEHEADER_PROPERTY_MAP,
           });
 
           // then
@@ -204,7 +204,7 @@ describe('ods-service', () => {
         const certificationCandidatesData = await odsService.extractTableDataFromOdsFile(
           {
             odsBuffer,
-            tableHeaderPropertyMap: TABLEHEADER_PROPERTY_MAP,
+            tableHeaderTargetPropertyMap: TABLEHEADER_PROPERTY_MAP,
           });
 
         // then

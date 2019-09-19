@@ -11,7 +11,7 @@ async function extractCertificationCandidatesFromAttendanceSheet({ sessionId, od
   let certificationCandidatesData;
   certificationCandidatesData = await odsService.extractTableDataFromOdsFile({
     odsBuffer,
-    tableHeaderPropertyMap: ATTENDANCE_SHEET_CANDIDATES_TABLE_HEADERS,
+    tableHeaderTargetPropertyMap: ATTENDANCE_SHEET_CANDIDATES_TABLE_HEADERS,
   });
 
   certificationCandidatesData = _filterOutEmptyCandidateData(certificationCandidatesData);
