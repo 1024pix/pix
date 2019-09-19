@@ -57,11 +57,20 @@ buildAssessment.ofTypeSmartPlacement = function({
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
   knowledgeElements = [buildKnowledgeElement()],
-  campaignParticipation = buildCampaignParticipation(),
+  campaignParticipation = null,
   campaignParticipationId = null,
   title = 'campaignTitle',
 } = {}) {
-  campaignParticipationId = _.isNil(campaignParticipationId) ? _.get(campaignParticipation, 'id') : campaignParticipationId;
+  if (!_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
+    campaignParticipationId = campaignParticipation.id;
+  }
+  if (_.isNil(campaignParticipation) && !_.isNil(campaignParticipationId)) {
+    campaignParticipation = buildCampaignParticipation({ id: campaignParticipationId });
+  }
+  if (_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
+    campaignParticipation = buildCampaignParticipation();
+    campaignParticipationId = campaignParticipation.id;
+  }
 
   return new SmartPlacementAssessment({
     // attributes
