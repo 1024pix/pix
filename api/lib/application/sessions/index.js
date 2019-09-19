@@ -82,6 +82,18 @@ exports.register = async (server) => {
         tags: ['api', 'session']
       }
     },
+    {
+      method: 'GET',
+      path: '/api/sessions/{id}/certification-candidates',
+      config: {
+        handler: sessionController.getCertificationCandidates,
+        tags: ['api', 'organizations'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les candidats de certification inscrits à la session.',
+        ]
+      }
+    },
   ]);
 };
 

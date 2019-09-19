@@ -105,4 +105,16 @@ describe('Unit | Application | Sessions | Routes', () => {
 
   });
 
+  describe('GET /api/sessions/{id}/certification-candidates', () => {
+
+    beforeEach(() => {
+      sinon.stub(sessionController, 'getCertificationCandidates').returns('ok');
+      return server.register(route);
+    });
+
+    it('should exist', async () => {
+      const res = await server.inject({ method: 'GET', url: '/api/sessions/{id}/certification-candidates' });
+      expect(res.statusCode).to.equal(200);
+    });
+  });
 });
