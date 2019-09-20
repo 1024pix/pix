@@ -1,18 +1,16 @@
-<div class="background-banner assessment-banner{{if checkpoint '__checkpoint'}}">
+<div class="background-banner assessment-banner">
   <div class="assessment-banner-container">
     <div class="assessment-banner__pix-logo">
       <img src="/images/pix-logo-blanc.svg" alt="Pix">
     </div>
     {{#if title}}
       <div class="assessment-banner__splitter"></div>
-      <div class="assessment-banner__title"><h1>{{title}}</h1></div>
+      <h1 class="assessment-banner__title">{{title}}</h1>
     {{/if}}
     {{#if displayHomeLink}}
-      <div class="assessment-banner__home-link">
-        {{#link-to 'index' class="assessment-banner__home-link"}}
-          Quitter {{fa-icon 'sign-out-alt'}}
-        {{/link-to}}
-      </div>
+      {{#link-to 'index' class="assessment-banner__home-link"}}
+        Quitter {{fa-icon 'sign-out-alt'}}
+      {{/link-to}}
     {{/if}}
   </div>
 </div>
