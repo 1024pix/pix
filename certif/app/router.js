@@ -25,6 +25,7 @@ Router.map(function() {
       this.route('update', { path: '/:session_id/modification' });
       this.route('details', { path: '/:session_id' }, function() {
         this.route('parameters', { path: '/' });
+        this.route('certification-candidates', { path: '/candidats' });
       });
     });
   });
