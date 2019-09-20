@@ -19,9 +19,8 @@
   {{/if}}
 
   {{routes/authenticated/team/new-item
-    membership=model.membership
-    email=email
-    addTeamMember=(action 'addTeamMember')
+    organizationInvitation=model.organizationInvitation
+    createOrganizationInvitation=(action 'createOrganizationInvitation')
     cancel=(action 'cancel')
   }}
 </div>

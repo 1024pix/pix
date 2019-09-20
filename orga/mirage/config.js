@@ -57,12 +57,13 @@ export default function() {
     return schema.memberships.where({ organizationId });
   });
 
-  this.post('/organizations/:id/add-membership', (schema, request) => {
+  this.post('/organizations/:id/invitations', (schema, request) => {
     const organizationId = request.params.id;
-    const email = JSON.parse(request.requestBody).email;
-    const organization = schema.organizations.find(organizationId);
+    const requestBody = JSON.parse(request.requestBody);
+    const email = requestBody.data.attributes.email;
     const user = schema.users.findBy({ email });
-    return schema.memberships.create({ userId: user.id, organizationId: organization.id, organizationRole: 'MEMBER' });
+    schema.memberships.create({ userId: user.id, organizationId, organizationRole: 'MEMBER' });
+    return schema.organizationInvitations.create({ organizationId, email: email, status: 'ACCEPTED' });
   });
 
   this.get('/organizations/:id/students', (schema, request) => {
