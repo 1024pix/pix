@@ -1,0 +1,37 @@
+<div class="panel">
+    <div class="table content-text content-text--small">
+      {{#if certificationCandidates}}
+        <table>
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de naissance</th>
+                <th>Lieu de naissance</th>
+                <th>Identifiant externe</th>
+                <th>Temps majoré</th>
+            </tr>
+            </thead>
+
+              <tbody>
+              {{#each certificationCandidates as |candidate|}}
+                  <tr>
+                      <td>{{candidate.lastName}}</td>
+                      <td>{{candidate.firstName}}</td>
+                      <td>{{moment-format candidate.birthdate 'DD/MM/YYYY'}}</td>
+                      <td>{{candidate.birthplace}}</td>
+                      <td>{{candidate.externalId}}</td>
+                      <td>{{format-percentage candidate.extraTimePercentage}}</td>
+                  </tr>
+              {{/each}}
+              </tbody>
+        </table>
+      {{else}}
+          <div class="table__empty content-text">
+              {{fa-icon 'user-graduate'}}
+              <p><b>En attente de candidats</b></p>
+              <p>Cliquez sur le bouton “Importer des candidats” pour en ajouter</p>
+          </div>
+      {{/if}}
+    </div>
+</div>

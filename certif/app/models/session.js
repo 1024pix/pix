@@ -3,20 +3,16 @@ import { computed } from '@ember/object';
 import ENV from 'pix-certif/config/environment';
 import { inject as service } from '@ember/service';
 
-const { attr, Model, belongsTo } = DS;
-
-export default Model.extend({
-  address: attr(),
-  accessCode: attr(),
-  date: attr(),
-  description: attr(),
-  examiner: attr(),
-  room: attr(),
-  time: attr(),
-
-  // includes
-  certificationCenter: belongsTo('certificationCenter'),
-
+export default DS.Model.extend({
+  address: DS.attr(),
+  accessCode: DS.attr(),
+  date: DS.attr(),
+  description: DS.attr(),
+  examiner: DS.attr(),
+  room: DS.attr(),
+  time: DS.attr(),
+  certificationCenter: DS.belongsTo('certificationCenter'),
+  certificationCandidates: DS.hasMany('certificationCandidate'),
   session: service(),
 
   urlToDownload: computed('id', function() {

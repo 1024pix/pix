@@ -2,12 +2,14 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  width: 100%;
 }
 
 .session-details__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 1em 0;
 }
 
 .session-details-header {
