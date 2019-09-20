@@ -25,9 +25,9 @@
 
 <div class="panel session-details__controls">
   <nav class="navbar session-details-controls__navbar-tabs">
-    <a class="navbar-item active">
-      Détails
-    </a>
+    {{#link-to 'authenticated.sessions.details.parameters' class="navbar-item"}}
+        Détails
+    {{/link-to}}
   </nav>
 
   <div class="session-details-controls__actions">
