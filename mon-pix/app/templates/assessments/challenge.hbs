@@ -4,11 +4,11 @@
     {{#if model.assessment.isCertification}}
       {{certification-banner certificationNumber=model.assessment.certificationNumber}}
     {{else}}
-      {{assessment-banner title=model.assessment.title checkpoint=false displayHomeLink=true}}
+      {{assessment-banner title=model.assessment.title displayHomeLink=true}}
     {{/if}}
   </div>
 
-  <div class="assessment-challenge__content">
+  <div class="assessment-challenge__content rounded-panel--over-background-banner">
     {{#if model.assessment.showProgressBar}}
       <div class="assessment-challenge__progress-bar">
         {{progress-bar assessment=model.assessment}}
