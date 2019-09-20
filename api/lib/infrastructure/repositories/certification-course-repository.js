@@ -10,7 +10,7 @@ const { NotFoundError } = require('../../domain/errors');
 function _toDomain(model) {
   if (model) {
     const assessments = bookshelfToDomainConverter.buildDomainObjects(AssessmentBookshelf, model.related('assessments'));
-    const assessment = assessments.length > 0 ? assessments[0] : undefined;
+    const assessment = _selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrUndefined(assessments);
     return CertificationCourse.fromAttributes({
       id: model.get('id'),
       userId: model.get('userId'),
@@ -97,4 +97,11 @@ function _adaptModelToDb(certificationCourse) {
     'nbChallenges',
     'createdAt',
   ]);
+}
+
+function _selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrUndefined(assessments) {
+  const creationDateOrderedAssessments = _.orderBy(assessments, ['createdAt'], ['desc']);
+  const completedAssessment = _.find(creationDateOrderedAssessments, { 'state': Assessment.states.COMPLETED });
+
+  return completedAssessment ? completedAssessment : _.head(creationDateOrderedAssessments);
 }

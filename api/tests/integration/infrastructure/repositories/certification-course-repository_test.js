@@ -4,6 +4,7 @@ const BookshelfCertificationCourse = require('../../../../lib/infrastructure/dat
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const _ = require('lodash');
 
 describe('Integration | Repository | Certification Course', function() {
@@ -35,10 +36,10 @@ describe('Integration | Repository | Certification Course', function() {
     let courseId;
     let anotherCourseId;
     let sessionId;
-    let assessmentId;
+    let userId;
 
-    beforeEach(async () => {
-      const userId = databaseBuilder.factory.buildUser({}).id;
+    beforeEach(() => {
+      userId = databaseBuilder.factory.buildUser({}).id;
       sessionId = databaseBuilder.factory.buildSession({}).id;
       courseId = databaseBuilder.factory.buildCertificationCourse(
         {
@@ -52,7 +53,6 @@ describe('Integration | Repository | Certification Course', function() {
           isPublished: true,
         }).id;
       anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
-      assessmentId = databaseBuilder.factory.buildAssessment({ courseId: courseId, userId }).id;
       _.each([
         { courseId: courseId },
         { courseId: courseId },
@@ -60,7 +60,7 @@ describe('Integration | Repository | Certification Course', function() {
       ], (certificationChallenge) => {
         databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
       });
-      await databaseBuilder.commit();
+      return databaseBuilder.commit();
     });
 
     afterEach(async () => {
@@ -68,6 +68,7 @@ describe('Integration | Repository | Certification Course', function() {
     });
 
     context('When the certification course exists', () => {
+
       it('should retrieve certification course informations', async () => {
         // when
         const thisCertificationCourse = await certificationCourseRepository.get(courseId);
@@ -84,14 +85,76 @@ describe('Integration | Repository | Certification Course', function() {
         expect(thisCertificationCourse.isPublished).to.be.ok;
       });
 
-      it('should retrieve associated assessment and challenges with the certification course', async () => {
+      it('should retrieve associated challenges with the certification course', async () => {
         // when
         const thisCertificationCourse = await certificationCourseRepository.get(courseId);
 
         // then
-        expect(thisCertificationCourse.assessment.id).to.equal(assessmentId);
         expect(thisCertificationCourse.challenges.length).to.equal(2);
       });
+
+      context('When the certification course has several assessments', () => {
+
+        context('When one of those assessment is completed', () => {
+          let completedAssessmentId;
+
+          beforeEach(() => {
+            databaseBuilder.factory.buildAssessment({ courseId: courseId, userId, state: Assessment.states.STARTED });
+            completedAssessmentId = databaseBuilder.factory.buildAssessment({ courseId: courseId, userId }).id;
+            return databaseBuilder.commit();
+          });
+
+          it('should retrieve associated completed assessment', async () => {
+            // when
+            const thisCertificationCourse = await certificationCourseRepository.get(courseId);
+
+            // then
+            expect(thisCertificationCourse.assessment.id).to.equal(completedAssessmentId);
+          });
+        });
+
+        context('When no assessment is completed', () => {
+          let assessmentIds;
+
+          beforeEach(() => {
+            assessmentIds = _.map([
+              { courseId, userId, state: Assessment.states.STARTED },
+              { courseId, userId, state: Assessment.states.STARTED },
+              { courseId, userId, state: Assessment.states.STARTED },
+            ], (assessment) => databaseBuilder.factory.buildAssessment(assessment).id);
+            return databaseBuilder.commit();
+          });
+
+          it('should retrieve an assessment anyway', async () => {
+            // when
+            const actualCertificationCourse = await certificationCourseRepository.get(courseId);
+
+            // then
+            expect(assessmentIds).to.include(actualCertificationCourse.assessment.id);
+          });
+
+        });
+
+      });
+
+      context('When the certification course has one assessment', () => {
+        let assessmentId;
+
+        beforeEach(() => {
+          assessmentId = databaseBuilder.factory.buildAssessment({ courseId: courseId, userId }).id;
+          return databaseBuilder.commit();
+        });
+
+        it('should retrieve associated assessment', async () => {
+          // when
+          const thisCertificationCourse = await certificationCourseRepository.get(courseId);
+
+          // then
+          expect(thisCertificationCourse.assessment.id).to.equal(assessmentId);
+        });
+
+      });
+
     });
 
     context('When the certification course does not exist', () => {
