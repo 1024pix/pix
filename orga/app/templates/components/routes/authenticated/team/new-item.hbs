@@ -1,4 +1,4 @@
-<form {{action addTeamMember membership on='submit'}} class="form">
+<form {{action createOrganizationInvitation organizationInvitation on='submit'}} class="form">
 
   <div class="form__field">
     <label for="email" class="label">Email</label>
@@ -7,7 +7,7 @@
       @id="email"
       @name="email"
       @class="input"
-      @value={{email}}
+      @value={{organizationInvitation.email}}
     />
   </div>
 

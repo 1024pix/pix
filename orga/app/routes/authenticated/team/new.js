@@ -11,13 +11,12 @@ export default Route.extend({
     const organization = this.currentUser.organization;
     return RSVP.hash({
       organization,
-      membership: this.store.createRecord('membership', { organizationId: organization.get('id'), organizationRole: 'MEMBER' })
+      organizationInvitation: this.store.createRecord('organizationInvitation', { organizationId: organization.id })
     });
   },
 
   setupController(controller) {
     this._super(...arguments);
-    controller.set('email', null);
     controller.set('errorMessage', null);
   },
 });
