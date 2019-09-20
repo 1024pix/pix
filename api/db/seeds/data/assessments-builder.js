@@ -61,11 +61,30 @@ module.exports = function assessmentsBuilder({ databaseBuilder }) {
     id: 6,
     courseId: '1',
     createdAt: new Date('2018-02-15T15:14:46Z'),
-    updatedAt: new Date('2018-02-15T15:14:46Z'),
+    updatedAt: new Date('2019-02-15T15:14:46Z'),
+    userId: 1,
+    type: 'CERTIFICATION',
+    state: 'started'
+  });
+  databaseBuilder.factory.buildAssessment({
+    id: 11,
+    courseId: '1',
+    createdAt: new Date('2018-02-15T15:14:50Z'),
+    updatedAt: new Date('2018-02-15T15:14:50Z'),
     userId: 1,
     type: 'CERTIFICATION',
     state: 'completed'
   });
+  databaseBuilder.factory.buildAssessment({
+    id: 12,
+    courseId: '1',
+    createdAt: new Date('2018-02-15T15:14:51Z'),
+    updatedAt: new Date('2019-02-15T15:14:51Z'),
+    userId: 1,
+    type: 'CERTIFICATION',
+    state: 'started'
+  });
+  
   databaseBuilder.factory.buildAssessment({
     id: 7,
     courseId: '2',

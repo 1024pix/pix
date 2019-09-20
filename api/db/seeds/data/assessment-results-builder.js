@@ -58,7 +58,7 @@ module.exports = function assessmentResultsBuilder({ databaseBuilder }) {
     emitter: 'PIX-ALGO',
     commentForJury: 'Computed',
     status: 'validated',
-    assessmentId: 6,
+    assessmentId: 11,
     level: 0,
     pixScore: 157
   });
