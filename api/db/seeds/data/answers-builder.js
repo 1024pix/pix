@@ -646,7 +646,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'serv1: imap.pxmail.fr\nserv2: smtp.pxmail.fr\n',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'recUgaNAIuu2ng0wR',
     elapsedTime: 1,
     resultDetails: 'serv1: true\nserv2: true\n'
@@ -654,7 +654,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: '1,2',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'recDEsKGRnH3yt5rG',
     elapsedTime: 11,
     resultDetails: 'null'
@@ -662,7 +662,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'marc: fausse r\xe9ponse\ndeborah: fausse r\xe9ponse\n',
     result: 'ko',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'recAprCTY1ixJ9ISA',
     elapsedTime: 1,
     resultDetails: 'marc: false\ndeborah: false\n'
@@ -670,7 +670,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'maman',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'rect9c6ahXsCjNn3e',
     elapsedTime: 0,
     resultDetails: 'null'
@@ -678,7 +678,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'clavier: qwerty\nmot: ma\xe7ons\n',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'recUuLdYdKOoOh2W2',
     elapsedTime: 1,
     resultDetails: 'clavier: true\nmot: true\n'
@@ -686,7 +686,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'donn\xe9es en itin\xe9rance',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'rec6qcVEOmD3JNE8v',
     elapsedTime: 0,
     resultDetails: 'null'
@@ -694,7 +694,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: '9',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'rec5WBXcLWAlMZlUI',
     elapsedTime: 2,
     resultDetails: 'null'
@@ -702,7 +702,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: '=$A2*B$1',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'recBYXbGG8m7AYIPs',
     elapsedTime: 6,
     resultDetails: 'null'
@@ -710,7 +710,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'fausse r\xe9ponse',
     result: 'ko',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'rec1GYIaMxDz1eS51',
     elapsedTime: 7,
     resultDetails: 'null'
@@ -718,7 +718,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'robot',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'recRVQCpdir9b0x1H',
     elapsedTime: 20,
     resultDetails: 'null'
@@ -726,7 +726,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'fausse r\xe9ponse',
     result: 'ko',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'recn838PC4uEeQLcW',
     elapsedTime: 22,
     resultDetails: 'null'
@@ -734,7 +734,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'fausse r\xe9ponse',
     result: 'ko',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'rec5o3fE3scuqxKnx',
     elapsedTime: 23,
     resultDetails: 'null'
@@ -742,7 +742,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'an: \'2001\'\ntit: ETABLISSEMENT PUBLIC SEVRES CITE DE LA CERAMIQUE\n',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'rec3CXFJOTMy9dUHu',
     elapsedTime: 1,
     resultDetails: 'an: true\ntit: true\n'
@@ -750,7 +750,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'station1: gambetta\nstation2: rihour\n',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'rec39bDMnaVw3MyMR',
     timeout: 600,
     elapsedTime: 1,
@@ -759,7 +759,7 @@ module.exports = function answersBuilder({ databaseBuilder }) {
   databaseBuilder.factory.buildAnswer({
     value: 'titre: \'Hi\xe9rarchiser les t\xe2ches, classer les ch\xf4meurs\'\nauteur: Jean-Marie Pillon\n',
     result: 'ok',
-    assessmentId: 6,
+    assessmentId: 11,
     challengeId: 'recjtrBI01FvZHYfz',
     elapsedTime: 1,
     resultDetails: 'titre: true\nauteur: true\n'
