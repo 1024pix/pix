@@ -8,7 +8,8 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-bottom: 30px;
+  background-color: $porcelain-grey;
+  margin: 6px;
 }
 
 .picture-checkbox-proposal--qcm {
@@ -28,6 +29,8 @@
   height: 46px;
   @include button-background-transition();
   border-radius: 23px;
+  border: 1px solid $slate-grey;
+
   &:hover {
     background-color: $silver-grey;
     text-decoration: none;
@@ -70,7 +73,7 @@
   width: 150px;
   height: 46px;
   border-radius: 23px;
-  background-color: $jade;
+  background-color: $mountain-meadow;
   color: $white;
   @include button-background-transition();
   text-decoration: none;
