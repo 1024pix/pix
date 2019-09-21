@@ -68,15 +68,17 @@ module.exports = {
   getByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
       .where({ courseId: certificationCourseId, type: 'CERTIFICATION' })
-      .fetch({ withRelated: ['assessmentResults'] })
-      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
+      .fetchAll({ withRelated: ['assessmentResults'] })
+      .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments))
+      .then(_selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrNull);
   },
 
   getByUserIdAndCertificationCourseId(userId, certificationCourseId) {
     return BookshelfAssessment
       .where({ userId, courseId: certificationCourseId, type: 'CERTIFICATION' })
-      .fetch({ withRelated: ['assessmentResults', 'answers'] })
-      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
+      .fetchAll({ withRelated: ['assessmentResults', 'answers'] })
+      .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments))
+      .then(_selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrNull);
   },
 
   getByCampaignParticipationId(campaignParticipationId) {
@@ -154,4 +156,14 @@ function _adaptModelToDb(assessment) {
     'campaignParticipation',
     'title',
   ]);
+}
+
+function _selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrNull(assessments) {
+  const creationDateOrderedAssessments = _.orderBy(assessments, ['createdAt'], ['desc']);
+  const completedAssessment = _.find(creationDateOrderedAssessments, ['state', Assessment.states.COMPLETED]);
+  if (completedAssessment) {
+    return completedAssessment;
+  }
+
+  return _.head(creationDateOrderedAssessments) || null;
 }
