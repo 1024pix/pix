@@ -6,7 +6,7 @@ describe('Unit | UseCase | find-certification-assessments', () => {
   const assessmentRepository = {};
 
   beforeEach(() => {
-    assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId = sinon.stub();
+    assessmentRepository.getByUserIdAndCertificationCourseId = sinon.stub();
   });
 
   it('should resolve an empty array when courseId is null', () => {
@@ -44,7 +44,7 @@ describe('Unit | UseCase | find-certification-assessments', () => {
     const userId = 1234;
     const courseId = 2;
     const filters = { type: 'CERTIFICATION', courseId, resumable: 'true' };
-    assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId.resolves(null);
+    assessmentRepository.getByUserIdAndCertificationCourseId.resolves(null);
 
     // when
     const promise = findCertificationAssessments({ userId, filters, assessmentRepository });
@@ -66,7 +66,7 @@ describe('Unit | UseCase | find-certification-assessments', () => {
       state: 'started',
       userId,
     });
-    assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId.resolves(assessment);
+    assessmentRepository.getByUserIdAndCertificationCourseId.resolves(assessment);
 
     // when
     const promise = findCertificationAssessments({ userId, filters, assessmentRepository });
@@ -88,7 +88,7 @@ describe('Unit | UseCase | find-certification-assessments', () => {
       state: 'completed',
       userId,
     });
-    assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId.resolves(assessment);
+    assessmentRepository.getByUserIdAndCertificationCourseId.resolves(assessment);
 
     // when
     const promise = findCertificationAssessments({ userId, filters, assessmentRepository });

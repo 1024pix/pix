@@ -392,7 +392,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#findOneCertificationAssessmentByUserIdAndCourseId', () => {
+  describe('#getByUserIdAndCertificationCourseId', () => {
 
     const courseId = 'recCourseId1';
 
@@ -430,7 +430,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should return assessment with answers when it matches with userId and courseId', async () => {
       // when
-      const assessment = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, courseId);
+      const assessment = await assessmentRepository.getByUserIdAndCertificationCourseId(userId, courseId);
 
       // then
       expect(assessment.id).to.equal(assessmentId);
@@ -443,7 +443,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const courseId = 'inexistantId';
 
       // when
-      const assessment = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, courseId);
+      const assessment = await assessmentRepository.getByUserIdAndCertificationCourseId(userId, courseId);
 
       // then
       expect(assessment).to.equal(null);
@@ -529,7 +529,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#findLastSmartPlacementAssessmentByUserIdAndCampaignCode', () => {
+  describe('#getLastSmartPlacementAssessmentByUserIdAndCampaignCode', () => {
     let assessmentId;
     let userId;
     let campaign;
@@ -567,7 +567,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment with campaign when asked', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: true });
+        const assessmentReturned = await assessmentRepository.getLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: true });
 
         // then
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
@@ -577,7 +577,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment without campaign', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: false });
+        const assessmentReturned = await assessmentRepository.getLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: false });
 
         // then
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
@@ -587,7 +587,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return null', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: 'fakeCampaignCode', includeCampaign: false });
+        const assessmentReturned = await assessmentRepository.getLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: 'fakeCampaignCode', includeCampaign: false });
 
         // then
         expect(assessmentReturned).to.equal(null);
