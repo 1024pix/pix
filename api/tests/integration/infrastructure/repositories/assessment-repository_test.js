@@ -275,7 +275,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           createdAt: johnAssessmentToRemember.createdAt,
           type: PLACEMENT,
           competenceId: johnAssessmentToRemember.competenceId,
-          campaignParticipation: null,
           assessmentResults: [
             {
               id: johnAssessmentResultToRemember.id,
