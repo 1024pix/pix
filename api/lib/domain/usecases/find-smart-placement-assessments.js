@@ -2,7 +2,7 @@ module.exports = function findSmartPlacementAssessments({ userId, filters, asses
 
   const campaignCode = filters.codeCampaign;
 
-  return assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign: true })
+  return assessmentRepository.getLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign: true })
     .then((assessment) => {
       if (!assessment) {
         return [];

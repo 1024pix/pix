@@ -4,7 +4,7 @@ const findSmartPlacementAssessments = require('../../../../lib/domain/usecases/f
 describe('Unit | UseCase | find-smart-placement-assessments', () => {
 
   const assessmentRepository = {
-    findLastSmartPlacementAssessmentByUserIdAndCampaignCode: () => {
+    getLastSmartPlacementAssessmentByUserIdAndCampaignCode: () => {
     },
   };
 
@@ -16,7 +16,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
       userId,
       campaignParticipation: null,
     });
-    sinon.stub(assessmentRepository, 'findLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(null);
+    sinon.stub(assessmentRepository, 'getLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(null);
 
     // when
     const promise = findSmartPlacementAssessments({ userId, filters, assessmentRepository });
@@ -38,7 +38,7 @@ describe('Unit | UseCase | find-smart-placement-assessments', () => {
       userId,
       campaignParticipation
     });
-    sinon.stub(assessmentRepository, 'findLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(assessment);
+    sinon.stub(assessmentRepository, 'getLastSmartPlacementAssessmentByUserIdAndCampaignCode').resolves(assessment);
 
     // when
     const promise = findSmartPlacementAssessments({ userId, filters, assessmentRepository });
