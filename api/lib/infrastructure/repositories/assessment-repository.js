@@ -1,12 +1,7 @@
 const BookshelfAssessment = require('../data/assessment');
-const Answer = require('../../domain/models/Answer');
 const Assessment = require('../../domain/models/Assessment');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
-const Campaign = require('../../domain/models/Campaign');
-const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { groupBy, map, head, _ } = require('lodash');
-const fp = require('lodash/fp');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
@@ -23,7 +18,7 @@ module.exports = {
           }, 'assessmentResults', 'campaignParticipation', 'campaignParticipation.campaign',
         ],
       })
-      .then(_toDomain);
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
   findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
@@ -46,14 +41,14 @@ module.exports = {
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(_selectAssessmentsHavingAnAssessmentResult)
       .then(_selectLastAssessmentForEachCourse)
-      .then(fp.map(_toDomain));
+      .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
 
   getByAssessmentIdAndUserId(assessmentId, userId) {
     return BookshelfAssessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
       .fetch({ require: true })
-      .then(_toDomain)
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment))
       .catch((error) => {
         if (error instanceof BookshelfAssessment.NotFoundError) {
           throw new NotFoundError();
@@ -67,21 +62,21 @@ module.exports = {
     return assessment.validate()
       .then(() => new BookshelfAssessment(_adaptModelToDb(assessment)))
       .then((bookshelfAssessment) => bookshelfAssessment.save())
-      .then(_toDomain);
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
   getByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
       .where({ courseId: certificationCourseId, type: 'CERTIFICATION' })
       .fetch({ withRelated: ['assessmentResults'] })
-      .then(_toDomain);
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
   getByUserIdAndCertificationCourseId(userId, certificationCourseId) {
     return BookshelfAssessment
       .where({ userId, courseId: certificationCourseId, type: 'CERTIFICATION' })
       .fetch({ withRelated: ['assessmentResults', 'answers'] })
-      .then(_toDomain);
+      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
   getByCampaignParticipationId(campaignParticipationId) {
@@ -134,38 +129,6 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   }
 };
-
-function _toDomain(bookshelfAssessment) {
-  if (bookshelfAssessment !== null) {
-    const modelObjectInJSON = bookshelfAssessment.toJSON();
-
-    const answers = bookshelfAssessment.related('answers')
-      .map((bookshelfAnswer) => new Answer(bookshelfAnswer.toJSON()));
-
-    const assessmentResults = bookshelfAssessment.related('assessmentResults')
-      .map((bookshelfAssessmentResult) => new AssessmentResult(bookshelfAssessmentResult.toJSON()));
-
-    let campaignParticipation = null;
-    let campaign = null;
-    const campaignOfAssessment = bookshelfAssessment.related('campaignParticipation');
-
-    if (_.has(campaignOfAssessment, 'attributes.campaignId')) {
-      campaign = new Campaign(campaignOfAssessment.related('campaign').toJSON());
-      campaignParticipation = new CampaignParticipation({
-        campaign,
-        assessmentId: bookshelfAssessment.get('id'),
-      });
-    }
-
-    return new Assessment(Object.assign(modelObjectInJSON, {
-      answers,
-      assessmentResults,
-      campaignParticipation,
-    }));
-  }
-
-  return null;
-}
 
 function _selectLastAssessmentForEachCourse(bookshelfAssessments) {
   const assessmentsGroupedByCourse = groupBy(bookshelfAssessments,
