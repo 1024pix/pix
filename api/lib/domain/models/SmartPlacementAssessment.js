@@ -24,6 +24,7 @@ class SmartPlacementAssessment {
     targetProfile,
     // references
     userId,
+    campaignParticipationId,
   }) {
     this.id = id;
     // attributes
@@ -36,6 +37,7 @@ class SmartPlacementAssessment {
     this.targetProfile = targetProfile;
     // references
     this.userId = userId;
+    this.campaignParticipationId = campaignParticipationId;
   }
 
   get type() {

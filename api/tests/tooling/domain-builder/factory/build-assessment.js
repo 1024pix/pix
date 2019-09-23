@@ -1,4 +1,5 @@
 const faker = require('faker');
+const _ = require('lodash');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 
@@ -34,7 +35,6 @@ function buildAssessment({
     type,
     state,
     competenceId,
-
     // relationships
     answers,
     assessmentResults,
@@ -57,9 +57,21 @@ buildAssessment.ofTypeSmartPlacement = function({
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
   knowledgeElements = [buildKnowledgeElement()],
-  campaignParticipation = buildCampaignParticipation(),
+  campaignParticipation = null,
+  campaignParticipationId = null,
   title = 'campaignTitle',
 } = {}) {
+  if (!_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
+    campaignParticipationId = campaignParticipation.id;
+  }
+  if (_.isNil(campaignParticipation) && !_.isNil(campaignParticipationId)) {
+    campaignParticipation = buildCampaignParticipation({ id: campaignParticipationId });
+  }
+  if (_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
+    campaignParticipation = buildCampaignParticipation();
+    campaignParticipationId = campaignParticipation.id;
+  }
+
   return new SmartPlacementAssessment({
     // attributes
     id,
@@ -70,6 +82,7 @@ buildAssessment.ofTypeSmartPlacement = function({
     title,
     type: Assessment.types.SMARTPLACEMENT,
     state,
+    campaignParticipationId,
 
     // relationships
     answers,
@@ -89,6 +102,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   userId = faker.random.number(),
   state = Assessment.states.COMPLETED,
   title = faker.lorem,
+  campaignParticipationId = null,
 
   answers = [buildAnswer()],
   assessmentResults = [buildAssessmentResult()],
@@ -98,6 +112,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   campaignParticipation = null,
   competenceId = faker.random.number(),
 } = {}) {
+
   return new Assessment({
     // attributes
     id,
@@ -105,6 +120,7 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
     createdAt,
     userId,
     competenceId,
+    campaignParticipationId,
     title,
     type: Assessment.types.COMPETENCE_EVALUATION,
     state,

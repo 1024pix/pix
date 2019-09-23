@@ -198,14 +198,14 @@ describe('Unit | Service | ScorecardService', function() {
         const skill = domainBuilder.buildSkill({ id: skillId });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
         campaign = domainBuilder.buildCampaign({ targetProfileId: targetProfile.id, targetProfile });
-        campaignParticipation1 = domainBuilder.buildCampaignParticipation({ assessmentId: assessmentId1, campaign, campaignId: campaign.id, isShared: false });
-        campaignParticipation2 = domainBuilder.buildCampaignParticipation({ assessmentId: assessmentId2, campaign, campaignId: campaign.id, isShared: false });
-        oldAssessment1 = domainBuilder.buildAssessment({ id: assessmentId1 });
-        oldAssessment2 = domainBuilder.buildAssessment({ id: assessmentId2 });
-        oldAssessment1Aborted = domainBuilder.buildAssessment({ ...oldAssessment1, state: Assessment.states.ABORTED });
-        oldAssessment2Aborted = domainBuilder.buildAssessment({ ...oldAssessment2, state: Assessment.states.ABORTED });
-        newAssessment1Saved = domainBuilder.buildAssessment({ id: 67890 });
-        newAssessment2Saved = domainBuilder.buildAssessment({ id: 98760 });
+        campaignParticipation1 = domainBuilder.buildCampaignParticipation({ id: 1, campaign, campaignId: campaign.id, isShared: false });
+        campaignParticipation2 = domainBuilder.buildCampaignParticipation({ id: 2, campaign, campaignId: campaign.id, isShared: false });
+        oldAssessment1 = domainBuilder.buildAssessment.ofTypeSmartPlacement({ id: assessmentId1, state: 'started', campaignParticipationId: campaignParticipation1.id, userId });
+        oldAssessment2 = domainBuilder.buildAssessment.ofTypeSmartPlacement({ id: assessmentId2, state: 'started', campaignParticipationId: campaignParticipation2.id, userId });
+        oldAssessment1Aborted = domainBuilder.buildAssessment({ ...oldAssessment1, state: Assessment.states.ABORTED, campaignParticipationId: campaignParticipation1.id });
+        oldAssessment2Aborted = domainBuilder.buildAssessment({ ...oldAssessment2, state: Assessment.states.ABORTED, campaignParticipationId: campaignParticipation2.id });
+        newAssessment1Saved = domainBuilder.buildAssessment({ id: 67890, campaignParticipationId: campaignParticipation1.id });
+        newAssessment2Saved = domainBuilder.buildAssessment({ id: 98760, campaignParticipationId: campaignParticipation2.id });
         resetKnowledgeElement1 = domainBuilder.buildKnowledgeElement({ skillId });
         resetKnowledgeElement2 = domainBuilder.buildKnowledgeElement({ skillId });
 
@@ -263,13 +263,15 @@ describe('Unit | Service | ScorecardService', function() {
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
       });
 
-      it('should update old assessment and save another assessment', async () => {
+      it('should save a new Assessment', async () => {
 
-        [resetKnowledgeElements, resetCampaignParticipation] = await scorecardService.resetScorecard({
+        // when
+        await scorecardService.resetScorecard({
           userId, competenceId, shouldResetCompetenceEvaluation, assessmentRepository, knowledgeElementRepository, campaignParticipationRepository, competenceEvaluationRepository,
         });
-
-        expect(resetCampaignParticipation).to.deep.equal([campaignParticipation1Updated, campaignParticipation2Updated]);
+        // given
+        expect(assessmentRepository.save.args[0][0]).to.include({ type: 'SMART_PLACEMENT', state: 'started', userId, campaignParticipationId: 1 });
+        expect(assessmentRepository.save.args[1][0]).to.include({ type: 'SMART_PLACEMENT', state: 'started', userId, campaignParticipationId: 2 });
       });
 
       context('when campaign is already shared', function() {

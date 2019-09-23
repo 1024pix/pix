@@ -154,7 +154,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
             ]
           },
           {
-            assessment: { userId, },
+            assessment: { userId },
             competenceEvaluation: { competenceId: otherStartedCompetenceId, userId, status: 'started' },
             knowledgeElements: [
               { skillId: 'rechInfo3', status: 'validated', source: 'direct', competenceId: otherStartedCompetenceId, earnedPix: 3, createdAt, },
@@ -168,9 +168,9 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
             ]
           }
         ], ({ assessment, competenceEvaluation, knowledgeElements, campaignParticipation }) => {
-          const assessmentId = databaseBuilder.factory.buildAssessment(assessment).id;
+          const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ ...campaignParticipation }).id;
+          const assessmentId = databaseBuilder.factory.buildAssessment({ ...assessment, campaignParticipationId }).id;
           databaseBuilder.factory.buildCompetenceEvaluation({ ...competenceEvaluation, assessmentId, });
-          databaseBuilder.factory.buildCampaignParticipation({ ...campaignParticipation, assessmentId, });
           _.each(knowledgeElements, (ke) => databaseBuilder.factory.buildKnowledgeElement({ ...ke, userId, assessmentId, }));
         });
 
@@ -180,9 +180,10 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', () => {
       afterEach(async () => {
         await knex('knowledge-elements').delete();
         await knex('answers').delete();
-        await knex('campaign-participations').delete();
         await knex('competence-evaluations').delete();
         await knex('assessments').delete();
+        await knex('campaign-participations').delete();
+
         await databaseBuilder.clean();
         airtableBuilder.cleanAll();
       });

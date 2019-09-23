@@ -3,18 +3,15 @@ const { CampaignCodeError } = require('../errors');
 const CampaignParticipation = require('../models/CampaignParticipation');
 const Assessment = require('../models/Assessment');
 
-function _getCampaignFromCode(codeCampaign, campaignRepository) {
-  return campaignRepository.getByCode(codeCampaign)
-    .then((campaign) => {
-      if (campaign) {
-        return Promise.resolve(campaign);
-      }
-
-      return Promise.reject(new CampaignCodeError());
-    });
+async function _getCampaignFromCode(codeCampaign, campaignRepository) {
+  const campaign = await campaignRepository.getByCode(codeCampaign);
+  if (campaign) {
+    return campaign;
+  }
+  throw new CampaignCodeError();
 }
 
-module.exports = function createAssessmentForCampaign(
+module.exports = async function createAssessmentForCampaign(
   {
     userId,
     assessment,
@@ -25,27 +22,21 @@ module.exports = function createAssessmentForCampaign(
     campaignParticipationRepository
   }) {
 
-  let assessmentCreated;
-  let campaign;
-  assessment.state = Assessment.states.STARTED;
+  const campaign = await _getCampaignFromCode(codeCampaign, campaignRepository);
 
-  return _getCampaignFromCode(codeCampaign, campaignRepository)
-    .then((campaignFound) => {
-      campaign = campaignFound;
-      assessment.courseId = 'Smart Placement Tests CourseId Not Used';
-      return assessmentRepository.save(assessment);
-    })
-    .then((assessmentCreatedInDb) => {
-      assessmentCreated = assessmentCreatedInDb;
-      const campaignParticipation = new CampaignParticipation({
-        userId,
-        assessmentId: assessmentCreated.id,
-        campaignId: campaign.id,
-        participantExternalId
-      });
-      return campaignParticipationRepository.save(campaignParticipation);
-    })
-    .then(() => {
-      return assessmentCreated;
-    });
+  const campaignParticipation = new CampaignParticipation({
+    userId,
+    campaignId: campaign.id,
+    participantExternalId
+  });
+
+  await campaignParticipationRepository.save(campaignParticipation);
+
+  assessment.state = Assessment.states.STARTED;
+  assessment.courseId = Assessment.courseIdMessage.SMART_PLACEMENT;
+  assessment.campaignParticipationId = campaignParticipation.id;
+
+  const assessmentCreated = await assessmentRepository.save(assessment);
+
+  return assessmentCreated;
 };
