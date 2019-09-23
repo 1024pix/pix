@@ -10,6 +10,7 @@ const buildOrganization = function buildOrganization({
   code = faker.random.alphaNumeric(6),
   logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
   externalId = faker.lorem.word(),
+  provinceCode = faker.random.alphaNumeric(3),
   isManagingStudents = false,
   userId = null,
   createdAt = faker.date.recent(),
@@ -24,6 +25,7 @@ const buildOrganization = function buildOrganization({
     logoUrl,
     createdAt,
     externalId,
+    provinceCode,
     isManagingStudents,
     userId,
     updatedAt
@@ -42,6 +44,7 @@ buildOrganization.withUser = function buildOrganizationWithUser({
   code = 'ABCD12',
   logoUrl = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==',
   externalId = faker.lorem.word(),
+  provinceCode = faker.random.alphaNumeric(3),
   isManagingStudents = false,
   userId,
   createdAt = faker.date.recent()
@@ -49,7 +52,7 @@ buildOrganization.withUser = function buildOrganizationWithUser({
 
   userId = _.isNil(userId) ? buildUser().id : userId;
 
-  const values = { id, type, name, code, logoUrl, externalId, isManagingStudents, createdAt, userId };
+  const values = { id, type, name, code, logoUrl, externalId, provinceCode, isManagingStudents, createdAt, userId };
   return databaseBuffer.pushInsertable({
     tableName: 'organizations',
     values,
