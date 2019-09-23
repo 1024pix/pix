@@ -1,7 +1,7 @@
 module.exports = function findCertificationAssessments({ userId, filters, assessmentRepository }) {
 
   if (filters.courseId && filters.resumable === 'true') {
-    return assessmentRepository.getByUserIdAndCertificationCourseId(userId, filters.courseId)
+    return assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, filters.courseId)
       .then((assessment) => {
         if (!assessment) {
           return [];
