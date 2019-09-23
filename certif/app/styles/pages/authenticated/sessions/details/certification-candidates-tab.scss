@@ -12,3 +12,31 @@
   padding: 45px;
   border-radius: 200px;
 }
+
+.panel-info {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 1rem 0;
+  position: relative;
+  align-items: center;
+  margin-bottom: 1rem;
+  &__icon {
+    font-size: 3rem;
+    color: #ccc;
+    padding: 45px;
+    display: flex;
+    margin-left: 1rem;
+  }
+  &__list-item {
+    margin-bottom: 0.3rem;
+  }
+  &__vertical-splitter {
+    height: 80px;
+    width: 1px;
+    background: #ccc;
+    margin-left: 0.5rem;
+  }
+  &__text {
+    margin-left: 3rem;
+  }
+}
