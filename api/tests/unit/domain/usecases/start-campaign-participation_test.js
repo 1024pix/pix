@@ -30,27 +30,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     // then
     return expect(promise).to.be.rejectedWith(NotFoundError);
   });
-
-  it('should create a smart placement assessment', () => {
-    // given
-    assessmentRepository.save.resolves({});
-
-    // when
-    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
-
-    // then
-    return promise.then(() => {
-      expect(assessmentRepository.save).to.have.been.called;
-
-      const assessmentToSave = assessmentRepository.save.firstCall.args[0];
-      expect(assessmentToSave.type).to.equal(Assessment.types.SMARTPLACEMENT);
-      expect(assessmentToSave.state).to.equal(Assessment.states.STARTED);
-      expect(assessmentToSave.userId).to.equal(userId);
-      expect(assessmentToSave.courseId).to.equal('Smart Placement Tests CourseId Not Used');
-    });
-  });
-
-  it('should save the campaign participation with userId and assessmentId', () => {
+  it('should save the campaign participation with userId', () => {
     // given
     const assessmentId = 987654321;
     assessmentRepository.save.resolves({ id: assessmentId });
@@ -65,8 +45,28 @@ describe('Unit | UseCase | start-campaign-participation', () => {
 
       const campaignParticipationToSave = campaignParticipationRepository.save.firstCall.args[0];
       expect(campaignParticipationToSave.userId).to.equal(userId);
-      expect(campaignParticipationToSave.assessmentId).to.equal(assessmentId);
       expect(campaignParticipationToSave).to.deep.equal(campaignParticipation);
+    });
+  });
+
+  it('should create a smart placement assessment', () => {
+    // given
+    assessmentRepository.save.resolves({});
+    campaignParticipationRepository.save.resolves({ id: 1 });
+
+    // when
+    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+
+    // then
+    return promise.then(() => {
+      expect(assessmentRepository.save).to.have.been.called;
+
+      const assessmentToSave = assessmentRepository.save.firstCall.args[0];
+      expect(assessmentToSave.type).to.equal(Assessment.types.SMARTPLACEMENT);
+      expect(assessmentToSave.state).to.equal(Assessment.states.STARTED);
+      expect(assessmentToSave.userId).to.equal(userId);
+      expect(assessmentToSave.courseId).to.equal('Smart Placement Tests CourseId Not Used');
+      expect(assessmentToSave.campaignParticipationId).to.equal(campaignParticipation.id);
     });
   });
 

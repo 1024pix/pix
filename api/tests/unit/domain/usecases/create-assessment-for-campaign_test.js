@@ -10,13 +10,17 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
 
   const availableCampaignCode = 'ABCDEF123';
   const campaignRepository = { getByCode: () => undefined };
-  const campaignParticipationRepository = { save: () => undefined };
-  const assessmentRepository = { save: () => undefined };
+  const campaignParticipationRepository = { save: () => undefined, updateAssessmentId: ()=> undefined };
+  const assessmentRepository = {
+    save: () => undefined,
+    get:  () => undefined };
 
   beforeEach(() => {
     sinon.stub(campaignRepository, 'getByCode');
     sinon.stub(assessmentRepository, 'save');
+    sinon.stub(assessmentRepository, 'get');
     sinon.stub(campaignParticipationRepository, 'save');
+    sinon.stub(campaignParticipationRepository, 'updateAssessmentId');
   });
 
   context('when campaignCode not exist', () => {
@@ -52,20 +56,23 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       campaign = domainBuilder.buildCampaign({
         id: 'campaignId',
       });
-      assessment = domainBuilder.buildAssessment({
-        id: 'assessmentId',
-        type: 'SMART_PLACEMENT',
-        userId
-      });
 
       campaignParticipation = new CampaignParticipation({
-        assessmentId: assessment.id,
         campaignId: campaign.id,
         userId,
       });
 
+      assessment = domainBuilder.buildAssessment({
+        id: 'assessmentId',
+        type: 'SMART_PLACEMENT',
+        userId,
+        campaignParticipationId: campaignParticipation.id
+      });
+      
       campaignRepository.getByCode.resolves(campaign);
       assessmentRepository.save.resolves(assessment);
+      assessmentRepository.get.resolves(assessment);
+      campaignParticipationRepository.updateAssessmentId.resolves({});
       campaignParticipationRepository.save.resolves({});
     });
 

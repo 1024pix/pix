@@ -9,8 +9,8 @@ module.exports = Bookshelf.model('CampaignParticipation', {
   tableName: 'campaign-participations',
   hasTimestamps: ['createdAt', null],
 
-  assessment() {
-    return this.belongsTo('Assessment', 'assessmentId');
+  assessments() {
+    return this.hasMany('Assessment', 'campaignParticipationId');
   },
 
   campaign() {
