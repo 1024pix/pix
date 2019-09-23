@@ -13,6 +13,7 @@ export default Controller.extend({
         await file.upload(this.model.urlToUpload, {
           headers: { Authorization: `Bearer ${access_token}` },
         });
+        this.get('model').reload();
         return this.set('message', { type: 'success' });
       }
       catch (error) {
