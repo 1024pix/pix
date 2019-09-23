@@ -73,7 +73,7 @@ module.exports = {
       .then(_selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrNull);
   },
 
-  getByUserIdAndCertificationCourseId(userId, certificationCourseId) {
+  findOneCertificationAssessmentByUserIdAndCourseId(userId, certificationCourseId) {
     return BookshelfAssessment
       .where({ userId, courseId: certificationCourseId, type: 'CERTIFICATION' })
       .fetchAll({ withRelated: ['assessmentResults', 'answers'] })
@@ -99,7 +99,7 @@ module.exports = {
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
 
-  getLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
+  findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
     return BookshelfAssessment
       .where({ 'assessments.userId': userId, 'assessments.type': 'SMART_PLACEMENT', 'campaigns.code': campaignCode })
       .query((qb) => {

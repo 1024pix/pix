@@ -448,7 +448,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#getByUserIdAndCertificationCourseId', async () => {
+  describe('#findOneCertificationAssessmentByUserIdAndCourseId', async () => {
     let userId;
 
     beforeEach(() => {
@@ -488,7 +488,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         it('should return the completed assessment for the given certificationId and userId', async () => {
 
           // when
-          const assessmentReturned = await assessmentRepository.getByUserIdAndCertificationCourseId(userId, 'course_A');
+          const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, 'course_A');
 
           // then
           expect(assessmentReturned.id).to.equal(assessmentId);
@@ -498,7 +498,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
         it('should return the appropriate answers', async () => {
           // when
-          const assessmentReturned = await assessmentRepository.getByUserIdAndCertificationCourseId(userId, 'course_A');
+          const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, 'course_A');
 
           // then
           expect(assessmentReturned.answers).to.have.lengthOf(2);
@@ -520,7 +520,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         it('should return an assessment anyway for the given certificationId and userId', async () => {
 
           // when
-          const assessmentReturned = await assessmentRepository.getByUserIdAndCertificationCourseId(userId, 'course_A');
+          const assessmentReturned = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, 'course_A');
 
           // then
           expect(assessmentReturned.id).to.exist;
@@ -535,7 +535,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     context('When there are no assessment for this certification course id and userId', () => {
       it('should return null', async () => {
         // when
-        const assessment = await assessmentRepository.getByUserIdAndCertificationCourseId(userId, 'inexistantCourseId');
+        const assessment = await assessmentRepository.findOneCertificationAssessmentByUserIdAndCourseId(userId, 'inexistantCourseId');
 
         // then
         expect(assessment).to.equal(null);
@@ -623,7 +623,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#getLastSmartPlacementAssessmentByUserIdAndCampaignCode', () => {
+  describe('#findLastSmartPlacementAssessmentByUserIdAndCampaignCode', () => {
     let assessmentId;
     let userId;
     let campaign;
@@ -661,7 +661,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment with campaign when asked', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.getLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: true });
+        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: true });
 
         // then
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
@@ -671,7 +671,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return the assessment without campaign', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.getLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: false });
+        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: campaign.code, includeCampaign: false });
 
         // then
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
@@ -681,7 +681,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       it('should return null', async () => {
         // when
-        const assessmentReturned = await assessmentRepository.getLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: 'fakeCampaignCode', includeCampaign: false });
+        const assessmentReturned = await assessmentRepository.findLastSmartPlacementAssessmentByUserIdAndCampaignCode({ userId, campaignCode: 'fakeCampaignCode', includeCampaign: false });
 
         // then
         expect(assessmentReturned).to.equal(null);
