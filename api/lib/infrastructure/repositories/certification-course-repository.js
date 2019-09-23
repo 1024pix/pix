@@ -1,17 +1,21 @@
 const { _ } = require('lodash');
 
 const CertificationCourseBookshelf = require('../data/certification-course');
+const AssessmentBookshelf = require('../data/assessment');
+const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
 const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(model) {
   if (model) {
+    const assessments = bookshelfToDomainConverter.buildDomainObjects(AssessmentBookshelf, model.related('assessments'));
+    const assessment = _selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrUndefined(assessments);
     return CertificationCourse.fromAttributes({
       id: model.get('id'),
       userId: model.get('userId'),
       type: Assessment.types.CERTIFICATION,
-      assessment: model.related('assessment').toJSON(),
+      assessment,
       challenges: model.related('challenges').toJSON(),
       createdAt: model.get('createdAt'),
       completedAt: model.get('completedAt'),
@@ -47,7 +51,7 @@ module.exports = {
   get(id) {
     return CertificationCourseBookshelf
       .where({ id })
-      .fetch({ require: true, withRelated: ['assessment', 'challenges'] })
+      .fetch({ require: true, withRelated: ['assessments', 'challenges'] })
       .then(_toDomain)
       .catch((bookshelfError) => {
         if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
@@ -93,4 +97,11 @@ function _adaptModelToDb(certificationCourse) {
     'nbChallenges',
     'createdAt',
   ]);
+}
+
+function _selectPreferablyLastCompletedAssessmentOrAnyLastAssessmentOrUndefined(assessments) {
+  const creationDateOrderedAssessments = _.orderBy(assessments, ['createdAt'], ['desc']);
+  const completedAssessment = _.find(creationDateOrderedAssessments, { 'state': Assessment.states.COMPLETED });
+
+  return completedAssessment ? completedAssessment : _.head(creationDateOrderedAssessments);
 }
