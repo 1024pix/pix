@@ -23,6 +23,7 @@ describe('Unit | Serializer | organization-serializer', () => {
             'code': organization.code,
             'logo-url': organization.logoUrl,
             'external-id': organization.externalId,
+            'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
           },
           relationships: {
