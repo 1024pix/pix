@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v2.66.1 (23/09/2019)
+
+- [#721](https://github.com/1024pix/pix/pull/721) [BUGFIX] L'assessment considéré par un certification course pouvait ne pas être le même si il en existe plusieurs (PA-110)
+- [#722](https://github.com/1024pix/pix/pull/722) [BUGFIX] Correction du champ de saisie du mot de passe à la connexion pour Pix Orga et Pix Certif.
+- [#685](https://github.com/1024pix/pix/pull/685) [BUGFIX] Des candidats n'arrivaient pas à voir leurs certifications sur leur compte (dans user > 'Mes certifications') (PF-757)
+- [#717](https://github.com/1024pix/pix/pull/717) [BUGFIX] Correction du bug de "page blanche" sur IE11 pour Pix Orga et Pix Certif.
+- [#716](https://github.com/1024pix/pix/pull/716) [BUGFIX] Correction de l'apparition de bordures rouges pour les champs de saisie du formulaire de connexion pour Pix Orga et Pix Certif.
+- [#712](https://github.com/1024pix/pix/pull/712) [TECH] Montée de version des dépendances du projet Pix Admin.
+- [#661](https://github.com/1024pix/pix/pull/661) [TECH] Standardisation du paramétrage de l'API.
+- [#709](https://github.com/1024pix/pix/pull/709) [TECH] Montée de version des dépendances du projet Pix Orga.
+- [#711](https://github.com/1024pix/pix/pull/711) [TECH] Montée de version des dépendances du projet Pix Certif.
+- [#705](https://github.com/1024pix/pix/pull/705) [TECH] Suppression de la route POST /api/authentifications (PF-720).
+
 ## v2.66.0 (17/09/2019)
 
 - [#702](https://github.com/1024pix/pix/pull/702) [FEATURE] Accéder à un parcours prescrit avec l'identifiant externe dans l'URL (PF-824).

@@ -7,6 +7,10 @@ function parseJSONEnv(varName) {
   return undefined;
 }
 
+function isFeatureEnabled(environmentVariable) {
+  return environmentVariable === 'true';
+}
+
 module.exports = (function() {
 
   const config = {
@@ -30,13 +34,13 @@ module.exports = (function() {
     },
 
     logging: {
-      enabled: (process.env.LOG_ENABLED === 'true'),
+      enabled: isFeatureEnabled(process.env.LOG_ENABLED),
       colorEnabled: (process.env.NODE_ENV === 'development'),
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
     mailing: {
-      enabled: !!process.env.MAILJET_KEY,
+      enabled: isFeatureEnabled(process.env.MAILING_ENABLED),
       mailjetApiKey: process.env.MAILJET_KEY,
       mailjetApiSecret: process.env.MAILJET_SECRET,
       mailjetAccountCreationTemplateId: process.env.MAILJET_ACCOUNT_CREATION_TEMPLATE_ID,
@@ -44,7 +48,7 @@ module.exports = (function() {
     },
 
     captcha: {
-      enabled: !!process.env.RECAPTCHA_KEY,
+      enabled: isFeatureEnabled(process.env.RECAPTCHA_ENABLED),
       googleRecaptchaSecret: process.env.RECAPTCHA_KEY
     },
 
@@ -70,11 +74,15 @@ module.exports = (function() {
       payload: 'PixResetPassword'
     },
 
-    passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
+    account: {
+      passwordValidationPattern: '^(?=.*\\p{Lu})(?=.*\\p{Ll})(?=.*\\d).{8,}$',
+    },
 
-    redisUrl: process.env.REDIS_URL,
-    redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
-    redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
+    caching: {
+      redisUrl: process.env.REDIS_URL,
+      redisCacheKeyLockTTL: parseInt(process.env.REDIS_CACHE_KEY_LOCK_TTL, 10) || 60000,
+      redisCacheLockedWaitBeforeRetry: parseInt(process.env.REDIS_CACHE_LOCKED_WAIT_BEFORE_RETRY, 10) || 1000,
+    },
 
     system: {
       samplingHeapProfilerEnabled: (process.env.SYSTEM_SAMPLING_HEAP_PROFILER_ENABLED === 'true'),
@@ -90,40 +98,28 @@ module.exports = (function() {
 
     config.app.domain = 'localhost';
 
-    config.airtable = {
-      apiKey: 'test-api-key',
-      base: 'test-base',
-    };
+    config.airtable.apiKey = 'test-api-key';
+    config.airtable.base = 'test-base';
 
-    config.mailing = {
-      enabled: false,
-      mailjetApiKey: 'test-api-ket',
-      mailjetApiSecret: 'test-api-secret',
-      mailjetAccountCreationTemplateId: 'test-account-creation-template-id',
-      mailjetPasswordResetTemplateId: 'test-password-reset-template-id',
-    };
+    config.mailing.enabled = false;
+    config.mailing.mailjetApiKey = 'test-api-ket';
+    config.mailing.mailjetApiSecret = 'test-api-secret';
+    config.mailing.mailjetAccountCreationTemplateId = 'test-account-creation-template-id';
+    config.mailing.mailjetPasswordResetTemplateId = 'test-password-reset-template-id';
 
-    config.captcha = {
-      enabled: false,
-      googleRecaptchaSecret: 'test-recaptcha-key'
-    };
+    config.captcha.enabled = false;
+    config.captcha.googleRecaptchaSecret = 'test-recaptcha-key';
 
-    config.authentication = {
-      secret: 'test-jwt-key',
-      tokenLifespan: '1d',
-      tokenForCampaignResultLifespan: '1h',
-    };
+    config.authentication.secret = 'test-jwt-key';
+    config.authentication.tokenLifespan = '1d';
 
-    config.temporaryKey = {
-      secret: 'test-jwt-key',
-      tokenLifespan: '1d',
-    };
+    config.temporaryKey.secret = 'test-jwt-key';
 
     config.logging.enabled = false;
 
-    config.redisUrl = null;
-    config.redisCacheKeyLockTTL = 0;
-    config.redisCacheLockedWaitBeforeRetry = 0;
+    config.caching.redisUrl = null;
+    config.caching.redisCacheKeyLockTTL = 0;
+    config.caching.redisCacheLockedWaitBeforeRetry = 0;
   }
 
   return config;

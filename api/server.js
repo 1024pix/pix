@@ -10,7 +10,7 @@ const Hapi = require('hapi');
 
 const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
-const config = require('./lib/settings');
+const config = require('./lib/config');
 const security = require('./lib/infrastructure/security');
 
 const createServer = async () => {

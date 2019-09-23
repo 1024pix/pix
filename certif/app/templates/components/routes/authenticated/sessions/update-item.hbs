@@ -4,13 +4,14 @@
 
   <div class="session-form__field">
     <label for="session-address" class="label">Nom du site</label>
-    {{input id='session-address'
-            name='session-address'
-            type='text'
-            maxlength='255'
-            value=session.address
-            class="input"
-    }}
+    <Input
+      @id="session-address"
+      @name="session-address"
+      @type="text"
+      @maxlength="255"
+      @class="input"
+      @value={{session.address}}
+    />
     {{#each session.errors.address as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}
@@ -20,13 +21,14 @@
 
   <div class="session-form__field">
     <label for="session-room" class="label">Nom de la salle</label>
-    {{input id='session-room'
-            name='session-room'
-            type='text'
-            maxlength='255'
-            value=session.room
-            class="input"
-    }}
+    <Input
+      @id="session-room"
+      @name="session-room"
+      @type="text"
+      @maxlength="255"
+      @class="input"
+      @value={{session.room}}
+    />
     {{#each session.errors.room as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}
@@ -74,13 +76,14 @@
 
   <div class="session-form__field">
     <label for="session-examiner" class="label">Surveillant(s)</label>
-    {{input id='session-examiner'
-            name='session-examiner'
-            type='text'
-            maxlength='255'
-            value=session.examiner
-            class="input"
-    }}
+    <Input
+      @id="session-examiner"
+      @name="session-examiner"
+      @type="text"
+      @maxlength="255"
+      @class="input"
+      @value={{session.examiner}}
+    />
     {{#each session.errors.examiner as |error|}}
       <div class='session-form__error error-message'>
         {{error.message}}

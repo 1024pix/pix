@@ -44,7 +44,7 @@
     background-color: white;
     border: 2px solid $alto;
 
-    &:hover {
+    &:focus-within {
       border: 2px solid $dodger-blue;
     }
 
@@ -58,7 +58,8 @@
       font-size: 1rem;
 
       &:focus {
-        outline: none;
+        outline: 0;
+        border: none;
       }
 
       &::-ms-clear, &::-ms-reveal {
