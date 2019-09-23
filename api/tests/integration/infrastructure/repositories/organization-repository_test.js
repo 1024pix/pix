@@ -100,6 +100,8 @@ describe('Integration | Repository | Organization', function() {
       organization.name = 'New name';
       organization.type = 'SCO';
       organization.logoUrl = 'http://new.logo.url';
+      organization.externalId = '999Z527F';
+      organization.provinceCode = '999';
 
       // when
       const organizationSaved = await organizationRepository.update(organization);
@@ -110,6 +112,8 @@ describe('Integration | Repository | Organization', function() {
       expect(organizationSaved.type).to.equal('SCO');
       expect(organizationSaved.logoUrl).to.equal('http://new.logo.url');
       expect(organizationSaved.code).to.equal(organization.code);
+      expect(organizationSaved.externalId).to.equal(organization.externalId);
+      expect(organizationSaved.provinceCode).to.equal(organization.provinceCode);
     });
 
     it('should not modify code property', async () => {
@@ -320,7 +324,7 @@ describe('Integration | Repository | Organization', function() {
 
       // when
       const actualOrganizations = await organizationRepository.findBy(filters);
-      
+
       // then
       expect(actualOrganizations).to.have.lengthOf(1);
       expect(actualOrganizations[0]).to.be.an.instanceof(Organization);
