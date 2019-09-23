@@ -63,7 +63,7 @@ module.exports = {
 
   update(organization) {
 
-    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl']);
+    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'externalId', 'provinceCode']);
 
     return new BookshelfOrganization({ id: organization.id })
       .save(organizationRawData, { patch: true })
