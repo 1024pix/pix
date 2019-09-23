@@ -131,6 +131,7 @@ Cf. Exemples 1 & 2 ci-dessous pour plus de détail.
 
 Si une action entraîne la modification d'une ou plusieurs propriétés de la ressource racine à laquelle elle est rattachée, alors elle DOIT faire l'objet d'une requête `POST` en tant que **ressource nested**, cf. Exemple 3 ci-dessous.
 
+La requête `POST` ainsi obtenue PEUT contenir un corps nul.
 
 ## Exemples
 
@@ -237,25 +238,11 @@ POST /invitations
 ```
 // BAD
 POST /invitations/123/accept
-{
-}
 ```
 
 ```
 // GOOD
 POST /invitations/123/acceptance
-{
-  "data": {
-    "type": "invitation-acceptances",
-    "attributes" : {
-    },
-    "relationships": {
-      "invitation": {
-        "data": { "type": "invitations", "id": "123" }
-      }
-    }
-  }  
-}
 ```
 
 ## Conséquences
