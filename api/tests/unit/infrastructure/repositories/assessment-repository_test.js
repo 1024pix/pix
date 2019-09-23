@@ -105,31 +105,4 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
 
   });
-
-  describe('#getByCertificationCourseId', () => {
-
-    let fetchStub;
-
-    beforeEach(() => {
-      fetchStub = sinon.stub().resolves(new BookshelfAssessment());
-      sinon.stub(BookshelfAssessment, 'where').returns({
-        fetch: fetchStub,
-      });
-    });
-
-    it('should correctly query Assessment', () => {
-      // given
-      const fakeCertificationCourseId = 10;
-      const expectedParams = { courseId: fakeCertificationCourseId, type: 'CERTIFICATION' };
-
-      // when
-      const promise = assessmentRepository.getByCertificationCourseId(fakeCertificationCourseId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(BookshelfAssessment.where);
-        sinon.assert.calledWith(BookshelfAssessment.where, expectedParams);
-      });
-    });
-  });
 });
