@@ -1,4 +1,22 @@
 <div class="panel">
+    <div class="table content-text content-text--small panel-info">
+        <div class="panel-info__icon">
+          {{fa-icon 'info'}}
+        </div>
+        <div class="panel-info__vertical-splitter">
+        </div>
+      <div class="panel-info__text">
+        <p>Pour ajouter des candidats à cette session :</p>
+        <ul>
+            <li class="panel-info__list-item">Cliquez sur Télécharger le PV de session</li>
+            <li class="panel-info__list-item">Renseignez les informations dans ce PV de session</li>
+            <li class="panel-info__list-item">Cliquez sur importer les candidats et sélectionnez le fichier complété</li>
+        </ul>
+        <p>Attention : vous pouvez modifier cette liste en ré-important un fichier, mais cela efface la liste déjà existante.</p>
+      </div>
+    </div>
+</div>
+<div class="panel">
     <div class="table content-text content-text--small">
       {{#if certificationCandidates}}
         <table>
@@ -30,7 +48,6 @@
           <div class="table__empty content-text">
               {{fa-icon 'user-graduate'}}
               <p><b>En attente de candidats</b></p>
-              <p>Cliquez sur le bouton “Importer des candidats” pour en ajouter</p>
           </div>
       {{/if}}
     </div>

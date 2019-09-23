@@ -52,7 +52,7 @@ module('Integration | Component | routes/authenticated/session | certification-c
 
     // then
     assert.dom('table tbody').doesNotExist();
-    assert.dom('.table__empty').hasText('En attente de candidats. Cliquez sur le bouton “Importer des candidats” pour en ajouter.');
+    assert.dom('.table__empty').hasText('En attente de candidats');
   });
 
 });

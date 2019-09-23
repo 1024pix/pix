@@ -19,7 +19,7 @@ export default Controller.extend({
         await file.upload(this.model.urlToUpload, {
           headers: { Authorization: `Bearer ${access_token}` },
         });
-        this.get('model').reload();
+        this.get('model').certificationCandidates.reload();
         this.get('notifications').success('La liste des candidats a été importée avec succès', {
           autoClear,
           clearDuration,
