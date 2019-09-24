@@ -16,7 +16,15 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     const query = 'some query';
     const userId = 1;
     const authorization = 'auth header';
-    const request = { headers: { authorization }, query };
+    const request = {
+      headers: { authorization },
+      auth: {
+        credentials : {
+          userId
+        }
+      },
+      query
+    };
     const resultWithPagination = { models: [], pagination: {} };
     const result = [];
     const serialized = {};
@@ -26,7 +34,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     beforeEach(() => {
       sinon.stub(usecases, 'findCampaignParticipationsRelatedToAssessment');
-      sinon.stub(requestUtils, 'extractUserIdFromRequest').withArgs(request).returns(userId);
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(serializer, 'serialize')
         .withArgs(resultWithPagination.models, resultWithPagination.pagination).returns(serialized)
@@ -86,6 +93,19 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
   describe('#shareCampaignResult', () => {
     const userId = 1;
+    const request = {
+      params: {
+        id: '5'
+      },
+      headers: {
+        authorization: 'token'
+      },
+      auth: {
+        credentials : {
+          userId
+        }
+      },
+    };
 
     beforeEach(() => {
       sinon.stub(usecases, 'shareCampaignResult');
@@ -94,14 +114,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     it('should call the use case to share campaign result', async () => {
       // given
-      const request = {
-        params: {
-          id: '5'
-        },
-        headers: {
-          authorization: 'token'
-        },
-      };
       usecases.shareCampaignResult.resolves();
 
       // when
@@ -118,14 +130,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
       it('should return a 403 status code', async () => {
         // given
-        const request = {
-          params: {
-            id: '5'
-          },
-          headers: {
-            authorization: 'token'
-          },
-        };
         usecases.shareCampaignResult.resolves();
 
         // when
