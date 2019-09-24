@@ -24,7 +24,7 @@ class AlreadyRegisteredEmailError extends DomainError {
 
 class AlreadySharedCampaignParticipationError extends DomainError {
   constructor() {
-    super('Ces résultats de campagne ont déjà été partagé.');
+    super('Ces résultats de campagne ont déjà été partagés.');
   }
 }
 
