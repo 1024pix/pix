@@ -5,13 +5,6 @@
     <div class="btn-group certification-list-page__actions" role="group">
 
       <button class="btn btn-outline-default btn--check-session-record" type="button">
-        {{#file-upload name="session-certifications-candidates" onfileadd=(action "importAndLinkCandidatesToTheSessionCertifications") accept="text/csv"}}
-          {{fa-icon "users"}}
-        {{/file-upload}}
-        {{#bs-tooltip}}Importer les données des candidats de la session pour compléter les données de certifications correspondantes (.csv){{/bs-tooltip}}
-      </button>
-
-      <button class="btn btn-outline-default btn--check-session-record" type="button">
         {{#file-upload name="session-record-report" onfileadd=(action "displayCertificationSessionReportModal") accept="application/vnd.oasis.opendocument.spreadsheet"}}
           {{fa-icon "clipboard-list"}}
         {{/file-upload}}
