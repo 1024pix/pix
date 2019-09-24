@@ -17,18 +17,12 @@ describe('Unit | Adapters | challenge', function() {
 
     it('should build get next challenge url', async function() {
       // when
-      const url = await adapter.urlForQueryRecord({ assessmentId: 1 }, 'challenge');
+      const query = { assessmentId: 1 };
+      const url = await adapter.urlForQueryRecord(query, 'challenge');
 
       // then
+      expect(query.assessmentId).to.be.undefined;
       expect(url.endsWith('/assessments/1/next')).to.be.true;
-    });
-
-    it('should build get next challenge url with query tryImproving if needed', async function() {
-      // when
-      const url = await adapter.urlForQueryRecord({ assessmentId: 1, tryIfCanImprove: true }, 'challenge');
-
-      // then
-      expect(url.endsWith('/assessments/1/next?tryImproving=true')).to.be.true;
     });
 
   });
