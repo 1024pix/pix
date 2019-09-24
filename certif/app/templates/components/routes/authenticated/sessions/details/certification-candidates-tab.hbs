@@ -1,21 +1,53 @@
-<div class="panel">
-    <div class="table content-text content-text--small panel-info">
-        <div class="panel-info__icon">
-          {{fa-icon 'info'}}
+<div class="panel panel-actions">
+  <div class="content-text context-text--small">
+    <div class="panel-actions__header">
+      <div class="panel-actions__header-icon">
+        {{fa-icon "info"}}
+      </div>
+      <div class="panel-actions__header-title">Ajouter des candidats</div>
+    </div>
+    <div class="panel-actions__action-row">
+      <div class="panel-actions__action-icon">
+        {{fa-icon "file-download"}}
+      </div>
+      <div class="panel-actions__description">
+        <div class="panel-actions__title">Télécharger le PV de session</div>
+        <div class="panel-actions__subtitle">Renseignez les informations des candidats (Nom, Prénom, &#x2026;)
+          <br> Lors du premier téléchargement, le PV de session est vide. Il contiendra ensuite les informations des candidats ajoutés à la session.
         </div>
-        <div class="panel-info__vertical-splitter">
-        </div>
-      <div class="panel-info__text">
-        <p>Pour ajouter des candidats à cette session :</p>
-        <ul>
-            <li class="panel-info__list-item">Cliquez sur Télécharger le PV de session</li>
-            <li class="panel-info__list-item">Renseignez les informations dans ce PV de session</li>
-            <li class="panel-info__list-item">Cliquez sur importer les candidats et sélectionnez le fichier complété</li>
-        </ul>
-        <p>Attention : vous pouvez modifier cette liste en ré-important un fichier, mais cela efface la liste déjà existante.</p>
+      </div>
+      <div class="panel-actions__button">
+        <a class="button button--link button--with-icon panel-actions__download-button"
+           href="{{session.urlToDownload}}" target="_blank" download>
+          Télécharger (.ods){{fa-icon 'file-download'}}
+        </a>
       </div>
     </div>
+    <div class="panel-actions__action-row">
+      <div class="panel-actions__action-icon">
+        {{fa-icon "cloud-upload-alt"}}
+      </div>
+      <div class="panel-actions__description">
+        <div class="panel-actions__title">Importer le PV de session</div>
+        <div class="panel-actions__subtitle">
+          Sélectionnez le PV de session préalablement rempli.
+          <br> <b>Attention, tout nouvel import efface la liste des candidats existante.</b>
+        </div>
+      </div>
+      <div class="panel-actions__button">
+        {{#file-upload name="file-upload"
+          for="upload-attendance-sheet"
+          accept=".ods"
+          multiple=false
+          onfileadd=(action uploadCertificationCandidates)
+        }}
+        <span class="button button--with-icon panel-actions__upload-button" role="button" tabindex=0>Importer (.ods){{fa-icon 'cloud-upload-alt'}}</span>
+        {{/file-upload}}
+      </div>
+    </div>
+  </div>
 </div>
+
 <div class="panel">
     <div class="table content-text content-text--small">
       {{#if certificationCandidates}}
@@ -30,7 +62,6 @@
                 <th>Temps majoré</th>
             </tr>
             </thead>
-
               <tbody>
               {{#each certificationCandidates as |candidate|}}
                   <tr>
@@ -46,8 +77,7 @@
         </table>
       {{else}}
           <div class="table__empty content-text">
-              {{fa-icon 'user-graduate'}}
-              <p><b>En attente de candidats</b></p>
+              <p>En attente de candidats</p>
           </div>
       {{/if}}
     </div>
